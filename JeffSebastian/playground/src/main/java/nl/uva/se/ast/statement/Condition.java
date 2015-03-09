@@ -3,7 +3,7 @@ package nl.uva.se.ast.statement;
 import java.util.List;
 
 import nl.uva.se.ast.expression.Expression;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.StatementVisitor;
 
 public class Condition extends Statement {
 
@@ -22,7 +22,7 @@ public class Condition extends Statement {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
+	public void accept(StatementVisitor visitor) {
 		visitor.visit(this);
 	}
 
@@ -30,7 +30,7 @@ public class Condition extends Statement {
 		return statements;
 	}
 	
-	public void visitChildren(Visitor visitor) {
+	public void visitChildren(StatementVisitor visitor) {
 		for (Statement statement : statements) {
 			statement.accept(visitor);
 		}

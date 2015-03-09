@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public interface Switchable
-{
+public interface Switchable {
     void apply(Switch sw);
 }

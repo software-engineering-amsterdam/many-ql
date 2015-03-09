@@ -9,10 +9,17 @@ def questionIdentifiedBy(identifier, node):
 
 
 def typeOfIdentifier(identifier, node):
+    nnType = nonNativeTypeOfIdentifier(identifier, node)
+    if nnType is None:
+        return None
+    return nativeQuestionType(nnType)
+
+
+def nonNativeTypeOfIdentifier(identifier, node):
     question = questionIdentifiedBy(identifier, node)
     if question is None:
         return None
-    return nativeQuestionType(question.type)
+    return question.type
 
 
 class QuestionIdentifiedByVisitor(ASTVisitors.StatementVisitor):

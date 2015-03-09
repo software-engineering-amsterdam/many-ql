@@ -1,13 +1,15 @@
 import lang.ql.ast.AstNode;
-import lang.qls.ast.Rule.StylesheetRule;
-import lang.qls.ast.Statement.Question;
-import lang.qls.ast.Statement.QuestionWithRules;
-import lang.qls.ast.Statement.Statement;
+import lang.ql.ast.type.Type;
+import lang.ql.ast.type.TypeFactory;
+import lang.qls.ast.Rule.*;
+import lang.qls.ast.Rule.WidgetValue.Checkbox;
+import lang.qls.ast.Rule.WidgetValue.Radio;
+import lang.qls.ast.Rule.WidgetValue.Spinbox;
+import lang.qls.ast.Rule.WidgetValue.WidgetValue;
+import lang.qls.ast.Statement.*;
 import lang.qls.ast.Page;
 import lang.qls.ast.Stylesheet;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
@@ -34,6 +36,22 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
     }
 
     @Override
+    public AstNode visitPage(@NotNull QLSParser.PageContext context)
+    {
+        List<Statement> definitions = new ArrayList<Statement>();
+        for (QLSParser.StatementContext statementContext : context.statement())
+        {
+            Statement s = (Statement)this.visit(statementContext);
+            definitions.add(s);
+        }
+
+        String id = context.Identifier().getText();
+        int lineNumber = context.Identifier().getSymbol().getLine();
+
+        return new Page(id, definitions, lineNumber);
+    }
+
+    @Override
     public AstNode visitStatement(@NotNull QLSParser.StatementContext context)
     {
         if (context.section() != null)
@@ -50,21 +68,6 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
     }
 
     @Override
-    public AstNode visitPage(@NotNull QLSParser.PageContext context)
-    {
-        List<Statement> definitions = new ArrayList<Statement>();
-        for (QLSParser.StatementContext statementContext : context.statement())
-        {
-            Statement s = (Statement)this.visit(statementContext);
-            definitions.add(s);
-        }
-
-        String id = context.Identifier().getText();
-
-        return new Page(id, definitions);
-    }
-
-    @Override
     public AstNode visitSection(@NotNull QLSParser.SectionContext context)
     {
         List<Statement> definitions = new ArrayList<Statement>();
@@ -75,57 +78,112 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
         }
 
         String id = context.String().getText();
+        int lineNumber = context.String().getSymbol().getLine();
 
-        return new Page(id, definitions);
+        return new Section(id, definitions, lineNumber);
     }
 
     @Override
     public AstNode visitQuestion(@NotNull QLSParser.QuestionContext context)
     {
         String id = context.Identifier().getText();
+        int lineNumber = context.Identifier().getSymbol().getLine();
 
         if (context.stylesheetRule() != null)
         {
-            List<StylesheetRule> rules = new ArrayList<StylesheetRule>();
+            List<Rule> rules = new ArrayList<Rule>();
             for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
             {
-                StylesheetRule s = (StylesheetRule)this.visit(ruleContext);
+                Rule s = (Rule)this.visit(ruleContext);
                 rules.add(s);
             }
 
-            return new QuestionWithRules(id, rules);
+            return new QuestionWithRules(id, lineNumber, new Rules(rules));
         }
 
-        return new Question(id);
+        return new Question(id, lineNumber);
     }
 
     @Override
-    public AstNode visitDefaultStmt(@NotNull QLSParser.DefaultStmtContext ctx)
+    public AstNode visitDefaultStmt(@NotNull QLSParser.DefaultStmtContext context)
     {
-        return null;
+        List<Rule> rules = new ArrayList<Rule>();
+        for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
+        {
+            Rule s = (Rule)this.visit(ruleContext);
+            rules.add(s);
+        }
+
+        Type type = TypeFactory.createType(context.QuestionType().getText());
+        int lineNumber = context.QuestionType().getSymbol().getLine();
+
+        return new DefaultStat(type, new Rules(rules), lineNumber);
     }
 
     @Override
-    public AstNode visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext ctx)
+    public AstNode visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext context)
     {
-        return null;
+        int lineNumber = context.label.getLine();
+        String label = context.label.getText();
+
+        if (label.equals("width"))
+        {
+            int value = Integer.parseInt(context.Integer().getText());
+            return new IntRule("width", value, lineNumber);
+        }
+
+        if (label.equals("color"))
+        {
+            return new StrRule("color", context.Color().getText(), lineNumber);
+        }
+
+        if (label.equals("font"))
+        {
+            return new StrRule("font", context.String().getText(), lineNumber);
+        }
+
+        if (label.equals("fontsize"))
+        {
+            int value = Integer.parseInt(context.Integer().getText());
+            return new IntRule("fontsize", value, lineNumber);
+        }
+
+        if (label.equals("widget"))
+        {
+            WidgetValue value = (WidgetValue)this.visitWidgetValue(context.widgetValue());
+            return new WidgetRule("widget", value, lineNumber);
+        }
+
+        throw new IllegalStateException("No such stylesheet rule");
     }
 
     @Override
-    public AstNode visitChildren(RuleNode ruleNode)
+    public AstNode visitWidgetValue(QLSParser.WidgetValueContext context)
     {
-        return null;
-    }
+        String label = context.label.getText();
+        if (label.equals("spinbox"))
+        {
+            if (context.min != null)
+            {
+                int min = Integer.parseInt(context.min.getText());
+                int max = Integer.parseInt(context.max.getText());
 
-    @Override
-    public AstNode visitTerminal(TerminalNode terminalNode)
-    {
-        return null;
-    }
+                return new Spinbox(min, max);
+            }
 
-    @Override
-    public AstNode visitErrorNode(ErrorNode errorNode)
-    {
-        return null;
+            return new Spinbox();
+        }
+
+        if (label.equals("checkbox"))
+        {
+            return new Checkbox();
+        }
+
+        if (label.equals("radio"))
+        {
+            return new Radio(context.yesText.getText(), context.noText.getText());
+        }
+
+        throw new IllegalStateException("Unsupported widget value");
     }
 }

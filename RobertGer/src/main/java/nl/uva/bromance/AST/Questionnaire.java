@@ -1,16 +1,11 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 public class Questionnaire extends Node {
     private String identifier;
 
     public Questionnaire(int lineNumber, String id) {
         super(lineNumber, Questionnaire.class);
-        if (id != null) {
-            this.identifier = id;
-        } else {
-            //TODO: Consider mocing this to the typechecker.
-            System.err.println("Root Error: No identifier specified");
-        }
+        this.identifier = id;
     }
 
     @Override

@@ -2,6 +2,7 @@ package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.IntLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.NumberValue;
 
 public class FontSize extends Font{
@@ -15,6 +16,11 @@ public class FontSize extends Font{
 
 	public Integer evaluatedValue(){
 		return this.evaluate().getValue().intValue();
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitFontsize(this);
 	}
 	
 	@Override

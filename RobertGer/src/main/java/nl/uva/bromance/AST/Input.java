@@ -1,6 +1,6 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
-import nl.uva.bromance.AST.Conditionals.*;
+import nl.uva.bromance.ast.conditionals.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

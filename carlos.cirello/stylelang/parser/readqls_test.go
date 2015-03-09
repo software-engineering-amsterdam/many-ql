@@ -18,10 +18,6 @@ func TestParser(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
-	if form.Label() != "SomeForm" {
-		t.Errorf("Form Name was not properly parsed")
-		return
-	}
 }
 
 func TestDefaults(t *testing.T) {

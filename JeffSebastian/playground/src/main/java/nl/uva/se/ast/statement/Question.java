@@ -1,7 +1,7 @@
 package nl.uva.se.ast.statement;
 
-import nl.uva.se.constant.Type;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.ast.type.Type;
+import nl.uva.se.visitor.StatementVisitor;
 
 public class Question extends Statement {
 
@@ -30,7 +30,7 @@ public class Question extends Statement {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
+	public void accept(StatementVisitor visitor) {
 		visitor.visit(this);
 	}
 	

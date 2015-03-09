@@ -1,21 +1,21 @@
 from antlr4 import *
-from ..parser.QLLexer import QLLexer
-from ..parser.QLParser import QLParser
-from ..parser.QLListener import QLListener
+from ..parser.QLSLexer import QLSLexer
+from ..parser.QLSParser import QLSParser
+from ..parser.QLSListener import QLSListener
 from .ParseTreeVisitor import ParseTreeVisitor
 
 class AST(object):
 	def __init__(self, inputQLFile):
 		inputStream = FileStream(inputQLFile)
-		lexer = QLLexer(inputStream)
+		lexer = QLSLexer(inputStream)
 		stream = CommonTokenStream(lexer)
-		parser = QLParser(stream)
+		parser = QLSParser(stream)
 		visitor = ParseTreeVisitor()
-		tree = parser.root()
-		self.root = visitor.visit(tree)
+		tree = parser.qls()
+		self.qls = visitor.visit(tree)
 
 	def prettyPrint(self):
-		for statement in self.root.getChildren():
+		for statement in self.qls.statements:
 			self._printStatement(statement, 0)
 
 	def _printStatement(self, statement, lev):
@@ -25,5 +25,17 @@ class AST(object):
 
 		print(spaces + str(statement))
 
-		for otherStatement in statement.getChildren():
-			self._printStatement(otherStatement, lev + 4)
+		if hasattr(statement, "statements"):
+			for otherStatement in statement.statements:
+				self._printStatement(otherStatement, lev + 4)
+
+		if hasattr(statement, "attributes"):
+			for attribute in statement.attributes:
+				self._printAttribute(attribute, lev + 4)
+
+	def _printAttribute(self, attribute, lev):
+		spaces = " " * lev
+		if spaces == None:
+			spaces = ""
+
+		print(spaces + str(attribute))

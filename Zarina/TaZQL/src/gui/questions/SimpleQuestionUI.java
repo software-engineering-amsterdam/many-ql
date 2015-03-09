@@ -1,7 +1,7 @@
 package gui.questions;
 
+import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
-import interpreter.ValueRepository;
 
 import javax.swing.JLabel;
 
@@ -10,7 +10,7 @@ public class SimpleQuestionUI implements IQuestionUI {
 	private final JLabel label;
 	private final IWidgetComponent wc;
 	private ValueRepository valueRepository;
-	private String value;
+	//private String value;
 	
 	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository) {
 		this.id = id;
@@ -18,7 +18,7 @@ public class SimpleQuestionUI implements IQuestionUI {
 		this.wc = wc;
 		this.valueRepository = valueRepository;
 		this.wc.addDocListener();
-		this.value = new String("");
+		//this.value = new String("");
 	}
 
 	public String getId() {
@@ -32,16 +32,10 @@ public class SimpleQuestionUI implements IQuestionUI {
 	public IWidgetComponent getWc() {
 		return wc;
 	}
+
 	
-	
-	
-	public String getValue() {
-		System.out.println("UI" + value);
-		return value;
-		
-	}
-	
-	public void setValue() {
+	@Override
+	public void setValue(String value) {
 		value = valueRepository.getValue(id).toString();
 	}
 

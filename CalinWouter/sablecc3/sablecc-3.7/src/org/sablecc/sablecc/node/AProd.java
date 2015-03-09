@@ -2,28 +2,28 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AProd extends PProd
-{
+public final class AProd extends PProd {
     private TId _id_;
     private TArrow _arrow_;
     private final LinkedList<PElem> _prodTransform_ = new LinkedList<PElem>();
     private final LinkedList<PAlt> _alts_ = new LinkedList<PAlt>();
 
-    public AProd()
-    {
+    public AProd() {
         // Constructor
     }
 
     public AProd(
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") TArrow _arrow_,
-        @SuppressWarnings("hiding") List<?> _prodTransform_,
-        @SuppressWarnings("hiding") List<?> _alts_)
-    {
+            @SuppressWarnings("hiding") TId _id_,
+            @SuppressWarnings("hiding") TArrow _arrow_,
+            @SuppressWarnings("hiding") List<?> _prodTransform_,
+            @SuppressWarnings("hiding") List<?> _alts_) {
         // Constructor
         setId(_id_);
 
@@ -36,37 +36,30 @@ public final class AProd extends PProd
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AProd(
-            cloneNode(this._id_),
-            cloneNode(this._arrow_),
-            cloneList(this._prodTransform_),
-            cloneList(this._alts_));
+                cloneNode(this._id_),
+                cloneNode(this._arrow_),
+                cloneList(this._prodTransform_),
+                cloneList(this._alts_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAProd(this);
     }
 
-    public TId getId()
-    {
+    public TId getId() {
         return this._id_;
     }
 
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
+    public void setId(TId node) {
+        if (this._id_ != null) {
             this._id_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -76,22 +69,17 @@ public final class AProd extends PProd
         this._id_ = node;
     }
 
-    public TArrow getArrow()
-    {
+    public TArrow getArrow() {
         return this._arrow_;
     }
 
-    public void setArrow(TArrow node)
-    {
-        if(this._arrow_ != null)
-        {
+    public void setArrow(TArrow node) {
+        if (this._arrow_ != null) {
             this._arrow_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -101,24 +89,19 @@ public final class AProd extends PProd
         this._arrow_ = node;
     }
 
-    public LinkedList<PElem> getProdTransform()
-    {
+    public LinkedList<PElem> getProdTransform() {
         return this._prodTransform_;
     }
 
-    public void setProdTransform(List<?> list)
-    {
-        for(PElem e : this._prodTransform_)
-        {
+    public void setProdTransform(List<?> list) {
+        for (PElem e : this._prodTransform_) {
             e.parent(null);
         }
         this._prodTransform_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PElem e = (PElem) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -127,24 +110,19 @@ public final class AProd extends PProd
         }
     }
 
-    public LinkedList<PAlt> getAlts()
-    {
+    public LinkedList<PAlt> getAlts() {
         return this._alts_;
     }
 
-    public void setAlts(List<?> list)
-    {
-        for(PAlt e : this._alts_)
-        {
+    public void setAlts(List<?> list) {
+        for (PAlt e : this._alts_) {
             e.parent(null);
         }
         this._alts_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PAlt e = (PAlt) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -154,38 +132,32 @@ public final class AProd extends PProd
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._id_)
-            + toString(this._arrow_)
-            + toString(this._prodTransform_)
-            + toString(this._alts_);
+                + toString(this._id_)
+                + toString(this._arrow_)
+                + toString(this._prodTransform_)
+                + toString(this._alts_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._id_ == child)
-        {
+        if (this._id_ == child) {
             this._id_ = null;
             return;
         }
 
-        if(this._arrow_ == child)
-        {
+        if (this._arrow_ == child) {
             this._arrow_ = null;
             return;
         }
 
-        if(this._prodTransform_.remove(child))
-        {
+        if (this._prodTransform_.remove(child)) {
             return;
         }
 
-        if(this._alts_.remove(child))
-        {
+        if (this._alts_.remove(child)) {
             return;
         }
 
@@ -193,27 +165,21 @@ public final class AProd extends PProd
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._id_ == oldChild)
-        {
+        if (this._id_ == oldChild) {
             setId((TId) newChild);
             return;
         }
 
-        if(this._arrow_ == oldChild)
-        {
+        if (this._arrow_ == oldChild) {
             setArrow((TArrow) newChild);
             return;
         }
 
-        for(ListIterator<PElem> i = this._prodTransform_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PElem> i = this._prodTransform_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PElem) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -226,12 +192,9 @@ public final class AProd extends PProd
             }
         }
 
-        for(ListIterator<PAlt> i = this._alts_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PAlt> i = this._alts_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PAlt) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

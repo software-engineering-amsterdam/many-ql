@@ -2,6 +2,8 @@ package ast.unary;
 
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.DigitsType;
+import ast.type.Type;
 
 public class MinusExpression extends UnaryExpression {
 	
@@ -17,5 +19,10 @@ public class MinusExpression extends UnaryExpression {
 	@Override
 	public String toString() {
 		return " - " + this.getUnaryExpression().toString();
+	}
+
+	@Override
+	public Type getExpressionType() {
+		return new DigitsType();
 	}
 }

@@ -9,6 +9,7 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.ast.values.StringValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.RuntimeMemory;
@@ -22,7 +23,16 @@ public class Equal extends BinaryExpression implements Expression {
 	
 	@Override
 	public BoolValue evaluate(RuntimeMemory mem) {
-		return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() == ((IntValue)super.right.evaluate(mem)).getValue());
+		if(this.getType().isIntType()){
+			return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() == ((IntValue)super.right.evaluate(mem)).getValue());
+		}
+		if(this.getType().isBoolType()){
+			return new BoolValue(((BoolValue)super.left.evaluate(mem)).getValue() == ((BoolValue)super.right.evaluate(mem)).getValue());
+		}
+		if(this.getType().isStringType()){
+			return new BoolValue(((StringValue)super.left.evaluate(mem)).getValue() == ((StringValue)super.right.evaluate(mem)).getValue());
+		}
+		return null;
 	}
 
 	@Override

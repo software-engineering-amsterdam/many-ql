@@ -2,24 +2,24 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AAstProd extends PAstProd
-{
+public final class AAstProd extends PAstProd {
     private TId _id_;
     private final LinkedList<PAstAlt> _alts_ = new LinkedList<PAstAlt>();
 
-    public AAstProd()
-    {
+    public AAstProd() {
         // Constructor
     }
 
     public AAstProd(
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") List<?> _alts_)
-    {
+            @SuppressWarnings("hiding") TId _id_,
+            @SuppressWarnings("hiding") List<?> _alts_) {
         // Constructor
         setId(_id_);
 
@@ -28,35 +28,28 @@ public final class AAstProd extends PAstProd
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAstProd(
-            cloneNode(this._id_),
-            cloneList(this._alts_));
+                cloneNode(this._id_),
+                cloneList(this._alts_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAstProd(this);
     }
 
-    public TId getId()
-    {
+    public TId getId() {
         return this._id_;
     }
 
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
+    public void setId(TId node) {
+        if (this._id_ != null) {
             this._id_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -66,24 +59,19 @@ public final class AAstProd extends PAstProd
         this._id_ = node;
     }
 
-    public LinkedList<PAstAlt> getAlts()
-    {
+    public LinkedList<PAstAlt> getAlts() {
         return this._alts_;
     }
 
-    public void setAlts(List<?> list)
-    {
-        for(PAstAlt e : this._alts_)
-        {
+    public void setAlts(List<?> list) {
+        for (PAstAlt e : this._alts_) {
             e.parent(null);
         }
         this._alts_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PAstAlt e = (PAstAlt) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -93,25 +81,21 @@ public final class AAstProd extends PAstProd
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._id_)
-            + toString(this._alts_);
+                + toString(this._id_)
+                + toString(this._alts_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._id_ == child)
-        {
+        if (this._id_ == child) {
             this._id_ = null;
             return;
         }
 
-        if(this._alts_.remove(child))
-        {
+        if (this._alts_.remove(child)) {
             return;
         }
 
@@ -119,21 +103,16 @@ public final class AAstProd extends PAstProd
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._id_ == oldChild)
-        {
+        if (this._id_ == oldChild) {
             setId((TId) newChild);
             return;
         }
 
-        for(ListIterator<PAstAlt> i = this._alts_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PAstAlt> i = this._alts_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PAstAlt) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

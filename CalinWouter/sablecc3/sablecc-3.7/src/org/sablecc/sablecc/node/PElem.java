@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PElem extends Node
-{
+public abstract class PElem extends Node {
     // Empty body
 }

@@ -95,3 +95,8 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLSParser#color.
+    def visitColor(self, ctx):
+        return self.visitChildren(ctx)
+
+

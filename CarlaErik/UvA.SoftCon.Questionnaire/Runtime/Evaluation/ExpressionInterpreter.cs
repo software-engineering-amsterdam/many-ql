@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
         public override Value Visit(StringLiteral literal)
         {
             return new StringValue(literal.Value);
+        }
+
+        public override Value Visit(DateLiteral literal)
+        {
+            if (literal.Value.Equals("today", StringComparison.OrdinalIgnoreCase))
+            {
+                return new DateValue(DateTime.Today);
+            }
+            else
+            {
+                DateTime date = DateTime.ParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture);
+                return new DateValue(date);
+            }
         }
 
         #endregion 

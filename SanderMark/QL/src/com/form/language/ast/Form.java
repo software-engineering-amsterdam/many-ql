@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
@@ -26,19 +25,6 @@ public class Form  {
 		this.id = id;
 		this.statementList = statementList;
 	}
-
-	public JComponent createGUIComponent(JPanel panel) {
-		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
-		{
-			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(panel);
-			if(component != null)
-			{
-				panel.add(component);
-			}
-		}		
-		return null;
-	}
 	
 	public void getErrors(ErrorCollector errs){
 		for(Statement s: statementList){
@@ -51,11 +37,19 @@ public class Form  {
 		}
 	}
 	
-	public void initMemory(RuntimeMemory mem){
-		for(Statement s: statementList){
+	public Iterator<Statement> iterator(){
+		return statementList.iterator();
+	}
+	
+	public RuntimeMemory initMemory()
+	{
+		RuntimeMemory mem = new RuntimeMemory();
+		for(Statement s: statementList)
+		{
 			s.initMemory(mem);			
-			}
-}
+		}
+		return mem;		
+	}
 
 	public void showTypes() {
 		for(Statement s: statementList){

@@ -1,7 +1,7 @@
-import QL.AST.Elements.element as element
+import QL.AST.Elements.element as e
 
 
-class Variable(element.Element):
+class Variable(e.Element):
     def __init__(self, name):
         self.name = name
 

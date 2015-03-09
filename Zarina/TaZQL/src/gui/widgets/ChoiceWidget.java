@@ -1,6 +1,7 @@
 package gui.widgets;
 
-import interpreter.ValueRepository;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -71,7 +72,7 @@ public class ChoiceWidget implements IWidgetComponent {
 	}
 
 	@Override
-	public void addDocListener() {
+	public void addDocListener() {//EvaluateExpression evaluator) {
 		// TODO Auto-generated method stub
 		
 	}

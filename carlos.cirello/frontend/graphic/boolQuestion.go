@@ -3,9 +3,18 @@ package graphic
 import "gopkg.in/qml.v1"
 
 func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
-	content bool) (question qml.Object) {
+	content bool) qml.Object {
 
-	t, ok := g.widgetDefaults["bool"]
+	var question qml.Object
+	page, err := g.findPageForField(fieldName)
+	if err != nil {
+		question := g.renderCheckbox(fieldName, caption, content)
+		return question
+	}
+
+	widgetDefaults := page.Defaults()
+
+	t, ok := widgetDefaults["bool"]
 	if !ok {
 		question = g.renderCheckbox(fieldName, caption, content)
 	}
@@ -60,7 +69,7 @@ func (g *Gui) renderCheckbox(fieldName, caption string,
 	content bool) (question qml.Object) {
 	qml := renderTemplateQuestion(boolQuestionQMLTemplateCheckbox, fieldName,
 		caption, "")
-	question = renderAndInsertAt(qml, g.rows)
+	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	if content {
@@ -125,7 +134,7 @@ func (g *Gui) renderRadio(fieldName, caption string,
 	content bool) (question qml.Object) {
 	qml := renderTemplateQuestion(boolQuestionQMLTemplateRadio, fieldName,
 		caption, "")
-	question = renderAndInsertAt(qml, g.rows)
+	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtrYes := question.ObjectByName(fieldName + "Yes")
 	newFieldPtrNo := question.ObjectByName(fieldName + "No")
@@ -187,7 +196,7 @@ func (g *Gui) renderSwitch(fieldName, caption string,
 	content bool) (question qml.Object) {
 	qml := renderTemplateQuestion(boolQuestionQMLTemplateSwitch, fieldName,
 		caption, "")
-	question = renderAndInsertAt(qml, g.rows)
+	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	if content {

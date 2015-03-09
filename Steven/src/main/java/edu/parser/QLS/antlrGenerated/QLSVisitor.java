@@ -24,23 +24,11 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdentifier(@NotNull QLSParser.IdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#statement}.
+	 * Visit a parse tree produced by {@link QLSParser#stylesheet_element}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(@NotNull QLSParser.StatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLSParser#default_statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefault_statement(@NotNull QLSParser.Default_statementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLSParser#question_type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestion_type(@NotNull QLSParser.Question_typeContext ctx);
+	T visitStylesheet_element(@NotNull QLSParser.Stylesheet_elementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#page}.
 	 * @param ctx the parse tree
@@ -54,15 +42,55 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(@NotNull QLSParser.StatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#style}.
+	 * Visit a parse tree produced by {@link QLSParser#default_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStyle(@NotNull QLSParser.StyleContext ctx);
+	T visitDefault_statement(@NotNull QLSParser.Default_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#question_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestion_type(@NotNull QLSParser.Question_typeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code widget}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidget(@NotNull QLSParser.WidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code width}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidth(@NotNull QLSParser.WidthContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code font}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFont(@NotNull QLSParser.FontContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code color}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColor(@NotNull QLSParser.ColorContext ctx);
 }

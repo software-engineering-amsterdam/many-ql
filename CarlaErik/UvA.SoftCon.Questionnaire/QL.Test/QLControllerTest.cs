@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using Antlr4.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
-using Antlr4.Runtime;
+using System.Linq;
 using UvA.SoftCon.Questionnaire.QL;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.QL.Test
 {
     /// <summary>
-    /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.AST.ASTController"/> class.
+    /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.QL.QLController"/> class.
     /// </summary>
     [TestClass]
     public class QLControllerTest
@@ -146,5 +146,24 @@ namespace UvA.SoftCon.Questionnaire.QL.Test
             Assert.AreEqual<int>(1, ifStatement.Then.Count);
             Assert.AreEqual<int>(1, ifStatement.Else.Count);
         }
+
+        [TestMethod]
+        public void TestParseDate()
+        {
+            // Arrange
+            var controller = new QLController();
+            string ql = "dateOfBirth = [01-9-2015]";
+
+            // Act
+            var form = controller.ParseQLString(ql);
+
+            // Assert
+            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
+            Assert.AreEqual<int>(1, form.Statements.Count);
+            var assignment = form.Statements.First() as Assignment;
+            Assert.IsInstanceOfType(assignment.Expression, typeof(DateLiteral));
+            var dateLiteral = assignment.Expression as DateLiteral;
+            Assert.AreEqual<string>("01-9-2015", dateLiteral.Value);
+        }    
     }
 }

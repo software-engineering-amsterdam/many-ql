@@ -1,18 +1,14 @@
 package com.klq.gui;
 
 import com.klq.logic.controller.Store;
-import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by Timon on 10.02.2015.

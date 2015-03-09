@@ -15,4 +15,5 @@ public interface Expression {
 	public abstract String showTokenInfo();
 	public abstract void setType(IdTypeTable ids);
 	public abstract GenericValue<?> evaluate(RuntimeMemory mem);
+	public abstract void getReferences(IdCollector idCollector);
 }

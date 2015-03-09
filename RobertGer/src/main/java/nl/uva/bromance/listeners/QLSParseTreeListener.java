@@ -1,7 +1,6 @@
 package nl.uva.bromance.listeners;
 
-
-import nl.uva.bromance.AST.*;
+import nl.uva.bromance.ast.*;
 import nl.uva.bromance.parsers.QLSBaseListener;
 import nl.uva.bromance.parsers.QLSParser;
 
@@ -11,19 +10,47 @@ import java.util.Stack;
 public class QLSParseTreeListener extends QLSBaseListener {
 
     private Stack<Node> nodeStack = new Stack<>();
-    private Stylesheet ast = null;
+    private AST qlsAST = null;
+    private QLSStylesheet ast = null;
 
-    public Stylesheet getAst() {
-        return ast;
+    public AST getAst() {
+        return qlsAST;
     }
 
     public void enterStylesheet(QLSParser.StylesheetContext ctx) {
-        nodeStack.push(new Stylesheet(ctx.start.getLine()));
+        nodeStack.push(new QLSStylesheet(ctx.start.getLine()));
     }
 
-    public void exitQuestionnaire(QLSParser.StylesheetContext ctx) {
-        ast = (Stylesheet) nodeStack.pop();
-        System.out.println("--Printing AST--");
-        ast.printDebug();
+    public void exitStylesheet(QLSParser.StylesheetContext ctx) {
+        qlsAST = new AST(nodeStack.pop());
+        System.out.println("--Printing QLS ast--");
+        qlsAST.printDebug();
+    }
+
+    public void enterPage(QLSParser.PageContext ctx) {
+        nodeStack.push(new QLSPage(ctx.start.getLine(),ctx.name.getText()));
+    }
+
+    public void exitPage(QLSParser.PageContext ctx) {
+        QLSPage page = (QLSPage) nodeStack.pop();
+        nodeStack.peek().addChild(page);
+    }
+
+    public void enterSection(QLSParser.SectionContext ctx) {
+        nodeStack.push(new QLSSection(ctx.start.getLine(),ctx.name.getText()));
+    }
+
+    public void exitSection(QLSParser.SectionContext ctx) {
+        QLSSection section = (QLSSection) nodeStack.pop();
+        nodeStack.peek().addChild(section);
+    }
+
+    public void enterQuestion(QLSParser.QuestionContext ctx) {
+        nodeStack.push(new QLSQuestion(ctx.start.getLine(),ctx.name.getText()));
+    }
+
+    public void exitQuestion(QLSParser.QuestionContext ctx) {
+        QLSQuestion question = (QLSQuestion) nodeStack.pop();
+        nodeStack.peek().addChild(question);
     }
 }

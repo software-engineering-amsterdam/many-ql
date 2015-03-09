@@ -1,9 +1,7 @@
 package com.klq.logic.question;
 
+import com.klq.ast.impl.expr.value.*;
 import com.klq.logic.IKLQItem;
-import com.klq.logic.expression.AExpression;
-import com.klq.logic.expression.terminal.*;
-import com.klq.logic.expression.terminal.Boolean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,29 +11,29 @@ import java.util.List;
  * Created by Timon on 10.02.2015.
  */
 public class OptionSet implements Iterable, IKLQItem {
-    private List<AExpression> answers;
+    private List<Value> answers;
     public static final OptionSet BOOLEAN = createAnswerSet(Type.BOOLEAN);
 
     public OptionSet() {
-        answers = new ArrayList<AExpression>();
+        answers = new ArrayList<>();
     }
 
     public static OptionSet createAnswerSet(Type type){
         OptionSet result = new OptionSet();
         switch (type) {
             case BOOLEAN:
-                result.add(Boolean.getTrue());
-                result.add(Boolean.getFalse());
+                result.add(new BooleanValue(true));
+                result.add(new BooleanValue(false));
                 break;
         }
         return result;
     }
 
-    public boolean add(AExpression answer) {
+    public boolean add(Value answer) {
         return answers.add(answer);
     }
 
-    public void add(int index, AExpression answer){
+    public void add(int index, Value answer){
         answers.add(index, answer);
     }
 
@@ -43,11 +41,11 @@ public class OptionSet implements Iterable, IKLQItem {
         return answers.size();
     }
 
-    public AExpression get(int index) {
+    public Value get(int index) {
         return answers.get(index);
     }
 
-    public AExpression remove(int index) {
+    public Value remove(int index) {
         return answers.remove(index);
     }
 

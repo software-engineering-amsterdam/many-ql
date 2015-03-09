@@ -1,8 +1,9 @@
-from . import Checker, Message
+from typechecking import Message
+from . import Checker
 
 class Checker(Checker.StatementChecker):
-    def __init__(self, ast):
-        super().__init__(ast)
+    def __init__(self, ast, resultADT):
+        super().__init__(ast, resultADT)
         self._labels = {}
 
     def _visitRoot(self, node):

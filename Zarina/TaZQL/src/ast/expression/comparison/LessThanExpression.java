@@ -3,6 +3,7 @@ package ast.expression.comparison;
 import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.ChoiceType;
 
 // <
 
@@ -22,7 +23,10 @@ public class LessThanExpression extends BinaryExpression {
 		return super.getLeftExpression().toString() + " < " + super.getRightExpression().toString();
 	}
 
-
+	@Override
+	public ChoiceType getExpressionType() {
+		return new ChoiceType();
+	}
 }
 
 

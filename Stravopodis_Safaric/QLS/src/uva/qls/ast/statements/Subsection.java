@@ -2,6 +2,7 @@ package uva.qls.ast.statements;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -21,6 +22,11 @@ public class Subsection extends Statement {
 	}
 	public StringLiteral getName(){
 		return this.name;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitSubsection(this);
 	}
 	
 	@Override

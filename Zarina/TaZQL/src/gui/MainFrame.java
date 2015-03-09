@@ -3,8 +3,8 @@
  */
 package gui;
 
+import evaluator.ValueRepository;
 import gui.questions.SimpleQuestionUI;
-import interpreter.ValueRepository;
 
 import java.awt.Dimension;
 import java.util.LinkedHashMap;

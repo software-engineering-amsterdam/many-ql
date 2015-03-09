@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -7,7 +7,7 @@ public class StringResult extends Result{
 
     private String result;
 
-    StringResult(String result){
+    public StringResult(String result){
         this.result = result;
     }
 

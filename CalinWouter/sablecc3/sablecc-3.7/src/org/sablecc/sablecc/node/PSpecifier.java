@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PSpecifier extends Node
-{
+public abstract class PSpecifier extends Node {
     // Empty body
 }

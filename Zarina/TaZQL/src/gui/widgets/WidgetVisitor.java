@@ -1,12 +1,15 @@
 package gui.widgets;
 
-import interpreter.ValueRepository;
 import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.ITypeVisitor;
 import ast.type.TextType;
 import ast.type.Type;
 import ast.type.UndefinedType;
+import evaluator.BooleanValue;
+import evaluator.IntegerValue;
+import evaluator.StringValue;
+import evaluator.ValueRepository;
 
 public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
@@ -23,23 +26,26 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
 	@Override
 	public TextFieldWidget visit(TextType type) {
+		this.valueRepository.putID(id, new StringValue(""));
 		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
 	}
 
 	@Override
 	public IntegerFieldWidget visit(DigitsType type) {
+		this.valueRepository.putID(id, new IntegerValue(0));
 		return new IntegerFieldWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
 	public ChoiceWidget visit(ChoiceType type) {
+		this.valueRepository.putID(id, new BooleanValue(false));
 		return new ChoiceWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
-		//TODO probably set on invisible or give an error?
 	public TextFieldWidget visit(UndefinedType type) {
-		return new TextFieldWidget(id, this.label, type, this.valueRepository);
+		assert false: "This supposed to be checked in typechecker";
+		return null;
 	}
 	
 }

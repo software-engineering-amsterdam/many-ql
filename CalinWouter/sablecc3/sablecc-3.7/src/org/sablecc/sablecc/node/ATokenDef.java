@@ -5,26 +5,23 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ATokenDef extends PTokenDef
-{
+public final class ATokenDef extends PTokenDef {
     private PStateList _stateList_;
     private TId _id_;
     private PRegExp _regExp_;
     private TSlash _slash_;
     private PRegExp _lookAhead_;
 
-    public ATokenDef()
-    {
+    public ATokenDef() {
         // Constructor
     }
 
     public ATokenDef(
-        @SuppressWarnings("hiding") PStateList _stateList_,
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") PRegExp _regExp_,
-        @SuppressWarnings("hiding") TSlash _slash_,
-        @SuppressWarnings("hiding") PRegExp _lookAhead_)
-    {
+            @SuppressWarnings("hiding") PStateList _stateList_,
+            @SuppressWarnings("hiding") TId _id_,
+            @SuppressWarnings("hiding") PRegExp _regExp_,
+            @SuppressWarnings("hiding") TSlash _slash_,
+            @SuppressWarnings("hiding") PRegExp _lookAhead_) {
         // Constructor
         setStateList(_stateList_);
 
@@ -39,38 +36,31 @@ public final class ATokenDef extends PTokenDef
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ATokenDef(
-            cloneNode(this._stateList_),
-            cloneNode(this._id_),
-            cloneNode(this._regExp_),
-            cloneNode(this._slash_),
-            cloneNode(this._lookAhead_));
+                cloneNode(this._stateList_),
+                cloneNode(this._id_),
+                cloneNode(this._regExp_),
+                cloneNode(this._slash_),
+                cloneNode(this._lookAhead_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseATokenDef(this);
     }
 
-    public PStateList getStateList()
-    {
+    public PStateList getStateList() {
         return this._stateList_;
     }
 
-    public void setStateList(PStateList node)
-    {
-        if(this._stateList_ != null)
-        {
+    public void setStateList(PStateList node) {
+        if (this._stateList_ != null) {
             this._stateList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -80,22 +70,17 @@ public final class ATokenDef extends PTokenDef
         this._stateList_ = node;
     }
 
-    public TId getId()
-    {
+    public TId getId() {
         return this._id_;
     }
 
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
+    public void setId(TId node) {
+        if (this._id_ != null) {
             this._id_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -105,22 +90,17 @@ public final class ATokenDef extends PTokenDef
         this._id_ = node;
     }
 
-    public PRegExp getRegExp()
-    {
+    public PRegExp getRegExp() {
         return this._regExp_;
     }
 
-    public void setRegExp(PRegExp node)
-    {
-        if(this._regExp_ != null)
-        {
+    public void setRegExp(PRegExp node) {
+        if (this._regExp_ != null) {
             this._regExp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -130,22 +110,17 @@ public final class ATokenDef extends PTokenDef
         this._regExp_ = node;
     }
 
-    public TSlash getSlash()
-    {
+    public TSlash getSlash() {
         return this._slash_;
     }
 
-    public void setSlash(TSlash node)
-    {
-        if(this._slash_ != null)
-        {
+    public void setSlash(TSlash node) {
+        if (this._slash_ != null) {
             this._slash_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -155,22 +130,17 @@ public final class ATokenDef extends PTokenDef
         this._slash_ = node;
     }
 
-    public PRegExp getLookAhead()
-    {
+    public PRegExp getLookAhead() {
         return this._lookAhead_;
     }
 
-    public void setLookAhead(PRegExp node)
-    {
-        if(this._lookAhead_ != null)
-        {
+    public void setLookAhead(PRegExp node) {
+        if (this._lookAhead_ != null) {
             this._lookAhead_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -181,46 +151,39 @@ public final class ATokenDef extends PTokenDef
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._stateList_)
-            + toString(this._id_)
-            + toString(this._regExp_)
-            + toString(this._slash_)
-            + toString(this._lookAhead_);
+                + toString(this._stateList_)
+                + toString(this._id_)
+                + toString(this._regExp_)
+                + toString(this._slash_)
+                + toString(this._lookAhead_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._stateList_ == child)
-        {
+        if (this._stateList_ == child) {
             this._stateList_ = null;
             return;
         }
 
-        if(this._id_ == child)
-        {
+        if (this._id_ == child) {
             this._id_ = null;
             return;
         }
 
-        if(this._regExp_ == child)
-        {
+        if (this._regExp_ == child) {
             this._regExp_ = null;
             return;
         }
 
-        if(this._slash_ == child)
-        {
+        if (this._slash_ == child) {
             this._slash_ = null;
             return;
         }
 
-        if(this._lookAhead_ == child)
-        {
+        if (this._lookAhead_ == child) {
             this._lookAhead_ = null;
             return;
         }
@@ -229,35 +192,29 @@ public final class ATokenDef extends PTokenDef
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._stateList_ == oldChild)
-        {
+        if (this._stateList_ == oldChild) {
             setStateList((PStateList) newChild);
             return;
         }
 
-        if(this._id_ == oldChild)
-        {
+        if (this._id_ == oldChild) {
             setId((TId) newChild);
             return;
         }
 
-        if(this._regExp_ == oldChild)
-        {
+        if (this._regExp_ == oldChild) {
             setRegExp((PRegExp) newChild);
             return;
         }
 
-        if(this._slash_ == oldChild)
-        {
+        if (this._slash_ == oldChild) {
             setSlash((TSlash) newChild);
             return;
         }
 
-        if(this._lookAhead_ == oldChild)
-        {
+        if (this._lookAhead_ == oldChild) {
             setLookAhead((PRegExp) newChild);
             return;
         }

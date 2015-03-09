@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PConcat extends Node
-{
+public abstract class PConcat extends Node {
     // Empty body
 }

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
 {
-    public abstract class BinaryExpression : Node, IExpression
+    public abstract class BinaryExpression : QLNode, IExpression
     {
         public Operation Operation
         {

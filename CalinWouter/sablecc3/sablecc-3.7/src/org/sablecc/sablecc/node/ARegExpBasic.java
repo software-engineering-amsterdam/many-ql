@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ARegExpBasic extends PBasic
-{
+public final class ARegExpBasic extends PBasic {
     private PRegExp _regExp_;
 
-    public ARegExpBasic()
-    {
+    public ARegExpBasic() {
         // Constructor
     }
 
     public ARegExpBasic(
-        @SuppressWarnings("hiding") PRegExp _regExp_)
-    {
+            @SuppressWarnings("hiding") PRegExp _regExp_) {
         // Constructor
         setRegExp(_regExp_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ARegExpBasic(
-            cloneNode(this._regExp_));
+                cloneNode(this._regExp_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseARegExpBasic(this);
     }
 
-    public PRegExp getRegExp()
-    {
+    public PRegExp getRegExp() {
         return this._regExp_;
     }
 
-    public void setRegExp(PRegExp node)
-    {
-        if(this._regExp_ != null)
-        {
+    public void setRegExp(PRegExp node) {
+        if (this._regExp_ != null) {
             this._regExp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class ARegExpBasic extends PBasic
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._regExp_);
+                + toString(this._regExp_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._regExp_ == child)
-        {
+        if (this._regExp_ == child) {
             this._regExp_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class ARegExpBasic extends PBasic
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._regExp_ == oldChild)
-        {
+        if (this._regExp_ == oldChild) {
             setRegExp((PRegExp) newChild);
             return;
         }

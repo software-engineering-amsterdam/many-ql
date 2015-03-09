@@ -1,31 +1,47 @@
 package org.uva.ql.view.widgit;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
 
 import org.uva.ql.ast.value.Int;
+import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.view.listener.WidgetListener;
 
 public class NumberTextField extends BaseTextField {
 
-	private static final long serialVersionUID = -158503348332039721L;
+	private final String NUMBER_REGEX = "^[0-9]*$";
+	public final Pattern p;
 
 	public NumberTextField(WidgetListener listener) {
 		super(listener);
+		p = Pattern.compile(NUMBER_REGEX);
+
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Integer getValue() {
 		return getValue();
 	}
 
 	public void notifyListener(DocumentEvent e) {
-		int i;
 		try {
-			i = Integer.parseInt(e.getDocument().getText(0, e.getDocument().getLength()));
-			widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
+			String input = e.getDocument().getText(0, e.getDocument().getLength());
+			Matcher m = p.matcher(input);
+			if (input.equals("") || input == null) {
+				widgetListener.widgetValueChanged(getIdentifier(), new Undefined());
+			} else if (m.matches()) {
+				int i = Integer.parseInt(input);
+				widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
+			}
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
+		} catch (NumberFormatException e2) {
+
+			System.out.println("apparently an exception.");
 		}
 	}
 }

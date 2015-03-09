@@ -1,10 +1,9 @@
-from .Result import Result
 from ..ast import Visitor as ASTVisitors
 
 
 class StatementChecker(ASTVisitors.StatementVisitor):
-    def __init__(self, ast):
-        self._result = Result()
+    def __init__(self, ast, resultAlg):
+        self._result = resultAlg.empty()
         self._ast = ast
 
     def _visitRoot(self, node):
@@ -13,8 +12,8 @@ class StatementChecker(ASTVisitors.StatementVisitor):
 
 
 class FullChecker(ASTVisitors.FullVisitor):
-    def __init__(self, ast):
-        self._result = Result()
+    def __init__(self, ast, resultAlg):
+        self._result = resultAlg.empty()
         self._ast = ast
 
     def _visitRoot(self, node):

@@ -11,9 +11,9 @@ class BaseVisitor
   def after_initialize(base)
   end
 
-  def map_accept(statements)
-    statements.map do |statement|
-      statement.accept(self) 
+  def map_accept(list)
+    list.map do |item|
+      item.accept(self) 
     end
   end
 

@@ -7,17 +7,14 @@
 
 package org.sablecc.sablecc;
 
-final class LR0ItemAndSetPair
-{
-  public final LR0Item item;
-  public final int set
-    ;
+final class LR0ItemAndSetPair {
+    public final LR0Item item;
+    public final int set;
 
-  LR0ItemAndSetPair(LR0Item item, int set
-                     )
-  {
-    this.item = item;
-    this.set = set
-                 ;
-  }
+    LR0ItemAndSetPair(LR0Item item, int set
+    ) {
+        this.item = item;
+        this.set = set
+        ;
+    }
 }

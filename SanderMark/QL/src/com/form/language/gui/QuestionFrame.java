@@ -1,14 +1,9 @@
 package com.form.language.gui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import com.form.language.ast.Form;
-import com.form.language.gui.components.GUIForm;
+import com.form.language.gui.components.GUIBuilder;
 
 public class QuestionFrame extends JFrame {
 	
@@ -23,8 +18,10 @@ public class QuestionFrame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
             
-        GUIForm formGUI = new GUIForm(form);
-        add(formGUI);
+        //GUIForm formGUI = new GUIForm(form);
+        //add(formGUI);
+        
+        GUIBuilder guiBuilder = new GUIBuilder(form,this);
         
         setVisible(true);
 	}

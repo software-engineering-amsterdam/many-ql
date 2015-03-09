@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -7,7 +7,7 @@ public class IntResult extends Result {
 
     private int result;
 
-    IntResult(int result) {
+    public IntResult(int result) {
         this.result = result;
     }
 

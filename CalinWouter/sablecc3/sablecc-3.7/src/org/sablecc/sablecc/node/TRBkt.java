@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TRBkt extends Token
-{
-    public TRBkt()
-    {
+public final class TRBkt extends Token {
+    public TRBkt() {
         super.setText("]");
     }
 
-    public TRBkt(int line, int pos)
-    {
+    public TRBkt(int line, int pos) {
         super.setText("]");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TRBkt(getLine(), getPos());
+    public Object clone() {
+        return new TRBkt(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTRBkt(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TRBkt text.");
     }
 }
