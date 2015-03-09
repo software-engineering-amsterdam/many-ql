@@ -1,7 +1,5 @@
 package lang.ql.gui.section;
 
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import lang.ql.ast.expression.Expr;
@@ -48,5 +46,17 @@ public class ConditionalSection extends Section<Pane> implements Refreshable
             visible = ((BooleanValue)val).getValue();
         }
         this.setVisible(visible);
+    }
+
+    @Override
+    public Value evaluate(ValueTable valueTable)
+    {
+        return ExprEvaluator.evaluate(condition, valueTable);
+    }
+
+    @Override
+    public Boolean isPrerequisite()
+    {
+        return false;
     }
 }

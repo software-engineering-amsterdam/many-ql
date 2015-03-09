@@ -45,14 +45,14 @@ public class Main extends Application
             TypeChecker.check(ast);
 
             CharStream s = new ANTLRFileStream("gen/styleInput");
-            QLSLexer l = new QLSLexer(s);
-            QLSParser p = new QLSParser(new CommonTokenStream(l));
-            ParserRuleContext style = p.stylesheet();
-
-            QlsBuilder builder = new QlsBuilder();
-            Stylesheet styleAst = (Stylesheet)builder.visit(style);
-
-            lang.qls.semantics.TypeChecker.check(styleAst, ast);
+//            QLSLexer l = new QLSLexer(s);
+//            QLSParser p = new QLSParser(new CommonTokenStream(l));
+//            ParserRuleContext style = p.stylesheet();
+//
+//            QlsBuilder builder = new QlsBuilder();
+//            Stylesheet styleAst = (Stylesheet)builder.visit(style);
+//
+//            lang.qls.semantics.TypeChecker.check(styleAst, ast);
         }
         catch (IOException e)
         {

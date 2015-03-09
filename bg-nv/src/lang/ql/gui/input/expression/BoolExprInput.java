@@ -32,18 +32,19 @@ public class BoolExprInput extends ExprInput<CheckBox>
     @Override
     public void update(ValueTable valueTable)
     {
-        Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeValue(getId(), val);
+        Value val = valueTable.getValue(this.getId());
 
         Boolean boolValue = false;
         if (!val.isUndefined())
         {
+            assert val instanceof BooleanValue;
             boolValue = ((BooleanValue)val).getValue();
         }
 
         CheckBox checkBox = this.getControl();
         checkBox.setSelected(boolValue);
-        checkBox.setDisable(getDisabled());
-        checkBox.setVisible(getVisible());
+        checkBox.setDisable(this.getDisabled());
+        checkBox.setVisible(this.getVisible());
+        checkBox.setManaged(this.getVisible());
     }
 }
