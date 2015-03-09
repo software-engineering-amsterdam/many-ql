@@ -3,66 +3,97 @@ package uva.ql.interpreter.typecheck;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Prog;
+import uva.ql.interpreter.typecheck.table.ErrorTable;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
+import uva.ql.interpreter.typecheck.table.SymbolTableValue;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.StringLiteral;
-import uva.ql.ast.question.Question;
-import uva.ql.ast.statements.Assign;
-import uva.ql.ast.visitor.StatementVisitorInterface;
-import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 
 public class TypeCheck {
 	
-	private SymbolMap symbolTable;
-	private StatementVisitorInterface<Object> v;
+	private SymbolTable table;
+	private ErrorTable errorTable;
+	private TypeCheckVisitor visitor;
+	private ExpressionTable exprTable;
 	
 	public TypeCheck(ASTNode ast){
-		this.v = new TypeCheckVisitor();
-		this.v.visitProg((Prog)ast);
-		this.symbolTable = ((TypeCheckVisitor)this.v).getSymbolTable();
+		this.exprTable = new ExpressionTable();
+		this.errorTable = new ErrorTable();
+		this.table = new SymbolTable();
+		this.initTypeVisitor(ast);
+	}	
+	
+	public ErrorTable getErrorTable(){
+		return this.errorTable;
 	}
 	
-	public SymbolMap getSymbolTable(){
-		return this.symbolTable;
+	public SymbolTable getSymbolTable(){
+		return this.table;
 	}
 	
-	public static boolean withinScope(CodeLines x, CodeLines y){
+	public ExpressionTable getExpressionTable(){
+		return this.exprTable;
+	}
+	
+	private void initTypeVisitor(ASTNode ast){
+		this.visitor = new TypeCheckVisitor(this, this.table, this.exprTable);
+		visitor.visitProg((Prog)ast);
+	}
+	
+	public boolean isDuplicate(Identifier _identifier, SymbolTableValue _type){
+		
+		if (this.table.keyExists(_identifier.evaluatedValue())){
+			SymbolTableValue type = this.table.retrieveValue(_identifier.evaluatedValue());
+			
+			return type.getPrimitiveType().equals(_type.getPrimitiveType()) 
+					? this.setValuesToErrorTable("Duplicate question -> same type" , _identifier.getCodeLines())
+					: this.setValuesToErrorTable("Duplicate question -> diff type" , _identifier.getCodeLines());
+		}
+		
+		return false;
+	}
+	
+	public boolean referenceUndefinedQuestion(Identifier _identifier){
+		return this.table.keyExists(_identifier.evaluatedValue())
+				? false : this.setValuesToErrorTable("Reference to undefined question", _identifier.getCodeLines());
+	}
+	
+	public boolean hasDuplicateLabels(Identifier _identifier, Expression _expression){
+
+		if (_expression.getClass().getName().equals(StringLiteral.class.getName()))
+			return this.exprTable.expressionExists(_expression)	
+						? this.setValuesToErrorTable("Duplicate question label at: " + 
+							_expression.getCodeLines().getLOCTuple().toString(), _expression.getCodeLines())
+						: false;
+		
+		return false;
+	}
+	
+	public boolean assignmentWithinScope(Identifier _identifier){
+		
+		try{
+			boolean withinScope = this.withinScope(_identifier.getCodeLines(), this.table.retrieveValue(_identifier.evaluatedValue()).getSourceCodeLines());
+			
+			return withinScope == false ? this.setValuesToErrorTable("Reference to: " + _identifier.toString() + " outside question scope", _identifier.getCodeLines())
+										: true;
+		}
+		catch(Exception e){
+			this.errorTable.putValue("Identifier: " + _identifier.evaluatedValue() + " for unknown question", _identifier.getCodeLines());
+		}
+		return false;
+	}
+	
+	private boolean withinScope(CodeLines x, CodeLines y){
 		if (x == null || y == null) return false;
-		return 		x.getSourceCodeLocation().x > y.getSourceCodeLocation().x 
-				&& 	x.getSourceCodeLocation().y <= y.getSourceCodeLocation().y;
+		
+		return 		x.getLOCTuple().x > y.getLOCTuple().x
+				&& 	x.getLOCTuple().y <= y.getLOCTuple().y;
 	}
 	
-	public static void hasDuplicateLabels(SymbolMap _symbols, Expression _expression){
-		if (_expression.getClass().equals(StringLiteral.class) && _symbols.contentExists(_expression))
-			throw new IllegalArgumentException("IllegalArgumentException: multiple question instances have same question: " 
-											+ _expression.evaluate().getValue().toString());
+	private boolean setValuesToErrorTable(String value, CodeLines codeLines){
+		this.errorTable.putValue(value, codeLines);
+		return true;
 	}
-	
-	public static void hasDuplicateQuestionDeclarations(SymbolMap _symbols, String _identifer, Question _question, Symbol _symbol){
-		if (_symbols.existsWithClassType(_identifer, _question.getClass().getName())){
-			
-			if (_symbols.keyWithSymbolExists(_identifer, _symbol))
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with same type" + _identifer + " " + 
-						_question.getCodeLines().getSourceCodeLocation().toString());
-			else 
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with different type" + _identifer + " " + 
-						_question.getCodeLines().getSourceCodeLocation().toString());	
-		}
-	}
-	
-	public static void declarationWithinQuestionScope(SymbolMap _symbols, String _identifier, Assign _assign, Symbol _symbol){
-		if (_symbols.exists(_identifier)){			
-			Symbol symbol = _symbols.getSymbolForAttributes(_identifier, null , Question.class.getName());
-			
-			if (!TypeCheck.withinScope(_assign.getCodeLines(), symbol.getCodeLines()))
-				throw new IllegalArgumentException("IllegalArgumentException: question assignment not in scope of question -> " 
-													+ _assign.getCodeLines().getSourceCodeLocation().toString());
-			
-		}
-	}
-	
-	public static boolean questionReferenceUndefined(SymbolMap _symbols, Identifier identifier){
-		return _symbols.existsWithClassType(identifier.evaluate().getValue(), Question.class.getName());
-	}
-	
 }

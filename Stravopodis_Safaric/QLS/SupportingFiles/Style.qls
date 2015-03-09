@@ -12,7 +12,7 @@ stylesheet taxOfficeExample
   page Selling { 
     section "Selling" {
       question hasSoldHouse
-        widget radio("Yes", "No") 
+        widget radio("Yes", "No")
       section "You sold a house" {
         question sellingPrice
           widget spinbox
@@ -23,6 +23,7 @@ stylesheet taxOfficeExample
           	color: #999999
           }
         question valueResidue
+           widget spinbox
         default money {
           width: 400
           font: "Arial" 
@@ -37,5 +38,5 @@ stylesheet taxOfficeExample
         }
       }
     }
-    default boolean widget radio("Yes", "No")
+    default string widget textbox
   }

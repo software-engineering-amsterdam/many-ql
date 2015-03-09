@@ -1,7 +1,11 @@
 package uva.qls.interpreter.typecheck;
 
+import java.util.List;
+
 import uva.qls.ast.ASTNode;
 import uva.qls.interpreter.typecheck.CheckWidget;
+import uva.qls.interpreter.typecheck.table.SymbolTable;
+import uva.qls.interpreter.typecheck.table.SymbolTableValue;
 import uva.qls.ast.Page;
 import uva.qls.ast.Prog;
 import uva.qls.ast.StyleSheet;
@@ -31,16 +35,14 @@ import uva.qls.ast.style.FontSize;
 import uva.qls.ast.style.Height;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.style.Width;
-import uva.qls.interpreter.typecheck.table.SymbolTable;
-import uva.qls.interpreter.typecheck.table.SymbolTableValue;
 
 public class TypeCheckVisitor implements StatementVisitor<Object>{
 	
 	private TypeCheckQLS typeCheck;
-	protected uva.qls.interpreter.typecheck.table.SymbolTable symbolTable;
+	protected SymbolTable symbolTable;
 	protected CheckWidget widget;
 	
-	public TypeCheckVisitor (TypeCheckQLS _typeCheck, uva.qls.interpreter.typecheck.table.SymbolTable table){
+	public TypeCheckVisitor (TypeCheckQLS _typeCheck, SymbolTable table){
 		
 		this.typeCheck = _typeCheck;
 		this.symbolTable= table;
@@ -121,7 +123,7 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 
 	@Override
 	public Object visitTextbox(Textbox textbox) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -181,7 +183,9 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 
 	@Override
 	public Object visitPage(Page page) {
-		System.out.println("Visiting page:" + page.getIdentifier().evaluatedValue());
+		for (Statement statement : page.getStatement())
+			this.visitStatement(statement);
+		
 		return null;
 	}
 
@@ -198,13 +202,23 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 
 	@Override
 	public Object visitStatement(Statement statement) {
-		// TODO Auto-generated method stub
+		statement.accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visitDefaultValueComponent(DefaultValue defaultValue) {
-		// TODO Auto-generated method stub
+		
+		String widgetType = defaultValue.getType().getPrimitiveType().getName();
+		String componentName = defaultValue.getComponent().getName();
+		List<CheckWidget> compatibleWidgets = CheckWidget.detectTypes(widgetType);
+		
+		for (CheckWidget w : compatibleWidgets){
+			if (w.getName().equals(componentName)){
+				System.out.println("Widget is compatible: "  + componentName + " " + defaultValue.toString());
+			}
+		}
+		
 		return null;
 	}
 
@@ -222,10 +236,26 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 			
 	//	}
 			
-		this.typeCheck.getSymbolTable().getTable().containsKey(question.getIdentifier());
+		//this.typeCheck.getSymbolTable().getTable().containsKey(question.getIdentifier());
 		//(this.symbolTable.keyExists(question.getIdentifier())) ? 
 		 
+		
+		
+		
+		
+		this.typeCheck.isUndefined(question.getIdentifier());
 		this.typeCheck.isMultiple(question.getIdentifier());
+		
+		SymbolTableValue value = new SymbolTableValue(question.getLOC());
+
+		this.symbolTable.putValue(question.getIdentifier(), value);
+		
+
+		
+		//this.typeCheckQL.getSymbolTable().retrieveValue(Identifier.getNullIdentifier(identifier)).getType();
+		
+		//System.out.println("symbol table " + this.symbolTable.toString());
+		
 		// no references to questions that are not in the QL program
 		// Create a TypeCheck class like we have in QL
 			// Check if key exists, if does -> add this to the error table
@@ -262,21 +292,24 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 		 * 				radioButton("boolean")
 		 * 
 		 * 
-		 */ 
-		this.typeCheck.correctWidget(question.getClass().getName().toString(), widget.detectType(question.getComponent().getClass().toString()).toString(), question.getLOC());
+		 */
+		
+		//this.typeCheck.correctWidget(question.getClass().getName().toString(), widget.detectType(question.getComponent().getClass().toString()).toString(), question.getLOC());
 		
 		return null;
 	}
 
 	@Override
 	public Object visitSection(Section section) {
-		// TODO Auto-generated method stub
+		for (Statement statement : section.getStatement())
+			statement.accept(this);
+		
 		return null;
 	}
 
 	@Override
 	public Object visitSubsection(Subsection subsection) {
-		// TODO Auto-generated method stub
+		subsection.getQuestion().accept(this);
 		return null;
 	}
 

@@ -3,7 +3,7 @@ package uva.qls.ast.literal;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.BooleanValue;
 import uva.qls.ast.CodeLines;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class BooleanLiteral extends Literal {
 	

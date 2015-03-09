@@ -19,22 +19,37 @@ public class Main{
 	
 	public static void main(String[] args) throws IOException{
 		
-		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream("SupportingFiles/Test.ql"));
+		ParseTree tree = getParseTree("SupportingFiles/Test.ql");
+		ASTNode ast = getAST(tree);
+		
+		TypeCheck typeCheck = getTypeCheck(ast);
+		Subject subject = new Subject();
+		
+		GUI gui = new GUI(typeCheck.getSymbolTable(), typeCheck.getExpressionTable(), (Prog)ast, subject);
+		gui.rander();
+	}
+	
+	public static ParseTree getParseTree(String path) throws IOException{
+		
+		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream(path));
 		QLLexer lexer = new QLLexer(inputStream);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(stream);
 		ParseTree tree = parser.prog();
 		
+		return tree;
+	}
+	
+	public static ASTNode getAST(ParseTree tree){
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		TypeCheck typeCheck = new TypeCheck(ast);
-		typeCheck.getSymbolTable().printSymbolTable();
-		
-		Subject subject = new Subject();
-		
-		GUI gui = new GUI(typeCheck.getSymbolTable(), (Prog)ast, subject);
-		gui.rander();
+		return ast;
 	}
+	
+	public static TypeCheck getTypeCheck(ASTNode ast){
+		return new TypeCheck(ast);
+	}
+	
 }
