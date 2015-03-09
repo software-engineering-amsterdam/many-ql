@@ -1,12 +1,13 @@
 package ql.ast.statement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ql.ast.Statement;
 import ql.ast.visitor.Visitor;
 
 public class Block extends Statement {
-	private ArrayList<Statement> statements = new ArrayList<Statement>();
+	private List<Statement> statements = new ArrayList<Statement>();
 	
 	public Block() {}
 	
@@ -23,7 +24,7 @@ public class Block extends Statement {
 		this.statements.addAll(statements.statements());
 	}
 	
-	public ArrayList<Statement> statements() {
+	public List<Statement> statements() {
 		return this.statements;
 	}
 
