@@ -4,7 +4,7 @@ import ql.ast.Expression;
 import ql.ast.expression.QLType;
 import ql.ast.expression.Unary;
 import ql.ast.expression.type.QLFloat;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.ExpressionVisitor;
 
 public class Neg extends Unary {
 	public Neg(Expression operand) {
@@ -12,7 +12,7 @@ public class Neg extends Unary {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(ExpressionVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 	

@@ -5,11 +5,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
+import qls.ast.QLSNode;
 
 public class QLSLexer implements QLSTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -33,7 +33,7 @@ public class QLSLexer implements QLSTokens {
 	private int token;
 	private int c = ' ';
 	
-	private QLNode yylval;
+	private QLSNode yylval;
 	private final Reader input;
 
 	public QLSLexer(Reader input) {
@@ -128,7 +128,7 @@ public class QLSLexer implements QLSTokens {
 			    	nextChar();
 		    		String string = sb.toString();
 					
-		    		yylval = new StringLiteral(string);
+		    		//yylval = new StringLiteral(string);
 		    		return token = STRINGLITERAL;
 			    }
 			    default: {
@@ -154,7 +154,7 @@ public class QLSLexer implements QLSTokens {
 			    			nextChar(); 
 			    		} while (Character.isDigit(c) || (c == '.' && !isFloat));
 			    		
-			    		yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
+			    		//yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
 			    		
 			    		return token = isFloat ? FLOATLITERAL : INTEGERLITERAL;
 			    	}
@@ -172,7 +172,7 @@ public class QLSLexer implements QLSTokens {
 			    			return token = KEYWORDS.get(name);
 			    		}
 						
-			    		yylval = new Identifier(name);
+			    		//yylval = new Identifier(name);
 			    		return token = IDENTIFIER;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);
@@ -186,7 +186,7 @@ public class QLSLexer implements QLSTokens {
 		return token;
 	}
 
-	public QLNode getSemantic() {
+	public QLSNode getSemantic() {
 		return yylval;
 	}
 

@@ -4,7 +4,7 @@ import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
 import ql.ast.expression.type.QLForm;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.StatementVisitor;
 
 public class Form extends Statement {
 	private final Identifier identifier;
@@ -39,7 +39,7 @@ public class Form extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(StatementVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

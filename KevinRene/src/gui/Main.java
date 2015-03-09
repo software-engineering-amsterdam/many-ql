@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import ql.TypeEnvironment;
 import ql.ValueEnvironment;
 import ql.ast.QLNode;
+import ql.ast.Statement;
 import ql.ast.visitor.typechecker.TypeChecker;
 import ql.parser.Parser;
 
@@ -75,14 +76,14 @@ public class Main {
 		TypeEnvironment register = new TypeEnvironment();
 		ValueEnvironment valueEnv = new ValueEnvironment();
 		
-		if(!TypeChecker.check(tree, register)) {
+		if(!TypeChecker.check((Statement) tree, register)) {
 			System.out.println("Type error detected in the form.");
 			System.exit(0);
 		}
 		
 		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
 		
-		frame.getContentPane().add(ComponentCreator.check(tree, frame, valueEnv).getComponent());
+		frame.getContentPane().add(ComponentCreator.check((Statement) tree, frame, valueEnv).getComponent());
  
         //Display the window.
         frame.pack();

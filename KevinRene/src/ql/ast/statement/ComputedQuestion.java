@@ -4,7 +4,7 @@ import ql.ast.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
 import ql.ast.expression.literal.StringLiteral;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.StatementVisitor;
 
 
 public class ComputedQuestion extends Question {
@@ -35,7 +35,7 @@ public class ComputedQuestion extends Question {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(StatementVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

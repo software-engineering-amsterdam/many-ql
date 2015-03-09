@@ -1,7 +1,7 @@
 %package qls.parser
 %class QLSParser
 %interface QLSTokens
-%semantic qls.QLSNode
+%semantic qls.ast.QLSNode
 
 %token <QLSInteger> INTEGER
 %token <QLSBoolean> BOOLEAN
@@ -23,7 +23,6 @@
 
 %type <Expression> literal
 %type <QLType> type
-%type <Block> block
 
 %{
 import ql.ast.*;
@@ -35,13 +34,14 @@ import ql.ast.expression.literal.*;
 %}
 
 %%
-  top : stylesheet { result = $i; }
-
+	top : stylesheet { result = $1; }
+		;
+		
 	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new StyleSheet($2, $4); }
 				;
 				
-	statements 	: statement statements { $$ = new Block($1, $2); }
-				| statements                 { $$ = new Block($1); }
+	statements 	: statement statements 	{ $$ = new Block($1, $2); }
+				| statement           	{ $$ = new Block($1); }
 				;
 				
 	statement 	: PAGE IDENTIFIER '{' statements '}'
@@ -99,9 +99,9 @@ import ql.ast.expression.literal.*;
 %%
 private QLSLexer lexer; 
 
-private ASTNode result;
+private QLSNode result;
 
-public ASTNode getResult() {
+public QLSNode getResult() {
   return result;
 }
 

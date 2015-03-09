@@ -14,7 +14,7 @@ import gui.widget.input.spinbox.IntegerSpinbox;
 import javax.swing.JFrame;
 
 import ql.ValueEnvironment;
-import ql.ast.QLNode;
+import ql.ast.Expression;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.BooleanLiteral;
@@ -34,7 +34,7 @@ import ql.ast.statement.Question;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 
-public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVisitor<Widget> {	
+public class ComponentCreator extends StatementVisitor<Widget> implements ExpressionVisitor<Widget> {	
 	private JFrame frame;
 	private ValueEnvironment valueEnvironment;
 
@@ -43,7 +43,13 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static Widget check(QLNode tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+	public static Widget check(Expression tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+				
+		return tree.accept(creator);
+	}
+	
+	public static Widget check(Statement tree, JFrame frame, ValueEnvironment valueEnvironment) {		
 		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
 				
 		return tree.accept(creator);

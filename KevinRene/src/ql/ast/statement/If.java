@@ -2,7 +2,7 @@ package ql.ast.statement;
 
 import ql.ast.Expression;
 import ql.ast.Statement;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.StatementVisitor;
 
 public class If extends Statement {
 	private final Expression expression;
@@ -37,7 +37,7 @@ public class If extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(StatementVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

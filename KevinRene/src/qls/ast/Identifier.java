@@ -1,7 +1,5 @@
 package qls.ast;
 
-import java.util.Arrays;
-
 import ql.ast.expression.QLType;
 import ql.ast.expression.type.QLError;
 import qls.ast.visitor.Visitor;

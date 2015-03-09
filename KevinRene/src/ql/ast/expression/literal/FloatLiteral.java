@@ -3,7 +3,7 @@ package ql.ast.expression.literal;
 import ql.ast.expression.Literal;
 import ql.ast.expression.QLType;
 import ql.ast.expression.type.QLFloat;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.ExpressionVisitor;
 import ql.value.FloatValue;
 
 public class FloatLiteral extends Literal<FloatValue> {	
@@ -18,7 +18,7 @@ public class FloatLiteral extends Literal<FloatValue> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(ExpressionVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 

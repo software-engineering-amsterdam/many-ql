@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import ql.ast.Expression;
 import ql.ast.expression.type.QLError;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.ExpressionVisitor;
 
 public class Identifier extends Expression {
 	private final String identifier;
@@ -20,7 +20,7 @@ public class Identifier extends Expression {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(ExpressionVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 

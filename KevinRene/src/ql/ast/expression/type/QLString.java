@@ -3,7 +3,7 @@ package ql.ast.expression.type;
 import java.util.Arrays;
 
 import ql.ast.expression.QLType;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.ExpressionVisitor;
 
 public class QLString extends QLType {		
 	public QLString() {
@@ -16,7 +16,7 @@ public class QLString extends QLType {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(ExpressionVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

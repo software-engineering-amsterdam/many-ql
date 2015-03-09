@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ql.ast.Statement;
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.StatementVisitor;
 
 public class Block extends Statement {
 	private List<Statement> statements = new ArrayList<Statement>();
@@ -43,7 +43,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(StatementVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

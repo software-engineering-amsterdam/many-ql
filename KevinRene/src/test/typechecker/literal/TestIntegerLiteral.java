@@ -1,23 +1,16 @@
 package test.typechecker.literal;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import ql.TypeEnvironment;
-import ql.ast.QLNode;
-import ql.ast.visitor.typechecker.TypeChecker;
-import ql.parser.Parser;
+import test.typechecker.BaseTest;
 
 @RunWith(value = Parameterized.class)
-public class TestIntegerLiteral {
+public class TestIntegerLiteral extends BaseTest {
 	public static String createTestForm(String questionType) {
 		return "form myForm { "
 				+ "newQuestion : " + questionType + " { \"Number\" }"
@@ -47,31 +40,8 @@ public class TestIntegerLiteral {
 				{ createTestForm("boolean"), false},
     	 });
      }
-
-     private QLNode inputNode;
-     private boolean expected;
      
-     private Parser formParser = new Parser();
-     private TypeEnvironment register = new TypeEnvironment();
-
      public TestIntegerLiteral(String input, boolean expected) {
-    	 System.out.println("Testing: " + input);
-
-         register = new TypeEnvironment();
-    	 
-    	 inputNode = formParser.parse(input);
-    	 this.expected = expected;
-     }
-     
-     @BeforeClass
-     public static void printHeader() {
-    	 System.out.println("==============================");
-    	 System.out.println("*** Testing Integer Literal***");
-    	 System.out.println("==============================");
-     }
-     
-     @Test
-     public void testIntegerLiteral() {
-    	 assertEquals(expected, TypeChecker.check(inputNode, register));
+    	 super(input, expected);
      }
 }
