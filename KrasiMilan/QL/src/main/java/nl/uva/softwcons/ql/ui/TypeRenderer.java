@@ -6,7 +6,7 @@ import nl.uva.softwcons.ql.ast.type.NumberType;
 import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.TypeVisitor;
 import nl.uva.softwcons.ql.ast.type.UndefinedType;
-import nl.uva.softwcons.ql.ui.widget.CheckBoxWidget;
+import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
 import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
 
@@ -14,7 +14,7 @@ public class TypeRenderer implements TypeVisitor<Widget> {
 
     @Override
     public Widget visit(final BooleanType type) {
-        return new CheckBoxWidget("Yes");
+        return new CheckboxWidget("Yes");
     }
 
     @Override

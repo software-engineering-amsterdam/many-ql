@@ -5,11 +5,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.CheckBox;
 import nl.uva.softwcons.ql.eval.value.Value;
 
-public class CheckBoxWidget extends Widget {
+public class CheckboxWidget extends Widget {
     private CheckBox checkBox;
     private Property<Value> valueProperty;
 
-    public CheckBoxWidget(final String checkString) {
+    public CheckboxWidget(final String checkString) {
         this.checkBox = new CheckBox(checkString);
         this.valueProperty = new SimpleObjectProperty<Value>();
     }
