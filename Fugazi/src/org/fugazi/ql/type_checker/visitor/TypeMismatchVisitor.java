@@ -15,12 +15,8 @@ import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.expression.unary.Unary;
 import org.fugazi.ql.ast.form.form_data.visitor.FullFormVisitor;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+import org.fugazi.ql.type_checker.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 import java.util.List;
@@ -43,8 +39,8 @@ public class TypeMismatchVisitor extends FullFormVisitor {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
-        boolean leftCorrect = this.checkIfExpressionIsBool(left);
-        boolean rightCorrect = this.checkIfExpressionIsBool(right);
+        boolean leftCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(left);
+        boolean rightCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(right);
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -70,7 +66,7 @@ public class TypeMismatchVisitor extends FullFormVisitor {
     private Void visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = this.checkIfExpressionIsBool(unary);
+        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(unary);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -180,8 +176,8 @@ public class TypeMismatchVisitor extends FullFormVisitor {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
-        boolean leftCorrect = this.checkIfExpressionIsInt(left);
-        boolean rightCorrect = this.checkIfExpressionIsInt(right);
+        boolean leftCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(left);
+        boolean rightCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(right);
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -209,7 +205,7 @@ public class TypeMismatchVisitor extends FullFormVisitor {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = this.checkIfExpressionIsInt(unary);
+        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(unary);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -262,7 +258,7 @@ public class TypeMismatchVisitor extends FullFormVisitor {
     @Override
     public Void visitINT(INT intLiteral) {
 
-        boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
+        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(intLiteral);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -275,7 +271,7 @@ public class TypeMismatchVisitor extends FullFormVisitor {
 
     @Override
     public Void visitSTRING(STRING stringLiteral) {
-        boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
+        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeString(stringLiteral);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -288,7 +284,7 @@ public class TypeMismatchVisitor extends FullFormVisitor {
 
     @Override
     public Void visitBOOL(BOOL boolLiteral) {
-        boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
+        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(boolLiteral);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -297,34 +293,6 @@ public class TypeMismatchVisitor extends FullFormVisitor {
             );
         }
         return null;
-    }
-
-
-
-    /**
-     * =======================
-     * Internal check methods
-     * =======================
-     */
-
-    private boolean checkIfExpressionIsBool(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new BoolType());
-    }
-
-    private boolean checkIfExpressionIsInt(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new IntType());
-    }
-
-    private boolean checkIfExpressionIsString(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new StringType());
-    }
-
-    private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
-        return this.checkIfTypesEqual(expression.getReturnedType(), type);
-    }
-
-    private boolean checkIfTypesEqual(Type type1, Type type2) {
-        return type1.equals(type2);
     }
 
 }
