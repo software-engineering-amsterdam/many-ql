@@ -32,8 +32,7 @@ import java.util.List;
 
 public abstract class FullFormVisitor implements IASTVisitor<Void> {
 
-    public FullFormVisitor(){
-    }
+    public FullFormVisitor(){}
 
     /**
      * =======================

@@ -340,16 +340,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     @Override
     public Void visitID(ID idLiteral) {
-        // check if variable defined
-        // if it's type equals null => it is undefined
-        boolean questionDefined = this.checkIfDefined(idLiteral);
-        if (!questionDefined) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.UNDEFINED, idLiteral,
-                    "Question not defined."
-            );
-        }
-
         // if we are inside a computed expression
         // a dependency needs to be added and marked
         if (this.assignableIdLiteral != null) {

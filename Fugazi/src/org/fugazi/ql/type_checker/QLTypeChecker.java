@@ -13,18 +13,22 @@ import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.ql.type_checker.visitor.QLTypeCheckerVisitor;
+import org.fugazi.ql.type_checker.visitor.UndefinedQuestionsVisitor;
 
 import java.util.*;
 
 
 public class QLTypeChecker {
     private final QLTypeCheckerVisitor visitor;
+    private final UndefinedQuestionsVisitor undefinedQuestionsVisitor;
+
     private final ASTIssueHandler astIssueHandler;
 
     private QLFormDataStorage formData;
 
     public QLTypeChecker() {
         this.visitor = new QLTypeCheckerVisitor();
+        this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor();
         this.astIssueHandler = new ASTIssueHandler();
     }
 
@@ -105,6 +109,10 @@ public class QLTypeChecker {
         }
     }
 
+    private void checkForUndefinedQuestions(Form _form) {
+        this.undefinedQuestionsVisitor.visitForm(_form);
+    }
+
     /**
      * =====================
      * Helper check methods
@@ -135,6 +143,7 @@ public class QLTypeChecker {
         return type1.equals(type2);
     }
 
+
     /**
      * =====================
      * Exposed global methods
@@ -154,6 +163,8 @@ public class QLTypeChecker {
         // 1. undefined variables
         // 2. cyclic dependencies
         // 3. expressions
+        this.checkForUndefinedQuestions(form);
+
         form.accept(this.visitor);
 
         return this.isFormCorrect();
@@ -166,6 +177,7 @@ public class QLTypeChecker {
     public List<ASTNodeIssue> getErrors() {
         List<ASTNodeIssue> errors = this.astIssueHandler.getErrors();
         errors.addAll(this.visitor.getErrors());
+        errors.addAll(this.undefinedQuestionsVisitor.getErrors());
 
         return errors;
     }
