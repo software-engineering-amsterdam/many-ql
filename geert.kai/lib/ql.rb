@@ -21,7 +21,6 @@ module QL
   end
 
   def self.check_ql(ql_ast)
-    
     errors = Checking::TypeChecker.new(ql_ast).errors
     warnings = Checking::DuplicateLabelChecker.new(ql_ast).warnings
 
