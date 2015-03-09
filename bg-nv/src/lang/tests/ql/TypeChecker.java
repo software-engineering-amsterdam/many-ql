@@ -1,6 +1,7 @@
-package lang.tests;
+package lang.tests.ql;
 
 import lang.ql.semantics.errors.*;
+import lang.tests.TestHelper;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -93,7 +94,7 @@ public class TypeChecker
         List<Message> ms = TestHelper.analyse("cyclicQuestions");
         assertEquals(1, ms.size());
 
-        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: b, c, a");
+        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: a, b, c");
     }
 
     @Test

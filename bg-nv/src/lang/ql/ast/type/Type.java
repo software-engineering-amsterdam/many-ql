@@ -24,6 +24,12 @@ public abstract class Type extends AstNode
         return false;
     }
 
+    public boolean isArithmetic() { return false; }
+
+    public boolean isBool() { return false; }
+
+    public boolean isString() { return false; }
+
     public Type promoteTo(Type t)
     {
         return this;

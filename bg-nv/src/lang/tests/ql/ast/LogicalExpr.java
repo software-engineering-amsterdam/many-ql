@@ -1,4 +1,4 @@
-package lang.tests.ast;
+package lang.tests.ql.ast;
 
 import lang.ql.ast.expression.And;
 import lang.ql.ast.expression.Gt;

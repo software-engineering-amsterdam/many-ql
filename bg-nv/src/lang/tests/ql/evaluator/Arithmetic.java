@@ -1,4 +1,4 @@
-package lang.tests.evaluator;
+package lang.tests.ql.evaluator;
 
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.*;

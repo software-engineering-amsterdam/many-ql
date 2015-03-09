@@ -1,4 +1,4 @@
-package lang.tests.ast;
+package lang.tests.ql.ast;
 
 import lang.ql.ast.expression.*;
 import lang.ql.ast.type.*;

@@ -1,4 +1,4 @@
-package lang.tests.ast;
+package lang.tests.ql.ast;
 
 import lang.tests.ParserHelper;
 import lang.tests.TestHelper;
