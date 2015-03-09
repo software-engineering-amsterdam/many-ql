@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -19,13 +20,14 @@ import javafx.scene.text.Text;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.runtime.ComputedEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
+import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
+import org.uva.sea.ql.encoders.runtime.value.StringValue;
 import org.uva.sea.ql.encoders.runtime.value.Value;
 import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
@@ -107,8 +109,12 @@ public class QuestionnaireUI {
 									operatorTable);
 							Value value = computed.accept(computedEvaluatorVisitor);
 							runtimeQuestion.setValue(value);
-							if (dataType instanceof IntegerType) {
-								((TextField) control).setText(value.toString());
+							if (value instanceof IntegerValue) {
+								((TextField) control).setText(((IntegerValue) value).getValue() + "");
+							} else if (value instanceof BooleanValue) {
+								((CheckBox) control).setSelected(((BooleanValue) value).getValue());
+							} else {
+								((TextField) control).setText(((StringValue) value).getValue() + "");
 							}
 							System.out.println("Waarde is nu: " + arg);
 						}
