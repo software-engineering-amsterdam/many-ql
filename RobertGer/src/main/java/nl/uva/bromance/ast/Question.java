@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
@@ -19,20 +20,20 @@ import java.util.Optional;
 public class Question extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
     private List<String> customQuestionOptions = new ArrayList<>();
-    private static final String[] questionTypes = {"integer", "string", "boolean", "custom"};
+    private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
-    private String identifier;
+    private Identifier identifier;
     private String questionString;
-    private String questionType;
+    private QuestionType questionType;
     private Range questionRange;
 
-    public Question(int lineNumber, String id) {
+    public Question(int lineNumber, Identifier identifier) {
         super(lineNumber, Question.class);
+        this.identifier = identifier;
         this.setAcceptedParents(parentsAllowed);
-        this.identifier = id.substring(1, id.length() - 1);
     }
 
-    public Optional<String> getIdentifier() {
+    public Optional<Identifier> getIdentifier() {
         return Optional.ofNullable(identifier);
     }
 
@@ -50,16 +51,13 @@ public class Question extends Node {
 
     public void setQuestionType(String qt) {
         qt = qt.toLowerCase();
-        boolean valid = false;
-        for (String type : questionTypes) {
-            if (type.equals(qt)) {
-                valid = true;
+        for (QuestionType type : questionTypes) {
+            if (qt.equals(type.getTypeString())) {
+                this.questionType = type;
                 break;
             }
         }
-        if (valid) {
-            this.questionType = qt;
-        } else {
+        if (questionType == null) {
             System.err.println("Question Error: Invalid Question type " + qt + ", valid types are :" + Arrays.toString(questionTypes));
         }
     }
@@ -124,32 +122,32 @@ public class Question extends Node {
     @Override
     public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
         if (getIdentifier().isPresent()) {
-            if (referenceMap.get(getIdentifier().get()) != null) {
-                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
+            if (referenceMap.get(getIdentifier().get().getId()) != null) {
+                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get().getId());
             } else {
-                referenceMap.put(getIdentifier().get(), this);
+                referenceMap.put(getIdentifier().get().getId(), this);
             }
         } else {
             throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
         }
     }
 
-    //TODO: Not digging the string checks for types. Need to sort this out at one point.
+    //TODO: Not digging the use of instanceof, already better then the strings however.
     public boolean isQuestionTypeBoolean() {
-        return "boolean".equals(questionType) || "Boolean".equals(questionType);
+        return questionType instanceof BooleanType;
     }
 
     public boolean isQuestionTypeString() {
-        return "string".equals(questionType) || "String".equals(questionType);
+        return questionType instanceof StringType;
     }
 
     public boolean isQuestionTypeInteger() {
-        return "integer".equals(questionType) || "Integer".equals(questionType);
+        return questionType instanceof IntegerType;
     }
 
 
     public boolean isQuestionTypeCustom() {
-        return "custom".equals(questionType) || "Custom".equals(questionType);
+        return questionType instanceof CustomType;
     }
 
     public void setCustomQuestionOptions(List<TerminalNode> options) {
