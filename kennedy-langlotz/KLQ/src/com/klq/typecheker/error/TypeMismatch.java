@@ -8,6 +8,6 @@ import com.klq.logic.question.Type;
  */
 public class TypeMismatch extends AError {
     public TypeMismatch(QuestionNode node, Type child) {
-        super(4, true, String.format("This question is of the type: %s, however the computed answer is of the type: %s", node.getQuestionType(), child), node.getLoc());
+        super(4, true, String.format("This question is of the type: %s, however the computed answer is of the type: %s", node.getQuestionType(), child), node.getLocation());
     }
 }

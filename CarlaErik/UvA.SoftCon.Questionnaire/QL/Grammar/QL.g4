@@ -35,9 +35,11 @@ expr : '(' expr ')'                   # PrecedenceOverride
 
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
-STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+STRING : '"' (ESC|.)*? '"' ;       // match anything between "..." (nongreedy)
 DATE   : '[' DAY '-' MONTH '-' YEAR ']' 
        | '[today]'
+	   | '[yesterday]'
+	   | '[tomorrow]'
        ;
 
 TYPE : 'int' | 'string' | 'bool' | 'date';

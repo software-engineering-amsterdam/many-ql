@@ -1,0 +1,4 @@
+form Employee {
+    boolean married "Are you married?"
+    integer age "What is your age"
+}

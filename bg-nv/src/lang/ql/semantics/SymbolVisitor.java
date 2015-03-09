@@ -29,7 +29,7 @@ public class SymbolVisitor implements FormVisitor<Void>, StatVisitor<Void>
     private SymbolVisitor()
     {
         this.symbolTable = new SymbolTable();
-        this.errors = new ArrayList<Message>();
+        this.errors = new ArrayList<>();
     }
 
     @Override

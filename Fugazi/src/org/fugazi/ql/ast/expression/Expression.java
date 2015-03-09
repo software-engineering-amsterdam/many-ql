@@ -1,9 +1,9 @@
 package org.fugazi.ql.ast.expression;
 
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 
-public abstract class Expression extends AbstractASTQLNode {
+public abstract class Expression extends AbstractASTNode {
 
     public Expression() {
         super();

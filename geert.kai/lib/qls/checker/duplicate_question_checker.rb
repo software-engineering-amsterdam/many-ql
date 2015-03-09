@@ -10,10 +10,9 @@ module QLS
       end
       
       def visit_style_group(style_group)
-        style_group.rules.map do |rule|
-          rule.accept(self)
-        end
+        map_accept(style_group)
       end
+      
 
       def visit_question(question)
         question.name

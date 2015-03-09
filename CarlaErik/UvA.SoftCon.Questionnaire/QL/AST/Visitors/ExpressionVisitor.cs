@@ -133,22 +133,18 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
 
         public override IExpression VisitBooleanLiteral(QLParser.BooleanLiteralContext context)
         {
-            bool value = Boolean.Parse(context.BOOL().GetText());
-
-            return new BooleanLiteral(value, context.GetTextPosition());
+            return new BooleanLiteral(context.BOOL().GetText(), context.GetTextPosition());
         }
 
         public override IExpression VisitIntegerLiteral(QLParser.IntegerLiteralContext context)
         {
-            int value = Int32.Parse(context.INT().GetText());
-
-            return new IntegerLiteral(value, context.GetTextPosition());
+            return new IntegerLiteral(context.INT().GetText(), context.GetTextPosition());
         }
 
         public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
         {
             string value = context.STRING().GetText();
-            
+
             // Remove the leading and trailing '"' characters from the string literal.
             value = value.Trim('"');
 

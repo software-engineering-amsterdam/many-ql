@@ -1,6 +1,8 @@
 package uva.sc.types;
 
 import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.BooleanAtom;
+import uva.sc.logic.Expression;
 
 
 public class Boolean implements Type {
@@ -23,5 +25,9 @@ public class Boolean implements Type {
 		else {
 			return false;
 		}
+	}
+
+	public Expression defaultValue() {
+		return new BooleanAtom(false);
 	}
 }

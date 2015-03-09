@@ -1,6 +1,6 @@
 package org.fugazi.ql.type_checker.issue;
 
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +44,13 @@ public class ASTIssueHandler {
      * =======================
      */
 
-    public void registerNewError(ASTNodeIssueType _type, AbstractASTQLNode _errorNode, String _message) {
+    public void registerNewError(ASTNodeIssueType _type, AbstractASTNode _errorNode, String _message) {
         this.errors.add(new ASTNodeIssue(
                 _type, _errorNode, _message
         ));
     }
 
-    public void registerNewWarning(AbstractASTQLNode _errorNode, String _message) {
+    public void registerNewWarning(AbstractASTNode _errorNode, String _message) {
         this.warnings.add(new ASTNodeIssue(
                 ASTNodeIssueType.WARNING.DUPLICATE_LABEL, _errorNode, _message
         ));

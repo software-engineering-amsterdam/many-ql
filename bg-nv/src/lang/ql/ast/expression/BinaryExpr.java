@@ -1,9 +1,11 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.type.Type;
+
 /**
  * Created by bore on 09/02/15.
  */
-public abstract class BinaryExpr extends Expr
+public abstract class BinaryExpr extends NaryExpr
 {
     private Expr left;
     private Expr right;
@@ -21,4 +23,10 @@ public abstract class BinaryExpr extends Expr
     }
 
     public Expr getRight() { return this.right; }
+
+    @Override
+    public boolean isTypeAllowed(Type t)
+    {
+        return t.isArithmetic();
+    }
 }

@@ -42,16 +42,13 @@ public class ExprTypeMap
         exprAllowedTypes.put("And", bool);
         exprAllowedTypes.put("Or", bool);
 
-        exprReturnType = new HashMap<String, Type>();
-        exprReturnType.put("Not", boolType);
+        exprReturnType = new HashMap<>();
         exprReturnType.put("Gt", boolType);
         exprReturnType.put("Lt", boolType);
         exprReturnType.put("GtEqu", boolType);
         exprReturnType.put("LtEqu", boolType);
         exprReturnType.put("Equ", boolType);
         exprReturnType.put("NotEqu", boolType);
-        exprReturnType.put("And", boolType);
-        exprReturnType.put("Or", boolType);
     }
 
     private static Set<Type> makeSet(Type... types)

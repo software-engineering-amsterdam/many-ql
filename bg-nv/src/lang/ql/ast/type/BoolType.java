@@ -11,6 +11,12 @@ public class BoolType extends Type
     }
 
     @Override
+    public boolean isBool()
+    {
+        return true;
+    }
+
+    @Override
     public <T> T accept(TypeVisitor<T> visitor)
     {
         return visitor.visit(this);

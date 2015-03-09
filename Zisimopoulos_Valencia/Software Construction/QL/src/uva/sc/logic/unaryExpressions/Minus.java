@@ -19,11 +19,4 @@ public class Minus extends UnaryExpression{
 	public <T> T accept(INodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public Expression evaluate() {
-		Expression operand = this.getOperand().evaluate();
-		BigDecimal numericalOperand = new BigDecimal(operand.getValue());
-		return new NumberAtom(numericalOperand.multiply(new BigDecimal(-1)).toString());
-	}
-
 }

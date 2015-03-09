@@ -2,20 +2,23 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAndExp extends PExp {
+public final class AAndExp extends PExp
+{
     private PExp _left_;
     private PExp _right_;
 
-    public AAndExp() {
+    public AAndExp()
+    {
         // Constructor
     }
 
     public AAndExp(
-            @SuppressWarnings("hiding") PExp _left_,
-            @SuppressWarnings("hiding") PExp _right_) {
+        @SuppressWarnings("hiding") PExp _left_,
+        @SuppressWarnings("hiding") PExp _right_)
+    {
         // Constructor
         setLeft(_left_);
 
@@ -24,28 +27,35 @@ public final class AAndExp extends PExp {
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AAndExp(
-                cloneNode(this._left_),
-                cloneNode(this._right_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAAndExp(this);
     }
 
-    public PExp getLeft() {
+    public PExp getLeft()
+    {
         return this._left_;
     }
 
-    public void setLeft(PExp node) {
-        if (this._left_ != null) {
+    public void setLeft(PExp node)
+    {
+        if(this._left_ != null)
+        {
             this._left_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -55,17 +65,22 @@ public final class AAndExp extends PExp {
         this._left_ = node;
     }
 
-    public PExp getRight() {
+    public PExp getRight()
+    {
         return this._right_;
     }
 
-    public void setRight(PExp node) {
-        if (this._right_ != null) {
+    public void setRight(PExp node)
+    {
+        if(this._right_ != null)
+        {
             this._right_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -76,21 +91,25 @@ public final class AAndExp extends PExp {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._left_)
-                + toString(this._right_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._left_ == child) {
+        if(this._left_ == child)
+        {
             this._left_ = null;
             return;
         }
 
-        if (this._right_ == child) {
+        if(this._right_ == child)
+        {
             this._right_ = null;
             return;
         }
@@ -99,14 +118,17 @@ public final class AAndExp extends PExp {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._left_ == oldChild) {
+        if(this._left_ == oldChild)
+        {
             setLeft((PExp) newChild);
             return;
         }
 
-        if (this._right_ == oldChild) {
+        if(this._right_ == oldChild)
+        {
             setRight((PExp) newChild);
             return;
         }

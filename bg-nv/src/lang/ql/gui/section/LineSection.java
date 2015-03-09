@@ -1,7 +1,5 @@
 package lang.ql.gui.section;
 
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.input.Input;

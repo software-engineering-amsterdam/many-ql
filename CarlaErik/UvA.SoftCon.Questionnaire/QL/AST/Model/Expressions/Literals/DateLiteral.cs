@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,26 @@ using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
 {
-    public class DateLiteral : Literal<string>
+    public class DateLiteral : Literal<DateTime>
     {
+        private const string _dateFormat = "d-M-yyyy";
+        private const string _today = "today";
+        private const string _yesterday = "yesterday";
+        private const string _tomorrow = "tomorrow";
+
+        public override bool IsValid
+        {
+            get
+            {
+                DateTime date = DateTime.MinValue;
+
+                return (Value.Equals(_today, StringComparison.OrdinalIgnoreCase)
+                    || Value.Equals(_yesterday, StringComparison.OrdinalIgnoreCase)
+                    || Value.Equals(_tomorrow, StringComparison.OrdinalIgnoreCase)
+                    || DateTime.TryParseExact(Value, "d-M-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date));
+            }
+        }
+
         public DateLiteral(string dateString, TextPosition position)
             : base(dateString, position)
         {
@@ -28,6 +47,33 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Date;
+        }
+
+        public override DateTime GetValue()
+        {
+            if (IsValid)
+            {
+                if (Value.Equals(_today, StringComparison.OrdinalIgnoreCase))
+                {
+                    return DateTime.Today;
+                }
+                else if (Value.Equals(_yesterday, StringComparison.OrdinalIgnoreCase))
+                {
+                    return DateTime.Today.AddDays(-1);
+                }
+                else if (Value.Equals(_tomorrow, StringComparison.OrdinalIgnoreCase))
+                {
+                    return DateTime.Today.AddDays(1);
+                }
+                else
+                {
+                    return DateTime.ParseExact(Value, "d-M-yyyy", CultureInfo.InvariantCulture);
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot return the value of an invalid expressed date literal.");
+            }
         }
     }
 }

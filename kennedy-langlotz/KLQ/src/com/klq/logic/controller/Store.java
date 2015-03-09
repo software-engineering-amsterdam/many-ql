@@ -49,7 +49,7 @@ public class Store implements IKLQItem {
             UndefinedValue undefined = new UndefinedValue();
             variables.put(id.getValue(), undefined);
         } else {
-            variables.put(id.getValue(), question.getComputedValue());
+            variables.put(id.getValue(), question.getComputedExpression().evaluate(variables));
             computedCount++;
         }
     }
@@ -60,6 +60,10 @@ public class Store implements IKLQItem {
             result.add(store.get(id));
         }
         return result;
+    }
+
+    public Map<String, Value> getVariables() {
+        return variables;
     }
 
     public boolean dependenciesResolved(IdentifierValue questionId){
@@ -80,18 +84,16 @@ public class Store implements IKLQItem {
 
         if (result.isUndefined()) {
             return false;
-        }
-        else {
+        } else {
             return (boolean) result.getValue();
         }
 
     }
 
     public void updateAnswer(IdentifierValue questionId, Value answer) {
-        if (variables.containsKey(questionId))
-            variables.put(questionId.getValue(), answer);
-        else
-            assert false;
+        assert(variables.containsKey(questionId));
+        variables.put(questionId.getValue(), answer);
+
         updateVisibilities();
         updateComputed();
         updateProgress();
@@ -114,8 +116,9 @@ public class Store implements IKLQItem {
     private void updateComputed(){
         for (Question q : store.values()){
             if (q.isComputedQuestion()){
-                //Value computed = variables.get(q.getId()).evaluate(variables);
-                //q.computedProperty().setValue(computed.toString());
+                AExpression computedExpression = q.getComputedExpression();
+                Value result = computedExpression.evaluate(variables);
+                q.computedProperty().setValue(result.toString());
             }
         }
     }
