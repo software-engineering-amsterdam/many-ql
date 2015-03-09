@@ -30,12 +30,4 @@ public class TypeEnvironment {
 	public TypeEnvironment getParent() {
 		return this.parentEnvironment;
 	}
-	
-	public Map<String, QLType> getBindings() {
-		return this.environment;
-	}
-	
-	public void clear() {
-		this.environment.clear();
-	}
 }
