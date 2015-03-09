@@ -1,11 +1,13 @@
 package org.fugazi.qls.type_checker.visitor;
 
 
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
+import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Color;
 import org.fugazi.qls.ast.style.style_property.Font;
 import org.fugazi.qls.ast.style.style_property.FontSize;
@@ -13,24 +15,69 @@ import org.fugazi.qls.ast.style.style_property.Width;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.widget.*;
 
+import java.util.List;
+
+/*
+ This class performs a full QLS AST Tree traversal.
+ Class can inherit and override methods where they
+ need to perform additional actions.
+ */
 public class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
 
 
-    public Void visitStyleSheet(StyleSheet _styleSheet){
+    public Void visitStyleSheet(StyleSheet styleSheet){
+        List<Page> pages = styleSheet.getPages();
+
+        for (Page page : pages) {
+            page.accept(this);
+        }
+
         return null;
     }
 
-    public Void visitPage(Page _page){
-        return null;
-    }
-    public Void visitSection(Section _section){
-        return null;
-    }
-    public Void visitQuestion(Question _section){
+    public Void visitPage(Page page){
+        List<Section> sections = page.getSections();
+        List<DefaultStyleDeclaration> defaultStyles = page.getDefaultStyles();
+
+        for (Section section : sections) {
+            section.accept(this);
+        }
+        for (DefaultStyleDeclaration declaration : defaultStyles) {
+            declaration.accept(this);
+        }
+
         return null;
     }
 
-    public Void visitDefaultStyleDeclr(DefaultStyleDeclaration _styleDeclr){
+    public Void visitSection(Section section){
+        List<Section> subsections = section.getSections();
+        List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyles();
+        List<Question> questions = section.getQuestions();
+
+        for (Section subsection : subsections) {
+            subsection.accept(this);
+        }
+        for (DefaultStyleDeclaration declaration : defaultStyles) {
+            declaration.accept(this);
+        }
+        for (Question question : questions) {
+            question.accept(this);
+        }
+
+        return null;
+    }
+
+    public Void visitQuestion(Question question){
+        Widget widget = question.getWidget();
+        widget.accept(this);
+
+        return null;
+    }
+
+    public Void visitDefaultStyleDeclr(DefaultStyleDeclaration styleDeclr){
+        Widget widget = styleDeclr.getWidget();
+        widget.accept(this);
+
         return null;
     }
 

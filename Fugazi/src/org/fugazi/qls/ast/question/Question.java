@@ -24,6 +24,10 @@ public class Question extends AbstractASTNode {
         return this.identifier;
     }
 
+    public Widget getWidget() {
+        return this.widget;
+    }
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitQuestion(this);
     }

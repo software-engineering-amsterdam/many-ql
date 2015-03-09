@@ -24,6 +24,18 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
         this.questionType = _questionType;
     }
 
+    public Style getStyle() {
+        return this.style;
+    }
+
+    public Widget getWidget() {
+        return widget;
+    }
+
+    public Type getQuestionType() {
+        return questionType;
+    }
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitDefaultStyleDeclr(this);
     }
