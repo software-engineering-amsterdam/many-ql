@@ -6,27 +6,27 @@ fom taxOfficeExample {
   "Did you enter a loan?"
     hasMaintLoan: boolean
   "What is the percentage?"
-    percentage: int
+    percentage: integer
   "What is the commissioning?"
-    commissioning: int
+    commissioning: integer
   "Do you have a contract?"
     hasContract: boolean
 
   if (hasSoldHouse) {
     "What was the selling price?"
-      sellingPrice: int
+      sellingPrice: integer
     "Private debts for the sold house:"
-      privateDebt: int
+      privateDebt: integer
     "Value residue:"
-      valueResidue: int = 
+      valueResidue: integer = 
         (sellingPrice - privateDebt * ( percentage - commissioning ) )
   
   
   if hasContract) {
     "Do you have a contract for longer than 1 year?"
-      yearContract: int
+      yearContract: integer
     "Did you have an unlimited contract with your employer?"
-      unlimitedContract: int
+      unlimitedContract: integer
     "Employer followed rules according CAO:"
       rulesFollowed: boolean =
         yearContract >= unlimitedContract 
