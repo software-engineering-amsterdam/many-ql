@@ -1,6 +1,5 @@
 package qls.ast;
 
-import qls.QLSNode;
 
 public abstract class QLSType implements QLSNode {
 	public QLSType() {}

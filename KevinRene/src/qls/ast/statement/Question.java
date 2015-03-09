@@ -1,13 +1,19 @@
 package qls.ast.statement;
 
-import qls.QLSNode;
+import qls.ast.Statement;
 import qls.ast.visitor.Visitor;
 
-public class Question implements QLSNode {
+public class Question extends Statement {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

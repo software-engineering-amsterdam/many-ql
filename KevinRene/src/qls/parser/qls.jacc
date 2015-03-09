@@ -1,7 +1,7 @@
 %package qls.parser
 %class QLSParser
 %interface QLSTokens
-%semantic ql.ast.ASTNode 
+%semantic qls.ast.QLSNode 
 
 %token <QLInteger> INTEGER
 %token <QLBoolean> BOOLEAN
@@ -24,18 +24,21 @@
 %type <Expression> literal
 %type <QLType> type
 %type <Block> statements
+%type <Statement> statement
+%type <Widget> widget
 
 %{
-import ql.ast.*;
-import ql.ast.expression.*;
-import ql.ast.expression.type.*;
-import ql.ast.expression.literal.*;
+import qls.ast.QLSNode;
+import qls.ast.Identifier;
+import qls.ast.statement.*;
+import qls.ast.widget.*;
+import qls.ast.Statement;
 
 @SuppressWarnings("all")
 %}
 
 %%
-  top : stylesheet { result = $i; }
+  top : stylesheet { result = $1; }
       ;
 
 	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
@@ -100,9 +103,9 @@ import ql.ast.expression.literal.*;
 %%
 private QLSLexer lexer; 
 
-private ASTNode result;
+private QLSNode result;
 
-public ASTNode getResult() {
+public QLSNode getResult() {
   return result;
 }
 

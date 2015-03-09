@@ -1,11 +1,12 @@
-// Output created by jacc on Mon Mar 09 14:23:26 CET 2015
+// Output created by jacc on Mon Mar 09 14:56:51 CET 2015
 
 package qls.parser;
 
-import ql.ast.*;
-import ql.ast.expression.*;
-import ql.ast.expression.type.*;
-import ql.ast.expression.literal.*;
+import qls.ast.QLSNode;
+import qls.ast.Identifier;
+import qls.ast.statement.*;
+import qls.ast.widget.*;
+import qls.ast.Statement;
 
 @SuppressWarnings("all")
 
@@ -15,14 +16,14 @@ class QLSParser implements QLSTokens {
     private int yysp = 0;
     private int[] yyst;
     protected int yyerrno = (-1);
-    private ql.ast.ASTNode[] yysv;
-    private ql.ast.ASTNode yyrv;
+    private qls.ast.QLSNode[] yysv;
+    private qls.ast.QLSNode yyrv;
 
     public boolean parse() {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
-        yysv = new ql.ast.ASTNode[yyss];
+        yysv = new qls.ast.QLSNode[yyss];
         yytok = (lexer.getToken()
                  );
     loop:
@@ -1299,7 +1300,7 @@ class QLSParser implements QLSTokens {
 
     protected void yyexpand() {
         int[] newyyst = new int[2*yyst.length];
-        ql.ast.ASTNode[] newyysv = new ql.ast.ASTNode[2*yyst.length];
+        qls.ast.QLSNode[] newyysv = new qls.ast.QLSNode[2*yyst.length];
         for (int i=0; i<yyst.length; i++) {
             newyyst[i] = yyst[i];
             newyysv[i] = yysv[i];
@@ -1613,7 +1614,7 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr1() { // top : stylesheet
-        { result = $i; }
+        { result = yysv[yysp-1]; }
         yysv[yysp-=1] = yyrv;
         return 1;
     }
@@ -1649,13 +1650,13 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr3() { // statements : statement statements
-        { yyrv = new Block(yysv[yysp-2], ((Block)yysv[yysp-1])); }
+        { yyrv = new Block(((Statement)yysv[yysp-2]), ((Block)yysv[yysp-1])); }
         yysv[yysp-=2] = yyrv;
         return yypstatements();
     }
 
     private int yyr4() { // statements : statement
-        { yyrv = new Block(yysv[yysp-1]); }
+        { yyrv = new Block(((Statement)yysv[yysp-1])); }
         yysv[yysp-=1] = yyrv;
         return yypstatements();
     }
@@ -1853,9 +1854,9 @@ class QLSParser implements QLSTokens {
 
 private QLSLexer lexer; 
 
-private ASTNode result;
+private QLSNode result;
 
-public ASTNode getResult() {
+public QLSNode getResult() {
   return result;
 }
 

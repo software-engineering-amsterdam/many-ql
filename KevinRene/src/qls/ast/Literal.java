@@ -1,6 +1,5 @@
 package qls.ast;
 
-import qls.QLSNode;
 
 public abstract class Literal<T> implements QLSNode {
 	private final T value;
