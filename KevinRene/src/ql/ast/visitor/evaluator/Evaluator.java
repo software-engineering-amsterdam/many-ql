@@ -2,7 +2,8 @@ package ql.ast.visitor.evaluator;
 
 import ql.Value;
 import ql.ValueEnvironment;
-import ql.ast.QLNode;
+import ql.ast.Expression;
+import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.arithmetic.Add;
 import ql.ast.expression.arithmetic.Div;
@@ -28,14 +29,21 @@ import ql.ast.visitor.StatementVisitor;
 import ql.value.UndefinedValue;
 
 @SuppressWarnings("rawtypes")
-public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Value> {
+public class Evaluator extends StatementVisitor<Value> implements ExpressionVisitor<Value> {
 	private ValueEnvironment valueEnv;
 	
 	private Evaluator(ValueEnvironment valueEnv) {
 		this.valueEnv = valueEnv;
+		super.setExpressionVisitor(this);
 	}
 	
-	public static Value check(QLNode tree, ValueEnvironment valueEnvironment) {
+	public static Value check(Statement tree, ValueEnvironment valueEnvironment) {
+		Evaluator evaluator = new Evaluator(valueEnvironment);
+		
+		return tree.accept(evaluator);
+	}
+	
+	public static Value check(Expression tree, ValueEnvironment valueEnvironment) {
 		Evaluator evaluator = new Evaluator(valueEnvironment);
 		
 		return tree.accept(evaluator);

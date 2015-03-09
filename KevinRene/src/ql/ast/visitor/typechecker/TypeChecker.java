@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.TypeEnvironment;
-import ql.ast.QLNode;
 import ql.ast.Expression;
+import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
 import ql.ast.expression.arithmetic.Add;
@@ -44,19 +44,20 @@ import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.error.TypeErrors;
 
-public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<QLType> {
+public class TypeChecker extends StatementVisitor<QLType> implements ExpressionVisitor<QLType> {
 	private static TypeErrors typeErrors;
 	private TypeEnvironment register;	
 	
 	private TypeChecker(TypeEnvironment register) {
 		this.register = register;
+		super.setExpressionVisitor(this);
 	}
 	
 	/**
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(QLNode tree, TypeEnvironment register) {
+	public static boolean check(Statement tree, TypeEnvironment register) {
 		TypeChecker typeChecker = new TypeChecker(register);
 		typeErrors = new TypeErrors();
 		
@@ -66,6 +67,22 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 		
 		return typeErrors.hasErrors();
 	}	
+	
+	/**
+	 * Entry point, static type checks the supplied tree
+	 * @return a boolean indicating pass or fail
+	 */
+	public static boolean check(Expression tree, TypeEnvironment register) {
+		TypeChecker typeChecker = new TypeChecker(register);
+		typeErrors = new TypeErrors();
+		
+		tree.accept(typeChecker);
+		
+		typeErrors.outputErrors();
+		
+		return typeErrors.hasErrors();
+	}	
+	
 	
 	/**
 	 * Checks whether the given expression passes the type checker. 
@@ -253,7 +270,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 			typeErrors.doubleDefinedVariable(formIdentifier);
 		}
 		
-		StatementVisitor.super.visit(formNode);
+		super.visit(formNode);
 		
 		return formNode.getType();
 	}
@@ -304,7 +321,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	@Override
 	public QLType visit(Block blockNode) {
 		increaseScope();
-		StatementVisitor.super.visit(blockNode);
+		super.visit(blockNode);
 		decreaseScope();
 		return null;
 	}

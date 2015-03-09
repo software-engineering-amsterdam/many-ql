@@ -10,7 +10,7 @@ import ql.ast.statement.*;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 
-public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<Void> {
+public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void> {
 	private String prefix = "";
 	
 	/**
@@ -263,7 +263,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(blockNode);
 		
 		indent();
-		StatementVisitor.super.visit(blockNode);
+		super.visit(blockNode);
 		unindent();
 		
 		return null;
@@ -274,7 +274,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(compQuestionNode);
 		
 		indent();
-		StatementVisitor.super.visit(compQuestionNode);
+		super.visit(compQuestionNode);
 		unindent();
 		
 		return null;
@@ -285,7 +285,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(formNode);
 		
 		indent();		
-		StatementVisitor.super.visit(formNode);
+		super.visit(formNode);
 		unindent();
 		
 		return null;
@@ -296,7 +296,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(ifNode);
 		
 		indent();		
-		StatementVisitor.super.visit(ifNode);
+		super.visit(ifNode);
 		unindent();
 		
 		return null;
@@ -307,7 +307,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(ifElseNode);
 		
 		indent();		
-		StatementVisitor.super.visit(ifElseNode);
+		super.visit(ifElseNode);
 		unindent();
 		
 		return null;
@@ -318,7 +318,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(questionNode);
 		
 		indent();		
-		StatementVisitor.super.visit(questionNode);
+		super.visit(questionNode);
 		unindent();
 		
 		return null;

@@ -1,6 +1,6 @@
 package ql.ast;
 
-import ql.ast.visitor.Visitor;
+import ql.ast.visitor.StatementVisitor;
 
 public abstract class Statement implements QLNode {
 	/**

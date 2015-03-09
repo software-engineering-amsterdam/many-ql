@@ -8,45 +8,52 @@ import ql.ast.statement.If;
 import ql.ast.statement.IfElse;
 import ql.ast.statement.Question;
 
-public interface StatementVisitor<T> extends Visitor<T> {
-	default T visit(Block blockNode) {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public abstract class StatementVisitor<T> {
+	private ExpressionVisitor expressionVisitor;
+	
+	public void setExpressionVisitor(ExpressionVisitor expressionVisitor) {
+		this.expressionVisitor = expressionVisitor;
+	}
+	
+	public T visit(Block blockNode) {
 		for(Statement statement : blockNode.statements()) {
 			statement.accept(this);
 		}
 		return null;
 	}
 	
-	default T visit(ComputedQuestion compQuestionNode) {
-		compQuestionNode.getIdentifier().accept(this);
-		compQuestionNode.getType().accept(this);
-		compQuestionNode.getText().accept(this);
-		compQuestionNode.getExpression().accept(this);
+	public T visit(ComputedQuestion compQuestionNode) {
+		compQuestionNode.getIdentifier().accept(expressionVisitor);
+		compQuestionNode.getType().accept(expressionVisitor);
+		compQuestionNode.getText().accept(expressionVisitor);
+		compQuestionNode.getExpression().accept(expressionVisitor);
 		return null;
 	}
 	
-	default T visit(Form formNode) {
-		formNode.getIdentifier().accept(this);
+	public T visit(Form formNode) {
+		formNode.getIdentifier().accept(expressionVisitor);
 		formNode.getBlock().accept(this);
 		return null;
 	}
 	
-	default T visit(If ifNode) {
-		ifNode.getExpression().accept(this);
+	public T visit(If ifNode) {
+		ifNode.getExpression().accept(expressionVisitor);
 		ifNode.getBlock().accept(this);
 		return null;
 	}
 	
-	default T visit(IfElse ifElseNode) {
-		ifElseNode.getExpression().accept(this);
+	public T visit(IfElse ifElseNode) {
+		ifElseNode.getExpression().accept(expressionVisitor);
 		ifElseNode.getIfBranch().accept(this);
 		ifElseNode.getElseBranch().accept(this);
 		return null;
 	}
 	
-	default T visit(Question questionNode) {
-		questionNode.getIdentifier().accept(this);
-		questionNode.getType().accept(this);
-		questionNode.getText().accept(this);
+	public T visit(Question questionNode) {
+		questionNode.getIdentifier().accept(expressionVisitor);
+		questionNode.getType().accept(expressionVisitor);
+		questionNode.getText().accept(expressionVisitor);
 		return null;
 	}
 }
