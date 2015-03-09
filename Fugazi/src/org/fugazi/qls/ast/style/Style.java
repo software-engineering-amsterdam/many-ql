@@ -1,11 +1,11 @@
 package org.fugazi.qls.ast.style;
 
-import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.style.style_property.StyleProperty;
 
 import java.util.List;
 
-public class Style extends AbstractASTQLSNode {
+public class Style extends AbstractASTNode {
     
     private final List<StyleProperty> styleProperties;
 

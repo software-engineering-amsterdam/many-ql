@@ -7,7 +7,7 @@ public class BooleanResult extends Result{
 
     private boolean result;
 
-    BooleanResult(boolean result){
+    public BooleanResult(boolean result){
         this.result = result;
     }
 
