@@ -2,6 +2,7 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
+import ql.types.{Dependencies, VariableName}
 
 import scala.collection.immutable.StringOps
 import scala.util.Try
@@ -14,9 +15,6 @@ import scalafx.scene.layout.VBox
 
 abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])
   extends VBox {
-
-  type VariableName = String
-  type Dependencies = List[VariableName]
 
   val evaluator = new Evaluator()
   val dependencyResolver = new DependencyResolver()

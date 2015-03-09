@@ -1,13 +1,9 @@
 package ql.evaluator
 
 import ql.ast._
-
-import scalafx.collections.ObservableMap
+import ql.types.EvalEnvironment
 
 class Evaluator {
-
-  type VariableName = String
-  type EvalEnvironment = ObservableMap[VariableName, Value]
 
   def eval(f: Form, environment: EvalEnvironment = ObservableMap.empty[VariableName, Value]): EvalEnvironment = eval(f.s, environment)
 

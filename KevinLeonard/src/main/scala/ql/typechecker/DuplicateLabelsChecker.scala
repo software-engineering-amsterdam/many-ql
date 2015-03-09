@@ -1,10 +1,9 @@
 package ql.typechecker
 
 import ql.ast._
+import ql.types.Warning
 
 class DuplicateLabelsChecker {
-
-  type Warning = String
 
   def check(form: Form): List[Warning] = {
     val labels = check(form.s)
