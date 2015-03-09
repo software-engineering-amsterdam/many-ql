@@ -16,7 +16,7 @@ import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.expression.unary.Unary;
 import org.fugazi.ql.ast.form.form_data.visitor.FullFormVisitor;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.ql.type_checker.QLTypeCheckerHelper;
+import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 import java.util.List;

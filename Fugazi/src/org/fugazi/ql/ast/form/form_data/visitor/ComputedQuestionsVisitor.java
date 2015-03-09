@@ -44,7 +44,7 @@ public class ComputedQuestionsVisitor extends StatementsVisitor {
     public List<ComputedQuestion> getComputedQuestions() {
         if (this.computedQuestions == null) {
             this.computedQuestions= new ArrayList<>();
-            // visit the form
+
             this.visitForm();
         }
 

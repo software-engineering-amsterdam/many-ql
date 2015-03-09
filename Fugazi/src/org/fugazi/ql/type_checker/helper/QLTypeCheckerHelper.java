@@ -1,4 +1,4 @@
-package org.fugazi.ql.type_checker;
+package org.fugazi.ql.type_checker.helper;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;

@@ -8,6 +8,7 @@ import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
+import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -24,7 +25,6 @@ public class QLTypeChecker {
     private final TypeMismatchVisitor typeMismatchVisitor;
 
     private final ASTIssueHandler astIssueHandler;
-
     private QLFormDataStorage formData;
 
     public QLTypeChecker() {

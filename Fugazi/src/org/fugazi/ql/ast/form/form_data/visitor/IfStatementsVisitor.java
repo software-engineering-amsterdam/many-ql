@@ -27,7 +27,8 @@ public class IfStatementsVisitor extends StatementsVisitor {
         for (Statement statement : statementList) {
             statement.accept(this);
         }
-        return null;}
+        return null;
+    }
 
     /**
      * =======================
@@ -48,7 +49,7 @@ public class IfStatementsVisitor extends StatementsVisitor {
     public List<IfStatement> getIfStatement() {
         if (this.statements == null) {
             this.statements = new ArrayList<>();
-            // visit the form
+
             this.visitForm();
         }
 
