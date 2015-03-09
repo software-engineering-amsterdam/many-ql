@@ -14,4 +14,24 @@ public abstract class DataType {
 	public String toString() {
 		return getName().toString();
 	}
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof DataType)) {
+			return false;
+		}
+		if (getName().equals(((DataType) obj).getName())) {
+			return false;
+		}
+		return true;
+	}
+
 }
