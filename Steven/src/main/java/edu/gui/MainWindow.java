@@ -22,11 +22,13 @@ public class MainWindow extends JFrame {
     private int currentPage = 1;
     private JButton nextButton;
     private JButton backButton;
+    private final Observer questionState;
 
-    public MainWindow() {
+    public MainWindow(Observer questionState) {
         mainPanel = new JPanel();
         questionPanel = new JPanel();
         paginationPanel = new JPanel();
+        this.questionState = questionState;
     }
 
     public void initialize() {
@@ -58,11 +60,11 @@ public class MainWindow extends JFrame {
             cardLayout.show(questionPanel, String.valueOf(++currentPage));
         }
 
-        if (!atFirstPage()){
+        if (!atFirstPage()) {
             backButton.setVisible(true);
         }
 
-        if(atLastPage()){
+        if (atLastPage()) {
             nextButton.setVisible(false);
         }
     }
@@ -100,7 +102,7 @@ public class MainWindow extends JFrame {
     }
 
     public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
-        Page page = new Page(sections, questions);
+        Page page = new Page(sections, questions, questionState);
         questionPanel.add(page, String.valueOf(++totalPages));
     }
 
