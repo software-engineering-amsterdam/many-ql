@@ -13,11 +13,11 @@ import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
-public class ConditionEvaluator extends BaseAstVisitor<Boolean> {
+public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
 
 	private final List<RuntimeQuestion> questions;
 
-	public ConditionEvaluator(List<RuntimeQuestion> questions) {
+	public ConditionEvaluatorVisitor(List<RuntimeQuestion> questions) {
 		this.questions = questions;
 	}
 
