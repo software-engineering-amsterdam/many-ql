@@ -117,49 +117,20 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      * Binary visitors
      * =======================
      */
-
-    /*
-       This checks if both sides of the binary logical expression are of required type bool.
-    */
     private Void visitBinaryLogical(Logical logical) {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
-
-        boolean leftCorrect = this.checkIfExpressionIsBool(left);
-        boolean rightCorrect = this.checkIfExpressionIsBool(right);
-
-        if (!leftCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, logical,
-                    "Left side of the binary logical expression not of type bool."
-            );
-        }
-        if (!rightCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, logical,
-                    "Right side of the binary logical expression not of type bool."
-            );
-        }
 
         left.accept(this);
         right.accept(this);
         return null;
     }
-
-    /*
-       This checks if the unary logical expression is of required type bool.
-    */
     private Void visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
         boolean exprCorrect = this.checkIfExpressionIsBool(unary);
 
-        if (!exprCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, unary,
-                    "Unary logical expression not of type bool."
-            );
-        }
+
         expr.accept(this);
         return null;
     }
@@ -186,33 +157,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
 
-        // both sides need to be of same supported type
-        // in order for the expression to be correct
-        boolean differentTypes = false;
-        boolean unsupportedTypes = false;
-
-        if (!expectedTypes.contains(left.getReturnedType())
-                || !expectedTypes.contains(right.getReturnedType())) {
-            unsupportedTypes = true;
-        }
-        if (!left.getReturnedType().equals(right.getReturnedType())) {
-            differentTypes = true;
-        }
-
-        if (unsupportedTypes) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
-                    "Side(s) of the binary comparison not of supported type(s): "
-                            + expectedTypes.toString() + ". " + "Instead received types: "
-                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
-            );
-        } else if (differentTypes) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
-                    "Two sides of the binary comparison expression of different types: "
-                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
-            );
-        }
 
         left.accept(this);
         right.accept(this);
@@ -261,21 +205,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
-        boolean leftCorrect = this.checkIfExpressionIsInt(left);
-        boolean rightCorrect = this.checkIfExpressionIsInt(right);
-
-        if (!leftCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, numerical,
-                    "Left side of the binary expression not of type int."
-            );
-        }
-        if (!rightCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, numerical,
-                    "Right side of the binary expression not of type int."
-            );
-        }
 
         left.accept(this);
         right.accept(this);
@@ -290,14 +219,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = this.checkIfExpressionIsInt(unary);
-
-        if (!exprCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, unary,
-                    "Unary numerical expression not of type int."
-            );
-        }
         expr.accept(this);
         return null;
     }
@@ -353,41 +274,16 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     @Override
     public Void visitINT(INT intLiteral) {
-
-        boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
-
-        if (!exprCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, intLiteral,
-                    "Int Literal not of type int."
-            );
-        }
         return null;
     }
 
     @Override
     public Void visitSTRING(STRING stringLiteral) {
-        boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
-
-        if (!exprCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, stringLiteral,
-                    "String Literal not of type string."
-            );
-        }
         return null;
     }
 
     @Override
     public Void visitBOOL(BOOL boolLiteral) {
-        boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
-
-        if (!exprCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, boolLiteral,
-                    "Bool Literal not of type bool."
-            );
-        }
         return null;
     }
 
@@ -415,24 +311,12 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         return this.checkIfTypesEqual(expression.getReturnedType(), type);
     }
 
-    private boolean checkIfExpressionIsInt(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new IntType());
-    }
-
     private boolean checkIfExpressionIsBool(Expression expression) {
         return this.checkIfExpressionIsOfType(expression, new BoolType());
     }
 
-    private boolean checkIfExpressionIsString(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new StringType());
-    }
-
     private boolean checkIfTypesEqual(Type type1, Type type2) {
         return type1.equals(type2);
-    }
-
-    private boolean checkIfDefined(ID idLiteral) {
-        return (idLiteral.getType() != null);
     }
 
     // a = b, a - depender, b - dependee

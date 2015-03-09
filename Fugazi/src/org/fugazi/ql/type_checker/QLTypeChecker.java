@@ -13,6 +13,7 @@ import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.ql.type_checker.visitor.QLTypeCheckerVisitor;
+import org.fugazi.ql.type_checker.visitor.TypeMismatchVisitor;
 import org.fugazi.ql.type_checker.visitor.UndefinedQuestionsVisitor;
 
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.*;
 public class QLTypeChecker {
     private final QLTypeCheckerVisitor visitor;
     private final UndefinedQuestionsVisitor undefinedQuestionsVisitor;
+    private final TypeMismatchVisitor typeMismatchVisitor;
 
     private final ASTIssueHandler astIssueHandler;
 
@@ -29,6 +31,8 @@ public class QLTypeChecker {
     public QLTypeChecker() {
         this.visitor = new QLTypeCheckerVisitor();
         this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor();
+        this.typeMismatchVisitor = new TypeMismatchVisitor();
+
         this.astIssueHandler = new ASTIssueHandler();
     }
 
@@ -113,6 +117,10 @@ public class QLTypeChecker {
         this.undefinedQuestionsVisitor.visitForm(_form);
     }
 
+    private void checkForTypeMismatches(Form _form) {
+        this.typeMismatchVisitor.visitForm(_form);
+    }
+
     /**
      * =====================
      * Helper check methods
@@ -160,10 +168,10 @@ public class QLTypeChecker {
         this.checkAssignmentTypes();
 
         // perform all the checks that are done on the fly
-        // 1. undefined variables
         // 2. cyclic dependencies
-        // 3. expressions
+        // 3. expressions missmat
         this.checkForUndefinedQuestions(form);
+        this.checkForTypeMismatches(form);
 
         form.accept(this.visitor);
 
@@ -178,6 +186,7 @@ public class QLTypeChecker {
         List<ASTNodeIssue> errors = this.astIssueHandler.getErrors();
         errors.addAll(this.visitor.getErrors());
         errors.addAll(this.undefinedQuestionsVisitor.getErrors());
+        errors.addAll(this.typeMismatchVisitor.getErrors());
 
         return errors;
     }
