@@ -16,5 +16,5 @@ public interface IQuestionWidgetCallback {
 
     void widgetIsComboWidget(Combo combo);
 
-    void widgetIsIntboxWidget(Textbox textbox);
+    void widgetIsIntboxWidget(Intbox textbox);
 }

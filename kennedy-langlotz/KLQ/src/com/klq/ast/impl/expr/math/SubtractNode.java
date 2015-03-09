@@ -1,11 +1,14 @@
 package com.klq.ast.impl.expr.math;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.NumberValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
 import com.klq.ast.impl.expr.value.Value;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -13,8 +16,12 @@ import java.util.Map;
  */
 public class SubtractNode extends ABinaryExprNode {
 
-    public SubtractNode(AExpression leftChild, AExpression rightChild, String location) {
+    public SubtractNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);
+    }
+
+    public SubtractNode(AExpression leftChild, AExpression rightChild) {
+        super(leftChild, rightChild);
     }
 
     @Override
@@ -24,9 +31,17 @@ public class SubtractNode extends ABinaryExprNode {
 
     @Override
     public Value evaluate(Map<String, Value> variables) {
-        NumberValue left = (NumberValue) (getLeftChild().evaluate(variables));
-        NumberValue right = (NumberValue) (getRightChild().evaluate(variables));
+        Value left = (getLeftChild().evaluate(variables));
+        Value right = (getRightChild().evaluate(variables));
 
-        return new NumberValue(left.getValue().subtract(right.getValue()));
+        if(anyUndefined(left, right))
+        {
+            return new UndefinedValue();
+        }
+        else {
+            BigDecimal leftValue = (BigDecimal) left.getValue();
+            BigDecimal rightValue = (BigDecimal) right.getValue();
+            return new NumberValue(leftValue.subtract(rightValue));
+        }
     }
 }

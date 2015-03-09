@@ -18,15 +18,27 @@ public class RuntimeMemory {
 	
 	private Map<Expression, List<QuestionComponent>> ifConditions; 	
 
+	//TODO REFACTOR THIS
+	public TypeMemory typemem;
+	
 	public RuntimeMemory(){
 		this.memory = new HashMap<String, GenericValue<?>>();
 		this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();
+		this.IdDependencies = new HashMap<String, List<Expression>>();
 	}
 	
 	public void putExp(Expression key,QuestionComponent value)
 	{
 		List<QuestionComponent> tempList = this.ifConditions.get(key);
-		tempList.add(value);
+		if(tempList != null)
+		{
+			tempList.add(value);
+		}
+		else
+		{
+			tempList = new ArrayList<QuestionComponent>();
+			tempList.add(value);
+		}
 		this.ifConditions.put(key, tempList);
 	}
 	
@@ -37,7 +49,15 @@ public class RuntimeMemory {
 		{
 			IdLiteral key = iterator.next();
 			List<Expression> tempList = this.IdDependencies.get(key);
-			tempList.add(value);
+			if(tempList != null)
+			{
+				tempList.add(value);
+			}
+			else
+			{
+				tempList = new ArrayList<Expression>();
+				tempList.add(value);
+			}
 			this.IdDependencies.put(key.name, tempList);		
 		}
 	}

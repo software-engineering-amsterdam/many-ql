@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
 {
     public class Negation : UnaryExpression
     {
-        public Negation(Operation operation, IExpression operand, TextPosition position)
+        internal Negation(Operation operation, IExpression operand, TextPosition position)
             :base(operation, operand, position)
         {
         }

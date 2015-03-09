@@ -2,51 +2,58 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AObjectElement extends PElement {
+public final class AObjectElement extends PElement
+{
     private final LinkedList<PObjectEl> _objectEl_ = new LinkedList<PObjectEl>();
 
-    public AObjectElement() {
+    public AObjectElement()
+    {
         // Constructor
     }
 
     public AObjectElement(
-            @SuppressWarnings("hiding") List<?> _objectEl_) {
+        @SuppressWarnings("hiding") List<?> _objectEl_)
+    {
         // Constructor
         setObjectEl(_objectEl_);
 
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AObjectElement(
-                cloneList(this._objectEl_));
+            cloneList(this._objectEl_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAObjectElement(this);
     }
 
-    public LinkedList<PObjectEl> getObjectEl() {
+    public LinkedList<PObjectEl> getObjectEl()
+    {
         return this._objectEl_;
     }
 
-    public void setObjectEl(List<?> list) {
-        for (PObjectEl e : this._objectEl_) {
+    public void setObjectEl(List<?> list)
+    {
+        for(PObjectEl e : this._objectEl_)
+        {
             e.parent(null);
         }
         this._objectEl_.clear();
 
-        for (Object obj_e : list) {
+        for(Object obj_e : list)
+        {
             PObjectEl e = (PObjectEl) obj_e;
-            if (e.parent() != null) {
+            if(e.parent() != null)
+            {
                 e.parent().removeChild(e);
             }
 
@@ -56,15 +63,18 @@ public final class AObjectElement extends PElement {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._objectEl_);
+            + toString(this._objectEl_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._objectEl_.remove(child)) {
+        if(this._objectEl_.remove(child))
+        {
             return;
         }
 
@@ -72,11 +82,15 @@ public final class AObjectElement extends PElement {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        for (ListIterator<PObjectEl> i = this._objectEl_.listIterator(); i.hasNext(); ) {
-            if (i.next() == oldChild) {
-                if (newChild != null) {
+        for(ListIterator<PObjectEl> i = this._objectEl_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
                     i.set((PObjectEl) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

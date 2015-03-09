@@ -7,6 +7,7 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class IntLiteral extends Literal implements Expression {
 	private final int _value;
@@ -22,7 +23,7 @@ public class IntLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getType(TypeMemory mem) {
 		return new IntType();
 	}
 	

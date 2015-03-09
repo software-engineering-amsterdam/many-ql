@@ -5,6 +5,10 @@ import QL.Main.converters as converters
 
 class IfBlock(statement.IStatement):
 
+    #################################
+    # override method of statement  #
+    #################################
+
     # init
     def __init__(self, condition, statements):
         self._condition = condition
@@ -56,27 +60,12 @@ class IfBlock(statement.IStatement):
     def return_expressions(self):
         return self._expressions
 
-    # Get the parent _id of the statement
-    def get_parent_id(self):
-        return self._parent_id
-
-    # set the parent _id, only set once
-    def set_parent_id(self, pid):
-        self._parent_id = pid
-        m = converters.Converters.get_md5(str(self))
-        for s in self._statements:
-            s.set_parent_id(m)
-            s.set_parent_condition(self._condition)
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
         for s in self._statements:
             c = s.set_order(c)
         return c
-
-    def set_element(self, gui):
-        pass
 
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
@@ -86,14 +75,26 @@ class IfBlock(statement.IStatement):
     def get_order(self):
         return -1
 
-    def get_element(self):
-        return self._element
-
+    # Get a dictionary with ids and statements
     def get_statement_dict(self):
         return self._statement_dict
 
+    #################################
+    # Getters of the if statement   #
+    #################################
+
+    # TODO: structure below more
+
+    # set the parent _id, only set once
     def set_parent_condition(self, condition):
+        for s in self._statements:
+            s.set_parent_condition(self._condition)
+
+    def set_element(self, gui):
         pass
+
+    def get_element(self):
+        return self._element
 
     # Getters of if _statements
     def get_c_statements(self):

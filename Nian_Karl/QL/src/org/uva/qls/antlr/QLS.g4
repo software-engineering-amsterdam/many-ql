@@ -1,20 +1,14 @@
 grammar QLS;
 
-sheet: STYLE Identifier page*;
+style: STYLE Identifier page*;
 
-page: PAGE Identifier pageBlock;
+page: PAGE Identifier block;
 
-pageBlock: LEFT_BRACE section* style RIGHT_BRACE;
+block: LEFT_PAREN section* RIGHT_PAREN;
 
-section: SECTION StringLiteral LEFT_BRACE question* style RIGHT_BRACE ;
+section: SECTION StringLiteral LEFT_PAREN questionIdent RIGHT_PAREN;
 
-question: QUESTION Identifier widget
-		|QUESTION Identifier;
-		
-
-style:DEFAULT type styling
-	|DEFAULT type LEFT_BRACE styling* RIGHT_BRACE
-	; 
+questionIdent:QUESTION Identifier ;
 
 styling: WIDGET COLON widget
 	| WIDTH COLON IntegerLiteral
@@ -24,21 +18,17 @@ styling: WIDGET COLON widget
 	| COLOR COLON RgbValue
 	;
 
-type: INT
-	| STR
-	| BOOL
-	;
-
-
 font: ARIAL;
 
-widget: TEXTBOX #textbox
-	| CHECKBOX #checkbox
-	| SPINBOX LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET #spinbox
-	| SLIDER LEFT_PAREN IntegerLiteral COMMA IntegerLiteral RIGHT_PAREN #slider
-	| DROPDOWN LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #dropdown
-	| RADIO LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #radio
+widget: 	TEXT
+	| CHECKBOX
+	| SPINBOX COLON LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET
+	| SLIDER COLON LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET
+	| DROPDOWN COLON trueFalseIdentifier
+	| RADIO COLON trueFalseIdentifier
 	;
+
+trueFalseIdentifier: (trueLabel = Identifier | falseLabel = Identifier ) NewLine;
 
 /* LEXER RULES */
 
@@ -47,18 +37,12 @@ STYLE:		 	'style';
 PAGE: 			'page';
 SECTION:		'section';
 QUESTION: 		'question';
-DEFAULT: 		'default';
-
-//types
-INT:           'Int';
-STR:           'Str';
-BOOL:          'Bool';
 
 //Styling keywords
 WIDGET:			'widget';
 SLIDER:			'slider';
 SPINBOX: 		'spinbox';
-TEXTBOX:		'text';
+TEXT: 			'text';
 RADIO:			'radiobutton';
 DROPDOWN:		'dropdown';
 CHECKBOX:		'checkbox';
@@ -81,6 +65,8 @@ LEFT_BRACE:    '{';
 RIGHT_BRACE:   '}';
 LEFT_BRACKET:    '[';
 RIGHT_BRACKET:   ']';
+
+NewLine: '\n''\t';
 
 IntegerLiteral: [1-9][0-9]*;
 

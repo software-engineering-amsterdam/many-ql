@@ -7,6 +7,6 @@ public class Checkbox extends AbstractWidget {
 
     @Override
     public void applyWidget(final IQuestionWidgetCallback widgetCallback) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        widgetCallback.widgetIsCheckboxWidget(this);
     }
 }

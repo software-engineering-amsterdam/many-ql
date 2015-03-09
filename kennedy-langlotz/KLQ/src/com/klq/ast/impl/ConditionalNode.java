@@ -1,5 +1,6 @@
 package com.klq.ast.impl;
 
+import com.common.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 
@@ -12,8 +13,14 @@ public class ConditionalNode extends ANode {
     ANode condition;
     ArrayList<ANode> children;
 
-    public ConditionalNode(ANode condition, ArrayList<ANode> children, String location) {
+    public ConditionalNode(ANode condition, ArrayList<ANode> children, Location location) {
         super(location);
+        this.condition = condition;
+        this.children = children;
+    }
+
+    public ConditionalNode(ANode condition, ArrayList<ANode> children) {
+        super();
         this.condition = condition;
         this.children = children;
     }

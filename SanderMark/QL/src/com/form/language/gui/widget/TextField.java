@@ -23,6 +23,7 @@ public class TextField extends JTextField {
 		setVisible(true);
 	}
 	
+	//TO DO ADD HANDELER
 	public void notifyListener(DocumentEvent e) {
 		String s;
 		try {

@@ -1,8 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.BoolType;
-import org.uva.ql.ast.type.Type;
-
 
 public class Bool extends Value{
 	
@@ -75,10 +72,5 @@ public class Bool extends Value{
 	public Value boolNotEqual(Bool arg) {
 		return new Bool(arg.getValue() != getValue());
 	}
-
-	@Override
-	public Type getType() {
-		return new BoolType();
-	}
-
+	
 }

@@ -11,6 +11,7 @@ import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class QuestionComponent extends JPanel {
 
@@ -20,7 +21,7 @@ public class QuestionComponent extends JPanel {
 	private JLabel label;
 	private Expression showCondition;
 	private RuntimeMemory rm;
-
+	
 	public QuestionComponent(Question question, RuntimeMemory rm, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
@@ -28,6 +29,8 @@ public class QuestionComponent extends JPanel {
 		this.showCondition = showCondition;
 		this.rm = rm;
 		add(label);
+		
+		//Belongs to if statement
 		if(showCondition != null)
 		{
 			this.setVisible(false);
@@ -43,14 +46,14 @@ public class QuestionComponent extends JPanel {
 	//Type checker implementation to be added
 	private void createQuestionType()
 	{
-		if(question.getType().isBoolType())
+		if(question.getType(new TypeMemory()).isBoolType())
 		{
 			//CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
 			CheckBox checkbox = new CheckBox(question,this,rm);
 			checkbox.setName(question.getId());
 			add(checkbox);			
 		}
-		else if(question.getType().isStringType())
+		else if(question.getType(new TypeMemory()).isStringType())
 		{
 			//TextField textfield = new TextField(question,this,showCondition,rm);
 			TextField textfield = new TextField(question,this,rm);

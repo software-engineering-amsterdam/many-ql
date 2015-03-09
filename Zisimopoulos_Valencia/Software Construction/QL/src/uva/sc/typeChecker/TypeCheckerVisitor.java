@@ -9,7 +9,6 @@ import uva.sc.ast.INode;
 import uva.sc.ast.INodeVisitor;
 import uva.sc.atom.BooleanAtom;
 import uva.sc.atom.ID;
-import uva.sc.atom.Literal;
 import uva.sc.atom.NumberAtom;
 import uva.sc.atom.StringAtom;
 import uva.sc.logic.*;
@@ -240,10 +239,6 @@ public class TypeCheckerVisitor implements INodeVisitor<INode>{
 	
 	//=================================================================================//
 
-	public Type visit(Literal literal) {
-		return (Type)literal.accept(this);
-	}
-	
 	public Type visit(BooleanAtom bool) {
 		return new Boolean();
 	}

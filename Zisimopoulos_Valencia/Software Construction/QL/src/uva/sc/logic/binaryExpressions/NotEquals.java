@@ -17,11 +17,4 @@ public class NotEquals extends BinaryExpression{
 	public <T> T accept(INodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public Expression evaluate() {
-		Expression firstOperand = this.getFirstOperand().evaluate();
-		Expression secondOperand = this.getSecondOperand().evaluate();
-		return new BooleanAtom(!firstOperand.equals(secondOperand));
-	}
-
 }

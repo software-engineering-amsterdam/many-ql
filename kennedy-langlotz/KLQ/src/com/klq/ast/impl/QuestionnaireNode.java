@@ -1,5 +1,6 @@
 package com.klq.ast.impl;
 
+import com.common.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 
@@ -11,8 +12,13 @@ import java.util.ArrayList;
 public class QuestionnaireNode extends ANode {
     private ArrayList<ANode> children;
 
-    public QuestionnaireNode(String location) {
+    public QuestionnaireNode(Location location) {
         super(location);
+        this.children = new ArrayList<ANode>();
+    }
+
+    public QuestionnaireNode() {
+        super();
         this.children = new ArrayList<ANode>();
     }
 

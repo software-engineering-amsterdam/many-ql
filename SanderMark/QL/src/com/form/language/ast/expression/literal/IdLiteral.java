@@ -6,9 +6,11 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.error.Error;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -37,11 +39,21 @@ public class IdLiteral extends Literal implements Expression {
 		return mem.getValue(name);
 	}
 	
-	public Type getType(){
-		if(this.type == null){
+	public Type getType(TypeMemory mem){
+		if(this.IsReference()){
+			return getTypeFromMemory(mem);
+		}
+		mem.addId(this);
+		return this.type;
+	}
+	
+	private Type getTypeFromMemory(TypeMemory mem) {
+		Type typeFromMemory = mem.getIdType(this);
+		if(typeFromMemory == null){
+			mem.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
 			return new ErrorType();
 		}
-		return this.type;
+		else return typeFromMemory;
 	}
 
 	@Override
