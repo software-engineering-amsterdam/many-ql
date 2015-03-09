@@ -1,5 +1,8 @@
 package com.common;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
+
 import java.net.URI;
 
 /**
@@ -22,6 +25,18 @@ public class Location {
         this.beginColumn = beginColumn;
         this.endLine = endLine;
         this.endColumn = endColumn;
+    }
+
+    public Location(ParserRuleContext context, String inputFile){
+        Token tokenStart = context.getStart();
+        Token tokenEnd = context.getStop();
+        this.offset = tokenStart.getStartIndex();
+        this.length = tokenStart.getStopIndex() - tokenStart.getStartIndex();
+        this.beginLine = tokenStart.getLine();
+        this.beginColumn = tokenStart.getCharPositionInLine();
+        this.endLine = tokenEnd.getLine();
+        this.endColumn = tokenEnd.getCharPositionInLine();
+        this.file = inputFile;
     }
 
     public String getFile() {

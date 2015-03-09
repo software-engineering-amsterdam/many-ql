@@ -8,15 +8,17 @@ using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
 {
-    public abstract class Literal<T> : QLNode, IExpression
+    public abstract class Literal : QLNode, IExpression
     {
-        public T Value
+        public string Value
         {
             get;
             private set;
         }
 
-        protected Literal(T value, TextPosition position)
+        public abstract bool IsValid { get; }
+
+        protected Literal(string value, TextPosition position)
             : base(position)
         {
             Value = value;
@@ -28,5 +30,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         {
             return Value.ToString();
         }
+    }
+
+    public abstract class Literal<T> : Literal
+    {
+        protected Literal(string value, TextPosition position)
+            : base(value, position) { }
+
+        public abstract T GetValue();
     }
 }

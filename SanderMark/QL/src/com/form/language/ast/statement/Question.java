@@ -12,6 +12,7 @@ import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class Question implements Statement {
 	private String id;
@@ -31,15 +32,16 @@ public class Question implements Statement {
 	}
 	
 	@Override
-	public Type getType() {
+	public Type getType(TypeMemory mem) {
+		mem.addId(new IdLiteral(this.id,this.questionType, null, tokenInfo));
 		return this.questionType;
 	}
 
-	@Override
-	public void getErrors(ErrorCollector errs) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void getErrors(ErrorCollector errs) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void collectIds(IdCollector idCollector) {		

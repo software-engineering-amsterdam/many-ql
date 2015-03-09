@@ -18,6 +18,9 @@ public class RuntimeMemory {
 	
 	private Map<Expression, List<QuestionComponent>> ifConditions; 	
 
+	//TODO REFACTOR THIS
+	public TypeMemory typemem;
+	
 	public RuntimeMemory(){
 		this.memory = new HashMap<String, GenericValue<?>>();
 		this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();

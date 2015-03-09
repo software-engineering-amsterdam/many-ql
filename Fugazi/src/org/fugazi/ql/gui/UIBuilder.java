@@ -30,10 +30,10 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private final Evaluator evaluator;
     private final ValueStorage storage;
 
-    private ArrayList<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-computation
+    private List<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-computation
 
     // if statements by block.
-    private HashMap<String, ArrayList<IfStatement>> ifStatements = new HashMap<>(); // used for their re-evaluation
+    private Map<String, ArrayList<IfStatement>> ifStatements = new HashMap<>(); // used for their re-evaluation
 
     private final BlockHandler blockHandler;
 

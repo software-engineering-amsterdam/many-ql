@@ -2,6 +2,7 @@ import QL.AST.Statements.statement as statement
 
 
 class Assignment(statement.IStatement):
+
     #################################
     # override method of statement  #
     #################################
@@ -39,8 +40,11 @@ class Assignment(statement.IStatement):
 
     # return all the _dependencies in the statement of other _statements
     def get_dependency_collection(self, dependencies):
+        d = self.expression.get_dependencies()
         if self.id not in dependencies:
-            dependencies[self.id] = []
+            dependencies[self.id] = d
+        else:
+            dependencies[self.id] = dependencies[self.id] + self._condition.get_dependencies()
         return dependencies
 
     # return all sub (expressions)

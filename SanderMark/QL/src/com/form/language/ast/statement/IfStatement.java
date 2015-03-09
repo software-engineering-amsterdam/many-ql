@@ -15,6 +15,7 @@ import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -31,23 +32,31 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public Type getType() {
-		if (conditions.getType().isBoolType()) return new BoolType();
-		else return new ErrorType();
-	}
-
-
-	@Override
-	public void getErrors(ErrorCollector errs) {
-		conditions.getErrors(errs);
+	public Type getType(TypeMemory mem) {
 		for(Statement s: thenStatements){
-			s.getErrors(errs);
+			s.getType(mem);
 		}
-		
-		if(!conditions.getType().isBoolType()){
-			errs.add(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+		if (conditions.getType(mem).isBoolType()){
+			return new BoolType();
 		}
-	}
+		else{
+				mem.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+				return new ErrorType();
+			}
+		}
+
+
+//	@Override
+//	public void getErrors(ErrorCollector errs) {
+//		conditions.getErrors(errs);
+//		for(Statement s: thenStatements){
+//			s.getErrors(errs);
+//		}
+//		
+//		if(!conditions.getType().isBoolType()){
+//			errs.add(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+//		}
+//	}
 
 	@Override
 	public void collectIds(IdCollector idCollector) {
@@ -76,12 +85,12 @@ public class IfStatement implements Statement {
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-		FormComponent formGUI, RuntimeMemory rm) {
+			FormComponent formGUI, RuntimeMemory rm) {
 		guiBuilder.setShowCondition(conditions);
 		for(Statement s : this.thenStatements)
 		{
 			s.createGUIComponent(guiBuilder, formGUI, rm);
-		}	
+		}			
 	};
 		
 }

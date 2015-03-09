@@ -9,6 +9,7 @@ import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public abstract class BinaryExpression implements Expression {
 	public Token tokenInfo;
@@ -20,8 +21,8 @@ public abstract class BinaryExpression implements Expression {
 		this.tokenInfo = tokenInfo;
 	}
 	@Override
-	public Boolean isCorrectlyTyped() {
-		return !this.getType().equals(new ErrorType());
+	public Boolean isCorrectlyTyped(TypeMemory mem) {
+		return !this.getType(mem).equals(new ErrorType());
 	}
 	
 	@Override
@@ -39,16 +40,12 @@ public abstract class BinaryExpression implements Expression {
 		left.setType(ids);
 		right.setType(ids);
 	}
-	@Override
-	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void getErrors(ErrorCollector errorCollector) {
-		// TODO Auto-generated method stub
-		
-	}
+
+//	@Override
+//	public void getErrors(ErrorCollector errorCollector) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	@Override
 	public GenericValue<?> evaluate(RuntimeMemory mem) {
 		// TODO Auto-generated method stub

@@ -10,6 +10,7 @@ import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class Form  {
 	public String id;
@@ -26,9 +27,9 @@ public class Form  {
 		this.statementList = statementList;
 	}
 	
-	public void getErrors(ErrorCollector errs){
+	public void getTypes(TypeMemory mem){
 		for(Statement s: statementList){
-			s.getErrors(errs);
+			s.getType(mem);
 		}
 	}
 	public void collectIds(IdCollector idCollector){
@@ -51,9 +52,9 @@ public class Form  {
 		return mem;		
 	}
 
-	public void showTypes() {
+	public void showTypes(TypeMemory mem) {
 		for(Statement s: statementList){
-			System.out.println(s.getType());	
+			System.out.println(s.getType(mem));	
 		}
 	}
 	

@@ -8,7 +8,6 @@ import org.uva.ql.evaluation.Evaluator;
 public class ButtonActionListener implements ActionListener {
 
 	public ButtonActionListener(Evaluator evaluator) {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

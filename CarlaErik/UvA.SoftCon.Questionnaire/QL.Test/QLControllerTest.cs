@@ -88,7 +88,7 @@ namespace UvA.SoftCon.Questionnaire.QL.Test
             Assert.AreEqual<string>("surname", declaration.Id.Name);
             Assert.IsInstanceOfType(declaration.Initialization, typeof(StringLiteral));
             var initialization = declaration.Initialization as StringLiteral;
-            Assert.AreEqual<string>("De Vries", initialization.Value);
+            Assert.AreEqual<string>("De Vries", initialization.GetValue());
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace UvA.SoftCon.Questionnaire.QL.Test
             var assignment = form.Statements.First() as Assignment;
             Assert.IsInstanceOfType(assignment.Expression, typeof(DateLiteral));
             var dateLiteral = assignment.Expression as DateLiteral;
-            Assert.AreEqual<string>("01-9-2015", dateLiteral.Value);
-        }    
+            Assert.AreEqual<DateTime>(new DateTime(2015, 9, 1), dateLiteral.GetValue());
+        }
     }
 }

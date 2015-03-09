@@ -1,5 +1,6 @@
 package com.klq.ast.impl;
 
+import com.common.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 import com.klq.logic.question.Type;
@@ -13,8 +14,15 @@ public class QuestionNode extends ANode {
     private Type questionType;
     private String text;
 
-    public QuestionNode(String questionID, String questionType, String text, String location) {
+    public QuestionNode(String questionID, String questionType, String text, Location location) {
         super(location);
+        this.questionID = questionID;
+        this.questionType = Type.valueOf(questionType.toUpperCase());
+        this.text = text;
+    }
+
+    public QuestionNode(String questionID, String questionType, String text) {
+        super();
         this.questionID = questionID;
         this.questionType = Type.valueOf(questionType.toUpperCase());
         this.text = text;

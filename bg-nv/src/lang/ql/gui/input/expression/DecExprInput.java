@@ -40,14 +40,10 @@ public class DecExprInput extends ExprInput<TextInputControl>
         if (!val.isUndefined())
         {
             assert val instanceof DecimalValue;
-            BigDecimal decValue = ((DecimalValue)val).getValue();
-            strValue = "" + decValue; //TODO: fix this
+            strValue = val.toString();
         }
 
         TextInputControl textInput = this.getControl();
         textInput.setText(strValue);
-        textInput.setDisable(this.getDisabled());
-        textInput.setVisible(this.getVisible());
-        textInput.setManaged(this.getVisible());
     }
 }

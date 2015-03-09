@@ -1,7 +1,10 @@
 package gui;
 
+import evaluator.IntegerValue;
 import evaluator.ValueRepository;
+import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
+import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
@@ -29,7 +32,14 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	
 
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
-		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType(), this.valueRepository));
+		return simpleQuestion.getQuestionType().accept(
+				new WidgetVisitor( 
+						simpleQuestion.getQuestionId().getID(), 
+						simpleQuestion.getQuestionText(), 
+						simpleQuestion.getQuestionType(), 
+						this.valueRepository
+				)
+		);
 		
 	}
 	
@@ -48,31 +58,35 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 												   this.valueRepository);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
-		//sq.getValue();
 		return sq;
 	}
 
 	@Override
 	public IQuestionUI visit(ComputationQuestion calQuestion) {
-		/*
+		//IntegerValue someValue = mAFGUICllya fornmda daslk
 		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId().getID(),
 													new JLabel(calQuestion.getQuestionText()), 
 													this.widget(calQuestion),
 													this.valueRepository,
 													evaluator.evaluate(calQuestion.getExpression()));
+		
 		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
 		return sq;
-		*/
-		return null;
 	}
 	
 	@Override
 	public IQuestionUI visit(IfStatement ifStatement) {
-	//	for(Question q : ifStatement.getIfStatement())
-		// TODO Auto-generated method stub
+		IfQuestionUI ifq = new IfQuestionUI();
+	
+	
 	//	ifStatement.getExpression();
 	//	ifStatement.getIfStatement();
-		return null;
+		for(Question q : ifStatement.getIfStatement()){
+			System.out.println(q.getClass());
+			IQuestionUI aQuestion = visit(q);
+			System.out.println("visited "+q.getClass());
+		}
+		return ifq;
 	}
 
 	@Override

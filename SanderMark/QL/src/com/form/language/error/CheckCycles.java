@@ -14,11 +14,11 @@ public class CheckCycles {
 		ErrorCollector result = new ErrorCollector();
 	    Iterator<Statement> formIter = form.iterator();
 	    Map<Statement, IdCollector> referenceMap = new HashMap<Statement, IdCollector>();
+	    IdCollector declarationMemory = new IdCollector();
 		while(formIter.hasNext()){
 			Statement s = formIter.next();
 			IdCollector references = new IdCollector();
 			s.getReferences(references);
-			referenceMap.put(s, references);
 		}
 		return result;
 	}

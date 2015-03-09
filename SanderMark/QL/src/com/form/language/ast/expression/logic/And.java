@@ -11,6 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class And extends BinaryExpression implements Expression {
 
@@ -24,34 +25,37 @@ public class And extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public Type getType() {
-		Type leftType = left.getType();
-		Type rightType = right.getType();
+	public Type getType(TypeMemory mem) {
+		Type leftType = left.getType(mem);
+		Type rightType = right.getType(mem);
 		
 		if(leftType.isBoolType() && rightType.isBoolType()) {
 			return new BoolType();
 		}
-		else{
+		else{			
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				mem.addError(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
+		}
 			return new ErrorType();
 		}
 	}
-	
-	@Override
-	public void getErrors(ErrorCollector errors) {
-		Type leftType = left.getType();
-		Type rightType = right.getType();
-		left.getErrors(errors);
-		right.getErrors(errors);
-		
-		if(leftType.isBoolType() && rightType.isBoolType()) {
-			return;
-		}
-		else{
-			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				errors.add(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
-				return;
-			}
-			return;
-		}
-	}
+//	
+//	@Override
+//	public void getErrors(ErrorCollector errors) {
+//		Type leftType = left.getType();
+//		Type rightType = right.getType();
+//		left.getErrors(errors);
+//		right.getErrors(errors);
+//		
+//		if(leftType.isBoolType() && rightType.isBoolType()) {
+//			return;
+//		}
+//		else{
+//			if(!(leftType.isErrorType() || rightType.isErrorType())){
+//				errors.add(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
+//				return;
+//			}
+//			return;
+//		}
+//	}
 }

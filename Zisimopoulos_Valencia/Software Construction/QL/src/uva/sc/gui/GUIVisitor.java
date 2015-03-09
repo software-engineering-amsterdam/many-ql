@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 
 import uva.sc.ast.*;
 import uva.sc.atom.*;
+import uva.sc.evaluator.EvaluatorVisitor;
+import uva.sc.logic.Expression;
 import uva.sc.logic.Form;
 import uva.sc.logic.If_Statement;
 import uva.sc.logic.Question;
@@ -28,22 +30,16 @@ import uva.sc.types.Unidentified;
 
 @SuppressWarnings("serial")
 public class GUIVisitor extends JFrame implements INodeVisitor<Component>{
-
-	//Singleton
-	private static GUIVisitor instance = null;
 	
 	List<Component> componentList = new ArrayList<Component>();
 	Map<java.lang.String, List<java.lang.String>> dependentElements = new HashMap<java.lang.String, List<java.lang.String>>();
-	
+
+	EvaluatorVisitor evaluator ;
 	java.lang.String currentElement;
+	java.lang.String if_expression;
 	
-	int ifCounter = 0;
-	
-	public static GUIVisitor getInstance() {
-		if (instance == null) {
-			instance = new GUIVisitor();
-		}
-		return instance;
+	public GUIVisitor (EvaluatorVisitor eval){
+		evaluator = eval;
 	}
 	
 	public List<Component> getComponentList() {
@@ -74,11 +70,11 @@ public class GUIVisitor extends JFrame implements INodeVisitor<Component>{
 	        for (Component comp : component.getComponents()) {
 	        	if (comp instanceof javax.swing.JCheckBox) {
 	        		JCheckBox checkBox = (JCheckBox)comp;
-	        		checkBox.addActionListener(new VisibilityListener());
+	        		checkBox.addActionListener(new VisibilityListener(this));
 	        	}
 	        	else if (comp instanceof javax.swing.JTextField) {
 	        		JTextField textField = (JTextField)comp;
-	        		textField.addActionListener(new CalculatorListener());
+	        		textField.addActionListener(new CalculatorListener(this));
 	        	}
 	        	else {
 	        		//TODO
@@ -95,28 +91,25 @@ public class GUIVisitor extends JFrame implements INodeVisitor<Component>{
 		return null;
 	}
 
-	public Component visit(Literal literal) {
-		return null;
-	}
-
 	public JPanel visit(Question question) {
 		uva.sc.gui.Question questionGUI = null;
 		currentElement = question.getId().getValue();
 		if (question.getType().equals(new Boolean())) {
 			questionGUI = new CheckBoxQuestion();
 		}
-		else if (question.getType().equals(new String()) || question.getType().equals(new Number())) {
-			questionGUI = new TextBoxQuestion();
+		else {//if (question.getType().equals(new String()) || question.getType().equals(new Number())) {
+			if (evaluator.getValuesTable().get(currentElement).getValue() == null) {
+				questionGUI = new TextBoxQuestion(this);
+			}
+			else {
+				questionGUI = new CalculatedQuestion(this);
+			}
 		}
-		else {
-			questionGUI = new CalculatedQuestion();
-		}
-		
 		if (question.getExpr() != null) {
 			question.getExpr().accept(this);
 		}
-		componentList.add(questionGUI.drawQuestion(question.getId().getValue(), question.getStr(), ""));
-		return (JPanel)questionGUI.drawQuestion(question.getId().getValue(), question.getStr(), "");
+		componentList.add(questionGUI.drawQuestion(currentElement, question.getStr()));
+		return (JPanel)questionGUI.drawQuestion(currentElement, question.getStr());
 	}
 
 	public JPanel visit(If_Statement if_statement) {

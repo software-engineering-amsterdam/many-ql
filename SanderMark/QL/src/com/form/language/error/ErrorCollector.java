@@ -28,6 +28,15 @@ public class ErrorCollector {
 		return result;
 	}
 	
+	@Override
+	public String toString(){
+		String result = "";
+		Iterator<Error> iter = errorList.iterator();
+		while(iter.hasNext()){
+			result += iter.next() + "\n";
+		}
+		return result;
+	}
 	public Boolean isEmpty(){
 		return errorList.isEmpty();
 	}
