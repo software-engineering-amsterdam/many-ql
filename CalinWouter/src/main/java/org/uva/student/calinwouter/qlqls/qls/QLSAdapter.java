@@ -4,13 +4,13 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
  * This adapter parses the syntax reverse depth-first and creates a corresponding internal model of the results,
- * using the components defined in the COMPONENTS_PACKAGE_PREFIX location.
+ * using the components defined in the COMPONENTS_PACKAGE_PREFIX location. This way, QLS is extremely flexible,
+ * as the user can simply add new components whenever required, without touching the syntax.
  *
  * Note that the GUI and QLS are completely separated, and that QLS is also completely separated
  * from the QL Interpreter.
@@ -21,57 +21,23 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     private final static String COMPONENTS_PACKAGE_PREFIX =
             QLSAdapter.class.getPackage().getName() + ".model.components.";
 
+    /* This is the relative package where the components reside. */
+    private final static String WIDGETS_PACKAGE_PREFIX =
+            QLSAdapter.class.getPackage().getName() + ".model.components.widgets.";
+
     /* The stack is used for pushing parameters of functions and the hashmaps to the stack, and forming a model
      * by popping the elements of the stack and putting them into the constructor of the corresponding class. */
     private final Stack<Object> argumentStack = new Stack<Object>();
 
     /**
-     * Convert varargs parameters to normal call parameters.
-     */
-    private Object[] newInstanceParametersUsingVarArgs(List<Object> args, Constructor constructor) {
-        int origLength = constructor.getParameterTypes().length;
-        List<Object> varArgsArgument = new LinkedList<Object>();
-        List<Object> results = new LinkedList<Object>();
-        while (args.size() >= origLength) {
-            Object lastArgument = args.remove(args.size() - 1);
-            varArgsArgument.add(0, lastArgument);
-        }
-        results.addAll(args);
-        results.add(Arrays.copyOf(varArgsArgument.toArray(), varArgsArgument.size(),
-                constructor.getParameterTypes()[constructor.getParameterTypes().length - 1]));
-        return results.toArray();
-    }
-
-    /**
-     * This method creates an instance of the class to be found by the specified name, with
-     * this QLSAdapter as constructor parameter.
-     */
-    private Object newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath, List<Object> args)
-            throws NoSuchMethodException, IllegalAccessException, InstantiationException,
-            InvocationTargetException, ClassNotFoundException {
-        Class clazz = Class.forName(classPath);
-        for (Constructor c : clazz.getConstructors()) {
-            try {
-                if (c.isVarArgs() && args.size() >= c.getParameterTypes().length) {
-                    return c.newInstance((Object[]) newInstanceParametersUsingVarArgs(args, c));
-                }
-                return c.newInstance((Object[]) args.toArray());
-            } catch(IllegalArgumentException e) {
-                continue;
-            }
-        }
-        // TODO custom constructor!
-        throw new RuntimeException("Constructor not found for class: " + clazz);
-    }
-
-    /**
-     * This method creates applies the parameters to the component, returning the model.
+     * This method creates a new component or widget dynamically using QLSReflection.
      */
     private Object interopComponent(String componentName, List<Object> args)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
             InvocationTargetException {
-        String classPath = COMPONENTS_PACKAGE_PREFIX + firstCharacterToUpper(componentName);
-        return newInstanceForClassPathWithQlsInterpreterAsArgument(classPath, args);
+        String classPath = firstCharacterToUpper(componentName);
+        QLSReflection qlsReflection = new QLSReflection(COMPONENTS_PACKAGE_PREFIX, WIDGETS_PACKAGE_PREFIX);
+        return qlsReflection.newInstanceForClassPath(classPath, args);
     }
 
     /**

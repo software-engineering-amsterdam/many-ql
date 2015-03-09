@@ -11,7 +11,7 @@ class Parser extends JavaTokenParsers {
   def label: Parser[String] = stringLiteral ^^ {
     s => s.substring(1, s.length - 1).replace("\\", "")
   }
-  def variable: Parser[Variable] = ident ^^ Variable
+  def variable: Parser[Variable] = positioned(ident ^^ Variable)
 
   // literal parsers
   def literal: Parser[Literal] = boolean | number | string

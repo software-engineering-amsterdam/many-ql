@@ -1,6 +1,7 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.Identifier;
 import nl.uva.bromance.ast.Node;
 
 import java.util.ArrayList;
@@ -11,13 +12,13 @@ public class ExpressionEvaluator {
 
     public ExpressionEvaluator(AST ast) {
         expressionList = buildExpressionList(ast.getRoot(), null);
-        evaluateExpressions();
+        evaluateExpressions(getIdentifiers(ast.getRoot()));
     }
 
-    public void evaluateExpressions() {
+    public void evaluateExpressions(List<Identifier> identifiers) {
         for (Node node : expressionList) {
             Expression e = (Expression) node;
-            Result r = e.evaluate();
+            Result r = e.evaluate(identifiers);
             if (r instanceof BooleanResult)
                 System.out.println("Expression @line" + node.getLineNumber() + " evaluates to :" + ((BooleanResult) r).getResult());
             else if (r instanceof IntResult)
@@ -37,5 +38,15 @@ public class ExpressionEvaluator {
             }
         }
         return l;
+    }
+
+    public List<Identifier> getIdentifiers(Node node) {
+        List<Identifier> identifiers = new ArrayList<>();
+        for (Node child : node.getChildren()) {
+            if (child instanceof HasIdentifier) {
+                identifiers.add(((HasIdentifier) child).getIdentifier().get());
+            }
+        }
+        return identifiers;
     }
 }

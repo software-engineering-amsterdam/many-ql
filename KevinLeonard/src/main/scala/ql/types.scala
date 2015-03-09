@@ -13,7 +13,5 @@ package object types {
 
   type Dependencies = List[VariableName]
 
-  type Warning = String
-
   type Label = String
 }

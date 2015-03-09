@@ -8,7 +8,7 @@ import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 @Data
 @AllArgsConstructor
 public abstract class AbstractWidget implements IAllowTypeChecker {
-    public abstract void applyWidget(IQuestionWidgetCallback widgetCallback);
+    public abstract <T> T createWidget(IQuestionWidgetCallback<T> widgetCallback);
 
     @Override
     public boolean allowsBooleanValue() {
