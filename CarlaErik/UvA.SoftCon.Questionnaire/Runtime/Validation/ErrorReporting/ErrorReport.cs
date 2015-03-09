@@ -38,7 +38,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             Messages = new List<Message>();
         }
 
-        public void AddVariableUsageMessages(VariableUsageCheckingVisitor visitor) 
+        public void AddVariableUsageMessages(VariableUsageCheckingVisitor visitor)
         {
             foreach (var unusedVariable in visitor.UnusedVariables)
             {
@@ -71,11 +71,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 
         public void AddLiteralCheckingMessages(LiteralCheckingVisitor visitor)
         {
-            foreach (var dateLiteral in visitor.InvalidDateLiterals)
+            foreach (var literal in visitor.InvalidLiterals)
             {
-                string message = String.Format("Invalid date value '{0}'.", dateLiteral.Value);
+                string message = String.Format("Invalid literal value '{0}' for type '{1}'.", literal.Value, literal.GetType());
 
-                AddErrorMessage(message, dateLiteral.Position);
+                AddErrorMessage(message, literal.Position);
             }
         }
 
@@ -116,7 +116,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
         {
             var report = new StringBuilder();
 
-            foreach (var message in Messages)
+            foreach (var message in Messages.OrderBy(m => m.Position.Line))
             {
                 report.AppendLine(message.ToString());
             }

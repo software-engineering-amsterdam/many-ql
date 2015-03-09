@@ -3,9 +3,6 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
-import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
-import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
@@ -41,6 +38,7 @@ public class StyleSheet {
         throw new FieldNotFoundException();
     }
 
+    @SuppressWarnings("unused")
     public StyleSheet(String ident, Page... pages) {
         this(ident, new Pages(pages), new Defaults(new HashMap<TypeDescriptor, Map<String, Object>>()));
     }

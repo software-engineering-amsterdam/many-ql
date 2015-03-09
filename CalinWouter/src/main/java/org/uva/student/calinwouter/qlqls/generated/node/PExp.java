@@ -2,6 +2,7 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public abstract class PExp extends Node {
+public abstract class PExp extends Node
+{
     // Empty body
 }

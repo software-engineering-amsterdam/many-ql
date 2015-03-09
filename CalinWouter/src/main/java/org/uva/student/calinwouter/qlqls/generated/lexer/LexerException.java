@@ -2,18 +2,21 @@
 
 package org.uva.student.calinwouter.qlqls.generated.lexer;
 
-import org.uva.student.calinwouter.qlqls.generated.node.InvalidToken;
+import org.uva.student.calinwouter.qlqls.generated.node.*;
 
 @SuppressWarnings("serial")
-public class LexerException extends Exception {
+public class LexerException extends Exception
+{
     private InvalidToken invalidToken;
-
-    public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message) {
+    
+    public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message)
+    {
         super(message);
         this.invalidToken = invalidToken;
     }
 
-    public InvalidToken getToken() {
+    public InvalidToken getToken()
+    {
         return this.invalidToken;
     }
 }

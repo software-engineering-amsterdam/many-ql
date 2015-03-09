@@ -29,18 +29,6 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPageBlock(@NotNull QLSParser.PageBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPageBlock(@NotNull QLSParser.PageBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterPage(@NotNull QLSParser.PageContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -65,37 +53,37 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx) { }
+	@Override public void enterTrueFalseIdentifier(@NotNull QLSParser.TrueFalseIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx) { }
+	@Override public void exitTrueFalseIdentifier(@NotNull QLSParser.TrueFalseIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestion(@NotNull QLSParser.QuestionContext ctx) { }
+	@Override public void enterBlock(@NotNull QLSParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestion(@NotNull QLSParser.QuestionContext ctx) { }
+	@Override public void exitBlock(@NotNull QLSParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(@NotNull QLSParser.TypeContext ctx) { }
+	@Override public void enterQuestionIdent(@NotNull QLSParser.QuestionIdentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(@NotNull QLSParser.TypeContext ctx) { }
+	@Override public void exitQuestionIdent(@NotNull QLSParser.QuestionIdentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -132,30 +120,6 @@ public class QLSBaseListener implements QLSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSection(@NotNull QLSParser.SectionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSheet(@NotNull QLSParser.SheetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSheet(@NotNull QLSParser.SheetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

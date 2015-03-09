@@ -2,6 +2,10 @@ import QL.AST.Statements.statement as statement
 
 
 class Assignment(statement.IStatement):
+    #################################
+    # override method of statement  #
+    #################################
+
     # init
     def __init__(self, qid, qtype, expression):
         self.id = qid
@@ -39,22 +43,11 @@ class Assignment(statement.IStatement):
             dependencies[self.id] = []
         return dependencies
 
-    # Override
+    # return all sub (expressions)
     def return_expressions(self):
         return []
 
-    # Override
-    def get_parent_id(self):
-        return self.parent_id
-
-    # Override
-    def set_parent_id(self, pid):
-        self.parent_id = pid
-
-    def set_parent_condition(self, condition):
-        self.parent_condition = condition
-
-    # Override
+    # set the _order number of the statement, only set once
     def set_order(self, order_num):
         if not self.order:
             self.order = order_num
@@ -63,16 +56,29 @@ class Assignment(statement.IStatement):
             print("Warning: _order set more than once")
         return self.order + 1
 
-    def set_element(self, gui):
-        ...
-
-    # Override
+    # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         return {self.id: self.type}
 
-    # Override
+    # Get the _order of elements in the statement
     def get_order(self):
         return self.order
+
+    # Get a dictionary with ids and statements
+    def get_statement_dict(self):
+        return {self.id: self}
+
+    ##########################
+    # Methods of assignment  #
+    ##########################
+
+    # TODO: change below
+
+    def set_parent_condition(self, condition):
+        self.parent_condition = condition
+
+    def set_element(self, gui):
+        ...
 
     def get_type(self):
         return self.type
@@ -86,5 +92,4 @@ class Assignment(statement.IStatement):
     def get_element(self):
         return self.element
 
-    def get_statement_dict(self):
-        return {self.id: self}
+
