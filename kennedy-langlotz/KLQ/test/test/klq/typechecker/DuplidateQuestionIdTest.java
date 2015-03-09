@@ -1,6 +1,5 @@
 package test.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.literal.StringNode;
