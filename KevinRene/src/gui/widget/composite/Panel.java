@@ -11,7 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cons.ql.ast.expression.Identifier;
+import ql.ast.expression.Identifier;
 
 public class Panel extends Composite {
 	private JPanel panel;

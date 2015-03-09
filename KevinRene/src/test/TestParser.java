@@ -8,10 +8,9 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.prettyprinter.PrettyPrinter;
-import cons.ql.parser.Parser;
-import cons.ql.parser.QLLexer;
+import ql.ast.QLNode;
+import ql.parser.Parser;
+import ql.parser.QLLexer;
 
 public class TestParser {
 	Parser formParser = new Parser();
@@ -28,7 +27,7 @@ public class TestParser {
 	public void testParsableString() {
 		String myExpression = "5 + 5";
 		
-		ASTNode result = formParser.parse(myExpression);
+		QLNode result = formParser.parse(myExpression);
 		assertNotNull(result);
 		
 		assertEquals("5 + 5", result.toString());
@@ -43,7 +42,7 @@ public class TestParser {
 				+ "}"
 				+ "}";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -55,7 +54,7 @@ public class TestParser {
 		String myForm =
 				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
@@ -76,15 +75,12 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 		
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
 				+ "Did you sell a house in 2010?), IfThen(5 == 5, "
 				+ "Block(Question(houseValue, QLFloat, Lol I dont care)))))", result.toString());
-		
-		PrettyPrinter printer = new PrettyPrinter();
-		result.accept(printer);
 	}
 	
 	@Test
@@ -100,7 +96,7 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
