@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class QLQuestion extends Statement {
+public class Question extends Statement {
 
     private final Identifier identifier;
     private final QuestionType questionType;
@@ -20,7 +20,7 @@ public class QLQuestion extends Statement {
     private final Optional<Expression> expression;
     private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
-    public QLQuestion(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
+    public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;
@@ -32,12 +32,12 @@ public class QLQuestion extends Statement {
         return enabled;
     }
 
-    public QLQuestion enable() {
-        return new QLQuestion(identifier, questionType, label, true, expression);
+    public Question enable() {
+        return new Question(identifier, questionType, label, true, expression);
     }
 
-    public QLQuestion disable() {
-        return new QLQuestion(identifier, questionType, label, false, expression);
+    public Question disable() {
+        return new Question(identifier, questionType, label, false, expression);
     }
 
     public Identifier getIdentifier() {
@@ -65,7 +65,7 @@ public class QLQuestion extends Statement {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        QLQuestion question = (QLQuestion) o;
+        Question question = (Question) o;
         if (enabled != question.enabled) return false;
         // intellij 'simplified' the next line:
         return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;

@@ -2,8 +2,8 @@ package edu.gui;
 
 import edu.exceptions.GuiException;
 import edu.gui.components.Page;
-import edu.nodes.Question;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 
 import javax.swing.*;

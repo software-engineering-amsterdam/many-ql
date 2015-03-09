@@ -4,7 +4,7 @@ import edu.exceptions.GuiException;
 import edu.gui.Observer;
 import edu.gui.QuestionTypeGui;
 import edu.gui.Subject;
-import edu.nodes.Question;
+import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.*;

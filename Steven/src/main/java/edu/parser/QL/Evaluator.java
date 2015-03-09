@@ -1,11 +1,10 @@
 package edu.parser.QL;
 
 import edu.exceptions.EvaluationException;
-import edu.nodes.Question;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
@@ -172,7 +171,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(QLQuestion question) {
+    public AbstractNode visit(Question question) {
         evaluatedQuestions.add(createQuestion(question));
         return super.visit(question);
     }

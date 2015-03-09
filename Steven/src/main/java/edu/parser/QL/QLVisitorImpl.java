@@ -1,16 +1,15 @@
 package edu.parser.QL;
 
+import edu.nodes.QuestionType;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.*;
-import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.nodes.Question;
-import edu.nodes.QuestionType;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +26,10 @@ public abstract class QLVisitorImpl implements QLVisitor {
         return Collections.emptyList();
     }
 
-    protected Question createQuestion(QLQuestion qlQuestion) {
-        edu.nodes.Identifier identifier = new edu.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
-        edu.nodes.Label label = new edu.nodes.Label(qlQuestion.getLabel().getLabel());
-        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled());
+    protected Question createQuestion(Question question) {
+        Identifier identifier = new Identifier(question.getIdentifier().getIdentifier());
+        Label label = new Label(question.getLabel().getLabel());
+        return new Question(identifier, question.getQuestionType(), label, question.isEnabled(), Optional.empty());
     }
 
     @Override
@@ -59,7 +58,7 @@ public abstract class QLVisitorImpl implements QLVisitor {
     }
 
     @Override
-    public AbstractNode visit(QLQuestion question) {
+    public AbstractNode visit(Question question) {
         return question;
     }
 

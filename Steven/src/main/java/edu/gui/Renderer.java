@@ -1,9 +1,9 @@
 package edu.gui;
 
 import edu.exceptions.EvaluationException;
-import edu.nodes.Question;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.QuestionRetriever;
 import edu.parser.QLS.nodes.AbstractNode;
@@ -65,7 +65,7 @@ public class Renderer implements QLSVisitor {
                 .collect(Collectors.toList());
 
         if (qlsQuestions.isEmpty()) {
-            this.questions.put(question, Collections.EMPTY_LIST);
+            this.questions.put(question, Collections.emptyList());
         } else if (qlsQuestions.size() > 1) {
             throw new EvaluationException("Stylesheet contains duplicates.");
         } else {
@@ -95,7 +95,7 @@ public class Renderer implements QLSVisitor {
     @Override
     public AbstractNode visit(Page page) {
         List<Section> sections = collectSections(page);
-        mainWindow.addPage(sections,questions);
+        mainWindow.addPage(sections, questions);
         return page;
     }
 
