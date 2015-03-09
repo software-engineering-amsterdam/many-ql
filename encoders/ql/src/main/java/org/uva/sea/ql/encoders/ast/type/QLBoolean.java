@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLBoolean extends DataType {
+public class QLBoolean extends DataType<Boolean> {
 
 	public static final QLBoolean BOOLEAN = new QLBoolean();
 
@@ -10,9 +10,9 @@ public class QLBoolean extends DataType {
 	}
 
 	@Override
-	public <V> V and(V leftValue, V rightValue) {
-		Boolean result = (Boolean) leftValue && (Boolean) rightValue;
-		return (V) result;
+	public Boolean and(Boolean leftValue, Boolean rightValue) {
+		Boolean result = leftValue && rightValue;
+		return result;
 	}
 
 }

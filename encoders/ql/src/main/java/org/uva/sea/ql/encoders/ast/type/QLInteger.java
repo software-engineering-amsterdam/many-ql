@@ -1,17 +1,17 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLInteger extends DataType {
+public class QLInteger extends DataType<Integer> {
 
 	@Override
-	public <V> V add(V leftValue, V rightValue) {
-		Integer result = (Integer) leftValue + (Integer) rightValue;
-		return (V) result;
+	public Integer add(Integer leftValue, Integer rightValue) {
+		Integer result = leftValue + rightValue;
+		return result;
 	}
 
 	@Override
-	public <V> V mul(V leftValue, V rightValue) {
-		Integer result = (Integer) leftValue * (Integer) rightValue;
-		return (V) result;
+	public Integer mul(Integer leftValue, Integer rightValue) {
+		Integer result = leftValue * rightValue;
+		return result;
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLString extends DataType {
+public class QLString extends DataType<String> {
 
 	@Override
-	public <V> V add(V leftValue, V rightValue) {
-		String result = (String) leftValue + (String) rightValue;
-		return (V) result;
+	public String add(String leftValue, String rightValue) {
+		String result = leftValue + rightValue;
+		return result;
 	}
 
 	@Override
