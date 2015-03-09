@@ -5,7 +5,6 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
 public class Question extends AbstractASTNode {
-
     private final String identifier;
     private final Widget widget;
 
@@ -22,6 +21,11 @@ public class Question extends AbstractASTNode {
 
     public String getId() {
         return this.identifier;
+    }
+
+    @Override
+    public String toString() {
+        return this.identifier.toString() + " " + "('" + this.widget.toString() + "')";
     }
 
     public Widget getWidget() {
