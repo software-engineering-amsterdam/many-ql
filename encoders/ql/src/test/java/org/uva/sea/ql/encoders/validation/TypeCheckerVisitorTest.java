@@ -19,8 +19,8 @@ public class TypeCheckerVisitorTest {
 	@Test
 	public void testCheckTypes_findsDuplicateLabels() {
 		String questionLabel = "What is the meaning of life?";
-		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType("string"), questionLabel);
-		Question questionB = new Question(new TextLocation(12, 10), "questionB", new StringType("string"), questionLabel);
+		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType(), questionLabel);
+		Question questionB = new Question(new TextLocation(12, 10), "questionB", new StringType(), questionLabel);
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
