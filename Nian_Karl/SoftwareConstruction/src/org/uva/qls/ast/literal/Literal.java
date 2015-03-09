@@ -10,4 +10,6 @@ public class Literal implements QLSNode {
 	public Literal(CodePosition position) {
 		this.position = position;
 	}
+	
+	
 }
