@@ -31,15 +31,16 @@ import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
-	private final Map<String, BinaryOperator> operatorTable;
+	private final OperatorTable operatorTable;
 
 	private final Map<String, DataType<?>> dataTypeTable;
 
-	public QuestionnaireVisitor(Map<String, BinaryOperator> operatorTable, Map<String, DataType<?>> dataTypeTable) {
+	public QuestionnaireVisitor(OperatorTable operatorTable, Map<String, DataType<?>> dataTypeTable) {
 		this.operatorTable = operatorTable;
 		this.dataTypeTable = dataTypeTable;
 	}
@@ -118,7 +119,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitNeEq(NeEqContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -127,7 +128,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitMulDiv(MulDivContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -136,7 +137,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitLtGtLeGe(LtGtLeGeContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -145,7 +146,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitOr(OrContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -154,7 +155,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitAddSub(AddSubContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -163,7 +164,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitAnd(AndContext ctx) {
-		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		BinaryOperator operator = operatorTable.getBinaryOperator(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -172,7 +173,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitNot(NotContext ctx) {
-		String operator = ctx.operator.getText();
+		UnaryOperator operator = operatorTable.getUnaryOperator(ctx.operator.getText());
 		Expression expression = (Expression) visit(ctx.expr);
 		TextLocation textLocation = getTextLocation(ctx);
 		return new UnaryExpression(textLocation, operator, expression);

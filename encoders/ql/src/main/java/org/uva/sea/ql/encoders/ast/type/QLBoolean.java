@@ -15,4 +15,9 @@ public class QLBoolean extends DataType<Boolean> {
 		return result;
 	}
 
+	@Override
+	public Boolean not(Boolean value) {
+		return !value;
+	}
+
 }

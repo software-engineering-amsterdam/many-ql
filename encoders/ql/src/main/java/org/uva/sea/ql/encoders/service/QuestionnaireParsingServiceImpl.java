@@ -16,17 +16,6 @@ import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.ast.operator.AddOperator;
-import org.uva.sea.ql.encoders.ast.operator.AndOperator;
-import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
-import org.uva.sea.ql.encoders.ast.operator.DivideOperator;
-import org.uva.sea.ql.encoders.ast.operator.GreaterOrEqualOperator;
-import org.uva.sea.ql.encoders.ast.operator.GreaterThanOperator;
-import org.uva.sea.ql.encoders.ast.operator.LessOrEqualOperator;
-import org.uva.sea.ql.encoders.ast.operator.LessThanOperator;
-import org.uva.sea.ql.encoders.ast.operator.MultiplyOperator;
-import org.uva.sea.ql.encoders.ast.operator.OrOperator;
-import org.uva.sea.ql.encoders.ast.operator.SubstractOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.ast.type.QLInteger;
@@ -59,7 +48,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		});
 
 		QuestionnaireContext parseTree = parser.questionnaire();
-		Map<String, BinaryOperator> operatorTable = getOperatorTable();
+		OperatorTable operatorTable = new OperatorTable();
 		Map<String, DataType<?>> dataTypeTable = getDataTypeTable();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor(operatorTable, dataTypeTable);
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
@@ -75,21 +64,6 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		operatorTable.put("boolean", new QLBoolean());
 		operatorTable.put("string", new QLString());
 		operatorTable.put("int", new QLInteger());
-		return operatorTable;
-	}
-
-	private Map<String, BinaryOperator> getOperatorTable() {
-		Map<String, BinaryOperator> operatorTable = new HashMap<>();
-		operatorTable.put("*", new MultiplyOperator());
-		operatorTable.put("/", new DivideOperator());
-		operatorTable.put("+", new AddOperator());
-		operatorTable.put("+", new SubstractOperator());
-		operatorTable.put("&&", new AndOperator());
-		operatorTable.put("||", new OrOperator());
-		operatorTable.put("<", new LessThanOperator());
-		operatorTable.put(">", new GreaterThanOperator());
-		operatorTable.put("<=", new LessOrEqualOperator());
-		operatorTable.put(">=", new GreaterOrEqualOperator());
 		return operatorTable;
 	}
 

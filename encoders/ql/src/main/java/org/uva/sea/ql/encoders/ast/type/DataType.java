@@ -56,4 +56,8 @@ public abstract class DataType<V> {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
+	public V not(V value) {
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
+	}
+
 }

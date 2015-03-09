@@ -8,6 +8,7 @@ import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 
 public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 
@@ -25,6 +26,12 @@ public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 		result.addAll(leftHand.accept(this));
 		result.addAll(rightHand.accept(this));
 		return result;
+	}
+
+	@Override
+	public Set<String> visit(UnaryExpression unaryExpression) {
+		Expression expression = unaryExpression.getExpression();
+		return expression.accept(this);
 	}
 
 	@Override

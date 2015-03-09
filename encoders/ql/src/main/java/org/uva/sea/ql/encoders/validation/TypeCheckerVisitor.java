@@ -12,6 +12,7 @@ import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.ast.type.QLUndefined;
@@ -90,6 +91,12 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 			validations.add(new Validation(validationMessage, textLocation));
 			return QLUndefined.UNDEFINED;
 		}
+	}
+
+	@Override
+	public DataType<?> visit(UnaryExpression unaryExpression) {
+		Expression expression = unaryExpression.getExpression();
+		return expression.accept(this);
 	}
 
 	@Override

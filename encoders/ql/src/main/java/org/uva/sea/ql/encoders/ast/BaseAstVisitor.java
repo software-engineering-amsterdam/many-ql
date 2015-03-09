@@ -7,38 +7,40 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 
 public class BaseAstVisitor<T> implements AstVisitor<T> {
 
+	private static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
+
 	@Override
 	public T visit(BinaryExpression binaryExpression) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(BracedExpression bracedExpression) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(NameExpression nameExpression) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(Question question) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(Questionnaire questionnaire) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(ConditionalBlock conditionalBlock) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
 	public T visit(UnaryExpression unaryExpression) {
-		return null;
+		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 }
