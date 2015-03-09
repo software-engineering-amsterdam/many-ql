@@ -133,29 +133,30 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
         if (label.equals("width"))
         {
             int value = Integer.parseInt(context.Integer().getText());
-            return new IntRule("width", value, lineNumber);
+            return new Width(value, lineNumber);
         }
 
         if (label.equals("color"))
         {
-            return new StrRule("color", context.Color().getText(), lineNumber);
+            ColorValue c = new ColorValue(context.Color().getText());
+            return new BackColor(c, lineNumber);
         }
 
         if (label.equals("font"))
         {
-            return new StrRule("font", context.String().getText(), lineNumber);
+            return new Font(context.String().getText(), lineNumber);
         }
 
         if (label.equals("fontsize"))
         {
             int value = Integer.parseInt(context.Integer().getText());
-            return new IntRule("fontsize", value, lineNumber);
+            return new FontSize(value, lineNumber);
         }
 
         if (label.equals("widget"))
         {
             WidgetValue value = (WidgetValue)this.visitWidgetValue(context.widgetValue());
-            return new WidgetRule("widget", value, lineNumber);
+            return new Widget(value, lineNumber);
         }
 
         throw new IllegalStateException("No such stylesheet rule");

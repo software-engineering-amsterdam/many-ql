@@ -5,13 +5,8 @@ package lang.ql.ast.type;
  */
 public class IntType extends Type
 {
-    public IntType()
-    {
-        super("integer");
-    }
-
     @Override
-    public boolean isArithmetic()
+    public boolean isNumerical()
     {
         return true;
     }
@@ -20,6 +15,12 @@ public class IntType extends Type
     public Type promoteTo(Type t)
     {
         return t.promoteInt(this);
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return "integer";
     }
 
     @Override

@@ -321,15 +321,10 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         boolean isTypeAllowed = e.isTypeAllowed(childType);
         if (!(isTypeAllowed))
         {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
         }
 
         return isTypeAllowed;
-    }
-
-    private Type computeType(NaryExpr e, Type childType)
-    {
-        return e.getComputedType(childType);
     }
 
     private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
@@ -338,7 +333,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         if (!(consistent))
         {
             this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), left, right, n.getLineNumber()));
+                    n.getClass().getSimpleName(), left.getTitle(), right.getTitle(), n.getLineNumber()));
         }
 
         return consistent;
