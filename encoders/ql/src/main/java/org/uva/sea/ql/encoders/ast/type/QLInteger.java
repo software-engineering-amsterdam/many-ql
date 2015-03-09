@@ -9,7 +9,7 @@ public class QLInteger extends DataType<Integer> {
 	}
 
 	@Override
-	public Integer mul(Integer leftValue, Integer rightValue) {
+	public Integer multiply(Integer leftValue, Integer rightValue) {
 		Integer result = leftValue * rightValue;
 		return result;
 	}

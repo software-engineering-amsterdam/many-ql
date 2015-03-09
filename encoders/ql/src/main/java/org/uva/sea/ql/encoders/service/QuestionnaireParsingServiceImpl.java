@@ -19,7 +19,14 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.operator.AddOperator;
 import org.uva.sea.ql.encoders.ast.operator.AndOperator;
 import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
-import org.uva.sea.ql.encoders.ast.operator.MulOperator;
+import org.uva.sea.ql.encoders.ast.operator.DivideOperator;
+import org.uva.sea.ql.encoders.ast.operator.GreaterOrEqualOperator;
+import org.uva.sea.ql.encoders.ast.operator.GreaterThanOperator;
+import org.uva.sea.ql.encoders.ast.operator.LessOrEqualOperator;
+import org.uva.sea.ql.encoders.ast.operator.LessThanOperator;
+import org.uva.sea.ql.encoders.ast.operator.MultiplyOperator;
+import org.uva.sea.ql.encoders.ast.operator.OrOperator;
+import org.uva.sea.ql.encoders.ast.operator.SubstractOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.ast.type.QLInteger;
@@ -73,9 +80,16 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 	private Map<String, BinaryOperator> getOperatorTable() {
 		Map<String, BinaryOperator> operatorTable = new HashMap<>();
-		operatorTable.put("*", new MulOperator());
+		operatorTable.put("*", new MultiplyOperator());
+		operatorTable.put("/", new DivideOperator());
 		operatorTable.put("+", new AddOperator());
+		operatorTable.put("+", new SubstractOperator());
 		operatorTable.put("&&", new AndOperator());
+		operatorTable.put("||", new OrOperator());
+		operatorTable.put("<", new LessThanOperator());
+		operatorTable.put(">", new GreaterThanOperator());
+		operatorTable.put("<=", new LessOrEqualOperator());
+		operatorTable.put(">=", new GreaterOrEqualOperator());
 		return operatorTable;
 	}
 
