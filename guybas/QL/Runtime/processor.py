@@ -1,5 +1,5 @@
 import QL.CoreTools.converters as converters
-
+import QL.config as c
 
 class Processor:
 
@@ -17,8 +17,8 @@ class Processor:
 
     @staticmethod
     def export_answers(answers_map, gui):
-        xml = converters.Converters.dict_to_xml('answer', answers_map.get_answers())
-        f = open('answers.xml', 'w')
+        xml = converters.Converters.dict_to_xml(answers_map.get_answers())
+        f = open(c.Config.output_path, 'w')
         f.write(xml)
         f.close()
         print("done")

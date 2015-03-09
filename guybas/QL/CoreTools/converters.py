@@ -13,7 +13,7 @@ class Converters:
         return hashlib.md5(bytes(str(string), encoding='utf-8')).hexdigest()
 
     @staticmethod
-    def dict_to_xml(tag, d):
+    def dict_to_xml(d):
         """
         Turn a simple dict of key/value pairs into XML
         """
