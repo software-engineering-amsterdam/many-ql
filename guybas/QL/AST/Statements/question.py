@@ -2,6 +2,9 @@
 import QL.AST.Statements.statement as statement
 import QL.GUI.gui as g
 import QL.Grammar.constants as constants
+import QL.GUI.Elements.label as e_label
+import QL.GUI.Elements.text_entry as e_text_entry
+import QL.Exceptions.exceptions as exceptions
 
 
 class Question(statement.IStatement):
@@ -68,13 +71,15 @@ class Question(statement.IStatement):
     # set gui _element
     def set_element(self, gui):
         if self.get_type() is constants.GrammarConstants.BOOL:
-            self.element = g.QuestionnaireGUI.e_radio(self, gui)
+            self.element = g.GUI.e_radio(self, gui)
         elif self.get_type() is constants.GrammarConstants.NUMBER:
-            self.element = g.QuestionnaireGUI.e_spin(self, gui)
+            self.element = g.GUI.e_spin(self, gui)
         elif self.get_type() is constants.GrammarConstants.TEXT:
-            self.element = g.QuestionnaireGUI.e_entry(self, gui)
+            # self.element = g.GUI.e_entry(self, gui)
+            e = e_text_entry.TextEntry(self, gui)
+            self.element = e.get_row()
         else:
-            raise g.QException("Element _type does not exists")
+            raise exceptions.QException("Element _type does not exists")
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition
