@@ -1,7 +1,7 @@
 package com.kls.ast.node;
 
 import com.kls.ast.IVisitor;
-import com.kls.ast.Location;
+import com.common.Location;
 
 /**
  * Created by Timon on 03.03.2015.

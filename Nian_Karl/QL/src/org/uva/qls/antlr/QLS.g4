@@ -1,14 +1,18 @@
 grammar QLS;
 
-style: STYLE Identifier page*;
+sheet: STYLE Identifier page*;
 
-page: PAGE Identifier block;
+page: PAGE Identifier pageBlock;
 
-block: LEFT_PAREN section* RIGHT_PAREN;
+pageBlock: LEFT_PAREN section* style RIGHT_PAREN;
 
-section: SECTION StringLiteral LEFT_PAREN questionIdent RIGHT_PAREN;
+section: SECTION StringLiteral LEFT_PAREN question* RIGHT_PAREN ;
 
-questionIdent:QUESTION Identifier wid ;
+question:QUESTION Identifier style;
+
+style:DEFAULT type styling
+	|DEFAULT type LEFT_PAREN styling* RIGHT_PAREN
+	; 
 
 styling: WIDGET COLON widget
 	| WIDTH COLON IntegerLiteral
@@ -18,17 +22,24 @@ styling: WIDGET COLON widget
 	| COLOR COLON RgbValue
 	;
 
-font: ARIAL;
-
-widget: 	TEXT
-	| CHECKBOX
-	| SPINBOX COLON LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET
-	| SLIDER COLON LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET
-	| DROPDOWN COLON trueFalseIdentifier
-	| RADIO COLON trueFalseIdentifier
+type: INT
+	| STR
+	| BOOL
 	;
 
-trueFalseIdentifier: (trueLabel = Identifier | falseLabel = Identifier ) NewLine;
+
+font: ARIAL;
+
+widget: TEXT
+	| CHECKBOX
+	| SPINBOX intWidgetParam
+	| SLIDER intWidgetParam
+	| DROPDOWN boolWidgetParam
+	| RADIO boolWidgetParam
+	;
+
+intWidgetParam: LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET;
+boolWidgetParam: LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN;
 
 /* LEXER RULES */
 
@@ -37,6 +48,12 @@ STYLE:		 	'style';
 PAGE: 			'page';
 SECTION:		'section';
 QUESTION: 		'question';
+DEFAULT: 		'default';
+
+//types
+INT:           'Int';
+STR:           'Str';
+BOOL:          'Bool';
 
 //Styling keywords
 WIDGET:			'widget';
@@ -65,8 +82,6 @@ LEFT_BRACE:    '{';
 RIGHT_BRACE:   '}';
 LEFT_BRACKET:    '[';
 RIGHT_BRACKET:   ']';
-
-NewLine: '\n''\t';
 
 IntegerLiteral: [1-9][0-9]*;
 

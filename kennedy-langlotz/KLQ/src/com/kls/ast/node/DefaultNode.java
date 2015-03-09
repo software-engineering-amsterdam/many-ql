@@ -2,7 +2,7 @@ package com.kls.ast.node;
 
 import com.klq.logic.question.Type;
 import com.kls.ast.IVisitor;
-import com.kls.ast.Location;
+import com.common.Location;
 
 import java.util.List;
 
