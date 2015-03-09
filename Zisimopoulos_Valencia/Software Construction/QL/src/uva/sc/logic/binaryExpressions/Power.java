@@ -16,8 +16,4 @@ public class Power extends BinaryExpression{
 	public <T> T accept(INodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public Expression evaluate() {
-		return null;
-	}
 }

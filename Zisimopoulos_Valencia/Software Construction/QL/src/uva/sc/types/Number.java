@@ -1,6 +1,8 @@
 package uva.sc.types;
 
 import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.NumberAtom;
+import uva.sc.logic.Expression;
 
 public class Number implements Type
 {
@@ -23,5 +25,9 @@ public class Number implements Type
 		else {
 			return false;
 		}
+	}
+
+	public Expression defaultValue() {
+		return new NumberAtom("0");
 	}
 }

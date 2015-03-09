@@ -11,8 +11,8 @@ import uva.sc.typeChecker.TypeCheckerVisitor;
 public class Main {
     public static void main(String[] args) throws Exception {
     										 
-        CharStream in = new ANTLRFileStream("C:/Users/Pantelis/git/software-construction/QL/form/test.grammar");
-        //CharStream in = new ANTLRFileStream("/Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction//QL/QL/form/test.grammar");
+        //CharStream in = new ANTLRFileStream("C:/Users/Pantelis/git/software-construction/QL/form/test.grammar");
+        CharStream in = new ANTLRFileStream("/Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction/QL_QLS/QL/form/test.grammar");
         GrammarLexer lexer = new GrammarLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GrammarParser parser = new GrammarParser(tokens);
