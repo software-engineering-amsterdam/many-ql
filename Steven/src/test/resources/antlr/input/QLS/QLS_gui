@@ -10,6 +10,7 @@ stylesheet title{
             question NAME2 {
                 width 40
             }
+            question NAME3
         }
     }
 
@@ -23,13 +24,6 @@ stylesheet title{
         section "page3"{
             question NAME6
         }
-    }
-
-    question NAME3{
-        widget YESNODROPDOWN
-        width 500
-        font "arial"
-        color # 123
     }
 
     default STRING{
