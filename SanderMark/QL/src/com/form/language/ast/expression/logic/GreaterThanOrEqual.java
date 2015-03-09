@@ -12,6 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 
@@ -26,27 +27,35 @@ public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public Type getType() {
-		if(left.getType().isIntType() && right.getType().isIntType()) return new BoolType();
-		return new ErrorType();
-	}
-
-	@Override
-	public void getErrors(ErrorCollector errors) {
-		Type leftType = left.getType();
-		Type rightType = right.getType();
-		left.getErrors(errors);
-		right.getErrors(errors);
-
-		if(leftType.isIntType() && rightType.isIntType()) {
-			return;
-		}
-		else{
+	public Type getType(TypeMemory mem) {
+		Type leftType = left.getType(mem);
+		Type rightType = right.getType(mem);
+		if(leftType.isIntType() && rightType.isIntType()){
+			return new BoolType();
+		}else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				errors.add(new Error(tokenInfo, "Expected Int >= Int, but found " + leftType + " >= " + rightType));
-				return;
+				mem.addError(new Error(tokenInfo, "Expected Int >= Int, but found " + leftType + " >= " + rightType));
 			}
-			return;
+			return new ErrorType();
 		}
 	}
+
+//	@Override
+//	public void getErrors(ErrorCollector errors) {
+//		Type leftType = left.getType();
+//		Type rightType = right.getType();
+//		left.getErrors(errors);
+//		right.getErrors(errors);
+//
+//		if(leftType.isIntType() && rightType.isIntType()) {
+//			return;
+//		}
+//		else{
+//			if(!(leftType.isErrorType() || rightType.isErrorType())){
+//				errors.add(new Error(tokenInfo, "Expected Int >= Int, but found " + leftType + " >= " + rightType));
+//				return;
+//			}
+//			return;
+//		}
+//	}
 }

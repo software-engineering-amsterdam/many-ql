@@ -1,7 +1,5 @@
 package org.uva.ql.visitor;
 
-import org.uva.ql.ast.questionnaire.Form;
-import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;

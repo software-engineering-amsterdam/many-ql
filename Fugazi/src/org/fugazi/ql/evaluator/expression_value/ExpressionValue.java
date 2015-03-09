@@ -12,6 +12,10 @@ public abstract class ExpressionValue<T> {
         return this.value;
     }
 
+    public boolean isUndefined() {
+        return false;
+    }
+
     public ExpressionValue add(ExpressionValue exprValue) {
         throw new AssertionError();
     }

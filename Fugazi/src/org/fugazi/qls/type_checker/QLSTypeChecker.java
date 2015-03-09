@@ -9,14 +9,15 @@ TODO
  */
 
 import org.fugazi.ql.ast.expression.literal.ID;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 
 import java.util.List;
 
 public class QLSTypeChecker {
-    private final List<ID> qlQuestions;
+    private final QLFormDataStorage qlFormData;
 
-    public QLSTypeChecker(List<ID> _qlQuestions) {
-        this.qlQuestions = _qlQuestions;
+    public QLSTypeChecker(QLFormDataStorage _qlFormData) {
+        this.qlFormData = _qlFormData;
     }
 
     /**

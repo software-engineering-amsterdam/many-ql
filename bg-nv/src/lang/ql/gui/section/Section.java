@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class Section<T extends Node> extends GuiElement
 {
     private final T container;
-    private List<Section> subsections;
+    private final List<Section> subsections;
 
     public Section(T container, List<Section> subsections, Boolean visible)
     {

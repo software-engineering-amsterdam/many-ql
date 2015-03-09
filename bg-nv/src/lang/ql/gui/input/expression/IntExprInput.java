@@ -38,14 +38,10 @@ public class IntExprInput extends ExprInput<TextInputControl>
         if (!val.isUndefined())
         {
             assert val instanceof IntegerValue;
-            Integer intValue = ((IntegerValue)val).getValue();
-            strValue = intValue.toString();
+            strValue = val.toString();
         }
 
         TextInputControl textInput = this.getControl();
         textInput.setText(strValue);
-        textInput.setDisable(this.getDisabled());
-        textInput.setVisible(this.getVisible());
-        textInput.setManaged(this.getVisible());
     }
 }

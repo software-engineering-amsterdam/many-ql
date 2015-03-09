@@ -2,10 +2,8 @@ package org.uva.ql.view.component;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 
 import org.uva.ql.ast.statement.QuestionNormal;
@@ -38,7 +36,7 @@ public class QuestionComponent extends Panel {
 		labelConstraints.insets = inset;
 		add(label, labelConstraints);
 
-		// Making GridBagConstraints for label
+		// Making GridBagConstraints for widget
 		GridBagConstraints widgetConstraints = new GridBagConstraints();
 		widgetConstraints.gridx = 1;
 		widgetConstraints.gridy = 0;

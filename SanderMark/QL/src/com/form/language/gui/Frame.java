@@ -26,6 +26,7 @@ import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class Frame {
 
@@ -92,27 +93,15 @@ public class Frame {
 				
 				form = parser.form().result;
 				
-				IdCollector ids = new IdCollector();
-				form.collectIds(ids);
-				
-				IdTypeTable idTable = new IdTypeTable(ids);
-				form.setTypes(idTable);
-				
 				List<String> errorsStrings = new ArrayList<String>();
-				ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
-				if(!varErrors.isEmpty()){
-					errorsStrings.add("There are variable errors:");
-					errorsStrings.addAll(varErrors.print());
-				}
+				TypeMemory typemem = new TypeMemory();
+				form.getTypes(typemem);
 				
-				if(CheckTypeErrors.containsErrors(form)){
-					errorsStrings.add("There are type errors:");
-					ErrorCollector errors = new ErrorCollector();
-					form.getErrors(errors);
-					errorsStrings.addAll(errors.print());
-				} 
-							
-				if(errorsStrings.isEmpty())
+				
+				if(typemem.hasErrors()){
+					textArea_output.setText(typemem.getErrors());
+					System.out.println(typemem.getErrors());
+				} else
 				{
 					button_createQuestionnaire.setEnabled(true);
 				}

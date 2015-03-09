@@ -274,19 +274,16 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Not unary) {
-		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new BoolType());
 	}
 
 	@Override
 	public Boolean visit(Positive unary) {
-		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new IntType());
 	}
 
 	@Override
 	public Boolean visit(Negative unary) {
-		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new IntType());
 	}
 

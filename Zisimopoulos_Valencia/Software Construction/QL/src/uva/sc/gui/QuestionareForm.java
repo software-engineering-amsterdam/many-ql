@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.sc.ast.INode;
+import uva.sc.evaluator.EvaluatorVisitor;
 import uva.sc.parser.GrammarLexer;
 import uva.sc.parser.GrammarParser;
 import uva.sc.parser.QLVisitor;
@@ -25,16 +26,20 @@ public class QuestionareForm extends JFrame {
 	public QuestionareForm() throws IOException{
 		
 		//CharStream in = new ANTLRFileStream("C:/Users/Pantelis/git/software-construction/QL/form/test.grammar");
-        CharStream in = new ANTLRFileStream("/Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction//QL/QL/form/test.grammar");
+        CharStream in = new ANTLRFileStream("/Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction/QL_QLS/QL/form/test.grammar");
         GrammarLexer lexer = new GrammarLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GrammarParser parser = new GrammarParser(tokens);
         ParseTree tree = parser.form();
+        
 
         QLVisitor visitor = new QLVisitor();
         INode questionare = visitor.visit(tree);
         
-        GUIVisitor vis = GUIVisitor.getInstance();
+        EvaluatorVisitor eval = new EvaluatorVisitor();
+        questionare.accept(eval);
+        
+        GUIVisitor vis = new GUIVisitor(eval);
         questionare.accept(vis);
         
         /*-------------------------------------------------------------------*/ 

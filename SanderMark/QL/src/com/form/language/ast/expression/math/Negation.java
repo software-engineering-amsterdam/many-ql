@@ -12,6 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class Negation extends UnaryExpression implements Expression {
 	
@@ -25,24 +26,32 @@ public class Negation extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public Type getType() {
-		if(value.getType().isIntType()) return new IntType();
-		return new ErrorType();
-	}
-	
-	@Override
-	public void getErrors(ErrorCollector errors) {
-		Type childType = value.getType();
-		value.getErrors(errors);
-
-		if(childType.isIntType()) {
-			return;
+	public Type getType(TypeMemory mem) {
+		Type childType = value.getType(mem);
+		if(childType.isIntType()){
+			return new IntType();
 		}
 		else{
 			if(!childType.isErrorType()){
-				errors.add(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
-			}
-			return;
+				mem.addError(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
+				}
+			return new ErrorType();
 		}
 	}
+	
+//	@Override
+//	public void getErrors(ErrorCollector errors) {
+//		Type childType = value.getType();
+//		value.getErrors(errors);
+//
+//		if(childType.isIntType()) {
+//			return;
+//		}
+//		else{
+//			if(!childType.isErrorType()){
+//				errors.add(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
+//			}
+//			return;
+//		}
+//	}
 }

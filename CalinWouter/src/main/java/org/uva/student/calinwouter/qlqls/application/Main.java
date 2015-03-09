@@ -36,7 +36,7 @@ public class Main {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
             HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
-            StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(qls).getValue();
+            StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(qls);
             headlessFormInterpreter.interpret();
 //            new QLSTypeChecker().typeCheck(styleSheet, formTypeChecker.getFieldTypes());
 

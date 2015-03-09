@@ -5,9 +5,8 @@ import org.fugazi.ql.ast.expression.literal.ID;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+ /*
     This is used instead of HashMap mapping IDs to List of dependencies.
-    Necessary because using ID's as keys for a HashMap is not possible out of the box.
  */
 
 public class DependencyList {
@@ -15,11 +14,11 @@ public class DependencyList {
     private final List<Dependency> dependecies;
 
     public DependencyList() {
-        this.dependecies = new ArrayList<Dependency>();
+        this.dependecies = new ArrayList<>();
     }
 
     public List<ID> getIds() {
-        List<ID> ids = new ArrayList<ID>();
+        List<ID> ids = new ArrayList<>();
         for (Dependency dependency : this.dependecies) {
             ids.add(dependency.getDependee());
         }
@@ -39,7 +38,7 @@ public class DependencyList {
         if (idx == -1) {
             return null;
         }
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         for (ID dependency : this.dependecies.get(idx).getDependants()) {
             names.add(dependency.getName());
         }

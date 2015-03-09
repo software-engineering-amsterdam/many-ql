@@ -1,6 +1,4 @@
 import QL.AST.Statements.if_statement as if_statement
-import QL.Main.converters as converters
-
 
 class IfElseBlock(if_statement.IfBlock):
 

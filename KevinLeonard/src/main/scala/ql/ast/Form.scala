@@ -1,6 +1,8 @@
 package ql.ast
 
-class Form(val label: String, val s: Statement) {
+import ql.types.Label
+
+class Form(val label: Label, val statements: Statement) {
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Form]
 
@@ -8,12 +10,12 @@ class Form(val label: String, val s: Statement) {
     case that: Form =>
       (that canEqual this) &&
         label == that.label &&
-        s == that.s
+        statements == that.statements
     case _ => false
   }
 
   override def hashCode(): Int = {
-    val state = Seq(label, s)
+    val state = Seq(label, statements)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 }

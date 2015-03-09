@@ -2,7 +2,7 @@
 import QL.AST.Statements.statement as statement
 import QL.Grammar.constants as constants
 # import QL.GUI.Elements.text_entry as e_text_entry
-import QL.Exceptions.exceptions as exceptions
+import QL.CoreTools.exceptions as exceptions
 from QL.GUI.Elements import *
 
 
@@ -79,7 +79,9 @@ class Question(statement.IStatement):
     #######################
 
     # TODO: separate runtime stuff
+
     # set gui _element
+    # TODO : delegate to element classes
     def set_element(self, gui):
         if self.get_type() is constants.GrammarConstants.BOOL:
             # self.element = g.GUI.e_radio(self, gui)
