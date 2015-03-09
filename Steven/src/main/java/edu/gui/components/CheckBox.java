@@ -2,6 +2,7 @@ package edu.gui.components;
 
 import edu.gui.Observer;
 import edu.gui.Subject;
+import edu.parser.QL.nodes.expression.Identifier;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,12 +15,18 @@ import java.util.List;
  */
 public class CheckBox extends JCheckBox implements Subject, ActionListener {
     private final List<Observer> observers = new ArrayList<>();
+    private final Identifier identifier;
 
-    public CheckBox() {
+    public CheckBox(Identifier identifier) {
         this.addActionListener(this);
         setText("yes");
         setSelected(false);
         setEnabled(true);
+        this.identifier = identifier;
+    }
+
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
     @Override
