@@ -18,9 +18,9 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         private IDictionary<string, DataType> _symbolTable = new Dictionary<string, DataType>();
 
         /// <summary>
-        /// A collection of assignments which expression type differs from the target type.
+        /// A collection of definitions which expression type differs from the target type.
         /// </summary>
-        public ICollection<InvalidAssignment> InvalidAssignments
+        public ICollection<InvalidDefinition> InvalidDefinitions
         {
             get;
             private set;
@@ -55,48 +55,28 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public TypeCheckingVisitor()
         {
-            InvalidAssignments = new List<InvalidAssignment>();
+            InvalidDefinitions = new List<InvalidDefinition>();
             InvalidIfStatements = new List<IfStatement>();
             InvalidUnaryExpressions = new List<InvalidUnaryExpression>();
             InvalidBinaryExpressions = new List<InvalidBinaryExpression>();
         }
 
-        public override void Visit(Declaration declaration)
+        public override void Visit(Definition definition)
         {
-            if (declaration.Initialization != null)
+            DataType expressionType = definition.Expression.GetType(_symbolTable);
+
+            if (expressionType != DataType.Undefined)
             {
-                DataType expressionType = declaration.Initialization.GetType(_symbolTable);
-
-                if (expressionType != DataType.Undefined)
+                if (definition.DataType != expressionType)
                 {
-                    if (declaration.DataType != expressionType)
-                    {
-                        InvalidAssignments.Add(new InvalidAssignment(declaration.Id, declaration.Initialization, declaration.DataType, expressionType));
-                    }
-                }
-
-                // Validate the inner parts of the expression.
-                declaration.Initialization.Accept(this);
-            }
-
-            _symbolTable.Add(declaration.Id.Name, declaration.DataType);
-        }
-
-        public override void Visit(Assignment assignment)
-        {
-            DataType targetType = assignment.Variable.GetType(_symbolTable);
-            DataType expressionType = assignment.Expression.GetType(_symbolTable);
-
-            if (targetType != DataType.Undefined && expressionType != DataType.Undefined)
-            {
-                if (targetType != expressionType)
-                {
-                    InvalidAssignments.Add(new InvalidAssignment(assignment.Variable, assignment.Expression, targetType, expressionType));
+                    InvalidDefinitions.Add(new InvalidDefinition(definition.Id, definition.Expression, definition.DataType, expressionType));
                 }
             }
 
             // Validate the inner parts of the expression.
-            assignment.Expression.Accept(this);
+            definition.Expression.Accept(this);
+
+            _symbolTable.Add(definition.Id.Name, definition.DataType);
         }
 
         public override void Visit(Question question)
@@ -111,7 +91,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 {
                     if (questionType != expressionType)
                     {
-                        InvalidAssignments.Add(new InvalidAssignment(question.Id, question.Expression, questionType, expressionType));
+                        InvalidDefinitions.Add(new InvalidDefinition(question.Id, question.Expression, questionType, expressionType));
                     }
                 }
             }

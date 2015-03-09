@@ -8,7 +8,7 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
-    public class InvalidAssignment
+    public class InvalidDefinition
     {
         public DataType TargetType
         {
@@ -34,7 +34,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             private set;
         }
 
-        public InvalidAssignment(Identifier id, IExpression expression, DataType targetType, DataType expressionType)
+        public InvalidDefinition(Identifier id, IExpression expression, DataType targetType, DataType expressionType)
         {
             Id = id;
             Expression = expression;
