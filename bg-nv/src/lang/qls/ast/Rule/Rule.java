@@ -8,8 +8,8 @@ import lang.ql.ast.type.Type;
  */
 public abstract class Rule<V> extends AstNode
 {
-    private String label;
-    private V value;
+    private final String label;
+    private final V value;
 
     public Rule(String label, V value, int lineNumber)
     {

@@ -4,10 +4,7 @@ import lang.ql.ast.AstNode;
 import lang.ql.ast.type.Type;
 import lang.ql.ast.type.TypeFactory;
 import lang.qls.ast.Rule.*;
-import lang.qls.ast.Rule.WidgetValue.Checkbox;
-import lang.qls.ast.Rule.WidgetValue.Radio;
-import lang.qls.ast.Rule.WidgetValue.Spinbox;
-import lang.qls.ast.Rule.WidgetValue.WidgetValue;
+import lang.qls.ast.Rule.WidgetValue.*;
 import lang.qls.ast.Statement.*;
 import lang.qls.ast.Page;
 import lang.qls.ast.Stylesheet;
@@ -168,25 +165,41 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
         String label = context.label.getText();
         if (label.equals("spinbox"))
         {
-            if (context.min != null)
-            {
-                int min = Integer.parseInt(context.min.getText());
-                int max = Integer.parseInt(context.max.getText());
+            int min = Integer.parseInt(context.min.getText());
+            int max = Integer.parseInt(context.max.getText());
+            int step = Integer.parseInt(context.step.getText());
 
-                return new Spinbox(min, max);
-            }
+            return new Spinbox(min, max, step);
+        }
 
-            return new Spinbox();
+        if (label.equals("slider"))
+        {
+            int min = Integer.parseInt(context.min.getText());
+            int max = Integer.parseInt(context.max.getText());
+            int step = Integer.parseInt(context.step.getText());
+
+            return new Slider(min, max, step);
+        }
+
+        if (label.equals("radio"))
+        {
+            String yes = context.yesText.getText();
+            String no = context.noText.getText();
+
+            return new Radio(yes, no);
+        }
+
+        if (label.equals("dropdown"))
+        {
+            String yes = context.yesText.getText();
+            String no = context.noText.getText();
+
+            return new Dropdown(yes, no);
         }
 
         if (label.equals("checkbox"))
         {
             return new Checkbox();
-        }
-
-        if (label.equals("radio"))
-        {
-            return new Radio(context.yesText.getText(), context.noText.getText());
         }
 
         throw new IllegalStateException("Unsupported widget value");

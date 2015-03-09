@@ -5,7 +5,7 @@ package lang.qls.ast.Rule;
  */
 public class ColorValue
 {
-    private String color;
+    private final String color;
 
     public ColorValue(String color)
     {

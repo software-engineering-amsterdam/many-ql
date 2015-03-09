@@ -5,21 +5,11 @@ import lang.ql.ast.type.Type;
 /**
  * Created by bore on 08/03/15.
  */
-public class Slider extends WidgetValue
+public class Slider extends NumWidgetValue
 {
-    private Integer min;
-    private Integer max;
-
-    public Slider()
+    public Slider(Integer min, Integer max, Integer step)
     {
-        super("slider");
-    }
-
-    public Slider(Integer min, Integer max)
-    {
-        this();
-        this.min = min;
-        this.max = max;
+        super("slider", min, max, step);
     }
 
     @Override

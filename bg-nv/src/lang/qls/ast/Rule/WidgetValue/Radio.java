@@ -5,16 +5,11 @@ import lang.ql.ast.type.Type;
 /**
  * Created by bore on 08/03/15.
  */
-public class Radio extends WidgetValue
+public class Radio extends BoolWidgetValue
 {
-    private String yesLabel;
-    private String noLabel;
-
     public Radio(String yesLabel, String noLabel)
     {
-        super("radio");
-        this.yesLabel = yesLabel;
-        this.noLabel = noLabel;
+        super("radio", yesLabel, noLabel);
     }
 
     @Override

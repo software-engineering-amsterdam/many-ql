@@ -5,16 +5,11 @@ import lang.ql.ast.type.Type;
 /**
  * Created by bore on 08/03/15.
  */
-public class Dropdown extends WidgetValue
+public class Dropdown extends BoolWidgetValue
 {
-    private String yesLabel;
-    private String noLabel;
-
     public Dropdown(String yesLabel, String noLabel)
     {
-        super("dropdown");
-        this.yesLabel = yesLabel;
-        this.noLabel = noLabel;
+        super("dropdown", yesLabel, noLabel);
     }
 
     @Override

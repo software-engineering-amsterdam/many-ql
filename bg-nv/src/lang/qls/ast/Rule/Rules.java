@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Rules implements Iterable<Rule>
 {
-    private List<Rule> rules;
+    private final List<Rule> rules;
 
     public Rules(List<Rule> rules)
     {

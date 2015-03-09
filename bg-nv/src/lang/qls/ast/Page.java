@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class Page extends AstNode implements Styleable
 {
-    private String name;
-    private List<Statement> body;
+    private final String name;
+    private final List<Statement> body;
 
     public Page(String name, List<Statement> body, int lineNumber)
     {
