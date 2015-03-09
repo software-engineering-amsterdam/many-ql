@@ -58,7 +58,7 @@ public class CheckBox extends Widget {
 				Bool booleanValue = (Bool) value;
 				if (booleanValue.getValue()) {
 					checkBox.setSelected(true);
-				}else{
+				} else {
 					checkBox.setSelected(false);
 				}
 			}

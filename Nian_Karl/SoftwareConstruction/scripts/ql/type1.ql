@@ -21,7 +21,7 @@ form FamilySurvey {
 		}
 	}	
 
-	//sex: "name of same" Str(name1 + name2)
+	//hi: "name of same" Str(name1 + name2)
 	if (age1 == age1) {
 	
 	}
