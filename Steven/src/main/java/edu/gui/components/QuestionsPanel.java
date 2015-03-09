@@ -1,7 +1,9 @@
 package edu.gui.components;
 
 import edu.exceptions.GuiException;
+import edu.gui.Observer;
 import edu.gui.QuestionTypeGui;
+import edu.gui.Subject;
 import edu.nodes.Question;
 
 import javax.swing.*;
@@ -15,8 +17,10 @@ public class QuestionsPanel extends JPanel {
 
     private final GridBagConstraints gbc;
     private final List<Question> questions;
+    private final Observer questionState;
 
-    public QuestionsPanel(List<Question> questions) {
+    public QuestionsPanel(List<Question> questions, Observer questionState) {
+        this.questionState = questionState;
         this.questions = questions;
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
@@ -53,7 +57,9 @@ public class QuestionsPanel extends JPanel {
 
     private void addInputField(Question question) {
         try {
-            add(QuestionTypeGui.getComponent(question.getQuestionType()), gbc);
+            Subject component = QuestionTypeGui.getComponent(question.getQuestionType());
+            component.registerObserver(questionState);
+            add((JComponent) component, gbc);
         } catch (IllegalAccessException | InstantiationException e) {
             throw new GuiException("Could not create input field for: " + question, e);
         }
