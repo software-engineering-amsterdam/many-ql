@@ -1,9 +1,9 @@
-package interpreter
+package ql.interpreter
 
-import ast.Form
-import gui.FormBuilder
-import parser.Parser
-import typechecker.{DuplicateLabelsChecker, TypeChecker}
+import ql.ast.Form
+import ql.gui.FormBuilder
+import ql.parser.Parser
+import ql.typechecker.{DuplicateLabelsChecker, TypeChecker}
 
 import scala.io.Source
 

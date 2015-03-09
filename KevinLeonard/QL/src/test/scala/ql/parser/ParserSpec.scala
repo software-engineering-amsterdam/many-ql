@@ -1,6 +1,6 @@
-package parser
+package ql.parser
 
-import ast._
+import ql.ast._
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
 

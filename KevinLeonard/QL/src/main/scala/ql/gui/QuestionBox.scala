@@ -1,7 +1,7 @@
-package gui
+package ql.gui
 
-import ast._
-import evaluator.Evaluator
+import ql.ast._
+import ql.evaluator.Evaluator
 
 import scala.collection.immutable.StringOps
 import scala.util.Try

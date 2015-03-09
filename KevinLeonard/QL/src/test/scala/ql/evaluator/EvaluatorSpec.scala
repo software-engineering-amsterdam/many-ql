@@ -1,6 +1,6 @@
-package evaluator
+package ql.evaluator
 
-import ast._
+import ql.ast._
 import org.specs2.mutable.Specification
 
 import scalafx.collections.ObservableMap

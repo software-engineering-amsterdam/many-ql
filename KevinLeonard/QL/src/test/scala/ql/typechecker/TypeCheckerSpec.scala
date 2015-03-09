@@ -1,6 +1,6 @@
-package typechecker
+package ql.typechecker
 
-import ast._
+import ql.ast._
 import org.specs2.matcher.{MatchResult, Expectable, Matcher, ExceptionMatchers}
 import org.specs2.mutable.Specification
 
