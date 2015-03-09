@@ -2,7 +2,7 @@ package qls.ast;
 
 import qls.ast.visitor.Visitor;
 
-public interface ASTNode {
+public interface QLSNode {
 	@Override
 	public String toString();
 	

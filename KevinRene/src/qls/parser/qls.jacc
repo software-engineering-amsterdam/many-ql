@@ -15,7 +15,9 @@
 %token <FloatLiteral> MONEYLITERAL
 
 %token <Identifier> IDENTIFIER
-%token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT
+%token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT 
+%token FONT FONTSIZE WIDTH HEIGHT COLOUR
+%token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
 %token  '"' ':' '.'
 %token '(' ')' '{' '}'
 
@@ -33,59 +35,64 @@ import ql.ast.expression.literal.*;
 
 %%
 
-top : stylesheet
-    ;
-
-stylesheet : STYLESHEET IDENTIFIER '{' statements '}'
-           | STYLESHEET IDENTIFIER '{' '}'
-           ;
-
-statements : statement statements
-           | statement 
-           ;
-
-statement : page 
-          | default
-          ;
-
-page      : PAGE IDENTIFIER '{' sectionContent '}'
-          ;
-
-sectionContent : section 
-               | question 
-               | default
-               ;
-
-section : SECTION STRINGLITERAL '{' sectionContent '}'
-        ;
-
-question : QUESTION IDENTIFIER typeset
-         ;
-
-default : WIDGET type typeset;
-
-typeset : WIDGET widget | '{' typerules '}';
-
-typerules : typerule typerules | typerule;
-
-typerule : STRINGLITERAL ':' literal;
-
-
- type 	: INTEGER	{ $$ = new QLInteger(); }
- 		| MONEY		{ $$ = new QLFloat(); }
-		| FLOAT		{ $$ = new QLFloat(); }
-		| BOOLEAN	{ $$ = new QLBoolean(); }
-		| STRING 	{ $$ = new QLString(); }
-		;
-
- literal : INTEGERLITERAL
-		 | MONEYLITERAL
-		 | FLOATLITERAL
-		 | BOOLEANLITERAL
-		 | STRINGLITERAL
-		 ;
-
- widget : '.';
+	stylesheet 	: STYLESHEET IDENTIFIER statements
+				;
+				
+	statements 	: statement statements
+				| statement
+				;
+				
+	statement 	: PAGE IDENTIFIER '{' statements '}'
+				| SECTION STRINGLITERAL '{' statements '}'
+				| QUESTION IDENTIFIER
+				| QUESTION IDENTIFIER '{' widget '}'
+				| DEFAULT type widget
+				| DEFAULT type '{' styleRules '}'
+				;
+	
+	type	: BOOLEAN
+			| INTEGER
+			| FLOAT
+			| MONEY
+			| STRING
+			;
+			
+	literal	: BOOLEANLITERAL
+			| INTEGERLITERAL
+			| FLOATLITERAL
+			| MONEYLITERAL
+			| STRINGLITERAL
+			;
+	
+	widget 	: WIDGET widgetType
+			;
+			
+	widgetType	: SPINBOX
+				| RADIO '(' values ')'
+				| SLIDER '(' values ')'
+				| DROPDOWN '(' values ')'
+				| TEXT
+				| CHECKBOX
+				;
+	
+	values 	: literal values
+			| literal
+			;
+	
+	styleRules	: styleRule styleRules
+				| styleRule
+				;
+				
+	styleRule	: styleProperty ':' literal
+				| widget
+				;
+				
+	styleProperty	: WIDTH
+					| HEIGHT
+					| FONT
+					| FONTSIZE
+					| COLOUR
+					;
 
 %%
 private QLSLexer lexer; 

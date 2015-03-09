@@ -1,8 +1,9 @@
-package qls.ast;
+package qls.ast.statement;
 
+import qls.ast.QLSNode;
 import qls.ast.visitor.Visitor;
 
-public class Stylesheet implements ASTNode {
+public class Stylesheet implements QLSNode {
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {

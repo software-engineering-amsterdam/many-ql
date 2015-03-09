@@ -1,24 +1,23 @@
 package qls.ast.visitor;
 
-import qls.ast.Page;
-import qls.ast.Question;
-import qls.ast.Section;
-import qls.ast.Stylesheet;
-import qls.ast.literal.BooleanLiteral;
-import qls.ast.literal.FloatLiteral;
-import qls.ast.literal.IntegerLiteral;
-import qls.ast.literal.StringLiteral;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
+
+import qls.ast.statement.Page;
+import qls.ast.statement.Question;
+import qls.ast.statement.Section;
+import qls.ast.statement.Stylesheet;
 
 public interface Visitor<T> {
-
-	T visit(Stylesheet stylesheet);
-	T visit(Page page);
-	T visit(Section section);
-	T visit(Question question);
+	public T visit(Stylesheet stylesheet);
+	public T visit(Page page);
+	public T visit(Section section);
+	public T visit(Question question);
 	
-	
-	T visit(BooleanLiteral booleanLiteral);
-	T visit(FloatLiteral floatLiteral);
-	T visit(IntegerLiteral integerLiteral);
-	T visit(StringLiteral stringLiteral);
+	public T visit(BooleanLiteral booleanLiteral);
+	public T visit(FloatLiteral floatLiteral);
+	public T visit(IntegerLiteral integerLiteral);
+	public T visit(StringLiteral stringLiteral);
 }

@@ -64,6 +64,16 @@ public class TestIdentifier {
 				+ " }"
 				+ "	leftOver : money { \"Money left: \" assign(randomQuestion - 1000) }"
 				+ "}", false },
+				
+				{ "form formname {"
+				+ " randomQuestion : money { \"question text\" } "
+				+ "	if(true) {"
+				+ "		moneyQuestion : money { \"question text\" } "
+				+ "	} else {"
+				+ "		randomQuestion : money { \"question text\" } "
+				+ " }"
+				+ "	leftOver : money { \"Money left: \" assign(randomQuestion - 1000) }"
+				+ "}", false },
 
 				{ "form formname {"
 				+ "	if(true) {"
