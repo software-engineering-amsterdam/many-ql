@@ -1,12 +1,12 @@
 package org.fugazi.ql.type_checker.visitor;
 
 import org.fugazi.ql.ast.expression.literal.ID;
-import org.fugazi.ql.ast.form.form_data.visitor.FullFormVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 
-public class UndefinedQuestionsVisitor extends FullFormVisitor {
+public class UndefinedQuestionsVisitor extends FullQLFormVisitor {
 
     public UndefinedQuestionsVisitor() {
         super();
