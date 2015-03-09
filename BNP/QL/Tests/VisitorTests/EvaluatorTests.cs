@@ -29,8 +29,8 @@ namespace Tests.VisitorTests
             ";
             
             AstHandler ast = GetResultAst(input);
-            Assert.IsFalse(ast.CheckType());
-            Assert.IsFalse(ast.Evaluate());
+            Assert.IsTrue(ast.CheckType());
+            Assert.IsTrue(ast.Evaluate());
 
         }
 
@@ -52,9 +52,9 @@ namespace Tests.VisitorTests
                 }
             ";
             AstHandler ast = GetResultAst(input);
-            Assert.IsFalse(ast.CheckType());
-            
-            Assert.IsFalse(ast.Evaluate());
+            Assert.IsTrue(ast.CheckType());
+
+            Assert.IsTrue(ast.Evaluate());
             Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
             //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
             //by visitor could be done as well
