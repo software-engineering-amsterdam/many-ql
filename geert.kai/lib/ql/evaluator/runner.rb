@@ -7,9 +7,8 @@ module QL
 
     def after_initialize(base)    
       @questions = QuestionVisitor.new(@base).questions
-
-      reset_visibilities
       @values = {}
+      calculate_visibilities
     end
 
     def update_variable(variable_name, value)
