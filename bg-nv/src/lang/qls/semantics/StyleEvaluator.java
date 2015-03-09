@@ -61,7 +61,7 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
 
     private void visitStyleable(Styleable s, Iterable<Statement> stats)
     {
-        Style style = s.getDefaultStyles();
+        Style style = s.getDefaultStyle();
 
         this.styleScopes.addStyle(style);
 

@@ -37,7 +37,7 @@ public class Section extends Statement implements Styleable
     }
 
     @Override
-    public Style getDefaultStyles()
+    public Style getDefaultStyle()
     {
         DefaultStyle visitor = new DefaultStyle();
         return visitor.visit(this);
