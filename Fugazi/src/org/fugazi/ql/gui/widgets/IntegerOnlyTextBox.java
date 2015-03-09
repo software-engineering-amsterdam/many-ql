@@ -21,17 +21,21 @@ public class IntegerOnlyTextBox implements IWidget<String> {
 
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         intFormat.setGroupingUsed(false);
+        intFormat.setParseIntegerOnly(true);
         NumberFormatter numberFormatter = new NumberFormatter(intFormat);
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setAllowsInvalid(false);
         numberFormatter.setMinimum(0);
+        numberFormatter.setOverwriteMode(true);
 
         this.input = new JFormattedTextField(numberFormatter);
-        
-        input.setColumns(7);
 
-        panel.add(label);
-        panel.add(input);
+        this.input.setColumns(7);
+
+        this.panel.add(label);
+        this.panel.add(input);
+        
+        this.setValue("0");
     }
 
     @Override
@@ -51,6 +55,6 @@ public class IntegerOnlyTextBox implements IWidget<String> {
 
     @Override
     public void setValue(String _value) {
-        input.setText(_value);
+        this.input.setText(_value);
     }
 }

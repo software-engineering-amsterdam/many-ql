@@ -3,7 +3,7 @@ using QL.Errors;
 
 namespace QL.Model.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType
+    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType, IComparable<Identifier>
     {
         public string Value { get; private set; }
         
@@ -41,11 +41,16 @@ namespace QL.Model.Terminals
             return (Value != null ? Value.GetHashCode() : 0);
         }
 
+        public int CompareTo(Identifier other)
+        {
+            return other.Value == this.Value ? 0 : -1;
+        }
+
         public override string ToString()
         {
             return string.IsNullOrWhiteSpace(Value) ? "undefined" : Value;
         }
-        public override Type GetReturnType()
+        public Type GetReturnType()
         {
             return GetType();
         }

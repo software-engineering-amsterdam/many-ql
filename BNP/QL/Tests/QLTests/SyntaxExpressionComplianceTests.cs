@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL.Model;
 
 namespace Tests.QLTests
 {
@@ -116,6 +117,27 @@ namespace Tests.QLTests
 
             Assert.IsNull(unit.exception);
             Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
+        }
+        [TestMethod]
+        public void MinusSign()
+        {
+            
+            string input = @"form ExampleBlock {
+                statement Smthing1 (number, (1+(2 -3))) ""this "";
+                statement Smthing1 (number, (1+(2-3))) ""should"";
+                statement Smthing1 (number, (1+(2 --3))) ""be"";
+                statement Smthing1 (number, (1+(2-- 3))) ""solved"";
+
+                }
+
+            ";
+            AstHandler Handler = new AstHandler(input);
+
+            Handler.BuildAST();
+            Assert.AreEqual(0, Handler.AstBuilderExceptions.Count);
+
+
+
         }
         #endregion
 
