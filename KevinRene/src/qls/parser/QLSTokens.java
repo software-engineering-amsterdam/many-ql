@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Mar 09 12:59:24 CET 2015
+// Output created by jacc on Mon Mar 09 14:23:26 CET 2015
 
 package qls.parser;
 
@@ -25,7 +25,7 @@ interface QLSTokens {
     int RADIO = 19;
     int SECTION = 20;
     int SLIDER = 21;
-    int SPINBOX = 22;
+    int SPINNER = 22;
     int STRING = 23;
     int STRINGLITERAL = 24;
     int STYLESHEET = 25;
@@ -36,6 +36,7 @@ interface QLSTokens {
     // '"' (code=34)
     // '(' (code=40)
     // ')' (code=41)
+    // ',' (code=44)
     // '.' (code=46)
     // ':' (code=58)
     // '{' (code=123)

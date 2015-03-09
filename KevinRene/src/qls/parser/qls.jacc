@@ -17,13 +17,13 @@
 %token <Identifier> IDENTIFIER
 %token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT 
 %token FONT FONTSIZE WIDTH HEIGHT COLOUR
-%token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
+%token RADIO DROPDOWN SLIDER SPINNER TEXT CHECKBOX
 %token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
 
 %type <Expression> literal
 %type <QLType> type
-%type <Block> block
+%type <Block> statements
 
 %{
 import ql.ast.*;
@@ -36,12 +36,13 @@ import ql.ast.expression.literal.*;
 
 %%
   top : stylesheet { result = $i; }
+      ;
 
-	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new StyleSheet($2, $4); }
+	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
 				;
 				
 	statements 	: statement statements { $$ = new Block($1, $2); }
-				| statements                 { $$ = new Block($1); }
+				| statement                 { $$ = new Block($1); }
 				;
 				
 	statement 	: PAGE IDENTIFIER '{' statements '}'
@@ -69,12 +70,12 @@ import ql.ast.expression.literal.*;
 	widget 	: WIDGET widgetType
 			;
 			
-	widgetType	: SPINBOX
-				| RADIO '(' values ')'
-				| SLIDER '(' values ')'
-				| DROPDOWN '(' values ')'
-				| TEXT
-				| CHECKBOX
+	widgetType	: SPINNER           { $$ = new Spinner(); }
+				| RADIO '(' values ')'    { $$ = new RadioButton(); }
+				| SLIDER '(' values ')'   { $$ = new Slider(); }
+				| DROPDOWN '(' values ')' { $$ = new Dropdown(); }
+				| TEXT                    { $$ = new TextField(); }
+				| CHECKBOX                { $$ = new Checkbox(); }
 				;
 	
 	values 	: literal ',' values
