@@ -19,8 +19,7 @@ namespace QL.Model
             }
             set
             {
-                Console.Write(Children);
-                if (Children.Count() == 0)
+                if (!Children.Any())
                 {
                     Children.Add((ElementBase) value);
                 }

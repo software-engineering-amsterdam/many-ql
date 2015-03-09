@@ -9,6 +9,7 @@ namespace Tests
         protected QLLexer Lexer;
         protected CommonTokenStream Tokenstream;
         protected QLParser Parser;
+        protected QLListener Listener;
 
         protected void Build(string input)
         {

@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    public class Text : BinaryTreeElementBase, ITerminal<string>, ITerminalType
+    public class Text : BinaryTreeElementBase, ITerminal<string>, IResolvableTerminalType
     {
         public string Value { get; set; }
 
@@ -14,7 +14,7 @@ namespace QL.Model.Terminals
             Value = value.ToString();
         }
 
-        public override Type GetReturnType()
+        public Type GetReturnType()
         {
             return GetType();
         }
@@ -27,6 +27,15 @@ namespace QL.Model.Terminals
             
             return Value;
         }
+    public static bool operator == (Text a, Text b)
+    {
+        return a.Value == b.Value;    
+    }
+    public static bool operator !=(Text a, Text b)
+    {
+        return a.Value != b.Value;
+    }
+        
        
     }
 }
