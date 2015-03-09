@@ -19,10 +19,19 @@ namespace QL.Grammars
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
+        private IList<Exception> AstBuilderExceptions;
+
 
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
+        }
+
+        public QLListener(IList<Exception> AstBuilderExceptions)
+        {
+            this.AstBuilderExceptions = AstBuilderExceptions;
+            _childrenStack = new Stack<Stack<ElementBase>>();
+
         }
 
         public void InitializeNewLevel()
@@ -35,15 +44,18 @@ namespace QL.Grammars
             get { return _astRootNode != null; }
         }
 
-        public AstHandler GetAst()
-        {
-            if (AstExists)
-            {
-                return new AstHandler(_astRootNode);
-            }
-            throw new Exception("Ast is not created");
-        }
+        
 
+        public Form GetAstRootNode()
+        {
+            if (AstExists) { 
+            return _astRootNode;
+            }
+            else
+            {
+                return null;
+            }
+        }
         private IList<ElementBase> GetChildren()
         {
             Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out

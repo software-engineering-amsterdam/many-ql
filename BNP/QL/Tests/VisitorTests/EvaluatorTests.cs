@@ -6,38 +6,34 @@ using QL.Grammars;
 namespace Tests.VisitorTests
 {
     [TestClass]
-    public class EvaluatorTests :QLTestBase
+    public class EvaluatorTests
     {
-        AstHandler GetResultAst(string input)
-        {
-            Build(input);
+        protected AstHandler Handler;
 
-            Listener = new QLListener();
+        public void Initialize(string input){
+            Handler= new AstHandler(input);
+            Assert.IsTrue(Handler.BuildAST());
 
-            Parser.AddParseListener(Listener);
-            var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists);
-            AstHandler ast = Listener.GetAst();        
-            return ast;
         }
+
+        
 
         [TestMethod]
         public void EvaluationBase()
         {
-            string input = @"form ExampleBlock {
+            Initialize(@"form ExampleBlock {
                 }
-            ";
+            "); 
             
-            AstHandler ast = GetResultAst(input);
-            Assert.IsTrue(ast.CheckType());
-            Assert.IsTrue(ast.Evaluate());
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsTrue(Handler.Evaluate());
 
         }
 
         [TestMethod]
         public void EvaluationBasicTest()
         {
-            string input = @"form ExampleBlock {
+            Initialize(@"form ExampleBlock {
                 statement S1 (text, ""abc"") ""You've failed to answer:"";
 
 
@@ -50,15 +46,13 @@ namespace Tests.VisitorTests
                      else {};
                      };
                 }
-            ";
-            AstHandler ast = GetResultAst(input);
-            Assert.IsTrue(ast.CheckType());
-
-            Assert.IsTrue(ast.Evaluate());
-            Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
+            ");
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsTrue(Handler.Evaluate());
+            Assert.AreEqual(Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
             //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
             //by visitor could be done as well
-            Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
+            Assert.AreEqual(Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
 
         }
 
