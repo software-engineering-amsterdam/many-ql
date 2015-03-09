@@ -7,10 +7,9 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -35,11 +34,11 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public GenericValue<?> evaluate(RuntimeMemory mem) {
+	public GenericValue<?> evaluate(Context mem) {
 		return mem.getValue(name);
 	}
 	
-	public Type getType(TypeMemory mem){
+	public Type getType(Context mem){
 		if(this.IsReference()){
 			return getTypeFromMemory(mem);
 		}
@@ -47,7 +46,7 @@ public class IdLiteral extends Literal implements Expression {
 		return this.type;
 	}
 	
-	private Type getTypeFromMemory(TypeMemory mem) {
+	private Type getTypeFromMemory(Context mem) {
 		Type typeFromMemory = mem.getIdType(this);
 		if(typeFromMemory == null){
 			mem.addError(new Error(this.tokenInfo, "Undeclared variable reference"));

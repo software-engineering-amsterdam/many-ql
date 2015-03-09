@@ -9,9 +9,7 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Not extends UnaryExpression implements Expression {
 
@@ -20,12 +18,12 @@ public class Not extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public BoolValue evaluate(RuntimeMemory mem) {
+	public BoolValue evaluate(Context mem) {
 		return new BoolValue(!((BoolValue)value.evaluate(mem)).getValue());
 	}
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context mem) {
 		Type childType = value.getType(mem);
 		if(childType.getType().isBoolType()){
 			return new BoolType();

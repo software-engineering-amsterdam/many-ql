@@ -8,17 +8,15 @@ import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class GUIBuilder {
 	
 	private FormComponent formGUI;
-	private RuntimeMemory rm;
 	private Expression showCondition;
 	
-	public GUIBuilder(Form form,JFrame frame)
+	public GUIBuilder(Form form,JFrame frame, Context mem)
 	{
-		rm = form.initMemory();
 		
 		formGUI = new FormComponent(form,this,frame);	
 		frame.add(formGUI);
@@ -28,11 +26,11 @@ public class GUIBuilder {
 			Statement statement = s.next();
 			
 			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
-			statement.createGUIComponent(this,formGUI,rm);
+			statement.createGUIComponent(this,formGUI,mem);
 		}	
 	}
 
-	public void createGUIQuestion(Question question, FormComponent formGUI2, RuntimeMemory rm) {
+	public void createGUIQuestion(Question question, FormComponent formGUI2, Context rm) {
 		QuestionComponent questionCompondent = new QuestionComponent(question,rm,showCondition);	
 		formGUI2.add(questionCompondent);
 	}

@@ -10,9 +10,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class LessThan extends BinaryExpression implements Expression {
 
@@ -22,12 +20,12 @@ public class LessThan extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate(RuntimeMemory mem) {
+	public BoolValue evaluate(Context mem) {
 		return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() < ((IntValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context mem) {
 		Type leftType = left.getType(mem);
 		Type rightType = right.getType(mem);
 		if(leftType.isIntType() && rightType.isIntType()){

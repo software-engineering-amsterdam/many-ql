@@ -5,19 +5,18 @@ import org.antlr.v4.runtime.Token;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
-import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 //TODO: ifStatements can be part of a condition, so they will only be assigned conditionally (at runtime). There will be no problems compiletime, however.
 public class AssignmentStatement implements Statement {
 	public String id;
 	public Type type;
 	public Expression expression;
+	//TODO handle tokenInfo in constructor and perhaps in some errors?
 	private Token tokenInfo;
 	
 	public AssignmentStatement(String id, Type type, Expression expression) {
@@ -28,7 +27,7 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context mem) {
 		return expression.getType(mem);
 	}
 
@@ -49,13 +48,13 @@ public class AssignmentStatement implements Statement {
 		this.expression.setType(ids);
 	}
 	
-	public void initMemory(RuntimeMemory mem){
+	public void initMemory(Context mem){
 		expression.evaluate(mem).addToMemory(id, mem);
 	}
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-			FormComponent formGUI, RuntimeMemory rm) {
+			FormComponent formGUI, Context rm) {
 		// TODO Auto-generated method stub
 		
 	}

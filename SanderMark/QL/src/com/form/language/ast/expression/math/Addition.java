@@ -9,9 +9,7 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Addition extends BinaryExpression implements Expression {
 	
@@ -20,12 +18,12 @@ public class Addition extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public IntValue evaluate(RuntimeMemory mem) {
+	public IntValue evaluate(Context mem) {
 		return new IntValue(((IntValue)super.left.evaluate(mem)).getValue() + ((IntValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context mem) {
 		Type leftType = left.getType(mem);
 		Type rightType = right.getType(mem);
 		if(leftType.isIntType() && rightType.isIntType()){

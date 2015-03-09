@@ -3,13 +3,10 @@ package com.form.language.ast.expression;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
-import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 public abstract class BinaryExpression implements Expression {
 	public Token tokenInfo;
@@ -21,7 +18,7 @@ public abstract class BinaryExpression implements Expression {
 		this.tokenInfo = tokenInfo;
 	}
 	@Override
-	public Boolean isCorrectlyTyped(TypeMemory mem) {
+	public Boolean isCorrectlyTyped(Context mem) {
 		return !this.getType(mem).equals(new ErrorType());
 	}
 	
@@ -47,7 +44,7 @@ public abstract class BinaryExpression implements Expression {
 //		
 //	}
 	@Override
-	public GenericValue<?> evaluate(RuntimeMemory mem) {
+	public GenericValue<?> evaluate(Context mem) {
 		// TODO Auto-generated method stub
 		return null;
 	}

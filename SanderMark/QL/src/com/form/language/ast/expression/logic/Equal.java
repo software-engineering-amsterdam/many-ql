@@ -11,9 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Equal extends BinaryExpression implements Expression {
 
@@ -23,14 +21,14 @@ public class Equal extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate(RuntimeMemory mem) {
-		if(this.getType(mem.typemem).isIntType()){
+	public BoolValue evaluate(Context mem) {
+		if(this.getType(mem).isIntType()){
 			return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() == ((IntValue)super.right.evaluate(mem)).getValue());
 		}
-		if(this.getType(mem.typemem).isBoolType()){
+		if(this.getType(mem).isBoolType()){
 			return new BoolValue(((BoolValue)super.left.evaluate(mem)).getValue() == ((BoolValue)super.right.evaluate(mem)).getValue());
 		}
-		if(this.getType(mem.typemem).isStringType()){
+		if(this.getType(mem).isStringType()){
 			return new BoolValue(((StringValue)super.left.evaluate(mem)).getValue() == ((StringValue)super.right.evaluate(mem)).getValue());
 		}
 		return null;
@@ -38,7 +36,7 @@ public class Equal extends BinaryExpression implements Expression {
 
 	@Override
 	//TODO: improve this code
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context mem) {
 		Type leftType = left.getType(mem);
 		Type rightType = right.getType(mem);
 		
