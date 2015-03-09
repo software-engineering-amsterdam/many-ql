@@ -39,7 +39,6 @@ public class TestIdentifier {
 				+ "	} else {"
 				+ " 	randomQuestion : money { \"question text\" } "
 				+ " }"
-				+ "	leftOver : money { \"Money left: \" assign(randomQuestion - 1000) }"
 				+ "}", true },
 				
 				{ "form formname {"
@@ -56,7 +55,7 @@ public class TestIdentifier {
 				+ "	}"
 				+ "	leftOver : money { \"Money left: \" assign(randomQuestion - 1000) }"
 				+ "}", false },		
-				
+
 				{ "form formname {"
 				+ "	if(true) {"
 				+ "		moneyQuestion : money { \"question text\" } "
@@ -64,6 +63,14 @@ public class TestIdentifier {
 				+ "		randomQuestion : money { \"question text\" } "
 				+ " }"
 				+ "	leftOver : money { \"Money left: \" assign(randomQuestion - 1000) }"
+				+ "}", false },
+
+				{ "form formname {"
+				+ "	if(true) {"
+				+ "		moneyQuestion : money { \"question text\" } "
+				+ "	} else {"
+				+ "		leftOver : money { \"Money left: \" assign(moneyQuestion - 1000) }"
+				+ " }"
 				+ "}", false },
 
 				{ "leftOver : money { \"Money left: \" assign(carValue - 1000) }", false },

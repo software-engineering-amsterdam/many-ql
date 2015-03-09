@@ -34,6 +34,7 @@ import ql.ast.expression.type.QLForm;
 import ql.ast.expression.type.QLInteger;
 import ql.ast.expression.type.QLNumeric;
 import ql.ast.expression.type.QLString;
+import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.Form;
 import ql.ast.statement.If;
@@ -266,11 +267,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 			typeErrors.incompatibleType(ifNode, new QLBoolean(), ifType);
 		}		
 			
-		this.register = new TypeEnvironment(this.register);
-		
 		ifNode.getBlock().accept(this);
-		
-		this.register = this.register.getParent();
 		
 		return ifType;
 	}
@@ -284,13 +281,9 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 			typeErrors.incompatibleType(ifElseNode, new QLBoolean(), ifType);
 		}		
 
-		register = new TypeEnvironment(register);
-		ifElseNode.getIfBranch().accept(this);
-		register = register.getParent();
 		
-		register = new TypeEnvironment(register);
+		ifElseNode.getIfBranch().accept(this);
 		ifElseNode.getElseBranch().accept(this);
-		register = register.getParent();
 		
 		return ifType;
 	}
@@ -306,5 +299,21 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 		}
 		
 		return questionNode.getType();
+	}
+	
+	@Override
+	public QLType visit(Block blockNode) {
+		increaseScope();
+		StatementVisitor.super.visit(blockNode);
+		decreaseScope();
+		return null;
+	}
+	
+	private void increaseScope() {
+		register = new TypeEnvironment(register);
+	}
+	
+	private void decreaseScope() {
+		register = register.getParent();
 	}
 }

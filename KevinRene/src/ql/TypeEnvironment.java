@@ -28,6 +28,8 @@ public class TypeEnvironment {
 	}
 	
 	public TypeEnvironment getParent() {
-		return this.parentEnvironment;
+		return (parentEnvironment == null ) ? this : parentEnvironment;
 	}
+	
+	
 }
