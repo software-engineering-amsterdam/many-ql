@@ -77,21 +77,21 @@ public class Main {
 
         // Perform QLS type checking.
         // Perform type checking.
-        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheet);
-        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                styleSheet, styleSheetData, formDataStorage
-        );
-
-        // display warnings and errors and if form is not type-correct, exit
-        printer = new ASTIssuePrinter(
-                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-        );
-        printer.displayWarningsAndErrors();
-
-        if (!isQLSFormTypesCorrect) {
-            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(-1);
-        }
+//        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheet);
+//        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
+//                styleSheet, styleSheetData, formDataStorage
+//        );
+//
+//        // display warnings and errors and if form is not type-correct, exit
+//        printer = new ASTIssuePrinter(
+//                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
+//        );
+//        printer.displayWarningsAndErrors();
+//
+//        if (!isQLSFormTypesCorrect) {
+//            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
+//            System.exit(-1);
+//        }
 
         // todo: render gui with stylesheet.
 

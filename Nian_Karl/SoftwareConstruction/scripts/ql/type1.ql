@@ -6,7 +6,7 @@ form FamilySurvey {
 	age3: "How old are you?" Int(age2)
 	age4: "How old are you?" Int(age2 + age3)
 	age1: "How old are you?" Int(age3)
-
+	
 
 	isMarried: "Are you married?" Bool
 	isMarried1: "Are you married?" Bool
@@ -21,7 +21,7 @@ form FamilySurvey {
 		}
 	}	
 
-	//sex: "name of same" Str(name1 + name2)
+	//hi: "name of same" Str(name1 + name2)
 	if (age1 == age1) {
 	
 	}

@@ -1,10 +1,6 @@
 # Type Checker
 import collections
-import QL.Grammar.constants as gconstants
-import QL.AST.Elements.constants as econstants
-from QL.CoreTools.exceptions import *
-from QL.Validators.expression_validator import *
-from QL.AST.Elements.operators import *
+import QL.Validators.expression_validator as validator
 
 
 class TypeChecker:
@@ -67,8 +63,8 @@ class TypeChecker:
     def check_expressions(expressions, type_dict):
         messages = ""
         for e in expressions:
-            if ExpressionValidator.validator(e.return_type(type_dict)):
+            if validator.ExpressionValidator.validator(e.return_type(type_dict)):
                 continue
             else:
-                messages += e.pretty_print() + " is malformed"
+                messages += e.pretty_print() + " is malformed\n"
         return messages

@@ -73,6 +73,8 @@ import org.uva.utility.CodePosition;
 
 public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
+	private final String DOUBLE_QUOTE_ESCAPE_PATTERN = "^\"|\"$"; 
+	
 	@Override
 	public QLNode visitQuestionnaire(QuestionnaireContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
@@ -224,6 +226,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprEqual(ExprEqualContext ctx) {
+		
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
@@ -272,6 +275,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitLiteralId(LiteralIdContext ctx) {
+		
 		CodePosition pos = getCodePosition(ctx);
 		return new Identifier(ctx.Identifier().getText(), pos);
 	}
@@ -291,7 +295,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	@Override
 	public QLNode visitLiteralStr(LiteralStrContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new StrLiteral(ctx.StringLiteral().getText(), pos);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
 	}
 
 	@Override
@@ -313,7 +317,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	@Override
 	public QLNode visitQuestionLabel(QuestionLabelContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new StrLiteral(ctx.StringLiteral().getText().replaceAll("^\"|\"$", ""), pos);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
 	}
 	
 }
