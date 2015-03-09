@@ -105,13 +105,6 @@ public class QLTypeChecker {
         }
     }
 
-
-
-//    private void checkCyclicDependencies() {
-//        List<Question> computedQuestions = this.formData.getComputedQuestions();
-//
-//    }
-
     /**
      * =====================
      * Helper check methods
@@ -156,9 +149,11 @@ public class QLTypeChecker {
         this.checkQuestionTypes();
         this.checkIfStatementConditionTypes();
         this.checkAssignmentTypes();
-//        this.checkCyclicDependencies();
 
-        // perform all the checks that can be done on the fly
+        // perform all the checks that are done on the fly
+        // 1. undefined variables
+        // 2. cyclic dependencies
+        // 3. expressions
         form.accept(this.visitor);
 
         return this.isFormCorrect();

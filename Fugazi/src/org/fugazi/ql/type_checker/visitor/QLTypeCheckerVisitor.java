@@ -144,7 +144,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         left.accept(this);
         right.accept(this);
         return null;
-
     }
 
     /*
