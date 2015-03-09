@@ -26,7 +26,7 @@ public interface IQLSASTVisitor<T> {
     public T visitFontSizeProperty(FontSize _fontSize);
     public T visitWidthProperty(Width _width);
 
-    public T visitNullWidget(NullWidget _widget);
+    public T visitNullWidget(UndefinedWidget _widget);
     public T visitCheckBox(CheckBox _widget);
     public T visitTextBox(TextBox _widget);
     public T visitSpinBox(SpinBox _widget);

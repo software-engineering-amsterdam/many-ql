@@ -3,7 +3,7 @@ package org.fugazi.qls.ast;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.parser.QLSLexer;
 import org.fugazi.qls.parser.QLSParser;
@@ -27,7 +27,7 @@ public class QLSASTBuilder {
         return (StyleSheet) buildFromTree(parser.stylesheet());
     }
 
-    private AbstractASTQLNode buildFromTree(ParseTree tree) {
+    private AbstractASTNode buildFromTree(ParseTree tree) {
         return tree.accept(new FugaziQLSVisitor());
     }
 }

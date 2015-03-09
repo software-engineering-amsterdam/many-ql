@@ -3,7 +3,7 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
-public class NullWidget extends Widget {
+public class UndefinedWidget extends Widget {
 
     @Override
     public void applyStyle(Style _style) {

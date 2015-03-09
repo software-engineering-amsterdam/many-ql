@@ -7,7 +7,7 @@ public class IntResult extends Result {
 
     private int result;
 
-    IntResult(int result) {
+    public IntResult(int result) {
         this.result = result;
     }
 
