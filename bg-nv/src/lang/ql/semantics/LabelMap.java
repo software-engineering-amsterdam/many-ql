@@ -13,7 +13,7 @@ public class LabelMap
 
     public LabelMap()
     {
-        this.labelToId = new HashMap<String, Set<String>>();
+        this.labelToId = new HashMap<>();
     }
 
     public void registerLabel(Question q)
@@ -26,7 +26,7 @@ public class LabelMap
         }
         else
         {
-            Set<String> ids = new HashSet<String>();
+            Set<String> ids = new HashSet<>();
             ids.add(id);
             this.labelToId.put(label, ids);
         }
@@ -34,7 +34,7 @@ public class LabelMap
 
     public Set<List<String>> getDuplicateLabels()
     {
-        Set<List<String>> result = new HashSet<List<String>>();
+        Set<List<String>> result = new HashSet<>();
         for (Set<String> s : this.labelToId.values())
         {
             if (s.size() > 1)

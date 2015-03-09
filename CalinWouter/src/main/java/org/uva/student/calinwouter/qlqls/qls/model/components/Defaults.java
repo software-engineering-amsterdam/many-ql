@@ -11,8 +11,8 @@ import java.util.Map;
 public class Defaults {
     private final Map<TypeDescriptor, Map<String, Object>> defaultStyleSheetSettings;
 
-    public Defaults(Map<TypeDescriptor, Map<String, Object>> defaultStyleSheetSettings) {
+    public Defaults(Map defaultStyleSheetSettings) {
         this.defaultStyleSheetSettings = (Map<TypeDescriptor, Map<String, Object>>)
-                Arrays.asList(defaultStyleSheetSettings);
+                defaultStyleSheetSettings;
     }
 }

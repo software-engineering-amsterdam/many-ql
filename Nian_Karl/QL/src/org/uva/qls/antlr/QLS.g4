@@ -6,11 +6,9 @@ page: PAGE Identifier block;
 
 block: LEFT_PAREN section* RIGHT_PAREN;
 
-section: SECTION Identifier LEFT_PAREN questionIdent RIGHT_PAREN;
+section: SECTION StringLiteral LEFT_PAREN questionIdent RIGHT_PAREN;
 
-questionIdent: 	QUESTION Identifier LEFT_PAREN styling* RIGHT_PAREN
-	|	QUESTION Identifier styling
-	;
+questionIdent:QUESTION Identifier ;
 
 styling: WIDGET COLON widget
 	| WIDTH COLON IntegerLiteral

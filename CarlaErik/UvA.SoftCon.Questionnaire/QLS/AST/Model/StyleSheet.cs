@@ -12,13 +12,13 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
     /// </summary>
     public class StyleSheet : QLSNode
     {
-        public ICollection<Page> Pages
+        public IEnumerable<Page> Pages
         {
             get;
             private set;
         }
 
-        public StyleSheet(ICollection<Page> pages, TextPosition position)
+        internal StyleSheet(IEnumerable<Page> pages, TextPosition position)
             : base(position)
         {
             Pages = pages;

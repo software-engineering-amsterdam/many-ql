@@ -1,0 +1,7 @@
+stylesheet sample {
+  page main {
+         question married {
+           widget radio("Yes", "No")
+         }
+    }
+}

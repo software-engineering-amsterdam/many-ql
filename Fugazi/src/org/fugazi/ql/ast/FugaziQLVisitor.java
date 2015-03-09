@@ -30,10 +30,12 @@ import org.fugazi.ql.parser.QLParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final HashMap<String, Type> identifiers = new HashMap<>();
+    private final Map<String, Type> identifiers = new HashMap<>();
 
     private void addIdentifier(String _name, Type _type) {
         identifiers.put(_name, _type);
@@ -60,7 +62,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
         String formName = ctx.ID().getText();
-        ArrayList<Statement> formStatements = new ArrayList<>();
+        List<Statement> formStatements = new ArrayList<>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);
@@ -79,7 +81,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
         Expression condition = (Expression) ctx.expression().accept(this);
-        ArrayList<Statement> statements = new ArrayList<>();
+        List<Statement> statements = new ArrayList<>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);

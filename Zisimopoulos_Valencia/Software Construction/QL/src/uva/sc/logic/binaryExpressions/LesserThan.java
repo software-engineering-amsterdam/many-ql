@@ -19,13 +19,4 @@ public class LesserThan extends BinaryExpression{
 	public <T> T accept(INodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public Expression evaluate() {
-		Expression firstOperand = this.getFirstOperand().evaluate();
-		Expression secondOperand = this.getSecondOperand().evaluate();
-		BigDecimal numericalFirstOperand = new BigDecimal(firstOperand.getValue());
-		BigDecimal numericalSecondOperand = new BigDecimal(secondOperand.getValue());
-		return new BooleanAtom(numericalFirstOperand.compareTo(numericalSecondOperand) == -1);
-	}
-
 }

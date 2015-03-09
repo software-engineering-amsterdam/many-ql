@@ -2,47 +2,57 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class Start extends Node {
+public final class Start extends Node
+{
     private PBegin _pBegin_;
     private EOF _eof_;
 
-    public Start() {
+    public Start()
+    {
         // Empty body
     }
 
     public Start(
-            @SuppressWarnings("hiding") PBegin _pBegin_,
-            @SuppressWarnings("hiding") EOF _eof_) {
+        @SuppressWarnings("hiding") PBegin _pBegin_,
+        @SuppressWarnings("hiding") EOF _eof_)
+    {
         setPBegin(_pBegin_);
         setEOF(_eof_);
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new Start(
-                cloneNode(this._pBegin_),
-                cloneNode(this._eof_));
+            cloneNode(this._pBegin_),
+            cloneNode(this._eof_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseStart(this);
     }
 
-    public PBegin getPBegin() {
+    public PBegin getPBegin()
+    {
         return this._pBegin_;
     }
 
-    public void setPBegin(PBegin node) {
-        if (this._pBegin_ != null) {
+    public void setPBegin(PBegin node)
+    {
+        if(this._pBegin_ != null)
+        {
             this._pBegin_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -52,17 +62,22 @@ public final class Start extends Node {
         this._pBegin_ = node;
     }
 
-    public EOF getEOF() {
+    public EOF getEOF()
+    {
         return this._eof_;
     }
 
-    public void setEOF(EOF node) {
-        if (this._eof_ != null) {
+    public void setEOF(EOF node)
+    {
+        if(this._eof_ != null)
+        {
             this._eof_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -73,13 +88,16 @@ public final class Start extends Node {
     }
 
     @Override
-    void removeChild(Node child) {
-        if (this._pBegin_ == child) {
+    void removeChild(Node child)
+    {
+        if(this._pBegin_ == child)
+        {
             this._pBegin_ = null;
             return;
         }
 
-        if (this._eof_ == child) {
+        if(this._eof_ == child)
+        {
             this._eof_ = null;
             return;
         }
@@ -88,13 +106,16 @@ public final class Start extends Node {
     }
 
     @Override
-    void replaceChild(Node oldChild, Node newChild) {
-        if (this._pBegin_ == oldChild) {
+    void replaceChild(Node oldChild, Node newChild)
+    {
+        if(this._pBegin_ == oldChild)
+        {
             setPBegin((PBegin) newChild);
             return;
         }
 
-        if (this._eof_ == oldChild) {
+        if(this._eof_ == oldChild)
+        {
             setEOF((EOF) newChild);
             return;
         }
@@ -103,9 +124,10 @@ public final class Start extends Node {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "" +
-                toString(this._pBegin_) +
-                toString(this._eof_);
+            toString(this._pBegin_) +
+            toString(this._eof_);
     }
 }

@@ -24,13 +24,13 @@ public class AST2LogicTest {
     @Before
     public void setUp() throws Exception {
         store = new Store();
-        ast = new QuestionnaireNode("");
+        ast = new QuestionnaireNode();
     }
 
     @Test
     public void testBasicQuestion() throws Exception {
-        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question", ""));
-        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is a test question with a numeral answer", ""));
+        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question"));
+        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is a test question with a numeral answer"));
 
         fillStore();
 

@@ -13,19 +13,19 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
     /// </summary>
     public sealed class QuestionForm : QLNode
     {
-        public ICollection<IStatement> Statements
+        public IEnumerable<IStatement> Statements
         {
             get;
             private set;
         }
 
-        public ICollection<Question> AllQuestions
+        public IEnumerable<Question> AllQuestions
         {
             get;
             private set;
         }
 
-        public QuestionForm(ICollection<IStatement> statements, TextPosition position)
+        public QuestionForm(IEnumerable<IStatement> statements, TextPosition position)
             : base(position)
         {
             Statements = statements;
@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
             return visitor.Visit(this);
         }
 
-        private ICollection<Question> GetAllQuestions()
+        private IEnumerable<Question> GetAllQuestions()
         {
             var questions = new List<Question>();
 

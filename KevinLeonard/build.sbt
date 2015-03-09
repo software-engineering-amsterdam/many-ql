@@ -1,4 +1,4 @@
-name := "QL"
+name := "QL/QLS"
 
 version := "1.0"
 

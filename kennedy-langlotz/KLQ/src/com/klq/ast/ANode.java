@@ -1,17 +1,19 @@
 package com.klq.ast;
 
+import com.common.Location;
+
 /**
  * Created by juriaan on 9-2-15.
  */
 public abstract class ANode {
-    private String loc;
+    private Location location;
 
     public ANode(){
-        this.loc = null;
+        this.location = null;
     }
 
-    public ANode(String loc) {
-        this.loc = loc;
+    public ANode(Location location) {
+        this.location = location;
     }
 
     public abstract <T> T  accept(IVisitor<T> visitor);
@@ -19,7 +21,7 @@ public abstract class ANode {
     public void printSelf() {
     }
 
-    public String getLoc() {
-        return loc;
+    public Location getLocation() {
+        return location;
     }
 }

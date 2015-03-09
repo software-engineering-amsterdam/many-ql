@@ -30,33 +30,25 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override Value Visit(BooleanLiteral literal)
         {
-            return new BooleanValue(literal.Value);
+            return new BooleanValue(literal.GetValue());
         }
 
         public override Value Visit(IntegerLiteral literal)
         {
-            return new IntegerValue(literal.Value);
+            return new IntegerValue(literal.GetValue());
         }
 
         public override Value Visit(StringLiteral literal)
         {
-            return new StringValue(literal.Value);
+            return new StringValue(literal.GetValue());
         }
 
         public override Value Visit(DateLiteral literal)
         {
-            if (literal.Value.Equals("today", StringComparison.OrdinalIgnoreCase))
-            {
-                return new DateValue(DateTime.Today);
-            }
-            else
-            {
-                DateTime date = DateTime.ParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture);
-                return new DateValue(date);
-            }
+            return new DateValue(literal.GetValue());
         }
 
-        #endregion 
+        #endregion
 
         #region Visit Identifier
 

@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.bool;
 
+import com.common.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
@@ -9,7 +10,11 @@ import com.klq.ast.impl.expr.AExpression;
  */
 public abstract class ABooleanNode extends ABinaryExprNode {
 
-    public ABooleanNode(AExpression leftChild, AExpression rightChild, String location) {
+    public ABooleanNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);
+    }
+
+    public ABooleanNode(AExpression leftChild, AExpression rightChild) {
+        super(leftChild, rightChild);
     }
 }

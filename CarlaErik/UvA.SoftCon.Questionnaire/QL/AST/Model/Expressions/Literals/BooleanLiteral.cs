@@ -13,7 +13,19 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
     /// </summary>
     public class BooleanLiteral : Literal<bool>
     {
-        public BooleanLiteral(bool value, TextPosition position)
+        private const string _true = "true";
+        private const string _false = "false";
+
+        public override bool IsValid
+        {
+            get
+            {
+                return Value.Equals(_true, StringComparison.OrdinalIgnoreCase)
+                    || Value.Equals(_false, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        internal BooleanLiteral(string value, TextPosition position)
             : base(value, position)
         {
         }
@@ -31,6 +43,18 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
+        }
+
+        public override bool GetValue()
+        {
+            if (IsValid)
+            {
+                return Value.Equals(_true, StringComparison.OrdinalIgnoreCase);
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot return the value of an invalid expressed boolean literal.");
+            }
         }
     }
 }

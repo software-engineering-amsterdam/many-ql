@@ -2,24 +2,24 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFilledIdentList extends PIdentList {
+public final class AFilledIdentList extends PIdentList
+{
     private TIdent _ident_;
     private final LinkedList<PElement> _element_ = new LinkedList<PElement>();
 
-    public AFilledIdentList() {
+    public AFilledIdentList()
+    {
         // Constructor
     }
 
     public AFilledIdentList(
-            @SuppressWarnings("hiding") TIdent _ident_,
-            @SuppressWarnings("hiding") List<?> _element_) {
+        @SuppressWarnings("hiding") TIdent _ident_,
+        @SuppressWarnings("hiding") List<?> _element_)
+    {
         // Constructor
         setIdent(_ident_);
 
@@ -28,28 +28,35 @@ public final class AFilledIdentList extends PIdentList {
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AFilledIdentList(
-                cloneNode(this._ident_),
-                cloneList(this._element_));
+            cloneNode(this._ident_),
+            cloneList(this._element_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAFilledIdentList(this);
     }
 
-    public TIdent getIdent() {
+    public TIdent getIdent()
+    {
         return this._ident_;
     }
 
-    public void setIdent(TIdent node) {
-        if (this._ident_ != null) {
+    public void setIdent(TIdent node)
+    {
+        if(this._ident_ != null)
+        {
             this._ident_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -59,19 +66,24 @@ public final class AFilledIdentList extends PIdentList {
         this._ident_ = node;
     }
 
-    public LinkedList<PElement> getElement() {
+    public LinkedList<PElement> getElement()
+    {
         return this._element_;
     }
 
-    public void setElement(List<?> list) {
-        for (PElement e : this._element_) {
+    public void setElement(List<?> list)
+    {
+        for(PElement e : this._element_)
+        {
             e.parent(null);
         }
         this._element_.clear();
 
-        for (Object obj_e : list) {
+        for(Object obj_e : list)
+        {
             PElement e = (PElement) obj_e;
-            if (e.parent() != null) {
+            if(e.parent() != null)
+            {
                 e.parent().removeChild(e);
             }
 
@@ -81,21 +93,25 @@ public final class AFilledIdentList extends PIdentList {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._ident_)
-                + toString(this._element_);
+            + toString(this._ident_)
+            + toString(this._element_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._ident_ == child) {
+        if(this._ident_ == child)
+        {
             this._ident_ = null;
             return;
         }
 
-        if (this._element_.remove(child)) {
+        if(this._element_.remove(child))
+        {
             return;
         }
 
@@ -103,16 +119,21 @@ public final class AFilledIdentList extends PIdentList {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._ident_ == oldChild) {
+        if(this._ident_ == oldChild)
+        {
             setIdent((TIdent) newChild);
             return;
         }
 
-        for (ListIterator<PElement> i = this._element_.listIterator(); i.hasNext(); ) {
-            if (i.next() == oldChild) {
-                if (newChild != null) {
+        for(ListIterator<PElement> i = this._element_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
                     i.set((PElement) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

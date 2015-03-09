@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.NumberValue;
@@ -14,8 +15,12 @@ import java.util.Map;
 public class NumberNode extends AExpression {
     private BigDecimal number;
 
-    public NumberNode(BigDecimal number, String location) {
-        super(null, null, location);
+    public NumberNode(BigDecimal number, Location location) {
+        super(location);
+        this.number = number;
+    }
+
+    public NumberNode(BigDecimal number) {
         this.number = number;
     }
 
