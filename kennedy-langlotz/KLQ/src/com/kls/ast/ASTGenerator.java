@@ -1,5 +1,6 @@
 package com.kls.ast;
 
+import com.common.Location;
 import com.klq.logic.question.Type;
 import com.kls.ast.node.*;
 import com.kls.ast.node.value.AValue;

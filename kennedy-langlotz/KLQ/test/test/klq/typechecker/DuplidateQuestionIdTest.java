@@ -42,7 +42,7 @@ public class DuplidateQuestionIdTest {
 
         List<AExpression> list = new ArrayList<AExpression>();
         list.add(new StringNode("test", "5"));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", list, "4"));
+        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", list, "4"));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());
