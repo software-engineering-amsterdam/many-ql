@@ -98,6 +98,7 @@ public class QuestionnaireUI {
 				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 				Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
 				QuestionByName questionByName = new QuestionByName();
+				control.setDisable(true);
 				for (String relatedQuestionName : relatedQuestionNames) {
 					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 					relatedQuestion.addObserver(new Observer() {
