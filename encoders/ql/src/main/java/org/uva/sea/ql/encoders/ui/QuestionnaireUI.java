@@ -25,6 +25,8 @@ import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
+import org.uva.sea.ql.encoders.runtime.value.Value;
 import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
@@ -78,7 +80,8 @@ public class QuestionnaireUI {
 							OperatorTable operatorTable = new OperatorTable();
 							ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions,
 									operatorTable);
-							Boolean visible = condition.accept(conditionEvaluatorVisitor);
+							BooleanValue value = condition.accept(conditionEvaluatorVisitor);
+							Boolean visible = value.getValue();
 							control.setVisible(visible);
 							label.setVisible(visible);
 							System.out.println("Waarde is nu: " + arg);
@@ -100,9 +103,9 @@ public class QuestionnaireUI {
 						@Override
 						public void update(Observable o, Object arg) {
 							OperatorTable operatorTable = new OperatorTable();
-							ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(dataType,
-									runtimeQuestions, operatorTable);
-							Object value = computed.accept(computedEvaluatorVisitor);
+							ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(runtimeQuestions,
+									operatorTable);
+							Value value = computed.accept(computedEvaluatorVisitor);
 							runtimeQuestion.setValue(value);
 							if (dataType instanceof IntegerType) {
 								((TextField) control).setText(value.toString());

@@ -1,9 +1,9 @@
 package org.uva.sea.ql.encoders.runtime.operator;
 
-import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.runtime.value.Value;
 
 public interface BinaryOperator {
 
-	<T extends DataType<V>, V> V calculate(T dataType, V leftValue, V rightValue);
+	Value calculate(Value leftValue, Value rightValue);
 
 }

@@ -15,4 +15,21 @@ public class BooleanValue extends Value {
 	public Boolean getValue() {
 		return value;
 	}
+
+	@Override
+	public Value and(Value otherValue) {
+		boolean result = value && ((BooleanValue) otherValue).getValue();
+		return new BooleanValue(result);
+	}
+
+	@Override
+	public Value or(Value otherValue) {
+		boolean result = value || ((BooleanValue) otherValue).getValue();
+		return new BooleanValue(result);
+	}
+
+	@Override
+	public BooleanValue not() {
+		return new BooleanValue(!value);
+	}
 }

@@ -1,12 +1,11 @@
 package org.uva.sea.ql.encoders.runtime.operator;
 
-import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.runtime.value.Value;
 
 public class AddOperator implements BinaryOperator {
 
 	@Override
-	public <T extends DataType<V>, V> V calculate(T dataType, V leftValue, V rightValue) {
-		return dataType.add(leftValue, rightValue);
+	public Value calculate(Value leftValue, Value rightValue) {
+		return leftValue.add(rightValue);
 	}
-
 }

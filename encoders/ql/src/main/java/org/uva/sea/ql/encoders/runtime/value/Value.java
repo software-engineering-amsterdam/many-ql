@@ -58,7 +58,7 @@ public abstract class Value {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
-	public Value not(Value value) {
+	public Value not() {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 

@@ -7,11 +7,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 
-import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
+import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
+import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
+import org.uva.sea.ql.encoders.runtime.value.StringValue;
 
 public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 
@@ -67,7 +70,8 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 		@Override
 		public void handle(Event event) {
 			TextField textField = (TextField) event.getSource();
-			question.setValue(textField.getText());
+			StringValue value = new StringValue(textField.getText());
+			question.setValue(value);
 		}
 	}
 
@@ -86,7 +90,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 			if (!text.isEmpty()) {
 				value = Integer.valueOf(text);
 			}
-			question.setValue(value);
+			question.setValue(new IntegerValue(value));
 		}
 	}
 
@@ -100,7 +104,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 		@Override
 		public void handle(ActionEvent event) {
 			CheckBox checkBox = (CheckBox) event.getSource();
-			question.setValue(checkBox.isSelected());
+			question.setValue(new BooleanValue(checkBox.isSelected()));
 		}
 	}
 

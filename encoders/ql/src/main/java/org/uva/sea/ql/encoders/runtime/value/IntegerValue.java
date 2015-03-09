@@ -17,8 +17,50 @@ public class IntegerValue extends Value {
 	}
 
 	@Override
-	public Value add(Value otherValue) {
+	public IntegerValue multiply(Value otherValue) {
+		int result = value * ((IntegerValue) otherValue).getValue();
+		return new IntegerValue(result);
+	}
+
+	@Override
+	public IntegerValue divide(Value otherValue) {
+		int result = value / ((IntegerValue) otherValue).getValue();
+		return new IntegerValue(result);
+	}
+
+	@Override
+	public IntegerValue add(Value otherValue) {
 		int result = value + ((IntegerValue) otherValue).getValue();
 		return new IntegerValue(result);
+	}
+
+	@Override
+	public IntegerValue substract(Value otherValue) {
+		int result = value - ((IntegerValue) otherValue).getValue();
+		return new IntegerValue(result);
+	}
+
+	@Override
+	public Value greaterThan(Value otherValue) {
+		boolean result = value > ((IntegerValue) otherValue).getValue();
+		return new BooleanValue(result);
+	}
+
+	@Override
+	public Value lessThan(Value otherValue) {
+		boolean result = value < ((IntegerValue) otherValue).getValue();
+		return new BooleanValue(result);
+	}
+
+	@Override
+	public BooleanValue greaterOrEqual(Value otherValue) {
+		boolean result = value >= ((IntegerValue) otherValue).getValue();
+		return new BooleanValue(result);
+	}
+
+	@Override
+	public Value lessOrEqual(Value otherValue) {
+		boolean result = value <= ((IntegerValue) otherValue).getValue();
+		return new BooleanValue(result);
 	}
 }
