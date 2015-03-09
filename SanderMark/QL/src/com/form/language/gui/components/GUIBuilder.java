@@ -1,7 +1,6 @@
 package com.form.language.gui.components;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -9,7 +8,6 @@ import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
-import com.form.language.ast.type.Type;
 import com.form.language.memory.RuntimeMemory;
 
 public class GUIBuilder {

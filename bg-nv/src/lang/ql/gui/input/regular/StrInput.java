@@ -3,13 +3,13 @@ package lang.ql.gui.input.regular;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.gui.input.Input;
-import lang.ql.semantics.ValueTable;
+import lang.ql.semantics.values.StringValue;
+import lang.ql.semantics.values.Value;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class StrInput extends RegularInput<TextInputControl>
+public class StrInput extends RegularInput<TextInputControl, String>
 {
     public StrInput(String id)
     {
@@ -24,5 +24,13 @@ public class StrInput extends RegularInput<TextInputControl>
     public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
+    }
+
+    @Override
+    public Value convertUserInputToValue(String userInput)
+    {
+        this.resetValidation();
+        userInput = userInput.trim();
+        return new StringValue(userInput);
     }
 }

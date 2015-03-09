@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class QuestionnaireASTTest extends ASTTest {
     @Test
     public void correctQuestionnaire() throws IOException {
 
-        Questionnaire ast = (Questionnaire)createAst(CORRECT_QUESTIONNAIRE).getRoot();
+        Questionnaire ast = (Questionnaire) createAst(CORRECT_QUESTIONNAIRE).getRoot();
 
         assertThat(ast.getLineNumber()).isEqualTo(1);
         assertThat(ast.hasChildren()).isTrue();

@@ -1,7 +1,8 @@
 package gui.widgets;
 
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.IntegerListener;
-import interpreter.ValueRepository;
 
 import javax.swing.JComponent;
 import javax.swing.JTextField;
@@ -14,6 +15,7 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	private final Type variableType;
 	private JTextField widget;
 	private final ValueRepository valueRepository;
+	private int value = 0;
 		
 	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
@@ -64,24 +66,24 @@ public class IntegerFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
+		this.widget.setEnabled(isEnabled);
 		
 	}
 
 	@Override
-	public void addDocListener() {
+	public void addDocListener() {//EvaluateExpression evaluator) {
 		widget.getDocument().addDocumentListener(new IntegerListener(this, valueRepository));
 	}
 
 	@Override
 	public int getIntegerValue() {
-		return Integer.valueOf(widget.getText());
+		//return Integer.valueOf(widget.getText());
+		return value + Integer.valueOf(widget.getText());
 	}
 
 	@Override
 	public void setIntegerValue(int value) {
-		value = Integer.valueOf(widget.getText());
+		this.value = value + Integer.parseInt(valueRepository.getValue(id).toString());
 		
 	}
-
 }

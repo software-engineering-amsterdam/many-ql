@@ -26,7 +26,7 @@ public class SliderWidget implements IWidget {
         sliderWidget.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(sliderWidget.getValue()));
+                headlessFormInterpreter.setField(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
                 headlessFormInterpreter.interpret();
             }
         });

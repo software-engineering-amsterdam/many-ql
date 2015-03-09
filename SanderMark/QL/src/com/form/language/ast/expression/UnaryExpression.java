@@ -32,6 +32,10 @@ public abstract class UnaryExpression implements Expression{
 	public void setType(IdTypeTable ids) {
 		value.setType(ids);
 	}
-	
+
+	@Override
+	public void getReferences(IdCollector idCollector) {
+		this.value.getReferences(idCollector);	
+	}
 	
 }

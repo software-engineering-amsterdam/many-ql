@@ -1,7 +1,9 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSRenderer;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.CastException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
 /**
  * Value with basic operators. Implementations should support value=null for the typechecker, which basically
@@ -11,6 +13,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
  */
 public abstract class Value<T> {
     private final T value;
+    private TypeDescriptor<?> typeDescriptor;
 
     public Value<?> and(Value<?> value) {
         throw new CastException("and", getTypeModelClass(), value.getTypeModelClass());
@@ -93,4 +96,6 @@ public abstract class Value<T> {
     public String toString() {
         return "" + getValue();
     }
+
+    public abstract TypeDescriptor<?> getTypeDescriptor();
 }

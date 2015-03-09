@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -7,7 +7,7 @@ public class BooleanResult extends Result{
 
     private boolean result;
 
-    BooleanResult(boolean result){
+    public BooleanResult(boolean result){
         this.result = result;
     }
 

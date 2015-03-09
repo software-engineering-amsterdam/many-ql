@@ -5,7 +5,7 @@ import com.klq.logic.controller.Store;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
-import com.klq.logic.value.Value;
+import com.klq.ast.impl.expr.value.Value;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -99,7 +99,7 @@ public class QuestionPane extends GridPane {
     private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
         for (int i=0; i< optionSet.size(); i++) {
-            Value answer = optionSet.get(i);
+            Value answer = optionSet.get(i).evaluate(store.getVariables());
             RadioButton rb = new RadioButton(answer.getValue().toString());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);

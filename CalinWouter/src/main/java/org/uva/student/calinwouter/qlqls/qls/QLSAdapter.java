@@ -93,6 +93,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
             final Object model = interopComponent(node.getIdent().getText(), values);
             argumentStack.push(model);
         } catch (Exception e) {
+            // TODO This catches ALL the exceptions!
             throw new RuntimeException(e);
         }
     }

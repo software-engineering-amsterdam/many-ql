@@ -210,7 +210,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 			return new Reference(lineNumber, offset, ctx.getText());
 		}
 		
-		return new StringLiteral(lineNumber, offset, ctx.getText());
+		return new StringLiteral(lineNumber, offset, ctx.getText().substring(1, ctx.getText().length()-1));
 	}
 
 }

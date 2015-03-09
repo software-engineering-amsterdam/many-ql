@@ -6,6 +6,10 @@ package com.klq.ast;
 public abstract class ANode {
     private String loc;
 
+    public ANode(){
+        this.loc = null;
+    }
+
     public ANode(String loc) {
         this.loc = loc;
     }

@@ -18,8 +18,4 @@ public class Section {
     public Section(String sectionName, AbstractFormField... fields) {
         this(sectionName, new Fields(fields), new Defaults(new HashMap<TypeDescriptor, Map<String, Object>>()));
     }
-
-    protected Map<String, Object> findFieldStylingSettings(final String ident, final TypeDescriptor type) throws FieldNotFoundException {
-        return defaults.createNewStylingSettingsMapUsingOverriding(type, fields.findFieldStylingSettings(ident));
-    }
 }

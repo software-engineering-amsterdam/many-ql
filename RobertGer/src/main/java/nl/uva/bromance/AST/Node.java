@@ -1,8 +1,6 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
-import nl.uva.bromance.AST.Conditionals.Expression;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckable;
 import nl.uva.bromance.typechecking.TypeCheckingException;

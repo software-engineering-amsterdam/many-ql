@@ -1,5 +1,9 @@
 package nl.uva.softwcons.ql.ast;
 
+import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
+import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
+import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
+import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import helper.TestHelper;
 import nl.uva.softwcons.ql.Questionnaire;
@@ -8,18 +12,13 @@ import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Multiplication;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Question;
-import nl.uva.softwcons.ql.ast.type.BooleanType;
-import nl.uva.softwcons.ql.ast.type.DateType;
-import nl.uva.softwcons.ql.ast.type.NumberType;
-import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.Type;
 
 import org.junit.Test;
 
 public class ASTBuilderVisitorTest {
 
-    private static final Type[] ALL_PARSEABLE_TYPES = { BooleanType.instance, StringType.instance, DateType.instance,
-            NumberType.instance };
+    private static final Type[] ALL_PARSEABLE_TYPES = { BOOLEAN_TYPE, STRING_TYPE, DATE_TYPE, NUMBER_TYPE };
 
     @Test
     public void testSingleQuestionInForm() {

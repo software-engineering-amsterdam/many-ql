@@ -1,12 +1,12 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import nl.uva.bromance.AST.Conditionals.CanContainConditionals;
-import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
-import nl.uva.bromance.AST.Conditionals.ElseStatement;
-import nl.uva.bromance.AST.Conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.CanContainConditionals;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.IfStatement;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 

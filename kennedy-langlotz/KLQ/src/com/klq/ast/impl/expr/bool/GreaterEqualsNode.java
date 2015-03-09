@@ -2,9 +2,10 @@ package com.klq.ast.impl.expr.bool;
 
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.AValueNode;
-import com.klq.ast.impl.expr.literal.BooleanNode;
-import com.klq.ast.impl.expr.literal.NumberNode;
+import com.klq.ast.impl.expr.value.BooleanValue;
+import com.klq.ast.impl.expr.value.ComparableValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
@@ -22,12 +23,17 @@ public class GreaterEqualsNode extends ABooleanNode {
         return visitor.visit(this);
     }
 
-    //TODO Now only works for numbers, make it work for other primitives?
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        NumberNode left = (NumberNode) (getLeftChild().evaluate(variableTable));
-        NumberNode right =(NumberNode) (getRightChild().evaluate(variableTable));
+    public Value evaluate(Map<String, Value> variables) {
+        ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variables));
+        ComparableValue right = (ComparableValue)(getRightChild().evaluate(variables));
 
-        return new BooleanNode(left.getValue().compareTo(right.getValue()) >= 0, "");
+        if(left.isUndefined() || right.isUndefined())
+        {
+            return new UndefinedValue();
+        }
+        else {
+            return new BooleanValue(left.compareTo(right) >= 0);
+        }
     }
 }

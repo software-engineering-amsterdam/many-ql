@@ -7,12 +7,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-//import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -32,8 +29,6 @@ import lang.ql.gui.section.ConditionalSection;
 import lang.ql.gui.section.LineSection;
 import lang.ql.gui.section.Section;
 import lang.ql.semantics.*;
-import lang.ql.semantics.errors.Message;
-import lang.ql.semantics.errors.Warning;
 import lang.ql.semantics.values.*;
 
 import java.math.BigDecimal;
@@ -45,66 +40,64 @@ import java.util.*;
 public class SimpleGui implements ModelVisitor<Node>
 {
     private ValueTable valueTable;
+    private final Refresher refresher;
+    private final DataStore dataStore;
 
-    private Canvas canvas;
-    private Stage primaryStage;
-
-    private Set<Refreshable> refreshables;
-    private Set<Observable> observables;
-
-    public static void run(Form ast, Stage primaryStage)
+    public static void run(Form ast, Stage stage)
     {
         Modeler modeler = new Modeler();
         Canvas canvas = modeler.visit(ast);
 
         SimpleGui gui = new SimpleGui(ast);
-        gui.canvas = canvas;
-        gui.primaryStage = primaryStage;
-        gui.start();
+        gui.start(canvas, stage);
     }
 
     private SimpleGui(Form ast)
     {
+        this.dataStore = new DataStore(ast);
         this.valueTable = Evaluator.evaluate(ast);
-        this.refreshables = new HashSet<Refreshable>();
-        this.observables = new HashSet<Observable>();
+        this.refresher = new Refresher();
     }
 
-    private void start()
+    private void start(Canvas canvas, Stage stage)
     {
-        GridPane grid = (GridPane) this.canvas.accept(this);
+        GridPane grid = (GridPane) canvas.accept(this);
 
-        GuiObserver obs = new GuiObserver(this.refreshables);
-        for (Observable observable : this.observables)
-        {
-            observable.addObserver(obs);
-        }
-
-        this.primaryStage.setTitle("Questionnaire");
-
-        Scene scene = new Scene(grid, 600, 700);
-        this.primaryStage.setScene(scene);
-
-        Button btn = new Button("Make magic happen");
+        Button btn = new Button("Save answers");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 0, grid.getChildren().size() + 1);
 
-        final Text actionTarget = new Text();
+        Text actionTarget = new Text();
         grid.add(actionTarget, 0, grid.getChildren().size() + 1);
+
+//        ProgressBar pb = new ProgressBar(0);
+//        pb.setPrefWidth(500);
+//        grid.add(pb, 0, grid.getChildren().size() + 1);
 
         btn.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
             public void handle(ActionEvent e)
             {
+                dataStore.store(valueTable);
                 actionTarget.setFill(Color.FIREBRICK);
-                actionTarget.setText("Unicorns!");
+                actionTarget.setText("Your data has been saved.");
             }
         });
 
-        this.primaryStage.show();
+        ScrollPane pane = new ScrollPane();
+        pane.setFitToWidth(true);
+        pane.setFitToHeight(true);
+        pane.setContent(grid);
+        pane.setStyle("-fx-border-color: lightgray;");
+
+        Scene scene = new Scene(pane, 600, 700);
+
+        stage.setTitle(canvas.getName());
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
@@ -114,14 +107,15 @@ public class SimpleGui implements ModelVisitor<Node>
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setStyle("-fx-background-color: #FFFFFF;");
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setStyle("-fx-background-color: white;");
+        grid.setPadding(new Insets(75, 50, 25, 50));
 
         for (Section section : c.getSections())
         {
             Node node = section.accept(this);
-            grid.add(node, 0, grid.getChildren().size() + 1);
+            grid.add(node, 0, grid.getChildren().size());
         }
+        grid.layout();
 
         return grid;
     }
@@ -129,7 +123,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(final ConditionalSection section)
     {
-        this.refreshables.add(section);
+        this.refresher.addItem(section);
 
         Pane container = section.getContainer();
         Expr ex = section.getCondition();
@@ -138,10 +132,10 @@ public class SimpleGui implements ModelVisitor<Node>
         Boolean visible = false;
         if (!v.isUndefined())
         {
-            visible = ((BooleanValue)v).getValue();
+            visible = ((BooleanValue) v).getValue();
         }
+        section.setVisible(visible);
 
-        container.setVisible(visible);
         for (Section subsection : section.getSubsections())
         {
             Node n = subsection.accept(this);
@@ -182,7 +176,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(final BoolInput input)
     {
-        this.observables.add(input);
+        input.addObserver(this.refresher);
         CheckBox checkBox = input.getControl();
 
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>()
@@ -190,25 +184,23 @@ public class SimpleGui implements ModelVisitor<Node>
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
             {
-                valueTable.storeValue(input.getId(), new BooleanValue(newValue));;
-                input.update(valueTable);
+                input.processUserInput(newValue, valueTable);
             }
         });
-
-        return checkBox;
+        return createInputBox(input);
     }
 
     @Override
     public Node visit(DateInput input)
     {
-        this.observables.add(input);
+        input.addObserver(this.refresher);
         return input.getControl();
     }
 
     @Override
     public Node visit(final DecInput input)
     {
-        this.observables.add(input);
+        input.addObserver(this.refresher);
         final TextInputControl textField = input.getControl();
 
         textField.textProperty().addListener(new ChangeListener<String>()
@@ -217,28 +209,17 @@ public class SimpleGui implements ModelVisitor<Node>
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue)
             {
-                newValue = newValue.trim();
-                try
-                {
-                    BigDecimal value = new BigDecimal(newValue);
-                    valueTable.storeValue(input.getId(), new DecimalValue(value));
-                    input.update(valueTable);
-                }
-                catch (NumberFormatException e)
-                {
-                    // TODO: create the warnings/errors
-                    Warning warningMsg = new Warning("The entered value \"" + newValue + "\" is not a decimal.");
-                }
+                input.processUserInput(newValue, valueTable);
             }
         });
 
-        return textField;
+        return createInputBox(input);
     }
 
     @Override
     public Node visit(final IntInput input)
     {
-        this.observables.add(input);
+        input.addObserver(this.refresher);
         final TextInputControl textField = input.getControl();
 
         textField.textProperty().addListener(new ChangeListener<String>()
@@ -247,28 +228,17 @@ public class SimpleGui implements ModelVisitor<Node>
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue)
             {
-                newValue = newValue.trim();
-                try
-                {
-                    Integer value = Integer.parseInt(newValue);
-                    valueTable.storeValue(input.getId(), new IntegerValue(value));
-                    input.update(valueTable);
-                }
-                catch (NumberFormatException e)
-                {
-                    // TODO: create the warnings/errors
-                    Warning warningMsg = new Warning("The entered value \"" + newValue + "\" is not an integer.");
-                }
+                input.processUserInput(newValue, valueTable);
             }
         });
 
-        return textField;
+        return createInputBox(input);
     }
 
     @Override
     public Node visit(final StrInput input)
     {
-        this.observables.add(input);
+        input.addObserver(this.refresher);
         final TextInputControl textField = input.getControl();
 
         textField.textProperty().addListener(new ChangeListener<String>()
@@ -277,18 +247,17 @@ public class SimpleGui implements ModelVisitor<Node>
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue)
             {
-                valueTable.storeValue(input.getId(), new StringValue(newValue));
-                input.update(valueTable);
+                input.processUserInput(newValue, valueTable);
             }
         });
 
-        return textField;
+        return createInputBox(input);
     }
 
     @Override
     public Node visit(BoolExprInput input)
     {
-        this.refreshables.add(input);
+        this.refresher.addItem(input);
 
         CheckBox checkBox = input.getControl();
         Value val = valueTable.getValue(input.getId());
@@ -296,7 +265,7 @@ public class SimpleGui implements ModelVisitor<Node>
         Boolean selected = false;
         if (!val.isUndefined())
         {
-            selected = ((BooleanValue)val).getValue();
+            selected = ((BooleanValue) val).getValue();
         }
         checkBox.setSelected(selected);
 
@@ -306,7 +275,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(DateExprInput input)
     {
-        this.refreshables.add(input);
+        this.refresher.addItem(input);
 
         return input.getControl();
     }
@@ -314,7 +283,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(DecExprInput input)
     {
-        this.refreshables.add(input);
+        this.refresher.addItem(input);
 
         TextInputControl textField = input.getControl();
         Value val = valueTable.getValue(input.getId());
@@ -333,7 +302,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(IntExprInput input)
     {
-        this.refreshables.add(input);
+        this.refresher.addItem(input);
 
         TextInputControl textField = input.getControl();
         Value val = valueTable.getValue(input.getId());
@@ -341,7 +310,7 @@ public class SimpleGui implements ModelVisitor<Node>
         String textValue = "";
         if (!val.isUndefined())
         {
-            Integer intVal = ((IntegerValue)val).getValue();
+            Integer intVal = ((IntegerValue) val).getValue();
             textValue = intVal.toString();
         }
         textField.setText(textValue);
@@ -352,7 +321,7 @@ public class SimpleGui implements ModelVisitor<Node>
     @Override
     public Node visit(final StrExprInput input)
     {
-        this.refreshables.add(input);
+        this.refresher.addItem(input);
 
         TextInputControl textField = input.getControl();
         Value val = valueTable.getValue(input.getId());
@@ -360,7 +329,7 @@ public class SimpleGui implements ModelVisitor<Node>
         String textValue = "";
         if (!val.isUndefined())
         {
-            textValue = ((StringValue)val).getValue();
+            textValue = ((StringValue) val).getValue();
         }
         textField.setText(textValue);
 
@@ -374,15 +343,11 @@ public class SimpleGui implements ModelVisitor<Node>
         return text;
     }
 
-    private HBox makeErrorBox(Message msg)
+    private Node createInputBox(RegularInput input)
     {
-        Text msgText = new Text(msg.getMessage());
-        msgText.setFill(Color.FIREBRICK);
-
-        HBox msgBox = new HBox();
-        msgBox.setAlignment(Pos.BOTTOM_RIGHT);
-        msgBox.getChildren().add(msgText);
-
-        return msgBox;
+        Pane box = new VBox();
+        box.getChildren().add(input.getControl());
+        box.getChildren().add(input.getErrorField());
+        return box;
     }
 }

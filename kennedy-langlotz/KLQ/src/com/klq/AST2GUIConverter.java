@@ -19,7 +19,7 @@ import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.*;
-import com.klq.logic.value.*;
+import com.klq.ast.impl.expr.value.*;
 
 import java.util.HashMap;
 
@@ -56,7 +56,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(ConditionalNode node) {
-        AExpression expr = (AExpression) node.getCondition().accept(this);
+        AExpression expr = (AExpression) node.getCondition();
         QuestionList questionList = new QuestionList();
 
         for(ANode child : node.getChildren()){
@@ -92,8 +92,8 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Text text = new Text(node.getText());
 
         OptionSet options = new OptionSet();
-        for(ANode child : node.getChildren()){
-            options.add((Value) child.accept(this));
+        for(AExpression child : node.getChildren()){
+            options.add(child); //TODO temp fix, need to change when computed questions can take expressions
         }
         return new Question(id, type, options, text);
     }
@@ -103,9 +103,90 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         return visit(node);
     }
 
-    /*==================================================================================================================
+    @Override
+    public IKLQItem visit(StringNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(NumberNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(DateNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(IdentifierNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(MultiplyNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(DivideNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(AddNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(SubtractNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(GreaterThanNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(GreaterEqualsNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(LessThanNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(LessEqualsNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(EqualsNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(NotEqualsNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(AndNode node) {
+        return null;
+    }
+
+    @Override
+    public IKLQItem visit(OrNode node) {
+        return null;
+    }
+
+    /*
+    *//*==================================================================================================================
     Expressions - Mathematical
-     ==================================================================================================================*/
+     ==================================================================================================================*//*
     @Override
     public IKLQItem visit(MultiplyNode node) {
         AExpression leftChild = (AExpression) node.getLeftChild().accept(this);
@@ -134,9 +215,9 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         return new Subtraction(leftChild, rightChild);
     }
 
-    /*==================================================================================================================
+    *//*==================================================================================================================
     Expressions - Boolean
-     ==================================================================================================================*/
+     ==================================================================================================================*//*
     @Override
     public IKLQItem visit(GreaterThanNode node) {
         AExpression leftChild = (AExpression) node.getLeftChild().accept(this);
@@ -204,9 +285,9 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
             return id;
         }
     }
-    /*==================================================================================================================
+    *//*==================================================================================================================
             Primitives
-     ==================================================================================================================*/
+     ==================================================================================================================*//*
     @Override
     public IKLQItem visit(StringNode node) {
         return new StringValue(node.getString());
@@ -220,5 +301,5 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
     @Override
     public IKLQItem visit(DateNode node) {
         return new DateValue(node.getDate());
-    }
+    }*/
 }

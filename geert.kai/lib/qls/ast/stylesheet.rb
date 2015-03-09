@@ -7,14 +7,13 @@ module QLS
         @name = name
         @rules = rules
       end
-    end
 
-    def accept(visitor)
-      rules.map do |rule|
-        rule.accept(visitor)
+      def accept(visitor)
+        rules.map do |rule|
+          rule.accept(visitor)
+        end
       end
     end
-
 
     class Stylesheet < StyleGroup
     end

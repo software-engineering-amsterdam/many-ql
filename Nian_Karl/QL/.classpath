@@ -3,7 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="lib" path="lib/antlr-4.5-complete.jar"/>
-	<classpathentry kind="lib" path="lib/json-lib-2.4-jdk15.jar"/>
+<<<<<<< HEAD
 	<classpathentry exported="true" kind="lib" path="lib/json-simple-1.1.1.jar"/>
+=======
+	<classpathentry kind="lib" path="/ql/lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry exported="true" kind="lib" path="/ql/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
+>>>>>>> 8bf9241ad545378dd44c51d97e2a0d322b66f27c
 	<classpathentry kind="output" path="bin"/>
 </classpath>
