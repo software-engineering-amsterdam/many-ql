@@ -24,7 +24,7 @@ public class CheckboxWidget implements IWidget {
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(checkbox.isSelected()));
+                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(checkbox.isSelected()));
                 headlessFormInterpreter.interpret();
             }
         });

@@ -40,67 +40,67 @@ public final class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
     @Override
     public Value visit(final Addition expr) {
-        return leftOperandVisit(expr).add(rightOperandVisit(expr));
+        return visitLeftOperand(expr).add(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Division expr) {
-        return leftOperandVisit(expr).divide(rightOperandVisit(expr));
+        return visitLeftOperand(expr).divide(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Multiplication expr) {
-        return leftOperandVisit(expr).multiply(rightOperandVisit(expr));
+        return visitLeftOperand(expr).multiply(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Subtraction expr) {
-        return leftOperandVisit(expr).subtract(rightOperandVisit(expr));
+        return visitLeftOperand(expr).subtract(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Equal expr) {
-        return leftOperandVisit(expr).isEqual(rightOperandVisit(expr));
+        return visitLeftOperand(expr).isEqual(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final GreaterOrEqual expr) {
-        return leftOperandVisit(expr).isGreaterOrEqual(rightOperandVisit(expr));
+        return visitLeftOperand(expr).isGreaterOrEqual(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final GreaterThan expr) {
-        return leftOperandVisit(expr).isGreater(rightOperandVisit(expr));
+        return visitLeftOperand(expr).isGreater(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final LowerOrEqual expr) {
-        return leftOperandVisit(expr).isLowerOrEqual(rightOperandVisit(expr));
+        return visitLeftOperand(expr).isLowerOrEqual(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final LowerThan expr) {
-        return leftOperandVisit(expr).isLower(rightOperandVisit(expr));
+        return visitLeftOperand(expr).isLower(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final NotEqual expr) {
-        return leftOperandVisit(expr).isEqual(rightOperandVisit(expr)).not();
+        return visitLeftOperand(expr).isEqual(visitRightOperand(expr)).not();
     }
 
     @Override
     public Value visit(final And expr) {
-        return leftOperandVisit(expr).and(rightOperandVisit(expr));
+        return visitLeftOperand(expr).and(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Or expr) {
-        return leftOperandVisit(expr).or(rightOperandVisit(expr));
+        return visitLeftOperand(expr).or(visitRightOperand(expr));
     }
 
     @Override
     public Value visit(final Not expr) {
-        return unaryOperandVisit(expr).not();
+        return visitUnaryOperand(expr).not();
     }
 
     @Override

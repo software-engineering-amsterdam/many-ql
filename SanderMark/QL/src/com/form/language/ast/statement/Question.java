@@ -1,11 +1,6 @@
 package com.form.language.ast.statement;
 
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.antlr.v4.runtime.Token;
 
@@ -72,6 +67,11 @@ public class Question implements Statement {
 			FormComponent formGUI, RuntimeMemory rm) {
 		guiBuilder.createGUIQuestion(this, formGUI,rm);
 		
+	}
+
+	@Override
+	public void getReferences(IdCollector idCollector) {
+		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector, tokenInfo));
 	}
 	
 }

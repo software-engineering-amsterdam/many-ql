@@ -1,7 +1,7 @@
 package nl.uva.softwcons.ql.eval.value;
 
-public class UndefinedValue extends Value {
-    public static UndefinedValue UNDEFINED = new UndefinedValue();
+public final class UndefinedValue extends Value {
+    public static final UndefinedValue UNDEFINED = new UndefinedValue();
 
     private UndefinedValue() {
     }

@@ -41,17 +41,6 @@ public class InterpreterHelper {
         return qlsInterpreter;
     }
 
-    // TODO Code duplication from previous method.
-    public static QLSAdapter typeCheckStylesheetString(String input) throws ParserException, IOException, LexerException {
-        QLSTypeChecker qlsInterpreter = new QLSTypeChecker();
-        Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
-        Parser parser = new Parser(lexer);
-        Start ast = parser.parse();
-        PIdentList stylesheet = ((AStylesheetBegin) ast.getPBegin()).getIdentList();
-        stylesheet.apply(qlsInterpreter);
-        return qlsInterpreter;
-    }
-
     public static HeadlessFormInterpreter initializeHeadlessInterpreter(String input) throws ParserException, IOException, LexerException {
         HeadlessFormInterpreter formInterpreter = new HeadlessFormInterpreter();
         applyInterpreterUsing(input, formInterpreter);

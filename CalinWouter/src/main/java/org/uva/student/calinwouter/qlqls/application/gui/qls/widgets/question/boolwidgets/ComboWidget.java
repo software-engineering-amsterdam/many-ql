@@ -28,12 +28,12 @@ public class ComboWidget implements IWidget {
             public void itemStateChanged(ItemEvent e) {
                 if (yesNoComboBox.getSelectedIndex() == 0) {
                     System.out.println("true");
-                    headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(true));
+                    headlessFormInterpreter.setField(question.getIdent(), new BoolValue(true));
                     headlessFormInterpreter.interpret();
                     return;
                 }
                 System.out.println("false");
-                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(false));
+                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(false));
                 headlessFormInterpreter.interpret();
             }
         });

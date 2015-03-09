@@ -83,7 +83,7 @@ public class QLSTypeChecker {
         for (FieldType fieldType : fieldTypes) {
             try {
                 AbstractWidget abstractWidget = (AbstractWidget) styleSheet.
-                        findFieldStylingSettings(fieldType.getFieldName(), fieldType.getTypeDescriptor()).get("widget");
+                        getStylingSettings(fieldType.getFieldName(), fieldType.getTypeDescriptor()).get("widget");
                 if (!fieldType.getTypeDescriptor().isAllowed(abstractWidget)) {
                     invalidWidgetAssignments.add(fieldType.getFieldName());
                 }

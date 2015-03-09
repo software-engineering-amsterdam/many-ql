@@ -1,16 +1,6 @@
 package com.form.language.ast.statement;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.antlr.v4.runtime.Token;
 
@@ -62,6 +52,16 @@ public class IfStatement implements Statement {
 	@Override
 	public void collectIds(IdCollector idCollector) {
 		this.conditions.collectIds(idCollector);
+	}
+	
+
+
+	@Override
+	public void getReferences(IdCollector idCollector) {
+		this.conditions.getReferences(idCollector);
+		for(Statement s: thenStatements){
+			s.getReferences(idCollector);
+		}
 	}
 
 

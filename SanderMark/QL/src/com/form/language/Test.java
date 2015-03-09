@@ -2,20 +2,18 @@ package com.form.language;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.ANTLRFileStream;
 
 import com.form.language.ast.Form;
-import com.form.language.ast.expression.Expression;
+import com.form.language.error.CheckTypeErrors;
 import com.form.language.error.CheckVariableErrors;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
-import com.form.language.error.CheckTypeErrors;
 
 public class Test {
 	public static void main(String[] args) throws IOException {

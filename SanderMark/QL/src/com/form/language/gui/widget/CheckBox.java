@@ -4,7 +4,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;

@@ -1,19 +1,5 @@
 package com.form.language.gui.components;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import com.form.language.ast.statement.Statement;
-import com.form.language.memory.IdCollector;
 
 public class IfComponent {
 	

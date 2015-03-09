@@ -1,6 +1,5 @@
 package com.form.language.ast.statement;
 
-import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.FormComponent;
@@ -16,4 +15,5 @@ public interface Statement {
 		public abstract void collectIds(IdCollector idCollector);
 		public abstract void setType(IdTypeTable ids);
 		public void initMemory(RuntimeMemory mem);
+		public abstract void getReferences(IdCollector idCollector);
 }
