@@ -1,10 +1,9 @@
 # AST format of a question, initializing the IStatement
 import QL.AST.Statements.statement as statement
-import QL.GUI.gui as g
 import QL.Grammar.constants as constants
-import QL.GUI.Elements.label as e_label
-import QL.GUI.Elements.text_entry as e_text_entry
+# import QL.GUI.Elements.text_entry as e_text_entry
 import QL.Exceptions.exceptions as exceptions
+from QL.GUI.Elements import *
 
 
 class Question(statement.IStatement):
@@ -71,15 +70,17 @@ class Question(statement.IStatement):
     # set gui _element
     def set_element(self, gui):
         if self.get_type() is constants.GrammarConstants.BOOL:
-            self.element = g.GUI.e_radio(self, gui)
+            # self.element = g.GUI.e_radio(self, gui)
+            e = radio_button.RadioButton(self, gui)
         elif self.get_type() is constants.GrammarConstants.NUMBER:
-            self.element = g.GUI.e_spin(self, gui)
+            # self.element = g.GUI.e_spin(self, gui)
+            e = spin_box.SpinBox(self, gui)
         elif self.get_type() is constants.GrammarConstants.TEXT:
             # self.element = g.GUI.e_entry(self, gui)
-            e = e_text_entry.TextEntry(self, gui)
-            self.element = e.get_row()
+            e = text_entry.TextEntry(self, gui)
         else:
             raise exceptions.QException("Element _type does not exists")
+        self.element = e.get_row()
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition
