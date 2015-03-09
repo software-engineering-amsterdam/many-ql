@@ -11,7 +11,7 @@ class Form:
 
         # set the statement _order and the parent _id's
         self._statements = (
-            Form.set_statement_ids(str(self),
+            Form.set_conditions(
                 Form.set_question_ordering(statements))
         )
 
@@ -92,10 +92,9 @@ class Form:
         return d
 
     @staticmethod
-    def set_statement_ids(string, statements):
-        m = converters.Converters.get_md5(str(string))
+    def set_conditions(statements):
         for s in statements:
-            s.set_parent_id(m)
+            s.set_parent_condition(None)
         return statements
 
     @staticmethod

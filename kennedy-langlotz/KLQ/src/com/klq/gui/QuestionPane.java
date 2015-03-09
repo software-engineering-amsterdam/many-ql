@@ -99,7 +99,7 @@ public class QuestionPane extends GridPane {
     private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
         for (int i=0; i< optionSet.size(); i++) {
-            Value answer = optionSet.get(i);
+            Value answer = optionSet.get(i).evaluate(store.getVariables());
             RadioButton rb = new RadioButton(answer.getValue().toString());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);

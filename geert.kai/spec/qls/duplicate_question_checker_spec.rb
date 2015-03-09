@@ -11,3 +11,4 @@ describe DuplicateQuestionChecker do
     expect(errors.first.message).to match /defined more than once/
   end
 end
+

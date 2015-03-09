@@ -1,8 +1,8 @@
 package org.fugazi.ql.ast.statement;
 
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 
-public abstract class Statement extends AbstractASTQLNode {
+public abstract class Statement extends AbstractASTNode {
 
     public Statement(int _lineNum) {
         super( _lineNum);
