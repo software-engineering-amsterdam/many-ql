@@ -14,10 +14,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
 import org.fugazi.ql.gui.visitor.UIQuestionBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GUIBuilder implements IMediator {
 
@@ -26,7 +23,7 @@ public class GUIBuilder implements IMediator {
     private final UIForm uiForm;
     private final Form astForm;
 
-    private Map<UIQuestion, List<IfStatement>> questionsWithState = new HashMap<>();
+    private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
 
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
