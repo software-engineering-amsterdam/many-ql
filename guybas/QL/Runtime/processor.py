@@ -1,4 +1,6 @@
-#
+import QL.Main.converters as converters
+
+
 class Processor:
 
     @staticmethod
@@ -15,5 +17,7 @@ class Processor:
 
     @staticmethod
     def export_answers(answers_map, gui):
+        xml = converters.Converters.dict_to_xml('answer', answers_map.get_answers())
+        print(xml)
         print("done")
         gui.close()

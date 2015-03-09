@@ -1,4 +1,3 @@
-import QL.Validators.type_checker as type_checker
 import QL.Exceptions.exceptions as exceptions
 
 

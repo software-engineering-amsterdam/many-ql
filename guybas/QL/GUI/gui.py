@@ -23,7 +23,7 @@ class GUI:
         intro_row[0].grid(row=0, column=0, sticky=tk.W)
 
         self.draw_statements(self._statements)
-        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self._answersMap, self)
+        tk.Button(text="Submit", width=10, command=lambda: processor.Processor.export_answers(self._answersMap, self)
                   ).grid(row=999, column=0)
 
     def draw_statements(self, statements):
