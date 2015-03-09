@@ -4,7 +4,7 @@ import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
 
 
-class QuestionnaireGUI:
+class GUI:
     def __init__(self, form):
         self._qGui = tk.Tk()
         self._form = form
@@ -88,7 +88,7 @@ class QuestionnaireGUI:
     @staticmethod
     def e_radio(statement, gui):
         e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
+        e_list += GUI.e_label(statement, gui)
         e1 = tk.Radiobutton(text="True", value=1, variable=statement.get_order(),
                          command=lambda: gui.update(statement, True))
         e2 = tk.Radiobutton(text="False", value=0, variable=statement.get_order(),
@@ -104,7 +104,7 @@ class QuestionnaireGUI:
     @staticmethod
     def e_spin(statement, gui):
         e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
+        e_list += GUI.e_label(statement, gui)
         e = tk.Spinbox(from_=0, to_=10000, command=lambda: gui.update(statement, None if e.get() is '' else int(e.get())))
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, None if e.get() is '' else int(e.get())))
         # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
@@ -114,7 +114,7 @@ class QuestionnaireGUI:
     @staticmethod
     def e_entry(statement, gui):
         e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
+        e_list += GUI.e_label(statement, gui)
         str_var = tk.StringVar()
         e = tk.Entry(textvariable=str_var)
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
