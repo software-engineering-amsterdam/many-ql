@@ -22,7 +22,7 @@ form taxOfficeExample {
         (sellingPrice - privateDebt * ( percentage - commissioning ) )
   }
   
-  if (hasContract) {
+  if (hasContract && hasSoldHouse) {
     "Do you have a contract for longer than 1 year?"
       yearContract: int
     "Did you have an unlimited contract with your employer?"

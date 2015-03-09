@@ -11,7 +11,7 @@ import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
-public class ConditionEvaluator extends BaseAstVisitor<QLBoolean> {
+public class ConditionEvaluator extends BaseAstVisitor<Boolean> {
 
 	private final List<RuntimeQuestion> questions;
 
@@ -20,28 +20,32 @@ public class ConditionEvaluator extends BaseAstVisitor<QLBoolean> {
 	}
 
 	@Override
-	public QLBoolean visit(BracedExpression bracedExpression) {
+	public Boolean visit(BracedExpression bracedExpression) {
 		Expression expression = bracedExpression.getExpression();
 		return expression.accept(this);
 	}
 
 	@Override
-	public QLBoolean visit(BinaryExpression binaryExpression) {
+	public Boolean visit(BinaryExpression binaryExpression) {
 		Expression leftHand = binaryExpression.getLeftHand();
 		Expression rightHand = binaryExpression.getRightHand();
-		QLBoolean leftValue = leftHand.accept(this);
-		QLBoolean rightValue = rightHand.accept(this);
+		Boolean leftValue = leftHand.accept(this);
+		Boolean rightValue = rightHand.accept(this);
 
 		BinaryOperator binaryOperator = binaryExpression.getOperator();
-		return binaryOperator.calculate(leftValue, rightValue);
+		return binaryOperator.calculate(QLBoolean.BOOLEAN, leftValue, rightValue);
 	}
 
 	@Override
-	public QLBoolean visit(NameExpression nameExpression) {
+	public Boolean visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
 		QuestionByName questionByName = new QuestionByName();
 		RuntimeQuestion runtimeQuestion = questionByName.getRuntimeQuestion(name, questions);
-		QLBoolean value = new QLBoolean((Boolean) runtimeQuestion.getValue());
-		return value;
+		Object value = runtimeQuestion.getValue();
+		Boolean result = false;
+		if (value != null) {
+			result = new Boolean((Boolean) value);
+		}
+		return result;
 	}
 }

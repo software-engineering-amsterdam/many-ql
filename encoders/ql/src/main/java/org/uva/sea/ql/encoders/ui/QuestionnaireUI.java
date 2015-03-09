@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.runtime.ConditionEvaluator;
 import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
@@ -65,7 +64,7 @@ public class QuestionnaireUI {
 			boolean visible = question.getCondition() == null;
 			label.setVisible(visible);
 			ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
-			final Control control = (Control) dataType.accept(controlGenerator);
+			final Control control = dataType.accept(controlGenerator);
 
 			control.setVisible(visible);
 
@@ -81,8 +80,7 @@ public class QuestionnaireUI {
 						@Override
 						public void update(Observable o, Object arg) {
 							ConditionEvaluator conditionEvaluator = new ConditionEvaluator(runtimeQuestions);
-							QLBoolean qlBoolean = condition.accept(conditionEvaluator);
-							Boolean visible = qlBoolean.getValue();
+							Boolean visible = condition.accept(conditionEvaluator);
 							control.setVisible(visible);
 							label.setVisible(visible);
 							System.out.println("Waarde is nu: " + arg);
