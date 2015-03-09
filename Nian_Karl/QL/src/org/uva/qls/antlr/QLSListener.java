@@ -19,6 +19,16 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitStyle(@NotNull QLSParser.StyleContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLSParser#pageBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterPageBlock(@NotNull QLSParser.PageBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#pageBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitPageBlock(@NotNull QLSParser.PageBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLSParser#page}.
 	 * @param ctx the parse tree
 	 */
@@ -39,35 +49,35 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitFont(@NotNull QLSParser.FontContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#trueFalseIdentifier}.
+	 * Enter a parse tree produced by {@link QLSParser#intWidgetParam}.
 	 * @param ctx the parse tree
 	 */
-	void enterTrueFalseIdentifier(@NotNull QLSParser.TrueFalseIdentifierContext ctx);
+	void enterIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#trueFalseIdentifier}.
+	 * Exit a parse tree produced by {@link QLSParser#intWidgetParam}.
 	 * @param ctx the parse tree
 	 */
-	void exitTrueFalseIdentifier(@NotNull QLSParser.TrueFalseIdentifierContext ctx);
+	void exitIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#block}.
+	 * Enter a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(@NotNull QLSParser.BlockContext ctx);
+	void enterQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#block}.
+	 * Exit a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(@NotNull QLSParser.BlockContext ctx);
+	void exitQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#questionIdent}.
+	 * Enter a parse tree produced by {@link QLSParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestionIdent(@NotNull QLSParser.QuestionIdentContext ctx);
+	void enterType(@NotNull QLSParser.TypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#questionIdent}.
+	 * Exit a parse tree produced by {@link QLSParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestionIdent(@NotNull QLSParser.QuestionIdentContext ctx);
+	void exitType(@NotNull QLSParser.TypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
@@ -98,4 +108,24 @@ public interface QLSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSection(@NotNull QLSParser.SectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#sheet}.
+	 * @param ctx the parse tree
+	 */
+	void enterSheet(@NotNull QLSParser.SheetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#sheet}.
+	 * @param ctx the parse tree
+	 */
+	void exitSheet(@NotNull QLSParser.SheetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#boolWidgetParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#boolWidgetParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx);
 }

@@ -18,6 +18,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStyle(@NotNull QLSParser.StyleContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLSParser#pageBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPageBlock(@NotNull QLSParser.PageBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLSParser#page}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -30,23 +36,23 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFont(@NotNull QLSParser.FontContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#trueFalseIdentifier}.
+	 * Visit a parse tree produced by {@link QLSParser#intWidgetParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTrueFalseIdentifier(@NotNull QLSParser.TrueFalseIdentifierContext ctx);
+	T visitIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#block}.
+	 * Visit a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBlock(@NotNull QLSParser.BlockContext ctx);
+	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#questionIdent}.
+	 * Visit a parse tree produced by {@link QLSParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionIdent(@NotNull QLSParser.QuestionIdentContext ctx);
+	T visitType(@NotNull QLSParser.TypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
@@ -65,4 +71,16 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#sheet}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSheet(@NotNull QLSParser.SheetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#boolWidgetParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx);
 }

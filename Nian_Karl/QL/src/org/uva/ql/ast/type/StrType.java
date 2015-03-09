@@ -8,12 +8,12 @@ public class StrType extends Type {
 	public boolean isStr() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isEqual(Type type) {
 		return type.isStr();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Str";
@@ -23,5 +23,5 @@ public class StrType extends Type {
 	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
+
 }

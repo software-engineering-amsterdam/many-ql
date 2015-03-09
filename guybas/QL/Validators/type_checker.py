@@ -2,7 +2,7 @@
 import collections
 import QL.Grammar.constants as gconstants
 import QL.AST.Elements.constants as econstants
-from QL.Main.exceptions import *
+from QL.Exceptions.exceptions import *
 from QL.Validators.expression_validator import *
 from QL.AST.Elements.operators import *
 
