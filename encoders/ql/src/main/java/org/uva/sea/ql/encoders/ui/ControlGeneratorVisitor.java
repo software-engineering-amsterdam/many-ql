@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
@@ -16,7 +15,7 @@ import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
 import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
 import org.uva.sea.ql.encoders.runtime.value.StringValue;
 
-public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
+public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> {
 
 	private RuntimeQuestion runtimeQuestion;
 
@@ -25,16 +24,16 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 	}
 
 	@Override
-	public Control visit(BooleanType qlBoolean) {
-		CheckBox control = new CheckBox("Yes");
+	public CheckBoxWrapper visit(BooleanType qlBoolean) {
+		CheckBox checkBox = new CheckBox("Yes");
 		CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
-		control.setOnAction(checkBoxEventHandler);
-		return control;
+		checkBox.setOnAction(checkBoxEventHandler);
+		return new CheckBoxWrapper(checkBox);
 	}
 
 	@Override
-	public Control visit(IntegerType qlInteger) {
-		TextField control = new TextField() {
+	public TextFieldWrapper visit(IntegerType integerType) {
+		TextField textField = new TextField() {
 			@Override
 			public void replaceText(int start, int end, String text) {
 				if (text.matches("[0-9]*")) {
@@ -49,15 +48,15 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 				}
 			}
 		};
-		control.setOnKeyReleased(new NumberFieldHandler(runtimeQuestion));
-		return control;
+		textField.setOnKeyReleased(new NumberFieldHandler(runtimeQuestion));
+		return new TextFieldWrapper(textField);
 	}
 
 	@Override
-	public Control visit(StringType qlString) {
-		TextField control = new TextField();
-		control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
-		return control;
+	public TextFieldWrapper visit(StringType stringType) {
+		TextField textField = new TextField();
+		textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
+		return new TextFieldWrapper(textField);
 	}
 
 	private class TextFieldHandler implements EventHandler<Event> {

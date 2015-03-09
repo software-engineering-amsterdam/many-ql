@@ -54,6 +54,11 @@ public class Question extends AstNode {
 	}
 
 	@Override
+	public String toString() {
+		return name.toString();
+	}
+
+	@Override
 	public <T> T accept(AstVisitor<T> visitor) {
 		return visitor.visit(this);
 	}

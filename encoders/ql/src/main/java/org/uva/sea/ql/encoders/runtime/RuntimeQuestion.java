@@ -1,11 +1,22 @@
 package org.uva.sea.ql.encoders.runtime;
 
-import java.util.Observable;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.runtime.value.Value;
 
-public class RuntimeQuestion extends Observable {
+public class RuntimeQuestion {
+
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.pcs.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.pcs.removePropertyChangeListener(listener);
+	}
 
 	private final Question question;
 
@@ -21,10 +32,15 @@ public class RuntimeQuestion extends Observable {
 	}
 
 	public void setValue(Value value) {
+		Object old = this.value;
 		this.value = value;
-		setChanged();
-		notifyObservers(value);
+		pcs.firePropertyChange("value", old, value);
 		System.out.println(question.getName() + " " + value);
+	}
+
+	@Override
+	public String toString() {
+		return question + " " + value;
 	}
 
 	public Question getQuestion() {
