@@ -48,14 +48,16 @@ public class Test {
 //			System.exit(0);
 //		} 
 		//Check for type errors, exit program and show errors if any are found.
-		Context typemem = new Context();
-		form.getTypes(typemem);
-		if(typemem.hasErrors()){
+		Context context = new Context();
+		form.getTypes(context);
+		if(context.hasErrors()){
 			System.err.println("there are type errors:");
-			System.out.println(typemem.getErrors());
+			System.out.println(context.getErrors());
+		} else {
+			System.out.println("Input successfully interpreted");
 		}
 
-//		Context mem = form.initMemory();
+//		Context context = form.initMemory();
 //		System.out.println(mem);
 			
 		

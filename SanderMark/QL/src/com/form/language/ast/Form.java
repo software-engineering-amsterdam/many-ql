@@ -22,9 +22,9 @@ public class Form  {
 		this.statementList = statementList;
 	}
 	
-	public void getTypes(Context mem){
+	public void getTypes(Context context){
 		for(Statement s: statementList){
-			s.getType(mem);
+			s.getType(context);
 		}
 	}
 	public void collectIds(IdCollector idCollector){
@@ -37,18 +37,18 @@ public class Form  {
 		return statementList.iterator();
 	}
 	
-	public Context initMemory(Context mem)
+	public Context initMemory(Context context)
 	{
 		for(Statement s: statementList)
 		{
-			s.initMemory(mem);			
+			s.initMemory(context);			
 		}
-		return mem;		
+		return context;		
 	}
 
-	public void showTypes(Context mem) {
+	public void showTypes(Context context) {
 		for(Statement s: statementList){
-			System.out.println(s.getType(mem));	
+			System.out.println(s.getType(context));	
 		}
 	}
 	

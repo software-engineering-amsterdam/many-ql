@@ -27,8 +27,8 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		return expression.getType(mem);
+	public Type getType(Context context) {
+		return expression.getType(context);
 	}
 
 //	@Override
@@ -48,13 +48,13 @@ public class AssignmentStatement implements Statement {
 		this.expression.setType(ids);
 	}
 	
-	public void initMemory(Context mem){
-		expression.evaluate(mem).addToMemory(id, mem);
+	public void initMemory(Context context){
+		expression.evaluate(context).addToMemory(id, context);
 	}
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-			FormComponent formGUI, Context rm) {
+			FormComponent formGUI, Context context) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,7 +15,7 @@ public class GUIBuilder {
 	private FormComponent formGUI;
 	private Expression showCondition;
 	
-	public GUIBuilder(Form form,JFrame frame, Context mem)
+	public GUIBuilder(Form form,JFrame frame, Context context)
 	{
 		
 		formGUI = new FormComponent(form,this,frame);	
@@ -26,12 +26,12 @@ public class GUIBuilder {
 			Statement statement = s.next();
 			
 			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
-			statement.createGUIComponent(this,formGUI,mem);
+			statement.createGUIComponent(this,formGUI,context);
 		}	
 	}
 
-	public void createGUIQuestion(Question question, FormComponent formGUI2, Context rm) {
-		QuestionComponent questionCompondent = new QuestionComponent(question,rm,showCondition);	
+	public void createGUIQuestion(Question question, FormComponent formGUI2, Context context) {
+		QuestionComponent questionCompondent = new QuestionComponent(question,context,showCondition);	
 		formGUI2.add(questionCompondent);
 	}
 	

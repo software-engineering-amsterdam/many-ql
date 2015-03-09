@@ -18,8 +18,8 @@ public abstract class BinaryExpression implements Expression {
 		this.tokenInfo = tokenInfo;
 	}
 	@Override
-	public Boolean isCorrectlyTyped(Context mem) {
-		return !this.getType(mem).equals(new ErrorType());
+	public Boolean isCorrectlyTyped(Context context) {
+		return !this.getType(context).equals(new ErrorType());
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public abstract class BinaryExpression implements Expression {
 //		
 //	}
 	@Override
-	public GenericValue<?> evaluate(Context mem) {
+	public GenericValue<?> evaluate(Context context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -30,15 +30,15 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public Type getType(Context mem) {
+	public Type getType(Context context) {
 		for(Statement s: thenStatements){
-			s.getType(mem);
+			s.getType(context);
 		}
-		if (conditions.getType(mem).isBoolType()){
+		if (conditions.getType(context).isBoolType()){
 			return new BoolType();
 		}
 		else{
-				mem.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+				context.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
 				return new ErrorType();
 			}
 		}

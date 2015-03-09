@@ -15,11 +15,11 @@ import com.form.language.memory.Context;
 
 public class CheckBox extends JCheckBox {
 	private static final long serialVersionUID = 1L;
-	private Context rm;
+	private Context context;
 	private Question question;
 	
-	public CheckBox(Question question, QuestionComponent questionComponent, Context rm) {
-		this.rm = rm;
+	public CheckBox(Question question, QuestionComponent questionComponent, Context context) {
+		this.context = context;
 		this.question = question;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		addItemListener((ItemListener) checkboxListener);
@@ -28,17 +28,17 @@ public class CheckBox extends JCheckBox {
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this) {
-				rm.put(question.getId(), new BoolValue(CheckBox.this.isSelected()));
+				context.put(question.getId(), new BoolValue(CheckBox.this.isSelected()));
 				checkDependencyVisibility();
 			}
 		}
 
 		private void checkDependencyVisibility() {			
-			Iterator<Expression> iterator = rm.getExpressions(question.getId());			
+			Iterator<Expression> iterator = context.getExpressions(question.getId());			
 			while(iterator.hasNext())
 			{
 				Expression exp = iterator.next();
-				List<QuestionComponent> q = rm.getQcomponent(exp);					
+				List<QuestionComponent> q = context.getQcomponent(exp);					
 				checkVisibilities(exp, q);
 			}
 		}
@@ -46,7 +46,7 @@ public class CheckBox extends JCheckBox {
 		private void checkVisibilities(Expression exp, List<QuestionComponent> q) {
 			for(QuestionComponent question : q)
 			{
-				question.checkVisibility(((BoolValue)exp.evaluate(rm)).getValue());
+				question.checkVisibility(((BoolValue)exp.evaluate(context)).getValue());
 			}
 		}
 	}

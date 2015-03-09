@@ -8,11 +8,11 @@ import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 
 public interface Statement {
-		public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context rm);
-		public Type getType(Context mem);
+		public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context context);
+		public Type getType(Context context);
 //		public abstract void getErrors(ErrorCollector errorCollector);
 		public abstract void collectIds(IdCollector idCollector);
 		public abstract void setType(IdTypeTable ids);
-		public void initMemory(Context mem);
+		public void initMemory(Context context);
 		public abstract void getReferences(IdCollector idCollector);
 }

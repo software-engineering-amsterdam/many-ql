@@ -14,7 +14,7 @@ public abstract class Literal implements Expression {
 		this.tokenInfo = tokenInfo;
 	}
 	@Override
-	public Boolean isCorrectlyTyped(Context mem) {
+	public Boolean isCorrectlyTyped(Context context) {
 		return true;
 	}
 	

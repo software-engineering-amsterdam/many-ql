@@ -34,22 +34,22 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public GenericValue<?> evaluate(Context mem) {
-		return mem.getValue(name);
+	public GenericValue<?> evaluate(Context context) {
+		return context.getValue(name);
 	}
 	
-	public Type getType(Context mem){
+	public Type getType(Context context){
 		if(this.IsReference()){
-			return getTypeFromMemory(mem);
+			return getTypeFromMemory(context);
 		}
-		mem.addId(this);
+		context.addId(this);
 		return this.type;
 	}
 	
-	private Type getTypeFromMemory(Context mem) {
-		Type typeFromMemory = mem.getIdType(this);
+	private Type getTypeFromMemory(Context context) {
+		Type typeFromMemory = context.getIdType(this);
 		if(typeFromMemory == null){
-			mem.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
+			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
 			return new ErrorType();
 		}
 		else return typeFromMemory;

@@ -19,19 +19,19 @@ public class Negation extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public GenericValue<Integer> evaluate(Context mem) {		
-		return new IntValue(-((IntValue)value.evaluate(mem)).getValue());
+	public GenericValue<Integer> evaluate(Context context) {		
+		return new IntValue(-((IntValue)value.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		Type childType = value.getType(mem);
+	public Type getType(Context context) {
+		Type childType = value.getType(context);
 		if(childType.isIntType()){
 			return new IntType();
 		}
 		else{
 			if(!childType.isErrorType()){
-				mem.addError(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
+				context.addError(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
 				}
 			return new ErrorType();
 		}

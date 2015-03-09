@@ -20,19 +20,19 @@ public class GreaterThan extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate(Context mem) {
-		return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() > ((IntValue)super.right.evaluate(mem)).getValue());
+	public BoolValue evaluate(Context context) {
+		return new BoolValue(((IntValue)super.left.evaluate(context)).getValue() > ((IntValue)super.right.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		Type leftType = left.getType(mem);
-		Type rightType = right.getType(mem);
+	public Type getType(Context context) {
+		Type leftType = left.getType(context);
+		Type rightType = right.getType(context);
 		if(leftType.isIntType() && rightType.isIntType()){
 			return new BoolType();
 		}else {
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				mem.addError(new Error(tokenInfo, "Expected Int > Int, but found " + leftType + " > " + rightType));
+				context.addError(new Error(tokenInfo, "Expected Int > Int, but found " + leftType + " > " + rightType));
 			}
 		return new ErrorType();
 		}

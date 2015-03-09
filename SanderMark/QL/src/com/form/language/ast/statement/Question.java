@@ -25,8 +25,8 @@ public class Question implements Statement {
 	}
 	
 	@Override
-	public Type getType(Context mem) {
-		mem.addId(new IdLiteral(this.id,this.questionType, null, tokenInfo));
+	public Type getType(Context context) {
+		context.addId(new IdLiteral(this.id,this.questionType, null, tokenInfo));
 		return this.questionType;
 	}
 
@@ -53,14 +53,14 @@ public class Question implements Statement {
 		return this.id;
 	}
 
-	public void initMemory(Context mem){
-		questionType.defaultValue().addToMemory(id, mem);
+	public void initMemory(Context context){
+		questionType.defaultValue().addToMemory(id, context);
 	}
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-			FormComponent formGUI, Context rm) {
-		guiBuilder.createGUIQuestion(this, formGUI,rm);
+			FormComponent formGUI, Context context) {
+		guiBuilder.createGUIQuestion(this, formGUI,context);
 		
 	}
 

@@ -18,19 +18,19 @@ public class Not extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public BoolValue evaluate(Context mem) {
-		return new BoolValue(!((BoolValue)value.evaluate(mem)).getValue());
+	public BoolValue evaluate(Context context) {
+		return new BoolValue(!((BoolValue)value.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		Type childType = value.getType(mem);
+	public Type getType(Context context) {
+		Type childType = value.getType(context);
 		if(childType.getType().isBoolType()){
 			return new BoolType();
 		}			
 		else{
 			if(!childType.isErrorType()){
-				mem.addError(new Error(tokenInfo, "Expected !Boolean, but found !"  + childType));
+				context.addError(new Error(tokenInfo, "Expected !Boolean, but found !"  + childType));
 			}
 			return new ErrorType();
 		}

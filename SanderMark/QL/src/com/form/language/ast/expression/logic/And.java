@@ -18,21 +18,21 @@ public class And extends BinaryExpression implements Expression {
 	}
 	
 	@Override
-	public BoolValue evaluate(Context mem) {
-		return new BoolValue(((BoolValue)super.left.evaluate(mem)).getValue() && ((BoolValue)super.right.evaluate(mem)).getValue());
+	public BoolValue evaluate(Context context) {
+		return new BoolValue(((BoolValue)super.left.evaluate(context)).getValue() && ((BoolValue)super.right.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		Type leftType = left.getType(mem);
-		Type rightType = right.getType(mem);
+	public Type getType(Context context) {
+		Type leftType = left.getType(context);
+		Type rightType = right.getType(context);
 		
 		if(leftType.isBoolType() && rightType.isBoolType()) {
 			return new BoolType();
 		}
 		else{			
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				mem.addError(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
+				context.addError(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
 		}
 			return new ErrorType();
 		}
