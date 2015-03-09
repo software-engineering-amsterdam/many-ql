@@ -1,13 +1,11 @@
-package org.fugazi.qls.type_checker.visitor;
+package org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor;
 
 
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
-import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Color;
 import org.fugazi.qls.ast.style.style_property.Font;
 import org.fugazi.qls.ast.style.style_property.FontSize;
@@ -22,8 +20,7 @@ import java.util.List;
  Class can inherit and override methods where they
  need to perform additional actions.
  */
-public class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
-
+public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
 
     public Void visitStyleSheet(StyleSheet styleSheet){
         List<Page> pages = styleSheet.getPages();
