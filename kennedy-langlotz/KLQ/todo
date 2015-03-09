@@ -1,6 +1,4 @@
 - Type checking
 
 The type checker detects:
-    operands of invalid type to operators (Ask how)
     cyclic dependencies between questions (Ask how)
-    duplicate labels (warning)
