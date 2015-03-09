@@ -18,6 +18,7 @@ namespace QL.Model.Terminals
                 parsedValue = value.ToString().ToLowerInvariant() == "yes" ? true : false;
             }
             Value = parsedValue;
+
         }
 
         public Type GetReturnType()
@@ -31,10 +32,14 @@ namespace QL.Model.Terminals
             {
                 throw new Exception();
             }
+            
 
             return Value.Value ? "yes" : "no";
         }
-        
+        public static bool operator ==(Yesno a, Yesno b) { return a.Value == b.Value; }
+        public static bool operator !=(Yesno a, Yesno b) { return a.Value != b.Value; }
+
+       
 
     }
 }

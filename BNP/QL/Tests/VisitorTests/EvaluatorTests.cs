@@ -6,7 +6,7 @@ using QL.Grammars;
 namespace Tests.VisitorTests
 {
     [TestClass]
-    public class EvaluatorTests : QLTestBase
+    public class EvaluatorTests :QLTestBase
     {
         AstHandler GetResultAst(string input)
         {
@@ -29,8 +29,8 @@ namespace Tests.VisitorTests
             ";
             
             AstHandler ast = GetResultAst(input);
-            Assert.IsTrue(ast.CheckType());
-            Assert.IsTrue(ast.Evaluate());
+            Assert.IsFalse(ast.CheckType());
+            Assert.IsFalse(ast.Evaluate());
 
         }
 
@@ -39,6 +39,8 @@ namespace Tests.VisitorTests
         {
             string input = @"form ExampleBlock {
                 statement S1 (text, ""abc"") ""You've failed to answer:"";
+
+
                 statement S2 (yesno, yes) ""You've failed to answer:"";
 
                 if (yes){}
@@ -50,15 +52,16 @@ namespace Tests.VisitorTests
                 }
             ";
             AstHandler ast = GetResultAst(input);
-            Assert.IsTrue(ast.CheckType());
+            Assert.IsFalse(ast.CheckType());
             
-            Assert.IsTrue(ast.Evaluate());
+            Assert.IsFalse(ast.Evaluate());
             Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
+            //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
+            //by visitor could be done as well
             Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
 
-            
-
-
         }
+
+       
     }
 }

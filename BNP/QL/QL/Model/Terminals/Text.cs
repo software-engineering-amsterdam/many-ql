@@ -27,6 +27,15 @@ namespace QL.Model.Terminals
             
             return Value;
         }
+    public static bool operator == (Text a, Text b)
+    {
+        return a.Value == b.Value;    
+    }
+    public static bool operator !=(Text a, Text b)
+    {
+        return a.Value != b.Value;
+    }
+        
        
     }
 }
