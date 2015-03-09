@@ -2,7 +2,7 @@ package org.uva.sea.ql.encoders.ast.expression;
 
 import org.uva.sea.ql.encoders.ast.AstVisitor;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
 
 public class BinaryExpression extends Expression {
 

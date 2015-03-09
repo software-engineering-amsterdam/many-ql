@@ -1,12 +1,12 @@
-package org.uva.sea.ql.encoders.ast.operator;
+package org.uva.sea.ql.encoders.runtime.operator;
 
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
-public class LessThanOperator implements BinaryOperator {
+public class AndOperator implements BinaryOperator {
 
 	@Override
 	public <T extends DataType<V>, V> V calculate(T dataType, V leftValue, V rightValue) {
-		return dataType.lessThan(leftValue, rightValue);
+		return dataType.and(leftValue, rightValue);
 	}
 
 }

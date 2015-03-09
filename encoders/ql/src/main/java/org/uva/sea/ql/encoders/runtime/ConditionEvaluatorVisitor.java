@@ -8,9 +8,9 @@ import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
-import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
-import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {

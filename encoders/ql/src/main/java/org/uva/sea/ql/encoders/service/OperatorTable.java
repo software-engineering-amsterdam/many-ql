@@ -3,19 +3,19 @@ package org.uva.sea.ql.encoders.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.uva.sea.ql.encoders.ast.operator.AddOperator;
-import org.uva.sea.ql.encoders.ast.operator.AndOperator;
-import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
-import org.uva.sea.ql.encoders.ast.operator.DivideOperator;
-import org.uva.sea.ql.encoders.ast.operator.GreaterOrEqualOperator;
-import org.uva.sea.ql.encoders.ast.operator.GreaterThanOperator;
-import org.uva.sea.ql.encoders.ast.operator.LessOrEqualOperator;
-import org.uva.sea.ql.encoders.ast.operator.LessThanOperator;
-import org.uva.sea.ql.encoders.ast.operator.MultiplyOperator;
-import org.uva.sea.ql.encoders.ast.operator.NotOperator;
-import org.uva.sea.ql.encoders.ast.operator.OrOperator;
-import org.uva.sea.ql.encoders.ast.operator.SubstractOperator;
-import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
+import org.uva.sea.ql.encoders.runtime.operator.AddOperator;
+import org.uva.sea.ql.encoders.runtime.operator.AndOperator;
+import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.runtime.operator.DivideOperator;
+import org.uva.sea.ql.encoders.runtime.operator.GreaterOrEqualOperator;
+import org.uva.sea.ql.encoders.runtime.operator.GreaterThanOperator;
+import org.uva.sea.ql.encoders.runtime.operator.LessOrEqualOperator;
+import org.uva.sea.ql.encoders.runtime.operator.LessThanOperator;
+import org.uva.sea.ql.encoders.runtime.operator.MultiplyOperator;
+import org.uva.sea.ql.encoders.runtime.operator.NotOperator;
+import org.uva.sea.ql.encoders.runtime.operator.OrOperator;
+import org.uva.sea.ql.encoders.runtime.operator.SubstractOperator;
+import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
 
 public class OperatorTable {
 

@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.ast.operator;
+package org.uva.sea.ql.encoders.runtime.operator;
 
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
