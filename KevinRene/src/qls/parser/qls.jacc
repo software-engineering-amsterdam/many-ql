@@ -1,12 +1,12 @@
 %package qls.parser
 %class QLSParser
 %interface QLSTokens
-%semantic qls.ast.QLSNode
+%semantic ql.ast.QLNode
 
-%token <QLSInteger> INTEGER
-%token <QLSBoolean> BOOLEAN
-%token <QLSString> STRING
-%token <QLSFloat> MONEY FLOAT
+%token <QLInteger> INTEGER
+%token <QLBoolean> BOOLEAN
+%token <QLString> STRING
+%token <QLFloat> MONEY FLOAT
 
 %token <IntegerLiteral> INTEGERLITERAL 
 %token <BooleanLiteral> BOOLEANLITERAL
@@ -15,20 +15,35 @@
 %token <FloatLiteral> MONEYLITERAL
 
 %token <Identifier> IDENTIFIER
-%token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT 
+%token <Stylesheet> STYLESHEET 
+%token <Page> PAGE 
+%token <Section> SECTION 
+%token <Widget> WIDGET 
+%token <Question> QUESTION 
+%token DEFAULT 
+
 %token FONT FONTSIZE WIDTH HEIGHT COLOUR
 %token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
 %token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
 
-%type <Expression> literal
+%type <Literal> literal
 %type <QLType> type
+%type <QLSBlock> statements
+%type <QLSStatement> statement
 
 %{
 import ql.ast.*;
-import ql.ast.expression.*;
+import ql.ast.expression.QLType;
+import ql.ast.expression.Literal;
+import ql.ast.expression.Identifier;
 import ql.ast.expression.type.*;
 import ql.ast.expression.literal.*;
+
+import qls.ast.QLSStatement;
+import qls.ast.Widget;
+import qls.ast.statement.*;
+import qls.ast.widget.*;
 
 @SuppressWarnings("all")
 %}
@@ -37,11 +52,11 @@ import ql.ast.expression.literal.*;
 	top : stylesheet { result = $1; }
 		;
 		
-	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new StyleSheet($2, $4); }
+	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
 				;
 				
-	statements 	: statement statements 	{ $$ = new Block($1, $2); }
-				| statement           	{ $$ = new Block($1); }
+	statements 	: statement statements 	{ $$ = new QLSBlock($1, $2); }
+				| statement           	{ $$ = new QLSBlock($1); }
 				;
 				
 	statement 	: PAGE IDENTIFIER '{' statements '}'
@@ -99,9 +114,9 @@ import ql.ast.expression.literal.*;
 %%
 private QLSLexer lexer; 
 
-private QLSNode result;
+private QLNode result;
 
-public QLSNode getResult() {
+public QLNode getResult() {
   return result;
 }
 

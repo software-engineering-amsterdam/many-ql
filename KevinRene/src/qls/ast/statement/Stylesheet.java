@@ -1,24 +1,31 @@
 package qls.ast.statement;
 
-import qls.ast.Identifier;
-import qls.ast.Statement;
-import qls.ast.visitor.Visitor;
+import ql.ast.expression.Identifier;
+import qls.ast.QLSStatement;
+import qls.ast.visitor.QLSStatementVisitor;
 
-public class Stylesheet extends Statement {
-	
+public class Stylesheet extends QLSStatement {	
 	private final Identifier identifier;
-	private final Block block;
+	private final QLSBlock block;
 
-	public Stylesheet(Identifier identifier, Block block) {
+	public Stylesheet(Identifier identifier, QLSBlock block) {
 		this.identifier = identifier;
 		this.block = block;
 	}
-
+	
+	public QLSBlock getBlock() {
+		return block;
+	}
+	
+	public Identifier getIdentifier() {
+		return identifier;
+	}
+	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(QLSStatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

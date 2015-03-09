@@ -16,7 +16,8 @@ public class QLBoolean extends QLType {
 	}
 		
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {		
+	public <T> T accept(ExpressionVisitor<T> visitor) {	
+		System.out.println("TRWRWR");
 		return visitor.visit(this);
 	}
 }

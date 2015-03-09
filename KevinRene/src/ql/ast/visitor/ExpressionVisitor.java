@@ -1,6 +1,7 @@
 package ql.ast.visitor;
 
 import ql.ast.expression.Binary;
+import ql.ast.expression.Identifier;
 import ql.ast.expression.Unary;
 import ql.ast.expression.arithmetic.Add;
 import ql.ast.expression.arithmetic.Divide;
@@ -8,6 +9,10 @@ import ql.ast.expression.arithmetic.Multiply;
 import ql.ast.expression.arithmetic.Negation;
 import ql.ast.expression.arithmetic.Positive;
 import ql.ast.expression.arithmetic.Subtract;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.And;
 import ql.ast.expression.relational.Equal;
 import ql.ast.expression.relational.Greater;
@@ -17,9 +22,15 @@ import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.Not;
 import ql.ast.expression.relational.NotEqual;
 import ql.ast.expression.relational.Or;
-import shared.IExpressionVisitor;
+import ql.ast.expression.type.QLBoolean;
+import ql.ast.expression.type.QLError;
+import ql.ast.expression.type.QLFloat;
+import ql.ast.expression.type.QLForm;
+import ql.ast.expression.type.QLInteger;
+import ql.ast.expression.type.QLNumeric;
+import ql.ast.expression.type.QLString;
 
-public interface ExpressionVisitor<T> extends IExpressionVisitor<T> {	
+public interface ExpressionVisitor<T> {	
 	default T visit(Unary unaryNode) {
 		unaryNode.getExpression().accept(this);		
 		return null;
@@ -30,6 +41,22 @@ public interface ExpressionVisitor<T> extends IExpressionVisitor<T> {
 		binaryNode.getRight().accept(this);
 		return null;
 	};
+	
+	default T visit(Identifier identNode) {	return null; }
+	
+	// Types contain nothing. An empty function will be the default visit action.
+	default T visit(QLBoolean booleanNode) { return null; }
+	default T visit(QLFloat floatNode) { return null; }   
+	default T visit(QLForm formNode) { return null; } 
+	default T visit(QLNumeric numericNode) { return null; }
+	default T visit(QLInteger intNode) { return null; }
+	default T visit(QLString stringNode) { return null; }
+	default T visit(QLError errNode) { return null; }
+	
+	default T visit(BooleanLiteral booleanNode) { return null; }	
+	default T visit(FloatLiteral floatNode) { return null; }
+	default T visit(IntegerLiteral intNode) { return null; }
+	default T visit(StringLiteral stringNode) {	return null; }
 	
 	default T visit(Add addNode) {
 		addNode.getLeft().accept(this);

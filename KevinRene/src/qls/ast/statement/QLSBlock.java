@@ -3,28 +3,28 @@ package qls.ast.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import qls.ast.Statement;
-import qls.ast.visitor.Visitor;
+import qls.ast.QLSStatement;
+import qls.ast.visitor.QLSStatementVisitor;
 
-public class Block extends Statement {
-	private List<Statement> statements = new ArrayList<Statement>();
+public class QLSBlock extends QLSStatement {
+	private List<QLSStatement> statements = new ArrayList<QLSStatement>();
 	
-	public Block() {}
+	public QLSBlock() {}
 	
 	/**
 	 * Constructor for the statement case
 	 * @param statement
 	 */
-	public Block(Statement statement) {
+	public QLSBlock(QLSStatement statement) {
 		this.statements.add(statement);
 	}
 	
-	public Block(Statement statement, Block statements) {
+	public QLSBlock(QLSStatement statement, QLSBlock statements) {
 		this.statements.add(statement);
 		this.statements.addAll(statements.statements());
 	}
 	
-	public List<Statement> statements() {
+	public List<QLSStatement> statements() {
 		return this.statements;
 	}
 
@@ -32,7 +32,7 @@ public class Block extends Statement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Block(");
 		
-		for(Statement statement : statements) {
+		for(QLSStatement statement : statements) {
 			sb.append(statement.toString() + ", ");
 		}
 		
@@ -43,7 +43,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {		
+	public <T> T accept(QLSStatementVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

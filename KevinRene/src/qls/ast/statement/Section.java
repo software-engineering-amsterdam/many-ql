@@ -1,11 +1,11 @@
 package qls.ast.statement;
 
-import qls.ast.Statement;
-import qls.ast.visitor.Visitor;
+import qls.ast.QLSStatement;
+import qls.ast.visitor.QLSStatementVisitor;
 
-public class Section extends Statement {
+public class Section extends QLSStatement {
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(QLSStatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

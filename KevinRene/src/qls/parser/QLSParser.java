@@ -1,12 +1,18 @@
-// Output created by jacc on Mon Mar 09 17:59:44 CET 2015
+// Output created by jacc on Mon Mar 09 20:54:56 CET 2015
 
 package qls.parser;
 
-import javax.swing.text.html.StyleSheet;
-
+import ql.ast.*;
+import ql.ast.expression.QLType;
+import ql.ast.expression.Literal;
 import ql.ast.expression.Identifier;
-import qls.ast.QLSNode;
-import qls.ast.statement.Block;
+import ql.ast.expression.type.*;
+import ql.ast.expression.literal.*;
+
+import qls.ast.QLSStatement;
+import qls.ast.Widget;
+import qls.ast.statement.*;
+import qls.ast.widget.*;
 
 @SuppressWarnings("all")
 
@@ -16,14 +22,14 @@ class QLSParser implements QLSTokens {
     private int yysp = 0;
     private int[] yyst;
     protected int yyerrno = (-1);
-    private qls.ast.QLSNode[] yysv;
-    private qls.ast.QLSNode yyrv;
+    private ql.ast.QLNode[] yysv;
+    private ql.ast.QLNode yyrv;
 
     public boolean parse() {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
-        yysv = new qls.ast.QLSNode[yyss];
+        yysv = new ql.ast.QLNode[yyss];
         yytok = (lexer.getToken()
                  );
     loop:
@@ -1300,7 +1306,7 @@ class QLSParser implements QLSTokens {
 
     protected void yyexpand() {
         int[] newyyst = new int[2*yyst.length];
-        qls.ast.QLSNode[] newyysv = new qls.ast.QLSNode[2*yyst.length];
+        ql.ast.QLNode[] newyysv = new ql.ast.QLNode[2*yyst.length];
         for (int i=0; i<yyst.length; i++) {
             newyyst[i] = yyst[i];
             newyysv[i] = yysv[i];
@@ -1650,13 +1656,13 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr3() { // statements : statement statements
-        { yyrv = new Block(yysv[yysp-2], yysv[yysp-1]); }
+        { yyrv = new QLSBlock(((QLSStatement)yysv[yysp-2]), ((QLSBlock)yysv[yysp-1])); }
         yysv[yysp-=2] = yyrv;
         return yypstatements();
     }
 
     private int yyr4() { // statements : statement
-        { yyrv = new Block(yysv[yysp-1]); }
+        { yyrv = new QLSBlock(((QLSStatement)yysv[yysp-1])); }
         yysv[yysp-=1] = yyrv;
         return yypstatements();
     }
@@ -1723,7 +1729,7 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr2() { // stylesheet : STYLESHEET IDENTIFIER '{' statements '}'
-        { yyrv = new StyleSheet(((Identifier)yysv[yysp-4]), yysv[yysp-2]); }
+        { yyrv = new Stylesheet(((Identifier)yysv[yysp-4]), ((QLSBlock)yysv[yysp-2])); }
         yysv[yysp-=5] = yyrv;
         return 2;
     }
@@ -1848,9 +1854,9 @@ class QLSParser implements QLSTokens {
 
 private QLSLexer lexer; 
 
-private QLSNode result;
+private QLNode result;
 
-public QLSNode getResult() {
+public QLNode getResult() {
   return result;
 }
 
