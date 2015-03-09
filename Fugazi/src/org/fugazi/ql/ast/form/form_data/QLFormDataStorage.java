@@ -40,6 +40,13 @@ public class QLFormDataStorage {
         return this.computedQuestionsVisitor.getComputedQuestions();
     }
 
+    public List<Question> getAllQuestions() {
+        List<Question> allQuestions = this.getQuestions();
+        allQuestions.addAll(this.getComputedQuestions());
+        
+        return allQuestions;
+    }
+
     public List<IfStatement> getIfStatements() {
         return this.ifStatementsVisitor.getIfStatement();
     }
