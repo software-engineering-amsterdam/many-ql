@@ -13,7 +13,7 @@ statement:
      ;
         
 question:
-     questionString=QUOTEDSTRING 
+     questionString=STRINGLITERAL 
      questionName=NAME ':' type=DATATYPE ('=' computed=expression)?
      ;
          
@@ -34,5 +34,11 @@ expression:
     | leftHand=expression  operator=LTGTLEGE rightHand=expression   #LtGtLeGe
     | leftHand=expression  operator=NEEQ rightHand=expression       #NeEq
     | name=NAME                                                     #NameExpression
+    | value=STRINGLITERAL                                           #StringLiteral
+    | value=BOOLEANLITERAL                                          #BooleanLiteral
+    | value=INTEGERLITERAL                                          #IntegerLiteral
     ;
+
+
+
     

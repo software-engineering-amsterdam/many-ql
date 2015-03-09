@@ -31,9 +31,12 @@ GE            : '>=';
 NE            : '!=';
 EQ            : '==';
 
-QUOTEDSTRING  : '"' .+? '"';
 
 NAME          : [a-zA-Z]+;
+
+STRINGLITERAL  : '"' .+? '"';
+BOOLEANLITERAL: 'true' | 'false';
+INTEGERLITERAL: [0-9]+;
 
 WS            : (' ' | '\t')+ -> skip;
 NL            :  ('\r'? '\n') ->skip;
