@@ -9,7 +9,9 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.QLSAdapter;
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.QLSTypeChecker;
+import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.IOException;
 import java.io.PushbackReader;
@@ -31,14 +33,12 @@ public class InterpreterHelper {
         return formInterpreter;
     }
 
-    public static QLSAdapter interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
-        QLSAdapter qlsInterpreter = new QLSAdapter();
+    public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
-        PIdentList stylesheet = ((AStylesheetBegin) ast.getPBegin()).getIdentList();
-        stylesheet.apply(qlsInterpreter);
-        return qlsInterpreter;
+        QLSInterpreter qlsInterpreter = new QLSInterpreter();
+        return qlsInterpreter.interpret((AStylesheetBegin) ast.getPBegin());
     }
 
     public static HeadlessFormInterpreter initializeHeadlessInterpreter(String input) throws ParserException, IOException, LexerException {

@@ -8,10 +8,12 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTyp
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
+import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,16 +45,16 @@ public class QLSRenderer {
     private static Component render(AbstractFormField abstractFormField, StyleSheet styleSheet,
                              HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) throws FieldNotFoundException {
         if (abstractFormField instanceof Question) {
-            Map<String, Object> stylingMap =
+            StylingSettings stylingMap =
                     styleSheet.getStylingSettings(abstractFormField.getIdent(), getTypeDescriptor(formTypeChecker, abstractFormField.getIdent()));
-            AbstractWidget abstractWidget = (AbstractWidget) stylingMap.get("widget");
+            AbstractWidget abstractWidget = stylingMap.getWidget();
             QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher
                     (headlessFormInterpreter, (Question) abstractFormField, stylingMap);
             abstractWidget.applyWidget(questionWidgetFetcher);
             return questionWidgetFetcher.getWidget();
         }
         ComputedValue computedValue = (ComputedValue) abstractFormField;
-        return new LabelWithWidgetWidget(computedValue, null, new LabelWidget(computedValue, headlessFormInterpreter),
+        return new LabelWithWidgetWidget(computedValue, new StylingSettings(null, new HashMap<String, Object>()), new LabelWidget(computedValue, headlessFormInterpreter),
                 headlessFormInterpreter).getWidget();
     }
 
