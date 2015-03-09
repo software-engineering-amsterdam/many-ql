@@ -25,6 +25,7 @@ import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class QuestionnaireUI {
@@ -74,7 +75,9 @@ public class QuestionnaireUI {
 
 						@Override
 						public void update(Observable o, Object arg) {
-							ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions);
+							OperatorTable operatorTable = new OperatorTable();
+							ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions,
+									operatorTable);
 							Boolean visible = condition.accept(conditionEvaluatorVisitor);
 							control.setVisible(visible);
 							label.setVisible(visible);
@@ -96,8 +99,9 @@ public class QuestionnaireUI {
 
 						@Override
 						public void update(Observable o, Object arg) {
+							OperatorTable operatorTable = new OperatorTable();
 							ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(dataType,
-									runtimeQuestions);
+									runtimeQuestions, operatorTable);
 							Object value = computed.accept(computedEvaluatorVisitor);
 							runtimeQuestion.setValue(value);
 							if (dataType instanceof IntegerType) {

@@ -11,14 +11,18 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
+import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
 
 	private final List<RuntimeQuestion> questions;
 
-	public ConditionEvaluatorVisitor(List<RuntimeQuestion> questions) {
+	private final OperatorTable operatorTable;
+
+	public ConditionEvaluatorVisitor(List<RuntimeQuestion> questions, OperatorTable operatorTable) {
 		this.questions = questions;
+		this.operatorTable = operatorTable;
 	}
 
 	@Override
@@ -34,14 +38,14 @@ public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
 		Boolean leftValue = leftHand.accept(this);
 		Boolean rightValue = rightHand.accept(this);
 
-		BinaryOperator operator = binaryExpression.getOperator();
+		BinaryOperator operator = operatorTable.getBinaryOperator(binaryExpression.getOperator());
 		return operator.calculate(BooleanType.BOOLEAN, leftValue, rightValue);
 	}
 
 	@Override
 	public Boolean visit(UnaryExpression unaryExpression) {
 		Expression expression = unaryExpression.getExpression();
-		UnaryOperator operator = unaryExpression.getOperator();
+		UnaryOperator operator = operatorTable.getUnaryOperator(unaryExpression.getOperator());
 		Boolean value = expression.accept(this);
 		return operator.calculate(BooleanType.BOOLEAN, value);
 	}

@@ -8,12 +8,13 @@ import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
-import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
+import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
@@ -22,9 +23,12 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
 
 	private final List<RuntimeQuestion> questions;
 
-	public ComputedEvaluatorVisitor(DataType<?> dataType, List<RuntimeQuestion> questions) {
+	private final OperatorTable operatorTable;
+
+	public ComputedEvaluatorVisitor(DataType<?> dataType, List<RuntimeQuestion> questions, OperatorTable operatorTable) {
 		this.dataType = dataType;
 		this.questions = questions;
+		this.operatorTable = operatorTable;
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
 		Object leftValue = leftHand.accept(this);
 		Object rightValue = rightHand.accept(this);
 
-		BinaryOperator operator = binaryExpression.getOperator();
+		BinaryOperator operator = operatorTable.getBinaryOperator(binaryExpression.getOperator());
 		if (dataType instanceof BooleanType) {
 			return operator.calculate((BooleanType) dataType, (Boolean) leftValue, (Boolean) rightValue);
 		} else if (dataType instanceof IntegerType) {
@@ -52,7 +56,7 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
 	@Override
 	public Object visit(UnaryExpression unaryExpression) {
 		Expression expression = unaryExpression.getExpression();
-		UnaryOperator operator = unaryExpression.getOperator();
+		UnaryOperator operator = operatorTable.getUnaryOperator(unaryExpression.getOperator());
 		Object value = expression.accept(this);
 		return operator.calculate((BooleanType) dataType, (Boolean) value);
 	}
