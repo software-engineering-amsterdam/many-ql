@@ -18,6 +18,8 @@ class Processor:
     @staticmethod
     def export_answers(answers_map, gui):
         xml = converters.Converters.dict_to_xml('answer', answers_map.get_answers())
-        print(xml)
+        f = open('answers.xml', 'w')
+        f.write(xml)
+        f.close()
         print("done")
         gui.close()
