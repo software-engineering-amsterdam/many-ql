@@ -12,6 +12,7 @@ public class BooleanValue extends Value {
 		this.value = value;
 	}
 
+	@Override
 	public Boolean getValue() {
 		return value;
 	}

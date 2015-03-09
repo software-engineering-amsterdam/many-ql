@@ -6,6 +6,13 @@ public abstract class Value {
 
 	private static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
 
+	public abstract Object getValue();
+
+	@Override
+	public String toString() {
+		return getValue().toString();
+	}
+
 	public Value multiply(Value otherValue) {
 		throw new AssertionError(NOT_SUPPORTED_OPERATION);
 	}
