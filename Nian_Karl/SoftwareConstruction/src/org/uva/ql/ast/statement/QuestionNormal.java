@@ -1,10 +1,10 @@
 package org.uva.ql.ast.statement;
 
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.visitor.StatementVisitor;
+import org.uva.utility.CodePosition;
 
 public class QuestionNormal extends Statement {
 	private final Identifier identifier;
