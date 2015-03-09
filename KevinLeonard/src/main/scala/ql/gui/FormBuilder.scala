@@ -7,12 +7,11 @@ import ql.types.{VariableName, EvalEnvironment}
 import scalafx.collections.ObservableMap
 import scalafx.scene.layout.VBox
 
-class FormBuilder(var env: EvalEnvironment = ObservableMap.empty[VariableName, Value]) {
+class FormBuilder(env: EvalEnvironment = ObservableMap.empty[VariableName, Value]) {
 
   val evaluator = new Evaluator()
 
   def build(form: Form): FormGUI = {
-    env = evaluator.eval(form)
     new FormGUI(form.label, build(form.s))
   }
 

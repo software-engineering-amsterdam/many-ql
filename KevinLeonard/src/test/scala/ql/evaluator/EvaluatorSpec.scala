@@ -11,52 +11,6 @@ class EvaluatorSpec extends Specification {
 
   import evaluators._
 
-  "evaluation of statements" should {
-    "add default value of boolean to environment when evaluating boolean question" in {
-      eval(Question(BooleanType(), Variable("a"), "label", None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue()))
-    }
-
-    "add default value of number to environment when evaluating number question" in {
-      eval(Question(NumberType(), Variable("a"), "label", None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> NumberValue()))
-    }
-
-    "add default value of string to environment when evaluating string question" in {
-      eval(Question(StringType(), Variable("a"), "label", None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> StringValue()))
-    }
-
-    "add default value of boolean to environment when evaluating boolean question" in {
-      eval(Question(BooleanType(), Variable("a"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(true)))
-    }
-
-    "add default value of number to environment when evaluating number question" in {
-      eval(Question(NumberType(), Variable("a"), "label", Some(Literal(NumberType(), NumberValue(1)))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> NumberValue(1)))
-    }
-
-    "add default value of string to environment when evaluating string question" in {
-      eval(Question(StringType(), Variable("a"), "label", Some(Literal(StringType(), StringValue("b")))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> StringValue("b")))
-    }
-
-    "eval all statements, if the expression evaluates to true" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(false)))
-    }
-
-    "eval all statements, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(false)))
-    }
-
-    "eval all statements, if the expression evaluates to true" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("b" -> BooleanValue(false), "a" -> BooleanValue(false)))
-    }
-
-    "eval all statements, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("b" -> BooleanValue(false), "a" -> BooleanValue(false)))
-    }
-
-    "eval all the statements in a sequence" in {
-      eval(Sequence(List(Question(BooleanType(), Variable("a"), "label", None), Question(BooleanType(), Variable("b"), "label", None), Question(BooleanType(), Variable("c"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(ObservableMap.empty[VariableName, Value] += ("a" -> BooleanValue(false), "b" -> BooleanValue(false), "c" -> BooleanValue(false)))
-    }
-  }
-
   "evaluation of expressions" should {
     "succeed for or expressions" in {
       eval(Or(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
