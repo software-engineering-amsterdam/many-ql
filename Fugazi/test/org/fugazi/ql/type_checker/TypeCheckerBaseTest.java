@@ -33,8 +33,6 @@ public abstract class TypeCheckerBaseTest {
         this.filePath = this.path.concat(this.fileName);
         this.inputFile = new File("").getAbsolutePath().concat(this.filePath);
         checker = new QLTypeChecker();
-        QLASTBuilder astBuilder = null;
-        checker = new QLTypeChecker();
         QLASTBuilder QLASTBuilder = null;
 
         // load a form

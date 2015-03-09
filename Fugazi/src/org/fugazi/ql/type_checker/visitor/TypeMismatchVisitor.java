@@ -26,12 +26,8 @@ import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import java.util.List;
 
 public class TypeMismatchVisitor extends FullFormVisitor {
-
-    private final ASTIssueHandler astIssueHandler;
-
     public TypeMismatchVisitor() {
         super();
-        this.astIssueHandler = new ASTIssueHandler();
     }
 
     /**
@@ -331,13 +327,4 @@ public class TypeMismatchVisitor extends FullFormVisitor {
         return type1.equals(type2);
     }
 
-    /**
-     * =======================
-     * Exposed general form functions
-     * =======================
-     */
-
-    public List<ASTNodeIssue> getErrors() {
-        return this.astIssueHandler.getErrors();
-    }
 }

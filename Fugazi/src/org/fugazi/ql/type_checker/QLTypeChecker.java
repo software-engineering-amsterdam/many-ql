@@ -12,7 +12,7 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
-import org.fugazi.ql.type_checker.visitor.QLTypeCheckerVisitor;
+import org.fugazi.ql.type_checker.visitor.CyclicDependenciesVisitor;
 import org.fugazi.ql.type_checker.visitor.TypeMismatchVisitor;
 import org.fugazi.ql.type_checker.visitor.UndefinedQuestionsVisitor;
 
@@ -20,7 +20,7 @@ import java.util.*;
 
 
 public class QLTypeChecker {
-    private final QLTypeCheckerVisitor visitor;
+    private final CyclicDependenciesVisitor cyclicDependenciesVisitor;
     private final UndefinedQuestionsVisitor undefinedQuestionsVisitor;
     private final TypeMismatchVisitor typeMismatchVisitor;
 
@@ -29,7 +29,7 @@ public class QLTypeChecker {
     private QLFormDataStorage formData;
 
     public QLTypeChecker() {
-        this.visitor = new QLTypeCheckerVisitor();
+        this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
         this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor();
         this.typeMismatchVisitor = new TypeMismatchVisitor();
 
@@ -120,6 +120,9 @@ public class QLTypeChecker {
     private void checkForTypeMismatches(Form _form) {
         this.typeMismatchVisitor.visitForm(_form);
     }
+    private void checkForCyclicDependencies(Form _form) {
+        this.cyclicDependenciesVisitor.visitForm(_form);
+    }
 
     /**
      * =====================
@@ -168,33 +171,35 @@ public class QLTypeChecker {
         this.checkAssignmentTypes();
 
         // perform all the checks that are done on the fly
-        // 2. cyclic dependencies
-        // 3. expressions missmat
         this.checkForUndefinedQuestions(form);
         this.checkForTypeMismatches(form);
-
-        form.accept(this.visitor);
+        this.checkForCyclicDependencies(form);
 
         return this.isFormCorrect();
     }
 
     public boolean isFormCorrect() {
-        return (!this.astIssueHandler.hasErrors() && this.visitor.isFormCorrect());
+        return !this.hasErrors();
+    }
+
+    public boolean hasErrors() {
+        return (this.astIssueHandler.hasErrors()
+                || this.undefinedQuestionsVisitor.hasErrors()
+                || this.typeMismatchVisitor.hasErrors()
+                || this.undefinedQuestionsVisitor.hasErrors());
     }
 
     public List<ASTNodeIssue> getErrors() {
         List<ASTNodeIssue> errors = this.astIssueHandler.getErrors();
-        errors.addAll(this.visitor.getErrors());
         errors.addAll(this.undefinedQuestionsVisitor.getErrors());
         errors.addAll(this.typeMismatchVisitor.getErrors());
+        errors.addAll(this.cyclicDependenciesVisitor.getErrors());
 
         return errors;
     }
 
     public List<ASTNodeIssue> getWarnings() {
         List<ASTNodeIssue> warnings = this.astIssueHandler.getWarnings();
-        warnings.addAll(this.visitor.getWarnings());
-
         return warnings;
     }
 }

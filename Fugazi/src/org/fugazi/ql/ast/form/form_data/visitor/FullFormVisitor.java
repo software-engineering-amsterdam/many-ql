@@ -22,17 +22,23 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+
 import java.util.List;
 
 /*
  This class performs a full AST Tree traversal.
- Class can inherit and ovverride methods where they
+ Class can inherit and override methods where they
  need to perform additional actions.
  */
 
 public abstract class FullFormVisitor implements IASTVisitor<Void> {
+    protected final ASTIssueHandler astIssueHandler;
 
-    public FullFormVisitor(){}
+    public FullFormVisitor(){
+        this.astIssueHandler = new ASTIssueHandler();
+    }
 
     /**
      * =======================
@@ -199,11 +205,29 @@ public abstract class FullFormVisitor implements IASTVisitor<Void> {
      * =======================
      */
 
-
     @Override
     public Void visitBoolType(BoolType boolType){return null;}
     @Override
     public Void visitIntType(IntType intType){return null;}
     @Override
     public Void visitStringType(StringType moneyType){return null;}
+
+    /**
+     * =======================
+     * Error handling
+     * =======================
+     */
+
+    /*
+    Placeholders for erros handling. Every implementing class will need it.
+     */ //TODO is this a safe assumption?
+
+    public List<ASTNodeIssue> getErrors() {
+        return this.astIssueHandler.getErrors();
+    }
+    public List<ASTNodeIssue> getWarnings() {
+        return this.astIssueHandler.getWarnings();
+    }
+    public boolean hasErrors() {return this.astIssueHandler.hasErrors();}
+    public boolean hasWarnings() {return this.astIssueHandler.hasWarnings();}
 }

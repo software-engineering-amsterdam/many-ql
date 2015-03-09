@@ -2,19 +2,13 @@ package org.fugazi.ql.type_checker.visitor;
 
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.form_data.visitor.FullFormVisitor;
-import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
-import java.util.List;
 
 public class UndefinedQuestionsVisitor extends FullFormVisitor {
 
-    private final ASTIssueHandler astIssueHandler;
-
     public UndefinedQuestionsVisitor() {
         super();
-        this.astIssueHandler = new ASTIssueHandler();
     }
 
     /**
@@ -47,13 +41,4 @@ public class UndefinedQuestionsVisitor extends FullFormVisitor {
         return (idLiteral.getType() != null);
     }
 
-    /**
-     * =======================
-     * Exposed general form functions
-     * =======================
-     */
-
-    public List<ASTNodeIssue> getErrors() {
-        return this.astIssueHandler.getErrors();
-    }
 }
