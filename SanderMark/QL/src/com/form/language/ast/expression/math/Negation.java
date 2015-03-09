@@ -36,20 +36,4 @@ public class Negation extends UnaryExpression implements Expression {
 			return new ErrorType();
 		}
 	}
-	
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type childType = value.getType();
-//		value.getErrors(errors);
-//
-//		if(childType.isIntType()) {
-//			return;
-//		}
-//		else{
-//			if(!childType.isErrorType()){
-//				errors.add(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
-//			}
-//			return;
-//		}
-//	}
 }

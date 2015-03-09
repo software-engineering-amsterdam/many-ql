@@ -37,24 +37,4 @@ public class Multiplication extends BinaryExpression implements Expression {
 			return new ErrorType();
 		}
 	}
-//	
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type leftType = left.getType();
-//		Type rightType = right.getType();
-//		left.getErrors(errors);
-//		right.getErrors(errors);
-//
-//		if(leftType.isIntType() && rightType.isIntType()) {
-//			return;
-//		}
-//		else{
-//			if(!(leftType.isErrorType() || rightType.isErrorType())){
-//				Error newError = new Error(tokenInfo, "Expected Int * Int, but found " + leftType + " * " + rightType);
-//				errors.add(newError);
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }
