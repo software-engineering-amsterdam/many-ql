@@ -1,4 +1,4 @@
-package typechecker
+package ql.typechecker
 
 import scala.util.parsing.input.Position
 

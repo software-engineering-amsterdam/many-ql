@@ -1,4 +1,4 @@
-package ast
+package ql.ast
 
 class Form(val label: String, val s: Statement) {
 

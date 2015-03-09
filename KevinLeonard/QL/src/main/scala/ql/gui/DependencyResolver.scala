@@ -1,6 +1,6 @@
-package gui
+package ql.gui
 
-import ast._
+import ql.ast._
 
 class DependencyResolver {
 
@@ -17,7 +17,7 @@ class DependencyResolver {
     case LessThanEqual(l, r) => resolve(l, d) ++ resolve(r, d)
     case GreaterThan(l, r) => resolve(l, d) ++ resolve(r, d)
     case GreaterThanEqual(l, r) => resolve(l, d) ++ resolve(r, d)
-    case ast.Add(l, r) => resolve(l, d) ++ resolve(r, d)
+    case ql.ast.Add(l, r) => resolve(l, d) ++ resolve(r, d)
     case Sub(l, r) => resolve(l, d) ++ resolve(r, d)
     case Mul(l, r) => resolve(l, d) ++ resolve(r, d)
     case Div(l, r) => resolve(l, d) ++ resolve(r, d)

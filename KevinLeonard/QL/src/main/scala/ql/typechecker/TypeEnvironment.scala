@@ -1,6 +1,6 @@
-package typechecker
+package ql.typechecker
 
-import ast.{Type, Variable}
+import ql.ast.{Type, Variable}
 
 // Holds the defined variables and their type.
 // Note that we require variables to be declared before being used.

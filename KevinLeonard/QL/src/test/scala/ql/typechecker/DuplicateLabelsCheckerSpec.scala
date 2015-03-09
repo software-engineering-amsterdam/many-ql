@@ -1,6 +1,6 @@
-package typechecker
+package ql.typechecker
 
-import ast._
+import ql.ast._
 import org.specs2.mutable.Specification
 
 class DuplicateLabelsCheckerSpec extends Specification {

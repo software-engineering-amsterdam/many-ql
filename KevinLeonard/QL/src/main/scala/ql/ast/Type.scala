@@ -1,4 +1,4 @@
-package ast
+package ql.ast
 
 sealed trait Type
 case class BooleanType() extends Type

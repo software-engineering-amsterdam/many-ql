@@ -1,6 +1,6 @@
-package parser
+package ql.parser
 
-import ast._
+import ql.ast._
 
 import scala.util.parsing.combinator.JavaTokenParsers
 

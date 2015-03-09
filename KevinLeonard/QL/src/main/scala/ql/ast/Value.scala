@@ -1,4 +1,4 @@
-package ast
+package ql.ast
 
 sealed trait Value
 case class BooleanValue(v: Boolean = false) extends Value
