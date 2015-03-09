@@ -11,7 +11,7 @@ public class Identifier {
     private Result result;
 
     public Identifier(String id) {
-        id = process(id);
+        this.id = process(id);
     }
 
     private String process(String id) {
