@@ -1,5 +1,6 @@
 package com.klq.ast;
 
+import com.common.Location;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
@@ -191,7 +192,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
         return s.substring(1, s.length() - 1);
     }
 
-    private String formatLocation(ParserRuleContext ctx){
-        return String.format("line number: %d", ctx.getStart().getLine());
+    private Location formatLocation(ParserRuleContext ctx){
+        return new Location(ctx, "A file");
     }
 }
