@@ -8,7 +8,6 @@ class ExpressionValidator:
     @staticmethod
     def validator(expression):
         try:
-            print(expression)
             b = Literal(constants.ElementsConstants.BOOL)
             number = Literal(constants.ElementsConstants.NUMBER)
             text = Literal(constants.ElementsConstants.TEXT)

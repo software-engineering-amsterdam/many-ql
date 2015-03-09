@@ -44,11 +44,11 @@ class GUI:
 
         # check if _condition holds
         condition = statement.get_parent_condition()
+
         c_results = True
         if condition is not None:
             p = processor.Processor()
             c_results = p.eval_expression(condition.pretty_print(), self._answersMap)
-
         if not c_results:
             return False
 
@@ -67,7 +67,7 @@ class GUI:
     def elements_recreate(self, qid):
         statements_dict = self._form.get_statement_dict()
         if qid not in statements_dict:
-            raise tk.QException("Fatal Error: no such _condition _id " + qid)
+            print("error") # raise tk.QException("Fatal Error: no such _condition _id " + qid)
         statement = statements_dict[qid]
         elements = statement.get_element()
         if elements is None:
