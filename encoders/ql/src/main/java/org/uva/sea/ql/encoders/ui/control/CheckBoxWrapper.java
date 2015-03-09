@@ -4,7 +4,7 @@ import java.beans.PropertyChangeEvent;
 
 import javafx.scene.control.CheckBox;
 
-public class CheckBoxWrapper extends CheckBox implements ControlWrapper {
+public class CheckBoxWrapper implements ControlWrapper {
 
 	private final CheckBox checkBox;
 
