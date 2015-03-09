@@ -1,7 +1,7 @@
 package org.uva.sea.ql.encoders.runtime;
 
-import org.uva.sea.ql.encoders.ast.Expression;
-import org.uva.sea.ql.encoders.ast.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 
 public class ExpressionEvaluator {
 

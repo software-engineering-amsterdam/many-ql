@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
-import org.uva.sea.ql.encoders.ast.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.BracedExpression;
-import org.uva.sea.ql.encoders.ast.Expression;
-import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
+import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.QLBoolean;
 import org.uva.sea.ql.encoders.ast.type.QLUndefined;

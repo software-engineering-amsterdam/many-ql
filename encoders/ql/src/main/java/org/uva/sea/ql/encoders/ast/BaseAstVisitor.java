@@ -1,5 +1,10 @@
 package org.uva.sea.ql.encoders.ast;
 
+import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
+import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
+
 public class BaseAstVisitor<T> implements AstVisitor<T> {
 
 	@Override

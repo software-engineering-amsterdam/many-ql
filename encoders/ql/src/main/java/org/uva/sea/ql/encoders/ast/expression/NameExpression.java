@@ -1,4 +1,7 @@
-package org.uva.sea.ql.encoders.ast;
+package org.uva.sea.ql.encoders.ast.expression;
+
+import org.uva.sea.ql.encoders.ast.AstVisitor;
+import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class NameExpression extends Expression {
 
