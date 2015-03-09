@@ -1,11 +1,11 @@
-// Output created by jacc on Mon Mar 09 12:57:13 CET 2015
+// Output created by jacc on Mon Mar 09 12:59:23 CET 2015
 
 package qls.parser;
 
-import cons.ql.ast.*;
-import cons.ql.ast.expression.*;
-import cons.ql.ast.expression.type.*;
-import cons.ql.ast.expression.literal.*;
+import ql.ast.*;
+import ql.ast.expression.*;
+import ql.ast.expression.type.*;
+import ql.ast.expression.literal.*;
 
 @SuppressWarnings("all")
 
@@ -15,14 +15,14 @@ class QLSParser implements QLSTokens {
     private int yysp = 0;
     private int[] yyst;
     protected int yyerrno = (-1);
-    private cons.ql.ast.ASTNode[] yysv;
-    private cons.ql.ast.ASTNode yyrv;
+    private ql.ast.ASTNode[] yysv;
+    private ql.ast.ASTNode yyrv;
 
     public boolean parse() {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
-        yysv = new cons.ql.ast.ASTNode[yyss];
+        yysv = new ql.ast.ASTNode[yyss];
         yytok = (lexer.getToken()
                  );
     loop:
@@ -1150,7 +1150,7 @@ class QLSParser implements QLSTokens {
 
     protected void yyexpand() {
         int[] newyyst = new int[2*yyst.length];
-        cons.ql.ast.ASTNode[] newyysv = new cons.ql.ast.ASTNode[2*yyst.length];
+        ql.ast.ASTNode[] newyysv = new ql.ast.ASTNode[2*yyst.length];
         for (int i=0; i<yyst.length; i++) {
             newyyst[i] = yyst[i];
             newyysv[i] = yysv[i];
