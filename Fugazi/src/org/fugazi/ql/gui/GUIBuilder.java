@@ -25,7 +25,6 @@ public class GUIBuilder implements IMediator {
 
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
-
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form) {
@@ -43,7 +42,13 @@ public class GUIBuilder implements IMediator {
         uiForm.showForm();
     }
 
-    // Manage Form
+    @Override
+    public void getChangeFromColleagues(Colleague _origin) {
+        valueStorage.saveValue(_origin.getId(), _origin.getState());
+        checkComputedQuestions();
+        renderUI();
+    }
+
     private void setupForm() {
         for (UIQuestion uiQuestion : questionsWithState.keySet()) {
             if (isQuestionStateTrue(uiQuestion)) {
@@ -119,12 +124,5 @@ public class GUIBuilder implements IMediator {
     private UIQuestion createUiQuestion(Question _question) {
         UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
         return _question.accept(typeVisitor);
-    }
-
-    // Colleagues changes.
-    public void getChangeFromColleagues(Colleague _origin) {
-        valueStorage.saveValue(_origin.getId(), _origin.getState());
-        checkComputedQuestions();
-        renderUI();
-    }
+    }    
 }
