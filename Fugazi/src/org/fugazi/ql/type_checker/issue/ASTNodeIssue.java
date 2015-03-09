@@ -1,14 +1,14 @@
 package org.fugazi.ql.type_checker.issue;
 
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 
 public class ASTNodeIssue {
 
     private final ASTNodeIssueType errorType;
-    private final AbstractASTQLNode node;
+    private final AbstractASTNode node;
     private final String message;
 
-    public ASTNodeIssue(ASTNodeIssueType _errorType, AbstractASTQLNode _node, String _message) {
+    public ASTNodeIssue(ASTNodeIssueType _errorType, AbstractASTNode _node, String _message) {
         this.errorType = _errorType;
         this.node = _node;
         this.message = _message;
@@ -18,7 +18,7 @@ public class ASTNodeIssue {
         return this.errorType;
     }
 
-    public AbstractASTQLNode getNode() {
+    public AbstractASTNode getNode() {
         return this.node;
     }
 
