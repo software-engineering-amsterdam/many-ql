@@ -4,14 +4,16 @@ sheet: STYLE Identifier page*;
 
 page: PAGE Identifier pageBlock;
 
-pageBlock: LEFT_PAREN section* style RIGHT_PAREN;
+pageBlock: LEFT_BRACE section* style* RIGHT_BRACE;
 
-section: SECTION StringLiteral LEFT_PAREN question* RIGHT_PAREN ;
+section: SECTION StringLiteral LEFT_BRACE question* style* RIGHT_BRACE ;
 
-question:QUESTION Identifier style;
+question: QUESTION Identifier widget
+		|QUESTION Identifier;
+		
 
 style:DEFAULT type styling
-	|DEFAULT type LEFT_PAREN styling* RIGHT_PAREN
+	|DEFAULT type LEFT_BRACE styling* RIGHT_BRACE
 	; 
 
 styling: WIDGET COLON widget
@@ -30,16 +32,13 @@ type: INT
 
 font: ARIAL;
 
-widget: TEXT
-	| CHECKBOX
-	| SPINBOX intWidgetParam
-	| SLIDER intWidgetParam
-	| DROPDOWN boolWidgetParam
-	| RADIO boolWidgetParam
+widget: TEXTBOX #textbox
+	| CHECKBOX #checkbox
+	| SPINBOX LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET #spinbox
+	| SLIDER LEFT_PAREN IntegerLiteral COMMA IntegerLiteral RIGHT_PAREN #slider
+	| DROPDOWN LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #dropdown
+	| RADIO LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #radio
 	;
-
-intWidgetParam: LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET;
-boolWidgetParam: LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN;
 
 /* LEXER RULES */
 
@@ -59,13 +58,13 @@ BOOL:          'Bool';
 WIDGET:			'widget';
 SLIDER:			'slider';
 SPINBOX: 		'spinbox';
-TEXT: 			'text';
-RADIO:			'radiobutton';
+TEXTBOX:		'textbox';
+RADIO:			'radio';
 DROPDOWN:		'dropdown';
 CHECKBOX:		'checkbox';
 WIDTH: 			'width';
 HEIGHT: 		'height';
-FONTSIZE: 		'fontSize';
+FONTSIZE: 		'fontsize';
 FONT: 			'font';
 COLOR:			'color';
 

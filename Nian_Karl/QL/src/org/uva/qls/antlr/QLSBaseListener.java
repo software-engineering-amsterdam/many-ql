@@ -1,4 +1,4 @@
-// Generated from QLS.g4 by ANTLR 4.4
+// Generated from QLS.g4 by ANTLR 4.5
 package org.uva.qls.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -17,168 +17,204 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStyle(@NotNull QLSParser.StyleContext ctx) { }
+	@Override public void enterSheet(QLSParser.SheetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStyle(@NotNull QLSParser.StyleContext ctx) { }
+	@Override public void exitSheet(QLSParser.SheetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPageBlock(@NotNull QLSParser.PageBlockContext ctx) { }
+	@Override public void enterPage(QLSParser.PageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPageBlock(@NotNull QLSParser.PageBlockContext ctx) { }
+	@Override public void exitPage(QLSParser.PageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPage(@NotNull QLSParser.PageContext ctx) { }
+	@Override public void enterPageBlock(QLSParser.PageBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPage(@NotNull QLSParser.PageContext ctx) { }
+	@Override public void exitPageBlock(QLSParser.PageBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFont(@NotNull QLSParser.FontContext ctx) { }
+	@Override public void enterSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFont(@NotNull QLSParser.FontContext ctx) { }
+	@Override public void exitSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx) { }
+	@Override public void enterQuestion(QLSParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntWidgetParam(@NotNull QLSParser.IntWidgetParamContext ctx) { }
+	@Override public void exitQuestion(QLSParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestion(@NotNull QLSParser.QuestionContext ctx) { }
+	@Override public void enterStyle(QLSParser.StyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestion(@NotNull QLSParser.QuestionContext ctx) { }
+	@Override public void exitStyle(QLSParser.StyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(@NotNull QLSParser.TypeContext ctx) { }
+	@Override public void enterStyling(QLSParser.StylingContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(@NotNull QLSParser.TypeContext ctx) { }
+	@Override public void exitStyling(QLSParser.StylingContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWidget(@NotNull QLSParser.WidgetContext ctx) { }
+	@Override public void enterType(QLSParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWidget(@NotNull QLSParser.WidgetContext ctx) { }
+	@Override public void exitType(QLSParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStyling(@NotNull QLSParser.StylingContext ctx) { }
+	@Override public void enterFont(QLSParser.FontContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStyling(@NotNull QLSParser.StylingContext ctx) { }
+	@Override public void exitFont(QLSParser.FontContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSection(@NotNull QLSParser.SectionContext ctx) { }
+	@Override public void enterTextbox(QLSParser.TextboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSection(@NotNull QLSParser.SectionContext ctx) { }
+	@Override public void exitTextbox(QLSParser.TextboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSheet(@NotNull QLSParser.SheetContext ctx) { }
+	@Override public void enterCheckbox(QLSParser.CheckboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSheet(@NotNull QLSParser.SheetContext ctx) { }
+	@Override public void exitCheckbox(QLSParser.CheckboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx) { }
+	@Override public void enterSpinbox(QLSParser.SpinboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBoolWidgetParam(@NotNull QLSParser.BoolWidgetParamContext ctx) { }
+	@Override public void exitSpinbox(QLSParser.SpinboxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSlider(QLSParser.SliderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSlider(QLSParser.SliderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDropdown(QLSParser.DropdownContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDropdown(QLSParser.DropdownContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRadio(QLSParser.RadioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRadio(QLSParser.RadioContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEveryRule(@NotNull ParserRuleContext ctx) { }
+	@Override public void enterEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEveryRule(@NotNull ParserRuleContext ctx) { }
+	@Override public void exitEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void visitTerminal(@NotNull TerminalNode node) { }
+	@Override public void visitTerminal(TerminalNode node) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void visitErrorNode(@NotNull ErrorNode node) { }
+	@Override public void visitErrorNode(ErrorNode node) { }
 }
