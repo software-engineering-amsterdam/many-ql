@@ -12,10 +12,9 @@ import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
-import org.fugazi.ql.gui.visitor.UITypeVisitor;
+import org.fugazi.ql.gui.visitor.UIQuestionBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class GUIBuilder implements IMediator {
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new HashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
 
-    private List<UIComputedQuestion> computedQuestions = new ArrayList<>();
+    private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form) {
         this.astForm = _form;
@@ -41,6 +40,7 @@ public class GUIBuilder implements IMediator {
         this.uiForm = new UIForm(_form.getName());
 
         this.addIfStatementsToQuestion(astForm);
+        this.addComputedQuestions(astForm);
     }
 
     public void renderUI() {
@@ -71,6 +71,11 @@ public class GUIBuilder implements IMediator {
             questionsInForm.remove(_uiQuestion);
             uiForm.removeQuestion(_uiQuestion);
         }
+    }
+
+    private void addComputedQuestions(Form _form) {
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
+        computedQuestions = formDataStorage.getComputedQuestions();
     }
 
     private void addIfStatementsToQuestion(Form _form) {
@@ -105,8 +110,8 @@ public class GUIBuilder implements IMediator {
     }
 
     private UIQuestion createUiQuestion(Question _question) {
-        UITypeVisitor typeVisitor = new UITypeVisitor(this, _question);
-        return _question.getType().accept(typeVisitor);
+        UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage, evaluator);
+        return _question.accept(typeVisitor);
     }
 
     // Colleagues changes.
@@ -127,16 +132,5 @@ public class GUIBuilder implements IMediator {
             result = new BoolValue(false);
         }
         return result.getValue();
-    }
-
-    private ExpressionValue evaluateComputedQuestion(ComputedQuestion _computedQuest) {
-        Expression expression = _computedQuest.getComputedExpression();
-        return evaluator.evaluateExpression(expression);
-    }
-
-    private ExpressionValue evaluateComputedExpression(ComputedQuestion _computedQuest) {
-        ExpressionValue result = this.evaluateComputedQuestion(_computedQuest);
-        valueStorage.saveValue(_computedQuest.getIdName(), result);
-        return result;
     }
 }
