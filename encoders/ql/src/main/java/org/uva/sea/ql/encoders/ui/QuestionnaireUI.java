@@ -70,62 +70,72 @@ public class QuestionnaireUI {
 
 			final Expression condition = question.getCondition();
 			if (condition != null) {
-				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
-				Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
-				QuestionByName questionByName = new QuestionByName();
-				for (String relatedQuestionName : relatedQuestionNames) {
-					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
-					relatedQuestion.addObserver(new Observer() {
-
-						@Override
-						public void update(Observable o, Object arg) {
-							OperatorTable operatorTable = new OperatorTable();
-							ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions,
-									operatorTable);
-							BooleanValue value = condition.accept(conditionEvaluatorVisitor);
-							Boolean visible = value.getValue();
-							control.setVisible(visible);
-							label.setVisible(visible);
-							System.out.println("Waarde is nu: " + arg);
-						}
-					});
-				}
-				System.out.println(relatedQuestionNames);
+				addConditionObserver(runtimeQuestions, label, control, condition);
 			}
 
 			final Expression computed = question.getComputed();
 			if (computed != null) {
-				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
-				Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
-				QuestionByName questionByName = new QuestionByName();
 				control.setDisable(true);
-				for (String relatedQuestionName : relatedQuestionNames) {
-					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
-					relatedQuestion.addObserver(new Observer() {
-
-						@Override
-						public void update(Observable o, Object arg) {
-							OperatorTable operatorTable = new OperatorTable();
-							ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(runtimeQuestions,
-									operatorTable);
-							Value value = computed.accept(computedEvaluatorVisitor);
-							runtimeQuestion.setValue(value);
-							if (value instanceof IntegerValue) {
-								((TextField) control).setText(((IntegerValue) value).getValue() + "");
-							} else if (value instanceof BooleanValue) {
-								((CheckBox) control).setSelected(((BooleanValue) value).getValue());
-							} else {
-								((TextField) control).setText(((StringValue) value).getValue() + "");
-							}
-							System.out.println("Waarde is nu: " + arg);
-						}
-					});
-				}
-				System.out.println(relatedQuestionNames);
+				addComputedObserver(runtimeQuestions, runtimeQuestion, control, computed);
 			}
 			grid.add(control, 1, y);
 			y++;
 		}
+	}
+
+	private void addConditionObserver(final List<RuntimeQuestion> runtimeQuestions, final Label label, final Control control,
+			final Expression condition) {
+		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
+		Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
+		QuestionByName questionByName = new QuestionByName();
+		for (String relatedQuestionName : relatedQuestionNames) {
+			RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+			relatedQuestion.addObserver(new Observer() {
+
+				@Override
+				public void update(Observable o, Object arg) {
+					OperatorTable operatorTable = new OperatorTable();
+					ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions,
+							operatorTable);
+					BooleanValue value = condition.accept(conditionEvaluatorVisitor);
+					Boolean visible = value.getValue();
+					control.setVisible(visible);
+					label.setVisible(visible);
+					System.out.println("Waarde is nu: " + arg);
+				}
+			});
+		}
+		System.out.println(relatedQuestionNames);
+	}
+
+	private void addComputedObserver(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
+			final Control control, final Expression computed) {
+		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
+		Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
+		QuestionByName questionByName = new QuestionByName();
+		for (String relatedQuestionName : relatedQuestionNames) {
+			RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+			relatedQuestion.addObserver(new Observer() {
+
+				@Override
+				public void update(Observable o, Object arg) {
+					OperatorTable operatorTable = new OperatorTable();
+					ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(runtimeQuestions,
+							operatorTable);
+					Value value = computed.accept(computedEvaluatorVisitor);
+					runtimeQuestion.setValue(value);
+					if (value instanceof IntegerValue) {
+						((TextField) control).setText(((IntegerValue) value).getValue() + "");
+					} else if (value instanceof BooleanValue) {
+						((CheckBox) control).setSelected(((BooleanValue) value).getValue());
+					} else {
+						((TextField) control).setText(((StringValue) value).getValue() + "");
+					}
+					System.out.println("Waarde is nu: " + arg);
+				}
+			});
+		}
+		System.out.println(relatedQuestionNames);
 	}
 
 }
