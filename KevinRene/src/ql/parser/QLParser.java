@@ -2990,37 +2990,37 @@ class QLParser implements QLTokens {
     }
 
     private int yyr40() { // relationalExpression : expression EQ expression
-        { yyrv = new Eq(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Equal(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr41() { // relationalExpression : expression NEQ expression
-        { yyrv = new NEq(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new NotEqual(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr42() { // relationalExpression : expression '>' expression
-        { yyrv = new GT(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Greater(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr43() { // relationalExpression : expression '<' expression
-        { yyrv = new LT(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Lower(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr44() { // relationalExpression : expression GEQ expression
-        { yyrv = new GEq(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new GreaterOrEqual(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr45() { // relationalExpression : expression LEQ expression
-        { yyrv = new LEq(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new LowerOrEqual(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 6;
     }
@@ -3102,13 +3102,13 @@ class QLParser implements QLTokens {
     }
 
     private int yyr35() { // arithmeticExpression : expression '*' expression
-        { yyrv = new Mul(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Multiply(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 8;
     }
 
     private int yyr36() { // arithmeticExpression : expression '/' expression
-        { yyrv = new Div(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Divide(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 8;
     }
@@ -3120,7 +3120,7 @@ class QLParser implements QLTokens {
     }
 
     private int yyr38() { // arithmeticExpression : expression '-' expression
-        { yyrv = new Sub(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
+        { yyrv = new Subtract(((Expression)yysv[yysp-3]), ((Expression)yysv[yysp-1])); }
         yysv[yysp-=3] = yyrv;
         return 8;
     }
@@ -3163,13 +3163,13 @@ class QLParser implements QLTokens {
     }
 
     private int yyr33() { // unaryExpression : '+' expression
-        { yyrv = new Pos(((Expression)yysv[yysp-1])); }
+        { yyrv = new Positive(((Expression)yysv[yysp-1])); }
         yysv[yysp-=2] = yyrv;
         return 10;
     }
 
     private int yyr34() { // unaryExpression : '-' expression
-        { yyrv = new Neg(((Expression)yysv[yysp-1])); }
+        { yyrv = new Negation(((Expression)yysv[yysp-1])); }
         yysv[yysp-=2] = yyrv;
         return 10;
     }

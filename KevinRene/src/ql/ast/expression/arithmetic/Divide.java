@@ -1,14 +1,14 @@
-package ql.ast.expression.relational;
+package ql.ast.expression.arithmetic;
 
 import ql.ast.Expression;
 import ql.ast.expression.Binary;
 import ql.ast.expression.QLType;
-import ql.ast.expression.type.QLBoolean;
+import ql.ast.expression.type.QLNumeric;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class GT extends Binary {	
-	public GT(Expression left, Expression right) {
-		super(left, right, ">");
+public class Divide extends Binary {
+	public Divide(Expression left, Expression right) {
+		super(left, right, "/");
 	}
 	
 	@Override
@@ -16,8 +16,9 @@ public class GT extends Binary {
 		return visitor.visit(this);
 	}
 	
+	//TODO: Add a superclass for numeric types.
 	@Override
 	public QLType getType() {
-		return new QLBoolean();
+		return new QLNumeric();
 	}
 }

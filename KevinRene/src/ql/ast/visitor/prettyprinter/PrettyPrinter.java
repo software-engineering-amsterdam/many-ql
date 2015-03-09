@@ -169,19 +169,19 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 
 	@Override
-	public Void visit(Div divNode) {
+	public Void visit(Divide divNode) {
 		printBinaryNode(divNode);	
 		return null;
 	}
 
 	@Override
-	public Void visit(Mul mulNode) {
+	public Void visit(Multiply mulNode) {
 		printBinaryNode(mulNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(Sub subNode) {
+	public Void visit(Subtract subNode) {
 		printBinaryNode(subNode);
 		return null;
 	}
@@ -193,37 +193,37 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 
 	@Override
-	public Void visit(Eq eqNode) {
+	public Void visit(Equal eqNode) {
 		printBinaryNode(eqNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(GEq geqNode) {
+	public Void visit(GreaterOrEqual geqNode) {
 		printBinaryNode(geqNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(GT gtNode) {
+	public Void visit(Greater gtNode) {
 		printBinaryNode(gtNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(LEq leqNode) {
+	public Void visit(LowerOrEqual leqNode) {
 		printBinaryNode(leqNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(LT ltNode) {
+	public Void visit(Lower ltNode) {
 		printBinaryNode(ltNode);
 		return null;
 	}
 
 	@Override
-	public Void visit(NEq neqNode) {
+	public Void visit(NotEqual neqNode) {
 		printBinaryNode(neqNode);
 		return null;
 	}
@@ -238,7 +238,7 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	 == UNARY NODES ==
 	 *****************/
 	@Override
-	public Void visit(Neg negNode) {
+	public Void visit(Negation negNode) {
 		printUnaryNode(negNode);
 		return null;
 	}
@@ -250,7 +250,7 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 
 	@Override
-	public Void visit(Pos posNode) {
+	public Void visit(Positive posNode) {
 		printUnaryNode(posNode);
 		return null;
 	}

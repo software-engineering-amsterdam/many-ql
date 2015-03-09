@@ -6,22 +6,22 @@ import ql.ast.Expression;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.arithmetic.Add;
-import ql.ast.expression.arithmetic.Div;
-import ql.ast.expression.arithmetic.Mul;
-import ql.ast.expression.arithmetic.Neg;
-import ql.ast.expression.arithmetic.Pos;
-import ql.ast.expression.arithmetic.Sub;
+import ql.ast.expression.arithmetic.Divide;
+import ql.ast.expression.arithmetic.Multiply;
+import ql.ast.expression.arithmetic.Negation;
+import ql.ast.expression.arithmetic.Positive;
+import ql.ast.expression.arithmetic.Subtract;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.And;
-import ql.ast.expression.relational.Eq;
-import ql.ast.expression.relational.GEq;
-import ql.ast.expression.relational.GT;
-import ql.ast.expression.relational.LEq;
-import ql.ast.expression.relational.LT;
-import ql.ast.expression.relational.NEq;
+import ql.ast.expression.relational.Equal;
+import ql.ast.expression.relational.GreaterOrEqual;
+import ql.ast.expression.relational.Greater;
+import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.NotEqual;
 import ql.ast.expression.relational.Not;
 import ql.ast.expression.relational.Or;
 import ql.ast.visitor.ExpressionVisitor;
@@ -50,7 +50,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 	
 	@Override
-	public Value visit(Pos pos) {
+	public Value visit(Positive pos) {
 		Value expressionValue = pos.getExpression().accept(this);
 		
 		return expressionValue.positive();
@@ -64,7 +64,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(Neg neg) {
+	public Value visit(Negation neg) {
 		Value expressionValue = neg.getExpression().accept(this);
 		
 		return expressionValue.negative();
@@ -79,7 +79,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(NEq nEq) {
+	public Value visit(NotEqual nEq) {
 		Value leftValue = nEq.getLeft().accept(this);
 		Value rightValue = nEq.getRight().accept(this);
 		
@@ -87,7 +87,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(LT lt) {
+	public Value visit(Lower lt) {
 		Value leftValue = lt.getLeft().accept(this);
 		Value rightValue = lt.getRight().accept(this);
 		
@@ -95,7 +95,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(LEq lEq) {
+	public Value visit(LowerOrEqual lEq) {
 		Value leftValue = lEq.getLeft().accept(this);
 		Value rightValue = lEq.getRight().accept(this);
 		
@@ -103,7 +103,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(GT gt) {
+	public Value visit(Greater gt) {
 		Value leftValue = gt.getLeft().accept(this);
 		Value rightValue = gt.getRight().accept(this);
 		
@@ -111,7 +111,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(GEq gEq) {
+	public Value visit(GreaterOrEqual gEq) {
 		Value leftValue = gEq.getLeft().accept(this);
 		Value rightValue = gEq.getRight().accept(this);
 		
@@ -119,7 +119,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(Eq eq) {
+	public Value visit(Equal eq) {
 		Value leftValue = eq.getLeft().accept(this);
 		Value rightValue = eq.getRight().accept(this);
 		
@@ -163,7 +163,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(Div div) {
+	public Value visit(Divide div) {
 		Value leftValue = div.getLeft().accept(this);
 		Value rightValue = div.getRight().accept(this);
 		
@@ -171,7 +171,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(Mul mul) {
+	public Value visit(Multiply mul) {
 		Value leftValue = mul.getLeft().accept(this);
 		Value rightValue = mul.getRight().accept(this);
 		
@@ -179,7 +179,7 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	}
 
 	@Override
-	public Value visit(Sub sub) {
+	public Value visit(Subtract sub) {
 		Value leftValue = sub.getLeft().accept(this);
 		Value rightValue = sub.getRight().accept(this);
 		

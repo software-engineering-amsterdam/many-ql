@@ -9,22 +9,22 @@ import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
 import ql.ast.expression.arithmetic.Add;
-import ql.ast.expression.arithmetic.Div;
-import ql.ast.expression.arithmetic.Mul;
-import ql.ast.expression.arithmetic.Neg;
-import ql.ast.expression.arithmetic.Pos;
-import ql.ast.expression.arithmetic.Sub;
+import ql.ast.expression.arithmetic.Divide;
+import ql.ast.expression.arithmetic.Multiply;
+import ql.ast.expression.arithmetic.Negation;
+import ql.ast.expression.arithmetic.Positive;
+import ql.ast.expression.arithmetic.Subtract;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.And;
-import ql.ast.expression.relational.Eq;
-import ql.ast.expression.relational.GEq;
-import ql.ast.expression.relational.GT;
-import ql.ast.expression.relational.LEq;
-import ql.ast.expression.relational.LT;
-import ql.ast.expression.relational.NEq;
+import ql.ast.expression.relational.Equal;
+import ql.ast.expression.relational.GreaterOrEqual;
+import ql.ast.expression.relational.Greater;
+import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.NotEqual;
 import ql.ast.expression.relational.Not;
 import ql.ast.expression.relational.Or;
 import ql.ast.expression.type.QLBoolean;
@@ -127,27 +127,27 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	}
 
 	@Override
-	public QLType visit(Div divNode) {
+	public QLType visit(Divide divNode) {
 		return checkExpression(divNode, new QLNumeric());
 	}
 
 	@Override
-	public QLType visit(Mul mulNode) {
+	public QLType visit(Multiply mulNode) {
 		return checkExpression(mulNode, new QLNumeric());
 	}
 
 	@Override
-	public QLType visit(Sub subNode) {
+	public QLType visit(Subtract subNode) {
 		return checkExpression(subNode, new QLNumeric());
 	}
 	
 	@Override
-	public QLType visit(Neg negNode) {
+	public QLType visit(Negation negNode) {
 		return checkExpression(negNode, new QLNumeric());
 	}
 	
 	@Override
-	public QLType visit(Pos posNode) {
+	public QLType visit(Positive posNode) {
 		return checkExpression(posNode, new QLNumeric());
 	}
 	
@@ -159,12 +159,12 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 */
 	
 	@Override
-	public QLType visit(Eq eqNode) {
+	public QLType visit(Equal eqNode) {
 		return checkExpression(eqNode, eqNode.getLeft().accept(this));
 	}
 	
 	@Override
-	public QLType visit(NEq neqNode) {
+	public QLType visit(NotEqual neqNode) {
 		return checkExpression(neqNode, neqNode.getLeft().accept(this));
 	}
 	
@@ -173,22 +173,22 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 */
 
 	@Override
-	public QLType visit(GEq geqNode) {
+	public QLType visit(GreaterOrEqual geqNode) {
 		return checkExpression(geqNode, new QLNumeric());
 	}
 
 	@Override
-	public QLType visit(GT gtNode) {
+	public QLType visit(Greater gtNode) {
 		return checkExpression(gtNode, new QLNumeric());
 	}
 
 	@Override
-	public QLType visit(LEq leqNode) {
+	public QLType visit(LowerOrEqual leqNode) {
 		return checkExpression(leqNode, new QLNumeric());
 	}
 
 	@Override
-	public QLType visit(LT ltNode) {
+	public QLType visit(Lower ltNode) {
 		return checkExpression(ltNode, new QLNumeric());
 	}
 

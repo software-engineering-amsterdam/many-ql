@@ -3,12 +3,12 @@ package ql.ast.expression.arithmetic;
 import ql.ast.Expression;
 import ql.ast.expression.QLType;
 import ql.ast.expression.Unary;
-import ql.ast.expression.type.QLNumeric;
+import ql.ast.expression.type.QLFloat;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class Pos extends Unary {
-	public Pos(Expression operand) {
-		super(operand, "+");
+public class Negation extends Unary {
+	public Negation(Expression operand) {
+		super(operand, "-");
 	}
 	
 	@Override
@@ -16,8 +16,9 @@ public class Pos extends Unary {
 		return visitor.visit(this);
 	}
 	
+	//TODO: Add a superclass for numeric types.
 	@Override
 	public QLType getType() {
-		return new QLNumeric();
+		return new QLFloat();
 	}
 }

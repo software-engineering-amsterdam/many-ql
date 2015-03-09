@@ -6,8 +6,8 @@ import ql.ast.expression.QLType;
 import ql.ast.expression.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class NEq extends Binary {
-	public NEq(Expression left, Expression right) {
+public class NotEqual extends Binary {
+	public NotEqual(Expression left, Expression right) {
 		super(left, right, "!=");
 	}
 	

@@ -1,14 +1,14 @@
 package ql.ast.expression.arithmetic;
 
 import ql.ast.Expression;
+import ql.ast.expression.Binary;
 import ql.ast.expression.QLType;
-import ql.ast.expression.Unary;
-import ql.ast.expression.type.QLFloat;
+import ql.ast.expression.type.QLNumeric;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class Neg extends Unary {
-	public Neg(Expression operand) {
-		super(operand, "-");
+public class Subtract extends Binary {
+	public Subtract(Expression left, Expression right) {
+		super(left, right, "-");
 	}
 	
 	@Override
@@ -19,6 +19,6 @@ public class Neg extends Unary {
 	//TODO: Add a superclass for numeric types.
 	@Override
 	public QLType getType() {
-		return new QLFloat();
+		return new QLNumeric();
 	}
 }
