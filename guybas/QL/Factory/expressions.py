@@ -22,19 +22,9 @@ class ExpressionFactory:
         return number.Number(n)
 
     @staticmethod
-    def make_calc_operator(tokens):
+    def make_operator(tokens):
         op = tokens[0]
-        return operator.CalcOperator(op)
-
-    @staticmethod
-    def make_comp_operator(tokens):
-        op = tokens[0]
-        return operator.CompareOperator(op)
-
-    @staticmethod
-    def make_extra_operator(tokens):
-        op = tokens[0]
-        return operator.ExtraOperator(op)
+        return operator.Operator(op)
 
     @staticmethod
     def make_bool(tokens):

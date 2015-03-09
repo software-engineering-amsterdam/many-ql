@@ -70,5 +70,5 @@ class TypeChecker:
             if ExpressionValidator.validator(e.return_type(type_dict)):
                 continue
             else:
-                messages += e.pretty_print() + " is malformed"
+                messages += e.pretty_print() + " is malformed\n"
         return messages
