@@ -18,6 +18,7 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
+import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.component.QuestionComponent;
@@ -120,6 +121,12 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
+	public Widget visit(UndefinedType undefiendType) {
+		System.out.println("This should not happen.");
+		return null;
+	}
+	
+	@Override
 	public IfElseQuestionPanel visit(IfElseStatement ifElseStatement) {
 		ArrayList<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
 		ArrayList<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
@@ -128,5 +135,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
+
 
 }

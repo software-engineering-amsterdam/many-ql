@@ -1,11 +1,11 @@
 package org.fugazi.qls.ast.style;
 
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.qls.ast.AbstractASTQLSNode;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
-public class DefaultStyleDeclaration extends AbstractASTQLSNode {
+public class DefaultStyleDeclaration extends AbstractASTNode {
 
     private final Style style;
     private final Widget widget;
