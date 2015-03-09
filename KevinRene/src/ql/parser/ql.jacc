@@ -4,8 +4,6 @@
 %semantic cons.ql.ast.ASTNode 
 
 
-%token <BooleanLiteral> BOOLEANLITERAL
-
 %token <QLInteger> INTEGER
 %token <QLBoolean> BOOLEAN
 %token <QLString> STRING
