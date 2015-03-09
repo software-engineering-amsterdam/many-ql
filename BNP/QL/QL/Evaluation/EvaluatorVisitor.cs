@@ -2,7 +2,6 @@
 using QL.Model;
 using QL.Model.Operators;
 using QL.Model.Terminals;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,44 +12,29 @@ namespace QL.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLError> Errors { get; private set; }
-        IDictionary<Identifier,Type> TypeReference;  //reference for types
-        IDictionary<ITypeResolvable,IResolvableTerminalType> Values;   //storage of values         
-        IDictionary<Identifier, ITypeResolvable> IdentifierReference;    // storage of ID references
-
-        public IDictionary<ITypeResolvable, IResolvableTerminalType>  GetValuesIfNoErrors()
-        {
-            if (Errors.Any())
-            {
-                return null;
-            }
-            else{
-                return Values;
-            }
-        }
-
-        public EvaluatorVisitor(IDictionary<Identifier, Type> typeReference)//im not sure about this
+        public IList<QLWarning> Warnings { get; private set; }
         
-        {
-            TypeReference = typeReference;//im not sure about this
-            Errors = new List<QLError>();
-            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
-            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
+        public readonly IDictionary<ITypeResolvable, IResolvableTerminalType> ReferenceLookupTable; // a lookup of references to terminals
+        public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
 
+        public IDictionary<ITypeResolvable, IResolvableTerminalType> GetValuesIfNoErrors()
+        {
+            return Errors.Any() ? null : ReferenceLookupTable;
         }
 
-        public EvaluatorVisitor()
+        public EvaluatorVisitor(IList<QLError> errors, IList<QLWarning> warnings)
         {
-            TypeReference = new Dictionary<Identifier,Type>();//im not sure about this
-            Errors = new List<QLError>();
-            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
-            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
-
+            Errors = errors;
+            Warnings = warnings;
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
         }
+
         IResolvableTerminalType GetValue(IResolvableTerminalType node)
         {
 
             return node;
-            
+
         }
         IResolvableTerminalType GetValue(Expression node)
         {
@@ -61,14 +45,15 @@ namespace QL.Evaluation
 
         IResolvableTerminalType GetValue(Identifier node)
         {
-            if (!IdentifierReference.ContainsKey(node))
+            if (!IdentifierLookupTable.ContainsKey(node))
             {
                 throw new QLError("Undeclared variable");
             }
-            if (!Values.ContainsKey(IdentifierReference[node])){
+            if (!ReferenceLookupTable.ContainsKey(IdentifierLookupTable[node]))
+            {
                 throw new QLError("Variable not assigned");//this is bullshit, cannot happen?
             }
-            return Values[IdentifierReference[node]];            
+            return ReferenceLookupTable[IdentifierLookupTable[node]];
         }
 
 
@@ -83,20 +68,20 @@ namespace QL.Evaluation
 
         public void Visit(ControlUnit node)
         {
-            Values[node.Expression] = GetValue(node.Expression);
+            ReferenceLookupTable[node.Expression] = GetValue(node.Expression);
         }
 
         public void Visit(StatementUnit node)
         {
-            IdentifierReference[node.Identifier] = node.Expression;//NOT node.DataType, that is used only for type checking(arbitrary decision)
-            Values[node.Expression] = GetValue(node.Expression);
-        
+            IdentifierLookupTable[node.Identifier] = node.Expression;//NOT node.DataType, that is used only for type checking(arbitrary decision)
+            ReferenceLookupTable[node.Expression] = GetValue(node.Expression);
+
         }
 
         public void Visit(QuestionUnit node)
         {
-            IdentifierReference[node.Identifier] = node.DataType;
-            Values[node.DataType]=GetValue(node.DataType);
+            IdentifierLookupTable[node.Identifier] = node.DataType;
+            ReferenceLookupTable[node.DataType] = GetValue(node.DataType);
         }
 
         public void Visit(Expression node)
@@ -155,7 +140,7 @@ namespace QL.Evaluation
         {
         }
         #endregion
-       
+
         #region Terminals
         public void Visit(Number node)
         {
@@ -179,6 +164,6 @@ namespace QL.Evaluation
         }
         #endregion
 
-        
+
     }
 }

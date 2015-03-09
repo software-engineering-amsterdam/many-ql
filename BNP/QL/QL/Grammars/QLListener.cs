@@ -18,7 +18,7 @@ namespace QL.Grammars
     {
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
-        private ElementBase _astRootNode;
+        private Form _astRootNode;
 
         public QLListener()
         {
@@ -62,8 +62,17 @@ namespace QL.Grammars
             }
             else
             {
-                //this is the last one
-                _astRootNode = newChild;
+                try
+                {
+                    //this is the last one
+                    _astRootNode = (Form)newChild;
+                }
+                catch (Exception ex)
+                {
+                    // todo add ex to list of errors as fatal error
+                    _astRootNode = null;
+                    throw;
+                }
             }
         }
 

@@ -6,7 +6,7 @@ using QL.Grammars;
 namespace Tests.VisitorTests
 {
     [TestClass]
-    public class EvaluatorTests :QLTestBase
+    public class EvaluatorTests : QLTestBase
     {
         AstHandler GetResultAst(string input)
         {
@@ -29,8 +29,8 @@ namespace Tests.VisitorTests
             ";
             
             AstHandler ast = GetResultAst(input);
-            Assert.IsFalse(ast.CheckType());
-            Assert.IsFalse(ast.Evaluate());
+            Assert.IsTrue(ast.CheckType());
+            Assert.IsTrue(ast.Evaluate());
 
         }
 
@@ -50,11 +50,11 @@ namespace Tests.VisitorTests
                 }
             ";
             AstHandler ast = GetResultAst(input);
-            Assert.IsFalse(ast.CheckType());
+            Assert.IsTrue(ast.CheckType());
             
-            Assert.IsFalse(ast.Evaluate());
-            Assert.AreEqual(ast.Values[(ITypeResolvable)ast.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
-            Assert.AreEqual(ast.Values[(ITypeResolvable)ast.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
+            Assert.IsTrue(ast.Evaluate());
+            Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
+            Assert.AreEqual(ast.ReferenceLookupTable[(ITypeResolvable)ast.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
 
             
 

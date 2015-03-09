@@ -19,12 +19,13 @@ namespace QL.Evaluation
         public IList<QLWarning> Warnings { get; private set; }
 
 
-        public TypeCheckerVisitor(IDictionary<Identifier,Type> typeReference)
+        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLError> errors, IList<QLWarning> warnings)
         {
-            Errors = new List<QLError>();
-            Warnings = new List<QLWarning>();
             TypeReference = typeReference;
+            Errors = errors;
+            Warnings = warnings;
         }
+
         private void DeclareNewVariable(Identifier key, Type value)
         {
             if (TypeReference.ContainsKey(key))
