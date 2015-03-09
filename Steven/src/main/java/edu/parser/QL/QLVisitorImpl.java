@@ -1,5 +1,6 @@
 package edu.parser.QL;
 
+import edu.exceptions.ParseException;
 import edu.nodes.QuestionType;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.*;
@@ -9,7 +10,6 @@ import edu.parser.QL.nodes.statement.Statement;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,10 +26,12 @@ public abstract class QLVisitorImpl implements QLVisitor {
         return Collections.emptyList();
     }
 
-    protected Question createQuestion(Question question) {
-        Identifier identifier = new Identifier(question.getIdentifier().getIdentifier());
-        Label label = new Label(question.getLabel().getLabel());
-        return new Question(identifier, question.getQuestionType(), label, question.isEnabled(), Optional.empty());
+    protected Question cloneQuestion(Question question) {
+        try {
+            return question.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new ParseException(e);
+        }
     }
 
     @Override

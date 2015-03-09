@@ -46,7 +46,7 @@ public class QuestionRetriever extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        allQuestions.add(createQuestion(question));
+        allQuestions.add(cloneQuestion(question));
         return question;
     }
 }

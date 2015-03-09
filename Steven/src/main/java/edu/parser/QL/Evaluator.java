@@ -111,7 +111,7 @@ public class Evaluator extends QLVisitorImpl {
 
     private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
         List<Question> updatedQuestions = this.updatedQuestions.stream()
-                .filter(question -> question.getIdentifier().getIdentifier().equals(foundQuestion.getIdentifier().getIdentifier()))
+                .filter(question -> question.getIdentifier().equals(foundQuestion.getIdentifier()))
                 .collect(Collectors.toList());
         if (updatedQuestions.size() > 1) {
             throw new EvaluationException("Updated question list contains duplicates.");
@@ -125,7 +125,7 @@ public class Evaluator extends QLVisitorImpl {
     private Optional<Question> getQuestion(Identifier identifier) {
         return evaluatedQuestions
                 .stream()
-                .filter(q -> q.getIdentifier().getIdentifier().equals(identifier.getIdentifier()))
+                .filter(q -> q.getIdentifier().equals(identifier))
                 .findFirst();
     }
 
@@ -171,7 +171,10 @@ public class Evaluator extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        evaluatedQuestions.add(createQuestion(question));
+        boolean questionEnabled = isQuestionEnabled(question);
+        Question clonedQuestion = cloneQuestion(question);
+        clonedQuestion.setState(questionEnabled);
+        evaluatedQuestions.add(clonedQuestion);
         return super.visit(question);
     }
 
