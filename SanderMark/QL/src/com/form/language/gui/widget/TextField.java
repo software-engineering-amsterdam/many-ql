@@ -9,21 +9,19 @@ import javax.swing.text.BadLocationException;
 
 import com.form.language.ast.statement.Question;
 import com.form.language.gui.components.QuestionComponent;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class TextField extends JTextField {
 	
 	private static final long serialVersionUID = 1L;
-	private RuntimeMemory rm;
-	private Question question;
 
-	public TextField(Question question,QuestionComponent questionComponent, RuntimeMemory rm) {
+	public TextField(Question question,QuestionComponent questionComponent, Context rm) {
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
 		setVisible(true);
 	}
 	
-	//TO DO ADD HANDELER
+	//TODO ADD HANDELER
 	public void notifyListener(DocumentEvent e) {
 		String s;
 		try {

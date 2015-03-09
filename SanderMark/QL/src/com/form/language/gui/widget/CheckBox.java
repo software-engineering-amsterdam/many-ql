@@ -11,18 +11,16 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.gui.components.QuestionComponent;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class CheckBox extends JCheckBox {
 	private static final long serialVersionUID = 1L;
-	private QuestionComponent questionComponent;
-	private RuntimeMemory rm;
+	private Context rm;
 	private Question question;
 	
-	public CheckBox(Question question, QuestionComponent questionComponent, RuntimeMemory rm) {
+	public CheckBox(Question question, QuestionComponent questionComponent, Context rm) {
 		this.rm = rm;
 		this.question = question;
-		this.questionComponent = questionComponent;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		addItemListener((ItemListener) checkboxListener);
 	}

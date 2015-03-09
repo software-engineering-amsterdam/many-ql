@@ -8,13 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
 import com.form.language.ast.Form;
-import com.form.language.error.CheckTypeErrors;
-import com.form.language.error.CheckVariableErrors;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
@@ -54,14 +48,14 @@ public class Test {
 //			System.exit(0);
 //		} 
 		//Check for type errors, exit program and show errors if any are found.
-		TypeMemory typemem = new TypeMemory();
+		Context typemem = new Context();
 		form.getTypes(typemem);
 		if(typemem.hasErrors()){
 			System.err.println("there are type errors:");
 			System.out.println(typemem.getErrors());
 		}
 
-//		RuntimeMemory mem = form.initMemory();
+//		Context mem = form.initMemory();
 //		System.out.println(mem);
 			
 		
