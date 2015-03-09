@@ -2,6 +2,7 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public abstract class PType extends Node {
+public abstract class PType extends Node
+{
     // Empty body
 }

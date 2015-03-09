@@ -1,6 +1,3 @@
-import QL.Exceptions.exceptions as exceptions
-
-
 class Element:
     def __init__(self, statement, gui):
         if type(self) == Element:
@@ -9,11 +6,9 @@ class Element:
         self.gui = gui
         self.rowElements = self.create()
 
-    def set_height(self, height=2):
-        if not isinstance(height, int):
-            raise exceptions.QException("height must be an integer!")
-        for i in range(0, len(self.rowElements) - 1):
-            self.rowElements[i].configure(height=height)
+    # def set_font_style(self, style):
+    #     for i in range(0, len(self.rowElements)):
+    #         self.rowElements[i].configure(font=style)
 
     def get_row(self):
         return self.rowElements

@@ -2,32 +2,38 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TSub extends Token {
-    public TSub() {
+public final class TSub extends Token
+{
+    public TSub()
+    {
         super.setText("-");
     }
 
-    public TSub(int line, int pos) {
+    public TSub(int line, int pos)
+    {
         super.setText("-");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone() {
-        return new TSub(getLine(), getPos());
+    public Object clone()
+    {
+      return new TSub(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseTSub(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text) {
+    public void setText(@SuppressWarnings("unused") String text)
+    {
         throw new RuntimeException("Cannot change TSub text.");
     }
 }

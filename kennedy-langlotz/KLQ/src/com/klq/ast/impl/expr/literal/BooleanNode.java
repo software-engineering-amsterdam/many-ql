@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.BooleanValue;
@@ -13,8 +14,12 @@ import java.util.Map;
 public class BooleanNode extends AExpression{
     private final boolean value;
 
-    public BooleanNode(boolean value, String location) {
-        super(null, null, location);
+    public BooleanNode(boolean value, Location location) {
+        super(location);
+        this.value = value;
+    }
+
+    public BooleanNode(boolean value) {
         this.value = value;
     }
 
