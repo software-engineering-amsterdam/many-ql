@@ -29,7 +29,6 @@ public class Evaluator extends QLVisitorImpl {
 
     public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
         this.evaluatedQuestions.clear();
-        this.updatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
         visit(form);
         return evaluatedQuestions;

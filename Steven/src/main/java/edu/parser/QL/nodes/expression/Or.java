@@ -20,4 +20,9 @@ public class Or extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return true;
     }
+
+    @Override
+    public Or clone() throws CloneNotSupportedException {
+        return new Or(getLeft().clone(), getRight().clone());
+    }
 }

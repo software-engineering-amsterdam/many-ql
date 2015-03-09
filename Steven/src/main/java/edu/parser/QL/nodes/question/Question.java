@@ -12,13 +12,13 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Question extends Statement {
+public class Question extends Statement implements Cloneable {
 
     private final Identifier identifier;
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
     public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
@@ -32,13 +32,10 @@ public class Question extends Statement {
         return enabled;
     }
 
-    public Question enable() {
-        return new Question(identifier, questionType, label, true, expression);
+    public void setState(boolean state) {
+        this.enabled = state;
     }
 
-    public Question disable() {
-        return new Question(identifier, questionType, label, false, expression);
-    }
 
     public Identifier getIdentifier() {
         return identifier;
@@ -79,5 +76,15 @@ public class Question extends Statement {
         result = 31 * result + (expression != null ? expression.hashCode() : 0);
         result = 31 * result + (enabled ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public Question clone() throws CloneNotSupportedException {
+        Optional<Expression> expression = Optional.empty();
+        if (this.expression.isPresent()) {
+            expression.of(this.expression.get().clone());
+        }
+
+        return new Question(identifier.clone(), questionType, label.clone(), enabled, expression);
     }
 }
