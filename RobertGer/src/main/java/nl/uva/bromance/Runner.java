@@ -37,11 +37,9 @@ public class Runner {
         walker.walk(listener, tree);
 
         AST ast = listener.getAst();
-        //ExpressionEvaluator ee = new ExpressionEvaluator(ast);
+        ExpressionEvaluator ee = new ExpressionEvaluator(ast);
         TypeChecker tc = new TypeChecker(ast);
         // tc.runChecks();
-
-        new Visualizer().visualize(ast.getRoot(), primaryStage);
         
         QLSLexer qlsLexer = new QLSLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.qls")));
         CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
@@ -52,6 +50,9 @@ public class Runner {
         
 
         qlsWalker.walk(qlsListener, qlsTree);
+        AST qlsAST = qlsListener.getAst();
+        // Show GUI
+        new Visualizer().visualize(ast.getRoot(), qlsAST.getRoot(), primaryStage);
 
         //show ast in GUI
         JFrame frame = new JFrame("QLS ParseTree");
