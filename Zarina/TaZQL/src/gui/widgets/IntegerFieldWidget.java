@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.IntegerListener;
@@ -21,8 +22,10 @@ public class IntegerFieldWidget implements IWidgetComponent {
 		this.id = id;
 		this.variableType = variableType;
 		this.valueRepository = valueRepository;
-		this.widget = new JTextField("0", 10);
+		this.widget = new JTextField("", 10);
 		
+		//Use this to update this field.
+		//this.widget.setText("hgfjgfcj");
 	}
 	
 	@Override
@@ -66,8 +69,7 @@ public class IntegerFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		this.widget.setEnabled(isEnabled);
-		
+		this.widget.setEnabled(isEnabled);	
 	}
 
 	@Override
@@ -83,7 +85,15 @@ public class IntegerFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setIntegerValue(int value) {
+		System.out.println("I got something");
+		System.out.println(value);
 		this.value = value + Integer.parseInt(valueRepository.getValue(id).toString());
+	
+	}
+
+	@Override
+	public void setText(Value value) {
+		widget.setText("" +value);
 		
 	}
 }
