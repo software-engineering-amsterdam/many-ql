@@ -1,7 +1,6 @@
 package org.uva.sea.ql.encoders.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -33,12 +32,6 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
-
-	private final Map<String, DataType> dataTypeTable;
-
-	public QuestionnaireVisitor(Map<String, DataType> dataTypeTable) {
-		this.dataTypeTable = dataTypeTable;
-	}
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -74,6 +67,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.questionName.getText();
+		DataTypeTable dataTypeTable = new DataTypeTable();
 		DataType dataType = dataTypeTable.get(ctx.type.getText());
 		if (dataType == null) {
 			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());

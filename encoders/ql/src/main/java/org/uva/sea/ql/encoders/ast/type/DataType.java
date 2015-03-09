@@ -8,4 +8,10 @@ public abstract class DataType {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
+	public abstract String getName();
+
+	@Override
+	public String toString() {
+		return getName().toString();
+	}
 }
