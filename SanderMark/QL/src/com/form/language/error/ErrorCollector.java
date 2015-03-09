@@ -19,11 +19,13 @@ public class ErrorCollector {
 		return errorList.iterator();
 	}
 	
-	public void print(){
+	public List<String> print(){
+		List<String> result = new ArrayList<String>();
 		Iterator<Error> iter = errorList.iterator();
 		while(iter.hasNext()){
-			System.err.println(iter.next());
+			result.add(iter.next().toString());
 		}
+		return result;
 	}
 	
 	public Boolean isEmpty(){

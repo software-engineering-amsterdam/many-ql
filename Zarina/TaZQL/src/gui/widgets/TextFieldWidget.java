@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.TextListener;
@@ -81,6 +82,12 @@ public class TextFieldWidget implements IWidgetComponent {
 	@Override
 	public void setIntegerValue(int value) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setText(Value value) {
+		widget.setText("" +value);
 		
 	}
 

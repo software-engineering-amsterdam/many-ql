@@ -13,6 +13,14 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
     /// </summary>
     public class StringLiteral : Literal<string>
     {
+        public override bool IsValid
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public StringLiteral(string value, TextPosition position)
             : base(value, position) { }
 
@@ -29,6 +37,11 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.String;
+        }
+
+        public override string GetValue()
+        {
+            return Value;
         }
 
         public override string ToString()

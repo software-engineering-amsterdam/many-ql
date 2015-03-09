@@ -2,24 +2,27 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AValueStmt extends PStmt {
+public final class AValueStmt extends PStmt
+{
     private TIdent _ident_;
     private TString _str_;
     private PType _type_;
     private PExp _exp_;
 
-    public AValueStmt() {
+    public AValueStmt()
+    {
         // Constructor
     }
 
     public AValueStmt(
-            @SuppressWarnings("hiding") TIdent _ident_,
-            @SuppressWarnings("hiding") TString _str_,
-            @SuppressWarnings("hiding") PType _type_,
-            @SuppressWarnings("hiding") PExp _exp_) {
+        @SuppressWarnings("hiding") TIdent _ident_,
+        @SuppressWarnings("hiding") TString _str_,
+        @SuppressWarnings("hiding") PType _type_,
+        @SuppressWarnings("hiding") PExp _exp_)
+    {
         // Constructor
         setIdent(_ident_);
 
@@ -32,30 +35,37 @@ public final class AValueStmt extends PStmt {
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AValueStmt(
-                cloneNode(this._ident_),
-                cloneNode(this._str_),
-                cloneNode(this._type_),
-                cloneNode(this._exp_));
+            cloneNode(this._ident_),
+            cloneNode(this._str_),
+            cloneNode(this._type_),
+            cloneNode(this._exp_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAValueStmt(this);
     }
 
-    public TIdent getIdent() {
+    public TIdent getIdent()
+    {
         return this._ident_;
     }
 
-    public void setIdent(TIdent node) {
-        if (this._ident_ != null) {
+    public void setIdent(TIdent node)
+    {
+        if(this._ident_ != null)
+        {
             this._ident_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -65,17 +75,22 @@ public final class AValueStmt extends PStmt {
         this._ident_ = node;
     }
 
-    public TString getStr() {
+    public TString getStr()
+    {
         return this._str_;
     }
 
-    public void setStr(TString node) {
-        if (this._str_ != null) {
+    public void setStr(TString node)
+    {
+        if(this._str_ != null)
+        {
             this._str_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -85,17 +100,22 @@ public final class AValueStmt extends PStmt {
         this._str_ = node;
     }
 
-    public PType getType() {
+    public PType getType()
+    {
         return this._type_;
     }
 
-    public void setType(PType node) {
-        if (this._type_ != null) {
+    public void setType(PType node)
+    {
+        if(this._type_ != null)
+        {
             this._type_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -105,17 +125,22 @@ public final class AValueStmt extends PStmt {
         this._type_ = node;
     }
 
-    public PExp getExp() {
+    public PExp getExp()
+    {
         return this._exp_;
     }
 
-    public void setExp(PExp node) {
-        if (this._exp_ != null) {
+    public void setExp(PExp node)
+    {
+        if(this._exp_ != null)
+        {
             this._exp_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -126,33 +151,39 @@ public final class AValueStmt extends PStmt {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._ident_)
-                + toString(this._str_)
-                + toString(this._type_)
-                + toString(this._exp_);
+            + toString(this._ident_)
+            + toString(this._str_)
+            + toString(this._type_)
+            + toString(this._exp_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._ident_ == child) {
+        if(this._ident_ == child)
+        {
             this._ident_ = null;
             return;
         }
 
-        if (this._str_ == child) {
+        if(this._str_ == child)
+        {
             this._str_ = null;
             return;
         }
 
-        if (this._type_ == child) {
+        if(this._type_ == child)
+        {
             this._type_ = null;
             return;
         }
 
-        if (this._exp_ == child) {
+        if(this._exp_ == child)
+        {
             this._exp_ = null;
             return;
         }
@@ -161,24 +192,29 @@ public final class AValueStmt extends PStmt {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._ident_ == oldChild) {
+        if(this._ident_ == oldChild)
+        {
             setIdent((TIdent) newChild);
             return;
         }
 
-        if (this._str_ == oldChild) {
+        if(this._str_ == oldChild)
+        {
             setStr((TString) newChild);
             return;
         }
 
-        if (this._type_ == oldChild) {
+        if(this._type_ == oldChild)
+        {
             setType((PType) newChild);
             return;
         }
 
-        if (this._exp_ == oldChild) {
+        if(this._exp_ == oldChild)
+        {
             setExp((PExp) newChild);
             return;
         }

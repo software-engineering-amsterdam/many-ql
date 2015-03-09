@@ -2,27 +2,32 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class THex extends Token {
-    public THex(String text) {
+public final class THex extends Token
+{
+    public THex(String text)
+    {
         setText(text);
     }
 
-    public THex(String text, int line, int pos) {
+    public THex(String text, int line, int pos)
+    {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone() {
-        return new THex(getText(), getLine(), getPos());
+    public Object clone()
+    {
+      return new THex(getText(), getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseTHex(this);
     }
 }

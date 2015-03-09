@@ -33,23 +33,27 @@ class WidgetFactory:
             default = tokens[1]
         else:
             default = ""
-        return d.DropDown(options)
+        return d.DropDown(options, default)
 
     @staticmethod
     def make_spinbox(tokens):
-        if len(tokens) > 1:
-            default = tokens[1]
+        min_value = tokens[0]
+        max_value = tokens[1]
+        if len(tokens) > 2:
+            default = tokens[2]
         else:
             default = ""
-        return s.Spinbox(tokens[0], tokens[1], default)
+        return s.Spinbox(min_value, max_value, default)
 
     @staticmethod
     def make_slider(tokens):
-        if len(tokens) > 1:
-            default = tokens[1]
+        min_value = tokens[0]
+        max_value = tokens[1]
+        if len(tokens) > 2:
+            default = tokens[2]
         else:
             default = ""
-        return sl.Slider(tokens[0], tokens[1])
+        return sl.Slider(min_value, max_value, default)
 
     @staticmethod
     def make_textbox(tokens):

@@ -3,7 +3,6 @@ package org.uva.ql.view.panel;
 import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
@@ -25,7 +24,9 @@ public class IfQuestionPanel extends QuestionPanel {
 	}
 
 	public void evaluateAndShow(Evaluator evaluator) {
-		if (evaluateExpressions(evaluator).getType().isEqual(new BoolType())) {
+		// dirty
+		if (evaluateExpressions(evaluator) instanceof Bool) {
+
 			Bool value = (Bool) evaluateExpressions(evaluator);
 			if (value.getValue()) {
 				toggleIfBlock(true);

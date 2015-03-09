@@ -17,6 +17,9 @@ class TypeChecker:
         print("Not correct widget:")
         print(TypeChecker.check_types_widgets(sheet.get_widget_dict(), form.get_type_dict()))
 
+        print("Duplicate properties:")
+        print(TypeChecker.check_duplicate_properties(sheet.get_properties()))
+
     @staticmethod
     def check_existent(sheet_ids, form_ids):
         message = ""
@@ -49,4 +52,14 @@ class TypeChecker:
             if t in widget_dict:
                 if not type_dict[t] in widget_dict[t].get_compatible():
                     message += "the _type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
+        return message
+
+    @staticmethod
+    def check_duplicate_properties(properties):
+        existent = []
+        message = ""
+        for p in properties:
+            if p in existent:
+                message += p + " exists more than once\n"
+            existent.append(p)
         return message

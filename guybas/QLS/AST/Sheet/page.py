@@ -10,7 +10,7 @@ class Page(e.SheetElement):
         self._widget_dict = Page.id_widget_dict(self._sections)
 
     def pretty_print(self, level=0):
-        s = "\n" + "    " * level + "Page " + self._name + "\n"
+        s = "    " * level + "Page " + self._name + "\n"
         for p in self._sections:
             s += p.pretty_print(level+1)
         return s
@@ -34,3 +34,6 @@ class Page(e.SheetElement):
         for s in sections:
             d = dict(list(d.items()) + list(s.get_widget_dict().items()))
         return d
+
+    def is_default(self):
+        return False

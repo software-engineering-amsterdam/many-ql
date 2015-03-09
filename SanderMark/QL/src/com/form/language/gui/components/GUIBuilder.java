@@ -37,10 +37,8 @@ public class GUIBuilder {
 		formGUI2.add(questionCompondent);
 	}
 	
-	public void SetShowCondition(Expression condition)
+	public void setShowCondition(Expression condition)
     {
 		showCondition = condition;
     }
-	
-
 }

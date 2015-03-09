@@ -20,7 +20,7 @@ public class QuestionComponent extends JPanel {
 	private JLabel label;
 	private Expression showCondition;
 	private RuntimeMemory rm;
-
+	
 	public QuestionComponent(Question question, RuntimeMemory rm, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
@@ -28,6 +28,8 @@ public class QuestionComponent extends JPanel {
 		this.showCondition = showCondition;
 		this.rm = rm;
 		add(label);
+		
+		//Belongs to if statement
 		if(showCondition != null)
 		{
 			this.setVisible(false);
