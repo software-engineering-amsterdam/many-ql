@@ -1,6 +1,6 @@
-package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.computedvalue;
+package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
@@ -14,10 +14,6 @@ import java.awt.*;
 public class LabelWidget implements IWidget {
     private JLabel valueLabel;
 
-    @Override
-    public Component getWidget() {
-        return valueLabel;
-    }
 
     public LabelWidget(final ComputedValue computedValue, final HeadlessFormInterpreter headlessFormInterpreter) {
         valueLabel = new JLabel();
@@ -32,5 +28,10 @@ public class LabelWidget implements IWidget {
                 }
             }
         });
+    }
+
+    @Override
+    public Component getWidgetComponent() {
+        return valueLabel;
     }
 }

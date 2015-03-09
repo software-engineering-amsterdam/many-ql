@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.qls.model.components;
+package org.uva.student.calinwouter.qlqls.qls.model.components.widgets;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +11,8 @@ public class Slider extends AbstractWidget {
     private final Integer min;
     private final Integer max;
 
-
     @Override
-    public void applyWidget(final IQuestionWidgetCallback widgetCallback) {
-        widgetCallback.widgetIsSliderWidget(this);
+    public <T> T createWidget(IQuestionWidgetCallback<T> widgetCallback) {
+        return widgetCallback.createWidget(this);
     }
 }

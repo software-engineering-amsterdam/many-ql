@@ -4,9 +4,9 @@ import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Checkbox;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Intbox;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Textbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Textbox;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets;
+package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
@@ -8,7 +8,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
 
 /**
  * Name may be confusing. This widget is basically a (Label + Widget) Widget.
@@ -17,7 +16,7 @@ public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
 
     @Override
-    public Component getWidget() {
+    public Component getWidgetComponent() {
         return labelWithWidgetWidget;
     }
 
@@ -27,13 +26,13 @@ public class LabelWithWidgetWidget implements IWidget {
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
         System.out.println(widget.getClass());
-        labelWithWidgetWidget.add(widget.getWidget());
+        labelWithWidgetWidget.add(widget.getWidgetComponent());
 
         System.out.println(stylingSettings.getFont() +","+ 0 +","+ stylingSettings.getFontSize());
 
         fieldLabel.setFont(new Font(stylingSettings.getFont(), 0, stylingSettings.getFontSize()));
         fieldLabel.setForeground(new Color(stylingSettings.getColor()));
-        widget.getWidget().setSize(stylingSettings.getWidth(), widget.getWidget().getSize().height);
+        widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {

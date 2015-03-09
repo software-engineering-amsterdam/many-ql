@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.qls.model.components;
+package org.uva.student.calinwouter.qlqls.qls.model.components.widgets;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ public class Combo extends AbstractWidget {
     private final String noLbl;
 
     @Override
-    public void applyWidget(final IQuestionWidgetCallback widgetCallback) {
-        widgetCallback.widgetIsComboWidget(this);
+    public <T> T createWidget(IQuestionWidgetCallback<T> widgetCallback) {
+        return widgetCallback.createWidget(this);
     }
 }

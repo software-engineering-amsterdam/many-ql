@@ -1,6 +1,6 @@
-package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets;
+package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -26,7 +26,7 @@ public class SpinboxWidget implements IWidget {
     }
 
     @Override
-    public Component getWidget() {
+    public Component getWidgetComponent() {
         return spinner;
     }
 }
