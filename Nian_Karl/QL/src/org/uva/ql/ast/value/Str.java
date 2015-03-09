@@ -1,8 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.StrType;
-import org.uva.ql.ast.type.Type;
-
 public class Str extends Value {
 
 	private final String value;
@@ -50,10 +47,5 @@ public class Str extends Value {
 	
 	public Value StrPlus(Str arg) {
 		return new Str(arg.getValue() + getValue());
-	}
-	
-	@Override
-	public Type getType() {
-		return new StrType();
 	}
 }

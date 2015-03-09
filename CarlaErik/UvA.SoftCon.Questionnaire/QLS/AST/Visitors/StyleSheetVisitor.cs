@@ -8,7 +8,7 @@ using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Visitors
 {
-    public class StyleSheetVisitor : QLSBaseVisitor<StyleSheet>
+    internal class StyleSheetVisitor : QLSBaseVisitor<StyleSheet>
     {
     }
 }

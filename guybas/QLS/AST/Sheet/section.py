@@ -10,7 +10,7 @@ class Section(e.SheetElement):
         self._widget_dict = Section.id_widget_dict(self._question_styles)
 
     def pretty_print(self, level=0):
-        s = "\n" + "    " * level + "Section " + self._name + "\n"
+        s = "    " * level + "Section " + self._name + "\n"
         for p in self._question_styles:
             s += p.pretty_print(level + 1)
         return s
