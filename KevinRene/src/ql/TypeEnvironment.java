@@ -8,7 +8,11 @@ import ql.ast.expression.QLType;
 
 public class TypeEnvironment {
 	private Map<String, QLType> environment = new HashMap<String, QLType>();
+	private TypeEnvironment parentEnvironment;
 	
+	public TypeEnvironment(TypeEnvironment parent) { 
+		this.parentEnvironment = parent;
+	}
 	public TypeEnvironment() { }
 	
 	public void store(Identifier identifier, QLType typeInstance) {
@@ -16,7 +20,15 @@ public class TypeEnvironment {
 	}
 	
 	public QLType resolve(Identifier identifier) {
-		return environment.get(identifier.toString());
+		QLType type = environment.get(identifier.toString());
+		if (type == null && parentEnvironment != null) {
+			type = parentEnvironment.resolve(identifier);
+		}
+		return type;
+	}
+	
+	public TypeEnvironment getParent() {
+		return this.parentEnvironment;
 	}
 	
 	public Map<String, QLType> getBindings() {

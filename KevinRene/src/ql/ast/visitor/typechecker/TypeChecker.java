@@ -258,7 +258,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	}
 	
 	@Override
-	public QLType visit(If ifNode) {
+	public QLType visit(If ifNode) {		
 		// The expression must have a boolean type
 		QLType ifType = ifNode.getExpression().accept(this);
 		
@@ -266,7 +266,11 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 			typeErrors.incompatibleType(ifNode, new QLBoolean(), ifType);
 		}		
 			
+		this.register = new TypeEnvironment(this.register);
+		
 		ifNode.getBlock().accept(this);
+		
+		this.register = this.register.getParent();
 		
 		return ifType;
 	}
@@ -279,9 +283,14 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 		if (!ifType.compatibleWith(new QLBoolean())) {
 			typeErrors.incompatibleType(ifElseNode, new QLBoolean(), ifType);
 		}		
-			
+
+		register = new TypeEnvironment(register);
 		ifElseNode.getIfBranch().accept(this);
+		register = register.getParent();
+		
+		register = new TypeEnvironment(register);
 		ifElseNode.getElseBranch().accept(this);
+		register = register.getParent();
 		
 		return ifType;
 	}
