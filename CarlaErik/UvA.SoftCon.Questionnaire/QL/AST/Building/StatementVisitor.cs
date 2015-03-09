@@ -55,28 +55,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             }
         }
 
-        public override IStatement VisitDeclaration(QLParser.DeclarationContext context)
+        public override IStatement VisitDefinition(QLParser.DefinitionContext context)
         {
             DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
-
-            if (context.expr() != null)
-            {
-                IExpression initialization = context.expr().Accept(new ExpressionVisitor());
-                return new Declaration(dataType, id, initialization, context.GetTextPosition());
-            }
-            else
-            {
-                return new Declaration(dataType, id, context.GetTextPosition());
-            }
-        }
-
-        public override IStatement VisitAssignment(QLParser.AssignmentContext context)
-        {
-            Identifier variable = new Identifier(context.ID().GetText(), context.GetTextPosition());
             IExpression expression = context.expr().Accept(new ExpressionVisitor());
 
-            return new Assignment(variable, expression, context.GetTextPosition());
+            return new Definition(dataType, id, expression, context.GetTextPosition());
         }
     }
 }
