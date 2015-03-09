@@ -9,7 +9,6 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -51,14 +50,8 @@ public class IdLiteral extends Literal implements Expression {
 		if(typeFromMemory == null){
 			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
 			return new ErrorType();
-		}
-		else return typeFromMemory;
-	}
-
-	@Override
-	public void setType(IdTypeTable ids) {
-		if(this.type == null){
-			this.type = ids.getType(this.name);
+		} else{ 
+			return typeFromMemory;
 		}
 	}
 	
@@ -66,11 +59,5 @@ public class IdLiteral extends Literal implements Expression {
 	public void collectIds(IdCollector idCollector) {
 		idCollector.addId(this);
 	}
-	
-	@Override
-	public void getReferences(IdCollector idCollector) {
-		idCollector.addId(this);
-	}
-	
-	
+
 }

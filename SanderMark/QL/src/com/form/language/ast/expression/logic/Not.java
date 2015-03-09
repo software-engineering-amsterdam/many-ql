@@ -35,22 +35,4 @@ public class Not extends UnaryExpression implements Expression {
 			return new ErrorType();
 		}
 	}
-
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type childType = value.getType();
-//		value.getErrors(errors);
-//		
-//		if(childType.isBoolType()) {
-//			return;
-//		}
-//		else{
-//			if(!childType.isErrorType()){
-//				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
-//				errors.add(newError);
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }

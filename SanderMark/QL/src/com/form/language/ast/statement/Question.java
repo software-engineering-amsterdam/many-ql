@@ -7,8 +7,6 @@ import com.form.language.ast.type.Type;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
 
 public class Question implements Statement {
 	private String id;
@@ -30,20 +28,6 @@ public class Question implements Statement {
 		return this.questionType;
 	}
 
-//	@Override
-//	public void getErrors(ErrorCollector errs) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
-	@Override
-	public void collectIds(IdCollector idCollector) {		
-		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector, tokenInfo));
-	}
-
-	@Override
-	public void setType(IdTypeTable ids) {}
-
 	public String getText() {
 		return this.questionLabel;
 	}
@@ -64,9 +48,4 @@ public class Question implements Statement {
 		
 	}
 
-	@Override
-	public void getReferences(IdCollector idCollector) {
-		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector, tokenInfo));
-	}
-	
 }
