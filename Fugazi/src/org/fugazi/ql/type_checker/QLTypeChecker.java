@@ -6,9 +6,9 @@ import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
-import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
+import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -25,7 +25,6 @@ public class QLTypeChecker {
     private final TypeMismatchVisitor typeMismatchVisitor;
 
     private final ASTIssueHandler astIssueHandler;
-
     private QLFormDataStorage formData;
 
     public QLTypeChecker() {
@@ -84,7 +83,7 @@ public class QLTypeChecker {
             Expression expression = ifStatement.getCondition();
 
             // check if condition of type bool
-            boolean conditionIsBool = this.checkIfExpressionIsBool(expression);
+            boolean conditionIsBool = QLTypeCheckerHelper.isExpressionOfTypeBool(expression);
             if (!conditionIsBool) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
@@ -102,7 +101,7 @@ public class QLTypeChecker {
             Expression computed = question.getComputedExpression();
 
             // check if assigned types equal
-            boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
+            boolean typesEqual = QLTypeCheckerHelper.areTypesEqual(type, computed.getReturnedType());
             if (!typesEqual) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,
@@ -120,6 +119,7 @@ public class QLTypeChecker {
     private void checkForTypeMismatches(Form _form) {
         this.typeMismatchVisitor.visitForm(_form);
     }
+
     private void checkForCyclicDependencies(Form _form) {
         this.cyclicDependenciesVisitor.visitForm(_form);
     }
@@ -141,19 +141,6 @@ public class QLTypeChecker {
         }
         return false;
     }
-
-    private boolean checkIfExpressionIsBool(Expression expression) {
-        return this.checkIfExpressionIsOfType(expression, new BoolType());
-    }
-
-    private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
-        return this.checkIfTypesEqual(expression.getReturnedType(), type);
-    }
-
-    private boolean checkIfTypesEqual(Type type1, Type type2) {
-        return type1.equals(type2);
-    }
-
 
     /**
      * =====================

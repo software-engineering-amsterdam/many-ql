@@ -44,7 +44,7 @@ public class QuestionsVisitor extends StatementsVisitor {
     public List<Question> getQuestions() {
         if (this.questions == null) {
             this.questions = new ArrayList<>();
-            // visit the form
+
             this.visitForm();
         }
 

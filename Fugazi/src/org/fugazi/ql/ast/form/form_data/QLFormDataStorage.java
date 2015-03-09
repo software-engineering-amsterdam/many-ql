@@ -42,8 +42,9 @@ public class QLFormDataStorage {
 
     public List<Question> getAllQuestions() {
         List<Question> allQuestions = this.getQuestions();
-        allQuestions.addAll(this.getComputedQuestions());
-        
+        List<ComputedQuestion> computedQuestions = this.getComputedQuestions();
+        allQuestions.addAll(computedQuestions);
+
         return allQuestions;
     }
 
