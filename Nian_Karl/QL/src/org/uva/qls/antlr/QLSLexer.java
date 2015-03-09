@@ -18,7 +18,7 @@ public class QLSLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		STYLE=1, PAGE=2, SECTION=3, QUESTION=4, DEFAULT=5, INT=6, STR=7, BOOL=8, 
-		WIDGET=9, SLIDER=10, SPINBOX=11, TEXT=12, RADIO=13, DROPDOWN=14, CHECKBOX=15, 
+		WIDGET=9, SLIDER=10, SPINBOX=11, TEXTBOX=12, RADIO=13, DROPDOWN=14, CHECKBOX=15, 
 		WIDTH=16, HEIGHT=17, FONTSIZE=18, FONT=19, COLOR=20, ARIAL=21, COLON=22, 
 		COMMA=23, LEFT_PAREN=24, RIGHT_PAREN=25, LEFT_BRACE=26, RIGHT_BRACE=27, 
 		LEFT_BRACKET=28, RIGHT_BRACKET=29, IntegerLiteral=30, BooleanLiteral=31, 
@@ -38,7 +38,7 @@ public class QLSLexer extends Lexer {
 	};
 	public static final String[] ruleNames = {
 		"STYLE", "PAGE", "SECTION", "QUESTION", "DEFAULT", "INT", "STR", "BOOL", 
-		"WIDGET", "SLIDER", "SPINBOX", "TEXT", "RADIO", "DROPDOWN", "CHECKBOX", 
+		"WIDGET", "SLIDER", "SPINBOX", "TEXTBOX", "RADIO", "DROPDOWN", "CHECKBOX", 
 		"WIDTH", "HEIGHT", "FONTSIZE", "FONT", "COLOR", "ARIAL", "COLON", "COMMA", 
 		"LEFT_PAREN", "RIGHT_PAREN", "LEFT_BRACE", "RIGHT_BRACE", "LEFT_BRACKET", 
 		"RIGHT_BRACKET", "IntegerLiteral", "BooleanLiteral", "StringLiteral", 
