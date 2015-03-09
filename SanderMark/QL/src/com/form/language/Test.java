@@ -14,6 +14,7 @@ import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
@@ -27,34 +28,41 @@ public class Test {
 		//Parse the form
 		Form form = parser.form().result;
 		
-		//Collect all the variables
-		IdCollector ids = new IdCollector();		
-		form.collectIds(ids);
+//		//Collect all the variables
+//		IdCollector ids = new IdCollector();		
+//		form.collectIds(ids);
+//		
+//		//Set the types of the referencing variables in the form
+//		IdTypeTable idTable = new IdTypeTable(ids);
+//		form.setTypes(idTable);
+//		
+//		//Check for undeclared variables, exit program and show errors if any are found.
+//		ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
+//		if(!varErrors.isEmpty()){
+//			varErrors.print();
+//			System.err.println("exit program.");
+//			System.exit(0);
+//		}
 		
-		//Set the types of the referencing variables in the form
-		IdTypeTable idTable = new IdTypeTable(ids);
-		form.setTypes(idTable);
-		
-		//Check for undeclared variables, exit program and show errors if any are found.
-		ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
-		if(!varErrors.isEmpty()){
-			varErrors.print();
-			System.err.println("exit program.");
-			System.exit(0);
-		}
-		
+//		//Check for type errors, exit program and show errors if any are found.
+//		if(CheckTypeErrors.containsErrors(form)){
+//			System.err.println("there are type errors:");
+//			ErrorCollector errors = new ErrorCollector();
+//			form.getErrors(errors);
+//			errors.print();
+//			System.err.println("exit program.");
+//			System.exit(0);
+//		} 
 		//Check for type errors, exit program and show errors if any are found.
-		if(CheckTypeErrors.containsErrors(form)){
+		TypeMemory typemem = new TypeMemory();
+		form.getTypes(typemem);
+		if(typemem.hasErrors()){
 			System.err.println("there are type errors:");
-			ErrorCollector errors = new ErrorCollector();
-			form.getErrors(errors);
-			errors.print();
-			System.err.println("exit program.");
-			System.exit(0);
-		} 
-		
-		RuntimeMemory mem = form.initMemory();
-		System.out.println(mem);
+			System.out.println(typemem.getErrors());
+		}
+
+//		RuntimeMemory mem = form.initMemory();
+//		System.out.println(mem);
 			
 		
 		
