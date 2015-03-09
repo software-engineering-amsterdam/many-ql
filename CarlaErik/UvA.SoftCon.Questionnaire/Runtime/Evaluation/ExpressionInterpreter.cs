@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
-    internal class ExpressionInterpreter : ASTVisitor<Value>
+    internal class ExpressionInterpreter : QLVisitor<Value>
     {
         protected IDictionary<string, Value> Context
         {
@@ -29,20 +30,25 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override Value Visit(BooleanLiteral literal)
         {
-            return new BooleanValue(literal.Value);
+            return new BooleanValue(literal.GetValue());
         }
 
         public override Value Visit(IntegerLiteral literal)
         {
-            return new IntegerValue(literal.Value);
+            return new IntegerValue(literal.GetValue());
         }
 
         public override Value Visit(StringLiteral literal)
         {
-            return new StringValue(literal.Value);
+            return new StringValue(literal.GetValue());
         }
 
-        #endregion 
+        public override Value Visit(DateLiteral literal)
+        {
+            return new DateValue(literal.GetValue());
+        }
+
+        #endregion
 
         #region Visit Identifier
 

@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PHelpers extends Node
-{
+public abstract class PHelpers extends Node {
     // Empty body
 }

@@ -8,16 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms
 {
-    public partial class MainForm : System.Windows.Forms.Form
+    public partial class MainForm : Form
     {
         protected OutputWindow Output
         {
@@ -37,29 +37,29 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             Output = new OutputWindow(OutputTextBox);
         }
 
-
         public void InitializeQuestions()
         {
             QuestionFlowLayout.Controls.Clear();
 
             var runtimeController = new RuntimeController();
 
-            var astQuestions = QuestionForm.GetAllQuestions();
-
-            foreach (var astQuestion in astQuestions)
+            foreach (var astQuestion in QuestionForm.AllQuestions)
             {
                 QuestionControl uiQuestion;
 
                 switch (astQuestion.DataType)
                 {
                     case DataType.Boolean:
-                        uiQuestion = new BooleanQuestion(astQuestion);
+                        uiQuestion = new RadioControl(astQuestion);
                         break;
                     case DataType.Integer:
-                        uiQuestion = new NumericQuestion(astQuestion);
+                        uiQuestion = new SpinBoxControl(astQuestion);
                         break;
                     case DataType.String:
-                        uiQuestion = new TextQuestion(astQuestion);
+                        uiQuestion = new TextBoxControl(astQuestion);
+                        break;
+                    case DataType.Date:
+                        uiQuestion = new CalendarControl(astQuestion);
                         break;
                     default:
                         throw new NotSupportedException();
@@ -92,15 +92,15 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
                 {
-                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.Name);
+                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.QuestionName);
 
-                    if (visibleQuestions.ContainsKey(uiQuestion.Name))
+                    if (visibleQuestions.ContainsKey(uiQuestion.QuestionName))
                     {
-                        Value result = visibleQuestions[uiQuestion.Name];
+                        Value result = visibleQuestions[uiQuestion.QuestionName];
 
                         if (!result.IsUndefined)
                         {
-                            uiQuestion.Answer = result;
+                            uiQuestion.SetValue(result);
                         }
                     }
                 }
@@ -118,11 +118,13 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
             {
-                answers.Add(uiQuestion.Name, uiQuestion.Answer);
+                answers.Add(uiQuestion.QuestionName, uiQuestion.GetValue());
             }
 
             return answers;
         }
+
+        #region Event Handlers
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -143,10 +145,10 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
                 
 
-                var astController = new ASTController();
+                var qlController = new QLController();
                 var runtimeController = new RuntimeController();
 
-                var form = astController.ParseQLFile(qlFile);
+                var form = qlController.ParseQLFile(qlFile);
 
                 var report = runtimeController.Validate(form);
 
@@ -171,5 +173,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             SplitPanel.Panel2Collapsed = !outputWindowToolStripMenuItem.Checked;
         }
+
+        #endregion
     }
 }

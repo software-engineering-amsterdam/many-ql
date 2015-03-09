@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class ParserHelper
 {
-    private static final String path = "samples/";
+    private static final String path = "ql/samples/";
 
     public static AstNode ParseExpression(String input)
     {
@@ -53,6 +53,15 @@ public class ParserHelper
 
         return visitor.visitForm(f);
     }
+
+//    public static AstNode ParseForm(String file)
+//    {
+//        Parser parser = createFileStreamParser(file);
+//        QLParser.FormContext f = parser.form();
+//        AstBuilder visitor = new AstBuilder();
+//
+//        return visitor.visitForm(f);
+//    }
 
     private static QLParser createInputStreamParser(String input)
     {

@@ -1,33 +1,48 @@
 package nl.uva.bromance.grammar;
 
 import nl.uva.bromance.listeners.GrammarErrorListener;
-import nl.uva.bromance.listeners.QLParseTreeListener;
-import nl.uva.bromance.parsers.QLParser;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 2/24/2015.
- */
-
+/*
+* Tests both ifSequence and loose if, else if and else statements.
+* */
 public class IfSequenceGrammarTest extends GrammarTest {
 
-    public static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
-    public static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
-    public static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
-    private FakeGrammarListener listener;
-    private ParseTreeWalker walker;
+    @Test
+    public void correctIfSequence() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
+                CORRECT_ELSE +
+                "}}";
+        walker.walk(listener, createTree(content));
 
-    @Before
-    public void setup() {
-        listener = new FakeGrammarListener();
-        walker = new ParseTreeWalker();
+        assertThat(listener.ifStatementCount).isEqualTo(1);
+        assertThat(listener.elseIfStatementCount).isEqualTo(1);
+        assertThat(listener.elseStatementCount).isEqualTo(1);
     }
 
+    @Test
+    public void correctIfSequence_WithMultipleElseIf
+            () throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
+                CORRECT_ELSE_IF +
+                CORRECT_ELSE +
+                "}}";
+        walker.walk(listener, createTree(content));
+
+        assertThat(listener.ifStatementCount).isEqualTo(1);
+        assertThat(listener.elseIfStatementCount).isEqualTo(2);
+        assertThat(listener.elseStatementCount).isEqualTo(1);
+    }
 
     //Check if statement
     @org.junit.Test
@@ -111,7 +126,7 @@ public class IfSequenceGrammarTest extends GrammarTest {
     public void elseIfStatementWithoutPrecedingIfStatement() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     Else If: something{}" +
+                CORRECT_ELSE_IF +
                 "    }}";
 
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
@@ -125,6 +140,19 @@ public class IfSequenceGrammarTest extends GrammarTest {
                 "    Form: \"default\" {\n" +
                 CORRECT_IF +
                 "\n     Else If: something{}" +
+                "    }}";
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+
+    }
+
+    @org.junit.Test
+    public void elseIfWithoutExpression() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                "\n     Else If: {}" +
                 "    }}";
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
 
@@ -216,28 +244,4 @@ public class IfSequenceGrammarTest extends GrammarTest {
 
     }
 
-    //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
-    static class FakeGrammarListener extends QLParseTreeListener {
-        public int ifStatementCount = 0;
-        public int elseIfStatementCount = 0;
-        public int elseStatementCount = 0;
-
-        @Override
-        public void exitIfStatement(QLParser.IfStatementContext ctx) {
-            super.exitIfStatement(ctx);
-            ifStatementCount += 1;
-        }
-
-        @Override
-        public void exitElseIfStatement(QLParser.ElseIfStatementContext ctx) {
-            super.exitElseIfStatement(ctx);
-            this.elseIfStatementCount += 1;
-        }
-
-        @Override
-        public void exitElseStatement(QLParser.ElseStatementContext ctx) {
-            super.exitElseStatement(ctx);
-            this.elseStatementCount += 1;
-        }
-    }
 }

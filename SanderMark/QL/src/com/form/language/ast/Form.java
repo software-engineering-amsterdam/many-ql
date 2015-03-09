@@ -3,16 +3,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import com.form.language.ast.statement.Statement;
+import com.form.language.memory.Context;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public class Form  {
 	public String id;
 	public List<Statement> statementList;
-	private JPanel fPanel;
 		
 	public Form(String id) {
 		this.id = id;
@@ -23,20 +21,40 @@ public class Form  {
 		this.id = id;
 		this.statementList = statementList;
 	}
-
-	public JComponent createGUIComponent(JPanel panel) {
-		fPanel = new JPanel();
-		fPanel.setLayout(new BoxLayout(fPanel, BoxLayout.Y_AXIS));
-		
-		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
+	
+	public void getTypes(Context context){
+		for(Statement s: statementList){
+			s.getType(context);
+		}
+	}
+	public void collectIds(IdCollector idCollector){
+		for(Statement s: statementList){
+			s.collectIds(idCollector);			
+		}
+	}
+	
+	public Iterator<Statement> iterator(){
+		return statementList.iterator();
+	}
+	
+	public Context initMemory(Context context)
+	{
+		for(Statement s: statementList)
 		{
-			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(fPanel);
-			if(component != null)
-			{
-				fPanel.add(component);
-			}
-		}		
-		return fPanel;
+			s.initMemory(context);			
+		}
+		return context;		
+	}
+
+	public void showTypes(Context context) {
+		for(Statement s: statementList){
+			System.out.println(s.getType(context));	
+		}
+	}
+	
+	public void setTypes(IdTypeTable ids){
+		for(Statement s: statementList){
+			s.setType(ids);
+		}
 	}
 }

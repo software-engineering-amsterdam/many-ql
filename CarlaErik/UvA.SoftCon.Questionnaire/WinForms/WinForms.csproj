@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
@@ -50,17 +50,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BooleanQuestion.cs">
+    <Compile Include="Controls\DropDownControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\BooleanQuestion.Designer.cs">
-      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    <Compile Include="Controls\DropDownControl.Designer.cs">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NumericQuestion.cs">
+    <Compile Include="Controls\RadioControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\NumericQuestion.Designer.cs">
-      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    <Compile Include="Controls\RadioControl.Designer.cs">
+      <DependentUpon>RadioControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CalendarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CalendarControl.Designer.cs">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CheckBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckBoxControl.Designer.cs">
+      <DependentUpon>CheckBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpinBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SpinBoxControl.Designer.cs">
+      <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\OutputWindow.cs" />
     <Compile Include="Controls\QuestionControl.cs">
@@ -69,11 +87,11 @@
     <Compile Include="Controls\QuestionControl.Designer.cs">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TextQuestion.cs">
+    <Compile Include="Controls\TextBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TextQuestion.Designer.cs">
-      <DependentUpon>TextQuestion.cs</DependentUpon>
+    <Compile Include="Controls\TextBoxControl.Designer.cs">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -83,17 +101,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\BooleanQuestion.resx">
-      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\CheckBoxControl.resx">
+      <DependentUpon>CheckBoxControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NumericQuestion.resx">
-      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DropDownControl.resx">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RadioControl.resx">
+      <DependentUpon>RadioControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CalendarControl.resx">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SpinBoxControl.resx">
+      <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\QuestionControl.resx">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TextQuestion.resx">
-      <DependentUpon>TextQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TextBoxControl.resx">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -117,21 +144,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="S:\StrongName\Questionnaire.snk">
-      <Link>Properties\Questionnaire.snk</Link>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AST\AST.csproj">
-      <Project>{23aa9a43-58a6-4870-a7bc-a3d5d8d5b8ce}</Project>
-      <Name>AST</Name>
+    <ProjectReference Include="..\QL\QL.csproj">
+      <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
+      <Name>QL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Runtime\Runtime.csproj">
       <Project>{e0c488e0-e95b-4d3f-b023-6397fa455d96}</Project>
       <Name>Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

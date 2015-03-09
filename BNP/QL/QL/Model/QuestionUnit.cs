@@ -14,7 +14,7 @@ namespace QL.Model
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier identifier, ITerminalType dataType, string displayText, bool required, params string[] parameters)
+        public QuestionUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText, bool required, params string[] parameters)
         {
             Identifier = identifier; 
             DataType = dataType;
@@ -28,6 +28,6 @@ namespace QL.Model
             Required = required;
             Identifier = identifier;
             DisplayText = displayText.ToString();
-        }
+        }        
     }
 }

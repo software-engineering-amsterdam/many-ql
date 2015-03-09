@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 )
 
 // SymbolTable is the typechecker specific symbol table which detects duplicated

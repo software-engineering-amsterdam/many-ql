@@ -1,39 +1,8 @@
-from QLS.AST.option import *
-from QLS.AST.sheet import *
-
-class WidgetFactory:
-    @staticmethod
-    def make_radio(tokens):
-        if tokens[1] == "Default":
-            default = tokens[2]
-        else:
-            default = ""
-        return Radio(tokens[0], default)
-
-
-    @staticmethod
-    def make_checkbox(tokens):
-        return Checkbox(tokens)
-
-    @staticmethod
-    def make_spinbox(tokens):
-        return Spinbox(tokens[0], tokens[1])
-
-    @staticmethod
-    def make_slider(tokens):
-        pass
-
-    @staticmethod
-    def make_textbox(tokens):
-        pass
-
-    @staticmethod
-    def make_dropdown(tokens):
-        pass
-
-    @staticmethod
-    def make_widget(tokens):
-        pass
+import QLS.AST.Sheet.question_style as q
+import QLS.AST.Sheet.page as p
+import QLS.AST.Sheet.section as s
+import QLS.AST.Sheet.sheet as sh
+import QLS.AST.Sheet.default as d
 
 
 class QLSFactory:
@@ -43,20 +12,38 @@ class QLSFactory:
 
     @staticmethod
     def make_question_style(tokens):
-        pass
+        qid = tokens[0]
+        if len(tokens) > 1:
+            widget = tokens[1]
+        else:
+            widget = None
+        return q.QuestionStyle(qid, widget)
 
     @staticmethod
     def make_section(tokens):
-        pass
+        name = tokens[0]
+        question_styles = tokens[1]
+        return s.Section(name, question_styles)
 
     @staticmethod
     def make_default(tokens):
-        pass
+        qtype = tokens[0]
+        widget = tokens[1]
+        if len(tokens) > 2:
+            properties = tokens[2]
+        else:
+            properties = []
+        return d.Default(qtype, widget, properties)
+
 
     @staticmethod
     def make_page(tokens):
-        pass
+        name = tokens[0]
+        sections = tokens[1]
+        return p.Page(name, sections)
 
     @staticmethod
     def make_sheet(tokens):
-        pass
+        name = tokens[0]
+        pages = tokens[1]
+        return sh.Sheet(name, pages)

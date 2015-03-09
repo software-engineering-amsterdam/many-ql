@@ -1,10 +1,14 @@
 package uva.sc.logic.binaryExpressions;
 
-import uva.sc.logic.Node;
+import java.math.BigDecimal;
+
+import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.NumberAtom;
+import uva.sc.logic.Expression;
 
 public class Modulus extends BinaryExpression{
 
-	public Modulus(Node firstOperand, Node secondOperand) {
+	public Modulus(Expression firstOperand, Expression secondOperand) {
 		super(firstOperand, secondOperand);
 	}
 	
@@ -12,4 +16,7 @@ public class Modulus extends BinaryExpression{
 		return "[op %]";
 	}
 
+	public <T> T accept(INodeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

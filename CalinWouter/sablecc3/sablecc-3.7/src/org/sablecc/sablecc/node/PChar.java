@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PChar extends Node
-{
+public abstract class PChar extends Node {
     // Empty body
 }

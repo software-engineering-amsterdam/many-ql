@@ -6,6 +6,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.memory.Context;
 
 public class BoolLiteral extends Literal implements Expression {
 	private final boolean _value;
@@ -16,13 +17,13 @@ public class BoolLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public BoolValue evaluate() {
+	public BoolValue evaluate(Context context) {
 		return new BoolValue(_value);
 	}
 
 	@Override
-	public Type getType() {
+	public Type getType(Context context) {
 		return new BoolType();
 	}
-	
+
 }

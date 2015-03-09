@@ -17,13 +17,16 @@ import org.antlr.v4.runtime.TokenStream;
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
+import com.form.language.memory.Context;
 
 public class Frame {
 
 	private JFrame frame;
 	private JTextArea textArea_input;
 	private JTextArea textArea_output;
-	
+	private JButton button_parse;
+	private JButton button_createQuestionnaire;
+	private Form form;
 
 	/**
 	 * Launch the application.
@@ -52,6 +55,7 @@ public class Frame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		final Context context = new Context();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,19 +73,44 @@ public class Frame {
 		panel.setBounds(10, 256, 414, 62);
 		frame.getContentPane().add(panel);
 		
-		JButton btnNewButton = new JButton("Parse");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		button_parse = new JButton("Parse");
+		button_parse.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
 				CharStream charStream = new ANTLRInputStream(textArea_input.getText());
 				GrammarLexer lexer = new GrammarLexer(charStream);
 				TokenStream tokenStream = new CommonTokenStream(lexer);
 				GrammarParser parser = new GrammarParser(tokenStream);
-				Form form = parser.form().result;
-				QuestionFrame qf = new QuestionFrame(form);
+				
+				form = parser.form().result;
+				
+				form.getTypes(context);
+				
+				
+				if(context.hasErrors()){
+					textArea_output.setText(context.getErrors());
+					System.out.println(context.getErrors());
+				} else
+				{
+					button_createQuestionnaire.setEnabled(true);
+				}
 			}
 		});
-		btnNewButton.setBounds(335, 120, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		button_parse.setBounds(335, 120, 89, 23);
+		frame.getContentPane().add(button_parse);
+		
+		button_createQuestionnaire = new JButton("Create Survey");
+		button_createQuestionnaire.setEnabled(false);
+		button_createQuestionnaire.setBounds(216, 120, 109, 23);
+		frame.getContentPane().add(button_createQuestionnaire);
+		button_createQuestionnaire.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {			
+				
+				form.initMemory(context);
+				
+				QuestionFrame qf = new QuestionFrame(form,context);
+			}
+		});
 	}
 }

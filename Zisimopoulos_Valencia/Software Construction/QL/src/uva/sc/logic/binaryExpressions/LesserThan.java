@@ -1,10 +1,14 @@
 package uva.sc.logic.binaryExpressions;
 
-import uva.sc.logic.Node;
+import java.math.BigDecimal;
+
+import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.BooleanAtom;
+import uva.sc.logic.Expression;
 
 public class LesserThan extends BinaryExpression{
 
-	public LesserThan(Node firstOperand, Node secondOperand) {
+	public LesserThan(Expression firstOperand, Expression secondOperand) {
 		super(firstOperand, secondOperand);
 	}
 	
@@ -12,4 +16,7 @@ public class LesserThan extends BinaryExpression{
 		return "[op <]";
 	}
 
+	public <T> T accept(INodeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

@@ -1,0 +1,109 @@
+style PartyForm {
+    
+    default {
+        spinbox {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+        slider {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+        text {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+        textBlock {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+        radio(min, max) {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+        dropdown {
+            width: 400
+            font: "Arial"
+            fontSize: 14
+            color: #999999
+        }
+    }
+    
+    
+    page {
+        // Number Questions
+        section "Number Questions" {
+            comesToParty spinbox(min, max) {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+            
+            comesToParty slider(min, max) {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+            
+            comesToParty text {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+        }
+    }
+    
+    page {
+        // String Questions
+        section "String Questions" {
+            comesToParty text {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+            
+            /*
+            comesToParty textBlock {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+            */
+        }
+    }
+    
+    page {
+        // Boolean Questions
+        section "Boolean Questions" {
+            comesToParty radio {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+
+            comesToParty dropdown {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+        }
+    }
+    
+}

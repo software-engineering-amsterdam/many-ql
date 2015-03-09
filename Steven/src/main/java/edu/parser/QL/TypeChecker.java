@@ -1,16 +1,15 @@
 package edu.parser.QL;
 
 import edu.exceptions.TypeCheckException;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.Question;
-import edu.parser.QL.nodes.question.QuestionType;
+import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.nodes.QuestionType;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -19,13 +18,13 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class TypeChecker extends VisitorImpl {
+public class TypeChecker extends QLVisitorImpl {
 
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
     public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
     public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
-    private final Map<Identifier, Question> questions;
+    private final Map<Identifier, QLQuestion> questions;
     private final Set<Identifier> identifiers;
     private static final Logger logger = Logger.getLogger(TypeChecker.class.getName());
 
@@ -82,7 +81,7 @@ public class TypeChecker extends VisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(Question question) {
+    public AbstractNode visit(QLQuestion question) {
         if (questionAlreadyFound(question)) {
             return throwExceptionForDuplicateQuestion(question);
         } else {
@@ -90,7 +89,7 @@ public class TypeChecker extends VisitorImpl {
         }
     }
 
-    private AbstractNode throwExceptionForDuplicateQuestion(Question question) {
+    private AbstractNode throwExceptionForDuplicateQuestion(QLQuestion question) {
         if (foundQuestionHasSameType(question)) {
             throw new TypeCheckException(
                     String.format(ALREADY_DECLARED_QUESTION,
@@ -102,11 +101,11 @@ public class TypeChecker extends VisitorImpl {
         }
     }
 
-    private boolean questionAlreadyFound(Question question) {
+    private boolean questionAlreadyFound(QLQuestion question) {
         return questions.containsKey(question.getIdentifier());
     }
 
-    private boolean foundQuestionHasSameType(Question question) {
+    private boolean foundQuestionHasSameType(QLQuestion question) {
         QuestionType questionType = questions.get(question.getIdentifier()).getQuestionType();
         return questionType.equals(question.getQuestionType());
     }

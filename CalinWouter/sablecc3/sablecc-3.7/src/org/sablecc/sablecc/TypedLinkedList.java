@@ -7,128 +7,110 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-public class TypedLinkedList extends LinkedList
-{
-  Cast cast;
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class TypedLinkedList extends LinkedList {
+    Cast cast;
 
-  public TypedLinkedList()
-  {
-    super();
+    public TypedLinkedList() {
+        super();
 
-    cast = NoCast.instance;
-  }
+        cast = NoCast.instance;
+    }
 
-  public TypedLinkedList(Collection c)
-  {
-    super(c);
+    public TypedLinkedList(Collection c) {
+        super(c);
 
-    cast = NoCast.instance;
-  }
+        cast = NoCast.instance;
+    }
 
-  public TypedLinkedList(Cast cast)
-  {
-    super();
+    public TypedLinkedList(Cast cast) {
+        super();
 
-    this.cast = cast;
-  }
+        this.cast = cast;
+    }
 
-  public TypedLinkedList(Collection c, Cast cast)
-  {
-    super(c);
+    public TypedLinkedList(Collection c, Cast cast) {
+        super(c);
 
-    this.cast = cast;
-  }
+        this.cast = cast;
+    }
 
-  public Cast getCast()
-  {
-    return cast;
-  }
-
-  @Override
-  public void addFirst(Object o)
-  {
-    super.addFirst(cast.cast(o));
-  }
-
-  @Override
-  public void addLast(Object o)
-  {
-    super.addLast(cast.cast(o));
-  }
-
-  @Override
-  public ListIterator listIterator(int index)
-  {
-    return new TypedLinkedListIterator(super.listIterator(index));
-  }
-
-  private class TypedLinkedListIterator implements ListIterator
-  {
-    ListIterator iterator;
-
-    TypedLinkedListIterator(ListIterator iterator)
-    {
-      this.iterator = iterator;
+    public Cast getCast() {
+        return cast;
     }
 
     @Override
-    public boolean hasNext()
-    {
-      return iterator.hasNext();
+    public void addFirst(Object o) {
+        super.addFirst(cast.cast(o));
     }
 
     @Override
-    public Object next()
-    {
-      return iterator.next();
+    public void addLast(Object o) {
+        super.addLast(cast.cast(o));
     }
 
     @Override
-    public boolean hasPrevious()
-    {
-      return iterator.hasPrevious();
+    public ListIterator listIterator(int index) {
+        return new TypedLinkedListIterator(super.listIterator(index));
     }
 
-    @Override
-    public Object previous()
-    {
-      return iterator.previous();
-    }
+    private class TypedLinkedListIterator implements ListIterator {
+        ListIterator iterator;
 
-    @Override
-    public int nextIndex()
-    {
-      return iterator.nextIndex();
-    }
+        TypedLinkedListIterator(ListIterator iterator) {
+            this.iterator = iterator;
+        }
 
-    @Override
-    public int previousIndex()
-    {
-      return iterator.previousIndex();
-    }
+        @Override
+        public boolean hasNext() {
+            return iterator.hasNext();
+        }
 
-    @Override
-    public void remove
-      ()
-    {
-      iterator.remove();
-    }
+        @Override
+        public Object next() {
+            return iterator.next();
+        }
 
-    @Override
-    public void set
-      (Object o)
-    {
-      iterator.set(cast.cast(o));
-    }
+        @Override
+        public boolean hasPrevious() {
+            return iterator.hasPrevious();
+        }
 
-    @Override
-    public void add
-      (Object o)
-    {
-      iterator.add(cast.cast(o));
+        @Override
+        public Object previous() {
+            return iterator.previous();
+        }
+
+        @Override
+        public int nextIndex() {
+            return iterator.nextIndex();
+        }
+
+        @Override
+        public int previousIndex() {
+            return iterator.previousIndex();
+        }
+
+        @Override
+        public void remove
+                () {
+            iterator.remove();
+        }
+
+        @Override
+        public void set
+                (Object o) {
+            iterator.set(cast.cast(o));
+        }
+
+        @Override
+        public void add
+                (Object o) {
+            iterator.add(cast.cast(o));
+        }
     }
-  }
 }

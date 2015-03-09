@@ -1,5 +1,7 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.type.Type;
+
 /**
  * Created by bore on 10/02/15.
  */

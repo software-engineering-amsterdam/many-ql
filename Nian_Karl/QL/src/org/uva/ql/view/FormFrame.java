@@ -1,43 +1,42 @@
 package org.uva.ql.view;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.uva.ql.view.observer.Observer;
-import org.uva.ql.view.observer.Subject;
+import org.uva.ql.evaluation.Evaluator;
 
-public class FormFrame extends JFrame implements Subject {
+public class FormFrame extends JFrame {
 
-	private ArrayList<Observer> observerList;
-
+	private final String identifier;
 	private static final long serialVersionUID = 1L;
-
-	public FormFrame() {
-		super("QL Form.");
-		setSize(400, 600);
-		setLayout(new FlowLayout());
+	private int gridCounterY = 0;
+	public FormFrame(String identifier) {
+		super("QL Form");
+		this.identifier = identifier;
+		setSize(600, 800);
+		setLayout(new GridBagLayout());
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		observerList = new ArrayList<Observer>();
 	}
 
-	@Override
-	public void register(Observer observer) {
-		observerList.add(observer);
-
+	public String getIdentifier() {
+		return identifier;
 	}
-
-	@Override
-	public void unregister(Observer observer) {
-		observerList.remove(observer);
+	
+	public void addWithConstraints(Component component) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 1;
+		constraints.gridy = gridCounterY;
+		add(component,constraints);
+		gridCounterY++;
 	}
-
-	@Override
-	public void notifyObserver() {
-		for (Observer observer : observerList) {
-			observer.update("Hmmm");
-		}
-	}
+	
 }

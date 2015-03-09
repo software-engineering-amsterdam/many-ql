@@ -1,7 +1,5 @@
 package lang.ql.semantics.errors;
 
-import lang.ql.ast.type.Type;
-
 import java.util.List;
 
 /**
@@ -14,17 +12,17 @@ public class Error extends Message
         super(message);
     }
 
-    public static Error typeMismatch(String id, Type leftChildType, Type rightChildType, int line)
+    public static Error typeMismatch(String id, String leftChildType, String rightChildType, int line)
     {
         String m = String.format("Error (Line %d): expression of type %s cannot have children of different type: %s and %s",
-                line, id, leftChildType.getTitle(), rightChildType.getTitle());
+                line, id, leftChildType, rightChildType);
         return new Error(m);
     }
 
-    public static Error incorrectTypes(String id, Type leftChildType, int line)
+    public static Error incorrectTypes(String id, String leftChildType, int line)
     {
         return new Error(String.format("Error (Line %d): expression of type %s cannot children of type %s",
-                line, id, leftChildType.getTitle()));
+                line, id, leftChildType));
     }
 
     public static Error ifConditionShouldBeBoolean(int line)

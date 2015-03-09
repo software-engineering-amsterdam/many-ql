@@ -11,5 +11,6 @@ namespace QL.Model.Terminals
     /// </summary>
     public interface ITerminalType
     {
+        void SetValue(object value);
     }
 }

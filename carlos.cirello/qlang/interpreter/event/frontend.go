@@ -1,12 +1,8 @@
 package event
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
-
 // Frontend carries the communication between VM and Frontend
 type Frontend struct {
 	Type FrontendEventType
-
-	Question ast.QuestionNode
 
 	Identifier string
 	Label      string
@@ -51,23 +47,19 @@ const (
 type Visibility int
 
 const (
-	// Pristine is the same as do not change the field status
-	Pristine Visibility = iota
+	// Hidden is meant to force the field to be hidden
+	Hidden Visibility = iota
 	// Visible is meant to force the field to be shown
 	Visible
-	// Hidden is meant to force the field to be hidden
-	Hidden
 )
 
 // String is the fmt.Stringer for Visibility enum
 func (v Visibility) String() string {
 	switch v {
-	case Pristine:
-		return "Pristine"
-	case Visible:
-		return "Visible"
 	case Hidden:
 		return "Hidden"
+	case Visible:
+		return "Visible"
 	default:
 		return "Unknown"
 	}

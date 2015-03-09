@@ -4,13 +4,15 @@ import org.uva.ql.ast.Node;
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.Block;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.QuestionnaireVisitable;
+import org.uva.ql.visitor.QuestionnaireVisitor;
 
-public class Form implements Node{
+public class Form implements Node, QuestionnaireVisitable{
 	
 	private Block block;
 	private Identifier identifier;
 	private final CodePosition position;
+	
 	public Form(Identifier identifier, Block block, CodePosition pos) {
 		this.position = pos;
 		this.identifier = identifier;
@@ -30,7 +32,7 @@ public class Form implements Node{
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(QuestionnaireVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

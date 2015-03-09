@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {
@@ -28,6 +28,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
         }
 
         internal override Value PlusInt(IntegerValue value)
+        {
+            return new Undefined();
+        }
+
+        internal override Value PlusString(StringValue value)
         {
             return new Undefined();
         }
@@ -87,6 +92,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             return new Undefined();
         }
 
+        internal override Value IsEqualToDate(DateValue value)
+        {
+            return new Undefined();
+        }
+
         public override Value IsNotEqualTo(Value value)
         {
             return new Undefined();
@@ -107,12 +117,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             return new Undefined();
         }
 
+        internal override Value IsNotEqualToDate(DateValue value)
+        {
+            return new Undefined();
+        }
+
         public override Value IsLessThan(Value value)
         {
             return new Undefined();
         }
 
         internal override Value IsLessThanInt(IntegerValue value)
+        {
+            return new Undefined();
+        }
+
+        internal override Value IsLessThanDate(DateValue value)
         {
             return new Undefined();
         }
@@ -127,6 +147,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             return new Undefined();
         }
 
+        internal override Value IsLessThanOrEqualToDate(DateValue value)
+        {
+            return new Undefined();
+        }
+
         public override Value IsGreaterThan(Value value)
         {
             return new Undefined();
@@ -137,12 +162,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             return new Undefined();
         }
 
+        internal override Value IsGreaterThanDate(DateValue value)
+        {
+            return new Undefined();
+        }
+
         public override Value IsGreaterThanOrEqualTo(Value value)
         {
             return new Undefined();
         }
 
         internal override Value IsGreaterThanOrEqualToInt(IntegerValue value)
+        {
+            return new Undefined();
+        }
+
+        internal override Value IsGreaterThanOrEqualToDate(DateValue value)
         {
             return new Undefined();
         }

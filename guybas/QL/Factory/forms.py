@@ -1,13 +1,11 @@
 # Factory which expects tokens and uses the ast classes to return a parsed form
-# Everything is static (pipeline style)
+# Everything is static (no state)
 
-from AST.expression import *
-from AST.question import *
-from AST.if_statement import *
-from AST.form import *
-from AST.else_statement import *
-from AST.operators import *
-from Main.converters import *
+import QL.AST.Statements.question as question
+import QL.AST.Statements.if_statement as if_statement
+import QL.AST.Statements.else_statement as else_statement
+import QL.AST.Statements.assignment as assignment
+import QL.AST.form as form
 
 
 class FormFactory:
@@ -18,46 +16,49 @@ class FormFactory:
     @staticmethod
     def make_question(tokens):
         number = tokens[0]
-        question = tokens[1]
+        q = tokens[1]
         answer_type = tokens[2]
-        return Question(number, question, answer_type)
+        return question.Question(number, q, answer_type)
 
     @staticmethod
     def make_if(tokens):
         condition = tokens[0]
         questions = []
-        m = Converters.get_md5(str(tokens))
         for i in range(1, len(tokens)):
-            tokens[i].set_parent_id(m)
             questions.append(tokens[i])
-        return IfBlock(condition, questions, m)
+        return if_statement.IfBlock(condition, questions)
 
     @staticmethod
     def make_else(tokens):
         condition = tokens[0]
-        questions = [] 
+        questions = []
         k = 1
-        m = Converters.get_md5(str(tokens))
         for i in range(1, len(tokens) + 1):
             if tokens[i] == "else":
                 break
             else:
-                tokens[i].set_parent_id(m)
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
         for i in range(k + 1, len(tokens)):
-            tokens[i].set_parent_id(m)
             else_questions.append(tokens[i])
-        x = IfElseBlock(condition, questions, else_questions, m)
+        x = else_statement.IfElseBlock(condition, questions, else_questions)
         return x
+
+    @staticmethod
+    def make_assignment(tokens):
+        qid = tokens[0]
+        qtype = tokens[1]
+        expression = tokens[2]
+        return assignment.Assignment(qid, qtype, expression)
 
     @staticmethod
     def make_form(tokens):
         name = tokens[0]
-        introduction = FormFactory.make_sentence(tokens[1])
-        questions = []
-        for i in range(2, len(tokens)):
-            questions.append(tokens[i])
-        x = Form(name, introduction, questions)
-        return x
+        if len(tokens) > 2:
+            introduction = FormFactory.make_sentence(tokens[1])
+            statements = tokens[2]
+            return form.Form(name, introduction, statements)
+        else:
+            statements = tokens[1]
+            return form.Form(name, "", statements)

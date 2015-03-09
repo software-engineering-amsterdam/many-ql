@@ -1,8 +1,9 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.Node;
+import org.uva.ql.visitor.TypeVisitable;
 
-public abstract class Type implements Node{
+public abstract class Type implements Node, TypeVisitable{
 	
 	public boolean isInt(){
 		return false;

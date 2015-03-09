@@ -1,10 +1,12 @@
 package uva.sc.logic.binaryExpressions;
 
-import uva.sc.logic.Node;
+import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.BooleanAtom;
+import uva.sc.logic.Expression;
 
 public class NotEquals extends BinaryExpression{
 
-	public NotEquals(Node firstOperand, Node secondOperand) {
+	public NotEquals(Expression firstOperand, Expression secondOperand) {
 		super(firstOperand, secondOperand);
 	}
 	
@@ -12,4 +14,7 @@ public class NotEquals extends BinaryExpression{
 		return "[op !=]";
 	}
 
+	public <T> T accept(INodeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

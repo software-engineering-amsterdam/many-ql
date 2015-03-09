@@ -1,9 +1,9 @@
 import unittest
-from Grammar.form import *
-from AST.form import *
-from AST.operators import *
-from Factory.expressions import *
-from Factory.forms import *
+from QL.Grammar.form import *
+from QL.AST.form import *
+from QL.AST.Elements import *
+from QL.Factory.expressions import *
+from QL.Factory.forms import *
 
 
 class GenerateStatements:
@@ -33,16 +33,16 @@ class TestFactories(unittest.TestCase):
         self.assertIsInstance(variable, Variable)
 
     def test_operators(self):
-        plus_op = ExpressionFactory.make_calc_operator("+")
+        plus_op = ExpressionFactory.make_operator("+")
         self.assertIsInstance(plus_op, CalcOperator)
 
-        min_op = ExpressionFactory.make_calc_operator("-")
+        min_op = ExpressionFactory.make_operator("-")
         self.assertIsInstance(min_op, CalcOperator)
 
-        mul_op = ExpressionFactory.make_calc_operator("*")
+        mul_op = ExpressionFactory.make_operator("*")
         self.assertIsInstance(mul_op, CalcOperator)
 
-        div_op = ExpressionFactory.make_calc_operator("/")
+        div_op = ExpressionFactory.make_operator("/")
         self.assertIsInstance(div_op, CalcOperator)
 
         and_op = ExpressionFactory.make_comp_operator("==")
@@ -91,17 +91,17 @@ class TestAST(unittest.TestCase):
         result = (FormFormat.pIf.parseString(
             "if (con == True) {  "
             "Question trans (bool) : Will transitive closure work? "
-            "Question two (text) : This is a second question.}"))
+            "Question two (text) : This is a second q.}"))
         self.assertIsInstance(result[0], IfBlock)
 
         # Get all the ids
         self.assertEqual(result[0].id_collection(), ["trans", "two"])
 
         # Get the labels
-        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second question ."])
+        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
 
-        # Get the dependencies
-        self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
+        # Get the _dependencies
+        self.assertEqual(result[0].get_dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_if_question_fail(self):
@@ -120,19 +120,19 @@ class TestAST(unittest.TestCase):
     def test_form(self):
         form = GenerateStatements.generate_statements()
 
-        # The form has 6 questions, and therefore 6 labels
+        # The _form has 6 questions, and therefore 6 labels
         self.assertEqual(len(form.get_labels()), 6)
 
-        # The form has 6 questions, and therefore 6 ids
+        # The _form has 6 questions, and therefore 6 ids
         self.assertEqual(len(form.get_ids()), 6)
 
-        # The form has 2 conditional statements and thus 2 expressions
+        # The _form has 2 conditional _statements and thus 2 expressions
         self.assertEqual(len(form.get_expressions()), 2)
 
     def test_dependencies(self):
         form = GenerateStatements.generate_statements()
 
-        # The transitive dependencies of statements
+        # The transitive _dependencies of _statements
         self.assertEqual(form.get_dependencies(),
                          {"1a": set(),
                           "2a": {"1a"},

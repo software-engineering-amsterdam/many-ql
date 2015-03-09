@@ -2,23 +2,19 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.type.DecType;
-import lang.ql.ast.type.IntType;
-import lang.ql.ast.type.Type;
-import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
-import lang.ql.gui.canvas.Canvas;
-import lang.ql.semantics.*;
 import lang.ql.ast.AstBuilder;
+import lang.ql.semantics.TypeChecker;
+import lang.qls.ast.Stylesheet;
+import lang.qls.gen.QLSLexer;
+import lang.qls.gen.QLSParser;
+import lang.qls.semantics.*;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 import lang.ql.gen.*;
 
@@ -44,12 +40,17 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
-            IntType i = new IntType();
-            DecType d = new DecType();
+            CharStream s = new ANTLRFileStream("src/lang/tests/styleInput");
+            QLSLexer l = new QLSLexer(s);
+            QLSParser p = new QLSParser(new CommonTokenStream(l));
+            ParserRuleContext style = p.stylesheet();
 
-            Type r = i.promoteTo(d);
-            Type r2 = d.promoteInt(i);
-            System.out.print(r2);
+            lang.qls.ast.QlsBuilder builder = new lang.qls.ast.QlsBuilder();
+            Stylesheet styleAst = (Stylesheet)builder.visit(style);
+
+            lang.qls.semantics.TypeChecker.check(styleAst, ast);
+            StyleEvaluator.getStyles(styleAst, ast);
+
         }
         catch (IOException e)
         {

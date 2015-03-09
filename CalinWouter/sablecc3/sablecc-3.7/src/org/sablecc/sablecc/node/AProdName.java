@@ -5,20 +5,17 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AProdName extends PProdName
-{
+public final class AProdName extends PProdName {
     private TId _id_;
     private TId _prodNameTail_;
 
-    public AProdName()
-    {
+    public AProdName() {
         // Constructor
     }
 
     public AProdName(
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") TId _prodNameTail_)
-    {
+            @SuppressWarnings("hiding") TId _id_,
+            @SuppressWarnings("hiding") TId _prodNameTail_) {
         // Constructor
         setId(_id_);
 
@@ -27,35 +24,28 @@ public final class AProdName extends PProdName
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AProdName(
-            cloneNode(this._id_),
-            cloneNode(this._prodNameTail_));
+                cloneNode(this._id_),
+                cloneNode(this._prodNameTail_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAProdName(this);
     }
 
-    public TId getId()
-    {
+    public TId getId() {
         return this._id_;
     }
 
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
+    public void setId(TId node) {
+        if (this._id_ != null) {
             this._id_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -65,22 +55,17 @@ public final class AProdName extends PProdName
         this._id_ = node;
     }
 
-    public TId getProdNameTail()
-    {
+    public TId getProdNameTail() {
         return this._prodNameTail_;
     }
 
-    public void setProdNameTail(TId node)
-    {
-        if(this._prodNameTail_ != null)
-        {
+    public void setProdNameTail(TId node) {
+        if (this._prodNameTail_ != null) {
             this._prodNameTail_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -91,25 +76,21 @@ public final class AProdName extends PProdName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._id_)
-            + toString(this._prodNameTail_);
+                + toString(this._id_)
+                + toString(this._prodNameTail_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._id_ == child)
-        {
+        if (this._id_ == child) {
             this._id_ = null;
             return;
         }
 
-        if(this._prodNameTail_ == child)
-        {
+        if (this._prodNameTail_ == child) {
             this._prodNameTail_ = null;
             return;
         }
@@ -118,17 +99,14 @@ public final class AProdName extends PProdName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._id_ == oldChild)
-        {
+        if (this._id_ == oldChild) {
             setId((TId) newChild);
             return;
         }
 
-        if(this._prodNameTail_ == oldChild)
-        {
+        if (this._prodNameTail_ == oldChild) {
             setProdNameTail((TId) newChild);
             return;
         }

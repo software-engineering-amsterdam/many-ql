@@ -13,9 +13,5 @@ namespace QL.Model
         {
             get { return Children == null || Children.Count == 0 ? ElementType.Leaf : ElementType.Node; }
         }
-
-        protected TreeElementBase() : base()
-        {
-        }
     }
 }

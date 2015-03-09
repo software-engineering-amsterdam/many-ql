@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
@@ -91,6 +91,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             throw new InvalidOperationException(CreateMessage(Operation.EqualTo, value, this));
         }
 
+        internal virtual Value IsEqualToDate(DateValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.EqualTo, value, this));
+        }
+
         public virtual Value IsNotEqualTo(Value value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, this, value));
@@ -111,12 +116,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, value, this));
         }
 
+        internal virtual Value IsNotEqualToDate(DateValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, value, this));
+        }
+
         public virtual Value IsLessThan(Value value)
         {
             throw new InvalidOperationException();
         }
 
         internal virtual Value IsLessThanInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.LessThan, value, this));
+        }
+
+        internal virtual Value IsLessThanDate(DateValue value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.LessThan, value, this));
         }
@@ -131,6 +146,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             throw new InvalidOperationException(CreateMessage(Operation.LessThanOrEqualTo, value, this));
         }
 
+        internal virtual Value IsLessThanOrEqualToDate(DateValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.LessThanOrEqualTo, value, this));
+        }
+
         public virtual Value IsGreaterThan(Value value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.GreaterThan, this, value));
@@ -141,12 +161,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             throw new InvalidOperationException(CreateMessage(Operation.GreaterThan, value, this));
         }
 
+        internal virtual Value IsGreaterThanDate(DateValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThan, value, this));
+        }
+
         public virtual Value IsGreaterThanOrEqualTo(Value value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.GreaterThanOrEqualTo, this, value));
         }
 
         internal virtual Value IsGreaterThanOrEqualToInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThanOrEqualTo, value, this));
+        }
+
+        internal virtual Value IsGreaterThanOrEqualToDate(DateValue value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.GreaterThanOrEqualTo, value, this));
         }

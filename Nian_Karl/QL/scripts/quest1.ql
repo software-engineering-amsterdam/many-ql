@@ -1,9 +1,15 @@
 form SalarySurvey{
-	name: "What is your name?" Str
 	age: "How old are you?" Int
-	isMarried: "Are you married?" Bool
+	isMarried: "Are you married?" Bool	
+	if(age == 25){
+		employeeNr1: "What is your employee number?" Int
+	}else{
+		howAreYou: "How Are you ?" Str
+	}
+	myAge: "Hello?" Int
 	
-	if((3 + 4) + 9){
+	nomnom: "Some Age? " Int
+	if(nomnom == 10){
 		employeeNr1: "What is your employee number?" Int
 	}
 }

@@ -2,14 +2,14 @@ package com.form.language.ast.expression.logic;
 
 import org.antlr.v4.runtime.Token;
 
-import com.form.language.ast.expression.UnaryExpression;
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.expression.UnaryExpression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Context;
 
 public class Not extends UnaryExpression implements Expression {
 
@@ -18,31 +18,39 @@ public class Not extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public BoolValue evaluate() {
-		return new BoolValue(!((BoolValue)value.evaluate()).getValue());
+	public BoolValue evaluate(Context context) {
+		return new BoolValue(!((BoolValue)value.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType() {
-		if(super.value.getType().isBoolType()) return new BoolType();
-		return new ErrorType();
-	}
-
-	@Override
-	public void getErrors(ErrorCollector errors) {
-		Type childType = value.getType();
-		value.getErrors(errors);
-		
-		if(childType.isBoolType()) {
-			return;
-		}
+	public Type getType(Context context) {
+		Type childType = value.getType(context);
+		if(childType.getType().isBoolType()){
+			return new BoolType();
+		}			
 		else{
 			if(!childType.isErrorType()){
-				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
-				errors.add(newError);
-				return;
+				context.addError(new Error(tokenInfo, "Expected !Boolean, but found !"  + childType));
 			}
-			return;
+			return new ErrorType();
 		}
 	}
+
+//	@Override
+//	public void getErrors(ErrorCollector errors) {
+//		Type childType = value.getType();
+//		value.getErrors(errors);
+//		
+//		if(childType.isBoolType()) {
+//			return;
+//		}
+//		else{
+//			if(!childType.isErrorType()){
+//				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
+//				errors.add(newError);
+//				return;
+//			}
+//			return;
+//		}
+//	}
 }

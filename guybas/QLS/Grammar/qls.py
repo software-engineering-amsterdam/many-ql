@@ -1,56 +1,34 @@
 # Grammar for QLS
 
-from pyparsing import *
-from QL.Grammar.basic_types import *
-from QL.Grammar.form import *
-from QL.Grammar.expressions import *
-
-
-class Widget:
-    # name :: [0-9a-zA-Z!@#$%^&*(){}[]:;"'
-    name = BasicTypes.characters
-
-    # number :: [0-9]
-    number = Expressions.number
-
-    # options :: ( (name,)* name )
-    options = Suppress("(") + ZeroOrMore(name + Suppress(",")) + name + Suppress(")")
-
-    # radio :: Radio options
-    radio = Suppress("Radio") + Group(options) + Optional("Default" + col + name)
-
-    # checkbox :: Checkbox options
-    checkbox = Suppress("Checkbox") + options
-
-    # spinbox :: Spinbox number number number?
-    spinbox = Suppress("Spinbox") + number + number + Optional(number)
-
-    # slider :: Slider number number
-    slider = Suppress("Slider") + number + number
-
-    # textbox :: Textbox number?
-    textbox = Suppress("Textbox") + Optional(number)
-
-    # drop_down :: Dropdown
-    drop_down = Suppress("Dropdown") + options
-
-    # widget  :: Widget : (radio | checkbox | spinbox | slider | textbox | drop_down)
-    widget = Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
+import pyparsing as pp
+import QL.Grammar.basic_types as b
+import QL.Grammar.form as form
+import QLS.Factory.qls as q
+from QLS.Grammar.widget import *
+import QLS.Factory.properties as p
 
 
 class QLS:
 
-    # name :: [0-9a-zA-Z!@#$%^&*()_-~`{}[]'"
-    name = BasicTypes.characters
+    Suppress = pp.Suppress
+    Word = pp.Word
+    nums = pp.nums
+    Literal = pp.Literal
+    OneOrMore = pp.OneOrMore
+    Optional = pp.Optional
+    Group = pp.Group
 
-    # comment :: // rest of line | /* ... */
-    comment = BasicTypes.comment
+    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
+    characters = b.BasicTypes.characters
 
-    # word = characters | \? | \! | \.
-    word = BasicTypes.word
+    # word :: end_sign_esc | characters
+    word = b.BasicTypes.word
+
+    # _name :: [0-9a-zA-Z!@#$%^&*()_-~`{}[]'"
+    name = Widget.name
 
     # integer :: [0-9]
-    integer = BasicTypes.integer
+    integer = Word(nums)
 
     # ( ) { } :
     opar = Suppress("(")
@@ -60,31 +38,37 @@ class QLS:
     col = Suppress(":")
 
     # hexacolor :: # [A-F0-9]
-    hexacolor = Suppress("#") + Word(hexnums, exact=6)
+    hexacolor = Suppress("#") + Word(pp.hexnums, exact=6)
 
-    # font_prop :: font : word | size : integer | color : hexacolor
-    font_prop = (
-        Literal("font") + col + word |
-        Literal("size") + col + integer |
-        Literal("color") + col+ hexacolor)
+    # optionals :: (font | _widget)*
+    optionals = Optional(Widget.widget)
 
-    # font :: font_prop+
-    font = OneOrMore(font_prop)
+    # question_style = q : _name _widget?
+    question_style = (Suppress("Question") + name + optionals).setParseAction(q.QLSFactory.make_question_style)
 
-    # optionals :: (font | widget)*
-    optionals = ZeroOrMore(font | Widget.widget)
+    # section :: Section _name { question_style+ }
+    section = \
+        (Suppress("Section") + name + obrac + Group(OneOrMore(question_style)) + cbrac
+        ).setParseAction(q.QLSFactory.make_section)
 
-    # question_style = question : name widget?
-    question_style = Suppress("question") + col + name + optionals
+    default_property = (
+        (Suppress("font") + col + word).setParseAction(p.PropertyFactory.make_font) |
+        (Suppress("size") + col + integer).setParseAction(p.PropertyFactory.make_size) |
+        (Suppress("color") + col + hexacolor).setParseAction(p.PropertyFactory.make_color) |
+        (Suppress("width") + col + integer).setParseAction(p.PropertyFactory.make_width) |
+        (Suppress("height") + col + integer).setParseAction(p.PropertyFactory.make_height))
 
-    # section :: name { question_style+ }
-    section = name + obrac + OneOrMore(question_style) + cbrac
+    #
+    default_properties = OneOrMore(default_property)
 
-    # default_settings :: Default answerR widget
-    default_setting = Suppress("Default") + FormFormat.answerR + Widget.widget
+    # default_settings :: Default answerR _widget
+    default_setting = \
+        (Suppress("Default") + form.FormFormat.answerR + Widget.widget +
+         Optional(Group(obrac + default_properties + cbrac) )
+        ).setParseAction(q.QLSFactory.make_default)
 
-    # page :: page name { section+ }
-    page = Suppress("page") + name + obrac + OneOrMore(section) + cbrac
+    # page :: page _name { section+ }
+    page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(q.QLSFactory.make_page)
 
-    # sheet = Sheet name page+
-    sheet = Suppress("Sheet") + name + OneOrMore(page)
+    # sheet = Sheet _name page+
+    sheet = Suppress("Sheet") + name + Group(OneOrMore(page | default_setting))

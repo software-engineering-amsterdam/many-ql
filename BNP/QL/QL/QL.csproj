@@ -48,7 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\TerminalTypeFactory.cs" />
+    <Compile Include="Errors\DivisionByZeroError.cs" />
+    <Compile Include="Errors\QLException.cs" />
+    <Compile Include="Errors\QLWarning.cs" />
+    <Compile Include="Evaluation\EvaluatorVisitor.cs" />
+    <Compile Include="Evaluation\IVisitor.cs" />
+    <Compile Include="Evaluation\TypeCheckerVisitor.cs" />
+    <Compile Include="Errors\QLError.cs" />
+    <Compile Include="Errors\RedeclaredVariableWarning.cs" />
+    <Compile Include="Errors\TypeError.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
@@ -59,16 +67,19 @@
     <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
-    <Compile Include="Model\AstHandler.cs" />
+    <Compile Include="AstHandler.cs" />
     <Compile Include="Model\BinaryTreeElementBase.cs" />
-    <Compile Include="Model\ControlBlockUnit.cs" />
     <Compile Include="Model\ElementBase.cs" />
     <Compile Include="Model\Block.cs" />
-    <Compile Include="Model\ControlBlock.cs" />
+    <Compile Include="Model\ControlUnit.cs" />
     <Compile Include="Model\Enums\ControlBlockType.cs" />
     <Compile Include="Model\Enums\ElementType.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\ITraversable.cs" />
+    <Compile Include="Model\ITypeResolvableDirectly.cs" />
+    <Compile Include="Model\ITypeResolvableByChildren.cs" />
+    <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
     <Compile Include="Model\Operators\DivisionOperator.cs" />
     <Compile Include="Model\Operators\GreaterThanEqualToOperator.cs" />
@@ -83,11 +94,12 @@
     <Compile Include="Model\Operators\IOperator.cs" />
     <Compile Include="Model\Operators\NotEqualsOperator.cs" />
     <Compile Include="Model\QuestionUnit.cs" />
-    <Compile Include="Model\RootNode.cs" />
     <Compile Include="Model\SourceLocation.cs" />
     <Compile Include="Model\StatementUnit.cs" />
     <Compile Include="Model\Terminals\Identifier.cs" />
     <Compile Include="Model\Terminals\ITerminal.cs" />
+    <Compile Include="Model\ITypeResolvable.cs" />
+    <Compile Include="Model\Terminals\IResolvableTerminalType.cs" />
     <Compile Include="Model\Terminals\Number.cs" />
     <Compile Include="Model\Terminals\ITerminalType.cs" />
     <Compile Include="Model\Terminals\Text.cs" />

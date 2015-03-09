@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ACharBasic extends PBasic
-{
+public final class ACharBasic extends PBasic {
     private PChar _char_;
 
-    public ACharBasic()
-    {
+    public ACharBasic() {
         // Constructor
     }
 
     public ACharBasic(
-        @SuppressWarnings("hiding") PChar _char_)
-    {
+            @SuppressWarnings("hiding") PChar _char_) {
         // Constructor
         setChar(_char_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACharBasic(
-            cloneNode(this._char_));
+                cloneNode(this._char_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACharBasic(this);
     }
 
-    public PChar getChar()
-    {
+    public PChar getChar() {
         return this._char_;
     }
 
-    public void setChar(PChar node)
-    {
-        if(this._char_ != null)
-        {
+    public void setChar(PChar node) {
+        if (this._char_ != null) {
             this._char_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class ACharBasic extends PBasic
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._char_);
+                + toString(this._char_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._char_ == child)
-        {
+        if (this._char_ == child) {
             this._char_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class ACharBasic extends PBasic
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._char_ == oldChild)
-        {
+        if (this._char_ == oldChild) {
             setChar((PChar) newChild);
             return;
         }

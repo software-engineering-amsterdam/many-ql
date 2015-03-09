@@ -11,13 +11,6 @@ public class ErrorCollector {
 		this.errorList = new ArrayList<Error>();
 	}
 	
-	public ErrorCollector(ErrorCollector left, ErrorCollector right){
-		ArrayList<Error> combinedList = new ArrayList<Error>(left.errorList);
-		combinedList.addAll(right.errorList);
-		
-		this.errorList = combinedList;
-	}
-	
 	public void add(Error e){
 		errorList.add(e);
 	}
@@ -26,10 +19,25 @@ public class ErrorCollector {
 		return errorList.iterator();
 	}
 	
-	public void print(){
+	public List<String> print(){
+		List<String> result = new ArrayList<String>();
 		Iterator<Error> iter = errorList.iterator();
 		while(iter.hasNext()){
-			System.err.println(iter.next());
+			result.add(iter.next().toString());
 		}
+		return result;
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		Iterator<Error> iter = errorList.iterator();
+		while(iter.hasNext()){
+			result += iter.next() + "\n";
+		}
+		return result;
+	}
+	public Boolean isEmpty(){
+		return errorList.isEmpty();
 	}
 }

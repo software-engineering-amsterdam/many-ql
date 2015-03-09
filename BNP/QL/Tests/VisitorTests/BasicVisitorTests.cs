@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Grammars;
 using QL.Model;
+using QL;
+using QL.Evaluation;
 
 namespace Tests.VisitorTests
 {
@@ -30,11 +32,13 @@ namespace Tests.VisitorTests
             var formBlock = Parser.formBlock();
 
             IList<UnitBase> parsedUnits = new List<UnitBase>();
-            
+
             QLVisitor visitor = new QLVisitor(Parser, parsedUnits);
 
             var x = visitor.VisitFormBlock(formBlock);
             x.ToString();
         }
+
+       
     }
 }

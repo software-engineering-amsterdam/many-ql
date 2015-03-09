@@ -1,9 +1,14 @@
 package gui;
 
-import gui.questions.IConnector;
+import evaluator.IntegerValue;
+import evaluator.ValueRepository;
+import gui.questions.ComputedQuestionUI;
+import gui.questions.IQuestionUI;
+import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
+import gui.widgets.listeners.EvaluateExpression;
 
 import javax.swing.JLabel;
 
@@ -14,55 +19,78 @@ import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
 
-public class GUIVisitor implements IQuestionVisitor<IConnector>{
+public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	private final GUIRender gui;
-	WidgetVisitor wid;
+	private final ValueRepository valueRepository;
+	private EvaluateExpression evaluator;
 
-	public GUIVisitor(GUIRender gui) {
+	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
 		this.gui = gui;
+		this.valueRepository = valueRepository;
+		evaluator = new EvaluateExpression(valueRepository);
 	} 
 	
-	public void addLabel(SimpleQuestion q) {
-		//
-			//this.gui.getLabel(q.getQuestionText());
-			//System.out.print("Test: " + q.getQuestionText());
-	}
+
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
-		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType()));
+		return simpleQuestion.getQuestionType().accept(
+				new WidgetVisitor( 
+						simpleQuestion.getQuestionId().getID(), 
+						simpleQuestion.getQuestionText(), 
+						simpleQuestion.getQuestionType(), 
+						this.valueRepository
+				)
+		);
 		
 	}
 	
 	@Override
-	public IConnector visit(Question question) {
+	public IQuestionUI visit(Question question) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 
 	@Override
-	public IConnector visit(SimpleQuestion simpleQuestion) {
-		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),
+	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
+		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId().getID(),
 												   new JLabel(simpleQuestion.getQuestionText()), 
-												   this.widget(simpleQuestion));
+												   this.widget(simpleQuestion),
+												   this.valueRepository);
 		
-		gui.putWidgetRepository(simpleQuestion.getQuestionId(), sq);
+		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
 		return sq;
 	}
 
 	@Override
-	public IConnector visit(ComputationQuestion calQuestion) {
-		// TODO Auto-generated method stub
-		return null;
+	public IQuestionUI visit(ComputationQuestion calQuestion) {
+		//IntegerValue someValue = mAFGUICllya fornmda daslk
+		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId().getID(),
+													new JLabel(calQuestion.getQuestionText()), 
+													this.widget(calQuestion),
+													this.valueRepository,
+													evaluator.evaluate(calQuestion.getExpression()));
+		
+		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
+		return sq;
+	}
+	
+	@Override
+	public IQuestionUI visit(IfStatement ifStatement) {
+		IfQuestionUI ifq = new IfQuestionUI();
+	
+	
+	//	ifStatement.getExpression();
+	//	ifStatement.getIfStatement();
+		for(Question q : ifStatement.getIfStatement()){
+			System.out.println(q.getClass());
+			IQuestionUI aQuestion = visit(q);
+			System.out.println("visited "+q.getClass());
+		}
+		return ifq;
 	}
 
 	@Override
-	public IConnector visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IConnector visit(IfElseStatement ifElseStatement) {
+	public IQuestionUI visit(IfElseStatement ifElseStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}

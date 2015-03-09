@@ -4,6 +4,7 @@ import edu.Main
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
 import edu.parser.QL.nodes.Form
+import junit.framework.Assert
 import spock.lang.Specification
 
 /**
@@ -22,7 +23,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def exception = thrown(TypeCheckException)
-        exception.message.contains(message)
+        Assert.assertEquals(true, exception.message.contains(message))
 
         where:
         input                                                      | message

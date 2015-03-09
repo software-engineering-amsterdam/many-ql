@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 )
 
 const fakeCsv = `

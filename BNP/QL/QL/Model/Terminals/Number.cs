@@ -2,9 +2,22 @@
 
 namespace QL.Model.Terminals
 {
-    public class Number : BinaryTreeElementBase, ITerminal<int?>, ITerminalType
+    public class Number : BinaryTreeElementBase, ITerminal<int?>, IResolvableTerminalType
     {
         public int? Value { get; set; }
+
+        public Number()
+        {}
+
+        public void SetValue(object value)
+        {
+            Value = Int32.Parse(value.ToString());
+        }
+
+        public Type GetReturnType()
+        {
+            return GetType();
+        }
 
         public override string ToString()
         {
@@ -15,6 +28,6 @@ namespace QL.Model.Terminals
             
             return Value.ToString();
         }
-
+        
     }
 }

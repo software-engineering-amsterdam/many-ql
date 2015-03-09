@@ -7,98 +7,84 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.StringTokenizer;
 
 @SuppressWarnings("rawtypes")
-final class LR0Item implements Cloneable, Comparable
-{
-  final int production;
-  final int position;
+final class LR0Item implements Cloneable, Comparable {
+    final int production;
+    final int position;
 
-  LR0Item(int production, int position)
-  {
-    this.production = production;
-    this.position = position;
-  }
-
-  @Override
-  public int compareTo(Object object)
-  {
-    LR0Item item = (LR0Item) object;
-
-    int result = production - item.production;
-
-    if(result == 0)
-    {
-      result = position - item.position;
+    LR0Item(int production, int position) {
+        this.production = production;
+        this.position = position;
     }
 
-    return result;
-  }
+    @Override
+    public int compareTo(Object object) {
+        LR0Item item = (LR0Item) object;
 
-  @Override
-  public Object clone()
-  {
-    return new LR0Item(production, position);
-  }
+        int result = production - item.production;
 
-  @Override
-  public boolean equals(Object obj)
-  {
-    if((obj == null) ||
-        (obj.getClass() != this.getClass()))
-    {
-      return false;
+        if (result == 0) {
+            result = position - item.position;
+        }
+
+        return result;
     }
 
-    LR0Item item = (LR0Item) obj;
-
-    return (item.production == production) &&
-           (item.position == position);
-  }
-
-  @Override
-  public int hashCode()
-  {
-    return (production * 13) ^ (position * 17);
-  }
-
-  @Override
-  public String toString()
-  {
-    StringBuffer result = new StringBuffer();
-    String prodStr = (Production.production(production)).toString();
-    int pos = 0;
-
-    StringTokenizer list = new StringTokenizer(prodStr, "= ");
-
-    // we know that there is at least one token (lhs)
-    result.append(list.nextToken());
-    result.append(" =");
-
-    while(list.hasMoreElements())
-    {
-      String tmp = list.nextToken();
-
-      if(pos == position)
-      {
-        result.append(" * ");
-        result.append(tmp);
-      }
-      else
-      {
-        result.append(" ");
-        result.append(tmp);
-      }
-
-      pos++;
+    @Override
+    public Object clone() {
+        return new LR0Item(production, position);
     }
 
-    if(pos == position)
-    {
-      result.append(" *");
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) ||
+                (obj.getClass() != this.getClass())) {
+            return false;
+        }
+
+        LR0Item item = (LR0Item) obj;
+
+        return (item.production == production) &&
+                (item.position == position);
     }
 
-    return "[ " + result + " ]";
-  }
+    @Override
+    public int hashCode() {
+        return (production * 13) ^ (position * 17);
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer result = new StringBuffer();
+        String prodStr = (Production.production(production)).toString();
+        int pos = 0;
+
+        StringTokenizer list = new StringTokenizer(prodStr, "= ");
+
+        // we know that there is at least one token (lhs)
+        result.append(list.nextToken());
+        result.append(" =");
+
+        while (list.hasMoreElements()) {
+            String tmp = list.nextToken();
+
+            if (pos == position) {
+                result.append(" * ");
+                result.append(tmp);
+            } else {
+                result.append(" ");
+                result.append(tmp);
+            }
+
+            pos++;
+        }
+
+        if (pos == position) {
+            result.append(" *");
+        }
+
+        return "[ " + result + " ]";
+    }
 }

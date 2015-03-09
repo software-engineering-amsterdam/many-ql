@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
-    public class Interpreter : ASTVisitor
+    public class Interpreter : QLVisitor
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 
@@ -38,35 +38,17 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
             }
         }
 
-        public override void Visit(Declaration declaration)
+        public override void Visit(Definition definition)
         {
-            if (!_variables.ContainsKey(declaration.Id.Name))
+            if (!_variables.ContainsKey(definition.Id.Name))
             {
-                Value initialization = new Undefined();
+                Value result = definition.Expression.Accept(new ExpressionInterpreter(_variables));
 
-                if (declaration.Initialization != null)
-                {
-                    initialization = declaration.Initialization.Accept(new ExpressionInterpreter(_variables));
-                }
-
-                _variables.Add(declaration.Id.Name, initialization);
+                _variables.Add(definition.Id.Name, result);
             }
             else
             {
-                string message = String.Format("A variable with the name '{0}' is already declared.", declaration.Id.Name);
-                throw new InvalidOperationException(message);
-            }
-        }
-
-        public override void Visit(Assignment assignment)
-        {
-            if (_variables.ContainsKey(assignment.Variable.Name))
-            {
-                _variables[assignment.Variable.Name] = assignment.Expression.Accept(new ExpressionInterpreter(_variables));
-            }
-            else
-            {
-                string message = String.Format("Cannot assign value to undeclared variable '{0}'.", assignment.Variable.Name);
+                string message = String.Format("A question or definition with the name '{0}' is already declared.", definition.Id.Name);
                 throw new InvalidOperationException(message);
             }
         }

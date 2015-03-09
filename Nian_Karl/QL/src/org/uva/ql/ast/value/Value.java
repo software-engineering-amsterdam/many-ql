@@ -34,11 +34,16 @@ public abstract class Value {
 	public Value intDivide(Int arg) {return UNDEFINED;}
 	public Value boolAnd(Bool arg) {return UNDEFINED;}
 	public Value boolOr(Bool arg) {return UNDEFINED;}
-	public Value boolEqual(Bool arg) {return UNDEFINED;}
-	public Value boolNotEqual(Bool arg) {return UNDEFINED;}
 	public Value intGreater(Int arg) {return UNDEFINED;}
 	public Value intGreaterEqual(Int arg) {return UNDEFINED;}
 	public Value intLess(Int arg) {return UNDEFINED;}
 	public Value intLessEqual(Int arg) {return UNDEFINED;}
+	public Value boolEqual(Bool arg) {return UNDEFINED;}
+	public Value boolNotEqual(Bool arg) {return UNDEFINED;}
+	public Value intEqual(Int arg) {return UNDEFINED;}
+	public Value intNotEqual(Int arg) {return UNDEFINED;}
+	public Value strEqual(Str arg) {return UNDEFINED;}
+	public Value strNotEqual(Str arg) {return UNDEFINED;}
+	public Value StrPlus(Str arg) {return UNDEFINED;}
 	
 }

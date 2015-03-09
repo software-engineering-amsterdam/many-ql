@@ -1,0 +1,4 @@
+- Type checking
+
+The type checker detects:
+    cyclic dependencies between questions (Ask how)

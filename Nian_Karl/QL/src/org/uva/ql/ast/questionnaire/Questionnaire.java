@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.uva.ql.ast.Node;
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.QuestionnaireVisitable;
+import org.uva.ql.visitor.QuestionnaireVisitor;
 
-public class Questionnaire implements Node {
+public class Questionnaire implements Node, QuestionnaireVisitable {
 
 	private List<Form> forms;
 	private final CodePosition position;
@@ -16,11 +17,11 @@ public class Questionnaire implements Node {
 		this.position = pos;
 		forms = new ArrayList<Form>();
 	}
-	
+
 	public CodePosition getPosition() {
 		return position;
 	}
-	
+
 	public void addForm(Form form) {
 		forms.add(form);
 	}
@@ -30,7 +31,7 @@ public class Questionnaire implements Node {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(QuestionnaireVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

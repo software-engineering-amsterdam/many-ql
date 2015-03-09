@@ -1,40 +1,28 @@
 # Grammar of the basic and question types
 
-from pyparsing import oneOf, Suppress, Word, OneOrMore, Literal, restOfLine, cStyleComment, alphanums
-from Factory.forms import *
+import pyparsing as pp
+import QL.Factory.forms as f
 
 
 class BasicTypes:
 
     # end_sign :: . | ? | !
-    end_sign = oneOf(". ? !")
+    end_sign = pp.oneOf(". ? !")
 
     # end_sign_esc :: \ end_sign
-    end_sign_esc = Suppress("\\") + end_sign
+    end_sign_esc = pp.Suppress("\\") + end_sign
 
-    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
-    characters = Word(alphanums + "()[]{},@#$%^&*-+=/\'\"`~_-;")
+    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_]
+    characters = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*-+=/\'\"`~_") | pp.Word(",")
 
     # word :: end_sign_esc | characters
     word = end_sign_esc | characters
 
     # sentence :: word+ end_sign
-    sentence = (OneOrMore(word) + end_sign).setParseAction(FormFactory.make_sentence)
+    sentence = (pp.OneOrMore(word) + end_sign).setParseAction(f.FormFactory.make_sentence)
 
     # sentences :: sentence+
-    sentences = OneOrMore(sentence)
+    sentences = pp.OneOrMore(sentence)
 
     # comment :: // ....\n  | /* .... */
-    comment = Literal("//") + restOfLine | cStyleComment
-
-    # bool_name :: "bool"
-    bool_name = "bool"
-
-    # number_name :: "number"
-    number_name = "number"
-
-    # text_name :: "text"
-    text_name = "text"
-
-    # list_name :: "list"
-    list_name = "list"
+    comment = pp.Literal("//") + pp.restOfLine | pp.cStyleComment

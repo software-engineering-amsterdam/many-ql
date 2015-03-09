@@ -1,21 +1,26 @@
 package edu.parser.QLS.nodes.statement;
 
-import edu.parser.AbstractNode;
-import edu.parser.QLS.Visitor;
-import edu.parser.QLS.nodes.QuestionType;
-import edu.parser.QLS.nodes.Style;
+import edu.parser.QLS.nodes.AbstractNode;
+import edu.parser.QLS.QLSVisitor;
+import edu.nodes.styles.Style;
+import edu.nodes.QuestionType;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Created by Steven Kok on 28/02/2015.
  */
 public class Default extends Statement {
     private final QuestionType questionType;
+    private final List<Style> styles;
 
-    protected Default(QuestionType questionType, Optional<Style> style) {
-        super(style);
+    public Default(QuestionType questionType, List<Style> styles) {
+        this.styles = styles;
         this.questionType = questionType;
+    }
+
+    public List<Style> getStyles() {
+        return styles;
     }
 
     public QuestionType getQuestionType() {
@@ -23,7 +28,7 @@ public class Default extends Statement {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.accept(this);
+    public AbstractNode accept(QLSVisitor QLSVisitor) {
+        return QLSVisitor.visit(this);
     }
 }

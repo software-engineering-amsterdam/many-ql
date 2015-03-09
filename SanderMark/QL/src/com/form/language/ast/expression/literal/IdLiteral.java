@@ -3,53 +3,74 @@ package com.form.language.ast.expression.literal;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.type.IdType;
+import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
-import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.ast.values.IntValue;
-import com.form.language.ast.values.StringValue;
-import com.form.language.memory.Memory;
+import com.form.language.error.Error;
+import com.form.language.memory.Context;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public class IdLiteral extends Literal implements Expression {
-	private final String _value;
-	private Type _type;
+	public final String name;
+	private Type type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
-		this._value = value;
-		
-		//Throw in memory
+		this.name = value;
 	}
-	public IdLiteral(String value, Type questionType,Memory memory,Token tokenInfo)
+	public IdLiteral(String name, Type questionType,IdCollector idCollector,Token tokenInfo)
 	{
 		super(tokenInfo);
-		this._value = value;
-		this._type = questionType;	
-		
-		System.out.println(memory);
-		
-		//Throw in memory
-		memory.addId(value,_type);
+		this.name = name;
+		this.type = questionType;	
+	}
+	
+	public Boolean IsReference(){
+		if(this.type == null){
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public GenericValue<?> evaluate() {
-		if(_type.isBoolType()){
-			return new BoolValue(Boolean.parseBoolean(_value));
-		};
-		if(_type.isIntType()){
-			return new IntValue(Integer.parseInt(_value));
+	public GenericValue<?> evaluate(Context context) {
+		return context.getValue(name);
+	}
+	
+	public Type getType(Context context){
+		if(this.IsReference()){
+			return getTypeFromMemory(context);
 		}
-		if(_type.isStringType()){
-			return new StringValue(_value);
+		context.addId(this);
+		return this.type;
+	}
+	
+	private Type getTypeFromMemory(Context context) {
+		Type typeFromMemory = context.getIdType(this);
+		if(typeFromMemory == null){
+			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
+			return new ErrorType();
 		}
-		else 
-			throw new IllegalArgumentException();
+		else return typeFromMemory;
 	}
 
 	@Override
-	public Type getType() {
-		return new IdType();
+	public void setType(IdTypeTable ids) {
+		if(this.type == null){
+			this.type = ids.getType(this.name);
+		}
 	}
+	
+	@Override
+	public void collectIds(IdCollector idCollector) {
+		idCollector.addId(this);
+	}
+	
+	@Override
+	public void getReferences(IdCollector idCollector) {
+		idCollector.addId(this);
+	}
+	
+	
 }

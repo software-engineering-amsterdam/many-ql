@@ -1,21 +1,22 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import org.assertj.core.api.AbstractAssert;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.Assertions;
 
 /**
  * Created by Robert on 3/1/2015.
  */
 public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
-    protected NodeAssert(Node actual, Class<?> selfType) {
-        super(actual, selfType);
+
+
+    public NodeAssert(Node actual) {
+        super(actual, NodeAssert.class);
     }
 
-    public NodeAssert hasChildren() {
-        assertThat(actual.hasChildren()).isTrue();
-        return this;
+    public static NodeAssert assertThat(Node actual) {
+        return new NodeAssert(actual);
     }
+
 
     public NodeAssert hasChildrenOfType(Class<?> expectedClazz) {
         boolean hasChildrenOfClass = false;
@@ -25,7 +26,7 @@ public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
                 hasChildrenOfClass = true;
             break;
         }
-        assertThat(hasChildrenOfClass).isTrue();
+        Assertions.assertThat(hasChildrenOfClass).isTrue();
         return this;
     }
 
@@ -37,8 +38,8 @@ public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
                 hasChildrenOfClass = true;
             actualNumberOfChildren++;
         }
-        assertThat(actualNumberOfChildren).isEqualTo(expectedNumberOfChildren);
-        assertThat(hasChildrenOfClass).isTrue();
+        Assertions.assertThat(actualNumberOfChildren).isEqualTo(expectedNumberOfChildren);
+        Assertions.assertThat(hasChildrenOfClass).isTrue();
         return this;
     }
 }

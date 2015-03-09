@@ -2,58 +2,51 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AProductions extends PProductions
-{
+public final class AProductions extends PProductions {
     private final LinkedList<PProd> _prods_ = new LinkedList<PProd>();
 
-    public AProductions()
-    {
+    public AProductions() {
         // Constructor
     }
 
     public AProductions(
-        @SuppressWarnings("hiding") List<?> _prods_)
-    {
+            @SuppressWarnings("hiding") List<?> _prods_) {
         // Constructor
         setProds(_prods_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AProductions(
-            cloneList(this._prods_));
+                cloneList(this._prods_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAProductions(this);
     }
 
-    public LinkedList<PProd> getProds()
-    {
+    public LinkedList<PProd> getProds() {
         return this._prods_;
     }
 
-    public void setProds(List<?> list)
-    {
-        for(PProd e : this._prods_)
-        {
+    public void setProds(List<?> list) {
+        for (PProd e : this._prods_) {
             e.parent(null);
         }
         this._prods_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PProd e = (PProd) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -63,18 +56,15 @@ public final class AProductions extends PProductions
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._prods_);
+                + toString(this._prods_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._prods_.remove(child))
-        {
+        if (this._prods_.remove(child)) {
             return;
         }
 
@@ -82,15 +72,11 @@ public final class AProductions extends PProductions
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PProd> i = this._prods_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PProd> i = this._prods_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PProd) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

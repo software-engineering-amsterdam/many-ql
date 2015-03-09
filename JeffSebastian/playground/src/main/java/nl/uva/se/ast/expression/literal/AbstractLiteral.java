@@ -2,17 +2,17 @@ package nl.uva.se.ast.expression.literal;
 
 import nl.uva.se.ast.expression.Expression;
 
-public abstract class AbstractLiteral extends Expression {
+public abstract class AbstractLiteral<T> extends Expression {
 	
-	private final String name;
+	private final T value;
 	
-	public AbstractLiteral(int lineNumber, int offset, String name) {
+	public AbstractLiteral(int lineNumber, int offset, T value) {
 		super(lineNumber, offset);
-		this.name = name;
+		this.value = value;
 	}
 
-	public String getName() {
-		return name;
-	}	
-	
+	public T getValue() {
+		return value;
+	}
+
 }
