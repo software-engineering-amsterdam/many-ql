@@ -3,14 +3,14 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class NotEqualsOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, ITypeResolvable
+    public class NotEqualsOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, ITypeResolvableDirectly
     {
         public ITerminalType Evaluate()
         {
             throw new NotImplementedException();
         }
 
-        public override Type GetReturnType()
+        public  Type GetReturnType()
         {
             return (new Yesno()).GetReturnType();
         }

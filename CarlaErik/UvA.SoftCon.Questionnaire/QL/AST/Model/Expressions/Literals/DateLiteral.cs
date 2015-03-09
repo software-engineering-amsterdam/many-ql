@@ -29,7 +29,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
             }
         }
 
-        public DateLiteral(string dateString, TextPosition position)
+        internal DateLiteral(string dateString, TextPosition position)
             : base(dateString, position)
         {
         }

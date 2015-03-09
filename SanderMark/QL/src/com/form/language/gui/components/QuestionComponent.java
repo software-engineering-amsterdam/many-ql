@@ -9,8 +9,8 @@ import com.form.language.ast.statement.Question;
 import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
-import com.form.language.memory.RuntimeMemory;
 
 public class QuestionComponent extends JPanel {
 
@@ -19,9 +19,9 @@ public class QuestionComponent extends JPanel {
 	private Question question;
 	private JLabel label;
 	private Expression showCondition;
-	private RuntimeMemory rm;
+	private Context rm;
 	
-	public QuestionComponent(Question question, RuntimeMemory rm, Expression showCondition) {
+	public QuestionComponent(Question question, Context rm, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
 		this.label = new Label(question.getText());
@@ -45,14 +45,14 @@ public class QuestionComponent extends JPanel {
 	//Type checker implementation to be added
 	private void createQuestionType()
 	{
-		if(question.getType().isBoolType())
+		if(question.getType(rm).isBoolType())
 		{
 			//CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
 			CheckBox checkbox = new CheckBox(question,this,rm);
 			checkbox.setName(question.getId());
 			add(checkbox);			
 		}
-		else if(question.getType().isStringType())
+		else if(question.getType(rm).isStringType())
 		{
 			//TextField textfield = new TextField(question,this,showCondition,rm);
 			TextField textfield = new TextField(question,this,rm);

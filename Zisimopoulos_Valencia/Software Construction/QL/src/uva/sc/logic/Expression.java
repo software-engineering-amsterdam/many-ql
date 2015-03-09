@@ -7,8 +7,6 @@ import uva.sc.types.Type;
 public abstract class Expression implements INode{
 	
 	public abstract <T> T accept(INodeVisitor<T> visitor);
-	
-	public abstract Expression evaluate();
 
 	public String getValue(){ return null; }
 	

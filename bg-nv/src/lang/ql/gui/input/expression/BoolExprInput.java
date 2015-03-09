@@ -43,8 +43,5 @@ public class BoolExprInput extends ExprInput<CheckBox>
 
         CheckBox checkBox = this.getControl();
         checkBox.setSelected(boolValue);
-        checkBox.setDisable(this.getDisabled());
-        checkBox.setVisible(this.getVisible());
-        checkBox.setManaged(this.getVisible());
     }
 }

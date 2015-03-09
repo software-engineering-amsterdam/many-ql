@@ -1,6 +1,12 @@
 package ql.ast
 
+object DefaultValues {
+  val BooleanValue: Boolean = false
+  val NumberValue: Int = 0
+  val StringValue: String = ""
+}
+
 sealed trait Value
-case class BooleanValue(v: Boolean = false) extends Value
-case class NumberValue(v: Int = 0) extends Value
-case class StringValue(v: String = "") extends Value
+case class BooleanValue(value: Boolean = DefaultValues.BooleanValue) extends Value
+case class NumberValue(value: Int = DefaultValues.NumberValue) extends Value
+case class StringValue(value: String = DefaultValues.StringValue) extends Value

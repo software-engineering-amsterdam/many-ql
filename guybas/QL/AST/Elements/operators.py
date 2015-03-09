@@ -16,17 +16,5 @@ class Operator(e.Element):
     def as_list(self):
         return [self.operator]
 
-
-class CompareOperator(Operator):
     def return_type(self, type_dict):
-        return " " + constants.ElementsConstants.COMP_OP + " "
-
-
-class CalcOperator(Operator):
-    def return_type(self, type_dict):
-        return " " + constants.ElementsConstants.CALC_OP + " "
-
-
-class ExtraOperator(Operator):
-    def return_type(self, type_dict):
-        return " " + constants.ElementsConstants.EXTRA_OP + " "
+        return self.pretty_print()

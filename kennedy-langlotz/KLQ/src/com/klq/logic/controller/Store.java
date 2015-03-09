@@ -23,12 +23,8 @@ public class Store implements IKLQItem {
     private final DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
     private final List<IdentifierValue> order;
     private final Map<IdentifierValue, Question> store;
+    //TODO why is this a String in variables?
     private final Map<String, Value> variables;
-
-    private final String NO_SUCH_QUESTION = "Question with ID \"%s\" does not exist!";
-
-    private int computedCount = 0;
-    private int invisibleCount = 0;
 
     private final DoubleProperty progressProperty;
 
@@ -46,11 +42,9 @@ public class Store implements IKLQItem {
         IdentifierValue id = question.getId();
 
         if (!question.isComputedQuestion()) {
-            UndefinedValue undefined = new UndefinedValue();
-            variables.put(id.getValue(), undefined);
+            variables.put(id.getValue(), new UndefinedValue());
         } else {
             variables.put(id.getValue(), question.getComputedExpression().evaluate(variables));
-            computedCount++;
         }
     }
 
@@ -92,7 +86,11 @@ public class Store implements IKLQItem {
 
     public void updateAnswer(IdentifierValue questionId, Value answer) {
         assert(variables.containsKey(questionId));
-        variables.put(questionId.getValue(), answer);
+        if (answer == null){
+            variables.put(questionId.getValue(), new UndefinedValue());
+        } else {
+            variables.put(questionId.getValue(), answer);
+        }
 
         updateVisibilities();
         updateComputed();
@@ -100,12 +98,8 @@ public class Store implements IKLQItem {
     }
 
     public void updateVisibilities(){
-        invisibleCount = 0;
         for (IdentifierValue id : store.keySet()){
             boolean visible = dependenciesResolved(id);
-            if (!visible) {
-                invisibleCount++;
-            }
             BooleanProperty property = store.get(id).visibleProperty();
             if (property.get() != visible) {
                 property.setValue(visible);
@@ -124,15 +118,18 @@ public class Store implements IKLQItem {
     }
 
     private void updateProgress(){
-        double count = variables.size() - computedCount - invisibleCount;
         double answered = 0;
-        for (String expr : variables.keySet()) {
-            Value assignedValue = variables.get(expr);
-            System.out.println(assignedValue.toString());
-            if (!(assignedValue.isUndefined()))
-                answered++;
+        double total = 0;
+        for (Question q : store.values()){
+            if (!q.isComputedQuestion()){
+                total++;
+                Value v = variables.get(q.getId().getValue());
+                if (!v.equals(new UndefinedValue())){
+                    answered++;
+                }
+            }
         }
-        progressProperty.set((answered)/count);
+        progressProperty.setValue(answered/total);
     }
 
     public DoubleProperty progressProperty(){

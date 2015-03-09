@@ -1,6 +1,5 @@
 package org.uva.ql.view;
 
-import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -23,9 +22,8 @@ import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.component.QuestionComponent;
 import org.uva.ql.view.listener.ButtonWidgetListener;
-import org.uva.ql.view.listener.WidgetListener;
-import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.IfElseQuestionPanel;
+import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
 import org.uva.ql.view.panel.QuestionPanel;
 import org.uva.ql.view.widgit.CheckBox;

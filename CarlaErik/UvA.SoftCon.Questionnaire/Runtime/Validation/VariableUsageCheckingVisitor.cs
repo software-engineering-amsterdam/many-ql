@@ -106,31 +106,18 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        public override void Visit(Declaration declaration)
+        public override void Visit(Definition definition)
         {
-            if (declaration.Initialization != null)
-            {
-                declaration.Initialization.Accept(this);
-            }
+            definition.Expression.Accept(this);
 
-            if (!DeclaredVariables.Keys.Contains(declaration.Id.Name))
+            if (!DeclaredVariables.Keys.Contains(definition.Id.Name))
             {
-                DeclaredVariables.Add(declaration.Id.Name, new IdentifierUsageCount(declaration.Id, false, 0));
+                DeclaredVariables.Add(definition.Id.Name, new IdentifierUsageCount(definition.Id, false, 0));
             }
             else
             {
-                RedeclaredVariables.Add(declaration.Id);
+                RedeclaredVariables.Add(definition.Id);
             }
-        }
-
-        public override void Visit(Assignment assignment)
-        {
-            if (!DeclaredVariables.ContainsKey(assignment.Variable.Name))
-            {
-                UndeclaredVariables.Add(assignment.Variable);
-            }
-
-            assignment.Expression.Accept(this);
         }
 
         public override void Visit(Identifier identifier)

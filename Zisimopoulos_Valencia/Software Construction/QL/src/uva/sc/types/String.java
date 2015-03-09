@@ -1,6 +1,8 @@
 package uva.sc.types;
 
 import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.StringAtom;
+import uva.sc.logic.Expression;
 
 
 public class String implements Type{
@@ -23,5 +25,9 @@ public class String implements Type{
 		else {
 			return false;
 		}
+	}
+
+	public Expression defaultValue() {
+		return new StringAtom("");
 	}
 }

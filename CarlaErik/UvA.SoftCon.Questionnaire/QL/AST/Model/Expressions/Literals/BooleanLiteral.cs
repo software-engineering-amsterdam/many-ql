@@ -25,7 +25,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
             }
         }
 
-        public BooleanLiteral(string value, TextPosition position)
+        internal BooleanLiteral(string value, TextPosition position)
             : base(value, position)
         {
         }
