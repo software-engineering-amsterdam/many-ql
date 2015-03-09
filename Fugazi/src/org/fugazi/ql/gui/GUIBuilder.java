@@ -27,37 +27,20 @@ public class GUIBuilder implements IMediator {
     private final ValueStorage valueStorage;
     private final Evaluator evaluator;
     private final UIForm uiForm;
+    private final Form astForm;
 
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new HashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
 
+    private List<UIComputedQuestion> computedQuestions = new ArrayList<>();
+
     public GUIBuilder(Form _form) {
-        valueStorage = new ValueStorage();
-        evaluator = new Evaluator(valueStorage);
-        uiForm = new UIForm(_form.getName());
+        this.astForm = _form;
+        this.valueStorage = new ValueStorage();
+        this.evaluator = new Evaluator(valueStorage);
+        this.uiForm = new UIForm(_form.getName());
 
-        initFormQuestions(_form);
-    }
-
-    private void initFormQuestions(Form _form) {
-        // Get questionsInForm
-        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-
-        List<Question> questions = formDataStorage.getQuestions();
-        for (Question question : questions) {
-
-            UIQuestion uiQuestion = createUiQuestion(question);
-            valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
-            questionsWithState.put(uiQuestion, new ArrayList<IfStatement>());
-
-            // get if statements which the questionsInForm are included.
-            List<IfStatement> ifStatements = formDataStorage.getIfStatements();
-            for (IfStatement ifStatement : ifStatements) {
-                if (ifStatement.getBody().contains(question)) {
-                    questionsWithState.get(uiQuestion).add(ifStatement);
-                }
-            }
-        }
+        this.addIfStatementsToQuestion(astForm);
     }
 
     public void renderUI() {
@@ -65,6 +48,7 @@ public class GUIBuilder implements IMediator {
         uiForm.showForm();
     }
 
+    // Manage Form
     private void setupForm() {
         for (UIQuestion uiQuestion : questionsWithState.keySet()) {
             if (isQuestionStateTrue(uiQuestion)) {
@@ -86,6 +70,26 @@ public class GUIBuilder implements IMediator {
         if (questionsInForm.contains(_uiQuestion)) {
             questionsInForm.remove(_uiQuestion);
             uiForm.removeQuestion(_uiQuestion);
+        }
+    }
+
+    private void addIfStatementsToQuestion(Form _form) {
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
+        List<Question> questionsList = formDataStorage.getAllQuestions();
+        List<IfStatement> ifStatementsList = formDataStorage.getIfStatements();
+
+        // Get all the questions of the form.
+        for (Question question : questionsList) {
+            UIQuestion uiQuestion = createUiQuestion(question);
+            valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
+            questionsWithState.put(uiQuestion, new ArrayList<IfStatement>());
+
+            // get if statements which the questionsInForm are included.
+            for (IfStatement ifStatement : ifStatementsList) {
+                if (ifStatement.getBody().contains(question)) {
+                    questionsWithState.get(uiQuestion).add(ifStatement);
+                }
+            }
         }
     }
 
