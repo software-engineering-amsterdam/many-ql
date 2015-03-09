@@ -100,6 +100,8 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 
     @Override public AbstractASTNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
         String identifier = ctx.ID().getText();
+        
+        // Todo: check for default style declaration on parents, otherwise set the default Widget.
         return new Question(this.getLineNumber(ctx), identifier, new UndefinedWidget());
     }
 
@@ -113,7 +115,8 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
         Type questionType = (Type) ctx.type().accept(this);
         Widget widget = (Widget) ctx.widget().accept(this);
 
-        return new DefaultStyleDeclaration(this.getLineNumber(ctx), new UndefinedStyle(), widget, questionType);
+        // Todo: check for default style declaration on parents, otherwise set the default Style.
+        return new DefaultStyleDeclaration(this.getLineNumber(ctx), widget.getDefaultStyle(), widget, questionType);
     }
     
     @Override 
