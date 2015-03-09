@@ -28,7 +28,7 @@ public abstract class DataType {
 		if (!(obj instanceof DataType)) {
 			return false;
 		}
-		if (getName().equals(((DataType) obj).getName())) {
+		if (!getName().equals(((DataType) obj).getName())) {
 			return false;
 		}
 		return true;
