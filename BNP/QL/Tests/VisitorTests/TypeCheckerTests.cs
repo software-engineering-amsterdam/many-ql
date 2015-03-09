@@ -104,24 +104,7 @@ namespace Tests.VisitorTests
 
         }
 
-        [TestMethod]
-        public void TCParsingMinusSign()
-        {
-            Initialize(@"form ExampleBlock {
-                statement Smthing1 (number, (1+(2- 3)) ""this "";
-                statement Smthing1 (number, (1+(2 -3)) ""should"";
-                statement Smthing1 (number, (1+(2 --3)) ""be"";
-                statement Smthing1 (number, (1+(2-3)) ""solved"";
-
-                }
-
-            ");
-            Assert.IsTrue(Handler.CheckType());
-
-
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
-
-        }
+        
         [TestMethod]
         public void TCExpressionInsideStatementPass()
         {
