@@ -1,6 +1,6 @@
 package com.kls.ast.node;
 
-import com.klq.Type;
+import com.klq.logic.question.Type;
 import com.kls.ast.IVisitor;
 import com.kls.ast.Location;
 
