@@ -1,6 +1,6 @@
 # AST format of a question, initializing the IStatement
 import QL.AST.Statements.statement as statement
-import QL.Runtime.gui as g
+import QL.GUI.gui as g
 import QL.Grammar.constants as constants
 
 

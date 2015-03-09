@@ -7,7 +7,7 @@ public class StringResult extends Result{
 
     private String result;
 
-    StringResult(String result){
+    public StringResult(String result){
         this.result = result;
     }
 

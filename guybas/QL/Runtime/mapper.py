@@ -1,5 +1,5 @@
 import QL.Validators.type_checker as type_checker
-import QL.Main.exceptions as exceptions
+import QL.Exceptions.exceptions as exceptions
 
 
 class Mapper:

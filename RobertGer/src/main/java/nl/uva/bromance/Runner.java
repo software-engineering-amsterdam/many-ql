@@ -37,9 +37,9 @@ public class Runner {
         walker.walk(listener, tree);
 
         AST ast = listener.getAst();
-        ExpressionEvaluator ee = new ExpressionEvaluator(ast);
+        //ExpressionEvaluator ee = new ExpressionEvaluator(ast);
         TypeChecker tc = new TypeChecker(ast);
-        tc.runChecks();
+        // tc.runChecks();
 
         new Visualizer().visualize(ast.getRoot(), primaryStage);
         
