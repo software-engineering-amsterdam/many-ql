@@ -16,7 +16,13 @@ namespace QL.Model
         public ElementBase Child
         {
             get{
+                if (Children.Any()) { 
                 return Children[ONLY_CHILD];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
