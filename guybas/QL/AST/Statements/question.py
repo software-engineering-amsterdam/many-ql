@@ -80,7 +80,9 @@ class Question(statement.IStatement):
     #######################
 
     # TODO: separate runtime stuff
+
     # set gui _element
+    # TODO : delegate to element classes
     def set_element(self, gui):
         if self.get_type() is constants.GrammarConstants.BOOL:
             self.element = g.GUI.e_radio(self, gui)
