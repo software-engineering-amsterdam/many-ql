@@ -11,9 +11,9 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
-import org.uva.sea.ql.encoders.ast.type.QLInteger;
-import org.uva.sea.ql.encoders.ast.type.QLString;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
@@ -41,12 +41,12 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
 		Object rightValue = rightHand.accept(this);
 
 		BinaryOperator operator = binaryExpression.getOperator();
-		if (dataType instanceof QLBoolean) {
-			return operator.calculate((QLBoolean) dataType, (Boolean) leftValue, (Boolean) rightValue);
-		} else if (dataType instanceof QLInteger) {
-			return operator.calculate((QLInteger) dataType, (Integer) leftValue, (Integer) rightValue);
+		if (dataType instanceof BooleanType) {
+			return operator.calculate((BooleanType) dataType, (Boolean) leftValue, (Boolean) rightValue);
+		} else if (dataType instanceof IntegerType) {
+			return operator.calculate((IntegerType) dataType, (Integer) leftValue, (Integer) rightValue);
 		}
-		return operator.calculate((QLString) dataType, (String) leftValue, (String) rightValue);
+		return operator.calculate((StringType) dataType, (String) leftValue, (String) rightValue);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Object> {
 		Expression expression = unaryExpression.getExpression();
 		UnaryOperator operator = unaryExpression.getOperator();
 		Object value = expression.accept(this);
-		return operator.calculate((QLBoolean) dataType, (Boolean) value);
+		return operator.calculate((BooleanType) dataType, (Boolean) value);
 	}
 
 	@Override

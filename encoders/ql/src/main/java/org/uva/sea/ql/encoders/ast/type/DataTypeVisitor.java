@@ -3,9 +3,9 @@ package org.uva.sea.ql.encoders.ast.type;
 
 public interface DataTypeVisitor<T> {
 
-	T visit(QLBoolean qlBoolean);
+	T visit(BooleanType qlBoolean);
 
-	T visit(QLInteger qlInteger);
+	T visit(IntegerType qlInteger);
 
-	T visit(QLString qlString);
+	T visit(StringType qlString);
 }

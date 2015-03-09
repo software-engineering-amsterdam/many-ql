@@ -10,7 +10,7 @@ import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
@@ -35,7 +35,7 @@ public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
 		Boolean rightValue = rightHand.accept(this);
 
 		BinaryOperator operator = binaryExpression.getOperator();
-		return operator.calculate(QLBoolean.BOOLEAN, leftValue, rightValue);
+		return operator.calculate(BooleanType.BOOLEAN, leftValue, rightValue);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ConditionEvaluatorVisitor extends BaseAstVisitor<Boolean> {
 		Expression expression = unaryExpression.getExpression();
 		UnaryOperator operator = unaryExpression.getOperator();
 		Boolean value = expression.accept(this);
-		return operator.calculate(QLBoolean.BOOLEAN, value);
+		return operator.calculate(BooleanType.BOOLEAN, value);
 	}
 
 	@Override

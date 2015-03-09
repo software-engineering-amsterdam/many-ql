@@ -1,24 +1,24 @@
 package org.uva.sea.ql.encoders.runtime;
 
 import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
-import org.uva.sea.ql.encoders.ast.type.QLInteger;
-import org.uva.sea.ql.encoders.ast.type.QLString;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 
 public class DefaultValueVisitor implements DataTypeVisitor<Object> {
 
 	@Override
-	public Object visit(QLBoolean qlBoolean) {
+	public Object visit(BooleanType qlBoolean) {
 		return false;
 	}
 
 	@Override
-	public Object visit(QLInteger qlInteger) {
+	public Object visit(IntegerType qlInteger) {
 		return 0;
 	}
 
 	@Override
-	public Object visit(QLString qlString) {
+	public Object visit(StringType qlString) {
 		return "";
 	}
 

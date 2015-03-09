@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLInteger extends DataType<Integer> {
+public class IntegerType extends DataType<Integer> {
 
 	@Override
 	public Integer add(Integer leftValue, Integer rightValue) {

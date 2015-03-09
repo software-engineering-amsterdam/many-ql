@@ -8,9 +8,9 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 
 import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
-import org.uva.sea.ql.encoders.ast.type.QLInteger;
-import org.uva.sea.ql.encoders.ast.type.QLString;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 
 public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
@@ -22,7 +22,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 	}
 
 	@Override
-	public Control visit(QLBoolean qlBoolean) {
+	public Control visit(BooleanType qlBoolean) {
 		CheckBox control = new CheckBox("Yes");
 		CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
 		control.setOnAction(checkBoxEventHandler);
@@ -30,7 +30,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 	}
 
 	@Override
-	public Control visit(QLInteger qlInteger) {
+	public Control visit(IntegerType qlInteger) {
 		TextField control = new TextField() {
 			@Override
 			public void replaceText(int start, int end, String text) {
@@ -51,7 +51,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 	}
 
 	@Override
-	public Control visit(QLString qlString) {
+	public Control visit(StringType qlString) {
 		TextField control = new TextField();
 		control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
 		return control;

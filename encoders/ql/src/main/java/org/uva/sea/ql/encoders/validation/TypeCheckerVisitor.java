@@ -14,8 +14,8 @@ import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
-import org.uva.sea.ql.encoders.ast.type.QLUndefined;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
@@ -47,7 +47,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 		Expression condition = question.getCondition();
 		if (condition != null) {
 			DataType<?> dataType = condition.accept(this);
-			if (!(dataType instanceof QLBoolean)) {
+			if (!(dataType instanceof BooleanType)) {
 				TextLocation textLocation = condition.getTextLocation();
 				String validationMessage = "Condition has to be of type boolean. Type: " + dataType;
 				validations.add(new Validation(validationMessage, textLocation));
@@ -89,7 +89,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 			String validationMessage = "Reference to undefined question: " + name;
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new Validation(validationMessage, textLocation));
-			return QLUndefined.UNDEFINED;
+			return UndefinedType.UNDEFINED;
 		}
 	}
 
@@ -105,8 +105,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 		Expression rightHand = binaryExpression.getRightHand();
 		DataType<?> leftHandDataType = leftHand.accept(this);
 		DataType<?> rightHandDataType = rightHand.accept(this);
-		if (leftHandDataType.equals(QLUndefined.UNDEFINED) || rightHandDataType.equals(QLUndefined.UNDEFINED)) {
-			return QLUndefined.UNDEFINED;
+		if (leftHandDataType.equals(UndefinedType.UNDEFINED) || rightHandDataType.equals(UndefinedType.UNDEFINED)) {
+			return UndefinedType.UNDEFINED;
 		}
 		if (leftHandDataType.equals(rightHandDataType)) {
 			return leftHandDataType;
@@ -115,7 +115,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 		String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
 				+ " righthand datatype=" + rightHandDataType;
 		validations.add(new Validation(validationMessage, textLocation));
-		return QLUndefined.UNDEFINED;
+		return UndefinedType.UNDEFINED;
 	}
 
 }

@@ -1,8 +1,8 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLBoolean extends DataType<Boolean> {
+public class BooleanType extends DataType<Boolean> {
 
-	public static final QLBoolean BOOLEAN = new QLBoolean();
+	public static final BooleanType BOOLEAN = new BooleanType();
 
 	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {

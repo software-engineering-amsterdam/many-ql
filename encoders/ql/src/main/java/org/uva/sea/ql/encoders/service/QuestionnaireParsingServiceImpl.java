@@ -17,9 +17,9 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.QLBoolean;
-import org.uva.sea.ql.encoders.ast.type.QLInteger;
-import org.uva.sea.ql.encoders.ast.type.QLString;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.validation.SyntaxValidation;
 import org.uva.sea.ql.encoders.validation.TypeCheckerVisitor;
 import org.uva.sea.ql.encoders.validation.Validation;
@@ -61,9 +61,9 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 	private Map<String, DataType<?>> getDataTypeTable() {
 		Map<String, DataType<?>> operatorTable = new HashMap<>();
-		operatorTable.put("boolean", new QLBoolean());
-		operatorTable.put("string", new QLString());
-		operatorTable.put("integer", new QLInteger());
+		operatorTable.put("boolean", new BooleanType());
+		operatorTable.put("string", new StringType());
+		operatorTable.put("integer", new IntegerType());
 		return operatorTable;
 	}
 

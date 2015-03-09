@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.QLInteger;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.runtime.ComputedEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
@@ -100,7 +100,7 @@ public class QuestionnaireUI {
 									runtimeQuestions);
 							Object value = computed.accept(computedEvaluatorVisitor);
 							runtimeQuestion.setValue(value);
-							if (dataType instanceof QLInteger) {
+							if (dataType instanceof IntegerType) {
 								((TextField) control).setText(value.toString());
 							}
 							System.out.println("Waarde is nu: " + arg);
