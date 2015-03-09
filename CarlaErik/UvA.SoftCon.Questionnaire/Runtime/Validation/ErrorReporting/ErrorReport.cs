@@ -73,7 +73,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
         {
             foreach (var literal in visitor.InvalidLiterals)
             {
-                string message = String.Format("Invalid literal value '{0}' for type '{1}'.", literal.Value, literal.GetType());
+                string message = String.Format("Invalid literal value '{0}' for type '{1}'.",
+                    literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
 
                 AddErrorMessage(message, literal.Position);
             }
