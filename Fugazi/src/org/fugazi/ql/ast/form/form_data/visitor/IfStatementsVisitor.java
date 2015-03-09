@@ -6,12 +6,11 @@ import org.fugazi.ql.ast.statement.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfStatementsVisitor implements IStatementVisitor<Void> {
-    private final Form form;
+public class IfStatementsVisitor extends StatementsVisitor {
     private List<IfStatement> statements;
 
     public IfStatementsVisitor(Form _form) {
-        this.form = _form;
+        super(_form);
     }
 
     /**
@@ -20,25 +19,14 @@ public class IfStatementsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private Void visitForm() {
-        List<Statement> statementList = this.form.getBody();
+    @Override
+    public Void visitIfStatement(IfStatement ifStatement) {
+        this.saveIfStatement(ifStatement);
 
+        List<Statement> statementList = ifStatement.getBody();
         for (Statement statement : statementList) {
             statement.accept(this);
         }
-        return null;
-    }
-
-    public Void visitQuestion(Question question) {
-        return null;
-    }
-
-    public Void visitComputedQuestion(ComputedQuestion assignQuest) {
-        return null;
-    }
-
-    public Void visitIfStatement(IfStatement ifStatement) {
-        this.saveIfStatement(ifStatement);
         return null;}
 
     /**
