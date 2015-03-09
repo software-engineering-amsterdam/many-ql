@@ -11,4 +11,8 @@ public class GuiException extends RuntimeException {
     public GuiException(String message) {
         super(message);
     }
+
+    public GuiException(Throwable cause) {
+        super(cause);
+    }
 }
