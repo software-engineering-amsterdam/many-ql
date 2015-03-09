@@ -19,15 +19,12 @@ import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.runtime.ConditionEvaluator;
-import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class QuestionnaireUI {
-
-	public ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
 	public Control generateUI(RuntimeQuestionnaire questionnaire) {
 		GridPane grid = new GridPane();
@@ -96,7 +93,6 @@ public class QuestionnaireUI {
 
 						@Override
 						public void update(Observable o, Object arg) {
-							boolean result = (boolean) expressionEvaluator.evaluateExpression(runtimeQuestion);
 							System.out.println("Waarde is nu: " + arg);
 						}
 					});
