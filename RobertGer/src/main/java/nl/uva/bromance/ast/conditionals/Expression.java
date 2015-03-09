@@ -14,10 +14,10 @@ import java.util.Optional;
 public class Expression extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
-    private Optional<Operator> operator;
-    private Optional<Token> id;
+    private Optional<Operator> operator = Optional.empty();
+    private Optional<Terminal> terminal;
 
-    public Expression(int lineNumber, Optional<Token> operatorToken, Optional<Token> id) {
+    public Expression(int lineNumber, Optional<Token> operatorToken) {
         super(lineNumber, Expression.class);
         this.setAcceptedParents(parentsAllowed);
         if (operatorToken.isPresent()) {
@@ -27,7 +27,6 @@ public class Expression extends Node {
                 }
             }
         }
-        this.id = id;
     }
 
     @Override
@@ -47,49 +46,61 @@ public class Expression extends Node {
 
     public Result evaluate() {
         if (operator.isPresent()) {
-            List<Node> children = getChildren();
-            Node one = children.get(0);
-            Node two = children.get(1);
-            Result resultOne = ((Expression) one).evaluate();
-            Result resultTwo = ((Expression) two).evaluate();
-            try {
-                return operator.get().performOperation(resultOne, resultTwo);
-            } catch (InvalidOperandException e) {
-                System.err.println("Got invalid operands [" + resultOne.getClass().getSimpleName() + "," + resultTwo.getClass().getSimpleName() + "] for operator type :" + operator.getClass().getSimpleName());
-                return new BooleanResult(false);
-            }
+            return processOperatorExpression();
         } else {
-            // Reached end point here, wrap value in result
-            if (this.getText() != null) {
-                String value = this.getText();
-                if (value.matches("[0-9]*")) {
-                    // Integer
-                    System.out.println("Int:" + value);
-                    return new IntResult(Integer.parseInt(value));
-                } else if (value.matches("\".+\"")) {
-                    // String
-                    return new StringResult(value);
-                } else {
-                    // Identifier
-                    // TODO Get value from actual identifier instead of int
-                    return new IntResult(1337);
-                }
-            } else {
-                // No text or operator, so one kid who does have something of use for us.
-                return ((Expression) getChildren().get(0)).evaluate();
-            }
+            return processTerminal();
+
         }
     }
 
-    public Optional<Token> getId() {
-        return id;
+    private Result processTerminal() {
+        if (terminal.isPresent()) {
+            Terminal terminal = this.terminal.get();
+            if (terminal.isInteger()) {
+                return new IntResult(Integer.parseInt(terminal.getValue()));
+            } else if (terminal.isString()) {
+                return new StringResult(terminal.getValue());
+            } else {
+                // TODO Get value from actual identifier instead of int
+                return new IntResult(1337);
+            }
+        } else {
+            // No text or operator, so one kid who does have something of use for us.
+            return ((Expression) getChildren().get(0)).evaluate();
+        }
     }
 
-    public String getText() {
-        return text;
+
+    private Result processOperatorExpression() {
+        Result resultOne = getLeftHandSide().evaluate();
+        Result resultTwo = getRightHandSide().evaluate();
+        try {
+            return operator.get().performOperation(resultOne, resultTwo);
+
+            //TODO: This should be done in TypeChecking. Don't want to run into operandExpressions when running the program.
+        } catch (InvalidOperandException e) {
+            System.err.println("Got invalid operands [" + resultOne.getClass().getSimpleName() + "," + resultTwo.getClass().getSimpleName() + "] for operator type :" + operator.getClass().getSimpleName());
+            return new BooleanResult(false);
+        }
+    }
+
+    public Optional<Terminal> getTerminal() {
+        return terminal;
     }
 
     public Optional<Operator> getOperator() {
         return operator;
+    }
+
+    private Expression getLeftHandSide() {
+        return (Expression) getChildren().get(0);
+    }
+
+    private Expression getRightHandSide() {
+        return (Expression) getChildren().get(1);
+    }
+
+    public void setTerminal(Terminal terminal) {
+        this.terminal = Optional.of(terminal);
     }
 }
