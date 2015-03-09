@@ -26,7 +26,7 @@ conditionalBlock:
     
 expression:
     '(' expr=expression ')'                                         #BracedExpression
-    |                      operator=NOT             expr=expression          #Not
+    |                      operator=NOT expr=expression             #Not
     | leftHand=expression  operator=MULDIV rightHand=expression     #MulDiv
     | leftHand=expression  operator=ADDSUB rightHand=expression     #AddSub
     | leftHand=expression  operator=AND rightHand=expression        #And
