@@ -27,8 +27,12 @@ public abstract class QLVisitorImpl implements QLVisitor {
     }
 
     protected Question cloneQuestion(Question question) {
+        return cloneQuestion(question, question.isEnabled());
+    }
+
+    protected Question cloneQuestion(Question question, boolean isEnabled) {
         try {
-            return question.clone();
+            return question.clone(isEnabled);
         } catch (CloneNotSupportedException e) {
             throw new ParseException(e);
         }

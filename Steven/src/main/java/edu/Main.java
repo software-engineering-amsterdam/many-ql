@@ -108,9 +108,7 @@ public class Main implements Observer {
 
     private Question cloneQuestionAndSetState(CheckBox checkBox, Question question) {
         try {
-            Question clonedQuestion = question.clone();
-            clonedQuestion.setState(checkBox.isEnabled());
-            return clonedQuestion;
+            return question.clone(checkBox.isEnabled());
         } catch (CloneNotSupportedException e) {
             throw new CloneException(e);
         }

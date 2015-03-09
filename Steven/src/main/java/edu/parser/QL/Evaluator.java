@@ -172,8 +172,7 @@ public class Evaluator extends QLVisitorImpl {
     @Override
     public AbstractNode visit(Question question) {
         boolean questionEnabled = isQuestionEnabled(question);
-        Question clonedQuestion = cloneQuestion(question);
-        clonedQuestion.setState(questionEnabled);
+        Question clonedQuestion = cloneQuestion(question, questionEnabled);
         evaluatedQuestions.add(clonedQuestion);
         return super.visit(question);
     }
