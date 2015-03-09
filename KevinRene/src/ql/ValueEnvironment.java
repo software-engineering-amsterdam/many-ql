@@ -18,8 +18,4 @@ public class ValueEnvironment {
 	public Value resolve(Identifier identifier) {
 		return environment.get(identifier.toString());
 	}
-	
-	public Map<String, Value> getBindings() {
-		return this.environment;
-	}
 }

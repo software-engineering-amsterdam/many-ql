@@ -18,12 +18,4 @@ public class TypeEnvironment {
 	public QLType resolve(Identifier identifier) {
 		return environment.get(identifier.toString());
 	}
-	
-	public Map<String, QLType> getBindings() {
-		return this.environment;
-	}
-	
-	public void clear() {
-		this.environment.clear();
-	}
 }
