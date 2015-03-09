@@ -1,6 +1,7 @@
 package edu.parser.QL;
 
 import edu.exceptions.EvaluationException;
+import edu.nodes.Question;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
@@ -9,7 +10,6 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
-    private List<QLQuestion> updatedQuestions = new ArrayList<>();
+    private List<Question> updatedQuestions = new ArrayList<>();
 
     public List<Question> evaluate(Form form) {
         return evaluate(form, Collections.emptyList());
     }
 
-    public List<Question> evaluate(Form form, List<QLQuestion> updatedQuestions) {
+    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
         this.evaluatedQuestions.clear();
         this.updatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
@@ -103,7 +103,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private boolean isQuestionEnabled(Question foundQuestion) {
-        Optional<QLQuestion> updatedQuestion = getUpdatedQuestion(foundQuestion);
+        Optional<Question> updatedQuestion = getUpdatedQuestion(foundQuestion);
         if (updatedQuestion.isPresent()) {
             return updatedQuestion.get().isEnabled();
         } else {
@@ -111,8 +111,8 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<QLQuestion> getUpdatedQuestion(Question foundQuestion) {
-        List<QLQuestion> updatedQuestions = this.updatedQuestions.stream()
+    private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
+        List<Question> updatedQuestions = this.updatedQuestions.stream()
                 .filter(question -> question.getIdentifier().getIdentifier().equals(foundQuestion.getIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
         if (updatedQuestions.size() > 1) {
