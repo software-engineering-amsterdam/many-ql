@@ -1,9 +1,9 @@
 package nl.uva.bromance.ast;
 
-public class Stylesheet extends Node {
+public class QLSStylesheet extends Node {
 
-    public Stylesheet(int lineNumber) {
-        super(lineNumber, Stylesheet.class);
+    public QLSStylesheet(int lineNumber) {
+        super(lineNumber, QLSStylesheet.class);
     }
 
     @Override
@@ -11,7 +11,7 @@ public class Stylesheet extends Node {
         for (int j = 0; j < i; j++) {
             System.out.print("\t");
         }
-        System.out.print("[Root] { }\n");
+        System.out.print("[Stylesheet] { }\n");
         for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
