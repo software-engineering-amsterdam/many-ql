@@ -9,13 +9,11 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -32,15 +30,15 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context context) {
 		for(Statement s: thenStatements){
-			s.getType(mem);
+			s.getType(context);
 		}
-		if (conditions.getType(mem).isBoolType()){
+		if (conditions.getType(context).isBoolType()){
 			return new BoolType();
 		}
 		else{
-				mem.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+				context.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
 				return new ErrorType();
 			}
 		}
@@ -81,11 +79,11 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public void initMemory(RuntimeMemory mem){}
+	public void initMemory(Context mem){}
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-			FormComponent formGUI, RuntimeMemory rm) {
+			FormComponent formGUI, Context rm) {
 		guiBuilder.setShowCondition(conditions);
 		for(Statement s : this.thenStatements)
 		{

@@ -26,6 +26,10 @@ public class StyleSheet extends AbstractASTNode {
         return this.name;
     }
 
+    public List<Page> getPages() {
+        return this.pages;
+    }
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitStyleSheet(this);
     }

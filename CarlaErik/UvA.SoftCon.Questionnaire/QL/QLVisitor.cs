@@ -52,20 +52,10 @@ namespace UvA.SoftCon.Questionnaire.QL
             }
         }
 
-        public virtual void Visit(Declaration declaration)
+        public virtual void Visit(Definition definition)
         {
-            declaration.Id.Accept(this);
-
-            if (declaration.Initialization != null)
-            {
-                declaration.Initialization.Accept(this);
-            }
-        }
-
-        public virtual void Visit(Assignment assignment)
-        {
-            assignment.Variable.Accept(this);
-            assignment.Expression.Accept(this);
+            definition.Id.Accept(this);
+            definition.Expression.Accept(this);
         }
 
         public virtual void Visit(IfStatement ifStatement)
@@ -211,20 +201,10 @@ namespace UvA.SoftCon.Questionnaire.QL
             return default(T);
         }
 
-        public virtual T Visit(Declaration declaration)
+        public virtual T Visit(Definition definition)
         {
-            declaration.Id.Accept(this);
-            if (declaration.Initialization != null)
-            {
-                declaration.Initialization.Accept(this);
-            }
-            return default(T);
-        }
-
-        public virtual T Visit(Assignment assignment)
-        {
-            assignment.Variable.Accept(this);
-            assignment.Expression.Accept(this);
+            definition.Id.Accept(this);
+            definition.Expression.Accept(this);
             return default(T);
         }
 

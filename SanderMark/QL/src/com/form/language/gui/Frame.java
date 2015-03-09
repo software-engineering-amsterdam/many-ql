@@ -3,15 +3,12 @@ package com.form.language.gui;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,13 +17,7 @@ import org.antlr.v4.runtime.TokenStream;
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
-import com.form.language.error.CheckTypeErrors;
-import com.form.language.error.CheckVariableErrors;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Frame {
 
@@ -35,7 +26,6 @@ public class Frame {
 	private JTextArea textArea_output;
 	private JButton button_parse;
 	private JButton button_createQuestionnaire;
-	
 	private Form form;
 
 	/**
@@ -65,6 +55,7 @@ public class Frame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		final Context context = new Context();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,14 +84,12 @@ public class Frame {
 				
 				form = parser.form().result;
 				
-				List<String> errorsStrings = new ArrayList<String>();
-				TypeMemory typemem = new TypeMemory();
-				form.getTypes(typemem);
+				form.getTypes(context);
 				
 				
-				if(typemem.hasErrors()){
-					textArea_output.setText(typemem.getErrors());
-					System.out.println(typemem.getErrors());
+				if(context.hasErrors()){
+					textArea_output.setText(context.getErrors());
+					System.out.println(context.getErrors());
 				} else
 				{
 					button_createQuestionnaire.setEnabled(true);
@@ -118,9 +107,9 @@ public class Frame {
 			@Override
 			public void mouseClicked(MouseEvent e) {			
 				
-				RuntimeMemory mem = form.initMemory();
+				form.initMemory(context);
 				
-				QuestionFrame qf = new QuestionFrame(form);
+				QuestionFrame qf = new QuestionFrame(form,context);
 			}
 		});
 	}

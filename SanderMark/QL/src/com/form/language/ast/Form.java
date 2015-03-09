@@ -3,19 +3,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import com.form.language.ast.statement.Statement;
-import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 public class Form  {
 	public String id;
 	public List<Statement> statementList;
-	private JPanel fPanel;
 		
 	public Form(String id) {
 		this.id = id;
@@ -27,9 +22,9 @@ public class Form  {
 		this.statementList = statementList;
 	}
 	
-	public void getTypes(TypeMemory mem){
+	public void getTypes(Context context){
 		for(Statement s: statementList){
-			s.getType(mem);
+			s.getType(context);
 		}
 	}
 	public void collectIds(IdCollector idCollector){
@@ -42,19 +37,18 @@ public class Form  {
 		return statementList.iterator();
 	}
 	
-	public RuntimeMemory initMemory()
+	public Context initMemory(Context context)
 	{
-		RuntimeMemory mem = new RuntimeMemory();
 		for(Statement s: statementList)
 		{
-			s.initMemory(mem);			
+			s.initMemory(context);			
 		}
-		return mem;		
+		return context;		
 	}
 
-	public void showTypes(TypeMemory mem) {
+	public void showTypes(Context context) {
 		for(Statement s: statementList){
-			System.out.println(s.getType(mem));	
+			System.out.println(s.getType(context));	
 		}
 	}
 	

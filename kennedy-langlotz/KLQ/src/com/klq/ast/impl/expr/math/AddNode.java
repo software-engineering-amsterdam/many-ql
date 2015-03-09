@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public class AddNode extends ABinaryExprNode {
+public class AddNode extends AMathNode {
 
     public AddNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);

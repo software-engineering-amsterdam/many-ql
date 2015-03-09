@@ -14,14 +14,14 @@ import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.expression.unary.Unary;
-import org.fugazi.ql.ast.form.form_data.visitor.FullFormVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 import java.util.List;
 
-public class TypeMismatchVisitor extends FullFormVisitor {
+public class TypeMismatchVisitor extends FullQLFormVisitor {
     public TypeMismatchVisitor() {
         super();
     }
