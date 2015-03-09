@@ -1,15 +1,17 @@
 package nl.uva.softwcons.ql.ui.widget;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.CheckBox;
 import nl.uva.softwcons.ql.eval.value.Value;
 
 public class CheckBoxWidget extends Widget {
-
     private CheckBox checkBox;
+    private Property<Value> valueProperty;
 
-    public CheckBoxWidget(String checkString) {
-        checkBox = new CheckBox(checkString);
+    public CheckBoxWidget(final String checkString) {
+        this.checkBox = new CheckBox(checkString);
+        this.valueProperty = new SimpleObjectProperty<Value>();
     }
 
     @Override
@@ -19,15 +21,17 @@ public class CheckBoxWidget extends Widget {
 
     @Override
     public void setValue(Value value) {
-        if (value.asBoolean()) {
-            checkBox.setSelected(true);
-            return;
-        }
+        checkBox.setSelected(value.asBoolean());
     }
 
     @Override
-    public void processValueChanged(Value oldValue, Value newValue) {
-        setValue(newValue);
+    public void setVisible(boolean visible) {
+        this.checkBox.setVisible(visible);
+    }
+
+    @Override
+    public Property<Value> getValueProperty() {
+        return this.valueProperty;
     }
 
 }

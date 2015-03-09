@@ -93,7 +93,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
 
         OptionSet options = new OptionSet();
         for(AExpression child : node.getChildren()){
-            options.add(child.evaluate(null)); //TODO temp fix, need to change when computed questions can take expressions
+            options.add(child); //TODO temp fix, need to change when computed questions can take expressions
         }
         return new Question(id, type, options, text);
     }

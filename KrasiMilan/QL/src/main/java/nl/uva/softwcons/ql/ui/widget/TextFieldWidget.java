@@ -1,18 +1,17 @@
 package nl.uva.softwcons.ql.ui.widget;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextField;
 import nl.uva.softwcons.ql.eval.value.Value;
 
 public class TextFieldWidget extends Widget {
-
     private TextField textField;
+    private Property<Value> valueProperty;
 
-    public TextFieldWidget(final Value v) {
-        textField = new TextField();
-    }
-
-    public TextFieldWidget(String defaultText) {
-        textField = new TextField(defaultText);
+    public TextFieldWidget() {
+        this.textField = new TextField();
+        this.valueProperty = new SimpleObjectProperty<Value>();
     }
 
     @Override
@@ -22,12 +21,17 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public void setValue(Value value) {
-        textField.setText(value.asString());
+        this.valueProperty.setValue(value);
     }
 
     @Override
-    public void processValueChanged(Value oldValue, Value newValue) {
-        setValue(newValue);
+    public void setVisible(boolean visible) {
+        this.textField.setVisible(visible);
+    }
+
+    @Override
+    public Property<Value> getValueProperty() {
+        return valueProperty;
     }
 
 }
