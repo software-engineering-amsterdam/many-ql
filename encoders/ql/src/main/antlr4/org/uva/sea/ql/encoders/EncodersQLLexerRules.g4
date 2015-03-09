@@ -6,7 +6,7 @@ DATATYPE      : ( BOOLEAN
                 );
 
 BOOLEAN       : 'boolean';
-INTEGER       : 'int';
+INTEGER       : 'integer';
 STRING        : 'string';
 
 MULDIV: MUL | DIV;

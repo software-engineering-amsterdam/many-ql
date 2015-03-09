@@ -5,11 +5,11 @@ public abstract class DataType<V> {
 	private static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
 
 	public V multiply(V leftValue, V rightValue) {
-		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
+		throw new AssertionError(NOT_SUPPORTED_OPERATION);
 	}
 
 	public V divide(V leftValue, V rightValue) {
-		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
+		throw new AssertionError(NOT_SUPPORTED_OPERATION);
 	}
 
 	public V add(V leftValue, V rightValue) {

@@ -63,7 +63,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		Map<String, DataType<?>> operatorTable = new HashMap<>();
 		operatorTable.put("boolean", new QLBoolean());
 		operatorTable.put("string", new QLString());
-		operatorTable.put("int", new QLInteger());
+		operatorTable.put("integer", new QLInteger());
 		return operatorTable;
 	}
 
