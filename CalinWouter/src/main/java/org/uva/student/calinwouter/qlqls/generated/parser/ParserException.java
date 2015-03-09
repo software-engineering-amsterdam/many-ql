@@ -2,18 +2,21 @@
 
 package org.uva.student.calinwouter.qlqls.generated.parser;
 
-import org.uva.student.calinwouter.qlqls.generated.node.Token;
+import org.uva.student.calinwouter.qlqls.generated.node.*;
 
 @SuppressWarnings("serial")
-public class ParserException extends Exception {
+public class ParserException extends Exception
+{
     private Token token;
 
-    public ParserException(@SuppressWarnings("hiding") Token token, String message) {
+    public ParserException(@SuppressWarnings("hiding") Token token, String  message)
+    {
         super(message);
         this.token = token;
     }
 
-    public Token getToken() {
+    public Token getToken()
+    {
         return this.token;
     }
 }

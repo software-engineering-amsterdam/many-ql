@@ -2,6 +2,7 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public interface Switch {
-    // Empty body
+public interface Switch
+{
+        // Empty body
 }

@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -25,18 +26,42 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     private final Stack<Object> argumentStack = new Stack<Object>();
 
     /**
+     * Convert varargs parameters to normal call parameters.
+     */
+    private Object[] newInstanceParametersUsingVarArgs(List<Object> args, Constructor constructor) {
+        int origLength = constructor.getParameterTypes().length;
+        List<Object> varArgsArgument = new LinkedList<Object>();
+        List<Object> results = new LinkedList<Object>();
+        while (args.size() >= origLength) {
+            Object lastArgument = args.remove(args.size() - 1);
+            varArgsArgument.add(0, lastArgument);
+        }
+        results.addAll(args);
+        results.add(Arrays.copyOf(varArgsArgument.toArray(), varArgsArgument.size(),
+                constructor.getParameterTypes()[constructor.getParameterTypes().length - 1]));
+        return results.toArray();
+    }
+
+    /**
      * This method creates an instance of the class to be found by the specified name, with
      * this QLSAdapter as constructor parameter.
      */
     private Object newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath, List<Object> args)
             throws NoSuchMethodException, IllegalAccessException, InstantiationException,
             InvocationTargetException, ClassNotFoundException {
-        List<Class<?>> classList = new LinkedList<Class<?>>();
-        for (Object o : args) {
-            classList.add(o.getClass());
+        Class clazz = Class.forName(classPath);
+        for (Constructor c : clazz.getConstructors()) {
+            try {
+                if (c.isVarArgs() && args.size() >= c.getParameterTypes().length) {
+                    return c.newInstance((Object[]) newInstanceParametersUsingVarArgs(args, c));
+                }
+                return c.newInstance((Object[]) args.toArray());
+            } catch(IllegalArgumentException e) {
+                continue;
+            }
         }
-        return Class.forName(classPath).getConstructor(classList.toArray(new Class<?>[classList.size()]))
-                .newInstance(args.toArray());
+        // TODO custom constructor!
+        throw new RuntimeException("Constructor not found for class: " + clazz);
     }
 
     /**
@@ -149,13 +174,13 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      *
      * =>
      *
-     * HashMap<String, Object>
+     * HashMap<Object, Object>
      *
      * In case the elements on the stack deviate from the SimpleEntry-type, this method raises a ClassCastException.
      */
     @Override
     public void outAObjectElement(AObjectElement node) {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        Map<Object, Object> hashMap = new HashMap<Object, Object>();
         for (int i = 0; i < node.getObjectEl().size(); i++) {
             AbstractMap.SimpleEntry<Object, Object> entry = (AbstractMap.SimpleEntry<Object, Object>) argumentStack.pop();
             hashMap.put(entry.getKey().toString(), entry.getValue());
@@ -172,17 +197,20 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      *
      * =>
      *
-     * SimpleEntry<String, Object>
+     * SimpleEntry<Object, Object>
      *
      * In case the first element on the stack deviates from the String-type (key), this method raises a ClassCastException.
      */
     @Override
     public void outAObjectEl(AObjectEl node) {
-        argumentStack.push(new HashMap.SimpleEntry<String, Object>((String) argumentStack.pop(), argumentStack.pop()));
+        argumentStack.push(new AbstractMap.SimpleEntry<Object, Object>((Object) argumentStack.pop(), argumentStack.pop()));
     }
 
     private static String firstCharacterToUpper(String str) {
         return str.substring(0, 1).toUpperCase()
                 + str.substring(1);
     }
+
+    /** QLSAdapter can only be used through the QLSInterpreter and the QLSTypeChecker. */
+    protected QLSAdapter() {}
 }
