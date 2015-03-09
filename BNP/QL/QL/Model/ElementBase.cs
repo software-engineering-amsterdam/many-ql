@@ -13,7 +13,7 @@ namespace QL.Model
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }
-        protected List<TypeError> TypeExceptions;
+
         /// <summary>
         /// Gets an ElementType indicating if this element is a leaf or a node.
         /// </summary>
@@ -22,7 +22,6 @@ namespace QL.Model
         protected ElementBase()
         {
             Children = new List<ElementBase>();
-            TypeExceptions = new List<TypeError>();
         }
 
         internal void HandleChildren(IList<ElementBase> list)
@@ -31,16 +30,7 @@ namespace QL.Model
         }
 
 
-        public List<TypeError> CollectTypeExceptions()
-        {
-            List<TypeError> retval = TypeExceptions;
-            foreach (ElementBase child in Children)
-            {
-                retval.AddRange(child.CollectTypeExceptions());
-            }
-            return retval;
-        }
-
+        
         public virtual void Accept(IVisitor visitor)
         {
             visitor.Visit((dynamic) this); //dynamic!! BECAUSE It's cloning to implement this for everything as the same
