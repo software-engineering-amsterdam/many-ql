@@ -1,4 +1,4 @@
-package org.uva.ql.ast.builder;
+package org.uva.utility;
 
 public class CodePosition {
 	private final int startLine;
