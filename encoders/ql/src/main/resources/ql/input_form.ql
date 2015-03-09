@@ -23,13 +23,13 @@ form taxOfficeExample {
   }
   
   if (hasContract && hasSoldHouse) {
-    "Do you have a contract for longer than 1 year?"
+    "How long do you have a contract?"
       yearContract: integer
-    "Did you have an unlimited contract with your employer?"
-      unlimitedContract: integer
+    "How many times did you receive a temporary contract?"
+      temporaryContract: integer
     "Employer followed rules according CAO:"
       rulesFollowed: boolean =
-        yearContract >= unlimitedContract 
+        yearContract >= temporaryContract 
   }
 
 }
