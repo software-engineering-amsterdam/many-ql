@@ -58,8 +58,8 @@ public class QuestionnaireUI {
 			grid.add(label, 0, y);
 			boolean visible = question.getCondition() == null;
 			label.setVisible(visible);
-			ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
-			final Control control = dataType.accept(controlGenerator);
+			ControlGeneratorVisitor controlGeneratorVisitor = new ControlGeneratorVisitor(runtimeQuestion);
+			final Control control = dataType.accept(controlGeneratorVisitor);
 
 			control.setVisible(visible);
 

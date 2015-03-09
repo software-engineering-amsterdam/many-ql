@@ -13,11 +13,11 @@ import org.uva.sea.ql.encoders.ast.type.QLInteger;
 import org.uva.sea.ql.encoders.ast.type.QLString;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 
-public class ControlGenerator implements DataTypeVisitor<Control> {
+public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 
 	private RuntimeQuestion runtimeQuestion;
 
-	public ControlGenerator(RuntimeQuestion runtimeQuestion) {
+	public ControlGeneratorVisitor(RuntimeQuestion runtimeQuestion) {
 		this.runtimeQuestion = runtimeQuestion;
 	}
 
