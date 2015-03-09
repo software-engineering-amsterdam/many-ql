@@ -5,16 +5,11 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -113,32 +108,4 @@ public class QuestionnaireUI {
 		}
 	}
 
-	private class TextFieldHandler implements EventHandler<Event> {
-		private RuntimeQuestion question;
-
-		public TextFieldHandler(RuntimeQuestion question) {
-			this.question = question;
-		}
-
-		@Override
-		public void handle(Event event) {
-			TextField textField = (TextField) event.getSource();
-			question.setValue(textField.getText());
-		}
-	}
-
-	private class CheckBoxEventHandler implements EventHandler<ActionEvent> {
-		private RuntimeQuestion question;
-
-		public CheckBoxEventHandler(RuntimeQuestion question) {
-			this.question = question;
-		}
-
-		@Override
-		public void handle(ActionEvent event) {
-			CheckBox checkBox = (CheckBox) event.getSource();
-			question.setValue(checkBox.isSelected());
-			expressionEvaluator.evaluateExpression(question);
-		}
-	}
 }
