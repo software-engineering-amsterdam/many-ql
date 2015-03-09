@@ -1,4 +1,4 @@
-package qls.ast;
+package qls;
 
 import qls.ast.visitor.Visitor;
 
