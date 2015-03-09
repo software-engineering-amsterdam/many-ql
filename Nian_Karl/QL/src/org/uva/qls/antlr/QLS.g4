@@ -8,7 +8,7 @@ block: LEFT_PAREN section* RIGHT_PAREN;
 
 section: SECTION StringLiteral LEFT_PAREN questionIdent RIGHT_PAREN;
 
-questionIdent:QUESTION Identifier wid ;
+questionIdent:QUESTION Identifier ;
 
 styling: WIDGET COLON widget
 	| WIDTH COLON IntegerLiteral

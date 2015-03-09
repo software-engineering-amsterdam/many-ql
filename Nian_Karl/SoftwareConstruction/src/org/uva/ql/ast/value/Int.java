@@ -26,20 +26,17 @@ public class Int extends Value{
 /*======================================================
 	Operations
 ======================================================*/
-//Positive
 	@Override
 	public Value positive() {
 		return new Int(+getValue());
 	}
 
-//Negative
 	@Override
 	public Value negative() {
 		return new Int(-getValue());
 	}
 	
 /*------------------Double Dispatch ------------------*/
-//Plus
 	@Override
 	public Value plus(Value arg) {
 		return arg.intPlus(this);
@@ -50,7 +47,6 @@ public class Int extends Value{
 		return new Int(arg.getValue() + getValue());
 	}
 
-//Minus
 	@Override
 	public Value minus(Value arg) {
 		return arg.intMinus(this);
@@ -61,7 +57,6 @@ public class Int extends Value{
 		return new Int(arg.getValue() - getValue());
 	}
 
-//Multiply
 	@Override
 	public Value multiply(Value arg) {
 		return arg.intMultiply(this);
@@ -72,7 +67,6 @@ public class Int extends Value{
 		return new Int(arg.getValue() * getValue());
 	}
 
-//Divide
 	@Override
 	public Value divide(Value arg) {
 		return arg.intDivide(this);
@@ -83,7 +77,6 @@ public class Int extends Value{
 		return new Int(arg.getValue() / getValue());
 	}
 
-//Greater
 	@Override
 	public Value greater(Value arg) {
 		return arg.intGreater(this);
@@ -94,7 +87,6 @@ public class Int extends Value{
 		return new Bool(arg.getValue() > getValue());
 	}
 
-//Greater Equal
 	@Override
 	public Value greaterEqual(Value arg) {
 		return arg.intGreaterEqual(this);
@@ -105,7 +97,6 @@ public class Int extends Value{
 		return new Bool(arg.getValue() >= getValue());
 	}
 	
-//Less
 	@Override
 	public Value less(Value arg) {
 		return arg.intLess(this);
@@ -116,7 +107,7 @@ public class Int extends Value{
 		return new Bool(arg.getValue() < getValue());
 	}
 	
-	//Less Equal
+
 	@Override
 	public Value lessEqual(Value arg) {
 		return arg.intLessEqual(this);
@@ -127,7 +118,6 @@ public class Int extends Value{
 		return new Bool(arg.getValue() <= getValue());
 	}
 	
-//Equal
 	@Override
 	public Value equal(Value arg) {
 		return arg.intEqual(this);
@@ -138,7 +128,6 @@ public class Int extends Value{
 		return new Bool(arg.getValue() == getValue());
 	}
 	
-//Not Equal
 	@Override
 	public Value notEqual(Value arg) {
 		return arg.intNotEqual(this);

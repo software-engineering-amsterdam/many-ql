@@ -21,18 +21,12 @@ public class Bool extends Value{
 	public String toString() {
 		return value.toString();
 	}
-	
-/*======================================================
-	Operations
-======================================================*/
-//Not
+
 	@Override
 	public Value not() {
 		return new Bool(!getValue());
 	}
 	
-/*------------------Double Dispatch ------------------*/
-//And
 	@Override
 	public Value and(Value arg) {
 		return arg.boolAnd(this);
@@ -43,7 +37,6 @@ public class Bool extends Value{
 		return new Bool(arg.getValue() && getValue());
 	}
 	
-//Or
 	@Override
 	public Value or(Value arg) {
 		return arg.boolOr(this);
@@ -54,7 +47,6 @@ public class Bool extends Value{
 		return new Bool(arg.getValue() || getValue());
 	}
 	
-//Equal
 	@Override
 	public Value equal(Value arg) {
 		return arg.boolEqual(this);
@@ -65,7 +57,6 @@ public class Bool extends Value{
 		return new Bool(arg.getValue() == getValue());
 	}
 	
-//Not Equal
 	@Override
 	public Value notEqual(Value arg) {
 		return arg.boolNotEqual(this);
