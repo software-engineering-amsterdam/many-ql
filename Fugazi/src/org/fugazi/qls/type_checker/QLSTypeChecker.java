@@ -2,7 +2,6 @@ package org.fugazi.qls.type_checker;
 
 /*
 TODO
-- no references to questions that are not in the QL program
 - all questions of the QL program are placed by the QLS program.
 - you cannot place a single question multiple times.
 - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
@@ -41,6 +40,7 @@ public class QLSTypeChecker {
      * =====================
      */
 
+    // TODO ABSTRACT OUT INTO ELEMENT IN LIST FROM THE TWO BELOW?
     private void checkForUndefinedQuestions() {
         List<Question> qlQuestions = this.qlFormData.getQuestions();
         List<String> qlQuestionIdNames = new ArrayList<>();
@@ -63,6 +63,27 @@ public class QLSTypeChecker {
         return;
     }
 
+    private void checkIfAllQuestionsPlaced() {
+        List<Question> qlQuestions = this.qlFormData.getQuestions();
+        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+                this.qlsStyleSheetData.getQuestions();
+        List<String> qlsQuestionIdNames = new ArrayList<>();
+
+        for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
+            qlsQuestionIdNames.add(question.getId());
+        }
+
+        for (Question question : qlQuestions ) {
+            if (!qlsQuestionIdNames.contains(question.getIdName())) {
+                this.astIssueHandler.registerNewError(
+                        ASTNodeIssueType.QLS_ERROR.UNDEFINED, question,
+                        "QL Question  " + question.getIdName() + " not placed by QLS sheet and missing style definition."
+                );
+            }
+        }
+        return;
+    }
+
     /**
      * =====================
      * Exposed global methods
@@ -78,6 +99,7 @@ public class QLSTypeChecker {
         this.qlFormData = _qlFormData;
 
         this.checkForUndefinedQuestions();
+        this.checkIfAllQuestionsPlaced();
 
         return this.isFormCorrect();
     }
