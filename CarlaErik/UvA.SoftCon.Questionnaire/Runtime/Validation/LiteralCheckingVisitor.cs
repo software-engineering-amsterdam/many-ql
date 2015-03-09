@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
     /// </summary>
     public class LiteralCheckingVisitor : QLVisitor
     {
-        public ICollection<DateLiteral> InvalidDateLiterals
+        public ICollection<Literal> InvalidLiterals
         {
             get;
             private set;
@@ -22,17 +22,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public LiteralCheckingVisitor()
         {
-            InvalidDateLiterals = new List<DateLiteral>();
+            InvalidLiterals = new List<Literal>();
+        }
+
+        public override void Visit(IntegerLiteral literal)
+        {
+            if (!literal.IsValid)
+            {
+                InvalidLiterals.Add(literal);
+            }
         }
 
         public override void Visit(DateLiteral literal)
         {
-            DateTime date = DateTime.MinValue;
-
-            if (!literal.Value.Equals("today", StringComparison.OrdinalIgnoreCase)
-                && !DateTime.TryParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            if (literal.IsValid)
             {
-                InvalidDateLiterals.Add(literal);
+                InvalidLiterals.Add(literal);
             }
         }
     }
