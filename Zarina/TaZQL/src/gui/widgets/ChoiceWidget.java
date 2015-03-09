@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.listeners.EvaluateExpression;
 
@@ -85,6 +86,12 @@ public class ChoiceWidget implements IWidgetComponent {
 
 	@Override
 	public void setIntegerValue(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setText(Value value) {
 		// TODO Auto-generated method stub
 		
 	}
