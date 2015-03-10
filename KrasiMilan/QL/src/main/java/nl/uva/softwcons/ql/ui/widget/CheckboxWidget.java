@@ -2,8 +2,6 @@ package nl.uva.softwcons.ql.ui.widget;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
@@ -16,11 +14,8 @@ public class CheckboxWidget extends Widget {
         this.checkBox = new CheckBox(checkString);
         this.valueProperty = new SimpleObjectProperty<Value>();
 
-        this.checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                valueProperty.setValue(converter.toValue(newValue));
-            }
+        this.checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            valueProperty.setValue(converter.toValue(newValue));
         });
     }
 
