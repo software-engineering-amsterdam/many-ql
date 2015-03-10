@@ -22,7 +22,7 @@ class Parser extends JavaTokenParsers {
     case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
   }
   
-  def questions: Parser[QuestionSequence] = "{" ~> rep(question) <~ "}" ^^ QuestionSequence
+  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
   def question: Parser[Question] = variable ~ widget ^^ {

@@ -1,3 +1,3 @@
 package qls.ast
 
-case class Section(title: String, questions: QuestionSequence)
+case class Section(title: String, questions: List[Question])
