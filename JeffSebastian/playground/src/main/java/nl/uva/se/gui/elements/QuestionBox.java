@@ -12,8 +12,10 @@ import nl.uva.se.gui.Validator;
 public class QuestionBox extends VBox {
 
 	private Validator validator = new Validator();
+	private final Question question;
 
 	public QuestionBox(Question question) {
+		this.question = question;
 		addQuestion(question);
 	}
 
@@ -36,6 +38,10 @@ public class QuestionBox extends VBox {
 
 			this.getChildren().add(textQuestionBox);
 		}
+	}
+	
+	public Question getQuestion(){
+		return this.question;
 	}
 
 	private ChangeListener<String> addTextBoxListener(

@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.uva.se.ast.form.Form;
+import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
 
 public class QuestionPane extends BorderPane{
@@ -41,6 +42,13 @@ public class QuestionPane extends BorderPane{
 		hbox.getChildren().addAll(buttonReset, buttonContinue);
 				
 		return hbox;
+	}
+	
+	public void addCondition(Condition condition){
+		ConditionBox conditionBox = new ConditionBox(condition);
+		conditionBox.setVisible(false);
+		vbox.getChildren().add(conditionBox);
+		vbox.getChildren()
 	}
 	
 	public void addQuestion(Question question, boolean isFromCondition){
