@@ -64,7 +64,7 @@ public abstract class AQuestionPane extends GridPane {
                 radii, BorderWidths.DEFAULT
         );
         BackgroundFill fill = new BackgroundFill(
-                Paint.valueOf("#EEEEEE"), radii, new Insets(1)
+                Paint.valueOf("#EFEFEF"), radii, new Insets(1)
         );
         this.setPadding(new Insets(5));
         this.setBorder(new Border(stroke));
@@ -93,7 +93,7 @@ public abstract class AQuestionPane extends GridPane {
     }
 
     /**
-     * Creates the area where the user has to provide input.
+     * Creates the control where the user has to provide input.
      * Also necessary to set the handler and call questionAnswered(),
      * when answer changes!
      */

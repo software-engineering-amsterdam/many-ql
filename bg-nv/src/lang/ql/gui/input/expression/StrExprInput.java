@@ -24,8 +24,14 @@ public class StrExprInput extends ExprInput<TextInputControl>
         super(id, new TextField(), expression, visible);
     }
 
+    @Override
+    public <U> U accept(ModelVisitor<U> visitor)
+    {
+        return visitor.visit(this);
+    }
 
-    public void update(ValueTable valueTable)
+    @Override
+    public void refreshElement(ValueTable valueTable)
     {
         Value val = valueTable.getValue(this.getId());
 
@@ -36,13 +42,6 @@ public class StrExprInput extends ExprInput<TextInputControl>
             strValue = val.toString();
         }
 
-        TextInputControl textInput = this.getControl();
-        textInput.setText(strValue);
-    }
-
-    @Override
-    public <T> T accept(ModelVisitor<T> visitor)
-    {
-        return visitor.visit(this);
+        this.control.setText(strValue);
     }
 }

@@ -3,31 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AST.Nodes.FormSection;
 using AST.Nodes.Interfaces;
+using AST.Representation;
 
 
 namespace AST.Nodes
 {
-    public class Form : IASTNode
+    public class Form : FormElementContainer
     {
-        private IList<IASTNode> children;
+        public List<IFormObject> Body { get; private set; }
+        public string parsedString;
 
-        public Form()
+        public Form(List<IFormObject> body, string parsedString , PositionInText position)
+            : base(position)
         {
-            children = new List<IASTNode>();
+            this.Body = body;
+            this.parsedString = parsedString;
+        }
+        
+        public override IList<IFormObject> GetBody() { return Body; }
+
+        public override string GetParsedString()
+        { return parsedString; }
+
+        //Visitor Methods
+        public override void Accept(Visitors.IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
-        public void AddChild(IASTNode formSection)
+        public override T Accept<T>(Visitors.IVisitor<T> visitor)
         {
-            children.Add(formSection);
-        }
-
-        public IList<IASTNode> GetChildren()
-        {
-            return children;
+            return visitor.Visit(this);
         }
 
 
     }
+
 }

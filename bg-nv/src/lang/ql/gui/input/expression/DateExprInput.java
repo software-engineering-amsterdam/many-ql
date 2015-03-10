@@ -25,13 +25,13 @@ public class DateExprInput extends ExprInput<DatePicker>
     }
 
     @Override
-    public <T> T accept(ModelVisitor<T> visitor)
+    public <U> U accept(ModelVisitor<U> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
         Value val = valueTable.getValue(this.getId());
 
@@ -40,8 +40,6 @@ public class DateExprInput extends ExprInput<DatePicker>
             assert val instanceof DateValue;
             Date dateValue = ((DateValue)val).getValue();
         }
-
-        DatePicker dateInput = this.getControl();
         //TODO: set value
     }
 }

@@ -10,14 +10,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.generated.QLBaseVisitor;
-import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
+import nl.uva.softwcons.generated.QLParser.AddSubExprContext;
+import nl.uva.softwcons.generated.QLParser.AndExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
+import nl.uva.softwcons.generated.QLParser.ComparisonExprContext;
 import nl.uva.softwcons.generated.QLParser.ComputedQuestionContext;
 import nl.uva.softwcons.generated.QLParser.ConditionalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
+import nl.uva.softwcons.generated.QLParser.MulDivExprContext;
 import nl.uva.softwcons.generated.QLParser.NotExprContext;
 import nl.uva.softwcons.generated.QLParser.NumberContext;
+import nl.uva.softwcons.generated.QLParser.OrExprContext;
 import nl.uva.softwcons.generated.QLParser.ParenthesisContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.StringContext;
@@ -39,7 +43,6 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ql.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ql.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
@@ -91,7 +94,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public BinaryExpression visitBinaryExpr(BinaryExprContext ctx) {
+    public BinaryExpression visitMulDivExpr(MulDivExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
 
@@ -100,14 +103,33 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
             return new Multiplication(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "/":
             return new Division(leftExpression, rightExpression, extractLineInfo(ctx.op));
+        default:
+            throw new IllegalArgumentException("Unsupported operator in expression.");
+        }
+    }
+
+    @Override
+    public ASTNode visitAddSubExpr(AddSubExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+
+        switch (ctx.op.getText()) {
         case "-":
             return new Subtraction(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "+":
             return new Addition(leftExpression, rightExpression, extractLineInfo(ctx.op));
-        case "&&":
-            return new And(leftExpression, rightExpression, extractLineInfo(ctx.op));
-        case "||":
-            return new Or(leftExpression, rightExpression, extractLineInfo(ctx.op));
+
+        default:
+            throw new IllegalArgumentException("Unsupported operator in expression.");
+        }
+    }
+
+    @Override
+    public ASTNode visitComparisonExpr(ComparisonExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+
+        switch (ctx.op.getText()) {
         case "<":
             return new LowerThan(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "<=":
@@ -126,8 +148,22 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public UnaryExpression visitNotExpr(NotExprContext ctx) {
-        return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.op));
+    public And visitAndExpr(AndExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+        return new And(leftExpression, rightExpression, extractLineInfo(ctx.AND().getSymbol()));
+    }
+
+    @Override
+    public Or visitOrExpr(OrExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+        return new Or(leftExpression, rightExpression, extractLineInfo(ctx.OR().getSymbol()));
+    }
+
+    @Override
+    public Not visitNotExpr(NotExprContext ctx) {
+        return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.NOT().getSymbol()));
     }
 
     @Override

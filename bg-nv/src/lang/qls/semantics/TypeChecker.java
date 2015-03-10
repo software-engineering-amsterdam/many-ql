@@ -19,22 +19,23 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private QuestTypes qlQuestions;
+    private QuestionTypeMap qlQuestions;
     private Set<String> refQuestions;
     private List<Message> messages;
 
     public static List<Message> check(Stylesheet s, Form f)
     {
-        QuestTypes qs = QLQuestionVisitor.extractQuestions(f);
+        QuestionTypeMap qs = QLQuestionVisitor.extractQuestions(f);
         TypeChecker checker = new TypeChecker(qs);
-        checker.visit(s);
-
-        checker.allQuestionsReferencedCheck();
+        if (checker.visit(s))
+        {
+            checker.allQuestionsReferencedCheck();
+        }
 
         return checker.messages;
     }
 
-    private TypeChecker(QuestTypes qlQuestions)
+    private TypeChecker(QuestionTypeMap qlQuestions)
     {
         this.qlQuestions = qlQuestions;
         this.refQuestions = new HashSet<>();
@@ -46,10 +47,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Page p : s.getBody())
         {
-            Boolean r = p.accept(this);
-            if (!(r))
+            if (!(p.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -61,10 +61,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Statement s : p.getBody())
         {
-            Boolean r = s.accept(this);
-            if (!(r))
+            if (!(s.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -90,6 +89,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         {
             Rules rs = q.getBody();
             Type qType = this.qlQuestions.getType(q.getId());
+
             return this.visitRules(rs, qType, q.getLineNumber());
         }
 
@@ -147,6 +147,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
                 return false;
             }
         }
+
         return true;
     }
 }

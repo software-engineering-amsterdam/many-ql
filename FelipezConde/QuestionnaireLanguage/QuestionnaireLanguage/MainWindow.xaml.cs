@@ -15,27 +15,39 @@ using System.Windows.Shapes;
 using System.IO;
 using AST;
 using AST.Test;
+using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.Contracts;
+using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
 
 namespace QuestionnaireLanguage
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMain
     {
         public MainWindow()
         {
-            
             InitializeComponent();
 
             string path =  @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
-            string fileName = "test6.txt";
+            string fileName = "test9.txt";
 
             TestClass test = new TestClass();
-            test.GetAST(path + fileName);
+            ASTResult ast = test.GetAST(path + fileName);
 
-            /*FormVisitor visitor = new FormVisitor();
-            Console.WriteLine(visitor.Visit(tree));*/
+            Processor procesor = new Processor(this, ast);
+            UIElement element = Processor.ProcessBody(ast.Ast.GetBody(),this._stack);
+        }
+
+        public UIElementCollection GetControls()
+        {
+            return this._stack.Children;
+        }
+
+        public void AddControl(UIElement element)
+        {
+            this._stack.Children.Add(element);
         }
     }
 }

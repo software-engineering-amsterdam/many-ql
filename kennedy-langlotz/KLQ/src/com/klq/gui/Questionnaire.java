@@ -6,7 +6,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -81,7 +80,7 @@ public class Questionnaire extends AnchorPane {
     }
 
     public void addQuestionPage(QuestionPage page){
-        this.store.updateVisibilities();
+        this.store.updateQuestionVisibilities();
         this.questionPages.add(page);
         if (this.currentPagePane.getContent() == null) {
             this.currentPagePane.setContent(page);

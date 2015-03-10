@@ -73,90 +73,135 @@ class ParserSpec extends Specification with ParserMatchers {
         "}")
         .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
     }
-    
   }
   
   "widget parser" should {
     "parse spinbox" in {
-      widget must succeedOn("var1 spinbox")
-        .withResult(Spinbox(Variable("var1"), None))
+      question must succeedOn("var1 spinbox")
+        .withResult(Question(Variable("var1"), SpinBox(None)))
     }
     "parse slider" in {
-      widget must succeedOn("var1 slider")
-        .withResult(Slider(Variable("var1"), None))
+      question must succeedOn("var1 slider")
+        .withResult(Question(Variable("var1"), Slider(None)))
     }
     "parse text" in {
-      widget must succeedOn("var1 text")
-        .withResult(Text(Variable("var1"), None))
+      question must succeedOn("var1 text")
+        .withResult(Question(Variable("var1"), Text(None)))
     }
     "parse textBlock" in {
-      widget must succeedOn("var1 textBlock")
-        .withResult(TextBlock(Variable("var1"), None))
+      question must succeedOn("var1 textBlock")
+        .withResult(Question(Variable("var1"), TextBlock(None)))
     }
     "parse radio" in {
-      widget must succeedOn("var1 radio")
-        .withResult(Radio(Variable("var1"), None))
+      question must succeedOn("var1 radio")
+        .withResult(Question(Variable("var1"), Radio(None)))
     }
     "parse dropdown" in {
-      widget must succeedOn("var1 dropdown")
-        .withResult(Dropdown(Variable("var1"), None))
+      question must succeedOn("var1 dropdown")
+        .withResult(Question(Variable("var1"), DropDown(None)))
     }
     "parse spinbox with style" in {
-      widget must succeedOn("var1 spinbox {" +
+      question must succeedOn("var1 spinbox {" +
           "width: 400" +
           "font: \"Arial\"" +
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(Spinbox(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),SpinBox(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse slider with style" in {
-      widget must succeedOn("var1 slider {" +
+      question must succeedOn("var1 slider {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Slider(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse text with style" in {
-      widget must succeedOn("var1 text {" +
+      question must succeedOn("var1 text {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Text(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),Text(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse textBlock with style" in {
-      widget must succeedOn("var1 textBlock {" +
+      question must succeedOn("var1 textBlock {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(TextBlock(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),TextBlock(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse radio with style" in {
-      widget must succeedOn("var1 radio {" +
+      question must succeedOn("var1 radio {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Radio(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),Radio(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse dropdown with style" in {
-      widget must succeedOn("var1 dropdown {" +
+      question must succeedOn("var1 dropdown {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Dropdown(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
+    "parse question sequence" in {
+      questions must succeedOn("{" +
+        "var1 dropdown" +
+        "var2 dropdown" +
+      "}"
+      )
+        .withResult(List(Question(Variable("var1"),DropDown(None)), Question(Variable("var2"),DropDown(None))))
+    }
+  }
 
+  "section parser" should {
+    "parse section" in {
+      parsers.section must succeedOn("section \"section1\" {" +
+          "var1 dropdown {" +
+            "width: 400" +
+            "font: \"Arial\"" +
+            "fontSize: 14" +
+            "color: #99FF66" +
+          "}" +
+          "var2 slider {" +
+            "width: 400" +
+            "font: \"Arial\"" +
+            "fontSize: 14" +
+            "color: #99FF66" +
+          "}" +
+        "}")
+        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
+    }
+  }
+
+  "page parser" should {
+    "parse page" in {
+      page must succeedOn("page page1 {" +
+          "section \"section1\" {}" +
+          "section \"section2\" {}" +
+        "}")
+        .withResult(Page(Variable("page1"),List(Section("section1",List()),Section("section2",List()))))
+    }
+  }
+
+  "style parser" should {
+    "parse style" in {
+      style must succeedOn("style PartyForm {" +
+          "page page1 {}" +
+          "page page2 {}" +
+        "}")
+        .withResult(Style("PartyForm",List(Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
+    }
   }
   
 }
-

@@ -25,7 +25,7 @@ import java.util.Map;
 // TODO: handle errors, paths, etc.
 public class DataStore implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private static final String FILEPATH = "D:\\questionnaire.xml";
+    private static final String FILEPATH = "questionnaire.xml";
 
     private final Map<String, String> questionToId;
     private final Map<String, Object> answerToQuestion;

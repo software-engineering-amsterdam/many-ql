@@ -9,9 +9,9 @@ import lang.ql.ast.statement.*;
  */
 public class QLQuestionVisitor implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private QuestTypes questionMap;
+    private QuestionTypeMap questionMap;
 
-    public static QuestTypes extractQuestions(Form f)
+    public static QuestionTypeMap extractQuestions(Form f)
     {
         QLQuestionVisitor visitor = new QLQuestionVisitor();
         f.accept(visitor);
@@ -21,7 +21,7 @@ public class QLQuestionVisitor implements FormVisitor<Void>, StatVisitor<Void>
 
     private QLQuestionVisitor()
     {
-        this.questionMap = new QuestTypes();
+        this.questionMap = new QuestionTypeMap();
     }
 
     @Override

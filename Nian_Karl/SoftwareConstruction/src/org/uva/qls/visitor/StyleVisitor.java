@@ -1,5 +1,7 @@
 package org.uva.qls.visitor;
 
-public interface StyleVisitor<T> {
+import org.uva.qls.ast.QLSNode;
 
+public interface StyleVisitor<T> {
+	public T visit(QLSNode node);
 }
