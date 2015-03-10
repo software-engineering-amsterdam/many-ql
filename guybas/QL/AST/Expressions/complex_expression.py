@@ -1,5 +1,5 @@
 import QL.AST.Expressions.expression as e
-import QL.AST.Elements.operators as operators
+import QL.AST.Elements.operator as operators
 
 
 # Expressions with sub-expressions

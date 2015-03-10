@@ -63,7 +63,7 @@ class QLS:
 
     # default_settings :: Default answerR _widget
     default_setting = \
-        (Suppress("Default") + form.FormFormat.answerR + Widget.widget +
+        (Suppress("Default") + form.Form.answerR + Widget.widget +
          Optional(Group(obrac + default_properties + cbrac) )
         ).setParseAction(q.QLSFactory.make_default)
 

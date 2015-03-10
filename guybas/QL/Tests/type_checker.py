@@ -1,6 +1,6 @@
-from QL.Validators.type_checker import *
+from QL.Tools.type_checker import *
 from QL.Tests.ast import *
-from QL.Grammar.expressions import *
+from QL.Grammar.expression import *
 
 
 class TestTypeChecker(unittest.TestCase):

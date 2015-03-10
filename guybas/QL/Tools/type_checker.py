@@ -1,6 +1,7 @@
 # Type Checker
 import collections
-import QL.Validators.expression_validator as validator
+
+import QL.Tools.expression_validator as validator
 
 
 class TypeChecker:

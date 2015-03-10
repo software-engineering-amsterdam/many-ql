@@ -1,0 +1,26 @@
+package org.uva.qls.ast.value;
+
+public class StrValue extends Value {
+
+	private final String value;
+
+	public StrValue(String value) {
+		this.value = value;
+	}
+
+	@Override
+	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public String toString() {
+		return value;
+	}
+
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
+	
+}

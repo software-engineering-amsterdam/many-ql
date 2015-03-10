@@ -1,4 +1,4 @@
-import QL.CoreTools.converters as converters
+import QL.Tools.converters as converters
 import QL.config as c
 
 
