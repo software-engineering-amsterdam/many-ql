@@ -4,7 +4,7 @@ import org.uva.ql.ast.BaseNode;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.utility.CodePosition;
 
-public class Question extends BaseNode{
+public class Question extends BaseNode {
 	private final Identifier identifier;
 
 	public Question(Identifier identifier, CodePosition pos) {
@@ -15,6 +15,5 @@ public class Question extends BaseNode{
 	public Identifier getIdentifier() {
 		return identifier;
 	}
-
 
 }
