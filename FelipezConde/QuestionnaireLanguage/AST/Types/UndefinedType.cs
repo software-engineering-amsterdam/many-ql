@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Types
 {
-    public class BoolType : Type
+    public class UndefinedType : Type
     {
-        public override bool IsBool()
+        public override bool IsEqual(Types.Type type)
         {
-            return true;
+            return type.IsUndefined();
         }
 
-        public override bool IsEqual(Type type)
+        public override bool IsUndefined()
         {
-            return type.IsBool();
+            return true;
         }
 
         public override void Accept(Visitors.ITypeVisitor visitor)
@@ -30,7 +29,7 @@ namespace AST.Types
 
         public override string GetString()
         {
-            return "bool";
+            return "undefined";
         }
     }
 }

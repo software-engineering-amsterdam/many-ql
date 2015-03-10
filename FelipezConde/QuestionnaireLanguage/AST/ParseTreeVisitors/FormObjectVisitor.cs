@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using AST.Representation;
 using AST.Helpers;
-using Values = AST.Nodes.Values;
-using AST.Nodes.Values;
+using Type = AST.Types;
 
 namespace AST.ParseTreeVisitors
 {
@@ -18,7 +17,7 @@ namespace AST.ParseTreeVisitors
         {
 
             string identifier = context.id().GetText();
-            Value typeName = context.type().Accept(new TypeVisitor());
+            Types.Type typeName = context.type().Accept(new TypeVisitor());
 
             ILabel label = context.label().Accept(new LabelVisitor());
             IExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;

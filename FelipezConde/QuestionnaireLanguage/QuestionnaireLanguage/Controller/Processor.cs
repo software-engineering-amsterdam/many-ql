@@ -70,12 +70,12 @@ namespace QuestionnaireLanguage.Controller
             return result;
         }
 
-        public static ObjectValue GetObjectValue(Identifier id)
+        public static ObjectValue GetObjectValue(Id id)
         {
             return astTree.GetValue(id);
         }
 
-        public static void SetObjectValue(Identifier id, ObjectValue value)
+        public static void SetObjectValue(Id id, ObjectValue value)
         {
             astTree.SetValue(id,value);
         }

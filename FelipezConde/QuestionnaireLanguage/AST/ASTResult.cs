@@ -1,4 +1,5 @@
 ﻿using AST.Nodes;
+using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
 using AST.Notification;
 using AST.Representation;
@@ -27,12 +28,12 @@ namespace AST
 
         }
 
-        public void SetValue(Identifier key, ObjectValue value)
+        public void SetValue(Id key, ObjectValue value)
         {
-            table.SetObjectValue(key, value);   
+            table.SetObjectValue(key, value);
         }
 
-        public ObjectValue GetValue(Identifier key)
+        public ObjectValue GetValue(Id key)
         {
             return table.GetObjectValue(key);
         }

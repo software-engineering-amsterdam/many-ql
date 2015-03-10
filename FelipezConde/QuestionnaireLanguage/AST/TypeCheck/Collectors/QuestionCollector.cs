@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AST.TypeCheck.Collectors
 {
-    public class DefinedIdentifierCollector : BaseVisitor<IList<Question>>
+    public class QuestionCollector : BaseVisitor<IList<Question>>
     {
         //selectmany flattens lists of lists.
 
@@ -23,7 +23,7 @@ namespace AST.TypeCheck.Collectors
 
         public override IList<Question> Visit(Nodes.FormObject.Conditional node)
         {
-            return node.Body
+            return node.GetBody()
                        .SelectMany(x => x.Accept(this))
                        .ToList();
         }

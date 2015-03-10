@@ -13,13 +13,14 @@ using AST.Nodes.Expression;
 using AST.Nodes.Expression.Unary;
 using AST.Nodes.Values;
 using AST.Notification.Errors;
+using Types = AST.Types;
 
 namespace AST.TypeCheck.Collectors
 {
-    public class ExpressionTypeCollector : BaseVisitor<IValue>
+    public class ExpressionTypeCollector : BaseVisitor<Types.Type>
     {
-        private readonly Dictionary<string, IValue> idToType;
-        private List<INotification> collectedNotifications = new List<INotification>();        
+        private readonly Dictionary<string, Types.Type> idToType;
+        private List<INotification> collectedNotifications = new List<INotification>();
 
         public IList<INotification> GetCollectedNotifications()
         { return collectedNotifications; }
@@ -27,52 +28,50 @@ namespace AST.TypeCheck.Collectors
         public void ClearCollectedNotifications()
         { collectedNotifications = new List<INotification>(); }
 
-        public ExpressionTypeCollector(Dictionary<string,IValue> idToType)
+        public ExpressionTypeCollector(Dictionary<string, Types.Type> idToType)
         {
             this.idToType = idToType;
         }
 
-        public override IValue Visit(IUnary node)
+        public override Types.Type Visit(IUnary node)
         {
-            IValue childType = node.GetChildExpression().Accept(this);
-            IValue expressionType = node.GetCompatibleType((dynamic)childType);
+            Types.Type childType = node.GetChildExpression().Accept(this);
+            Types.Type expressionType = node.GetCompatibleType((dynamic)childType);
 
             if (IsUndefined(expressionType) && !IsUndefined(childType))
             {
-                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.MakeString(), childType.MakeString()));
+                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.MakeString(), childType.GetString()));
             }
 
             return expressionType;
         }
 
-        private bool IsUndefined(IValue value)
+        private bool IsUndefined(Types.Type value)
         {
-            return value.IsOfType(new Undefined());
+            return value.Equals(new Undefined());
         }
 
-        public override IValue Visit(IBinary node)
+        public override Types.Type Visit(IBinary node)
         {
-            IValue left  = node.Left().Accept(this);
-            IValue right = node.Right().Accept(this);
-            IValue expressionType = node.GetCompatibleType((dynamic)left, (dynamic)right);
+            Types.Type left = node.Left().Accept(this);
+            Types.Type right = node.Right().Accept(this);
+            Types.Type expressionType = node.GetCompatibleType((dynamic)left, (dynamic)right);
 
             if (IsUndefined(expressionType) && ( !IsUndefined(left) || !IsUndefined(right))) //second check is needed to not duplicate errors (Undefined is not compatible with anything)
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.MakeString(), left.MakeString(), right.MakeString()));
+                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.MakeString(), left.GetString(), right.GetString()));
             }
 
             return expressionType;
         }
 
         //Containers
-        public override IValue Visit(Container node)
+        public override Types.Type Visit(Container node)
         {
-            //this can be bad!
-            throw new NotImplementedException();
-            //return ((Value)node.Value);
+            return node.Value.RetrieveType();
         }
 
-        public override IValue Visit(Id node)
+        public override Types.Type Visit(Id node)
         {
             return idToType[node.Identifier];
         }
