@@ -3,9 +3,8 @@ package gui;
 import gui.content.UIComputedQuestion;
 import gui.content.UIConditional;
 import gui.content.UIQuestion;
-import gui.screen.FormScreen;
 import gui.structure.Label;
-import gui.structure.Panel;
+import gui.structure.Section;
 import gui.widget.InputWidget;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
@@ -53,7 +52,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(Identifier identifier) {
-		return new Panel();
+		return new Section();
 	}
 	
 	@Override
@@ -101,7 +100,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	 */	
 	@Override
 	public UIComponent visit(Block blockNode) {
-		Panel widgetPanel = new Panel();
+		Section widgetPanel = new Section();
 		UIComponent statementWidget;
 		
 		for(Statement statement : blockNode.statements()) {
@@ -131,18 +130,21 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(Form formNode) {
-		return new FormScreen(formNode.getBlock().accept(this));
+		Section formSection = new Section();
+		formSection.addComponent(formNode.getBlock().accept(this));
+		
+		return formSection;
 	}
 	
 	@Override
 	public UIComponent visit(If ifNode) {
-		return new UIConditional(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
+		return new UIConditional(ifNode.getExpression(), valueEnvironment, (Section) ifNode.getBlock().accept(this));
 	}
 
 	@Override
 	public UIComponent visit(IfElse ifElseNode) {		
-		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
-		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
+		Section elsePanel = (Section) ifElseNode.getElseBranch().accept(this);
+		Section ifPanel = (Section) ifElseNode.getIfBranch().accept(this);
 		
 		return new UIConditional(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
 	}

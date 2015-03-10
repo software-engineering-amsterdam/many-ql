@@ -13,9 +13,6 @@ import ql.ast.visitor.typechecker.TypeChecker;
 import ql.parser.Parser;
 
 public class CommandLine {
-	private static Parser formParser = new Parser();
-	private static PrettyPrinter prettyPrinter = new PrettyPrinter();
-	
 	/**
 	 * The main method, which gets executed once this class is run. Enabled the user
 	 * to enter a string, which is then parsed and shown as an AST.
@@ -41,18 +38,18 @@ public class CommandLine {
 					break;
 				} 
 				else {
-					QLNode tree = formParser.parse(str);
+					QLNode tree = Parser.parse(str);
 					
 					if(tree instanceof Statement) {
 						correctTypes = TypeChecker.check((Statement) tree, register);
 						evaluatorResult = Evaluator.check((Statement) tree, valueEnv);
 						
-						((Statement) tree).accept(prettyPrinter);
+						PrettyPrinter.print((Statement) tree);
 					} else {
 						correctTypes = TypeChecker.check((Expression) tree, register);
 						evaluatorResult = Evaluator.check((Expression) tree, valueEnv);
 						
-						((Expression) tree).accept(prettyPrinter);
+						PrettyPrinter.print((Expression) tree);
 					}
 					
 					if(!correctTypes) {

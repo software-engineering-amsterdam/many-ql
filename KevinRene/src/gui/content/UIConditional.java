@@ -1,7 +1,7 @@
 package gui.content;
 
 import gui.UIComponent;
-import gui.structure.Panel;
+import gui.structure.Section;
 
 import javax.swing.JComponent;
 
@@ -12,28 +12,27 @@ import ql.ast.visitor.evaluator.Evaluator;
 import ql.value.BooleanValue;
 
 public class UIConditional extends UIComponent {
-	private Panel activePanel;
+	private Section activePanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
 	private final UIComponent ifPanel, elsePanel;
 	
-	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {		
+	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Section ifPanel, Section elsePanel) {		
 		this.expression = expression;
 		this.valueEnvironment = valueEnvironment;
-		
-		this.activePanel = new Panel(this);
-		
+				
 		this.ifPanel = ifPanel;
 		this.elsePanel = elsePanel;
 		
+		activePanel = new Section(this);
 		activePanel.addComponent(this.ifPanel);
 		activePanel.addComponent(this.elsePanel);
 		
 		activateElsePanel();
 	}
 	
-	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
-		this(expression, valueEnvironment, ifComponent, new Panel());
+	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Section ifPanel) {
+		this(expression, valueEnvironment, ifPanel, new Section());
 	}
 	
 	public void activateIfPanel() {

@@ -6,30 +6,27 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class Page extends UIComponent {
-	private JPanel panel;
+public class ScrollablePage extends UIComponent {
+	private JScrollPane scrollablePanel;
 	private List<UIComponent> components;
 	
-	public Page() {		
-		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+	public ScrollablePage() {		
+		scrollablePanel = new JScrollPane();		
 		components = new ArrayList<UIComponent>();
 	}
 	
-	public Page(UIComponent handler) {
+	public ScrollablePage(UIComponent handler) {
 		this();		
 		setHandler(handler);
 	}
 	
-	public void addSection(Section component) {
+	public void addComponent(UIComponent component) {
 		components.add(component);
 		
-		panel.add(component.getComponent());
+		scrollablePanel.add(component.getComponent());
 		
 		component.setHandler(this);
 		component.getComponent().setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -41,12 +38,12 @@ public class Page extends UIComponent {
 			component.updateComponent();
 		}
 		
-		panel.revalidate();
-		panel.repaint();
+		scrollablePanel.revalidate();
+		scrollablePanel.repaint();
 	}
 	
 	@Override
 	public JComponent getComponent() {
-		return panel;
+		return scrollablePanel;
 	}
 }

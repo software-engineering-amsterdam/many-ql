@@ -1,7 +1,7 @@
 package gui.content;
 
 import gui.UIComponent;
-import gui.structure.Panel;
+import gui.structure.Section;
 
 import javax.swing.JComponent;
 
@@ -10,9 +10,9 @@ import ql.ValueEnvironment;
 import ql.ast.expression.Identifier;
 
 public class UIQuestion extends UIComponent {
-	private Identifier identifier;
-	private Panel questionPanel;
-	private ValueEnvironment valueEnvironment;
+	private final Identifier identifier;
+	private final Section questionPanel;
+	private final ValueEnvironment valueEnvironment;
 	private final UIComponent questionText, questionWidget;
 
 	public UIQuestion(Identifier identifier, UIComponent questionText, UIComponent widget, ValueEnvironment valueEnvironment) {
@@ -20,7 +20,7 @@ public class UIQuestion extends UIComponent {
 		this.questionText = questionText;
 		this.questionWidget = widget;
 		
-		questionPanel = new Panel(this);
+		questionPanel = new Section(this);
 		questionPanel.addComponent(this.questionText);
 		questionPanel.addComponent(this.questionWidget);
 		

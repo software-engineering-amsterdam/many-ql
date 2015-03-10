@@ -1,15 +1,12 @@
 package gui.content;
 
+import gui.UIComponent;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import ql.Value;
-import gui.UIComponent;
-
 public class UILog extends UIComponent {
-	private UIComponent handler;
-	
 	private JScrollPane logScrollPane;
 	private JTextArea log;
 	
@@ -22,12 +19,6 @@ public class UILog extends UIComponent {
 	public void appendMessage(String logMessage) {
 		log.append(logMessage);
 		log.setCaretPosition(log.getDocument().getLength());
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 
 	@Override

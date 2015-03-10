@@ -17,13 +17,12 @@ public abstract class BaseTest {
 	private QLNode inputNode;
 	private boolean expected;
 
-	private Parser formParser = new Parser();
 	private static TypeEnvironment register;
 
 	public BaseTest(String input, boolean expected) {
 		System.out.println("Testing: " + input);
 
-		inputNode = formParser.parse(input);
+		inputNode = Parser.parse(input);
 		this.expected = expected;
 	}
 

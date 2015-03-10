@@ -1,70 +1,46 @@
 package gui;
 
-import gui.screen.FileLoaderScreen;
-import gui.structure.Panel;
+import gui.screen.FormLoaderScreen;
+import gui.screen.FormScreen;
+import gui.structure.Page;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import ql.TypeEnvironment;
 import ql.Value;
-import ql.ValueEnvironment;
-import ql.ast.QLNode;
 import ql.ast.Statement;
-import ql.ast.visitor.typechecker.TypeChecker;
-import ql.parser.Parser;
 
 public class Application extends UIComponent {
 	private JFrame frame;
 	
-	private FileLoaderScreen fileSelectionMenu;
+	private FormLoaderScreen fileLoaderScreen;
+	private FormScreen formScreen;
 	
-	private Panel activePanel, fileSelectionPanel;
-	private UIComponent formContent;
+	private Page activePanel;
 	
 	public Application(JFrame frame) {
 		this.frame = frame;
 		
-		fileSelectionMenu = new FileLoaderScreen();
-				
-		fileSelectionPanel = new Panel(this);		
-		fileSelectionPanel.addComponent(fileSelectionMenu);
+		fileLoaderScreen = new FormLoaderScreen(this);
 		
-		activePanel = new Panel(this);
-		activePanel.addComponent(fileSelectionPanel);
+		activePanel = new Page(this);
+		activePanel.addSection(fileLoaderScreen.getScreen());
 		
 		frame.getContentPane().add(activePanel.getComponent());
 	}
-
-	private UIComponent createFormPanel(String formCode) throws ClassCastException {
-        QLNode tree = Parser.parse(formCode);
-        
-		if(!TypeChecker.check((Statement) tree, new TypeEnvironment())) {
-			fileSelectionMenu.addLogMessage("Type error detected in the form.");
-		}
-		
-		return ComponentCreator.check((Statement) tree, new ValueEnvironment());
-	}
 	
 	public void activateFormPanel() {
-		formContent.getComponent().setVisible(true);
-		formContent.updateComponent();
-		
-		fileSelectionPanel.getComponent().setVisible(false);
-		fileSelectionPanel.updateComponent();
+		formScreen.showScreen();
+		fileLoaderScreen.hideScreen();
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
-		if(source == fileSelectionMenu) {
-			try {
-				formContent = createFormPanel(fileSelectionMenu.getFileLines());
-				activePanel.addComponent(formContent);
-				activateFormPanel();
-			} catch(ClassCastException exception) {
-				fileSelectionMenu.addLogMessage("QL file is not a valid form.");
-			}
+		if(source == fileLoaderScreen) {
+			formScreen = new FormScreen(this, (Statement) fileLoaderScreen.getFormAst());
+			activePanel.addSection(formScreen.getScreen());
+			activateFormPanel();
 		}
 		
 		updateComponent();

@@ -1,24 +1,19 @@
 package gui.screen;
 
+import gui.ComponentCreator;
 import gui.UIComponent;
+import gui.structure.Section;
+import ql.ValueEnvironment;
+import ql.ast.Statement;
 
-import javax.swing.JComponent;
-
-public class FormScreen extends UIComponent {
-	private UIComponent widgetPanel;
-	
-	public FormScreen(UIComponent widgetPanel) {
-		this.widgetPanel = widgetPanel;
-		this.widgetPanel.setHandler(this);
-	}
-
-	@Override
-	public void updateComponent() {
-		widgetPanel.updateComponent();
+public class FormScreen extends Screen {
+	public FormScreen(UIComponent handler, Statement formAst) {
+		setHandler(handler);
+		
+		createFormScreen(formAst);	
 	}
 	
-	@Override
-	public JComponent getComponent() {
-		return widgetPanel.getComponent();
-	}	
+	private void createFormScreen(Statement formAst) {
+		addScreenSection((Section) ComponentCreator.check(formAst, new ValueEnvironment()));
+	}
 }

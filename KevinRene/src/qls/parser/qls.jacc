@@ -69,7 +69,7 @@ import qls.ast.widget.*;
         |                             { $$ = new QLSBlock(); }
 				;
 				
-	statement 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
+	statement 	: PAGE IDENTIFIER '{' statements '}'  		{ $$ = new Page($2, $4); }
 				| SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4); }
 				| QUESTION IDENTIFIER                       { $$ = new Question($2); }
 				| QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }

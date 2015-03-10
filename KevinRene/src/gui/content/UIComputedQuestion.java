@@ -1,7 +1,7 @@
 package gui.content;
 
 import gui.UIComponent;
-import gui.structure.Panel;
+import gui.structure.Section;
 import gui.widget.InputWidget;
 
 import javax.swing.JComponent;
@@ -14,20 +14,16 @@ import ql.ast.visitor.evaluator.Evaluator;
 
 @SuppressWarnings("rawtypes")
 public class UIComputedQuestion extends UIComponent {
-	private Identifier identifier;
-	private Panel questionPanel;
-	private Expression expression;
-	private ValueEnvironment valueEnvironment;
+	private final Identifier identifier;
+	private final Section questionPanel;
+	private final Expression expression;
+	private final ValueEnvironment valueEnvironment;
 	
-	private UIComponent questionText;
-	private InputWidget inputWidget;
+	private final UIComponent questionText;
+	private final InputWidget inputWidget;
 	
 	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
 			InputWidget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
-		super();
-		
-		questionPanel = new Panel();
-		
 		this.identifier = identifier;
 		this.expression = expression;
 		this.questionText = questionText;	
@@ -36,6 +32,7 @@ public class UIComputedQuestion extends UIComponent {
 		this.inputWidget = inputWidget;		
 		this.inputWidget.disable();
 		
+		questionPanel = new Section(this);
 		questionPanel.addComponent(this.questionText);
 		questionPanel.addComponent(this.inputWidget);
 	}

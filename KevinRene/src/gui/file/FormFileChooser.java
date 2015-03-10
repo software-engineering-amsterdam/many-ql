@@ -7,10 +7,10 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-public class FileChooser extends UIComponent {
+public class FormFileChooser extends UIComponent {
 	private JFileChooser fileChooser;
 	
-	public FileChooser() {
+	public FormFileChooser() {
 		fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new FormFileFilter());
 		fileChooser.setAcceptAllFileFilterUsed(false);
