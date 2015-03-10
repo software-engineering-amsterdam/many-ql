@@ -30,7 +30,7 @@ stylesheet taxOfficeExample
     default int {
       width: 400
       fontsize: 15
-      widget spinbox
+      widget text
     }
     default bool widget radio("Yes", "No")
   }
