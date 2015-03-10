@@ -1,37 +1,37 @@
 style PartyForm {
     
     default {
-        spinbox {
+        number spinbox {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        slider {
+        number slider {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        text {
+        number|string text {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        textBlock {
+        string| textBlock {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        radio(min, max) {
+        boolean radio(min, max) {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        dropdown {
+        boolean dropdown {
             width: 400
             font: "Arial"
             fontSize: 14

@@ -1,3 +1,3 @@
 package qls.ast
 
-case class Section(title: String, widget: Widget)
+case class Section(title: String, questions: QuestionSequence)
