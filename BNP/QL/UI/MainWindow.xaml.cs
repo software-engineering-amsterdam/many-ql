@@ -53,13 +53,15 @@ namespace QL.UI
         {
             InputFileSourceText.Text = inputFileContents;
             _astHandler = new AstHandler(inputFileContents);
-
-            _astHandler.BuildAST();
-
             ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
 
-            //_astHandler.CheckType();
-            //_astHandler.Evaluate();
+            if (_astHandler.BuildAST())
+            {
+                if (_astHandler.CheckType())
+                {
+                    _astHandler.Evaluate();
+                }
+            }
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)
@@ -103,8 +105,8 @@ namespace QL.UI
             if (error == null) return;
 
             InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
-            InputFileSourceText.TextArea.Caret.Column = error.SourceLocation.Column.GetValueOrDefault(1);
-            InputFileSourceText.ScrollTo(error.SourceLocation.Line, error.SourceLocation.Column.GetValueOrDefault(1));
+            InputFileSourceText.TextArea.Caret.Column = error.SourceLocation.Column.GetValueOrDefault(0);
+            InputFileSourceText.ScrollTo(error.SourceLocation.Line, error.SourceLocation.Column.GetValueOrDefault(0));
             InputFileSourceText.Focus();
         }
 

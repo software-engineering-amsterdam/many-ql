@@ -22,7 +22,7 @@ namespace QL.Infrastructure
 
         public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            ParserError error = new ParserError(msg, new SourceLocation(line, charPositionInLine));
+            ParserError error = new ParserError(msg, new SourceLocation(line, charPositionInLine + 1));
             _parserErrors.Add(error);
         }
     }

@@ -22,7 +22,7 @@ namespace QL.Infrastructure
 
         public void SyntaxError(IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            LexerError error = new LexerError(msg, new SourceLocation(line, charPositionInLine));
+            LexerError error = new LexerError(msg, new SourceLocation(line, charPositionInLine + 1));
             _lexerErrors.Add(error);
         }
 

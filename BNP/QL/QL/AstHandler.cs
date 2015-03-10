@@ -54,7 +54,7 @@ namespace QL.Model
 
         public bool BuildAST()
         {
-            ASTHandlerExceptions = new List<QLException>();
+            ASTHandlerExceptions.Clear();
 
             AntlrInputStream inputStream;
             if (Input != null)
@@ -88,7 +88,7 @@ namespace QL.Model
         {
             if (!AstBuilt)
             {
-                throw new Exception("Ast is not built");
+                throw new QLException("Ast is not built");
             }
 
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);

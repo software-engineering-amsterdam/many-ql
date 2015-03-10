@@ -181,7 +181,7 @@ namespace QL.Grammars
 
             if (context as QLParser.TextContext != null) return new Text();
 
-            Debug.Assert(false, "No appropriate subtype for the type has been evaluated");
+            AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
             return null; // formality
         }
 

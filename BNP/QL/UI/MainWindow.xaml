@@ -35,7 +35,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Input file">
+            <TabItem Header="Input">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
@@ -44,7 +44,7 @@
                     </Grid.RowDefinitions>
 
                     <avalonedit:TextEditor Grid.Row="0" x:Name="InputFileSourceText" Style="{StaticResource SourceCode}" IsReadOnly="True"
-                                           ShowLineNumbers="True" SyntaxHighlighting="JavaScript">
+                                           ShowLineNumbers="True" SyntaxHighlighting="JavaScript" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         No file loaded
                     </avalonedit:TextEditor>
 
