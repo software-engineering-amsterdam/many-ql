@@ -1,5 +1,7 @@
 package org.uva.utility;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 public class CodePosition {
 	private final int startLine;
 	private final int endLine;
@@ -15,5 +17,9 @@ public class CodePosition {
 	
 	public int getStartLine() {
 		return startLine;
+	}
+	
+	public static CodePosition getCodePosition(ParserRuleContext ctx) {
+		return new CodePosition(ctx.getStart().getLine(), ctx.getStop().getLine());
 	}
 }

@@ -18,19 +18,19 @@ class Parser extends JavaTokenParsers {
   def variable: Parser[Variable] = ident ^^ Variable
 
   def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
-    case label ~ ps => Style(label, ps, None)
+    case label ~ ps => Style(label, ps, List())
   }
   
   def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
   
   def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
-    case v ~ ss => Page(v, ss, None)
+    case v ~ ss => Page(v, ss, List())
   }
   
   def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
   
   def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
-    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, None)
+    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, List())
   }
   
   def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
@@ -46,14 +46,14 @@ class Parser extends JavaTokenParsers {
     case "string" => StringType()
   }
   
-  def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
+  def widget: Parser[Widget] = widgetType ~ widgetStyle ^^ {
     case "spinbox" ~ properties => SpinBox(properties)
     case "slider" ~ properties => Slider(properties)
     case "text" ~ properties => Text(properties)
     case "textBlock" ~ properties => TextBlock(properties)
     case "radio" ~ properties => Radio(properties)
     case "dropdown" ~ properties => DropDown(properties)
-  } 
+  }
   
   def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
     case t ~ w => DefaultWidget(t, w)
@@ -62,7 +62,10 @@ class Parser extends JavaTokenParsers {
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 
   // TODO: Repetition of the same property is not allowed.
-  def widgetStyle: Parser[List[StyleProperty]] = "{" ~> rep(width | font | fontSize | fontColor) <~ "}"
+  def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
+    case Some(properties) => properties
+    case None => List()
+  }
   
   def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
   def font: Parser[StyleProperty] = "font:" ~> stringLiteral ^^ { 

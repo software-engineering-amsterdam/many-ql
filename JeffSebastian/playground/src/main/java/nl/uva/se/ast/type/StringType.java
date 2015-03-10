@@ -13,5 +13,5 @@ public class StringType extends Type {
 	public Value getDefaultValue() {
 		return new StringValue("");
 	}
-	
+
 }

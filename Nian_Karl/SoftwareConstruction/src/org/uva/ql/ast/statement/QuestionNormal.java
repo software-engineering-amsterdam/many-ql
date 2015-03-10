@@ -41,7 +41,6 @@ public class QuestionNormal extends Statement {
 				+ "\n\tType = " + type.toString();
 	}
 	
-	@Override
 	public String getText() {
 		return label.getValue();
 	}

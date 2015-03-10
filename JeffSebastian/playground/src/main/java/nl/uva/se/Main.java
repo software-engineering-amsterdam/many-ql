@@ -10,6 +10,7 @@ import nl.uva.se.evaluation.ValueTable;
 import nl.uva.se.gui.elements.QuestionPane;
 import nl.uva.se.interpretation.Interpreter;
 import nl.uva.se.interpretation.Result;
+import nl.uva.se.interpretation.error.ErrorList;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
 import nl.uva.se.parser.QLVisitorImpl;
@@ -23,6 +24,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Main extends Application{
 	
 	private QuestionPane questionPane;
+	
+	private ErrorList errors;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -40,11 +43,13 @@ public class Main extends Application{
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Form ast = (Form) visitor.visit(tree);
 			Result<ValueTable> result = Interpreter.interpret(ast);
+			errors = result.getErrorList();
 			
-			GuiVisitor guiVisitor = new GuiVisitor(result.getResult());
-			guiVisitor.visit(ast);
-			this.questionPane = guiVisitor.getQuestionPane();			
-			
+			if (!result.getErrorList().hasErrors()) {
+				GuiVisitor guiVisitor = new GuiVisitor(result.getResult());
+				guiVisitor.visit(ast);
+				this.questionPane = guiVisitor.getQuestionPane();			
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,9 +58,11 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Scene scene = new Scene(questionPane, 350, 350);
-		primaryStage.setTitle(questionPane.getForm().getId());
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		if (!errors.hasErrors()) {
+			Scene scene = new Scene(questionPane, 350, 350);
+			primaryStage.setTitle(questionPane.getForm().getId());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
 	}
 }

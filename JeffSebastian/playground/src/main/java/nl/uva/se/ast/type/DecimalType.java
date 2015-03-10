@@ -15,5 +15,10 @@ public class DecimalType extends Type {
 	public Value getDefaultValue() {
 		return new DecimalValue(new BigDecimal(0));
 	}
+
+	@Override
+	public Type getAcceptedType() {
+		return new IntegerType();
+	}
 	
 }

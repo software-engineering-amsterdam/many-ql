@@ -16,7 +16,7 @@ public class Expression extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
     private Optional<Operator> operator = Optional.empty();
-    private Optional<Terminal> terminal;
+    private Optional<Terminal> terminal = Optional.empty();
 
     public Expression(int lineNumber, Optional<Token> operatorToken) {
         super(lineNumber, Expression.class);

@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using AST.Resources;
 using QuestionnaireLanguage.Visitors;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Controller;
@@ -26,7 +25,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            Processor.AddValue(questionNode.Identifier, questionNode.Value);
+           // Processor.AddValue(questionNode.Identifier, questionNode.GetType());
         }
         #endregion
 
@@ -36,11 +35,11 @@ namespace QuestionnaireLanguage.GUI.FormObject
         #region IFormObject
         public UIElement ProcessFormObject(UIElement form)
         {
-            Widget widget = new WidgetVisitor(questionNode.Identifier).VisitValue(questionNode.Value);
-            Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
+            //Widget widget = new WidgetVisitor(questionNode.Identifier).VisitValue(questionNode.GetType());
+            //Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
 
-            AddChildren(labelWidget.CreateUIControl(), form);
-            AddChildren(widget.CreateUIControl(), form);
+            //AddChildren(labelWidget.CreateUIControl(), form);
+            //AddChildren(widget.CreateUIControl(), form);
 
             return form;
         }

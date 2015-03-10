@@ -25,7 +25,7 @@ public class Divide extends Binary {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new IntType();
+		return new IntType(getPosition());
 	}
 
 }

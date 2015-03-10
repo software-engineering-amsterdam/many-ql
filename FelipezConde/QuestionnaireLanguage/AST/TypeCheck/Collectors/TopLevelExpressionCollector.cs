@@ -25,7 +25,7 @@ namespace AST.TypeCheck.Collectors
 
         public override IList<IExpression> Visit(Nodes.FormObject.Conditional node)
         {
-            List<IExpression> expressionsInBody = node.Body.SelectMany(x => x.Accept(this)).ToList();
+            List<IExpression> expressionsInBody = node.GetBody().SelectMany(x => x.Accept(this)).ToList();
                               expressionsInBody.Add(node.Condition);
 
             return expressionsInBody;
@@ -38,24 +38,6 @@ namespace AST.TypeCheck.Collectors
                 idList.AddRange(node.Computation.Accept(this));
 
            return idList;
-        }
-
-        //Computed Question
-        public override IList<IExpression> Visit(Nodes.Computation.Expression node)
-        { 
-            return new List<IExpression>{node.ExpressionValue}; 
-        }
-        public override IList<IExpression> Visit(Nodes.Computation.Id node)
-        { 
-            return new List<IExpression>{
-                new Nodes.Expression.Id(node.Value, node.GetPosition())
-            }; 
-        }
-        public override IList<IExpression> Visit(Nodes.Computation.Value node)
-        { 
-            return new List<IExpression> { 
-                new Nodes.Expression.Container(node.GetParsedString(), node.ElementValue, node.GetPosition())
-            }; 
         }
     }
 }

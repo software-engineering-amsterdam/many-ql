@@ -31,7 +31,7 @@ public class IntLiteral extends Literal{
 	
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new IntType();
+		return new IntType(getPosition());
 	}
 	
 }

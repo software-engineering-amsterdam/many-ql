@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 import java.util.ArrayList;
 import java.util.Iterator;

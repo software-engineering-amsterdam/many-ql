@@ -10,5 +10,5 @@ public class UndefinedType extends Type {
 	public boolean isUndefined() {
 		return true;
 	}
-	
+
 }
