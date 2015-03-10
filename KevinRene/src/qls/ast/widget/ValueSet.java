@@ -1,25 +1,27 @@
-package qls.ast.stylerule;
+package qls.ast.widget;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ql.ast.expression.Literal;
 import qls.ast.QLSStatement;
 import qls.ast.visitor.QLSStatementVisitor;
 
-public class StyleRuleSet extends QLSStatement {
-	private List<StyleRule> rules = new ArrayList<StyleRule>();
+@SuppressWarnings("rawtypes")
+public class ValueSet extends QLSStatement {	
+	private List<Literal> values = new ArrayList<Literal>();
 	
-	public StyleRuleSet(StyleRule statement) {
-		rules.add(statement);
+	public ValueSet(Literal value) {
+		values.add(value);
 	}
 	
-	public StyleRuleSet(StyleRule statement, StyleRuleSet set) {
-		rules.add(statement);
-		rules.addAll(set.rules());
+	public ValueSet(Literal value, ValueSet set) {
+		values.add(value);
+		values.addAll(set.values());
 	}
 	
-	public List<StyleRule> rules() {
-		return rules;
+	public List<Literal> values() {
+		return values;
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class StyleRuleSet extends QLSStatement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("StyleRuleSet(");
 		
-		for(StyleRule rule : rules) {
+		for(Literal rule : values) {
 			sb.append(rule.toString() + ", ");
 		}
 		

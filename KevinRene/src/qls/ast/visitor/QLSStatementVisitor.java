@@ -16,6 +16,7 @@ import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
 import qls.ast.widget.Spinner;
 import qls.ast.widget.TextField;
+import qls.ast.widget.ValueSet;
 
 /**
  * Refused bequest. Who cares?
@@ -53,4 +54,5 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 
 	public abstract T visit(StyleRule styleRule);
 	public abstract T visit(StyleRuleSet styleRuleSet);
+	public abstract T visit(ValueSet valueSet);
 }
