@@ -4,14 +4,14 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 
-import org.uva.qls.ast.QLSNode;
+import org.uva.ql.ast.Node;
 
-public class RadioButton extends Widget<QLSNode>{
+public class RadioButton extends Widget<Node> {
 
 	private static final long serialVersionUID = -3964223419102019708L;
 	private final ButtonGroup buttonGroup;
 
-	public RadioButton(QLSNode radioButton) {
+	public RadioButton(Node radioButton) {
 		super(radioButton);
 		buttonGroup = new ButtonGroup();
 		JRadioButton trueButton = new JRadioButton();
@@ -22,9 +22,10 @@ public class RadioButton extends Widget<QLSNode>{
 
 	@Override
 	public JComponent getWidget() {
-		throw new UnsupportedOperationException("Can't get component from a button group, use getButtonGroup() and enumerate through the JRadioButtons.");
+		throw new UnsupportedOperationException(
+				"Can't get component from a button group, use getButtonGroup() and enumerate through the JRadioButtons.");
 	}
-	
+
 	public ButtonGroup getButtonGroup() {
 		return buttonGroup;
 	}

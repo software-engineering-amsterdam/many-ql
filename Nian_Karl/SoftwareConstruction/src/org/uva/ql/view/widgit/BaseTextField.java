@@ -67,7 +67,7 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 
 	@Override
 	public void setWidgetValue(Value value) {
-		if (!value.getType().isEqual(new UndefinedType())) {
+		if (!value.equal(new UndefinedValue()) {
 			getWidget().setText(value.toString());
 		}
 	}

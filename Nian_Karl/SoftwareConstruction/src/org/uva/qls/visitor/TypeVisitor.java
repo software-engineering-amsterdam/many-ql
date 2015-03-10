@@ -1,9 +1,9 @@
 package org.uva.qls.visitor;
 
-import org.uva.qls.ast.type.BoolType;
-import org.uva.qls.ast.type.UndefinedType;
-import org.uva.qls.ast.type.IntType;
-import org.uva.qls.ast.type.StrType;
+import org.uva.ql.ast.type.BoolType;
+import org.uva.ql.ast.type.IntType;
+import org.uva.ql.ast.type.StrType;
+import org.uva.ql.ast.type.UndefinedType;
 
 public interface TypeVisitor<T> {
 

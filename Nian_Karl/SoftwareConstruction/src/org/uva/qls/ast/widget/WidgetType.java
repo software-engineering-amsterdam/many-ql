@@ -1,10 +1,10 @@
 package org.uva.qls.ast.widget;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 import org.uva.utility.CodePosition;
 
 
-public abstract class WidgetType implements QLNode{
+public abstract class WidgetType implements Node{
 	
 	private final CodePosition position;
 	

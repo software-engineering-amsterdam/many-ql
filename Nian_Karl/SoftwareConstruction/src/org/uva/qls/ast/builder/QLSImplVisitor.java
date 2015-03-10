@@ -2,7 +2,7 @@ package org.uva.qls.ast.builder;
 
 import java.util.ArrayList;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.qls.antlr.QLSBaseVisitor;
 import org.uva.qls.antlr.QLSParser.CheckboxContext;
@@ -27,92 +27,94 @@ import org.uva.qls.ast.Sheet;
 import org.uva.qls.ast.style.Style;
 import org.uva.utility.CodePosition;
 
-public class QLSImplVisitor extends QLSBaseVisitor<QLNode> {
+public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
-	public QLNode visitSlider(SliderContext ctx) {
+	public Node visitSlider(SliderContext ctx) {
 
 		return super.visitSlider(ctx);
 	}
 
 	@Override
-	public QLNode visitFont(FontContext ctx) {
+	public Node visitFont(FontContext ctx) {
 		return super.visitFont(ctx);
 	}
 
 	@Override
-	public QLNode visitRgb(RgbContext ctx) {
+	public Node visitRgb(RgbContext ctx) {
 		return super.visitRgb(ctx);
 	}
 
 	@Override
-	public QLNode visitType(TypeContext ctx) {
+	public Node visitType(TypeContext ctx) {
 		return super.visitType(ctx);
 	}
 
 	@Override
-	public QLNode visitDropdown(DropdownContext ctx) {
+	public Node visitDropdown(DropdownContext ctx) {
 		return super.visitDropdown(ctx);
 	}
 
 	@Override
-	public QLNode visitSpinbox(SpinboxContext ctx) {
+	public Node visitSpinbox(SpinboxContext ctx) {
 		return super.visitSpinbox(ctx);
 	}
 
 	@Override
-	public QLNode visitSection(SectionContext ctx) {
+	public Node visitSection(SectionContext ctx) {
 		return super.visitSection(ctx);
 	}
 
 	@Override
-	public QLNode visitTextbox(TextboxContext ctx) {
+	public Node visitTextbox(TextboxContext ctx) {
 		return super.visitTextbox(ctx);
 	}
 
 	@Override
-	public QLNode visitPageBlock(PageBlockContext ctx) {
+	public Node visitPageBlock(PageBlockContext ctx) {
 		return super.visitPageBlock(ctx);
 	}
 
 	@Override
-	public QLNode visitStyle(StyleContext ctx) {
+	public Node visitStyle(StyleContext ctx) {
 		return super.visitStyle(ctx);
 	}
 
 	@Override
-	public QLNode visitPage(PageContext ctx) {
+	public Node visitPage(PageContext ctx) {
 		return super.visitPage(ctx);
 	}
 
 	@Override
-	public QLNode visitCheckbox(CheckboxContext ctx) {
+	public Node visitCheckbox(CheckboxContext ctx) {
 
 		return super.visitCheckbox(ctx);
 	}
 
 	@Override
-	public QLNode visitRadio(RadioContext ctx) {
+	public Node visitRadio(RadioContext ctx) {
 		return super.visitRadio(ctx);
 	}
 
 	@Override
-	public QLNode visitQuestion(QuestionContext ctx) {
-		Identifier identifier = new Identifier(ctx.Identifier().getText(), CodePosition.getCodePosition(ctx));
-		Question question = new Question(identifier);
-		return super.visitQuestion(ctx);
+	public Node visitQuestion(QuestionContext ctx) {
+		CodePosition pos = CodePosition.getCodePosition(ctx);
+		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
+		Question question = new Question(identifier,pos);
+		return question;
 	}
 
 	@Override
-	public QLNode visitStyling(StylingContext ctx) {
+	public Node visitStyling(StylingContext ctx) {
 		Style style = new Style();
 		return style;
 	}
 
 	@Override
-	public QLNode visitSheet(SheetContext ctx) {
-		Identifier identifier = new Identifier(ctx.Identifier().getText(), CodePosition.getCodePosition(ctx));
-		Sheet sheet = new Sheet(identifier);
+	public Node visitSheet(SheetContext ctx) {
+		CodePosition pos = CodePosition.getCodePosition(ctx);
+		Identifier identifier = new Identifier(ctx.Identifier().getText(),pos);
+		Sheet sheet = new Sheet(identifier,pos);
 		ArrayList<Page> pages = (ArrayList<Page>) ctx.accept(this);
 		return sheet;
 	}

@@ -1,6 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.Type;
 
 
 public abstract class Value {
@@ -44,5 +43,4 @@ public abstract class Value {
 	public Value strEqual(StrValue arg) {return UNDEFINED;}
 	public Value strNotEqual(StrValue arg) {return UNDEFINED;}
 	public Value StrPlus(StrValue arg) {return UNDEFINED;}
-	public abstract Type getType();
 }

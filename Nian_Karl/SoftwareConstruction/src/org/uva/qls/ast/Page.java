@@ -2,17 +2,18 @@ package org.uva.qls.ast;
 
 import java.util.List;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.BaseNode;
 import org.uva.qls.ast.style.Style;
+import org.uva.utility.CodePosition;
 
-public class Page implements QLNode {
+public class Page extends BaseNode {
 
 	private final String identifier;
 	private final List<Section> sectionList;
 	private final List<Style> styleList;
 
-	public Page(String identifier, List<Section> sectionList, List<Style> styleList) {
-		super();
+	public Page(String identifier, List<Section> sectionList, List<Style> styleList,CodePosition pos) {
+		super(pos);
 		this.identifier = identifier;
 		this.sectionList = sectionList;
 		this.styleList = styleList;

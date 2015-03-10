@@ -1,7 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.StrType;
-import org.uva.ql.ast.type.Type;
 
 public class StrValue extends Value {
 
@@ -50,8 +48,4 @@ public class StrValue extends Value {
 		return new StrValue(arg.getValue() + getValue());
 	}
 	
-	@Override
-	public Type getType() {
-		return new StrType();
-	}
 }

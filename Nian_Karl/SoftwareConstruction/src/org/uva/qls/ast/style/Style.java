@@ -1,7 +1,7 @@
 package org.uva.qls.ast.style;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 
-public class Style implements QLNode {
+public class Style implements Node {
 
 }

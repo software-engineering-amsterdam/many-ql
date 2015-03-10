@@ -3,12 +3,12 @@ package org.uva.ql.ast.questionnaire;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 import org.uva.ql.visitor.QuestionnaireVisitable;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.utility.CodePosition;
 
-public class Questionnaire implements QLNode, QuestionnaireVisitable {
+public class Questionnaire implements Node, QuestionnaireVisitable {
 
 	private List<Form> forms;
 	private final CodePosition position;

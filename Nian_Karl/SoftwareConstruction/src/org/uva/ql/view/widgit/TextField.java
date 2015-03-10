@@ -1,7 +1,6 @@
 package org.uva.ql.view.widgit;
 
 import org.uva.ql.ast.type.UndefinedType;
-import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
