@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import ql.ast.QLNode;
-import ql.ast.Statement;
-import ql.ast.visitor.prettyprinter.PrettyPrinter;
+import qls.ast.visitor.prettyprinter.PrettyPrinter;
 import qls.ast.QLSStatement;
 import qls.parser.Parser;
 
@@ -36,7 +35,7 @@ public class CommandLine {
 					QLNode tree = formParser.parse(str);
 					
 					if(tree instanceof QLSStatement) {						
-						((Statement) tree).accept(prettyPrinter);
+						((QLSStatement) tree).accept(prettyPrinter);
 					}
 				}
 			}

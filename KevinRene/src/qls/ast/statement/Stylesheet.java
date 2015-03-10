@@ -2,7 +2,7 @@ package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 public class Stylesheet extends QLSStatement {	
 	private final Identifier identifier;
@@ -22,14 +22,13 @@ public class Stylesheet extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Stylesheet";
 	}
 
 }

@@ -15,12 +15,14 @@ import ql.ast.expression.type.QLNumeric;
 import ql.ast.expression.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import qls.ast.statement.Default;
+import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
+import qls.ast.statement.Stylesheet;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.StyleRuleSet;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
@@ -29,7 +31,7 @@ import qls.ast.widget.Spinner;
 import qls.ast.widget.TextField;
 import qls.ast.widget.ValueSet;
 
-public class PrettyPrinter extends QLSStatementVisitor<Void> implements ExpressionVisitor<Void> {
+public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
 	private String prefix = "";
 	
 	/**
@@ -149,7 +151,16 @@ public class PrettyPrinter extends QLSStatementVisitor<Void> implements Expressi
 		return null;
 	}
 	
-	
+	@Override
+	public Void visit(Stylesheet stylesheetNode) {
+		printNode(stylesheetNode);
+		
+		indent();
+		super.visit(stylesheetNode);
+		unindent();
+		
+		return null;
+	}
 
 	@Override
 	public Void visit(Default defaultNode) {
@@ -239,6 +250,17 @@ public class PrettyPrinter extends QLSStatementVisitor<Void> implements Expressi
 		
 		indent();
 		super.visit(valueSetNode);
+		unindent();
+		
+		return null;
+	}
+	
+	@Override
+	public Void visit(Page pageNode) {
+		printNode(pageNode);
+		
+		indent();
+		super.visit(pageNode);
 		unindent();
 		
 		return null;

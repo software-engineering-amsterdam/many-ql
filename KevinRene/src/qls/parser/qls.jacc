@@ -66,6 +66,7 @@ import qls.ast.widget.*;
 				
 	statements 	: statement statements  { $$ = new QLSBlock($1, $2); }
 				| statement                   { $$ = new QLSBlock($1); }
+        |                             { $$ = new QLSBlock(); }
 				;
 				
 	statement 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }

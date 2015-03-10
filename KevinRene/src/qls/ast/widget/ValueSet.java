@@ -5,7 +5,7 @@ import java.util.List;
 
 import ql.ast.expression.Literal;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 @SuppressWarnings("rawtypes")
 public class ValueSet extends QLSStatement {	
@@ -25,7 +25,7 @@ public class ValueSet extends QLSStatement {
 	}
 
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

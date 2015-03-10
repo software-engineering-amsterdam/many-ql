@@ -25,15 +25,16 @@ import qls.ast.widget.ValueSet;
  * 
  * @author Rene
  */
-public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T> {
-	public QLSStatementVisitor() {
+public abstract class QLSVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T> {
+	public QLSVisitor() {
 		super.setExpressionVisitor(this);
 	}
 	
 	public abstract T visit(Default defaultNode);
 	
 	public T visit(Page pageNode) {
-		pageNode.accept(this);
+		pageNode.getIdentifier().accept(this);
+		pageNode.getBlock().accept(this);
 		return null;
 	}
 	
@@ -45,7 +46,11 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 	}
 	
 	public abstract T visit(Question questionNode);
-	public abstract T visit(Section sectionNode);
+	public T visit(Section sectionNode) {
+		sectionNode.getHeader().accept(this);
+		sectionNode.getBlock().accept(this);
+		return null;
+	}
 	
 	public T visit(Stylesheet stylesheetNode) {
 		stylesheetNode.getIdentifier().accept(this);	

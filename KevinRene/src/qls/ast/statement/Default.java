@@ -3,7 +3,7 @@ package qls.ast.statement;
 import ql.ast.QLNode;
 import ql.ast.expression.QLType;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 public class Default extends QLSStatement {	
 	public Default(QLType type, QLNode undeterminedNode) {
@@ -11,7 +11,7 @@ public class Default extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
