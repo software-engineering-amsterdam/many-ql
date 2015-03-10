@@ -127,7 +127,7 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
-    public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
+    public void addPage(List<Section> sections, List<Question> questions) {
         Page page = new Page(sections, questions, questionState);
         questionPanel.add(page, String.valueOf(++totalPages));
     }

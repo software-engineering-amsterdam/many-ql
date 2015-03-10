@@ -65,7 +65,7 @@ public class QuestionsPanel extends JPanel {
 
     private Subject getComponent(Question question) {
         try {
-            Class<Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
+            Class<? extends Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
             return component.getDeclaredConstructor(Question.class).newInstance(question);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new GuiException(e);

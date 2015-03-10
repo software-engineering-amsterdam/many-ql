@@ -1,6 +1,7 @@
 package edu.gui;
 
 import edu.exceptions.EvaluationException;
+import edu.exceptions.GuiException;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
 import edu.parser.QL.nodes.question.Question;
@@ -15,10 +16,8 @@ import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 
 import javax.swing.*;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,28 +27,28 @@ public class Renderer implements QLSVisitor {
     public static final String NOT_FOUND_QUESTIONS = "Not all questions are in the stylesheet.";
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
-    private final Map<Question, List<Style>> questions;
+    private final List<Question> questionsToRender;
 
     public Renderer(Observer questionState) {
-        questions = new HashMap<>();
+        questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
         mainWindow = new MainWindow(questionState);
     }
 
-    public void render(List<Question> questions, Stylesheet stylesheet) {
-        this.questions.clear();
+    public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
+        this.questionsToRender.clear();
         mainWindow.initialize();
-        mapQuestionsAndStyles(questions, stylesheet);
+        mapQuestionsAndStyles(inputQuestions, stylesheet);
         stylesheet.accept(this);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
         mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
     }
 
-    private void mapQuestionsAndStyles(List<Question> questions, Stylesheet stylesheet) {
+    private void mapQuestionsAndStyles(List<Question> inputQuestions, Stylesheet stylesheet) {
         List<QLSQuestion> stylesheetQuestions = extractQuestionsFromStylesheet(stylesheet);
 
-        questions.stream()
-                .forEach(question -> storeQuestions(stylesheetQuestions, question));
+        inputQuestions.stream()
+                .forEach(question -> storeQuestionsWithStyles(stylesheetQuestions, question));
 
     }
 
@@ -61,17 +60,41 @@ public class Renderer implements QLSVisitor {
                 .collect(Collectors.toList());
     }
 
-    private void storeQuestions(List<QLSQuestion> stylesheetQuestions, Question question) {
+    private void storeQuestionsWithStyles(List<QLSQuestion> stylesheetQuestions, Question inputQuestion) {
         List<QLSQuestion> qlsQuestions = stylesheetQuestions.stream()
-                .filter(qlsQuestion -> qlsQuestion.getIdentifier().getIdentifier().equals(question.getIdentifier().getIdentifier()))
+                .filter(qlsQuestion -> qlsQuestion.getIdentifier().getIdentifier().equals(inputQuestion.getIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
 
         if (qlsQuestions.isEmpty()) {
-            this.questions.put(question, Collections.emptyList());
+            storeQuestionWithoutStyle(inputQuestion);
         } else if (qlsQuestions.size() > 1) {
             throw new EvaluationException("Stylesheet contains duplicates.");
         } else {
-            this.questions.put(question, qlsQuestions.get(0).getStyles());
+            storeQuestionWithStyle(inputQuestion, qlsQuestions.get(0));
+        }
+    }
+
+    private void storeQuestionWithoutStyle(Question inputQuestion) {
+        this.questionsToRender.add(cloneQuestion(inputQuestion));
+    }
+
+    private void storeQuestionWithStyle(Question inputQuestion, QLSQuestion qlsQuestion) {
+        this.questionsToRender.add(cloneQuestion(inputQuestion, qlsQuestion));
+    }
+
+    private Question cloneQuestion(Question inputQuestion, QLSQuestion qlsQuestion) {
+        try {
+            return inputQuestion.clone(qlsQuestion.getStyles());
+        } catch (CloneNotSupportedException e) {
+            throw new GuiException(e);
+        }
+    }
+
+    private Question cloneQuestion(Question inputQuestion) {
+        try {
+            return inputQuestion.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new GuiException(e);
         }
     }
 
@@ -97,7 +120,7 @@ public class Renderer implements QLSVisitor {
     @Override
     public AbstractNode visit(Page page) {
         List<Section> sections = collectSections(page);
-        mainWindow.addPage(sections, questions);
+        mainWindow.addPage(sections, questionsToRender);
         return page;
     }
 
