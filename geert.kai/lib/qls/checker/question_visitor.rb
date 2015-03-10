@@ -8,9 +8,7 @@ module QLS
       end
 
       def visit_style_group(style_group)
-        style_group.rules.map do |rule|
-          rule.accept(self)
-        end
+        map_accept(style_group.rules)
       end
 
       def visit_question(question)
@@ -19,6 +17,17 @@ module QLS
 
       def visit_default(default)
         []
+      end
+    end
+
+    class DuplicateQuestionChecker
+      def initialize(base)
+        @base = base
+      end
+
+      def errors
+        names = QuestionVisitor.new(@base).questions.map(&:name)
+        names.duplicates.map { |name| Exception.new("Question #{name} is defined more than once.") }
       end
     end
   end
