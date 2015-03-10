@@ -51,75 +51,19 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     public Void visitSection(Section section) {
 
         // CurrentSegment is the parent.
-        List<DefaultStyleDeclaration> parentSegmentDefaultStyles =
-                currentSegment.getDefaultStyleDeclarations();
+        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
 
         // Change current segment
         currentSegment = section;
-        List<DefaultStyleDeclaration> currentSegmentDefaultStyles =
-                currentSegment.getDefaultStyleDeclarations();
 
-        // for every base declaration.
-        for (DefaultStyleDeclaration baseDeclaration : parentSegmentDefaultStyles) {
-            Type baseDeclarationType = baseDeclaration.getQuestionType();
-            Style baseDeclarationStyle = baseDeclaration.getStyle();
+        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
 
-            // for every current declaration.
-            for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
-                Type currentDeclarationType = currentDeclaration.getQuestionType();
-                Style currentDeclarationStyle = currentDeclaration.getStyle();
+        this.inheritStyles(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
 
-                // if the base declaration for a type exists in the current declarations.
-                // then inherit style from parent.
-                if (baseDeclarationType.equals(currentDeclarationType)) {
-                    currentDeclarationStyle.inheriteFromStyle(baseDeclarationStyle);
-                }
-            }
-        }
-
-        // for every base declaration.
-        for (DefaultStyleDeclaration baseDeclaration : parentSegmentDefaultStyles) {
-
-            // if there is no such declaration on current segment,
-            // add it from the parent.
-            if (!currentSegmentDefaultStyles.contains(baseDeclaration)) {
-                currentSegment.addDefaultStyleDeclaration(baseDeclaration);
-            }
-        }
+        this.addDeclarationsFromParent(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
 
         for (Question question : section.getQuestions()) {
-            Type questionType = getQuestionType(question);
-
-            for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
-                Type currentDeclarationType = currentDeclaration.getQuestionType();
-
-                // if there is a style declaration for the question's type
-                if (questionType.equals(currentDeclarationType)) {
-
-                    Widget currentDeclarationWidget = currentDeclaration.getWidget();
-                    // if the widget is undefined, set the default widget fot that type.
-                    if (currentDeclarationWidget.isUndefined()) {
-                        currentDeclarationWidget = getDefaultWidgetForType(questionType);
-                    }
-
-                    Style currentDeclarationStyle = currentDeclaration.getStyle();
-                    // if the style is undefined, set the default style of that widget.
-                    // otherwise set the right style.
-                    if (currentDeclarationStyle.isUndefined()) {
-                        currentDeclarationWidget.resetStyleToDefault();
-                    } else {
-                        currentDeclarationWidget.applyStyle(currentDeclarationStyle);
-                    }
-
-                    // set widget to the question.
-                    question.setWidget(currentDeclarationWidget);
-                } else {
-                    // if there is no default style declaration, set defaults
-                    Widget defaultWidget = getDefaultWidgetForType(questionType);
-                    defaultWidget.resetStyleToDefault();
-                    question.setWidget(defaultWidget);
-                }
-            }
+            this.setStyleToQuestion(question, currentSegmentDefaultStyles);
         }
 
         // visit sub sections.
@@ -128,6 +72,74 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
 
         return null;
+    }
+
+    private void inheritStyles(
+            List<DefaultStyleDeclaration> _parentSegmentDefaultStyles,
+            List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles)
+    {
+        for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
+            Type baseDeclarationType = baseDeclaration.getQuestionType();
+            Style baseDeclarationStyle = baseDeclaration.getStyle();
+
+            for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
+                Type currentDeclarationType = currentDeclaration.getQuestionType();
+                Style currentDeclarationStyle = currentDeclaration.getStyle();
+
+                if (baseDeclarationType.equals(currentDeclarationType)) {
+                    currentDeclarationStyle.inheriteFromStyle(baseDeclarationStyle);
+                }
+            }
+        }
+    }
+
+    private void addDeclarationsFromParent(
+            List<DefaultStyleDeclaration> _parentSegmentDefaultStyles,
+            List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles)
+    {
+        for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
+            if (!_derivedSegmentDefaultStyles.contains(baseDeclaration)) {
+                currentSegment.addDefaultStyleDeclaration(baseDeclaration);
+            }
+        }
+    }
+
+    private void setStyleToQuestion(
+            Question _question,
+            List<DefaultStyleDeclaration> _segmentDefaultStyles)
+    {
+        Type questionType = getQuestionType(_question);
+
+        for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
+            Type currentDeclarationType = currentDeclaration.getQuestionType();
+
+            // if there is a style declaration for the question's type
+            if (questionType.equals(currentDeclarationType)) {
+
+                Widget currentDeclarationWidget = currentDeclaration.getWidget();
+                // if the widget is undefined, set the default widget fot that type.
+                if (currentDeclarationWidget.isUndefined()) {
+                    currentDeclarationWidget = getDefaultWidgetForType(questionType);
+                }
+
+                Style currentDeclarationStyle = currentDeclaration.getStyle();
+                // if the style is undefined, set the default style of that widget.
+                // otherwise set the right style.
+                if (currentDeclarationStyle.isUndefined()) {
+                    currentDeclarationWidget.resetStyleToDefault();
+                } else {
+                    currentDeclarationWidget.applyStyle(currentDeclarationStyle);
+                }
+
+                // set widget to the question.
+                _question.setWidget(currentDeclarationWidget);
+            } else {
+                // if there is no default style declaration, set defaults
+                Widget defaultWidget = getDefaultWidgetForType(questionType);
+                defaultWidget.resetStyleToDefault();
+                _question.setWidget(defaultWidget);
+            }
+        }
     }
 
     private Type getQuestionType(Question _question) {
