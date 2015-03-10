@@ -1,7 +1,9 @@
 package qls.ast.visitor;
 
+import ql.ast.expression.Literal;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import qls.ast.QLSStatement;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
@@ -30,29 +32,45 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 	
 	public abstract T visit(Default defaultNode);
 	
-	public T visit(Page page) {
-		page.accept(this);
+	public T visit(Page pageNode) {
+		pageNode.accept(this);
 		return null;
 	}
 	
-	public abstract T visit(QLSBlock block);
-	public abstract T visit(Question question);
-	public abstract T visit(Section section);
-	
-	public T visit(Stylesheet stylesheet) {
-		stylesheet.getIdentifier().accept(this);	
-		stylesheet.getBlock().accept(this);
+	public T visit(QLSBlock blockNode) {
+		for(QLSStatement statement : blockNode.statements()) {
+			statement.accept(this);
+		}
 		return null;
 	}
 	
-	public abstract T visit(Checkbox checkbox);
-	public abstract T visit(Dropdown dropdown);
-	public abstract T visit(RadioButton radioButton);
-	public abstract T visit(TextField textField);
-	public abstract T visit(Spinner spinner);
-	public abstract T visit(Slider slider);
+	public abstract T visit(Question questionNode);
+	public abstract T visit(Section sectionNode);
+	
+	public T visit(Stylesheet stylesheetNode) {
+		stylesheetNode.getIdentifier().accept(this);	
+		stylesheetNode.getBlock().accept(this);
+		return null;
+	}
+	
+	public abstract T visit(Checkbox checkboxNode);
+	public abstract T visit(Dropdown dropdownNode);
+	public abstract T visit(RadioButton radioButtonNode);
+	public abstract T visit(TextField textFieldNode);
+	public abstract T visit(Spinner spinnerNode);
+	public abstract T visit(Slider sliderNode);
 
-	public abstract T visit(StyleRule styleRule);
-	public abstract T visit(StyleRuleSet styleRuleSet);
-	public abstract T visit(ValueSet valueSet);
+	public abstract T visit(StyleRule styleRuleNode);
+	public T visit(StyleRuleSet styleRuleSetNode) {
+		for(StyleRule rule : styleRuleSetNode.rules()) {
+			rule.accept(this);
+		}
+		return null;
+	}
+	public T visit(ValueSet valueSetNode) {
+		for(Literal value : valueSetNode.values()) {
+			value.accept(this);
+		}
+		return null;
+	}
 }
