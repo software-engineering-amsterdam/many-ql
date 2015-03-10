@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestMultipleQuestionsPlacement extends QlsTypeCheckerBaseTest {
+public class TestCheckerMultipleQuestionsPlacement extends QlsTypeCheckerBaseTest {
 
     @Before
     public void setUp() {
