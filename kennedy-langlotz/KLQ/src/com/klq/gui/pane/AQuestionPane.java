@@ -64,7 +64,7 @@ public abstract class AQuestionPane extends GridPane {
                 radii, BorderWidths.DEFAULT
         );
         BackgroundFill fill = new BackgroundFill(
-                Paint.valueOf("#EEEEEE"), radii, new Insets(1)
+                Paint.valueOf("#EFEFEF"), radii, new Insets(1)
         );
         this.setPadding(new Insets(5));
         this.setBorder(new Border(stroke));
