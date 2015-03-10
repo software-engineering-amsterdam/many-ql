@@ -25,7 +25,7 @@ public class QuestionPane extends BorderPane{
 		this.setLeft(vbox);
 	}
 	
-	public HBox addHBox(){
+	private HBox addHBox(){
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(15, 12, 15, 12));
 		hbox.setSpacing(10);
@@ -50,10 +50,18 @@ public class QuestionPane extends BorderPane{
 		vbox.getChildren().add(conditionBox);
 	}
 	
-	public void addQuestion(Question question, boolean isFromCondition){
-		QuestionBox questionBox = new QuestionBox(question);
-		questionBox.setVisible(!isFromCondition);
+	public void addConditionBox(ConditionBox conditionBox){
+		conditionBox.setVisible(false);
+		vbox.getChildren().add(conditionBox);
+	}
+	
+	public void addQuestion(Question question){
+		QuestionBox questionBox = new QuestionBox(question);		
 		vbox.getChildren().add(questionBox);		
+	}
+	
+	public void addQuestionBox(QuestionBox questionBox){
+		vbox.getChildren().add(questionBox);
 	}
 	
 	public Form getForm(){
