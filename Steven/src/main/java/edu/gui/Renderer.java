@@ -14,6 +14,7 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
+import edu.parser.QLS.nodes.statement.Statement;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
@@ -39,45 +40,63 @@ public class Renderer implements QLSVisitor {
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
         this.questionsToRender.clear();
         mainWindow.initialize();
-        mapQuestionsAndStyles(inputQuestions, stylesheet);
+        storeQuestionsFromStylesheet(inputQuestions, stylesheet);
         stylesheet.accept(this);
+        renderRemainingQuestions(inputQuestions);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
         mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
     }
 
-    private void mapQuestionsAndStyles(List<Question> inputQuestions, Stylesheet stylesheet) {
+    private List<Question> getRemainingQuestions(List<Question> inputQuestions) {
+        return inputQuestions.stream()
+                .filter(inputQuestion -> !questionsToRender.contains(inputQuestion))
+                .collect(Collectors.toList());
+    }
+
+    private void renderRemainingQuestions(List<Question> inputQuestions) {
+        List<Question> remainingQuestions = getRemainingQuestions(inputQuestions);
+        List<Statement> convertedQuestions = convertQuestions(remainingQuestions);
+        ArrayList<Section> sections = createSection(convertedQuestions);
+        Page pageWithRemainingQuestions = new Page(sections);
+        visit(pageWithRemainingQuestions);
+    }
+
+    private List<Statement> convertQuestions(List<Question> remainingQuestions) {
+        return remainingQuestions.stream()
+                .map(remainingQuestion -> new QLSQuestion(new Identifier(remainingQuestion.getIdentifier().getIdentifier()), remainingQuestion.getStyles()))
+                .collect(Collectors.toList());
+    }
+
+    private ArrayList<Section> createSection(List<Statement> convertedQuestions) {
+        Section section = new Section("Other", convertedQuestions);
+        ArrayList<Section> sections = new ArrayList<>();
+        sections.add(section);
+        return sections;
+    }
+
+    private void storeQuestionsFromStylesheet(List<Question> inputQuestions, Stylesheet stylesheet) {
         List<QLSQuestion> stylesheetQuestions = extractQuestionsFromStylesheet(stylesheet);
 
-        inputQuestions.stream()
-                .forEach(question -> storeQuestionsWithStyles(stylesheetQuestions, question));
-
+        stylesheetQuestions.stream()
+                .forEach(stylesheetQuestion -> storeQuestion(stylesheetQuestion, inputQuestions));
     }
 
     private List<QLSQuestion> extractQuestionsFromStylesheet(Stylesheet stylesheet) {
-        return stylesheet.getStatements()
-                .stream()
-                .filter(statement -> statement instanceof QLSQuestion)
-                .map(question -> (QLSQuestion) question)
-                .collect(Collectors.toList());
+        return questionRetriever.retrieveQuestions(stylesheet);
     }
 
-    private void storeQuestionsWithStyles(List<QLSQuestion> stylesheetQuestions, Question inputQuestion) {
-        List<QLSQuestion> qlsQuestions = stylesheetQuestions.stream()
-                .filter(qlsQuestion -> qlsQuestion.getIdentifier().getIdentifier().equals(inputQuestion.getIdentifier().getIdentifier()))
+    private void storeQuestion(QLSQuestion stylesheetQuestion, List<Question> inputQuestions) {
+        List<Question> question = inputQuestions.stream()
+                .filter(inputQuestion -> inputQuestion.getIdentifier().getIdentifier().equals(stylesheetQuestion.getIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
 
-        if (qlsQuestions.isEmpty()) {
-            storeQuestionWithoutStyle(inputQuestion);
-        } else if (qlsQuestions.size() > 1) {
+        if (question.size() > 1) {
             throw new EvaluationException("Stylesheet contains duplicates.");
-        } else {
-            storeQuestionWithStyle(inputQuestion, qlsQuestions.get(0));
+        } else if (!question.isEmpty()) {
+            storeQuestionWithStyle(question.get(0), stylesheetQuestion);
         }
     }
 
-    private void storeQuestionWithoutStyle(Question inputQuestion) {
-        this.questionsToRender.add(cloneQuestion(inputQuestion));
-    }
 
     private void storeQuestionWithStyle(Question inputQuestion, QLSQuestion qlsQuestion) {
         this.questionsToRender.add(cloneQuestion(inputQuestion, qlsQuestion));
@@ -86,14 +105,6 @@ public class Renderer implements QLSVisitor {
     private Question cloneQuestion(Question inputQuestion, QLSQuestion qlsQuestion) {
         try {
             return inputQuestion.clone(qlsQuestion.getStyles());
-        } catch (CloneNotSupportedException e) {
-            throw new GuiException(e);
-        }
-    }
-
-    private Question cloneQuestion(Question inputQuestion) {
-        try {
-            return inputQuestion.clone();
         } catch (CloneNotSupportedException e) {
             throw new GuiException(e);
         }

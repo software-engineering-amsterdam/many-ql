@@ -38,6 +38,10 @@ public class Question extends Statement implements Cloneable {
         return isEnabled;
     }
 
+    public List<Style> getStyles() {
+        return styles;
+    }
+
     public Identifier getIdentifier() {
         return identifier;
     }
@@ -66,9 +70,7 @@ public class Question extends Statement implements Cloneable {
 
         Question question = (Question) o;
 
-        if (!identifier.equals(question.identifier)) return false;
-
-        return true;
+        return identifier.equals(question.identifier);
     }
 
     @Override
@@ -109,8 +111,15 @@ public class Question extends Statement implements Cloneable {
     private Optional<Expression> cloneExpression() throws CloneNotSupportedException {
         Optional<Expression> expression = Optional.empty();
         if (this.expression.isPresent()) {
-            expression.of(this.expression.get().clone());
+            Optional.of(this.expression.get().clone());
         }
         return expression;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "identifier=" + identifier +
+                '}';
     }
 }
