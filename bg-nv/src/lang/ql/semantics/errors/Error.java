@@ -12,6 +12,12 @@ public class Error extends Message
         super(message);
     }
 
+    @Override
+    public boolean isError()
+    {
+        return true;
+    }
+
     public static Error typeMismatch(String id, String leftChildType, String rightChildType, int line)
     {
         String m = String.format("Error (Line %d): expression of type %s cannot have children of different type: %s and %s",

@@ -15,23 +15,23 @@ import lang.qls.ast.StylesheetVisitor;
 public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
     private StyleScope styleScopes;
-    private QuestStyles styles;
-    private QuestTypes qlQuestions;
+    private FormStyle styles;
+    private QuestionTypeMap qlQuestions;
 
-    public static QuestStyles getStyles(Stylesheet s, Form f)
+    public static FormStyle getStyles(Stylesheet s, Form f)
     {
-        QuestTypes qs = QLQuestionVisitor.extractQuestions(f);
+        QuestionTypeMap qs = QLQuestionVisitor.extractQuestions(f);
         StyleEvaluator styleEval = new StyleEvaluator(qs);
         styleEval.visit(s);
 
         return styleEval.styles;
     }
 
-    public StyleEvaluator(QuestTypes qlQuestions)
+    private StyleEvaluator(QuestionTypeMap qlQuestions)
     {
         this.qlQuestions = qlQuestions;
         this.styleScopes = new StyleScope();
-        this.styles = new QuestStyles();
+        this.styles = new FormStyle();
     }
 
     @Override

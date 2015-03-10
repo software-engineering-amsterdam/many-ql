@@ -9,11 +9,11 @@ import java.util.Map;
 /**
  * Created by bore on 09/03/15.
  */
-public class QuestTypes implements Iterable<String>
+public class QuestionTypeMap implements Iterable<String>
 {
     private Map<String, Type> questToTypes;
 
-    public QuestTypes()
+    public QuestionTypeMap()
     {
         this.questToTypes = new HashMap<>();
     }
