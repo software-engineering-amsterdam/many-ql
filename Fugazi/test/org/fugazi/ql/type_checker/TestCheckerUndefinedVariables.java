@@ -8,39 +8,39 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class TestCheckerNonBoolConditionsTest extends TypeCheckerBaseTest {
+public class TestCheckerUndefinedVariables extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "nonBoolConditions.ql";
+        this.fileName = "undefinedVariableForm.ql";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = checker.isFormCorrect();
+        boolean formCorrect = qlChecker.isFormCorrect();
         assertFalse(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(1, errors.size());
+        // will report also undefined question
+        assertEquals(2, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.NON_BOOL_CONDITION);
+        expectedTypes.add(ASTNodeIssueType.ERROR.UNDEFINED);
+        expectedTypes.add(ASTNodeIssueType.ERROR.TYPE_MISMATCH);
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
@@ -54,7 +54,7 @@ public class TestCheckerNonBoolConditionsTest extends TypeCheckerBaseTest {
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }

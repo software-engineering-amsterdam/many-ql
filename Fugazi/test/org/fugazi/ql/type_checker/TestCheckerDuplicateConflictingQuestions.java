@@ -1,5 +1,6 @@
 package org.fugazi.ql.type_checker;
 
+
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.junit.Before;
@@ -12,47 +13,49 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
+public class TestCheckerDuplicateConflictingQuestions extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "invalidOperandTypes.ql";
+        this.fileName = "duplicateConflictingQuestions.ql";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = checker.isFormCorrect();
+        boolean formCorrect = qlChecker.isFormCorrect();
         assertFalse(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(15, errors.size());
+        assertEquals(1, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.ERROR.TYPE_MISMATCH;
+        List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
+        expectedTypes.add(ASTNodeIssueType.ERROR.DUPLICATE);
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
         // no custom arrayEquals method
-        for (ASTNodeIssueType received : receivedTypes) {
-            assertTrue(received.equals(expectedType));
+        assertEquals(expectedTypes.size(), receivedTypes.size());
+        for (ASTNodeIssueType expected : expectedTypes) {
+            assertTrue(receivedTypes.contains(expected));
         }
     }
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }

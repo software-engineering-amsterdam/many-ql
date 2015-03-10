@@ -28,7 +28,7 @@ public class QLSTypeChecker {
      */
 
     private void checkForUndefinedQuestions() {
-        List<Question> qlQuestions = this.qlFormData.getQuestions();
+        List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<String> qlQuestionIdNames = this.getQlQuestionIdNames(qlQuestions);
 
         List<org.fugazi.qls.ast.question.Question> qlsQuestions =
@@ -47,7 +47,7 @@ public class QLSTypeChecker {
     }
 
     private void checkIfAllQuestionsPlaced() {
-        List<Question> qlQuestions = this.qlFormData.getQuestions();
+        List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<org.fugazi.qls.ast.question.Question> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
         List<String> qlsQuestionIdNames = this.getQlsQuestionIdNames(qlsQuestions);
@@ -84,7 +84,7 @@ public class QLSTypeChecker {
     }
 
     private void checkWidgetTypeCompatibility() {
-        List<Question> qlQuestions = this.qlFormData.getQuestions();
+        List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<org.fugazi.qls.ast.question.Question> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
 
