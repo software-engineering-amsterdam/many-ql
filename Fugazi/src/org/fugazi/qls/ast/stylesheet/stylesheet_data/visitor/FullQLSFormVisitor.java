@@ -91,7 +91,7 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         return null;
     }
 
-    public Void visitNullWidget(UndefinedWidget _widget){
+    public Void visitUndefinedWidget(UndefinedWidget _widget){
         return null;
     }
     public Void visitCheckBox(CheckBox _widget){
