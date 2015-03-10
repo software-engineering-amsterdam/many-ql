@@ -3,11 +3,11 @@ package org.uva.ql.ast.value;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
 
-public class Str extends Value {
+public class StrValue extends Value {
 
 	private final String value;
 
-	public Str(String value) {
+	public StrValue(String value) {
 		this.value = value;
 	}
 
@@ -27,8 +27,8 @@ public class Str extends Value {
 	}
 
 	@Override
-	public Value strEqual(Str arg) {
-		return new Bool(arg.getValue().equals(getValue()));
+	public Value strEqual(StrValue arg) {
+		return new BoolValue(arg.getValue().equals(getValue()));
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class Str extends Value {
 	}
 
 	@Override
-	public Value strNotEqual(Str arg) {
-		return new Bool(!arg.getValue().equals(getValue()));
+	public Value strNotEqual(StrValue arg) {
+		return new BoolValue(!arg.getValue().equals(getValue()));
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class Str extends Value {
 		return arg.StrPlus(this);
 	}
 	
-	public Value StrPlus(Str arg) {
-		return new Str(arg.getValue() + getValue());
+	public Value StrPlus(StrValue arg) {
+		return new StrValue(arg.getValue() + getValue());
 	}
 	
 	@Override

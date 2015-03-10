@@ -4,11 +4,11 @@ import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.Type;
 
 
-public class Int extends Value{
+public class IntValue extends Value{
 
 	private final Integer value;
 	
-	public Int(Integer value) {
+	public IntValue(Integer value) {
 		this.value = value;
 	}
 
@@ -28,12 +28,12 @@ public class Int extends Value{
 ======================================================*/
 	@Override
 	public Value positive() {
-		return new Int(+getValue());
+		return new IntValue(+getValue());
 	}
 
 	@Override
 	public Value negative() {
-		return new Int(-getValue());
+		return new IntValue(-getValue());
 	}
 	
 /*------------------Double Dispatch ------------------*/
@@ -43,8 +43,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intPlus(Int arg) {
-		return new Int(arg.getValue() + getValue());
+	public Value intPlus(IntValue arg) {
+		return new IntValue(arg.getValue() + getValue());
 	}
 
 	@Override
@@ -53,8 +53,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intMinus(Int arg) {
-		return new Int(arg.getValue() - getValue());
+	public Value intMinus(IntValue arg) {
+		return new IntValue(arg.getValue() - getValue());
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intMultiply(Int arg) {
-		return new Int(arg.getValue() * getValue());
+	public Value intMultiply(IntValue arg) {
+		return new IntValue(arg.getValue() * getValue());
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intDivide(Int arg) {
-		return new Int(arg.getValue() / getValue());
+	public Value intDivide(IntValue arg) {
+		return new IntValue(arg.getValue() / getValue());
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intGreater(Int arg) {
-		return new Bool(arg.getValue() > getValue());
+	public Value intGreater(IntValue arg) {
+		return new BoolValue(arg.getValue() > getValue());
 	}
 
 	@Override
@@ -93,8 +93,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intGreaterEqual(Int arg) {
-		return new Bool(arg.getValue() >= getValue());
+	public Value intGreaterEqual(IntValue arg) {
+		return new BoolValue(arg.getValue() >= getValue());
 	}
 	
 	@Override
@@ -103,8 +103,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intLess(Int arg) {
-		return new Bool(arg.getValue() < getValue());
+	public Value intLess(IntValue arg) {
+		return new BoolValue(arg.getValue() < getValue());
 	}
 	
 
@@ -114,8 +114,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intLessEqual(Int arg) {
-		return new Bool(arg.getValue() <= getValue());
+	public Value intLessEqual(IntValue arg) {
+		return new BoolValue(arg.getValue() <= getValue());
 	}
 	
 	@Override
@@ -124,8 +124,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intEqual(Int arg) {
-		return new Bool(arg.getValue() == getValue());
+	public Value intEqual(IntValue arg) {
+		return new BoolValue(arg.getValue() == getValue());
 	}
 	
 	@Override
@@ -134,8 +134,8 @@ public class Int extends Value{
 	}
 	
 	@Override
-	public Value intNotEqual(Int arg) {
-		return new Bool(arg.getValue() != getValue());
+	public Value intNotEqual(IntValue arg) {
+		return new BoolValue(arg.getValue() != getValue());
 	}
 	
 	@Override
