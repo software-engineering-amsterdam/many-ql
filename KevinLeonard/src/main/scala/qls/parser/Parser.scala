@@ -8,7 +8,6 @@ import ql.parser.{Parser => QLParser}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
-
 class Parser extends JavaTokenParsers {
 
   val qlParsers = new QLParser
@@ -17,29 +16,30 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
-  def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
-    case label ~ ps => Style(label, ps, None)
+  def style: Parser[Style] = "style" ~> ident ~ stylesheetElements ^^ {
+    case label ~ sss => Style(label, sss)
   }
   
-  def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
+  def stylesheetElements: Parser[List[StyleSheetElement]] = "{" ~> rep(page | defaultWidget) <~ "}"
   
-  def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
-    case v ~ ss => Page(v, ss, None)
+  def page: Parser[StyleSheetElement] = "page" ~> variable ~ pageElements ^^ {
+    case v ~ ps => Page(v, ps)
   }
   
-  def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
+  def pageElements: Parser[List[PageElement]] = "{" ~> rep(section) <~ "}"
   
-  def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
-    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, None)
+  def section: Parser[Section] = "section" ~> stringLiteral ~ sectionElements ^^ {
+    case t ~ ss => Section(t.substring(1, t.length - 1).replace("\\", ""), ss)
   }
   
-  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
+  def sectionElements: Parser[List[SectionElement]] = "{" ~> rep(question | section) <~ "}"
   
   // question widget parsers
   def question: Parser[Question] = variable ~ widget ^^ {
     case v ~ w => Question(v, w)
   }
   
+  // TODO: Move question type to QL
   def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
     case "boolean" => BooleanType()
     case "number" => NumberType()
@@ -60,8 +60,7 @@ class Parser extends JavaTokenParsers {
   }
   
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
-
-  // TODO: Repetition of the same property is not allowed.
+  
   def widgetStyle: Parser[List[StyleProperty]] = "{" ~> rep(width | font | fontSize | fontColor) <~ "}"
   
   def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }

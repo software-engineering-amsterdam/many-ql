@@ -2,7 +2,7 @@ package qls.parser
 
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
-import ql.ast.{NumberType, Variable}
+import ql.ast.{BooleanType, NumberType, Variable}
 import qls.ast._
 
 class ParserSpec extends Specification with ParserMatchers {
@@ -155,7 +155,7 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse question sequence" in {
-      questions must succeedOn("{" +
+      sectionElements must succeedOn("{" +
         "var1 dropdown" +
         "var2 dropdown" +
       "}"
@@ -180,7 +180,16 @@ class ParserSpec extends Specification with ParserMatchers {
             "color: #99FF66" +
           "}" +
         "}")
-        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))), None))
+        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
+    }
+    "parse section in section" in {
+      parsers.section must succeedOn("section \"section1\" {" +
+        "var1 slider" +
+        "section \"section2\" {" +
+          "var2 dropdown" +
+        "}" +
+      "}")
+        .withResult(Section("section1",List(Question(Variable("var1"),Slider(None)), Section("section2",List(Question(Variable("var2"),DropDown(None)))))))
     }
   }
 
@@ -190,17 +199,18 @@ class ParserSpec extends Specification with ParserMatchers {
           "section \"section1\" {}" +
           "section \"section2\" {}" +
         "}")
-        .withResult(Page(Variable("page1"),List(Section("section1",List(), None),Section("section2",List(), None)), None))
+        .withResult(Page(Variable("page1"),List(Section("section1",List()),Section("section2",List()))))
     }
   }
 
   "style parser" should {
     "parse style" in {
       style must succeedOn("style PartyForm {" +
+          "default boolean slider" +
           "page page1 {}" +
           "page page2 {}" +
         "}")
-        .withResult(Style("PartyForm",List(Page(Variable("page1"),List(), None), Page(Variable("page2"),List(), None)),None))
+        .withResult(Style("PartyForm",List(DefaultWidget(BooleanType(), Slider(None)), Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
     }
   }
   

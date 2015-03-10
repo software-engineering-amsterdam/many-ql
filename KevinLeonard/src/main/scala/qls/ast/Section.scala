@@ -1,7 +1,16 @@
 package qls.ast
 
-import ql.ast.Variable
+import ql.ast.{Type, Variable}
 
-case class Section(title: String, questions: List[Question], default: Option[List[DefaultWidget]])
-case class Page(v: Variable, s: List[Section], default: Option[List[DefaultWidget]])
-case class Style(label: String, pages: List[Page], default: Option[List[DefaultWidget]])
+
+
+sealed trait StyleSheetElement
+sealed trait PageElement
+sealed trait SectionElement
+
+case class Style(label: String, pages: List[StyleSheetElement])
+
+case class DefaultWidget(_type: Type, widget: Widget) extends StyleSheetElement
+case class Page(v: Variable, s: List[PageElement]) extends StyleSheetElement
+case class Section(title: String, questions: List[SectionElement]) extends SectionElement with PageElement
+case class Question(v: Variable, w: Widget) extends SectionElement

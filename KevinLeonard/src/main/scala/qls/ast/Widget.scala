@@ -9,5 +9,3 @@ case class Text(properties: Option[List[StyleProperty]]) extends Widget
 case class TextBlock(properties: Option[List[StyleProperty]]) extends Widget
 case class Radio(properties: Option[List[StyleProperty]]) extends Widget
 case class DropDown(properties: Option[List[StyleProperty]]) extends Widget
-
-case class DefaultWidget(_type: Type, widget: Widget)
