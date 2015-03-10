@@ -37,7 +37,7 @@ questionStatement returns [Question result]
 
 defaultStatement returns[Default result]
 	: 'default' type widget { $result = new Default($type.result,$widget.result);}
-	| 'default' type '{' styles=styleList widget { $result = new Default($type.result,widget.result,styles.result);} '}'
+	| 'default' type '{' styles=styleList widget { $result = new Default($type.result,$widget.result,$styles.result);} '}'
 ;
 
 styleList returns [List<Style> result]
