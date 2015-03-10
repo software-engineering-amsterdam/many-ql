@@ -72,7 +72,7 @@ module QL
         map_accept(condition.statements_true)
       when false
         map_accept(condition.statements_false)
-      when :undefined
+      when nil
         []
       end
     end

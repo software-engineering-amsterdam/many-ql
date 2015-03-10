@@ -26,7 +26,7 @@ module QL
       end
     end
 
-    class UndefinedType < Type
-    end
+    # class UndefinedType < Type
+    # end
   end
 end
