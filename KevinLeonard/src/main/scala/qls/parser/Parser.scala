@@ -32,7 +32,7 @@ class Parser extends JavaTokenParsers {
     case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
   }
   
-  def questions: Parser[QuestionSequence] = "{" ~> rep(question) <~ "}" ^^ QuestionSequence
+  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
   def question: Parser[Question] = variable ~ widget ^^ {
@@ -40,12 +40,12 @@ class Parser extends JavaTokenParsers {
   }
   
   def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
-    case "spinbox" ~ properties => Spinbox(properties)
+    case "spinbox" ~ properties => SpinBox(properties)
     case "slider" ~ properties => Slider(properties)
     case "text" ~ properties => Text(properties)
     case "textBlock" ~ properties => TextBlock(properties)
     case "radio" ~ properties => Radio(properties)
-    case "dropdown" ~ properties => Dropdown(properties)
+    case "dropdown" ~ properties => DropDown(properties)
   } 
   
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
