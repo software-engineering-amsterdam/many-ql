@@ -1,9 +1,7 @@
 package org.fugazi.qls.type_checker;
 
 
-import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.TypeCheckerBaseTest;
-import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
