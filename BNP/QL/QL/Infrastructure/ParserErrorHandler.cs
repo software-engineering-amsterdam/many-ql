@@ -1,24 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using QL.Errors;
+using QL.Model;
 
 namespace QL.Infrastructure
 {
     public class ParserErrorHandler : IAntlrErrorListener<IToken>
     {
-        private System.Collections.Generic.IList<Exception> ParserExceptions;
+        private readonly IList<QLException> _parserErrors;
 
-        public ParserErrorHandler(System.Collections.Generic.IList<Exception> ParserExceptions)
+        public ParserErrorHandler(IList<QLException> parserErrors)
         {
-            this.ParserExceptions = ParserExceptions;
+            _parserErrors = parserErrors;
         }
+
         public ParserErrorHandler()
         {
-            this.ParserExceptions = new System.Collections.Generic.List<Exception>();
+            _parserErrors = new List<QLException>();
         }
+
         public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            ParserExceptions.Add(new QLError("Error in parser at line " + line + ":" + charPositionInLine));
+            ParserError error = new ParserError(msg, new SourceLocation(line, charPositionInLine));
+            _parserErrors.Add(error);
         }
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace QL.UI.Interfaces
 {
-    public interface IWidgetForType<T>
+    public interface IWidget
     {
-        T Value { get; set; }
+        object Value { get; set; }
+        object Text { get; set; }
     }
 }

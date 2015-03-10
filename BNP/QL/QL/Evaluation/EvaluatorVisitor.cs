@@ -12,7 +12,7 @@ namespace QL.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {
-        public IList<QLError> Errors { get; private set; }
+        public IList<QLException> Exceptions { get; private set; }
         public IList<QLWarning> Warnings { get; private set; }
         
         public readonly IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
@@ -22,12 +22,12 @@ namespace QL.Evaluation
 
         public IDictionary<ITypeResolvable, TerminalWrapper> GetValuesIfNoErrors()
         {
-            return Errors.Any() ? null : ReferenceLookupTable;
+            return Exceptions.Any() ? null : ReferenceLookupTable;
         }
 
-        public EvaluatorVisitor(IList<QLError> errors, IList<QLWarning> warnings)
+        public EvaluatorVisitor(IList<QLException> exceptions, IList<QLWarning> warnings)
         {
-            Errors = errors;
+            Exceptions = exceptions;
             Warnings = warnings;
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();

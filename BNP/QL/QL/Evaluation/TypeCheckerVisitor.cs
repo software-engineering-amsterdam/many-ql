@@ -15,22 +15,20 @@ namespace QL.Evaluation
     {
         public readonly IDictionary<Identifier, Type> TypeReference;
 
-        public IList<QLError> Errors { get; private set; }
-        public IList<QLWarning> Warnings { get; private set; }
+        public IList<QLException> Exceptions { get; private set; }
 
 
-        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLError> errors, IList<QLWarning> warnings)
+        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLException> exceptions)
         {
             TypeReference = typeReference;
-            Errors = errors;
-            Warnings = warnings;
+            Exceptions = exceptions;
         }
 
         private void DeclareNewVariable(Identifier key, Type value)
         {
             if (TypeReference.ContainsKey(key))
             {
-                Warnings.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
+                Exceptions.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
             }
             TypeReference[key] = value;
         }
@@ -56,7 +54,7 @@ namespace QL.Evaluation
             DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
 
             if (TypeReference[node.Identifier]!=DetermineType((dynamic)node.Expression)){
-                Errors.Add(new TypeError(String.Format(
+                Exceptions.Add(new TypeCheckerError(String.Format(
                 "Expression inside the statement declared as {0}, but resolves into type {1} instead", 
                 TypeReference[node.Identifier], 
                 DetermineType((dynamic)node.Expression))));
@@ -81,7 +79,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
+                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
             }
         }
 
@@ -89,7 +87,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on inequality operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on inequality operation", node));
             }
         }
 
@@ -97,7 +95,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on greater-than operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than operation", node));
             }
         }
 
@@ -105,7 +103,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on greater-than-or-equal-to operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than-or-equal-to operation", node));
             }
         }
 
@@ -113,7 +111,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on less-than operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than operation", node));
             }
         }
 
@@ -121,7 +119,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on less-than-or-equal-to operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than-or-equal-to operation", node));
             }
         }
 
@@ -129,15 +127,15 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on multiplication operation", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on multiplication operation", node));
             }
             if (DetermineType((dynamic)node.Left) !=(new Number()).GetType())
             {
-                Errors.Add(new TypeError("Non-number operands on the left side of the  multiplication operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on the left side of the  multiplication operator", node));
             }
             if (DetermineType((dynamic)node.Right) !=(new Number()).GetType())
             {
-                Errors.Add(new TypeError("Non-number operands on the right side of the multiplication operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on the right side of the multiplication operator", node));
             }
 
         }
@@ -146,7 +144,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on division operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on division operator", node));
             }
         }
 
@@ -154,7 +152,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on addition operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on addition operator", node));
             }
         }
 
@@ -162,7 +160,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on subtraction operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on subtraction operator", node));
             }
         }
 
@@ -170,7 +168,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on AND operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on AND operator", node));
 
             }
         }
@@ -179,7 +177,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on OR operator", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on OR operator", node));
             }
         }
         #endregion
@@ -189,21 +187,21 @@ namespace QL.Evaluation
         {
             if (node.Value.HasValue) return;
 
-            Errors.Add(new TypeError("Number could not be interpreted correctly", node));
+            Exceptions.Add(new TypeCheckerError("Number could not be interpreted correctly", node));
         }
 
         public void Visit(Yesno node)
         {
             if (node.Value.HasValue) return;
 
-            Errors.Add(new TypeError("Yes/no value could not be interpreted correctly", node));
+            Exceptions.Add(new TypeCheckerError("Yes/no value could not be interpreted correctly", node));
         }
 
         public void Visit(Text node)
         {
             if (node.Value != null) return;
 
-            Errors.Add(new TypeError("String value could not be parsed and resulted in null", node));
+            Exceptions.Add(new TypeCheckerError("String value could not be parsed and resulted in null", node));
         }
 
         public void Visit(Identifier node)
@@ -214,7 +212,7 @@ namespace QL.Evaluation
 
         public void Visit(ElementBase elementBase)
         {
-            Errors.Add(new QLError(string.Format("Type checker was called for {0} but is not implemented", elementBase.GetType().Name)));
+            Exceptions.Add(new QLError(string.Format("Type checker was called for {0} but is not implemented", elementBase.GetType().Name)));
         }
 
         # region Type distinction
@@ -242,7 +240,7 @@ namespace QL.Evaluation
         
         Type DetermineType(object other)
         {
-            throw new TypeError("Cannot resolve type:"+other.GetType().ToString());
+            throw new TypeCheckerError("Cannot resolve type:"+other.GetType().ToString());
         }
         # endregion
     }

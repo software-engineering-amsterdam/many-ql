@@ -20,14 +20,21 @@ namespace QL.UI.Controls
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class YesNoWidget : IWidgetForType<bool>
+    public partial class YesNoWidget : IWidget
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(bool), typeof(YesNoWidget));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(YesNoWidget));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(YesNoWidget));
 
-        public bool Value
+        public object Value
         {
             get { return (bool)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
+        }
+
+        public object Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
         public YesNoWidget()

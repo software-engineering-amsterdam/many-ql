@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using QL.Model;
 
 namespace QL.Errors
 {
@@ -9,11 +10,18 @@ namespace QL.Errors
         {
         }
 
-        public QLError(string message) : base(message)
+        public QLError(string message)
+            : base(message)
         {
         }
 
-        public QLError(string message, Exception inner) : base(message, inner)
+        public QLError(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+
+        public QLError(string message, ElementBase source)
+            : base(message, source)
         {
         }
     }

@@ -19,14 +19,21 @@ namespace QL.UI.Controls
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class NumberWidget : IWidgetForType<int>
+    public partial class NumberWidget : IWidget
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(int), typeof(NumberWidget));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(NumberWidget));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(NumberWidget));
 
-        public int Value
+        public object Value
         {
-            get { return (int)GetValue(ValueProperty); }
+            get { return GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
+        }
+
+        public object Text
+        {
+            get { return GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
         public NumberWidget()

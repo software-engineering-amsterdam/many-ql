@@ -32,7 +32,7 @@ namespace QL
 
                 if (ast.BuildAST())
                 {
-                    foreach (Exception e in ast.AstBuilderExceptions)
+                    foreach (QLException e in ast.ASTHandlerExceptions)
                         {
                             Console.WriteLine(e.ToString());
                         }
@@ -40,9 +40,9 @@ namespace QL
 
                 ast.CheckType();
 
-                if (ast.TypeCheckerErrors.Any())
+                if (ast.ASTHandlerExceptions.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerErrors)
+                    foreach (QLError e in ast.ASTHandlerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }
@@ -53,7 +53,7 @@ namespace QL
 
                 if (ast.EvaluationErrors.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerErrors)
+                    foreach (QLError e in ast.ASTHandlerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }

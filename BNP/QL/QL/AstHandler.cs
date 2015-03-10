@@ -15,14 +15,10 @@ namespace QL.Model
     {
         public Form RootNode { get; private set; }
 
-        public IList<Exception> AstBuilderExceptions { get; private set; }
+        public IList<QLException> ASTHandlerExceptions { get; private set; }
+        public IList<QLException> EvaluationErrors { get; private set; }        // TODO | maybe merge warnings & errors
+        public IList<QLWarning> EvaluationWarnings { get; private set; }    // TODO | after UI has completed
 
-
-        public IList<QLError> TypeCheckerErrors { get; private set; }        // TODO | maybe merge warnings & errors
-        public IList<QLWarning> TypeCheckerWarnings { get; private set; }    // TODO | after UI has completed
-        public IList<QLError> EvaluationErrors { get; private set; }
-        public IList<QLWarning> EvaluationWarnings { get; private set; }
-        
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
         public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
@@ -32,14 +28,15 @@ namespace QL.Model
         bool AstBuilt;
         bool TypeChecked;
         bool Evaluated;
-        
 
 
 
 
-        
-        public AstHandler(string input)        {
-            
+
+
+        public AstHandler(string input)
+        {
+            ASTHandlerExceptions = new List<QLException>();
             TypeReference = new SortedDictionary<Identifier, Type>();
             ReferenceLookupTable = null;
             AstBuilt = TypeChecked = Evaluated = false;
@@ -48,41 +45,41 @@ namespace QL.Model
         }
         public AstHandler(Stream input)
         {
-
+            ASTHandlerExceptions = new List<QLException>();
             TypeReference = new SortedDictionary<Identifier, Type>();
             ReferenceLookupTable = null;
             AstBuilt = TypeChecked = Evaluated = false;
             InputStream = input;
-
         }
-
-        
 
         public bool BuildAST()
         {
+            ASTHandlerExceptions = new List<QLException>();
 
-            AstBuilderExceptions = new List<Exception>();
             AntlrInputStream inputStream;
-            if (Input!=null){
+            if (Input != null)
+            {
                 inputStream = new AntlrInputStream(Input);
-                }
-            else if (InputStream!=null){
+            }
+            else if (InputStream != null)
+            {
                 inputStream = new AntlrInputStream(InputStream);
-                }
-            else{
+            }
+            else
+            {
                 throw new Exception("no input");
             }
 
             QLLexer lexer = new QLLexer(inputStream);
-            lexer.AddErrorListener(new LexerErrorHandler(AstBuilderExceptions));
+            lexer.AddErrorListener(new LexerErrorHandler(ASTHandlerExceptions));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
-            parser.AddErrorListener(new ParserErrorHandler(AstBuilderExceptions));
-            QLListener listener = new QLListener(AstBuilderExceptions);
+            parser.AddErrorListener(new ParserErrorHandler(ASTHandlerExceptions));
+            QLListener listener = new QLListener(ASTHandlerExceptions);
             parser.AddParseListener(listener);
             parser.formBlock();            // parses the input as a formBlock(cos it's on the top)
-            RootNode = listener.GetAstRootNode();            
-            AstBuilt=!AstBuilderExceptions.Any();
+            RootNode = listener.GetAstRootNode();
+            AstBuilt = !ASTHandlerExceptions.Any();
             return AstBuilt;
         }
 
@@ -94,9 +91,8 @@ namespace QL.Model
                 throw new Exception("Ast is not built");
             }
 
-            TypeCheckerErrors = new List<QLError>();
-            TypeCheckerWarnings = new List<QLWarning>();
-            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, TypeCheckerErrors, TypeCheckerWarnings);
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
+            bool errorFound = false;
             try
             {
                 RootNode.Accept(typeChecker);
@@ -108,10 +104,11 @@ namespace QL.Model
                  * not directly related with type checking,
                  * is preventing from finishing the type checking.
                 */
-                TypeCheckerErrors.Add(ex);
+                ASTHandlerExceptions.Add(ex);
+                errorFound = true;
             }
 
-            TypeChecked =  !TypeCheckerErrors.Any();
+            TypeChecked = !errorFound;
             return TypeChecked;
         }
 
@@ -122,11 +119,12 @@ namespace QL.Model
                 throw new Exception("Not type checked");
             }
 
-            EvaluationErrors = new List<QLError>();
+            EvaluationErrors = new List<QLException>();
             EvaluationWarnings = new List<QLWarning>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierTable= new Dictionary<Identifier, ITypeResolvable>();
             EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings, ReferenceLookupTable, IdentifierTable);
+            bool errorFound = false;
             try
             {
                 RootNode.AcceptBottomUp(evaluator);
@@ -134,9 +132,10 @@ namespace QL.Model
             catch (QLError ex)
             {
                 EvaluationErrors.Add(ex);
+                errorFound = true;
             }
 
-            Evaluated= !EvaluationErrors.Any();
+            Evaluated = !errorFound;
             return Evaluated;
         }
     }

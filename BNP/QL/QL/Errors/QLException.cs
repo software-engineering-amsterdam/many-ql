@@ -1,23 +1,44 @@
 using System;
 using System.Runtime.Serialization;
+using QL.Model;
 
 namespace QL.Errors
 {
     public class QLException : Exception
     {
+        public SourceLocation SourceLocation { get; protected set; }
+
+        public virtual string Origin
+        {
+            get { return GetType().Name; }
+        }
+
+        public virtual string Severity
+        {
+            get
+            {
+                string typeName = GetType().Name.ToLowerInvariant();
+                return typeName.Contains("warning") ? "Warning" : typeName.Contains("error") ? "Error" : "Exception";
+            }
+        }
+
         public QLException()
         { }
 
-        public QLException(string message)
-            : base(message)
+        public QLException(string message) : base(message)
         { }
 
-        public QLException(string message, Exception inner)
-            : base(message, inner)
+        public QLException(string message, ElementBase source) : base(message)
+        {
+            SourceLocation = source.SourceLocation;
+        }
+
+        public QLException(string message, Exception inner) : base(message, inner)
         { }
 
-        protected QLException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
+        public override string ToString()
+        {
+            return string.Format("{0} '{1}' @ {2}", Message, SourceLocation.Source, SourceLocation);
+        }
     }
 }
