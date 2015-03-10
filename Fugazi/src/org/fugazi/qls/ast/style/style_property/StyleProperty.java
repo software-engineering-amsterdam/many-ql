@@ -27,4 +27,18 @@ public abstract class StyleProperty<T> extends AbstractASTNode {
     }
 
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
+            return false;
+        }
+
+        if (!(o instanceof StyleProperty)) {
+            return false;
+        }
+
+        StyleProperty other = (StyleProperty) o;
+        return this.name == other.name;
+    }
 }
