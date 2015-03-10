@@ -8,7 +8,7 @@ using QL.Model.Terminals;
 
 namespace QL.Evaluation
 {
-    class NumberWrapper:TerminalWrapper
+    public class NumberWrapper:TerminalWrapper
     {
         public int? Value;
         IResolvableTerminalType _node;

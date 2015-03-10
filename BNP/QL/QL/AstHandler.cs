@@ -17,9 +17,7 @@ namespace QL.Model
         public Form RootNode { get; private set; }
 
         public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
-        public IList<QLException> EvaluationErrors { get; private set; }        // TODO | maybe merge warnings & errors
-        public IList<QLWarning> EvaluationWarnings { get; private set; }    // TODO | after UI has completed
-
+       
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
         public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
@@ -34,7 +32,9 @@ namespace QL.Model
         {
             ASTHandlerExceptions = new ObservableCollection<QLException>();
             TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
+            
             AstBuilt = TypeChecked = Evaluated = false;
         }
 
@@ -94,11 +94,7 @@ namespace QL.Model
             }
             catch (QLError ex)
             {
-                /*
-                These exceptions are caught because of something, 
-                 * not directly related with type checking,
-                 * is preventing from finishing the type checking.
-                */
+                /* Exceptions preventing TypeChecker from finishing */
                 ASTHandlerExceptions.Add(ex);
             }
 
@@ -113,21 +109,25 @@ namespace QL.Model
                 throw new Exception("Not type checked");
             }
 
-            EvaluationErrors = new List<QLException>();
-            EvaluationWarnings = new List<QLWarning>();
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
-            IdentifierTable= new Dictionary<Identifier, ITypeResolvable>();
-            EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings, ReferenceLookupTable, IdentifierTable);
+            IdentifierTable.Clear();//because we want to see variables without declaration?
+            EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
                 RootNode.AcceptBottomUp(evaluator);
             }
             catch (QLError ex)
             {
-                EvaluationErrors.Add(ex);
+                /* Exceptions preventing Evaluator from finishing */
+                ASTHandlerExceptions.Add(ex);
             }
 
-            Evaluated = !EvaluationErrors.Any();
+            Evaluated = !ASTHandlerExceptions.Any();
+            if (!Evaluated)
+            {
+                //if evaluation did not went well, references should not be accesible
+                //TODO: separate errors and warnings AGAIN, because warnings should not cause this
+                ReferenceLookupTable.Clear();
+            }
             return Evaluated;
         }
     }

@@ -64,8 +64,8 @@ namespace QL.Evaluation
 
         public void Visit(QuestionUnit node)
         {
-            TypeReference[node.Identifier] = DetermineType((dynamic)node.DataType);
-            return; // nothing to check
+            DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
+
         }
 
         public void Visit(Expression node)

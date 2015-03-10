@@ -51,7 +51,7 @@ namespace QL
 
                 ast.Evaluate();
 
-                if (ast.EvaluationErrors.Any())
+                if (ast.ASTHandlerExceptions.Any())
                 {
                     foreach (QLError e in ast.ASTHandlerExceptions)
                     {

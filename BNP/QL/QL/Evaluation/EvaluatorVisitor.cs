@@ -3,6 +3,7 @@ using QL.Model;
 using QL.Model.Operators;
 using QL.Model.Terminals;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -13,66 +14,31 @@ namespace QL.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLException> Exceptions { get; private set; }
-        public IList<QLWarning> Warnings { get; private set; }
         
         public readonly IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
         public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
-        private IList<QLWarning> EvaluationWarnings;
 
         public IDictionary<ITypeResolvable, TerminalWrapper> GetValuesIfNoErrors()
         {
             return Exceptions.Any() ? null : ReferenceLookupTable;
         }
 
-        public EvaluatorVisitor(IList<QLException> exceptions, IList<QLWarning> warnings)
+        public EvaluatorVisitor(ObservableCollection<QLException> exceptions)
         {
             Exceptions = exceptions;
-            Warnings = warnings;
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
         }
 
-        public EvaluatorVisitor(IList<QLException> evaluationExceptions, IList<QLWarning> EvaluationWarnings, IDictionary<ITypeResolvable, TerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
+        public EvaluatorVisitor(ObservableCollection<QLException> exceptions, IDictionary<ITypeResolvable, TerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
         {
-            this.Exceptions = evaluationExceptions;
-            this.Warnings = EvaluationWarnings;
-            this.ReferenceLookupTable = referenceTable;
+            Exceptions = exceptions;
+            ReferenceLookupTable = referenceTable;
             IdentifierLookupTable = identifierTable;
 
         }
 
-        /*
-        TerminalWrapper GetValue(IResolvableTerminalType node)
-        {
-            throw new Exception("blabla");
-            return new TerminalWrapper((dynamic)node);
-
-        }
-        TerminalWrapper GetValue(Expression node)
-        {
-
-            return GetValue((dynamic)node.Child);
-
-        }
-
-        TerminalWrapper GetValue(Identifier node)
-        {
-            if (!IdentifierLookupTable.ContainsKey(node))
-            {
-                throw new QLError("Undeclared variable");
-            }
-            if (!ReferenceLookupTable.ContainsKey(IdentifierLookupTable[node]))
-            {
-                throw new QLError("Variable not assigned");//this is bullshit, cannot happen?
-            }
-            return ReferenceLookupTable[IdentifierLookupTable[node]];
-        }
-        TerminalWrapper GetValue(ElementBase node)
-        {
-            throw new QLException("Not recognised, base case");
-
-        }
-        */
+        
 
         #region Regular elements
         public void Visit(Form node)
