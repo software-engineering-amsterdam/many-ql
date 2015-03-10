@@ -33,6 +33,7 @@ public class BooleanNode extends AExpression{
         return visitor.visit(this);
     }
 
+    //TODO remove class?!
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BooleanNode){

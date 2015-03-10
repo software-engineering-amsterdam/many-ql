@@ -9,10 +9,6 @@ public abstract class ComparableValue<T extends Comparable<T>> extends Value<T> 
         super(value);
     }
 
-    public ComparableValue(T value, boolean undefined) {
-        super(value, undefined);
-    }
-
     @Override
     public int compareTo(Value<T> o) {
         return getValue().compareTo(o.getValue());
