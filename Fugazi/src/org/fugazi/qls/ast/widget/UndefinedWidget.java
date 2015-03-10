@@ -14,7 +14,7 @@ public class UndefinedWidget extends Widget {
     }
 
     @Override
-    public boolean isNull() {
+    public boolean isUndefined() {
         return true;
     }
 

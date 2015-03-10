@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ public abstract class Widget extends AbstractASTNode {
     public Widget(int _lineNum) {
         super(_lineNum);
         this.label = "";
+        this.style = new UndefinedStyle();
     }
 
     public Widget() {
         this.label = "";
+        this.style = new UndefinedStyle();
     }
     
     public Font getDefaultFont() {
@@ -64,7 +67,7 @@ public abstract class Widget extends AbstractASTNode {
         this.label = _label;
     }
 
-    public boolean isNull() {
+    public boolean isUndefined() {
         return false;
     }
 }

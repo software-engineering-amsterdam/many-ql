@@ -33,7 +33,7 @@ public class Style extends AbstractASTNode {
         return this.styleProperties;
     }
 
-    public boolean isNull() {
+    public boolean isUndefined() {
         return false;
     }
 
