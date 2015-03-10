@@ -3,7 +3,7 @@ package org.uva.qls.view.listener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SliderChangeListener implements ChangeListener {
+public class SliderChangeListener extends BaseListener implements ChangeListener {
 
 	
 	@Override
