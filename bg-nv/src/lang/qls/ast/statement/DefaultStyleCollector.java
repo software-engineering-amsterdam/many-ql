@@ -8,7 +8,8 @@ import lang.qls.semantics.Style;
 /**
  * Created by bore on 09/03/15.
  */
-public class DefaultStyle implements StylesheetVisitor<Style>, StatementVisitor<Style>
+// TODO: fix
+public class DefaultStyleCollector implements StylesheetVisitor<Style>, StatementVisitor<Style>
 {
     @Override
     public Style visit(Stylesheet s)

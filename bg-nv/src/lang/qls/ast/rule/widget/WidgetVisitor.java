@@ -1,7 +1,5 @@
 package lang.qls.ast.rule.widget;
 
-import com.sun.tools.javac.comp.Check;
-
 /**
  * Created by bore on 10/03/15.
  */
