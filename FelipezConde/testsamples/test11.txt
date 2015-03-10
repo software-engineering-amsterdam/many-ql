@@ -1,0 +1,9 @@
+form {
+    
+    enable when ( 1 + 2 == 3) {
+        question f1 string {
+            label = "hmm...",
+            value = "Sorry, computer says no..."
+        }     
+    }
+}

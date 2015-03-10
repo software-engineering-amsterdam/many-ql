@@ -24,10 +24,10 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
-import org.uva.ql.ast.value.Bool;
-import org.uva.ql.ast.value.Int;
-import org.uva.ql.ast.value.Str;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.BoolValue;
+import org.uva.ql.ast.value.IntValue;
+import org.uva.ql.ast.value.StrValue;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.visitor.ExpressionVisitor;
 
@@ -51,7 +51,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 		if (contains(name)) {
 			return values.get(name);
 		} else {
-			return new Undefined();
+			return new UndefinedValue();
 		}
 	}
 	
@@ -173,17 +173,17 @@ public class Evaluator implements ExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(IntLiteral node) {
-		return new Int(node.getValue());
+		return new IntValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(BoolLiteral node) {
-		return new Bool(node.getValue());
+		return new BoolValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(StrLiteral node) {
-		return new Str(node.getValue());
+		return new StrValue(node.getValue());
 	}
 
 	@Override
