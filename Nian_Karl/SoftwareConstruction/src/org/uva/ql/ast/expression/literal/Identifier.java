@@ -1,10 +1,10 @@
 package org.uva.ql.ast.expression.literal;
 
-import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.ast.type.Type;
 import org.uva.utility.CodePosition;
 
 public class Identifier extends Literal {

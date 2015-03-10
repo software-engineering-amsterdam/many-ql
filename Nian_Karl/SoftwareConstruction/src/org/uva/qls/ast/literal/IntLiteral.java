@@ -1,28 +1,30 @@
 package org.uva.qls.ast.literal;
 
-import org.uva.ql.ast.value.StrValue;
-import org.uva.ql.ast.value.Value;
-import org.uva.qls.ast.type.StrType;
 import org.uva.qls.ast.type.Type;
+import org.uva.qls.ast.value.IntValue;
+import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
 import org.uva.utility.CodePosition;
 
-public class StrLiteral extends Literal {
+public class IntLiteral extends Literal {
 
-	private final String text;
+	private final IntValue value; 
 	
-	public StrLiteral(String text, CodePosition position) {
+	public IntLiteral(IntValue value, CodePosition position) {
 		super(position);
-		this.text = text;
+		this.value = value;
 	}
 	
 	@Override
 	public Value getValue() {
-		return new StrValue(text); 
+		return value;
 	}
 	
-	
-
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {
@@ -34,9 +36,6 @@ public class StrLiteral extends Literal {
 		return super.toString();
 	}
 
-	@Override
-	public Type getType() {
-		return new StrType();
-	}
+
 
 }
