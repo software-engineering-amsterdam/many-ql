@@ -1,18 +1,18 @@
 package lang.qls.semantics;
 
 import lang.ql.ast.type.Type;
-import lang.qls.ast.Rule.Rules;
+import lang.qls.ast.rule.Rules;
 
 import java.util.Stack;
 
 /**
  * Created by bore on 09/03/15.
  */
-public class StyleScope
+public class StyleStack
 {
     Stack<Style> stack;
 
-    public StyleScope()
+    public StyleStack()
     {
         this.stack = new Stack<>();
     }
