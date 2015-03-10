@@ -1,4 +1,4 @@
-package lang.ql.gui.section;
+package lang.ql.gui.segment;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,13 +15,19 @@ import java.util.List;
 /**
  * Created by Nik on 3-3-15.
  */
-public class ConditionalSection extends Section<Pane> implements Refreshable
+public class Conditional extends Segment<Pane> implements Refreshable
 {
     private Expr condition;
 
-    public ConditionalSection(Expr condition, List<Section> subsections)
+    public Conditional(Expr condition, List<Segment> subsegments)
     {
-        super(new HBox(), subsections, true);
+        super(new HBox(), subsegments, true);
+
+        for (Segment s : subsegments)
+        {
+            this.container.getChildren().add(s.getContainer());
+        }
+
         this.condition = condition;
     }
 
@@ -30,13 +36,14 @@ public class ConditionalSection extends Section<Pane> implements Refreshable
         return this.condition;
     }
 
-    public <T> T accept(ModelVisitor<T> visitor)
+    @Override
+    public <U> U accept(ModelVisitor<U> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
         Boolean visible = false;
 
@@ -55,7 +62,7 @@ public class ConditionalSection extends Section<Pane> implements Refreshable
     }
 
     @Override
-    public Boolean isPrerequisite()
+    public Boolean isRefreshPrerequisite()
     {
         return false;
     }

@@ -1,8 +1,10 @@
 package lang.ql.gui.input.regular;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import lang.ql.gui.ModelVisitor;
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.errors.Warning;
 import lang.ql.semantics.values.DecimalValue;
 import lang.ql.semantics.values.UndefinedValue;
@@ -13,7 +15,7 @@ import java.math.BigDecimal;
 /**
  * Created by Nik on 22-02-2015
  */
-public class DecInput extends RegularInput<TextInputControl, String>
+public class DecInput extends RegularInput<String, TextInputControl>
 {
     public DecInput(String id)
     {
@@ -25,7 +27,8 @@ public class DecInput extends RegularInput<TextInputControl, String>
         super(id, new TextField(), visible, disabled);
     }
 
-    public <T> T accept(ModelVisitor<T> visitor)
+    @Override
+    public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
     }
@@ -48,5 +51,12 @@ public class DecInput extends RegularInput<TextInputControl, String>
             this.addValidationError(new Warning("The entered value is not a decimal number."));
         }
         return value;
+    }
+
+    @Override
+    public void attachListener(ValueTable valueTable)
+    {
+        ChangeListener<String> cl = this.constructChangeListener(valueTable);
+        this.control.textProperty().addListener(cl);
     }
 }

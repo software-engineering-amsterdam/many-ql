@@ -6,9 +6,10 @@ import lang.ql.ast.statement.*;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
-import lang.ql.gui.section.ConditionalSection;
-import lang.ql.gui.section.LineSection;
-import lang.ql.gui.section.Section;
+import lang.ql.gui.segment.Conditional;
+import lang.ql.gui.segment.Page;
+import lang.ql.gui.segment.Row;
+import lang.ql.gui.segment.Segment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,17 @@ public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>
     @Override
     public Canvas visit(Form form)
     {
-        List<Section> sections = new ArrayList<Section>();
+        List<Segment> segments = new ArrayList<Segment>();
         for (Statement s : form.getBody())
         {
-            sections.add((Section)s.accept(this));
+            segments.add((Segment)s.accept(this));
         }
 
-        return new Canvas(form.getId(), sections);
+        //TODO: handle this properly for both QL/QLS
+        List<Page> pages = new ArrayList<>();
+        pages.add(new Page(segments, true));
+
+        return new Canvas(form.getId(), pages);
     }
 
     @Override
@@ -36,7 +41,7 @@ public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>
     {
         Label label = new Label(q.getLabel());
         Input input = InputBuilder.build(q.getId(), q.getType());
-        return new LineSection(label, input);
+        return new Row(label, input);
     }
 
     @Override
@@ -44,18 +49,17 @@ public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>
     {
         Label label = new Label(cq.getLabel());
         Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
-        return new LineSection(label, input);
+        return new Row(label, input);
     }
 
     @Override
     public GuiElement visit(IfCondition ifCond)
     {
-        List<Section> sections = new ArrayList<Section>();
+        List<Segment> segments = new ArrayList<Segment>();
         for (Statement s : ifCond.getBody())
         {
-            sections.add((Section)s.accept(this));
+            segments.add((Segment)s.accept(this));
         }
-        // TODO: get this to work
-        return new ConditionalSection(ifCond.getCondition(), sections);
+        return new Conditional(ifCond.getCondition(), segments);
     }
 }

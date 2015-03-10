@@ -36,7 +36,7 @@ public class Refresher implements Observer
 
         for (Refreshable r : this.items)
         {
-            r.update(valueTable);
+            r.refreshElement(valueTable);
         }
     }
 
@@ -67,7 +67,7 @@ public class Refresher implements Observer
     {
         return this.items
                 .stream()
-                .filter(p -> p.isPrerequisite())
+                .filter(p -> p.isRefreshPrerequisite())
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -75,7 +75,7 @@ public class Refresher implements Observer
     {
         return this.items
                 .stream()
-                .filter(p -> !p.isPrerequisite())
+                .filter(p -> !p.isRefreshPrerequisite())
                 .collect(Collectors.toCollection(HashSet::new));
     }
 }

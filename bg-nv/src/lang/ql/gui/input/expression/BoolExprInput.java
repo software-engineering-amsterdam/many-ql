@@ -3,7 +3,6 @@ package lang.ql.gui.input.expression;
 import javafx.scene.control.CheckBox;
 import lang.ql.ast.expression.Expr;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.semantics.ExprEvaluator;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.BooleanValue;
 import lang.ql.semantics.values.Value;
@@ -24,13 +23,13 @@ public class BoolExprInput extends ExprInput<CheckBox>
     }
 
     @Override
-    public <T> T accept(ModelVisitor<T> visitor)
+    public <U> U accept(ModelVisitor<U> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
         Value val = valueTable.getValue(this.getId());
 
@@ -41,7 +40,6 @@ public class BoolExprInput extends ExprInput<CheckBox>
             boolValue = ((BooleanValue)val).getValue();
         }
 
-        CheckBox checkBox = this.getControl();
-        checkBox.setSelected(boolValue);
+        this.control.setSelected(boolValue);
     }
 }

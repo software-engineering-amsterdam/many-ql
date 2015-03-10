@@ -1,5 +1,6 @@
 package lang.ql.gui.label;
 
+import javafx.scene.text.Text;
 import lang.ql.gui.GuiElement;
 import lang.ql.gui.ModelVisitor;
 
@@ -8,27 +9,29 @@ import lang.ql.gui.ModelVisitor;
  */
 public class Label extends GuiElement
 {
-    private String text;
+
+    private final Text textNode;
 
     public Label(String text)
     {
-        super();
-        this.text = text;
+        this(text, true);
     }
 
     public Label(String text, Boolean visible)
     {
         super(visible);
-        this.text = text;
+        this.textNode = new Text();
+        this.textNode.setText(text);
     }
 
-    public <T> T accept(ModelVisitor<T> visitor)
+    public Text getTextNode()
+    {
+        return this.textNode;
+    }
+
+    @Override
+    public <U> U accept(ModelVisitor<U> visitor)
     {
         return visitor.visit(this);
-    }
-
-    public String getText()
-    {
-        return text;
     }
 }

@@ -1,4 +1,4 @@
-package lang.ql.gui.section;
+package lang.ql.gui.segment;
 
 import javafx.scene.Node;
 import lang.ql.gui.GuiElement;
@@ -8,18 +8,19 @@ import java.util.List;
 /**
  * Created by Nik on 3-3-15.
  */
-public abstract class Section<T extends Node> extends GuiElement
+public abstract class Segment<T extends Node> extends GuiElement
 {
-    private final T container;
-    private final List<Section> subsections;
+    private final List<Segment> subsegments;
+    protected T container;
 
-    public Section(T container, List<Section> subsections, Boolean visible)
+    public Segment(T container, List<Segment> subsegments, Boolean visible)
     {
         super(visible);
         this.container = container;
-        this.subsections = subsections;
+        this.subsegments = subsegments;
+        this.setVisible(visible);
     }
-
+    
     @Override
     public void setVisible(Boolean visible)
     {
@@ -28,9 +29,9 @@ public abstract class Section<T extends Node> extends GuiElement
         this.container.setManaged(visible);
     }
 
-    public List<Section> getSubsections()
+    public List<Segment> getSubsegments()
     {
-        return this.subsections;
+        return this.subsegments;
     }
 
     public T getContainer()
