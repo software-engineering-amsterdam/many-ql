@@ -18,7 +18,7 @@ public abstract class InputWidget<T extends Value> implements Widget {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue) {
-		handler.handleChange(changedValue);
+	public void handleChange(Value changedValue, Widget source) {
+		handler.handleChange(changedValue, source);
 	}
 }

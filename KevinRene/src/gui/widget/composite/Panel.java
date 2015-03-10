@@ -1,7 +1,7 @@
 package gui.widget.composite;
 
+import gui.Composite;
 import gui.Widget;
-import gui.widget.Composite;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,13 +17,15 @@ public class Panel extends Composite {
 	private JPanel panel;
 	private List<Widget> widgets;
 	
-	public Panel() {
+	public Panel(Widget handler) {
 		super(new Identifier("Panel"));
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 		
 		this.widgets = new ArrayList<Widget>();
+		
+		setHandler(handler);
 	}
 	
 	public void addComponent(Widget component) {

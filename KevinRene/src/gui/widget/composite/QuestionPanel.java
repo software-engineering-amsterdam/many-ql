@@ -1,7 +1,7 @@
 package gui.widget.composite;
 
+import gui.Composite;
 import gui.Widget;
-import gui.widget.Composite;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -35,9 +35,9 @@ public class QuestionPanel extends Composite {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue) {		
+	public void handleChange(Value changedValue, Widget source) {		
 		valueEnvironment.store(getIdentifier(), changedValue);
-		super.handleChange(changedValue);
+		super.handleChange(changedValue, this);
 	}
 	
 	@Override

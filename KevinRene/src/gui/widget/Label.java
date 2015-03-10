@@ -20,7 +20,7 @@ public class Label implements Widget {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue) {}
+	public void handleChange(Value changedValue, Widget source) {}
 	
 	@Override
 	public void updateComponent() {

@@ -1,7 +1,7 @@
 package gui.widget.composite;
 
+import gui.Composite;
 import gui.Widget;
-import gui.widget.Composite;
 import gui.widget.InputWidget;
 
 import javax.swing.BoxLayout;
@@ -49,10 +49,10 @@ public class ComputedQuestionPanel extends Composite {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue) {
+	public void handleChange(Value changedValue, Widget source) {
 		valueEnvironment.store(getIdentifier(), changedValue);
 		
-		super.handleChange(changedValue);
+		super.handleChange(changedValue, this);
 	}
 	
 	@SuppressWarnings("unchecked")

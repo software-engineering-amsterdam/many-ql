@@ -1,7 +1,7 @@
 package gui.widget.composite;
 
+import gui.Composite;
 import gui.Widget;
-import gui.widget.Composite;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -13,13 +13,13 @@ import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.value.BooleanValue;
 
-public class IfComposite extends Composite {
+public class IfPanel extends Composite {
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
 	private final Widget ifPanel, elsePanel;
 	private JPanel activePanel;
 	
-	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {
+	public IfPanel(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {
 		super(new Identifier("If panel."));
 		
 		this.expression = expression;
@@ -38,8 +38,8 @@ public class IfComposite extends Composite {
 		activateElsePanel();
 	}
 	
-	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
-		this(expression, valueEnvironment, ifComponent, new Panel());
+	public IfPanel(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
+		this(expression, valueEnvironment, ifComponent, new Panel(this));
 	}
 	
 	public void activateIfPanel() {

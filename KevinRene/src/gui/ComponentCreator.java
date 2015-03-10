@@ -1,18 +1,15 @@
 package gui;
 
+import gui.menu.FormMenu;
 import gui.widget.Label;
 import gui.widget.composite.ComputedQuestionPanel;
-import gui.widget.composite.FormComposite;
-import gui.widget.composite.IfComposite;
+import gui.widget.composite.IfPanel;
 import gui.widget.composite.Panel;
 import gui.widget.composite.QuestionPanel;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
 import gui.widget.input.spinbox.FloatSpinbox;
 import gui.widget.input.spinbox.IntegerSpinbox;
-
-import javax.swing.JFrame;
-
 import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.Statement;
@@ -35,22 +32,20 @@ import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 
 public class ComponentCreator extends StatementVisitor<Widget> implements ExpressionVisitor<Widget> {	
-	private JFrame frame;
 	private ValueEnvironment valueEnvironment;
 
-	private ComponentCreator(JFrame frame, ValueEnvironment valueEnvironment) {
-		this.frame = frame;
+	private ComponentCreator(ValueEnvironment valueEnvironment) {
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static Widget check(Expression tree, JFrame frame, ValueEnvironment valueEnvironment) {		
-		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+	public static Widget check(Expression tree, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
 	
-	public static Widget check(Statement tree, JFrame frame, ValueEnvironment valueEnvironment) {		
-		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+	public static Widget check(Statement tree, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
@@ -134,12 +129,12 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 	
 	@Override
 	public Widget visit(Form formNode) {
-		return new FormComposite(frame, formNode.getBlock().accept(this));
+		return new FormMenu(formNode.getBlock().accept(this));
 	}
 	
 	@Override
 	public Widget visit(If ifNode) {
-		return new IfComposite(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
+		return new IfPanel(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
 	}
 
 	@Override
@@ -147,6 +142,6 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
 		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
 		
-		return new IfComposite(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
+		return new IfPanel(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
 	}
 }

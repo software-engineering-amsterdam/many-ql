@@ -2,64 +2,7 @@ package gui;
 
 import javax.swing.JFrame;
 
-import ql.TypeEnvironment;
-import ql.ValueEnvironment;
-import ql.ast.QLNode;
-import ql.ast.Statement;
-import ql.ast.visitor.typechecker.TypeChecker;
-import ql.parser.Parser;
-
-public class Main {
-	
-	public static final String form = "form taxOfficeExample { "
-			+ "    firstValue: integer {"
-			+ "        \"First value:\""
-			+ "    }"
-			+ "    secondValue: integer {"
-			+ "        \"Second value:\""
-			+ "    }"
-			+ "    assignedValue: integer {"
-			+ "        \"Addition of first and second value: \""
-			+ "			assign(firstValue + secondValue)"
-			+ "    }"
-			+ ""
-			+ "    booleanValue: boolean { "
-			+ "        \"Are you awesome?\""
-			+ "    }"
-			+ ""
-			+ "	   booleanValueCopy: boolean { "
-			+ "        \"Copies the question above\""
-			+ "        assign(booleanValue)"
-			+ "    }"
-			+ ""
-			+ "    if (booleanValue || firstValue == 10) {"
-			+ "        sellingPrice: money {"
-			+ "            \"What was the selling price?\""
-			+ "        }"
-			+ "        privateDebt: money {"
-			+ "            \"Private debts for the sold house:\" "
-			+ "        }"
-			+ ""
-			+ "        valueResidue: integer {"
-			+ "            \"Value residue:\""
-			+ "            assign(sellingPrice - privateDebt)"
-			+ "        }"
-			+ "        if (firstValue == 100) {"
-			+ "            lol: string {"
-			+ "	               \"is this IF active??\""
-			+ "            }"
-			+ "        }"
-			+ "    }"
-			+ "    else {"
-			+ "        lol2: string {"
-			+ "	           \"This is the else\""
-			+ "        }"
-			+ "        lol3: integer {"
-			+ "	           \"This is the else second\""
-			+ "        }"
-			+ "    }"
-			+ "}";
-	
+public class Main {	
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -68,27 +11,13 @@ public class Main {
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Questionnaire");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        // Load and parse the entire form and what not.
-        Parser formParser = new Parser();
-        QLNode tree = formParser.parse(form);
-		TypeEnvironment register = new TypeEnvironment();
-		ValueEnvironment valueEnv = new ValueEnvironment();
-		
-		if(!TypeChecker.check((Statement) tree, register)) {
-			System.out.println("Type error detected in the form.");
-			System.exit(0);
-		}
-		
-		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
-		
-		frame.getContentPane().add(ComponentCreator.check((Statement) tree, frame, valueEnv).getComponent());
- 
-        //Display the window.
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setVisible(true);
+        
+        new Application(frame);
     }
  
     public static void main(String[] args) {

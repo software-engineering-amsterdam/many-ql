@@ -1,8 +1,7 @@
-package gui.widget;
+package gui;
 
 import ql.Value;
 import ql.ast.expression.Identifier;
-import gui.Widget;
 
 public abstract class Composite implements Widget {
 	private final Identifier identifier;
@@ -23,7 +22,7 @@ public abstract class Composite implements Widget {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue) {
-		handler.handleChange(changedValue);
+	public void handleChange(Value changedValue, Widget source) {
+		handler.handleChange(changedValue, source);
 	}
 }

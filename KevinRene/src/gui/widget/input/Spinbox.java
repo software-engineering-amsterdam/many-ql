@@ -59,6 +59,6 @@ public abstract class Spinbox<T extends Value> extends InputWidget<T> implements
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		handleChange(getValue());
+		handleChange(getValue(), this);
 	}
 }
