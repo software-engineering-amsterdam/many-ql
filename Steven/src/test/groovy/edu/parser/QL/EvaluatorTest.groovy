@@ -3,7 +3,6 @@ package edu.parser.QL
 import edu.nodes.QuestionType
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.*
-import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QL.nodes.statement.ElseClause
 import edu.parser.QL.nodes.statement.IfStatement
@@ -25,15 +24,15 @@ class EvaluatorTest extends Specification {
         evaluator = new Evaluator();
     }
 
-    Question getQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList());
-    }
+//    Question getQuestion(String identifier) {
+//        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList());
+//    }
 
     def "Should return provided unconditional question"() {
         when:
         List<Statement> statements = new ArrayList<>();
 
-        Question inputQuestion = getQuestion("identifier")
+        Question inputQuestion = new QuestionBuilder().identifier("identifier").isEnabled(true).build()
         statements.add(inputQuestion)
         Form inputForm = new Form(statements);
 
@@ -51,12 +50,12 @@ class EvaluatorTest extends Specification {
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
-        Question inputConditionalQuestion = getQuestion("conditional")
+        Question inputConditionalQuestion = new QuestionBuilder().identifier("conditional").isEnabled(true).build()
         questionsWithinIfStatement.add(inputConditionalQuestion)
 
         IfStatement ifStatement = new IfStatement(expression, questionsWithinIfStatement, Optional.empty())
 
-        def inputUnconditionalQuestion = getQuestion("unconditional")
+        def inputUnconditionalQuestion = new QuestionBuilder().identifier("unconditional").isEnabled(true).build()
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
@@ -95,12 +94,12 @@ class EvaluatorTest extends Specification {
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
-        Question inputConditionalQuestion = getQuestion("conditional")
+        Question inputConditionalQuestion = new QuestionBuilder().identifier("conditional").isEnabled(true).build()
         questionsWithinIfStatement.add(inputConditionalQuestion)
 
         IfStatement ifStatement = new IfStatement(expression, questionsWithinIfStatement, Optional.empty())
 
-        def inputUnconditionalQuestion = getQuestion("unconditional")
+        def inputUnconditionalQuestion = new QuestionBuilder().identifier("unconditional").isEnabled(true).build()
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
