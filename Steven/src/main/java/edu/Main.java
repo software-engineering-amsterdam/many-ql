@@ -67,6 +67,7 @@ public class Main implements Observer {
     private void evaluateForm() {
         evaluatedQuestions.clear();
         evaluatedQuestions = evaluator.evaluate(form, updatedQuestions);
+        updatedQuestions.clear();
     }
 
     private Stylesheet parseQLS() {

@@ -42,6 +42,7 @@ public class Renderer implements QLSVisitor {
         mapQuestionsAndStyles(questions, stylesheet);
         stylesheet.accept(this);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
+        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
     }
 
     private void mapQuestionsAndStyles(List<Question> questions, Stylesheet stylesheet) {
