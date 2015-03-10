@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast;
 
+import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
@@ -9,6 +10,8 @@ import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
+import org.fugazi.qls.ast.widget.CheckBox;
+import org.fugazi.qls.ast.widget.Widget;
 
 import java.util.List;
 
@@ -48,15 +51,13 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     public Void visitSection(Section section) {
 
         // CurrentSegment is the parent.
-        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
+        List<DefaultStyleDeclaration> parentSegmentDefaultStyles =
+                currentSegment.getDefaultStyleDeclarations();
 
         // Change current segment
         currentSegment = section;
-        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
-
-        // Check if the base declaration for a type exists in the current declarations.
-        //         - if yes, inherit style.
-        //         - if not, add parent declaration on current.
+        List<DefaultStyleDeclaration> currentSegmentDefaultStyles =
+                currentSegment.getDefaultStyleDeclarations();
 
         // for every base declaration.
         for (DefaultStyleDeclaration baseDeclaration : parentSegmentDefaultStyles) {
@@ -86,18 +87,51 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             }
         }
 
+        for (Question question : section.getQuestions()) {
+            Type questionType = getQuestionType(question);
+
+            for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
+                Type currentDeclarationType = currentDeclaration.getQuestionType();
+
+                // if there is a declared style for the question's type
+                if (questionType.equals(currentDeclarationType)) {
+
+                    Widget currentDeclarationWidget = currentDeclaration.getWidget();
+                    // if the widget is undefined, set the default widget fot that type.
+                    if (currentDeclarationWidget.isUndefined()) {
+                        currentDeclarationWidget = getDefaultWidgetForType(questionType);
+                    }
+
+                    Style currentDeclarationStyle = currentDeclaration.getStyle();
+                    // if the style is undefined, set the default style of that widget.
+                    // otherwise set the right style.
+                    if (currentDeclarationStyle.isUndefined()) {
+                        currentDeclarationWidget.applyStyle(currentDeclarationWidget.getDefaultStyle());
+                    } else {
+                        currentDeclarationWidget.applyStyle(currentDeclarationStyle);
+                    }
+
+                    // set widget to the question.
+                    question.setWidget(currentDeclarationWidget);
+                }
+            }
+        }
+
+        // visit sub sections.
         for (Section subsection : section.getSections()) {
             subsection.accept(this);
         }
 
-        for (Question question : section.getQuestions()) {
-            // todo check if there is a declared style for the question's type.
-            // todo     - if yes, check if there is style for this widget.
-            // todo         - if yes, apply the style to the widget and the widget to the question.
-            // todo         - if no, apply the default style to the widget and the widget to the question.
-            // todo     - if no, if no apply the default widget to the question.
-        }
-
         return null;
+    }
+
+    private Type getQuestionType(Question _question) {
+        // todo
+        return new BoolType();
+    }
+
+    private Widget getDefaultWidgetForType(Type _questionType) {
+        // todo
+        return new CheckBox();
     }
 }
