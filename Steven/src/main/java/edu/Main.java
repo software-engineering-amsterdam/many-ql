@@ -6,6 +6,8 @@ import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
+import edu.gui.components.store.Store;
+import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
 import edu.parser.QL.nodes.Form;
@@ -34,7 +36,7 @@ public class Main implements Observer {
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private Set<Question> updatedQuestions;
+    private Map<Question, Store> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -47,7 +49,7 @@ public class Main implements Observer {
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new HashSet<>();
+        updatedQuestions = new HashMap<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
@@ -70,7 +72,7 @@ public class Main implements Observer {
 
     private void evaluateForm() {
         evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions);
+        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions.keySet());
     }
 
     private Stylesheet parseQLS() {
@@ -97,27 +99,34 @@ public class Main implements Observer {
     @Override
     public void update(TextBox textBox) {
         Question question = getEvaluatedQuestion(textBox.getIdentifier());
+        Question clonedQuestion = cloneQuestion(question);
+        TextStore store = textBox.getStore();
+        store.setText(textBox.getText());
+        addUpdatedQuestion(clonedQuestion, store);
 
     }
 
     @Override
     public void initializeRequest(TextBox textBox) {
+        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getIdentifier());
 
+        if (updatedQuestion.isPresent()) {
+            TextStore textStore = (TextStore) updatedQuestions.get(updatedQuestion.get());
+            textBox.setText(textStore.getText());
+        }
     }
 
     @Override
     public void update(CheckBox checkBox) {
         Question question = getEvaluatedQuestion(checkBox.getIdentifier());
         Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
-        addUpdatedQuestion(clonedQuestion);
+        addUpdatedQuestion(clonedQuestion, checkBox.getStore());
         reRender();
     }
 
     @Override
     public void initializeRequest(CheckBox checkBox) {
-        Optional<Question> question = updatedQuestions.stream()
-                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(checkBox.getIdentifier()))
-                .findFirst();
+        Optional<Question> question = getUpdatedQuestion(checkBox.getIdentifier());
         if (question.isPresent()) {
             checkBox.setSelected(question.get().isEnabled());
         } else {
@@ -125,16 +134,30 @@ public class Main implements Observer {
         }
     }
 
-    private void addUpdatedQuestion(Question clonedQuestion) {
-        if (updatedQuestions.contains(clonedQuestion)) {
+    private Optional<Question> getUpdatedQuestion(Identifier identifier) {
+        return updatedQuestions.keySet().stream()
+                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(identifier))
+                .findFirst();
+    }
+
+    private void addUpdatedQuestion(Question clonedQuestion, Store store) {
+        if (updatedQuestions.containsKey(clonedQuestion)) {
             updatedQuestions.remove(clonedQuestion);
         }
-        updatedQuestions.add(clonedQuestion);
+        updatedQuestions.put(clonedQuestion, store);
     }
 
     private Question cloneQuestionAndSetState(boolean isSelected, Question question) {
         try {
             return question.clone(isSelected);
+        } catch (CloneNotSupportedException e) {
+            throw new CloneException(e);
+        }
+    }
+
+    private Question cloneQuestion(Question question) {
+        try {
+            return question.clone();
         } catch (CloneNotSupportedException e) {
             throw new CloneException(e);
         }

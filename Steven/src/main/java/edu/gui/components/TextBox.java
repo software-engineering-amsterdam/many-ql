@@ -2,6 +2,7 @@ package edu.gui.components;
 
 import edu.gui.Observer;
 import edu.gui.Subject;
+import edu.gui.components.store.TextStore;
 import edu.parser.QL.nodes.expression.Identifier;
 
 import javax.swing.*;
@@ -42,6 +43,11 @@ public class TextBox extends JTextField implements Subject, FocusListener {
     public void notifyObservers() {
         observers.stream()
                 .forEach(observer -> observer.update(this));
+    }
+
+    @Override
+    public TextStore getStore() {
+        return new TextStore();
     }
 
     @Override

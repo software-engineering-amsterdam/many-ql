@@ -2,6 +2,8 @@ package edu.gui.components;
 
 import edu.gui.Observer;
 import edu.gui.Subject;
+import edu.gui.components.store.DefaultStore;
+import edu.gui.components.store.Store;
 import edu.parser.QL.nodes.expression.Identifier;
 
 import javax.swing.*;
@@ -44,6 +46,11 @@ public class CheckBox extends JCheckBox implements Subject, ActionListener {
     public void notifyObservers() {
         observers.stream()
                 .forEach(observer -> observer.update(this));
+    }
+
+    @Override
+    public Store getStore() {
+        return new DefaultStore();
     }
 
     @Override
