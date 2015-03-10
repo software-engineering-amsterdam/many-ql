@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
@@ -10,7 +11,6 @@ import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
-import org.fugazi.qls.ast.widget.CheckBox;
 import org.fugazi.qls.ast.widget.Widget;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private Segment currentSegment;
 
     public DefaultStyleHandler(StyleSheet styleSheet) {
-        styledStyleSheet = styleSheet;
-        styledStyleSheet.accept(this);
+        this.styledStyleSheet = styleSheet;
+        this.styledStyleSheet.accept(this);
     }
 
     public StyleSheet getStylesheetWithStyles() {
@@ -93,7 +93,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
                 Type currentDeclarationType = currentDeclaration.getQuestionType();
 
-                // if there is a declared style for the question's type
+                // if there is a style declaration for the question's type
                 if (questionType.equals(currentDeclarationType)) {
 
                     Widget currentDeclarationWidget = currentDeclaration.getWidget();
@@ -106,13 +106,18 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
                     // if the style is undefined, set the default style of that widget.
                     // otherwise set the right style.
                     if (currentDeclarationStyle.isUndefined()) {
-                        currentDeclarationWidget.applyStyle(currentDeclarationWidget.getDefaultStyle());
+                        currentDeclarationWidget.resetStyleToDefault();
                     } else {
                         currentDeclarationWidget.applyStyle(currentDeclarationStyle);
                     }
 
                     // set widget to the question.
                     question.setWidget(currentDeclarationWidget);
+                } else {
+                    // if there is no default style declaration, set defaults
+                    Widget defaultWidget = getDefaultWidgetForType(questionType);
+                    defaultWidget.resetStyleToDefault();
+                    question.setWidget(defaultWidget);
                 }
             }
         }
@@ -127,11 +132,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
 
     private Type getQuestionType(Question _question) {
         // todo
-        return new BoolType();
+        return new IntType();
     }
 
     private Widget getDefaultWidgetForType(Type _questionType) {
-        // todo
-        return new CheckBox();
+        DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
+        return defaultWidgetsFactory.getDefaultWidget(_questionType);
     }
 }

@@ -57,6 +57,10 @@ public abstract class Widget extends AbstractASTNode {
         return new Style(defaultStyles);
     }
 
+    public void resetStyleToDefault() {
+        this.style = getDefaultStyle();
+    }
+
     public abstract void applyStyle(Style _style);
 
     public abstract List<Type> getSupportedQuestionTypes();
