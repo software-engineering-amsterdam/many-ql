@@ -7,17 +7,13 @@ identifier
     ;
 stylesheet_element
     : page
-    | statement
+    | default_statement
     ;
 page
     : 'page' '{' section* '}'
     ;
 section
-    : 'section' STRING '{' statement+ '}'
-    ;
-statement
-    : question
-    | default_statement
+    : 'section' STRING '{' question+ '}'
     ;
 question
     : 'question' identifier '{' style* '}'
