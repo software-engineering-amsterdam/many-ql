@@ -1,12 +1,11 @@
 package ql.typechecker
 
-import ql.ast._
-import org.specs2.matcher.{MatchResult, Expectable, Matcher, ExceptionMatchers}
 import org.specs2.mutable.Specification
+import ql.ast._
 
 import scala.util.parsing.input.NoPosition
 
-class TypeCheckerSpec extends Specification with ExceptionMatchers {
+class TypeCheckerSpec extends Specification {
   val checker = new TypeChecker
   import checker._
 

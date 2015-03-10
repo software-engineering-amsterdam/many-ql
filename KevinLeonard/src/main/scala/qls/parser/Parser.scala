@@ -18,19 +18,19 @@ class Parser extends JavaTokenParsers {
   def variable: Parser[Variable] = ident ^^ Variable
 
   def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
-    case label ~ ps => Style(label, ps, None)
+    case label ~ ps => Style(label, ps, List())
   }
   
   def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
   
   def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
-    case v ~ ss => Page(v, ss, None)
+    case v ~ ss => Page(v, ss, List())
   }
   
   def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
   
   def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
-    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, None)
+    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, List())
   }
   
   def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
@@ -47,13 +47,19 @@ class Parser extends JavaTokenParsers {
   }
   
   def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
-    case "spinbox" ~ properties => SpinBox(properties)
-    case "slider" ~ properties => Slider(properties)
-    case "text" ~ properties => Text(properties)
-    case "textBlock" ~ properties => TextBlock(properties)
-    case "radio" ~ properties => Radio(properties)
-    case "dropdown" ~ properties => DropDown(properties)
-  } 
+    case "spinbox" ~ Some(properties) => SpinBox(properties)
+    case "spinbox" ~ None => SpinBox(List())
+    case "slider" ~ Some(properties) => Slider(properties)
+    case "slider" ~ None => Slider(List())
+    case "text" ~ Some(properties) => Text(properties)
+    case "text" ~ None => Text(List())
+    case "textBlock" ~ Some(properties) => TextBlock(properties)
+    case "textBlock" ~ None => TextBlock(List())
+    case "radio" ~ Some(properties) => Radio(properties)
+    case "radio" ~ None => Radio(List())
+    case "dropdown" ~ Some(properties) => DropDown(properties)
+    case "dropdown" ~ None => DropDown(List())
+  }
   
   def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
     case t ~ w => DefaultWidget(t, w)
