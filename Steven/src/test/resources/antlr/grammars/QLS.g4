@@ -13,7 +13,11 @@ page
     : 'page' '{' section* '}'
     ;
 section
-    : 'section' STRING '{' question+ '}'
+    : 'section' STRING '{' statement+ '}'
+    ;
+statement
+    : question
+    | default_statement
     ;
 question
     : 'question' identifier '{' style* '}'
