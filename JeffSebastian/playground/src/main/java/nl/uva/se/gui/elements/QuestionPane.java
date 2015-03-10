@@ -8,8 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.statement.Question;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
 
 public class QuestionPane extends BorderPane{
 	
@@ -24,7 +25,7 @@ public class QuestionPane extends BorderPane{
 		this.setLeft(vbox);
 	}
 	
-	public HBox addHBox(){
+	private HBox addHBox(){
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(15, 12, 15, 12));
 		hbox.setSpacing(10);
@@ -43,10 +44,24 @@ public class QuestionPane extends BorderPane{
 		return hbox;
 	}
 	
-	public void addQuestion(Question question, boolean isFromCondition){
-		QuestionBox questionBox = new QuestionBox(question);
-		questionBox.setVisible(!isFromCondition);
+	public void addCondition(Condition condition){
+		ConditionBox conditionBox = new ConditionBox(condition);
+		conditionBox.setVisible(true);
+		vbox.getChildren().add(conditionBox);
+	}
+	
+	public void addConditionBox(ConditionBox conditionBox){
+		conditionBox.setVisible(true);
+		vbox.getChildren().add(conditionBox);
+	}
+	
+	public void addQuestion(Question question){
+		QuestionBox questionBox = new QuestionBox(question);		
 		vbox.getChildren().add(questionBox);		
+	}
+	
+	public void addQuestionBox(QuestionBox questionBox){
+		vbox.getChildren().add(questionBox);
 	}
 	
 	public Form getForm(){

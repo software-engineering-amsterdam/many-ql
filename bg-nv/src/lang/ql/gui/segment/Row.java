@@ -47,7 +47,7 @@ public class Row extends Segment<VBox>
     }
 
     @Override
-    public <U> U accept(ModelVisitor<U> visitor)
+    public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
     }

@@ -11,7 +11,6 @@ public abstract class Expression extends BaseNode implements ExpressionVisitable
 	public Expression(CodePosition pos) {
 		super(pos);
 	}
-
 	
 	public abstract Type getType(TypeChecker typeChecker);
 	

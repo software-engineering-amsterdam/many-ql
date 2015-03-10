@@ -2,12 +2,16 @@ package lang.qls.semantics;
 
 import lang.ql.ast.form.Form;
 import lang.ql.ast.type.*;
-import lang.ql.semantics.errors.Message;
+import lang.ql.gen.QLParser;
+import lang.ql.semantics.QuestionCollector;
+import lang.ql.semantics.SymbolResult;
+import lang.ql.semantics.SymbolTable;
+import lang.ql.semantics.errors.Messages;
 import lang.qls.ast.Page;
-import lang.qls.ast.Rule.*;
-import lang.qls.ast.Statement.*;
-import lang.qls.ast.Statement.Question;
-import lang.qls.ast.Statement.Statement;
+import lang.qls.ast.rule.*;
+import lang.qls.ast.statement.*;
+import lang.qls.ast.statement.Question;
+import lang.qls.ast.statement.Statement;
 import lang.qls.ast.Stylesheet;
 import lang.qls.ast.StylesheetVisitor;
 import lang.qls.semantics.messages.StyleError;
@@ -19,14 +23,19 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private QuestionTypeMap qlQuestions;
+    private SymbolTable questions;
     private Set<String> refQuestions;
-    private List<Message> messages;
+    private Messages messages;
 
-    public static List<Message> check(Stylesheet s, Form f)
+    public static Messages check(Stylesheet s, Form f)
     {
-        QuestionTypeMap qs = QLQuestionVisitor.extractQuestions(f);
-        TypeChecker checker = new TypeChecker(qs);
+        SymbolResult result = QuestionCollector.extract(f);
+        if (result.containsErrors())
+        {
+            return result.getMessages();
+        }
+
+        TypeChecker checker = new TypeChecker(result.getSymbolTable());
         if (checker.visit(s))
         {
             checker.allQuestionsReferencedCheck();
@@ -35,11 +44,11 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         return checker.messages;
     }
 
-    private TypeChecker(QuestionTypeMap qlQuestions)
+    private TypeChecker(SymbolTable questions)
     {
-        this.qlQuestions = qlQuestions;
+        this.questions = questions;
         this.refQuestions = new HashSet<>();
-        this.messages = new ArrayList<>();
+        this.messages = new Messages();
     }
 
     @Override
@@ -88,7 +97,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         if (this.registerQuestion(q))
         {
             Rules rs = q.getBody();
-            Type qType = this.qlQuestions.getType(q.getId());
+            Type qType = this.questions.getQuestionType(q.getId());
 
             return this.visitRules(rs, qType, q.getLineNumber());
         }
@@ -99,7 +108,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     private Boolean registerQuestion(Question q)
     {
         String id = q.getId();
-        if (!(this.qlQuestions.containsQuestion(id)))
+        if (!(this.questions.containsQuestion(id)))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
             return false;
@@ -139,7 +148,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (String id : this.qlQuestions)
+        for (String id : this.questions)
         {
             if (!(this.refQuestions.contains(id)))
             {

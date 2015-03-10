@@ -1,6 +1,9 @@
 package lang.ql.gui;
 
 import lang.ql.gui.canvas.Canvas;
+import lang.ql.gui.control.CheckBox;
+import lang.ql.gui.control.Radios;
+import lang.ql.gui.control.TextField;
 import lang.ql.gui.input.expression.*;
 import lang.ql.gui.input.regular.*;
 import lang.ql.gui.label.Label;
@@ -32,4 +35,8 @@ public interface ModelVisitor<T>
     public T visit(DecExprInput input);
     public T visit(IntExprInput input);
     public T visit(StrExprInput input);
+
+    public T visit(TextField control);
+    public T visit(CheckBox control);
+    public T visit(Radios control);
 }

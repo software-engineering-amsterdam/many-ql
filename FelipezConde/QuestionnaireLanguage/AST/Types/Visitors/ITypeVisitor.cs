@@ -13,5 +13,7 @@ namespace AST.Types.Visitors
         void Visit(IntType intType);
 
         void Visit(StringType stringType);
+
+        void Visit(UndefinedType undefinedType);
     }
 }

@@ -2,9 +2,8 @@ grammar QLS;
 
 sheet: STYLE Identifier page*;
 
-page: PAGE Identifier pageBlock;
+page: PAGE Identifier LEFT_BRACE section* style* RIGHT_BRACE;
 
-pageBlock: LEFT_BRACE section* style* RIGHT_BRACE;
 
 section: SECTION StringLiteral LEFT_BRACE question* style* RIGHT_BRACE ;
 

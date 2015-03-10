@@ -5,6 +5,10 @@ import org.uva.utility.CodePosition;
 
 public class UndefinedType extends Type {
 
+	public UndefinedType() {
+		super();
+	}
+	
 	public UndefinedType(CodePosition pos) {
 		super(pos);
 	}

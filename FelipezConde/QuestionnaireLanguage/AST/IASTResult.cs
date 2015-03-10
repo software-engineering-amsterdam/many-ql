@@ -1,4 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Nodes.Expression;
+using AST.Nodes.Interfaces;
 using AST.Representation;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace AST
     public interface IASTResult
     {
         void SetValue(string key, ObjectValue value);
-        ObjectValue GetValue(Identifier key);
+        ObjectValue GetValue(Id key);
         bool IsTypeCorrect();
 
         bool HasDuplicateIdentifiers();

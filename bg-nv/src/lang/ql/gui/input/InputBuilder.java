@@ -1,6 +1,8 @@
 package lang.ql.gui.input;
 
 import lang.ql.ast.type.*;
+import lang.ql.gui.control.CheckBox;
+import lang.ql.gui.control.TextField;
 import lang.ql.gui.input.regular.*;
 
 /**
@@ -9,6 +11,8 @@ import lang.ql.gui.input.regular.*;
 public class InputBuilder implements TypeVisitor<Input>
 {
     private String id;
+    private final Boolean VISIBLE = true;
+    private final Boolean DISABLED = false;
 
     public static Input build(String id, Type type)
     {
@@ -24,7 +28,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id);
+        return new BoolInput(this.id, new CheckBox(VISIBLE, DISABLED));
     }
 
     @Override
@@ -36,19 +40,19 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(DecType type)
     {
-        return new DecInput(this.id);
+        return new DecInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id);
+        return new IntInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override
     public Input visit(StrType type)
     {
-        return new StrInput(this.id);
+        return new StrInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override

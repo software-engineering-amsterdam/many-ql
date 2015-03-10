@@ -1,4 +1,5 @@
-﻿using AST.Representation;
+﻿using AST.Nodes.Expression;
+using AST.Representation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +9,26 @@ namespace AST.Storage
 {
     public class SymbolTable : ISymbolTable
     {
-        Dictionary<Identifier, ObjectValue> table;
+        Dictionary<Id, ObjectValue> table;
 
-        public SymbolTable(){table = new Dictionary<Identifier, ObjectValue>();}
+        public SymbolTable(){table = new Dictionary<Id, ObjectValue>();}
 
-        public bool InTable(Identifier Id)
+        public bool InTable(Id Id)
         {
             return table.ContainsKey(Id);
         }
 
-        public ObjectValue GetObjectValue(Identifier Id)
+        public ObjectValue GetObjectValue(Id Id)
         {
             return table[Id];
         }
 
-        public void SetObjectValue(Identifier id, ObjectValue newValue)
+        public void SetObjectValue(Id id, ObjectValue newValue)
         {
             table[id] = newValue; 
         }
 
-        public IEnumerable<Identifier> GetKeys()
+        public IEnumerable<Id> GetKeys()
         {
             return table.Keys;
         }
@@ -37,7 +38,7 @@ namespace AST.Storage
             throw new NotImplementedException();
         }
 
-        public Tuple<Identifier, ObjectValue> GetFullObject()
+        public Tuple<Id, ObjectValue> GetFullObject()
         {
             throw new NotImplementedException();
         }

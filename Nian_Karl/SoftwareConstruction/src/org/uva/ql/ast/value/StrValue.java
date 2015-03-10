@@ -48,4 +48,9 @@ public class StrValue extends Value {
 		return new StrValue(arg.getValue() + getValue());
 	}
 	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+	
 }

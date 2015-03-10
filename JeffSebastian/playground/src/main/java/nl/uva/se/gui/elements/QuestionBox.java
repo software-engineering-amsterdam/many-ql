@@ -6,14 +6,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import nl.uva.se.ast.statement.Question;
 import nl.uva.se.gui.Validator;
+import nl.uva.se.ql.ast.statement.Question;
 
 public class QuestionBox extends VBox {
 
 	private Validator validator = new Validator();
+	private final Question question;
 
 	public QuestionBox(Question question) {
+		this.question = question;
 		addQuestion(question);
 	}
 
@@ -36,6 +38,10 @@ public class QuestionBox extends VBox {
 
 			this.getChildren().add(textQuestionBox);
 		}
+	}
+	
+	public Question getQuestion(){
+		return this.question;
 	}
 
 	private ChangeListener<String> addTextBoxListener(

@@ -4,6 +4,10 @@ import org.uva.ql.visitor.TypeVisitor;
 import org.uva.utility.CodePosition;
 
 public class StrType extends Type {
+	
+	public StrType() {
+		super();
+	}
 
 	public StrType(CodePosition pos) {
 		super(pos);

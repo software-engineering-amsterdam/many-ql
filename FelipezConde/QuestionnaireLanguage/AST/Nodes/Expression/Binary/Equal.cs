@@ -46,19 +46,19 @@ namespace AST.Nodes.Expression.Binary
             return "==";
         }
         
-        public IValue GetCompatibleType(Values.Int leftType, Values.Int rightType)
+        public Types.Type GetCompatibleType(Types.IntType leftType, Types.IntType rightType)
         {
-            return new Values.Bool(true);
+            return new Types.BoolType();
         }
 
-        public IValue GetCompatibleType(Values.Bool leftType, Values.Bool rightType)
+        public Types.Type GetCompatibleType(Types.BoolType leftType, Types.BoolType rightType)
         {
-            return new Values.Bool(true);
+            return new Types.BoolType();
         }
 
-        public IValue GetCompatibleType(IValue leftType, IValue rightType)
+        public Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType)
         {
-            return new Values.Undefined();
+            return new Types.UndefinedType();
         }
 
     }
