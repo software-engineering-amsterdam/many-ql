@@ -22,27 +22,27 @@ public class TestDuplicateLabelsTest extends TypeCheckerBaseTest {
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = checker.isFormCorrect();
+        boolean formCorrect = qlChecker.isFormCorrect();
         assertTrue(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testWarningsCount() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertFalse(warnings.isEmpty());
         assertEquals(1, warnings.size());
     }
 
     @Test
     public void testWarningTypes() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertFalse(warnings.isEmpty());
 
         ASTNodeIssueType expectedType = ASTNodeIssueType.WARNING.DUPLICATE_LABEL;

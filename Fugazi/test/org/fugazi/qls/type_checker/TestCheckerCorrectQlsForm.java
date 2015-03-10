@@ -1,5 +1,4 @@
-package org.fugazi.ql.type_checker;
-
+package org.fugazi.qls.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.junit.Before;
@@ -9,29 +8,29 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class QLTypeCheckerCorrectFormTest extends TypeCheckerBaseTest {
+public class TestCheckerCorrectQlsForm extends QlsTypeCheckerBaseTest {
 
     @Before
     public void setUp() {
-        this.fileName = "correctForm.ql";
+        this.qlsFileName = "correctForm.qls";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = checker.isFormCorrect();
+        boolean formCorrect = qlsChecker.isFormCorrect();
         assertTrue(formCorrect);
     }
 
     @Test
     public void testNoErrors() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlsChecker.getErrors();
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlsChecker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }

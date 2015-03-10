@@ -12,6 +12,7 @@ import org.fugazi.qls.ast.widget.Widget;
 public class DefaultWidgetsFactory {
 
     public Widget getDefaultWidget(Type _type) {
+
         if (_type.equals(new BoolType())) {
             return new CheckBox();
         }

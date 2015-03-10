@@ -22,13 +22,13 @@ public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = checker.isFormCorrect();
+        boolean formCorrect = qlChecker.isFormCorrect();
         assertFalse(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
         assertEquals(15, errors.size());
@@ -36,7 +36,7 @@ public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeIssue> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         ASTNodeIssueType expectedType = ASTNodeIssueType.ERROR.TYPE_MISMATCH;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
@@ -52,7 +52,7 @@ public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }
