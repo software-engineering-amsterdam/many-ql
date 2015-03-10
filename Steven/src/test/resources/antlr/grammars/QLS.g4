@@ -7,7 +7,7 @@ identifier
     ;
 stylesheet_element
     : page
-    | statement
+    | default_statement
     ;
 page
     : 'page' '{' section* '}'

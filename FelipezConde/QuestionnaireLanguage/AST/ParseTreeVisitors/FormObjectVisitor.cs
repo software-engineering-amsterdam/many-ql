@@ -8,6 +8,7 @@ using System.Text;
 using AST.Representation;
 using AST.Helpers;
 using Type = AST.Types;
+using AST.Nodes.Expression;
 
 namespace AST.ParseTreeVisitors
 {
@@ -15,15 +16,17 @@ namespace AST.ParseTreeVisitors
     {
         public override IFormObject VisitQuestion(QLMainParser.QuestionContext context)
         {
-
             string identifier = context.id().GetText();
+            PositionInText IdPosition = Position.PositionFormParserRuleContext(context.id());
+            PositionInText position = Position.PositionFormParserRuleContext(context);
+
             Types.Type typeName = context.type().Accept(new TypeVisitor());
 
             ILabel label = context.label().Accept(new LabelVisitor());
             IExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
 
-            return new Question(identifier, typeName, label, computation,
-                                Position.PositionFormParserRuleContext(context));
+            return new Question(new Id(identifier,IdPosition), typeName, label, computation,
+                                position);
         }
 
         public override IFormObject VisitConditional(QLMainParser.ConditionalContext context)

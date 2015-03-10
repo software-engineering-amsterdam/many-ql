@@ -32,5 +32,10 @@ namespace AST.Types
         {
             return "bool";
         }
+
+        public override Types.Type RetrieveType()
+        {
+            return this;
+        }
     }
 }

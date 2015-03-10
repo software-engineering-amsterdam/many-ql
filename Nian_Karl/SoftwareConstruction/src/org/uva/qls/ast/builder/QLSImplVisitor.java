@@ -2,9 +2,6 @@ package org.uva.qls.ast.builder;
 
 import java.util.ArrayList;
 
-import org.uva.ql.ast.Node;
-import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.qls.antlr.QLSBaseVisitor;
 import org.uva.qls.antlr.QLSParser.CheckboxContext;
 import org.uva.qls.antlr.QLSParser.DropdownContext;
@@ -21,12 +18,16 @@ import org.uva.qls.antlr.QLSParser.StyleContext;
 import org.uva.qls.antlr.QLSParser.StylingContext;
 import org.uva.qls.antlr.QLSParser.TextboxContext;
 import org.uva.qls.antlr.QLSParser.TypeContext;
-import org.uva.qls.ast.Page;
-import org.uva.qls.ast.Question;
-import org.uva.qls.ast.Section;
-import org.uva.qls.ast.Sheet;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.Node;
+import org.uva.qls.ast.literal.IdentifierLiteral;
+import org.uva.qls.ast.literal.StrLiteral;
+import org.uva.qls.ast.sheet.Page;
+import org.uva.qls.ast.sheet.Question;
+import org.uva.qls.ast.sheet.Section;
+import org.uva.qls.ast.sheet.Sheet;
 import org.uva.qls.ast.style.Style;
-import org.uva.utility.CodePosition;
+import org.uva.qls.ast.value.StrValue;
 
 public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
@@ -82,8 +83,11 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
 	public Node visitSection(SectionContext ctx) {
+		
+		StrValue name = new StrValue(ctx.StringLiteral().getText());
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		StrLiteral sectionTitle = new StrLiteral(ctx.StringLiteral().getText(), pos);
+		StrLiteral sectionTitle = new StrLiteral(name, pos);
+		
 		ArrayList<Style> styleList = new ArrayList<Style>();
 		for (StyleContext styleCtx : ctx.style()) {
 			styleList.add((Style) styleCtx.accept(this));
@@ -98,8 +102,9 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
 	public Node visitPage(PageContext ctx) {
+		StrValue name = new StrValue(ctx.Identifier().getText());
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
+		IdentifierLiteral identifier = new IdentifierLiteral(name, pos);
 		ArrayList<Style> styleList = new ArrayList<Style>();
 		for (StyleContext styleCtx : ctx.style()) {
 			styleList.add((Style) styleCtx.accept(this));
@@ -114,8 +119,9 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
 	public Node visitQuestion(QuestionContext ctx) {
+		StrValue name = new StrValue(ctx.Identifier().getText());
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
+		IdentifierLiteral identifier = new IdentifierLiteral(name, pos);
 		Question question = new Question(identifier, pos);
 		return question;
 	}
@@ -128,8 +134,9 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
 	public Node visitSheet(SheetContext ctx) {
+		StrValue name = new StrValue(ctx.Identifier().getText());
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
+		IdentifierLiteral identifier = new IdentifierLiteral(name, pos);
 		Sheet sheet = new Sheet(identifier, pos);
 		ArrayList<Page> pages = (ArrayList<Page>) ctx.accept(this);
 		return sheet;

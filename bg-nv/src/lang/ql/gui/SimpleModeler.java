@@ -1,7 +1,6 @@
 package lang.ql.gui;
 
 import lang.ql.ast.form.Form;
-import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
@@ -10,6 +9,8 @@ import lang.ql.gui.segment.Conditional;
 import lang.ql.gui.segment.Page;
 import lang.ql.gui.segment.Row;
 import lang.ql.gui.segment.Segment;
+import lang.ql.semantics.ConditionalQuestion;
+import lang.ql.semantics.Flat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,28 +22,21 @@ import java.util.List;
 public class SimpleModeler extends Modeler
 {
     @Override
-    public Canvas model(Form ast)
+    public Canvas model(Flat flat)
     {
-        return (Canvas) ast.accept(this);
-    }
-
-    @Override
-    public GuiElement visit(Form form)
-    {
-        List<Segment> segments = new ArrayList<Segment>();
-        for (Statement s : form.getBody())
+        List<Segment> segments = new ArrayList<>();
+        for (ConditionalQuestion q : flat)
         {
-            segments.add((Segment)s.accept(this));
+            segments.add(q.getQuestion().accept(this));
         }
-
-        List<Page> pages = new ArrayList<>();
+        List<Segment> pages = new ArrayList<>();
         pages.add(new Page(segments, true));
 
-        return new Canvas(form.getId(), pages);
+        return new Canvas("Questionnaire", pages);
     }
 
     @Override
-    public GuiElement visit(Question q)
+    public Segment visit(Question q)
     {
         Label label = new Label(q.getLabel());
         Input input = InputBuilder.build(q.getId(), q.getType());
@@ -50,7 +44,7 @@ public class SimpleModeler extends Modeler
     }
 
     @Override
-    public GuiElement visit(CalculatedQuestion cq)
+    public Segment visit(CalculatedQuestion cq)
     {
         Label label = new Label(cq.getLabel());
         Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
@@ -58,12 +52,12 @@ public class SimpleModeler extends Modeler
     }
 
     @Override
-    public GuiElement visit(IfCondition ifCond)
+    public Segment visit(IfCondition ifCond)
     {
         List<Segment> segments = new ArrayList<Segment>();
         for (Statement s : ifCond.getBody())
         {
-            segments.add((Segment)s.accept(this));
+            segments.add(s.accept(this));
         }
         return new Conditional(ifCond.getCondition(), segments);
     }

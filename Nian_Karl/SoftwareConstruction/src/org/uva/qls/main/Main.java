@@ -19,6 +19,6 @@ public class Main {
 		ParseTree tree = parser.sheet();
 		QLSBaseVisitor visitor = new QLSBaseVisitor();
 		ParseTree sheet = (ParseTree) tree.accept(visitor);
-		System.out.println("");
+		System.out.println("omg");
 	}
 }

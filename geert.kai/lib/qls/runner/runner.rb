@@ -1,4 +1,4 @@
-require_relative "../../util/base_visitor"
+require_relative "../util/base_visitor"
 
 module QLS
   class Runner < BaseVisitor
@@ -12,7 +12,11 @@ module QLS
     end
 
     def visit_section(section)
-      map_accept(section.rules)
+      map_accept(section.rules).flatten.each do |question|
+        @defaults.each do |default|
+          question.add_style(default) if default.type == question.type
+        end
+      end
     end
 
     def visit_question(question)
@@ -20,7 +24,8 @@ module QLS
     end
 
     def visit_default(default)
-      default
+      @defaults << default
+      []
     end
   end
 end

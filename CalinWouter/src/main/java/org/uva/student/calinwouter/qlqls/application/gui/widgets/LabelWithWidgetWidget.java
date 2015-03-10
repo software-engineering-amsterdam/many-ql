@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
@@ -21,7 +21,7 @@ public class LabelWithWidgetWidget implements IWidget {
     }
 
     public LabelWithWidgetWidget(final AbstractFormField model, StylingSettings stylingSettings, IWidget widget,
-                                 final HeadlessFormInterpreter headlessFormInterpreter) {
+                                 final FormInterpreter formInterpreter) {
         final Label fieldLabel = new Label();
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
@@ -33,11 +33,11 @@ public class LabelWithWidgetWidget implements IWidget {
         fieldLabel.setFont(new Font(stylingSettings.getFont(), 0, stylingSettings.getFontSize()));
         fieldLabel.setForeground(new Color(stylingSettings.getColor()));
         widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        formInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 try {
-                    fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getIdent()));
+                    fieldLabel.setText(formInterpreter.getLabelForField(model.getIdent()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {
                     fieldLabel.setText("-");

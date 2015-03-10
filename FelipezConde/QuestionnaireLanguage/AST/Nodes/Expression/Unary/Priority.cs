@@ -24,10 +24,10 @@ namespace AST.Nodes.Expression.Unary
         { return parsedString; }
 
         //Visitor methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         { visitor.Visit(this); }
 
         public IExpression GetChildExpression()

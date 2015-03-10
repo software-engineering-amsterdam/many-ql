@@ -17,6 +17,8 @@ namespace AST.Visitors
     public interface IVisitor
     {
         void Visit(Form node);
+        void Visit(Conditional conditional);
+        void Visit(Question question);
         void Visit(IASTNode node);
 
 
@@ -44,8 +46,6 @@ namespace AST.Visitors
 
         //Label
         void Visit(Label.Label node);
-
-        void Visit(Conditional conditional);
         void Visit(Binary.GreaterThanOrEqual greaterThanOrEqual);
         void Visit(Binary.LessThan lessThan);
         void Visit(Binary.LessThanOrEqual lessThanOrEqual);
@@ -63,6 +63,7 @@ namespace AST.Visitors
     {
         T Visit(Form node);
         T Visit(IASTNode node);
+        T Visit(Question question);
         T Visit(Conditional conditional);
 
 

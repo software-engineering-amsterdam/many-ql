@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Combo;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -19,7 +19,7 @@ public class ComboWidget implements IWidget {
         return yesNoComboBox;
     }
 
-    public ComboWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter, Combo combo) {
+    public ComboWidget(final Question question, final FormInterpreter formInterpreter, Combo combo) {
         yesNoComboBox = new JComboBox(new String[]{combo.getYesLbl(), combo.getNoLbl()});
         yesNoComboBox.setSelectedIndex(-1);
 
@@ -28,13 +28,13 @@ public class ComboWidget implements IWidget {
             public void itemStateChanged(ItemEvent e) {
                 if (yesNoComboBox.getSelectedIndex() == 0) {
                     System.out.println("true");
-                    headlessFormInterpreter.setField(question.getIdent(), new BoolValue(true));
-                    headlessFormInterpreter.interpret();
+                    formInterpreter.setField(question.getIdent(), new BoolValue(true));
+                    formInterpreter.interpret();
                     return;
                 }
                 System.out.println("false");
-                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(false));
-                headlessFormInterpreter.interpret();
+                formInterpreter.setField(question.getIdent(), new BoolValue(false));
+                formInterpreter.interpret();
             }
         });
     }

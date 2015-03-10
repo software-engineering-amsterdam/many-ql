@@ -23,7 +23,7 @@ namespace AST.ParseTreeVisitors
         public override IExpression VisitExpressionValue(QLMainParser.ExpressionValueContext context)
         {
             return new Container(context.GetText(),
-                                 context.value().Accept(new ValueVisitor()), 
+                                 context.value().Accept(new LiteralVisitor()), 
                                  Position.PositionFormParserRuleContext(context));
         }
 
@@ -31,7 +31,7 @@ namespace AST.ParseTreeVisitors
         public override IExpression VisitAssociativeValue(QLMainParser.AssociativeValueContext context)
         {
             return new Container(context.GetText(),
-                                 context.value().Accept(new ValueVisitor()),
+                                 context.value().Accept(new LiteralVisitor()),
                                  Position.PositionFormParserRuleContext(context));
         }
 
@@ -169,7 +169,7 @@ namespace AST.ParseTreeVisitors
         public override IExpression VisitNonAssociativeValue(QLMainParser.NonAssociativeValueContext context)
         {
             return new Container(context.GetText(),
-                                 context.value().Accept(new ValueVisitor()),
+                                 context.value().Accept(new LiteralVisitor()),
                                  Position.PositionFormParserRuleContext(context));
         }
 

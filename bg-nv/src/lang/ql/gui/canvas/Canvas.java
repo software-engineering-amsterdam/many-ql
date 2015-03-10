@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lang.ql.gui.GuiElement;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.gui.segment.Page;
+import lang.ql.gui.segment.Segment;
 
 import java.util.List;
 
@@ -22,21 +22,21 @@ import java.util.List;
 public class Canvas extends GuiElement
 {
     private final String name;
-    private final List<Page> pages;
+    private final List<Segment> segments;
     private final Parent parent;
     private final Button submitButton;
     private final Text submitMessage;
 
-    public Canvas(String name, List<Page> pages)
+    public Canvas(String name, List<Segment> segments)
     {
-        this(name, pages, true);
+        this(name, segments, true);
     }
 
-    public Canvas(String name, List<Page> pages, Boolean visible)
+    public Canvas(String name, List<Segment> segments, Boolean visible)
     {
         super(visible);
         this.name = name;
-        this.pages = pages;
+        this.segments = segments;
         this.submitButton = new Button("Submit");
         this.submitMessage = new Text();
         this.parent = this.createParent();
@@ -50,7 +50,7 @@ public class Canvas extends GuiElement
     private Parent createParent()
     {
         VBox content = new VBox();
-        for (Page segment : this.pages)
+        for (Segment segment : this.segments)
         {
             content.getChildren().add(segment.getContainer());
         }
@@ -91,8 +91,8 @@ public class Canvas extends GuiElement
         return name;
     }
 
-    public List<Page> getPages()
+    public List<Segment> getSegments()
     {
-        return pages;
+        return segments;
     }
 }

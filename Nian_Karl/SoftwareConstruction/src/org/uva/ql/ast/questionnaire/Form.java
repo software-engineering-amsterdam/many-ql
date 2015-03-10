@@ -1,11 +1,11 @@
 package org.uva.ql.ast.questionnaire;
 
 import org.uva.ql.ast.BaseNode;
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.visitor.QuestionnaireVisitable;
 import org.uva.ql.visitor.QuestionnaireVisitor;
-import org.uva.utility.CodePosition;
 
 public class Form extends BaseNode implements QuestionnaireVisitable{
 	

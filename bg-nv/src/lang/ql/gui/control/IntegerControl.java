@@ -1,6 +1,5 @@
 package lang.ql.gui.control;
 
-import javafx.beans.value.ChangeListener;
 import lang.ql.semantics.values.IntegerValue;
 import lang.ql.semantics.values.UndefinedValue;
 

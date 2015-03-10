@@ -1,6 +1,5 @@
 stylesheet title{
 
-    question name1
     page{
         section "section"{
             question name2
@@ -13,13 +12,14 @@ stylesheet title{
     }
 
     page{
-    }
-
-    question name4{
-        widget SPINBOX
-        width 500
-        font "arial"
-        color # 123
+        section "section"{
+            question name4{
+                widget SPINBOX
+                width 500
+                font "arial"
+                color # 123
+            }
+        }
     }
 
     default STRING{

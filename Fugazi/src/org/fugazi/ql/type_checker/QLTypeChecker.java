@@ -151,6 +151,10 @@ public class QLTypeChecker {
     public boolean checkForm(Form form, QLFormDataStorage formData) {
         this.formData = formData;
 
+        // clear errors and warnings
+        // (so that multiple checks can be performed on one instance)
+        this.clearErrorsAndWarnings();
+
         // perform all checks that require storage
         this.checkDuplicateLabels();
         this.checkQuestionTypes();
@@ -188,5 +192,12 @@ public class QLTypeChecker {
     public List<ASTNodeIssue> getWarnings() {
         List<ASTNodeIssue> warnings = this.astIssueHandler.getWarnings();
         return warnings;
+    }
+
+    public void clearErrorsAndWarnings() {
+        this.astIssueHandler.clearErrorsAndWarnings();
+        this.undefinedQuestionsVisitor.clearErrorsAndWarnings();
+        this.typeMismatchVisitor.clearErrorsAndWarnings();
+        this.cyclicDependenciesVisitor.clearErrorsAndWarnings();
     }
 }

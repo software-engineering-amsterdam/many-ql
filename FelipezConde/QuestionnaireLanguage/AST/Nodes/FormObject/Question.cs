@@ -9,6 +9,7 @@ using AST.Nodes.Labels;
 using Values = AST.Nodes.Values;
 using AST.Nodes.Values;
 using Types = AST.Types;
+using AST.Nodes.Expression;
 
 namespace AST.Nodes.FormObject
 {
@@ -16,10 +17,10 @@ namespace AST.Nodes.FormObject
     {
         public ILabel Label {get; private set;}
         public IExpression Computation {get; private set;}
-        public string Identifier {get; private set;}
+        public Id Identifier {get; private set;}
         private Types.Type type;
 
-        public Question(string identifier,
+        public Question(Id identifier,
                         Types.Type type,
                         ILabel label,
                         IExpression computation,
@@ -32,10 +33,10 @@ namespace AST.Nodes.FormObject
             this.Computation = computation;
         }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         { visitor.Visit(this); }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
 
         public override string GetParsedString()

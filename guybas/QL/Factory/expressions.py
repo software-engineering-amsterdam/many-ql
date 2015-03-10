@@ -1,11 +1,13 @@
+# Factory for creating Expression elements out of parsed tokens
+
 import QL.AST.Expressions.simple_expression as simple_expression
 import QL.AST.Expressions.complex_expression as complex_expression
-import QL.AST.Elements.operators as operator
+import QL.AST.Elements.operator as operator
 import QL.AST.Elements.variable as variable
 import QL.AST.Elements.bool as boolean
 import QL.AST.Elements.number as number
 import QL.AST.Elements.text as text
-import QL.Factory.forms as f
+import QL.Factory.forms as form
 
 
 # Factory for creating expressions
@@ -36,7 +38,7 @@ class ExpressionFactory:
 
     @staticmethod
     def make_text(tokens):
-        t = f.FormFactory.make_sentence(tokens)
+        t = form.FormFactory.make_sentence(tokens)
         return text.Text(t)
 
     @staticmethod

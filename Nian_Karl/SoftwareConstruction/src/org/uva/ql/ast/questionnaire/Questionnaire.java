@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.ql.ast.BaseNode;
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.visitor.QuestionnaireVisitable;
 import org.uva.ql.visitor.QuestionnaireVisitor;
-import org.uva.utility.CodePosition;
 
 public class Questionnaire extends BaseNode implements QuestionnaireVisitable {
 

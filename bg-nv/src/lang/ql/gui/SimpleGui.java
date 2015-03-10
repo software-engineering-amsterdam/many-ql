@@ -28,7 +28,8 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
 
     public static void run(Form ast, Modeler modeler, Stage stage)
     {
-        Canvas canvas = modeler.model(ast);
+        Flat flat = Flattener.flatten(ast);
+        Canvas canvas = modeler.model(flat);
 
         SimpleGui gui = new SimpleGui(ast);
 
@@ -55,9 +56,9 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     @Override
     public Void visit(Canvas c)
     {
-        for (Page page: c.getPages())
+        for (Segment s : c.getSegments())
         {
-            page.accept(this);
+            s.accept(this);
         }
         return null;
     }

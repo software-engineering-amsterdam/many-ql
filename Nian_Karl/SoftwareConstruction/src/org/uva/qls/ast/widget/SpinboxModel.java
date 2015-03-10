@@ -2,8 +2,8 @@ package org.uva.qls.ast.widget;
 
 import java.util.ArrayList;
 
-import org.uva.ql.ast.expression.literal.IntLiteral;
-import org.uva.utility.CodePosition;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.IntLiteral;
 
 public class SpinboxModel extends WidgetType {
 

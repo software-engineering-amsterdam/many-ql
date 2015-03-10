@@ -96,7 +96,7 @@
     <Compile Include="ParseTreeVisitors\FormObjectVisitor.cs" />
     <Compile Include="ParseTreeVisitors\FormVisitor.cs" />
     <Compile Include="ParseTreeVisitors\TypeVisitor.cs" />
-    <Compile Include="ParseTreeVisitors\ValueVisitor.cs" />
+    <Compile Include="ParseTreeVisitors\LiteralVisitor.cs" />
     <Compile Include="Representation\ObjectType.cs" />
     <Compile Include="Representation\ObjectValue.cs" />
     <Compile Include="Nodes\Interfaces\IASTNode.cs" />

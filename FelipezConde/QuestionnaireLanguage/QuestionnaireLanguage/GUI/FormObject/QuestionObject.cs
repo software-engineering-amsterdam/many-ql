@@ -25,7 +25,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-           // Processor.AddValue(questionNode.Identifier, questionNode.GetType());
+            //Processor.AddValue(questionNode.Identifier, questionNode.RetrieveType(), questionNode.GetPosition());
         }
         #endregion
 

@@ -1,7 +1,7 @@
 package org.uva.qls.ast.widget;
 
-import org.uva.ql.ast.expression.literal.StrLiteral;
-import org.uva.utility.CodePosition;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.StrLiteral;
 
 public class DropdownModel extends RadioModel {
 

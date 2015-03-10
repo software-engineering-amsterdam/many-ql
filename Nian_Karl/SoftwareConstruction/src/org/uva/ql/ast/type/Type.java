@@ -1,8 +1,8 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.BaseNode;
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.visitor.TypeVisitable;
-import org.uva.utility.CodePosition;
 
 public abstract class Type extends BaseNode implements TypeVisitable {
 

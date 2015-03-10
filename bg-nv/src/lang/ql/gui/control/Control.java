@@ -1,6 +1,5 @@
 package lang.ql.gui.control;
 
-import javafx.scene.Node;
 import lang.ql.gui.GuiElement;
 
 /**

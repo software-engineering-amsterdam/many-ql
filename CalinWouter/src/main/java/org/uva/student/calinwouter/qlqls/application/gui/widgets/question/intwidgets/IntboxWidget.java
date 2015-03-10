@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 public class IntboxWidget implements IWidget {
     private JTextField widget;
 
-    public IntboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public IntboxWidget(final Question question, final FormInterpreter formInterpreter) {
         this.widget = new JTextField((int) Math.log10(Integer.MAX_VALUE - 1) + 1);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -33,11 +33,11 @@ public class IntboxWidget implements IWidget {
 
             public void updateField() {
                 try {
-                    headlessFormInterpreter.setField(question.getIdent(), new IntegerValue(Integer.parseInt(widget.getText())));
+                    formInterpreter.setField(question.getIdent(), new IntegerValue(Integer.parseInt(widget.getText())));
                 } catch(NumberFormatException e) {
-                    headlessFormInterpreter.setField(question.getIdent(), new IntegerValue(0));
+                    formInterpreter.setField(question.getIdent(), new IntegerValue(0));
                 }
-                headlessFormInterpreter.interpret();
+                formInterpreter.interpret();
             }
         });
     }

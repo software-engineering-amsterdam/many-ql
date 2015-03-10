@@ -1,4 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Nodes.Expression;
+using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using Types = AST.Types;
 
 namespace AST.Representation
 {
-    public class NameToType
+    public class IdToType
     {
-        public readonly string name;
+        public readonly Id id;
         public readonly Types.Type type;
 
-        public NameToType(string name, Types.Type type)
+        public IdToType(Id id, Types.Type type)
         {
-            this.name = name;
+            this.id = id;
             this.type = type;
         }
     }

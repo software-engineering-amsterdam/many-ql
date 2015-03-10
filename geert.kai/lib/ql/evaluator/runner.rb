@@ -3,19 +3,13 @@ require_relative "../checker/question_visitor"
 require_relative "../../ql/ast/ast"
 
 module QL
-
-  # class StyledRunner < Runner
-  #   def 
-  # end
-
   class Runner
-
     attr_reader :questions, :renderers
-
 
     def initialize(ql_ast)
       @ql_ast = ql_ast
-      @questions = QuestionVisitor.new(@ql_ast).questions
+      @questions = Checking::QuestionVisitor.new(@ql_ast).questions
+
       @renderers = @questions.map do |question|
         QuestionRenderer.new(question)
       end
@@ -78,7 +72,7 @@ module QL
         map_accept(condition.statements_true)
       when false
         map_accept(condition.statements_false)
-      when :undefined
+      when nil
         []
       end
     end
@@ -90,37 +84,21 @@ module QL
       @declarations = declarations
     end
 
-    def render(controller)
-      widget = case @question.type
-      when AST::BooleanType.new
-        input = Java::JavafxSceneControl::CheckBox.new
-        input.set_id(@question.variable_name)
-        input.selected_property.add_change_listener do |observable, old, new_value|
-          controller.update_variable(observable.bean.id, new_value)
-        end
-        input
-      when AST::StringType.new
-        input = Java::JavafxSceneControl::TextField.new
-        input.set_id(@question.variable_name)
-        input.text_property.add_change_listener do |observable, old, new_value|
-          controller.update_variable(observable.bean.id, new_value)
-        end
-        input
-      when AST::IntegerType.new
-        input = Java::JavafxSceneControl::TextField.new
-        input.set_id(@question.variable_name)
-        input.text_property.add_change_listener do |observable, old, new_value|
-          controller.update_variable(observable.bean.id, new_value.to_i)
-        end
-        input
+    def widget(controller)
+      @declarations.each do |declaration|
+        return declaration.widget(controller) if declaration.kind_of?(Widget)
       end
 
+      return @question.type.widget(controller)
+    end
+
+    def render(controller)
+      widget = widget(controller)
+      widget.set_id(@question.variable_name)
+
       label = Java::JavafxSceneControl::Label.new(@question.description)
+
       QuestionPane.new(@question, label, widget)
-
-
-
     end
   end
 end
-

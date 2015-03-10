@@ -26,7 +26,7 @@ namespace AST.Notification.Errors
             {
                 return string.Format("Question \"{0}\" at {1} is declared as type {2}, does not match type of computation field ({3})",
                         new string[] {
-                            node.Identifier,
+                            node.Identifier.Name,
                             Position.PrettyPrint(node.GetPosition()),
                             typeOfQuestion,
                             typeOfComputedField

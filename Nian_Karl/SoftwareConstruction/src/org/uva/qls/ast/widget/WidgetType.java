@@ -1,7 +1,7 @@
 package org.uva.qls.ast.widget;
 
-import org.uva.ql.ast.BaseNode;
-import org.uva.utility.CodePosition;
+import org.uva.qls.ast.BaseNode;
+import org.uva.qls.ast.CodePosition;
 
 public abstract class WidgetType extends BaseNode {
 
