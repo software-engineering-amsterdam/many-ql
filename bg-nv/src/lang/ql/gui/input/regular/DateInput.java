@@ -2,7 +2,10 @@ package lang.ql.gui.input.regular;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.DatePicker;
+import javafx.scene.layout.VBox;
 import lang.ql.gui.ModelVisitor;
+import lang.ql.gui.control.Control;
+import lang.ql.gui.control.ControlType;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.UndefinedValue;
 import lang.ql.semantics.values.Value;
@@ -10,7 +13,8 @@ import lang.ql.semantics.values.Value;
 /**
  * Created by Nik on 22-02-2015
  */
-public class DateInput extends RegularInput<String, DatePicker>
+// TODO
+public class DateInput extends RegularInput<String>
 {
     public DateInput(String id)
     {
@@ -19,27 +23,30 @@ public class DateInput extends RegularInput<String, DatePicker>
 
     public DateInput(String id, Boolean visible, Boolean disabled)
     {
-        super(id, new DatePicker(), visible, disabled);
+        super(id, visible, disabled);
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    protected VBox createInputNode(ControlType control)
     {
-        return visitor.visit(this);
+        return null;
     }
 
     @Override
     public Value convertUserInputToValue(String userInput)
     {
-        this.resetValidation();
-        // TODO
-        return new UndefinedValue();
+        return null;
     }
 
     @Override
     public void attachListener(ValueTable valueTable)
     {
-        ChangeListener<String> cl = this.constructChangeListener(valueTable);
-        // TODO
+
+    }
+
+    @Override
+    public <V> V accept(ModelVisitor<V> visitor)
+    {
+        return null;
     }
 }

@@ -18,7 +18,7 @@ import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.ast.impl.expr.value.DateValue;
 import com.klq.ast.impl.expr.value.Value;
-import com.klq.logic.question.Type;
+import com.klq.logic.question.Type; //TODO move Type somewhere else?
 import com.klq.parser.KLQBaseVisitor;
 import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -54,7 +54,15 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
         QuestionNode questionNode;
 
         if(ctx.answerOptions() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            if(ctx.type.getText().toLowerCase() == "boolean"){
+                List<AExpression> children = new ArrayList<AExpression>();
+                children.add(new StringNode("Yes"));
+                children.add(new StringNode("No"));
+                questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
+            }
+            else{
+                questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            }
         }
         else {
             List<AExpression> children = new ArrayList<AExpression>();

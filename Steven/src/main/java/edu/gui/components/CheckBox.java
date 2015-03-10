@@ -2,8 +2,9 @@ package edu.gui.components;
 
 import edu.gui.Observer;
 import edu.gui.Subject;
+import edu.gui.components.store.DefaultStore;
+import edu.gui.components.store.Store;
 import edu.parser.QL.nodes.expression.Identifier;
-import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,23 +17,24 @@ import java.util.List;
  */
 public class CheckBox extends JCheckBox implements Subject, ActionListener {
     private final List<Observer> observers = new ArrayList<>();
-    private final Question question;
+    private final Identifier identifier;
 
-    public CheckBox(Question question) {
+    public CheckBox(Identifier identifier) {
         this.addActionListener(this);
         setText("yes");
-        setSelected(question.isEnabled());
+
         setEnabled(true);
-        this.question = question;
+        this.identifier = identifier;
     }
 
     public Identifier getIdentifier() {
-        return question.getIdentifier();
+        return identifier;
     }
 
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
+        observer.initializeRequest(this);
     }
 
     @Override
@@ -47,7 +49,13 @@ public class CheckBox extends JCheckBox implements Subject, ActionListener {
     }
 
     @Override
+    public Store getStore() {
+        return new DefaultStore();
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         notifyObservers();
     }
+
 }

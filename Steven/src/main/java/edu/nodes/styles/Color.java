@@ -15,4 +15,8 @@ public class Color extends Style {
         return color;
     }
 
+    @Override
+    public Color clone() throws CloneNotSupportedException {
+        return new Color(color);
+    }
 }

@@ -17,6 +17,7 @@ import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,7 +66,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
         Label label = (Label) visit(ctx.question_label());
         Optional<Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression);
+        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList());
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {

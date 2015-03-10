@@ -2,8 +2,8 @@ package org.uva.student.calinwouter.qlqls.application;
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
@@ -34,10 +34,10 @@ public class Main {
     private static void executeQlQls(String ql, String qls) {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            FormInterpreter formInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
-            headlessFormInterpreter.interpret();
-            new QLSGUI(styleSheet, headlessFormInterpreter, formTypeChecker).render();
+            formInterpreter.interpret();
+            new QLSGUI(styleSheet, formInterpreter, formTypeChecker).render();
 
         } catch (Exception e) {
             e.printStackTrace();

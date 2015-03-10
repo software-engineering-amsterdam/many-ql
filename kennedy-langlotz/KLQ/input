@@ -35,6 +35,5 @@ end
 question
     id: question6
     text: "Do you want to live that long?"
-    type: set
-    value: "Yes", "No"
+    type: boolean
 end

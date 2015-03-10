@@ -14,4 +14,8 @@ public class Width extends Style {
         return width;
     }
 
+    @Override
+    public Width clone() throws CloneNotSupportedException {
+        return new Width(width);
+    }
 }

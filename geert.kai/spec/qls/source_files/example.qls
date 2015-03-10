@@ -5,7 +5,6 @@ stylesheet taxOfficeExample {
         widget: checkbox 
       }
     }
-    
   }
 
   page Selling { 

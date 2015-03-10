@@ -2,6 +2,15 @@ package uva.sc.qls.ast;
 
 import uva.sc.qls.atom.ID;
 import uva.sc.qls.logic.*;
+import uva.sc.qls.logic.fonts.Arial;
+import uva.sc.qls.logic.fonts.Bazooka;
+import uva.sc.qls.logic.fonts.BookAntiqua;
+import uva.sc.qls.logic.fonts.Courier;
+import uva.sc.qls.logic.fonts.Dialog;
+import uva.sc.qls.logic.fonts.TimesNewRoman;
+import uva.sc.qls.logic.fonts.UndefinedFont;
+import uva.sc.qls.logic.style.DefaultStyle;
+import uva.sc.qls.logic.style.StyleProperty;
 import uva.sc.qls.types.Unidentified;
 import uva.sc.qls.types.Boolean;
 import uva.sc.qls.types.Number;
@@ -46,5 +55,19 @@ public interface INodeVisitor<T> {
 	public T visit(Spinbox spinbox);
 
 	public T visit(Radio radio);
+
+	public T visit(Arial arial);
+
+	public T visit(Bazooka bazooka);
+
+	public T visit(BookAntiqua bookAntiqua);
+
+	public T visit(Courier courier);
+
+	public T visit(Dialog dialog);
+
+	public T visit(TimesNewRoman timesNewRoman);
+
+	public T visit(UndefinedFont undefinedFont);
 	
 }

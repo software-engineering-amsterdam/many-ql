@@ -30,12 +30,12 @@ namespace AST.Nodes.Expression.Binary
         public IExpression Right()
         { return right; }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
            return visitor.Visit(this);
         }
@@ -44,14 +44,14 @@ namespace AST.Nodes.Expression.Binary
             return "-";
         }
 
-        public IValue GetCompatibleType(Values.Int leftType, Values.Int rightType)
+        public Types.Type GetCompatibleType(Values.Int leftType, Types.IntType rightType)
         {
-            return new Values.Int(0);
+            return new Types.IntType();
         }
 
-        public IValue GetCompatibleType(IValue leftType, IValue rightType)
+        public Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType)
         {
-            return new Values.Bool(true);
+            return new Types.UndefinedType();
         }
     }
 }

@@ -11,4 +11,8 @@ public interface Observer {
     public void update(TextBox textBox);
 
     void update(CheckBox checkBox);
+
+    public void initializeRequest(TextBox textBox);
+
+    void initializeRequest(CheckBox checkBox);
 }

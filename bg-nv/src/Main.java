@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
 import lang.ql.gui.SimpleGui;
 import lang.ql.ast.AstBuilder;
+import lang.ql.gui.SimpleModeler;
 import lang.ql.semantics.TypeChecker;
 import lang.qls.ast.Stylesheet;
 import lang.qls.gen.QLSLexer;
@@ -62,6 +63,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        SimpleGui.run(ast, primaryStage);
+        SimpleGui.run(ast, new SimpleModeler(), primaryStage);
     }
 }

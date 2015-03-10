@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
@@ -274,17 +275,17 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Not unary) {
-		return checkMatch(unary.getExpression(), new BoolType());
+		return checkMatch(unary.getExpression(), new BoolType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Positive unary) {
-		return checkMatch(unary.getExpression(), new IntType());
+		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Negative unary) {
-		return checkMatch(unary.getExpression(), new IntType());
+		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
@@ -294,12 +295,12 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		boolean resultL = left.accept(this);
 		boolean resultR = right.accept(this);
 		boolean result = true;
-
+		CodePosition pos = binary.getPosition();
 		if (resultL && resultR) {
-			if (left.getType(this).isEqual(new IntType()) || left.getType(this).isEqual(new StrType())) {
+			if (left.getType(this).isEqual(new IntType(pos)) || left.getType(this).isEqual(new StrType(pos))) {
 				result = checkMatchThisLevel(right, left.getType(this));
 			} else {
-				if (right.getType(this).isEqual(new BoolType())) {
+				if (right.getType(this).isEqual(new BoolType(pos))) {
 					Error errorLeft = new Error(Error.Type.MISMATCH, left.getPosition().getStartLine(),
 							left.toString(), "Int|Str");
 					messageManager.addError(errorLeft);
@@ -319,47 +320,47 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Minus binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Multiply binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Divide binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Greater binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(GreaterEqual binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Less binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(LessEqual binary) {
-		return checkBinaryMatch(binary, new IntType());
+		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(And binary) {
-		return checkBinaryMatch(binary, new BoolType());
+		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Or binary) {
-		return checkBinaryMatch(binary, new BoolType());
+		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override

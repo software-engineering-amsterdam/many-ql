@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Types = AST.Types;
 
 namespace AST.Nodes.Expression.Unary
 {
@@ -23,10 +24,10 @@ namespace AST.Nodes.Expression.Unary
         { return parsedString; }
 
         //Visitor methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         { visitor.Visit(this); }
 
         public IExpression GetChildExpression()
@@ -41,19 +42,19 @@ namespace AST.Nodes.Expression.Unary
 
         //TypeCheck
 
-        public IValue GetCompatibleType(Values.Bool ChildType)
+        public Types.Type GetCompatibleType(Types.BoolType ChildType)
         {
-            return new Values.Bool(true);
+            return new Types.BoolType();
         }
 
-        public IValue GetCompatibleType(Values.Int ChildType)
+        public Types.Type GetCompatibleType(Types.IntType ChildType)
         {
-            return new Values.Int(0);
+            return new Types.IntType();
         }
 
-        public IValue GetCompatibleType(IValue rightType)
+        public Types.Type GetCompatibleType(Types.Type rightType)
         {
-            return new Values.Undefined();
+            return new Types.UndefinedType();
         }
 
     }

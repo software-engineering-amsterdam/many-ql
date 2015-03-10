@@ -1,7 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.StrType;
-import org.uva.ql.ast.type.Type;
 
 public class StrValue extends Value {
 
@@ -51,7 +49,8 @@ public class StrValue extends Value {
 	}
 	
 	@Override
-	public Type getType() {
-		return new StrType();
+	public boolean isUndefined() {
+		return false;
 	}
+	
 }

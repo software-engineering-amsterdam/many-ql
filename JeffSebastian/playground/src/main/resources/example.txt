@@ -6,7 +6,8 @@ form taxOfficeExample {
   
   if (hasSoldHouse && hasBoughtHouse) {
   	decimal income : "Your income?"
-  	decimal test : "some question?" (10.0 + 2.0)
+  	decimal test : "some question?" (10.0 + 22.0)
   	decimal dependent : "test?" (income + test)
   }
+  decimal name : "what is your name?"
 }

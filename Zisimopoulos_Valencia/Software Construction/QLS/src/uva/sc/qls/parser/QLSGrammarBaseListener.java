@@ -101,49 +101,49 @@ public class QLSGrammarBaseListener implements QLSGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStyleProperty(QLSGrammarParser.StylePropertyContext ctx) { }
+	@Override public void enterWidth(QLSGrammarParser.WidthContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStyleProperty(QLSGrammarParser.StylePropertyContext ctx) { }
+	@Override public void exitWidth(QLSGrammarParser.WidthContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(QLSGrammarParser.TypeContext ctx) { }
+	@Override public void enterFontName(QLSGrammarParser.FontNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(QLSGrammarParser.TypeContext ctx) { }
+	@Override public void exitFontName(QLSGrammarParser.FontNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWidgetType(QLSGrammarParser.WidgetTypeContext ctx) { }
+	@Override public void enterFontsize(QLSGrammarParser.FontsizeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWidgetType(QLSGrammarParser.WidgetTypeContext ctx) { }
+	@Override public void exitFontsize(QLSGrammarParser.FontsizeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNumber(QLSGrammarParser.NumberContext ctx) { }
+	@Override public void enterColor(QLSGrammarParser.ColorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNumber(QLSGrammarParser.NumberContext ctx) { }
+	@Override public void exitColor(QLSGrammarParser.ColorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -161,13 +161,13 @@ public class QLSGrammarBaseListener implements QLSGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId(QLSGrammarParser.IdContext ctx) { }
+	@Override public void enterNumber(QLSGrammarParser.NumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId(QLSGrammarParser.IdContext ctx) { }
+	@Override public void exitNumber(QLSGrammarParser.NumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -185,13 +185,109 @@ public class QLSGrammarBaseListener implements QLSGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterColorencode(QLSGrammarParser.ColorencodeContext ctx) { }
+	@Override public void enterCheckbox(QLSGrammarParser.CheckboxContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitColorencode(QLSGrammarParser.ColorencodeContext ctx) { }
+	@Override public void exitCheckbox(QLSGrammarParser.CheckboxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSpinbox(QLSGrammarParser.SpinboxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSpinbox(QLSGrammarParser.SpinboxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRadio(QLSGrammarParser.RadioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRadio(QLSGrammarParser.RadioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArial(QLSGrammarParser.ArialContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArial(QLSGrammarParser.ArialContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBazooka(QLSGrammarParser.BazookaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBazooka(QLSGrammarParser.BazookaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCourier(QLSGrammarParser.CourierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCourier(QLSGrammarParser.CourierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDialog(QLSGrammarParser.DialogContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDialog(QLSGrammarParser.DialogContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

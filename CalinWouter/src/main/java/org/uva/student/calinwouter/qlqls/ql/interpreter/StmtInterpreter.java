@@ -2,33 +2,71 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.NotOfTypeException;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
+import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
 import java.util.LinkedList;
 
-public abstract class StmtInterpreter<T extends FormInterpreter> extends AnalysisAdapter {
-    protected final T formInterpreter;
+//public class HeadlessStmtInterpreter extends StmtInterpreter {
+public class StmtInterpreter extends AnalysisAdapter{
+    private final FormInterpreter formInterpreter;
 
     @Override
-    public abstract void caseAQuestionStmt(final AQuestionStmt node);
-
-    @Override
-    public abstract void caseAValueStmt(final AValueStmt node);
-
-    private boolean testBoolean(PExp nExp) {
-        ExpInterpreter expI = new ExpInterpreter(formInterpreter);
-        nExp.apply(expI);
-        if (!(expI.getValue().getValue() instanceof Boolean)) {
-            throw new NotOfTypeException(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR.toString());
-        } else if ((Boolean) expI.getValue().getValue()) {
-            return true;
+    public void caseAQuestionStmt(final AQuestionStmt node) {
+        TypeInterpreter typeInterpreter = new TypeInterpreter();
+        node.getType().apply(typeInterpreter);
+        if (formInterpreter.getField(node.getIdent().getText()) == null) {
+            formInterpreter.setField(node.getIdent().getText(),
+                    typeInterpreter.getValue().getDefaultValue());
         }
-        return false;
+        ((FormInterpreter) formInterpreter).addFormField(new QuestionField(node.getStr().getText(),
+                node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
-    protected abstract StmtInterpreter createStmtInterpreter();
+    @Override
+    public void caseAValueStmt(final AValueStmt node) {
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        // TODO it may crash here if not all fields are correcrly set.
+        try {
+            node.getExp().apply(expInterpreter);
+        } catch (Exception e) {
+            formInterpreter.setField(node.getIdent().getText(), null);
+            return;
+        }
+        formInterpreter.setField(node.getIdent().getText(),
+                expInterpreter.getValue());
+
+        TypeInterpreter typeInterpreter = new TypeInterpreter();
+        node.getType().apply(typeInterpreter);
+
+        ((FormInterpreter) formInterpreter).addFormField(new ComputedValueField(node.getStr().getText(),
+                node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
+    }
+
+    protected StmtInterpreter createStmtInterpreter() {
+        return new StmtInterpreter(formInterpreter);
+    }
+
+    @Override
+    public void caseAIfelseStmt(AIfelseStmt node) {
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        node.getExp().apply(expInterpreter);
+        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
+            executeStmtList(node.getThenStmtList());
+        } else {
+            executeStmtList(node.getElseStmtList());
+        }
+    }
+
+    @Override
+    public void caseAIfStmt(AIfStmt node) {
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        node.getExp().apply(expInterpreter);
+        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
+            executeStmtList(node.getThenStmtList());
+            return;
+        }
+    }
 
     protected void executeStmtList(LinkedList<PStmt> stmtList) {
         for (PStmt s : stmtList) {
@@ -36,32 +74,9 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
         }
     }
 
-    @Override
-    public void caseAIfelseStmt(AIfelseStmt node) {
-        try {
-            if (testBoolean(node.getExp())) {
-                executeStmtList(node.getThenStmtList());
-            } else {
-                executeStmtList(node.getElseStmtList());
-            }
-        } catch (InterpretationException e) {
-            formInterpreter.notifyTypeChecker(e);
-        }
-    }
-
-    @Override
-    public void caseAIfStmt(AIfStmt node) {
-        try {
-            if (testBoolean(node.getExp())) {
-                executeStmtList(node.getThenStmtList());
-            }
-        } catch (InterpretationException e) {
-            formInterpreter.notifyTypeChecker(e);
-        }
-    }
-
-    public StmtInterpreter(T formInterpreter) {
+    public StmtInterpreter(FormInterpreter formInterpreter) {
         this.formInterpreter = formInterpreter;
+       //super(formInterpreter);
     }
 
 }

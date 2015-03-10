@@ -4,3 +4,5 @@
 /GrammarLexer.tokens
 /GrammarListener.java
 /GrammarParser.java
+/GrammarVisitor.java
+/GrammarBaseVisitor.java

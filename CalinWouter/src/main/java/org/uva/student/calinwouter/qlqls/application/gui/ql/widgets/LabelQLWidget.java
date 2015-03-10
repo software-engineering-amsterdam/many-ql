@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql.widgets;
 
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 
 import javax.swing.*;
 
@@ -13,14 +13,14 @@ public class LabelQLWidget {
         return label;
     }
 
-    public LabelQLWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public LabelQLWidget(final String identifier, final FormInterpreter formInterpreter) {
         label = new JLabel();
 
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        formInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 try {
-                    label.setText(headlessFormInterpreter
+                    label.setText(formInterpreter
                             .getField(identifier).getValue().toString());
                 } catch (NullPointerException e) {
                     label.setText("-");

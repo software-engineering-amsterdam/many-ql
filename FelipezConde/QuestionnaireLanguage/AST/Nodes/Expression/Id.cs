@@ -6,25 +6,27 @@ using System.Threading.Tasks;
 using AST.Nodes.Interfaces;
 using AST.Representation;
 using AST.Nodes.Values;
+using Types = AST.Types;
 
 namespace AST.Nodes.Expression
 {
-    public class Id : ASTNode, IExpression
+    public class Id : ASTNode, IExpression, IHasType
     {
-        public string Identifier { get; private set; }
+        public string Name { get; private set; }
+        private Types.Type type = new Types.UndefinedType();
         
-        public Id(string identifier, PositionInText position)
+        public Id(string name, PositionInText position)
             : base(position)
         {
-            this.Identifier = identifier;
+            this.Name = name;
         }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
@@ -32,6 +34,26 @@ namespace AST.Nodes.Expression
         public override string GetParsedString()
         {
             throw new NotImplementedException();
+        }
+
+        public Types.Type RetrieveType()
+        {
+            return this.type;
+        }
+
+        public void SetType(Types.Type type)
+        {
+            this.type = type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (this.Name == ((Id)obj).Name);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
         }
     }
 }

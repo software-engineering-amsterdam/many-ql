@@ -1,17 +1,16 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
-using AST.Resources;
 using AST.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ValueTypes = AST.Resources;
+using Types = AST.Types;
 
 namespace AST.Nodes.Values
 {
-    public abstract class Value : IValue
+    public abstract class Value
     {
         private readonly PositionInText Position;
         protected Value() { }
@@ -21,7 +20,7 @@ namespace AST.Nodes.Values
         }
         public virtual PositionInText GetPosition(){ return Position; }
 
-        public abstract Types GetType(ISymbolTable lookup);
+        public abstract object GetType(ISymbolTable lookup);
         public abstract Value Equal(Value value);
         public abstract Value NotEqual(Value value);
 
@@ -63,8 +62,7 @@ namespace AST.Nodes.Values
 
         public abstract string MakeString();
 
-
-        public bool IsOfType(IValue type)
+        public bool IsOfType(Types.Type type)
         {
             throw new NotImplementedException();
         }

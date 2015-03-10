@@ -16,18 +16,18 @@ import java.util.Map;
  */
 public class Page extends JPanel {
 
-    public Page(List<Section> sections, Map<Question, List<Style>> questions, Observer questionState) throws HeadlessException {
+    public Page(List<Section> sections, List<Question> questions, Observer questionState) throws HeadlessException {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         sections.stream()
                 .forEach(section -> addSectionsPanel(questions, section, questionState));
     }
 
-    private void addSectionsPanel(Map<Question, List<Style>> questions, Section section, Observer questionState) {
+    private void addSectionsPanel(List<Question> questions, Section section, Observer questionState) {
         add(createSectionPanel(questions, section, questionState));
         add(Box.createRigidArea(new Dimension(0, 10)));
     }
 
-    private SectionsPanel createSectionPanel(Map<Question, List<Style>> questions, Section section, Observer questionState) {
+    private SectionsPanel createSectionPanel(List<Question> questions, Section section, Observer questionState) {
         SectionsPanel sectionsPanel = new SectionsPanel(section, questions, questionState);
         sectionsPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(section.getTitle()), BorderFactory.createEmptyBorder()));
 

@@ -133,7 +133,7 @@ public class QLSParser extends Parser {
 				setState(26); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__5) | (1L << T__6))) != 0) );
+			} while ( _la==T__3 || _la==T__6 );
 			setState(28); 
 			match(T__2);
 			}
@@ -215,8 +215,8 @@ public class QLSParser extends Parser {
 		public PageContext page() {
 			return getRuleContext(PageContext.class,0);
 		}
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
+		public Default_statementContext default_statement() {
+			return getRuleContext(Default_statementContext.class,0);
 		}
 		public Stylesheet_elementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -242,12 +242,11 @@ public class QLSParser extends Parser {
 				page();
 				}
 				break;
-			case T__5:
 			case T__6:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(36); 
-				statement();
+				default_statement();
 				}
 				break;
 			default:
@@ -736,7 +735,7 @@ public class QLSParser extends Parser {
 		"\5\4\3\2\30\32\7\4\2\2\31\33\5\6\4\2\32\31\3\2\2\2\33\34\3\2\2\2\34\32"+
 		"\3\2\2\2\34\35\3\2\2\2\35\36\3\2\2\2\36\37\7\5\2\2\37\3\3\2\2\2 \"\t\2"+
 		"\2\2! \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$\5\3\2\2\2%(\5\b\5\2&(\5"+
-		"\f\7\2\'%\3\2\2\2\'&\3\2\2\2(\7\3\2\2\2)*\7\6\2\2*.\7\4\2\2+-\5\n\6\2"+
+		"\20\t\2\'%\3\2\2\2\'&\3\2\2\2(\7\3\2\2\2)*\7\6\2\2*.\7\4\2\2+-\5\n\6\2"+
 		",+\3\2\2\2-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\61\3\2\2\2\60.\3\2\2\2\61"+
 		"\62\7\5\2\2\62\t\3\2\2\2\63\64\7\7\2\2\64\65\7\22\2\2\65\67\7\4\2\2\66"+
 		"8\5\f\7\2\67\66\3\2\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7"+

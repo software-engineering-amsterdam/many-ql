@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.FormObject
 {
-    public class Conditional : FormElementContainer, IFormObject
+    public class Conditional : ASTNode, IFormObjectContainer, IFormObject
     {
-        public IList<IFormObject> Body { get; private set; }
+        private IList<IFormObject> body;
         public IExpression Condition { get; private set; }
         public string parsedString;
 
@@ -20,23 +20,23 @@ namespace AST.Nodes.FormObject
                            PositionInText positionInText) : base(positionInText)
         {
             this.Condition = condition;
-            this.Body = body;
+            this.body = body;
             this.parsedString = parsedString;
         }
 
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public override IList<IFormObject> GetBody()
+        public IList<IFormObject> GetBody()
         {
-            return this.Body;
+            return this.body;
         }
 
         public override string GetParsedString()

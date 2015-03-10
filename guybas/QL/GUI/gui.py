@@ -1,30 +1,37 @@
 import tkinter as tk
 import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
+import QL.Tools.exceptions as exc
 from QL.GUI.Elements import *
 
 
 class GUI:
     def __init__(self, form):
-        self._qGui = tk.Tk()
+        self.qGui = tk.Tk()
         self._form = form
         self._statements = self._form.get_statements()
         self._dependencies = self._form.get_dependencies()
         self._answersMap = mapper.Mapper()
+        self.intro_element = self.intro_label()
 
     def generate_gui(self):
         print("_" * 50)
-        # self._qGui.geometry('450x450')
-        self._qGui.title(self._form.get_name())
+        self.create_title()
         #introduction
-        l = label.Label(self._form.get_introduction())
-        # l.set_font_style("Helvetica 15 bold")
-        intro_row = l.get_row()
-        intro_row[0].grid(row=0, column=0, sticky=tk.W)
+        # l.configure(font="Helvetica 15 bold")
+        self.intro_element.grid(row=0, column=0, sticky=tk.W)
 
         self.draw_statements(self._statements)
         tk.Button(text="Submit", width=10, command=lambda: processor.Processor.export_answers(self._answersMap, self)
                   ).grid(row=999, column=0)
+
+    def create_title(self):
+        self.qGui.title(self._form.get_name())
+
+    def intro_label(self):
+        l = label.Label(self._form.get_introduction())
+        intro_row = l.get_row()
+        return intro_row[0]
 
     def draw_statements(self, statements):
         for statement in statements:
@@ -67,7 +74,7 @@ class GUI:
     def elements_recreate(self, qid):
         statements_dict = self._form.get_statement_dict()
         if qid not in statements_dict:
-            print("error") # raise tk.QException("Fatal Error: no such _condition _id " + qid)
+            raise exc.QException("Fatal Error: no such _condition _id " + qid)
         statement = statements_dict[qid]
         elements = statement.get_element()
         if elements is None:
@@ -79,7 +86,7 @@ class GUI:
         self.draw_statement(statement)
 
     def show(self):
-        self._qGui.mainloop()
+        self.qGui.mainloop()
 
     def close(self):
-        self._qGui.destroy()
+        self.qGui.destroy()

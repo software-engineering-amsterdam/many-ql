@@ -13,16 +13,16 @@ namespace AST.Evaluation
 {
     public class Evaluator : BaseVisitor<Value>
     {
-        IDictionary<string, Value> identifierLookup;
+        IDictionary<Id, Value> identifierLookup;
 
-        public Evaluator(IDictionary<string, Value> identifierLookup)
+        public Evaluator(IDictionary<Id, Value> identifierLookup)
         {
             this.identifierLookup = identifierLookup;
         }
 
         public Evaluator()
         {
-            this.identifierLookup = new Dictionary<string, Value>();
+            this.identifierLookup = new Dictionary<Id, Value>();
         }
 
         public Value Evaluate(IExpression expression)
@@ -30,24 +30,16 @@ namespace AST.Evaluation
             return expression.Accept(this);
         }
 
-        public void AddValue(string key, Value value)
+        public void AddValue(Id key, Value value)
         {
             this.identifierLookup.Add(key, value);
         }
 
-        public Value GetValue(string key)
+        public Value GetValue(Id key)
         {
             Value result = null;
-            try
-            {
-                result = this.identifierLookup[key];
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("Key not found");
-                result = new Null();
-            }
-
+            result = this.identifierLookup[key];
+            
             return result;
         }
 
@@ -183,43 +175,14 @@ namespace AST.Evaluation
         }
         #endregion
 
-        #region Computation
-        
-        public override Value Visit(Nodes.Computation.Id node)
-        {
-            return new Nodes.Values.String(node.Value);
-        }
-
-        public override Value Visit(Nodes.Computation.Value node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Value Visit(Nodes.Computation.Expression node)
-        {
-            return node.Accept(this);
-        }
-
-        #endregion
-
         public override Value Visit(Id node)
         {
-            return this.GetValue(node.Identifier);
+            return this.GetValue(node);
         }
-
-        public override Value Visit(Nodes.Values.Unknown node)
-        {
-            return node.Accept(this);
-        }
-
+        
         public override Value Visit(Nodes.Labels.Label node)
         {
             return new Nodes.Values.String(node.Value);
-        }
-
-        public override Value Visit(Nodes.TypeName.TypeName node)
-        {
-            return new Nodes.Values.String(node.Representation);
         }
 
     }

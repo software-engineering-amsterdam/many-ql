@@ -1,6 +1,6 @@
 package lang.qls.semantics;
 
-import lang.qls.ast.Rule.Rules;
+import lang.qls.ast.rule.Rules;
 
 import java.util.HashMap;
 import java.util.Map;

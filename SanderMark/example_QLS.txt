@@ -13,7 +13,7 @@ stylesheet taxOfficeExample
   page selling { 
     section "Selling" {
       question hasSoldHouse
-        widget radio("Yes", "No") 
+        widget radiobutton("Yes", "No") 
       section "You sold a house" {
         question sellingPrice
           widget spinbox
@@ -29,6 +29,6 @@ stylesheet taxOfficeExample
         }        
       }
     }
-    default Boolean widget radio("Yes", "No")
+    default Boolean widget radiobutton("Yes", "No")
   }  
 }
