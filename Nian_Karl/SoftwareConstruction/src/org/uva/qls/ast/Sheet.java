@@ -3,16 +3,16 @@ package org.uva.qls.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.ql.ast.BaseNode;
 import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.qls.BaseQLSNode;
 import org.uva.utility.CodePosition;
 
-public class Sheet extends BaseQLSNode{
+public class Sheet extends BaseNode {
 
 	private final Identifier identifier;
 	private final List<Page> pageList;
 
-	public Sheet(Identifier identifier,CodePosition pos) {
+	public Sheet(Identifier identifier, CodePosition pos) {
 		super(pos);
 		this.identifier = identifier;
 		pageList = new ArrayList<Page>();

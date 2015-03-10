@@ -13,5 +13,7 @@ namespace AST.Types.Visitors
         T Visit(IntType intType);
 
         T Visit(StringType stringType);
+
+        T Visit(UndefinedType undefinedType);
     }
 }

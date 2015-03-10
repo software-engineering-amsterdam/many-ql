@@ -2,6 +2,8 @@ package lang.ql.gui.input;
 
 import lang.ql.ast.expression.Expr;
 import lang.ql.ast.type.*;
+import lang.ql.gui.control.CheckBox;
+import lang.ql.gui.control.TextField;
 import lang.ql.gui.input.expression.*;
 
 /**
@@ -11,6 +13,8 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
 {
     private String id;
     private Expr expression;
+    private final Boolean DISABLED = true;
+    private final Boolean VISIBLE = true;
 
     public static ExprInput build(String id, Expr expression, Type type)
     {
@@ -27,7 +31,7 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
     @Override
     public ExprInput visit(BoolType type)
     {
-        return new BoolExprInput(this.id, this.expression);
+        return new BoolExprInput(this.id, new CheckBox(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
@@ -39,19 +43,19 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
     @Override
     public ExprInput visit(DecType type)
     {
-        return new DecExprInput(this.id, this.expression);
+        return new DecExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(IntType type)
     {
-        return new IntExprInput(this.id, this.expression);
+        return new IntExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(StrType type)
     {
-        return new StrExprInput(this.id, this.expression);
+        return new StrExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override

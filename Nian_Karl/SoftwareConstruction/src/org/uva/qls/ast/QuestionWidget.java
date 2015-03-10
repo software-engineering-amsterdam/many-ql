@@ -8,14 +8,14 @@ public class QuestionWidget extends Question {
 
 	private final Widget<?> widget;
 
-	public QuestionWidget(Identifier identifier, Widget<?> widget,CodePosition pos) {
-		super(identifier,pos);
+	public QuestionWidget(Identifier identifier, Widget<?> widget, CodePosition pos) {
+		super(identifier, pos);
 		this.widget = widget;
 	}
 
 	public Widget<?> getWidget() {
 		return widget;
-		
+
 	}
 
 }

@@ -19,7 +19,7 @@ public class WidgetListener implements IWidgetListener {
 	public WidgetListener() {
 		this.evaluator = new Evaluator();
 		this.typeChecker = new TypeChecker();
-		
+
 		this.dependentQuestionPanels = new ArrayList<IfQuestionPanel>();
 		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
 	}
@@ -36,7 +36,7 @@ public class WidgetListener implements IWidgetListener {
 		}
 
 		for (ExprQuestionComponent pannel : dependentQuestionComponents) {
-			pannel.evaluateAndChange(evaluator,typeChecker);
+			pannel.evaluateAndChange(evaluator, typeChecker);
 		}
 	};
 

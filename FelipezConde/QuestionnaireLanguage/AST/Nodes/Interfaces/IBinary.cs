@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Types = AST.Types;
 
 namespace AST.Nodes.Interfaces
 {
@@ -11,6 +12,6 @@ namespace AST.Nodes.Interfaces
         IExpression Left();
         IExpression Right();
         string MakeString();
-        IValue GetCompatibleType(IValue leftType, IValue rightType);
+        Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType);
     }
 }

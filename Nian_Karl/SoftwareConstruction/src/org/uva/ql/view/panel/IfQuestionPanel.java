@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.value.BoolValue;
-import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;

@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
 import lang.ql.gui.canvas.Canvas;
+import lang.ql.gui.control.CheckBox;
+import lang.ql.gui.control.Radios;
+import lang.ql.gui.control.TextField;
 import lang.ql.gui.input.expression.*;
 import lang.ql.gui.input.regular.*;
 import lang.ql.gui.label.Label;
@@ -18,14 +21,14 @@ import lang.ql.semantics.*;
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui<T extends Node> implements ModelVisitor<Node>
+public class SimpleGui<T extends Node> implements ModelVisitor<Void>
 {
     private ValueTable valueTable;
     private final Refresher refresher;
 
-    public static void run(Form ast, Stage stage)
+    public static void run(Form ast, Modeler modeler, Stage stage)
     {
-        Canvas canvas = (Canvas) ast.accept(new Modeler());
+        Canvas canvas = modeler.model(ast);
 
         SimpleGui gui = new SimpleGui(ast);
 
@@ -43,35 +46,34 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Node>
 
     private void start(Canvas canvas, Stage stage)
     {
-        Parent parent = (Parent) canvas.accept(this);
+        Parent parent = canvas.getParent();
         stage.setTitle(canvas.getName());
         stage.setScene(new Scene(parent, 600, 700));
         stage.show();
     }
 
     @Override
-    public Node visit(Canvas c)
+    public Void visit(Canvas c)
     {
         for (Page page: c.getPages())
         {
             page.accept(this);
         }
-
-        return c.getParent();
+        return null;
     }
 
     @Override
-    public Node visit(Page page)
+    public Void visit(Page page)
     {
         for (Segment subsegment : page.getSubsegments())
         {
             subsegment.accept(this);
         }
-        return page.getContainer();
+        return null;
     }
 
     @Override
-    public Node visit(Conditional segment)
+    public Void visit(Conditional segment)
     {
         this.refresher.addItem(segment);
         segment.refreshElement(this.valueTable);
@@ -81,98 +83,116 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Node>
             subsegment.accept(this);
         }
 
-        return segment.getContainer();
+        return null;
     }
 
     @Override
-    public Node visit(Row row)
+    public Void visit(Row row)
     {
         row.getLabel().accept(this);
         row.getInput().accept(this);
-        return row.getContainer();
+        return null;
     }
 
     @Override
-    public Node visit(BoolInput input)
+    public Void visit(BoolInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(DateInput input)
+    public Void visit(DateInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(DecInput input)
+    public Void visit(DecInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(IntInput input)
+    public Void visit(IntInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(StrInput input)
+    public Void visit(StrInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(BoolExprInput input)
+    public Void visit(BoolExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(DateExprInput input)
+    public Void visit(DateExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(DecExprInput input)
+    public Void visit(DecExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(IntExprInput input)
+    public Void visit(IntExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(StrExprInput input)
+    public Void visit(StrExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Node visit(Label label)
+    public Void visit(TextField control)
     {
-        return label.getTextNode();
+        return null;
     }
 
-    private Node handleInputVisit(RegularInput input)
+    @Override
+    public Void visit(CheckBox control)
+    {
+        return null;
+    }
+
+    @Override
+    public Void visit(Radios control)
+    {
+        return null;
+    }
+
+    @Override
+    public Void visit(Label label)
+    {
+        return null;
+    }
+
+    private Void handleInputVisit(RegularInput input)
     {
         input.addObserver(this.refresher);
         input.attachListener(this.valueTable);
 
-        return input.getInputNode();
+        return null;
     }
 
-    private Node handleInputVisit (ExprInput input)
+    private Void handleInputVisit (ExprInput input)
     {
         this.refresher.addItem(input);
 
         input.evaluate(this.valueTable);
         input.refreshElement(this.valueTable);
 
-        return input.getInputNode();
+        return null;
     }
 }
