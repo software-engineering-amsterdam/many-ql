@@ -1,7 +1,7 @@
 package org.uva.qls.ast.widget;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.StrLiteral;
-import org.uva.utility.CodePosition;
 
 public class RadioModel extends WidgetType {
 

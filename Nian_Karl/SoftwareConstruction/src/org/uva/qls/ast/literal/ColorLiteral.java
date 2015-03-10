@@ -1,11 +1,11 @@
 package org.uva.qls.ast.literal;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.type.ColorType;
 import org.uva.qls.ast.type.Type;
 import org.uva.qls.ast.value.ColorValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
-import org.uva.utility.CodePosition;
 
 public class ColorLiteral extends Literal {
 

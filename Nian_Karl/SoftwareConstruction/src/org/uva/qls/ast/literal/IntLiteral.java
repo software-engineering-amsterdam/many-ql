@@ -1,11 +1,11 @@
 package org.uva.qls.ast.literal;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.type.IntType;
 import org.uva.qls.ast.type.Type;
 import org.uva.qls.ast.value.IntValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
-import org.uva.utility.CodePosition;
 
 public class IntLiteral extends Literal{
 

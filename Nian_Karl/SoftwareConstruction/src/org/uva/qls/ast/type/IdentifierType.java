@@ -3,20 +3,20 @@ package org.uva.qls.ast.type;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.visitor.TypeVisitor;
 
-public class ColorType extends Type {
+public class IdentifierType extends Type {
 
-	public ColorType() {
+	public IdentifierType() {
 		super();
 	}
 	
-	public ColorType(CodePosition pos) {
+	public IdentifierType(CodePosition pos) {
 		super(pos);
 	}
 	
 	@Override
-	public boolean isColor() {
+	public boolean isIdentifier() {
 		return true;
-	}	
+	}
 	
 	@Override
 	public <T> T accept(TypeVisitor<T> visitor) {
@@ -25,12 +25,12 @@ public class ColorType extends Type {
 
 	@Override
 	public boolean isEqual(Type type) {
-		return type.isColor();
+		return type.isIdentifier();
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Color";
+		return "Identifier";
 	}
-	
+
 }

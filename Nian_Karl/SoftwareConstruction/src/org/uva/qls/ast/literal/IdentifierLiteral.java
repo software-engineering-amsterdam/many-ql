@@ -1,17 +1,17 @@
 package org.uva.qls.ast.literal;
 
 import org.uva.qls.ast.CodePosition;
-import org.uva.qls.ast.type.BoolType;
+import org.uva.qls.ast.type.IdentifierType;
 import org.uva.qls.ast.type.Type;
-import org.uva.qls.ast.value.BoolValue;
+import org.uva.qls.ast.value.StrValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
 
-public class BoolLiteral extends Literal {
+public class IdentifierLiteral extends Literal {
 
-	private final BoolValue value;
+	private final StrValue value;
 	
-	public BoolLiteral(BoolValue value, CodePosition pos) {
+	public IdentifierLiteral(StrValue value, CodePosition pos) {
 		super(pos);
 		this.value = value;
 	}
@@ -28,9 +28,9 @@ public class BoolLiteral extends Literal {
 
 	@Override
 	public Type getType() {
-		return new BoolType(this.getPosition());
+		return new IdentifierType(this.getPosition());
 	}
-
+	
 	@Override
 	public String toString() {
 		return super.toString() + "<" + value.toString() + ">";

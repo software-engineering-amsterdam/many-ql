@@ -1,19 +1,19 @@
-package org.uva.qls.ast;
+package org.uva.qls.ast.sheet;
 
 import java.util.List;
 
-import org.uva.ql.ast.BaseNode;
-import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.qls.ast.BaseNode;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.IdentifierLiteral;
 import org.uva.qls.ast.style.Style;
-import org.uva.utility.CodePosition;
 
 public class Page extends BaseNode {
 
-	private final Identifier identifier;
+	private final IdentifierLiteral identifier;
 	private final List<Section> sectionList;
 	private final List<Style> styleList;
 
-	public Page(Identifier identifier, List<Section> sectionList, List<Style> styleList, CodePosition pos) {
+	public Page(IdentifierLiteral identifier, List<Section> sectionList, List<Style> styleList, CodePosition pos) {
 		super(pos);
 		this.identifier = identifier;
 		this.sectionList = sectionList;
@@ -24,7 +24,7 @@ public class Page extends BaseNode {
 		return sectionList;
 	}
 
-	public Identifier getIdentifier() {
+	public IdentifierLiteral getIdentifier() {
 		return identifier;
 	}
 

@@ -1,11 +1,11 @@
-package org.uva.qls.ast;
+package org.uva.qls.ast.sheet;
 
 import java.util.List;
 
-import org.uva.ql.ast.BaseNode;
-import org.uva.ql.ast.expression.literal.StrLiteral;
+import org.uva.qls.ast.BaseNode;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.StrLiteral;
 import org.uva.qls.ast.style.Style;
-import org.uva.utility.CodePosition;
 
 public class Section extends BaseNode{
 

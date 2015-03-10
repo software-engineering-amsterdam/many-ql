@@ -1,4 +1,4 @@
-package org.uva.ql.ast;
+package org.uva.qls.ast;
 
 
 public class BaseNode implements Node {

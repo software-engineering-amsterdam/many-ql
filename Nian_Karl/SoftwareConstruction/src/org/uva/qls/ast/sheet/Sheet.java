@@ -1,20 +1,20 @@
-package org.uva.qls.ast;
+package org.uva.qls.ast.sheet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.ql.ast.BaseNode;
-import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.utility.CodePosition;
+import org.uva.qls.ast.BaseNode;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.IdentifierLiteral;
 
 public class Sheet extends BaseNode {
 
-	private final Identifier identifier;
+	private final IdentifierLiteral identifier;
 	private final List<Page> pageList;
 
-	public Sheet(Identifier identifier, CodePosition pos) {
+	public Sheet(IdentifierLiteral name, CodePosition pos) {
 		super(pos);
-		this.identifier = identifier;
+		this.identifier = name;
 		pageList = new ArrayList<Page>();
 	}
 
@@ -22,7 +22,7 @@ public class Sheet extends BaseNode {
 		pageList.add(page);
 	}
 
-	public Identifier getIdentifier() {
+	public IdentifierLiteral getName() {
 		return identifier;
 	}
 
