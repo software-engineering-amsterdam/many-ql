@@ -5,9 +5,10 @@ package lang.ql.ast.type;
  */
 public class DateType extends Type
 {
-    public DateType()
+    @Override
+    public String getTitle()
     {
-        super("date");
+        return "date";
     }
 
     @Override

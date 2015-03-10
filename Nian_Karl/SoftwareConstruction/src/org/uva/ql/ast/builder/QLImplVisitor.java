@@ -1,6 +1,5 @@
 package org.uva.ql.ast.builder;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.antlr.QLBaseVisitor;
 import org.uva.ql.antlr.QLParser.BlockContext;
 import org.uva.ql.antlr.QLParser.ExprAndContext;
@@ -77,7 +76,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	
 	@Override
 	public QLNode visitQuestionnaire(QuestionnaireContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Questionnaire questionnaire = new Questionnaire(pos);
 		for (FormContext formContext : ctx.form()) {
 			questionnaire.addForm((Form) formContext.accept(this));
@@ -87,7 +86,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitForm(FormContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Identifier id = new Identifier(ctx.Identifier().getText(), pos);
 		Block block = (Block) ctx.block().accept(this);
 		return new Form(id, block, pos);
@@ -95,7 +94,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitBlock(BlockContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Block block = new Block(pos);
 		for (StatementContext statementContext : ctx.statement()) {
 			block.addStatement((Statement) statementContext.accept(this));
@@ -105,7 +104,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitIf(IfContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block block = (Block) ctx.ifBody.accept(this);
 		return new IfStatement(expr, block, pos);
@@ -113,7 +112,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitIfElse(IfElseContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block ifBlock = (Block) ctx.ifBody.accept(this);
 		Block elseBlock = (Block) ctx.elseBody.accept(this);
@@ -123,7 +122,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	
 	@Override
 	public QLNode visitQuestionNormal(QuestionNormalContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
 		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
@@ -132,7 +131,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitQuestionCompute(QuestionComputeContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
 		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
@@ -157,28 +156,28 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprNot(ExprNotContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		return new Not(expr, pos);
 	}
 
 	@Override
 	public QLNode visitExprPositive(ExprPositiveContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		return new Positive(expr, pos);
 	}
 
 	@Override
 	public QLNode visitExprNegative(ExprNegativeContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		return new Negative(expr, pos);
 	}
 
 	@Override
 	public QLNode visitExprPlus(ExprPlusContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Plus(left, right, pos);
@@ -186,7 +185,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprMinus(ExprMinusContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Minus(left, right, pos);
@@ -194,7 +193,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprMultiply(ExprMultiplyContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Multiply(left, right, pos);
@@ -202,7 +201,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprDivide(ExprDivideContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Divide(left, right, pos);
@@ -210,7 +209,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprAnd(ExprAndContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new And(left, right, pos);
@@ -218,7 +217,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprOr(ExprOrContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Or(left, right, pos);
@@ -227,7 +226,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	@Override
 	public QLNode visitExprEqual(ExprEqualContext ctx) {
 		
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Equal(left, right, pos);
@@ -235,7 +234,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprNotEqual(ExprNotEqualContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new NotEqual(left, right, pos);
@@ -243,7 +242,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprGreater(ExprGreaterContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Greater(left, right, pos);
@@ -251,7 +250,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprGreaterEqual(ExprGreaterEqualContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new GreaterEqual(left, right, pos);
@@ -259,7 +258,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprLess(ExprLessContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new Less(left, right, pos);
@@ -267,7 +266,7 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 
 	@Override
 	public QLNode visitExprLessEqual(ExprLessEqualContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		return new LessEqual(left, right, pos);
@@ -276,48 +275,45 @@ public class QLImplVisitor extends QLBaseVisitor<QLNode> {
 	@Override
 	public QLNode visitLiteralId(LiteralIdContext ctx) {
 		
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new Identifier(ctx.Identifier().getText(), pos);
 	}
 
 	@Override
 	public QLNode visitLiteralInt(LiteralIntContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new IntLiteral(Integer.parseInt(ctx.getText()), pos);
 	}
 
 	@Override
 	public QLNode visitLiteralBool(LiteralBoolContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
 	}
 
 	@Override
 	public QLNode visitLiteralStr(LiteralStrContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
 	}
 
 	@Override
 	public QLNode visitExprParentheses(ExprParenthesesContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new Parenthese((Expression) ctx.expression().accept(this), pos);
-	}
-
-	private CodePosition getCodePosition(ParserRuleContext ctx) {
-		return new CodePosition(ctx.getStart().getLine(), ctx.getStop().getLine());
 	}
 
 	@Override
 	public QLNode visitQuestionIdentifier(QuestionIdentifierContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new Identifier(ctx.Identifier().getText(), pos);
 	}
 
 	@Override
 	public QLNode visitQuestionLabel(QuestionLabelContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
+		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
 	}
+	
 	
 }

@@ -1,92 +1,91 @@
 package ql.typechecker
 
-import ql.ast._
-import org.specs2.matcher.{MatchResult, Expectable, Matcher, ExceptionMatchers}
 import org.specs2.mutable.Specification
+import ql.ast._
 
 import scala.util.parsing.input.NoPosition
 
-class TypeCheckerSpec extends Specification with ExceptionMatchers {
+class TypeCheckerSpec extends Specification {
   val checker = new TypeChecker
   import checker._
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> BooleanType()))))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> NumberType())))
+      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> NumberType()))))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> StringType())))
+      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> StringType()))))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(true)))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
+      check(Question(BooleanType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(true)))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> BooleanType()))))
     }
 
-    "throw exception, if statement is computed boolean question with invalid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beLeft
+    "return error and add variable + type to environment, if statement is computed boolean question with invalid expression" in {
+      check(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment(Map("X" -> BooleanType()))))
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> NumberType())))
+      check(Question(NumberType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> NumberType()))))
     }
 
-    "throw exception, if statement is computed number question with invalid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false)))), new TypeEnvironment()) must beLeft
+    "return error and add variable + type to environment, if statement is computed number question with invalid expression" in {
+      check(Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false)))), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment(Map("X" -> NumberType()))))
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(StringLiteral(StringValue("")))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> StringType())))
+      check(Question(StringType(), Variable("X"), "label", Some(StringLiteral(StringValue("")))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> StringType()))))
     }
 
-    "throw exception, if statement is computed string question with invalid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beLeft
+    "return error and add variable + type to environment, if statement is computed string question with invalid expression" in {
+      check(Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment(Map("X" -> StringType()))))
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beRight(new TypeEnvironment())
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment()))
     }
 
-    "throw exception, if invalid boolean condition" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beLeft
+    "return error, if invalid boolean condition" in {
+      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid boolean condition for if statement at line", NoPosition)), new TypeEnvironment()))
     }
 
-    "throw exception, if error in if block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None), new TypeEnvironment()) must beLeft
+    "return error, if error in if block" in {
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment()))
     }
 
     "return empty environment, if valid boolean condition (with else block)" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beRight(new TypeEnvironment())
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment()))
     }
 
-    "throw exception, if invalid boolean condition (with else block)" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft
+    "return error, if invalid boolean condition (with else block)" in {
+      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beEqualTo((List(new Error("Invalid boolean condition for if statement at line", NoPosition)), new TypeEnvironment()))
     }
 
-    "throw exception, if error in if block (with else block)" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft
+    "return error, if error in if block (with else block)" in {
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beEqualTo(List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment())
     }
 
-    "throw exception, if error in else block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))))), new TypeEnvironment()) must beLeft
+    "return error, if error in else block" in {
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))))), new TypeEnvironment()) must beEqualTo(List(new Error("Invalid expression type for computed question at line", NoPosition)), new TypeEnvironment())
     }
 
     "add variable + type to environment " in {
-      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
+      check(Sequence(List(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> BooleanType()))))
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
+      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beEqualTo((List[Error](), new TypeEnvironment(Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()))))
     }
   }
 
   "expression" should {
     "type check multiple expressions" in {
-      check(Not(And(Variable("X"), GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))))), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beRight(BooleanType())
+      check(Not(And(Variable("X"), GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))))), new TypeEnvironment(Map("X" -> BooleanType()))) must beRight(BooleanType())
     }
   }
 
@@ -296,21 +295,21 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "variable expressions" should {
     "lookup integers" in {
-      check(Variable("X"), new TypeEnvironment(env = Map("X" -> NumberType()))) must beRight(NumberType())
+      check(Variable("X"), new TypeEnvironment(Map("X" -> NumberType()))) must beRight(NumberType())
     }
 
     "lookup strings" in {
-      check(Variable("X"), new TypeEnvironment(env = Map("X" -> StringType()))) must beRight(StringType())
+      check(Variable("X"), new TypeEnvironment(Map("X" -> StringType()))) must beRight(StringType())
     }
 
     "lookup booleans" in {
-      check(Variable("X"), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beRight(BooleanType())
+      check(Variable("X"), new TypeEnvironment(Map("X" -> BooleanType()))) must beRight(BooleanType())
     }
   }
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beLeft
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(Map("X" -> BooleanType()))) must beEqualTo(List(new Error("Variable X is already defined", NoPosition)), new TypeEnvironment(Map("X" -> BooleanType())))
     }
   }
 }

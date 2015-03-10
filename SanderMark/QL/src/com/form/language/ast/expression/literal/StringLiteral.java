@@ -17,12 +17,12 @@ public class StringLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public StringValue evaluate(Context mem) {
+	public StringValue evaluate(Context context) {
 		return new StringValue(value);
 	}
 
 	@Override
-	public Type getType(Context mem) {
+	public Type getType(Context context) {
 		return new StringType();
 	}
 	

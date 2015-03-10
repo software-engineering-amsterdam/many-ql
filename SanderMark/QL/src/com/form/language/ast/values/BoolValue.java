@@ -17,8 +17,8 @@ public class BoolValue extends GenericValue<Boolean> {
 		
 	}
 	@Override
-	public void addToMemory(String key, Context m) {
-		m.put(key, this);
+	public void addToMemory(String key, Context context) {
+		context.put(key, this);
 	}
 	
 }

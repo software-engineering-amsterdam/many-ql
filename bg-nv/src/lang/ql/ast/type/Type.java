@@ -7,24 +7,14 @@ import lang.ql.ast.AstNode;
  */
 public abstract class Type extends AstNode
 {
-    private String title;
-
-    public Type(String s)
-    {
-        this.title = s;
-    }
-
-    public String getTitle()
-    {
-        return this.title;
-    }
+    public abstract String getTitle();
 
     public boolean isUndef()
     {
         return false;
     }
 
-    public boolean isArithmetic() { return false; }
+    public boolean isNumerical() { return false; }
 
     public boolean isBool() { return false; }
 
@@ -45,7 +35,7 @@ public abstract class Type extends AstNode
     {
         if (o instanceof Type)
         {
-            return this.title.equals(((Type)o).title);
+            return this.getTitle().equals(((Type) o).getTitle());
         }
 
         return false;
@@ -54,7 +44,7 @@ public abstract class Type extends AstNode
     @Override
     public int hashCode()
     {
-        return this.title.hashCode();
+        return this.getTitle().hashCode();
     }
 
     public abstract <T> T accept(TypeVisitor<T> visitor);

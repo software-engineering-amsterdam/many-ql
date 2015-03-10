@@ -39,7 +39,7 @@ public class QuestionChecker {
 	
 	//duplicate labels (warning)
 	public void checkDuplicateLabels() {
-		 if(!this.typeRepository.empty()) {
+	  if(!this.typeRepository.empty()) {
 					
 		for(Map.Entry<String, String> entry : this.typeRepository.getLabelRepository().entrySet()) {
 			String key = entry.getKey();
@@ -50,9 +50,6 @@ public class QuestionChecker {
 			}
 			this.errorCollector.addWarning("Warning! Duplicated label *" + labelValue + "* in question *" + key + "*.");	
 		}
-		 }	
-		
-		
-	
+	  }	
 	}
 }

@@ -1,6 +1,7 @@
 import QL.CoreTools.converters as converters
 import QL.config as c
 
+
 class Processor:
 
     @staticmethod
@@ -10,8 +11,10 @@ class Processor:
         answers_dict['__builtins__'] = None
         try:
             result = eval(expression, answers_dict)
+            print(result)
             return result
         except Exception as e:
+            print(e)
             return False
 
     @staticmethod

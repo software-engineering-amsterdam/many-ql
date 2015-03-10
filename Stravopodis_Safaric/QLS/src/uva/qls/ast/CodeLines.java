@@ -1,9 +1,8 @@
 package uva.qls.ast;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class CodeLines {
 
-	
 	Tuple <Integer, Integer> codeLines;
 	
 	public CodeLines (int startLine, int endLine){
@@ -12,5 +11,10 @@ public class CodeLines {
 	
 	public Tuple<Integer, Integer> getCodeLocation(){
 		return this.codeLines;
+	}
+	
+	@Override
+	public String toString(){
+		return "CodeLines(" + String.valueOf(this.codeLines.k) + "," + String.valueOf(this.codeLines.l) + ")";
 	}
 }

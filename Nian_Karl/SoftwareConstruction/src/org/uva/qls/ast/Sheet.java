@@ -1,14 +1,32 @@
 package org.uva.qls.ast;
 
-public class Sheet implements QLSNode {
+import java.util.ArrayList;
+import java.util.List;
 
-	public Sheet() {
-		
+import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.qls.BaseQLSNode;
+import org.uva.utility.CodePosition;
+
+public class Sheet extends BaseQLSNode{
+
+	private final Identifier identifier;
+	private final List<Page> pageList;
+
+	public Sheet(Identifier identifier,CodePosition pos) {
+		super(pos);
+		this.identifier = identifier;
+		pageList = new ArrayList<Page>();
 	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+
+	public void addPage(Page page) {
+		pageList.add(page);
+	}
+
+	public Identifier getIdentifier() {
+		return identifier;
+	}
+
+	public List<Page> getPageList() {
+		return pageList;
 	}
 }

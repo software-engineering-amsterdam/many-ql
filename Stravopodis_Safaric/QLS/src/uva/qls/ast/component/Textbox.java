@@ -6,7 +6,7 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Textbox extends Component {
 
@@ -39,4 +39,9 @@ public class Textbox extends Component {
 		return "Textbox(" + this.style.toString() + ")";
 	}
 
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName().toLowerCase();
+	}
+	
 }

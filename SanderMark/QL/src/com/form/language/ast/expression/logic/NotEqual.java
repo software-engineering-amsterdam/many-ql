@@ -20,14 +20,14 @@ public class NotEqual extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate(Context mem) {
-		return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() != ((IntValue)super.right.evaluate(mem)).getValue());
+	public BoolValue evaluate(Context context) {
+		return new BoolValue(((IntValue)super.left.evaluate(context)).getValue() != ((IntValue)super.right.evaluate(context)).getValue());
 	}
 
 	@Override
-	public Type getType(Context mem) {
-		Type leftType = left.getType(mem);
-		Type rightType = right.getType(mem);
+	public Type getType(Context context) {
+		Type leftType = left.getType(context);
+		Type rightType = right.getType(context);
 		if(	(leftType.isBoolType() && rightType.isBoolType())
 			||(leftType.isIntType() && rightType.isIntType())
 			||(leftType.isStringType() && rightType.isStringType())) {
@@ -36,30 +36,9 @@ public class NotEqual extends BinaryExpression implements Expression {
 		}		
 		else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				mem.addError(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
+				context.addError(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
 			}
 			return new ErrorType();
 		}
 	}
-
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type leftType = left.getType();
-//		Type rightType = right.getType();
-//		left.getErrors(errors);
-//		right.getErrors(errors);
-//		
-//		if(	(leftType.isBoolType() && rightType.isBoolType())
-//		  ||(leftType.isIntType() && rightType.isIntType())
-//		  ||(leftType.isStringType() && rightType.isStringType())) {
-//			return;
-//		}
-//		else{
-//			if(!(leftType.isErrorType() || rightType.isErrorType())){
-//				errors.add(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }

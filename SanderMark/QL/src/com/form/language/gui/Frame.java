@@ -55,7 +55,7 @@ public class Frame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		final Context mem = new Context();
+		final Context context = new Context();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,12 +84,12 @@ public class Frame {
 				
 				form = parser.form().result;
 				
-				form.getTypes(mem);
+				form.getTypes(context);
 				
 				
-				if(mem.hasErrors()){
-					textArea_output.setText(mem.getErrors());
-					System.out.println(mem.getErrors());
+				if(context.hasErrors()){
+					textArea_output.setText(context.getErrors());
+					System.out.println(context.getErrors());
 				} else
 				{
 					button_createQuestionnaire.setEnabled(true);
@@ -107,9 +107,9 @@ public class Frame {
 			@Override
 			public void mouseClicked(MouseEvent e) {			
 				
-				form.initMemory(mem);
+				form.initMemory(context);
 				
-				QuestionFrame qf = new QuestionFrame(form,mem);
+				QuestionFrame qf = new QuestionFrame(form,context);
 			}
 		});
 	}

@@ -22,7 +22,9 @@ public class Interpreter {
 			
 			// TODO: Remove this!
 			result.getErrorList().printAll();
+			System.out.println("symbolTable");
 			System.out.println(symbolTable);
+			System.out.println("valueTable");
 			System.out.println(valueTable);
 			
 			return new Result<ValueTable>(errorList, valueTable);

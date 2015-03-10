@@ -1,4 +1,5 @@
 ﻿using AST.Nodes.Interfaces;
+using AST.Representation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +8,40 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.FormObject
 {
-    public class Conditional : IFormObjectNode
+    public class Conditional : ASTNode, IFormObjectContainer, IFormObject
     {
-        private IList<IASTNode> children;
+        public IList<IFormObject> Body { get; private set; }
+        public IExpression Condition { get; private set; }
+        public string parsedString;
 
-        public Conditional()
+        public Conditional(IExpression condition, 
+                           IList<IFormObject> body, 
+                           string parsedString,
+                           PositionInText positionInText) : base(positionInText)
         {
-            children = new List<IASTNode>();
+            this.Condition = condition;
+            this.Body = body;
+            this.parsedString = parsedString;
         }
 
-        public void AddChild(IASTNode node)
+        public override void Accept(Visitors.IVisitor visitor)
         {
-            children.Add(node);
+            visitor.Visit(this);
         }
 
-        public IList<IASTNode> GetChildren()
+        public override T Accept<T>(Visitors.IVisitor<T> visitor)
         {
-            return children;
+            return visitor.Visit(this);
+        }
+
+        public IList<IFormObject> GetBody()
+        {
+            return this.Body;
+        }
+
+        public override string GetParsedString()
+        {
+            throw new NotImplementedException();
         }
     }
 }

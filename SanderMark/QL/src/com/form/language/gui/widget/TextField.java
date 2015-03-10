@@ -15,7 +15,7 @@ public class TextField extends JTextField {
 	
 	private static final long serialVersionUID = 1L;
 
-	public TextField(Question question,QuestionComponent questionComponent, Context rm) {
+	public TextField(Question question,QuestionComponent questionComponent, Context context) {
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
 		setVisible(true);

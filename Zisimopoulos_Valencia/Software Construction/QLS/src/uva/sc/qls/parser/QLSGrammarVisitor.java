@@ -54,56 +54,115 @@ public interface QLSGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefaultStyle(QLSGrammarParser.DefaultStyleContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSGrammarParser#styleProperty}.
+	 * Visit a parse tree produced by the {@code width}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStyleProperty(QLSGrammarParser.StylePropertyContext ctx);
+	T visitWidth(QLSGrammarParser.WidthContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSGrammarParser#type}.
+	 * Visit a parse tree produced by the {@code fontName}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(QLSGrammarParser.TypeContext ctx);
+	T visitFontName(QLSGrammarParser.FontNameContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSGrammarParser#widgetType}.
+	 * Visit a parse tree produced by the {@code fontsize}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitWidgetType(QLSGrammarParser.WidgetTypeContext ctx);
+	T visitFontsize(QLSGrammarParser.FontsizeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code number}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Visit a parse tree produced by the {@code color}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumber(QLSGrammarParser.NumberContext ctx);
+	T visitColor(QLSGrammarParser.ColorContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code boolean}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBoolean(QLSGrammarParser.BooleanContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code id}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Visit a parse tree produced by the {@code number}
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitId(QLSGrammarParser.IdContext ctx);
+	T visitNumber(QLSGrammarParser.NumberContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code string}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitString(QLSGrammarParser.StringContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code colorencode}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Visit a parse tree produced by the {@code checkbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitColorencode(QLSGrammarParser.ColorencodeContext ctx);
+	T visitCheckbox(QLSGrammarParser.CheckboxContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code spinbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSpinbox(QLSGrammarParser.SpinboxContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code radio}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRadio(QLSGrammarParser.RadioContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arial}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArial(QLSGrammarParser.ArialContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code timesNewRoman}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code bazooka}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBazooka(QLSGrammarParser.BazookaContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code bookAntiqua}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code courier}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCourier(QLSGrammarParser.CourierContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code dialog}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDialog(QLSGrammarParser.DialogContext ctx);
 }

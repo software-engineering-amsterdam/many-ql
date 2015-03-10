@@ -17,12 +17,12 @@ public class IntLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public IntValue evaluate(Context mem) {
+	public IntValue evaluate(Context context) {
 		return new IntValue(_value);
 	}
 
 	@Override
-	public Type getType(Context mem) {
+	public Type getType(Context context) {
 		return new IntType();
 	}
 	

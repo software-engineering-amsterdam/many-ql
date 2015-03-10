@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.form.language.ast.statement.Statement;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
 
 public class Form  {
 	public String id;
@@ -22,14 +20,9 @@ public class Form  {
 		this.statementList = statementList;
 	}
 	
-	public void getTypes(Context mem){
+	public void getTypes(Context context){
 		for(Statement s: statementList){
-			s.getType(mem);
-		}
-	}
-	public void collectIds(IdCollector idCollector){
-		for(Statement s: statementList){
-			s.collectIds(idCollector);			
+			s.getType(context);
 		}
 	}
 	
@@ -37,24 +30,19 @@ public class Form  {
 		return statementList.iterator();
 	}
 	
-	public Context initMemory(Context mem)
+	public Context initMemory(Context context)
 	{
 		for(Statement s: statementList)
 		{
-			s.initMemory(mem);			
+			s.initMemory(context);			
 		}
-		return mem;		
+		return context;		
 	}
 
-	public void showTypes(Context mem) {
+	public void showTypes(Context context) {
 		for(Statement s: statementList){
-			System.out.println(s.getType(mem));	
+			System.out.println(s.getType(context));	
 		}
 	}
 	
-	public void setTypes(IdTypeTable ids){
-		for(Statement s: statementList){
-			s.setType(ids);
-		}
-	}
 }

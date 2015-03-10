@@ -5,13 +5,8 @@ package lang.ql.ast.type;
  */
 public class DecType extends Type
 {
-    public DecType()
-    {
-        super("decimal");
-    }
-
     @Override
-    public boolean isArithmetic()
+    public boolean isNumerical()
     {
         return true;
     }
@@ -20,6 +15,12 @@ public class DecType extends Type
     public Type promoteInt(IntType t)
     {
         return this;
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return "decimal";
     }
 
     @Override

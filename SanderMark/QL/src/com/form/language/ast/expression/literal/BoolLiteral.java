@@ -17,12 +17,12 @@ public class BoolLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public BoolValue evaluate(Context mem) {
+	public BoolValue evaluate(Context context) {
 		return new BoolValue(_value);
 	}
 
 	@Override
-	public Type getType(Context mem) {
+	public Type getType(Context context) {
 		return new BoolType();
 	}
 

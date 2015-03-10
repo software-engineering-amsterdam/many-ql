@@ -4,6 +4,8 @@ Introduction : Welcome to my questionnaire.
 
 Question hummus (bool): Do you love hummus?
 
+Question test (text) : something.
+
 if ((hummus == True)) {
     Question what (text) : What do you like about hummus?
 
@@ -26,8 +28,8 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (con == True and why == "True") {
-    Question trans2 (bool) : Just a test?
+if (test == "A") {
+    Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {
     Question check2 (bool) : Another one?

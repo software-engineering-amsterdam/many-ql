@@ -26,7 +26,7 @@ subsection 	: 'subsection ' STRING '{' quest = question '}';
 question	: 'question' id = Identifier cmp=component?;
 
 defaultValue: 'default' primitiveType cmp = component			# CtxDefaultComponent		
-			| 'default' primitiveType '{' stms+=statement* '}'	# CtxDefaultStatement
+			| 'default' primitiveType '{' stms+=style* '}'		# CtxDefaultStatement
 			;		
 
 component	: Widget Textbox 										('{' stls+=style* '}')?							# CtxTextbox										

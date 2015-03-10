@@ -10,6 +10,7 @@ public abstract class Component extends Statement{
 	
 	protected ArrayList<Style> style;
 	public abstract <T> T accept(StatementVisitor<T> visitor);
+	public abstract String getName();
 	
 	public Component(CodeLines _codeLines) {
 		super(_codeLines);
