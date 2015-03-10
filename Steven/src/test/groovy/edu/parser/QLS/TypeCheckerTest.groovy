@@ -114,7 +114,7 @@ class TypeCheckerTest extends Specification {
         typeChecker.start(questions, stylesheet)
 
         then:
-        Assert.assertEquals(4, typeChecker.stylesheetQuestions.size())
+        Assert.assertEquals(3, typeChecker.stylesheetQuestions.size())
     }
 
     def "should throw exception for duplicate questions"() {
