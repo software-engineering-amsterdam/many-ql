@@ -45,6 +45,7 @@ public class Style extends AbstractASTNode {
 
             // if current style does not contain the base style property,
             // then add it to current style.
+            // if exists keep the current property.
             if (!this.styleProperties.contains(baseStyleProperty)) {
                 this.styleProperties.add(baseStyleProperty);
             }

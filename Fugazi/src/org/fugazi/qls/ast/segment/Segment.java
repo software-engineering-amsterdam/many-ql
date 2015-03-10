@@ -9,17 +9,17 @@ import java.util.List;
 public abstract class Segment extends AbstractASTNode {
     protected final String name;
     protected final List<Section> sections;
-    protected final List<DefaultStyleDeclaration> defaultStyles;
+    protected final List<DefaultStyleDeclaration> defaultStyleDeclarations;
 
     public Segment(int _lineNum, List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
         super(_lineNum);
         this.sections = _sections;
-        this.defaultStyles = _defaultStyles;
+        this.defaultStyleDeclarations = _defaultStyles;
         this.name = _name;
     }
     public Segment(List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
         this.sections = _sections;
-        this.defaultStyles = _defaultStyles;
+        this.defaultStyleDeclarations = _defaultStyles;
         this.name = _name;
     }
 
@@ -31,8 +31,8 @@ public abstract class Segment extends AbstractASTNode {
         return this.sections;
     }
 
-    public List<DefaultStyleDeclaration> getDefaultStyles() {
-        return this.defaultStyles;
+    public List<DefaultStyleDeclaration> getDefaultStyleDeclarations() {
+        return this.defaultStyleDeclarations;
     }
 
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
