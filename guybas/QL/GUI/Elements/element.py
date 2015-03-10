@@ -6,10 +6,6 @@ class Element:
         self.gui = gui
         self.rowElements = self.create()
 
-    # def set_font_style(self, style):
-    #     for i in range(0, len(self.rowElements)):
-    #         self.rowElements[i].configure(font=style)
-
     def get_row(self):
         return self.rowElements
 

@@ -1,9 +1,18 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.ast.Node;
+import org.uva.ql.ast.BaseNode;
 import org.uva.ql.visitor.TypeVisitable;
+import org.uva.utility.CodePosition;
 
-public abstract class Type implements Node, TypeVisitable {
+public abstract class Type extends BaseNode implements TypeVisitable {
+
+	public Type() {
+		super(new CodePosition(0, 0));
+	}
+	
+	public Type(CodePosition pos) {
+		super(pos);
+	}
 
 	public boolean isInt() {
 		return false;

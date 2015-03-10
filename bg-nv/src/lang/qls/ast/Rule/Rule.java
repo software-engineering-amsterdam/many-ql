@@ -1,20 +1,19 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 import lang.ql.ast.AstNode;
+import lang.ql.ast.type.Type;
 
 /**
  * Created by bore on 02/03/15.
  */
-public abstract class Rule<V> extends AstNode
+public abstract class Rule extends AstNode
 {
-    private String label;
-    private V value;
+    private final String label;
 
-    public Rule(String label, V value, int lineNumber)
+    public Rule(String label, int lineNumber)
     {
         super(lineNumber);
         this.label = label;
-        this.value = value;
     }
 
     public String getLabel()
@@ -22,9 +21,29 @@ public abstract class Rule<V> extends AstNode
         return this.label;
     }
 
-    public V getValue()
+    public boolean isCompatibleWithType(Type t)
     {
-        return this.value;
+        throw new IllegalStateException("Unsupported rule type");
+    }
+
+    public boolean isOverwrittenBy(Rule r)
+    {
+        return false;
+    }
+
+    protected boolean isOverwrittenByWidth(Width r)
+    {
+        return false;
+    }
+
+    protected boolean isOverwrittenByWidget(Widget r)
+    {
+        return false;
+    }
+
+    protected boolean isOverwrittenByFont(Font r)
+    {
+        return false;
     }
 
     public abstract <T> T accept(RuleVisitor<T> visitor);

@@ -1,81 +1,71 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.LabelWithWidgetWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.boolwidgets.CheckboxWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.boolwidgets.ComboWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.boolwidgets.RadioWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets.SliderWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets.SpinboxWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.stringwidgets.TextboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.ComboWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.RadioWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.IntboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SliderWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SpinboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
+import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Checkbox;
-
-import java.awt.*;
-import java.util.Map;
+import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 
 /**
  * This class is used to fetch the right widget based on the QLS widget settings.
  */
-public class QLSWidgetFetcher implements IQuestionWidgetCallback, IWidget {
+public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final Question question;
-    private IWidget widget;
     private final HeadlessFormInterpreter headlessFormInterpreter;
-    private final Map<String, Object> widgetSettings;
+    private final StylingSettings stylingSettings;
 
-    @Override
-    public void widgetIsCheckboxWidget(Checkbox checkbox) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new CheckboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
+    private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
+        return new LabelWithWidgetWidget(question, stylingSettings, embeddedWidget, headlessFormInterpreter);
     }
 
     @Override
-    public void widgetIsRadioWidget(Radio radio) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new RadioWidget(question, headlessFormInterpreter, radio), headlessFormInterpreter);
+    public IWidget createWidget(Checkbox checkbox) {
+        return createLabelWithWidgetWidget(new CheckboxWidget(question, headlessFormInterpreter));
     }
 
     @Override
-    public void widgetIsSliderWidget(Slider slider) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new SliderWidget(question, headlessFormInterpreter, slider), headlessFormInterpreter);
+    public IWidget createWidget(Radio radio) {
+        return createLabelWithWidgetWidget(new RadioWidget(question, headlessFormInterpreter, radio));
     }
 
     @Override
-    public void widgetIsSpinboxWidget(Spinbox spinbox) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new SpinboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
+    public IWidget createWidget(Slider slider) {
+        return createLabelWithWidgetWidget(new SliderWidget(question, headlessFormInterpreter, slider));
     }
 
     @Override
-    public void widgetIsTextboxWidget(Textbox textbox) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new TextboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
+    public IWidget createWidget(Spinbox spinbox) {
+        return createLabelWithWidgetWidget(new SpinboxWidget(question, headlessFormInterpreter));
     }
 
     @Override
-    public void widgetIsIntboxWidget(Textbox textbox) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new TextboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
+    public IWidget createWidget(Textbox textbox) {
+        return createLabelWithWidgetWidget(new TextboxWidget(question, headlessFormInterpreter));
     }
 
     @Override
-    public void widgetIsComboWidget(Combo combo) {
-        widget = new LabelWithWidgetWidget(question, widgetSettings,
-                new ComboWidget(question, headlessFormInterpreter, combo), headlessFormInterpreter);
+    public IWidget createWidget(Combo combo) {
+        return createLabelWithWidgetWidget(new ComboWidget(question, headlessFormInterpreter, combo));
     }
 
     @Override
-    public Component getWidget() {
-        return widget.getWidget();
+    public IWidget createWidget(Intbox intbox) {
+        return createLabelWithWidgetWidget(new IntboxWidget(question, headlessFormInterpreter));
     }
 
     public QLSWidgetFetcher(HeadlessFormInterpreter headlessFormInterpreter, Question question,
-                            Map<String, Object> widgetSettings) {
+                            StylingSettings stylingSettings) {
         this.headlessFormInterpreter = headlessFormInterpreter;
         this.question = question;
-        this.widgetSettings = widgetSettings;
+        this.stylingSettings = stylingSettings;
     }
 }

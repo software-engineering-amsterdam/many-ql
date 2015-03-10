@@ -5,35 +5,23 @@ import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.logic.And;
-import uva.ql.ast.expressions.logic.Equal;
-import uva.ql.ast.expressions.logic.Greater;
-import uva.ql.ast.expressions.logic.Greater_Eq;
-import uva.ql.ast.expressions.logic.Less;
-import uva.ql.ast.expressions.logic.Less_Eq;
-import uva.ql.ast.expressions.logic.NotEqual;
-import uva.ql.ast.expressions.logic.Or;
-import uva.ql.ast.expressions.math.Addition;
-import uva.ql.ast.expressions.math.Division;
-import uva.ql.ast.expressions.math.Exponentiation;
-import uva.ql.ast.expressions.math.Multiplication;
-import uva.ql.ast.expressions.math.Substraction;
-import uva.ql.ast.question.Question;
-import uva.ql.ast.statements.Assign;
-import uva.ql.interpreter.typecheck.Symbol;
-import uva.ql.interpreter.typecheck.SymbolMap;
+import uva.ql.ast.expressions.logic.*;
+import uva.ql.ast.expressions.math.*;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
 import uva.ql.ast.expressions.literals.*;
 
 public class ExpressionSupporting {
 
-	private SymbolMap symbols;
-	private Expression left;
-	private Expression right;
+	private ExpressionTable expressionTable;
+	private SymbolTable symbolTable;
 	private Operator operator;
+	private Expression right;
+	private Expression left;
 	
-
-	public ExpressionSupporting(SymbolMap _symbols, Expression _left, Expression _right, Operator _operator){
-		this.symbols = _symbols;
+	public ExpressionSupporting(ExpressionTable _table, SymbolTable _symbolTable, Expression _left, Expression _right, Operator _operator){
+		this.expressionTable = _table;
+		this.symbolTable = _symbolTable;
 		this.left = _left;
 		this.right = _right;
 		this.operator = _operator;
@@ -41,6 +29,11 @@ public class ExpressionSupporting {
 
 	public Expression expressionValidator(){
 		return getExpression(this.left, this.right, this.operator);
+	}
+	
+	public Expression objectToExpression(Object object){
+		return 	object.getClass().getName().equals(Identifier.class.getName()) 
+				? this.convert((Identifier)object) : (Expression)object;
 	}
 	
 	private Expression getExpression(Expression left, Expression right, Operator operator){
@@ -65,45 +58,60 @@ public class ExpressionSupporting {
 		return result;
 	}
 	
-	private Expression objectToExpression(Object object){
-		if (object instanceof Identifier){
-			String identifierValue = ((Identifier)object).evaluate().getValue();
-			
-			Symbol questionSymbol = this.symbols.getSymbolForAttributes(identifierValue, null, Question.class.getName());
-			Symbol symbol = this.symbols.getSymbolForAttributes(identifierValue, questionSymbol.getSymbolType(), Assign.class.getName());
-			
-			return PrimitiveType.identifierFromPrimitiveType(questionSymbol.getSymbolType(), symbolAssignmentExists(symbol, questionSymbol));
-		}
-		return (Expression)object;
-	}
-	
-	// Method used for returning an object of type Literal with a value from a SymbolTable
-	public static Object symbolObjectToLiteral(Symbol symbol){
+	public Expression convert(Identifier identifier){
 		
-		if (symbol.getContent().toString().equals(""))
-			return symbolAssignmentExists(null, new Symbol(symbol.getSymbolType(),symbol.getClassName(),symbol.getCodeLines()));
+		try{
+			
+			switch(this.symbolTable.retrieveValue(identifier.evaluatedValue()).getPrimitiveType()){
 		
-		switch(symbol.getSymbolType()){
-			case "boolean" 	: return new BooleanLiteral((boolean)symbol.getContent(), null);
-			case "string" 	: return new StringLiteral(String.valueOf(symbol.getContent()), null);
-			case "decimal"	: return new MoneyLiteral(Integer.valueOf(symbol.getContent().toString()), null);
-			case "int"		: return new IntLiteral(Integer.valueOf(symbol.getContent().toString()), null);
+			case INT		: return this.expressionTable.keyExistsForType(identifier, IntLiteral.class.getSimpleName())
+									? this.expressionTable.getExpressionOfTypeClass(identifier, PrimitiveType.findOperator("integer").getName())
+									: initialiseExpression(PrimitiveType.findOperator("integer").getName());
+									
+			case MONEY		: return this.expressionTable.keyExistsForType(identifier, MoneyLiteral.class.getSimpleName())
+									? this.expressionTable.getExpressionOfTypeClass(identifier, PrimitiveType.findOperator("money").getName())
+									: initialiseExpression(PrimitiveType.findOperator("money").getName());
+									
+			case BOOLEAN	: return this.expressionTable.keyExistsForType(identifier, BooleanLiteral.class.getSimpleName())
+									? this.expressionTable.getExpressionOfTypeClass(identifier, PrimitiveType.findOperator("boolean").getName())
+									: initialiseExpression(PrimitiveType.findOperator("boolean").getName());
+									
+			case STRING		: return this.expressionTable.keyExistsForType(identifier, StringLiteral.class.getSimpleName())
+									? this.expressionTable.getExpressionOfTypeClass(identifier, PrimitiveType.findOperator("string").getName())
+									: initialiseExpression(PrimitiveType.findOperator("string").getName());
+			}
 		}
+		catch (Exception e){
+			
+			throw new IllegalArgumentException("Undefined expression: " + identifier.evaluatedValue());
+		}
+		
 		return null;
 	}
 	
-	// Method used for returning zero, false or empty string values = default values
-	public static Object symbolAssignmentExists(Symbol symbol, Symbol questionSymbol){
+	public Expression initialiseExpression(String object){
 		
-		if (symbol == null)
-			switch(questionSymbol.getSymbolType()){
-				case "boolean" 	: return new BooleanLiteral(false, null);
-				case "string" 	: return new StringLiteral("", null);
-				case "decimal"	: return new MoneyLiteral((int)0.00, null);
-				case "int"		: return new IntLiteral(0, null);
-			}
+		switch(object){
+			case "integer"			: return new IntLiteral(0, null);
+			case "money"			: return new MoneyLiteral(0, null);
+			case "boolean"			: return new BooleanLiteral(false, null);
+			case "string"			: return new StringLiteral("", null);
+		}
 		
-		return symbol.getContent();
+		return null;
 	}
 	
+	public Expression expressionFromValue(PrimitiveType _primitiveType, String _value){
+		
+		if (!_value.equals("")){
+			switch(_primitiveType){
+				case INT			: return new IntLiteral(Integer.valueOf(_value), null);
+				case MONEY			: return new MoneyLiteral(Integer.valueOf(_value), null);
+				case BOOLEAN		: return new BooleanLiteral(Boolean.valueOf(_value), null);
+				case STRING			: return new StringLiteral(_value, null);
+			}
+		}
+		
+		return this.initialiseExpression(_primitiveType.getName());
+	}
 }

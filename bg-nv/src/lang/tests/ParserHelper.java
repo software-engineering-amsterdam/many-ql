@@ -4,10 +4,10 @@ import lang.ql.ast.AstNode;
 import lang.ql.gen.QLLexer;
 import lang.ql.gen.QLParser;
 import lang.ql.ast.AstBuilder;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import lang.qls.ast.QlsBuilder;
+import lang.qls.gen.QLSLexer;
+import lang.qls.gen.QLSParser;
+import org.antlr.v4.runtime.*;
 
 import java.io.IOException;
 
@@ -16,11 +16,10 @@ import java.io.IOException;
  */
 public class ParserHelper
 {
-    private static final String path = "samples/";
-
     public static AstNode ParseExpression(String input)
     {
-        QLParser parser = createInputStreamParser(input);
+        CharStream s = createInputStream(input);
+        QLParser parser = createQLParser(s);
         QLParser.ExpressionContext c = parser.expression();
         AstBuilder visitor = new AstBuilder();
 
@@ -29,7 +28,8 @@ public class ParserHelper
 
     public static AstNode ParseQuestion(String input)
     {
-        QLParser parser = createInputStreamParser(input);
+        CharStream s = createInputStream(input);
+        QLParser parser = createQLParser(s);
         QLParser.QuestionContext c = parser.question();
         AstBuilder visitor = new AstBuilder();
 
@@ -38,7 +38,8 @@ public class ParserHelper
 
     public static AstNode ParseIfCondition(String input)
     {
-        QLParser parser = createInputStreamParser(input);
+        CharStream s = createInputStream(input);
+        QLParser parser = createQLParser(s);
         QLParser.IfConditionContext c = parser.ifCondition();
         AstBuilder visitor = new AstBuilder();
 
@@ -47,37 +48,56 @@ public class ParserHelper
 
     public static AstNode ParseForm(String file)
     {
-        QLParser parser = createFileStreamParser(file);
+        CharStream stream = createFileStream(file);
+        QLParser parser = createQLParser(stream);
+
         QLParser.FormContext f = parser.form();
         AstBuilder visitor = new AstBuilder();
 
-        return visitor.visitForm(f);
+        return f.accept(visitor);
     }
 
-    private static QLParser createInputStreamParser(String input)
+    public static AstNode ParseStylesheet(String file)
     {
-        CharStream stream = new ANTLRInputStream(input);
-        return createParser(stream);
+        CharStream stream =  createFileStream(file);
+        QLSParser parser = createQLSParser(stream);
+        QLSParser.StylesheetContext s = parser.stylesheet();
+        QlsBuilder visitor = new QlsBuilder();
+
+        return s.accept(visitor);
     }
 
-    private static QLParser createFileStreamParser(String file)
+    private static CharStream createInputStream(String input)
+    {
+        return new ANTLRInputStream(input);
+    }
+
+    private static CharStream createFileStream(String file)
     {
         CharStream stream = null;
         try
         {
-            stream = new ANTLRFileStream(path + file);
+            stream = new ANTLRFileStream(file);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        return createParser(stream);
+
+        return stream;
     }
 
-    private static QLParser createParser(CharStream stream)
+    private static QLParser createQLParser(CharStream stream)
     {
         QLLexer lexer = new QLLexer(stream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         return new QLParser(tokens);
+    }
+
+    private static QLSParser createQLSParser(CharStream stream)
+    {
+        QLSLexer lexer = new QLSLexer(stream);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        return new QLSParser(tokens);
     }
 }

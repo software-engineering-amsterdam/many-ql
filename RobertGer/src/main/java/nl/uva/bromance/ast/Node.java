@@ -17,7 +17,7 @@ public abstract class Node implements Visualizable, TypeCheckable {
     private final Class<? extends Node> type;
 
     public Node(int ln, Class<? extends Node> type) {
-        this(ln, type, new ArrayList<Node>());
+        this(ln, type, new ArrayList<>());
     }
 
     public Node(int ln, Class<? extends Node> type, List<Node> children) {
@@ -86,5 +86,8 @@ public abstract class Node implements Visualizable, TypeCheckable {
         return Optional.empty();
     }
 
-
+    @Override
+    public void isVisible(boolean visible) {
+        
+    }
 }

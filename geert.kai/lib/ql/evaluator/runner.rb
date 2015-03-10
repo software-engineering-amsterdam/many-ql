@@ -1,36 +1,75 @@
 require_relative "../../util/base_visitor"
 require_relative "../checker/question_visitor"
+require_relative "../../ql/ast/ast"
 
 module QL
-  class Runner < BaseVisitor
 
-    attr_reader :questions
+  # class StyledRunner < Runner
+  #   def 
+  # end
 
-    def after_initialize(base)    
-      @questions = Checking::QuestionVisitor.new(@base).questions
+  class Runner
+
+    attr_reader :questions, :renderers
+
+
+    def initialize(ql_ast)
+      @ql_ast = ql_ast
+      @questions = QuestionVisitor.new(@ql_ast).questions
+      @renderers = @questions.map do |question|
+        QuestionRenderer.new(question)
+      end
+      
       @values = {}
-      calculate_visibilities
+      calculate_visible_questions
     end
 
     def update_variable(variable_name, value)
       @values[variable_name] = value
       
-      calculate_visibilities
+      calculate_visible_questions
     end
 
-    def calculate_visibilities
-      reset_visibilities
-      visit @base
-      @visibilities
+    def calculate_visible_questions
+      @visible_questions = VisibleQuestionVisitor.new(@ql_ast).questions(@values)
     end
 
     def visible?(question)
-      @visibilities[question]
+      @visible_questions.include?(question)
+    end
+  end
+
+  class Evaluator < BaseVisitor
+    def evaluate(values)
+      @values = values
+      visit @base
     end
 
+    def visit_binary_expression(expression) #nil or undefined?
+      lhs = expression.lhs.accept(self)
+      rhs = expression.rhs.accept(self)
 
-    def visit_form(form)
-      map_accept(form.statements).flatten
+      if lhs.nil? || rhs.nil?
+        nil
+      else
+        lhs.send(expression.operator, rhs)
+      end
+    end
+
+    def visit_variable(variable)
+      @values[variable.name]
+    end
+
+    def visit_literal(literal)
+      literal.value
+    end
+  end
+
+  class VisibleQuestionVisitor < Checking::QuestionVisitor
+    def questions(values)
+      @values = values
+      
+      visit @base
     end
 
     def visit_conditional(condition)
@@ -43,42 +82,45 @@ module QL
         []
       end
     end
-
-    def visit_question(question)
-      @visibilities[question] = true
-    end
-
-    private
-
-    def reset_visibilities
-      @visibilities = @questions.map { |q| [q, false] }.to_h
-    end
   end
 
-  class Evaluator < BaseVisitor
-    def evaluate(values)
-      @values = values
-      visit @base
+  class QuestionRenderer
+    def initialize(question, declarations = [])
+      @question = question
+      @declarations = declarations
     end
 
-    def visit_binary_expression(expression)
-      lhs = expression.lhs.accept(self)
-      rhs = expression.rhs.accept(self)
-
-      if lhs == :undefined || rhs == :undefined
-        :undefined
-      else
-        lhs.send(expression.operator, rhs)
+    def render(controller)
+      widget = case @question.type
+      when AST::BooleanType.new
+        input = Java::JavafxSceneControl::CheckBox.new
+        input.set_id(@question.variable_name)
+        input.selected_property.add_change_listener do |observable, old, new_value|
+          controller.update_variable(observable.bean.id, new_value)
+        end
+        input
+      when AST::StringType.new
+        input = Java::JavafxSceneControl::TextField.new
+        input.set_id(@question.variable_name)
+        input.text_property.add_change_listener do |observable, old, new_value|
+          controller.update_variable(observable.bean.id, new_value)
+        end
+        input
+      when AST::IntegerType.new
+        input = Java::JavafxSceneControl::TextField.new
+        input.set_id(@question.variable_name)
+        input.text_property.add_change_listener do |observable, old, new_value|
+          controller.update_variable(observable.bean.id, new_value.to_i)
+        end
+        input
       end
-    end
 
-    def visit_variable(variable)
-      @values[variable.name] || :undefined
-    end
+      label = Java::JavafxSceneControl::Label.new(@question.description)
+      QuestionPane.new(@question, label, widget)
 
-    def visit_literal(literal)
-      literal.value
+
+
     end
   end
-
 end
+

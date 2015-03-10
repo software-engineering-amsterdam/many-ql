@@ -3,8 +3,8 @@ package org.uva.ql.ast.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.visitor.StatementVisitor;
+import org.uva.utility.CodePosition;
 
 public class Block extends Statement {
 

@@ -2,19 +2,20 @@ package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
 import lang.ql.ast.type.Type;
+import lang.ql.ast.type.UndefinedType;
 
 import java.util.*;
 
 /**
  * Created by bore on 13/02/15.
  */
-public class SymbolTable
+public class SymbolTable implements Iterable<String>
 {
     private Map<String, Question> symbols;
 
     public SymbolTable()
     {
-        this.symbols = new HashMap<String, Question>();
+        this.symbols = new HashMap<>();
     }
 
     public void define(Question q)
@@ -29,10 +30,10 @@ public class SymbolTable
         {
             return q.getType();
         }
-        return null;
+        return new UndefinedType();
     }
 
-    public boolean containsQuestionId(String id)
+    public boolean containsQuestion(String id)
     {
         return this.symbols.containsKey(id);
     }
@@ -40,5 +41,15 @@ public class SymbolTable
     public Question getQuestion(String id)
     {
         return this.symbols.get(id);
+    }
+
+    public Type getQuestionType(String id)
+    {
+        return this.symbols.get(id).getType();
+    }
+
+    public Iterator<String> iterator()
+    {
+        return this.symbols.keySet().iterator();
     }
 }

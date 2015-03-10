@@ -1,20 +1,21 @@
 package org.uva.student.calinwouter.qlqls.qls.interfaces;
 
-import org.uva.student.calinwouter.qlqls.qls.model.components.*;
+import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 
-public interface IQuestionWidgetCallback {
+public interface IQuestionWidgetCallback<T> {
 
-    void widgetIsCheckboxWidget(Checkbox checkbox);
+    T createWidget(Checkbox checkbox);
 
-    void widgetIsRadioWidget(Radio radio);
+    T createWidget(Radio radio);
 
-    void widgetIsSpinboxWidget(Spinbox spinbox);
+    T createWidget(Spinbox spinbox);
 
-    void widgetIsSliderWidget(Slider slider);
+    T createWidget(Slider slider);
 
-    void widgetIsTextboxWidget(Textbox textbox);
+    T createWidget(Textbox textbox);
 
-    void widgetIsComboWidget(Combo combo);
+    T createWidget(Combo combo);
 
-    void widgetIsIntboxWidget(Textbox textbox);
+    T createWidget(Intbox textbox);
+
 }

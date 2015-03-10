@@ -40,9 +40,10 @@ public class QLParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'question'", "'typeof'", "':'", "';'", "'if'", "'boolean'", 
-		"'money'", "'string'", "'int'", null, null, null, null, null, null, null, 
-		null, null, null, "'*'", "'/'", "'+'", "'-'", "'('", "')'", "'{'", "'}'", 
-		"'<'", "'<='", "'>'", "'>='", "'=='", "'&&'", "'||'", "'!='", null, "'^'"
+		"'money'", "'string'", "'integer'", null, null, null, null, null, null, 
+		null, null, null, null, "'*'", "'/'", "'+'", "'-'", "'('", "')'", "'{'", 
+		"'}'", "'<'", "'<='", "'>'", "'>='", "'=='", "'&&'", "'||'", "'!='", null, 
+		"'^'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, "BooleanLiteral", 

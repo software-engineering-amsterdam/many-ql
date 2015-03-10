@@ -3,9 +3,8 @@ package nl.uva.bromance.ast;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
@@ -16,23 +15,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Question extends Node {
+public class Question extends Node implements HasIdentifier {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
-    private List<String> customQuestionOptions = new ArrayList<>();
-    private static final String[] questionTypes = {"integer", "string", "boolean", "custom"};
+    private List<StringResult> customQuestionOptions = new ArrayList<>();
+    private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
-    private String identifier;
+    private Identifier identifier;
     private String questionString;
-    private String questionType;
+    private QuestionType questionType;
     private Range questionRange;
+    private boolean isVisible = true;
 
-    public Question(int lineNumber, String id) {
+    public Question(int lineNumber, Identifier identifier) {
         super(lineNumber, Question.class);
+        this.identifier = identifier;
         this.setAcceptedParents(parentsAllowed);
-        this.identifier = id.substring(1, id.length() - 1);
     }
 
-    public Optional<String> getIdentifier() {
+    public Optional<Identifier> getIdentifier() {
         return Optional.ofNullable(identifier);
     }
 
@@ -50,16 +50,14 @@ public class Question extends Node {
 
     public void setQuestionType(String qt) {
         qt = qt.toLowerCase();
-        boolean valid = false;
-        for (String type : questionTypes) {
-            if (type.equals(qt)) {
-                valid = true;
+        for (QuestionType type : questionTypes) {
+            if (qt.equals(type.getTypeString())) {
+                this.questionType = type;
+                this.identifier.setResult(type.getCorrespondingResultType());
                 break;
             }
         }
-        if (valid) {
-            this.questionType = qt;
-        } else {
+        if (questionType == null) {
             System.err.println("Question Error: Invalid Question type " + qt + ", valid types are :" + Arrays.toString(questionTypes));
         }
     }
@@ -82,33 +80,39 @@ public class Question extends Node {
 
     @Override
     public Optional<? extends Pane> visualize(Pane parent) {
-        Label l = new Label(questionString);
-        l.getStyleClass().add("prettyLabel");
-        parent.getChildren().add(l);
-        if (isQuestionTypeInteger()) {
-            TextField tf = new TextField();
-            // Disable any input other than numbers
-            tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue.matches("[0-9]*")) {
-                    tf.setText(oldValue);
+        if (isVisible) {
+            Label l = new Label(questionString);
+            l.getStyleClass().add("prettyLabel");
+            parent.getChildren().add(l);
+            if (isQuestionTypeInteger()) {
+                TextField tf = new TextField();
+                // Disable any input other than numbers
+                tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue.matches("[0-9]*")) {
+                        tf.setText(oldValue);
+                    }
+                });
+                parent.getChildren().add(tf);
+            } else if (isQuestionTypeString()) {
+                parent.getChildren().add(new TextField());
+            } else if (isQuestionTypeBoolean()) {
+                parent.getChildren().add(new CheckBox());
+            } else if (isQuestionTypeCustom()) {
+                ToggleGroup group = new ToggleGroup();
+                for (StringResult option : customQuestionOptions) {
+                    RadioButton radioButton = new RadioButton(option.getResult());
+                    radioButton.setToggleGroup(group);
+                    parent.getChildren().add(radioButton);
                 }
-            });
-            parent.getChildren().add(tf);
-        } else if (isQuestionTypeString()) {
-            parent.getChildren().add(new TextField());
-        } else if (isQuestionTypeBoolean()) {
-            parent.getChildren().add(new CheckBox());
-        } else if (isQuestionTypeCustom()) {
-            ToggleGroup group = new ToggleGroup();
-            for (String option : customQuestionOptions) {
-                RadioButton radioButton = new RadioButton(option);
-                radioButton.setToggleGroup(group);
-                parent.getChildren().add(radioButton);
             }
         }
         return Optional.empty();
     }
 
+    @Override
+    public void isVisible(boolean visible) {
+        this.isVisible = visible;
+    }
 
     //TODO: Think of something to maybe fix this god awful mess of if's
     @Override
@@ -124,39 +128,42 @@ public class Question extends Node {
     @Override
     public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
         if (getIdentifier().isPresent()) {
-            if (referenceMap.get(getIdentifier().get()) != null) {
-                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
+            if (referenceMap.get(getIdentifier().get().getId()) != null) {
+                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get().getId());
             } else {
-                referenceMap.put(getIdentifier().get(), this);
+                referenceMap.put(getIdentifier().get().getId(), this);
             }
         } else {
             throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
         }
     }
 
-    //TODO: Not digging the string checks for types. Need to sort this out at one point.
+    //TODO: Not digging the use of instanceof, already better then the strings however.
     public boolean isQuestionTypeBoolean() {
-        return "boolean".equals(questionType) || "Boolean".equals(questionType);
+        return questionType instanceof BooleanType;
     }
 
     public boolean isQuestionTypeString() {
-        return "string".equals(questionType) || "String".equals(questionType);
+        return questionType instanceof StringType;
     }
 
     public boolean isQuestionTypeInteger() {
-        return "integer".equals(questionType) || "Integer".equals(questionType);
+        return questionType instanceof IntegerType;
     }
 
 
     public boolean isQuestionTypeCustom() {
-        return "custom".equals(questionType) || "Custom".equals(questionType);
+        return questionType instanceof CustomType;
     }
 
     public void setCustomQuestionOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
             String customOption = option.getText();
-            customQuestionOptions.add(customOption.substring(1, customOption.length() - 1)); // Remove double quotes around string.
+            customQuestionOptions.add(new StringResult(customOption)); // Remove double quotes around string.
         }
+        CustomResult result = new CustomResult(customQuestionOptions);
+        this.identifier.setResult(result);
+        this.identifier.getId();
     }
 
 }

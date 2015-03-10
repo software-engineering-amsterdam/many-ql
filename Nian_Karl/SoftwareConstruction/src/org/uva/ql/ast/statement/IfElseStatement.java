@@ -1,9 +1,9 @@
 package org.uva.ql.ast.statement;
 
 
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.visitor.StatementVisitor;
+import org.uva.utility.CodePosition;
 
 public class IfElseStatement extends IfStatement {
 

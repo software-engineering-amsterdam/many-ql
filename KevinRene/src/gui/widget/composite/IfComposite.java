@@ -6,12 +6,12 @@ import gui.widget.Composite;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cons.Value;
-import cons.ValueEnvironment;
-import cons.ql.ast.Expression;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.visitor.evaluator.Evaluator;
-import cons.value.BooleanValue;
+import ql.Value;
+import ql.ValueEnvironment;
+import ql.ast.Expression;
+import ql.ast.expression.Identifier;
+import ql.ast.visitor.evaluator.Evaluator;
+import ql.value.BooleanValue;
 
 public class IfComposite extends Composite {
 	private final Expression expression;

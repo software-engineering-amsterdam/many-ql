@@ -18,10 +18,10 @@ public class TextBox implements IWidget<String> {
         JLabel label = new JLabel(this.label);
         this.input = new JTextField();
 
-        input.setColumns(7);
+        this.input.setColumns(7);
 
-        panel.add(label);
-        panel.add(input);
+        this.panel.add(label);
+        this.panel.add(input);
     }
 
     @Override

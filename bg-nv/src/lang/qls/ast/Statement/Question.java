@@ -1,11 +1,11 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 /**
  * Created by bore on 02/03/15.
  */
 public class Question extends Statement
 {
-    private String id;
+    private final String id;
 
     public Question(String id, int lineNumber)
     {

@@ -1,4 +1,4 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 /**
  * Created by bore on 03/03/15.

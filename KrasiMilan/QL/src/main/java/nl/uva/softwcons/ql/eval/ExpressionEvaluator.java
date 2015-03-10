@@ -25,12 +25,9 @@ import nl.uva.softwcons.ql.eval.value.StringValue;
 import nl.uva.softwcons.ql.eval.value.Value;
 
 public final class ExpressionEvaluator implements ExpressionVisitor<Value> {
-    private FormAnswers variablesTable;
+    private final FormAnswers variablesTable;
 
-    private ExpressionEvaluator() {
-    }
-
-    private ExpressionEvaluator(FormAnswers variablesTable) {
+    private ExpressionEvaluator(final FormAnswers variablesTable) {
         this.variablesTable = variablesTable;
     }
 

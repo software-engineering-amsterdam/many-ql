@@ -1,16 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
 import org.junit.Test;
-import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
-import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
-import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Spinbox;
-import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 

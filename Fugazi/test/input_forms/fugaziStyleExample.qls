@@ -2,8 +2,8 @@ stylesheet taxOfficeExample
 
   page Housing {
     section "Buying"
-      question hasBoughtHouse
-        widget checkbox
+      question hasBoughtHousee
+            widget checkbox
     section "Loaning"
       question hasMaintLoan
   }
@@ -13,6 +13,7 @@ stylesheet taxOfficeExample
       question hasSoldHouse
         widget radio("Yes", "No")
       section "You sold a house" {
+        question hasMaintLoan
         question sellingPrice
           widget spinbox
         question privateDebt

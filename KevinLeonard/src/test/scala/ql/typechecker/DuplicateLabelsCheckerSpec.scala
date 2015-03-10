@@ -18,7 +18,7 @@ class DuplicateLabelsCheckerSpec extends Specification {
           Question(BooleanType(), Variable("A"), "label2", None),
           Question(BooleanType(), Variable("B"), "label2", None)
         )))
-      ) must beEqualTo(List("Label \'label2\' is used 2 times", "Label \'label\' is used 3 times"))
+      ) must beEqualTo(List(new Warning("Label \'label2\' is used 2 times"), new Warning("Label \'label\' is used 3 times")))
     }
   }
 

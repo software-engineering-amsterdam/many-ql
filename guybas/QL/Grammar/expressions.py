@@ -13,7 +13,7 @@ class Expressions:
     bool = pp.Literal("True") | pp.Literal("False")
 
     # text
-    text = pp.Literal("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Literal("\"")
+    text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"")
 
     # number :: [0-9]
     number = pp.Word(pp.nums)
@@ -24,17 +24,9 @@ class Expressions:
              id.setParseAction(e.ExpressionFactory.make_variable) |
              text.setParseAction(e.ExpressionFactory.make_text))
 
-    # calc_operator :: + | - | / | *
-    calc_operator = pp.oneOf('+ - / *').setParseAction(e.ExpressionFactory.make_calc_operator)
-
-    # comp_operator :: > | >= | < | <= | ==
-    comp_operator = pp.oneOf(" > >= < <= == ").setParseAction(e.ExpressionFactory.make_comp_operator)
-
-    # extra_operator :: and | or | not
-    extra_operator = pp.oneOf("and or not").setParseAction(e.ExpressionFactory.make_extra_operator)
-
     # operator :: calc_operator | comp_operator | extra_operator
-    operator = calc_operator | comp_operator | extra_operator
+    operator = pp.oneOf('+ - / * and or not > >= < <= == + - / *').setParseAction(e.ExpressionFactory.make_operator)
+
 
     expr = pp.Forward()
 

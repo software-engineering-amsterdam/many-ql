@@ -1,18 +1,15 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 /**
  * Created by bore on 08/03/15.
  */
-public class StrRule  extends Rule<String>
+public abstract class StrRule  extends Rule
 {
+    private String value;
+
     public StrRule(String label, String value, int lineNumber)
     {
-        super(label, value, lineNumber);
-    }
-
-    @Override
-    public <T> T accept(RuleVisitor<T> visitor)
-    {
-        return visitor.visit(this);
+        super(label, lineNumber);
+        this.value = value;
     }
 }

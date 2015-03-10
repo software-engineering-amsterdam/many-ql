@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
-using UvA.SoftCon.Questionnaire.QLS.AST.Visitors;
+using UvA.SoftCon.Questionnaire.QLS.AST.Building;
 using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
 namespace UvA.SoftCon.Questionnaire.QLS

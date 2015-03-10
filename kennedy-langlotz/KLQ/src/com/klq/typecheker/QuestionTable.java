@@ -31,6 +31,10 @@ public class QuestionTable {
         }
     }
 
+    public QuestionNode get(String questionId){
+        return table.get(questionId);
+    }
+
     public boolean has(String questionId){
         return table.containsKey(questionId);
     }

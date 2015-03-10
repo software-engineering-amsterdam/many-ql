@@ -8,32 +8,35 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-import org.uva.ql.ast.value.Str;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.type.UndefinedType;
+import org.uva.ql.ast.value.StrValue;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
+import org.uva.utility.CodePosition;
 
 public abstract class BaseTextField extends Widget implements DocumentListener {
 
-	protected final JTextField jTextField;
+	protected final JTextField textField;
 	protected final WidgetListener widgetListener;
 	protected DocumentFilter documentFilter;
 
 	public BaseTextField(WidgetListener listener) {
 		super();
 		this.documentFilter = new DocumentFilter();
-		this.jTextField = new JTextField();
+		this.textField = new JTextField();
 		this.widgetListener = listener;
-		jTextField.setPreferredSize(new Dimension(100, 25));
+		textField.setPreferredSize(new Dimension(100, 25));
 		if (!isDependent()) {
-			jTextField.getDocument().addDocumentListener(this);
+			textField.getDocument().addDocumentListener(this);
 		}
-		jTextField.setVisible(true);
+		textField.setVisible(true);
 	}
 
 	@Override
 	public JTextField getWidget() {
-		return jTextField;
+		return textField;
 	}
 
 	@Override
@@ -58,15 +61,15 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());
-			widgetListener.widgetValueChanged(getIdentifier(), new Str(s));
+			widgetListener.widgetValueChanged(getIdentifier(), new StrValue(s));
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
 		}
 	}
 
 	@Override
-	public void setWidgetValue(Value value) {
-		if (!value.toString().equals(new Undefined().toString()) && isDependent()) {
+	public void setWidgetValue(Value value, Type type) {
+		if (!type.isEqual(new UndefinedType()) && isDependent()) {
 			getWidget().setText(value.toString());
 		}
 	}

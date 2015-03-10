@@ -1,5 +1,9 @@
 package com.klq.gui;
 
+import com.klq.gui.pane.AQuestionPane;
+import com.klq.gui.pane.DateQuestionPane;
+import com.klq.gui.pane.SetQuestionPane;
+import com.klq.gui.pane.TextQuestionPane;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import javafx.geometry.Insets;
@@ -37,8 +41,22 @@ public class QuestionPage extends ScrollPane {
 
     public void addQuestions(List<Question> questions){
         for (Question question : questions) {
-            QuestionPane newPane = new QuestionPane(question, store);
+            AQuestionPane newPane = createQuestionPane(question);
             vbox.getChildren().add(newPane);
         }
+    }
+
+    private AQuestionPane createQuestionPane(Question question){
+        switch (question.getType()){
+            case SET:
+            case BOOLEAN:
+                return new SetQuestionPane(question, store);
+            case NUMERAL:
+            case STRING:
+                return new TextQuestionPane(question, store);
+            case DATE:
+                return new DateQuestionPane(question, store);
+        }
+        throw new IllegalArgumentException("Unknown question type: " + question.getType());
     }
 }
