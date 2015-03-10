@@ -128,8 +128,7 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 
 	@Override
 	public Node visitStyling(StylingContext ctx) {
-		Style style = new Style(CodePosition.getCodePosition(ctx));
-		return style;
+		return null;
 	}
 
 	@Override

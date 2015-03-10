@@ -9,7 +9,7 @@ public class IntValue extends Value {
 	}
 
 	@Override
-	public Integer getValue() {
+	public Integer value() {
 		return value;
 	}
 

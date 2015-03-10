@@ -6,7 +6,7 @@ public abstract class Value {
 		return false;
 	}
 	
-	public abstract Object getValue();
+	public abstract Object value();
 	public abstract String toString();
 	
 }

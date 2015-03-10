@@ -9,7 +9,7 @@ public class StrValue extends Value {
 	}
 
 	@Override
-	public String getValue() {
+	public String value() {
 		return value;
 	}
 
