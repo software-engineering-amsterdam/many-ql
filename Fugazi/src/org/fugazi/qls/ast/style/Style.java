@@ -6,6 +6,8 @@ import org.fugazi.qls.ast.style.style_property.StyleProperty;
 import java.util.List;
 
 public class Style extends AbstractASTNode {
+
+
     
     private final List<StyleProperty> styleProperties;
 
