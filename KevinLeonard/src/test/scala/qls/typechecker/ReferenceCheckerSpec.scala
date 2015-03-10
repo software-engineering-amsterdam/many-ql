@@ -7,8 +7,8 @@ import qls.ast.{Text, Question}
 
 import scala.util.parsing.input.NoPosition
 
-class TypeCheckerSpec extends Specification {
-  val checker = new TypeChecker
+class ReferenceCheckerSpec extends Specification {
+  val checker = new ReferenceChecker
   import checker._
 
   "question" should {

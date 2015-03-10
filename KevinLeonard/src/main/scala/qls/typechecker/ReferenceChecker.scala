@@ -7,7 +7,7 @@ import qls.ast.{Question, Section}
 // - all questions of the QL program are placed by the QLS program.
 // - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
 // - you cannot place a single question multiple times.
-class TypeChecker {
+class ReferenceChecker {
 
   def check(s: Section, env: TypeEnvironment): List[Error] = {
     s.questions.flatMap(q => check(q, env))
@@ -19,5 +19,4 @@ class TypeChecker {
       case Left(e) => Some(e)
     }
   }
-
 }

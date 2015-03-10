@@ -6,7 +6,7 @@ import ql.parser.{Parser => QLParser}
 import ql.typechecker.{TypeChecker => QLTypeChecker, TypeEnvironment, DuplicateLabelsChecker}
 import qls.ast.Section
 import qls.parser.{Parser => QLSParser}
-import qls.typechecker.{TypeChecker => QLSTypeChecker}
+import qls.typechecker.{ReferenceChecker => QLSTypeChecker}
 
 import scala.io.Source
 
