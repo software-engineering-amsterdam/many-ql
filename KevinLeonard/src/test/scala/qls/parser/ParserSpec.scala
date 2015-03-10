@@ -59,7 +59,7 @@ class ParserSpec extends Specification with ParserMatchers {
     }
     "parse color" in {
       fontColor must succeedOn("color: #00ff00")
-        .withResult(FontColor(HexadecimalColor("00ff00")))
+        .withResult(FontColor(new HexadecimalColor("00ff00")))
     }
   }
   
@@ -71,7 +71,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))
     }
     
   }
@@ -79,7 +79,7 @@ class ParserSpec extends Specification with ParserMatchers {
   "widget parser" should {
     "parse spinbox" in {
       widget must succeedOn("var1 spinbox")
-        .withResult(Spinbox(Variable("var1"), None))
+        .withResult(SpinBox(Variable("var1"), None))
     }
     "parse slider" in {
       widget must succeedOn("var1 slider")
@@ -99,7 +99,7 @@ class ParserSpec extends Specification with ParserMatchers {
     }
     "parse dropdown" in {
       widget must succeedOn("var1 dropdown")
-        .withResult(Dropdown(Variable("var1"), None))
+        .withResult(DropDown(Variable("var1"), None))
     }
     "parse spinbox with style" in {
       widget must succeedOn("var1 spinbox {" +
@@ -108,7 +108,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(Spinbox(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(SpinBox(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
     "parse slider with style" in {
       widget must succeedOn("var1 slider {" +
@@ -117,7 +117,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Slider(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Slider(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
     "parse text with style" in {
       widget must succeedOn("var1 text {" +
@@ -126,7 +126,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Text(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Text(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
     "parse textBlock with style" in {
       widget must succeedOn("var1 textBlock {" +
@@ -135,7 +135,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(TextBlock(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(TextBlock(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
     "parse radio with style" in {
       widget must succeedOn("var1 radio {" +
@@ -144,7 +144,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Radio(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Radio(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
     "parse dropdown with style" in {
       widget must succeedOn("var1 dropdown {" +
@@ -153,10 +153,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Dropdown(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(DropDown(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(new HexadecimalColor("99FF66"))))))
     }
-
   }
-  
 }
-

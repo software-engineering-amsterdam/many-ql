@@ -1,6 +1,6 @@
 package ql.ast
 
-import ql.types.VariableName
+import types.VariableName
 
 import scala.util.parsing.input.Positional
 
