@@ -3,10 +3,6 @@ package qls.typechecker
 import ql.typechecker.{Error, TypeEnvironment}
 import qls.ast.{Question, Section}
 
-// - no references to questions that are not in the QL program
-// - all questions of the QL program are placed by the QLS program.
-// - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
-// - you cannot place a single question multiple times.
 class ReferenceChecker {
 
   def check(s: Section, env: TypeEnvironment): List[Error] = {
@@ -14,6 +10,7 @@ class ReferenceChecker {
   }
 
   def check(q: Question, env: TypeEnvironment): Option[Error] = {
+    // TODO: refactor? (Either -> Option) and Error message
     env.tryGetVariable(q.variable) match {
       case Right(_) => None
       case Left(e) => Some(e)
