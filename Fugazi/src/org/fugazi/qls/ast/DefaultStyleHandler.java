@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast;
 
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
@@ -53,26 +54,35 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         currentSegment = section;
         List<DefaultStyleDeclaration> currentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
 
-        // todo: Check if the base declaration for a type exists in the current declarations.
-        // todo:        - if yes, inherit style.
-        // todo:        - if not, add parent declaration on current.
+        // Check if the base declaration for a type exists in the current declarations.
+        //         - if yes, inherit style.
+        //         - if not, add parent declaration on current.
 
         // for every base declaration.
         for (DefaultStyleDeclaration baseDeclaration : parentSegmentDefaultStyles) {
+            Type baseDeclarationType = baseDeclaration.getQuestionType();
             Style baseDeclarationStyle = baseDeclaration.getStyle();
+
+            // for every current declaration.
+            for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
+                Type currentDeclarationType = currentDeclaration.getQuestionType();
+                Style currentDeclarationStyle = currentDeclaration.getStyle();
+
+                // if the base declaration for a type exists in the current declarations.
+                // then inherit style from parent.
+                if (baseDeclarationType.equals(currentDeclarationType)) {
+                    currentDeclarationStyle.inheriteFromStyle(baseDeclarationStyle);
+                }
+            }
+        }
+
+        // for every base declaration.
+        for (DefaultStyleDeclaration baseDeclaration : parentSegmentDefaultStyles) {
 
             // if there is no such declaration on current segment,
             // add it from the parent.
             if (!currentSegmentDefaultStyles.contains(baseDeclaration)) {
                 currentSegment.addDefaultStyleDeclaration(baseDeclaration);
-            }
-
-            // for every current declaration.
-            for (DefaultStyleDeclaration currentDeclaration : currentSegmentDefaultStyles) {
-                Style currentDeclarationStyle = currentDeclaration.getStyle();
-
-                // inherit the base style.
-                currentDeclarationStyle.inheriteFromStyle(baseDeclarationStyle);
             }
         }
 
@@ -81,9 +91,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
 
         for (Question question : section.getQuestions()) {
-            // todo apply widget to questions.
-            // todo apply style to question's widgets.
-            // todo if no declaration then default widget/style.
+            // todo check if there is a declared style for the question's type.
+            // todo     - if yes, check if there is style for this widget.
+            // todo         - if yes, apply the style to the widget and the widget to the question.
+            // todo         - if no, apply the default style to the widget and the widget to the question.
+            // todo     - if no, if no apply the default widget to the question.
         }
 
         return null;
