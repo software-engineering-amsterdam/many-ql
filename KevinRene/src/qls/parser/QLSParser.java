@@ -1,17 +1,17 @@
-// Output created by jacc on Mon Mar 09 21:36:32 CET 2015
+// Output created by jacc on Tue Mar 10 12:35:50 CET 2015
 
 package qls.parser;
 
-import ql.ast.*;
-import ql.ast.expression.QLType;
-import ql.ast.expression.Literal;
+import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
+import ql.ast.expression.Literal;
+import ql.ast.expression.QLType;
+import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.type.*;
-import ql.ast.expression.literal.*;
 
-import qls.ast.QLSStatement;
-import qls.ast.Widget;
+import qls.ast.*;
 import qls.ast.statement.*;
+import qls.ast.stylerule.*;
 import qls.ast.widget.*;
 
 @SuppressWarnings("all")
@@ -1339,7 +1339,7 @@ class QLSParser implements QLSTokens {
                 return 32;
             case SLIDER:
                 return 33;
-            case SPINBOX:
+            case SPINNER:
                 return 34;
             case TEXT:
                 return 35;
@@ -1351,7 +1351,7 @@ class QLSParser implements QLSTokens {
         switch (yytok) {
             case WIDGET:
                 return 24;
-            case COLOUR:
+            case COLOR:
                 return 40;
             case FONT:
                 return 41;
@@ -1377,7 +1377,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr21();
         }
         return 147;
@@ -1395,7 +1395,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr27();
         }
         return 147;
@@ -1413,7 +1413,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr22();
         }
         return 147;
@@ -1431,7 +1431,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr26();
         }
         return 147;
@@ -1441,7 +1441,7 @@ class QLSParser implements QLSTokens {
         switch (yytok) {
             case WIDGET:
                 return 24;
-            case COLOUR:
+            case COLOR:
                 return 40;
             case FONT:
                 return 41;
@@ -1465,7 +1465,7 @@ class QLSParser implements QLSTokens {
             case FONTSIZE:
             case '}':
             case FONT:
-            case COLOUR:
+            case COLOR:
                 return yyr33();
         }
         return 147;
@@ -1481,7 +1481,7 @@ class QLSParser implements QLSTokens {
             case FONT:
             case ',':
             case ')':
-            case COLOUR:
+            case COLOR:
                 return yyr16();
         }
         return 147;
@@ -1497,7 +1497,7 @@ class QLSParser implements QLSTokens {
             case FONT:
             case ',':
             case ')':
-            case COLOUR:
+            case COLOR:
                 return yyr18();
         }
         return 147;
@@ -1513,7 +1513,7 @@ class QLSParser implements QLSTokens {
             case FONT:
             case ',':
             case ')':
-            case COLOUR:
+            case COLOR:
                 return yyr17();
         }
         return 147;
@@ -1529,7 +1529,7 @@ class QLSParser implements QLSTokens {
             case FONT:
             case ',':
             case ')':
-            case COLOUR:
+            case COLOR:
                 return yyr19();
         }
         return 147;
@@ -1545,7 +1545,7 @@ class QLSParser implements QLSTokens {
             case FONT:
             case ',':
             case ')':
-            case COLOUR:
+            case COLOR:
                 return yyr20();
         }
         return 147;
@@ -1559,7 +1559,7 @@ class QLSParser implements QLSTokens {
             case FONTSIZE:
             case '}':
             case FONT:
-            case COLOUR:
+            case COLOR:
                 return yyr32();
         }
         return 147;
@@ -1577,7 +1577,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr25();
         }
         return 147;
@@ -1595,7 +1595,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr23();
         }
         return 147;
@@ -1613,7 +1613,7 @@ class QLSParser implements QLSTokens {
             case QUESTION:
             case FONT:
             case PAGE:
-            case COLOUR:
+            case COLOR:
                 return yyr24();
         }
         return 147;
@@ -1656,7 +1656,7 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr10() { // statement : DEFAULT type '{' styleRules '}'
-        { yyrv = new Default(((QLType)yysv[yysp-4]), yysv[yysp-2]); }
+        { yyrv = new Default(((QLType)yysv[yysp-4]), ((StyleRuleSet)yysv[yysp-2])); }
         yysv[yysp-=5] = yyrv;
         return 6;
     }
@@ -1702,13 +1702,14 @@ class QLSParser implements QLSTokens {
         return 36;
     }
 
-    private int yyr38() { // styleProperty : COLOUR
+    private int yyr38() { // styleProperty : COLOR
         yysp -= 1;
         return 36;
     }
 
     private int yyr32() { // styleRule : styleProperty ':' literal
-        yysp -= 3;
+        { yyrv = new StyleRule(((StyleProperty)yysv[yysp-3]), ((Literal)yysv[yysp-1])); }
+        yysv[yysp-=3] = yyrv;
         return 37;
     }
 
@@ -1718,12 +1719,14 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr30() { // styleRules : styleRule styleRules
-        yysp -= 2;
+        { yyrv = new StyleRuleSet(((StyleRule)yysv[yysp-2]), ((StyleRuleSet)yysv[yysp-1])); }
+        yysv[yysp-=2] = yyrv;
         return yypstyleRules();
     }
 
     private int yyr31() { // styleRules : styleRule
-        yysp -= 1;
+        { yyrv = new StyleRuleSet(((StyleRule)yysv[yysp-1])); }
+        yysv[yysp-=1] = yyrv;
         return yypstyleRules();
     }
 
@@ -1803,12 +1806,14 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr28() { // values : literal ',' values
-        yysp -= 3;
+        { yyrv = new ValueSet(((Literal)yysv[yysp-3]), ((ValueSet)yysv[yysp-1])); }
+        yysv[yysp-=3] = yyrv;
         return yypvalues();
     }
 
     private int yyr29() { // values : literal
-        yysp -= 1;
+        { yyrv = new ValueSet(((Literal)yysv[yysp-1]));     }
+        yysv[yysp-=1] = yyrv;
         return yypvalues();
     }
 
@@ -1830,33 +1835,39 @@ class QLSParser implements QLSTokens {
         }
     }
 
-    private int yyr22() { // widgetType : SPINBOX
-        yysp -= 1;
+    private int yyr22() { // widgetType : SPINNER
+        { yyrv = new Spinner(); }
+        yysv[yysp-=1] = yyrv;
         return 29;
     }
 
     private int yyr23() { // widgetType : RADIO '(' values ')'
-        yysp -= 4;
+        { yyrv = new RadioButton(((ValueSet)yysv[yysp-2])); }
+        yysv[yysp-=4] = yyrv;
         return 29;
     }
 
     private int yyr24() { // widgetType : SLIDER '(' values ')'
-        yysp -= 4;
+        { yyrv = new Slider(((ValueSet)yysv[yysp-2])); }
+        yysv[yysp-=4] = yyrv;
         return 29;
     }
 
     private int yyr25() { // widgetType : DROPDOWN '(' values ')'
-        yysp -= 4;
+        { yyrv = new Dropdown(((ValueSet)yysv[yysp-2])); }
+        yysv[yysp-=4] = yyrv;
         return 29;
     }
 
     private int yyr26() { // widgetType : TEXT
-        yysp -= 1;
+        { yyrv = new TextField(); }
+        yysv[yysp-=1] = yyrv;
         return 29;
     }
 
     private int yyr27() { // widgetType : CHECKBOX
-        yysp -= 1;
+        { yyrv = new Checkbox(); }
+        yysv[yysp-=1] = yyrv;
         return 29;
     }
 
