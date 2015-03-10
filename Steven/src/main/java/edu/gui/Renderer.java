@@ -34,10 +34,11 @@ public class Renderer implements QLSVisitor {
         questions = new HashMap<>();
         questionRetriever = new QuestionRetriever();
         mainWindow = new MainWindow(questionState);
-        mainWindow.initialize();
     }
 
     public void render(List<Question> questions, Stylesheet stylesheet) {
+        this.questions.clear();
+        mainWindow.initialize();
         mapQuestionsAndStyles(questions, stylesheet);
         stylesheet.accept(this);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);

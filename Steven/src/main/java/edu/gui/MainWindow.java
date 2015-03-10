@@ -32,6 +32,7 @@ public class MainWindow extends JFrame {
     }
 
     public void initialize() {
+        resetToDefaultState();
         mainPanel.setLayout(new BorderLayout());
         CardLayout cardLayout = new CardLayout(10, 10);
         questionPanel.setLayout(cardLayout);
@@ -39,6 +40,18 @@ public class MainWindow extends JFrame {
         mainPanel.add(paginationPanel, BorderLayout.PAGE_END);
         add(mainPanel);
         addPaginationButtons(cardLayout);
+    }
+
+    private void resetToDefaultState() {
+        mainPanel.removeAll();
+        questionPanel.removeAll();
+        resetPagination();
+    }
+
+    private void resetPagination() {
+        totalPages = 0;
+        currentPage = 1;
+        paginationPanel.removeAll();
     }
 
     private void addPaginationButtons(CardLayout cardLayout) {
