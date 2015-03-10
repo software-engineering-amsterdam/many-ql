@@ -10,6 +10,7 @@ form = form.forms.FormFactory.make_form(formAsParseResults)
 #new_form = f.FormAPI(form)
 
 typeChecker = type_checker.TypeChecker(form)
+typeChecker.is_valid_form()
 
 gui = g.GUI(form)
 gui.generate_gui()
