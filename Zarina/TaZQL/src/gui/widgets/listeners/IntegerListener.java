@@ -38,7 +38,7 @@ public class IntegerListener extends AListener implements DocumentListener {
 			int value = Integer.valueOf(widget.getValue());
 			IntegerValue intValue = new IntegerValue(value);
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
-			
+			System.out.println("Integer: " + value);
 			evaluator.setValueInGUI();	
 			
 		}
