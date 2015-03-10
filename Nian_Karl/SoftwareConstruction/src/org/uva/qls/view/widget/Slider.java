@@ -3,18 +3,17 @@ package org.uva.qls.view.widget;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
 
-import org.uva.qls.ast.QLSNode;
+import org.uva.ql.ast.QLNode;
 
-public class Slider extends Widget<QLSNode>{
+public class Slider extends Widget<QLNode>{
 
 	private static final long serialVersionUID = -7374082203125807531L;
 	private final JSlider slider;
 	
 	
-	public Slider(QLSNode widgetModel) {
+	public Slider(QLNode widgetModel) {
 		super(widgetModel);
-//		super(widgetModel.getMin(), widgetModel.getMax());
-		slider = new JSlider();	
+		slider = new JSlider();
 	}
 
 	@Override

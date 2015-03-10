@@ -12,11 +12,11 @@ namespace AST
 {
     public class ASTResult : IASTResult
     {
-        public FormElementContainer Ast { get; private set; }
+        public IFormObjectContainer Ast { get; private set; }
         private SymbolTable table;
         private List<INotification> notifications;
 
-        public ASTResult(FormElementContainer tree)
+        public ASTResult(IFormObjectContainer tree)
         {
             this.Ast = tree;
             table = new SymbolTable();

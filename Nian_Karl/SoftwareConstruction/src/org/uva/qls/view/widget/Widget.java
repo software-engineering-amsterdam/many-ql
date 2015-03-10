@@ -4,9 +4,9 @@ import java.awt.Component;
 
 import javax.swing.JComponent;
 
-import org.uva.qls.ast.QLSNode;
+import org.uva.ql.ast.QLNode;
 
-public abstract class Widget<T extends QLSNode> extends Component {
+public abstract class Widget<T extends QLNode> extends Component {
 
 	private static final long serialVersionUID = -1896148695421639903L;
 	private final T widgetModel;

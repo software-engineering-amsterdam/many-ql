@@ -1,15 +1,17 @@
 package nl.uva.se.gui;
 
+import nl.uva.se.ast.statement.Question;
+
 public class Validator {
 	
-	public boolean match(String oldValue, String newValue)
+	public boolean match(Question question, String oldValue, String newValue)
 	{
-		return false;
-		/*if(type==Type.DECIMAL){
-			return isNumeric(newValue);
-		}else{
-			return true;
-		}*/
+		if(question.getType().getTypeName().equals("decimal")){
+			if(!isNumeric(newValue)){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public boolean isNumeric( String input ) {
@@ -20,5 +22,10 @@ public class Validator {
 	    catch( Exception e ) {
 	        return false;
 	    }
+	}
+
+	public boolean match(Question question, Boolean oldValue, Boolean newValue) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AST.Nodes.TypeName;
-using AST.Resources;
 using Values = AST.Nodes.Values;
 
 

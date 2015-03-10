@@ -47,7 +47,7 @@ namespace AST.Test
 
             Console.WriteLine(tree.ToStringTree(parser));
             FormVisitor visitor = new FormVisitor();
-            FormElementContainer ast = visitor.Visit(tree);
+            IFormObjectContainer ast = visitor.Visit(tree);
 
             Evaluate();
 

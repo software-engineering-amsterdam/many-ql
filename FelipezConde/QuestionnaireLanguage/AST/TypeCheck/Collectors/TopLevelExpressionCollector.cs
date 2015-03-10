@@ -39,23 +39,5 @@ namespace AST.TypeCheck.Collectors
 
            return idList;
         }
-
-        //Computed Question
-        public override IList<IExpression> Visit(Nodes.Computation.Expression node)
-        { 
-            return new List<IExpression>{node.ExpressionValue}; 
-        }
-        public override IList<IExpression> Visit(Nodes.Computation.Id node)
-        { 
-            return new List<IExpression>{
-                new Nodes.Expression.Id(node.Value, node.GetPosition())
-            }; 
-        }
-        public override IList<IExpression> Visit(Nodes.Computation.Value node)
-        { 
-            return new List<IExpression> { 
-                new Nodes.Expression.Container(node.GetParsedString(), node.ElementValue, node.GetPosition())
-            }; 
-        }
     }
 }

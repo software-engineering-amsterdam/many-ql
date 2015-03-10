@@ -135,7 +135,7 @@ namespace AST.TypeCheck
         }
         private static IValue DeriveQuestionType(Question node, Dictionary<string, IValue> identifierToType)
         {
-            return node.Computation.Accept(new ComputationTypeCollector(identifierToType));
+            return node.Computation.Accept(new ExpressionTypeCollector(identifierToType));
         }
 
         private static IValue DeriveConditionalType(Conditional node, Dictionary<string, IValue> identifierToType)
