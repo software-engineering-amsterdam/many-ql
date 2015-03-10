@@ -10,15 +10,10 @@ class Processor:
         answers_dict['__builtins__'] = None
         try:
             result = eval(expression, answers_dict)
-            # if "test" in answers_dict and expression == "test == \"A\"":
-            #     print(expression)
-            #     print(answers_dict['test'] == "\"A\"")
-            #     print(result)
-            #     print(answers_dict)
+            print(result)
             return result
         except Exception as e:
-            if expression == "test == \"A\"":
-                print(e)
+            print(e)
             return False
 
     @staticmethod
