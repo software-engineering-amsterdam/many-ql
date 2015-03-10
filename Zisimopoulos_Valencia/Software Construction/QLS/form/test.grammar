@@ -19,7 +19,7 @@ stylesheet taxOfficeExample
         question valueResidue
         default number {
           width: 400
-          font: "Arial" 
+          font: "Bazooka" 
           fontsize: 14
           color: #999999
           widget spinbox
