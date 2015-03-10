@@ -56,14 +56,18 @@ public class Main implements Observer {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.execute();
-
+        main.start();
     }
 
-    public void execute() {
+    public void start() {
         evaluateForm();
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.render(evaluatedQuestions, stylesheet);
+    }
+    public void reRender(){
+        evaluateForm();
+        qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
+        renderer.reRender(evaluatedQuestions, stylesheet);
     }
 
     private void evaluateForm() {
@@ -104,7 +108,7 @@ public class Main implements Observer {
         Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
         addUpdatedQuestion(clonedQuestion);
 
-        execute();
+        reRender();
 
     }
 

@@ -38,13 +38,22 @@ public class Renderer implements QLSVisitor {
     }
 
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
+        initialize(inputQuestions, stylesheet);
+        SwingUtilities.invokeLater(mainWindow::showMainWindow);
+        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+    }
+
+    public void reRender(List<Question> inputQuestions, Stylesheet stylesheet) {
+        initialize(inputQuestions, stylesheet);
+        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+    }
+
+    private void initialize(List<Question> inputQuestions, Stylesheet stylesheet) {
         this.questionsToRender.clear();
         mainWindow.initialize();
         storeQuestionsFromStylesheet(inputQuestions, stylesheet);
         stylesheet.accept(this);
         renderRemainingQuestions(inputQuestions);
-        SwingUtilities.invokeLater(mainWindow::showMainWindow);
-        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
     }
 
     private List<Question> getRemainingQuestions(List<Question> inputQuestions) {
