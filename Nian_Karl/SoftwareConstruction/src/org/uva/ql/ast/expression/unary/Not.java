@@ -25,6 +25,6 @@ public class Not extends Unary {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new BoolType();
+		return new BoolType(getPosition());
 	}
 }

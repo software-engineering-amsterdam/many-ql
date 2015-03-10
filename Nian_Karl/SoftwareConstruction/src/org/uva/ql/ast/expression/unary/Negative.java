@@ -9,10 +9,10 @@ import org.uva.utility.CodePosition;
 
 public class Negative extends Unary {
 
-	public Negative(Expression expr,CodePosition pos) {
-		super(expr,pos);
+	public Negative(Expression expr, CodePosition pos) {
+		super(expr, pos);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "-" + this.expr.toString();
@@ -20,7 +20,7 @@ public class Negative extends Unary {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new IntType();
+		return new IntType(getPosition());
 	}
 
 	@Override

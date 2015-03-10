@@ -1,12 +1,13 @@
 package ql.typechecker
 
 import ql.ast.{Type, Variable}
-import ql.types.VariableName
+import types.VariableName
 
 // Holds the defined variables and their type.
 // Note that we require variables to be declared before being used.
 class TypeEnvironment(val env: Map[VariableName, Type] = Map()) {
 
+  // TODO: remove these methods?
   def tryGetVariable(v: Variable): Either[Error, Type] = {
     env get v.name match {
       case Some(t) => Right(t)

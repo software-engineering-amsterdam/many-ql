@@ -26,12 +26,15 @@ public class Main {
 		
 		QLSMainVisitor visitor = new QLSMainVisitor();
 		ASTNode _ast = visitor.visit(tree);
-		
+
 		TypeCheckQLS typeCheckQls = new TypeCheckQLS(_ast);
 		
 		for (String key : typeCheckQls.getErrorTable().getTable().keySet()){
 			System.err.println(key + " ===== " + typeCheckQls.getErrorTable().retrieveValue(key));
 		}
+		
+		if (typeCheckQls.hasErrors())
+			System.out.println("Will not generate, has errors");
 	}
 	
 }

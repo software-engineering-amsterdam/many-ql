@@ -1,6 +1,5 @@
 package gui;
 
-import evaluator.IntegerValue;
 import evaluator.ValueRepository;
 import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
@@ -9,9 +8,11 @@ import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
 import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
 
+import ast.expression.Expression;
 import ast.question.ComputationQuestion;
 import ast.question.IQuestionVisitor;
 import ast.question.IfElseStatement;
@@ -43,6 +44,10 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		
 	}
 	
+	public Updater sendToUpdater(Expression expression) {
+		return new Updater(expression, gui, valueRepository);
+	}
+	
 	@Override
 	public IQuestionUI visit(Question question) {
 		// TODO Auto-generated method stub
@@ -63,14 +68,14 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 
 	@Override
 	public IQuestionUI visit(ComputationQuestion calQuestion) {
-		//IntegerValue someValue = mAFGUICllya fornmda daslk
 		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId().getID(),
 													new JLabel(calQuestion.getQuestionText()), 
 													this.widget(calQuestion),
 													this.valueRepository,
-													evaluator.evaluate(calQuestion.getExpression()));
+													this.sendToUpdater(calQuestion.getExpression()).updatedValue());
 		
 		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
+		
 		return sq;
 	}
 	

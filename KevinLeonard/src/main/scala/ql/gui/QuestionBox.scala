@@ -2,7 +2,7 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
-import ql.types.{EvalEnvironment, Dependencies, VariableName}
+import types.{EvalEnvironment, Dependencies, VariableName}
 
 import scala.collection.immutable.StringOps
 import scala.util.Try

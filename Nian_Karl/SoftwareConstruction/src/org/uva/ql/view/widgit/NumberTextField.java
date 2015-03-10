@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
 
-import org.uva.ql.ast.value.Int;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.IntValue;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.view.listener.WidgetListener;
 
 public class NumberTextField extends BaseTextField {
@@ -32,11 +32,11 @@ public class NumberTextField extends BaseTextField {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
 			if (input.equals("") || input == null) {
-				widgetListener.widgetValueChanged(getIdentifier(), new Undefined());
+				widgetListener.widgetValueChanged(getIdentifier(), new UndefinedValue());
 			} else if (m.matches()) {
 				textField.setForeground(Color.black);
 				int i = Integer.parseInt(input);
-				widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
+				widgetListener.widgetValueChanged(getIdentifier(), new IntValue(i));
 			} else {
 				textField.setForeground(Color.red);
 			}

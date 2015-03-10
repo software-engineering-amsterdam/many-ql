@@ -11,3 +11,9 @@ class Textbox(w.Widget):
 
     def get_compatible(self):
         return [constants.GrammarConstants.TEXT]
+
+    def get_settings(self):
+        raise NotImplementedError("Not implemented by sub class")
+
+    def set_settings(self):
+        raise NotImplementedError("Not implemented by sub class")

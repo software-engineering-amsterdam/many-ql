@@ -1,13 +1,13 @@
 package org.uva.ql.ast.questionnaire;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.visitor.QuestionnaireVisitable;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.utility.CodePosition;
 
-public class Form implements QLNode, QuestionnaireVisitable{
+public class Form implements Node, QuestionnaireVisitable{
 	
 	private Block block;
 	private Identifier identifier;

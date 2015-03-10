@@ -96,7 +96,7 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 		CodeLines codeLines = this.getCodeLines(ctx);
 		Type type = (Type)ctx.primitiveType().accept(this);
 		
-		return new DefaultValue(type, this.visitStatement(ctx.stms), codeLines);
+		return new DefaultValue(type, this.visitStyle(ctx.stms), codeLines);
 	}
 
 	@Override

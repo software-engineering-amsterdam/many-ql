@@ -1,5 +1,7 @@
 package org.uva.qls.ast.style;
 
-public class Style {
+import org.uva.ql.ast.Node;
+
+public class Style implements Node {
 
 }

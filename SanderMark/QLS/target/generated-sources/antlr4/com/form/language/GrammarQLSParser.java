@@ -36,8 +36,8 @@ public class GrammarQLSParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'question'", 
 		"'default'", "'widget'", "'textbox'", "'checkbox'", "'spinbox'", "'slider'", 
-		"'dropdown'", "'('", "','", "')'", "'radio'", "'width'", "':'", "'font'", 
-		"'fontsize'", "'color'", "'Boolean'", "'String'", "'Number'"
+		"'dropdown'", "'('", "','", "')'", "'radiobutton'", "'width'", "':'", 
+		"'font'", "'fontsize'", "'color'", "'Boolean'", "'String'", "'Number'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
@@ -778,7 +778,7 @@ public class GrammarQLSParser extends Parser {
 				match(STRING);
 				setState(134);
 				match(T__15);
-				((SpecificWidgetContext)_localctx).result =  new Radio();
+				((SpecificWidgetContext)_localctx).result =  new RadioButton();
 				}
 				break;
 			default:

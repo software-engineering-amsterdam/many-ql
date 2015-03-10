@@ -39,17 +39,13 @@ public class SetQuestionPane extends AQuestionPane {
     private ToggleGroup createToggleGroup(VBox container){
         ToggleGroup group = new ToggleGroup();
 
-        if (question.getType() == Type.BOOLEAN){
-            createRadioButton("Yes", group);
-            createRadioButton("No", group);
-        } else {
-            OptionSet optionSet = question.getOptions();
-            for (int i=0; i< optionSet.size(); i++) {
-                Value answer = optionSet.get(i).evaluate(store.getVariables());
-                RadioButton rb = createRadioButton(answer.toString(), group);
-                container.getChildren().add(rb);
-            }
+        OptionSet optionSet = question.getOptions();
+        for (int i=0; i< optionSet.size(); i++) {
+            Value answer = optionSet.get(i).evaluate(store.getVariables());
+            RadioButton rb = createRadioButton(answer.toString(), group);
+            container.getChildren().add(rb);
         }
+
         return group;
     }
 
