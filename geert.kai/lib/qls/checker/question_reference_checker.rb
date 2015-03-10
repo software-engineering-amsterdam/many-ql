@@ -3,7 +3,7 @@ module QLS
     class QuestionReferenceChecker
       def initialize(qls, ql)
         @qls_question_names = QuestionVisitor.new(qls).questions.map(&:name)
-        @ql_question_names  = QL::Checking::QuestionVisitor.new(ql).questions.
+        @ql_question_names  = QL::Checking::QuestionVisitor.new(ql).questions.map(&:variable_name)
       end
 
       def errors

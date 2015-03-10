@@ -52,8 +52,6 @@ class QuestionairController
   end
 end
 
-
-
 class QuestionPane
   attr_accessor :question, :label, :widget
 
