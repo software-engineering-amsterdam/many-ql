@@ -7,7 +7,7 @@ import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
-import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.EvaluateExpression_new;
 import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
@@ -23,12 +23,13 @@ import ast.question.SimpleQuestion;
 public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	private final GUIRender gui;
 	private final ValueRepository valueRepository;
-	private EvaluateExpression evaluator;
+	private EvaluateExpression_new evaluator;
+	private Expression expression;
 
 	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
 		this.gui = gui;
 		this.valueRepository = valueRepository;
-		evaluator = new EvaluateExpression(valueRepository);
+		//evaluator = new EvaluateExpression_old(valueRepository, expression);
 	} 
 	
 
@@ -72,10 +73,11 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 													new JLabel(calQuestion.getQuestionText()), 
 													this.widget(calQuestion),
 													this.valueRepository,
-													this.sendToUpdater(calQuestion.getExpression()).updatedValue());
+													//this.sendToUpdater(calQuestion.getExpression()).updatedValue(),
+													this.sendToUpdater(calQuestion.getExpression()));
 		
 		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
-		
+		sq.updateGUI();  //getUpdater();
 		return sq;
 	}
 	

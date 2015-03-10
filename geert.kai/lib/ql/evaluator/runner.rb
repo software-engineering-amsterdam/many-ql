@@ -1,4 +1,5 @@
 require_relative "../../util/base_visitor"
+require_relative "../checker/question_visitor"
 require_relative "../../ql/ast/ast"
 
 module QL
@@ -64,25 +65,7 @@ module QL
     end
   end
 
-  class QuestionVisitor < BaseVisitor
-    def questions
-      visit @base
-    end
-
-    def visit_form(form)
-      map_accept(form.statements).flatten
-    end
-
-    def visit_conditional(condition)
-      map_accept(condition.statements)
-    end
-
-    def visit_question(question)
-      question
-    end
-  end
-
-  class VisibleQuestionVisitor < QuestionVisitor
+  class VisibleQuestionVisitor < Checking::QuestionVisitor
     def questions(values)
       @values = values
       

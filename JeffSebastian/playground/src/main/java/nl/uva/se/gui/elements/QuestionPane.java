@@ -46,12 +46,12 @@ public class QuestionPane extends BorderPane{
 	
 	public void addCondition(Condition condition){
 		ConditionBox conditionBox = new ConditionBox(condition);
-		conditionBox.setVisible(false);
+		conditionBox.setVisible(true);
 		vbox.getChildren().add(conditionBox);
 	}
 	
 	public void addConditionBox(ConditionBox conditionBox){
-		conditionBox.setVisible(false);
+		conditionBox.setVisible(true);
 		vbox.getChildren().add(conditionBox);
 	}
 	
