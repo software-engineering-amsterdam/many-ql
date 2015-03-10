@@ -1,4 +1,5 @@
 require_relative "../../util/base_visitor"
+require_relative "../checker/question_visitor"
 
 module QL
   class Runner < BaseVisitor
@@ -6,7 +7,7 @@ module QL
     attr_reader :questions
 
     def after_initialize(base)    
-      @questions = QuestionVisitor.new(@base).questions
+      @questions = Checking::QuestionVisitor.new(@base).questions
       @values = {}
       calculate_visibilities
     end
@@ -80,22 +81,4 @@ module QL
     end
   end
 
-  class QuestionVisitor < BaseVisitor
-
-    def questions
-      visit @base
-    end
-
-    def visit_form(form)
-      map_accept(form.statements).flatten
-    end
-
-    def visit_conditional(condition)
-      map_accept(condition.statements).flatten
-    end
-
-    def visit_question(question)
-      question
-    end
-  end
 end
