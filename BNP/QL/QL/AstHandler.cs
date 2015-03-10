@@ -92,7 +92,6 @@ namespace QL.Model
             }
 
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
-            bool errorFound = false;
             try
             {
                 RootNode.Accept(typeChecker);
@@ -105,10 +104,9 @@ namespace QL.Model
                  * is preventing from finishing the type checking.
                 */
                 ASTHandlerExceptions.Add(ex);
-                errorFound = true;
             }
 
-            TypeChecked = !errorFound;
+            TypeChecked = !ASTHandlerExceptions.Any();
             return TypeChecked;
         }
 
@@ -124,7 +122,6 @@ namespace QL.Model
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierTable= new Dictionary<Identifier, ITypeResolvable>();
             EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings, ReferenceLookupTable, IdentifierTable);
-            bool errorFound = false;
             try
             {
                 RootNode.AcceptBottomUp(evaluator);
@@ -132,10 +129,9 @@ namespace QL.Model
             catch (QLError ex)
             {
                 EvaluationErrors.Add(ex);
-                errorFound = true;
             }
 
-            Evaluated = !errorFound;
+            Evaluated = !EvaluationErrors.Any();
             return Evaluated;
         }
     }

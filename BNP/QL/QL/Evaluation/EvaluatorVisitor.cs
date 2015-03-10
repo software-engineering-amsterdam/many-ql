@@ -17,7 +17,6 @@ namespace QL.Evaluation
         
         public readonly IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
         public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
-        private IList<QLError> EvaluationErrors;
         private IList<QLWarning> EvaluationWarnings;
 
         public IDictionary<ITypeResolvable, TerminalWrapper> GetValuesIfNoErrors()
@@ -33,9 +32,9 @@ namespace QL.Evaluation
             IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
         }
 
-        public EvaluatorVisitor(IList<QLError> EvaluationErrors, IList<QLWarning> EvaluationWarnings, IDictionary<ITypeResolvable, TerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
+        public EvaluatorVisitor(IList<QLException> evaluationExceptions, IList<QLWarning> EvaluationWarnings, IDictionary<ITypeResolvable, TerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
         {
-            this.Errors = EvaluationErrors;
+            this.Exceptions = evaluationExceptions;
             this.Warnings = EvaluationWarnings;
             this.ReferenceLookupTable = referenceTable;
             IdentifierLookupTable = identifierTable;
