@@ -1,5 +1,6 @@
 package nl.uva.bromance.ast;
 
+import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.Result;
 
 /**
@@ -27,6 +28,10 @@ public class Identifier {
     }
 
     public Result getResult() {
+        //TODO: This is ugly. Think of something to fix this.
+        if (result instanceof CustomResult) {
+            return ((CustomResult) result).getResult();
+        }
         return result;
     }
 
