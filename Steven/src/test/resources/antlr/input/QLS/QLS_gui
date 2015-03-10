@@ -1,6 +1,5 @@
 stylesheet title{
 
-    question NAME
     page{
         section "section"{
             question NAME1
@@ -23,6 +22,7 @@ stylesheet title{
     page{
         section "page3"{
             question NAME6
+            question NAME
         }
     }
 

@@ -6,6 +6,8 @@ import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
+import edu.gui.components.store.Store;
+import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
 import edu.parser.QL.nodes.Form;
@@ -15,8 +17,7 @@ import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +36,7 @@ public class Main implements Observer {
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private List<Question> updatedQuestions;
+    private Map<Question, Store> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -48,25 +49,30 @@ public class Main implements Observer {
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new ArrayList<>();
+        updatedQuestions = new HashMap<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.execute();
-
+        main.start();
     }
 
-    public void execute() {
+    public void start() {
         evaluateForm();
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.render(evaluatedQuestions, stylesheet);
     }
 
+    public void reRender() {
+        evaluateForm();
+        qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
+        renderer.reRender(evaluatedQuestions, stylesheet);
+    }
+
     private void evaluateForm() {
         evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions);
+        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions.keySet());
     }
 
     private Stylesheet parseQLS() {
@@ -92,23 +98,66 @@ public class Main implements Observer {
 
     @Override
     public void update(TextBox textBox) {
-        int i = 0;
+        Question question = getEvaluatedQuestion(textBox.getIdentifier());
+        Question clonedQuestion = cloneQuestion(question);
+        TextStore store = textBox.getStore();
+        store.setText(textBox.getText());
+        addUpdatedQuestion(clonedQuestion, store);
+
+    }
+
+    @Override
+    public void initializeRequest(TextBox textBox) {
+        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getIdentifier());
+
+        if (updatedQuestion.isPresent()) {
+            TextStore textStore = (TextStore) updatedQuestions.get(updatedQuestion.get());
+            textBox.setText(textStore.getText());
+        }
     }
 
     @Override
     public void update(CheckBox checkBox) {
-
         Question question = getEvaluatedQuestion(checkBox.getIdentifier());
-        Question clonedQuestion = cloneQuestionAndSetState(checkBox, question);
-        updatedQuestions.add(clonedQuestion);
-
-        execute();
-
+        Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
+        addUpdatedQuestion(clonedQuestion, checkBox.getStore());
+        reRender();
     }
 
-    private Question cloneQuestionAndSetState(CheckBox checkBox, Question question) {
+    @Override
+    public void initializeRequest(CheckBox checkBox) {
+        Optional<Question> question = getUpdatedQuestion(checkBox.getIdentifier());
+        if (question.isPresent()) {
+            checkBox.setSelected(question.get().isEnabled());
+        } else {
+            checkBox.setSelected(false);
+        }
+    }
+
+    private Optional<Question> getUpdatedQuestion(Identifier identifier) {
+        return updatedQuestions.keySet().stream()
+                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(identifier))
+                .findFirst();
+    }
+
+    private void addUpdatedQuestion(Question clonedQuestion, Store store) {
+        if (updatedQuestions.containsKey(clonedQuestion)) {
+            updatedQuestions.remove(clonedQuestion);
+        }
+        updatedQuestions.put(clonedQuestion, store);
+    }
+
+    private Question cloneQuestionAndSetState(boolean isSelected, Question question) {
         try {
-            return question.clone(checkBox.isEnabled());
+            return question.clone(isSelected);
+        } catch (CloneNotSupportedException e) {
+            throw new CloneException(e);
+        }
+    }
+
+    private Question cloneQuestion(Question question) {
+        try {
+            return question.clone();
         } catch (CloneNotSupportedException e) {
             throw new CloneException(e);
         }
