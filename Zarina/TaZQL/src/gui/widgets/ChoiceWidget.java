@@ -1,19 +1,18 @@
 package gui.widgets;
 
-import evaluator.Value;
-import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 import ast.type.Type;
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.ChoiceListener;
+import gui.widgets.listeners.EvaluateExpression;
 
 public class ChoiceWidget implements IWidgetComponent {
 	private final String id, label;
 	private final Type widgetType;
-	private JCheckBox widget = new JCheckBox("");;
-	private String value = new String("");
+	private JCheckBox widget;
 	private final ValueRepository valueRepository;
 		
 	public ChoiceWidget(String id, String label, Type widgetType, ValueRepository valueRepository) {
@@ -21,82 +20,61 @@ public class ChoiceWidget implements IWidgetComponent {
 		this.label = label;
 		this.valueRepository = valueRepository;
 		this.widgetType = widgetType;
-		this.widget.addItemListener(new ChoiceListener());
+		this.widget = new JCheckBox();
 	}
 
 	@Override
 	public JComponent getWidget() {
-		//widget = new JCheckBox("Yes");
 		return widget;
 	}
 
 	@Override
 	public String getIdWidget() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
 	@Override
 	public Type getWidgetType() {
-		// TODO Auto-generated method stub
 		return widgetType;
 	}
 
 	@Override
-	public String getStringValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean getBooleanValue() {
-		// TODO Auto-generated method stub
-		return false;
+		return widget.isSelected();
+	}
+
+	
+	@Override
+	public void setBooleanValue(boolean value) {
+		this.widget.setSelected(value);
 	}
 
 	@Override
-	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setChoiceValue(boolean value) {
-		// TODO Auto-generated method stub
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.addItemListener(new ChoiceListener(this, evaluator));
 		
 	}
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
-		
+		// not necessary
 	}
-
-	@Override
-	public void addDocListener() {//EvaluateExpression evaluator) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getIntegerValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setIntegerValue(int value) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void setText(Value value) {
-		// TODO Auto-generated method stub
-		
+		widget.setText("");
+	}
+	
+	@Override
+	public String getValue() {
+		assert false: "Not supported in Checkbox, only for textfields.";
+		return null;
 	}
 
-
+	@Override
+	public void setValue(String value) {
+		assert false: "Not supported in Checkbox, only for textfields.";
+	}
 	
 
 }

@@ -41,11 +41,14 @@ style PartyForm {
 
         // Number Questions
         section "Number Questions" {
-            comesToParty spinbox(min, max) {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
+        
+            section "Number Questions" {
+                comesToParty spinbox(min, max) {
+                    width: 400
+                    font: "Arial"
+                    fontSize: 14
+                    color: #999999
+                }
             }
             
             comesToParty slider(min, max) {

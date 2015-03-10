@@ -39,56 +39,38 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener() { //EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new TextListener(this, valueRepository));
-	}
-
-	@Override
-	public String getStringValue() {
+	public String getValue() {
 		return widget.getText();
+	}
+	
+	@Override
+	public void setValue(String value) {
+		value = valueRepository.getValue(id).toString(); 
+	}
+	
+	@Override
+	public void setText(Value value) {
+		widget.setText("" + value.toString());	
+	}
+	
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		this.widget.setEnabled(isEnabled);	
+	}
+	
+	@Override
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
 	}
 
 	@Override
 	public boolean getBooleanValue() {
-		// TODO Auto-generated method stub
+		assert false: "Can't be used in TextField.";
 		return false;
 	}
 
 	@Override
-	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		value = widget.getText();
-		
+	public void setBooleanValue(boolean value) {
+		assert false: "Can't be used for text widget, only for checkbox widget.";
 	}
-
-	@Override
-	public void setChoiceValue(boolean value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getIntegerValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setIntegerValue(int value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setText(Value value) {
-		widget.setText("" +value);
-		
-	}
-
 }

@@ -6,14 +6,14 @@ import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.questions.IQuestionUI;
 
-public class EvaluateExpression_new {
+public class EvaluateExpression {
 
 	private ValueRepository valueRepository;
 	private final EvaluatorVisitor evaluatorVisitor;
 	private final Expression expression;
 	private final IQuestionUI setQuestion;
 	
-	public EvaluateExpression_new(ValueRepository valueRepository, Expression expression, IQuestionUI setQuestion) {
+	public EvaluateExpression(ValueRepository valueRepository, Expression expression, IQuestionUI setQuestion) {
 		this.valueRepository = valueRepository;
 		this.expression = expression;
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);

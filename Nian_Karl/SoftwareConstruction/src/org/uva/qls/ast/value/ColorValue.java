@@ -11,7 +11,7 @@ public class ColorValue extends Value {
 	}
 	
 	@Override
-	public Color getValue() {
+	public Color value() {
 		return value;
 	}
 
