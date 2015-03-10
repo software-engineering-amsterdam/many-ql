@@ -4,8 +4,6 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.evaluation.value.BooleanValue;
-import nl.uva.se.evaluation.value.UndefinedValue;
 import nl.uva.se.evaluation.value.Value;
 import nl.uva.se.visitor.FormVisitor;
 import nl.uva.se.visitor.StatementVisitor;
@@ -30,20 +28,16 @@ public class Evaluator implements FormVisitor, StatementVisitor {
 	}
 
 	public void visit(Question question) {
-		values.addValue(question.getId(), new UndefinedValue());
+		values.addValue(question.getId(), question.getType().getDefaultValue());
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		Value exprValue = ExpressionEvaluator.getValue(calculatedQuestion.getExpression(), values);
+		Value exprValue = ExpressionEvaluator.evaluate(calculatedQuestion.getExpression(), values);
 		values.addValue(calculatedQuestion.getId(), exprValue);
 	}
 
 	public void visit(Condition condition) {
-		Value condValue = ExpressionEvaluator.getValue(condition.getExpression(), values);
-		
-		if (!condValue.isUndefined() && ((BooleanValue) condValue).getValue()) {
-			condition.visitChildren(this);
-		}
+		condition.visitChildren(this);
 	}
 
 }

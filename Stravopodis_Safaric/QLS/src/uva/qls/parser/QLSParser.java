@@ -587,16 +587,16 @@ public class QLSParser extends Parser {
 		}
 	}
 	public static class CtxDefaultStatementContext extends DefaultValueContext {
-		public StatementContext statement;
-		public List<StatementContext> stms = new ArrayList<StatementContext>();
+		public StyleContext style;
+		public List<StyleContext> stms = new ArrayList<StyleContext>();
 		public PrimitiveTypeContext primitiveType() {
 			return getRuleContext(PrimitiveTypeContext.class,0);
 		}
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
+		public List<StyleContext> style() {
+			return getRuleContexts(StyleContext.class);
 		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public StyleContext style(int i) {
+			return getRuleContext(StyleContext.class,i);
 		}
 		public CtxDefaultStatementContext(DefaultValueContext ctx) { copyFrom(ctx); }
 		@Override
@@ -653,12 +653,12 @@ public class QLSParser extends Parser {
 				setState(86);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << Width) | (1L << Height) | (1L << Font) | (1L << Fontsize) | (1L << Color) | (1L << Widget))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Width) | (1L << Height) | (1L << Font) | (1L << Fontsize) | (1L << Color))) != 0)) {
 					{
 					{
 					setState(83);
-					((CtxDefaultStatementContext)_localctx).statement = statement();
-					((CtxDefaultStatementContext)_localctx).stms.add(((CtxDefaultStatementContext)_localctx).statement);
+					((CtxDefaultStatementContext)_localctx).style = style();
+					((CtxDefaultStatementContext)_localctx).stms.add(((CtxDefaultStatementContext)_localctx).style);
 					}
 					}
 					setState(88);
@@ -1455,9 +1455,9 @@ public class QLSParser extends Parser {
 		"\2\2\2>?\3\2\2\2?A\3\2\2\2@>\3\2\2\2AB\7+\2\2B\13\3\2\2\2CD\7\6\2\2DE"+
 		"\7\"\2\2EF\7*\2\2FG\5\16\b\2GH\7+\2\2H\r\3\2\2\2IJ\7\7\2\2JL\7\34\2\2"+
 		"KM\5\22\n\2LK\3\2\2\2LM\3\2\2\2M\17\3\2\2\2NO\7\b\2\2OP\5\30\r\2PQ\5\22"+
-		"\n\2Q^\3\2\2\2RS\7\b\2\2ST\5\30\r\2TX\7*\2\2UW\5\b\5\2VU\3\2\2\2WZ\3\2"+
-		"\2\2XV\3\2\2\2XY\3\2\2\2Y[\3\2\2\2ZX\3\2\2\2[\\\7+\2\2\\^\3\2\2\2]N\3"+
-		"\2\2\2]R\3\2\2\2^\21\3\2\2\2_`\7\25\2\2`i\7\26\2\2ae\7*\2\2bd\5\24\13"+
+		"\n\2Q^\3\2\2\2RS\7\b\2\2ST\5\30\r\2TX\7*\2\2UW\5\24\13\2VU\3\2\2\2WZ\3"+
+		"\2\2\2XV\3\2\2\2XY\3\2\2\2Y[\3\2\2\2ZX\3\2\2\2[\\\7+\2\2\\^\3\2\2\2]N"+
+		"\3\2\2\2]R\3\2\2\2^\21\3\2\2\2_`\7\25\2\2`i\7\26\2\2ae\7*\2\2bd\5\24\13"+
 		"\2cb\3\2\2\2dg\3\2\2\2ec\3\2\2\2ef\3\2\2\2fh\3\2\2\2ge\3\2\2\2hj\7+\2"+
 		"\2ia\3\2\2\2ij\3\2\2\2j\u00ba\3\2\2\2kl\7\25\2\2lu\7\27\2\2mq\7*\2\2n"+
 		"p\5\24\13\2on\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2rt\3\2\2\2sq\3\2\2"+

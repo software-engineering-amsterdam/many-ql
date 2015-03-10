@@ -3,6 +3,7 @@ package nl.uva.se.gui.elements;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -42,9 +43,10 @@ public class QuestionPane extends BorderPane{
 		return hbox;
 	}
 	
-	public void addQuestion(Question question){
+	public void addQuestion(Question question, boolean isFromCondition){
 		QuestionBox questionBox = new QuestionBox(question);
-		vbox.getChildren().add(questionBox);
+		questionBox.setVisible(!isFromCondition);
+		vbox.getChildren().add(questionBox);		
 	}
 	
 	public Form getForm(){
@@ -67,6 +69,11 @@ public class QuestionPane extends BorderPane{
 			public void handle(ActionEvent event) {
 				// TODO Export all and close application.
 				System.out.println("Should export answers and close the app.");
+				for(Node node : vbox.getChildren()){
+					if(node instanceof QuestionBox){						
+						node.setVisible(true);
+					}
+				}
 			}};
 	}
 }

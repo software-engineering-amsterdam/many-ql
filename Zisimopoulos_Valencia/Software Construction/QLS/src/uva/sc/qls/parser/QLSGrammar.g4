@@ -33,29 +33,33 @@ defaultStyle
  ;
  
 styleProperty
- : ID ':' atom
+ : 'width:' NUMBER			#width
+ | 'font:' font				#fontName
+ | 'fontsize:' NUMBER		#fontsize
+ | 'color:' COLORENCODE		#color
  ;
 
 type
- : 'boolean' 
- | 'number'
- | 'string'
+ : 'boolean'				#boolean
+ | 'number'					#number
+ | 'string'					#string
  ;
  
 widgetType
- : 'checkbox'
- | 'spinbox'
- | 'radio'
+ : 'checkbox'				#checkbox
+ | 'spinbox'				#spinbox
+ | 'radio'					#radio
  ;
  
-atom
- : NUMBER		   #number
- | BOOLEAN 		   #boolean
- | ID              #id
- | STRING          #string
- | COLORENCODE     #colorencode
- ;
- 
+font
+ : '"Arial"'				#arial
+ | '"Times New Roman"'		#timesNewRoman
+ | '"Bazooka"'				#bazooka
+ | '"Book Antiqua"'			#bookAntiqua
+ | '"Courier"'				#courier
+ | '"Dialog"'				#dialog
+ ; 
+
 BOOLEAN: TRUE | FALSE;
 TRUE : 'true' | 'TRUE' | 'True';
 FALSE : 'false' | 'FALSE' | 'False' ;
