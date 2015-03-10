@@ -1,7 +1,7 @@
 package ql.evaluator
 
 import ql.ast._
-import ql.types.EvalEnvironment
+import types.EvalEnvironment
 
 class Evaluator {
 

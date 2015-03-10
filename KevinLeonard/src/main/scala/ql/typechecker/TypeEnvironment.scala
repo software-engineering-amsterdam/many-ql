@@ -1,7 +1,7 @@
 package ql.typechecker
 
 import ql.ast.{Type, Variable}
-import ql.types.VariableName
+import types.VariableName
 
 // Holds the defined variables and their type.
 // Note that we require variables to be declared before being used.

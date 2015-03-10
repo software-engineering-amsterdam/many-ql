@@ -2,7 +2,7 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
-import ql.types.EvalEnvironment
+import types.EvalEnvironment
 
 import scalafx.collections.ObservableMap
 import scalafx.scene.layout.VBox

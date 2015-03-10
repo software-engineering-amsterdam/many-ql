@@ -1,6 +1,6 @@
 package ql.gui
 
-import ql.types.Label
+import types.Label
 
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
