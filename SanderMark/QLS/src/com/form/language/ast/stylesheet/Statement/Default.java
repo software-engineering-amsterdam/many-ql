@@ -3,6 +3,7 @@ package com.form.language.ast.stylesheet.Statement;
 import java.util.List;
 
 import com.form.language.ast.style.Style;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.widget.Widget;
 
 public class Default implements Statement {
