@@ -1,20 +1,16 @@
 package gui.widgets.listeners;
 
 import evaluator.StringValue;
-import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextListener implements DocumentListener {
-	protected final IWidgetComponent widget;
-	private String value = "";
-	protected final ValueRepository valueRepository;
+public class TextListener extends AListener implements DocumentListener {
 	
-	public TextListener(IWidgetComponent widget, ValueRepository valueRepository) {
-		this.widget = widget;
-		this.valueRepository = valueRepository;
+	public TextListener(IWidgetComponent widget, EvaluateExpression evaluator) {
+		super(widget, evaluator);
 	}
 	
 	@Override
@@ -24,7 +20,11 @@ public class TextListener implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
-		update();
+		SwingUtilities.invokeLater(new Runnable() {
+		     public void run() {
+		    	 update();
+		     }
+		});
 	}
 
 	@Override
@@ -32,14 +32,12 @@ public class TextListener implements DocumentListener {
 		update();
 	}
 	
-	//@Override
+	@Override
 	public void update() {
-		value = widget.getStringValue().toString();
-		StringValue stringValue = new StringValue(value);
-		
-		valueRepository.putID(widget.getIdWidget().toString(), stringValue);
-		widget.getWidget().revalidate();
-		widget.getWidget().repaint();
-		System.out.println("Listener value: " + valueRepository.getValueRepository());
+		String value = widget.getValue().toString();
+		System.out.println("Output of " + widget.getIdWidget().toString()+ " :: " + value);
+		StringValue intValue = new StringValue(value);
+		evaluator.setValue(widget.getIdWidget().toString(), intValue);
+		evaluator.setValueInGUI();	
 	}
 }
