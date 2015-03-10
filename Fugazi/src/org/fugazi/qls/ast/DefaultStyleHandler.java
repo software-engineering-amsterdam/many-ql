@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast;
 
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
@@ -18,8 +19,10 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
 
     private final StyleSheet styledStyleSheet;
     private Segment currentSegment;
+    private final QLFormDataStorage formDataStorage;
 
-    public DefaultStyleHandler(StyleSheet styleSheet) {
+    public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet styleSheet) {
+        this.formDataStorage = _formDataStorage;
         this.styledStyleSheet = styleSheet;
         this.styledStyleSheet.accept(this);
     }
@@ -108,15 +111,20 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     {
         Type questionType = getQuestionType(_question);
 
-        for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
-            Type currentDeclarationType = currentDeclaration.getQuestionType();
+        if (_segmentDefaultStyles.size() == 0) {
+            // if there is no default style declaration, set defaults
+            this.setDefaultWidgetToQuestion(_question);
+        } else {
+            for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
+                Type currentDeclarationType = currentDeclaration.getQuestionType();
 
-            // if there is a style declaration for the question's type
-            if (questionType.equals(currentDeclarationType)) {
-                this.setWidgetToQuestion(_question, currentDeclaration);
-            } else {
-                // if there is no default style declaration, set defaults
-                this.setDefaultWidgetToQuestion(_question);
+                // if there is a style declaration for the question's type
+                if (questionType.equals(currentDeclarationType)) {
+                    this.setWidgetToQuestion(_question, currentDeclaration);
+                } else {
+                    // if there is no default style declaration for this type, set defaults
+                    this.setDefaultWidgetToQuestion(_question);
+                }
             }
         }
     }
@@ -152,8 +160,14 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private Type getQuestionType(Question _question) {
-        // todo
-        return new IntType();
+        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
+
+        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
+            if (qlQuestion.getIdName().equals(_question.getIdName())) {
+                return qlQuestion.getType();
+            }
+        }
+        return null;
     }
 
     private Widget getDefaultWidgetForType(Type _questionType) {
