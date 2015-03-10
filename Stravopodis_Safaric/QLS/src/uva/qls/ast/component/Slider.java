@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.Style;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Slider extends Component{
 	
@@ -38,6 +38,11 @@ public class Slider extends Component{
 	}
 	@Override
 	public String toString(){
-		return "Dropdown(" + this.minMax.toString() + " " + this.style.toString() + ")";
+		return "Slider(" + this.minMax.toString() + " " + this.style.toString() + ")";
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName().toLowerCase();
 	}
 }

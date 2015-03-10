@@ -12,8 +12,6 @@ import com.form.language.error.Error;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -28,7 +26,6 @@ public class IfStatement implements Statement {
 		this.tokenInfo = tokenInfo;
 	}
 
-
 	@Override
 	public Type getType(Context context) {
 		for(Statement s: thenStatements){
@@ -42,41 +39,6 @@ public class IfStatement implements Statement {
 				return new ErrorType();
 			}
 		}
-
-
-//	@Override
-//	public void getErrors(ErrorCollector errs) {
-//		conditions.getErrors(errs);
-//		for(Statement s: thenStatements){
-//			s.getErrors(errs);
-//		}
-//		
-//		if(!conditions.getType().isBoolType()){
-//			errs.add(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
-//		}
-//	}
-
-	@Override
-	public void collectIds(IdCollector idCollector) {
-		this.conditions.collectIds(idCollector);
-	}
-	
-
-
-	@Override
-	public void getReferences(IdCollector idCollector) {
-		this.conditions.getReferences(idCollector);
-		for(Statement s: thenStatements){
-			s.getReferences(idCollector);
-		}
-	}
-
-
-	@Override
-	public void setType(IdTypeTable ids) {
-		this.conditions.setType(ids);
-	}
-
 
 	@Override
 	public void initMemory(Context mem){}

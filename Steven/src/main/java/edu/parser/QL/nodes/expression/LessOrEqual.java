@@ -20,4 +20,9 @@ public class LessOrEqual extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
+
+    @Override
+    public LessOrEqual clone() throws CloneNotSupportedException {
+        return new LessOrEqual(getLeft().clone(), getRight().clone());
+    }
 }

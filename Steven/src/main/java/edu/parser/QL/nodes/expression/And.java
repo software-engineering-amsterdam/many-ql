@@ -20,4 +20,9 @@ public class And extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return true;
     }
+
+    @Override
+    public And clone() throws CloneNotSupportedException {
+        return new And(getLeft().clone(), getRight().clone());
+    }
 }

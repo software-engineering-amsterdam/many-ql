@@ -1,8 +1,8 @@
 package gui.widget;
 
+import ql.Value;
+import ql.ast.expression.Identifier;
 import gui.Widget;
-import cons.Value;
-import cons.ql.ast.expression.Identifier;
 
 public abstract class Composite implements Widget {
 	private final Identifier identifier;

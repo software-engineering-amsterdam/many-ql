@@ -11,5 +11,7 @@ form FORMNAME {
     }
 
     NAME4 STRING "text text text"
+    NAME5 STRING "blabla"
+    NAME6 BOOLEAN "check"
 }
 // sdfsf

@@ -5,7 +5,7 @@ import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.ASTNode;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Type extends ASTNode{
 
@@ -15,6 +15,7 @@ public class Type extends ASTNode{
 	public Type(String _type, CodeLines _codeLines) {
 		super(_codeLines);
 		this.primitiveType = this.findPrimitiveType(_type);
+		
 		this.name = this.primitiveType.getName();
 	}
 

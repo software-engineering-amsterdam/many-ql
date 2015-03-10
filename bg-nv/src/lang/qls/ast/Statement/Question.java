@@ -5,7 +5,7 @@ package lang.qls.ast.Statement;
  */
 public class Question extends Statement
 {
-    private String id;
+    private final String id;
 
     public Question(String id, int lineNumber)
     {

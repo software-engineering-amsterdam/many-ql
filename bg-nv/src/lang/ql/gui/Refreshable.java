@@ -8,9 +8,7 @@ import lang.ql.semantics.values.Value;
  */
 public interface Refreshable
 {
-    public void update(ValueTable valueTable);
-
+    public void refreshElement(ValueTable valueTable);
     public Value evaluate(ValueTable valueTable);
-
-    public Boolean isPrerequisite();
+    public Boolean isRefreshPrerequisite();
 }

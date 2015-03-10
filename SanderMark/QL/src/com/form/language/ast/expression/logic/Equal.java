@@ -52,25 +52,4 @@ public class Equal extends BinaryExpression implements Expression {
 		return new ErrorType();
 	}
 }
-//	
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type leftType = left.getType();
-//		Type rightType = right.getType();
-//		left.getErrors(errors);
-//		right.getErrors(errors);
-//		
-//		if(	(leftType.isBoolType() && rightType.isBoolType())
-//		  ||(leftType.isIntType() && rightType.isIntType())
-//		  ||(leftType.isStringType() && rightType.isStringType())) {
-//			return;
-//		}
-//		else{
-//			if(!(leftType.isErrorType() || rightType.isErrorType())){
-//				errors.add(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " == " + rightType));
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }

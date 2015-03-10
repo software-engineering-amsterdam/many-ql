@@ -1,10 +1,12 @@
 package edu.parser.QL.nodes.statement;
 
+import edu.exceptions.ParseException;
 import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 23/02/2015.
@@ -30,4 +32,22 @@ public class ElseClause extends Expression {
     public AbstractNode accept(QLVisitor QLVisitor) {
         return QLVisitor.visit(this);
     }
+
+    @Override
+    public ElseClause clone() throws CloneNotSupportedException {
+        List<Statement> clonedStatements = statements.stream()
+                .map(ElseClause::cloneAndCatchException)
+                .collect(Collectors.toList());
+        return new ElseClause(clonedStatements);
+    }
+
+    private static Statement cloneAndCatchException(Statement statement) {
+        try {
+            return statement.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new ParseException(e);
+        }
+    }
+
+
 }

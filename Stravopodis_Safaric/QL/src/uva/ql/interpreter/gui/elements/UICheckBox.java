@@ -9,14 +9,15 @@ import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.question.Question;
 import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.SymbolMap;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
 
 public class UICheckBox extends UIQuestion{
 	
 	private JCheckBox checkBox;
 	
-	public UICheckBox(Question _question, SymbolMap _symbolTable, Subject _subject, Expression _expression) {
-		super(_question, _symbolTable, _subject, _expression);
+	public UICheckBox(Question _question, ExpressionTable _expressionTable, SymbolTable _symbolTable, Subject _subject, Expression _expression) {
+		super(_question, _expressionTable, _symbolTable, _subject, _expression);
 		
 		this.checkBox = new JCheckBox();
 		this.checkBox.setText("yes");
@@ -33,7 +34,7 @@ public class UICheckBox extends UIQuestion{
 	}
 	
 	private void checkBoxSelected(ItemEvent e){
-		this.symbolTable.updateValue(this.getIdentifier(), 
+		this.expressionTable.updateValue(this.question.getIdentifier(), 
 				new BooleanLiteral((e.getStateChange() - 1) == 0, this.question.getCodeLines()));
 		
 		this.subject.lastResponse = this.question.getIdentifier().evaluate().getValue();

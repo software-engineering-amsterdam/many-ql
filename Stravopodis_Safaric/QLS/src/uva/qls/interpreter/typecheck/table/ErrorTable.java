@@ -16,6 +16,7 @@ public class ErrorTable extends Table<String, CodeLines> {
 	public Map<String, CodeLines> getTable(){
 		return this.errorTable;
 	}
+	
 	@Override
 	public void putValue(String identifier, CodeLines value) {
 		this.errorTable.put(identifier, value);
@@ -23,22 +24,8 @@ public class ErrorTable extends Table<String, CodeLines> {
 	}
 
 	@Override
-	public boolean keyExists(String identifier) {
-		
-		//Not needed to be implemented 
-		return false;
-	}
-
-	@Override
-	public boolean valueExists(String identifier, CodeLines value) {
-		//Not needed to be implemented 
-		return false;
-	}
-
-	@Override
 	public CodeLines retrieveValue(String identifier) {
-		//Not needed to be implemented 
-		return null;
+		return this.errorTable.get(identifier);
 	}
 
 	@Override

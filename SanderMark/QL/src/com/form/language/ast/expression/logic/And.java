@@ -37,23 +37,4 @@ public class And extends BinaryExpression implements Expression {
 			return new ErrorType();
 		}
 	}
-//	
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type leftType = left.getType();
-//		Type rightType = right.getType();
-//		left.getErrors(errors);
-//		right.getErrors(errors);
-//		
-//		if(leftType.isBoolType() && rightType.isBoolType()) {
-//			return;
-//		}
-//		else{
-//			if(!(leftType.isErrorType() || rightType.isErrorType())){
-//				errors.add(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }
