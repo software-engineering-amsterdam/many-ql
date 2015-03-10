@@ -7,26 +7,23 @@ import lang.ql.ast.type.Type;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by bore on 13/02/15.
  */
-public class SymbolVisitor implements FormVisitor<Void>, StatVisitor<Void>
+public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
 {
     private SymbolTable symbolTable;
     private Messages messages;
 
     public static SymbolResult extract(Form f)
     {
-        SymbolVisitor visitor = new SymbolVisitor();
+        QuestionCollector visitor = new QuestionCollector();
         f.accept(visitor);
 
         return new SymbolResult(visitor.symbolTable, visitor.messages);
     }
 
-    private SymbolVisitor()
+    private QuestionCollector()
     {
         this.symbolTable = new SymbolTable();
         this.messages = new Messages();
@@ -75,7 +72,7 @@ public class SymbolVisitor implements FormVisitor<Void>, StatVisitor<Void>
     private void checkForError(Question q)
     {
         String id = q.getId();
-        if (this.symbolTable.containsQuestionId(id))
+        if (this.symbolTable.containsQuestion(id))
         {
             Type duplicateType = this.symbolTable.resolve(id);
             Question duplicateQuestion = this.symbolTable.getQuestion(id);

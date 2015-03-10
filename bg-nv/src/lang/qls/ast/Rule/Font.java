@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 /**
  * Created by bore on 09/03/15.

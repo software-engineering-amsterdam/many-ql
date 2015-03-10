@@ -1,4 +1,4 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 import lang.ql.ast.AstNode;
 

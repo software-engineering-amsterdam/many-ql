@@ -1,7 +1,7 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 import lang.ql.ast.type.Type;
-import lang.qls.ast.Rule.Rules;
+import lang.qls.ast.rule.Rules;
 
 /**
  * Created by bore on 02/03/15.

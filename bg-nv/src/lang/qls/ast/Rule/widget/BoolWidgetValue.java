@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule.WidgetValue;
+package lang.qls.ast.rule.widget;
 
 /**
  * Created by bore on 09/03/15.

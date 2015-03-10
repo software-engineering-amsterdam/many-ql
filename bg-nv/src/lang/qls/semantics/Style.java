@@ -1,7 +1,7 @@
 package lang.qls.semantics;
 
 import lang.ql.ast.type.Type;
-import lang.qls.ast.Rule.Rules;
+import lang.qls.ast.rule.Rules;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,6 @@ public class Style
         for (Type t : lowPr.typeToRules.keySet())
         {
             Rules rs = this.getRulesForStyle(t, lowPr);
-
             result.addRules(t, rs);
         }
 

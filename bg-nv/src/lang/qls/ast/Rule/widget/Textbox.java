@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule.WidgetValue;
+package lang.qls.ast.rule.widget;
 
 import lang.ql.ast.type.Type;
 
@@ -16,5 +16,12 @@ public class Textbox extends WidgetValue
     public boolean isCompatibleWithType(Type t)
     {
         return t.isNumerical() || t.isString();
+    }
+
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

@@ -31,7 +31,7 @@ public class TestHelper
         return TypeChecker.check(f);
     }
 
-    public static List<Message> getStylesheet(String stylePath, String formPath)
+    public static Messages getStylesheet(String stylePath, String formPath)
     {
         Stylesheet s = TestHelper.as(ParserHelper.ParseStylesheet(stylePath), Stylesheet.class);
         Form f = TestHelper.as(ParserHelper.ParseForm(formPath), Form.class);

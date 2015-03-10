@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule.WidgetValue;
+package lang.qls.ast.rule.widget;
 
 import lang.ql.ast.type.Type;
 
@@ -16,5 +16,11 @@ public class Spinbox extends NumWidgetValue
     public boolean isCompatibleWithType(Type t)
     {
         return t.isNumerical();
+    }
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }
