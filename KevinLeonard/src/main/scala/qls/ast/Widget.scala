@@ -1,7 +1,5 @@
 package qls.ast
 
-import ql.ast._
-
 sealed trait Widget
 case class SpinBox(properties: Option[List[StyleProperty]]) extends Widget
 case class Slider(properties: Option[List[StyleProperty]]) extends Widget

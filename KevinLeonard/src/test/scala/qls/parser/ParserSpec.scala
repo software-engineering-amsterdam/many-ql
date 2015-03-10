@@ -170,7 +170,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "}" +
       "}"
       )
-        .withResult(QuestionSequence(List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
+        .withResult(List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))
     }
   }
 
@@ -190,7 +190,7 @@ class ParserSpec extends Specification with ParserMatchers {
             "color: #99FF66" +
           "}" +
         "}")
-        .withResult(Section("section1", QuestionSequence(List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))))
+        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
     }
     
 //    "parse section in section" in {
