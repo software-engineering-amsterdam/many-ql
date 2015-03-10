@@ -7,7 +7,7 @@ import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
-import gui.widgets.listeners.EvaluateExpression_new;
+import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
@@ -23,7 +23,7 @@ import ast.question.SimpleQuestion;
 public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	private final GUIRender gui;
 	private final ValueRepository valueRepository;
-	private EvaluateExpression_new evaluator;
+	private EvaluateExpression evaluator;
 	private Expression expression;
 
 	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
@@ -60,8 +60,8 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
 		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId().getID(),
 												   new JLabel(simpleQuestion.getQuestionText()), 
-												   this.widget(simpleQuestion),
-												   this.valueRepository);
+												   this.widget(simpleQuestion));
+												 //  this.valueRepository);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
 		return sq;
@@ -86,12 +86,12 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		IfQuestionUI ifq = new IfQuestionUI();
 	
 	
-	//	ifStatement.getExpression();
-	//	ifStatement.getIfStatement();
+	//	ifStatement.getExpression(); <--- send it to IfQuestionUI for evaluation
 		for(Question q : ifStatement.getIfStatement()){
-			System.out.println(q.getClass());
-			IQuestionUI aQuestion = visit(q);
-			System.out.println("visited "+q.getClass());
+			ifq.showIfBody(q.accept(this));
+			//System.out.println(q.getClass());
+			//IQuestionUI aQuestion = visit(q);
+		//	System.out.println("visited "+q.getClass());
 		}
 		return ifq;
 	}
