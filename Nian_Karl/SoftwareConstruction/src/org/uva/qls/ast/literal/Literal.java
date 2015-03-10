@@ -12,5 +12,4 @@ public abstract class Literal implements QLSNode, LiteralVisitable {
 		this.position = position;
 	}
 	
-	public 
 }
