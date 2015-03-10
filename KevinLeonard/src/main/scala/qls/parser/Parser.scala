@@ -46,19 +46,13 @@ class Parser extends JavaTokenParsers {
     case "string" => StringType()
   }
   
-  def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
-    case "spinbox" ~ Some(properties) => SpinBox(properties)
-    case "spinbox" ~ None => SpinBox(List())
-    case "slider" ~ Some(properties) => Slider(properties)
-    case "slider" ~ None => Slider(List())
-    case "text" ~ Some(properties) => Text(properties)
-    case "text" ~ None => Text(List())
-    case "textBlock" ~ Some(properties) => TextBlock(properties)
-    case "textBlock" ~ None => TextBlock(List())
-    case "radio" ~ Some(properties) => Radio(properties)
-    case "radio" ~ None => Radio(List())
-    case "dropdown" ~ Some(properties) => DropDown(properties)
-    case "dropdown" ~ None => DropDown(List())
+  def widget: Parser[Widget] = widgetType ~ widgetStyle ^^ {
+    case "spinbox" ~ properties => SpinBox(properties)
+    case "slider" ~ properties => Slider(properties)
+    case "text" ~ properties => Text(properties)
+    case "textBlock" ~ properties => TextBlock(properties)
+    case "radio" ~ properties => Radio(properties)
+    case "dropdown" ~ properties => DropDown(properties)
   }
   
   def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
@@ -68,7 +62,10 @@ class Parser extends JavaTokenParsers {
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 
   // TODO: Repetition of the same property is not allowed.
-  def widgetStyle: Parser[List[StyleProperty]] = "{" ~> rep(width | font | fontSize | fontColor) <~ "}"
+  def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
+    case Some(properties) => properties
+    case None => List()
+  }
   
   def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
   def font: Parser[StyleProperty] = "font:" ~> stringLiteral ^^ { 
