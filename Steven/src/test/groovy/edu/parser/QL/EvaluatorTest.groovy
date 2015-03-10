@@ -25,7 +25,7 @@ class EvaluatorTest extends Specification {
     }
 
     Question getQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty());
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList());
     }
 
     def "Should return provided unconditional question"() {
@@ -135,16 +135,16 @@ class EvaluatorTest extends Specification {
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
-        Question inputConditionalQuestion = new Question(new Identifier("conditional"), QuestionType.BOOLEAN, new Label("conditional"), true, Optional.empty())
+        Question inputConditionalQuestion = new Question(new Identifier("conditional"), QuestionType.BOOLEAN, new Label("conditional"), true, Optional.empty(), Collections.emptyList())
         questionsWithinIfStatement.add(inputConditionalQuestion)
 
-        Question inputElseClauseQuestion = new Question(new Identifier("else"), QuestionType.BOOLEAN, new Label("else"), true, Optional.empty())
+        Question inputElseClauseQuestion = new Question(new Identifier("else"), QuestionType.BOOLEAN, new Label("else"), true, Optional.empty(), Collections.emptyList())
         List<Statement> elseClauseQuestions = new ArrayList<>();
         elseClauseQuestions.add(inputElseClauseQuestion)
         Optional<ElseClause> elseClause = Optional.of(new ElseClause(elseClauseQuestions))
         IfStatement ifStatement = new IfStatement(new Boolean(false), questionsWithinIfStatement, elseClause)
 
-        def inputUnconditionalQuestion = new Question(new Identifier("unconditional"), QuestionType.BOOLEAN, new Label("unconditional"), true, Optional.empty())
+        def inputUnconditionalQuestion = new Question(new Identifier("unconditional"), QuestionType.BOOLEAN, new Label("unconditional"), true, Optional.empty(), Collections.emptyList())
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
@@ -180,13 +180,13 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getIdentifier().identifier)
 
         then:
-        List<Question> updatedQuestions = new ArrayList<>()
+        Set<Question> updatedQuestions = new ArrayList<>()
         updatedQuestions.add(createQuestion(identifierUnconditionalQuestion, true))
         List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
         Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
 
         // disable question again
-        List<Question> updatedQuestionsDisabled = new ArrayList<>()
+        Set<Question> updatedQuestionsDisabled = new ArrayList<>()
         updatedQuestionsDisabled.add(createQuestion(identifierUnconditionalQuestion, false))
         List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestionsDisabled)
         Assert.assertEquals(1, evaluationReturnedUpdatedQuestionsDisabled.size())
@@ -194,6 +194,6 @@ class EvaluatorTest extends Specification {
     }
 
     private Question createQuestion(String identifier, boolean isEnabled) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), isEnabled, Optional.empty())
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), isEnabled, Optional.empty(), Collections.emptyList())
     }
 }

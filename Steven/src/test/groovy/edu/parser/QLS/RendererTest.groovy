@@ -1,6 +1,5 @@
 package edu.parser.QLS
 
-import edu.Main
 import edu.exceptions.EvaluationException
 import edu.gui.Renderer
 import edu.nodes.QuestionType
@@ -43,7 +42,7 @@ class RendererTest extends Specification {
     }
 
     private Question createQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty())
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList())
     }
 
     private QLSQuestion createQLSQuestion(String identifier) {

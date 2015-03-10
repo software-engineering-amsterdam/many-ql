@@ -37,7 +37,7 @@ class TypeCheckerTest extends Specification {
     def "should throw exception when stylesheet question is not contained in form questions"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList()))
 
         def identifier = "abcdefgh"
         typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
@@ -55,7 +55,7 @@ class TypeCheckerTest extends Specification {
         List<Question> questions = new ArrayList<>()
 
         def identifier = "identifier"
-        questions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList()))
 
         typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
 
@@ -69,7 +69,7 @@ class TypeCheckerTest extends Specification {
     def "Should throw typeCheckException when widget type is not compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList()))
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
@@ -87,7 +87,7 @@ class TypeCheckerTest extends Specification {
     def "Should not throw typeCheckException when widget type is compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList()))
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
