@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="QL.UI.Controls.Unit"
+﻿<UserControl x:Class="QL.UI.Controls.UnitControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:QL.UI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="600"
              Margin="5" Padding="10"
@@ -12,7 +11,7 @@
     <UserControl.Resources>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid x:Name="ContentGrid">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -25,6 +24,6 @@
 
         <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold">Question text</TextBlock>
         <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px">Identifier</TextBlock>
-        <controls:TextWidget Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></controls:TextWidget>
+        <ContentPresenter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ContentPlaceholder" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" />
     </Grid>
 </UserControl>

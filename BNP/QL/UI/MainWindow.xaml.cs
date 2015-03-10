@@ -31,9 +31,9 @@ namespace QL.UI
             StreamReader sr = new StreamReader(fs);
             InputFileSourceText.Text = sr.ReadToEnd();
 
-            QuestionsPanel.Children.Add(new Unit());
-            QuestionsPanel.Children.Add(new Unit());
-            QuestionsPanel.Children.Add(new Unit());
+            QuestionsPanel.Children.Add(new UnitControl());
+            QuestionsPanel.Children.Add(new UnitControl());
+            QuestionsPanel.Children.Add(new UnitControl());
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)

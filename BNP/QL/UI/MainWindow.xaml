@@ -20,9 +20,17 @@
         <TabControl>
             <TabItem Header="Questionnaire">
                 <StackPanel Name="QuestionsPanel">
-                    <controls:Unit />
-                    <controls:Unit />
-                    <controls:Unit />
+                    <controls:UnitControl>
+                        <controls:TextWidget Value="Hello World" />
+                    </controls:UnitControl>
+                    <controls:UnitControl>
+                        <controls:NumberWidget Value="10" />
+                    </controls:UnitControl>
+                    <controls:UnitControl x:Name="BoolWidget">
+                        <controls:YesNoWidget Value="False" />
+                    </controls:UnitControl>
+                    
+                    <TextBlock Text="{Binding Path=BoolWidget.Value}"></TextBlock>
                 </StackPanel>
             </TabItem>
 

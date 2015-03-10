@@ -81,8 +81,8 @@
     <Compile Include="Controls\TextWidget.xaml.cs">
       <DependentUpon>TextWidget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Unit.xaml.cs">
-      <DependentUpon>Unit.xaml</DependentUpon>
+    <Compile Include="Controls\UnitControl.xaml.cs">
+      <DependentUpon>UnitControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\NumberWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -104,11 +104,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\IWidgetForType.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\Unit.xaml">
+    <Page Include="Controls\UnitControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

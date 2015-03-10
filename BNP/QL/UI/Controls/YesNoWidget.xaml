@@ -2,14 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:QL.UI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <controls:BooleanYesNoConverter x:Key="BooleanConverter" />
+    </UserControl.Resources>
+    
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <RadioButton>
+        <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=True}">
             <TextBlock>Yes</TextBlock>
         </RadioButton>
-        <RadioButton Margin="15,0,0,0">
+        <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=False}" Margin="15,0,0,0">
             <TextBlock>No</TextBlock>
         </RadioButton>
     </StackPanel>
