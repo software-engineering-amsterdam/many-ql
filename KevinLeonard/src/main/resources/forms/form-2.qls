@@ -1,46 +1,44 @@
 style PartyForm {
-    
-    default {
-        number spinbox {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        number slider {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        number|string text {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        string| textBlock {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        boolean radio(min, max) {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        boolean dropdown {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
+
+    default number spinbox {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
     }
-    
-    
+    default number slider {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default string text {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default string textBlock {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default boolean radio {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default boolean dropdown {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+
     page page1 {
+
         // Number Questions
         section "Number Questions" {
             comesToParty spinbox(min, max) {

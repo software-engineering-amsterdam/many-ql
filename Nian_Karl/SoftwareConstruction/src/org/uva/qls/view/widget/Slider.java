@@ -13,8 +13,7 @@ public class Slider extends Widget<QLSNode>{
 	
 	public Slider(QLSNode widgetModel) {
 		super(widgetModel);
-//		super(widgetModel.getMin(), widgetModel.getMax());
-		slider = new JSlider();	
+		slider = new JSlider();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class Evaluator implements FormVisitor, StatementVisitor {
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		Value exprValue = ExpressionEvaluator.getValue(calculatedQuestion.getExpression(), values);
+		Value exprValue = ExpressionEvaluator.evaluate(calculatedQuestion.getExpression(), values);
 		values.addValue(calculatedQuestion.getId(), exprValue);
 	}
 

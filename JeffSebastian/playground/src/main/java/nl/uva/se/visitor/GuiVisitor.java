@@ -12,6 +12,7 @@ import nl.uva.se.gui.elements.QuestionPane;
 public class GuiVisitor implements StatementVisitor, FormVisitor {
 	
 	private QuestionPane questionPane;
+	private boolean isFromCondition;
 	
 	private ValueTable values;
 	
@@ -20,20 +21,22 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	}
 	
 	public void visit(Question question) {
-		questionPane.addQuestion(question);
+		questionPane.addQuestion(question, isFromCondition);
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Question question = (Question) calculatedQuestion;
-		questionPane.addQuestion(question);
+		questionPane.addQuestion(question, isFromCondition);
 	}
-
+	
 	public void visit(Condition condition) {
-		Value<Boolean> value = ExpressionEvaluator.getValue(condition.getExpression(), values);
+		Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
 		
 		if (!value.isUndefined() && value.getValue()) {
+			isFromCondition = true;
 			condition.visitChildren(this);
 		}
+		isFromCondition = false;
 	}
 
 	public void visit(Form form) {
@@ -44,5 +47,4 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	public QuestionPane getQuestionPane(){
 		return this.questionPane;
 	}
-
 }
