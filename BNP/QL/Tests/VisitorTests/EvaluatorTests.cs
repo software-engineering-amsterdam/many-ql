@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Model;
 using QL;
 using QL.Grammars;
+using QL.Evaluation;
 namespace Tests.VisitorTests
 {
     [TestClass]
@@ -49,10 +50,13 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
             Assert.IsTrue(Handler.Evaluate());
-            Assert.AreEqual(Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[0].Children[0]].ToString(), "\"abc\"");
+            TextWrapper tw= new TextWrapper("\"abc\"");
+            TextWrapper tw_from_code = Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[0].Children[0]] as TextWrapper;
+            Assert.IsTrue((tw_from_code== tw).Value.Value);
             //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
             //by visitor could be done as well
-            Assert.AreEqual(Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[1].Children[0]].ToString(), "yes");
+
+            Assert.IsTrue((Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[1].Children[0]] as YesnoWrapper== new YesnoWrapper(true)).Value.Value);
 
         }
 

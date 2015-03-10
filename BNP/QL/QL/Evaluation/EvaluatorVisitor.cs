@@ -3,6 +3,7 @@ using QL.Model;
 using QL.Model.Operators;
 using QL.Model.Terminals;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace QL.Evaluation
         public IList<QLError> Errors { get; private set; }
         public IList<QLWarning> Warnings { get; private set; }
         
-        public readonly IDictionary<ITypeResolvable, IResolvableTerminalType> ReferenceLookupTable; // a lookup of references to terminals
+        public readonly IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
         public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
+        private IList<QLError> EvaluationErrors;
+        private IList<QLWarning> EvaluationWarnings;
 
-        public IDictionary<ITypeResolvable, IResolvableTerminalType> GetValuesIfNoErrors()
+        public IDictionary<ITypeResolvable, TerminalWrapper> GetValuesIfNoErrors()
         {
             return Errors.Any() ? null : ReferenceLookupTable;
         }
@@ -26,24 +29,34 @@ namespace QL.Evaluation
         {
             Errors = errors;
             Warnings = warnings;
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
         }
 
-        IResolvableTerminalType GetValue(IResolvableTerminalType node)
+        public EvaluatorVisitor(IList<QLError> EvaluationErrors, IList<QLWarning> EvaluationWarnings, IDictionary<ITypeResolvable, TerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
         {
-
-            return node;
+            this.Errors = EvaluationErrors;
+            this.Warnings = EvaluationWarnings;
+            this.ReferenceLookupTable = referenceTable;
+            IdentifierLookupTable = identifierTable;
 
         }
-        IResolvableTerminalType GetValue(Expression node)
+
+        /*
+        TerminalWrapper GetValue(IResolvableTerminalType node)
+        {
+            throw new Exception("blabla");
+            return new TerminalWrapper((dynamic)node);
+
+        }
+        TerminalWrapper GetValue(Expression node)
         {
 
             return GetValue((dynamic)node.Child);
 
         }
 
-        IResolvableTerminalType GetValue(Identifier node)
+        TerminalWrapper GetValue(Identifier node)
         {
             if (!IdentifierLookupTable.ContainsKey(node))
             {
@@ -55,7 +68,12 @@ namespace QL.Evaluation
             }
             return ReferenceLookupTable[IdentifierLookupTable[node]];
         }
+        TerminalWrapper GetValue(ElementBase node)
+        {
+            throw new QLException("Not recognised, base case");
 
+        }
+        */
 
         #region Regular elements
         public void Visit(Form node)
@@ -68,36 +86,60 @@ namespace QL.Evaluation
 
         public void Visit(ControlUnit node)
         {
-            ReferenceLookupTable[node.Expression] = GetValue(node.Expression);
         }
 
         public void Visit(StatementUnit node)
         {
-            IdentifierLookupTable[node.Identifier] = node.Expression;//NOT node.DataType, that is used only for type checking(arbitrary decision)
-            ReferenceLookupTable[node.Expression] = GetValue(node.Expression);
+            IdentifierLookupTable[node.Identifier] = node.Expression;
 
         }
 
         public void Visit(QuestionUnit node)
         {
-            IdentifierLookupTable[node.Identifier] = node.DataType;
-            ReferenceLookupTable[node.DataType] = GetValue(node.DataType);
+            IdentifierLookupTable[node.Identifier] = node.DataType;//this should be used for further value assignment
         }
 
         public void Visit(Expression node)
         {
+            //if expression is literal
+            Contract.Assert(node.Child != null, "Expression should have one and only one child");
+            Identifier i = node.Child as Identifier;
+            if (i != null)
+            {
+
+                if (IdentifierLookupTable.ContainsKey(i))
+                {
+                    ReferenceLookupTable[node] = ReferenceLookupTable[IdentifierLookupTable[i]];
+                }
+                else
+                {
+                    throw new QLError("Usage of variable before declaration");
+                }
+            }
+            else
+            {
+                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Child];
+            }
         }
         #endregion
 
         #region Operators
         public void Visit(EqualsOperator node)
         {
+            TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
+            TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
 
-            //Values[node] = Values[(ITypeResolvable)node.Left] == Values[(ITypeResolvable)node.Right];
+            ReferenceLookupTable[node] =  ((dynamic)leftWrapper)==((dynamic) rightWrapper);
+            
         }
 
         public void Visit(NotEqualsOperator node)
         {
+            TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
+            TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
+
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) !=((dynamic) rightWrapper);
+
         }
 
         public void Visit(GreaterThanOperator node)
@@ -144,18 +186,25 @@ namespace QL.Evaluation
         #region Terminals
         public void Visit(Number node)
         {
+            ReferenceLookupTable[node] = new NumberWrapper(node);
+            
         }
 
         public void Visit(Yesno node)
         {
+            ReferenceLookupTable[node] = new YesnoWrapper(node);
+
+
         }
 
         public void Visit(Text node)
         {
+            ReferenceLookupTable[node] = new TextWrapper(node);
+
         }
 
         public void Visit(Identifier node)
-        {
+        {            
         }
 
         public void Visit(ElementBase node)

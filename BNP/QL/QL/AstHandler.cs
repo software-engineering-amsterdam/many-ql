@@ -24,8 +24,8 @@ namespace QL.Model
         public IList<QLWarning> EvaluationWarnings { get; private set; }
         
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
-        public IDictionary<ITypeResolvable, IResolvableTerminalType> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
-
+        public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
         string Input;
         Stream InputStream;
 
@@ -124,12 +124,12 @@ namespace QL.Model
 
             EvaluationErrors = new List<QLError>();
             EvaluationWarnings = new List<QLWarning>();
-
-            EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings);
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            IdentifierTable= new Dictionary<Identifier, ITypeResolvable>();
+            EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings, ReferenceLookupTable, IdentifierTable);
             try
             {
-                RootNode.Accept(evaluator);
-                ReferenceLookupTable = evaluator.GetValuesIfNoErrors();
+                RootNode.AcceptBottomUp(evaluator);
             }
             catch (QLError ex)
             {
