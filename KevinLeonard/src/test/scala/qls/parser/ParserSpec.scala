@@ -156,21 +156,11 @@ class ParserSpec extends Specification with ParserMatchers {
     }
     "parse question sequence" in {
       questions must succeedOn("{" +
-        "var1 dropdown {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}" +
-        "var1 dropdown {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}" +
+        "var1 dropdown" +
+        "var2 dropdown" +
       "}"
       )
-        .withResult(QuestionSequence(List(Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
+        .withResult(QuestionSequence(List(Question(Variable("var1"),Dropdown(None)), Question(Variable("var2"),Dropdown(None)))))
     }
   }
 
@@ -192,26 +182,26 @@ class ParserSpec extends Specification with ParserMatchers {
         "}")
         .withResult(Section("section1", QuestionSequence(List(Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))))
     }
-    
-//    "parse section in section" in {
-//      parsers.section must succeedOn("section \"section1\" {" +
-//        "var1 dropdown {" +
-//          "width: 400" +
-//          "font: \"Arial\"" +
-//          "fontSize: 14" +
-//          "color: #99FF66" +
-//        "}" +
-//        "section \"section2\" {" +
-//        "var2 slider {" +
-//          "width: 400" +
-//          "font: \"Arial\"" +
-//          "fontSize: 14" +
-//          "color: #99FF66" +
-//        "}" +
-//        "}" +
-//        "}")
-//        .withResult()
-//    }
-    
   }
+
+  "page parser" should {
+    "parse page" in {
+      page must succeedOn("page page1 {" +
+          "section \"section1\" {}" +
+          "section \"section2\" {}" +
+        "}")
+        .withResult(Page(Variable("page1"),List(Section("section1",QuestionSequence(List())),Section("section2",QuestionSequence(List())))))
+    }
+  }
+
+  "style parser" should {
+    "parse style" in {
+      style must succeedOn("style PartyForm {" +
+          "page page1 {}" +
+          "page page2 {}" +
+        "}")
+        .withResult(Style("PartyForm",List(Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
+    }
+  }
+  
 }

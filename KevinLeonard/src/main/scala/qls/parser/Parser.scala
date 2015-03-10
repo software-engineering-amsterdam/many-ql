@@ -16,7 +16,17 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
+  def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
+    case label ~ ps => Style(label, ps)
+  }
   
+  def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
+  
+  def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
+    case v ~ ss => Page(v, ss)
+  }
+  
+  def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
   
   def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
     case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
