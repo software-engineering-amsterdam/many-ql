@@ -135,24 +135,24 @@ class ParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "comparison parser" should {
+  "relational parser" should {
     "be valid with a < operator" in {
-      comparison must succeedOn("1 < 2")
+      relational must succeedOn("1 < 2")
         .withResult(LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
     }
 
     "be valid with a <= operator" in {
-      comparison must succeedOn("1 <= 2")
+      relational must succeedOn("1 <= 2")
         .withResult(LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
     }
 
     "be valid with a > operator" in {
-      comparison must succeedOn("1 > 2")
+      relational must succeedOn("1 > 2")
         .withResult(GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
     }
 
     "be valid with a >= operator" in {
-      comparison must succeedOn("1 >= 2")
+      relational must succeedOn("1 >= 2")
         .withResult(GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
     }
   }

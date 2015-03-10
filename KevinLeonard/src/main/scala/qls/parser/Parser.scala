@@ -18,21 +18,26 @@ class Parser extends JavaTokenParsers {
 
   
   
-//  def section: Parser[Section] = "section" ~> stringLiteral ~ widgets ^^ {
-//    title ~ widgets = new Section(title, widgets)
-//  }
+  def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
+    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
+  }
   
-  //def widgets: Parser[WidgetSequence] = "{" ~> rep(widget) <~ "}" ^^ WidgetSequence
+  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
-  def widget: Parser[Widget] = variable ~ widgetType ~ opt(widgetStyle) ^^ {
-    case v ~ "spinbox" ~ properties => SpinBox(v, properties)
-    case v ~ "slider" ~ properties => Slider(v, properties)
-    case v ~ "text" ~ properties => Text(v, properties)
-    case v ~ "textBlock" ~ properties => TextBlock(v, properties)
-    case v ~ "radio" ~ properties => Radio(v, properties)
-    case v ~ "dropdown" ~ properties => DropDown(v, properties)
+  def question: Parser[Question] = variable ~ widget ^^ {
+    case v ~ w => Question(v, w)
   }
+  
+  def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
+    case "spinbox" ~ properties => SpinBox(properties)
+    case "slider" ~ properties => Slider(properties)
+    case "text" ~ properties => Text(properties)
+    case "textBlock" ~ properties => TextBlock(properties)
+    case "radio" ~ properties => Radio(properties)
+    case "dropdown" ~ properties => DropDown(properties)
+  } 
+  
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 
   // TODO: Repetition of the same property is not allowed.
