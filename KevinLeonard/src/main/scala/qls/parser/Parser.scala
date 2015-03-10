@@ -16,13 +16,23 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
+  def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
+    case label ~ ps => Style(label, ps)
+  }
   
+  def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
+  
+  def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
+    case v ~ ss => Page(v, ss)
+  }
+  
+  def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
   
   def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
     case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
   }
   
-  def questions: Parser[QuestionSequence] = "{" ~> rep(question) <~ "}" ^^ QuestionSequence
+  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
   def question: Parser[Question] = variable ~ widget ^^ {
@@ -30,12 +40,12 @@ class Parser extends JavaTokenParsers {
   }
   
   def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
-    case "spinbox" ~ properties => Spinbox(properties)
+    case "spinbox" ~ properties => SpinBox(properties)
     case "slider" ~ properties => Slider(properties)
     case "text" ~ properties => Text(properties)
     case "textBlock" ~ properties => TextBlock(properties)
     case "radio" ~ properties => Radio(properties)
-    case "dropdown" ~ properties => Dropdown(properties)
+    case "dropdown" ~ properties => DropDown(properties)
   } 
   
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")

@@ -78,7 +78,7 @@ class ParserSpec extends Specification with ParserMatchers {
   "widget parser" should {
     "parse spinbox" in {
       question must succeedOn("var1 spinbox")
-        .withResult(Question(Variable("var1"), Spinbox(None)))
+        .withResult(Question(Variable("var1"), SpinBox(None)))
     }
     "parse slider" in {
       question must succeedOn("var1 slider")
@@ -98,7 +98,7 @@ class ParserSpec extends Specification with ParserMatchers {
     }
     "parse dropdown" in {
       question must succeedOn("var1 dropdown")
-        .withResult(Question(Variable("var1"), Dropdown(None)))
+        .withResult(Question(Variable("var1"), DropDown(None)))
     }
     "parse spinbox with style" in {
       question must succeedOn("var1 spinbox {" +
@@ -107,7 +107,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),Spinbox(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),SpinBox(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse slider with style" in {
       question must succeedOn("var1 slider {" +
@@ -152,25 +152,15 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
     }
     "parse question sequence" in {
       questions must succeedOn("{" +
-        "var1 dropdown {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}" +
-        "var1 dropdown {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}" +
+        "var1 dropdown" +
+        "var2 dropdown" +
       "}"
       )
-        .withResult(QuestionSequence(List(Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
+        .withResult(List(Question(Variable("var1"),DropDown(None)), Question(Variable("var2"),DropDown(None))))
     }
   }
 
@@ -190,28 +180,28 @@ class ParserSpec extends Specification with ParserMatchers {
             "color: #99FF66" +
           "}" +
         "}")
-        .withResult(Section("section1", QuestionSequence(List(Question(Variable("var1"),Dropdown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))))
+        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))))
     }
-    
-//    "parse section in section" in {
-//      parsers.section must succeedOn("section \"section1\" {" +
-//        "var1 dropdown {" +
-//          "width: 400" +
-//          "font: \"Arial\"" +
-//          "fontSize: 14" +
-//          "color: #99FF66" +
-//        "}" +
-//        "section \"section2\" {" +
-//        "var2 slider {" +
-//          "width: 400" +
-//          "font: \"Arial\"" +
-//          "fontSize: 14" +
-//          "color: #99FF66" +
-//        "}" +
-//        "}" +
-//        "}")
-//        .withResult()
-//    }
-    
   }
+
+  "page parser" should {
+    "parse page" in {
+      page must succeedOn("page page1 {" +
+          "section \"section1\" {}" +
+          "section \"section2\" {}" +
+        "}")
+        .withResult(Page(Variable("page1"),List(Section("section1",List()),Section("section2",List()))))
+    }
+  }
+
+  "style parser" should {
+    "parse style" in {
+      style must succeedOn("style PartyForm {" +
+          "page page1 {}" +
+          "page page2 {}" +
+        "}")
+        .withResult(Style("PartyForm",List(Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
+    }
+  }
+  
 }
