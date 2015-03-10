@@ -100,21 +100,21 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 	public Node visitQuestion(QuestionContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
-		Question question = new Question(identifier,pos);
+		Question question = new Question(identifier, pos);
 		return question;
 	}
 
 	@Override
 	public Node visitStyling(StylingContext ctx) {
-		Style style = new Style();
+		Style style = new Style(CodePosition.getCodePosition(ctx));
 		return style;
 	}
 
 	@Override
 	public Node visitSheet(SheetContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		Identifier identifier = new Identifier(ctx.Identifier().getText(),pos);
-		Sheet sheet = new Sheet(identifier,pos);
+		Identifier identifier = new Identifier(ctx.Identifier().getText(), pos);
+		Sheet sheet = new Sheet(identifier, pos);
 		ArrayList<Page> pages = (ArrayList<Page>) ctx.accept(this);
 		return sheet;
 	}
