@@ -29,7 +29,7 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	}
 
 	public void visit(Condition condition) {
-		Value<Boolean> value = ExpressionEvaluator.getValue(condition.getExpression(), values);
+		Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
 		
 		if (!value.isUndefined() && value.getValue()) {
 			condition.visitChildren(this);
