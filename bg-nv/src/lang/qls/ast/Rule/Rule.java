@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.type.Type;
@@ -6,16 +6,14 @@ import lang.ql.ast.type.Type;
 /**
  * Created by bore on 02/03/15.
  */
-public abstract class Rule<V> extends AstNode
+public abstract class Rule extends AstNode
 {
     private final String label;
-    private final V value;
 
-    public Rule(String label, V value, int lineNumber)
+    public Rule(String label, int lineNumber)
     {
         super(lineNumber);
         this.label = label;
-        this.value = value;
     }
 
     public String getLabel()
@@ -23,14 +21,9 @@ public abstract class Rule<V> extends AstNode
         return this.label;
     }
 
-    public V getValue()
-    {
-        return this.value;
-    }
-
     public boolean isCompatibleWithType(Type t)
     {
-        return true;
+        throw new IllegalStateException("Unsupported rule type");
     }
 
     public boolean isOverwrittenBy(Rule r)

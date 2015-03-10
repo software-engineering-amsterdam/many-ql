@@ -28,4 +28,9 @@ public class SymbolResult
     {
         return this.messages;
     }
+
+    public boolean containsErrors()
+    {
+        return this.getMessages().containsErrors();
+    }
 }

@@ -15,12 +15,24 @@ namespace AST.ParseTreeVisitors
 {
     public class ExpressionVisitor : QLMainBaseVisitor<IExpression>
     {
+        public override IExpression VisitExpressionId(QLMainParser.ExpressionIdContext context)
+        {
+            return context.id().Accept(this);
+        }
 
-        /*    Associative     */
+        public override IExpression VisitExpressionValue(QLMainParser.ExpressionValueContext context)
+        {
+            return new Container(context.GetText(),
+                                 context.value().Accept(new ValueVisitor()), 
+                                 Position.PositionFormParserRuleContext(context));
+        }
+
         #region Associative
         public override IExpression VisitAssociativeValue(QLMainParser.AssociativeValueContext context)
         {
-            return context.value().Accept(new ValueVisitor());
+            return new Container(context.GetText(),
+                                 context.value().Accept(new ValueVisitor()),
+                                 Position.PositionFormParserRuleContext(context));
         }
 
         public override IExpression VisitAssociativeId(QLMainParser.AssociativeIdContext context)
@@ -93,7 +105,7 @@ namespace AST.ParseTreeVisitors
             );
         }
         #endregion
-        /*    Non-associative     */
+
         #region Non-Associative
         public override IExpression VisitEQ(QLMainParser.EQContext context)
         {
@@ -151,17 +163,19 @@ namespace AST.ParseTreeVisitors
 
         public override IExpression VisitNonAssociativePriority(QLMainParser.NonAssociativePriorityContext context)
         {
-            return context.expression().Accept(new ValueVisitor());
+            return context.expression().Accept(this);
         }
 
         public override IExpression VisitNonAssociativeValue(QLMainParser.NonAssociativeValueContext context)
         {
-            return context.value().Accept(new ValueVisitor());
+            return new Container(context.GetText(),
+                                 context.value().Accept(new ValueVisitor()),
+                                 Position.PositionFormParserRuleContext(context));
         }
 
         public override IExpression VisitNonAssociativeId(QLMainParser.NonAssociativeIdContext context)
         {
-            return context.id().Accept(new ValueVisitor());
+            return context.id().Accept(this);
         }
 
         public override IExpression VisitAssociativeUnary(QLMainParser.AssociativeUnaryContext context)

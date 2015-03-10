@@ -20,12 +20,12 @@ namespace AST.TypeCheck.Collectors
         }
         public override IList<NameToType> Visit(Question node)
         {
-            return new List<NameToType> { new NameToType(node.Identifier, node.Value) };
+            return new List<NameToType> { new NameToType(node.Identifier, node.RetrieveType() ) };
         }
 
         public override IList<NameToType> Visit(Conditional node)
         {
-            return node.Body
+            return node.GetBody()
                        .SelectMany(x => x.Accept(this))
                        .ToList();
         }

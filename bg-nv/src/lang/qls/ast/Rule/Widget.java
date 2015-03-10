@@ -1,22 +1,25 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 import lang.ql.ast.type.Type;
-import lang.qls.ast.Rule.WidgetValue.WidgetValue;
+import lang.qls.ast.rule.widget.WidgetValue;
 
 /**
  * Created by bore on 09/03/15.
  */
-public class Widget extends WidgetRule
+public class Widget extends Rule
 {
+    private final WidgetValue value;
+
     public Widget(WidgetValue value, int lineNumber)
     {
-        super("widget", value, lineNumber);
+        super("widget", lineNumber);
+        this.value = value;
     }
 
     @Override
     public boolean isCompatibleWithType(Type t)
     {
-        return this.getValue().isCompatibleWithType(t);
+        return this.value.isCompatibleWithType(t);
     }
 
     @Override

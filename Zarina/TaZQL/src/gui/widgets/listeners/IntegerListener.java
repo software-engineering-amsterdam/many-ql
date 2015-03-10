@@ -14,7 +14,7 @@ public class IntegerListener extends AListener implements DocumentListener {
 	//private final ValueRepository valueRepository;
 //	private EvaluateExpression eval;
 	
-	public IntegerListener(IWidgetComponent widget,  EvaluateExpression evaluator) {//ValueRepository valueRepository) {
+	public IntegerListener(IWidgetComponent widget,  EvaluateExpression_new evaluator) {//ValueRepository valueRepository) {
 		super(widget, evaluator);
 		//this.widget = widget;
 		//this.valueRepository = valueRepository;
@@ -28,12 +28,12 @@ public class IntegerListener extends AListener implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
-		update();
+		//update();
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
-	//	update();
+		update();
 	}
 	
 	@Override
@@ -44,8 +44,12 @@ public class IntegerListener extends AListener implements DocumentListener {
 			//Expression expressionForEvaluation = (Expression) intValue;
 			//valueRepository.putID(widget.getIdWidget().toString(), intValue);
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
+			
+		//	evaluator.evaluate();
+			evaluator.setValueInGUI();
 			widget.getWidget().revalidate();
 			widget.getWidget().repaint();
+			
 			//System.out.println("Listener value: " + (valueRepository.getValue(widget.getIdWidget())).toString()   );
 			
 		}

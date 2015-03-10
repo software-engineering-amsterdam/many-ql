@@ -1,4 +1,4 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 import lang.qls.ast.Styleable;
 import lang.qls.semantics.Style;

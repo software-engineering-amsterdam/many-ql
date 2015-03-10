@@ -8,11 +8,13 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.StrValue;
 import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
+import org.uva.utility.CodePosition;
 
 public abstract class BaseTextField extends Widget implements DocumentListener {
 
@@ -66,8 +68,8 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 	}
 
 	@Override
-	public void setWidgetValue(Value value) {
-		if (!value.getType().isEqual(new UndefinedType())) {
+	public void setWidgetValue(Value value, Type type) {
+		if (!type.isEqual(new UndefinedType()) && isDependent()) {
 			getWidget().setText(value.toString());
 		}
 	}

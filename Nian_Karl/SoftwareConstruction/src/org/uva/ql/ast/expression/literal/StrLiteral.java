@@ -31,7 +31,7 @@ public class StrLiteral extends Literal {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new StrType();
+		return new StrType(getPosition());
 	}
 
 }

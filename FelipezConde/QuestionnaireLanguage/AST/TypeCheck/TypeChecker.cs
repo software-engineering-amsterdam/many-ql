@@ -1,4 +1,5 @@
 ﻿using AST.Nodes;
+using AST.Nodes.Expression;
 using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
 using AST.Notification;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Types = AST.Types;
 
 namespace AST.TypeCheck
 {
@@ -26,8 +28,8 @@ namespace AST.TypeCheck
 
             //Shared Type Information
             IList<Question> definedIdentifiers           = GetDefinedIdentifiers(node);
-            IList<Identifier> usedIdentifiers            = GetUsedIdentifiers(node);
-            Dictionary<string, IValue> identifierToType  = GetIdentifierTypes(node);
+            IList<Id> usedIdentifiers                    = GetUsedIdentifiers(node);
+            Dictionary<string, Types.Type> identifierToType = GetIdentifierTypes(node);
             IList<IExpression> topLevelExpressions       = GetTopLevelExpressions(node);
 
             //Use of valid identifiers (unique and defined)
@@ -45,18 +47,18 @@ namespace AST.TypeCheck
             return notifications;
         }
 
-        private static IEnumerable<INotification> ConditionalsHaveTypeBool(Form node, Dictionary<string,IValue> identifierToType)
+        private static IEnumerable<INotification> ConditionalsHaveTypeBool(Form node, Dictionary<string, Types.Type> identifierToType)
         {
             List<INotification> notifications = new List<INotification>();
             var conditionals = node.Accept(new ConditionalCollector());
 
             return conditionals.Where(c => 
                                         !DeriveConditionalType(c, identifierToType)
-                                        .IsOfType(new Nodes.Values.Bool(true)))
+                                        .IsEqual(new Types.BoolType()))
                                .Select(c => new NonBooleanCondition(c.GetPosition()));
         }
 
-        private static IEnumerable<INotification> CheckExpressionsHaveType(IList<IExpression> topLevelExpressions,Dictionary<string, IValue> identifierToType)
+        private static IEnumerable<INotification> CheckExpressionsHaveType(IList<IExpression> topLevelExpressions, Dictionary<string, Types.Type> identifierToType)
             {
                 List<INotification> notifications = new List<INotification>();
 
@@ -68,20 +70,20 @@ namespace AST.TypeCheck
 
                 return notifications;
             }
-        private static IEnumerable<INotification> QuestionsHaveValidComputationType(IList<Question> definedIdentifiers, Dictionary<string, IValue> identifierToType)
+        private static IEnumerable<INotification> QuestionsHaveValidComputationType(IList<Question> definedIdentifiers, Dictionary<string, Types.Type> identifierToType)
         {
             return definedIdentifiers.Where( q => q.Computation != null)
-                                     .Where( q => !DeriveQuestionType(q,identifierToType).IsOfType(identifierToType[q.Identifier]))
+                                     .Where( q => !DeriveQuestionType(q,identifierToType).IsEqual(identifierToType[q.Identifier]))
                                      .Select(q => new ComputedQuestionTypeConflict(
                                                         q,
                                                         q.Identifier, 
-                                                        DeriveQuestionType(q, identifierToType).MakeString()));
+                                                        DeriveQuestionType(q, identifierToType).GetString()));
         }
 
         private static IEnumerable<INotification> IdentifierChecks(
             Form node, 
-            IList<Question> definedIdentifiers, 
-            IList<Identifier> usedIdentifiers
+            IList<Question> definedIdentifiers,
+            IList<Id> usedIdentifiers
             )
         {
             List<INotification> notifications = new List<INotification>(); 
@@ -108,22 +110,22 @@ namespace AST.TypeCheck
                             .Select(x => new DuplicateIdentifier(x.Name, x.Positions));
         }
 
-        private static IEnumerable<UndefinedIdentifier> GetUndefinedIdentifiers(IList<Question> definedIdentifiers, IList<Identifier> usedIdentifiers)
+        private static IEnumerable<UndefinedIdentifier> GetUndefinedIdentifiers(IList<Question> definedIdentifiers, IList<Id> usedIdentifiers)
         {
             return usedIdentifiers
-                    .Where(used => !definedIdentifiers.Any(defined => defined.Identifier == used.Name))
-                    .Select(x => new UndefinedIdentifier(x.Node.GetPosition(), x.Name));
+                    .Where(used => !definedIdentifiers.Any(defined => defined.Identifier == used.Identifier))
+                    .Select(x => new UndefinedIdentifier(x.GetPosition(), x.Identifier));
         }
 
         private static IList<Question> GetDefinedIdentifiers(Form node)
         { 
-            return node.Accept(new DefinedIdentifierCollector()); 
+            return node.Accept(new QuestionCollector());
         }
-        private static IList<Identifier> GetUsedIdentifiers(Form node)
+        private static IList<Id> GetUsedIdentifiers(Form node)
         { 
             return node.Accept(new UsedIdentifierCollector()); 
         }
-        private static Dictionary<string, IValue> GetIdentifierTypes(Form node)
+        private static Dictionary<string, Types.Type> GetIdentifierTypes(Form node)
         {
            return node.Accept(new IdentifierTypeCollector())
                       .ToDictionary(x => x.name, x => x.type);
@@ -133,12 +135,12 @@ namespace AST.TypeCheck
         {
             return node.Accept(new TopLevelExpressionCollector());
         }
-        private static IValue DeriveQuestionType(Question node, Dictionary<string, IValue> identifierToType)
+        private static Types.Type DeriveQuestionType(Question node, Dictionary<string, Types.Type> identifierToType)
         {
-            return node.Computation.Accept(new ComputationTypeCollector(identifierToType));
+            return node.Computation.Accept(new ExpressionTypeCollector(identifierToType));
         }
 
-        private static IValue DeriveConditionalType(Conditional node, Dictionary<string, IValue> identifierToType)
+        private static Types.Type DeriveConditionalType(Conditional node, Dictionary<string, Types.Type> identifierToType)
         {
             return node.Condition.Accept(new ExpressionTypeCollector(identifierToType));
         }

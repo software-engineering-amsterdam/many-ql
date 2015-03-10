@@ -23,7 +23,7 @@ namespace AST.TypeCheck.Collectors
 
         public override IList<Conditional> Visit(Nodes.FormObject.Conditional node)
         {
-            var acc = node.Body
+            var acc = node.GetBody()
                           .SelectMany(x => x.Accept(this))
                           .ToList();
 
