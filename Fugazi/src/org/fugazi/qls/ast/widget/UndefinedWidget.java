@@ -1,7 +1,5 @@
 package org.fugazi.qls.ast.widget;
 
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -25,6 +23,6 @@ public class UndefinedWidget extends Widget {
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
-        return _visitor.visitNullWidget(this);
+        return _visitor.visitUndefinedWidget(this);
     }
 }
