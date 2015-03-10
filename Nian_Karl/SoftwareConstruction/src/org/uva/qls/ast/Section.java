@@ -2,16 +2,17 @@ package org.uva.qls.ast;
 
 import java.util.List;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.BaseNode;
+import org.uva.utility.CodePosition;
 
-public class Section implements QLNode{
+public class Section extends BaseNode{
 
 	private final String sectionTitle;
 	private final List<Section> sectionList;
 	private final List<Question> questionList;
 
-	public Section(String sectionTitle, List<Section> sectionList, List<Question> questionList) {
-		super();
+	public Section(String sectionTitle, List<Section> sectionList, List<Question> questionList,CodePosition pos) {
+		super(pos);
 		this.sectionTitle = sectionTitle;
 		this.sectionList = sectionList;
 		this.questionList = questionList;

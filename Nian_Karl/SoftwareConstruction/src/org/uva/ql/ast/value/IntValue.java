@@ -1,7 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.Type;
 
 
 public class IntValue extends Value{
@@ -137,10 +135,4 @@ public class IntValue extends Value{
 	public Value intNotEqual(IntValue arg) {
 		return new BoolValue(arg.getValue() != getValue());
 	}
-	
-	@Override
-	public Type getType() {
-		return new IntType();
-	}
-
 }

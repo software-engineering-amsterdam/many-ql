@@ -1,8 +1,13 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.visitor.TypeVisitor;
+import org.uva.utility.CodePosition;
 
 public class StrType extends Type {
+
+	public StrType(CodePosition pos) {
+		super(pos);
+	}
 
 	@Override
 	public boolean isStr() {

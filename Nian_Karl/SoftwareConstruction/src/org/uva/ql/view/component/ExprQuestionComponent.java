@@ -14,7 +14,6 @@ public class ExprQuestionComponent extends QuestionComponent {
 		super(question, widget);
 		this.expr = question.getExpression();
 		widget.getWidget().setEnabled(false);
-
 	}
 
 	public Expression getExpr() {

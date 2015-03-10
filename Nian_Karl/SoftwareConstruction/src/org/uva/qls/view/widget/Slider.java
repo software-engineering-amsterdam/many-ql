@@ -3,15 +3,15 @@ package org.uva.qls.view.widget;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
 
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 
-public class Slider extends Widget<QLNode>{
+public class Slider extends Widget<Node>{
 
 	private static final long serialVersionUID = -7374082203125807531L;
 	private final JSlider slider;
 	
 	
-	public Slider(QLNode widgetModel) {
+	public Slider(Node widgetModel) {
 		super(widgetModel);
 		slider = new JSlider();
 	}

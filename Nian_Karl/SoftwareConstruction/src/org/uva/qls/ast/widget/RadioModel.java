@@ -3,12 +3,12 @@ package org.uva.qls.ast.widget;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.utility.CodePosition;
 
-public class Radio extends WidgetType {
+public class RadioModel extends WidgetType {
 
 	private final StrLiteral first;
 	private final StrLiteral second;
 	
-	public Radio(StrLiteral first, StrLiteral second, CodePosition position) {
+	public RadioModel(StrLiteral first, StrLiteral second, CodePosition position) {
 		super(position);
 		this.first = first;
 		this.second = second;

@@ -2,9 +2,9 @@ package org.uva.qls.ast.widget;
 
 import org.uva.utility.CodePosition;
 
-public class Textbox extends WidgetType {
+public class TextboxModel extends WidgetType {
 
-	public Textbox(CodePosition position) {
+	public TextboxModel(CodePosition position) {
 		super(position);
 	}
 	

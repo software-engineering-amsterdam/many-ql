@@ -2,9 +2,9 @@ package org.uva.qls.ast.widget;
 
 import org.uva.utility.CodePosition;
 
-public class Checkbox extends WidgetType {
+public class CheckboxModel extends WidgetType {
 
-	public Checkbox(CodePosition position) {
+	public CheckboxModel(CodePosition position) {
 		super(position);
 	}
 	

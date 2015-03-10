@@ -1,11 +1,11 @@
 package org.uva.ql.ast.statement;
 
 import org.uva.ql.antlr.QLParser.ExpressionContext;
-import org.uva.ql.ast.QLNode;
+import org.uva.ql.ast.Node;
 import org.uva.ql.visitor.StatementVisitable;
 import org.uva.utility.CodePosition;
 
-public abstract class Statement extends ExpressionContext implements QLNode, StatementVisitable{
+public abstract class Statement extends ExpressionContext implements Node, StatementVisitable{
 
 	private final CodePosition position;
 
