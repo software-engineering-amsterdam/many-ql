@@ -5,23 +5,32 @@ import java.util.List;
 
 import uva.sc.qls.ast.INode;
 import uva.sc.qls.atom.ID;
+import uva.sc.qls.types.Boolean;
+import uva.sc.qls.types.Number;
+import uva.sc.qls.types.String;
 import uva.sc.qls.logic.*;
+import uva.sc.qls.logic.fonts.Arial;
+import uva.sc.qls.logic.fonts.Bazooka;
+import uva.sc.qls.logic.fonts.BookAntiqua;
+import uva.sc.qls.logic.fonts.Courier;
+import uva.sc.qls.logic.fonts.Dialog;
+import uva.sc.qls.logic.fonts.FontType;
+import uva.sc.qls.logic.fonts.TimesNewRoman;
+import uva.sc.qls.logic.fonts.UndefinedFont;
+import uva.sc.qls.logic.style.Color;
+import uva.sc.qls.logic.style.DefaultStyle;
+import uva.sc.qls.logic.style.Font;
+import uva.sc.qls.logic.style.FontSize;
+import uva.sc.qls.logic.style.StyleProperty;
+import uva.sc.qls.logic.style.Width;
 import uva.sc.qls.types.Type;
-import uva.sc.qls.types.Unidentified;
-import uva.sc.qls.widgetTypes.UnidentifiedWidget;
+import uva.sc.qls.widgetTypes.Checkbox;
+import uva.sc.qls.widgetTypes.Radio;
+import uva.sc.qls.widgetTypes.Spinbox;
 import uva.sc.qls.widgetTypes.WidgetType;
 
 public class QLSVisitor extends QLSGrammarBaseVisitor<INode>{
 
-	private static QLSVisitor instance = null;
-	
-	public static QLSVisitor getInstance() {
-		if (instance == null) {
-			instance = new QLSVisitor();
-		}
-		return instance;
-	}
-	
 	public StyleSheet visitStylesheet(QLSGrammarParser.StylesheetContext ctx) { 
 		List<Page> pages = new ArrayList<Page>();
 		ID id = new ID(ctx.ID().getText());
@@ -75,7 +84,7 @@ public class QLSVisitor extends QLSGrammarBaseVisitor<INode>{
 	}
 	
 	public Widget visitWidget(QLSGrammarParser.WidgetContext ctx) { 
-		WidgetType widgetType = (WidgetType)visitWidgetType(ctx.widgetType());
+		WidgetType widgetType = (WidgetType)this.visit(ctx.widgetType());
 		Widget widget = null;
 		if (ctx.STRING(0) == null || ctx.STRING(1) == null) {
 			widget = new Widget(widgetType);
@@ -88,70 +97,77 @@ public class QLSVisitor extends QLSGrammarBaseVisitor<INode>{
 	
 	public DefaultStyle visitDefaultStyle(QLSGrammarParser.DefaultStyleContext ctx) { 
 		List<StyleProperty> stylePropertyList = new ArrayList<StyleProperty>();
-		Type type = (Type)visitType(ctx.type());
+		Type type = (Type)this.visit(ctx.type());
 		Widget widget = (Widget)visitWidget(ctx.widget());
 		for(QLSGrammarParser.StylePropertyContext stylePropertyContext : ctx.styleProperties) {
-			stylePropertyList.add((StyleProperty)visitStyleProperty(stylePropertyContext));
+			stylePropertyList.add((StyleProperty)this.visit(stylePropertyContext));
 		}
 		return new DefaultStyle(type, stylePropertyList, widget); 
 	}
 	
-	public StyleProperty visitStyleProperty(QLSGrammarParser.StylePropertyContext ctx) {
-		ID id = new ID(ctx.ID().getText()); 
-		return new StyleProperty(id); 
-	}
-
-	public Type visitType(QLSGrammarParser.TypeContext ctx) {  
-		String type = ctx.getText();
-		Type result = new Unidentified();
-		switch (type){
-			case "boolean": 
-				result = new uva.sc.qls.types.Boolean(); 
-				break;
-			case "number" : 
-				result = new uva.sc.qls.types.Number(); 	
-				break;
-			case "string" : 
-				result = new uva.sc.qls.types.String(); 
-				break;
-		}
-		return result;
+	public Width visitWidth(QLSGrammarParser.WidthContext ctx) {
+		return new Width(Integer.parseInt(ctx.NUMBER().getText())); 
 	}
 	
-	public WidgetType visitWidgetType(QLSGrammarParser.WidgetTypeContext ctx) { 
-		String type = ctx.getText();
-		WidgetType result = new UnidentifiedWidget();
-		switch (type){
-			case "checkbox": 
-				result = new uva.sc.qls.widgetTypes.Checkbox(); 
-				break;
-			case "spinbox" : 
-				result = new uva.sc.qls.widgetTypes.Spinbox(); 
-				break;
-			case "radio" : 
-				result = new uva.sc.qls.widgetTypes.Radio(); 
-				break;
-		}
-		return result;
+	public Font visitFontName(QLSGrammarParser.FontNameContext ctx) {
+		FontType fontType = (FontType)this.visit(ctx.font());
+		return new Font(fontType); 
 	}
 
-	public INode visitNumber(QLSGrammarParser.NumberContext ctx) { 
-		return null; 
+	public FontSize visitFontsize(QLSGrammarParser.FontsizeContext ctx) { 
+		return new FontSize(Integer.parseInt(ctx.NUMBER().getText())); 
 	}
 
-	public INode visitBoolean(QLSGrammarParser.BooleanContext ctx) { 
-		return null; 
+	public Color visitColor(QLSGrammarParser.ColorContext ctx) { 
+		return new Color(ctx.COLORENCODE().getText()); 
+	}
+	
+	public Boolean visitBoolean(QLSGrammarParser.BooleanContext ctx) { 
+		return new Boolean(); 
+	}
+	
+	public Number visitNumber(QLSGrammarParser.NumberContext ctx) {
+		return new Number();
+	}
+	
+	public String visitString(QLSGrammarParser.StringContext ctx) {
+		return new String(); 
+	}
+	
+	public Checkbox visitCheckbox(QLSGrammarParser.CheckboxContext ctx) { 
+		return new Checkbox(); 
+	}
+	
+	public Spinbox visitSpinbox(QLSGrammarParser.SpinboxContext ctx) { 
+		return new Spinbox(); 
+	}
+	
+	public Radio visitRadio(QLSGrammarParser.RadioContext ctx) { 
+		return new Radio(); 
+	}
+	
+	public Arial visitArial(QLSGrammarParser.ArialContext ctx) { 
+		return new Arial(); 
 	}
 
-	public ID visitId(QLSGrammarParser.IdContext ctx) { 
-		return new ID(ctx.ID().getText()); 
+	public TimesNewRoman visitTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx) { 
+		return new TimesNewRoman(); 
 	}
 
-	public INode visitString(QLSGrammarParser.StringContext ctx) { 
-		return null;
+	public Bazooka visitBazooka(QLSGrammarParser.BazookaContext ctx) { 
+		return new Bazooka(); 
+	}
+	
+	public BookAntiqua visitBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx) { 
+		return new BookAntiqua(); 
 	}
 
-	public INode visitColorencode(QLSGrammarParser.ColorencodeContext ctx) { 
-		return null; 
+	public Courier visitCourier(QLSGrammarParser.CourierContext ctx) { 
+		return new Courier(); 
 	}
+
+	public Dialog visitDialog(QLSGrammarParser.DialogContext ctx) { 
+		return new Dialog(); 
+	}	
+	
 }

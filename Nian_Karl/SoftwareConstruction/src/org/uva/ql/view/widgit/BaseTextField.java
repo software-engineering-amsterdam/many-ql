@@ -14,7 +14,7 @@ import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
-public abstract class BaseTextField extends Widget implements DocumentListener{
+public abstract class BaseTextField extends Widget implements DocumentListener {
 
 	protected final JTextField textField;
 	protected final WidgetListener widgetListener;

@@ -1,5 +1,6 @@
 package uva.qls.interpreter.typecheck;
 
+
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.interpreter.typecheck.TypeCheck;
@@ -10,6 +11,8 @@ import uva.qls.interpreter.typecheck.table.ErrorTable;
 import uva.qls.interpreter.typecheck.table.SymbolTable;
 import uva.ql.ast.ASTNode;
 import uva.qls.ast.literal.*;
+import uva.qls.ast.statements.DefaultValue;
+import uva.qls.ast.statements.Question;
 import uva.qls.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.supporting.*;
 
@@ -43,6 +46,10 @@ public class TypeCheckQLS {
 		
 	}
 	
+	public TypeCheck getTypeCheckQL(){
+		return this.typeCheckQL;
+	}
+	
 	public SymbolTable getSymbolTable(){
 		return this.table;
 	}
@@ -54,6 +61,10 @@ public class TypeCheckQLS {
 	private void startTypeVisitor(uva.qls.ast.ASTNode _ast){
 		this.visitor = new TypeCheckVisitor(this, this.table);
 		visitor.visitProg((Prog) _ast);
+	}
+	
+	public boolean hasErrors(){
+		return this.errorTable.getTable().values().size() != 0;
 	}
 	
 	public boolean isMultiple (Identifier _identifier){
@@ -88,6 +99,29 @@ public class TypeCheckQLS {
 		}
 		
 		return true;
+	}
+	
+	public boolean isCompatibleDefaultValue(DefaultValue value, String type, String componentName){
+		return 	isCompatible(type, componentName)
+				? true
+				: this.setValuesToErrorTable("Default value not compatible type: " + value.toString(), value.getLOC());
+	}
+	
+	public boolean isCompatibleQuestionType(Question question, String type, String componentName){
+		
+		return 	isCompatible(type, componentName) 
+				? true
+				: this.setValuesToErrorTable("Question not compatible with type: " + 	question.getIdentifier().evaluatedValue(), 
+																						question.getLOC());
+	}
+	
+	private boolean isCompatible(String type, String componentName){
+		for (CheckWidget w : CheckWidget.detectTypes(type)){
+			if (w.getName().equals(componentName)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean setValuesToErrorTable(String value, CodeLines codeLines){

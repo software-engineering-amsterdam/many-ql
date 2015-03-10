@@ -1,6 +1,7 @@
 package evaluator;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class ValueRepository {
 	private final HashMap<String, Value> valueRepository; 
@@ -27,5 +28,10 @@ public class ValueRepository {
 			return valueRepository.get(id);
 		}
 		return null;
+	}
+	
+	public Set<String> getIDkeys() {
+		Set<String> keys = valueRepository.keySet();
+		return keys;
 	}
 }

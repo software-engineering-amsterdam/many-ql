@@ -7,11 +7,10 @@ import javax.swing.JCheckBox;
 
 import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.BoolValue;
-import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
-public class CheckBox extends Widget {
+public class CheckBox extends Widget implements ItemListener {
 
 	private JCheckBox checkBox;
 	private WidgetListener widgetListener;
@@ -20,24 +19,11 @@ public class CheckBox extends Widget {
 		super();
 		checkBox = new JCheckBox();
 		this.widgetListener = listener;
-		CheckBoxListener checkboxListener = new CheckBoxListener();
 		checkBox.setOpaque(false);
 		if (!isDependent()) {
-			checkBox.addItemListener(checkboxListener);
+			checkBox.addItemListener(this);
 		}
 
-	}
-
-	private class CheckBoxListener implements ItemListener {
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getSource() == CheckBox.this.checkBox) {
-				if (CheckBox.this.checkBox.isSelected()) {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
-				} else {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
-				}
-			}
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -64,6 +50,17 @@ public class CheckBox extends Widget {
 			}
 		} else if (isDependent()) {
 			checkBox.setSelected(false);
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == CheckBox.this.checkBox) {
+			if (CheckBox.this.checkBox.isSelected()) {
+				widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+			} else {
+				widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+			}
 		}
 	}
 

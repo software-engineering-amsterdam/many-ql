@@ -3,7 +3,7 @@ package org.uva.qls.view.listener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SpinboxChangeListener implements ChangeListener {
+public class SpinboxChangeListener extends BaseListener implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
