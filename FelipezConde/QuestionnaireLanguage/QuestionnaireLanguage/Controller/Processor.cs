@@ -70,12 +70,12 @@ namespace QuestionnaireLanguage.Controller
             return result;
         }
 
-        public static ObjectValue GetObjectValue(Id id)
+        public static Value GetObjectValue(Id id)
         {
             return astTree.GetValue(id);
         }
 
-        public static void SetObjectValue(Id id, ObjectValue value)
+        public static void SetObjectValue(Id id, Value value)
         {
             astTree.SetValue(id,value);
         }
@@ -100,9 +100,9 @@ namespace QuestionnaireLanguage.Controller
             return false;
         }
 
-        public static void AddValue(string key, Value value)
+        public static void AddValue(string key, Value value, PositionInText positionInText)
         {
-            evaluator.AddValue(key,value);
+            evaluator.AddValue(new Id(key,positionInText),value);
         }
 
         /*TODO

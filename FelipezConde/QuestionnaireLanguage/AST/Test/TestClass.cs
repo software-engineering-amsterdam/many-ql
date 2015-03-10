@@ -20,10 +20,7 @@ namespace AST.Test
 {
     public class TestClass
     {
-        public TestClass()
-        {
-
-        }
+        public TestClass(){}
 
         public ASTResult GetAST(string path)
         {
@@ -47,9 +44,11 @@ namespace AST.Test
 
             Console.WriteLine(tree.ToStringTree(parser));
             FormVisitor visitor = new FormVisitor();
-            IFormObjectContainer ast = visitor.Visit(tree);
+            Form ast = visitor.Visit(tree);
 
-            Evaluate();
+            TypeCheck.TypeChecker.GetTypeCheckDiagnosis(ast);
+
+            //Evaluate();
 
             return new ASTResult(ast);
         }
@@ -59,21 +58,21 @@ namespace AST.Test
             Evaluator evaluator = new Evaluator();
 
             Bool boo1 = new Bool(true);
-            Bool boo2 = new Bool(false);
+            Bool boo2 = new Bool(true);
             Int int1 = new Int(1);
             Int int2 = new Int(2);
 
-            evaluator.AddValue("Q1", boo1);
-            evaluator.AddValue("Q2", boo2);
+            evaluator.AddValue(new Id("Q1", new PositionInText()), boo1);
+            evaluator.AddValue(new Id("Q2", new PositionInText()), boo2);
 
-            evaluator.AddValue("Q3", int1);
-            evaluator.AddValue("Q4", int2);
+            evaluator.AddValue(new Id("Q3", new PositionInText()), int1);
+            evaluator.AddValue(new Id("Q4", new PositionInText()), int2);
 
 
             Value v;
-            //v = evaluator.Evaluate(new Add(int1, int2, "1 + 2", new PositionInText(0, 1, 2, 3)));
-            //v = evaluator.Evaluate(new Subtract(int2, int1, "2 - 1", new PositionInText(0, 1, 2, 3)));
-            //v = evaluator.Evaluate(new And(boo1, boo2, new PositionInText(0, 1, 2, 3)));
+            v = evaluator.Evaluate(new Add(int1, int2, "1 + 2", new PositionInText(0, 1, 2, 3)));
+            v = evaluator.Evaluate(new Subtract(int2, int1, "2 - 1", new PositionInText(0, 1, 2, 3)));
+            v = evaluator.Evaluate(new And(boo1, boo2, new PositionInText(0, 1, 2, 3)));
 
 	    }
     }

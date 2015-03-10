@@ -9,26 +9,15 @@ using AST.Visitors;
 
 namespace AST.Nodes
 {
-    public abstract class ASTNode : IASTNode
+    public abstract class ASTNode
     {
         private readonly PositionInText position;
         protected ASTNode(PositionInText position)
         {
             this.position = position;
         }
-
         public abstract string GetParsedString();
-
-        public virtual void Accept(IVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Accept<T>(IVisitor<T> visitor)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public PositionInText GetPosition()
         {
             return position;

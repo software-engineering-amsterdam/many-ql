@@ -32,7 +32,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public UIElement ProcessFormObject(UIElement form)
         {
-            Processor.Evaluate(this.conditionalNode.Condition);
+            //Processor.Evaluate(this.conditionalNode.Condition);
 
             Widget stackPanelWidget = new StackPanelWidget(false);
             UIElement customStackPanel = stackPanelWidget.CreateUIControl();

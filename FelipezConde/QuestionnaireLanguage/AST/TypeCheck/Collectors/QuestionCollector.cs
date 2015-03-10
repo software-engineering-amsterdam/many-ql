@@ -27,7 +27,6 @@ namespace AST.TypeCheck.Collectors
                        .SelectMany(x => x.Accept(this))
                        .ToList();
         }
-
         public override IList<Question> Visit(Nodes.FormObject.Question node)
         {
             return new List<Question> { node };

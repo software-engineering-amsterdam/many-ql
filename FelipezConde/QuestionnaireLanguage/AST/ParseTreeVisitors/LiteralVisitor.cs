@@ -10,7 +10,7 @@ using AST.Helpers;
 using Values = AST.Nodes.Values;
 namespace AST.ParseTreeVisitors
 {
-    public class ValueVisitor : QLMainBaseVisitor<ILiteral>
+    public class LiteralVisitor : QLMainBaseVisitor<ILiteral>
     {
         public override ILiteral VisitTrueBool(QLMainParser.TrueBoolContext context)
         {

@@ -54,7 +54,7 @@ namespace AST.Nodes.Values
 
         public Types.Type RetrieveType()
         {
-            throw new NotImplementedException();
+            return new Types.BoolType();
         }
 
         #region And

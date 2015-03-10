@@ -118,11 +118,6 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        //public virtual T Visit(Nodes.Values.Unknown node)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public virtual T Visit(Nodes.Labels.Label node)
         {
             throw new NotImplementedException();
@@ -138,13 +133,12 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        public T Visit(Nodes.Values.Undefined undefined)
+        public virtual T Visit(Nodes.Values.Undefined undefined)
         {
             throw new NotImplementedException();
         }
 
-
-        public T Visit(Nodes.Interfaces.IASTNode node)
+        public virtual T Visit(Nodes.Interfaces.IASTNode node)
         {
             throw new NotImplementedException();
         }
