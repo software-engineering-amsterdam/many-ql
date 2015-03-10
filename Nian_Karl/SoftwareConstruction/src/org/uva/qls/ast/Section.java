@@ -2,7 +2,9 @@ package org.uva.qls.ast;
 
 import java.util.List;
 
-public class Section {
+import org.uva.ql.ast.QLNode;
+
+public class Section implements QLNode{
 
 	private final String sectionTitle;
 	private final List<Section> sectionList;

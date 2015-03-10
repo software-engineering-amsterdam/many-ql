@@ -1,9 +1,11 @@
 package org.uva.qls.ast;
 
 import java.util.List;
+
+import org.uva.ql.ast.QLNode;
 import org.uva.qls.ast.style.Style;
 
-public class Page implements QLSNode {
+public class Page implements QLNode {
 
 	private final String identifier;
 	private final List<Section> sectionList;
