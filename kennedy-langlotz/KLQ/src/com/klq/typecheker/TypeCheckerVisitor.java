@@ -19,6 +19,7 @@ import com.klq.typecheker.error.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by juriaan on 2-3-15.
@@ -27,6 +28,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private ArrayList<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
+    private String currentQuestion; //tracks for which question we are currently detecting the cycle
 
     private List<Type> allowedMathExprTypes;
     private List<Type> allowedBooleanExprTypes;
@@ -36,6 +38,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
         this.errors = errors;
         this.table = table;
         this.cyclicDetector = new CyclicDetector(); //TODO fill this and run it
+        this.currentQuestion = null;
 
         allowedMathExprTypes = new ArrayList<Type>();
         allowedMathExprTypes.add(Type.NUMERAL);
@@ -58,16 +61,27 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
         for(ANode child : node.getChildren()){
             child.accept(this);
         }
+
+        cyclicDetector.calculateFullDependencies();
+        if(cyclicDetector.hasCycles()){
+            for(String cyclicId : cyclicDetector.getCyclicIds()){
+                errors.add(new CyclicDependency(table.get(cyclicId)));
+            }
+        }
         return null;
     }
 
     @Override
     public Void visit(QuestionNode node) {
+        cyclicDetector.addKey(node.getQuestionID());
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
+        cyclicDetector.addKey(node.getQuestionID());
+        currentQuestion = node.getQuestionID();
+
         if(node.getQuestionType() == Type.SET) {
             for (ANode child : node.getChildren()) {
                 child.accept(this);
@@ -118,6 +132,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     @Override
     public Type visit(IdentifierNode node) {
         if(table.has(node.getIdentifier())){
+            cyclicDetector.addDependency(currentQuestion, node.getIdentifier());
             return table.getQuestionType(node.getIdentifier());
         }
         else {
