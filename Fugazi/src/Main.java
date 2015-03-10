@@ -4,7 +4,9 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
+import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
+import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
@@ -74,6 +76,9 @@ public class Main {
         // Build the AST.
         StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
         QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styleSheet);
+
+//        DefaultStyleHandler defaultStyleDeclaration = new DefaultStyleHandler(styleSheet);
+//        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
 
         // Perform QLS type checking.
         // Perform type checking.
