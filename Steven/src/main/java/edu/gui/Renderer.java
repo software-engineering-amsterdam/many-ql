@@ -14,6 +14,7 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -133,12 +134,12 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(QLSQuestion question) {
-        return null;
+        return question;
     }
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
@@ -148,16 +149,16 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Default aDefault) {
-        return null;
+        return aDefault;
     }
 
     @Override
     public AbstractNode visit(QuestionType questionType) {
-        return null;
+        return questionType;
     }
 
     @Override
     public AbstractNode visit(Style style) {
-        return null;
+        return style;
     }
 }
