@@ -1,6 +1,6 @@
 package ql.ast
 
-import ql.types.Label
+import types.Label
 
 import scala.util.parsing.input.Positional
 

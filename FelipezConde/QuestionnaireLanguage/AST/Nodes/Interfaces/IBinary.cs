@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AST.Nodes.Interfaces
+{
+    public interface IBinary : IExpression
+    {
+        IExpression Left();
+        IExpression Right();
+        string MakeString();
+        IValue GetCompatibleType(IValue leftType, IValue rightType);
+    }
+}

@@ -1,37 +1,37 @@
 style PartyForm {
     
     default {
-        spinbox {
+        number spinbox {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        slider {
+        number slider {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        text {
+        number|string text {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        textBlock {
+        string| textBlock {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        radio(min, max) {
+        boolean radio(min, max) {
             width: 400
             font: "Arial"
             fontSize: 14
             color: #999999
         }
-        dropdown {
+        boolean dropdown {
             width: 400
             font: "Arial"
             fontSize: 14
@@ -40,7 +40,7 @@ style PartyForm {
     }
     
     
-    page {
+    page page1 {
         // Number Questions
         section "Number Questions" {
             comesToParty spinbox(min, max) {
@@ -66,7 +66,7 @@ style PartyForm {
         }
     }
     
-    page {
+    page page2 {
         // String Questions
         section "String Questions" {
             comesToParty text {
@@ -87,7 +87,7 @@ style PartyForm {
         }
     }
     
-    page {
+    page page3 {
         // Boolean Questions
         section "Boolean Questions" {
             comesToParty radio {

@@ -6,74 +6,76 @@ grammar QLMain;
 ;formSection    : '{' formObject* '}' 
 ;formObject     : question
                 | conditional
-; question       : 'question' id typeName keyValuePairs
+; question       : 'question' id type label computed?
 ; conditional   : 'enable when' expression formSection
 ;
 
 /* Types */ 
- typeName          : genericTypeName
-                   | primitiveTypeName
-;genericTypeName   : 'list[' primitiveTypeName ']'
-;primitiveTypeName : 'bool'
-                   | 'string'
-                   | 'date'
-                   | 'int'
-                   | 'decimal'
-                   | 'money'
-;value             : type
-                   | expression
-;type              : bool    #BoolValue
+ type              : BOOL    #BoolType
+                   | STRING  #StringType
+                   | INT     #IntType
+;value             : bool    #BoolValue
                    | string  #StringValue
-                   | date    #DateValue
-                   | num     #NumValue
-                   | list    #ListValue
-;bool              : 'True'
-                   | 'False'
-;date              : 'date(' year '/' month '/' day ')'
-                   | 'date(' year '/' month')' 
-                   | 'date(' year ')'
-;num               : int      #NumInt
-                   | money    #NumMoney
-                   | decimal  #NumDecimal
-;list              : '[' (type (',' type )*)? ']'
-;
+                   | int     #IntValue
+;bool              : TRUE    #TrueBool
+                   | FALSE   #FalseBool
 
 /* Literal Types*/
- year           : YEAR 
-;month          : MONTH
-;day            : DAY
-;string         : STRING
-;int            : INT
-;decimal        : DECIMAL
-;money          : MONEY
+;string         : STRINGLITERAL
+;int            : INTLITERAL
 ;id             : ALPHANUMERIC
-;
 
-/* KeyValPairs */   
- keyValuePairs  : '{' keyValuePair (',' keyValuePair)* '}'
-;keyValuePair   : key '=' value
-;key            : ALPHANUMERIC
-;
 
-/* Expression & arithmetic */
- expression     : '(' expression ')'                         #PriorityExpression
-                | type                                       #ExpressionType
-                | id                                         #ExpressionId
-                |'!' expression                              #Negate
-                | expression op='&&' expression              #And
-                | expression op='||' expression              #Or
-                | expression op=( '!=' | '==' ) expression   #Equality
-                | comparison                                 #ExpressionComparison
+;label : 'label' ':' STRINGLITERAL
 
-;comparison     : '(' comparison ')'                                     #PriorityComparison
-                | arithmetic op=( '>' | '<' | '>=' | '<=' ) arithmetic   #ArithmeticComparison
+;computed : 'computed' ':' computation
 
-;arithmetic     : '(' arithmetic ')'                      #PriorityArithmetic
-                | arithmetic op=( '*' | '/' ) arithmetic  #DivMul
-                | arithmetic op=( '-' | '+' ) arithmetic  #SubAdd
-                | id                                      #ArithmeticId
-                | num                                     #ArithmeticNum
+;computation : id            #ComputationId
+             | value         #ComputationValue
+             | expression    #ComputationExpression
+             
+/* Expression */
+/*
+expression : id
+           | value
+           | associative
+           | nonAssociative
+ I think this makes it easier, but we would have to label everything. computation would just become an expression though...
+*/
+
+
+;expression      : associative
+                 | nonAssociative
+                 ;
+
+associative     : associative op= AND associative #AND
+                | associative op= OR associative  #OR
+                | associative op= MUL associative #MUL
+                | associative op= DIV associative #DIV
+                | associative op= SUB associative #SUB
+                | associative op= ADD associative #ADD
+                | unary                           #AssociativeUnary
+                | value                           #AssociativeValue
+                | id                              #AssociativeId
                 ;
+
+unary           : '!' expression      #NegateUnary
+                | '(' expression ')'  #PriorityUnary
+                ;
+
+nonAssociative  : associative EQ associative      #EQ
+                | associative NEQ associative     #NEQ
+                | associative GT associative      #GT
+                | associative GET associative     #GET
+                | associative LT associative      #LT
+                | associative LET associative     #LET
+                | '(' expression ')'              #NonAssociativePriority
+                | value                           #NonAssociativeValue
+                | id                              #NonAssociativeId
+                ;
+
+
+
 
 /*Token Names*/
 GT   : '>';
@@ -91,19 +93,23 @@ DIV  : '/';
 SUB  : '-';
 ADD  : '+';
 
+TRUE  : 'True';
+FALSE : 'False';
 
+BOOL   : 'bool';
+STRING : 'string'; 
+DATE   : 'date';
+INT    : 'int';
 
 /*Lexer rules*/
-INT     : '-'?[0-9]+;
-DECIMAL : '-'?[0-9]+ '.' [0-9]+;
-MONEY   : '-'?[0-9]+ '.' [0-9][0-9];
+INTLITERAL     : '-'?[0-9]+;
 
 YEAR  : [0-9]+;
 MONTH : [0-9][0-9];
 DAY   : [0-9][0-9];
 
 ALPHANUMERIC : [a-zA-Z0-9]+;
-STRING : '"' .*? '"';
+STRINGLITERAL : '"' .*? '"';
 
 /* White Space & Comments */
  WS             : (' ' | '\r' | '\n') -> channel(HIDDEN)

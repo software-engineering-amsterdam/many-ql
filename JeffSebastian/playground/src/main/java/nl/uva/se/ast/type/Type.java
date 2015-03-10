@@ -1,5 +1,8 @@
 package nl.uva.se.ast.type;
 
+import nl.uva.se.evaluation.value.UndefinedValue;
+import nl.uva.se.evaluation.value.Value;
+
 public abstract class Type {
 	
 	private final String typeName;
@@ -14,6 +17,10 @@ public abstract class Type {
 	
 	public boolean isUndefined() {
 		return false;
+	}
+	
+	public Value getDefaultValue() {
+		return new UndefinedValue();
 	}
 	
 	public boolean isIn(Type... types) {
