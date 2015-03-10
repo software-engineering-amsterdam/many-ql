@@ -1,17 +1,22 @@
 package org.uva.qls.view.widget;
 
-import java.util.ArrayList;
-
+import javax.swing.JComponent;
 import javax.swing.JSpinner;
 
-public class Spinbox extends JSpinner {
+import org.uva.qls.ast.QLSNode;
+
+public class Spinbox extends Widget<QLSNode> {
 
 	private static final long serialVersionUID = 1475463795116091186L;
-	public final ArrayList<Integer> spinboxValues;
+	private final JSpinner spinbox; 
+	public Spinbox(QLSNode spinBoxModel) {
+		super(spinBoxModel);
+		spinbox = new JSpinner();
+	}
 
-	public Spinbox(ArrayList<Integer> spinboxValues) {
-		super();
-		this.spinboxValues = spinboxValues;
+	@Override
+	public JComponent getWidget() {
+		return spinbox;
 	}
 
 }

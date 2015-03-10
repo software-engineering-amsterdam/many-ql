@@ -7,9 +7,11 @@ import java.util.*;
  */
 public class CyclicDetector {
     private Map<String, Set<String>> dependencies;
+    private Map<String, Set<String>> fullDependencies;
 
     public CyclicDetector() {
         this.dependencies = new HashMap<String, Set<String>>();
+        this.fullDependencies = new HashMap<String, Set<String>>();
     }
 
     public void addKey(String key){
@@ -25,14 +27,31 @@ public class CyclicDetector {
     }
 
     public boolean hasCycles(){
-        ArrayList<String> cyclicList = new ArrayList<String>();
 
-        for(Map.Entry<String, Set<String>> entry : dependencies.entrySet()){
-             if( findDependencies(entry.getValue(), new ArrayList<String>()).contains(entry.getKey())){
+        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+             if( entry.getValue().contains(entry.getKey())){
                  return true;
              }
         }
         return false;
+    }
+
+    public void calculateFullDependencies(){
+        fullDependencies = new HashMap<String, Set<String>>();
+
+        for(Map.Entry<String, Set<String>> entry : dependencies.entrySet()){
+            fullDependencies.put(entry.getKey(), findDependencies(entry.getValue(), new ArrayList<String>()));
+        }
+    }
+
+    public List<String> getCyclicIds(){
+        List<String> list = new ArrayList<String>();
+        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+            if( entry.getValue().contains(entry.getKey())){
+                list.add(entry.getKey());
+            }
+        }
+        return list;
     }
 
     private Set<String> findDependencies(Set<String> set, List<String> visited){

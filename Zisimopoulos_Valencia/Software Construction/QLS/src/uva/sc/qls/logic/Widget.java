@@ -37,7 +37,7 @@ public class Widget implements INode{
 	}
 	
 	public String toString() {
-		String result = "[WidgetType]:\n\t" + widgetType.toString() + 
+		String result = "[Widget]:\n\t" + widgetType.toString() + 
 				"(" + argument1 + "," + argument2 + ")";
 		return result;
 	}

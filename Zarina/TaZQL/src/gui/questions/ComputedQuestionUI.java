@@ -12,13 +12,5 @@ public class ComputedQuestionUI extends SimpleQuestionUI {
 		super(id, label, wc, valueRepository);
 		this.setValue(expression);
 		this.getWc().setEnabled(false); // read-only
-		
-		this.getWc().setText(expression);
 	}
-
-	
-	public void setEnabled(boolean enabled) {
-		this.getWc().setEnabled(enabled);
-		this.getWc().getWidget().setEnabled(enabled);
-	}	
 }

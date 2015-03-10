@@ -1,5 +1,7 @@
 package com.klq.gui.pane;
 
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.value.DateValue;
 import com.klq.gui.InputValidator;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
@@ -29,11 +31,11 @@ public class DateQuestionPane extends AQuestionPane {
 
         final DatePicker datePicker = new DatePicker();
         if (question.isComputedQuestion()){
-            LocalDate lDate = LocalDate.parse(question.computedProperty().toString());
-            datePicker.setEditable(false);
-            datePicker.getEditor().setEditable(false);
+            AExpression date = question.getComputedExpression();
+            DateValue value = (DateValue) (date.evaluate(store.getVariables()));
+            LocalDate lDate = LocalDate.parse(value.toString());
             datePicker.setValue(lDate);
-            //TODO disable button somehow
+            datePicker.setDisable(true);
         }
         datePicker.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
                 if (InputValidator.matches(question.getType(), newValue))

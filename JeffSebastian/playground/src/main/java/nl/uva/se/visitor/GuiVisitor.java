@@ -4,7 +4,6 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.ast.type.Type;
 import nl.uva.se.evaluation.ExpressionEvaluator;
 import nl.uva.se.evaluation.ValueTable;
 import nl.uva.se.evaluation.value.Value;
@@ -30,8 +29,9 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	}
 
 	public void visit(Condition condition) {
-		Value<Boolean> value = ExpressionEvaluator.getValue(condition.getExpression(), values);
-		if (value.getValue()) {
+		Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
+		
+		if (!value.isUndefined() && value.getValue()) {
 			condition.visitChildren(this);
 		}
 	}
