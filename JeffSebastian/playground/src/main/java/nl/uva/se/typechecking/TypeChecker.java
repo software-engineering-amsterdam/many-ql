@@ -84,10 +84,14 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Type type = calculatedQuestion.getExpression().accept(this);
-		if (!type.equals(calculatedQuestion.getType())) {
+		Type acceptedType = type.getAcceptedType();
+		System.out.println("Type: " + type);
+		System.out.println("Accepted: " + type.getAcceptedType());
+		if (!type.equals(calculatedQuestion.getType()) ||
+			!acceptedType.equals(calculatedQuestion.getType())) {
 			errors.addError(new TypeMismatch(
-					calculatedQuestion.getLineNumber(), calculatedQuestion
-					.getOffset(), calculatedQuestion.getType(), type));
+				calculatedQuestion.getLineNumber(), calculatedQuestion
+				.getOffset(), calculatedQuestion.getType(), type));
 		}
 	}
 
@@ -95,7 +99,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Type conditionType = condition.getExpression().accept(this);
 		if (!conditionType.equals(BOOLEAN)) {
 			errors.addError(new InvalidConditionType(condition.getLineNumber(),
-					condition.getOffset(), conditionType));
+				condition.getOffset(), conditionType));
 		}
 
 		condition.visitChildren(this);

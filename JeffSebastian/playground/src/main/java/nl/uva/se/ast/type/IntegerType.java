@@ -13,5 +13,5 @@ public class IntegerType extends Type {
 	public Value getDefaultValue() {
 		return new IntegerValue(0);
 	}
-	
+
 }

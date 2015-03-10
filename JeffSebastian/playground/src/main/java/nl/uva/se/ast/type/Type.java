@@ -23,6 +23,10 @@ public abstract class Type {
 		return new UndefinedValue();
 	}
 	
+	public Type getAcceptedType() {
+		return this;
+	}
+	
 	public boolean isIn(Type... types) {
 		for (Type type : types) {
 			if (type.equals(this)) {
