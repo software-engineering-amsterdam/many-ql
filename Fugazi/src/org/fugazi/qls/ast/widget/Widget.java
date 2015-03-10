@@ -17,8 +17,8 @@ public abstract class Widget extends AbstractASTNode {
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    private String label;
-    private Style style;
+    protected String label;
+    protected Style style;
 
     public Widget(int _lineNum) {
         super(_lineNum);

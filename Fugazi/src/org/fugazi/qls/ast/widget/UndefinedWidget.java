@@ -11,6 +11,7 @@ public class UndefinedWidget extends Widget {
 
     @Override
     public void applyStyle(Style _style) {
+        throw new AssertionError();
     }
 
     @Override
