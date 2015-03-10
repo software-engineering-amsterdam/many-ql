@@ -30,5 +30,4 @@ class DuplicatePlacementCheckerSpec extends Specification {
       check(sectionWithQuestions) must beEqualTo(errors)
     }
   }
-
 }

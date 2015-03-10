@@ -36,6 +36,7 @@ class Parser extends JavaTokenParsers {
   def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
+  // TODO: add positioned parser
   def question: Parser[Question] = variable ~ widget ^^ {
     case v ~ w => Question(v, w)
   }
@@ -52,6 +53,7 @@ class Parser extends JavaTokenParsers {
     case "text" ~ properties => Text(properties)
     case "textBlock" ~ properties => TextBlock(properties)
     case "radio" ~ properties => Radio(properties)
+    case "checkbox" ~ properties => CheckBox(properties)
     case "dropdown" ~ properties => DropDown(properties)
   }
   
@@ -59,7 +61,7 @@ class Parser extends JavaTokenParsers {
     case t ~ w => DefaultWidget(t, w)
   }
   
-  def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
+  def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
 
   // TODO: Repetition of the same property is not allowed.
   def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
