@@ -1,10 +1,8 @@
 package qls.typechecker
 
-import ql.typechecker.{Error, TypeEnvironment}
+import ql.typechecker.Error
 import qls.ast.{Question, Section}
-import types.VariableName
-
-import scala.util.parsing.input.NoPosition
+import types.{TypeEnvironment, VariableName}
 
 // - all questions of the QL program are placed by the QLS program.
 // - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
@@ -12,14 +10,12 @@ import scala.util.parsing.input.NoPosition
 class AllQuestionsPlacedChecker {
 
   def check(s: Section, env: TypeEnvironment): Option[Error] = {
-    // TODO fix env.env
-    val qlVariables = env.env.keySet
+    val qlVariables = env.keySet
     val qlsVariables = s.questions.map(getVariableName)
     val notPlacedQuestion = qlVariables -- qlsVariables
 
-    if (!notPlacedQuestion.isEmpty) {
-      // TODO: remove NoPosition
-      Some(new Error(s"The question(s) ${notPlacedQuestion.mkString(", ")} are not placed", NoPosition))
+    if (notPlacedQuestion.nonEmpty) {
+      Some(new Error(s"The question(s) ${notPlacedQuestion.mkString(", ")} are not placed"))
     } else {
       None
     }
