@@ -10,7 +10,5 @@ case class TextBlock(properties: Option[List[StyleProperty]]) extends Widget
 case class Radio(properties: Option[List[StyleProperty]]) extends Widget
 case class Dropdown(properties: Option[List[StyleProperty]]) extends Widget
 
-
-
 case class Question(v: Variable, w: Widget)
 case class QuestionSequence(widgets: List[Question])

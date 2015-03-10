@@ -1,5 +1,7 @@
 package ql.gui
 
+import types.Label
+
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.Insets
@@ -7,11 +9,11 @@ import scalafx.scene.layout.GridPane
 import scalafx.scene.paint.Color
 import scalafx.scene.{Node, Scene}
 
-class FormGUI(label: String, nodes: List[Node]) extends JFXApp {
+class FormGUI(label: Label, nodes: List[Node]) extends JFXApp {
 
-  val Width = 600
-  val Height = 450
-  val Padding = 10
+  val Width: Int = 600
+  val Height: Int = 450
+  val Padding: Int = 10
 
   stage = new PrimaryStage {
     title.value = label

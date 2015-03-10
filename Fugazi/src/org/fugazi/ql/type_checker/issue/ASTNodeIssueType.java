@@ -8,4 +8,7 @@ public interface ASTNodeIssueType {
     enum ERROR implements ASTNodeIssueType {
         CYCLIC, UNDEFINED, DUPLICATE, TYPE_MISMATCH, NON_BOOL_CONDITION
     }
+    enum QLS_ERROR implements ASTNodeIssueType {
+        UNDEFINED, MISSING_STYLE, DUPLICATE, WRONG_WIDGET_TYPE
+    }
 }

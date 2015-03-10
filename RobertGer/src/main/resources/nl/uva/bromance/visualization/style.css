@@ -12,8 +12,17 @@
     -fx-padding: 10;
 }
 
+.pageLabel {
+    -fx-font-size: 100%;
+    -fx-padding: 5 5 5 0;
+}
+.active {
+    -fx-font-weight: bold;
+}
+
 .formHeader {
     -fx-text-alignment: center;
     -fx-font-size: 150%;
+    -fx-font-weight: bold;
     -fx-font-style: italic;
 }

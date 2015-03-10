@@ -20,15 +20,19 @@ public class Assign extends Statement {
 		this.identifier = _identifier;
 		this.string = _string;
 	}
+	
 	public Expression getExpression(){
 		return this.expression;
 	}
+	
 	public Identifier getIdentifier(){
 		return this.identifier;
 	}
+	
 	public CodeLines getCodeLines(){
 		return this.codeLines;
 	}
+	
 	public String getString(){
 		return this.string;
 	}

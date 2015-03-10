@@ -2,17 +2,17 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
-import ql.types.{VariableName, EvalEnvironment}
+import types.EvalEnvironment
 
 import scalafx.collections.ObservableMap
 import scalafx.scene.layout.VBox
 
-class FormBuilder(env: EvalEnvironment = ObservableMap.empty[VariableName, Value]) {
+class FormBuilder(env: EvalEnvironment = ObservableMap.empty) {
 
   val evaluator = new Evaluator()
 
-  def build(form: Form): FormGUI = {
-    new FormGUI(form.label, build(form.s))
+  def build(f: Form): FormGUI = {
+    new FormGUI(f.label, build(f.statements))
   }
 
   def build(s: Statement, visibilityExpressions: List[Expression] = List()): List[VBox] = s match {
@@ -23,7 +23,7 @@ class FormBuilder(env: EvalEnvironment = ObservableMap.empty[VariableName, Value
 
   def buildIfStatement(i: IfStatement, visibilityExpressions: List[Expression]): List[VBox] = {
     val ifBlock = build(i.ifBlock, i.expression :: visibilityExpressions)
-    val elseBlock = i.optionalElseBlock match {
+    val elseBlock = i.elseBlock match {
       case Some(s) => build(s, Not(i.expression) :: visibilityExpressions)
       case None => List()
     }

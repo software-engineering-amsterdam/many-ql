@@ -33,16 +33,16 @@ class TestFactories(unittest.TestCase):
         self.assertIsInstance(variable, Variable)
 
     def test_operators(self):
-        plus_op = ExpressionFactory.make_calc_operator("+")
+        plus_op = ExpressionFactory.make_operator("+")
         self.assertIsInstance(plus_op, CalcOperator)
 
-        min_op = ExpressionFactory.make_calc_operator("-")
+        min_op = ExpressionFactory.make_operator("-")
         self.assertIsInstance(min_op, CalcOperator)
 
-        mul_op = ExpressionFactory.make_calc_operator("*")
+        mul_op = ExpressionFactory.make_operator("*")
         self.assertIsInstance(mul_op, CalcOperator)
 
-        div_op = ExpressionFactory.make_calc_operator("/")
+        div_op = ExpressionFactory.make_operator("/")
         self.assertIsInstance(div_op, CalcOperator)
 
         and_op = ExpressionFactory.make_comp_operator("==")

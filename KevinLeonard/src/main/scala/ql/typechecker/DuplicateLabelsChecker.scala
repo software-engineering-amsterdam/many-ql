@@ -1,20 +1,20 @@
 package ql.typechecker
 
 import ql.ast._
-import ql.types.Warning
+import types.Label
 
 class DuplicateLabelsChecker {
 
-  def check(form: Form): List[Warning] = {
-    val labels = check(form.s)
+  def check(f: Form): List[Warning] = {
+    val labels = check(f.statements)
     labels.groupBy(identity).collect({
-      case (label, equalLabels) if equalLabels.size > 1 => s"Label \'$label\' is used ${equalLabels.size} times"
+      case (label, equalLabels) if equalLabels.size > 1 => new Warning(s"Label \'$label\' is used ${equalLabels.size} times")
     }).toList
   }
 
-  private def check(s: Statement, labels: List[String] = List()): List[String] = s match {
-    case Sequence(statements) => statements.flatMap(s => check(s, labels))
-    case Question(_, _, label, _) => label :: labels
-    case _: IfStatement => labels
+  private def check(s: Statement, ls: List[Label] = List()): List[Label] = s match {
+    case Sequence(statements) => statements.flatMap(s => check(s, ls))
+    case Question(_, _, l, _) => l :: ls
+    case _: IfStatement => ls
   }
 }

@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Stylesheet extends AstNode
 {
-    private String id;
-    private List<Page> body;
+    private final String id;
+    private final List<Page> body;
 
     public Stylesheet(String id, List<Page> body, int lineNumber)
     {

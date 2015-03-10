@@ -55,7 +55,7 @@ BooleanLiteral 	: 'true'
 primitiveType	: 'boolean'
 				| 'money'
 				| 'string'
-				| 'int'
+				| 'integer'
 				;
 
 Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;

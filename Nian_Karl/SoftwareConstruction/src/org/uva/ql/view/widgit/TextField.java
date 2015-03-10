@@ -1,6 +1,7 @@
 package org.uva.ql.view.widgit;
 
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.type.UndefinedType;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
@@ -18,7 +19,7 @@ public class TextField extends BaseTextField {
 
 	@Override
 	public void setWidgetValue(Value value) {
-		if (!value.toString().equals(new Undefined().toString())) {
+		if (!value.getType().isEqual(new UndefinedType()) && isDependent()) {
 			getWidget().setText(value.toString());
 		}
 	}

@@ -20,15 +20,9 @@ import java.util.*;
  * Created by Timon on 23.02.2015.
  */
 public class Store implements IKLQItem {
-    private final DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
     private final List<IdentifierValue> order;
     private final Map<IdentifierValue, Question> store;
     private final Map<String, Value> variables;
-
-    private final String NO_SUCH_QUESTION = "Question with ID \"%s\" does not exist!";
-
-    private int computedCount = 0;
-    private int invisibleCount = 0;
 
     private final DoubleProperty progressProperty;
 
@@ -46,11 +40,9 @@ public class Store implements IKLQItem {
         IdentifierValue id = question.getId();
 
         if (!question.isComputedQuestion()) {
-            UndefinedValue undefined = new UndefinedValue();
-            variables.put(id.getValue(), undefined);
+            variables.put(id.getValue(), new UndefinedValue());
         } else {
             variables.put(id.getValue(), question.getComputedExpression().evaluate(variables));
-            computedCount++;
         }
     }
 
@@ -68,13 +60,15 @@ public class Store implements IKLQItem {
 
     public boolean dependenciesResolved(IdentifierValue questionId){
         Question question = store.get(questionId);
-        if (question == null)
+        if (question == null) {
             assert false;
+        }
 
         List<AExpression> dependencies = question.getDependencies();
         for (AExpression d : dependencies) {
-            if (!isSatisfied(d))
+            if (!isSatisfied(d)) {
                 return false;
+            }
         }
         return true;
     }
@@ -92,20 +86,20 @@ public class Store implements IKLQItem {
 
     public void updateAnswer(IdentifierValue questionId, Value answer) {
         assert(variables.containsKey(questionId));
-        variables.put(questionId.getValue(), answer);
+        if (answer == null){
+            variables.put(questionId.getValue(), new UndefinedValue());
+        } else {
+            variables.put(questionId.getValue(), answer);
+        }
 
-        updateVisibilities();
-        updateComputed();
-        updateProgress();
+        updateQuestionVisibilities();
+        updateComputedQuestions();
+        updateQuestionnaireProgress();
     }
 
-    public void updateVisibilities(){
-        invisibleCount = 0;
+    public void updateQuestionVisibilities(){
         for (IdentifierValue id : store.keySet()){
             boolean visible = dependenciesResolved(id);
-            if (!visible) {
-                invisibleCount++;
-            }
             BooleanProperty property = store.get(id).visibleProperty();
             if (property.get() != visible) {
                 property.setValue(visible);
@@ -113,7 +107,7 @@ public class Store implements IKLQItem {
         }
     }
 
-    private void updateComputed(){
+    private void updateComputedQuestions(){
         for (Question q : store.values()){
             if (q.isComputedQuestion()){
                 AExpression computedExpression = q.getComputedExpression();
@@ -123,16 +117,19 @@ public class Store implements IKLQItem {
         }
     }
 
-    private void updateProgress(){
-        double count = variables.size() - computedCount - invisibleCount;
+    private void updateQuestionnaireProgress(){
         double answered = 0;
-        for (String expr : variables.keySet()) {
-            Value assignedValue = variables.get(expr);
-            System.out.println(assignedValue.toString());
-            if (!(assignedValue.isUndefined()))
-                answered++;
+        double total = 0;
+        for (Question q : store.values()){
+            if (!q.isComputedQuestion()){
+                total++;
+                Value v = variables.get(q.getId().getValue());
+                if (!v.equals(new UndefinedValue())){
+                    answered++;
+                }
+            }
         }
-        progressProperty.set((answered)/count);
+        progressProperty.setValue(answered/total);
     }
 
     public DoubleProperty progressProperty(){
@@ -140,6 +137,7 @@ public class Store implements IKLQItem {
     }
 
     public boolean exportResults(String path){
+        DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         Date timestamp = new Date();
         File file = new File(path + File.separator + DATE_FORMAT.format(timestamp) + ".xml");
         try {

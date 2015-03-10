@@ -96,4 +96,7 @@ class Assignment(statement.IStatement):
     def get_element(self):
         return self.element
 
+    def get_parent_condition(self):
+        return self.parent_condition
+
 

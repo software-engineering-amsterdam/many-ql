@@ -20,6 +20,10 @@ public class Section extends Segment {
         this.questions = _questions;
     }
 
+    public List<Question> getQuestions() {
+        return this.questions;
+    }
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitSection(this);
     }

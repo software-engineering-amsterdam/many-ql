@@ -1,5 +1,4 @@
 # AST format of the Form
-import QL.Main.converters as converters
 import QL.AST.Elements.constants as constants
 
 
@@ -145,11 +144,4 @@ class Form:
         d = {}
         for s in statements:
             d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
-
-        # The types and ids of these are the same
-        d[constants.ElementsConstants.COMP_OP] = constants.ElementsConstants.COMP_OP
-        d[constants.ElementsConstants.CALC_OP] = constants.ElementsConstants.CALC_OP
-        d[constants.ElementsConstants.BOOL] = constants.ElementsConstants.BOOL
-        d[constants.ElementsConstants.NUMBER] = constants.ElementsConstants.NUMBER
-
         return d

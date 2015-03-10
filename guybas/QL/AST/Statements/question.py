@@ -1,8 +1,7 @@
 # AST format of a question, initializing the IStatement
 import QL.AST.Statements.statement as statement
 import QL.Grammar.constants as constants
-# import QL.GUI.Elements.text_entry as e_text_entry
-import QL.Exceptions.exceptions as exceptions
+import QL.CoreTools.exceptions as exceptions
 from QL.GUI.Elements import *
 
 
@@ -28,7 +27,7 @@ class Question(statement.IStatement):
         s += "   " * (level + 1) + "Question _id: " + self._id + "\n"
         s += "   " * (level + 1) + "Order number: "+ str(self._order) + "\n"
         s += "   " * (level + 1) + "Question itself: " + self._label + "\n"
-        s += "   " * (level + 1) + "Question _type: " + str(self._type)
+        s += "   " * (level + 1) + "Question _type: " + str(self._type.pretty_print())
         s += "\n"
         return s
 
@@ -64,7 +63,7 @@ class Question(statement.IStatement):
 
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return {self._id: self._type.pretty_print()}
 
     # Get the _order of elements in the statement
     def get_order(self):
@@ -81,33 +80,18 @@ class Question(statement.IStatement):
     # TODO: separate runtime stuff
 
     # set gui _element
-    # TODO : delegate to element classes
     def set_element(self, gui):
-        if self.get_type() is constants.GrammarConstants.BOOL:
-            # self.element = g.GUI.e_radio(self, gui)
-            e = radio_button.RadioButton(self, gui)
-        elif self.get_type() is constants.GrammarConstants.NUMBER:
-            # self.element = g.GUI.e_spin(self, gui)
-            e = spin_box.SpinBox(self, gui)
-        elif self.get_type() is constants.GrammarConstants.TEXT:
-            # self.element = g.GUI.e_entry(self, gui)
-            e = text_entry.TextEntry(self, gui)
-        else:
-            raise exceptions.QException("Element _type does not exists")
+        e = self._type.get_gui_element(self, gui)
         self.element = e.get_row()
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition
 
-    # Override
-    def get_id_type_collection(self):
-        return {self._id: self._type}
-
     def get_label(self):
         return self._label
 
     def get_type(self):
-        return self._type
+        return self._type.pretty_print()
 
     def get_id(self):
         return self._id

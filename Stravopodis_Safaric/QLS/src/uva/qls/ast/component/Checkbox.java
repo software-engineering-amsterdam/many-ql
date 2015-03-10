@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.StringValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 import uva.qls.ast.literal.StringLiteral;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.*;
@@ -41,5 +41,10 @@ public class Checkbox extends Component{
 	@Override
 	public String toString(){
 		return "Checkbox(" + this.value.evaluatedValue() + " " + this.style.toString() + ")";
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName().toLowerCase();
 	}
 }

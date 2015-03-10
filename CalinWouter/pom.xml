@@ -24,7 +24,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/java/org/uva/student/calinwouter/qlqls/generated</directory>
+                <directory>src/main/java/</directory>
                 <excludes><exclude>**/*.java</exclude></excludes>
             </resource>
         </resources>

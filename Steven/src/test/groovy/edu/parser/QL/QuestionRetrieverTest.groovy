@@ -3,7 +3,7 @@ package edu.parser.QL
 import edu.Main
 import edu.parser.AntlrParser
 import edu.parser.QL.nodes.Form
-import edu.parser.QL.nodes.question.QLQuestion
+import edu.parser.QL.nodes.question.Question
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -23,7 +23,7 @@ class QuestionRetrieverTest extends Specification {
     def "Should return all questions"() {
         when:
         Form form = antlrParser.parse(Main.PATH_TO_QL_INPUT_FILES + "QL_valid", new ParseTreeVisitor(), Form.class)
-        List<QLQuestion> questions = questionRetriever.retrieveQuestions(form)
+        List<Question> questions = questionRetriever.retrieveQuestions(form)
 
         then:
         Assert.assertEquals(4, questions.size())

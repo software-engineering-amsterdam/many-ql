@@ -6,10 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This FormTypeChecker detects:
@@ -30,8 +27,8 @@ public class FormTypeChecker extends FormInterpreter {
         return typeDescriptorMap.entrySet();
     }
 
-    public Set<String> getFieldNames() {
-        HashSet<String> nameSet = new HashSet<String>();
+    public SortedSet<String> getFieldNames() { // TODO Does not sort!!!!
+        SortedSet<String> nameSet = new TreeSet<String>();
         for (Map.Entry<String, TypeDescriptor<?>> entry : typeDescriptorMap.entrySet()) {
             nameSet.add(entry.getKey());
         }

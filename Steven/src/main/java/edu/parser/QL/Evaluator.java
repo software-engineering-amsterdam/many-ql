@@ -4,12 +4,11 @@ import edu.exceptions.EvaluationException;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,15 +21,14 @@ import java.util.stream.Collectors;
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
-    private List<QLQuestion> updatedQuestions = new ArrayList<>();
+    private List<Question> updatedQuestions = new ArrayList<>();
 
     public List<Question> evaluate(Form form) {
         return evaluate(form, Collections.emptyList());
     }
 
-    public List<Question> evaluate(Form form, List<QLQuestion> updatedQuestions) {
+    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
         this.evaluatedQuestions.clear();
-        this.updatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
         visit(form);
         return evaluatedQuestions;
@@ -103,7 +101,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private boolean isQuestionEnabled(Question foundQuestion) {
-        Optional<QLQuestion> updatedQuestion = getUpdatedQuestion(foundQuestion);
+        Optional<Question> updatedQuestion = getUpdatedQuestion(foundQuestion);
         if (updatedQuestion.isPresent()) {
             return updatedQuestion.get().isEnabled();
         } else {
@@ -111,9 +109,9 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<QLQuestion> getUpdatedQuestion(Question foundQuestion) {
-        List<QLQuestion> updatedQuestions = this.updatedQuestions.stream()
-                .filter(question -> question.getIdentifier().getIdentifier().equals(foundQuestion.getIdentifier().getIdentifier()))
+    private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
+        List<Question> updatedQuestions = this.updatedQuestions.stream()
+                .filter(question -> question.getIdentifier().equals(foundQuestion.getIdentifier()))
                 .collect(Collectors.toList());
         if (updatedQuestions.size() > 1) {
             throw new EvaluationException("Updated question list contains duplicates.");
@@ -127,7 +125,7 @@ public class Evaluator extends QLVisitorImpl {
     private Optional<Question> getQuestion(Identifier identifier) {
         return evaluatedQuestions
                 .stream()
-                .filter(q -> q.getIdentifier().getIdentifier().equals(identifier.getIdentifier()))
+                .filter(q -> q.getIdentifier().equals(identifier))
                 .findFirst();
     }
 
@@ -172,8 +170,10 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(QLQuestion question) {
-        evaluatedQuestions.add(createQuestion(question));
+    public AbstractNode visit(Question question) {
+        boolean questionEnabled = isQuestionEnabled(question);
+        Question clonedQuestion = cloneQuestion(question, questionEnabled);
+        evaluatedQuestions.add(clonedQuestion);
         return super.visit(question);
     }
 

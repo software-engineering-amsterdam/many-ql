@@ -47,4 +47,4 @@ class SimpleExpression(e.Expression):
     # Return the negative of the _expression
     def add_not(self):
         l = [SimpleExpression(self._expression)]
-        return SimpleExpression([operators.ExtraOperator("not"), c.ComplexExpression(l)])
+        return SimpleExpression([operators.Operator("not"), c.ComplexExpression(l)])

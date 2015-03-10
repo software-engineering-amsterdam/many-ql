@@ -8,6 +8,7 @@ import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
 import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 
 import java.util.*;
@@ -22,12 +23,14 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
-    private List<Message> messages;
+    private Messages messages;
 
-    public static List<Message> check(Form f)
+    public static Messages check(Form f)
     {
         SymbolResult symbolResult = SymbolVisitor.extract(f);
-        if (!(symbolResult.getMessages().isEmpty()))
+        Messages ms = symbolResult.getMessages();
+
+        if (ms.containsErrors())
         {
             return symbolResult.getMessages();
         }
@@ -47,7 +50,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.symbolTable = table;
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
-        this.messages = new ArrayList<Message>();
+        this.messages = new Messages();
     }
 
     private UndefinedType undefinedType()
@@ -145,7 +148,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return new UndefinedType();
         }
 
-        if (this.currentQuestion != null)
+        if (this.isScopeSet())
         {
             Question q = this.symbolTable.getQuestion(n.getId());
             this.questionDependencies.addDependency(this.currentQuestion, q);
@@ -321,15 +324,10 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         boolean isTypeAllowed = e.isTypeAllowed(childType);
         if (!(isTypeAllowed))
         {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
         }
 
         return isTypeAllowed;
-    }
-
-    private Type computeType(NaryExpr e, Type childType)
-    {
-        return e.getComputedType(childType);
     }
 
     private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
@@ -338,7 +336,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         if (!(consistent))
         {
             this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), left, right, n.getLineNumber()));
+                    n.getClass().getSimpleName(), left.getTitle(), right.getTitle(), n.getLineNumber()));
         }
 
         return consistent;
@@ -354,11 +352,16 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.currentQuestion = null;
     }
 
+    private boolean isScopeSet()
+    {
+        return this.currentQuestion != null;
+    }
+
     private void checkForCyclicDependencies()
     {
-        List<String> cyclicIds = this.questionDependencies.findCycle();
-        if (cyclicIds != null)
+        if (this.questionDependencies.containsCycle())
         {
+            List<String> cyclicIds = this.questionDependencies.getCycle();
             this.messages.add(Error.cyclicQuestions(cyclicIds));
         }
     }

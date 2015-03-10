@@ -7,7 +7,7 @@ import uva.qls.ast.component.Component;
 import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class DefaultValue extends Statement {
 	
@@ -33,6 +33,10 @@ public class DefaultValue extends Statement {
 	}
 	public List<Statement> getStatement(){
 		return this.statement;
+	}
+	
+	public Component getComponent(){
+		return this.component;
 	}
 	
 	@Override

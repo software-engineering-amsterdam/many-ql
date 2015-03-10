@@ -18,7 +18,7 @@ public class TypeChecker
     @Test
     public void duplicateLabelsWarning() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("duplicateLabels");
+        Messages ms = TestHelper.analyse("ql/samples/duplicateLabels");
         assertEquals(1, ms.size());
         Warning w = TestHelper.as(ms.get(0), Warning.class);
         assertNotNull(w);
@@ -27,7 +27,7 @@ public class TypeChecker
     @Test
     public void ifCondBoolError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("ifCondIllegal");
+        Messages ms = TestHelper.analyse("ql/samples/ifCondIllegal");
         assertEquals(1, ms.size());
         TestHelper.assertErrorMessage(ms.get(0), "Error (Line 2): if statements should have conditions of type boolean");
     }
@@ -35,7 +35,7 @@ public class TypeChecker
     @Test
     public void typeMismatchError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("typeMismatch");
+        Messages ms = TestHelper.analyse("ql/samples/typeMismatch");
         assertEquals(1, ms.size());
         TestHelper.assertErrorMessage(ms.get(0),
                 "Error (Line 2): expression of type Add cannot have children of different type: integer and string");
@@ -44,7 +44,7 @@ public class TypeChecker
     @Test
     public void incorrectTypesError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("incorrectTypes");
+        Messages ms = TestHelper.analyse("ql/samples/incorrectTypes");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),"Error (Line 2): expression of type Or cannot children of type string");
@@ -53,7 +53,7 @@ public class TypeChecker
     @Test
     public void undeclaredIdError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("undeclaredIdentifier");
+        Messages ms = TestHelper.analyse("ql/samples/undeclaredIdentifier");
         assertEquals(1, ms.size());
         TestHelper.assertErrorMessage(ms.get(0),"Error (Line 2): identifier \"undeclId\" is not declared");
     }
@@ -61,7 +61,7 @@ public class TypeChecker
     @Test
     public void defEvalMismatchError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("defEvalMismatch");
+        Messages ms = TestHelper.analyse("ql/samples/defEvalMismatch");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
@@ -71,7 +71,7 @@ public class TypeChecker
     @Test
     public void duplicateIdentifiersError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("duplicateIdentifiers");
+        Messages ms = TestHelper.analyse("ql/samples/duplicateIdentifiers");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
@@ -81,7 +81,7 @@ public class TypeChecker
     @Test
     public void identifierDeclaredOfDiffTypeError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("identDeclaredOfDiffType");
+        Messages ms = TestHelper.analyse("ql/samples/identDeclaredOfDiffType");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
@@ -91,7 +91,7 @@ public class TypeChecker
     @Test
     public void cyclicQuestionsError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("cyclicQuestions");
+        Messages ms = TestHelper.analyse("ql/samples/cyclicQuestions");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: a, b, c");
@@ -100,7 +100,7 @@ public class TypeChecker
     @Test
     public void directCyclicQuestionsError() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("directCyclicQuestions");
+        Messages ms = TestHelper.analyse("ql/samples/directCyclicQuestions");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: income");
@@ -109,7 +109,7 @@ public class TypeChecker
     @Test
     public void manyCyclicQuestionsError() throws FileNotFoundException
     {
-        List<Message> ms =  TestHelper.analyse("manyCyclicQuestions");
+        Messages ms =  TestHelper.analyse("ql/samples/manyCyclicQuestions");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
@@ -119,7 +119,7 @@ public class TypeChecker
     @Test
     public void autoTypePromError() throws FileNotFoundException
     {
-        List<Message> ms =  TestHelper.analyse("autoTypeProm");
+        Messages ms =  TestHelper.analyse("ql/samples/autoTypeProm");
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),

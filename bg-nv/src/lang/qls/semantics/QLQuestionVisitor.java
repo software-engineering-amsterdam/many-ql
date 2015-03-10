@@ -3,21 +3,15 @@ package lang.qls.semantics;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.type.Type;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by bore on 03/03/15.
  */
 public class QLQuestionVisitor implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private Map<String, Type> questionMap;
+    private QuestionTypeMap questionMap;
 
-    public static Map<String, Type> extractQuestions(Form f)
+    public static QuestionTypeMap extractQuestions(Form f)
     {
         QLQuestionVisitor visitor = new QLQuestionVisitor();
         f.accept(visitor);
@@ -27,7 +21,7 @@ public class QLQuestionVisitor implements FormVisitor<Void>, StatVisitor<Void>
 
     private QLQuestionVisitor()
     {
-        this.questionMap = new HashMap<>();
+        this.questionMap = new QuestionTypeMap();
     }
 
     @Override
@@ -68,6 +62,6 @@ public class QLQuestionVisitor implements FormVisitor<Void>, StatVisitor<Void>
 
     private void registerQuestion(Question q)
     {
-        this.questionMap.put(q.getId(), q.getType());
+        this.questionMap.add(q.getId(), q.getType());
     }
 }
