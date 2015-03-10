@@ -10,6 +10,7 @@ import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.statement.Statement
 import edu.parser.QL.nodes.type.Boolean
 import edu.parser.QL.nodes.type.Number
+import edu.parser.QuestionBuilder
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -194,6 +195,6 @@ class EvaluatorTest extends Specification {
     }
 
     private Question createQuestion(String identifier, boolean isEnabled) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), isEnabled, Optional.empty(), Collections.emptyList())
+        return new QuestionBuilder().isEnabled(isEnabled).identifier(identifier).build();
     }
 }
