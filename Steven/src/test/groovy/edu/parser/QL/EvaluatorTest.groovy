@@ -167,10 +167,10 @@ class EvaluatorTest extends Specification {
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
         def identifierUnconditionalQuestion = "identifierUnconditionalQuestion"
-        questionsWithinIfStatement.add(createQuestion("conditionalQuestion", true))
+        questionsWithinIfStatement.add(new QuestionBuilder().identifier("conditionalQuestion").isEnabled(true).build())
         IfStatement ifStatement = new IfStatement(new Identifier(identifierUnconditionalQuestion), questionsWithinIfStatement, Optional.empty())
 
-        formStatements.add(createQuestion(identifierUnconditionalQuestion, false))
+        formStatements.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build())
         formStatements.add(ifStatement)
         def form = new Form(formStatements)
 
@@ -182,19 +182,15 @@ class EvaluatorTest extends Specification {
 
         then:
         Set<Question> updatedQuestions = new ArrayList<>()
-        updatedQuestions.add(createQuestion(identifierUnconditionalQuestion, true))
+        updatedQuestions.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(true).build())
         List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
         Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
 
         // disable question again
         Set<Question> updatedQuestionsDisabled = new ArrayList<>()
-        updatedQuestionsDisabled.add(createQuestion(identifierUnconditionalQuestion, false))
+        updatedQuestionsDisabled.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build())
         List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestionsDisabled)
         Assert.assertEquals(1, evaluationReturnedUpdatedQuestionsDisabled.size())
 
-    }
-
-    private Question createQuestion(String identifier, boolean isEnabled) {
-        return new QuestionBuilder().isEnabled(isEnabled).identifier(identifier).build();
     }
 }
