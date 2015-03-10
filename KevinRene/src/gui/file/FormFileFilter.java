@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-public class FormFilter extends FileFilter {
+public class FormFileFilter extends FileFilter {
 	public final static String ql = "ql";
 
 	/*

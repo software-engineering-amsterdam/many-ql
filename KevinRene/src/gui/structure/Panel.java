@@ -1,7 +1,6 @@
 package gui.structure;
 
-import gui.Composite;
-import gui.Widget;
+import gui.UIComponent;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -11,24 +10,23 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import ql.ast.expression.Identifier;
-
-public class Panel extends Composite {
+public class Panel extends UIComponent {
 	private JPanel panel;
-	private List<Widget> widgets;
+	private List<UIComponent> widgets;
 	
-	public Panel(Widget handler) {
-		super(new Identifier("Panel"));
-		
+	public Panel() {		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 		
-		this.widgets = new ArrayList<Widget>();
-		
+		this.widgets = new ArrayList<UIComponent>();
+	}
+	
+	public Panel(UIComponent handler) {
+		this();		
 		setHandler(handler);
 	}
 	
-	public void addComponent(Widget component) {
+	public void addComponent(UIComponent component) {
 		widgets.add(component);
 		
 		panel.add(component.getComponent());
@@ -39,7 +37,7 @@ public class Panel extends Composite {
 	
 	@Override
 	public void updateComponent() {
-		for(Widget widget : widgets) {
+		for(UIComponent widget : widgets) {
 			widget.updateComponent();
 		}
 		

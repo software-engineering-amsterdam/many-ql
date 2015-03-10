@@ -1,12 +1,10 @@
 package gui.content;
 
-import gui.Composite;
-import gui.Widget;
+import gui.UIComponent;
+import gui.structure.Panel;
 import gui.widget.InputWidget;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import ql.Value;
 import ql.ValueEnvironment;
@@ -15,33 +13,31 @@ import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 
 @SuppressWarnings("rawtypes")
-public class UIComputedQuestion extends Composite {
-	private JPanel questionPanel;
+public class UIComputedQuestion extends UIComponent {
+	private Identifier identifier;
+	private Panel questionPanel;
 	private Expression expression;
 	private ValueEnvironment valueEnvironment;
 	
-	private Widget questionText;
+	private UIComponent questionText;
 	private InputWidget inputWidget;
 	
-	public UIComputedQuestion(Identifier identifier, Widget questionText, 
-			Widget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
-		super(identifier);
+	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
+			InputWidget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
+		super();
 		
-		questionPanel = new JPanel();
-		questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+		questionPanel = new Panel();
 		
-		this.questionText = questionText;
-		this.questionText.setHandler(this);		
-		questionPanel.add(this.questionText.getComponent());
-		
-		this.inputWidget = (InputWidget) inputWidget;		
-		this.inputWidget.setHandler(this);
-		this.inputWidget.disable();		
-		questionPanel.add(this.inputWidget.getComponent());
-		
+		this.identifier = identifier;
 		this.expression = expression;
+		this.questionText = questionText;	
+		this.valueEnvironment = valueEnvironment;	
+			
+		this.inputWidget = inputWidget;		
+		this.inputWidget.disable();
 		
-		this.valueEnvironment = valueEnvironment;		
+		questionPanel.addComponent(this.questionText);
+		questionPanel.addComponent(this.inputWidget);
 	}
 
 	public Expression getExpression() {
@@ -49,8 +45,8 @@ public class UIComputedQuestion extends Composite {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, Widget source) {
-		valueEnvironment.store(getIdentifier(), changedValue);
+	public void handleChange(Value changedValue, UIComponent source) {
+		valueEnvironment.store(identifier, changedValue);
 		
 		super.handleChange(changedValue, this);
 	}
@@ -70,6 +66,6 @@ public class UIComputedQuestion extends Composite {
 	
 	@Override
 	public JComponent getComponent() {
-		return questionPanel;
+		return questionPanel.getComponent();
 	}
 }

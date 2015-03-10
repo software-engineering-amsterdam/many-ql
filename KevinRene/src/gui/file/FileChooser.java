@@ -1,21 +1,18 @@
 package gui.file;
 
-import gui.Widget;
+import gui.UIComponent;
 
 import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-import ql.Value;
-
-public class FileChooser implements Widget {
+public class FileChooser extends UIComponent {
 	private JFileChooser fileChooser;
-	private Widget handler;
 	
 	public FileChooser() {
 		fileChooser = new JFileChooser();
-		fileChooser.addChoosableFileFilter(new FormFilter());
+		fileChooser.addChoosableFileFilter(new FormFileFilter());
 		fileChooser.setAcceptAllFileFilterUsed(false);
 	}
 	
@@ -23,7 +20,7 @@ public class FileChooser implements Widget {
 		return fileChooser.getSelectedFile();
 	}
 	
-	public boolean showOpenDialog(Widget parent) {
+	public boolean showOpenDialog(UIComponent parent) {
 		int returnValue = fileChooser.showOpenDialog(parent.getComponent());
 		
 		if(returnValue == JFileChooser.APPROVE_OPTION) {
@@ -31,17 +28,6 @@ public class FileChooser implements Widget {
 		} else {
 			return false;
 		}
-	}
-
-	@Override
-	public void setHandler(Widget handler) {
-		this.handler = handler;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void handleChange(Value changedValue, Widget source) {
-		handler.handleChange(changedValue, source);
 	}
 
 	@Override

@@ -1,24 +1,21 @@
-package gui.widget;
+package gui;
+
+import javax.swing.JComponent;
 
 import ql.Value;
-import gui.UIComponent;
 
 @SuppressWarnings("rawtypes")
-public abstract class InputWidget<T extends Value> extends UIComponent {
+public abstract class UIComponent {
 	private UIComponent handler;
 	
-	public abstract void disable();
-	
-	public abstract void setValue(T value);
-	public abstract T getValue();
-	
-	@Override
 	public void setHandler(UIComponent handler) {
 		this.handler = handler;
 	}
 	
-	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
 		handler.handleChange(changedValue, source);
 	}
+	
+	public abstract void updateComponent();
+	public abstract JComponent getComponent();
 }

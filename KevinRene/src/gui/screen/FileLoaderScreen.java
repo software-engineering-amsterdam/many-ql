@@ -1,7 +1,6 @@
 package gui.screen;
 
-import gui.Composite;
-import gui.Widget;
+import gui.UIComponent;
 import gui.content.UILog;
 import gui.file.FileChooser;
 import gui.structure.Panel;
@@ -15,9 +14,8 @@ import java.nio.file.Paths;
 import javax.swing.JComponent;
 
 import ql.Value;
-import ql.ast.expression.Identifier;
 
-public class FileLoaderScreen extends Composite {
+public class FileLoaderScreen extends UIComponent {
 	private FileChooser fileChooser;
 	private Panel buttonPanel, panel;
 	private Button openButton;
@@ -25,17 +23,13 @@ public class FileLoaderScreen extends Composite {
 	private String content = "";
 	
 	public FileLoaderScreen() {
-		super(new Identifier("File Selection Panel"));
-		
 		log = new UILog();
-		log.setHandler(this);
+		openButton = new Button("Open QL File...");
 		
-		panel = new Panel(this);		
 		buttonPanel = new Panel(this);
-		
-		openButton = new Button("Open QL File...");		
 		buttonPanel.addComponent(openButton);
 		
+		panel = new Panel(this);
 		panel.addComponent(buttonPanel);
 		panel.addComponent(log);
 		
@@ -61,7 +55,7 @@ public class FileLoaderScreen extends Composite {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue, Widget source) {
+	public void handleChange(Value changedValue, UIComponent source) {
 		if (source == openButton) {
 			if (fileChooser.showOpenDialog(panel)) {
 				loadFileLines(fileChooser.getSelectedFile());

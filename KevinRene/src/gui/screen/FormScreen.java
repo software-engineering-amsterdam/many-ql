@@ -1,18 +1,13 @@
 package gui.screen;
 
-import gui.Composite;
-import gui.Widget;
+import gui.UIComponent;
 
 import javax.swing.JComponent;
 
-import ql.ast.expression.Identifier;
-
-public class FormScreen extends Composite {
-	private Widget widgetPanel;
+public class FormScreen extends UIComponent {
+	private UIComponent widgetPanel;
 	
-	public FormScreen(Widget widgetPanel) {
-		super(new Identifier("Form"));
-		
+	public FormScreen(UIComponent widgetPanel) {
 		this.widgetPanel = widgetPanel;
 		this.widgetPanel.setHandler(this);
 	}
