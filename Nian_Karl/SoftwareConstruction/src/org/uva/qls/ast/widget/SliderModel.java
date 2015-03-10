@@ -1,6 +1,6 @@
 package org.uva.qls.ast.widget;
 
-import org.uva.ql.ast.expression.literal.IntLiteral;
+import org.uva.qls.ast.literal.IntLiteral;
 import org.uva.utility.CodePosition;
 
 public class SliderModel extends WidgetType {
