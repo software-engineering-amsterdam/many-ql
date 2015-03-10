@@ -21,4 +21,9 @@ public class Not extends UnaryExpression {
     public boolean hasBooleanOperands() {
         return true;
     }
+
+    @Override
+    public Not clone() throws CloneNotSupportedException {
+        return new Not(getOperand().clone());
+    }
 }

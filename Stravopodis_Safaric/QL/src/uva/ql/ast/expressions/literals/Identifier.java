@@ -12,6 +12,14 @@ public class Identifier extends Literal{
 		this.identifier = _identifier;
 	}
 	
+	public String evaluatedValue(){
+		return this.evaluate().getValue();
+	}
+	
+	public static Identifier getNullIdentifier(String _identifier){
+		return new Identifier(_identifier, null);
+	}
+	
 	@Override
 	public StringValue evaluate() {
 		return new StringValue(this.identifier);

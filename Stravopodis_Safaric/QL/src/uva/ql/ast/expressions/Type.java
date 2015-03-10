@@ -20,7 +20,6 @@ public class Type extends Expression{
 	}
 	
 	public String getTypeName(){
-		if (this.name.equals("Float")) return "decimal";
 		return this.name;
 	}
 	

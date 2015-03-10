@@ -1,0 +1,129 @@
+%package qls.parser
+%class QLSParser
+%interface QLSTokens
+%semantic ql.ast.QLNode
+
+%token <QLInteger> INTEGER
+%token <QLBoolean> BOOLEAN
+%token <QLString> STRING
+%token <QLFloat> MONEY FLOAT
+
+%token <IntegerLiteral> INTEGERLITERAL 
+%token <BooleanLiteral> BOOLEANLITERAL
+%token <StringLiteral> STRINGLITERAL
+%token <FloatLiteral> FLOATLITERAL
+%token <FloatLiteral> MONEYLITERAL
+
+%token <Identifier> IDENTIFIER
+%token <Stylesheet> STYLESHEET 
+%token <Page> PAGE 
+%token <Section> SECTION 
+%token <Widget> WIDGET 
+%token <Question> QUESTION 
+%token DEFAULT 
+
+%token FONT FONTSIZE WIDTH HEIGHT COLOUR
+%token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
+%token  '"' ':' '.' ','
+%token '(' ')' '{' '}'
+
+%type <Literal> literal
+%type <QLType> type
+%type <QLSBlock> statements
+%type <QLSStatement> statement
+
+%{
+import ql.ast.*;
+import ql.ast.expression.QLType;
+import ql.ast.expression.Literal;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.type.*;
+import ql.ast.expression.literal.*;
+
+import qls.ast.QLSStatement;
+import qls.ast.Widget;
+import qls.ast.statement.*;
+import qls.ast.widget.*;
+
+@SuppressWarnings("all")
+%}
+
+%%
+	top : stylesheet { result = $1; }
+		;
+		
+	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
+				;
+				
+	statements 	: statement statements 	{ $$ = new QLSBlock($1, $2); }
+				| statement           	{ $$ = new QLSBlock($1); }
+				;
+				
+	statement 	: PAGE IDENTIFIER '{' statements '}' 		{ $$ = new Page($2, $4); }
+				| SECTION STRINGLITERAL '{' statements '}'	{ $$ = new Section($2, $4); }
+				| QUESTION IDENTIFIER						{ $$ = new Question($2); }
+				| QUESTION IDENTIFIER '{' widget '}'		{ $$ = new Question($2, $4); }
+				| DEFAULT type widget						{ $$ = new Default($2, $3); }
+				| DEFAULT type '{' styleRules '}'			{ $$ = new Default($2, $4); }
+				;
+	
+	type 	: INTEGER	{ $$ = new QLInteger(); }
+	 		| MONEY		{ $$ = new QLFloat(); }
+			| FLOAT		{ $$ = new QLFloat(); }
+			| BOOLEAN	{ $$ = new QLBoolean(); }
+			| STRING 	{ $$ = new QLString(); }
+			;
+			
+	literal	: BOOLEANLITERAL
+			| INTEGERLITERAL
+			| FLOATLITERAL
+			| MONEYLITERAL
+			| STRINGLITERAL
+			;
+	
+	widget 	: WIDGET widgetType
+			;
+			
+	widgetType	: SPINBOX
+				| RADIO '(' values ')'
+				| SLIDER '(' values ')'
+				| DROPDOWN '(' values ')'
+				| TEXT
+				| CHECKBOX
+				;
+	
+	values 	: literal ',' values
+			| literal
+			;
+	
+	styleRules	: styleRule styleRules
+				| styleRule
+				;
+				
+	styleRule	: styleProperty ':' literal
+				| widget
+				;
+				
+	styleProperty	: WIDTH
+					| HEIGHT
+					| FONT
+					| FONTSIZE
+					| COLOUR
+					;
+
+%%
+private QLSLexer lexer; 
+
+private QLNode result;
+
+public QLNode getResult() {
+  return result;
+}
+
+public QLSParser(QLSLexer lexer) { 
+  this.lexer = lexer; 
+}
+
+private void yyerror(String msg) { 
+  System.err.println(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+}

@@ -20,4 +20,9 @@ public class Division extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
+
+    @Override
+    public Division clone() throws CloneNotSupportedException {
+        return new Division(getLeft().clone(), getRight().clone());
+    }
 }

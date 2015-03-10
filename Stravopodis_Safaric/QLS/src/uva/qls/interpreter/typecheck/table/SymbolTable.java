@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import uva.qls.ast.literal.*;
-public class SymbolTable extends Table<Identifier, SymbolTableValue> {
+
+public class SymbolTable extends Table<Identifier, SymbolTableValue>{
 
 	private Map <String, SymbolTableValue> symbolMap;
 	
@@ -15,21 +16,18 @@ public class SymbolTable extends Table<Identifier, SymbolTableValue> {
 	public Map<String, SymbolTableValue> getTable(){
 		return this.symbolMap;
 	}
+	
+	public boolean keyExists(Identifier identifier) {
+		return this.retrieveValue(identifier) != null;
+	}
+
+	public boolean valueExists(Identifier identifier, SymbolTableValue value) {
+		return this.symbolMap.get(identifier.evaluatedValue())!=null;
+	}
+	
 	@Override
 	public void putValue(Identifier identifier, SymbolTableValue value) {
 		this.symbolMap.put(identifier.evaluatedValue(), value);
-		
-	}
-
-	@Override
-	public boolean keyExists(Identifier identifier) {
-		
-		return this.symbolMap.keySet().contains(identifier.evaluatedValue());
-	}
-
-	@Override
-	public boolean valueExists(Identifier identifier, SymbolTableValue value) {
-		return this.symbolMap.get(identifier.evaluatedValue())!=null;
 	}
 
 	@Override

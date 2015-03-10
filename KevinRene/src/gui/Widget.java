@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.JComponent;
 
-import cons.Value;
+import ql.Value;
 
 @SuppressWarnings("rawtypes")
 public interface Widget {
