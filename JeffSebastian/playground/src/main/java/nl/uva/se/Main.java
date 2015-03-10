@@ -6,8 +6,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.uva.se.ast.form.Form;
+import nl.uva.se.evaluation.ValueTable;
 import nl.uva.se.gui.elements.QuestionPane;
 import nl.uva.se.interpretation.Interpreter;
+import nl.uva.se.interpretation.Result;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
 import nl.uva.se.parser.QLVisitorImpl;
@@ -37,11 +39,12 @@ public class Main extends Application{
 			
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Form ast = (Form) visitor.visit(tree);
+			Result<ValueTable> result = Interpreter.interpret(ast);
 			
-			GuiVisitor guiVisitor = new GuiVisitor();
+			GuiVisitor guiVisitor = new GuiVisitor(result.getResult());
 			guiVisitor.visit(ast);
 			this.questionPane = guiVisitor.getQuestionPane();			
-			Interpreter.interpret(ast);
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
