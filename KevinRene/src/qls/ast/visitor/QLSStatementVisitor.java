@@ -8,6 +8,8 @@ import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
+import qls.ast.stylerule.StyleRule;
+import qls.ast.stylerule.StyleRuleSet;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
@@ -48,4 +50,7 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 	public abstract T visit(TextField textField);
 	public abstract T visit(Spinner spinner);
 	public abstract T visit(Slider slider);
+
+	public abstract T visit(StyleRule styleRule);
+	public abstract T visit(StyleRuleSet styleRuleSet);
 }
