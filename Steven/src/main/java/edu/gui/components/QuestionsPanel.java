@@ -4,6 +4,7 @@ import edu.exceptions.GuiException;
 import edu.gui.Observer;
 import edu.gui.QuestionTypeGui;
 import edu.gui.Subject;
+import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
@@ -66,7 +67,7 @@ public class QuestionsPanel extends JPanel {
     private Subject getComponent(Question question) {
         try {
             Class<? extends Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
-            return component.getDeclaredConstructor(Question.class).newInstance(question);
+            return component.getDeclaredConstructor(Identifier.class).newInstance(question.getIdentifier());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new GuiException(e);
         }

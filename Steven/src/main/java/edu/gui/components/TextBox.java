@@ -3,7 +3,6 @@ package edu.gui.components;
 import edu.gui.Observer;
 import edu.gui.Subject;
 import edu.parser.QL.nodes.expression.Identifier;
-import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
@@ -16,21 +15,22 @@ import java.util.List;
  */
 public class TextBox extends JTextField implements Subject, FocusListener {
     private final List<Observer> observers = new ArrayList<>();
-    private final Question question;
+    private final Identifier identifier;
 
-    public TextBox(Question question) {
+    public TextBox(Identifier identifier) {
         this.addFocusListener(this);
         setColumns(15);
-        this.question = question;
+        this.identifier = identifier;
     }
 
     public Identifier getIdentifier() {
-        return question.getIdentifier();
+        return identifier;
     }
 
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
+        observer.initializeRequest(this);
     }
 
     @Override
@@ -52,4 +52,5 @@ public class TextBox extends JTextField implements Subject, FocusListener {
     public void focusLost(FocusEvent e) {
         notifyObservers();
     }
+
 }

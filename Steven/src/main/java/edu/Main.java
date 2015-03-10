@@ -15,10 +15,7 @@ import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -64,7 +61,8 @@ public class Main implements Observer {
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.render(evaluatedQuestions, stylesheet);
     }
-    public void reRender(){
+
+    public void reRender() {
         evaluateForm();
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.reRender(evaluatedQuestions, stylesheet);
@@ -98,18 +96,33 @@ public class Main implements Observer {
 
     @Override
     public void update(TextBox textBox) {
-        int i = 0;
+        Question question = getEvaluatedQuestion(textBox.getIdentifier());
+
+    }
+
+    @Override
+    public void initializeRequest(TextBox textBox) {
+
     }
 
     @Override
     public void update(CheckBox checkBox) {
-
         Question question = getEvaluatedQuestion(checkBox.getIdentifier());
         Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
         addUpdatedQuestion(clonedQuestion);
-
         reRender();
+    }
 
+    @Override
+    public void initializeRequest(CheckBox checkBox) {
+        Optional<Question> question = updatedQuestions.stream()
+                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(checkBox.getIdentifier()))
+                .findFirst();
+        if (question.isPresent()) {
+            checkBox.setSelected(question.get().isEnabled());
+        } else {
+            checkBox.setSelected(false);
+        }
     }
 
     private void addUpdatedQuestion(Question clonedQuestion) {
