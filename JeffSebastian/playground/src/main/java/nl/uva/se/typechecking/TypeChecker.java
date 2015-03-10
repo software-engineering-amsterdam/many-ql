@@ -84,11 +84,8 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Type type = calculatedQuestion.getExpression().accept(this);
-		Type acceptedType = type.getAcceptedType();
-		System.out.println("Type: " + type);
-		System.out.println("Accepted: " + type.getAcceptedType());
-		if (!type.equals(calculatedQuestion.getType()) ||
-			!acceptedType.equals(calculatedQuestion.getType())) {
+		
+		if (!type.equals(calculatedQuestion.getType())) {
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
 				.getOffset(), calculatedQuestion.getType(), type));
