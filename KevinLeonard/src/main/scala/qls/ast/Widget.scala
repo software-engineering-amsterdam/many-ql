@@ -33,4 +33,3 @@ case class DropDown(properties: List[StyleProperty]) extends Widget {
   override def allowsType(_type: Type): Boolean = _type == BooleanType()
   override def toString: String = "drop down"
 }
-
