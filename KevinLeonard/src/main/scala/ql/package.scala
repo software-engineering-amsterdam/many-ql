@@ -1,5 +1,3 @@
-package ql
-
 import ql.ast.Value
 
 import scalafx.collections.ObservableMap

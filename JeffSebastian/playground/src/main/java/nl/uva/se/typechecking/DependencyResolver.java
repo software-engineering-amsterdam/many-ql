@@ -55,16 +55,13 @@ public class DependencyResolver implements FormVisitor, StatementVisitor, Expres
 		return new Result<DependencyTable>(resolver.errors, resolver.dependencies);
 	}
 
-	@Override
 	public void visit(Form form) {
 		form.visitChildren(this);
 	}
 
-	@Override
 	public void visit(Question question) {
 	}
 
-	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		currentContext = calculatedQuestion;
 		calculatedQuestion.getExpression().accept(this);
@@ -72,134 +69,111 @@ public class DependencyResolver implements FormVisitor, StatementVisitor, Expres
 		currentContext = null;
 	}
 
-	@Override
 	public void visit(Condition condition) {
 		condition.visitChildren(this);
 	}
 
-	@Override
 	public Void visit(Addition plus) {
 		visitBinaryExpression(plus);
 		return null;
 	}
 
-	@Override
 	public Void visit(Divide divide) {
 		visitBinaryExpression(divide);
 		return null;
 	}
 
-	@Override
 	public Void visit(Power power) {
 		visitBinaryExpression(power);
 		return null;
 	}
 
-	@Override
 	public Void visit(Multiply multiply) {
 		visitBinaryExpression(multiply);
 		return null;
 	}
 
-	@Override
 	public Void visit(Modulo modulo) {
 		visitBinaryExpression(modulo);
 		return null;
 	}
 
-	@Override
 	public Void visit(Negative negative) {
 		visitUnaryExpression(negative);
 		return null;
 	}
 
-	@Override
 	public Void visit(Positive positive) {
 		visitUnaryExpression(positive);
 		return null;
 	}
 
-	@Override
 	public Void visit(Substraction minus) {
 		visitBinaryExpression(minus);
 		return null;
 	}
 
-	@Override
 	public Void visit(Not not) {
 		visitUnaryExpression(not);
 		return null;
 	}
 
-	@Override
 	public Void visit(NotEqual notEqual) {
 		visitBinaryExpression(notEqual);
 		return null;
 	}
 
-	@Override
 	public Void visit(Or or) {
 		visitBinaryExpression(or);
 		return null;
 	}
 
-	@Override
 	public Void visit(LessThen lessThen) {
 		visitBinaryExpression(lessThen);
 		return null;
 	}
 
-	@Override
 	public Void visit(LessOrEqual lessOrEqual) {
 		visitBinaryExpression(lessOrEqual);
 		return null;
 	}
 
-	@Override
 	public Void visit(GreaterThen greaterThen) {
 		visitBinaryExpression(greaterThen);
 		return null;
 	}
 
-	@Override
 	public Void visit(GreaterOrEqual greaterOrEqual) {
 		visitBinaryExpression(greaterOrEqual);
 		return null;
 	}
 
-	@Override
 	public Void visit(Equal equal) {
 		visitBinaryExpression(equal);
 		return null;
 	}
 
-	@Override
 	public Void visit(And and) {
 		visitBinaryExpression(and);
 		return null;
 	}
 
-	@Override
 	public Void visit(BooleanLiteral booleanLiteral) {
 		return null;
 	}
 
-	@Override
 	public Void visit(DecimalLiteral decimalLiteral) {
 		return null;
 	}
 
-	@Override
 	public Void visit(IntegerLiteral integerLiteral) {
 		return null;
 	}
 
-	@Override
 	public Void visit(StringLiteral stringLiteral) {
 		return null;
 	}
 
-	@Override
 	public Void visit(Reference reference) {
 		dependencies.addDependency(currentContext.getId(), reference.getName());
 		return null;
