@@ -34,4 +34,20 @@ public class Style extends AbstractASTNode {
     public boolean isNull() {
         return false;
     }
+
+    /**
+     * Inherits StyleProperties from a base style.
+     * @param _baseStyle The base style to be inherited.
+     */
+    public void inheriteFromStyle(Style _baseStyle) {
+        // get base style props.
+        for (StyleProperty baseStyleProperty : _baseStyle.styleProperties) {
+
+            // if current style does not contain the base style property,
+            // then add it to current style.
+            if (!this.styleProperties.contains(baseStyleProperty)) {
+                this.styleProperties.add(baseStyleProperty);
+            }
+        }
+    }
 }
