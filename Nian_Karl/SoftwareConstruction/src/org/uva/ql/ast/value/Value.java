@@ -8,7 +8,8 @@ public abstract class Value {
 	
 	public abstract Object getValue();
 	public abstract String toString();
-
+	
+	public boolean isUndefined(){return true;}
 	public Value not() {return UNDEFINED;}
 	public Value positive() {return UNDEFINED;}
 	public Value negative() {return UNDEFINED;}

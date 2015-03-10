@@ -7,12 +7,12 @@ form SalarySurvey{
 		howAreYou: "How Are you ?" Str
 	}
 	myAge: "Hello?" Int
-	nomnom: "Some Age? " Int
+	//nomnom: "Some Age? " Int
 	if(nomnom == 10){
 		employeeNr1: "What is your employee number?" Int
 	}else{
 		employeeNr1: "What is your employee numbe12312312r?" Int
 	}
-	isYOLO: "Are you yolo?" Bool(age == 5)
+	isYOLO: "Are you yolo?" Bool("Good" == 5)
 	someDependentQuestion: "Hi Nian?" Bool(howAreYou == "Good")
 }

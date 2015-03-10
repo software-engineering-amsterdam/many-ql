@@ -6,6 +6,10 @@ import org.uva.utility.CodePosition;
 
 public abstract class Type extends BaseNode implements TypeVisitable {
 
+	public Type() {
+		super(new CodePosition(0, 0));
+	}
+	
 	public Type(CodePosition pos) {
 		super(pos);
 	}
