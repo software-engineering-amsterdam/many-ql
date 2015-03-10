@@ -55,7 +55,7 @@ specificWidget returns [Widget result]
 	| 'spinbox'						  	  	{$result = new SpinBox();}	
 	| 'slider' 						  	  	{$result = new Slider();}	
 	| 'dropdown''(' STRING ',' STRING ')' 	{$result = new DropDown();} 
-	| 'radio' 	'(' STRING ','  STRING ')'	{$result = new Radio();} 
+	| 'radiobutton' 	'(' STRING ','  STRING ')'	{$result = new RadioButton();} 
 	;
 	
 style returns [Style result]:

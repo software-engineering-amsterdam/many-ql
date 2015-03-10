@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
@@ -7,9 +7,10 @@ import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
-public class ExpInterpreter extends AnalysisAdapter {
+public class HeadlessExpInterpreter extends AnalysisAdapter {
     private Value<?> value;
-    private FormInterpreter formInterpreter;
+    //private FormInterpreter formInterpreter;
+    private HeadlessFormInterpreter formInterpreter;
 
     @Override
     public void caseAAddExp(AAddExp node) {
@@ -106,9 +107,9 @@ public class ExpInterpreter extends AnalysisAdapter {
     }
 
     private Value<?> interpExp(Node n) {
-        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
-        n.apply(expInterpreter);
-        return expInterpreter.getValue();
+        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
+        n.apply(headlessExpInterpreter);
+        return headlessExpInterpreter.getValue();
     }
 
     protected void setValue(Value<?> value) {
@@ -119,8 +120,10 @@ public class ExpInterpreter extends AnalysisAdapter {
         return value;
     }
 
-    public ExpInterpreter(FormInterpreter formInterpreter) {
-        super();
+    //public ExpInterpreter(FormInterpreter formInterpreter) {
+    public HeadlessExpInterpreter(HeadlessFormInterpreter formInterpreter) {
+
+            super();
         this.formInterpreter = formInterpreter;
     }
 }
