@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 
 public class TextQuestionBox extends TextField {
 	
-	private final Question question;
+private final Question question;
 	
 	public TextQuestionBox(Question question){
 		super();

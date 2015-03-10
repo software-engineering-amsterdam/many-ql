@@ -5,7 +5,7 @@ import javafx.scene.control.CheckBox;
 
 public class BooleanQuestionBox extends CheckBox{
 	
-	private final Question question;
+private final Question question;
 	
 	public BooleanQuestionBox(Question question){
 		super();

@@ -1,6 +1,5 @@
 # AST for operators
 import QL.AST.Elements.element as e
-import QL.AST.Elements.constants as constants
 
 
 class Operator(e.Element):

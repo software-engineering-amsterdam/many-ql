@@ -564,8 +564,8 @@ public class GrammarQLSParser extends Parser {
 				setState(94);
 				((DefaultStatementContext)_localctx).styles = styleList();
 				setState(95);
-				widget();
-				 ((DefaultStatementContext)_localctx).result =  new Default(((DefaultStatementContext)_localctx).type.result,widget.result,styles.result);
+				((DefaultStatementContext)_localctx).widget = widget();
+				 ((DefaultStatementContext)_localctx).result =  new Default(((DefaultStatementContext)_localctx).type.result,((DefaultStatementContext)_localctx).widget.result,((DefaultStatementContext)_localctx).styles.result);
 				setState(97);
 				match(T__2);
 				}

@@ -2,8 +2,6 @@ package nl.uva.softwcons.ql.ui.widget;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
@@ -16,11 +14,8 @@ public class TextFieldWidget extends Widget {
         this.textField = new TextField();
         this.valueProperty = new SimpleObjectProperty<Value>();
 
-        this.textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valueProperty.setValue(converter.toValue(newValue));
-            }
+        this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            valueProperty.setValue(converter.toValue(newValue));
         });
     }
 
