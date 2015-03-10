@@ -5,6 +5,9 @@ import org.uva.utility.CodePosition;
 
 public class BoolType extends Type {
 
+	public BoolType() {
+		super();
+	}
 	public BoolType(CodePosition pos) {
 		super(pos);
 	}

@@ -1,4 +1,4 @@
-package lang.qls.ast.Statement;
+package lang.qls.ast.statement;
 
 import lang.qls.ast.Page;
 import lang.qls.ast.Stylesheet;

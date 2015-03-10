@@ -63,4 +63,9 @@ public class BoolValue extends Value {
 	public Value boolNotEqual(BoolValue arg) {
 		return new BoolValue(arg.getValue() != getValue());
 	}
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
 }

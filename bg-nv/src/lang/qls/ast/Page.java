@@ -1,8 +1,8 @@
 package lang.qls.ast;
 
 import lang.ql.ast.AstNode;
-import lang.qls.ast.Statement.DefaultStyle;
-import lang.qls.ast.Statement.Statement;
+import lang.qls.ast.statement.DefaultStyle;
+import lang.qls.ast.statement.Statement;
 import lang.qls.semantics.Style;
 
 import java.util.List;

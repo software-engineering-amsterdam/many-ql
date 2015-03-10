@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Interfaces
 {
-    public interface IValue : IExpression
+    public interface Type : IExpression
     {
         string MakeString();
 
-        bool IsOfType(IValue type);
+        bool IsOfType(Type type);
     }
 }

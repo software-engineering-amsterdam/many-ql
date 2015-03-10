@@ -51,6 +51,7 @@
     <Compile Include="Nodes\Expression\Container.cs" />
     <Compile Include="Nodes\Expression\Id.cs" />
     <Compile Include="Nodes\ASTNode.cs" />
+    <Compile Include="Types\UndefinedType.cs" />
     <Compile Include="Nodes\Interfaces\IFormObjectContainer.cs" />
     <Compile Include="Nodes\Interfaces\IHasType.cs" />
     <Compile Include="Nodes\Interfaces\ILiteral.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Nodes\Interfaces\IValue.cs" />
     <Compile Include="Types\BoolType.cs" />
     <Compile Include="Types\IntType.cs" />
-    <Compile Include="Types\IType.cs" />
+    <Compile Include="Types\Type.cs" />
     <Compile Include="Nodes\Labels\Label.cs" />
     <Compile Include="Nodes\Values\Undefined.cs" />
     <Compile Include="Nodes\Values\Value.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="ParseTreeVisitors\UnaryVisitor.cs" />
     <Compile Include="Representation\NameToType.cs" />
     <Compile Include="TypeCheck\Collectors\ConditionalCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\DefinedIdentifierCollector.cs" />
+    <Compile Include="TypeCheck\Collectors\QuestionCollector.cs" />
     <Compile Include="TypeCheck\Collectors\ExpressionTypeCollector.cs" />
     <Compile Include="TypeCheck\Collectors\IdentifierTypeCollector.cs" />
     <Compile Include="TypeCheck\Collectors\TopLevelExpressionCollector.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="ParseTreeVisitors\FormVisitor.cs" />
     <Compile Include="ParseTreeVisitors\TypeVisitor.cs" />
     <Compile Include="ParseTreeVisitors\ValueVisitor.cs" />
-    <Compile Include="Representation\Identifier.cs" />
     <Compile Include="Representation\ObjectType.cs" />
     <Compile Include="Representation\ObjectValue.cs" />
     <Compile Include="Nodes\Interfaces\IASTNode.cs" />

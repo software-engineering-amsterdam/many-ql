@@ -1,19 +1,20 @@
 package nl.uva.se.visitor;
 
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.statement.CalculatedQuestion;
-import nl.uva.se.ast.statement.Condition;
-import nl.uva.se.ast.statement.Question;
-import nl.uva.se.evaluation.ExpressionEvaluator;
-import nl.uva.se.evaluation.ValueTable;
-import nl.uva.se.evaluation.value.Value;
 import nl.uva.se.gui.elements.QuestionPane;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.ast.form.FormVisitor;
+import nl.uva.se.ql.ast.statement.CalculatedQuestion;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.evaluation.ExpressionEvaluator;
+import nl.uva.se.ql.evaluation.ValueTable;
+import nl.uva.se.ql.evaluation.value.Value;
 
 public class GuiVisitor implements StatementVisitor, FormVisitor {
 	
 	private QuestionPane questionPane;
-	private boolean isFromCondition;
-	
+		
 	private ValueTable values;
 	
 	public GuiVisitor(ValueTable values) {
@@ -21,22 +22,25 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	}
 	
 	public void visit(Question question) {
-		questionPane.addQuestion(question, isFromCondition);
+		questionPane.addQuestion(question);
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Question question = (Question) calculatedQuestion;
-		questionPane.addQuestion(question, isFromCondition);
+		questionPane.addQuestion(question);
 	}
 	
 	public void visit(Condition condition) {
-		Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
+		ConditionVisitor conditionVisitor = new ConditionVisitor(condition);
+		questionPane.addConditionBox(conditionVisitor.getConditionBox());
+		//TODO CLEAN THIS UP
+		/*Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
 		
 		if (!value.isUndefined() && value.getValue()) {
 			isFromCondition = true;
 			condition.visitChildren(this);
 		}
-		isFromCondition = false;
+		isFromCondition = false;*/
 	}
 
 	public void visit(Form form) {

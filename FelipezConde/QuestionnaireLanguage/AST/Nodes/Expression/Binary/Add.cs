@@ -47,14 +47,14 @@ namespace AST.Nodes.Expression.Binary
             return "+";
         }
 
-        public IValue GetCompatibleType(Values.Int leftType, Values.Int rightType)
+        public Types.Type GetCompatibleType(Types.IntType leftType, Types.IntType rightType)
         {
-            return new Values.Int(0);
+            return new Types.IntType();
         }
 
-        public IValue GetCompatibleType(IValue leftType, IValue rightType)
+        public Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType)
         {
-            return new Values.Undefined();
+            return new Types.UndefinedType();
         }
 
     }

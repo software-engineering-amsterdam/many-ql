@@ -25,7 +25,7 @@ namespace AST.TypeCheck.Collectors
 
         public override IList<IExpression> Visit(Nodes.FormObject.Conditional node)
         {
-            List<IExpression> expressionsInBody = node.Body.SelectMany(x => x.Accept(this)).ToList();
+            List<IExpression> expressionsInBody = node.GetBody().SelectMany(x => x.Accept(this)).ToList();
                               expressionsInBody.Add(node.Condition);
 
             return expressionsInBody;
