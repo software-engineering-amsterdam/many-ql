@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import typechecker.TypeChecker;
+//import typechecker.TypeChecker;
 import evaluator.ValueRepository;
 import gui.MainFrame;
 

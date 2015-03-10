@@ -1,4 +1,5 @@
 stylesheet taxOfficeExample 
+
   page Housing {
     section "Buying" {
       question hasBoughtHouse  
@@ -15,15 +16,15 @@ stylesheet taxOfficeExample
         widget radio("Yes", "No")
       section "You sold a house" {
         question sellingPrice
-          widget spinbox
+          widget slider ("Min", "Max")
         question privateDebt
-          widget spinbox {
+          widget checkbox ("Yes") {
           	width : 400
           	fontsize: 14
           	color: #999999
           }
         question valueResidue
-           widget spinbox
+           widget slider ("Yes","No")
         default money {
           width: 400
           font: "Arial" 
@@ -36,6 +37,7 @@ stylesheet taxOfficeExample
         default string {
           color: #999999
         }
+        default boolean widget dropdown("Yes", "No")
       }
     }
     default string widget textbox
