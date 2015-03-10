@@ -1,11 +1,11 @@
 package gui;
 
-import gui.menu.FormMenu;
-import gui.widget.Label;
-import gui.widget.composite.ComputedQuestionPanel;
-import gui.widget.composite.IfPanel;
-import gui.widget.composite.Panel;
-import gui.widget.composite.QuestionPanel;
+import gui.content.UIComputedQuestion;
+import gui.content.UIConditional;
+import gui.content.UIQuestion;
+import gui.screen.FormScreen;
+import gui.structure.Label;
+import gui.structure.Panel;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
 import gui.widget.input.spinbox.FloatSpinbox;
@@ -116,7 +116,7 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
     	Widget questionText = compQuestionNode.getText().accept(this);
     	Widget questionWidget = compQuestionNode.getType().accept(this);
     	
-    	return new ComputedQuestionPanel(compQuestionNode.getIdentifier(), questionText, 
+    	return new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText, 
     			questionWidget, compQuestionNode.getExpression(), valueEnvironment);
 	}
 	@Override
@@ -124,17 +124,17 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 		Widget questionText = questionNode.getText().accept(this);
     	Widget questionWidget = questionNode.getType().accept(this);
     	
-    	return new QuestionPanel(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
+    	return new UIQuestion(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
 	}
 	
 	@Override
 	public Widget visit(Form formNode) {
-		return new FormMenu(formNode.getBlock().accept(this));
+		return new FormScreen(formNode.getBlock().accept(this));
 	}
 	
 	@Override
 	public Widget visit(If ifNode) {
-		return new IfPanel(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
+		return new UIConditional(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
 	}
 
 	@Override
@@ -142,6 +142,6 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
 		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
 		
-		return new IfPanel(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
+		return new UIConditional(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
 	}
 }

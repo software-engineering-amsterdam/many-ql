@@ -1,4 +1,4 @@
-package gui.widget.composite;
+package gui.structure;
 
 import gui.Composite;
 import gui.Widget;

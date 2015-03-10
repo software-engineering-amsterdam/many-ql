@@ -1,4 +1,4 @@
-package gui.widget.composite;
+package gui.content;
 
 import gui.Composite;
 import gui.Widget;
@@ -11,12 +11,12 @@ import ql.Value;
 import ql.ValueEnvironment;
 import ql.ast.expression.Identifier;
 
-public class QuestionPanel extends Composite {
+public class UIQuestion extends Composite {
 	private JPanel questionPanel;
 	private ValueEnvironment valueEnvironment;
 	private final Widget questionText, questionWidget;
 
-	public QuestionPanel(Identifier identifier, Widget questionText, Widget widget, ValueEnvironment valueEnvironment) {
+	public UIQuestion(Identifier identifier, Widget questionText, Widget widget, ValueEnvironment valueEnvironment) {
 		super(identifier);
 		
 		questionPanel = new JPanel();

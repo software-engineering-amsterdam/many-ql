@@ -1,4 +1,4 @@
-package gui.menu;
+package gui.screen;
 
 import gui.Composite;
 import gui.Widget;
@@ -7,10 +7,10 @@ import javax.swing.JComponent;
 
 import ql.ast.expression.Identifier;
 
-public class FormMenu extends Composite {
+public class FormScreen extends Composite {
 	private Widget widgetPanel;
 	
-	public FormMenu(Widget widgetPanel) {
+	public FormScreen(Widget widgetPanel) {
 		super(new Identifier("Form"));
 		
 		this.widgetPanel = widgetPanel;

@@ -1,7 +1,7 @@
 package gui;
 
-import gui.menu.FileSelectionMenu;
-import gui.widget.composite.Panel;
+import gui.screen.FileLoaderScreen;
+import gui.structure.Panel;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,7 +18,7 @@ import ql.parser.Parser;
 public class Application extends Composite {
 	private JFrame frame;
 	
-	private FileSelectionMenu fileSelectionMenu;
+	private FileLoaderScreen fileSelectionMenu;
 	
 	private Panel activePanel, fileSelectionPanel;
 	private Widget formContent;
@@ -28,15 +28,13 @@ public class Application extends Composite {
 				
 		this.frame = frame;
 		
-		fileSelectionMenu = new FileSelectionMenu();
+		fileSelectionMenu = new FileLoaderScreen();
 				
-		fileSelectionPanel = new Panel();		
+		fileSelectionPanel = new Panel(this);		
 		fileSelectionPanel.addComponent(fileSelectionMenu);
-		fileSelectionPanel.setHandler(this);
 		
-		activePanel = new Panel();
+		activePanel = new Panel(this);
 		activePanel.addComponent(fileSelectionPanel);
-		activePanel.setHandler(this);
 		
 		frame.getContentPane().add(activePanel.getComponent());
 	}

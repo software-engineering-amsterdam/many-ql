@@ -1,4 +1,4 @@
-package gui.widget.io;
+package gui.file;
 
 import java.io.File;
 

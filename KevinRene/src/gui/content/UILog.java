@@ -1,4 +1,4 @@
-package gui.widget.io;
+package gui.content;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -7,13 +7,13 @@ import javax.swing.JTextArea;
 import ql.Value;
 import gui.Widget;
 
-public class Log implements Widget {
+public class UILog implements Widget {
 	private Widget handler;
 	
 	private JScrollPane logScrollPane;
 	private JTextArea log;
 	
-	public Log() {
+	public UILog() {
 		log = new JTextArea();
 		log.setEditable(false);
 		logScrollPane = new JScrollPane(log);

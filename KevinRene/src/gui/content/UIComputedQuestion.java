@@ -1,4 +1,4 @@
-package gui.widget.composite;
+package gui.content;
 
 import gui.Composite;
 import gui.Widget;
@@ -15,7 +15,7 @@ import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 
 @SuppressWarnings("rawtypes")
-public class ComputedQuestionPanel extends Composite {
+public class UIComputedQuestion extends Composite {
 	private JPanel questionPanel;
 	private Expression expression;
 	private ValueEnvironment valueEnvironment;
@@ -23,7 +23,7 @@ public class ComputedQuestionPanel extends Composite {
 	private Widget questionText;
 	private InputWidget inputWidget;
 	
-	public ComputedQuestionPanel(Identifier identifier, Widget questionText, 
+	public UIComputedQuestion(Identifier identifier, Widget questionText, 
 			Widget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
 		super(identifier);
 		
