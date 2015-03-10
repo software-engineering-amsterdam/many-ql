@@ -1,6 +1,5 @@
 package org.fugazi.qls.ast;
 
-import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
@@ -105,8 +104,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private void setStyleToQuestion(
-            Question _question,
-            List<DefaultStyleDeclaration> _segmentDefaultStyles)
+            Question _question, List<DefaultStyleDeclaration> _segmentDefaultStyles)
     {
         Type questionType = getQuestionType(_question);
 
@@ -115,31 +113,42 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
 
             // if there is a style declaration for the question's type
             if (questionType.equals(currentDeclarationType)) {
-
-                Widget currentDeclarationWidget = currentDeclaration.getWidget();
-                // if the widget is undefined, set the default widget fot that type.
-                if (currentDeclarationWidget.isUndefined()) {
-                    currentDeclarationWidget = getDefaultWidgetForType(questionType);
-                }
-
-                Style currentDeclarationStyle = currentDeclaration.getStyle();
-                // if the style is undefined, set the default style of that widget.
-                // otherwise set the right style.
-                if (currentDeclarationStyle.isUndefined()) {
-                    currentDeclarationWidget.resetStyleToDefault();
-                } else {
-                    currentDeclarationWidget.applyStyle(currentDeclarationStyle);
-                }
-
-                // set widget to the question.
-                _question.setWidget(currentDeclarationWidget);
+                this.setWidgetToQuestion(_question, currentDeclaration);
             } else {
                 // if there is no default style declaration, set defaults
-                Widget defaultWidget = getDefaultWidgetForType(questionType);
-                defaultWidget.resetStyleToDefault();
-                _question.setWidget(defaultWidget);
+                this.setDefaultWidgetToQuestion(_question);
             }
         }
+    }
+
+    private void setWidgetToQuestion(Question _question, DefaultStyleDeclaration _styleDeclr) {
+        Type questionType = getQuestionType(_question);
+
+        Widget currentDeclarationWidget = _styleDeclr.getWidget();
+        // if the widget is undefined, set the default widget fot that type.
+        if (currentDeclarationWidget.isUndefined()) {
+            currentDeclarationWidget = getDefaultWidgetForType(questionType);
+        }
+
+        Style currentDeclarationStyle = _styleDeclr.getStyle();
+        // if the style is undefined, set the default style of that widget.
+        // otherwise set the right style.
+        if (currentDeclarationStyle.isUndefined()) {
+            currentDeclarationWidget.resetStyleToDefault();
+        } else {
+            currentDeclarationWidget.applyStyle(currentDeclarationStyle);
+        }
+
+        // set widget to the question.
+        _question.setWidget(currentDeclarationWidget);
+    }
+
+    private void setDefaultWidgetToQuestion(Question _question) {
+        Type questionType = getQuestionType(_question);
+
+        Widget defaultWidget = getDefaultWidgetForType(questionType);
+        defaultWidget.resetStyleToDefault();
+        _question.setWidget(defaultWidget);
     }
 
     private Type getQuestionType(Question _question) {
