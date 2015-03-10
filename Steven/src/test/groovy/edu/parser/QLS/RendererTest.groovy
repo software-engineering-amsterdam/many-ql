@@ -25,7 +25,7 @@ class RendererTest extends Specification {
         setup:
         List<Statement> statements = new ArrayList<>()
         statements.add(createQLSQuestion("identifier"))
-        Stylesheet stylesheet = new Stylesheet(new edu.parser.QLS.nodes.Identifier("title"), statements)
+        Stylesheet stylesheet = new Stylesheet(new edu.parser.QLS.nodes.Identifier("title"), statements, styles)
 
         List<Question> questions = new ArrayList<>()
         questions.add(new QuestionBuilder().identifier("iden1").isEnabled(true))

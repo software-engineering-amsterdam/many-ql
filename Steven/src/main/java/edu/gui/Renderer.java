@@ -30,14 +30,17 @@ public class Renderer implements QLSVisitor {
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
     private final List<Question> questionsToRender;
+    private List<Style> defaultStyles;
 
     public Renderer(Observer questionState) {
         questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
         mainWindow = new MainWindow(questionState);
+        defaultStyles = new ArrayList<>();
     }
 
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
+        this.defaultStyles = stylesheet.getStyles();
         initialize(inputQuestions, stylesheet);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
         mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
@@ -64,20 +67,20 @@ public class Renderer implements QLSVisitor {
 
     private void renderRemainingQuestions(List<Question> inputQuestions) {
         List<Question> remainingQuestions = getRemainingQuestions(inputQuestions);
-        List<Statement> convertedQuestions = convertQuestions(remainingQuestions);
+        List<QLSQuestion> convertedQuestions = convertQuestions(remainingQuestions);
         ArrayList<Section> sections = createSection(convertedQuestions);
         Page pageWithRemainingQuestions = new Page(sections);
         addPage(pageWithRemainingQuestions, remainingQuestions);
     }
 
-    private List<Statement> convertQuestions(List<Question> remainingQuestions) {
+    private List<QLSQuestion> convertQuestions(List<Question> remainingQuestions) {
         return remainingQuestions.stream()
                 .map(remainingQuestion -> new QLSQuestion(new Identifier(remainingQuestion.getIdentifier().getIdentifier()), remainingQuestion.getStyles()))
                 .collect(Collectors.toList());
     }
 
-    private ArrayList<Section> createSection(List<Statement> convertedQuestions) {
-        Section section = new Section("Other", convertedQuestions);
+    private ArrayList<Section> createSection(List<QLSQuestion> convertedQuestions) {
+        Section section = new Section("Other", convertedQuestions, defaultStyles);
         ArrayList<Section> sections = new ArrayList<>();
         sections.add(section);
         return sections;

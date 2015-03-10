@@ -103,10 +103,6 @@ public class MainWindow extends JFrame {
         cardLayout.show(questionPanel, String.valueOf(pageNumber));
     }
 
-    private boolean isCurrentPage(int pageNumber) {
-        return currentPage == pageNumber;
-    }
-
     private boolean isInvalidPageNumber(int pageNumber) {
         return pageNumber > totalPages || currentPage < 1;
     }
