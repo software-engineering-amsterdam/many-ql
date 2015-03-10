@@ -17,4 +17,11 @@ public class Textbox extends WidgetValue
     {
         return t.isNumerical() || t.isString();
     }
+
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

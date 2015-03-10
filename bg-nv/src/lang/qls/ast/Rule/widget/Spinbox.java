@@ -17,4 +17,10 @@ public class Spinbox extends NumWidgetValue
     {
         return t.isNumerical();
     }
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

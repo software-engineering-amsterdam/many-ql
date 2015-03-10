@@ -17,4 +17,10 @@ public class Dropdown extends BoolWidgetValue
     {
         return t.isBool();
     }
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

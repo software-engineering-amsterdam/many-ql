@@ -17,4 +17,10 @@ public class Checkbox extends WidgetValue
     {
         return t.isBool();
     }
+
+    @Override
+    public <T> T accept(WidgetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

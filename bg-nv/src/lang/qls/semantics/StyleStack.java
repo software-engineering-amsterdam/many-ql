@@ -17,8 +17,10 @@ public class StyleStack
         this.stack = new Stack<>();
     }
 
-    public void addStyle(Style rs)
+    public void push(Style rs)
     {
+        assert rs != null;
+
         if (this.stack.empty())
         {
             this.stack.push(rs);
@@ -31,13 +33,15 @@ public class StyleStack
         }
     }
 
-    public void removeStyle()
+    public void pop()
     {
         this.stack.pop();
     }
 
     public Rules getRulesForType(Type t)
     {
+        assert !this.stack.empty();
+
         Style s = this.stack.peek();
         return s.getRulesForType(t);
     }

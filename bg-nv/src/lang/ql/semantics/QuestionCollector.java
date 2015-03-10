@@ -72,7 +72,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     private void checkForError(Question q)
     {
         String id = q.getId();
-        if (this.symbolTable.containsQuestionId(id))
+        if (this.symbolTable.containsQuestion(id))
         {
             Type duplicateType = this.symbolTable.resolve(id);
             Question duplicateQuestion = this.symbolTable.getQuestion(id);
