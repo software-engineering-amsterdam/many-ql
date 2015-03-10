@@ -16,7 +16,9 @@ import edu.parser.QLS.nodes.Stylesheet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +37,7 @@ public class Main implements Observer {
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private List<Question> updatedQuestions;
+    private Set<Question> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -48,7 +50,7 @@ public class Main implements Observer {
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new ArrayList<>();
+        updatedQuestions = new HashSet<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
@@ -67,7 +69,6 @@ public class Main implements Observer {
     private void evaluateForm() {
         evaluatedQuestions.clear();
         evaluatedQuestions = evaluator.evaluate(form, updatedQuestions);
-        updatedQuestions.clear();
     }
 
     private Stylesheet parseQLS() {
@@ -100,16 +101,23 @@ public class Main implements Observer {
     public void update(CheckBox checkBox) {
 
         Question question = getEvaluatedQuestion(checkBox.getIdentifier());
-        Question clonedQuestion = cloneQuestionAndSetState(checkBox, question);
-        updatedQuestions.add(clonedQuestion);
+        Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
+        addUpdatedQuestion(clonedQuestion);
 
         execute();
 
     }
 
-    private Question cloneQuestionAndSetState(CheckBox checkBox, Question question) {
+    private void addUpdatedQuestion(Question clonedQuestion) {
+        if (updatedQuestions.contains(clonedQuestion)) {
+            updatedQuestions.remove(clonedQuestion);
+        }
+        updatedQuestions.add(clonedQuestion);
+    }
+
+    private Question cloneQuestionAndSetState(boolean isSelected, Question question) {
         try {
-            return question.clone(checkBox.isEnabled());
+            return question.clone(isSelected);
         } catch (CloneNotSupportedException e) {
             throw new CloneException(e);
         }

@@ -50,4 +50,6 @@ public class CheckBox extends JCheckBox implements Subject, ActionListener {
     public void actionPerformed(ActionEvent e) {
         notifyObservers();
     }
+
+
 }

@@ -57,20 +57,17 @@ public class Question extends Statement implements Cloneable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Question question = (Question) o;
-        if (isEnabled != question.isEnabled) return false;
-        // intellij 'simplified' the next line:
-        return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
+
+        if (!identifier.equals(question.identifier)) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = identifier.hashCode();
-        result = 31 * result + questionType.hashCode();
-        result = 31 * result + label.hashCode();
-        result = 31 * result + (expression != null ? expression.hashCode() : 0);
-        result = 31 * result + (isEnabled ? 1 : 0);
-        return result;
+        return identifier.hashCode();
     }
 
     @Override

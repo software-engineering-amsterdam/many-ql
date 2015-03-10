@@ -10,10 +10,7 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,13 +18,13 @@ import java.util.stream.Collectors;
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
-    private List<Question> updatedQuestions = new ArrayList<>();
+    private Set<Question> updatedQuestions = new HashSet<>();
 
     public List<Question> evaluate(Form form) {
-        return evaluate(form, Collections.emptyList());
+        return evaluate(form, Collections.emptySet());
     }
 
-    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
+    public List<Question> evaluate(Form form, Set<Question> updatedQuestions) {
         this.evaluatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
         visit(form);
