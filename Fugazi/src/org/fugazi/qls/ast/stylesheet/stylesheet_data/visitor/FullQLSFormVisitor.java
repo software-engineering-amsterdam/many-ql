@@ -34,7 +34,7 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
 
     public Void visitPage(Page page){
         List<Section> sections = page.getSections();
-        List<DefaultStyleDeclaration> defaultStyles = page.getDefaultStyles();
+        List<DefaultStyleDeclaration> defaultStyles = page.getDefaultStyleDeclarations();
 
         for (Section section : sections) {
             section.accept(this);
@@ -48,7 +48,7 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
 
     public Void visitSection(Section section){
         List<Section> subsections = section.getSections();
-        List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyles();
+        List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyleDeclarations();
         List<Question> questions = section.getQuestions();
 
         for (Section subsection : subsections) {
