@@ -6,9 +6,9 @@ import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
 import QL.AST.Statements.assignment as assignment
 import QL.AST.form as form
-import QL.AST.AnswerTypes.bool as a
-import QL.AST.AnswerTypes.text as t
-import QL.AST.AnswerTypes.number as n
+import QL.AST.Statements.AnswerTypes.bool as a
+import QL.AST.Statements.AnswerTypes.text as t
+import QL.AST.Statements.AnswerTypes.number as n
 
 
 
