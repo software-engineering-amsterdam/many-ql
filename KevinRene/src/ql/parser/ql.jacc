@@ -1,4 +1,4 @@
-%package cons.ql.parser
+%package ql.parser
 %class QLParser
 %interface QLTokens
 %semantic ql.ast.QLNode
@@ -101,32 +101,32 @@ import ql.ast.statement.*;
 		 | STRINGLITERAL
 		 ;
 
- unaryExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }
-				 | '-' expression %prec UMIN  	{ $$ = new Neg($2); }
+ unaryExpression : '+' expression %prec UPLUS 	{ $$ = new Positive($2); }
+				 | '-' expression %prec UMIN  	{ $$ = new Negation($2); }
 				 ;
 				 
- arithmeticExpression : expression '*' expression	{ $$ = new Mul($1, $3); }
-					  | expression '/' expression	{ $$ = new Div($1, $3); }
+ arithmeticExpression : expression '*' expression	{ $$ = new Multiply($1, $3); }
+					  | expression '/' expression	{ $$ = new Divide($1, $3); }
 					  | expression '+' expression	{ $$ = new Add($1, $3); }
-					  | expression '-' expression 	{ $$ = new Sub($1, $3); }
+					  | expression '-' expression 	{ $$ = new Subtract($1, $3); }
 					  ;
 
  relationalExpression 	: '!' expression %prec UNOT { $$ = new Not($2); }
- 		 				| expression EQ expression	{ $$ = new Eq($1, $3); }
-						| expression NEQ expression	{ $$ = new NEq($1, $3); }
-						| expression '>' expression	{ $$ = new GT($1, $3); }
-						| expression '<' expression	{ $$ = new LT($1, $3); }
-						| expression GEQ expression	{ $$ = new GEq($1, $3); }
-						| expression LEQ expression	{ $$ = new LEq($1, $3); }
+ 		 				| expression EQ expression	{ $$ = new Equal($1, $3); }
+						| expression NEQ expression	{ $$ = new NotEqual($1, $3); }
+						| expression '>' expression	{ $$ = new Greater($1, $3); }
+						| expression '<' expression	{ $$ = new Lower($1, $3); }
+						| expression GEQ expression	{ $$ = new GreaterOrEqual($1, $3); }
+						| expression LEQ expression	{ $$ = new LowerOrEqual($1, $3); }
 						| expression AND expression	{ $$ = new And($1, $3); }
 					    | expression OR expression  { $$ = new Or($1, $3); }
 					    ;
 %%
 private QLLexer lexer; 
 
-private ASTNode result;
+private QLNode result;
 
-public ASTNode getResult() {
+public QLNode getResult() {
   return result;
 }
 
