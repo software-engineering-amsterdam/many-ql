@@ -35,6 +35,10 @@ public abstract class Segment extends AbstractASTNode {
         return this.defaultStyleDeclarations;
     }
 
+    public void addDefaultStyleDeclaration(DefaultStyleDeclaration _defaultStyleDeclr) {
+        this.defaultStyleDeclarations.add(_defaultStyleDeclr);
+    }
+
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 
     @Override
