@@ -5,8 +5,8 @@ import ql.ast.{BooleanType, Variable}
 import ql.typechecker.Error
 import qls.ast.{Question, Section, Text}
 
-class AllQuestionsPlacedCheckerSpec extends Specification {
-  val checker = new AllQuestionsPlacedChecker()
+class QuestionPlacementCheckerSpec extends Specification {
+  val checker = new QuestionPlacementChecker()
   import checker._
 
   val EmptySection = Section("section", List(), List())

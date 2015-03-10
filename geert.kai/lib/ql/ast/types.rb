@@ -1,3 +1,5 @@
+require_relative "../../qls/ast/declaration"
+
 module QL
   module AST
     class Type
@@ -7,35 +9,20 @@ module QL
     end
 
     class IntegerType < Type
-      def pane(question, questionair_controller)
-        input = Java::JavafxSceneControl::TextField.new
-        input.set_id(question.variable_name)
-        input.text_property.add_change_listener do |observable, old, new_value|
-          questionair_controller.update_variable(observable.bean.id, new_value.to_i)
-        end
-        input
+      def widget(controller)
+        QLS::AST::NumberText.new.widget(controller)
       end
     end
 
     class StringType < Type
-      def pane(question, questionair_controller, widget = nil)
-        input = widget || Java::JavafxSceneControl::TextField.new
-        input.set_id(question.variable_name)
-        input.text_property.add_change_listener do |observable, old, new_value|
-          questionair_controller.update_variable(observable.bean.id, new_value)
-        end
-        input
+      def widget(controller)
+        QLS::AST::Text.new.widget(controller)
       end
     end
 
     class BooleanType < Type
-      def pane(question, questionair_controller)
-        input = Java::JavafxSceneControl::CheckBox.new
-        input.set_id(question.variable_name)
-        input.selected_property.add_change_listener do |observable, old, new_value|
-          questionair_controller.update_variable(observable.bean.id, new_value)
-        end
-        input
+      def widget(controller)
+        QLS::AST::YesNoRadio.new.widget(controller)
       end
     end
 

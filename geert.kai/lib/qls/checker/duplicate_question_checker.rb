@@ -12,7 +12,6 @@ module QLS
       def visit_style_group(style_group)
         map_accept(style_group.rules)
       end
-      
 
       def visit_question(question)
         question.name

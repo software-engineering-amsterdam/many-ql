@@ -14,7 +14,7 @@ class ComplexExpression(e.Expression):
     def return_type(self, type_dict):
         types = ""
         for x in self._expression:
-            types += x.return_type(type_dict)
+            types += "(" + x.return_type(type_dict) + ")"
         return types
 
     # return a pretty printed string of the _expression

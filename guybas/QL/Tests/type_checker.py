@@ -39,7 +39,7 @@ class TestTypeChecker(unittest.TestCase):
         self.assertEqual(TypeChecker.check_expressions([e1[0]], {}), "")
 
         e2 = Expressions.expr.parseString("4 / 2 + (3 - 1) * 4 ==  True")
-        self.assertEqual(TypeChecker.check_expressions([e2[0]], {}), "4 / 2 + (3 - 1) * 4 == True is malformed")
+        self.assertEqual(TypeChecker.check_expressions([e2[0]], {}), "4 / 2 + (3 - 1) * 4 == True is malformed\n")
 
         e3 = Expressions.expr.parseString("True == True")
         self.assertEqual(TypeChecker.check_expressions([e3[0]], {}), "")
@@ -48,4 +48,4 @@ class TestTypeChecker(unittest.TestCase):
         self.assertEqual(TypeChecker.check_expressions([e4[0]], {}), "")
 
         e5 = Expressions.expr.parseString("4")
-        self.assertEqual(TypeChecker.check_expressions([e5[0]], {}), "4 is malformed")
+        self.assertEqual(TypeChecker.check_expressions([e5[0]], {}), "4 is malformed\n")

@@ -4,10 +4,7 @@ import ql.typechecker.Error
 import qls.ast.{Question, Section}
 import types.{TypeEnvironment, VariableName}
 
-// - all questions of the QL program are placed by the QLS program.
-// - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
-// - you cannot place a single question multiple times.
-class AllQuestionsPlacedChecker {
+class QuestionPlacementChecker {
 
   def check(s: Section, env: TypeEnvironment): Option[Error] = {
     val qlVariables = env.keySet
