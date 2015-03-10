@@ -64,11 +64,7 @@ namespace QL.UI
             }
         }
 
-        private void Command_Close(object sender, ExecutedRoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
+        #region Menu event handlers
         private void Command_Open(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog inputFilePicker = new OpenFileDialog
@@ -91,25 +87,18 @@ namespace QL.UI
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem == null) return;
-            
+
             _inputFilePath = menuItem.Tag.ToString();
             LoadFile();
         }
 
-        private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
+        private void Command_Close(object sender, ExecutedRoutedEventArgs e)
         {
-            ListViewItem item = sender as ListViewItem;
-            if (item == null || !item.IsSelected) return;
-
-            QLException error = item.Content as QLException;
-            if (error == null) return;
-
-            InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
-            InputFileSourceText.TextArea.Caret.Column = error.SourceLocation.Column.GetValueOrDefault(0);
-            InputFileSourceText.ScrollTo(error.SourceLocation.Line, error.SourceLocation.Column.GetValueOrDefault(0));
-            InputFileSourceText.Focus();
+            Environment.Exit(0);
         }
+        #endregion
 
+        #region General event handlers
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             string path = Path.Combine(Environment.CurrentDirectory, "examples");
@@ -130,5 +119,40 @@ namespace QL.UI
             
             if(files.Length <= 0) MenuItemExamples.Visibility = Visibility.Hidden;
         }
+
+        private void ButtonParse_Click(object sender, RoutedEventArgs e)
+        {
+            if (_astHandler == null) return;
+            _astHandler = new AstHandler(InputFileSourceText.Text);
+            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
+            _astHandler.BuildAST();
+        }
+
+        private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
+        {
+            if (_astHandler == null) return;
+            _astHandler.CheckType();
+        }
+
+        private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
+        {
+            if (_astHandler == null) return;
+            _astHandler.Evaluate();
+        }
+
+        private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem item = sender as ListViewItem;
+            if (item == null || !item.IsSelected) return;
+
+            QLException error = item.Content as QLException;
+            if (error == null) return;
+
+            InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
+            InputFileSourceText.TextArea.Caret.Column = error.SourceLocation.Column.GetValueOrDefault(0);
+            InputFileSourceText.ScrollTo(error.SourceLocation.Line, error.SourceLocation.Column.GetValueOrDefault(0));
+            InputFileSourceText.Focus();
+        }
+        #endregion
     }
 }

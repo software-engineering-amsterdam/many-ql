@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using QL.Errors;
 using QL.Evaluation;
@@ -15,7 +16,7 @@ namespace QL.Model
     {
         public Form RootNode { get; private set; }
 
-        public IList<QLException> ASTHandlerExceptions { get; private set; }
+        public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
         public IList<QLException> EvaluationErrors { get; private set; }        // TODO | maybe merge warnings & errors
         public IList<QLWarning> EvaluationWarnings { get; private set; }    // TODO | after UI has completed
 
@@ -29,26 +30,21 @@ namespace QL.Model
         bool TypeChecked;
         bool Evaluated;
 
-
-
-
-
-
-        public AstHandler(string input)
+        private AstHandler()
         {
-            ASTHandlerExceptions = new List<QLException>();
+            ASTHandlerExceptions = new ObservableCollection<QLException>();
             TypeReference = new SortedDictionary<Identifier, Type>();
             ReferenceLookupTable = null;
             AstBuilt = TypeChecked = Evaluated = false;
-            Input = input;
-
         }
-        public AstHandler(Stream input)
+
+        public AstHandler(string input) : this()
         {
-            ASTHandlerExceptions = new List<QLException>();
-            TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
-            AstBuilt = TypeChecked = Evaluated = false;
+            Input = input;
+        }
+
+        public AstHandler(Stream input) : this()
+        {
             InputStream = input;
         }
 
