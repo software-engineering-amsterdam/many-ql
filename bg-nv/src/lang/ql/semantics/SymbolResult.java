@@ -1,6 +1,7 @@
 package lang.ql.semantics;
 
 import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Messages;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import java.util.List;
 public class SymbolResult
 {
     private SymbolTable table;
-    private List<Message> messages;
+    private Messages messages;
 
-    public SymbolResult(SymbolTable table, List<Message> messages)
+    public SymbolResult(SymbolTable table, Messages messages)
     {
         this.table = table;
         this.messages = messages;
@@ -23,7 +24,7 @@ public class SymbolResult
         return this.table;
     }
 
-    public List<Message> getMessages()
+    public Messages getMessages()
     {
         return this.messages;
     }

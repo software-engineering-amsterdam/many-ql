@@ -8,6 +8,7 @@ import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;
 import lang.ql.semantics.values.Value;
+import lang.qls.ast.Stylesheet;
 
 import java.util.List;
 
@@ -24,10 +25,23 @@ public class TestHelper
         return t.isInstance(o) ? t.cast(o) : null;
     }
 
-    public static List<Message> analyse(String formName)
+    public static Messages analyse(String formPath)
     {
-        Form f = TestHelper.as(ParserHelper.ParseForm(formName), Form.class);
+        Form f = TestHelper.as(ParserHelper.ParseForm(formPath), Form.class);
         return TypeChecker.check(f);
+    }
+
+    public static List<Message> getStylesheet(String stylePath, String formPath)
+    {
+        Stylesheet s = TestHelper.as(ParserHelper.ParseStylesheet(stylePath), Stylesheet.class);
+        Form f = TestHelper.as(ParserHelper.ParseForm(formPath), Form.class);
+
+        return lang.qls.semantics.TypeChecker.check(s, f);
+    }
+
+    public static void assertTypeCheckErrorOccured()
+    {
+
     }
 
     public static void assertErrorMessage(Message m, String expected)

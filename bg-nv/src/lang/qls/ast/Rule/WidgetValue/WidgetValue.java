@@ -1,6 +1,7 @@
 package lang.qls.ast.Rule.WidgetValue;
 
 import lang.ql.ast.AstNode;
+import lang.ql.ast.type.Type;
 
 /**
  * Created by bore on 08/03/15.
@@ -18,4 +19,6 @@ public abstract class WidgetValue extends AstNode
     {
         return this.title;
     }
+
+    public abstract boolean isCompatibleWithType(Type t);
 }

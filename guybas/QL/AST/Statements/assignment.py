@@ -44,7 +44,7 @@ class Assignment(statement.IStatement):
         if self.id not in dependencies:
             dependencies[self.id] = d
         else:
-            dependencies[self.id] = dependencies[self.id] + self._condition.get_dependencies()
+            dependencies[self.id] = dependencies[self.id] + self.parent_condition.get_dependencies()
         return dependencies
 
     # return all sub (expressions)
@@ -95,5 +95,8 @@ class Assignment(statement.IStatement):
 
     def get_element(self):
         return self.element
+
+    def get_parent_condition(self):
+        return self.parent_condition
 
 

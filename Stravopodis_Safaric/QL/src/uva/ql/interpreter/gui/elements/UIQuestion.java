@@ -8,25 +8,25 @@ import java.util.List;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.question.*;
-import uva.ql.ast.statements.Assign;
 import uva.ql.interpreter.observer.Observer;
 import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.Symbol;
-import uva.ql.interpreter.typecheck.SymbolMap;
-import uva.ql.supporting.ExpressionSupporting;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
 import uva.ql.supporting.Tuple;
 
 public class UIQuestion extends Observer implements UIWidget<Object> {
 	
 	protected Question question;
-	protected SymbolMap symbolTable;
+	protected ExpressionTable expressionTable;
+	protected SymbolTable symbolTable;
 	protected Subject subject;
 	
 	private Component component;
 	private Expression expression;
 	
-	public UIQuestion(Question _question, SymbolMap _symbolTable, Subject _subject, Expression _expression) {
+	public UIQuestion(Question _question, ExpressionTable _expressionTable, SymbolTable _symbolTable, Subject _subject, Expression _expression) {
         this.question = _question;		
+        this.expressionTable = _expressionTable;
         this.symbolTable = _symbolTable;
         this.subject = _subject;
         this.expression = _expression;
@@ -37,12 +37,14 @@ public class UIQuestion extends Observer implements UIWidget<Object> {
 		
 		if (question.getType().getPrimitiveType() == PrimitiveType.BOOLEAN) {
 			
-			UICheckBox checkbox = new UICheckBox(this.question, this.symbolTable, this.subject, this.expression);
+			UICheckBox checkbox = new UICheckBox(this.question, this.expressionTable, this.symbolTable, this.subject, this.expression);
+			this.checkIfExpressionWithinExpressionTable();
 			return this.addWithOptions(checkbox.getWidget(), container);
 		}
 		else {
 			
-			UITextField textbox = new UITextField(this.question, this.symbolTable, this.subject, this.expression);
+			UITextField textbox = new UITextField(this.question, this.expressionTable,this.symbolTable, this.subject, this.expression);
+			this.checkIfExpressionWithinExpressionTable();
 			return this.addWithOptions(textbox.getWidget(), container);
 		}
 	}
@@ -54,18 +56,24 @@ public class UIQuestion extends Observer implements UIWidget<Object> {
 		return container;
 	}
 	
+	private void checkIfExpressionWithinExpressionTable(){
+		if (this.getExpression() != null){
+			Expression expression = this.getExpression();
+			String evaluatedClassName = PrimitiveType.classNameFromPrimitiveType(this.question.getType().getPrimitiveType());
+			
+			if (!this.expressionTable.keyExistsForType(this.question.getIdentifier(), evaluatedClassName)){	
+				this.expressionTable.putValue(this.question.getIdentifier(), expression);
+			}
+		}
+	}
+	
 	public Component getComponent(){
 		return this.component;
 	}
 	
-	public Symbol getQuestionSymbol(){
-		Symbol question = this.symbolTable.getSymbolForAttributes(this.getIdentifier(), null, Question.class.getName());
-		return question;
-	}
-	
 	@Override
 	public void update(){
-		this.subject.notifyObserver();
+		this.subject.notifyObserver(this.expressionTable);
 	}
 	
 	@Override
@@ -80,11 +88,6 @@ public class UIQuestion extends Observer implements UIWidget<Object> {
 	
 	@Override
 	public Expression getExpression() {
-		
-		if (this.expression == null){
-			Symbol s = this.symbolTable.getSymbolForAttributes(this.getIdentifier(), this.question.getType().getTypeName(), Assign.class.getName());
-			return (Expression)ExpressionSupporting.symbolAssignmentExists(s, this.getQuestionSymbol());
-		}
 		return this.expression;
 	}
 }

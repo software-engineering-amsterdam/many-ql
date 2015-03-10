@@ -1,6 +1,11 @@
 package lang.ql.gui.input.regular;
 
+import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Control;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import lang.ql.gui.input.Input;
@@ -11,35 +16,35 @@ import lang.ql.semantics.values.Value;
 /**
  * Created by Nik on 3-3-15.
  */
-public abstract class RegularInput<T extends Control, U extends Object> extends Input<T>
+public abstract class RegularInput<T, U extends Control> extends Input<U>
 {
     private Text errorField;
 
-    public RegularInput(String id, T control, Boolean visible, Boolean disabled)
+    public RegularInput(String id, U control, Boolean visible, Boolean disabled)
     {
         super(id, control, visible, disabled);
+
         this.errorField = new Text(null);
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
+
+        this.getInputNode().getChildren().add(this.errorField);
     }
 
-    public abstract Value convertUserInputToValue(U userInput);
-
-    public void processUserInput(U userInput, ValueTable valueTable)
-    {
-        valueTable.storeValue(this.getId(), this.convertUserInputToValue(userInput));
-        this.update(valueTable);
-    }
+    public abstract Value convertUserInputToValue(T userInput);
 
     @Override
     public void update(ValueTable valueTable)
     {
-        Control control = super.getControl();
-        control.setDisable(getDisabled());
-        control.setVisible(getVisible());
         setChanged();
         notifyObservers(valueTable);
+    }
+
+    public void processUserInput(T userInput, ValueTable valueTable)
+    {
+        valueTable.storeValue(this.getId(), this.convertUserInputToValue(userInput));
+        this.update(valueTable);
     }
 
     protected void resetValidation()
@@ -59,5 +64,12 @@ public abstract class RegularInput<T extends Control, U extends Object> extends 
     public Text getErrorField()
     {
         return this.errorField;
+    }
+    
+    public abstract void attachListener(ValueTable valueTable);
+
+    protected ChangeListener<T> constructChangeListener(ValueTable valueTable)
+    {
+        return (observable, oldValue, newValue) -> processUserInput(newValue, valueTable);
     }
 }

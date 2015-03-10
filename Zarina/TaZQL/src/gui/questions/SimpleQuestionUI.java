@@ -18,7 +18,7 @@ public class SimpleQuestionUI implements IQuestionUI {
 		this.label = label;
 		this.wc = wc;
 		this.valueRepository = valueRepository;
-		this.wc.addDocListener();
+		//this.wc.addDocListener();
 	}
 
 	public String getId() {
@@ -37,6 +37,7 @@ public class SimpleQuestionUI implements IQuestionUI {
 	@Override
 	public void setValue(Value value) {
 		this.value = value;
+		wc.setText(value);
 
 		// update the widget setText with value from value repo
 //		value = valueRepository.getValue(id).toString();

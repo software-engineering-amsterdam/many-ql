@@ -16,20 +16,20 @@ import java.util.List;
 public class SymbolVisitor implements FormVisitor<Void>, StatVisitor<Void>
 {
     private SymbolTable symbolTable;
-    private List<Message> errors;
+    private Messages messages;
 
     public static SymbolResult extract(Form f)
     {
         SymbolVisitor visitor = new SymbolVisitor();
         f.accept(visitor);
 
-        return new SymbolResult(visitor.symbolTable, visitor.errors);
+        return new SymbolResult(visitor.symbolTable, visitor.messages);
     }
 
     private SymbolVisitor()
     {
         this.symbolTable = new SymbolTable();
-        this.errors = new ArrayList<>();
+        this.messages = new Messages();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SymbolVisitor implements FormVisitor<Void>, StatVisitor<Void>
                 error = Error.identifierDeclaredOfDiffType(id, duplicateLineNumber, currentLineNumber);
             }
 
-            this.errors.add(error);
+            this.messages.add(error);
         }
     }
 }

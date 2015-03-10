@@ -1,6 +1,6 @@
 form {
     enable when (1 == True){
-        question f1 string{
+        question f1 	{
             label  = "field1",
             value  = "fieldOneAnswer";
         }

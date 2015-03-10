@@ -35,8 +35,12 @@ public class TextBoxWidget {
             }
 
             public void updateField() {
-                headlessFormInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
-                headlessFormInterpreter.interpret();
+                try {
+                    headlessFormInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
+                    headlessFormInterpreter.interpret();
+                } catch (NumberFormatException e) {
+                    System.out.println("Wrong format introduced");
+                }
             }
         });
     }

@@ -1,14 +1,15 @@
 package edu.parser.QLS
 
+import edu.Main
 import edu.exceptions.EvaluationException
 import edu.gui.Renderer
+import edu.nodes.QuestionType
+import edu.parser.QL.nodes.expression.Identifier
+import edu.parser.QL.nodes.question.Label
+import edu.parser.QL.nodes.question.Question
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QLS.nodes.statement.Statement
-import edu.nodes.Identifier
-import edu.nodes.Label
-import edu.nodes.Question
-import edu.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -42,7 +43,7 @@ class RendererTest extends Specification {
     }
 
     private Question createQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true)
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty())
     }
 
     private QLSQuestion createQLSQuestion(String identifier) {

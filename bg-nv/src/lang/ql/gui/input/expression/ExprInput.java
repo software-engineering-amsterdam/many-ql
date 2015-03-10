@@ -1,6 +1,9 @@
 package lang.ql.gui.input.expression;
 
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Control;
+import javafx.scene.layout.VBox;
 import lang.ql.ast.expression.Expr;
 import lang.ql.gui.Refreshable;
 import lang.ql.gui.input.Input;
@@ -14,7 +17,6 @@ import lang.ql.semantics.values.Value;
 public abstract class ExprInput<T extends Control> extends Input<T> implements Refreshable
 {
     final private Expr expression;
-
 
     public ExprInput(String id, T control, Expr expression, Boolean visible)
     {
@@ -36,8 +38,15 @@ public abstract class ExprInput<T extends Control> extends Input<T> implements R
     }
 
     @Override
-    public Boolean isPrerequisite()
+    public void update(ValueTable valueTable)
+    {
+        // empty implementation, the this element should never be updated
+    }
+
+    @Override
+    public Boolean isRefreshPrerequisite()
     {
         return true;
     }
+
 }

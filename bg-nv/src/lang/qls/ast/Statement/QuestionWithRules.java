@@ -7,7 +7,7 @@ import lang.qls.ast.Rule.Rules;
  */
 public class QuestionWithRules extends Question
 {
-    private Rules body;
+    private final Rules body;
 
     public QuestionWithRules(String id, int lineNumber, Rules body)
     {

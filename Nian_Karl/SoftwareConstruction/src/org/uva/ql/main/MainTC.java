@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.binary.Equal;
 import org.uva.ql.ast.expression.binary.Minus;
@@ -16,10 +15,11 @@ import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.Plus;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.value.Int;
+import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
+import org.uva.utility.CodePosition;
 
 public class MainTC {
 
@@ -58,8 +58,8 @@ public class MainTC {
 		Evaluator e = new Evaluator();
 		Identifier id1 = new Identifier("ID1", new CodePosition(0,0));
 		Identifier id2 = new Identifier("ID2", new CodePosition(0,0));
-		Int v1 = new Int(11);
-		Int v2 = new Int(7);
+		IntValue v1 = new IntValue(11);
+		IntValue v2 = new IntValue(7);
 		
 		e.addValue(id1.toString(), v1);
 		e.addValue(id2.toString(), v2);

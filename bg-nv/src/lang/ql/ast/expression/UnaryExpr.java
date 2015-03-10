@@ -24,7 +24,7 @@ public abstract class UnaryExpr extends NaryExpr
     @Override
     public boolean isTypeAllowed(Type t)
     {
-        return t.isArithmetic();
+        return t.isNumerical();
     }
 
     @Override

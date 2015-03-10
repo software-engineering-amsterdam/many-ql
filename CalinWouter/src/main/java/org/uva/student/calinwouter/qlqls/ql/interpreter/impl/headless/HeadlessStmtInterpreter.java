@@ -1,17 +1,17 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
 
-import org.uva.student.calinwouter.qlqls.generated.node.AIfStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AIfelseStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AQuestionStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AValueStmt;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.ExpInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessExpInterpreter;
+import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
+import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
-public class HeadlessStmtInterpreter extends StmtInterpreter {
+import java.util.LinkedList;
+
+//public class HeadlessStmtInterpreter extends StmtInterpreter {
+public class HeadlessStmtInterpreter extends AnalysisAdapter{
+    private final HeadlessFormInterpreter formInterpreter;
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
@@ -27,16 +27,16 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
-        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
         // TODO it may crash here if not all fields are correcrly set.
         try {
-            node.getExp().apply(expInterpreter);
+            node.getExp().apply(headlessExpInterpreter);
         } catch (Exception e) {
             formInterpreter.setField(node.getIdent().getText(), null);
             return;
         }
         formInterpreter.setField(node.getIdent().getText(),
-                expInterpreter.getValue());
+                headlessExpInterpreter.getValue());
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
@@ -45,15 +45,15 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
-    protected StmtInterpreter createStmtInterpreter() {
+    protected HeadlessStmtInterpreter createStmtInterpreter() {
         return new HeadlessStmtInterpreter(formInterpreter);
     }
 
     @Override
     public void caseAIfelseStmt(AIfelseStmt node) {
-        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
-        node.getExp().apply(expInterpreter);
-        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
+        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
+        node.getExp().apply(headlessExpInterpreter);
+        if (headlessExpInterpreter.getValue().getValue() == Boolean.TRUE) {
             executeStmtList(node.getThenStmtList());
         } else {
             executeStmtList(node.getElseStmtList());
@@ -62,16 +62,23 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
 
     @Override
     public void caseAIfStmt(AIfStmt node) {
-        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
-        node.getExp().apply(expInterpreter);
-        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
+        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
+        node.getExp().apply(headlessExpInterpreter);
+        if (headlessExpInterpreter.getValue().getValue() == Boolean.TRUE) {
             executeStmtList(node.getThenStmtList());
             return;
         }
     }
 
-    public HeadlessStmtInterpreter(FormInterpreter formInterpreter) {
-        super(formInterpreter);
+    protected void executeStmtList(LinkedList<PStmt> stmtList) {
+        for (PStmt s : stmtList) {
+            s.apply(createStmtInterpreter());
+        }
+    }
+
+    public HeadlessStmtInterpreter(HeadlessFormInterpreter formInterpreter) {
+        this.formInterpreter = formInterpreter;
+       //super(formInterpreter);
     }
 
 }

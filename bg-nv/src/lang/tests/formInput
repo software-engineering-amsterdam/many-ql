@@ -17,18 +17,18 @@ form sample
     decimal division "How much is 5 divided by 2?"
 
     if (maritalStatus)
-        string married "Yey, you are married!"
+        string married "Yey, you are married!" "good job!"
     if (!maritalStatus) {
-        string married "Yey, you are not married!"
+        string married "Yey, you are NOT married!" "good job!"
     }
-/*
+
     string someinput "wish you were" "here"
     string combinedName "Your name is" name + " " + surname
     integer age2 "Your age is" age
     boolean maritalStatus2 "You are married" maritalStatus
     decimal division2 "The result of the division is" division
 
-*/
+/**/
 /*
 form Box1HouseOwning {
     boolean hasSoldHouse "Did you sell a house in 2010?"

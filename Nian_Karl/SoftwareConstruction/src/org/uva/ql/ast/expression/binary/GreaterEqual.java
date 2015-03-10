@@ -1,11 +1,11 @@
 package org.uva.ql.ast.expression.binary;
 
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.utility.CodePosition;
 
 public class GreaterEqual extends Binary {
 

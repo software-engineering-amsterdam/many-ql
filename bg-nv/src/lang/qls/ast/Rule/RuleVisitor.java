@@ -5,7 +5,9 @@ package lang.qls.ast.Rule;
  */
 public interface RuleVisitor<T>
 {
-    T visit(IntRule r);
-    T visit(StrRule r);
-    T visit(WidgetRule r);
+    T visit(Width r);
+    T visit(Font r);
+    T visit(FontSize r);
+    T visit(BackColor r);
+    T visit(Widget r);
 }

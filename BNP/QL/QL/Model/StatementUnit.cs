@@ -16,7 +16,7 @@ namespace QL.Model
             }
         }
         public StatementUnit() { }
-        public StatementUnit(Identifier identifier, ITerminalType dataType, string displayText, params string[] parameters)
+        public StatementUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText, params string[] parameters)
         {
             Identifier = identifier;
             DataType = dataType;

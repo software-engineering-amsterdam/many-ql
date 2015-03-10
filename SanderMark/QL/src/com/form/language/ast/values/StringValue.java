@@ -1,6 +1,6 @@
 package com.form.language.ast.values;
 
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class StringValue extends GenericValue<String> {
 	private final String value;
@@ -13,8 +13,8 @@ public class StringValue extends GenericValue<String> {
 	}
 
 	@Override
-	public void addToMemory(String key, RuntimeMemory m) {
-		m.put(key, this);
+	public void addToMemory(String key, Context context) {
+		context.put(key, this);
 	}
 	@Override
 	public String toString() {

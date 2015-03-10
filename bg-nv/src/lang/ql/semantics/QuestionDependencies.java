@@ -10,6 +10,7 @@ import java.util.*;
 public class QuestionDependencies
 {
     private Map<String, Set<String>> dependencies;
+    private List<String> cyclicIds;
 
     public QuestionDependencies()
     {
@@ -34,42 +35,59 @@ public class QuestionDependencies
         this.dependencies.get(id).add(dep.getId());
     }
 
-    public List<String> findCycle()
+    public boolean containsCycle()
     {
         for (String k : this.dependencies.keySet())
         {
-            List<String> buffer = new ArrayList<>();
-            buffer.add(k);
-            List<String> result = this.searchNeighbours(buffer);
-            if (result != null)
+            Stack<String> path = new Stack<>();
+            path.add(k);
+            if (this.searchNeighborForCycle(path))
             {
-                return result;
+                return true;
             }
         }
-        return null;
+
+        return false;
     }
 
-    // TODO: refactor this code
-    private List<String> searchNeighbours(List<String> path)
+    public List<String> getCycle()
     {
-        String firstElement = path.get(0);
-        String lastElement = path.get(path.size()-1);
+        return this.cyclicIds;
+    }
+
+    private boolean searchNeighborForCycle(Stack<String> path)
+    {
+        String lastElement = path.lastElement();
         Set<String> neighbours = this.dependencies.get(lastElement);
 
         for (String n : neighbours)
         {
-            if (n.equals(firstElement))
+            if (this.isNClosingCycle(path, n))
             {
-                return path;
+                return true;
             }
-            path.add(n);
-            List<String> result = searchNeighbours(path);
-            if (result != null)
+
+            path.push(n);
+            if (this.searchNeighborForCycle(path))
             {
-                return result;
+                return true;
             }
-            path.remove(path.size() - 1);
+            path.pop();
         }
-        return null;
+
+        return false;
+    }
+
+    private boolean isNClosingCycle(Stack<String> path, String n)
+    {
+        String firstElement = path.firstElement();
+        if (firstElement.equals(n))
+        {
+            this.cyclicIds = new ArrayList<>();
+            this.cyclicIds.addAll(path);
+            return true;
+        }
+
+        return false;
     }
 }

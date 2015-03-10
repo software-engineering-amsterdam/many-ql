@@ -1,8 +1,9 @@
 package edu.gui.components;
 
 
-import edu.nodes.Question;
+import edu.gui.Observer;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 
@@ -16,12 +17,12 @@ import java.util.stream.Collectors;
  */
 public class SectionsPanel extends JPanel {
 
-    public SectionsPanel(Section section, Map<Question, List<Style>> questions) {
+    public SectionsPanel(Section section, Map<Question, List<Style>> questions, Observer questionState) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel(section.getTitle()));
         List<QLSQuestion> qlsSectionQuestions = getQLSSectionQuestions(section);
         List<Question> sectionQuestions = getSectionQuestions(questions, qlsSectionQuestions);
-        QuestionsPanel questionsPanel = new QuestionsPanel(sectionQuestions);
+        QuestionsPanel questionsPanel = new QuestionsPanel(sectionQuestions, questionState);
+
         add(questionsPanel);
 
     }

@@ -27,14 +27,17 @@ public class ExpressionUtil {
             case SET:
                 return new StringValue(value);
         }
-        return null;
+        throw new IllegalArgumentException("Type is not a valid type! Type: " + type);
     }
 
     private static BooleanValue createBooleanFromString(String value){
         String normalized = value.toLowerCase().trim();
-        if (normalized.equals("yes") || normalized.equals("true"))
+        if (normalized.equals("yes") || normalized.equals("true")) {
             return new BooleanValue(true);
-        return new BooleanValue(false);
+        } else if (normalized.equals("no") || normalized.equals("false")) {
+            return new BooleanValue(false);
+        }
+        throw new IllegalArgumentException("Argument not a boolean. Arguemnt: " + value);
     }
 
     private static DateValue createDateFromString(String value){
@@ -47,12 +50,10 @@ public class ExpressionUtil {
             } else {
                 date = SDF.parse(splitValues[0] + "-" + splitValues[1] + "-" + splitValues[2]);
             }
+            return new DateValue(date);
         } catch (ParseException p) {
-            date = new Date();
-            System.err.println("Error while parsing date!");
-            p.printStackTrace();
+            throw new IllegalArgumentException("Argument not a date. Argument: " + value);
         }
-        return new DateValue(date);
     }
 
     private static String[] addZeros(String[] dateArray){
@@ -65,6 +66,10 @@ public class ExpressionUtil {
     }
 
     private static NumberValue createNumberFromString(String value){
-        return new NumberValue(new BigDecimal(value));
+        try {
+            return new NumberValue(new BigDecimal(value));
+        } catch (Exception e){
+            throw new IllegalArgumentException("Argument not a number. Argument: " + value);
+        }
     }
 }

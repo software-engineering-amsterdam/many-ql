@@ -11,9 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class Equal extends BinaryExpression implements Expression {
 
@@ -23,24 +21,24 @@ public class Equal extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate(RuntimeMemory mem) {
-		if(this.getType(mem.typemem).isIntType()){
-			return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() == ((IntValue)super.right.evaluate(mem)).getValue());
+	public BoolValue evaluate(Context context) {
+		if(this.getType(context).isIntType()){
+			return new BoolValue(((IntValue)super.left.evaluate(context)).getValue() == ((IntValue)super.right.evaluate(context)).getValue());
 		}
-		if(this.getType(mem.typemem).isBoolType()){
-			return new BoolValue(((BoolValue)super.left.evaluate(mem)).getValue() == ((BoolValue)super.right.evaluate(mem)).getValue());
+		if(this.getType(context).isBoolType()){
+			return new BoolValue(((BoolValue)super.left.evaluate(context)).getValue() == ((BoolValue)super.right.evaluate(context)).getValue());
 		}
-		if(this.getType(mem.typemem).isStringType()){
-			return new BoolValue(((StringValue)super.left.evaluate(mem)).getValue() == ((StringValue)super.right.evaluate(mem)).getValue());
+		if(this.getType(context).isStringType()){
+			return new BoolValue(((StringValue)super.left.evaluate(context)).getValue() == ((StringValue)super.right.evaluate(context)).getValue());
 		}
 		return null;
 	}
 
 	@Override
 	//TODO: improve this code
-	public Type getType(TypeMemory mem) {
-		Type leftType = left.getType(mem);
-		Type rightType = right.getType(mem);
+	public Type getType(Context context) {
+		Type leftType = left.getType(context);
+		Type rightType = right.getType(context);
 		
 		if(	(leftType.isBoolType() && rightType.isBoolType())
 			||(leftType.isIntType() && rightType.isIntType())
@@ -49,30 +47,9 @@ public class Equal extends BinaryExpression implements Expression {
 		}
 		else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				mem.addError(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " == " + rightType));
+				context.addError(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " == " + rightType));
 			}
 		return new ErrorType();
 	}
 }
-//	
-//	@Override
-//	public void getErrors(ErrorCollector errors) {
-//		Type leftType = left.getType();
-//		Type rightType = right.getType();
-//		left.getErrors(errors);
-//		right.getErrors(errors);
-//		
-//		if(	(leftType.isBoolType() && rightType.isBoolType())
-//		  ||(leftType.isIntType() && rightType.isIntType())
-//		  ||(leftType.isStringType() && rightType.isStringType())) {
-//			return;
-//		}
-//		else{
-//			if(!(leftType.isErrorType() || rightType.isErrorType())){
-//				errors.add(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " == " + rightType));
-//				return;
-//			}
-//			return;
-//		}
-//	}
 }

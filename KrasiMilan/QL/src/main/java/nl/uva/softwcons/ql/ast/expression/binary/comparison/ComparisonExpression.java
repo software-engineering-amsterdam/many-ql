@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ql.ast.expression.binary.comparison;
 
+import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
 import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 import nl.uva.softwcons.ql.ast.LineInfo;
@@ -28,7 +29,7 @@ public abstract class ComparisonExpression extends BinaryExpression {
     @Override
     public Type resolveType(final Type type, final Type otherType) {
         if (type == NUMBER_TYPE && otherType == NUMBER_TYPE) {
-            return NUMBER_TYPE;
+            return BOOLEAN_TYPE;
         }
 
         return UNDEFINED_TYPE;

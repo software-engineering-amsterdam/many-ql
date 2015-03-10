@@ -27,6 +27,6 @@ public abstract class BinaryExpr extends NaryExpr
     @Override
     public boolean isTypeAllowed(Type t)
     {
-        return t.isArithmetic();
+        return t.isNumerical();
     }
 }

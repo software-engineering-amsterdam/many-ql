@@ -9,13 +9,9 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
-import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -30,62 +26,26 @@ public class IfStatement implements Statement {
 		this.tokenInfo = tokenInfo;
 	}
 
-
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context context) {
 		for(Statement s: thenStatements){
-			s.getType(mem);
+			s.getType(context);
 		}
-		if (conditions.getType(mem).isBoolType()){
+		if (conditions.getType(context).isBoolType()){
 			return new BoolType();
 		}
 		else{
-				mem.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
+				context.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
 				return new ErrorType();
 			}
 		}
 
-
-//	@Override
-//	public void getErrors(ErrorCollector errs) {
-//		conditions.getErrors(errs);
-//		for(Statement s: thenStatements){
-//			s.getErrors(errs);
-//		}
-//		
-//		if(!conditions.getType().isBoolType()){
-//			errs.add(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
-//		}
-//	}
-
 	@Override
-	public void collectIds(IdCollector idCollector) {
-		this.conditions.collectIds(idCollector);
-	}
-	
-
-
-	@Override
-	public void getReferences(IdCollector idCollector) {
-		this.conditions.getReferences(idCollector);
-		for(Statement s: thenStatements){
-			s.getReferences(idCollector);
-		}
-	}
-
-
-	@Override
-	public void setType(IdTypeTable ids) {
-		this.conditions.setType(ids);
-	}
-
-
-	@Override
-	public void initMemory(RuntimeMemory mem){}
+	public void initMemory(Context mem){}
 
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder,
-			FormComponent formGUI, RuntimeMemory rm) {
+			FormComponent formGUI, Context rm) {
 		guiBuilder.setShowCondition(conditions);
 		for(Statement s : this.thenStatements)
 		{

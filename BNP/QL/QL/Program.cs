@@ -27,20 +27,17 @@ namespace QL
                 Console.WriteLine();
 
                 Stream inputStream = Console.OpenStandardInput();
-                AntlrInputStream input = new AntlrInputStream(inputStream);
-                QLLexer lexer = new QLLexer(input);
-                lexer.AddErrorListener(new LexerErrorHandler());
 
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
-                QLParser parser = new QLParser(tokens);
-                parser.AddErrorListener(new ParserErrorHandler());
-                QLListener listener = new QLListener();
-                parser.AddParseListener(listener);
+                AstHandler ast = new AstHandler(inputStream);
 
+                if (ast.BuildAST())
+                {
+                    foreach (Exception e in ast.AstBuilderExceptions)
+                        {
+                            Console.WriteLine(e.ToString());
+                        }
+                }
 
-                // parses the input as a formBlock(cos it's on the top)
-                var result = parser.formBlock();
-                AstHandler ast = listener.GetAst();
                 ast.CheckType();
 
                 if (ast.TypeCheckerErrors.Any())

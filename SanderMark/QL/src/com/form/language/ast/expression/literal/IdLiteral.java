@@ -7,10 +7,8 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -35,31 +33,25 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public GenericValue<?> evaluate(RuntimeMemory mem) {
-		return mem.getValue(name);
+	public GenericValue<?> evaluate(Context context) {
+		return context.getValue(name);
 	}
 	
-	public Type getType(TypeMemory mem){
+	public Type getType(Context context){
 		if(this.IsReference()){
-			return getTypeFromMemory(mem);
+			return getTypeFromMemory(context);
 		}
-		mem.addId(this);
+		context.addId(this);
 		return this.type;
 	}
 	
-	private Type getTypeFromMemory(TypeMemory mem) {
-		Type typeFromMemory = mem.getIdType(this);
+	private Type getTypeFromMemory(Context context) {
+		Type typeFromMemory = context.getIdType(this);
 		if(typeFromMemory == null){
-			mem.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
+			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
 			return new ErrorType();
-		}
-		else return typeFromMemory;
-	}
-
-	@Override
-	public void setType(IdTypeTable ids) {
-		if(this.type == null){
-			this.type = ids.getType(this.name);
+		} else{ 
+			return typeFromMemory;
 		}
 	}
 	
@@ -67,11 +59,5 @@ public class IdLiteral extends Literal implements Expression {
 	public void collectIds(IdCollector idCollector) {
 		idCollector.addId(this);
 	}
-	
-	@Override
-	public void getReferences(IdCollector idCollector) {
-		idCollector.addId(this);
-	}
-	
-	
+
 }

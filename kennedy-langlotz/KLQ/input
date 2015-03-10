@@ -15,6 +15,7 @@ if question2 > 5 then
         id : question3
         text : "On what date is your birthday?"
         type : date
+        value : 21.12.1990
     end
 end
 
@@ -34,6 +35,5 @@ end
 question
     id: question6
     text: "Do you want to live that long?"
-    type: set
-    value: 2+2, 3+7, 4*5
+    type: boolean
 end
