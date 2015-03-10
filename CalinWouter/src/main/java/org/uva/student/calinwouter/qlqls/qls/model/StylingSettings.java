@@ -55,6 +55,8 @@ public class StylingSettings {
      */
     private Map<String, Object> createMapBackedByDefaults(TypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
         DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
+
+        // When no typeDescriptor is set, it is not attached to a type, thus do not set the default widget.
         if (typeDescriptor != null) {
             typeDescriptor.callTypeMethod(defaultStylingSettingsCreator);
         }

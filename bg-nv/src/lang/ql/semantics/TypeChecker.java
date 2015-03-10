@@ -7,7 +7,7 @@ import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
-import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 
 import java.util.*;
@@ -22,12 +22,13 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
-    private List<Message> messages;
+    private Messages messages;
 
-    public static List<Message> check(Form f)
+    public static Messages check(Form f)
     {
-        SymbolResult symbolResult = SymbolVisitor.extract(f);
-        if (!(symbolResult.getMessages().isEmpty()))
+        SymbolResult symbolResult = QuestionCollector.extract(f);
+
+        if (symbolResult.containsErrors())
         {
             return symbolResult.getMessages();
         }
@@ -47,7 +48,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.symbolTable = table;
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
-        this.messages = new ArrayList<Message>();
+        this.messages = new Messages();
     }
 
     private UndefinedType undefinedType()

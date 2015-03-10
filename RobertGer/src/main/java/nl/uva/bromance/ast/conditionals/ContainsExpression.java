@@ -10,4 +10,6 @@ public interface ContainsExpression {
     Expression getExpression();
 
     void setExpression(Expression expression);
+
+    void handleExpressionResult(Result result);
 }

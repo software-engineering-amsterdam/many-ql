@@ -2,11 +2,12 @@ package gui;
 
 import javax.swing.JFrame;
 
-import cons.TypeEnvironment;
-import cons.ValueEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.typechecker.TypeChecker;
-import cons.ql.parser.Parser;
+import ql.TypeEnvironment;
+import ql.ValueEnvironment;
+import ql.ast.QLNode;
+import ql.ast.Statement;
+import ql.ast.visitor.typechecker.TypeChecker;
+import ql.parser.Parser;
 
 public class Main {
 	
@@ -32,10 +33,10 @@ public class Main {
 			+ "    }"
 			+ ""
 			+ "    if (booleanValue || firstValue == 10) {"
-			+ "        sellingPrice: integer {"
+			+ "        sellingPrice: money {"
 			+ "            \"What was the selling price?\""
 			+ "        }"
-			+ "        privateDebt: integer {"
+			+ "        privateDebt: money {"
 			+ "            \"Private debts for the sold house:\" "
 			+ "        }"
 			+ ""
@@ -71,18 +72,18 @@ public class Main {
         
         // Load and parse the entire form and what not.
         Parser formParser = new Parser();
-        ASTNode tree = formParser.parse(form);
+        QLNode tree = formParser.parse(form);
 		TypeEnvironment register = new TypeEnvironment();
 		ValueEnvironment valueEnv = new ValueEnvironment();
 		
-		if(!TypeChecker.check(tree, register)) {
+		if(!TypeChecker.check((Statement) tree, register)) {
 			System.out.println("Type error detected in the form.");
 			System.exit(0);
 		}
 		
 		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
 		
-		frame.getContentPane().add(ComponentCreator.check(tree, frame, valueEnv).getComponent());
+		frame.getContentPane().add(ComponentCreator.check((Statement) tree, frame, valueEnv).getComponent());
  
         //Display the window.
         frame.pack();

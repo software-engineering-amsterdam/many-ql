@@ -1,17 +1,32 @@
-# Factory which expects tokens and uses the ast classes to return a parsed form
-# Everything is static (no state)
+# Factory for creating Expression elements out of parsed tokens
 
 import QL.AST.Statements.question as question
 import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
 import QL.AST.Statements.assignment as assignment
 import QL.AST.form as form
+import QL.AST.Statements.AnswerTypes.bool as a
+import QL.AST.Statements.AnswerTypes.text as t
+import QL.AST.Statements.AnswerTypes.number as n
 
 
 class FormFactory:
+
     @staticmethod
     def make_sentence(tokens):
         return ' '.join(tokens)
+
+    @staticmethod
+    def make_bool_type(tokens):
+        return a.Bool()
+
+    @staticmethod
+    def make_number_type(tokens):
+        return n.Number()
+
+    @staticmethod
+    def make_text_type(tokens):
+        return t.Text()
 
     @staticmethod
     def make_question(tokens):

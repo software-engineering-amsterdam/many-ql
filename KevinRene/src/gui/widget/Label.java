@@ -5,8 +5,8 @@ import gui.Widget;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import cons.Value;
-import cons.value.StringValue;
+import ql.Value;
+import ql.value.StringValue;
 
 public class Label implements Widget {
 	private final JLabel labelComponent;

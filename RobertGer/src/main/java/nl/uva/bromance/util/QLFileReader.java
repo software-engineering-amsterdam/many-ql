@@ -1,6 +1,7 @@
 package nl.uva.bromance.util;
 
 import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
 import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -31,6 +32,8 @@ public class QLFileReader {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
+
+        ExpressionEvaluator.evaluateExpressions(listener.getAst());
 
         return listener.getAst();
     }

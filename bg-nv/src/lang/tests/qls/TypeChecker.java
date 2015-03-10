@@ -1,6 +1,7 @@
 package lang.tests.qls;
 
 import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -19,9 +20,9 @@ public class TypeChecker
     @Test
     public void widgetTypeMismatchQuestion() throws FileNotFoundException
     {
-        List<Message> ms = TestHelper.analyse("duplicateLabels");
+        Messages ms = TestHelper.getStylesheet("qls/samples/widgetTypeMismatch", "qls/samples/qlForm");
         assertEquals(1, ms.size());
-        Warning w = TestHelper.as(ms.get(0), Warning.class);
-        assertNotNull(w);
+        TestHelper.assertErrorMessage(ms.get(0),
+                "Error (Line 3): widget of type boolean does not match the statement declaration type");
     }
 }

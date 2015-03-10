@@ -3,22 +3,26 @@ package gui.questions;
 import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
+import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
 
-public class ComputedQuestionUI extends SimpleQuestionUI { 
+public class ComputedQuestionUI extends SimpleQuestionUI implements IQuestionUpdater { 
+	private Updater updater;
 	
-	public ComputedQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository, Value expression) {
+	public ComputedQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository, Updater updater) {
 		super(id, label, wc, valueRepository);
-		this.setValue(expression);
 		this.getWc().setEnabled(false); // read-only
-		
-		this.getWc().setText(expression);
+		this.updater = updater;
 	}
 
-	
-	public void setEnabled(boolean enabled) {
-		this.getWc().setEnabled(enabled);
-		this.getWc().getWidget().setEnabled(enabled);
-	}	
+	@Override
+	public Updater getUpdater() {
+		return this.updater;
+	}
+
+	@Override
+	public void updateGUI() {
+		this.updater.updateGUI(this);
+	}
 }

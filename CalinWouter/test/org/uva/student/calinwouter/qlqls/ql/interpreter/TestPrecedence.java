@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 
 import java.io.IOException;
 
@@ -15,9 +14,9 @@ import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.valu
 public class TestPrecedence {
 
     private Object calcValue(String exp) throws ParserException, IOException, LexerException {
-        HeadlessFormInterpreter headlessFormInterpreter =
+        FormInterpreter formInterpreter =
                 InterpreterHelper.interpetStringHeadless(form(value("value", "", "int", exp)));
-        return headlessFormInterpreter.getField("value").getValue();
+        return formInterpreter.getField("value").getValue();
     }
 
     @Test

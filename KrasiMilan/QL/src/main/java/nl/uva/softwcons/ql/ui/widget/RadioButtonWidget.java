@@ -7,6 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import nl.uva.softwcons.ql.eval.value.Value;
+import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
 
 public class RadioButtonWidget extends Widget {
 
@@ -17,12 +18,13 @@ public class RadioButtonWidget extends Widget {
     private ToggleGroup group;
     private Property<Value> valueProperty;
 
-    public RadioButtonWidget(String yesString, String noString) {
+    public RadioButtonWidget(String yesString, String noString, final ValueConverter<Boolean> converter) {
         this.valueProperty = new SimpleObjectProperty<Value>();
 
         yesButton = new RadioButton(yesString);
         noButton = new RadioButton(noString);
 
+        // TODO move this to UiBuilder
         noButton.setSelected(true);
 
         hbox = new HBox();
@@ -33,6 +35,11 @@ public class RadioButtonWidget extends Widget {
 
         yesButton.setToggleGroup(group);
         noButton.setToggleGroup(group);
+
+        // TODO discuss how to fix code duplication
+        yesButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            valueProperty.setValue(converter.toValue(newValue));
+        });
     }
 
     @Override

@@ -73,8 +73,8 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	}
 
 	@Override
-	public void addDocListener() {//EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new IntegerListener(this, valueRepository));
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package uva.qls.ast.literal;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.NumberValue;
 import uva.qls.ast.CodeLines;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class MoneyLiteral extends Literal {
 	

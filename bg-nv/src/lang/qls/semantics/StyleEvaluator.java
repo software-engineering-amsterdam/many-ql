@@ -2,9 +2,12 @@ package lang.qls.semantics;
 
 import lang.ql.ast.form.Form;
 import lang.ql.ast.type.Type;
+import lang.ql.semantics.QuestionCollector;
+import lang.ql.semantics.SymbolResult;
+import lang.ql.semantics.SymbolTable;
 import lang.qls.ast.Page;
-import lang.qls.ast.Rule.Rules;
-import lang.qls.ast.Statement.*;
+import lang.qls.ast.rule.Rules;
+import lang.qls.ast.statement.*;
 import lang.qls.ast.Styleable;
 import lang.qls.ast.Stylesheet;
 import lang.qls.ast.StylesheetVisitor;
@@ -14,24 +17,24 @@ import lang.qls.ast.StylesheetVisitor;
  */
 public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
-    private StyleScope styleScopes;
-    private QuestStyles styles;
-    private QuestTypes qlQuestions;
+    private SymbolTable questions;
+    private StyleStack styleStack;
+    private FormStyle styles;
 
-    public static QuestStyles getStyles(Stylesheet s, Form f)
+    public static FormStyle getStyles(Stylesheet s, Form f)
     {
-        QuestTypes qs = QLQuestionVisitor.extractQuestions(f);
-        StyleEvaluator styleEval = new StyleEvaluator(qs);
+        SymbolResult result = QuestionCollector.extract(f);
+        StyleEvaluator styleEval = new StyleEvaluator(result.getSymbolTable());
         styleEval.visit(s);
 
         return styleEval.styles;
     }
 
-    public StyleEvaluator(QuestTypes qlQuestions)
+    private StyleEvaluator(SymbolTable questions)
     {
-        this.qlQuestions = qlQuestions;
-        this.styleScopes = new StyleScope();
-        this.styles = new QuestStyles();
+        this.questions = questions;
+        this.styleStack = new StyleStack();
+        this.styles = new FormStyle();
     }
 
     @Override
@@ -63,21 +66,21 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
     {
         Style style = s.getDefaultStyle();
 
-        this.styleScopes.addStyle(style);
+        this.styleStack.push(style);
 
         for (Statement stat : stats)
         {
             stat.accept(this);
         }
 
-        this.styleScopes.removeStyle();
+        this.styleStack.pop();
     }
 
     @Override
     public Void visit(Question q)
     {
-        Type questionType = this.qlQuestions.getType(q.getId());
-        Rules result = this.styleScopes.getRulesForType(questionType);
+        Type questionType = this.questions.getQuestionType(q.getId());
+        Rules result = this.styleStack.getRulesForType(questionType);
 
         this.styles.registerStyle(q.getId(), result);
 
@@ -88,13 +91,13 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
     public Void visit(QuestionWithRules q)
     {
         Rules r = q.getBody();
-        Type questionType = this.qlQuestions.getType(q.getId());
+        Type questionType = this.questions.getQuestionType(q.getId());
         Style s = new Style();
         s.addRules(questionType, r);
 
-        this.styleScopes.addStyle(s);
-        Rules result = this.styleScopes.getRulesForType(questionType);
-        this.styleScopes.removeStyle();
+        this.styleStack.push(s);
+        Rules result = this.styleStack.getRulesForType(questionType);
+        this.styleStack.pop();
 
         this.styles.registerStyle(q.getId(), result);
 

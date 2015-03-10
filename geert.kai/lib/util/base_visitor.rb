@@ -5,7 +5,6 @@ class BaseVisitor
   def initialize(base)
     @base = base
     after_initialize(base)
-    self
   end
 
   def after_initialize(base)

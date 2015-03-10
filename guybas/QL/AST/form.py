@@ -1,5 +1,4 @@
 # AST format of the Form
-import QL.AST.Elements.constants as constants
 
 
 class Form:

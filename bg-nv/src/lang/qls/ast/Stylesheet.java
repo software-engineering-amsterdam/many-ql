@@ -1,13 +1,14 @@
 package lang.qls.ast;
 
 import lang.ql.ast.AstNode;
+import lang.qls.ast.statement.Statement;
 
 import java.util.List;
 
 /**
  * Created by bore on 27/02/15.
  */
-public class Stylesheet extends AstNode
+public class Stylesheet extends AstNode implements RenderableParent
 {
     private final String id;
     private final List<Page> body;
@@ -32,5 +33,11 @@ public class Stylesheet extends AstNode
     public <T> T accept(StylesheetVisitor<T> visitor)
     {
         return visitor.visit(this);
+    }
+
+    @Override
+    public List<Statement> getRenderableChildren()
+    {
+        return null;
     }
 }
