@@ -36,4 +36,21 @@ public abstract class Segment extends AbstractASTNode {
     }
 
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Segment)) {
+            return false;
+        }
+
+        Segment other = (Segment) obj;
+
+        return (this.getName().equals(other.getName()));
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.getClass().toString().hashCode() * name.hashCode());
+    }
 }
+
