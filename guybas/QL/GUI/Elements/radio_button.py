@@ -19,3 +19,4 @@ class RadioButton(i_element.Element):
         # e2.grid(row=statement.get_order(), column=2, sticky=W)
         e_list.append(e2)
         return e_list
+

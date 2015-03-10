@@ -1,7 +1,7 @@
 package ql.gui
 
 import ql.ast._
-import ql.types.Dependencies
+import types.Dependencies
 
 class DependencyResolver {
 

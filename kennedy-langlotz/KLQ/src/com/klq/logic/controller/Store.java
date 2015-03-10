@@ -20,10 +20,8 @@ import java.util.*;
  * Created by Timon on 23.02.2015.
  */
 public class Store implements IKLQItem {
-    private final DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
     private final List<IdentifierValue> order;
     private final Map<IdentifierValue, Question> store;
-    //TODO why is this a String in variables?
     private final Map<String, Value> variables;
 
     private final DoubleProperty progressProperty;
@@ -62,13 +60,15 @@ public class Store implements IKLQItem {
 
     public boolean dependenciesResolved(IdentifierValue questionId){
         Question question = store.get(questionId);
-        if (question == null)
+        if (question == null) {
             assert false;
+        }
 
         List<AExpression> dependencies = question.getDependencies();
         for (AExpression d : dependencies) {
-            if (!isSatisfied(d))
+            if (!isSatisfied(d)) {
                 return false;
+            }
         }
         return true;
     }
@@ -92,12 +92,12 @@ public class Store implements IKLQItem {
             variables.put(questionId.getValue(), answer);
         }
 
-        updateVisibilities();
-        updateComputed();
-        updateProgress();
+        updateQuestionVisibilities();
+        updateComputedQuestions();
+        updateQuestionnaireProgress();
     }
 
-    public void updateVisibilities(){
+    public void updateQuestionVisibilities(){
         for (IdentifierValue id : store.keySet()){
             boolean visible = dependenciesResolved(id);
             BooleanProperty property = store.get(id).visibleProperty();
@@ -107,7 +107,7 @@ public class Store implements IKLQItem {
         }
     }
 
-    private void updateComputed(){
+    private void updateComputedQuestions(){
         for (Question q : store.values()){
             if (q.isComputedQuestion()){
                 AExpression computedExpression = q.getComputedExpression();
@@ -117,7 +117,7 @@ public class Store implements IKLQItem {
         }
     }
 
-    private void updateProgress(){
+    private void updateQuestionnaireProgress(){
         double answered = 0;
         double total = 0;
         for (Question q : store.values()){
@@ -137,6 +137,7 @@ public class Store implements IKLQItem {
     }
 
     public boolean exportResults(String path){
+        DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         Date timestamp = new Date();
         File file = new File(path + File.separator + DATE_FORMAT.format(timestamp) + ".xml");
         try {

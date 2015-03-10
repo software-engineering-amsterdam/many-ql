@@ -6,8 +6,8 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 
 import org.uva.ql.ast.type.UndefinedType;
-import org.uva.ql.ast.value.Bool;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.BoolValue;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
@@ -32,9 +32,9 @@ public class CheckBox extends Widget {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this.checkBox) {
 				if (CheckBox.this.checkBox.isSelected()) {
-					widgetListener.widgetValueChanged(getIdentifier(), new Bool(getValue()));
+					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
 				} else {
-					widgetListener.widgetValueChanged(getIdentifier(), new Bool(getValue()));
+					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
 				}
 			}
 		}
@@ -55,7 +55,7 @@ public class CheckBox extends Widget {
 	public void setWidgetValue(Value value) {
 		if (!value.getType().isEqual(new UndefinedType()) && isDependent()) {
 			if (value.getType().isBool()) {
-				Bool booleanValue = (Bool) value;
+				BoolValue booleanValue = (BoolValue) value;
 				if (booleanValue.getValue()) {
 					checkBox.setSelected(true);
 				} else {

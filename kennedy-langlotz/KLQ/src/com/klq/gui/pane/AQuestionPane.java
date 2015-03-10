@@ -93,7 +93,7 @@ public abstract class AQuestionPane extends GridPane {
     }
 
     /**
-     * Creates the area where the user has to provide input.
+     * Creates the control where the user has to provide input.
      * Also necessary to set the handler and call questionAnswered(),
      * when answer changes!
      */

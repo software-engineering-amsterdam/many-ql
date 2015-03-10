@@ -13,7 +13,6 @@ public class ButtonWidgetListener extends WidgetListener implements ActionListen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Yo?");
 		Evaluator evaluator = getEvaluator();
 		JSONObject json = new JSONObject();
 		for (String key : evaluator.getMap().keySet()) {

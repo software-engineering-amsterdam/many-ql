@@ -4,11 +4,11 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
 
 
-public class Bool extends Value{
+public class BoolValue extends Value{
 	
 	private final Boolean value;
 	
-	public Bool(Boolean value) {
+	public BoolValue(Boolean value) {
 		this.value = value;
 	}
 
@@ -24,7 +24,7 @@ public class Bool extends Value{
 
 	@Override
 	public Value not() {
-		return new Bool(!getValue());
+		return new BoolValue(!getValue());
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class Bool extends Value{
 	}
 	
 	@Override
-	public Value boolAnd(Bool arg) {
-		return new Bool(arg.getValue() && getValue());
+	public Value boolAnd(BoolValue arg) {
+		return new BoolValue(arg.getValue() && getValue());
 	}
 	
 	@Override
@@ -43,8 +43,8 @@ public class Bool extends Value{
 	}
 	
 	@Override
-	public Value boolOr(Bool arg) {
-		return new Bool(arg.getValue() || getValue());
+	public Value boolOr(BoolValue arg) {
+		return new BoolValue(arg.getValue() || getValue());
 	}
 	
 	@Override
@@ -53,8 +53,8 @@ public class Bool extends Value{
 	}
 	
 	@Override
-	public Value boolEqual(Bool arg) {
-		return new Bool(arg.getValue() == getValue());
+	public Value boolEqual(BoolValue arg) {
+		return new BoolValue(arg.getValue() == getValue());
 	}
 	
 	@Override
@@ -63,8 +63,8 @@ public class Bool extends Value{
 	}
 	
 	@Override
-	public Value boolNotEqual(Bool arg) {
-		return new Bool(arg.getValue() != getValue());
+	public Value boolNotEqual(BoolValue arg) {
+		return new BoolValue(arg.getValue() != getValue());
 	}
 
 	@Override
