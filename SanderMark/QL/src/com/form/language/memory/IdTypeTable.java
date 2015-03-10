@@ -2,7 +2,7 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.literal.*;
+import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 
@@ -20,7 +20,7 @@ public class IdTypeTable {
 	
 	public Type getType(String name){
 		if(idMap.containsKey(name)){
-			return idMap.get(name).getType();
+			return idMap.get(name).getType(null);
 		}
 		return new ErrorType();
 	}
@@ -28,7 +28,7 @@ public class IdTypeTable {
 	public String toString(){
 		String result = "";
 		for(String key: this.idMap.keySet()){
-			result += key + ":" + idMap.get(key).getType() + "\n";
+			result += key + ":" + idMap.get(key).getType(null) + "\n";
 		}
 		return result;
 	}

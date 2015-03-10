@@ -8,11 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cons.Value;
-import cons.ValueEnvironment;
-import cons.ql.ast.Expression;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.visitor.evaluator.Evaluator;
+import ql.Value;
+import ql.ValueEnvironment;
+import ql.ast.Expression;
+import ql.ast.expression.Identifier;
+import ql.ast.visitor.evaluator.Evaluator;
 
 @SuppressWarnings("rawtypes")
 public class ComputedQuestionPanel extends Composite {
@@ -41,7 +41,7 @@ public class ComputedQuestionPanel extends Composite {
 		
 		this.expression = expression;
 		
-		this.valueEnvironment = valueEnvironment;
+		this.valueEnvironment = valueEnvironment;		
 	}
 
 	public Expression getExpression() {
@@ -58,7 +58,7 @@ public class ComputedQuestionPanel extends Composite {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void updateComponent() {
-		Value expressionValue = Evaluator.check(expression, this.valueEnvironment);
+		Value expressionValue = Evaluator.check(expression, valueEnvironment);
 
 		if(expressionValue.isUndefined()) {
 			return;

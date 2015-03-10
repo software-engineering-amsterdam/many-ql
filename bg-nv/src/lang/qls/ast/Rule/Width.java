@@ -1,13 +1,25 @@
 package lang.qls.ast.Rule;
 
 /**
- * Created by bore on 02/03/15.
+ * Created by bore on 09/03/15.
  */
-public class Width extends Rule<Integer>
+public class Width extends IntRule
 {
-    public Width(int width, int lineNumber)
+    public Width(Integer value, int lineNumber)
     {
-        super(width, lineNumber);
+        super("width", value, lineNumber);
+    }
+
+    @Override
+    public boolean isOverwrittenBy(Rule r)
+    {
+        return r.isOverwrittenByWidth(this);
+    }
+
+    @Override
+    protected boolean isOverwrittenByWidth(Width r)
+    {
+        return true;
     }
 
     @Override

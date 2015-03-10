@@ -172,16 +172,6 @@ public class TypeCheckerTest {
         assertThat(validationErrors).isEmpty();
     }
 
-    /**
-     * The tests for the {@link InvalidOperatorTypes} and
-     * {@link UndefinedReference} errors might include getting other types of
-     * errors too. This is because invalid expressions/variables "bubble up",
-     * meaning that the whole expression will be resolved to UNDEFINED and not
-     * matching the question's original type or triggering the expression
-     * operands error.
-     *
-     */
-
     @Test
     public void testInvalidArithmeticExpressionOperands() {
         final String[] questions = { "question: \"Label 1\" number(6 + false)",
@@ -191,52 +181,48 @@ public class TypeCheckerTest {
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
-            assertThat(validationErrors).hasSize(2);
-            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class,
-                    InvalidQuestionExpressionType.class);
+            assertThat(validationErrors).hasSize(1);
+            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class);
         }
     }
 
     @Test
     public void testInvalidComparisonExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" number(6 < false)",
-                "question: \"Label 1\" number(6 > false)", "question: \"Label 1\" number(6 >= false)",
-                "question: \"Label 1\" number(6 <= false)" };
+        final String[] questions = { "question: \"Label 1\" boolean(6 < false)",
+                "question: \"Label 1\" boolean(6 > false)", "question: \"Label 1\" boolean(6 >= false)",
+                "question: \"Label 1\" boolean(6 <= false)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
-            assertThat(validationErrors).hasSize(2);
-            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class,
-                    InvalidQuestionExpressionType.class);
+            assertThat(validationErrors).hasSize(1);
+            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class);
         }
     }
 
     @Test
     public void testInvalidLogicalExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" number(6 && false)",
-                "question: \"Label 1\" number(6 || false)", "question: \"Label 1\" number(!6)" };
+        final String[] questions = { "question: \"Label 1\" boolean(6 && false)",
+                "question: \"Label 1\" boolean(6 || false)", "question: \"Label 1\" boolean(!6)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
-            assertThat(validationErrors).hasSize(2);
-            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class,
-                    InvalidQuestionExpressionType.class);
+            assertThat(validationErrors).hasSize(1);
+            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class);
         }
     }
 
     @Test
     public void testInvalidEqualityExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" number(6 == false)",
-                "question: \"Label 1\" number(6 != false)" };
+        final String[] questions = { "question: \"Label 1\" boolean(6 == false)",
+                "question: \"Label 1\" boolean(6 != false)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
-            assertThat(validationErrors).hasSize(2);
-            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class,
-                    InvalidQuestionExpressionType.class);
+            assertThat(validationErrors).hasSize(1);
+            assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class);
         }
     }
 
@@ -247,9 +233,8 @@ public class TypeCheckerTest {
 
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2);
 
-        assertThat(validationErrors).hasSize(2);
-        assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class,
-                InvalidQuestionExpressionType.class);
+        assertThat(validationErrors).hasSize(1);
+        assertThat(validationErrors).extracting("class").contains(InvalidOperatorTypes.class);
     }
 
     @Test
@@ -285,15 +270,19 @@ public class TypeCheckerTest {
         final String question1 = "question1: \"Label 1\" boolean";
 
         // reference to an undefined question, invalid operands in the division
-        // expression, whole expression type not matching the question type
+        // expression
         final String question2 = "question2: \"Label 2\" number(question11 / 2)";
+
+        // expression type not matching the question type
+        final String question3 = "question3: \"Label 3\" number (1 == 0)";
 
         // invalid operands in the addition expression, invalid type for the
         // conditional and duplicate questions inside
         final String ifStatement = "if (question1 + (3 == 4)) { question11: \"Label 1\" boolean"
                 + " question11: \"Label 1\" boolean }";
 
-        final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2, ifStatement);
+        final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2, question3,
+                ifStatement);
 
         assertThat(validationErrors).hasSize(6);
         assertThat(validationErrors).extracting("class").contains(UndefinedReference.class, InvalidOperatorTypes.class,

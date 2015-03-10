@@ -2,7 +2,6 @@ require_relative '../../util/base_visitor'
 
 module QLS
   module Checker
-
     class QuestionVisitor < BaseVisitor
       
       def check(ql_question_names)

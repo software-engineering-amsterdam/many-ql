@@ -5,7 +5,7 @@ import uva.qls.ast.component.Component;
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Question extends Statement {
 

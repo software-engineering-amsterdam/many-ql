@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 
 /**
@@ -9,14 +10,17 @@ public abstract class ABinaryExprNode extends AExpression {
     private AExpression leftChild;
     private AExpression rightChild;
 
-    public ABinaryExprNode(AExpression leftChild, AExpression rightChild, String location) {
-        super(leftChild, rightChild, location);
+    public ABinaryExprNode(AExpression leftChild, AExpression rightChild, Location location) {
+        super(location);
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
 
-    //TODO change ANode to something more specific
-    //public abstract AExpression evaluate();
+    public ABinaryExprNode(AExpression leftChild, AExpression rightChild) {
+        super();
+        this.leftChild = leftChild;
+        this.rightChild = rightChild;
+    }
 
     public AExpression getLeftChild() {
         return leftChild;
@@ -30,8 +34,6 @@ public abstract class ABinaryExprNode extends AExpression {
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);
     }
-
-    //TODO add equals and hashCode
 
     //for testing purposes, maybe remove later?
     public void printChildren(){

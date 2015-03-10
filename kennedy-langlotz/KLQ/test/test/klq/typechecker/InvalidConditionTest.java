@@ -13,6 +13,7 @@ import com.klq.typecheker.error.InvalidCondition;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -28,73 +29,73 @@ public class InvalidConditionTest {
 
     @Before
     public void setUp() throws Exception {
-        ast = new QuestionnaireNode("1");
+        ast = new QuestionnaireNode();
         children = new ArrayList<ANode>();
-        children.add(new QuestionNode("question1", "string", "This is a test question", "1"));
+        children.add(new QuestionNode("question1", "string", "This is a test question"));
     }
 
     @Test
     public void testGreaterThanExpression() throws Exception {
-        GreaterThanNode node = new GreaterThanNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        GreaterThanNode node = new GreaterThanNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testLessThanExpression() throws Exception {
-        LessThanNode node = new LessThanNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        LessThanNode node = new LessThanNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testGreaterEqualsExpression() throws Exception {
-        GreaterEqualsNode node = new GreaterEqualsNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        GreaterEqualsNode node = new GreaterEqualsNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testLessEqualsnExpression() throws Exception {
-        LessEqualsNode node = new LessEqualsNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        LessEqualsNode node = new LessEqualsNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testEqualsExpression() throws Exception {
-        EqualsNode node = new EqualsNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        EqualsNode node = new EqualsNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testNotEqualsExpression() throws Exception {
-        NotEqualsNode node = new NotEqualsNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        NotEqualsNode node = new NotEqualsNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runCorrectTest(node);
     }
 
     @Test
     public void testAddExpression() throws Exception {
-        AddNode node = new AddNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        AddNode node = new AddNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
     }
 
     @Test
     public void testSubtractExpression() throws Exception {
-        SubtractNode node = new SubtractNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        SubtractNode node = new SubtractNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
     }
 
     @Test
     public void testDivideExpression() throws Exception {
-        DivideNode node = new DivideNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        DivideNode node = new DivideNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
     }
 
     @Test
     public void testMultiplyExpression() throws Exception {
-        MultiplyNode node = new MultiplyNode(new NumberNode(1, ""), new NumberNode(2, ""), "");
+        MultiplyNode node = new MultiplyNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
     }
 
     private void runCorrectTest(ANode node){
-        ast.getChildren().add(new ConditionalNode(node, children, ""));
+        ast.getChildren().add(new ConditionalNode(node, children));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();
 
@@ -102,7 +103,7 @@ public class InvalidConditionTest {
     }
 
     private void runWrongTest(ANode node){
-        ast.getChildren().add(new ConditionalNode(node, children, ""));
+        ast.getChildren().add(new ConditionalNode(node, children));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();
 

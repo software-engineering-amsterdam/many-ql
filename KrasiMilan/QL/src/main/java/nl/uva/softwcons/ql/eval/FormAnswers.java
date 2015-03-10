@@ -1,10 +1,11 @@
 package nl.uva.softwcons.ql.eval;
 
+import static nl.uva.softwcons.ql.eval.value.UndefinedValue.UNDEFINED;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.ql.eval.value.UndefinedValue;
 import nl.uva.softwcons.ql.eval.value.Value;
 
 public class FormAnswers {
@@ -20,6 +21,6 @@ public class FormAnswers {
     }
 
     public Value getValue(Identifier id) {
-        return this.answersTable.getOrDefault(id, new UndefinedValue());
+        return this.answersTable.getOrDefault(id, UNDEFINED);
     }
 }

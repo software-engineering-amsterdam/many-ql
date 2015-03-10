@@ -1,17 +1,27 @@
 package nl.uva.softwcons.ql.ast;
 
+import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
+import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
+import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
+import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
+import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.generated.QLBaseVisitor;
-import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
+import nl.uva.softwcons.generated.QLParser.AddSubExprContext;
+import nl.uva.softwcons.generated.QLParser.AndExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
+import nl.uva.softwcons.generated.QLParser.ComparisonExprContext;
 import nl.uva.softwcons.generated.QLParser.ComputedQuestionContext;
 import nl.uva.softwcons.generated.QLParser.ConditionalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
+import nl.uva.softwcons.generated.QLParser.MulDivExprContext;
 import nl.uva.softwcons.generated.QLParser.NotExprContext;
 import nl.uva.softwcons.generated.QLParser.NumberContext;
+import nl.uva.softwcons.generated.QLParser.OrExprContext;
 import nl.uva.softwcons.generated.QLParser.ParenthesisContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.StringContext;
@@ -33,19 +43,13 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ql.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ql.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.Statement;
-import nl.uva.softwcons.ql.ast.type.BooleanType;
-import nl.uva.softwcons.ql.ast.type.DateType;
-import nl.uva.softwcons.ql.ast.type.NumberType;
-import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.ql.ast.type.UndefinedType;
 import nl.uva.softwcons.ql.util.Utils;
 
 import org.antlr.v4.runtime.Token;
@@ -90,7 +94,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public BinaryExpression visitBinaryExpr(BinaryExprContext ctx) {
+    public BinaryExpression visitMulDivExpr(MulDivExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
 
@@ -99,14 +103,33 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
             return new Multiplication(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "/":
             return new Division(leftExpression, rightExpression, extractLineInfo(ctx.op));
+        default:
+            throw new IllegalArgumentException("Unsupported operator in expression.");
+        }
+    }
+
+    @Override
+    public ASTNode visitAddSubExpr(AddSubExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+
+        switch (ctx.op.getText()) {
         case "-":
             return new Subtraction(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "+":
             return new Addition(leftExpression, rightExpression, extractLineInfo(ctx.op));
-        case "&&":
-            return new And(leftExpression, rightExpression, extractLineInfo(ctx.op));
-        case "||":
-            return new Or(leftExpression, rightExpression, extractLineInfo(ctx.op));
+
+        default:
+            throw new IllegalArgumentException("Unsupported operator in expression.");
+        }
+    }
+
+    @Override
+    public ASTNode visitComparisonExpr(ComparisonExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+
+        switch (ctx.op.getText()) {
         case "<":
             return new LowerThan(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "<=":
@@ -125,8 +148,22 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public UnaryExpression visitNotExpr(NotExprContext ctx) {
-        return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.op));
+    public And visitAndExpr(AndExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+        return new And(leftExpression, rightExpression, extractLineInfo(ctx.AND().getSymbol()));
+    }
+
+    @Override
+    public Or visitOrExpr(OrExprContext ctx) {
+        final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
+        final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
+        return new Or(leftExpression, rightExpression, extractLineInfo(ctx.OR().getSymbol()));
+    }
+
+    @Override
+    public Not visitNotExpr(NotExprContext ctx) {
+        return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.NOT().getSymbol()));
     }
 
     @Override
@@ -146,7 +183,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitNumber(NumberContext ctx) {
-        return new NumberLiteral(new Double(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
+        return new NumberLiteral(Double.valueOf(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
     }
 
     @Override
@@ -163,15 +200,15 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         switch (typeName) {
 
         case "boolean":
-            return BooleanType.instance;
+            return BOOLEAN_TYPE;
         case "number":
-            return NumberType.instance;
+            return NUMBER_TYPE;
         case "date":
-            return DateType.instance;
+            return DATE_TYPE;
         case "string":
-            return StringType.instance;
+            return STRING_TYPE;
         default:
-            return UndefinedType.instance;
+            return UNDEFINED_TYPE;
         }
     }
 }

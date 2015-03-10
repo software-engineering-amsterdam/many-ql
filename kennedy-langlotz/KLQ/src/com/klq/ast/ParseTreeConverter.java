@@ -1,10 +1,12 @@
 package com.klq.ast;
 
+import com.common.Location;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
 import com.klq.ast.impl.expr.literal.IdentifierNode;
@@ -14,9 +16,12 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.expr.value.DateValue;
+import com.klq.ast.impl.expr.value.Value;
+import com.klq.logic.question.Type;
+import com.klq.parser.KLQBaseVisitor;
+import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
-import parser.KLQBaseVisitor;
-import parser.KLQParser;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,12 +29,13 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by juriaan on 16-2-15.
  */
-public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
+public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     /*==================================================================================================================
     Statements
     ==================================================================================================================*/
@@ -51,10 +57,10 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         }
         else {
-            ArrayList<ANode> children = new ArrayList<ANode>();
+            List<AExpression> children = new ArrayList<AExpression>();
 
             for(KLQParser.ExprContext child : ctx.answerOptions().expr()){
-                children.add(visit(child));
+                children.add((AExpression) visit(child));
             }
             questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
         }
@@ -79,21 +85,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     @Override
     public ANode visitDate(KLQParser.DateContext ctx) {
         String dateString = ctx.Date().getText();
-        DateTimeFormatter formatter;
 
-        //TODO Move this logic to a better location
-        if(dateString.contains(".")){
-            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
-        }
-        else if(dateString.contains("/")){
-            formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
-        }
-        else{
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
-        }
+        DateValue date = (DateValue) ExpressionUtil.createTerminalFromString(Type.DATE, dateString);
 
         //TODO discuss with Timon localdate vs date and refactor
-        DateNode dateNode = new DateNode(Date.from(LocalDate.parse(dateString, formatter).atStartOfDay(ZoneId.systemDefault()).toInstant()), formatLocation(ctx));
+        DateNode dateNode = new DateNode(date.getValue(), formatLocation(ctx));
         return dateNode;
     }
 
@@ -190,7 +186,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         return s.substring(1, s.length() - 1);
     }
 
-    private String formatLocation(ParserRuleContext ctx){
-        return String.format("line number: %d", ctx.getStart().getLine());
+    private Location formatLocation(ParserRuleContext ctx){
+        return new Location(ctx, "A file");
     }
 }

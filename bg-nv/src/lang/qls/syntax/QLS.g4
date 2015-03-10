@@ -17,9 +17,17 @@ stylesheetRule
     | label='fontsize' ':' Integer
     | label='font' ':' String
     | label='color' ':' Color
-    | label='widget' WidgetType ('(' (stringAgrs ) ')')?;
+    | label='widget' widgetValue
+    ;
 
-stringAgrs : (String ',')* String;
+widgetValue
+    : label='slider' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
+    | label='spinbox' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
+    | label='radio' '(' yesText=String ',' noText=String ')'
+    | label='dropdown' '(' yesText=String ',' noText=String ')'
+    | label='checkbox'
+    | label='textbox'
+    ;
 
 fragment Hex : [0-9A-F];
 
@@ -59,6 +67,8 @@ Color : '#' Hex Hex Hex Hex Hex Hex;
 Integer : (ZeroDigit | NonZeroDigit Digit*);
 
 Decimal : (NonZeroDigit Digit* | ZeroDigit?) '.' Digit+ ;
+
+IntOrDec : Integer | Decimal;
 
 String : Quote StringCharacter*? Quote;
 

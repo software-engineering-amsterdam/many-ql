@@ -24,6 +24,12 @@ public abstract class Value<T>
         return this.value;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.value.toString();
+    }
+
     public Value add(Value v)
     {
         throw new IllegalStateException();

@@ -2,11 +2,11 @@
 
 package org.uva.student.calinwouter.qlqls.generated.lexer;
 
-import java.io.IOException;
+import java.io.*;
 
 @SuppressWarnings("serial")
-public interface IPushbackReader {
+public interface IPushbackReader
+{
     public int read() throws IOException;
-
     public void unread(int c) throws IOException;
 }

@@ -1,5 +1,6 @@
 package gui.questions;
 
+import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
 
@@ -10,15 +11,14 @@ public class SimpleQuestionUI implements IQuestionUI {
 	private final JLabel label;
 	private final IWidgetComponent wc;
 	private ValueRepository valueRepository;
-	//private String value;
+	private Value value;
 	
 	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
 		this.wc = wc;
 		this.valueRepository = valueRepository;
-		this.wc.addDocListener();
-		//this.value = new String("");
+		//this.wc.addDocListener();
 	}
 
 	public String getId() {
@@ -35,8 +35,14 @@ public class SimpleQuestionUI implements IQuestionUI {
 
 	
 	@Override
-	public void setValue(String value) {
-		value = valueRepository.getValue(id).toString();
-	}
+	public void setValue(Value value) {
+		this.value = value;
+		wc.setText(value);
 
+		// update the widget setText with value from value repo
+//		value = valueRepository.getValue(id).toString();
+	}
+	public Value getValue(){
+		return this.value;
+	}
 }

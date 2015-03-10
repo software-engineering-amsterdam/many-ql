@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import typechecker.TypeChecker;
+//import typechecker.TypeChecker;
 import evaluator.ValueRepository;
 import gui.MainFrame;
 
@@ -16,9 +17,6 @@ import gui.MainFrame;
 		
 		public static void main(String[] args) throws FileNotFoundException, IOException  {
 				
-			//ErrorDialog errors = new ErrorDialog();
-			//errors.errorDialog();
-				// Build my GUI
 			TypeChecker typeChecker = new TypeChecker();
 			boolean check = typeChecker.checkQuestionnaire(new ASTCreator().formCreator());
 			if(check) {

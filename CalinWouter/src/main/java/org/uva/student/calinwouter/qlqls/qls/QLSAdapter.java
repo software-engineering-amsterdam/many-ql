@@ -9,7 +9,8 @@ import java.util.*;
 
 /**
  * This adapter parses the syntax reverse depth-first and creates a corresponding internal model of the results,
- * using the components defined in the COMPONENTS_PACKAGE_PREFIX location.
+ * using the components defined in the COMPONENTS_PACKAGE_PREFIX location. This way, QLS is extremely flexible,
+ * as the user can simply add new components whenever required, without touching the syntax.
  *
  * Note that the GUI and QLS are completely separated, and that QLS is also completely separated
  * from the QL Interpreter.
@@ -20,33 +21,23 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     private final static String COMPONENTS_PACKAGE_PREFIX =
             QLSAdapter.class.getPackage().getName() + ".model.components.";
 
+    /* This is the relative package where the components reside. */
+    private final static String WIDGETS_PACKAGE_PREFIX =
+            QLSAdapter.class.getPackage().getName() + ".model.components.widgets.";
+
     /* The stack is used for pushing parameters of functions and the hashmaps to the stack, and forming a model
      * by popping the elements of the stack and putting them into the constructor of the corresponding class. */
     private final Stack<Object> argumentStack = new Stack<Object>();
 
     /**
-     * This method creates an instance of the class to be found by the specified name, with
-     * this QLSAdapter as constructor parameter.
-     */
-    private Object newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath, List<Object> args)
-            throws NoSuchMethodException, IllegalAccessException, InstantiationException,
-            InvocationTargetException, ClassNotFoundException {
-        List<Class<?>> classList = new LinkedList<Class<?>>();
-        for (Object o : args) {
-            classList.add(o.getClass());
-        }
-        return Class.forName(classPath).getConstructor(classList.toArray(new Class<?>[classList.size()]))
-                .newInstance(args.toArray());
-    }
-
-    /**
-     * This method creates applies the parameters to the component, returning the model.
+     * This method creates a new component or widget dynamically using QLSReflection.
      */
     private Object interopComponent(String componentName, List<Object> args)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
             InvocationTargetException {
-        String classPath = COMPONENTS_PACKAGE_PREFIX + firstCharacterToUpper(componentName);
-        return newInstanceForClassPathWithQlsInterpreterAsArgument(classPath, args);
+        String classPath = firstCharacterToUpper(componentName);
+        QLSReflection qlsReflection = new QLSReflection(COMPONENTS_PACKAGE_PREFIX, WIDGETS_PACKAGE_PREFIX);
+        return qlsReflection.newInstanceForClassPath(classPath, args);
     }
 
     /**
@@ -93,6 +84,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
             final Object model = interopComponent(node.getIdent().getText(), values);
             argumentStack.push(model);
         } catch (Exception e) {
+            // TODO This catches ALL the exceptions!
             throw new RuntimeException(e);
         }
     }
@@ -148,13 +140,13 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      *
      * =>
      *
-     * HashMap<String, Object>
+     * HashMap<Object, Object>
      *
      * In case the elements on the stack deviate from the SimpleEntry-type, this method raises a ClassCastException.
      */
     @Override
     public void outAObjectElement(AObjectElement node) {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        Map<Object, Object> hashMap = new HashMap<Object, Object>();
         for (int i = 0; i < node.getObjectEl().size(); i++) {
             AbstractMap.SimpleEntry<Object, Object> entry = (AbstractMap.SimpleEntry<Object, Object>) argumentStack.pop();
             hashMap.put(entry.getKey().toString(), entry.getValue());
@@ -171,17 +163,20 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      *
      * =>
      *
-     * SimpleEntry<String, Object>
+     * SimpleEntry<Object, Object>
      *
      * In case the first element on the stack deviates from the String-type (key), this method raises a ClassCastException.
      */
     @Override
     public void outAObjectEl(AObjectEl node) {
-        argumentStack.push(new HashMap.SimpleEntry<String, Object>((String) argumentStack.pop(), argumentStack.pop()));
+        argumentStack.push(new AbstractMap.SimpleEntry<Object, Object>((Object) argumentStack.pop(), argumentStack.pop()));
     }
 
     private static String firstCharacterToUpper(String str) {
         return str.substring(0, 1).toUpperCase()
                 + str.substring(1);
     }
+
+    /** QLSAdapter can only be used through the QLSInterpreter and the QLSTypeChecker. */
+    protected QLSAdapter() {}
 }

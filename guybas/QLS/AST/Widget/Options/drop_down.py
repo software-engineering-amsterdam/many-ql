@@ -14,3 +14,9 @@ class DropDown(w.Widget):
 
     def get_compatible(self):
         return [constants.GrammarConstants.BOOL, constants.GrammarConstants.NUMBER]
+
+    def get_settings(self):
+        raise NotImplementedError("Not implemented by sub class")
+
+    def set_settings(self):
+        raise NotImplementedError("Not implemented by sub class")

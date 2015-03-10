@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.segment;
 
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 
@@ -17,5 +18,13 @@ public class Section extends Segment {
     public Section(String _name, List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, List<Question> _questions) {
         super(_sections, _defaultStyles, _name);
         this.questions = _questions;
+    }
+
+    public List<Question> getQuestions() {
+        return this.questions;
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitSection(this);
     }
 }

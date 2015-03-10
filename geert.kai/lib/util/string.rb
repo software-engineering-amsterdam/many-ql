@@ -1,4 +1,4 @@
-class String # kan nog mooier
+class String
   def snake_case
     split("::").last.
     gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').

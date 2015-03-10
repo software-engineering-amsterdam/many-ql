@@ -6,7 +6,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class IntLiteral extends Literal implements Expression {
 	private final int _value;
@@ -17,12 +17,12 @@ public class IntLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public IntValue evaluate(RuntimeMemory mem) {
+	public IntValue evaluate(Context context) {
 		return new IntValue(_value);
 	}
 
 	@Override
-	public Type getType() {
+	public Type getType(Context context) {
 		return new IntType();
 	}
 	

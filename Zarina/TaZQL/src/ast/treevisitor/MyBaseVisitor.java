@@ -1,6 +1,7 @@
 package ast.treevisitor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import main.TaZQLBaseVisitor;
@@ -62,13 +63,21 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
 	@Override 
 	public SimpleQuestion visitSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx) { 
-		return new SimpleQuestion( ctx.ID().getText(), 
+		Type type = (Type) ctx.type().accept(this);
+		Id id = new Id(ctx.ID().getText(), type);
+		this.putIdType(id.getID(), type);
+
+		return new SimpleQuestion( id, 
 								   ctx.TEXT().getText().replaceAll("^\"|\"$", ""),
 								  (Type) ctx.type().accept(this)); 
 	}
 	@Override 
 	public ComputationQuestion visitComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx) {
-		return new ComputationQuestion( ctx.ID().getText(), 
+		Type type = (Type) ctx.type().accept(this);
+		Id id = new Id(ctx.ID().getText(), type);
+		this.putIdType(id.getID(), type);
+
+		return new ComputationQuestion( id, 
 				  						ctx.TEXT().getText().replaceAll("^\"|\"$", ""), 
 				  						(Type) ctx.type().accept(this),
 				  						(Expression) ctx.expression().accept(this));  
@@ -210,13 +219,24 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return null; 
 	}
 	
+	//
+	 private final HashMap<String, Type> idType = new HashMap<>();
 	
+	 private void putIdType(String id, Type type) {
+		 idType.put(id, type);
+	 }
+	
+	 private Type getIdType(String id) {
+		 return idType.containsKey(id) ? idType.get(id) : null;
+	 }
 	
 	// *** expression variables ***
 	
 	@Override 
 	public Id visitId(@NotNull TaZQLParser.IdContext ctx) { 
-		return new Id(ctx.ID().getText()); 
+		String id = ctx.ID().getText();
+		Type type = this.getIdType(id);
+		return new Id(ctx.ID().getText(), type); 
 	}
 		
 	@Override 

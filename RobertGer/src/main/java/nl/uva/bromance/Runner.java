@@ -1,9 +1,8 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
-import nl.uva.bromance.AST.AST;
-import nl.uva.bromance.AST.Conditionals.ExpressionEvaluator;
-import nl.uva.bromance.AST.Questionnaire;
+import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.listeners.QLSParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -28,43 +27,8 @@ import java.util.Arrays;
 public class Runner {
 
     public void run(Stage primaryStage) throws IOException {
-        QLLexer lexer = new QLLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.ql")));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-        ParseTree tree = parser.questionnaire();
-        QLParseTreeListener listener = new QLParseTreeListener();
-        ParseTreeWalker walker = new ParseTreeWalker();
-
-        walker.walk(listener, tree);
-
-        AST ast = listener.getAst();
-        ExpressionEvaluator ee = new ExpressionEvaluator(ast);
-        TypeChecker tc = new TypeChecker(ast);
-        tc.runChecks();
-
-        new Visualizer().visualize(ast.getRoot(), primaryStage);
-        
-        QLSLexer qlsLexer = new QLSLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.qls")));
-        CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
-        QLSParser qlsParser = new QLSParser(qlsTokens);
-        ParseTree qlsTree = qlsParser.stylesheet();
-        QLSParseTreeListener qlsListener = new QLSParseTreeListener();
-        ParseTreeWalker qlsWalker = new ParseTreeWalker();
-        
-
-        qlsWalker.walk(qlsListener, qlsTree);
-
-        //show AST in GUI
-        JFrame frame = new JFrame("QLS ParseTree");
-        JPanel panel = new JPanel();
-        JScrollPane pane = new JScrollPane(panel);
-        TreeViewer viewer = new TreeViewer(Arrays.asList(
-                qlsParser.getRuleNames()), qlsTree);
-        viewer.setScale(1.5);//scale a little
-        panel.add(viewer);
-        frame.getContentPane().add(pane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
-        frame.setVisible(true);
+        Visualizer vis = new Visualizer(primaryStage);
+        vis.setBaseView();
+        vis.render();
     }
 }

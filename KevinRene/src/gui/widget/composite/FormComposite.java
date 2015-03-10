@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ql.Value;
+import ql.ast.expression.Identifier;
 import net.miginfocom.swing.MigLayout;
-import cons.Value;
-import cons.ql.ast.expression.Identifier;
 
 public class FormComposite extends Composite {
 	private JFrame frame;

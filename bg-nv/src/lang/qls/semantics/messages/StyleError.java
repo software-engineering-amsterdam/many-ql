@@ -10,6 +10,13 @@ public class StyleError extends lang.ql.semantics.errors.Error
         super(m);
     }
 
+    public static StyleError widgetTypeMismatch(String assType, int line)
+    {
+        String m = String.format("Error (Line %d): widget of type %s does not match the statement declaration type",
+                line, assType);
+        return new StyleError(m);
+    }
+
     public static StyleError questionAlreadyReferenced(String id, int line)
     {
         String m = String.format("Error (Line %d): question with id %s is already referenced on line %d",

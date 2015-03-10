@@ -163,13 +163,16 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public boolean checkMatch(Expression expr, Type expectType) {
-		boolean sublevel = expr.accept(this);
-		boolean thislevel = true;
-		if (!expr.getType(this).isEqual(expectType)) {
-			addError(Error.Type.MISMATCH, expr, expectType.toString());
-			thislevel = false;
+		if (expr.accept(this)) {
+			if (!expr.getType(this).isEqual(expectType)) {
+				addError(Error.Type.MISMATCH, expr, expectType.toString());
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
 		}
-		return thislevel && sublevel;
 	}
 
 	public boolean checkMatchThisLevel(Expression expr, Type expectType) {
@@ -192,7 +195,14 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public boolean checkSame(Binary binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		return checkMatch(right, left.getType(this));
+		// Check inner levels then do the comparison
+		boolean resultL = left.accept(this);
+		boolean resultR = right.accept(this);
+		if (resultL && resultR) {
+			return checkMatch(right, left.getType(this));
+		} else {
+			return false;
+		}
 	}
 
 	// Visits
@@ -288,7 +298,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		boolean resultR = right.accept(this);
 		boolean result = true;
 
-		if ((resultL && resultR) == true) {
+		if (resultL && resultR) {
 			if (left.getType(this).isEqual(new IntType()) || left.getType(this).isEqual(new StrType())) {
 				result = checkMatchThisLevel(right, left.getType(this));
 			} else {
@@ -304,6 +314,8 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 				}
 				result = false;
 			}
+		} else {
+			result = false;
 		}
 		return result;
 	}

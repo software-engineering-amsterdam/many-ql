@@ -39,8 +39,8 @@ public class FormTypeChecker extends AnalysisAdapter {
         return typeDescriptorMap.entrySet();
     }
 
-    public Set<String> getFieldNames() {
-        HashSet<String> nameSet = new HashSet<String>();
+    public SortedSet<String> getFieldNames() { // TODO Does not sort!!!!
+        SortedSet<String> nameSet = new TreeSet<String>();
         for (Map.Entry<String, TypeDescriptor<?>> entry : typeDescriptorMap.entrySet()) {
             nameSet.add(entry.getKey());
         }

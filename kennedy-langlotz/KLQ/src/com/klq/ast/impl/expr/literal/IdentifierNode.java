@@ -1,15 +1,29 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
 /**
  * Created by juriaan on 23-2-15.
  */
-public class IdentifierNode extends AValueNode<String> {
-    public IdentifierNode(String identifier, String location) {
-        super(identifier, location);
+public class IdentifierNode extends AExpression {
+    private String identifier;
+
+    public IdentifierNode(String identifier, Location location) {
+        super(location);
+        this.identifier = identifier;
+    }
+
+    public IdentifierNode(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
@@ -18,7 +32,7 @@ public class IdentifierNode extends AValueNode<String> {
     }
 
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        return variableTable.get(getValue());
+    public Value evaluate(Map<String, Value> variables) {
+        return variables.get(this.identifier);
     }
 }

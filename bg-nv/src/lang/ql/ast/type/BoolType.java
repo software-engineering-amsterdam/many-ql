@@ -5,9 +5,16 @@ package lang.ql.ast.type;
  */
 public class BoolType extends Type
 {
-    public BoolType()
+    @Override
+    public String getTitle()
     {
-        super("boolean");
+        return "boolean";
+    }
+
+    @Override
+    public boolean isBool()
+    {
+        return true;
     }
 
     @Override

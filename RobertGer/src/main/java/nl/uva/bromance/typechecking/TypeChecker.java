@@ -1,8 +1,8 @@
 package nl.uva.bromance.typechecking;
 
-import nl.uva.bromance.AST.AST;
-import nl.uva.bromance.AST.Node;
-import nl.uva.bromance.AST.Question;
+import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.Question;
 
 /**
  * Created by Gerrit Krijnen on 2/17/2015.

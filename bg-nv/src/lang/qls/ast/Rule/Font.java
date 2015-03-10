@@ -1,13 +1,25 @@
 package lang.qls.ast.Rule;
 
 /**
- * Created by bore on 02/03/15.
+ * Created by bore on 09/03/15.
  */
-public class Font extends Rule<String>
+public class Font extends StrRule
 {
-    public Font(String font, int lineNumber)
+    public Font(String value, int lineNumber)
     {
-        super(font, lineNumber);
+        super("font", value, lineNumber);
+    }
+
+    @Override
+    public boolean isOverwrittenBy(Rule r)
+    {
+        return r.isOverwrittenByFont(this);
+    }
+
+    @Override
+    protected boolean isOverwrittenByFont(Font r)
+    {
+        return true;
     }
 
     @Override

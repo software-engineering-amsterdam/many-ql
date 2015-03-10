@@ -1,10 +1,10 @@
 package org.fugazi.qls.ast.question;
 
-import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.ql.ast.AbstractASTNode;
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
-public class Question extends AbstractASTQLSNode { // todo Create A UIQuestion?
-
+public class Question extends AbstractASTNode {
     private final String identifier;
     private final Widget widget;
 
@@ -21,5 +21,18 @@ public class Question extends AbstractASTQLSNode { // todo Create A UIQuestion?
 
     public String getId() {
         return this.identifier;
+    }
+
+    @Override
+    public String toString() {
+        return this.identifier.toString() + " " + "('" + this.widget.toString() + "')";
+    }
+
+    public Widget getWidget() {
+        return this.widget;
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitQuestion(this);
     }
 }

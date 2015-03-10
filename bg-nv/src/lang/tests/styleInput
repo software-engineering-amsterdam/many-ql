@@ -1,0 +1,11 @@
+stylesheet sample {
+  page main {
+         question married {
+           widget radio("Yes", "No")
+         }
+         default boolean {
+            width: 15
+            widget checkbox
+         }
+    }
+}

@@ -1,0 +1,13 @@
+package org.uva.ql.ast.expression.literal;
+
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.visitor.ExpressionVisitable;
+import org.uva.utility.CodePosition;
+
+public abstract class Literal extends Expression implements ExpressionVisitable{
+	
+	public Literal(CodePosition pos) {
+		super(pos);
+	}
+
+}

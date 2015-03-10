@@ -1,19 +1,14 @@
 package com.form.language.ast.expression.literal;
 
-import javax.lang.model.type.UnknownTypeException;
-
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
-import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.ast.values.IntValue;
-import com.form.language.ast.values.StringValue;
+import com.form.language.error.Error;
+import com.form.language.memory.Context;
 import com.form.language.memory.IdCollector;
-import com.form.language.memory.IdTypeTable;
-import com.form.language.memory.RuntimeMemory;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -38,21 +33,25 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public GenericValue<?> evaluate(RuntimeMemory mem) {
-		return mem.getValue(name);
+	public GenericValue<?> evaluate(Context context) {
+		return context.getValue(name);
 	}
 	
-	public Type getType(){
-		if(this.type == null){
-			return new ErrorType();
+	public Type getType(Context context){
+		if(this.IsReference()){
+			return getTypeFromMemory(context);
 		}
+		context.addId(this);
 		return this.type;
 	}
-
-	@Override
-	public void setType(IdTypeTable ids) {
-		if(this.type == null){
-			this.type = ids.getType(this.name);
+	
+	private Type getTypeFromMemory(Context context) {
+		Type typeFromMemory = context.getIdType(this);
+		if(typeFromMemory == null){
+			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
+			return new ErrorType();
+		} else{ 
+			return typeFromMemory;
 		}
 	}
 	
@@ -60,4 +59,5 @@ public class IdLiteral extends Literal implements Expression {
 	public void collectIds(IdCollector idCollector) {
 		idCollector.addId(this);
 	}
+
 }

@@ -1,20 +1,27 @@
 package com.klq.ast.impl.expr.math;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.AValueNode;
-import com.klq.ast.impl.expr.literal.NumberNode;
+import com.klq.ast.impl.expr.value.NumberValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
+import com.klq.ast.impl.expr.value.Value;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public class AddNode extends ABinaryExprNode {
+public class AddNode extends AMathNode {
 
-    public AddNode(AExpression leftChild, AExpression rightChild, String location) {
+    public AddNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);
+    }
+
+    public AddNode(AExpression leftChild, AExpression rightChild) {
+        super(leftChild, rightChild);
     }
 
     @Override
@@ -23,10 +30,18 @@ public class AddNode extends ABinaryExprNode {
     }
 
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        NumberNode left = (NumberNode)(getLeftChild().evaluate(variableTable));
-        NumberNode right = (NumberNode) (getRightChild().evaluate(variableTable));
+    public Value evaluate(Map<String, Value> variables) {
+        Value left = (getLeftChild().evaluate(variables));
+        Value right = (getRightChild().evaluate(variables));
 
-        return new NumberNode(left.getValue().add(right.getValue()), "");
+        if(anyUndefined(left, right))
+        {
+            return new UndefinedValue();
+        }
+        else {
+            BigDecimal leftValue = (BigDecimal) left.getValue();
+            BigDecimal rightValue = (BigDecimal) right.getValue();
+            return new NumberValue(leftValue.add(rightValue));
+        }
     }
 }

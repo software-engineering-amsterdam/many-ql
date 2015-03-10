@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 
-import cons.value.BooleanValue;
+import ql.value.BooleanValue;
 
 public class RadioButton extends InputWidget<BooleanValue> implements ActionListener {	
 	private JRadioButton radioButton;

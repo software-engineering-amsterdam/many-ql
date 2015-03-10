@@ -1,38 +1,18 @@
 # Type Checker
 import collections
-import QL.Grammar.constants as gconstants
-import QL.AST.Elements.constants as econstants
-from QL.Main.exceptions import *
-from QL.Validators.expression_validator import *
-from QL.AST.Elements.operators import *
+import QL.Validators.expression_validator as validator
 
 
 class TypeChecker:
 
     # initialize and execute the _type checker
     def __init__(self, form):
-        ids = form.get_ids()
-        id_message = TypeChecker.check_ids(ids)
-        if id_message != "":
-            print(id_message)
+        self._ids = form.get_ids()
+        self._labels = form.get_labels()
+        self._dependencies = form.get_dependencies()
+        self._expressions = form.get_expressions()
+        self._type_dict = form.get_type_dict()
 
-        labels = form.get_labels()
-        label_message = TypeChecker.check_labels(labels)
-        if label_message != "":
-            print(label_message)
-
-        dependencies = form.get_dependencies()
-        dependency_message = TypeChecker.check_dependencies(dependencies)
-        if dependency_message != "":
-            print(dependency_message)
-
-        expressions = form.get_expressions()
-        expression_message = TypeChecker.check_expressions(expressions, form.get_type_dict())
-        if expression_message != "":
-            print(expression_message)
-
-    # All static methods to check if ids and labels contain duplicates, there are no circle _dependencies,
-    # and expressions are well formed
     @staticmethod
     def check_duplicates(l):
         # get_dependencies for duplicates
@@ -67,8 +47,31 @@ class TypeChecker:
     def check_expressions(expressions, type_dict):
         messages = ""
         for e in expressions:
-            if ExpressionValidator.validator(e.return_type(type_dict)):
+            if validator.ExpressionValidator.validator(e.return_type(type_dict)):
                 continue
             else:
-                messages += e.pretty_print() + " is malformed"
+                messages += e.pretty_print() + " is malformed\n"
         return messages
+
+    def is_valid_form(self):
+        valid = True
+        id_message = TypeChecker.check_ids(self._ids)
+        if id_message != "":
+            valid = False
+            print(id_message)
+
+        label_message = TypeChecker.check_labels(self._labels)
+        if label_message != "":
+            print(label_message)
+
+        dependency_message = TypeChecker.check_dependencies(self._dependencies)
+        if dependency_message != "":
+            valid = False
+            print(dependency_message)
+
+        expression_message = TypeChecker.check_expressions(self._expressions, self._type_dict)
+        if expression_message != "":
+            valid = False
+            print(expression_message)
+
+        return valid

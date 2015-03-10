@@ -6,10 +6,12 @@ import java.util.*;
  * Created by juriaan on 2-3-15.
  */
 public class CyclicDetector {
-    private HashMap<String, Set<String>> dependencies;
+    private Map<String, Set<String>> dependencies;
+    private Map<String, Set<String>> fullDependencies;
 
     public CyclicDetector() {
         this.dependencies = new HashMap<String, Set<String>>();
+        this.fullDependencies = new HashMap<String, Set<String>>();
     }
 
     public void addKey(String key){
@@ -23,19 +25,44 @@ public class CyclicDetector {
             dependencies.get(key).add(dependency);
         }
     }
-//TODO gogogo test this, because i doubt it works lol
-    public void detect(){
-        ArrayList<String> cyclicList = new ArrayList<String>();
+
+    public boolean hasCycles(){
+
+        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+             if( entry.getValue().contains(entry.getKey())){
+                 return true;
+             }
+        }
+        return false;
+    }
+
+    public void calculateFullDependencies(){
+        fullDependencies = new HashMap<String, Set<String>>();
 
         for(Map.Entry<String, Set<String>> entry : dependencies.entrySet()){
-            System.out.println(entry.getKey() + " : " + findDependencies(entry.getValue()).toString());
+            fullDependencies.put(entry.getKey(), findDependencies(entry.getValue(), new ArrayList<String>()));
         }
     }
 
-    private Set<String> findDependencies(Set<String> set){
-        Set<String> newSet = set;
-        for(String item : newSet){
-            newSet.addAll(findDependencies(dependencies.get(item)));
+    public List<String> getCyclicIds(){
+        List<String> list = new ArrayList<String>();
+        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+            if( entry.getValue().contains(entry.getKey())){
+                list.add(entry.getKey());
+            }
+        }
+        return list;
+    }
+
+    private Set<String> findDependencies(Set<String> set, List<String> visited){
+        Set<String> newSet = new HashSet<>();
+        newSet.addAll(set);
+
+        for(String item : set){
+            if(!visited.contains(item)) {
+                visited.add(item);
+                newSet.addAll(findDependencies(dependencies.get(item), visited));
+            }
         }
         return newSet;
     }

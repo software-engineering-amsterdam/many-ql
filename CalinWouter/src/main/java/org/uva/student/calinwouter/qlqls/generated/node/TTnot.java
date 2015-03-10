@@ -2,32 +2,38 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TTnot extends Token {
-    public TTnot() {
+public final class TTnot extends Token
+{
+    public TTnot()
+    {
         super.setText("!");
     }
 
-    public TTnot(int line, int pos) {
+    public TTnot(int line, int pos)
+    {
         super.setText("!");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone() {
-        return new TTnot(getLine(), getPos());
+    public Object clone()
+    {
+      return new TTnot(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseTTnot(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text) {
+    public void setText(@SuppressWarnings("unused") String text)
+    {
         throw new RuntimeException("Cannot change TTnot text.");
     }
 }

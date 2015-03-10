@@ -7,7 +7,7 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.value.StringValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Dropdown extends Component{
 
@@ -49,6 +49,11 @@ public class Dropdown extends Component{
 	@Override
 	public String toString(){
 		return "Dropdown(" + this.values.toString() + " " + this.style.toString() + ")";
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName().toLowerCase();
 	}
 
 }

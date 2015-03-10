@@ -1,7 +1,6 @@
 package com.form.language.gui.components;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -9,18 +8,15 @@ import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
-import com.form.language.ast.type.Type;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class GUIBuilder {
 	
 	private FormComponent formGUI;
-	private RuntimeMemory rm;
 	private Expression showCondition;
 	
-	public GUIBuilder(Form form,JFrame frame)
+	public GUIBuilder(Form form,JFrame frame, Context context)
 	{
-		rm = form.initMemory();
 		
 		formGUI = new FormComponent(form,this,frame);	
 		frame.add(formGUI);
@@ -30,19 +26,17 @@ public class GUIBuilder {
 			Statement statement = s.next();
 			
 			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
-			statement.createGUIComponent(this,formGUI,rm);
+			statement.createGUIComponent(this,formGUI,context);
 		}	
 	}
 
-	public void createGUIQuestion(Question question, FormComponent formGUI2, RuntimeMemory rm) {
-		QuestionComponent questionCompondent = new QuestionComponent(question,rm,showCondition);	
+	public void createGUIQuestion(Question question, FormComponent formGUI2, Context context) {
+		QuestionComponent questionCompondent = new QuestionComponent(question,context,showCondition);	
 		formGUI2.add(questionCompondent);
 	}
 	
-	public void SetShowCondition(Expression condition)
+	public void setShowCondition(Expression condition)
     {
 		showCondition = condition;
     }
-	
-
 }

@@ -19,6 +19,9 @@ class QuestionStyle(e.SheetElement):
     def get_widget_dict(self):
         return {self._id : self._widget}
 
+    def is_default(self):
+        return False
+
     @staticmethod
     def id_collection(elements):
         raise NotImplementedError("Not implemented by sub class")

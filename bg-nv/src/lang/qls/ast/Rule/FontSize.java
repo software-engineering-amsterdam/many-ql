@@ -1,13 +1,13 @@
 package lang.qls.ast.Rule;
 
 /**
- * Created by bore on 02/03/15.
+ * Created by bore on 09/03/15.
  */
-public class FontSize extends Rule<Integer>
+public class FontSize extends IntRule
 {
-    public FontSize(int fontSize, int lineNumber)
+    public FontSize(Integer value, int lineNumber)
     {
-        super(fontSize, lineNumber);
+        super("fontsize", value, lineNumber);
     }
 
     @Override

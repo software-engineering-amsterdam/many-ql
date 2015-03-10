@@ -103,8 +103,9 @@ public class GUIRender implements IFormVisitor<JPanel> {
 
 	@Override
 	public JPanel visit(Form form) {
-		for(Question q : form.getQuestionText())
+		for(Question q : form.getQuestionText()){
 			q.accept(new GUIVisitor(this, valueRepository));
+		}
 		addToPanel();
 		return panel;
 	}

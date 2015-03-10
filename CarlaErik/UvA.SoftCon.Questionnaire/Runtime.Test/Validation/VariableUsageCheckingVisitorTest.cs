@@ -18,7 +18,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
         {
             // Arrange
             var ql = new StringBuilder();
-            ql.AppendLine("bool isHappy"); // A declared variable should always be used in an expression.
+            ql.AppendLine("bool isHappy = true"); // A declared variable should always be used in an expression.
 
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
@@ -62,8 +62,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             // Arrange
             // Arrange
             var ql = new StringBuilder();
-            ql.AppendLine("int age");
-            ql.AppendLine("string age");
+            ql.AppendLine("int age = 11");
+            ql.AppendLine("string age= \"11\"");
 
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());

@@ -3,13 +3,16 @@ package gui;
 import evaluator.ValueRepository;
 import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
+import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
 import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
 
+import ast.expression.Expression;
 import ast.question.ComputationQuestion;
 import ast.question.IQuestionVisitor;
 import ast.question.IfElseStatement;
@@ -30,8 +33,19 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	
 
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
-		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType(), this.valueRepository));
+		return simpleQuestion.getQuestionType().accept(
+				new WidgetVisitor( 
+						simpleQuestion.getQuestionId().getID(), 
+						simpleQuestion.getQuestionText(), 
+						simpleQuestion.getQuestionType(), 
+						this.valueRepository
+				)
+		);
 		
+	}
+	
+	public Updater sendToUpdater(Expression expression) {
+		return new Updater(expression, gui, valueRepository);
 	}
 	
 	@Override
@@ -43,34 +57,41 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 
 	@Override
 	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
-		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),
+		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId().getID(),
 												   new JLabel(simpleQuestion.getQuestionText()), 
 												   this.widget(simpleQuestion),
 												   this.valueRepository);
 		
-		gui.putWidgetRepository(simpleQuestion.getQuestionId(), sq);
-		//sq.getValue();
+		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
 		return sq;
 	}
 
 	@Override
 	public IQuestionUI visit(ComputationQuestion calQuestion) {
-		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId(),
+		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId().getID(),
 													new JLabel(calQuestion.getQuestionText()), 
 													this.widget(calQuestion),
 													this.valueRepository,
-													evaluator.evaluate(calQuestion.getExpression()));
-		gui.putWidgetRepository(calQuestion.getQuestionId(), sq);
+													this.sendToUpdater(calQuestion.getExpression()).updatedValue());
+		
+		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
+		
 		return sq;
 	}
 	
 	@Override
 	public IQuestionUI visit(IfStatement ifStatement) {
-	//	for(Question q : ifStatement.getIfStatement())
-		// TODO Auto-generated method stub
+		IfQuestionUI ifq = new IfQuestionUI();
+	
+	
 	//	ifStatement.getExpression();
 	//	ifStatement.getIfStatement();
-		return null;
+		for(Question q : ifStatement.getIfStatement()){
+			System.out.println(q.getClass());
+			IQuestionUI aQuestion = visit(q);
+			System.out.println("visited "+q.getClass());
+		}
+		return ifq;
 	}
 
 	@Override

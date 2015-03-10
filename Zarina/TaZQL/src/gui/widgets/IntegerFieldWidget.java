@@ -1,7 +1,9 @@
 package gui.widgets;
 
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.IntegerListener;
-import interpreter.ValueRepository;
 
 import javax.swing.JComponent;
 import javax.swing.JTextField;
@@ -14,13 +16,16 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	private final Type variableType;
 	private JTextField widget;
 	private final ValueRepository valueRepository;
+	private int value = 0;
 		
 	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
 		this.variableType = variableType;
 		this.valueRepository = valueRepository;
-		this.widget = new JTextField("0", 10);
+		this.widget = new JTextField("", 10);
 		
+		//Use this to update this field.
+		//this.widget.setText("hgfjgfcj");
 	}
 	
 	@Override
@@ -64,24 +69,31 @@ public class IntegerFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
-		
+		this.widget.setEnabled(isEnabled);	
 	}
 
 	@Override
-	public void addDocListener() {
-		widget.getDocument().addDocumentListener(new IntegerListener(this, valueRepository));
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
 	}
 
 	@Override
 	public int getIntegerValue() {
-		return Integer.valueOf(widget.getText());
+		//return Integer.valueOf(widget.getText());
+		return value + Integer.valueOf(widget.getText());
 	}
 
 	@Override
 	public void setIntegerValue(int value) {
-		value = Integer.valueOf(widget.getText());
-		
+		System.out.println("I got something");
+		System.out.println(value);
+		this.value = value + Integer.parseInt(valueRepository.getValue(id).toString());
+	
 	}
 
+	@Override
+	public void setText(Value value) {
+		widget.setText("" +value);
+		
+	}
 }

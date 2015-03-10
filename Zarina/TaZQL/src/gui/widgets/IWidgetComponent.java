@@ -3,6 +3,7 @@ package gui.widgets;
 import javax.swing.JComponent;
 
 import ast.type.Type;
+import evaluator.Value;
 
 public interface IWidgetComponent {
 	
@@ -20,5 +21,7 @@ public interface IWidgetComponent {
 	
 	public void setEnabled(boolean isEnabled);
 	
-	public void addDocListener();
+	public void addDocListener(); //EvaluateExpression evaluator);
+	
+	public void setText(Value value);
 }

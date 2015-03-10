@@ -1,9 +1,11 @@
 package com.klq.ast.impl.expr.bool;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.AValueNode;
-import com.klq.ast.impl.expr.literal.BooleanNode;
+import com.klq.ast.impl.expr.value.BooleanValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
@@ -12,8 +14,12 @@ import java.util.Map;
  */
 public class NotEqualsNode extends ABooleanNode {
 
-    public NotEqualsNode(AExpression leftChild, AExpression rightChild, String location) {
+    public NotEqualsNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);
+    }
+
+    public NotEqualsNode(AExpression leftChild, AExpression rightChild) {
+        super(leftChild, rightChild);
     }
 
     @Override
@@ -22,10 +28,16 @@ public class NotEqualsNode extends ABooleanNode {
     }
 
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        AValueNode left = (getLeftChild().evaluate(variableTable));
-        AValueNode right =(getRightChild().evaluate(variableTable));
+    public Value evaluate(Map<String, Value> variables) {
+        Value left = getLeftChild().evaluate(variables);
+        Value right =getRightChild().evaluate(variables);
 
-        return new BooleanNode(!left.equals(right), "");
+        if(anyUndefined(left, right))
+        {
+            return new UndefinedValue();
+        }
+        else {
+            return new BooleanValue(!left.equals(right));
+        }
     }
 }

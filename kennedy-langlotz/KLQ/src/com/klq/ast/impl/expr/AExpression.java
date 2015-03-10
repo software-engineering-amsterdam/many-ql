@@ -1,7 +1,8 @@
 package com.klq.ast.impl.expr;
 
+import com.common.Location;
 import com.klq.ast.ANode;
-import com.klq.ast.impl.expr.literal.AValueNode;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
@@ -9,23 +10,18 @@ import java.util.Map;
  * Created by Timon on 03.03.2015.
  */
 public abstract class AExpression extends ANode {
-    private final AExpression left;
-    private final AExpression right;
 
-    //TODO
-    public AExpression(AExpression left, AExpression right, String location){
+    public AExpression(Location location){
         super(location);
-        this.left = left;
-        this.right = right;
     }
 
-    public abstract AValueNode evaluate(Map<String, AValueNode> variableTable);
-
-    public AExpression getLeft() {
-        return left;
+    public AExpression() {
+        super();
     }
 
-    public AExpression getRight() {
-        return right;
+    public abstract Value evaluate(Map<String, Value> variableTable);
+
+    public boolean anyUndefined(Value leftChild, Value rightChild){
+        return leftChild.isUndefined() || rightChild.isUndefined();
     }
 }

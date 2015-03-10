@@ -4,10 +4,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import lang.ql.ast.expression.Expr;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.semantics.ExprEvaluator;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.DecimalValue;
-import lang.ql.semantics.values.IntegerValue;
 import lang.ql.semantics.values.Value;
 
 import java.math.BigDecimal;
@@ -28,27 +26,23 @@ public class DecExprInput extends ExprInput<TextInputControl>
     }
 
     @Override
-    public <T> T accept(ModelVisitor<T> visitor)
+    public <U> U accept(ModelVisitor<U> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
-        Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeValue(getId(), val);
+        Value val = valueTable.getValue(this.getId());
 
         String strValue = "";
         if (!val.isUndefined())
         {
-            BigDecimal decValue = ((DecimalValue)val).getValue();
-            strValue = "" + decValue; //TODO: fix this
+            assert val instanceof DecimalValue;
+            strValue = val.toString();
         }
 
-        TextInputControl textInput = this.getControl();
-        textInput.setText(strValue);
-        textInput.setDisable(getDisabled());
-        textInput.setVisible(getVisible());
+        this.control.setText(strValue);
     }
 }

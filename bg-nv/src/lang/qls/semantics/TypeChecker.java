@@ -1,8 +1,10 @@
 package lang.qls.semantics;
 
 import lang.ql.ast.form.Form;
+import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Message;
 import lang.qls.ast.Page;
+import lang.qls.ast.Rule.*;
 import lang.qls.ast.Statement.*;
 import lang.qls.ast.Statement.Question;
 import lang.qls.ast.Statement.Statement;
@@ -17,26 +19,27 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private Map<String, lang.ql.ast.statement.Question> questionMap;
-    private Set<String> referredQuestions;
+    private QuestionTypeMap qlQuestions;
+    private Set<String> refQuestions;
     private List<Message> messages;
 
     public static List<Message> check(Stylesheet s, Form f)
     {
-        Map<String, lang.ql.ast.statement.Question> m = QLQuestionVisitor.extractQuestions(f);
-        TypeChecker checker = new TypeChecker(m);
-        checker.visit(s);
-
-        checker.allQuestionsReferencedCheck();
+        QuestionTypeMap qs = QLQuestionVisitor.extractQuestions(f);
+        TypeChecker checker = new TypeChecker(qs);
+        if (checker.visit(s))
+        {
+            checker.allQuestionsReferencedCheck();
+        }
 
         return checker.messages;
     }
 
-    private TypeChecker(Map<String, lang.ql.ast.statement.Question> questionMap)
+    private TypeChecker(QuestionTypeMap qlQuestions)
     {
-        this.questionMap = questionMap;
-        this.referredQuestions = new HashSet<String>();
-        this.messages = new ArrayList<Message>();
+        this.qlQuestions = qlQuestions;
+        this.refQuestions = new HashSet<>();
+        this.messages = new ArrayList<>();
     }
 
     @Override
@@ -44,10 +47,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Page p : s.getBody())
         {
-            Boolean r = p.accept(this);
-            if (!(r))
+            if (!(p.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -59,10 +61,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Statement s : p.getBody())
         {
-            Boolean r = s.accept(this);
-            if (!(r))
+            if (!(s.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -84,46 +85,69 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     @Override
     public Boolean visit(QuestionWithRules q)
     {
-        return this.registerQuestion(q);
+        if (this.registerQuestion(q))
+        {
+            Rules rs = q.getBody();
+            Type qType = this.qlQuestions.getType(q.getId());
+
+            return this.visitRules(rs, qType, q.getLineNumber());
+        }
+
+        return false;
     }
 
     private Boolean registerQuestion(Question q)
     {
         String id = q.getId();
-        if (!(this.questionMap.containsKey(id)))
+        if (!(this.qlQuestions.containsQuestion(id)))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
             return false;
         }
 
-        if (this.referredQuestions.contains(id))
+        if (this.refQuestions.contains(id))
         {
             this.messages.add(StyleError.questionAlreadyReferenced(id, q.getLineNumber()));
             return false;
         }
 
-        this.referredQuestions.add(id);
+        this.refQuestions.add(id);
 
         return true;
     }
 
     @Override
-    public Boolean visit(DefaultStmt d)
+    public Boolean visit(DefaultStat d)
     {
+        Rules rs = d.getBody();
+        return this.visitRules(rs, d.getType(), d.getLineNumber());
+    }
+
+    private Boolean visitRules(Rules rs, Type declType, int lineNumber)
+    {
+        for (Rule r : rs)
+        {
+            if (r.isCompatibleWithType(declType))
+            {
+                this.messages.add(StyleError.widgetTypeMismatch(declType.getTitle(), lineNumber));
+                return false;
+            }
+        }
+
         return true;
     }
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (lang.ql.ast.statement.Question q : this.questionMap.values())
+        for (String id : this.qlQuestions)
         {
-            String id = q.getId();
-            if (!(this.referredQuestions.contains(id)))
+            if (!(this.refQuestions.contains(id)))
             {
                 this.messages.add(StyleError.questionNotReferenced(id));
                 return false;
             }
         }
+
         return true;
     }
 }

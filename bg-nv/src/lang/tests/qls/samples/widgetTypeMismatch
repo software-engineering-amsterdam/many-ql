@@ -1,0 +1,7 @@
+stylesheet Employee {
+  page main {
+         question married {
+           widget radio("Yes", "No")
+         }
+    }
+}

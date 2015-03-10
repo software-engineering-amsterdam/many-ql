@@ -27,9 +27,9 @@ import java.util.*;
  */
 public class QLSTypeChecker {
     private List<Defaults> collectDefaults(StyleSheet styleSheet) {
-        List<Defaults> collectedDefaults = new LinkedList<Defaults>();
-        for (Page p : styleSheet.getPages().getPages()) {
-            for (Section s : p.getSections().getSections()) {
+        final List<Defaults> collectedDefaults = new LinkedList<Defaults>();
+        for (final Page p : styleSheet.getPages().getPages()) {
+            for (final Section s : p.getSections().getSections()) {
                 collectedDefaults.add(s.getDefaults());
             }
             collectedDefaults.add(p.getDefaults());
@@ -39,9 +39,9 @@ public class QLSTypeChecker {
     }
 
     private List<String> collectFields(StyleSheet styleSheet) {
-        List<String> collectedFields = new LinkedList<String>();
-        for (Page p : styleSheet.getPages().getPages()) {
-            for (Section s : p.getSections().getSections()) {
+        final List<String> collectedFields = new LinkedList<String>();
+        for (final Page p : styleSheet.getPages().getPages()) {
+            for (final Section s : p.getSections().getSections()) {
                 for (AbstractFormField abstractFormField : s.getFields().getFields()) {
                     collectedFields.add(abstractFormField.getIdent());
                 }
@@ -50,10 +50,10 @@ public class QLSTypeChecker {
         return collectedFields;
     }
 
-    private Set<String> detectDuplicates(final StyleSheet styleSheet, List<String> fields) {
-        Set<String> foundFields = new HashSet<String>();
-        Set<String> duplicateFields = new HashSet<String>();
-        for (String s : fields) {
+    private Set<String> detectDuplicates(List<String> fields) {
+        final Set<String> foundFields = new HashSet<String>();
+        final Set<String> duplicateFields = new HashSet<String>();
+        for (final String s : fields) {
             if (!foundFields.add(s)) {
                 duplicateFields.add(s);
             }
@@ -61,13 +61,13 @@ public class QLSTypeChecker {
         return duplicateFields;
     }
 
-    private Set<String> detectUndefinedReferences(StyleSheet styleSheet, List<FieldType> fieldTypes, List<String> fields) {
-        Set<String> undefinedReferences = new HashSet<String>();
-        Set<String> qlFields = new HashSet<String>();
-        for (FieldType fieldType : fieldTypes) {
+    private Set<String> detectUndefinedReferences(List<FieldType> fieldTypes, List<String> fields) {
+        final Set<String> undefinedReferences = new HashSet<String>();
+        final Set<String> qlFields = new HashSet<String>();
+        for (final FieldType fieldType : fieldTypes) {
             qlFields.add(fieldType.getFieldName());
         }
-        for (String s : fields) {
+        for (final String s : fields) {
             if (!qlFields.contains(s)) {
                 undefinedReferences.add(s);
             }
@@ -79,11 +79,11 @@ public class QLSTypeChecker {
      * Detects invalid widget assignments (e.g. boolean to textbox) or no widget assignments at all.
      */
     private Set<String> detectInvalidWidgetAssignments(StyleSheet styleSheet, List<FieldType> fieldTypes) {
-        Set<String> invalidWidgetAssignments = new HashSet<String>();
-        for (FieldType fieldType : fieldTypes) {
+        final Set<String> invalidWidgetAssignments = new HashSet<String>();
+        for (final FieldType fieldType : fieldTypes) {
             try {
-                AbstractWidget abstractWidget = (AbstractWidget) styleSheet.
-                        findFieldStylingSettings(fieldType.getFieldName(), fieldType.getTypeDescriptor()).get("widget");
+                AbstractWidget abstractWidget = styleSheet.
+                        getStylingSettings(fieldType.getFieldName(), fieldType.getTypeDescriptor()).getWidget();
                 if (!fieldType.getTypeDescriptor().isAllowed(abstractWidget)) {
                     invalidWidgetAssignments.add(fieldType.getFieldName());
                 }
@@ -95,8 +95,8 @@ public class QLSTypeChecker {
     }
 
     private Set<WidgetType> detectInvalidDefaultWidgetAssignments(StyleSheet styleSheet) {
-        Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
-        for (Defaults defaults : collectDefaults(styleSheet)) {
+        final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
+        for (final Defaults defaults : collectDefaults(styleSheet)) {
             invalidDefaultWidgetAssignments.addAll(
                     detectInvalidDefaultWidgetAssignments(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR, defaults));
             invalidDefaultWidgetAssignments.addAll(
@@ -109,15 +109,15 @@ public class QLSTypeChecker {
 
     private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor<?> valueTypeDescriptor,
                                                               final Defaults defaults) {
-        Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
-        AbstractWidget widget = (AbstractWidget) defaults.getDefaultStyleSheetSettings().get(valueTypeDescriptor).get("widget");
+        final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
+        final AbstractWidget widget = (AbstractWidget) defaults.getDefaultStyleSheetSettings().get(valueTypeDescriptor).get("widget");
         if (!valueTypeDescriptor.isAllowed(widget)) {
             invalidDefaultWidgetAssignments.add(new WidgetType(widget, valueTypeDescriptor));
         }
         return invalidDefaultWidgetAssignments;
     }
 
-    private Set<String> detectMissingQLFieldsInQLS(StyleSheet styleSheet, List<FieldType> fieldTypes, List<String> fields) {
+    private Set<String> detectMissingQLFieldsInQLS(List<FieldType> fieldTypes, List<String> fields) {
         Set<String> missingQLFieldsInQLS = new HashSet<String>();
         for (FieldType fieldType : fieldTypes) {
             if (!fields.contains(fieldType.getFieldName())) {
@@ -133,10 +133,10 @@ public class QLSTypeChecker {
     public QLSTypeCheckResults typeCheck(StyleSheet styleSheet, List<FieldType> fieldTypes) {
         List<String> fields = collectFields(styleSheet);
         return new QLSTypeCheckResults(
-                detectUndefinedReferences(styleSheet, fieldTypes, fields),
-                detectMissingQLFieldsInQLS(styleSheet, fieldTypes, fields),
+                detectUndefinedReferences(fieldTypes, fields),
+                detectMissingQLFieldsInQLS(fieldTypes, fields),
                 detectInvalidWidgetAssignments(styleSheet, fieldTypes),
                 detectInvalidDefaultWidgetAssignments(styleSheet),
-                detectDuplicates(styleSheet, fields));
+                detectDuplicates(fields));
     }
 }

@@ -2,30 +2,26 @@ package com.form.language.gui.widget;
 
 import java.awt.Dimension;
 
-import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
-import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class TextField extends JTextField {
 	
 	private static final long serialVersionUID = 1L;
-	private RuntimeMemory rm;
-	private Question question;
 
-	public TextField(Question question,QuestionComponent questionComponent, RuntimeMemory rm) {
+	public TextField(Question question,QuestionComponent questionComponent, Context context) {
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
 		setVisible(true);
 	}
 	
+	//TODO ADD HANDELER
 	public void notifyListener(DocumentEvent e) {
 		String s;
 		try {
