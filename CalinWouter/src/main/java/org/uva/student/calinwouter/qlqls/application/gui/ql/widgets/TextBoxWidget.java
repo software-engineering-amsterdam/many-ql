@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql.widgets;
 
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ public class TextBoxWidget {
         return textField;
     }
 
-    public TextBoxWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public TextBoxWidget(final String identifier, final FormInterpreter formInterpreter) {
         textField = new JTextField(20);
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -36,8 +36,8 @@ public class TextBoxWidget {
 
             public void updateField() {
                 try {
-                    headlessFormInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
-                    headlessFormInterpreter.interpret();
+                    formInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
+                    formInterpreter.interpret();
                 } catch (NumberFormatException e) {
                     System.out.println("Wrong format introduced");
                 }

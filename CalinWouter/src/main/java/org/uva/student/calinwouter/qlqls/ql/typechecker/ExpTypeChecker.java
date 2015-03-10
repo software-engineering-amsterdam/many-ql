@@ -1,10 +1,11 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
+package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.VariableNotSetException;
 
 public class ExpTypeChecker extends AnalysisAdapter {
     private FormTypeChecker formInterpreter;
@@ -82,17 +83,14 @@ public class ExpTypeChecker extends AnalysisAdapter {
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        /*Value<?> value = (formInterpreter.getField(node.getIdent().getText()));
+        Value<?> value = (formInterpreter.getField(node.getIdent().getText()));
         if (value == null) {
             throw new VariableNotSetException(node.getIdent().getText());
         }
-        setValue(value);*/
+        setValue(value);
     }
 
     private Value<?> interpExp(Node n) {
-        //ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
-        //n.apply(expInterpreter);
-        //return expInterpreter.getValue();
         ExpTypeChecker expTypeChecker = new ExpTypeChecker(formInterpreter);
         n.apply(expTypeChecker);
         return expTypeChecker.getValue();
@@ -122,7 +120,6 @@ public class ExpTypeChecker extends AnalysisAdapter {
     }
 
     public ExpTypeChecker(FormTypeChecker formInterpreter) {
-        //super(formInterpreter);
         this.formInterpreter = formInterpreter;
     }
 

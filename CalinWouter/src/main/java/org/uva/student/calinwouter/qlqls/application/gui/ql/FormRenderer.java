@@ -3,9 +3,9 @@ package org.uva.student.calinwouter.qlqls.application.gui.ql;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.FormField;
 
 import javax.swing.*;
@@ -15,19 +15,19 @@ import java.util.List;
 
 
 public class FormRenderer extends AnalysisAdapter {
-    private HeadlessFormInterpreter headlessFormInterpreter;
+    private FormInterpreter formInterpreter;
     private FormTypeChecker formTypeChecker;
     private JFrame frame;
     private JPanel framePanel;
 
-    public FormRenderer(HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
-        this.headlessFormInterpreter = headlessFormInterpreter;
+    public FormRenderer(FormInterpreter formInterpreter, FormTypeChecker formTypeChecker) {
+        this.formInterpreter = formInterpreter;
         this.formTypeChecker = formTypeChecker;
     }
 
     public void renderStatements(LinkedList<PStmt> statements) {
         for (PStmt stmt : statements) {
-            StatementRenderer stmtRenderer = new StatementRenderer(headlessFormInterpreter, formTypeChecker);
+            StatementRenderer stmtRenderer = new StatementRenderer(formInterpreter, formTypeChecker);
             stmt.apply(stmtRenderer);
             framePanel.add(stmtRenderer.getWidget());
         }
@@ -35,12 +35,12 @@ public class FormRenderer extends AnalysisAdapter {
 
     public void render() {
 
-        List<FormField> fields = headlessFormInterpreter.getFields();
+        List<FormField> fields = formInterpreter.getFields();
         System.out.println("Current fields: " + fields.size());
         for (FormField f: fields) {
             System.out.println(f.getVariable());
         }
-        final AForm form = headlessFormInterpreter.getForm();
+        final AForm form = formInterpreter.getForm();
         frame = new JFrame(form.getIdent().getText());
         frame.setPreferredSize(new Dimension(800, 600));
         framePanel = new JPanel();
@@ -53,7 +53,7 @@ public class FormRenderer extends AnalysisAdapter {
             throw new RuntimeException(e);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        formInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 frame.repaint();

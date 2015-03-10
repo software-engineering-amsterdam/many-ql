@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql.widgets;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ public class CheckBoxWidget {
         return checkBox;
     }
 
-    public CheckBoxWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public CheckBoxWidget(final String identifier, final FormInterpreter formInterpreter) {
         checkBox = new JCheckBox();
 
         checkBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                headlessFormInterpreter.setField(identifier, new BoolValue(checkBox.isSelected()));
-                headlessFormInterpreter.interpret();
+                formInterpreter.setField(identifier, new BoolValue(checkBox.isSelected()));
+                formInterpreter.interpret();
             }
         });
     }

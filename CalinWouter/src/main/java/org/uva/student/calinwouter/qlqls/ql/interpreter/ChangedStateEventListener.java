@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import java.util.EventListener;
 

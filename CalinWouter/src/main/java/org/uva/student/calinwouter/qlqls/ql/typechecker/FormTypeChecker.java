@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
+package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
@@ -7,6 +7,7 @@ import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldInUseException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelInUseException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.*;
 
@@ -21,13 +22,13 @@ import java.util.*;
  * <p/>
  * Does not detect cyclic dependencies between questions, because it is not possible to create cyclic dependencies.
  */
-//public class FormTypeChecker extends FormInterpreter {
 public class FormTypeChecker extends AnalysisAdapter {
 
     private InterpretationException fatalException;
     private HashMap<String, TypeDescriptor<?>> typeDescriptorMap;
     protected List<InterpretationException> interpretationExceptions;
     private List<InterpretationException> warnings;
+    private Map<String, Value<?>> variableMap;
     private Set<String> usedFields;
     private Set<String> usedLabels;
 
@@ -39,6 +40,15 @@ public class FormTypeChecker extends AnalysisAdapter {
         return typeDescriptorMap.entrySet();
     }
 
+    public void setField(String key, Value<?> value) {
+        variableMap.put(key, value);
+    }
+
+    public Value<?> getField(String key) {
+        return variableMap.get(key);
+    }
+
+
     public SortedSet<String> getFieldNames() { // TODO Does not sort!!!!
         SortedSet<String> nameSet = new TreeSet<String>();
         for (Map.Entry<String, TypeDescriptor<?>> entry : typeDescriptorMap.entrySet()) {
@@ -47,8 +57,6 @@ public class FormTypeChecker extends AnalysisAdapter {
         return nameSet;
     }
 
-    //@Override
-    //protected StmtInterpreter createStmtInterpreter() {
     protected StmtTypeChecker createStmtInterpreter() {
         return new StmtTypeChecker(this);
     }
@@ -98,6 +106,7 @@ public class FormTypeChecker extends AnalysisAdapter {
     public FormTypeChecker() {
         warnings = new LinkedList<InterpretationException>();
         interpretationExceptions = new LinkedList<InterpretationException>();
+        variableMap = new HashMap<String, Value<?>>();
         usedFields = new HashSet<String>();
         usedLabels = new HashSet<String>();
     }

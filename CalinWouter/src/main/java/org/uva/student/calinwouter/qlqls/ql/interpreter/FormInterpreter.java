@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
@@ -16,8 +16,7 @@ import java.util.Map;
  * The HeadlessFormInterpreter is used for interpreting statements without additional actions, creating the model
  * used for rendering the GUI or for unit tests.
  */
-//public class HeadlessFormInterpreter extends FormInterpreter {
-public class HeadlessFormInterpreter extends AnalysisAdapter {
+public class FormInterpreter extends AnalysisAdapter {
     private List<FormField> fields;
     private List<ChangedStateEventListener> changedStateEventListeners;
     private AForm form;
@@ -64,10 +63,8 @@ public class HeadlessFormInterpreter extends AnalysisAdapter {
         changedStateEventListeners.add(changedStateEventListener);
     }
 
-    //@Override
-    //protected StmtInterpreter createStmtInterpreter() {
-    protected HeadlessStmtInterpreter createStmtInterpreter() {
-        return new HeadlessStmtInterpreter(this);
+    protected StmtInterpreter createStmtInterpreter() {
+        return new StmtInterpreter(this);
     }
 
     private void notifyListeners() {
@@ -79,7 +76,6 @@ public class HeadlessFormInterpreter extends AnalysisAdapter {
     public void interpret() {
         if (form == null) throw new IllegalStateException("No form was applied on the headless form interpreter.");
         fields = new LinkedList<FormField>();
-        //super.caseAForm(form);
         LinkedList<PStmt> stmts = form.getStmt();
         for (PStmt stmt : stmts) {
             stmt.apply(createStmtInterpreter());
@@ -92,7 +88,7 @@ public class HeadlessFormInterpreter extends AnalysisAdapter {
         this.form = form;
     }
 
-    public HeadlessFormInterpreter() {
+    public FormInterpreter() {
         variableMap = new HashMap<String, Value<?>>();
         changedStateEventListeners = new LinkedList<ChangedStateEventListener>();
     }

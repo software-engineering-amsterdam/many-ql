@@ -1,17 +1,15 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessExpInterpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
 import java.util.LinkedList;
 
 //public class HeadlessStmtInterpreter extends StmtInterpreter {
-public class HeadlessStmtInterpreter extends AnalysisAdapter{
-    private final HeadlessFormInterpreter formInterpreter;
+public class StmtInterpreter extends AnalysisAdapter{
+    private final FormInterpreter formInterpreter;
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
@@ -21,39 +19,39 @@ public class HeadlessStmtInterpreter extends AnalysisAdapter{
             formInterpreter.setField(node.getIdent().getText(),
                     typeInterpreter.getValue().getDefaultValue());
         }
-        ((HeadlessFormInterpreter) formInterpreter).addFormField(new QuestionField(node.getStr().getText(),
+        ((FormInterpreter) formInterpreter).addFormField(new QuestionField(node.getStr().getText(),
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
-        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
         // TODO it may crash here if not all fields are correcrly set.
         try {
-            node.getExp().apply(headlessExpInterpreter);
+            node.getExp().apply(expInterpreter);
         } catch (Exception e) {
             formInterpreter.setField(node.getIdent().getText(), null);
             return;
         }
         formInterpreter.setField(node.getIdent().getText(),
-                headlessExpInterpreter.getValue());
+                expInterpreter.getValue());
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
 
-        ((HeadlessFormInterpreter) formInterpreter).addFormField(new ComputedValueField(node.getStr().getText(),
+        ((FormInterpreter) formInterpreter).addFormField(new ComputedValueField(node.getStr().getText(),
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
-    protected HeadlessStmtInterpreter createStmtInterpreter() {
-        return new HeadlessStmtInterpreter(formInterpreter);
+    protected StmtInterpreter createStmtInterpreter() {
+        return new StmtInterpreter(formInterpreter);
     }
 
     @Override
     public void caseAIfelseStmt(AIfelseStmt node) {
-        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
-        node.getExp().apply(headlessExpInterpreter);
-        if (headlessExpInterpreter.getValue().getValue() == Boolean.TRUE) {
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        node.getExp().apply(expInterpreter);
+        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
             executeStmtList(node.getThenStmtList());
         } else {
             executeStmtList(node.getElseStmtList());
@@ -62,9 +60,9 @@ public class HeadlessStmtInterpreter extends AnalysisAdapter{
 
     @Override
     public void caseAIfStmt(AIfStmt node) {
-        HeadlessExpInterpreter headlessExpInterpreter = new HeadlessExpInterpreter(formInterpreter);
-        node.getExp().apply(headlessExpInterpreter);
-        if (headlessExpInterpreter.getValue().getValue() == Boolean.TRUE) {
+        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        node.getExp().apply(expInterpreter);
+        if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
             executeStmtList(node.getThenStmtList());
             return;
         }
@@ -76,7 +74,7 @@ public class HeadlessStmtInterpreter extends AnalysisAdapter{
         }
     }
 
-    public HeadlessStmtInterpreter(HeadlessFormInterpreter formInterpreter) {
+    public StmtInterpreter(FormInterpreter formInterpreter) {
         this.formInterpreter = formInterpreter;
        //super(formInterpreter);
     }
