@@ -15,8 +15,7 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	private final Type variableType;
 	private JTextField widget;
 	private final ValueRepository valueRepository;
-	private int value = 0;
-		
+			
 	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
 		this.variableType = variableType;
@@ -40,8 +39,8 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void setIntegerValue(String value) {
-		this.value = Integer.parseInt(valueRepository.getValue(id).toString()); 
+	public void setValue(String value) {
+		value = valueRepository.getValue(id).toString(); 
 	}
 
 	@Override

@@ -20,5 +20,5 @@ public interface IWidgetComponent {
 	public String getValue();
 	
 	public void setBooleanValue(boolean value);
-	public void setIntegerValue(String value);	
+	public void setValue(String value);	
 }

@@ -25,9 +25,9 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	}
 	
 	@Override
-	public IntegerFieldWidget visit(TextType type) { //todo to be change back!
+	public TextFieldWidget visit(TextType type) { 
 		this.valueRepository.putID(id, new StringValue(""));
-		return new IntegerFieldWidget(this.id, this.label, this.type, this.valueRepository);
+		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
 	}
 
 	@Override
@@ -37,14 +37,14 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	}
 
 	@Override
-	public IntegerFieldWidget visit(ChoiceType type) {
+	public ChoiceWidget visit(ChoiceType type) {
 		this.valueRepository.putID(id, new BooleanValue(false));
-		return new IntegerFieldWidget(id, this.label, type, this.valueRepository);
+		return new ChoiceWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
 	public IntegerFieldWidget visit(UndefinedType type) {
-		assert false: "This supposed to be checked in typechecker";
+		assert false: "Unsupported type. This supposed to be checked in typechecker.";
 		return null;
 	}
 	

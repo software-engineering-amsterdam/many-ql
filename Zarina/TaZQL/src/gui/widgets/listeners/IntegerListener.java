@@ -8,7 +8,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class IntegerListener extends AListener implements DocumentListener {
-	//private int value = 0;
 	
 	public IntegerListener(IWidgetComponent widget,  EvaluateExpression evaluator) {
 		super(widget, evaluator);
