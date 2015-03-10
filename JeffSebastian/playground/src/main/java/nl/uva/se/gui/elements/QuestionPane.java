@@ -48,7 +48,6 @@ public class QuestionPane extends BorderPane{
 		ConditionBox conditionBox = new ConditionBox(condition);
 		conditionBox.setVisible(false);
 		vbox.getChildren().add(conditionBox);
-		vbox.getChildren()
 	}
 	
 	public void addQuestion(Question question, boolean isFromCondition){
