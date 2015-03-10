@@ -25,12 +25,12 @@ type: BOOL_TYPE
     ;
 
 
-expr: expr op=(MUL|DIV) expr                      # binaryExpr
-    | expr op=(ADD|SUB) expr                      # binaryExpr
-    | expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # binaryExpr
-    | op=NOT expr                                 # notExpr
-    | expr op=AND expr                            # binaryExpr
-    | expr op=OR expr                             # binaryExpr
+expr: expr op=(MUL|DIV) expr                      # mulDivExpr
+    | expr op=(ADD|SUB) expr                      # addSubExpr
+    | expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # comparisonExpr
+    | NOT expr                                    # notExpr
+    | expr AND expr                               # andExpr
+    | expr OR expr                                # orExpr
     | '(' expr ')'                                # parenthesis
     | BOOLEAN                                     # boolean 
     | NUMBER                                      # number
@@ -45,8 +45,6 @@ BOOL_TYPE    : 'boolean' ;
 STRING_TYPE  : 'string' ;
 NUM_TYPE     : 'number' ;
 DATE_TYPE    : 'date' ;
-MONEY_TYPE   : 'money' ;
-
 
 // Basic arithmetic 
 MUL : '*' ;

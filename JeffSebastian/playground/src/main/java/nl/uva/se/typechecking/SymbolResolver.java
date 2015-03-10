@@ -28,22 +28,18 @@ public class SymbolResolver implements FormVisitor, StatementVisitor {
 		return new Result<SymbolTable>(visitor.errors, visitor.symbols);
 	}
 
-	@Override
 	public void visit(Form form) {
 		form.visitChildren(this);
 	}
 
-	@Override
 	public void visit(Question question) {
-		addSymbol(question);
+		addSymbol(question);		
 	}
 
-	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		addSymbol(calculatedQuestion);
+		addSymbol(calculatedQuestion);		
 	}
 
-	@Override
 	public void visit(Condition condition) {
 		condition.visitChildren(this);
 	}

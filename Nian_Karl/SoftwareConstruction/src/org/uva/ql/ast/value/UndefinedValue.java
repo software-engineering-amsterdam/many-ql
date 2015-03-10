@@ -3,13 +3,13 @@ package org.uva.ql.ast.value;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.type.UndefinedType;
 
-public class Undefined extends Value {
+public class UndefinedValue extends Value {
 
-	public Undefined() {
+	public UndefinedValue() {
 	}
 
 	@Override
-	public Undefined getValue() {
+	public UndefinedValue getValue() {
 		return this;
 	}
 

@@ -9,12 +9,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import org.uva.ql.ast.type.UndefinedType;
-import org.uva.ql.ast.value.Str;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.StrValue;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
-public abstract class BaseTextField extends Widget implements DocumentListener {
+public abstract class BaseTextField extends Widget implements DocumentListener{
 
 	protected final JTextField textField;
 	protected final WidgetListener widgetListener;
@@ -59,7 +59,7 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());
-			widgetListener.widgetValueChanged(getIdentifier(), new Str(s));
+			widgetListener.widgetValueChanged(getIdentifier(), new StrValue(s));
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
 		}

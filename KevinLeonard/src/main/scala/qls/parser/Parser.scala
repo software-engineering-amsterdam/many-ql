@@ -26,12 +26,12 @@ class Parser extends JavaTokenParsers {
   
   // question widget parsers
   def widget: Parser[Widget] = variable ~ widgetType ~ opt(widgetStyle) ^^ {
-    case v ~ "spinbox" ~ properties => Spinbox(v, properties)
+    case v ~ "spinbox" ~ properties => SpinBox(v, properties)
     case v ~ "slider" ~ properties => Slider(v, properties)
     case v ~ "text" ~ properties => Text(v, properties)
     case v ~ "textBlock" ~ properties => TextBlock(v, properties)
     case v ~ "radio" ~ properties => Radio(v, properties)
-    case v ~ "dropdown" ~ properties => Dropdown(v, properties)
+    case v ~ "dropdown" ~ properties => DropDown(v, properties)
   }
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 
@@ -45,6 +45,6 @@ class Parser extends JavaTokenParsers {
   def fontSize: Parser[StyleProperty] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
   def fontColor: Parser[StyleProperty] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
 
-  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ { v => HexadecimalColor(v) }
+  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ { v => new HexadecimalColor(v) }
 
 }
