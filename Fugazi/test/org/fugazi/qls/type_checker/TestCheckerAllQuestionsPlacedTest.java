@@ -32,29 +32,22 @@ public class TestCheckerAllQuestionsPlacedTest extends QlsTypeCheckerBaseTest {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        // will report also undefined question
-        for (ASTNodeIssue error : errors) {
-            System.out.println(error.getMessage());
-        }
-        assertEquals(2, errors.size());
+        assertEquals(5, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
-        List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
+        ASTNodeIssueType expectedType = ASTNodeIssueType.QLS_ERROR.MISSING_STYLE;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.UNDEFINED);
-        expectedTypes.add(ASTNodeIssueType.ERROR.TYPE_MISMATCH);
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
         // no custom arrayEquals method
-        assertEquals(expectedTypes.size(), receivedTypes.size());
-        for (ASTNodeIssueType expected : expectedTypes) {
-            assertTrue(receivedTypes.contains(expected));
+        for (ASTNodeIssueType received : receivedTypes) {
+            assertTrue(received.equals(expectedType));
         }
     }
 
