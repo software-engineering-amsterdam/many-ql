@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using QL.Errors;
 
-
-namespace QL.Exceptions
+namespace QL
 {
     public class EvaluationError : QLError
     {
@@ -12,8 +12,5 @@ namespace QL.Exceptions
         {
             get { return "Evaluator"; }
         }
-        public EvaluationError(string message)
-            : base(message)
-        { }
     }
 }
