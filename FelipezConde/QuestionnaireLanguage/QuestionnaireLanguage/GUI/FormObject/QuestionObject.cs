@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using AST.Resources;
 using QuestionnaireLanguage.Visitors;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Controller;

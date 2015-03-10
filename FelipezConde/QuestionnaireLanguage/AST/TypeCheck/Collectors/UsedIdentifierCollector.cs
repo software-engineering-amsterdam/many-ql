@@ -43,16 +43,6 @@ namespace AST.TypeCheck.Collectors
            return idList;
         }
 
-        //Computed Question
-        public override IList<Identifier> Visit(Nodes.Computation.Expression node)
-        { return node.Accept(this); }
-        public override IList<Identifier> Visit(Nodes.Computation.Id node)
-        { 
-            return new List<Identifier> { new Identifier(node, node.Value) }; 
-        }
-        public override IList<Identifier> Visit(Nodes.Computation.Value node)
-        { return new List<Identifier>(); }
-
         //Expression
         public override IList<Identifier> Visit(IBinary node) //Is this a hack?
         {

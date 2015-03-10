@@ -12,7 +12,6 @@ using AST.Nodes;
 using AST.Representation;
 using QuestionnaireLanguage.Resources;
 using ASTIFormObject = AST.Nodes.Interfaces;
-using AST.Nodes.TypeName;
 using QuestionnaireLanguage.GUI.Factories.FormObjects;
 using AST.Nodes.Expression;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;

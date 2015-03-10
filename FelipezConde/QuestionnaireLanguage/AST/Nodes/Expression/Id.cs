@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using AST.Nodes.Interfaces;
 using AST.Representation;
 using AST.Nodes.Values;
+using Types = AST.Types;
 
 namespace AST.Nodes.Expression
 {
-    public class Id : ASTNode, IExpression
+    public class Id : ASTNode, IExpression, IHasType
     {
         public string Identifier { get; private set; }
         
@@ -30,6 +31,16 @@ namespace AST.Nodes.Expression
         }
 
         public override string GetParsedString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Types.Type RetrieveType()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetType()
         {
             throw new NotImplementedException();
         }

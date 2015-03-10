@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using AST.Representation;
 using AST.Storage;
-using ValueTypes = AST.Resources;
+using Types = AST.Types;
 
 namespace AST.Nodes.Values
 {
-    public class String : Value, IValue
+    public class String : Value, ILiteral
     {
         private readonly string value;
         public String(string value)
@@ -32,9 +32,9 @@ namespace AST.Nodes.Values
             return value;
         }
 
-        public override ValueTypes.Types GetType(Storage.ISymbolTable lookup)
+        public override object GetType(Storage.ISymbolTable lookup)
         {
-            return ValueTypes.Types.STRING;
+            return null;
         }
 
         // Visitor Methods
@@ -46,6 +46,10 @@ namespace AST.Nodes.Values
         public override void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
+        }
+        public Types.Type RetrieveType()
+        {
+            throw new NotImplementedException();
         }
 
         #region Equal

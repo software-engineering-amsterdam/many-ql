@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.FormObject
 {
-    public class Conditional : FormElementContainer, IFormObject
+    public class Conditional : ASTNode, IFormObjectContainer, IFormObject
     {
         public IList<IFormObject> Body { get; private set; }
         public IExpression Condition { get; private set; }
@@ -34,7 +34,7 @@ namespace AST.Nodes.FormObject
             return visitor.Visit(this);
         }
 
-        public override IList<IFormObject> GetBody()
+        public IList<IFormObject> GetBody()
         {
             return this.Body;
         }

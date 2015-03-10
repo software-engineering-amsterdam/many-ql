@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AST.Representation;
-using ValueTypes = AST.Resources;
+using AST.Types;
 
 namespace AST.Nodes.Values
 {
-    public class Int : Value, IValue
+    public class Int : Value, ILiteral
     {
         private readonly int value;
 
@@ -29,9 +29,9 @@ namespace AST.Nodes.Values
             return value;
         }
 
-        public override ValueTypes.Types GetType(Storage.ISymbolTable lookup)
+        public override object GetType(Storage.ISymbolTable lookup)
         {
-            return ValueTypes.Types.INT;
+            return null;
         }
 
         public override string MakeString()
@@ -48,6 +48,11 @@ namespace AST.Nodes.Values
         public override void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public Types.Type RetrieveType()
+        {
+            throw new NotImplementedException();
         }
 
         #region Add
@@ -160,6 +165,5 @@ namespace AST.Nodes.Values
             return new Bool(intValue.GetValue() <= GetValue());
         }
         #endregion
-
     }
 }
