@@ -19,7 +19,7 @@ public class Question extends AbstractASTNode {
         this.widget = _widget;
     }
 
-    public String getId() {
+    public String getIdName() {
         return this.identifier;
     }
 
