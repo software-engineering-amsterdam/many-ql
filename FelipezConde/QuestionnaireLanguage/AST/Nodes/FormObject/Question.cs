@@ -1,29 +1,45 @@
 ﻿using AST.Nodes.Interfaces;
+using AST.Representation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AST.Nodes.Labels;
+using Values = AST.Nodes.Values;
+using AST.Nodes.Values;
 
 namespace AST.Nodes.FormObject
 {
-    public class Question : IFormObjectNode
+    public class Question : ASTNode, IFormObject
     {
-        private IList<IASTNode> children;
+        public ILabel Label {get; private set;}
+        public IComputation Computation {get; private set;}
+        public string Identifier {get; private set;}
+        public Values.Value Value { get; private set; }
 
-        public Question()
+        public Question(string identifier,
+                        Value value,
+                        ILabel label,
+                        IComputation computation,
+                        PositionInText positionInText)
+            : base(positionInText)
         {
-            children = new List<IASTNode>();
+            this.Identifier = identifier;
+            this.Value = value;
+            this.Label = label;
+            this.Computation = computation;
         }
 
-        public void AddChild(IASTNode node)
-        {
-            children.Add(node);
-        }
+        public override void Accept(Visitors.IVisitor visitor)
+        { visitor.Visit(this); }
 
-        public IList<IASTNode> GetChildren()
+        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        { return visitor.Visit(this); }
+
+        public override string GetParsedString()
         {
-            return children;
+            throw new NotImplementedException();
         }
     }
 }

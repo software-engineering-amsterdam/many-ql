@@ -1,7 +1,7 @@
 package ql.typechecker
 
 import ql.ast._
-import ql.types.Label
+import types.Label
 
 class DuplicateLabelsChecker {
 

@@ -16,9 +16,9 @@ class FormFormat:
     label = basic_types.BasicTypes.sentence
 
     # answerR :: "bool" | "number" | "text"
-    answerR = (pp.Literal(constants.GrammarConstants.BOOL) |
-               pp.Literal(constants.GrammarConstants.NUMBER) |
-               pp.Literal(constants.GrammarConstants.TEXT))
+    answerR = (pp.Literal(constants.GrammarConstants.BOOL).setParseAction(forms.FormFactory.make_bool_type) |
+               pp.Literal(constants.GrammarConstants.NUMBER).setParseAction(forms.FormFactory.make_number_type) |
+               pp.Literal(constants.GrammarConstants.TEXT).setParseAction(forms.FormFactory.make_text_type))
 
     # q :: Question _id ( answerR ) : _label
     question = (pp.Suppress("Question") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + label

@@ -1,8 +1,8 @@
 package ql.evaluator
 
-import ql.ast._
 import org.specs2.mutable.Specification
-import ql.types.VariableName
+import ql.ast._
+import types.VariableName
 
 import scalafx.collections.ObservableMap
 
