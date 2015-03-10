@@ -136,16 +136,39 @@ class EvaluatorTest extends Specification {
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
-        Question inputConditionalQuestion = new Question(new Identifier("conditional"), QuestionType.BOOLEAN, new Label("conditional"), true, Optional.empty(), Collections.emptyList())
+        Question inputConditionalQuestion = new QuestionBuilder()
+                .identifier("conditional")
+                .questionType(QuestionType.BOOLEAN)
+                .label("conditional")
+                .isEnabled(true)
+                .expression(Optional.empty())
+                .styles(Collections.emptyList())
+                .build()
+
         questionsWithinIfStatement.add(inputConditionalQuestion)
 
-        Question inputElseClauseQuestion = new Question(new Identifier("else"), QuestionType.BOOLEAN, new Label("else"), true, Optional.empty(), Collections.emptyList())
+        Question inputElseClauseQuestion = new QuestionBuilder()
+                .identifier("else")
+                .questionType(QuestionType.BOOLEAN)
+                .label("else")
+                .isEnabled(true)
+                .expression(Optional.empty())
+                .styles(Collections.emptyList())
+                .build()
+
         List<Statement> elseClauseQuestions = new ArrayList<>();
         elseClauseQuestions.add(inputElseClauseQuestion)
         Optional<ElseClause> elseClause = Optional.of(new ElseClause(elseClauseQuestions))
         IfStatement ifStatement = new IfStatement(new Boolean(false), questionsWithinIfStatement, elseClause)
 
-        def inputUnconditionalQuestion = new Question(new Identifier("unconditional"), QuestionType.BOOLEAN, new Label("unconditional"), true, Optional.empty(), Collections.emptyList())
+        def inputUnconditionalQuestion = new QuestionBuilder()
+                .identifier("unconditional")
+                .questionType(QuestionType.BOOLEAN)
+                .label("unconditional")
+                .isEnabled(true)
+                .expression(Optional.empty())
+                .styles(Collections.emptyList())
+                .build()
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
