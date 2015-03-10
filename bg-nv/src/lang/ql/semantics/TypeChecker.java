@@ -7,7 +7,6 @@ import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
-import lang.ql.semantics.errors.Message;
 import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 
@@ -27,10 +26,9 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
     public static Messages check(Form f)
     {
-        SymbolResult symbolResult = SymbolVisitor.extract(f);
-        Messages ms = symbolResult.getMessages();
+        SymbolResult symbolResult = QuestionCollector.extract(f);
 
-        if (ms.containsErrors())
+        if (symbolResult.containsErrors())
         {
             return symbolResult.getMessages();
         }

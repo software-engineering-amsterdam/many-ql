@@ -9,7 +9,7 @@ class Default(p.Page):
         self._widget = widget
         self._properties = properties
         self._property_names = Default.property_names(properties)
-        self._property_dict = Default.property_dict(properties)
+        self._property_dict = Default.property_dict(widget, properties)
 
     def pretty_print(self, level=0):
         s = "    " * level + "Default " + self._type
@@ -52,8 +52,8 @@ class Default(p.Page):
         return l
 
     @staticmethod
-    def property_dict(elements):
+    def property_dict(widget, elements):
         d = {}
         for x in elements:
             d[x.prop_name()] = x.prop_value()
-        return d
+        return {widget.widget_name(): d}

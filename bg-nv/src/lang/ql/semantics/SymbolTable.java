@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Created by bore on 13/02/15.
  */
-public class SymbolTable
+public class SymbolTable implements Iterable<String>
 {
     private Map<String, Question> symbols;
 
@@ -33,7 +33,7 @@ public class SymbolTable
         return new UndefinedType();
     }
 
-    public boolean containsQuestionId(String id)
+    public boolean containsQuestion(String id)
     {
         return this.symbols.containsKey(id);
     }
@@ -41,5 +41,15 @@ public class SymbolTable
     public Question getQuestion(String id)
     {
         return this.symbols.get(id);
+    }
+
+    public Type getQuestionType(String id)
+    {
+        return this.symbols.get(id).getType();
+    }
+
+    public Iterator<String> iterator()
+    {
+        return this.symbols.keySet().iterator();
     }
 }

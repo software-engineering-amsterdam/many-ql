@@ -1,16 +1,20 @@
 package org.uva.qls.ast;
 
 import java.util.List;
+
+import org.uva.ql.ast.BaseNode;
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.qls.ast.style.Style;
+import org.uva.utility.CodePosition;
 
-public class Page implements QLSNode {
+public class Page extends BaseNode {
 
-	private final String identifier;
+	private final Identifier identifier;
 	private final List<Section> sectionList;
 	private final List<Style> styleList;
 
-	public Page(String identifier, List<Section> sectionList, List<Style> styleList) {
-		super();
+	public Page(Identifier identifier, List<Section> sectionList, List<Style> styleList, CodePosition pos) {
+		super(pos);
 		this.identifier = identifier;
 		this.sectionList = sectionList;
 		this.styleList = styleList;
@@ -20,7 +24,7 @@ public class Page implements QLSNode {
 		return sectionList;
 	}
 
-	public String getIdentifier() {
+	public Identifier getIdentifier() {
 		return identifier;
 	}
 

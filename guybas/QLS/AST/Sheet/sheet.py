@@ -10,7 +10,7 @@ class Sheet(e.SheetElement):
         self._widget_dict = Sheet.id_widget_dict(self._pages)
         self._ids = Sheet.id_collection(self._pages)
         self._properties = Sheet.property_names(self._pages)
-        self._property_dict = Sheet.property_dict(self._pages)
+        self._property_dict = Sheet.property_dict_set(self._pages)
 
     def pretty_print(self, level=0):
         s = "    " * level + "Sheet " + self._name + "\n"
@@ -54,10 +54,16 @@ class Sheet(e.SheetElement):
         return l
 
     @staticmethod
-    def property_dict(elements):
+    def property_dict_set(elements):
         d = {}
         for x in elements:
-            print(x.is_default())
             if x.is_default():
                 d = dict(list(d.items()) + list(x.get_property_dict().items()))
         return d
+
+    @staticmethod
+    def property_dict_default(elements):
+        l = []
+        for x in elements:
+            l += x.get_widgets
+        return l

@@ -10,7 +10,6 @@ using Unary  = AST.Nodes.Expression.Unary;
 using AST.Nodes.Expression;
 using Values     = AST.Nodes.Values;
 using Label      = AST.Nodes.Labels;
-using Computation = AST.Nodes.Computation;
 
 
 namespace AST.Visitors
@@ -40,19 +39,13 @@ namespace AST.Visitors
         void Visit(Values.Bool node);
         void Visit(Values.Int node);
         void Visit(Values.String node);
-        void Visit(Values.Unknown node);
+        //void Visit(Values.Unknown node);
 
 
         //Label
         void Visit(Label.Label node);
 
-
-        //Computation
-        void Visit(Computation.Id node);
-        void Visit(Computation.Value node);
-        void Visit(Computation.Expression node);
         void Visit(Conditional conditional);
-        void Visit(Nodes.TypeName.TypeName typeName);
         void Visit(Binary.GreaterThanOrEqual greaterThanOrEqual);
         void Visit(Binary.LessThan lessThan);
         void Visit(Binary.LessThanOrEqual lessThanOrEqual);
@@ -100,21 +93,10 @@ namespace AST.Visitors
         T Visit(Values.Bool node);
         T Visit(Values.Int node);
         T Visit(Values.String node);
-        T Visit(Values.Unknown node);
 
 
         //Label
         T Visit(Label.Label node);
-
-
-        //Computation
-        T Visit(Computation.Id node);
-        T Visit(Computation.Value node);
-        T Visit(Computation.Expression node);
-
-
-
-        T Visit(Nodes.TypeName.TypeName typeName);
 
         T Visit(Nodes.Interfaces.IBinary binaryExpression);
         T Visit(Nodes.Interfaces.IUnary unaryExpression);

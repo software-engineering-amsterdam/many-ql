@@ -94,10 +94,22 @@ public class GUIRender implements IFormVisitor<JPanel> {
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");
         }	
 	}
+	public Set<String> getIDkeys() {
+		Set<String> keys = widgetsRepository.keySet();
+		return keys;
+	}
 	
 	public void putWidgetRepository(String id, SimpleQuestionUI widgets) {
 		this.widgetsRepository.put(id, widgets);
 	}
+	
+	public SimpleQuestionUI getIDSimpleQuestionUI(String id) {
+		return this.widgetsRepository.get(id);
+	}
+	
+	 public boolean containsSimpleQuestionUI(String id) {
+		 return this.widgetsRepository.containsKey(id);
+	 }
 
 	// ***** visitor's part , yeah ugly...cause i have separated it now *****
 

@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.qls.antlr.QLSBaseVisitor;
 import org.uva.qls.antlr.QLSLexer;
 import org.uva.qls.antlr.QLSParser;
-import org.uva.qls.ast.Sheet;
 
 public class Main {
 

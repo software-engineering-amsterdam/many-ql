@@ -27,4 +27,9 @@ public class Input extends Node implements ContainsExpression {
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
+
+    @Override
+    public void handleExpressionResult(Result result) {
+
+    }
 }

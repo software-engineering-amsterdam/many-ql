@@ -2,8 +2,6 @@ package nl.uva.softwcons.ql.ui.widget;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -39,11 +37,8 @@ public class RadioButtonWidget extends Widget {
         noButton.setToggleGroup(group);
 
         // TODO discuss how to fix code duplication
-        yesButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                valueProperty.setValue(converter.toValue(newValue));
-            }
+        yesButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            valueProperty.setValue(converter.toValue(newValue));
         });
     }
 

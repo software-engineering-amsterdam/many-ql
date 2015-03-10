@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Types = AST.Types;
 
 namespace AST.Nodes.Expression.Unary
 {
@@ -42,14 +43,14 @@ namespace AST.Nodes.Expression.Unary
             return "!";
         }
 
-        public IValue GetCompatibleType(Values.Bool ChildType)
+        public Types.Type GetCompatibleType(Types.BoolType ChildType)
         {
-            return new Values.Bool(true);
+            return new Types.BoolType();
         }
 
-        public IValue GetCompatibleType(IValue rightType)
+        public Types.Type GetCompatibleType(Types.Type rightType)
         {
-            return new Values.Undefined();
+            return new Types.UndefinedType();
         }
     }
 }

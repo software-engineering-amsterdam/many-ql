@@ -47,7 +47,7 @@ namespace AST.Test
 
             Console.WriteLine(tree.ToStringTree(parser));
             FormVisitor visitor = new FormVisitor();
-            FormElementContainer ast = visitor.Visit(tree);
+            IFormObjectContainer ast = visitor.Visit(tree);
 
             Evaluate();
 
@@ -71,9 +71,9 @@ namespace AST.Test
 
 
             Value v;
-            v = evaluator.Evaluate(new Add(int1, int2, "1 + 2", new PositionInText(0, 1, 2, 3)));
-            v = evaluator.Evaluate(new Subtract(int2, int1, "2 - 1", new PositionInText(0, 1, 2, 3)));
-            v = evaluator.Evaluate(new And(boo1, boo2, new PositionInText(0, 1, 2, 3)));
+            //v = evaluator.Evaluate(new Add(int1, int2, "1 + 2", new PositionInText(0, 1, 2, 3)));
+            //v = evaluator.Evaluate(new Subtract(int2, int1, "2 - 1", new PositionInText(0, 1, 2, 3)));
+            //v = evaluator.Evaluate(new And(boo1, boo2, new PositionInText(0, 1, 2, 3)));
 
 	    }
     }

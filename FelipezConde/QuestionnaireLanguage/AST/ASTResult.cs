@@ -1,4 +1,5 @@
 ﻿using AST.Nodes;
+using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
 using AST.Notification;
 using AST.Representation;
@@ -12,11 +13,11 @@ namespace AST
 {
     public class ASTResult : IASTResult
     {
-        public FormElementContainer Ast { get; private set; }
+        public IFormObjectContainer Ast { get; private set; }
         private SymbolTable table;
         private List<INotification> notifications;
 
-        public ASTResult(FormElementContainer tree)
+        public ASTResult(IFormObjectContainer tree)
         {
             this.Ast = tree;
             table = new SymbolTable();
@@ -27,12 +28,12 @@ namespace AST
 
         }
 
-        public void SetValue(Identifier key, ObjectValue value)
+        public void SetValue(Id key, ObjectValue value)
         {
-            table.SetObjectValue(key, value);   
+            table.SetObjectValue(key, value);
         }
 
-        public ObjectValue GetValue(Identifier key)
+        public ObjectValue GetValue(Id key)
         {
             return table.GetObjectValue(key);
         }

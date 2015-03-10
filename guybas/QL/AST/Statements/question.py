@@ -1,7 +1,7 @@
 # AST format of a question, initializing the IStatement
 import QL.AST.Statements.statement as statement
 import QL.Grammar.constants as constants
-import QL.CoreTools.exceptions as exceptions
+import QL.Tools.exceptions as exceptions
 from QL.GUI.Elements import *
 
 

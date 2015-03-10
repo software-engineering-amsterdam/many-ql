@@ -1,10 +1,11 @@
 import QLS.AST.Widget.widget as w
 import QL.Grammar.constants as constants
+import QLS.AST.Widget.default_settings as d
 
 
 class Textbox(w.Widget):
     def __init__(self):
-        pass
+        self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
 
     def pretty_print(self, level=0):
         return "    " * level + "Textbox \n"
@@ -12,8 +13,12 @@ class Textbox(w.Widget):
     def get_compatible(self):
         return [constants.GrammarConstants.TEXT]
 
-    def get_settings(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def set_settings(self, dictionary):
+        for x in dictionary:
+            self._properties[x] = dictionary[x]
 
-    def set_settings(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def get_settings(self):
+        return self._properties
+
+    def widget_name(self):
+        return "textbox"

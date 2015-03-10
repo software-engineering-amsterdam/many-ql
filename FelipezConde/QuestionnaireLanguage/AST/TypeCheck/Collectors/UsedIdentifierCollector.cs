@@ -13,48 +13,38 @@ using System.Threading.Tasks;
 
 namespace AST.TypeCheck.Collectors
 {
-    public class UsedIdentifierCollector : BaseVisitor<IList<Identifier>>
+    public class UsedIdentifierCollector : BaseVisitor<IList<Id>>
     {
         //selectmany flattens lists of lists.
-        public override IList<Identifier> Visit(Nodes.Form node)
+        public override IList<Id> Visit(Nodes.Form node)
         {
             return node.GetBody()
                        .SelectMany(x => x.Accept(this))
                        .ToList();
         }
 
-        public override IList<Identifier> Visit(Nodes.FormObject.Conditional node)
+        public override IList<Id> Visit(Nodes.FormObject.Conditional node)
         {
             return node.Condition.Accept(this) //Gather the Ientifiers from the condition
                    .Concat(
-                        node.Body //Gather the Identifiers from the body
+                        node.GetBody() //Gather the Identifiers from the body
                        .SelectMany(x => x.Accept(this))
                    )
                    .ToList();
         }
-        public override IList<Identifier> Visit(Nodes.FormObject.Question node)
+        public override IList<Id> Visit(Nodes.FormObject.Question node)
         {
-            List<Identifier> idList = new List<Identifier>();
+            List<Id> idList = new List<Id>();
 
             if (node.Computation != null)
                 idList.AddRange(node.Computation.Accept(this));
 
-           idList.Add(new Identifier(node, node.Identifier));
+           idList.Add(new Id(node.Identifier, node.GetPosition()));
            return idList;
         }
 
-        //Computed Question
-        public override IList<Identifier> Visit(Nodes.Computation.Expression node)
-        { return node.Accept(this); }
-        public override IList<Identifier> Visit(Nodes.Computation.Id node)
-        { 
-            return new List<Identifier> { new Identifier(node, node.Value) }; 
-        }
-        public override IList<Identifier> Visit(Nodes.Computation.Value node)
-        { return new List<Identifier>(); }
-
         //Expression
-        public override IList<Identifier> Visit(IBinary node) //Is this a hack?
+        public override IList<Id> Visit(IBinary node) //Is this a hack?
         {
             return node.Left()
                        .Accept(this)
@@ -64,19 +54,19 @@ namespace AST.TypeCheck.Collectors
                       ).ToList();
         }
 
-        public override IList<Identifier> Visit(IUnary node) //Is this a hack?
+        public override IList<Id> Visit(IUnary node) //Is this a hack?
         {
             return node.GetChildExpression().Accept(this);
         }
 
-        public override IList<Identifier> Visit(Container node)
+        public override IList<Id> Visit(Container node)
         {
-            return new List<Identifier>();
+            return new List<Id>();
         }
 
-        public override IList<Identifier> Visit(Id node)
+        public override IList<Id> Visit(Id node)
         {
-            return new List<Identifier> { new Identifier(node, node.Identifier) };
+            return new List<Id> { node };
         }
         
 

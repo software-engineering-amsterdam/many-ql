@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Values = AST.Nodes.Values;
 using Labels = AST.Nodes.Labels;
+using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Visitors
 {
@@ -20,7 +21,7 @@ namespace QuestionnaireLanguage.Visitors
         {
             this.id = id;
         }
-        public Widget VisitValue(IValue value)
+        public Widget VisitValue(Types.Type value)
         {
             return Visit((dynamic)value);
         }

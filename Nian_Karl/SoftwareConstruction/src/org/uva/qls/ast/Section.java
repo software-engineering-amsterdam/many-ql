@@ -2,29 +2,34 @@ package org.uva.qls.ast;
 
 import java.util.List;
 
-public class Section {
+import org.uva.ql.ast.BaseNode;
+import org.uva.ql.ast.expression.literal.StrLiteral;
+import org.uva.qls.ast.style.Style;
+import org.uva.utility.CodePosition;
 
-	private final String sectionTitle;
-	private final List<Section> sectionList;
+public class Section extends BaseNode{
+
+	private final StrLiteral sectionTitle;
+	private final List<Style> styleList;
 	private final List<Question> questionList;
 
-	public Section(String sectionTitle, List<Section> sectionList, List<Question> questionList) {
-		super();
+	public Section(StrLiteral sectionTitle, List<Style> styleList, List<Question> questionList,CodePosition pos) {
+		super(pos);
 		this.sectionTitle = sectionTitle;
-		this.sectionList = sectionList;
+		this.styleList = styleList;
 		this.questionList = questionList;
 	}
 
-	public String getSectionTitle() {
+	public StrLiteral getSectionTitle() {
 		return sectionTitle;
 	}
 
-	public Section getSection(int i) {
-		return sectionList.get(i);
+	public Style getStyle(int i) {
+		return styleList.get(i);
 	}
 
-	public int getSectionListSize() {
-		return sectionList.size();
+	public int getStylesize() {
+		return styleList.size();
 	}
 	
 	public Question getQuestion(int i) {

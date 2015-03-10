@@ -25,7 +25,7 @@ public class Or extends Binary {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new BoolType();
+		return new BoolType(getPosition());
 	}
 	
 }

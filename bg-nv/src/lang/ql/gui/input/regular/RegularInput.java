@@ -1,11 +1,6 @@
 package lang.ql.gui.input.regular;
 
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Control;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import lang.ql.gui.input.Input;
@@ -16,20 +11,18 @@ import lang.ql.semantics.values.Value;
 /**
  * Created by Nik on 3-3-15.
  */
-public abstract class RegularInput<T, U extends Control> extends Input<U>
+public abstract class RegularInput<T> extends Input
 {
     private Text errorField;
 
-    public RegularInput(String id, U control, Boolean visible, Boolean disabled)
+    public RegularInput(String id, Boolean visible, Boolean disabled)
     {
-        super(id, control, visible, disabled);
+        super(id, visible, disabled);
 
         this.errorField = new Text(null);
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
-
-        this.getInputNode().getChildren().add(this.errorField);
     }
 
     public abstract Value convertUserInputToValue(T userInput);

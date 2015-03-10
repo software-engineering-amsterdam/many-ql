@@ -3,10 +3,11 @@ package qls.interpreter
 import ql.ast.Form
 import ql.gui.FormBuilder
 import ql.parser.{Parser => QLParser}
-import ql.typechecker.{TypeChecker => QLTypeChecker, TypeEnvironment, DuplicateLabelsChecker}
+import ql.typechecker.{TypeChecker => QLTypeChecker, DuplicateLabelsChecker}
 import qls.ast.Section
 import qls.parser.{Parser => QLSParser}
-import qls.typechecker.{TypeChecker => QLSTypeChecker}
+import qls.typechecker.{ReferenceChecker => QLSTypeChecker}
+import types.TypeEnvironment
 
 import scala.io.Source
 
@@ -66,7 +67,8 @@ object Interpreter {
   }
 
   def typeCheckQLS(qlsAst: Section) : Unit = {
-    val typeCheckErrors = qlsTypeChecker.check(qlsAst, new TypeEnvironment())
+    val env: TypeEnvironment = Map()
+    val typeCheckErrors = qlsTypeChecker.check(qlsAst, env)
     typeCheckErrors.foreach(println)
   }
 
