@@ -3,7 +3,6 @@ package lang.qls.semantics;
 import lang.ql.gui.segment.RowStyle;
 import lang.qls.ast.rule.*;
 import lang.qls.ast.rule.widget.*;
-import org.antlr.v4.runtime.atn.RuleStartState;
 
 /**
  * Created by bore on 10/03/15.
@@ -12,15 +11,15 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Void>
 {
     private RowStyle result;
 
-    public static boolean convert(Rules rs)
+    public static RowStyle convert(Rules rs)
     {
         RulesToGui visitor = new RulesToGui();
         for (Rule r : rs)
         {
             r.accept(visitor);
         }
-        
-        return true;
+
+        return visitor.result;
     }
 
     private RulesToGui()
