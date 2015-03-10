@@ -7,6 +7,7 @@ import types.VariableName
 // Note that we require variables to be declared before being used.
 class TypeEnvironment(val env: Map[VariableName, Type] = Map()) {
 
+  // TODO: remove these methods?
   def tryGetVariable(v: Variable): Either[Error, Type] = {
     env get v.name match {
       case Some(t) => Right(t)

@@ -2,8 +2,8 @@ import QLS.AST.Widget.Options.options as op
 import QLS.AST.Widget.Options.radio as r
 import QLS.AST.Widget.Options.checkbox as c
 import QLS.AST.Widget.Options.drop_down as d
-import QLS.AST.Widget.Numbers.spinbox as s
-import QLS.AST.Widget.Numbers.slider as sl
+import QLS.AST.Widget.spinbox as s
+import QLS.AST.Widget.slider as sl
 import QLS.AST.Widget.textbox as t
 
 

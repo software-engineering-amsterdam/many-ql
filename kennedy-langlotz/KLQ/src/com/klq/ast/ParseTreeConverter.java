@@ -6,6 +6,7 @@ import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
 import com.klq.ast.impl.expr.literal.IdentifierNode;
@@ -15,6 +16,9 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.expr.value.DateValue;
+import com.klq.ast.impl.expr.value.Value;
+import com.klq.logic.question.Type;
 import com.klq.parser.KLQBaseVisitor;
 import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -81,21 +85,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     @Override
     public ANode visitDate(KLQParser.DateContext ctx) {
         String dateString = ctx.Date().getText();
-        DateTimeFormatter formatter;
 
-        //TODO Move this logic to a better location
-        if(dateString.contains(".")){
-            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
-        }
-        else if(dateString.contains("/")){
-            formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
-        }
-        else{
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
-        }
+        DateValue date = (DateValue) ExpressionUtil.createTerminalFromString(Type.DATE, dateString);
 
         //TODO discuss with Timon localdate vs date and refactor
-        DateNode dateNode = new DateNode(Date.from(LocalDate.parse(dateString, formatter).atStartOfDay(ZoneId.systemDefault()).toInstant()), formatLocation(ctx));
+        DateNode dateNode = new DateNode(date.getValue(), formatLocation(ctx));
         return dateNode;
     }
 

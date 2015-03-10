@@ -1,8 +1,9 @@
 package qls.parser
 
+import ql.ast._
+import qls.ast.Question
 import qls.ast._
 
-import ql.ast.Variable
 import ql.parser.{Parser => QLParser}
 
 import scala.util.parsing.combinator.JavaTokenParsers
@@ -16,10 +17,20 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
+  def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
+    case label ~ ps => Style(label, ps, None)
+  }
   
+  def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
+  
+  def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
+    case v ~ ss => Page(v, ss, None)
+  }
+  
+  def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
   
   def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
-    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w)
+    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, None)
   }
   
   def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
@@ -27,6 +38,12 @@ class Parser extends JavaTokenParsers {
   // question widget parsers
   def question: Parser[Question] = variable ~ widget ^^ {
     case v ~ w => Question(v, w)
+  }
+  
+  def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
+    case "boolean" => BooleanType()
+    case "number" => NumberType()
+    case "string" => StringType()
   }
   
   def widget: Parser[Widget] = widgetType ~ opt(widgetStyle) ^^ {
@@ -37,6 +54,10 @@ class Parser extends JavaTokenParsers {
     case "radio" ~ properties => Radio(properties)
     case "dropdown" ~ properties => DropDown(properties)
   } 
+  
+  def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
+    case t ~ w => DefaultWidget(t, w)
+  }
   
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 

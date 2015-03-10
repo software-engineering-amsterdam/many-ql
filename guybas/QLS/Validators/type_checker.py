@@ -18,7 +18,7 @@ class TypeChecker:
         print(TypeChecker.check_types_widgets(sheet.get_widget_dict(), form.get_type_dict()))
 
         print("Duplicate properties:")
-        print(TypeChecker.check_duplicate_properties(sheet.get_properties()))
+        print(TypeChecker.check_duplicate_properties(sheet.get_property_names()))
 
     @staticmethod
     def check_existent(sheet_ids, form_ids):

@@ -21,6 +21,9 @@ class Page(e.SheetElement):
     def get_widget_dict(self):
         return self._widget_dict
 
+    def is_default(self):
+        return False
+
     @staticmethod
     def id_collection(sections):
         ids = []

@@ -38,7 +38,7 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 		this.values = values;
 	}
 	
-	public static Value getValue(Expression expr, ValueTable values) {
+	public static Value evaluate(Expression expr, ValueTable values) {
 		ExpressionEvaluator evaluator = new ExpressionEvaluator(values);
 		return expr.accept(evaluator);
 	}
