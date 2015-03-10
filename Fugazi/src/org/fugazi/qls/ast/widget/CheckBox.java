@@ -20,6 +20,7 @@ public class CheckBox extends Widget {
 
     @Override
     public void applyStyle(Style _style) {
+        this.style = _style;
         // todo
     }
 

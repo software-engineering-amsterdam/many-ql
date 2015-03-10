@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 
 import java.util.ArrayList;
@@ -16,16 +17,18 @@ public abstract class Widget extends AbstractASTNode {
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    private String label;
-    private Style style;
+    protected String label;
+    protected Style style;
 
     public Widget(int _lineNum) {
         super(_lineNum);
         this.label = "";
+        this.style = new UndefinedStyle();
     }
 
     public Widget() {
         this.label = "";
+        this.style = new UndefinedStyle();
     }
     
     public Font getDefaultFont() {
@@ -54,6 +57,10 @@ public abstract class Widget extends AbstractASTNode {
         return new Style(defaultStyles);
     }
 
+    public void resetStyleToDefault() {
+        this.style = getDefaultStyle();
+    }
+
     public abstract void applyStyle(Style _style);
 
     public abstract List<Type> getSupportedQuestionTypes();
@@ -64,7 +71,7 @@ public abstract class Widget extends AbstractASTNode {
         this.label = _label;
     }
 
-    public boolean isNull() {
+    public boolean isUndefined() {
         return false;
     }
 }

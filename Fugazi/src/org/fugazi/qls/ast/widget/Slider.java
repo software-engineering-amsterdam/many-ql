@@ -21,6 +21,7 @@ public class Slider extends Widget {
 
     @Override
     public void applyStyle(Style _style) {
+        this.style = _style;
         // todo
     }
 
