@@ -14,14 +14,14 @@ namespace AST.Nodes.FormObject
     public class Question : ASTNode, IFormObject
     {
         public ILabel Label {get; private set;}
-        public IComputation Computation {get; private set;}
+        public IExpression Computation {get; private set;}
         public string Identifier {get; private set;}
         public Values.Value Value { get; private set; }
 
         public Question(string identifier,
                         Value value,
                         ILabel label,
-                        IComputation computation,
+                        IExpression computation,
                         PositionInText positionInText)
             : base(positionInText)
         {

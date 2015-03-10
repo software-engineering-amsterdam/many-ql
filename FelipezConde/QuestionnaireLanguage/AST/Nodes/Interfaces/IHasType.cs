@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Types = AST.Types;
 
-namespace AST.Resources
+namespace AST.Nodes.Interfaces
 {
-    public enum Types
+    public interface IHasType
     {
-        BOOL,
-        STRING,
-        INT,
-        PARENT,
-        UNDEFINED
+        Types.Type RetrieveType();
     }
 }

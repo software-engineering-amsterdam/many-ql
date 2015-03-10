@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface Visualizable {
 
     Optional<? extends Pane> visualize(Pane parent);
+
+    void isVisible(boolean visible);
 }

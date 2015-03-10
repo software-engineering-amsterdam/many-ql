@@ -14,7 +14,7 @@ class TypeChecker {
   }
 
   def check(q: Question, env: TypeEnvironment): Option[Error] = {
-    env.tryGetVariable(q.v) match {
+    env.tryGetVariable(q.variable) match {
       case Right(_) => None
       case Left(e) => Some(e)
     }

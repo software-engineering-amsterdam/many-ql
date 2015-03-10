@@ -38,16 +38,8 @@ namespace AST.Evaluation
         public Value GetValue(string key)
         {
             Value result = null;
-            try
-            {
-                result = this.identifierLookup[key];
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("Key not found");
-                result = new Null();
-            }
-
+            result = this.identifierLookup[key];
+            
             return result;
         }
 
@@ -183,43 +175,14 @@ namespace AST.Evaluation
         }
         #endregion
 
-        #region Computation
-        
-        public override Value Visit(Nodes.Computation.Id node)
-        {
-            return new Nodes.Values.String(node.Value);
-        }
-
-        public override Value Visit(Nodes.Computation.Value node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Value Visit(Nodes.Computation.Expression node)
-        {
-            return node.Accept(this);
-        }
-
-        #endregion
-
         public override Value Visit(Id node)
         {
             return this.GetValue(node.Identifier);
         }
-
-        public override Value Visit(Nodes.Values.Unknown node)
-        {
-            return node.Accept(this);
-        }
-
+        
         public override Value Visit(Nodes.Labels.Label node)
         {
             return new Nodes.Values.String(node.Value);
-        }
-
-        public override Value Visit(Nodes.TypeName.TypeName node)
-        {
-            return new Nodes.Values.String(node.Representation);
         }
 
     }

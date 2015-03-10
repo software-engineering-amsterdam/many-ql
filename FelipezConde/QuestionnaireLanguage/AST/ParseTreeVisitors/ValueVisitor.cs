@@ -10,20 +10,20 @@ using AST.Helpers;
 using Values = AST.Nodes.Values;
 namespace AST.ParseTreeVisitors
 {
-    public class ValueVisitor : QLMainBaseVisitor<IValue>
+    public class ValueVisitor : QLMainBaseVisitor<ILiteral>
     {
-        public override IValue VisitTrueBool(QLMainParser.TrueBoolContext context)
+        public override ILiteral VisitTrueBool(QLMainParser.TrueBoolContext context)
         {
             string show = context.TRUE().GetText();
             return new Values.Bool(true);
         }
 
-        public override IValue VisitFalseBool(QLMainParser.FalseBoolContext context)
+        public override ILiteral VisitFalseBool(QLMainParser.FalseBoolContext context)
         {
             return new Values.Bool(false);
         }
 
-        public override IValue VisitStringValue(QLMainParser.StringValueContext context)
+        public override ILiteral VisitStringValue(QLMainParser.StringValueContext context)
         {
             string stringValue = context.@string().STRINGLITERAL().GetText();
 
@@ -31,7 +31,7 @@ namespace AST.ParseTreeVisitors
                                      ); 
         }
 
-        public override IValue VisitIntValue(QLMainParser.IntValueContext context)
+        public override ILiteral VisitIntValue(QLMainParser.IntValueContext context)
         {
             string intValue = context.@int().INTLITERAL().GetText();
 

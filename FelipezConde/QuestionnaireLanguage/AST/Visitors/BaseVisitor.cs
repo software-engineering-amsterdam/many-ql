@@ -118,36 +118,16 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Values.Unknown node)
-        {
-            throw new NotImplementedException();
-        }
+        //public virtual T Visit(Nodes.Values.Unknown node)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public virtual T Visit(Nodes.Labels.Label node)
         {
             throw new NotImplementedException();
         }
-
-        public virtual T Visit(Nodes.Computation.Id node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Visit(Nodes.Computation.Value node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Visit(Nodes.Computation.Expression node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Visit(Nodes.TypeName.TypeName typeName)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public virtual T Visit(Nodes.Interfaces.IBinary binaryExpression)
         {
             throw new NotImplementedException();
