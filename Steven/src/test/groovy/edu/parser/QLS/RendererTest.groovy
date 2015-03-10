@@ -2,13 +2,11 @@ package edu.parser.QLS
 
 import edu.exceptions.EvaluationException
 import edu.gui.Renderer
-import edu.nodes.QuestionType
-import edu.parser.QL.nodes.expression.Identifier
-import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QLS.nodes.statement.Statement
+import edu.parser.QuestionBuilder
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -30,8 +28,8 @@ class RendererTest extends Specification {
         Stylesheet stylesheet = new Stylesheet(new edu.parser.QLS.nodes.Identifier("title"), statements)
 
         List<Question> questions = new ArrayList<>()
-        questions.add(createQuestion("iden1"))
-        questions.add(createQuestion("iden2"))
+        questions.add(new QuestionBuilder().identifier("iden1").isEnabled(true))
+        questions.add(new QuestionBuilder().identifier("iden2").isEnabled(true))
 
         when:
         evaluator.confirmAllQuestionsAreInStylesheet(stylesheet, questions)
@@ -39,10 +37,6 @@ class RendererTest extends Specification {
         then:
         def exception = thrown(EvaluationException.class)
         Assert.assertEquals(true, exception.message.contains(Renderer.NOT_FOUND_QUESTIONS))
-    }
-
-    private Question createQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList())
     }
 
     private QLSQuestion createQLSQuestion(String identifier) {

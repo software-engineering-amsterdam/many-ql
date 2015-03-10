@@ -24,10 +24,6 @@ class EvaluatorTest extends Specification {
         evaluator = new Evaluator();
     }
 
-//    Question getQuestion(String identifier) {
-//        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty(), Collections.emptyList());
-//    }
-
     def "Should return provided unconditional question"() {
         when:
         List<Statement> statements = new ArrayList<>();
