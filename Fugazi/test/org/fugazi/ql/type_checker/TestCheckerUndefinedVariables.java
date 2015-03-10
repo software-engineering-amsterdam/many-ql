@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
+public class TestCheckerUndefinedVariables extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {

@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerNonBoolConditionsTest extends TypeCheckerBaseTest {
+public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "nonBoolConditions.ql";
+        this.fileName = "cyclicDependencies.ql";
         super.setUp();
     }
 
@@ -31,25 +31,34 @@ public class TestCheckerNonBoolConditionsTest extends TypeCheckerBaseTest {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(1, errors.size());
+        assertEquals(6, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
-        List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.NON_BOOL_CONDITION);
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
-        // no custom arrayEquals method
-        assertEquals(expectedTypes.size(), receivedTypes.size());
-        for (ASTNodeIssueType expected : expectedTypes) {
-            assertTrue(receivedTypes.contains(expected));
+        // we expect two of each kind
+        int cyclicDeps = 0, undefined = 0, wrongAssignment = 0;
+        for (ASTNodeIssueType received : receivedTypes) {
+            if (received.equals(ASTNodeIssueType.ERROR.CYCLIC)) {
+                cyclicDeps++;
+            }  else if (received.equals(ASTNodeIssueType.ERROR.UNDEFINED)) {
+                undefined++;
+            }  else if (received.equals(ASTNodeIssueType.ERROR.TYPE_MISMATCH)) {
+                wrongAssignment++;
+            }
         }
+
+        assertEquals(2, cyclicDeps);
+        assertEquals(2, undefined);
+        assertEquals(2, wrongAssignment);
+
     }
 
     @Test

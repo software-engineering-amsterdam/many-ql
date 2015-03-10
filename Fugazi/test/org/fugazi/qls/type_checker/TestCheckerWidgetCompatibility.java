@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by lukaszharezlak on 11/03/15.
  */
-public class TestCheckerWidgetCompatibility  extends QlsTypeCheckerBaseTest {
+public class TestCheckerWidgetCompatibility  extends TestQlsTypeCheckerBase {
 
     @Before
     public void setUp() {

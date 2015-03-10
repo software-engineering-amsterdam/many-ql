@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.File;
 
 @Ignore("This is a base class.")
-public abstract class TypeCheckerBaseTest {
+public abstract class TestQlTypeCheckerBase {
 
     protected QLTypeChecker qlChecker;
     protected Form form;

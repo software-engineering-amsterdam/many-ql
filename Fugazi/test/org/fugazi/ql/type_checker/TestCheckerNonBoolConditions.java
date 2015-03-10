@@ -1,6 +1,5 @@
 package org.fugazi.ql.type_checker;
 
-
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.junit.Before;
@@ -13,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerDuplicateConflictingQuestionsTest extends TypeCheckerBaseTest {
+public class TestCheckerNonBoolConditions extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "duplicateConflictingQuestions.ql";
+        this.fileName = "nonBoolConditions.ql";
         super.setUp();
     }
 
@@ -41,7 +40,7 @@ public class TestCheckerDuplicateConflictingQuestionsTest extends TypeCheckerBas
 
         List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.DUPLICATE);
+        expectedTypes.add(ASTNodeIssueType.ERROR.NON_BOOL_CONDITION);
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());

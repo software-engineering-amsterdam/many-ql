@@ -1,4 +1,5 @@
-package org.fugazi.ql.type_checker;
+package org.fugazi.qls.type_checker;
+
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -12,58 +13,47 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCyclicDependenciesTest extends TypeCheckerBaseTest {
+public class TestCheckerUnplacedQuestions extends TestQlsTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "cyclicDependencies.ql";
+        this.qlsFileName = "unplacedQuestions.qls";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
-        boolean formCorrect = qlChecker.isFormCorrect();
+        boolean formCorrect = qlsChecker.isFormCorrect();
         assertFalse(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeIssue> errors = qlChecker.getErrors();
+        List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(6, errors.size());
+        assertEquals(5, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeIssue> errors = qlChecker.getErrors();
+        List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
+        ASTNodeIssueType expectedType = ASTNodeIssueType.QLS_ERROR.MISSING_STYLE;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
-        // we expect two of each kind
-        int cyclicDeps = 0, undefined = 0, wrongAssignment = 0;
+        // no custom arrayEquals method
         for (ASTNodeIssueType received : receivedTypes) {
-            if (received.equals(ASTNodeIssueType.ERROR.CYCLIC)) {
-                cyclicDeps++;
-            }  else if (received.equals(ASTNodeIssueType.ERROR.UNDEFINED)) {
-                undefined++;
-            }  else if (received.equals(ASTNodeIssueType.ERROR.TYPE_MISMATCH)) {
-                wrongAssignment++;
-            }
+            assertTrue(received.equals(expectedType));
         }
-
-        assertEquals(2, cyclicDeps);
-        assertEquals(2, undefined);
-        assertEquals(2, wrongAssignment);
-
     }
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
+        List<ASTNodeIssue> warnings = qlsChecker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }

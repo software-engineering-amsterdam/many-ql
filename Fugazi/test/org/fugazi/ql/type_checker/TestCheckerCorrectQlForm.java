@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerCorrectQlForm extends TypeCheckerBaseTest {
+public class TestCheckerCorrectQlForm extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {

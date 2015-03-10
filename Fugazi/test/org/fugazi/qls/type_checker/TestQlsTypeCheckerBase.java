@@ -1,7 +1,7 @@
 package org.fugazi.qls.type_checker;
 
 
-import org.fugazi.ql.type_checker.TypeCheckerBaseTest;
+import org.fugazi.ql.type_checker.TestQlTypeCheckerBase;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Ignore("This is a base class.")
-public abstract class QlsTypeCheckerBaseTest extends TypeCheckerBaseTest {
+public abstract class TestQlsTypeCheckerBase extends TestQlTypeCheckerBase {
 
     protected QLSTypeChecker qlsChecker;
     protected String qlsInputFile;

@@ -12,47 +12,48 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
+public class TestCheckerDuplicateLabels extends TestQlTypeCheckerBase {
 
     @Before
     public void setUp() {
-        this.fileName = "invalidOperandTypes.ql";
+        this.fileName = "duplicateLabels.ql";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
         boolean formCorrect = qlChecker.isFormCorrect();
-        assertFalse(formCorrect);
+        assertTrue(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
-        assertFalse(errors.isEmpty());
-        assertEquals(15, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
-    public void testErrorTypes() throws Exception {
-        List<ASTNodeIssue> errors = qlChecker.getErrors();
+    public void testWarningsCount() throws Exception {
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
+        assertFalse(warnings.isEmpty());
+        assertEquals(1, warnings.size());
+    }
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.ERROR.TYPE_MISMATCH;
+    @Test
+    public void testWarningTypes() throws Exception {
+        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
+        assertFalse(warnings.isEmpty());
+
+        ASTNodeIssueType expectedType = ASTNodeIssueType.WARNING.DUPLICATE_LABEL;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
-        for (ASTNodeIssue error: errors) {
-            receivedTypes.add(error.getErrorType());
+        for (ASTNodeIssue warning: warnings) {
+            receivedTypes.add(warning.getErrorType());
         }
         // no custom arrayEquals method
         for (ASTNodeIssueType received : receivedTypes) {
             assertTrue(received.equals(expectedType));
         }
-    }
-
-    @Test
-    public void testNoWarnings() throws Exception {
-        List<ASTNodeIssue> warnings = qlChecker.getWarnings();
-        assertTrue(warnings.isEmpty());
     }
 }
