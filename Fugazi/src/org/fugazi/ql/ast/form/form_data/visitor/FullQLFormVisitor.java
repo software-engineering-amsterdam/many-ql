@@ -218,10 +218,6 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
      * =======================
      */
 
-    /*
-    Placeholders for erros handling. Every implementing class will need it.
-     */ //TODO is this a safe assumption?
-
     public List<ASTNodeIssue> getErrors() {
         return this.astIssueHandler.getErrors();
     }
@@ -230,4 +226,5 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
     }
     public boolean hasErrors() {return this.astIssueHandler.hasErrors();}
     public boolean hasWarnings() {return this.astIssueHandler.hasWarnings();}
+    public void clearErrorsAndWarnings(){ this.astIssueHandler.clearErrorsAndWarnings(); }
 }

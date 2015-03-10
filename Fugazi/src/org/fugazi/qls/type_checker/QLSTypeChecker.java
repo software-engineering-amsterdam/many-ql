@@ -148,6 +148,10 @@ public class QLSTypeChecker {
         this.qlsStyleSheetData = _qlsSheetData;
         this.qlFormData = _qlFormData;
 
+        // clear errors and warnings
+        // (so that multiple checks can be performed on one instance)
+        this.clearErrorsAndWarnings();
+
         this.checkForUndefinedQuestions();
         this.checkIfAllQuestionsPlaced();
         this.checkForMultipleQuestionPlacements();
@@ -173,5 +177,9 @@ public class QLSTypeChecker {
     public List<ASTNodeIssue> getWarnings() {
         List<ASTNodeIssue> warnings = this.astIssueHandler.getWarnings();
         return warnings;
+    }
+
+    public void clearErrorsAndWarnings() {
+        this.astIssueHandler.clearErrorsAndWarnings();
     }
 }
