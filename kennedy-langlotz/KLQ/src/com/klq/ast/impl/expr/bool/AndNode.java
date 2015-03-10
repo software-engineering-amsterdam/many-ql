@@ -1,20 +1,31 @@
 package com.klq.ast.impl.expr.bool;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
-import com.klq.ast.impl.expr.ABinaryExprNode;
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.AValueNode;
+import com.klq.ast.impl.expr.literal.BooleanNode;
+
+import java.util.Map;
 
 /**
  * Created by Juriaan on 22-2-2015.
  */
 public class AndNode extends ABooleanNode {
 
-    public AndNode(ANode leftChild, ANode rightChild, String location) {
+    public AndNode(AExpression leftChild, AExpression rightChild, String location) {
         super(leftChild, rightChild, location);
     }
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
+        BooleanNode left = (BooleanNode)(getLeftChild().evaluate(variableTable));
+        BooleanNode right = (BooleanNode) (getRightChild().evaluate(variableTable));
+
+        return new BooleanNode(left.getValue() && right.getValue(), "");
     }
 }

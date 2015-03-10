@@ -1,8 +1,9 @@
 package org.fugazi.ql.type_checker;
 
-import org.fugazi.ql.ast.ASTBuilder;
+import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -14,7 +15,7 @@ import java.io.File;
 @Ignore("This is a base class.")
 public abstract class TypeCheckerBaseTest {
 
-    protected TypeChecker checker;
+    protected QLTypeChecker checker;
     protected Form form;
 
     protected String inputFile;
@@ -31,8 +32,10 @@ public abstract class TypeCheckerBaseTest {
         }
         this.filePath = this.path.concat(this.fileName);
         this.inputFile = new File("").getAbsolutePath().concat(this.filePath);
-        checker = new TypeChecker();
-        ASTBuilder astBuilder = null;
+        checker = new QLTypeChecker();
+        QLASTBuilder astBuilder = null;
+        checker = new QLTypeChecker();
+        QLASTBuilder QLASTBuilder = null;
 
         // load a form
         try {
@@ -40,15 +43,16 @@ public abstract class TypeCheckerBaseTest {
             if (inputFile != null)
                 input = new FileInputStream(inputFile);
             // Create The AST Builder.
-            astBuilder = new ASTBuilder(input);
+            QLASTBuilder = new QLASTBuilder(input);
         } catch (IOException  ex) {
             ex.printStackTrace();
         }
 
         // Build the AST.
-        form = astBuilder.buildForm();
+        form = QLASTBuilder.buildForm();
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(form);
+
         // perform type check
-        // TODO before class
-        checker.checkForm(form);
+        checker.checkForm(form, formDataStorage);
     }
 }

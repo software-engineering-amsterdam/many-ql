@@ -2,6 +2,7 @@ package ast.expression.variables;
 
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.Type;
 
 
 public class Id extends Expression {
@@ -38,5 +39,11 @@ public class Id extends Expression {
 		 }
 		 return false;
 	 }
+
+	@Override
+	public Type getExpressionType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

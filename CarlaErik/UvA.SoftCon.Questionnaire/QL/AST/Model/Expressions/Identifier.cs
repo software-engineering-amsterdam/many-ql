@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions
 {
     /// <summary>
     /// A name that uniquely defines or refers to a variable or question.
     /// </summary>
-    public class Identifier : Node, IExpression
+    public class Identifier : QLNode, IExpression
     {
         public string Name
         {

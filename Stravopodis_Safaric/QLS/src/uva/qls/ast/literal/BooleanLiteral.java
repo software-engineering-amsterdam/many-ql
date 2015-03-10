@@ -1,5 +1,6 @@
 package uva.qls.ast.literal;
 
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.BooleanValue;
 import uva.qls.ast.CodeLines;
 import uva.qls.supporting.Tuple;
@@ -15,6 +16,11 @@ public class BooleanLiteral extends Literal {
 	
 	public BooleanLiteral(CodeLines _codeLines){
 		super(_codeLines);
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitBooleanLiteral(this);
 	}
 
 	@Override

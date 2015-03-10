@@ -31,7 +31,7 @@ import org.fugazi.ql.parser.QLParser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
 
     private final HashMap<String, Type> identifiers = new HashMap<>();
 
@@ -243,8 +243,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public BOOL visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        Boolean value = Boolean.parseBoolean(ctx.BOOLEAN().getText());
+    public BOOL visitBoolExpression(@NotNull QLParser.BoolExpressionContext ctx) {
+        Boolean value = Boolean.parseBoolean(ctx.BOOL().getText());
         return new BOOL(value, this.getLineNumber(ctx));
     }
     

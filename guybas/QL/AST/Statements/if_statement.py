@@ -5,109 +5,131 @@ import QL.Main.converters as converters
 
 class IfBlock(statement.IStatement):
 
-    # Override
+    # init
     def __init__(self, condition, statements):
-        self.condition = condition
-        self.statements = statements
-        self.element = None
+        self._condition = condition
+        self._statements = statements
+        self._element = None
+        self._parent_id = None
+        self._expressions = IfBlock.expression_collection(self._condition, self._statements)
+        self._statement_dict = IfBlock.statement_dict(self._statements)
+        self._id_type_dict = IfBlock.id_type_collection(self._statements)
 
-    # Override
+    # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self.condition.pretty_print(0) + ")"
-        for x in self.statements:
+        s = "\n" + "   " * level + "If (" + self._condition.pretty_print(0) + ")"
+        for x in self._statements:
             s += "   " * level + x.pretty_print(level + 1)
         return s
 
-    # Override
+    # return all ids in the statement
     def id_collection(self):
         ids = []
-        for x in self.statements:
+        for x in self._statements:
             ids += x.id_collection()
         return ids
 
-    # Override
+    # return all labels in the statement
     def label_collection(self):
         labels = []
-        for x in self.statements:
+        for x in self._statements:
             labels += x.label_collection()
         return labels
 
-    # Override
+    # return if the statement is a conditional
     def is_conditional(self):
         return True
 
-    # Override
-    def dependency_collection(self, dependencies):
+    # return all the _dependencies in the statement of other _statements
+    def get_dependency_collection(self, dependencies):
         ids = self.id_collection()
         for i in ids:
             if i in dependencies:
-                dependencies[i] = dependencies[i] + self.condition.get_dependencies()
+                dependencies[i] = dependencies[i] + self._condition.get_dependencies()
             else:
-                dependencies[i] = self.condition.get_dependencies()
-        for x in self.statements:
-            dependencies = dict(list(dependencies.items()) + list(x.dependency_collection(dependencies).items()))
+                dependencies[i] = self._condition.get_dependencies()
+        for x in self._statements:
+            dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies
 
-    # Override
+    # return all sub (expressions)
     def return_expressions(self):
-        s = [self.condition]
-        for x in self.statements:
-            s += x.return_expressions()
-        return s
+        return self._expressions
 
-    # Override
+    # Get the parent _id of the statement
     def get_parent_id(self):
-        return self.parent_id
+        return self._parent_id
 
-    # Override
+    # set the parent _id, only set once
     def set_parent_id(self, pid):
-        self.parent_id = pid
+        self._parent_id = pid
         m = converters.Converters.get_md5(str(self))
-        for s in self.statements:
+        for s in self._statements:
             s.set_parent_id(m)
-            s.set_parent_condition(self.condition)
+            s.set_parent_condition(self._condition)
 
-    # Override
+    # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
-        for s in self.statements:
+        for s in self._statements:
             c = s.set_order(c)
         return c
 
     def set_element(self, gui):
-        ...
+        pass
+
+    # return a dictionary of the ids as keys and types as value in the statement
+    def get_id_type_collection(self):
+        return self._id_type_dict
+
+    # Get the _order of elements in the statement
+    def get_order(self):
+        return -1
+
+    def get_element(self):
+        return self._element
+
+    def get_statement_dict(self):
+        return self._statement_dict
 
     def set_parent_condition(self, condition):
-        ...
+        pass
 
-    # Override
-    def id_type_collection(self):
-        d = {}
-        for s in self.statements:
-            d = dict(list(d.items()) + list(s.id_type_collection().items()))
-        return d
-
-    # Getters of if statements
+    # Getters of if _statements
     def get_c_statements(self):
-        return self.statements
+        return self._statements
 
     def get_id(self):
         return None
 
     def get_condition(self):
-        return self.condition
+        return self._condition
 
     def get_str_condition(self):
-        return self.condition.pretty_print()
+        return self._condition.pretty_print()
 
     def get_e_statements(self):
         return []
 
-    def get_statement_dict(self):
+    @staticmethod
+    def expression_collection(condition, statements):
+        s = [condition]
+        for x in statements:
+            s += x.return_expressions()
+        return s
+
+    @staticmethod
+    def statement_dict(statements):
         d = {}
-        for s in self.statements:
+        for s in statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
-    def get_element(self):
-        return self.element
+    @staticmethod
+    def id_type_collection(statements):
+        d = {}
+        for s in statements:
+            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+        return d
+
+

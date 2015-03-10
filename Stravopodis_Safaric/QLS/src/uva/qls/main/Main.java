@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.qls.parser.*;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.visitor.*;
 import uva.qls.ast.*;
 
@@ -26,7 +27,8 @@ public class Main {
 		QLSMainVisitor visitor = new QLSMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		System.out.println(((Prog)ast).toString());
+		StatementVisitor<Object> v = new Visitor();
+		v.visitProg((Prog)ast);
 	}
 	
 }

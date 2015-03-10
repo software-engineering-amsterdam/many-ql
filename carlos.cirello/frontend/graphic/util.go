@@ -12,6 +12,20 @@ import (
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, invisible bool) {
 
+	container := g.root
+
+	lenIdx := len(g.questionIndex[newFieldName]) - 1
+	for k, v := range g.questionIndex[newFieldName] {
+		if v == "root" {
+			continue
+		}
+		container = container.ObjectByName(v)
+		if k < lenIdx {
+			container = container.ObjectByName(v + "View")
+		}
+	}
+	g.targetContainer = container
+
 	var question qml.Object
 	switch newFieldType {
 	default:
@@ -49,9 +63,9 @@ func (g *Gui) hideQuestion(fieldName string) {
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 
-func startQMLengine(appName string) qml.Object {
+func startQMLengine(appName, tabContainer string) qml.Object {
 	engine := qml.NewEngine()
-	cradleQML := renderCradle(appName)
+	cradleQML := renderCradle(appName, tabContainer)
 	cradle, err := engine.LoadString("cradle.qml", cradleQML)
 	if err != nil {
 		log.Fatal("Fatal error while parsing cradle.qml:", err)

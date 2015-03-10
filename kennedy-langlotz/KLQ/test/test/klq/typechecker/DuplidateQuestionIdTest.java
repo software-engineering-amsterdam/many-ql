@@ -2,8 +2,7 @@ package test.klq.typechecker;
 
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
-import com.klq.ast.impl.expr.StringNode;
-import com.klq.logic.controller.Store;
+import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.typecheker.TypeChecker;
 import com.klq.typecheker.error.NotUniqueID;
 import org.junit.Before;

@@ -1,12 +1,11 @@
 package com.klq.gui;
 
-import com.klq.logic.controller.NoSuchQuestionException;
+import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.logic.controller.Store;
-import com.klq.logic.expression.AExpression;
-import com.klq.logic.expression.util.ExpressionUtil;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
+import com.klq.logic.value.Value;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -100,8 +99,8 @@ public class QuestionPane extends GridPane {
     private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
         for (int i=0; i< optionSet.size(); i++) {
-            AExpression answer = optionSet.get(i);
-            RadioButton rb = new RadioButton(answer.getContent());
+            Value answer = optionSet.get(i);
+            RadioButton rb = new RadioButton(answer.getValue().toString());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);
             rb.setToggleGroup(group);
@@ -225,15 +224,11 @@ public class QuestionPane extends GridPane {
     }
 
     private void questionAnswered(String result) {
-        AExpression expr = null;
-        if (!result.trim().isEmpty())
-            expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-        try {
-            store.updateAnswer(question.getId(), expr);
-        } catch (NoSuchQuestionException nsq){
-            System.err.println(nsq.getMessage());
-            //TODO notify user
-        }
+        if (result.trim().isEmpty())
+            return;
+
+        Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
+        store.updateAnswer(question.getId(), expr);
     }
 
     private ChangeListener<Boolean> highlightHandler(final TextField input){

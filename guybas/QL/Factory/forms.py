@@ -1,12 +1,12 @@
 # Factory which expects tokens and uses the ast classes to return a parsed form
-# Everything is static (pipeline style)
+# Everything is static (no state)
 
 import QL.AST.Statements.question as question
 import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
 import QL.AST.Statements.assignment as assignment
-
 import QL.AST.form as form
+import QL.Main.converters as converter
 
 
 class FormFactory:
@@ -48,12 +48,18 @@ class FormFactory:
 
     @staticmethod
     def make_assignment(tokens):
-        return assignment.Assignment(tokens[0], tokens[1], tokens[2])
+        qid = tokens[0]
+        qtype = tokens[1]
+        expression = tokens[2]
+        return assignment.Assignment(qid, qtype, expression)
 
     @staticmethod
     def make_form(tokens):
         name = tokens[0]
         if len(tokens) > 2:
-            return form.Form(name, FormFactory.make_sentence(tokens[1]), tokens[2])
+            introduction = FormFactory.make_sentence(tokens[1])
+            statements = tokens[2]
+            return form.Form(name, introduction, statements)
         else:
-            return form.Form(name, "", tokens[1])
+            statements = tokens[1]
+            return form.Form(name, "", statements)

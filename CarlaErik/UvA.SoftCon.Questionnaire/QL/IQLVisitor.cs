@@ -19,6 +19,7 @@ namespace UvA.SoftCon.Questionnaire.QL
         void Visit(BooleanLiteral literal);
         void Visit(IntegerLiteral literal);
         void Visit(StringLiteral literal);
+        void Visit(DateLiteral literal);
         void Visit(Question question);
         void Visit(Declaration declaration);
         void Visit(Assignment assignment);
@@ -47,6 +48,7 @@ namespace UvA.SoftCon.Questionnaire.QL
         T Visit(BooleanLiteral literal);
         T Visit(IntegerLiteral literal);
         T Visit(StringLiteral literal);
+        T Visit(DateLiteral literal);
         T Visit(Question question);
         T Visit(Declaration declaration);
         T Visit(Assignment assignment);

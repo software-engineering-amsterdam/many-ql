@@ -2,7 +2,7 @@ package lang.ql.gui.canvas;
 
 import lang.ql.gui.GuiElement;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.gui.line.Line;
+import lang.ql.gui.section.Section;
 
 import java.util.List;
 
@@ -12,20 +12,20 @@ import java.util.List;
 public class Canvas extends GuiElement
 {
     private String name;
-    private List<Line> lines;
+    private List<Section> sections;
 
-    public Canvas(String name, List<Line> lines)
+    public Canvas(String name, List<Section> sections)
     {
         super();
         this.name = name;
-        this.lines = lines;
+        this.sections = sections;
     }
 
-    public Canvas(String name, List<Line> lines, Boolean visible)
+    public Canvas(String name, List<Section> sections, Boolean visible)
     {
         super(visible);
         this.name = name;
-        this.lines = lines;
+        this.sections = sections;
     }
 
     public <T> T accept(ModelVisitor<T> visitor)
@@ -39,8 +39,8 @@ public class Canvas extends GuiElement
         return name;
     }
 
-    public List<Line> getLines()
+    public List<Section> getSections()
     {
-        return lines;
+        return sections;
     }
 }

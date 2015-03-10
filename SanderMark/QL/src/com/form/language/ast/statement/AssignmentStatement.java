@@ -22,12 +22,11 @@ public class AssignmentStatement implements Statement {
 	public Expression expression;
 	private Token tokenInfo;
 	
-	public AssignmentStatement(String id, Type type, Expression expression, Token tokenInfo) {
+	public AssignmentStatement(String id, Type type, Expression expression) {
 		super();
 		this.id = id;
 		this.type = type;
 		this.expression = expression;
-		this.tokenInfo = tokenInfo;
 	}
 
 	@Override
@@ -57,7 +56,8 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
 		// TODO Auto-generated method stub
 		
 	}

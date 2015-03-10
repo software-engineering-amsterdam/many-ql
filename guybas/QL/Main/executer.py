@@ -1,18 +1,14 @@
 import QL.Grammar.form as form
-import QL.Main.gui as g
+import QL.Runtime.gui as g
+import QL.Validators.type_checker as type_checker
+import QL.Runtime.form as rform
 
-formAsParseResults = form.FormFormat.form.ignore(form.basic_types.BasicTypes.comment).parseFile("ql_example.ql")
+formAsParseResults = form.FormFormat.form.ignore(form.basic_types.BasicTypes.comment).parseFile("example.ql")
 form = form.forms.FormFactory.make_form(formAsParseResults)
-form.set_statement_ids()
-# print(form.pretty_print())
-#typeChecker = TypeChecker(form)
 
-##
-d = form.get_statement_dict()
-for i in d:
-    if d[i]:
-        print(d[i].get_parent_condition().pretty_print())
-##
+typeChecker = type_checker.TypeChecker(form)
+#print(type(form.get_statements()[0]))
+#run_time_form = rform.RForm(form.get_name(), form.get_introduction(), form.get_statements())
 
 gui = g.QuestionnaireGUI(form)
 gui.generate_gui()

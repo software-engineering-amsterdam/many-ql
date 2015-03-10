@@ -3,6 +3,7 @@ package ast.expression.arithmetic;
 import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.DigitsType;
 
 public class SubstractionExpression extends BinaryExpression {
 		
@@ -17,7 +18,12 @@ public class SubstractionExpression extends BinaryExpression {
 		
 	@Override
 	public String toString(){
-		return this.getLeftExpression().toString() +  "-" + this.getRightExpression().toString();
+		return this.getLeftExpression().toString() +  " - " + this.getRightExpression().toString();
+	}
+
+	@Override
+	public DigitsType getExpressionType() {
+		return new DigitsType();
 	}	
 }
 

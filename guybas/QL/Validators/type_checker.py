@@ -1,14 +1,15 @@
 # Type Checker
 import collections
-
+import QL.Grammar.constants as gconstants
+import QL.AST.Elements.constants as econstants
 from QL.Main.exceptions import *
 from QL.Validators.expression_validator import *
-from QL.Grammar.basic_types import *
+from QL.AST.Elements.operators import *
 
 
 class TypeChecker:
 
-    # initialize and execute the type checker
+    # initialize and execute the _type checker
     def __init__(self, form):
         ids = form.get_ids()
         id_message = TypeChecker.check_ids(ids)
@@ -30,7 +31,7 @@ class TypeChecker:
         if expression_message != "":
             print(expression_message)
 
-    # All static methods to check if ids and labels contain duplicates, there are no circle dependencies,
+    # All static methods to check if ids and labels contain duplicates, there are no circle _dependencies,
     # and expressions are well formed
     @staticmethod
     def check_duplicates(l):
@@ -71,38 +72,3 @@ class TypeChecker:
             else:
                 messages += e.pretty_print() + " is malformed"
         return messages
-
-    # TODO: try to make this obsolete
-    @staticmethod
-    def type_checker(cinput, ctype=False):
-        """
-        This function allows to return the input type or to compare input type
-        with pre-defined type
-        :param int|str|boolean|list|float|complex cinput: the input to get_dependencies
-        :param str|bool ctype: The expected type to compare with, False to return the input type
-        :return: True|False|str
-        """
-        if isinstance(cinput, bool):  # bool class is a subclass of int class
-            type_class = "bool"
-        elif isinstance(cinput, (int, float)):  # in python3 int = long
-            type_class = "number"
-        elif isinstance(cinput, str):  # text str is a subclass of list class
-            type_class = "text"
-            # str could be int
-            if cinput.isdigit():
-                type_class = "number"
-        elif isinstance(cinput, list):
-            type_class = "list"
-        elif isinstance(cinput, Operator):
-            type_class = "operator"
-        else:
-            raise QException("Undefined input " + str(type(cinput)))
-
-        if not ctype:
-            return type_class
-
-        if ctype is type_class:
-            return True
-        elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
-            return True
-        return False

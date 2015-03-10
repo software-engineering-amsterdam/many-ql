@@ -1,45 +1,58 @@
 import QL.AST.Expressions.expression as e
+import QL.AST.Elements.operators as operators
 
 
 # Expressions with sub-expressions
 class ComplexExpression(e.Expression):
-    def __init__(self, expression):
-        self.expression = expression
-        self.is_else = False
 
+    # initialization
+    def __init__(self, expr):
+        self._expression = expr
+        self._dependencies = ComplexExpression.dependency_collection(self._expression)
+
+    # get the return _type of the _expression
     def return_type(self, type_dict):
         types = ""
-        for e in self.expression:
-            types += e.return_type(type_dict)
+        for x in self._expression:
+            types += x.return_type(type_dict)
         return types
 
-    def get_dependencies(self):
-        dependencies = []
-        for element in self.expression:
-            dependencies += element.get_dependencies()
-        return dependencies
-
+    # return a pretty printed string of the _expression
     def pretty_print(self, level=0):
         s = ""
-        for e in self.expression:
-            s += "(" + e.pretty_print() + ")"
+        for x in self._expression:
+            s += "(" + x.pretty_print() + ")"
         return s
 
+    # get all variables in the _expression
+    def get_dependencies(self):
+        return self._dependencies
+
+    # return the expressions as a list of lists
     def as_list(self):
         l = []
-        for v in self.expression:
-            l.append(v.as_list())
+        for x in self._expression:
+            l.append(x.as_list())
         return l
 
-    def return_type(self, type_dict):
-        types = ""
-        for e in self.expression:
-            types += "( " + (e.return_type(type_dict)) + " )"
-        return types
+    # static helper method to get the _dependencies once
+    @staticmethod
+    def dependency_collection(expression):
+        dependencies = []
+        for x in expression:
+            dependencies += x.get_dependencies()
+        return dependencies
 
-    def not_expression(self):
-        # print(self.expression.pretty_print())
-        #print(self.expression.pretty_print())
-        print("here")
-        print(self.expression)
-        return self.expression.as_list()
+
+
+
+
+
+
+
+
+
+
+
+
+

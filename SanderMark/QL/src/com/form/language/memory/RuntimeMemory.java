@@ -1,66 +1,56 @@
 package com.form.language.memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.gui.components.QuestionComponent;
 
 public class RuntimeMemory {
-	private Map<String, Integer> intMemory;
-	private Map<String, String> stringMemory;
-	private Map<String, Boolean> boolMemory;
-	private Map<String, GenericValue<?>> genMemory;
+	private Map<String, GenericValue<?>> memory;
+	
+	private Map<Expression, QuestionComponent> ifConditions; 
 
 	public RuntimeMemory(){
-		this.intMemory = new HashMap<String, Integer>();
-		this.stringMemory = new HashMap<String, String>();
-		this.boolMemory = new HashMap<String, Boolean>();
+		this.memory = new HashMap<String, GenericValue<?>>();
+		this.ifConditions = new HashMap<Expression, QuestionComponent>();
 	}
 	
-	public void put(String key, String value){
-		this.stringMemory.put(key, value);
+	public void putExp(Expression key,QuestionComponent value)
+	{
+		this.ifConditions.put(key, value);
 	}
 	
-	public void put(String key, Boolean value){
-		this.boolMemory.put(key, value);
-	}
-	
-	public void put(String key, Integer value){
-		this.intMemory.put(key, value);
+	public void put(String key, GenericValue<?> value){
+		this.memory.put(key, value);
 	}
 	
 	public String toString(){
-		String result = "";
-		result += "\nintMemory: \n";
-		for(String key: intMemory.keySet()){
-			result += key + ":" + intMemory.get(key).toString() + "\n";
-		}
-
-		result += "\nstringMemory: \n";
-		for(String key: stringMemory.keySet()){
-			result += key + ":" + stringMemory.get(key).toString() + "\n";
-		}
-		
-		result += "\nboolMemory:\n";
-		for(String key: boolMemory.keySet()){
-			result += key + ":" + boolMemory.get(key).toString() + "\n";
+		String result = "\nMemory:\n";
+		for(String key: memory.keySet()){
+			result += key + ":" + memory.get(key).toString() + "\n";
 		}
 		return result;
 	}
 	
-	public Boolean getBool(String s){
-		return this.boolMemory.get(s);
+	public QuestionComponent getQcomponent(Expression exp)
+	{
+		return this.ifConditions.get(exp);		
 	}
 	
-	public String getString(String s){
-		return this.stringMemory.get(s);
-	}
-	
-	public Integer getInt(String s){
-		return this.intMemory.get(s);
+	public ArrayList<Expression> getExpressions()
+	{
+		ArrayList<Expression> expList = new ArrayList<Expression>();
+		for ( Expression key : this.ifConditions.keySet() ) {
+		    expList.add(key);
+		}
+		return expList;		
 	}
 	
 	public GenericValue<?> getValue(String s){
-		return this.genMemory.get(s);
+		return this.memory.get(s);
 	}
 }

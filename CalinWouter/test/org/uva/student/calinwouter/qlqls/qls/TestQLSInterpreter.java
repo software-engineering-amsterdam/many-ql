@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
+import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Spinbox;
@@ -18,7 +18,7 @@ public class TestQLSInterpreter {
 
     private StyleSheet parseStyleSheetString(String styleSheetStr)
             throws ParserException, IOException, LexerException {
-        QLSInterpreter qlsInterpreter = InterpreterHelper.interpetStylesheetString(styleSheetStr);
+        QLSAdapter qlsInterpreter = InterpreterHelper.interpetStylesheetString(styleSheetStr);
         return (StyleSheet) qlsInterpreter.getValue().getValue();
     }
 

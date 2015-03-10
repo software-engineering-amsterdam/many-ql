@@ -166,3 +166,12 @@ class QLSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLSParser#color.
+    def enterColor(self, ctx):
+        pass
+
+    # Exit a parse tree produced by QLSParser#color.
+    def exitColor(self, ctx):
+        pass
+
+

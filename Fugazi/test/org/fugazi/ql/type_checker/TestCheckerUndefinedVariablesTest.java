@@ -1,7 +1,7 @@
 package org.fugazi.ql.type_checker;
 
-import org.fugazi.ql.type_checker.error.ASTNodeError;
-import org.fugazi.ql.type_checker.error.ASTNodeErrorType;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
 
         assertFalse(errors.isEmpty());
         // will report also undefined question
@@ -35,26 +35,26 @@ public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
 
-        List<ASTNodeErrorType> expectedTypes = new ArrayList<>();
-        List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeErrorType.ERROR.UNDEFINED);
-        expectedTypes.add(ASTNodeErrorType.ERROR.TYPE_MISMATCH);
+        List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
+        List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
+        expectedTypes.add(ASTNodeIssueType.ERROR.UNDEFINED);
+        expectedTypes.add(ASTNodeIssueType.ERROR.TYPE_MISMATCH);
 
-        for (ASTNodeError error: errors) {
+        for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
         // no custom arrayEquals method
         assertEquals(expectedTypes.size(), receivedTypes.size());
-        for (ASTNodeErrorType expected : expectedTypes) {
+        for (ASTNodeIssueType expected : expectedTypes) {
             assertTrue(receivedTypes.contains(expected));
         }
     }
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = checker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }

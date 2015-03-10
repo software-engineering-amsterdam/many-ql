@@ -15,7 +15,7 @@ stylesheet title{
     page{
     }
 
-    question name3{
+    question name4{
         widget SPINBOX
         width 500
         font "arial"

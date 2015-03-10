@@ -1,6 +1,7 @@
 package org.uva.ql.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,7 +24,6 @@ import org.uva.ql.typecheck.TypeChecker;
 public class MainTC {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Start");
 		ANTLRFileStream input = new ANTLRFileStream("scripts/type1.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -33,20 +33,25 @@ public class MainTC {
 		QLImplVisitor visitor = new QLImplVisitor();
 		//Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
-		
-		System.out.println("[Questionnaire] " + questionnaire);
 
 		TypeChecker typeChecker = new TypeChecker();
 //		questionnaire.accept(typeChecker);
 		
-
-		if (questionnaire.accept(typeChecker)) {
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		a.add(1);
+		a.add(3);
+		System.out.println(a.get(a.size()-1));
+		
+		if (typeChecker.check(questionnaire)) {
 			System.out.println("OMG!");
-		} else {
-			typeChecker.printMessages();
 		}
+		typeChecker.printMessages();
+		
+//		typeChecker.getCC().check();
+//		typeChecker.getCC().print();
+//		typeChecker.getCC().printCyclic();
 		//typeChecker.printAll();
-		tryEvaluator();
+		//tryEvaluator();
 	}
 	
 	public static void tryEvaluator() {

@@ -1,6 +1,6 @@
 package helper;
 
-import nl.uva.softwcons.ast.LineInfo;
+import nl.uva.softwcons.ql.ast.LineInfo;
 
 public final class TestHelper {
 

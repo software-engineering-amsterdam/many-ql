@@ -37,33 +37,53 @@ stylesheet
     ;
 
 page
-    : 'page' STRING NEWLINE
-          (section | question)+
+    : 'page' title=STRING NEWLINE
+         (section | question)+
           defaultStyle?
-      end
+      'end' (NEWLINE+ | EOF)
     ;
 
 section
-    : 'section' STRING NEWLINE
+    : 'section' title=STRING NEWLINE
           question+
           defaultStyle?
-      end
+      'end' (NEWLINE+ | EOF)
     ;
 
 question
-    : ('question' IDENTIFIER NEWLINE
-          attribute+
-      end)
-    | (IDENTIFIER NEWLINE)
+    : full
+    | identifier
     ;
 
-attribute
-    : 'font-family'      ':' fontfamily=STRING   NEWLINE
-    | 'font-style'       ':' fontStyles          NEWLINE
-    | 'font-size'        ':' fontsize=INT        NEWLINE
-    | 'font-color'       ':' fontcolor=HEXCOLOR  NEWLINE
-    | 'background-color' ':' bgcolor=HEXCOLOR    NEWLINE
-    | 'widget'           ':' widget              NEWLINE
+full
+    : ('question' id=IDENTIFIER NEWLINE
+                declaration+
+       'end' (NEWLINE+ | EOF))
+    ;
+
+identifier
+    : (id=IDENTIFIER NEWLINE)
+    ;
+
+declaration
+    : property ':' value NEWLINE
+    ;
+
+property
+    : 'font-family'
+    | 'font-style'
+    | 'font-size'
+    | 'font-color'
+    | 'background-color'
+    | 'widget'
+    ;
+
+value
+    : STRING
+    | INT
+    | HEXCOLOR
+    | fontStyles
+    | widget
     ;
 
 fontStyles
@@ -87,7 +107,7 @@ widget
 
 defaultStyle
     : 'default' klqType NEWLINE
-          attribute+    NEWLINE
+          declaration+
       'end' NEWLINE+
     ;
 
@@ -97,10 +117,6 @@ klqType
     | 'date'
     | 'string'
     | 'numeral'
-    ;
-
-end
-    : 'end' (NEWLINE+ | EOF)
     ;
 
 IDENTIFIER

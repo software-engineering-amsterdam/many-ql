@@ -5,6 +5,7 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.QL.Grammar;
 using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
 {
@@ -152,6 +153,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
             value = value.Trim('"');
 
             return new StringLiteral(value, context.GetTextPosition());
+        }
+
+        public override IExpression VisitDateLiteral(QLParser.DateLiteralContext context)
+        {
+            string date = context.DATE().GetText().Replace("[", "").Replace("]", "");
+
+            return new DateLiteral(date, context.GetTextPosition());
         }
     }
 }

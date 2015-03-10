@@ -31,7 +31,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result);}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, $ID);}
 	;
 	
 ifStatement returns [Statement result]
@@ -40,7 +40,7 @@ ifStatement returns [Statement result]
 ;
 
 assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result, $ID);}
+: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result);}
 ;
 
 expression returns [Expression result]

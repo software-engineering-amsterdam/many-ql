@@ -6,14 +6,22 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.gui.components.QuestionComponent;
+import com.form.language.memory.RuntimeMemory;
 
-public class CheckBox extends JCheckBox implements Widget {
+public class CheckBox extends JCheckBox {
 	private static final long serialVersionUID = 1L;
-	private WidgetListener widgetListener;
+	private QuestionComponent questionComponent;
+	private RuntimeMemory rm;
+	private Question question;
 	
-	public CheckBox(WidgetListener listener) {
-		this.widgetListener = listener;
+	public CheckBox(Question question, QuestionComponent questionComponent, RuntimeMemory rm) {
+		this.rm = rm;
+		this.question = question;
+		this.questionComponent = questionComponent;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		addItemListener((ItemListener) checkboxListener);
 	}
@@ -21,35 +29,20 @@ public class CheckBox extends JCheckBox implements Widget {
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this) {
-				if (CheckBox.this.isSelected()) {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
-				} else {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+				
+				//Update zijn value / question id in de memory
+				rm.put(question.getId(), new BoolValue(CheckBox.this.isSelected()));
+
+				//Check alle conditions in the memory
+				for(Expression exp : rm.getExpressions())
+				{
+					//Van deze condition evaluate zijn expression 
+					QuestionComponent q = rm.getQcomponent(exp);
+					
+					//Zet de question binnen if op true of false qua visibility
+					q.checkVisibility(((BoolValue)exp.evaluate(rm)).getValue());
 				}
 			}
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Boolean getValue() {
-		return isSelected();
-	}
-
-	@Override
-	public JComponent getWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdentifier(String identifier) {
-		// TODO Auto-generated method stub
-		
 	}
 }

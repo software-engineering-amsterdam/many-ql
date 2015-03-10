@@ -1,6 +1,7 @@
 package com.klq.ast.impl;
 
-import com.klq.ast.*;
+import com.klq.ast.ANode;
+import com.klq.ast.IVisitor;
 
 import java.util.ArrayList;
 
