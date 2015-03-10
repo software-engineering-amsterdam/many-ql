@@ -9,4 +9,5 @@ form taxOfficeExample {
   	decimal test : "some question?" (10.0 + 22.0)
   	decimal dependent : "test?" (income + test)
   }
+  decimal name : "what is your name?"
 }
