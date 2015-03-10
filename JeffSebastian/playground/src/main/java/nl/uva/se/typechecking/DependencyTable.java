@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 public class DependencyTable {
 
@@ -18,7 +19,9 @@ public class DependencyTable {
 		if (dependencies.containsKey(from)) {
 			dependencies.get(from).add(to);
 		} else {
-			dependencies.put(from, new HashSet<String>());
+			Set<String> set = new HashSet<String>();
+			set.add(to);
+			dependencies.put(from, set);
 		}
 	}
 	
@@ -28,5 +31,20 @@ public class DependencyTable {
 		}
 		
 		return Collections.<String> emptySet();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		for (Entry<String, Set<String>> entry : dependencies.entrySet()) {
+			sb.append(entry.getKey() + ": ");
+			for (String s : entry.getValue()) {
+				sb.append(s + ", ");
+			}
+			sb.append("\n");
+		}
+		
+		return sb.toString();
 	}
 }

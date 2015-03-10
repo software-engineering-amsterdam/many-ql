@@ -29,7 +29,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
             private set;
         }
 
-        public BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
+        protected BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(position)
         {
             Operation = operation;

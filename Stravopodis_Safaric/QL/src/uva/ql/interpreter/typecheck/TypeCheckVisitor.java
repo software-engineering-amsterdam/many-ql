@@ -8,7 +8,6 @@ import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.MoneyLiteral;
@@ -35,16 +34,22 @@ import uva.ql.ast.statements.Statement;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
+import uva.ql.interpreter.typecheck.table.SymbolTableValue;
 import uva.ql.supporting.ExpressionSupporting;
 
 public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
-	private SymbolMap symbols = new SymbolMap();
+	private TypeCheck typeCheck;
+	protected SymbolTable symbolTable;
+	protected ExpressionTable expressionTable;
 	
-	public SymbolMap getSymbolTable(){
-		return this.symbols;
+	public TypeCheckVisitor(TypeCheck _typeCheck, SymbolTable _symbolTable, ExpressionTable _expressionTable){
+		this.typeCheck = _typeCheck;
+		this.symbolTable = _symbolTable;
+		this.expressionTable = _expressionTable;
 	}
-	
 	
 	@Override
 	public Object visitProg(Prog prog) {
@@ -54,17 +59,13 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 
 	@Override
 	public Form visitForm(Form form) {
-		
-		Symbol symbol = new Symbol("form", form.getClass().getName(), form.getCodeLines());
-		symbols.putValue(form.getIdentifier().evaluate().getValue(), symbol);
-		
+		this.symbolTable.putValue(form.getIdentifier().evaluatedValue(), new SymbolTableValue(null, form.getCodeLines()));
 		this.visitStatements(form.getStatement());
 		return null;
 	}
 
 	@Override
 	public Object visitASTNode(ASTNode node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -82,19 +83,15 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	
 	@Override
 	public Object visitQuestion(Question question) {
+		SymbolTableValue value = new SymbolTableValue(question.getType(), question.getCodeLines());
 		
-		Symbol symbol = new Symbol(question.getType().getTypeName(), question.getClass().getName(), question.getCodeLines());
-		Identifier identifier = question.getIdentifier();
-		String identifierValue = identifier.evaluate().getValue();
+		this.typeCheck.isDuplicate(question.getIdentifier(), value);
+		this.symbolTable.putValue(question.getIdentifier().evaluatedValue(), value);
 		
-		TypeCheck.hasDuplicateQuestionDeclarations(this.symbols, identifierValue, question, symbol);
-		
-		symbols.putValue(identifierValue, symbol);
-		
-		identifier.accept(this);
+		question.getIdentifier().accept(this);
 		question.getType().accept(this);
-		
 		this.visitStatements(question.getStatement());
+		
 		return null;
 	}
 
@@ -104,7 +101,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		
 		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
 		
-		if (binary.evaluate().getValue().getClass() != Boolean.class)
+		if (!(binary.evaluate().getValue() instanceof Boolean))
 			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
 											+ expression.getCodeLines().toString());
 		
@@ -116,19 +113,11 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Object visitAssign(Assign assign) {
 		
-		PrimitiveType primitiveType = PrimitiveType.findOperator(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase());
-		Type type = new Type(primitiveType.getName(), assign.getCodeLines());
-		String identifier = assign.getIdentifier().evaluate().getValue();
-		Expression expression = assign.getExpression();
+		this.typeCheck.assignmentWithinScope(assign.getIdentifier());
+		this.typeCheck.referenceUndefinedQuestion(assign.getIdentifier());
+		this.typeCheck.hasDuplicateLabels(assign.getIdentifier(), assign.getExpression());
+		this.expressionTable.putValue(assign.getIdentifier(), assign.getExpression());
 		
-		Symbol symbol = new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(),
-				expression);
-		
-		TypeCheck.hasDuplicateLabels(this.symbols, expression);
-		TypeCheck.declarationWithinQuestionScope(this.symbols, identifier, assign, symbol);
-		symbols.putValue(identifier, symbol);
-		
-		this.visitExpression(expression);
 		assign.getExpression().accept(this);
 		assign.getIdentifier().accept(this);
 		
@@ -138,10 +127,10 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Expression visitBinaryExpression(BinaryExpressions expression) {
 		
-		Expression evalLeft = (Expression)expression.getLeftExpr().accept(this);
-		Expression evalRight = (Expression)expression.getRightExpr().accept(this);
-	
-		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbols, evalLeft, evalRight, expression.getOperator());
+		Expression left = (Expression)expression.getLeftExpr().accept(this);
+		Expression right = (Expression)expression.getRightExpr().accept(this);
+		
+		ExpressionSupporting validateExpression = new ExpressionSupporting(this.expressionTable, this.symbolTable, left, right, expression.getOperator() );
 		return validateExpression.expressionValidator();
 	}
 
@@ -222,11 +211,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 
 	@Override
 	public Object visitIdentifier(Identifier identifier) {
-		
-		if (!TypeCheck.questionReferenceUndefined(this.symbols, identifier))
-			throw new IllegalArgumentException("IllegalArgumentException: reference to an undefined question -> " 
-												+ identifier.toString());
-		
+		this.typeCheck.referenceUndefinedQuestion(identifier);
 		return identifier;
 	}
 

@@ -18,11 +18,20 @@ namespace QL.Grammars
     {
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
-        private ElementBase _astRootNode;
+        private Form _astRootNode;
+        private IList<Exception> AstBuilderExceptions;
+
 
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
+        }
+
+        public QLListener(IList<Exception> AstBuilderExceptions)
+        {
+            this.AstBuilderExceptions = AstBuilderExceptions;
+            _childrenStack = new Stack<Stack<ElementBase>>();
+
         }
 
         public void InitializeNewLevel()
@@ -35,15 +44,18 @@ namespace QL.Grammars
             get { return _astRootNode != null; }
         }
 
-        public AstHandler GetAst()
-        {
-            if (AstExists)
-            {
-                return new AstHandler(_astRootNode);
-            }
-            throw new Exception("Ast is not created");
-        }
+        
 
+        public Form GetAstRootNode()
+        {
+            if (AstExists) { 
+            return _astRootNode;
+            }
+            else
+            {
+                return null;
+            }
+        }
         private IList<ElementBase> GetChildren()
         {
             Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
@@ -62,8 +74,17 @@ namespace QL.Grammars
             }
             else
             {
-                //this is the last one
-                _astRootNode = newChild;
+                try
+                {
+                    //this is the last one
+                    _astRootNode = (Form)newChild;
+                }
+                catch (Exception ex)
+                {
+                    // todo add ex to list of errors as fatal error
+                    _astRootNode = null;
+                    throw;
+                }
             }
         }
 
@@ -109,11 +130,11 @@ namespace QL.Grammars
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel above
-            Debug.Assert(!children.Any(), "A unit should syntactically not have any children.");
+            Debug.Assert(!children.Any(), "A question should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            ITerminalType dataType = GetTypeInstance(context.type());
-            dataType.SetValue(context.type().GetText());
+            IResolvableTerminalType dataType = GetTypeInstance(context.type());
+            
             string unitText = context.TEXT().GetText();
             
             QuestionUnit question = new QuestionUnit();
@@ -137,8 +158,7 @@ namespace QL.Grammars
             Debug.Assert(children.Count() == 1, "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            ITerminalType dataType = GetTypeInstance(context.type());
-            dataType.SetValue(context.type().GetText());
+            IResolvableTerminalType dataType = GetTypeInstance(context.type());
             string unitText = context.TEXT().GetText();
 
             StatementUnit statement = new StatementUnit();
@@ -152,7 +172,7 @@ namespace QL.Grammars
             AppendToAST(statement);
         }
 
-        public ITerminalType GetTypeInstance(QLParser.TypeContext context)
+        public IResolvableTerminalType GetTypeInstance(QLParser.TypeContext context)
         {
             if (context as QLParser.YesnoContext != null) return new Yesno();
 

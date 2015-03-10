@@ -19,11 +19,11 @@ object Interpreter {
 
     parser.parseAll[Form](parser.form, source) match {
       case parser.Success(ast: Form, _) =>
-        typeChecker.check(ast) match {
-          case Right(_) =>
-            duplicateLabelsChecker.check(ast).foreach(println)
-            formBuilder.build(ast).main(Array())
-          case Left(e) => println(e)
+        val typeCheckErrors = typeChecker.check(ast)
+        typeCheckErrors.foreach(println)
+        duplicateLabelsChecker.check(ast).foreach(println)
+        if (typeCheckErrors.isEmpty) {
+          formBuilder.build(ast).main(Array())
         }
       case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
       case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)

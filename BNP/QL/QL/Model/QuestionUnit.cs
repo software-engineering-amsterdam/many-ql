@@ -7,14 +7,14 @@ using QL.Model.Terminals;
 
 namespace QL.Model
 {
-    public class QuestionUnit : UnitBase, ITypeResolvable
+    public class QuestionUnit : UnitBase
     {
         public bool Required;
 
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier identifier, ITerminalType dataType, string displayText, bool required, params string[] parameters)
+        public QuestionUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText, bool required, params string[] parameters)
         {
             Identifier = identifier; 
             DataType = dataType;

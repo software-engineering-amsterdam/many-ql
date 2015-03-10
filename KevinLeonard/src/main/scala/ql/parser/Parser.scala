@@ -11,18 +11,18 @@ class Parser extends JavaTokenParsers {
   def label: Parser[String] = stringLiteral ^^ {
     s => s.substring(1, s.length - 1).replace("\\", "")
   }
-  def variable: Parser[Variable] = ident ^^ Variable
+  def variable: Parser[Variable] = positioned(ident ^^ Variable)
 
   // literal parsers
   def literal: Parser[Literal] = boolean | number | string
-  def boolean: Parser[Literal] = ("true" | "false") ^^ {
-    s => Literal(BooleanType(), BooleanValue(s.toBoolean))
+  def boolean: Parser[BooleanLiteral] = ("true" | "false") ^^ {
+    s => BooleanLiteral(BooleanValue(s.toBoolean))
   }
-  def number: Parser[Literal] = wholeNumber ^^ {
-    s => Literal(NumberType(), NumberValue(s.toInt))
+  def number: Parser[NumberLiteral] = wholeNumber ^^ {
+    s => NumberLiteral(NumberValue(s.toInt))
   }
-  def string: Parser[Literal] = stringLiteral ^^ {
-    s => Literal(StringType(), StringValue(s.substring(1, s.length - 1).replace("\\", "")))
+  def string: Parser[StringLiteral] = stringLiteral ^^ {
+    s => StringLiteral(StringValue(s.substring(1, s.length - 1).replace("\\", "")))
   }
 
   // form parsers

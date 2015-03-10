@@ -19,9 +19,12 @@ public abstract class Message
         return this.message;
     }
 
+    public abstract boolean isError();
+
     protected static String getListString(List<String> l)
     {
         StringBuilder b = new StringBuilder();
+
         for (int i = 0; i < l.size(); i++)
         {
             b.append(l.get(i));

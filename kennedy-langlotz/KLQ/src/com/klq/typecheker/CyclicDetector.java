@@ -6,7 +6,7 @@ import java.util.*;
  * Created by juriaan on 2-3-15.
  */
 public class CyclicDetector {
-    private HashMap<String, Set<String>> dependencies;
+    private Map<String, Set<String>> dependencies;
 
     public CyclicDetector() {
         this.dependencies = new HashMap<String, Set<String>>();
@@ -23,19 +23,27 @@ public class CyclicDetector {
             dependencies.get(key).add(dependency);
         }
     }
-//TODO gogogo test this, because i doubt it works lol
-    public void detect(){
+
+    public boolean hasCycles(){
         ArrayList<String> cyclicList = new ArrayList<String>();
 
         for(Map.Entry<String, Set<String>> entry : dependencies.entrySet()){
-            System.out.println(entry.getKey() + " : " + findDependencies(entry.getValue()).toString());
+             if( findDependencies(entry.getValue(), new ArrayList<String>()).contains(entry.getKey())){
+                 return true;
+             }
         }
+        return false;
     }
 
-    private Set<String> findDependencies(Set<String> set){
-        Set<String> newSet = set;
-        for(String item : newSet){
-            newSet.addAll(findDependencies(dependencies.get(item)));
+    private Set<String> findDependencies(Set<String> set, List<String> visited){
+        Set<String> newSet = new HashSet<>();
+        newSet.addAll(set);
+
+        for(String item : set){
+            if(!visited.contains(item)) {
+                visited.add(item);
+                newSet.addAll(findDependencies(dependencies.get(item), visited));
+            }
         }
         return newSet;
     }

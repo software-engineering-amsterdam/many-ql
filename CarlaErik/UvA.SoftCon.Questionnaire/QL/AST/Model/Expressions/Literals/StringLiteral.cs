@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
             }
         }
 
-        public StringLiteral(string value, TextPosition position)
+        internal StringLiteral(string value, TextPosition position)
             : base(value, position) { }
 
         public override void Accept(IQLVisitor visitor)

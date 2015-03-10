@@ -1,53 +1,31 @@
 package uva.ql.ast.expressions;
 
-
 import uva.ql.ast.expressions.literals.*;
 
 public enum PrimitiveType {
-	BOOLEAN("boolean","Boolean", "boolean"),
-	INT("int","Int", "integer"),
-	STRING("string","String", "string"),
-	MONEY("money","Float", "float");
+	BOOLEAN("boolean"),
+	INT("integer"),
+	STRING("string"),
+	MONEY("money");
 	
-	private String name1;
-	private String name2;
-	private String name3;
+	private String name;
 	
 	private PrimitiveType(String _name){
-		this.name1 = _name;
-	}
-	
-	private PrimitiveType(String _name, String name2){
-		this.name1 = _name;
-		this.name2 = name2;
-	}
-	
-	private PrimitiveType(String _name1, String _name2, String _name3){
-		this(_name1, _name2);
-		this.name3 = _name3;
+		this.name = _name;
 	}
 	
 	public String getName(){
-		return this.name1;
-	}
-	
-	public String getName2(){
-		return this.name2;
-	}
-	
-	public String getName3(){
-		return this.name3;
+		return this.name;
 	}
 	
 	public static PrimitiveType findOperator(String operator){
 		for(PrimitiveType type : PrimitiveType.values())
-			if (operator.equals(type.getName()) || operator.equals(type.getName2()) || operator.equals(type.getName3()))
+			if (operator.equals(type.getName()))
 				return type;
 		return null;
 	}
 	
 	public static Expression identifierFromPrimitiveType(String primitiveType, Object value){
-		
 		PrimitiveType type = PrimitiveType.findOperator(primitiveType);
 		
 		switch(type){
@@ -55,6 +33,17 @@ public enum PrimitiveType {
 			case INT: 		return (IntLiteral)value;
 			case MONEY:		return (MoneyLiteral)value;
 			case STRING: 	return new StringLiteral(String.valueOf(value), null);
+		}
+		return null;
+	}
+	
+	public static String classNameFromPrimitiveType(PrimitiveType primitiveType){
+		
+		switch(primitiveType){
+			case BOOLEAN	: return BooleanLiteral.class.getSimpleName();
+			case INT		: return IntLiteral.class.getSimpleName();
+			case MONEY		: return MoneyLiteral.class.getSimpleName();
+			case STRING		: return StringLiteral.class.getSimpleName();
 		}
 		return null;
 	}

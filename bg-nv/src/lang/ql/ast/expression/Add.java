@@ -21,7 +21,7 @@ public class Add extends BinaryExpr
     @Override
     public boolean isTypeAllowed(Type t)
     {
-        return t.isArithmetic() || t.isString();
+        return t.isNumerical() || t.isString();
     }
 
     public <T> T accept(ExprVisitor<T> visitor)

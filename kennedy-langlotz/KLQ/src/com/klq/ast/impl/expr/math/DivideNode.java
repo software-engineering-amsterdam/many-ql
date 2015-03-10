@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public class DivideNode extends ABinaryExprNode {
+public class DivideNode extends AMathNode {
     private final MathContext MATH_CONTEXT = new MathContext(100);
 
     public DivideNode(AExpression leftChild, AExpression rightChild, Location location) {

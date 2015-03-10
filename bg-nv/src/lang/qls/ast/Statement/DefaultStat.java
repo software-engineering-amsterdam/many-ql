@@ -8,8 +8,8 @@ import lang.qls.ast.Rule.Rules;
  */
 public class DefaultStat extends Statement
 {
-    private Type type;
-    private Rules body;
+    private final Type type;
+    private final Rules body;
 
     public DefaultStat(Type type, Rules body, int lineNumber)
     {

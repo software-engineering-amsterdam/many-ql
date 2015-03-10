@@ -7,9 +7,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cons.Value;
-import cons.ValueEnvironment;
-import cons.ql.ast.expression.Identifier;
+import ql.Value;
+import ql.ValueEnvironment;
+import ql.ast.expression.Identifier;
 
 public class QuestionPanel extends Composite {
 	private JPanel questionPanel;

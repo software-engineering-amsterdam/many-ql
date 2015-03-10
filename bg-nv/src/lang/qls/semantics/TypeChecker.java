@@ -5,7 +5,6 @@ import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Message;
 import lang.qls.ast.Page;
 import lang.qls.ast.Rule.*;
-import lang.qls.ast.Rule.WidgetValue.WidgetValue;
 import lang.qls.ast.Statement.*;
 import lang.qls.ast.Statement.Question;
 import lang.qls.ast.Statement.Statement;
@@ -20,45 +19,23 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private Map<String, Type> qlQuestions;
+    private QuestionTypeMap qlQuestions;
     private Set<String> refQuestions;
     private List<Message> messages;
 
-    private static final Map<Type, Set<String>> allowedWidgets;
-
-    static
-    {
-        allowedWidgets = new HashMap<>();
-
-        Set<String> i = new HashSet<>();
-        i.add("slider");
-        i.add("spinbox");
-        i.add("text");
-        allowedWidgets.put(new IntType(), i);
-
-        Set<String> s = new HashSet<>();
-        s.add("text");
-        allowedWidgets.put(new StrType(), s);
-
-        Set<String> b = new HashSet<>();
-        b.add("radio");
-        b.add("checkbox");
-        b.add("dropdown");
-        allowedWidgets.put(new BoolType(), b);
-    }
-
     public static List<Message> check(Stylesheet s, Form f)
     {
-        Map<String, Type> qs = QLQuestionVisitor.extractQuestions(f);
+        QuestionTypeMap qs = QLQuestionVisitor.extractQuestions(f);
         TypeChecker checker = new TypeChecker(qs);
-        checker.visit(s);
-
-        checker.allQuestionsReferencedCheck();
+        if (checker.visit(s))
+        {
+            checker.allQuestionsReferencedCheck();
+        }
 
         return checker.messages;
     }
 
-    private TypeChecker(Map<String, Type> qlQuestions)
+    private TypeChecker(QuestionTypeMap qlQuestions)
     {
         this.qlQuestions = qlQuestions;
         this.refQuestions = new HashSet<>();
@@ -70,10 +47,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Page p : s.getBody())
         {
-            Boolean r = p.accept(this);
-            if (!(r))
+            if (!(p.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -85,10 +61,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Statement s : p.getBody())
         {
-            Boolean r = s.accept(this);
-            if (!(r))
+            if (!(s.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -113,7 +88,8 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         if (this.registerQuestion(q))
         {
             Rules rs = q.getBody();
-            Type qType = this.qlQuestions.get(q.getId());
+            Type qType = this.qlQuestions.getType(q.getId());
+
             return this.visitRules(rs, qType, q.getLineNumber());
         }
 
@@ -123,7 +99,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     private Boolean registerQuestion(Question q)
     {
         String id = q.getId();
-        if (!(this.qlQuestions.containsKey(id)))
+        if (!(this.qlQuestions.containsQuestion(id)))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
             return false;
@@ -149,18 +125,11 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean visitRules(Rules rs, Type declType, int lineNumber)
     {
-        Optional<Rule> opRule = rs.getRule("widget");
-
-        if (opRule.isPresent())
+        for (Rule r : rs)
         {
-            Rule<WidgetValue> r = opRule.get();
-            WidgetValue v = r.getValue();
-            String assignedWidget = v.getTitle();
-
-            Set<String> allowed = allowedWidgets.get(declType);
-            if (!(allowed.contains(assignedWidget)))
+            if (r.isCompatibleWithType(declType))
             {
-                this.messages.add(StyleError.widgetTypeMismatchDefaultStat(assignedWidget, declType.getTitle(), lineNumber));
+                this.messages.add(StyleError.widgetTypeMismatch(declType.getTitle(), lineNumber));
                 return false;
             }
         }
@@ -170,7 +139,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (String id : this.qlQuestions.keySet())
+        for (String id : this.qlQuestions)
         {
             if (!(this.refQuestions.contains(id)))
             {
@@ -178,6 +147,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
                 return false;
             }
         }
+
         return true;
     }
 }

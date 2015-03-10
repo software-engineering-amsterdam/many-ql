@@ -16,19 +16,19 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             private set;
         }
 
-        public ICollection<IStatement> Then
+        public IEnumerable<IStatement> Then
         {
             get;
             private set;
         }
 
-        public ICollection<IStatement> Else
+        public IEnumerable<IStatement> Else
         {
             get;
             private set;
         }
 
-        public IfStatement(IExpression @if, ICollection<IStatement> then, ICollection<IStatement> @else, TextPosition position)
+        internal IfStatement(IExpression @if, IEnumerable<IStatement> then, IEnumerable<IStatement> @else, TextPosition position)
             : base(position)
         {
             If = @if;

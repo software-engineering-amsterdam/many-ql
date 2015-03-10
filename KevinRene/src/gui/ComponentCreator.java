@@ -6,32 +6,35 @@ import gui.widget.composite.FormComposite;
 import gui.widget.composite.IfComposite;
 import gui.widget.composite.Panel;
 import gui.widget.composite.QuestionPanel;
-import gui.widget.input.IntegerSpinbox;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
+import gui.widget.input.spinbox.FloatSpinbox;
+import gui.widget.input.spinbox.IntegerSpinbox;
 
 import javax.swing.JFrame;
 
-import cons.ValueEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.Statement;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.literal.BooleanLiteral;
-import cons.ql.ast.expression.literal.IntegerLiteral;
-import cons.ql.ast.expression.literal.StringLiteral;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.statement.Block;
-import cons.ql.ast.statement.ComputedQuestion;
-import cons.ql.ast.statement.Form;
-import cons.ql.ast.statement.If;
-import cons.ql.ast.statement.IfElse;
-import cons.ql.ast.statement.Question;
-import cons.ql.ast.visitor.ExpressionVisitor;
-import cons.ql.ast.visitor.StatementVisitor;
+import ql.ValueEnvironment;
+import ql.ast.Expression;
+import ql.ast.Statement;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
+import ql.ast.expression.type.QLBoolean;
+import ql.ast.expression.type.QLFloat;
+import ql.ast.expression.type.QLInteger;
+import ql.ast.expression.type.QLString;
+import ql.ast.statement.Block;
+import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.Form;
+import ql.ast.statement.If;
+import ql.ast.statement.IfElse;
+import ql.ast.statement.Question;
+import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.StatementVisitor;
 
-public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVisitor<Widget> {	
+public class ComponentCreator extends StatementVisitor<Widget> implements ExpressionVisitor<Widget> {	
 	private JFrame frame;
 	private ValueEnvironment valueEnvironment;
 
@@ -40,7 +43,13 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static Widget check(ASTNode tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+	public static Widget check(Expression tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+				
+		return tree.accept(creator);
+	}
+	
+	public static Widget check(Statement tree, JFrame frame, ValueEnvironment valueEnvironment) {		
 		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
 				
 		return tree.accept(creator);
@@ -57,6 +66,11 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
+	public Widget visit(QLFloat floatNode) {
+		return new FloatSpinbox();
+	}
+	
+	@Override
 	public Widget visit(QLInteger integerNode) {
 		return new IntegerSpinbox();
 	}
@@ -67,8 +81,13 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
-	public Widget visit(StringLiteral stringNode) {
-		return new Label(stringNode.getValue());
+	public Widget visit(BooleanLiteral booleanLiteral) {
+		return new RadioButton(booleanLiteral.getValue());
+	}
+	
+	@Override
+	public Widget visit(FloatLiteral floatLiteral) {
+		return new FloatSpinbox(floatLiteral.getValue());
 	}
 	
 	@Override
@@ -77,8 +96,8 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
-	public Widget visit(BooleanLiteral booleanLiteral) {
-		return new RadioButton(booleanLiteral.getValue());
+	public Widget visit(StringLiteral stringNode) {
+		return new Label(stringNode.getValue());
 	}
 	
 	/**

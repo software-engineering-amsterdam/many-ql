@@ -1,0 +1,36 @@
+﻿<Window x:Class="QL.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:QL.UI.Controls"
+        Title="QL Form filler" Height="350" Width="525">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="Command_Open" />
+        <CommandBinding Command="Close" Executed="Command_Close" />
+    </Window.CommandBindings>
+    
+    <StackPanel>
+        <Menu IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="Open" />
+                <MenuItem Header="E_xit" Command="Close" />
+            </MenuItem>
+        </Menu>
+        
+        <TabControl>
+            <TabItem Header="Questionnaire">
+                <StackPanel Name="QuestionsPanel">
+                    <controls:Unit />
+                    <controls:Unit />
+                    <controls:Unit />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Input file">
+                <TextBlock Name="InputFileSourceText">
+                    No file loaded
+                </TextBlock>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
+</Window>

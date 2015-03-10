@@ -9,10 +9,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.qls.interpreter.typecheck.TypeCheckQLS;
-import uva.qls.interpreter.typecheck.TypeCheckVisitor;
-
 import uva.qls.parser.*;
-import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.visitor.*;
 import uva.qls.ast.*;
 
@@ -31,8 +28,10 @@ public class Main {
 		ASTNode _ast = visitor.visit(tree);
 		
 		TypeCheckQLS typeCheckQls = new TypeCheckQLS(_ast);
-		String res = typeCheckQls.getSymbolTable().toString();
-		System.out.println(res);
+		
+		for (String key : typeCheckQls.getErrorTable().getTable().keySet()){
+			System.err.println(key + " ===== " + typeCheckQls.getErrorTable().retrieveValue(key));
+		}
 	}
 	
 }

@@ -1,7 +1,5 @@
 # AST for if_block
 import QL.AST.Statements.statement as statement
-import QL.Main.converters as converters
-
 
 class IfBlock(statement.IStatement):
 

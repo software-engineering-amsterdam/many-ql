@@ -1,22 +1,20 @@
 package lang.qls.ast.Rule.WidgetValue;
 
+import lang.ql.ast.type.Type;
+
 /**
  * Created by bore on 08/03/15.
  */
-public class Slider extends WidgetValue
+public class Slider extends NumWidgetValue
 {
-    private Integer min;
-    private Integer max;
-
-    public Slider()
+    public Slider(Integer min, Integer max, Integer step)
     {
-        super("slider");
+        super("slider", min, max, step);
     }
 
-    public Slider(Integer min, Integer max)
+    @Override
+    public boolean isCompatibleWithType(Type t)
     {
-        this();
-        this.min = min;
-        this.max = max;
+        return t.isNumerical();
     }
 }
