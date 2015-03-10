@@ -116,10 +116,6 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	public Void visit(Form form) {
 		for(Question q : form.getQuestionText())
 			q.accept(this);
-		
-		//Test
-		this.errorCollector.addError("Testing my awesome JDialog and arraylist");
-		
 		return null;
 	}
 
@@ -145,8 +141,6 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 		typeRepository.putID(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionType());
 		typeRepository.putIDLabel(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText());
 		
-		System.out.println("typerep: " + this.typeRepository.getTypeRepository());
-		
 		return null;
 	}
 
@@ -157,8 +151,6 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 		
 		typeRepository.putID(calQuestion.getQuestionId().getID(), calQuestion.getQuestionType());
 		typeRepository.putIDLabel(calQuestion.getQuestionId().getID(), calQuestion.getQuestionText());
-		
-		System.out.println("typerep2: " + this.typeRepository.getTypeRepository());
 		
 		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
 																	this.typeRepository,

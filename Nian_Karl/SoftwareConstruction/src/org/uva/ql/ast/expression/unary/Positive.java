@@ -25,7 +25,7 @@ public class Positive extends Unary {
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new IntType();
+		return new IntType(getPosition());
 	}
 	
 }

@@ -1,12 +1,13 @@
 package qls.ast
 
-import ql.ast._
+import ql.ast.Type
 
 sealed trait Widget
-case class Spinbox(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class Slider(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class Text(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class TextBlock(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class Radio(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class Dropdown(v: Variable, properties: Option[List[StyleProperty]]) extends Widget
-case class WidgetSequence(widgets: List[Widget]) extends Widget
+case class SpinBox(properties: List[StyleProperty]) extends Widget
+case class Slider(properties: List[StyleProperty]) extends Widget
+case class Text(properties: List[StyleProperty]) extends Widget
+case class TextBlock(properties: List[StyleProperty]) extends Widget
+case class Radio(properties: List[StyleProperty]) extends Widget
+case class DropDown(properties: List[StyleProperty]) extends Widget
+
+case class DefaultWidget(_type: Type, widget: Widget)

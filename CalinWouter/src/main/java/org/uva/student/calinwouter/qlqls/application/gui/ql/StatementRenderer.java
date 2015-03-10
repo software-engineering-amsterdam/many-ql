@@ -3,7 +3,6 @@ package org.uva.student.calinwouter.qlqls.application.gui.ql;
 import org.uva.student.calinwouter.qlqls.application.gui.ql.widgets.LabelQLWidget;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
@@ -27,16 +26,6 @@ public class StatementRenderer extends AnalysisAdapter {
         return widget;
     }
 
-    public void setVisibility(String identifier) {
-//        widget.setVisible(headlessFormInterpreter.hasField(identifier));
-        try {
-            headlessFormInterpreter.getLabelForField(identifier);
-            widget.setVisible(true);
-        } catch (LabelNotAvailableException e) {
-            widget.setVisible(false);
-        }
-    }
-
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
         JLabel questLbl = new JLabel(node.getStr().getText());
@@ -45,12 +34,12 @@ public class StatementRenderer extends AnalysisAdapter {
         node.getType().apply(typeRenderer);
         widget.add(typeRenderer.getWidget());
 
-        setVisibility(node.getIdent().getText());
+        widget.setVisible(headlessFormInterpreter.hasField(node.getIdent().getText()));
 
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                setVisibility(node.getIdent().getText());
+                widget.setVisible(headlessFormInterpreter.hasField(node.getIdent().getText()));
             }
         });
     }
@@ -62,12 +51,12 @@ public class StatementRenderer extends AnalysisAdapter {
         widget.add(questLbl);
         widget.add(valueLbl.getWidget());
 
-        setVisibility(node.getIdent().getText());
+        widget.setVisible(headlessFormInterpreter.hasField(node.getIdent().getText()));
 
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                setVisibility(node.getIdent().getText());
+                widget.setVisible(headlessFormInterpreter.hasField(node.getIdent().getText()));
             }
         });
     }

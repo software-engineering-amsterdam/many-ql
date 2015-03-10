@@ -1,8 +1,9 @@
 package qls.parser
 
+import ql.ast._
+import qls.ast.Question
 import qls.ast._
 
-import ql.ast.Variable
 import ql.parser.{Parser => QLParser}
 
 import scala.util.parsing.combinator.JavaTokenParsers
@@ -16,27 +17,55 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
+  def style: Parser[Style] = "style" ~> ident ~ pages ^^ {
+    case label ~ ps => Style(label, ps, List())
+  }
   
+  def pages: Parser[List[Page]] = "{" ~> rep(page) <~ "}"
   
-//  def section: Parser[Section] = "section" ~> stringLiteral ~ widgets ^^ {
-//    title ~ widgets = new Section(title, widgets)
-//  }
+  def page: Parser[Page] = "page" ~> variable ~ sections ^^ {
+    case v ~ ss => Page(v, ss, List())
+  }
   
-  //def widgets: Parser[WidgetSequence] = "{" ~> rep(widget) <~ "}" ^^ WidgetSequence
+  def sections: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
+  
+  def section: Parser[Section] = "section" ~> stringLiteral ~ questions ^^ {
+    case t ~ w => Section(t.substring(1, t.length - 1).replace("\\", ""), w, List())
+  }
+  
+  def questions: Parser[List[Question]] = "{" ~> rep(question) <~ "}"
   
   // question widget parsers
-  def widget: Parser[Widget] = variable ~ widgetType ~ opt(widgetStyle) ^^ {
-    case v ~ "spinbox" ~ properties => Spinbox(v, properties)
-    case v ~ "slider" ~ properties => Slider(v, properties)
-    case v ~ "text" ~ properties => Text(v, properties)
-    case v ~ "textBlock" ~ properties => TextBlock(v, properties)
-    case v ~ "radio" ~ properties => Radio(v, properties)
-    case v ~ "dropdown" ~ properties => Dropdown(v, properties)
+  def question: Parser[Question] = variable ~ widget ^^ {
+    case v ~ w => Question(v, w)
   }
+  
+  def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
+    case "boolean" => BooleanType()
+    case "number" => NumberType()
+    case "string" => StringType()
+  }
+  
+  def widget: Parser[Widget] = widgetType ~ widgetStyle ^^ {
+    case "spinbox" ~ properties => SpinBox(properties)
+    case "slider" ~ properties => Slider(properties)
+    case "text" ~ properties => Text(properties)
+    case "textBlock" ~ properties => TextBlock(properties)
+    case "radio" ~ properties => Radio(properties)
+    case "dropdown" ~ properties => DropDown(properties)
+  }
+  
+  def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
+    case t ~ w => DefaultWidget(t, w)
+  }
+  
   def widgetType: Parser[String] = ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "dropdown")
 
   // TODO: Repetition of the same property is not allowed.
-  def widgetStyle: Parser[List[StyleProperty]] = "{" ~> rep(width | font | fontSize | fontColor) <~ "}"
+  def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
+    case Some(properties) => properties
+    case None => List()
+  }
   
   def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
   def font: Parser[StyleProperty] = "font:" ~> stringLiteral ^^ { 
@@ -45,6 +74,6 @@ class Parser extends JavaTokenParsers {
   def fontSize: Parser[StyleProperty] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
   def fontColor: Parser[StyleProperty] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
 
-  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ { v => HexadecimalColor(v) }
+  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ { v => new HexadecimalColor(v) }
 
 }

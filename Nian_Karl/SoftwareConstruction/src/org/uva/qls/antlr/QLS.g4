@@ -4,6 +4,7 @@ sheet: STYLE Identifier page*;
 
 page: PAGE Identifier LEFT_BRACE section* style* RIGHT_BRACE;
 
+
 section: SECTION StringLiteral LEFT_BRACE question* style* RIGHT_BRACE ;
 
 question: QUESTION Identifier widget
@@ -19,8 +20,10 @@ styling: WIDGET COLON widget
 	| HEIGHT COLON IntegerLiteral
 	| FONTSIZE COLON IntegerLiteral
 	| FONT COLON font
-	| COLOR COLON RgbValue
+	| COLOR COLON rgb
 	;
+	
+rgb : 'rgb' LEFT_PAREN red=IntegerLiteral COMMA green=IntegerLiteral COMMA blue=IntegerLiteral RIGHT_PAREN;
 
 type: INT
 	| STR
@@ -80,6 +83,7 @@ RIGHT_BRACE:   '}';
 LEFT_BRACKET:    '[';
 RIGHT_BRACKET:   ']';
 
+
 IntegerLiteral: [1-9][0-9]*;
 
 BooleanLiteral: 'true' | 'false';
@@ -94,6 +98,7 @@ SingleComment: '//' .*? '\n' -> skip;
 
 Identifier: [a-zA-Z][a-zA-Z0-9_]*;
 
-RgbValue: '#'[0-9]*;
+
+
 
 

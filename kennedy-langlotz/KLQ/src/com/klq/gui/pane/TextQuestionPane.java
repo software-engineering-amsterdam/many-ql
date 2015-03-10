@@ -21,7 +21,7 @@ public class TextQuestionPane extends AQuestionPane {
         TextField inputField = new TextField();
         inputField.setPrefWidth(TEXTBOX_PREFERRED_WIDTH);
         if (question.isComputedQuestion()) {
-            inputField.setEditable(false);
+            inputField.setDisable(true);
             inputField.textProperty().bind(question.computedProperty());
         }
         inputField.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -6,17 +6,9 @@ package com.klq.ast.impl.expr.value;
  */
 public abstract class Value<T> {
     private final T value;
-    //TODO WTF?
-    private boolean undefined;
 
     public Value(T value){
         this.value = value;
-        this.undefined = false;
-    }
-
-    public Value(T value, boolean undefined){
-        this.value = value;
-        this.undefined = undefined;
     }
 
     public T getValue(){
@@ -24,7 +16,7 @@ public abstract class Value<T> {
     }
 
     public boolean isUndefined(){
-        return undefined;
+        return false;
     }
 
     @Override

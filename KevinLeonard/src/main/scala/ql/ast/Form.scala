@@ -1,6 +1,6 @@
 package ql.ast
 
-import ql.types.Label
+import types.Label
 
 class Form(val label: Label, val statements: Statement) {
 

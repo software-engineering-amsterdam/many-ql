@@ -6,12 +6,17 @@ package com.klq.ast.impl.expr.value;
 public class UndefinedValue extends ComparableValue {
 
     public UndefinedValue(){
-        super(null, true);
+        super(null);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof UndefinedValue;
+    }
+
+    @Override
+    public boolean isUndefined() {
+        return true;
     }
 
     @Override

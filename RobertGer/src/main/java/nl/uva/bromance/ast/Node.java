@@ -86,5 +86,8 @@ public abstract class Node implements Visualizable, TypeCheckable {
         return Optional.empty();
     }
 
-
+    @Override
+    public void isVisible(boolean visible) {
+        
+    }
 }

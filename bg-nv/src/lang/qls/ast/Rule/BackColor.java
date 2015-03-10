@@ -1,4 +1,4 @@
-package lang.qls.ast.Rule;
+package lang.qls.ast.rule;
 
 /**
  * Created by bore on 09/03/15.
@@ -7,7 +7,7 @@ public class BackColor extends ColorRule
 {
     public BackColor(ColorValue value, int lineNumber)
     {
-        super("color", value, lineNumber);
+        super("backcolor", value, lineNumber);
     }
 
     @Override

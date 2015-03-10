@@ -1,15 +1,17 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
 
-import org.uva.student.calinwouter.qlqls.generated.node.AIfStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AIfelseStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AQuestionStmt;
-import org.uva.student.calinwouter.qlqls.generated.node.AValueStmt;
+import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
+import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.IfNotBoolOrNullException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InvalidComputedValueTypeException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 
-public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
+import java.util.LinkedList;
+
+//public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
+public class StmtTypeChecker extends AnalysisAdapter {
+    // TODO rename it
+    private final FormTypeChecker formInterpreter;
 
     // TODO apply most to the actual ql as well.
     @Override
@@ -20,8 +22,8 @@ public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
         formInterpreter.setTypeDescriptor(node.getIdent().getText(), typeInterpreter.getValue());
-        formInterpreter.setField(node.getIdent().getText(),
-                typeInterpreter.getValue().getDefaultValue());
+        /*formInterpreter.setField(node.getIdent().getText(),
+                typeInterpreter.getValue().getDefaultValue());*/
     }
 
     // TODO apply most to the actual ql as well.
@@ -32,9 +34,9 @@ public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
-        formInterpreter.setField(node.getIdent().getText(),
+        /*formInterpreter.setField(node.getIdent().getText(),
                 typeInterpreter.getValue().getDefaultValue());
-
+*/
         ExpTypeChecker expTypeChecker = new ExpTypeChecker(formInterpreter);
         node.getExp().apply(expTypeChecker);
 
@@ -50,7 +52,8 @@ public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
         }
     }
 
-    protected StmtInterpreter createStmtInterpreter() {
+    //protected StmtInterpreter createStmtInterpreter() {
+    protected StmtTypeChecker createStmtInterpreter(){
         return new StmtTypeChecker(formInterpreter);
     }
 
@@ -75,8 +78,15 @@ public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
         executeStmtList(node.getThenStmtList());
     }
 
+    protected void executeStmtList(LinkedList<PStmt> stmtList) {
+        for (PStmt s : stmtList) {
+            s.apply(createStmtInterpreter());
+        }
+    }
+
     public StmtTypeChecker(FormTypeChecker formTypeChecker) {
-        super(formTypeChecker);
+        //super(formTypeChecker);
+        this.formInterpreter = formTypeChecker;
     }
 
 }
