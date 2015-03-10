@@ -1,4 +1,4 @@
-import QL.CoreTools.exceptions as exceptions
+import QL.Tools.exceptions as exceptions
 
 
 class Mapper:

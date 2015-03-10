@@ -1,7 +1,7 @@
 import tkinter as tk
 import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
-import QL.CoreTools.exceptions as exc
+import QL.Tools.exceptions as exc
 from QL.GUI.Elements import *
 
 
