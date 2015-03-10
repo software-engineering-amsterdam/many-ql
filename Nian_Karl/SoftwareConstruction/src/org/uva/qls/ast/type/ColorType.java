@@ -3,18 +3,18 @@ package org.uva.qls.ast.type;
 import org.uva.qls.visitor.TypeVisitor;
 import org.uva.utility.CodePosition;
 
-public class RgbType extends Type {
+public class ColorType extends Type {
 
-	public RgbType() {
+	public ColorType() {
 		super();
 	}
 	
-	public RgbType(CodePosition pos) {
+	public ColorType(CodePosition pos) {
 		super(pos);
 	}
 	
 	@Override
-	public boolean isRgb() {
+	public boolean isColor() {
 		return true;
 	}	
 	
@@ -25,12 +25,12 @@ public class RgbType extends Type {
 
 	@Override
 	public boolean isEqual(Type type) {
-		return type.isRgb();
+		return type.isColor();
 	}
 	
 	@Override
 	public String toString() {
-		return "RGB";
+		return "Color";
 	}
 	
 }

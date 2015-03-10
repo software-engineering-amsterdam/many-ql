@@ -26,7 +26,7 @@ public abstract class Type extends BaseNode implements TypeVisitable {
 		return false;
 	}
 
-	public boolean isRgb() {
+	public boolean isColor() {
 		return false;
 	}
 	
