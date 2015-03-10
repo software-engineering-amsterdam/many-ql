@@ -8,9 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.statement.Condition;
-import nl.uva.se.ast.statement.Question;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
 
 public class QuestionPane extends BorderPane{
 	

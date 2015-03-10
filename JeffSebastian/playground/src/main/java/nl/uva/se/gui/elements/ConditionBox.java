@@ -2,7 +2,7 @@ package nl.uva.se.gui.elements;
 
 import java.util.HashMap;
 
-import nl.uva.se.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Condition;
 import javafx.scene.layout.VBox;
 
 public class ConditionBox extends VBox{

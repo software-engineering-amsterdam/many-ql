@@ -1,6 +1,6 @@
 package nl.uva.se.gui;
 
-import nl.uva.se.ast.statement.Question;
+import nl.uva.se.ql.ast.statement.Question;
 
 public class Validator {
 	

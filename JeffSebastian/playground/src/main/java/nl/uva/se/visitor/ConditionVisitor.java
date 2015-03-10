@@ -1,10 +1,11 @@
 package nl.uva.se.visitor;
 
-import nl.uva.se.ast.statement.CalculatedQuestion;
-import nl.uva.se.ast.statement.Condition;
-import nl.uva.se.ast.statement.Question;
 import nl.uva.se.gui.elements.ConditionBox;
 import nl.uva.se.gui.elements.QuestionBox;
+import nl.uva.se.ql.ast.statement.CalculatedQuestion;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.ast.statement.StatementVisitor;
 
 public class ConditionVisitor implements StatementVisitor{
 		

@@ -6,8 +6,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import nl.uva.se.ast.statement.Question;
 import nl.uva.se.gui.Validator;
+import nl.uva.se.ql.ast.statement.Question;
 
 public class QuestionBox extends VBox {
 

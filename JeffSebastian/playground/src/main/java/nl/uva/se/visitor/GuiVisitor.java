@@ -1,13 +1,15 @@
 package nl.uva.se.visitor;
 
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.statement.CalculatedQuestion;
-import nl.uva.se.ast.statement.Condition;
-import nl.uva.se.ast.statement.Question;
-import nl.uva.se.evaluation.ExpressionEvaluator;
-import nl.uva.se.evaluation.ValueTable;
-import nl.uva.se.evaluation.value.Value;
 import nl.uva.se.gui.elements.QuestionPane;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.ast.form.FormVisitor;
+import nl.uva.se.ql.ast.statement.CalculatedQuestion;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.evaluation.ExpressionEvaluator;
+import nl.uva.se.ql.evaluation.ValueTable;
+import nl.uva.se.ql.evaluation.value.Value;
 
 public class GuiVisitor implements StatementVisitor, FormVisitor {
 	
