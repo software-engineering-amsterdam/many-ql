@@ -58,7 +58,7 @@ public class Renderer implements QLSVisitor {
         List<Statement> convertedQuestions = convertQuestions(remainingQuestions);
         ArrayList<Section> sections = createSection(convertedQuestions);
         Page pageWithRemainingQuestions = new Page(sections);
-        visit(pageWithRemainingQuestions);
+        addPage(pageWithRemainingQuestions, remainingQuestions);
     }
 
     private List<Statement> convertQuestions(List<Question> remainingQuestions) {
@@ -116,13 +116,6 @@ public class Renderer implements QLSVisitor {
                 .forEach(statement -> statement.accept(this));
     }
 
-    private void confirmAllQuestionsAreInStylesheet(Stylesheet evaluatedStylesheet, List<Question> questions) { // todo
-        List<QLSQuestion> stylesheetQuestions = questionRetriever.retrieveQuestions(evaluatedStylesheet);
-        if (stylesheetQuestions.size() != questions.size()) {
-            throw new EvaluationException(NOT_FOUND_QUESTIONS);
-        }
-    }
-
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
         visitStatements(stylesheet);
@@ -131,9 +124,13 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Page page) {
+        addPage(page, questionsToRender);
+        return page;
+    }
+
+    private void addPage(Page page, List<Question> questionsToRender) {
         List<Section> sections = collectSections(page);
         mainWindow.addPage(sections, questionsToRender);
-        return page;
     }
 
     private List<Section> collectSections(Page page) {
