@@ -43,7 +43,7 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		}
 		
 		// Fuck me running. Don't look here. Forcing any number into an integer.
-		return new IntegerValue(Math.round((float) value.getValue()));
+		return new IntegerValue(Math.round(Float.parseFloat(value.getValue().toString())));
 	}
 	
 	@Override

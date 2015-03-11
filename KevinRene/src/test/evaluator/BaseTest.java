@@ -23,13 +23,12 @@ public abstract class BaseTest {
 	private QLNode inputNode;
 	private Value expected;
 
-	private Parser formParser = new Parser();
 	private static ValueEnvironment register = new ValueEnvironment();
 
 	public BaseTest(String input, Value expected) {
 		System.out.println("Testing: " + input);
 
-		inputNode = formParser.parse(input);
+		inputNode = Parser.parse(input);
 		this.expected = expected;
 	}
 

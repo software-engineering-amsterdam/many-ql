@@ -73,6 +73,8 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		}
 		return null;
 	}
+	
+	@SuppressWarnings("rawtypes")
 	public T visit(ValueSet valueSetNode) {
 		for(Literal value : valueSetNode.values()) {
 			value.accept(this);

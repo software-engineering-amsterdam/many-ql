@@ -27,7 +27,7 @@ public class TestParser {
 	public void testParsableString() {
 		String myExpression = "5 + 5";
 		
-		QLNode result = formParser.parse(myExpression);
+		QLNode result = Parser.parse(myExpression);
 		assertNotNull(result);
 		
 		assertEquals("5 + 5", result.toString());
@@ -42,7 +42,7 @@ public class TestParser {
 				+ "}"
 				+ "}";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -54,7 +54,7 @@ public class TestParser {
 		String myForm =
 				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
@@ -75,7 +75,7 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 		
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -96,7 +96,7 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "

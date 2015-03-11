@@ -1,6 +1,6 @@
-package gui.widget;
+package gui.structure;
 
-import gui.Widget;
+import gui.UIComponent;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -8,19 +8,16 @@ import javax.swing.JLabel;
 import ql.Value;
 import ql.value.StringValue;
 
-public class Label implements Widget {
+public class Label extends UIComponent {
 	private final JLabel labelComponent;
 	
 	public Label(StringValue text) {
 		this.labelComponent = new JLabel(text.getValue());
 	}
 
-	@Override
-	public void setHandler(Widget handler) {}
-
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue) {}
+	public void handleChange(Value changedValue, UIComponent source) {}
 	
 	@Override
 	public void updateComponent() {

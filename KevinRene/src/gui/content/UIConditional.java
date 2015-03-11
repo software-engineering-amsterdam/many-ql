@@ -1,45 +1,38 @@
-package gui.widget.composite;
+package gui.content;
 
-import gui.Widget;
-import gui.widget.Composite;
+import gui.UIComponent;
+import gui.structure.Section;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import ql.Value;
 import ql.ValueEnvironment;
 import ql.ast.Expression;
-import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.value.BooleanValue;
 
-public class IfComposite extends Composite {
+public class UIConditional extends UIComponent {
+	private Section activePanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
-	private final Widget ifPanel, elsePanel;
-	private JPanel activePanel;
+	private final UIComponent ifPanel, elsePanel;
 	
-	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {
-		super(new Identifier("If panel."));
-		
+	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Section ifPanel, Section elsePanel) {		
 		this.expression = expression;
 		this.valueEnvironment = valueEnvironment;
-		
-		this.activePanel = new JPanel();
-		
+				
 		this.ifPanel = ifPanel;
-		this.ifPanel.setHandler(this);
-		activePanel.add(this.ifPanel.getComponent());
-		
 		this.elsePanel = elsePanel;
-		this.elsePanel.setHandler(this);
-		activePanel.add(this.elsePanel.getComponent());
+		
+		activePanel = new Section(this);
+		activePanel.addComponent(this.ifPanel);
+		activePanel.addComponent(this.elsePanel);
 		
 		activateElsePanel();
 	}
 	
-	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
-		this(expression, valueEnvironment, ifComponent, new Panel());
+	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Section ifPanel) {
+		this(expression, valueEnvironment, ifPanel, new Section());
 	}
 	
 	public void activateIfPanel() {
@@ -75,13 +68,12 @@ public class IfComposite extends Composite {
 			activateElsePanel();
 		}
 		
-		activePanel.revalidate();
-		activePanel.repaint();
+		activePanel.updateComponent();
 	}
 	
 	@Override
 	public JComponent getComponent() {		
-		return activePanel;
+		return activePanel.getComponent();
 	}
 }
  

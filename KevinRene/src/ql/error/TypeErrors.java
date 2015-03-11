@@ -62,4 +62,15 @@ public class TypeErrors {
 					+ error.getErrorMessage());
 		}
 	}
+	
+	public String getErrors() {
+		StringBuilder errorString = new StringBuilder();
+		
+		for (Error error : errors) {
+			errorString.append("[Error]: " 
+					+ "<" + error.getErrorOriginClass() + "> "
+					+ error.getErrorMessage() + "\n");
+		}
+		return errorString.toString();
+	}
 }

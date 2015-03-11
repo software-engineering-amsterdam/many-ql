@@ -83,6 +83,22 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		return typeErrors.hasErrors();
 	}	
 	
+	/**
+	 * Entry point, static type checks the supplied tree
+	 * @return a boolean indicating pass or fail
+	 */
+	public static boolean check(Statement tree, TypeEnvironment register, TypeErrors errors) {
+		TypeChecker typeChecker = new TypeChecker(register);
+		
+		typeErrors = errors;
+		
+		tree.accept(typeChecker);
+		
+		typeErrors.outputErrors();
+		
+		return typeErrors.hasErrors();
+	}	
+	
 	
 	/**
 	 * Checks whether the given expression passes the type checker. 

@@ -1,17 +1,65 @@
 package ql.ast.visitor.prettyprinter;
 
+import ql.ast.Expression;
 import ql.ast.QLNode;
-import ql.ast.expression.*;
-import ql.ast.expression.arithmetic.*;
-import ql.ast.expression.literal.*;
-import ql.ast.expression.relational.*;
-import ql.ast.expression.type.*;
-import ql.ast.statement.*;
+import ql.ast.Statement;
+import ql.ast.expression.Binary;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.Unary;
+import ql.ast.expression.arithmetic.Add;
+import ql.ast.expression.arithmetic.Divide;
+import ql.ast.expression.arithmetic.Multiply;
+import ql.ast.expression.arithmetic.Negation;
+import ql.ast.expression.arithmetic.Positive;
+import ql.ast.expression.arithmetic.Subtract;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
+import ql.ast.expression.relational.And;
+import ql.ast.expression.relational.Equal;
+import ql.ast.expression.relational.Greater;
+import ql.ast.expression.relational.GreaterOrEqual;
+import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.Not;
+import ql.ast.expression.relational.NotEqual;
+import ql.ast.expression.relational.Or;
+import ql.ast.expression.type.QLBoolean;
+import ql.ast.expression.type.QLError;
+import ql.ast.expression.type.QLFloat;
+import ql.ast.expression.type.QLForm;
+import ql.ast.expression.type.QLInteger;
+import ql.ast.expression.type.QLNumeric;
+import ql.ast.expression.type.QLString;
+import ql.ast.statement.Block;
+import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.Form;
+import ql.ast.statement.If;
+import ql.ast.statement.IfElse;
+import ql.ast.statement.Question;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 
 public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void> {
 	private String prefix = "";
+	
+	private PrettyPrinter() {
+		super.setExpressionVisitor(this);
+	}
+	
+	public static void print(Expression expression) {
+		PrettyPrinter printer = new PrettyPrinter();
+		
+		expression.accept(printer);
+	}
+	
+	public static void print(Statement statement) {
+		PrettyPrinter printer = new PrettyPrinter();
+		
+		statement.accept(printer);
+	}
+	
 	
 	/**
 	 * Indent the prefix to indicate that a printable block
