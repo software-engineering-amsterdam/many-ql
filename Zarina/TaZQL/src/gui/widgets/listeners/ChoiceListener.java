@@ -30,7 +30,8 @@ public class ChoiceListener extends AListener implements ItemListener   {
 	public void update() {
 		boolean valueSelected = widget.getBooleanValue();
 		BooleanValue boolValue = new BooleanValue(valueSelected);
-		evaluator.setValue(widget.getIdWidget().toString(), boolValue);			
+		evaluator.setValue(widget.getIdWidget().toString(), boolValue);	
+		evaluator.setVisibilityInGUI();
 	}
 	
 }

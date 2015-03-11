@@ -3,12 +3,15 @@ package gui.questions;
 import java.util.LinkedHashSet;
 
 import evaluator.Value;
+import gui.widgets.listeners.Updater;
 
-public class IfQuestionUI implements IQuestionUI {
+public class IfQuestionUI implements IQuestionUI,IQuestionUpdater {
 	private final LinkedHashSet<IQuestionUI> ifBody;
-
-	public IfQuestionUI() {
+	private final Updater updater;
+	
+	public IfQuestionUI(Updater updater) {
 		this.ifBody = new LinkedHashSet<IQuestionUI>();	
+		this.updater = updater;
 	}
 
 	public void showIfBody(IQuestionUI iQuestionUI) {
@@ -18,5 +21,23 @@ public class IfQuestionUI implements IQuestionUI {
 	@Override
 	public void setValue(Value value) {
 		// TODO Auto-generated method stub		
+	}
+
+	@Override
+	public boolean setVisibilityValue(Value value) {
+		boolean visibility = Boolean.parseBoolean(value.toString());
+		System.out.println("visibility " + visibility);
+		return visibility;
+	}
+	
+
+	@Override
+	public Updater getUpdater() {
+		return this.updater;
+	}
+
+	@Override
+	public void updateGUI() {
+		this.updater.updateGUI(this);
 	}
 }

@@ -83,14 +83,10 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	
 	@Override
 	public IQuestionUI visit(IfStatement ifStatement) {
-		IfQuestionUI ifq = new IfQuestionUI();
+		IfQuestionUI ifq = new IfQuestionUI(this.sendToUpdater(ifStatement.getExpression()));
 	
-	
-	//	ifStatement.getExpression(); <--- send it to IfQuestionUI for evaluation
 		for(Question q : ifStatement.getIfStatement()){
 			ifq.showIfBody(q.accept(this));
-			//System.out.println(q.getClass());
-			//IQuestionUI aQuestion = visit(q);
 		//	System.out.println("visited "+q.getClass());
 		}
 		return ifq;

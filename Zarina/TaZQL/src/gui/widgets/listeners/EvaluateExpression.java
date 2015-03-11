@@ -18,7 +18,7 @@ public class EvaluateExpression {
 		this.expression = expression;
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);
 		this.setQuestion = setQuestion;
-		evaluate();
+		//evaluate();
 		//setValueInGUI();
 	}
 		
@@ -33,6 +33,10 @@ public class EvaluateExpression {
 	
 	public void setValueInGUI() {
 		this.setQuestion.setValue(evaluate());
+	}
+	
+	public void setVisibilityInGUI() {
+		this.setQuestion.setVisibilityValue(evaluate());
 	}
 	
 }
