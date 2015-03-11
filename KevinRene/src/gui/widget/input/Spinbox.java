@@ -9,8 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
-public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {
+public abstract class Spinbox<T extends Value<?>> extends InputWidget<T> implements ChangeListener {
 	protected JSpinner spinbox;
 	
 	@Override
@@ -30,7 +29,7 @@ public abstract class Spinbox<T extends Value> extends InputWidget<T> implements
 	 * @return The converted value wrapped in the proper
 	 * 		value object.
 	 */
-	public abstract Value convertValue(Value value);
+	public abstract Value<?> convertValue(Value<?> value);
 	
 	@Override
 	/**

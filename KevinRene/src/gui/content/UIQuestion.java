@@ -27,9 +27,8 @@ public class UIQuestion extends UIComponent {
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {		
+	public void handleChange(Value<?> changedValue, UIComponent source) {		
 		valueEnvironment.store(identifier, changedValue);
 		super.handleChange(changedValue, this);
 	}

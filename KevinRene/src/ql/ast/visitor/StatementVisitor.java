@@ -8,11 +8,10 @@ import ql.ast.statement.If;
 import ql.ast.statement.IfElse;
 import ql.ast.statement.Question;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class StatementVisitor<T> {
-	private ExpressionVisitor expressionVisitor;
+	private ExpressionVisitor<?> expressionVisitor;
 	
-	public void setExpressionVisitor(ExpressionVisitor expressionVisitor) {
+	public void setExpressionVisitor(ExpressionVisitor<?> expressionVisitor) {
 		this.expressionVisitor = expressionVisitor;
 	}
 	

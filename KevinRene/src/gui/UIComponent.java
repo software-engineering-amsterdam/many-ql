@@ -4,7 +4,6 @@ import javax.swing.JComponent;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
 public abstract class UIComponent {
 	private UIComponent handler;
 	
@@ -12,7 +11,7 @@ public abstract class UIComponent {
 		this.handler = handler;
 	}
 	
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value<?> changedValue, UIComponent source) {
 		handler.handleChange(changedValue, source);
 	}
 	

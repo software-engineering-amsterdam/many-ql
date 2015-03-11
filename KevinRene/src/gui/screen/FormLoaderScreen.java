@@ -86,9 +86,8 @@ public class FormLoaderScreen extends Screen {
 		return false;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value<?> changedValue, UIComponent source) {
 		if (source != openButton) {
 			return;
 		}

@@ -3,8 +3,7 @@ package gui.widget;
 import gui.UIComponent;
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
-public abstract class InputWidget<T extends Value> extends UIComponent {	
+public abstract class InputWidget<T extends Value<?>> extends UIComponent {	
 	public abstract void disable();
 	
 	public abstract void setValue(T value);
