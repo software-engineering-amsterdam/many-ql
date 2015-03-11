@@ -18,12 +18,12 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> addFloat(float argument) {
+	public Value<Float> addFloat(float argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> addString(String argument) {
+	public Value<String> addString(String argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -38,7 +38,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> divideFloat(float argument) {
+	public Value<Float> divideFloat(float argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -53,7 +53,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> multiplyFloat(float argument) {
+	public Value<Float> multiplyFloat(float argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -68,7 +68,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> subtractFloat(float argument) {
+	public Value<Float> subtractFloat(float argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -88,7 +88,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> or(Value<?> argument) {
+	public Value<?> or(Value<?> argument) {
 		return argument.orBoolean(getValue());
 	}
 
@@ -98,7 +98,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> notEqualTo(Value<?> argument) {
+	public Value<?> notEqualTo(Value<?> argument) {
 		return argument.notEqualToBoolean(getValue());
 	}
 
@@ -183,7 +183,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> equalTo(Value<?> argument) {
+	public Value<?> equalTo(Value<?> argument) {
 		return argument.equalToBoolean(getValue());
 	}
 
@@ -208,7 +208,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 
 	@Override
-	public Value<Boolean> and(Value<?> argument) {
+	public Value<?> and(Value<?> argument) {
 		return argument.andBoolean(getValue());
 	}
 

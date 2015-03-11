@@ -18,14 +18,13 @@ import ql.value.FloatValue;
 import ql.value.IntegerValue;
 import ql.value.StringValue;
 
-@SuppressWarnings("rawtypes")
 public abstract class BaseTest {
 	private QLNode inputNode;
-	private Value expected;
+	private Value<?> expected;
 
 	private static ValueEnvironment register = new ValueEnvironment();
 
-	public BaseTest(String input, Value expected) {
+	public BaseTest(String input, Value<?> expected) {
 		System.out.println("Testing: " + input);
 
 		inputNode = Parser.parse(input);
@@ -46,7 +45,7 @@ public abstract class BaseTest {
 
 	@Test
 	public void test() {
-		Value expressionValue;
+		Value<?> expressionValue;
 
 		if(inputNode instanceof Expression) {
 			expressionValue = Evaluator.check((Expression) inputNode, register);

@@ -65,8 +65,7 @@ public class TestGreaterOrEqual extends BaseTest {
 		});
     }
 
-    @SuppressWarnings("rawtypes")
-    public TestGreaterOrEqual(String input, Value expected) {
+    public TestGreaterOrEqual(String input, Value<?> expected) {
    	 	super(input, expected);
     }
 }

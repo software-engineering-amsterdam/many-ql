@@ -27,8 +27,7 @@ public class TestAnd extends BaseTest {
    	 });
     }
 
-    @SuppressWarnings("rawtypes")
-    public TestAnd(String input, Value expected) {
+    public TestAnd(String input, Value<?> expected) {
    	 super(input, expected);
     }
 }

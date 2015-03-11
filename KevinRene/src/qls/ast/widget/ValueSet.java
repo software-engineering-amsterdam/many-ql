@@ -7,20 +7,19 @@ import ql.ast.expression.Literal;
 import qls.ast.QLSStatement;
 import qls.ast.visitor.QLSVisitor;
 
-@SuppressWarnings("rawtypes")
 public class ValueSet extends QLSStatement {	
-	private List<Literal> values = new ArrayList<Literal>();
+	private List<Literal<?>> values = new ArrayList<Literal<?>>();
 	
-	public ValueSet(Literal value) {
+	public ValueSet(Literal<?> value) {
 		values.add(value);
 	}
 	
-	public ValueSet(Literal value, ValueSet set) {
+	public ValueSet(Literal<?> value, ValueSet set) {
 		values.add(value);
 		values.addAll(set.values());
 	}
 	
-	public List<Literal> values() {
+	public List<Literal<?>> values() {
 		return values;
 	}
 
@@ -33,7 +32,7 @@ public class ValueSet extends QLSStatement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("StyleRuleSet(");
 		
-		for(Literal rule : values) {
+		for(Literal<?> rule : values) {
 			sb.append(rule.toString() + ", ");
 		}
 		

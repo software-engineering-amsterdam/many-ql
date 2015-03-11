@@ -42,8 +42,7 @@ public class TestMultiplication extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
-     public TestMultiplication(String input, Value expected) {
+     public TestMultiplication(String input, Value<?> expected) {
     	 super(input, expected); 
      }
 }

@@ -41,8 +41,7 @@ public class TestNotEqual extends BaseTest {
    	 });
     }
 
-    @SuppressWarnings("rawtypes")
-    public TestNotEqual(String input, Value expected) {
+    public TestNotEqual(String input, Value<?> expected) {
    	 super(input, expected);
     }
 }

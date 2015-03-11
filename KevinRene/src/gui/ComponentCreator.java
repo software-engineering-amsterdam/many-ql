@@ -114,11 +114,12 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	@Override
 	public UIComponent visit(ComputedQuestion compQuestionNode) {
     	UIComponent questionText = compQuestionNode.getText().accept(this);
-    	UIComponent questionWidget = compQuestionNode.getType().accept(this);
+    	InputWidget<?> questionWidget = (InputWidget<?>) compQuestionNode.getType().accept(this);
     	
     	return new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText, 
-    			(InputWidget<?>) questionWidget, compQuestionNode.getExpression(), valueEnvironment);
+    			questionWidget, compQuestionNode.getExpression(), valueEnvironment);
 	}
+	
 	@Override
 	public UIComponent visit(Question questionNode) {
 		UIComponent questionText = questionNode.getText().accept(this);

@@ -23,5 +23,4 @@ public class StyleRule extends QLSStatement {
 	public String toString() {
 		return property.toString() + ": " + value.getValue();
 	}
-
 }

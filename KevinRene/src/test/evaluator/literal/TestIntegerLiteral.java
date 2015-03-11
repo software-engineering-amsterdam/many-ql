@@ -22,8 +22,7 @@ public class TestIntegerLiteral extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
-     public TestIntegerLiteral(String input, Value expected) {
+     public TestIntegerLiteral(String input, Value<?> expected) {
     	 super(input, expected);
      }
 }

@@ -25,8 +25,7 @@ public class TestOr extends BaseTest {
    	 });
     }
 
-    @SuppressWarnings("rawtypes")
-    public TestOr(String input, Value expected) {
+    public TestOr(String input, Value<?> expected) {
    	 super(input, expected);
     }
 }

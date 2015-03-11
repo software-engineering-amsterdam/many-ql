@@ -19,8 +19,9 @@ public class UIComputedQuestion extends UIComponent {
 	private final ValueEnvironment valueEnvironment;
 	
 	private final UIComponent questionText;
-	private final InputWidget<?> inputWidget;
+	private final InputWidget<Value<?>> inputWidget;
 	
+	@SuppressWarnings("unchecked")
 	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
 			InputWidget<?> inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
 		this.identifier = identifier;
@@ -28,7 +29,7 @@ public class UIComputedQuestion extends UIComponent {
 		this.questionText = questionText;	
 		this.valueEnvironment = valueEnvironment;	
 			
-		this.inputWidget = inputWidget;		
+		this.inputWidget = (InputWidget<Value<?>>) inputWidget;		
 		this.inputWidget.disable();
 		
 		questionPanel = new Section(this);
@@ -47,10 +48,9 @@ public class UIComputedQuestion extends UIComponent {
 		super.handleChange(changedValue, this);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void updateComponent() {
-		Value expressionValue = Evaluator.check(expression, valueEnvironment);
+		Value<?> expressionValue = Evaluator.check(expression, valueEnvironment);
 
 		if(expressionValue.isUndefined()) {
 			return;
