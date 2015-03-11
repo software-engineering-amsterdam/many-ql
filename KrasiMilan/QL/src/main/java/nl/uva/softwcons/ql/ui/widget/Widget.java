@@ -10,7 +10,7 @@ public abstract class Widget {
 
     public abstract void setValue(Value value);
 
-    public abstract void setVisible(boolean visible);
+    public abstract void setEditable(boolean visible);
 
     public abstract Node getWidget();
 

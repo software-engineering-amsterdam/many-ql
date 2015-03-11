@@ -30,8 +30,8 @@ public class CheckboxWidget extends Widget {
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.checkBox.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.checkBox.setDisable(!editable);
     }
 
     @Override

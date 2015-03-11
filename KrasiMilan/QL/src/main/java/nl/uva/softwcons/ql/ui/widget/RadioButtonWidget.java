@@ -57,8 +57,8 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.hbox.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.hbox.setDisable(!editable);
     }
 
     @Override

@@ -30,8 +30,8 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.textField.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.textField.setDisable(!editable);
     }
 
     @Override
