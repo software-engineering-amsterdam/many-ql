@@ -35,17 +35,9 @@ public class SimpleQuestionUI implements IQuestionUI {
 	
 	@Override
 	public void setValue(Value value) {
-		if("true".equals(value) || "false".equals(value)) {
-			boolean visibility = Boolean.parseBoolean(value.toString());
-			
-			this.wc.setVisible(visibility);
-			this.label.setVisible(visibility);
-		}	
-		else {
-			this.value = value;
-			this.wc.setText(value);
-			this.wc.setVisible(true);
-		}
+		this.value = value;
+		this.wc.setText(value);
+		this.wc.setVisible(true);
 	}
 	
 	public Value getValue(){
@@ -54,11 +46,8 @@ public class SimpleQuestionUI implements IQuestionUI {
 
 	@Override
 	public void setVisibilityValue(Value value) {
-		if ("true".equals(value.toString()) || "false".equals(value.toString())) {
 		boolean visibility = Boolean.parseBoolean(value.toString());
-		
 		this.wc.setVisible(visibility);
 		this.label.setVisible(visibility);
-		}
 	}
 }
