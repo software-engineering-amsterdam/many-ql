@@ -34,7 +34,11 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     }
 
     private List<Default> collectGlobalDefaultStatements(List<QLSParser.Stylesheet_elementContext> stylesheet_elementContexts) {
-        return null;
+        return stylesheet_elementContexts.stream()
+                .map(statement -> statement.accept(this))
+                .filter(statement -> statement instanceof Default)
+                .map(defaultStatement -> (Default) defaultStatement)
+                .collect(Collectors.toList());
     }
 
     public List<Page> collectPages(List<QLSParser.Stylesheet_elementContext> stylesheetElements) {

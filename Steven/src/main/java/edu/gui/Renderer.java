@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  * Created by Steven Kok on 06/03/2015.
  */
 public class Renderer implements QLSVisitor {
-    public static final String NOT_FOUND_QUESTIONS = "Not all questions are in the stylesheet.";
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
     private final List<Question> questionsToRender;
