@@ -142,6 +142,10 @@
       <Project>{51a4b3e5-24b7-4df6-8b9e-c97c363f02da}</Project>
       <Name>AST</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Notifications\Notifications.csproj">
+      <Project>{3d044ed7-07db-4dea-ae15-344f3c5c289b}</Project>
+      <Name>Notifications</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,22 +1,10 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
-using AST.Nodes.FormObject;
-using AST.Nodes.Interfaces;
-using AST.Notification;
-using AST.Notification.Errors;
-using AST.Representation;
-using AST.Storage;
-using AST.TypeCheck.Collectors;
-using System;
+using Notifications;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Types = AST.Types;
 
-namespace AST.TypeCheck
+namespace TypeChecker
 {
-    public static class TypeChecker
+    public static class TypeCheckManager
     {
         public static List<INotification> GetTypeCheckDiagnosis(Form node)
         {

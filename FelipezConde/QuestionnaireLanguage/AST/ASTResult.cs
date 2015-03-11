@@ -2,7 +2,7 @@
 using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
-using AST.Notification;
+using Notifications;
 using AST.Representation;
 using AST.Storage;
 using System;

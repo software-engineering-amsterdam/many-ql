@@ -65,39 +65,20 @@
     <Compile Include="Nodes\Labels\Label.cs" />
     <Compile Include="Nodes\Values\Undefined.cs" />
     <Compile Include="Nodes\Values\Value.cs" />
-    <Compile Include="Notification\Errors\NonBooleanCondition.cs" />
-    <Compile Include="Notification\Errors\IncompatibleBinaryOperator.cs" />
-    <Compile Include="Notification\Errors\IncompatibleUnaryOperator.cs" />
-    <Compile Include="Notification\Errors\ComputedQuestionTypeConflict.cs" />
-    <Compile Include="Notification\Errors\DuplicateIdentifier.cs" />
-    <Compile Include="Notification\Errors\UndefinedIdentifier.cs" />
-    <Compile Include="Notification\Errors\GenericError.cs" />
-    <Compile Include="Notification\Warnings\DuplicateLabel.cs" />
     <Compile Include="ParseTreeVisitors\ExpressionVisitor.cs" />
     <Compile Include="ParseTreeVisitors\LabelVisitor.cs" />
     <Compile Include="ParseTreeVisitors\UnaryVisitor.cs" />
-    <Compile Include="Representation\NameToType.cs" />
-    <Compile Include="TypeCheck\Collectors\ConditionalCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\QuestionCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\ExpressionTypeCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\IdentifierTypeCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\TopLevelExpressionCollector.cs" />
-    <Compile Include="TypeCheck\Collectors\UsedIdentifierCollector.cs" />
-    <Compile Include="TypeCheck\TypeChecker.cs" />
+    <Compile Include="Representation\IdToType.cs" />
     <Compile Include="Types\StringType.cs" />
     <Compile Include="Types\Visitors\ITypeVisitable.cs" />
     <Compile Include="Types\Visitors\ITypeVisitor.cs" />
     <Compile Include="Types\Visitors\ITypeVisitor{T}.cs" />
     <Compile Include="Visitors\IVisitor.cs" />
-    <Compile Include="Notification\Errors\IError.cs" />
     <Compile Include="IASTResult.cs" />
-    <Compile Include="Notification\INotification.cs" />
-    <Compile Include="Notification\Warnings\IWarning.cs" />
     <Compile Include="ParseTreeVisitors\FormObjectVisitor.cs" />
     <Compile Include="ParseTreeVisitors\FormVisitor.cs" />
     <Compile Include="ParseTreeVisitors\TypeVisitor.cs" />
     <Compile Include="ParseTreeVisitors\LiteralVisitor.cs" />
-    <Compile Include="Representation\ObjectType.cs" />
     <Compile Include="Representation\ObjectValue.cs" />
     <Compile Include="Nodes\Interfaces\IASTNode.cs" />
     <Compile Include="Nodes\Expression\Binary\Add.cs" />
@@ -137,6 +118,10 @@
     <ProjectReference Include="..\Grammar\Grammar.csproj">
       <Project>{86335fb2-43c2-434f-9276-c6841b6b1ceb}</Project>
       <Name>Grammar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Notifications.csproj">
+      <Project>{3d044ed7-07db-4dea-ae15-344f3c5c289b}</Project>
+      <Name>Notifications</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,14 +1,11 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Nodes.Expression;
 using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
-using AST.Nodes.Expression;
+using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
+using AST.Visitors;
+using System.Collections.Generic;
+
 namespace AST.Evaluation
 {
     public class Evaluator : BaseVisitor<Value>
@@ -47,6 +44,17 @@ namespace AST.Evaluation
         {
             return node.Value.Accept(this);
         }
+
+        public override Value Visit(Id node)
+        {
+            return this.GetValue(node);
+        }
+
+        public override Value Visit(Nodes.Labels.Label node)
+        {
+            return new Nodes.Values.String(node.Value);
+        }
+
 
         #region Comparison
         public override Value Visit(And node)
@@ -175,15 +183,7 @@ namespace AST.Evaluation
         }
         #endregion
 
-        public override Value Visit(Id node)
-        {
-            return this.GetValue(node);
-        }
-        
-        public override Value Visit(Nodes.Labels.Label node)
-        {
-            return new Nodes.Values.String(node.Value);
-        }
+
 
     }
 }

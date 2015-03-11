@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
-using AST.Visitors;
+﻿using AST.Nodes.Expression;
+using AST.Nodes.Expression.Binary;
+using AST.Nodes.Expression.Unary;
 using AST.Nodes.Interfaces;
-using AST.Notification;
-using AST.Nodes.Expression;
-using AST.Notification.Errors;
+using AST.Visitors;
+using Notifications;
+using System.Collections.Generic;
+using TypeChecker.Notifications.Errors;
+using Types = AST.Types;
 
-namespace AST.TypeCheck.Collectors
+namespace TypeChecker.Collectors
 {
     public class ExpressionTypeCollector : BaseVisitor<Types.Type>
     {
@@ -36,75 +39,73 @@ namespace AST.TypeCheck.Collectors
 
         #endregion
         #region Binary
-
-        public override Types.Type Visit(Nodes.Expression.Binary.And node)
+        public override Types.Type Visit(AST.Nodes.Expression.Binary.And node)
         {
             return VisitBinaryExpectedType(node, new Types.BoolType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Or node)
+        public override Types.Type Visit(Or node)
         {
             return VisitBinaryExpectedType(node, new Types.BoolType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Equal node)
+        public override Types.Type Visit(Equal node)
         {
             return VisitBinary(node);
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.NotEqual node)
+        public override Types.Type Visit(NotEqual node)
         {
             return VisitBinary(node);
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.GreaterThan node)
+        public override Types.Type Visit(GreaterThan node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.GreaterThanOrEqual node)
+        public override Types.Type Visit(GreaterThanOrEqual node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.LessThan node)
+        public override Types.Type Visit(LessThan node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.LessThanOrEqual node)
+        public override Types.Type Visit(LessThanOrEqual node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Add node)
+        public override Types.Type Visit(Add node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Subtract node)
+        public override Types.Type Visit(Subtract node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Multiply node)
+        public override Types.Type Visit(Multiply node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Binary.Divide node)
+        public override Types.Type Visit(Divide node)
         {
             return VisitBinaryExpectedType(node, new Types.IntType());
         }
         #endregion
         #region Unary
-
-        public override Types.Type Visit(Nodes.Expression.Unary.Negate node)
+        public override Types.Type Visit(Negate node)
         {
             return VisitUnaryExpectedType(node, new Types.BoolType());
         }
 
-        public override Types.Type Visit(Nodes.Expression.Unary.Priority node)
+        public override Types.Type Visit(Priority node)
         {
             return VisitUnary(node);
         }
