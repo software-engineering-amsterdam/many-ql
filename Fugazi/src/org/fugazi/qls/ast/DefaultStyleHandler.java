@@ -147,6 +147,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             // otherwise set the right style.
             if (currentDeclarationStyle.isUndefined()) {
                 currentDeclarationWidget.resetStyleToDefault();
+                currentDeclarationWidget.setLabel(questionLabel);
             } else {
                 currentDeclarationWidget.applyStyle(currentDeclarationStyle);
             }
