@@ -140,14 +140,19 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 	public AbstractASTNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-		return new RadioBtn(this.getLineNumber(ctx), this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+		return new RadioBtn(this.getLineNumber(ctx),
+                this.removeStringQuotes(yesLabel),
+                this.removeStringQuotes(noLabel));
 	}
     
     @Override 
 	public AbstractASTNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-        return new Dropdown(this.getLineNumber(ctx), this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+        return new Dropdown(
+                this.getLineNumber(ctx),
+                this.removeStringQuotes(yesLabel),
+                this.removeStringQuotes(noLabel));
 	}
     
     @Override 

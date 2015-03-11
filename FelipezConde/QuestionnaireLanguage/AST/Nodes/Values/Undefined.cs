@@ -29,9 +29,9 @@ namespace AST.Nodes.Values
             return visitor.Visit(this);
         }
 
-        public override object GetType(Storage.ISymbolTable lookup)
+        public override object GetValueType()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public override Value Equal(Value value)

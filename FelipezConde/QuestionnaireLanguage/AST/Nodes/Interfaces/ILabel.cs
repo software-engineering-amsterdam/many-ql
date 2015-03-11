@@ -8,5 +8,6 @@ namespace AST.Nodes.Interfaces
 {
     public interface ILabel : IASTNode
     {
+        string Value { get; }
     }
 }

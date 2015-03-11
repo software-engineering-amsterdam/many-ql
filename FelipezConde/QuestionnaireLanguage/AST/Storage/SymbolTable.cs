@@ -24,9 +24,21 @@ namespace AST.Storage
             return table[id];
         }
 
-        public void SetValue(Id id, Value newValue)
+        public void SetUpdateValue(Id id, Value value)
         {
-            table[id] = newValue; 
+            if (!IsInTable(id))
+            {
+                table.Add(id, value);
+            }
+            else
+                table[id] = value;
+        }
+        public void AddValue(Id id, Value value)
+        {
+            if (!IsInTable(id))
+            {
+                table.Add(id, value);
+            }
         }
     }
 

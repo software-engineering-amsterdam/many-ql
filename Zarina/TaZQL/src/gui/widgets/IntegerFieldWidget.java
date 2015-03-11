@@ -73,4 +73,9 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	public void setBooleanValue(boolean value) {
 		assert false: "Only for a checkbox, can't be used for digits.";
 	}
+	
+	@Override
+	public void setVisible(boolean visibility) {
+		widget.setVisible(visibility);
+	}
 }

@@ -1,14 +1,14 @@
 package nl.uva.softwcons.ql.eval;
 
-import static helper.TestHelper.QUESTION;
-import static helper.TestHelper.QUESTION2;
-import static helper.TestHelper.UNUSED;
+import static nl.uva.softwcons.helper.TestHelper.QUESTION;
+import static nl.uva.softwcons.helper.TestHelper.QUESTION2;
+import static nl.uva.softwcons.helper.TestHelper.UNUSED;
 import static org.assertj.core.api.Assertions.assertThat;
-import helper.TestHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nl.uva.softwcons.helper.TestHelper;
 import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;

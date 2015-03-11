@@ -1,11 +1,10 @@
 package nl.uva.softwcons.ql.ui.widget;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
 
@@ -16,10 +15,10 @@ public class RadioButtonWidget extends Widget {
 
     private HBox hbox;
     private ToggleGroup group;
-    private Property<Value> valueProperty;
+    private ValueConverter<Boolean> converter;
 
     public RadioButtonWidget(String yesString, String noString, final ValueConverter<Boolean> converter) {
-        this.valueProperty = new SimpleObjectProperty<Value>();
+        this.converter = converter;
 
         yesButton = new RadioButton(yesString);
         noButton = new RadioButton(noString);
@@ -35,11 +34,6 @@ public class RadioButtonWidget extends Widget {
 
         yesButton.setToggleGroup(group);
         noButton.setToggleGroup(group);
-
-        // TODO discuss how to fix code duplication
-        yesButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            valueProperty.setValue(converter.toValue(newValue));
-        });
     }
 
     @Override
@@ -48,8 +42,8 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void setValue(Value value) {
-        if (value.asBoolean()) {
+    public void setValue(final Value value) {
+        if (value.inConditionalContext()) {
             group.selectToggle(yesButton);
             return;
         }
@@ -57,13 +51,15 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.hbox.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.hbox.setDisable(!editable);
     }
 
     @Override
-    public Property<Value> getValueProperty() {
-        return valueProperty;
+    public void addListener(final ValueChangeListener<Value> listener) {
+        yesButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            listener.processValueChange(converter.toValue(newValue));
+        });
     }
 
 }

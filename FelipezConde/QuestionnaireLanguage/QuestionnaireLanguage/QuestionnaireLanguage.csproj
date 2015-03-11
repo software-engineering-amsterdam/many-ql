@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Factories\NodeValueFactory.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomDatePicker.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomLabel.cs" />
     <Compile Include="GUI\CustomUIElements\CustomPanel\CustomStackPanel.cs" />
@@ -69,9 +70,7 @@
     <Compile Include="GUI\Widgets\TextBoxWidget.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomCheckBox.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomTextBox.cs" />
-    <Compile Include="GUI\Factories\Widgets\WidgetFactory.cs" />
     <Compile Include="GUI\Widgets\StringTextBoxWidget.cs" />
-    <Compile Include="GUI\Factories\FormObjects\FormObjectFactory.cs" />
     <Compile Include="GUI\FormObject\ConditionalObject.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,11 +88,13 @@
     <Compile Include="Visitors\Interfaces\ICustomControlVisitor.cs" />
     <Compile Include="Visitors\Interfaces\IFormObjectVisitor.cs" />
     <Compile Include="Visitors\Interfaces\ILabelVisitor.cs" />
+    <Compile Include="Visitors\Interfaces\ITypeToValueVisitor.cs" />
+    <Compile Include="Visitors\Interfaces\ITypeToWidgetVisitor.cs" />
     <Compile Include="Visitors\Interfaces\IValueVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\IWidgetVisitor.cs" />
     <Compile Include="Visitors\LabelVisitor.cs" />
+    <Compile Include="Visitors\TypeToValueVisitor.cs" />
+    <Compile Include="Visitors\TypeToWidgetVisitor.cs" />
     <Compile Include="Visitors\ValueVisitor.cs" />
-    <Compile Include="Visitors\WidgetVisitor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

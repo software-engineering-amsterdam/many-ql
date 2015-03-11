@@ -3,23 +3,22 @@ using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
+<<<<<<< HEAD
 using AST.Visitors;
 using System.Collections.Generic;
 
+=======
+using AST.Storage;
+>>>>>>> origin/master
 namespace AST.Evaluation
 {
     public class Evaluator : BaseVisitor<Value>
     {
-        IDictionary<Id, Value> identifierLookup;
-
-        public Evaluator(IDictionary<Id, Value> identifierLookup)
-        {
-            this.identifierLookup = identifierLookup;
-        }
+        ISymbolTable symbolTable;
 
         public Evaluator()
         {
-            this.identifierLookup = new Dictionary<Id, Value>();
+            this.symbolTable = new SymbolTable();
         }
 
         public Value Evaluate(IExpression expression)
@@ -29,16 +28,21 @@ namespace AST.Evaluation
 
         public void AddValue(Id key, Value value)
         {
-            this.identifierLookup.Add(key, value);
+            this.symbolTable.AddValue(key, value);
+        }
+
+        public void UpdateValue(Id key, Value value)
+        {
+                this.symbolTable.SetUpdateValue(key, value);
         }
 
         public Value GetValue(Id key)
         {
             Value result = null;
-            result = this.identifierLookup[key];
-            
+            result = this.symbolTable.GetValue(key);
             return result;
         }
+
 
         public override Value Visit(Container node)
         {

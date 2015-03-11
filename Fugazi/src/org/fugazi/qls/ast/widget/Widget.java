@@ -17,18 +17,14 @@ public abstract class Widget extends AbstractASTNode {
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    protected String label;
-    protected Style style;
+    protected String label = "";
+    protected Style style = new UndefinedStyle();
 
     public Widget(int _lineNum) {
         super(_lineNum);
-        this.label = "";
-        this.style = new UndefinedStyle();
     }
 
     public Widget() {
-        this.label = "";
-        this.style = new UndefinedStyle();
     }
     
     public Font getDefaultFont() {
@@ -59,6 +55,7 @@ public abstract class Widget extends AbstractASTNode {
 
     public void resetStyleToDefault() {
         this.style = getDefaultStyle();
+        this.applyStyle(this.style);
     }
 
     public abstract void applyStyle(Style _style);

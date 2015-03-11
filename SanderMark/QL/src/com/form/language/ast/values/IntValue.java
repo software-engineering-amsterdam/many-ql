@@ -21,6 +21,6 @@ public class IntValue extends GenericValue<Integer>{
 
 	@Override
 	public void addToMemory(String key, Context context) {
-		context.put(key, this);
+		context.setValue(key, this);
 	}
 }

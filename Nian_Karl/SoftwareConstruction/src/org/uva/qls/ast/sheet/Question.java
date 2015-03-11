@@ -15,5 +15,10 @@ public class Question extends BaseNode {
 	public IdentifierLiteral getIdentifier() {
 		return identifier;
 	}
+	
+	@Override
+	public String toString() {
+		return identifier.getValue().toString();
+	}
 
 }

@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 //TODO: this is weird, it doesnt inherit unary or binary yet is not in the same level
 public abstract class Literal implements Expression {
 
@@ -22,5 +22,5 @@ public abstract class Literal implements Expression {
 	}
 	
 	@Override
-	public void collectIds(IdCollector idCollector)	{}
+	public void collectIds(IdCollection idCollection)	{}
 }

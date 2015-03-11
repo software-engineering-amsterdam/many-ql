@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 
 public abstract class BinaryExpression implements Expression {
 	public Token tokenInfo;
@@ -26,8 +26,8 @@ public abstract class BinaryExpression implements Expression {
 	}	
 	
 	@Override
-	public void collectIds(IdCollector idCollector) {
-		left.collectIds(idCollector);
-		right.collectIds(idCollector);
+	public void collectIds(IdCollection idCollection) {
+		left.collectIds(idCollection);
+		right.collectIds(idCollection);
 	}
 }

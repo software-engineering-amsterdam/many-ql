@@ -5,7 +5,7 @@ import java.util.List;
 import org.uva.qls.ast.BaseNode;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IdentifierLiteral;
-import org.uva.qls.ast.style.Style;
+import org.uva.qls.ast.style.StyleProperty;
 
 public class Page extends BaseNode {
 
@@ -46,5 +46,10 @@ public class Page extends BaseNode {
 
 	public int getStyleListSize() {
 		return styleList.size();
+	}
+	
+	@Override
+	public String toString() {
+		return identifier.getValue().toString();
 	}
 }

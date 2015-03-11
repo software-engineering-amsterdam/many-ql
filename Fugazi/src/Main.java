@@ -54,8 +54,8 @@ public class Main {
         }
 
         // Render GUI.
-//        GUIBuilder guiBuilder = new GUIBuilder(form);
-//        guiBuilder.renderUI();
+        GUIBuilder guiBuilder = new GUIBuilder(form);
+        guiBuilder.renderUI();
 
         /** ---------------------
          * QLS

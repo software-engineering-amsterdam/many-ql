@@ -9,8 +9,8 @@ namespace QuestionnaireLanguage.Visitors.Interfaces
 {
     public interface IValueVisitor
     {
-        string Visit(Values.String question);
-        int Visit(Values.Int conditional);
-        bool Visit(Values.Bool conditional);
+        string Visit(Values.String value);
+        int Visit(Values.Int value);
+        bool Visit(Values.Bool value);
     }
 }

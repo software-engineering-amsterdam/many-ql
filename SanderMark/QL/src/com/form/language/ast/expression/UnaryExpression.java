@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 
 public abstract class UnaryExpression implements Expression{
 	public Token tokenInfo;
@@ -25,7 +25,7 @@ public abstract class UnaryExpression implements Expression{
 	}
 	
 	@Override
-	public void collectIds(IdCollector idCollector) {
-		value.collectIds(idCollector);
+	public void collectIds(IdCollection idCollection) {
+		value.collectIds(idCollection);
 	}	
 }

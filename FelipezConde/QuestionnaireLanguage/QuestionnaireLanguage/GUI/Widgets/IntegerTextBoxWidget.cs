@@ -15,12 +15,28 @@ namespace QuestionnaireLanguage.GUI.Widgets
     {
         public IntegerTextBoxWidget(){}
 
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(true) { Name = Id };
+            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value) };
         }
 
-        public IntegerTextBoxWidget(string id, Values.Int node)
+        private string GetControlValue(dynamic value)
+        {
+            string result = string.Empty;
+
+            int outParse;
+            if (int.TryParse(value.ToString(), out outParse))
+            {
+                if (outParse != int.MinValue)
+                {
+                    result = value.ToString();
+                }
+            }
+
+            return result;
+        }
+
+        public IntegerTextBoxWidget(string id)
         {
             Id = id;
         }

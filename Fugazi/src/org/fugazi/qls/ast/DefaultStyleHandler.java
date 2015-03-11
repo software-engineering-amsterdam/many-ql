@@ -1,7 +1,6 @@
 package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
@@ -109,59 +108,68 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private void setStyleToQuestion(
             Question _question, List<DefaultStyleDeclaration> _segmentDefaultStyles)
     {
-        Type questionType = getQuestionType(_question);
+        Type questionType = getQLQuestionType(_question);
 
-        if (_segmentDefaultStyles.size() == 0) {
-            // if there is no default style declaration, set defaults
-            this.setDefaultWidgetToQuestion(_question);
-        } else {
-            for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
-                Type currentDeclarationType = currentDeclaration.getQuestionType();
+        // The question does not exist in the QL Form.
+        if (questionType != null) {
+            if (_segmentDefaultStyles.size() == 0) {
+                // if there is no default style declaration, set defaults
+                this.setDefaultWidgetToQuestion(_question);
+            } else {
+                for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
+                    Type currentDeclarationType = currentDeclaration.getQuestionType();
 
-                // if there is a style declaration for the question's type
-                if (questionType.equals(currentDeclarationType)) {
-                    this.setWidgetToQuestion(_question, currentDeclaration);
-                } else {
-                    // if there is no default style declaration for this type, set defaults
-                    this.setDefaultWidgetToQuestion(_question);
+                    // if there is a style declaration for the question's type
+                    if (questionType.equals(currentDeclarationType)) {
+                        this.setWidgetToQuestion(_question, currentDeclaration);
+                    } else {
+                        // if there is no default style declaration for this type, set defaults
+                        this.setDefaultWidgetToQuestion(_question);
+                    }
                 }
             }
         }
     }
 
     private void setWidgetToQuestion(Question _question, DefaultStyleDeclaration _styleDeclr) {
-        Type questionType = getQuestionType(_question);
+        Type questionType = getQLQuestionType(_question);
+        String questionLabel = getQLQuestionLabel(_question);
 
-        Widget currentDeclarationWidget = _styleDeclr.getWidget();
-        // if the widget is undefined, set the default widget fot that type.
-        if (currentDeclarationWidget.isUndefined()) {
-            currentDeclarationWidget = getDefaultWidgetForType(questionType);
+        if (questionType != null) {
+            Widget currentDeclarationWidget = _styleDeclr.getWidget();
+            // if the widget is undefined, set the default widget fot that type.
+            if (currentDeclarationWidget.isUndefined()) {
+                currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel);
+            }
+
+            Style currentDeclarationStyle = _styleDeclr.getStyle();
+            // if the style is undefined, set the default style of that widget.
+            // otherwise set the right style.
+            if (currentDeclarationStyle.isUndefined()) {
+                currentDeclarationWidget.resetStyleToDefault();
+                currentDeclarationWidget.setLabel(questionLabel);
+            } else {
+                currentDeclarationWidget.applyStyle(currentDeclarationStyle);
+            }
+
+            // set widget to the question.
+            _question.setWidget(currentDeclarationWidget);
         }
-
-        Style currentDeclarationStyle = _styleDeclr.getStyle();
-        // if the style is undefined, set the default style of that widget.
-        // otherwise set the right style.
-        if (currentDeclarationStyle.isUndefined()) {
-            currentDeclarationWidget.resetStyleToDefault();
-        } else {
-            currentDeclarationWidget.applyStyle(currentDeclarationStyle);
-        }
-
-        // set widget to the question.
-        _question.setWidget(currentDeclarationWidget);
     }
 
     private void setDefaultWidgetToQuestion(Question _question) {
-        Type questionType = getQuestionType(_question);
+        Type questionType = getQLQuestionType(_question);
+        String questionLabel = getQLQuestionLabel(_question);
 
-        Widget defaultWidget = getDefaultWidgetForType(questionType);
-        defaultWidget.resetStyleToDefault();
-        _question.setWidget(defaultWidget);
+        if (questionType != null) {
+            Widget defaultWidget = getDefaultWidgetForType(questionType, questionLabel);
+            defaultWidget.resetStyleToDefault();
+            _question.setWidget(defaultWidget);
+        }
     }
 
-    private Type getQuestionType(Question _question) {
+    private Type getQLQuestionType(Question _question) {
         List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
-
         for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
             if (qlQuestion.getIdName().equals(_question.getIdName())) {
                 return qlQuestion.getType();
@@ -170,8 +178,18 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return null;
     }
 
-    private Widget getDefaultWidgetForType(Type _questionType) {
+    private String getQLQuestionLabel(Question _question) {
+        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
+        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
+            if (qlQuestion.getIdName().equals(_question.getIdName())) {
+                return qlQuestion.getLabel();
+            }
+        }
+        return "";
+    }
+
+    private Widget getDefaultWidgetForType(Type _questionType, String _questionLabel) {
         DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
-        return defaultWidgetsFactory.getDefaultWidget(_questionType);
+        return defaultWidgetsFactory.getDefaultWidget(_questionType, _questionLabel);
     }
 }

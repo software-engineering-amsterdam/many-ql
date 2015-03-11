@@ -20,7 +20,7 @@ namespace AST.Nodes.Values
         }
         public virtual PositionInText GetPosition(){ return Position; }
 
-        public abstract object GetType(ISymbolTable lookup);
+        public abstract object GetValueType();
         public abstract Value Equal(Value value);
         public abstract Value NotEqual(Value value);
 

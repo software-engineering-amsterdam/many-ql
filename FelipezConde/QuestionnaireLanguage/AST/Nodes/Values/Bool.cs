@@ -36,9 +36,9 @@ namespace AST.Nodes.Values
             return "bool";
         }
 
-        public override object GetType(Storage.ISymbolTable lookup)
+        public override object GetValueType()
         {
-            return null;
+            return this;
         }
 
         // Visitor Methods

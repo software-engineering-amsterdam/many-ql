@@ -32,9 +32,9 @@ namespace AST.Nodes.Values
             return value;
         }
 
-        public override object GetType(Storage.ISymbolTable lookup)
+        public override object GetValueType()
         {
-            return null;
+            return this;
         }
 
         // Visitor Methods

@@ -1,4 +1,6 @@
 ﻿using AST.Nodes.Values;
+using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.Factory;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using System;
 using System.Collections.Generic;
@@ -12,25 +14,10 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
     public class CustomCheckBox : CheckBox, ICustomControl
     {
-        private IList<string> listConditionalId;
-        public IList<string> ListConditionalId
-        {
-            get { return this.listConditionalId; }
-            private set { this.listConditionalId = value; }
-
-        }
-
         #region Constructors
         public CustomCheckBox()
         {
             AddEvents();
-        }
-        #endregion
-
-        #region ICustomControl
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
         }
         #endregion
 
@@ -44,7 +31,8 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Conditional Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement event
+            Processor.UpdateValue(((CustomCheckBox)sender).Name,
+                                   NodeValueFactory.GetNodeValue(((CustomCheckBox)sender).IsChecked));
         }
 
         #endregion

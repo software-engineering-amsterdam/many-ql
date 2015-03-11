@@ -1,4 +1,6 @@
 ﻿using AST.Nodes.FormObject;
+using ASTInterface = AST.Nodes.Interfaces;
+using AST.Nodes.Values;
 using QuestionnaireLanguage.Controller;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
@@ -6,6 +8,7 @@ using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
 using QuestionnaireLanguage.GUI.Widgets;
+using QuestionnaireLanguage.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,24 +35,11 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public UIElement ProcessFormObject(UIElement form)
         {
-            //Processor.Evaluate(this.conditionalNode.Condition);
+            Value value = Processor.Evaluate(this.conditionalNode.Condition);
 
-            Widget stackPanelWidget = new StackPanelWidget(false);
-            UIElement customStackPanel = stackPanelWidget.CreateUIControl();
-            
-            //stackPanelWidget.Id to identify this conditional
+            Widget stackPanelWidget = new StackPanelWidget();
+            UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
 
-            //Evaluate the expression
-            //customStackPanel.Visibility = Visibility.Hidden;
-
-            /*
-             *
-             * Verify the conditional expression to set visibility
-             * 
-             * Get Id of elements from the expression (if exist).
-             * Find elements in the form and assign stack
-             */
-            
             return AddChildren(Processor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
 

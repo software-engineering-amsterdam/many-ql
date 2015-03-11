@@ -10,6 +10,10 @@ public class Fontsize extends StyleNumber {
 		super(fontSize, pos);
 	}
 
+	public Fontsize(int fontSize, CodePosition pos) {
+		super(fontSize, pos);
+	}
+	
 	@Override
 	public <T> T accept(StyleVisitor<T> visitor) {
 		return visitor.visit(this);

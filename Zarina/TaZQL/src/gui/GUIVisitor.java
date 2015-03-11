@@ -7,7 +7,6 @@ import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
-import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
@@ -23,13 +22,10 @@ import ast.question.SimpleQuestion;
 public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	private final GUIRender gui;
 	private final ValueRepository valueRepository;
-	private EvaluateExpression evaluator;
-	private Expression expression;
-
+	
 	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
 		this.gui = gui;
 		this.valueRepository = valueRepository;
-		//evaluator = new EvaluateExpression_old(valueRepository, expression);
 	} 
 	
 
@@ -51,7 +47,6 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	
 	@Override
 	public IQuestionUI visit(Question question) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -61,7 +56,6 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId().getID(),
 												   new JLabel(simpleQuestion.getQuestionText()), 
 												   this.widget(simpleQuestion));
-												 //  this.valueRepository);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
 		return sq;
@@ -73,31 +67,28 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 													new JLabel(calQuestion.getQuestionText()), 
 													this.widget(calQuestion),
 													this.valueRepository,
-													//this.sendToUpdater(calQuestion.getExpression()).updatedValue(),
 													this.sendToUpdater(calQuestion.getExpression()));
 		
 		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
-		sq.updateGUI();  //getUpdater();
+		sq.updateGUI();
 		return sq;
 	}
 	
 	@Override
 	public IQuestionUI visit(IfStatement ifStatement) {
-		IfQuestionUI ifq = new IfQuestionUI();
+		IfQuestionUI ifq = new IfQuestionUI(this.sendToUpdater(ifStatement.getExpression()));
 	
-	
-	//	ifStatement.getExpression(); <--- send it to IfQuestionUI for evaluation
-		for(Question q : ifStatement.getIfStatement()){
-			ifq.showIfBody(q.accept(this));
-			//System.out.println(q.getClass());
-			//IQuestionUI aQuestion = visit(q);
-		//	System.out.println("visited "+q.getClass());
-		}
+			for(Question q : ifStatement.getIfStatement()) {
+				ifq.showIfBody(q.accept(this));
+			}
+			
+		ifq.updateGUI();
 		return ifq;
 	}
 
 	@Override
 	public IQuestionUI visit(IfElseStatement ifElseStatement) {
+//		System.out.println("visited "+q.getClass());
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -20,6 +20,15 @@ public class TextBox extends Widget {
     public TextBox() {
     }
 
+    public TextBox(int _lineNum, String _label) {
+        super(_lineNum);
+        this.label = _label;
+    }
+
+    public TextBox(String _label) {
+        this.label = _label;
+    }
+
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;

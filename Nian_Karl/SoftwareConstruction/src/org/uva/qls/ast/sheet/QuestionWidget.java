@@ -2,7 +2,7 @@ package org.uva.qls.ast.sheet;
 
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IdentifierLiteral;
-import org.uva.qls.ast.widget.WidgetType;
+import org.uva.qls.ast.style.widget.WidgetType;
 
 public class QuestionWidget extends Question {
 

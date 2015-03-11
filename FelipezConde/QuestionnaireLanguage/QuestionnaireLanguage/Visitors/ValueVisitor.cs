@@ -4,24 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Values = AST.Nodes.Values;
+using Types = AST.Types;
+using AST.Nodes.Interfaces;
 
 namespace QuestionnaireLanguage.Visitors
 {
-    public class ValueVisitor : IValueVisitor
+    public static class ValueVisitor
     {
-        public string Visit(AST.Nodes.Values.String question)
+        public static string Visit(Values.String value)
         {
-            throw new NotImplementedException();
+            return value.GetValue();
         }
 
-        public int Visit(AST.Nodes.Values.Int conditional)
+        public static int Visit(Values.Int value)
         {
-            throw new NotImplementedException();
+            return value.GetValue();
         }
 
-        public bool Visit(AST.Nodes.Values.Bool conditional)
+        public static bool Visit(Values.Bool value)
         {
-            throw new NotImplementedException();
+            return value.GetValue();
         }
     }
 }

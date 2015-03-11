@@ -13,7 +13,8 @@ namespace AST.Storage
     {
         bool IsInTable(Id id);
         Value GetValue(Id id);
-        void SetValue(Id id, Value newValue);
+        void SetUpdateValue(Id id, Value value);
+        void AddValue(Id id, Value value);
         
     }
 }

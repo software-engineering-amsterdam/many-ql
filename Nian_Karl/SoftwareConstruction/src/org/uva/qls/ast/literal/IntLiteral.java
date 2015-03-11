@@ -16,6 +16,12 @@ public class IntLiteral extends Literal{
 		this.value = value;
 	}
 
+	public IntLiteral(int value,CodePosition pos) {
+		super(pos);
+		this.value = new IntValue(value);
+	}
+
+	
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {
 		return visitor.visit(this);

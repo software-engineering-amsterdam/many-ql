@@ -23,7 +23,7 @@ public class Test {
 		Form form = parser.form().result;
 		
 //		//Collect all the variables
-//		IdCollector ids = new IdCollector();		
+//		IdCollection ids = new IdCollection();		
 //		form.collectIds(ids);
 //		
 //		//Set the types of the referencing variables in the form
