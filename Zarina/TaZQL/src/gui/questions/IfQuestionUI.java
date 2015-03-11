@@ -24,10 +24,12 @@ public class IfQuestionUI implements IQuestionUI,IQuestionUpdater {
 	}
 
 	@Override
-	public boolean setVisibilityValue(Value value) {
+	public void setVisibilityValue(Value value) {
 		boolean visibility = Boolean.parseBoolean(value.toString());
 		System.out.println("visibility " + visibility);
-		return visibility;
+		for (IQuestionUI question : ifBody) {
+			question.setVisibilityValue(value);
+		}
 	}
 	
 

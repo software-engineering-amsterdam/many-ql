@@ -44,16 +44,16 @@ public class SimpleQuestionUI implements IQuestionUI {
 	}
 
 	@Override
-	public boolean setVisibilityValue(Value value) {
-		if ( value != null) {
+	public void setVisibilityValue(Value value) {
 		boolean visibility = Boolean.parseBoolean(value.toString());
-		this.wc.setVisible(visibility);
-		}
-		else {
-			this.wc.setVisible(true);
-		}
+		//if ( value != null) {
+			//boolean visibility = Boolean.parseBoolean(value.toString());
+			this.wc.setVisible(visibility);
+			this.label.setVisible(visibility);
+		//} 
 		
+		//this.wc.setVisible(false);
 		// TODO Auto-generated method stub
-		return false;
+		//return false;
 	}
 }

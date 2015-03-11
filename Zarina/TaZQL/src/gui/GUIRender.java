@@ -1,14 +1,8 @@
 package gui;
 
-import evaluator.ValueRepository;
-import gui.questions.SimpleQuestionUI;
-import gui.widgets.IWidgetComponent;
-
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -43,6 +37,8 @@ import ast.type.UndefinedType;
 import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
+import evaluator.ValueRepository;
+import gui.questions.SimpleQuestionUI;
 
 public class GUIRender implements IFormVisitor<JPanel> {
 	private final JPanel panel;
@@ -62,34 +58,14 @@ public class GUIRender implements IFormVisitor<JPanel> {
 		return visitor.getPanel();
 	}
 	
-	
 	public JPanel getPanel() {
 		return panel;
 	}
-	
-	public void attachPanel(JPanel attachedPanel) {
-		this.panel.add(attachedPanel);
-	}
-	
-	public void getLabel(String text) {
-		this.panel.add(new JLabel(text));
-		this.panel.setVisible(true);
-	}
-	
-	//to be changed in widget
-	public JComponent addWidget(IWidgetComponent co) { 
-		this.panel.add(co.getWidget(), "wrap");
-		this.panel.setVisible(true); //temporary
-		this.panel.validate();
-		this.panel.repaint();
-		return panel;
-	}
-	
 
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
-            System.out.println(k+" <- id of label & widget ");
+            System.out.println(k+" <- added to panel ");
             this.panel.add(widgetsRepository.get(k).getLabel());
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");
         }	
@@ -128,38 +104,10 @@ public class GUIRender implements IFormVisitor<JPanel> {
 		return null;
 	}
 
-	@Override
-	public JPanel visit(SimpleQuestion simpleQuestion) {
-		//new Update().update();
-		//new GUIVisitor(this).widget(simpleQuestion).addDocListener();
-	//	getLabel(simpleQuestion.getQuestionText());
-		//addWidget(widget(simpleQuestion));
-		//widget(simpleQuestion).addDocListener();	
-		//System.out.println(widget(simpleQuestion).getValue());
-		//SimpleQuestionUI simp = new SimpleQuestionUI();
-		//Connector conny = new Connector(this);
-		//conny.widget(simpleQuestion);
-		
-		//this.panel.add(conny.widget(simpleQuestion).getWidget());
-		//System.out.println("Test: are you working or what");
-		//IQuestions q;
-		//this.panel.add(simp.createdLabel(), "wrap");
-		
-	//	getLabel(simpleQuestion.getQuestionText());
-		
-		//new Connector().widget(simpleQuestion);
-	//	System.out.println("q:");
-	//	this.panel.add(simp.createdLabel(), "wrap");
-	//	SimpleQuestion sq = new SimpleQuestion(simpleQuestion.getQuestionId(),simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType());
-	//	c.setIdWidget(simpleQuestion.getQuestionId());
-	//	c.setLabel(simpleQuestion.getQuestionText());
-	//	c.setWidgetType(simpleQuestion.getQuestionType());
-	//	this.panel.add(sq.g, "wrap");
-	//	this.panel.setVisible(true); //temporary
-	//	visibility(true);
-	//	attachEvent('onUnfocus', call_update_symboltable_with_its_data());
-		return null;
-	}
+@Override
+public JPanel visit(SimpleQuestion simpleQuestion) {
+	return null;
+}
 
 @Override
 public JPanel visit(ComputationQuestion calQuestion) {
