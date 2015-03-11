@@ -1,4 +1,4 @@
-package helper;
+package nl.uva.softwcons.helper;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
@@ -15,5 +15,9 @@ public final class TestHelper {
 
     public static String buildForm(final String formName, final String... statements) {
         return String.format("form %s {%n %s %n}", formName, String.join("\n", statements));
+    }
+
+    public static String buildStylesheet(final String stylesheetName, final String... pages) {
+        return String.format("stylesheet %s {%n %s %n}", stylesheetName, String.join(" ", pages));
     }
 }
