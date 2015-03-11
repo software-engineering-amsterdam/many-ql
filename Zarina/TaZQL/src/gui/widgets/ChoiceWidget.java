@@ -76,5 +76,8 @@ public class ChoiceWidget implements IWidgetComponent {
 		assert false: "Not supported in Checkbox, only for textfields.";
 	}
 	
-
+	@Override
+	public void setVisible(boolean visibility) {
+		widget.setVisible(visibility);
+	}
 }

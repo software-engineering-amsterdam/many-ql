@@ -21,4 +21,6 @@ public interface IWidgetComponent {
 	
 	public void setBooleanValue(boolean value);
 	public void setValue(String value);	
+	
+	public void setVisible(boolean visibility);
 }

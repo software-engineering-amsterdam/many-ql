@@ -73,4 +73,9 @@ public class TextFieldWidget implements IWidgetComponent {
 	public void setBooleanValue(boolean value) {
 		assert false: "Can't be used for text widget, only for checkbox widget.";
 	}
+
+	@Override
+	public void setVisible(boolean visibility) {
+		widget.setVisible(visibility);
+	}
 }
