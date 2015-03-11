@@ -41,8 +41,7 @@ public class IntegerListener extends AListener implements DocumentListener {
 			System.out.println("Integer: " + value);
 			
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
-			evaluator.setValueInGUI();	
-			evaluator.setVisibilityInGUI();	
+			evaluator.setValueInGUI();		
 		}
 		else { 
 			System.out.println("Illegal input: digits only!");

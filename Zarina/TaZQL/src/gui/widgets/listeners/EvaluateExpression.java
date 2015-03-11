@@ -20,7 +20,6 @@ public class EvaluateExpression {
 		this.setQuestion = setQuestion;
 		evaluate();
 		setValueInGUI();
-		setVisibilityInGUI();
 	}
 		
 	public Value evaluate() {
@@ -33,15 +32,11 @@ public class EvaluateExpression {
 	}
 	
 	public void setValueInGUI() {
-		if("true".equals(evaluate()) || "false".equals(evaluate())) {
+		if("true".equals(String.valueOf(evaluate())) || "false".equals(String.valueOf(evaluate()))) {
 			this.setQuestion.setVisibilityValue(evaluate());
 		}
 		else {
 			this.setQuestion.setValue(evaluate());
 		}
-	}
-	
-	public void setVisibilityInGUI() {
-		this.setQuestion.setVisibilityValue(evaluate());
 	}
 }
