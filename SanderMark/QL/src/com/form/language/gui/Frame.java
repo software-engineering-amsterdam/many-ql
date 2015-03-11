@@ -57,18 +57,19 @@ public class Frame {
 	private void initialize() {
 		final Context context = new Context();
 		frame = new JFrame();
+		//TODO: fix these magic numbers
 		frame.setBounds(100, 100, 450, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-				
+		//TODO: fix these magic numbers
 		textArea_input = new JTextArea();
 		textArea_input.setBounds(10, 11, 414, 98);
 		frame.getContentPane().add(textArea_input);
-		
+		//TODO: fix these magic numbers
 		textArea_output = new JTextArea();
 		textArea_output.setBounds(10, 154, 414, 91);
 		frame.getContentPane().add(textArea_output);
-
+		//TODO: fix these magic numbers
 		final JPanel panel = new JPanel();
 		panel.setBounds(10, 256, 414, 62);
 		frame.getContentPane().add(panel);
