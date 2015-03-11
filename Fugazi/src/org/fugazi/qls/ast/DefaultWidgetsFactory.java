@@ -11,18 +11,18 @@ import org.fugazi.qls.ast.widget.Widget;
 
 public class DefaultWidgetsFactory {
 
-    public Widget getDefaultWidget(Type _type) {
+    public Widget getDefaultWidget(Type _type, String _questionLabel) {
 
         if (_type.equals(new BoolType())) {
-            return new CheckBox();
+            return new CheckBox(_questionLabel);
         }
 
         if (_type.equals(new StringType())) {
-            return new TextBox();
+            return new TextBox(_questionLabel);
         }
 
         if (_type.equals(new IntType())) {
-            return new Slider();
+            return new Slider(_questionLabel);
         }
 
         return null;
