@@ -12,63 +12,67 @@ public final class UndefinedValue extends Value {
     }
 
     @Override
-    public Value getValueFromString(String string) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Value add(Value otherValue) {
+    public Value add(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value subtract(Value otherValue) {
+    public Value subtract(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value multiply(Value otherValue) {
+    public Value multiply(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value divide(Value otherValue) {
+    public Value divide(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value isEqual(Value otherValue) {
+    public Value isEqual(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value isGreater(Value otherValue) {
+    public Value isEqualBoolean(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value isLower(Value otherValue) {
+    public Value isEqualString(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value isGreaterOrEqual(Value otherValue) {
+    public Value isGreater(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value isLowerOrEqual(Value otherValue) {
+    public Value isLower(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value and(Value otherValue) {
+    public Value isGreaterOrEqual(final Value otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    public Value or(Value otherValue) {
+    public Value isLowerOrEqual(final Value otherValue) {
+        return UNDEFINED;
+    }
+
+    @Override
+    public Value and(final Value otherValue) {
+        return UNDEFINED;
+    }
+
+    @Override
+    public Value or(final Value otherValue) {
         return UNDEFINED;
     }
 
@@ -78,58 +82,62 @@ public final class UndefinedValue extends Value {
     }
 
     @Override
-    protected Value addNumber(NumberValue otherValue) {
+    public Value addNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value subtractNumber(NumberValue otherValue) {
+    public Value subtractNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value multiplyNumber(NumberValue otherValue) {
+    public Value multiplyNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value divideNumber(NumberValue otherValue) {
+    public Value divideNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value isEqualNumber(NumberValue otherValue) {
+    public Value isEqualNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value isGreaterNumber(NumberValue otherValue) {
+    public Value isGreaterNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value isLowerNumber(NumberValue otherValue) {
+    public Value isLowerNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value isGreaterOrEqualNumber(NumberValue otherValue) {
+    public Value isGreaterOrEqualNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value isLowerOrEqualNumber(NumberValue otherValue) {
+    public Value isLowerOrEqualNumber(final NumberValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value andBoolean(BooleanValue otherValue) {
+    public Value andBoolean(final BooleanValue otherValue) {
         return UNDEFINED;
     }
 
     @Override
-    protected Value orBoolean(BooleanValue otherValue) {
+    public Value orBoolean(final BooleanValue otherValue) {
         return UNDEFINED;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
 }

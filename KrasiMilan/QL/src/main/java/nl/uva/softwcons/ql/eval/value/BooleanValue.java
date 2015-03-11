@@ -1,7 +1,6 @@
 package nl.uva.softwcons.ql.eval.value;
 
 public class BooleanValue extends Value {
-
     private final Boolean value;
 
     public BooleanValue(boolean literal) {
@@ -19,22 +18,17 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public String asString() {
-        return value.toString();
+    public Value isEqual(final Value otherValue) {
+        return otherValue.isEqualBoolean(this);
     }
 
     @Override
-    public Value isEqual(Value otherValue) {
-        return new BooleanValue(this.value.equals(otherValue.asBoolean()));
-    }
-
-    @Override
-    public Value and(Value otherValue) {
+    public Value and(final Value otherValue) {
         return otherValue.andBoolean(this);
     }
 
     @Override
-    public Value or(Value otherValue) {
+    public Value or(final Value otherValue) {
         return otherValue.orBoolean(this);
     }
 
@@ -44,18 +38,18 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Value getValueFromString(String string) {
-        return new BooleanValue(Boolean.valueOf(string));
-    }
-
-    @Override
-    protected Value andBoolean(BooleanValue otherValue) {
+    public Value andBoolean(final BooleanValue otherValue) {
         return new BooleanValue(this.value && otherValue.asBoolean());
     }
 
     @Override
-    protected Value orBoolean(BooleanValue otherValue) {
+    public Value orBoolean(final BooleanValue otherValue) {
         return new BooleanValue(this.value || otherValue.asBoolean());
+    }
+
+    @Override
+    public Value isEqualBoolean(final Value otherValue) {
+        return new BooleanValue(this.value.equals(otherValue.asBoolean()));
     }
 
     @Override
