@@ -31,12 +31,13 @@ GE            : '>=';
 NE            : '!=';
 EQ            : '==';
 
-STRINGLITERAL  : '"' .*? '"';
+STRINGLITERAL  : '"' (ESCAPE | .)*? '"';
 BOOLEANLITERAL: 'true' | 'false';
 INTEGERLITERAL: [0-9]+;
 
 NAME          : [a-zA-Z]+;
 
+ESCAPE        : '\\"';
 
 WS            : (' ' | '\t')+ -> skip;
-NL            :  ('\r'? '\n') ->skip;
+NL            :  ('\r'? '\n') -> skip;
