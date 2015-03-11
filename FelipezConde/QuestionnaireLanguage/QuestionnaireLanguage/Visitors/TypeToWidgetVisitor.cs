@@ -1,5 +1,4 @@
 ﻿using AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Factories.Widgets;
 using QuestionnaireLanguage.GUI.Interfaces.Widgets;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors.Interfaces;
@@ -14,10 +13,10 @@ using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Visitors
 {
-    public class WidgetVisitor : IWidgetVisitor
+    public class TypeToWidgetVisitor : ITypeToWidgetVisitor
     {
         private string id;
-        public WidgetVisitor(string id)
+        public TypeToWidgetVisitor(string id)
         {
             this.id = id;
         }
@@ -25,24 +24,19 @@ namespace QuestionnaireLanguage.Visitors
         {
             return Visit((dynamic)value);
         }
-        public StringTextBoxWidget Visit(Values.String stringValue)
+        public StringTextBoxWidget Visit(Types.StringType stringValue)
         {
-            return WidgetFactory.GetWidget(id,stringValue);
+            return new StringTextBoxWidget(id);
         }
 
-        public IntegerTextBoxWidget Visit(Values.Int intValue)
+        public IntegerTextBoxWidget Visit(Types.IntType intValue)
         {
-            return WidgetFactory.GetWidget(id, intValue);
+            return new IntegerTextBoxWidget(id);
         }
 
-        public CheckboxWidget Visit(Values.Bool boolValue)
+        public CheckboxWidget Visit(Types.BoolType boolValue)
         {
-            return WidgetFactory.GetWidget(id, boolValue);
-        }
-
-        public LabelWidget Visit(Labels.Label value)
-        {
-            return WidgetFactory.GetWidget(value);
+            return new CheckboxWidget(id);
         }
     }
 }

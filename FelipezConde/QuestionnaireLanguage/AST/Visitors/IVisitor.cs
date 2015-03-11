@@ -41,7 +41,6 @@ namespace AST.Visitors
         void Visit(Values.Bool node);
         void Visit(Values.Int node);
         void Visit(Values.String node);
-        //void Visit(Values.Unknown node);
 
 
         //Label
@@ -101,7 +100,6 @@ namespace AST.Visitors
 
         T Visit(Nodes.Interfaces.IBinary binaryExpression);
         T Visit(Nodes.Interfaces.IUnary unaryExpression);
-
         T Visit(Values.Undefined undefined);
 
     }

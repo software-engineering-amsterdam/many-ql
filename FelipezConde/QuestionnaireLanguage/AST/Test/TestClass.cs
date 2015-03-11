@@ -46,7 +46,7 @@ namespace AST.Test
             FormVisitor visitor = new FormVisitor();
             Form ast = visitor.Visit(tree);
 
-            TypeCheck.TypeChecker.GetTypeCheckDiagnosis(ast);
+            //TypeCheck.TypeChecker.GetTypeCheckDiagnosis(ast);
 
             //Evaluate();
 

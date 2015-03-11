@@ -31,7 +31,7 @@ namespace AST
 
         public void SetValue(Id key, Value value)
         {
-            table.SetValue(key, value);
+            table.SetUpdateValue(key, value);
         }
 
         public Value GetValue(Id key)

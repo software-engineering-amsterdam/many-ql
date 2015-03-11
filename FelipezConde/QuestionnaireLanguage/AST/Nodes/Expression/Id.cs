@@ -48,7 +48,7 @@ namespace AST.Nodes.Expression
 
         public override bool Equals(object obj)
         {
-            return (this.Name == ((Id)obj).Name);
+            return (this.Name.Equals(((Id)obj).Name));
         }
 
         public override int GetHashCode()

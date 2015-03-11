@@ -12,7 +12,6 @@ using AST.Nodes;
 using AST.Representation;
 using QuestionnaireLanguage.Resources;
 using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Factories.FormObjects;
 using AST.Nodes.Expression;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using AST;
@@ -22,6 +21,7 @@ using QuestionnaireLanguage.Contracts;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
 using AST.Evaluation;
 using AST.Nodes.Values;
+using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Controller
 {
@@ -72,43 +72,45 @@ namespace QuestionnaireLanguage.Controller
 
         public static Value GetObjectValue(Id id)
         {
-            return astTree.GetValue(id);
+            return evaluator.GetValue(id);
         }
 
-        public static void SetObjectValue(Id id, Value value)
+        public static void UpdateValue(string id, Value value)
         {
-            astTree.SetValue(id,value);
-        }
-
-        public static void DeleteAstResult()
-        {
-            //astTree = null;
+            evaluator.UpdateValue(new Id(id,new PositionInText()),value);
+            window.DeleteElements();
+            Processor.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
 
         public static void UpdateChanges()
         {
-            UIElementCollection collection = window.GetControls();
+            Processor.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
 
         public static void SetVisible()
         {
         }
 
-        public static bool Evaluate(ASTIFormObject.IExpression expression)
+        public static Value Evaluate(ASTIFormObject.IExpression expression)
         {
-            Value value = evaluator.Evaluate(expression);
-            return false;
+            return evaluator.Evaluate(expression);
         }
 
-        public static void AddValue(string key, Value value, PositionInText positionInText)
+        public static void AddValue(Id key, Types.Type type)
         {
-            evaluator.AddValue(new Id(key,positionInText),value);
+            TypeToValueVisitor visitor = new TypeToValueVisitor();
+            evaluator.AddValue(key,visitor.VisitValue(type));
         }
 
-        /*TODO
-         * - Evaluate inputs
-         * - Change visibility
-         */
+        public static void UpdateValue(Id key, Types.Type type)
+        {
+            TypeToValueVisitor visitor = new TypeToValueVisitor();
+            evaluator.AddValue(key, visitor.VisitValue(type));
+        }
 
+        internal static void SetFocus(IInputElement inputElement)
+        {
+            window.SetFocus(inputElement);
+        }
     }
 }

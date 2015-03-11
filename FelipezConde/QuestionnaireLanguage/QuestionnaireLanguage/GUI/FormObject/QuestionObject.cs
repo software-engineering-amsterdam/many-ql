@@ -1,6 +1,5 @@
 ﻿using AST.Nodes.FormObject;
 using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Factories.Widgets;
 using QuestionnaireLanguage.GUI.Interfaces.Widgets;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
@@ -14,6 +13,7 @@ using System.Windows.Controls;
 using QuestionnaireLanguage.Visitors;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Controller;
+using Values = AST.Nodes.Values;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
@@ -25,7 +25,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            //Processor.AddValue(questionNode.Identifier, questionNode.RetrieveType(), questionNode.GetPosition());
+            Processor.AddValue(questionNode.Identifier, questionNode.RetrieveType());
         }
         #endregion
 
@@ -35,14 +35,29 @@ namespace QuestionnaireLanguage.GUI.FormObject
         #region IFormObject
         public UIElement ProcessFormObject(UIElement form)
         {
-            //Widget widget = new WidgetVisitor(questionNode.Identifier).VisitValue(questionNode.GetType());
-            //Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
+            Widget widget = new TypeToWidgetVisitor(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
+            Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
 
-            //AddChildren(labelWidget.CreateUIControl(), form);
-            //AddChildren(widget.CreateUIControl(), form);
+            Values.Value widgetValue = Processor.GetObjectValue(questionNode.Identifier);
+
+            widgetValue = ProcessComputation(widgetValue);
+
+            AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
+            AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
 
             return form;
         }
+
+        public Values.Value ProcessComputation(Values.Value value)
+        {
+            if (questionNode.Computation != null)
+            {
+                value = Processor.Evaluate(questionNode.Computation);
+            }
+
+            return value;
+        }
+
         #endregion
     }
 }

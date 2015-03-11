@@ -20,14 +20,14 @@ namespace QuestionnaireLanguage.GUI.Widgets
 
         }
 
-        public StringTextBoxWidget(string id, Values.String node)
+        public StringTextBoxWidget(string id)
         {
             Id = id;
         }
 
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(object value)
         {
-            return new CustomTextBox(false) { Name = Id };
+            return new CustomTextBox(false) { Name = Id, Text = value.ToString() };
         }
     }
 }

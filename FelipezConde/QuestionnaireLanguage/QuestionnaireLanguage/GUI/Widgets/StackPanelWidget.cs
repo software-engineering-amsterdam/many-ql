@@ -1,4 +1,5 @@
-﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
+﻿using AST.Nodes.Values;
+using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
 using QuestionnaireLanguage.GUI.Interfaces.Widgets;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ namespace QuestionnaireLanguage.GUI.Widgets
     public class StackPanelWidget : Widget
     {
         private static int conditionalCount;
-        private bool visible;
 
         public static int ConditionalCount
         {
@@ -22,18 +22,17 @@ namespace QuestionnaireLanguage.GUI.Widgets
             private set { conditionalCount = value; }
         }
 
-        public StackPanelWidget(bool visible)
+        public StackPanelWidget()
         {
             Id = ConfigurationSettings.AppSettings["stackPanelId"].ToString() + conditionalCount.ToString();
             conditionalCount++;
-            this.visible = visible;
 
         }
 
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
             return new CustomStackPanel() { Name = Id, 
-                                            Visibility = this.visible ? Visibility.Visible : Visibility.Hidden};
+                                            Visibility = value ? Visibility.Visible : Visibility.Hidden};
         }
     }
 }

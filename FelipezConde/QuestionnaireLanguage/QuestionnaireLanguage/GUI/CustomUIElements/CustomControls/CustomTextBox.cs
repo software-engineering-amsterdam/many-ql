@@ -1,4 +1,5 @@
 ﻿using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.Factory;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using System;
 using System.Collections.Generic;
@@ -57,16 +58,21 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         }
         private void Lost_Focus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Processor.UpdateChanges();
+            if (isNumeric)
+            {
+                int outValue = 0;
+                int.TryParse(((CustomTextBox)sender).Text, out outValue);
+
+                Processor.UpdateValue(((CustomTextBox)sender).Name,
+                                   NodeValueFactory.GetNodeValue(outValue));
+            }
+            else
+            {
+                Processor.UpdateValue(((CustomTextBox)sender).Name,
+                                   NodeValueFactory.GetNodeValue(((CustomTextBox)sender).Text));
+            }
         }
 
-        #endregion
-
-        #region ICustomControl
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
-        }
         #endregion
     }
 }

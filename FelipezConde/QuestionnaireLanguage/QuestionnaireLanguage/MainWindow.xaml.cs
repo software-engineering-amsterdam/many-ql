@@ -49,5 +49,20 @@ namespace QuestionnaireLanguage
         {
             this._stack.Children.Add(element);
         }
+
+        public UIElement GetRootElement()
+        {
+            return this._stack;
+        }
+
+        public void DeleteElements()
+        {
+            this._stack.Children.Clear();
+        }
+
+        public void SetFocus(IInputElement inputElement)
+        {
+            Keyboard.Focus(inputElement);
+        }
     }
 }
