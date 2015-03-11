@@ -5,8 +5,8 @@ stylesheet taxOfficeExample
     }
 
     page WRONG {
-      section "UNDEF" {
-        question UNDEFINEDQUESTION
+      section "undefined" {
+        question undefinedQuestion
           widget spinbox
       }
     }

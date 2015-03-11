@@ -6,6 +6,7 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,26 +14,52 @@ public class TextBox extends Widget {
 
     public final static int DEFAULT_WIDTH = 7;
 
+    private JPanel component;
+    private JTextField componentValue;
+    private JLabel componentLabel;
+
     public TextBox(int _lineNum) {
         super(_lineNum);
+        this.buildWidget("");
     }
 
     public TextBox() {
+        this.buildWidget("");
     }
 
     public TextBox(int _lineNum, String _label) {
         super(_lineNum);
         this.label = _label;
+        this.buildWidget(_label);
     }
 
     public TextBox(String _label) {
         this.label = _label;
+        this.buildWidget(_label);
+    }
+
+    private void buildWidget(String _label) {
+        this.component = new JPanel();
+        this.componentValue = new JTextField();
+        this.componentLabel = new JLabel(_label);
+        this.component.add(componentValue);
+        this.component.add(componentLabel);
     }
 
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;
+
+        // inherit properties that are not set in the given style from default.
+        this.style.inheriteFromStyle(this.getDefaultStyle());
+
         // todo
+    }
+
+    @Override
+    public void setLabel(String _label) {
+        this.label = _label;
+        this.componentLabel.setText(label);
     }
 
     @Override

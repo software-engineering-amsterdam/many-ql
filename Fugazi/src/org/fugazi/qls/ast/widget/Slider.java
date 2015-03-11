@@ -29,6 +29,10 @@ public class Slider extends Widget {
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;
+
+        // inherit properties that are not set in the given style from default.
+        this.style.inheriteFromStyle(this.getDefaultStyle());
+
         // todo
     }
 

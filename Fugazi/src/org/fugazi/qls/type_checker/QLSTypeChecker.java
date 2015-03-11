@@ -95,7 +95,9 @@ public class QLSTypeChecker {
             List<Type> supportedQuestionTypes = questionWidget.getSupportedQuestionTypes();
             Type questionType = questionTypes.get(question.getIdName());
 
-            if (!supportedQuestionTypes.contains(questionType)) {
+            // if questionType == null that means question is not
+            // contained in the qlForm, is reported as QLS_ERROR.UNDEFINED
+            if (questionType != null && !supportedQuestionTypes.contains(questionType)) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.QLS_ERROR.WRONG_WIDGET_TYPE, question,
                         "Wrong widget " + questionWidget + " for question type "
