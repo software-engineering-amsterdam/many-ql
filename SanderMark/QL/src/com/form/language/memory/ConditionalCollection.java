@@ -9,23 +9,23 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.gui.components.QuestionComponent;
 
 public class ConditionalCollection {
-	private Map<Expression, List<QuestionComponent>> ifConditions;
+    private Map<Expression, List<QuestionComponent>> ifConditions;
 
-	public ConditionalCollection(){
-		this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();
-	} 	
-	
-	public List<QuestionComponent> get(Expression condition){
-		if(this.ifConditions.containsKey(condition)){
-			return this.ifConditions.get(condition);
-		} else {
-			return new ArrayList<QuestionComponent>();
-		}
+    public ConditionalCollection() {
+	this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();
+    }
+
+    public List<QuestionComponent> get(Expression condition) {
+	if (this.ifConditions.containsKey(condition)) {
+	    return this.ifConditions.get(condition);
+	} else {
+	    return new ArrayList<QuestionComponent>();
 	}
-	
-	public void add(Expression key,QuestionComponent value){
-		List<QuestionComponent> tempList = this.get(key);
-		tempList.add(value);
-		this.ifConditions.put(key, tempList);
-	}
+    }
+
+    public void add(Expression key, QuestionComponent value) {
+	List<QuestionComponent> tempList = this.get(key);
+	tempList.add(value);
+	this.ifConditions.put(key, tempList);
+    }
 }

@@ -5,26 +5,25 @@ import com.form.language.ast.values.IntValue;
 
 public class IntType extends Type {
 
-	@Override
-	public Type getType() {
-		return this;
-	}
-	
-	@Override
-	public Boolean isIntType(){
-		return true;
-	}
+    @Override
+    public Type getType() {
+	return this;
+    }
 
-	@Override
-	public String toString(){
-		return "Int";
-	}
+    @Override
+    public Boolean isIntType() {
+	return true;
+    }
 
-	@Override
-	public GenericValue<?> defaultValue() {
-		// TODO Auto-generated method stub
-		return new IntValue(0);
-	}
-	
-	
+    @Override
+    public String toString() {
+	return "Int";
+    }
+
+    @Override
+    public GenericValue<?> defaultValue() {
+	// TODO Auto-generated method stub
+	return new IntValue(0);
+    }
+
 }
