@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.form.language.ast.expression.literal.IdLiteral;
 
-public class IdCollector {
+public class IdCollection {
 	
 	private List<IdLiteral> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			
-	public IdCollector()
+	public IdCollection()
 	{
 		ids = new ArrayList<IdLiteral>();
 		//values = new HashMap();

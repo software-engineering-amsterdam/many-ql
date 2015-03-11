@@ -9,7 +9,7 @@ import com.form.language.ast.type.Type;
 public class IdTypeTable {
 	private Map<String, IdLiteral> idMap;
 
-	public IdTypeTable(IdCollector idList) {
+	public IdTypeTable(IdCollection idList) {
 		this.idMap = new HashMap<String, IdLiteral>();
 		for(IdLiteral id: idList.getList()){
 			if(!id.IsReference()){

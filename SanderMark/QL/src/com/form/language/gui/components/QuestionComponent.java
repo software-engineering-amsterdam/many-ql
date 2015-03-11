@@ -10,7 +10,7 @@ import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 
 public class QuestionComponent extends JPanel {
 
@@ -33,11 +33,11 @@ public class QuestionComponent extends JPanel {
 		if(showCondition != null)
 		{
 			this.setVisible(false);
-			rm.putExp(showCondition, this);
+			rm.addDependantQuestion(showCondition, this);
 			
-			IdCollector idCollector = new IdCollector();
-			showCondition.collectIds(idCollector);
-			rm.putDependencie(idCollector, showCondition);
+			IdCollection idCollection = new IdCollection();
+			showCondition.collectIds(idCollection);
+			rm.addReference(idCollection, showCondition);
 		}
 		createQuestionType();
 	}

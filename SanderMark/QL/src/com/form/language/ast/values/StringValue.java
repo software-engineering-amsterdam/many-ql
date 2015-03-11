@@ -14,7 +14,7 @@ public class StringValue extends GenericValue<String> {
 
 	@Override
 	public void addToMemory(String key, Context context) {
-		context.put(key, this);
+		context.setValue(key, this);
 	}
 	@Override
 	public String toString() {

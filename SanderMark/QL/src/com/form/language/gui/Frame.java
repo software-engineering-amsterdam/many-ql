@@ -97,11 +97,13 @@ public class Frame {
 				}
 			}
 		});
+		//TODO: fix these magic numbers
 		button_parse.setBounds(335, 120, 89, 23);
 		frame.getContentPane().add(button_parse);
 		
 		button_createQuestionnaire = new JButton("Create Survey");
 		button_createQuestionnaire.setEnabled(false);
+		//TODO: fix these magic numbers
 		button_createQuestionnaire.setBounds(216, 120, 109, 23);
 		frame.getContentPane().add(button_createQuestionnaire);
 		button_createQuestionnaire.addMouseListener(new MouseAdapter() {

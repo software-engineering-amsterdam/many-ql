@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 import com.form.language.memory.IdTypeTable;
 
 public class CheckVariableErrors {
-	public static ErrorCollector containsUndeclaredVariables(IdCollector ids, IdTypeTable types){
+	public static ErrorCollector containsUndeclaredVariables(IdCollection ids, IdTypeTable types){
 		ErrorCollector resultErrors = new ErrorCollector();
 	    Iterator<IdLiteral> idIter = ids.iterator();
 		while(idIter.hasNext()){

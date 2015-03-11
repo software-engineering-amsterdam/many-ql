@@ -8,7 +8,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -18,7 +18,7 @@ public class IdLiteral extends Literal implements Expression {
 		super(tokenInfo);
 		this.name = value;
 	}
-	public IdLiteral(String name, Type questionType,IdCollector idCollector,Token tokenInfo)
+	public IdLiteral(String name, Type questionType,IdCollection idCollection,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this.name = name;
@@ -56,8 +56,8 @@ public class IdLiteral extends Literal implements Expression {
 	}
 	
 	@Override
-	public void collectIds(IdCollector idCollector) {
-		idCollector.addId(this);
+	public void collectIds(IdCollection idCollection) {
+		idCollection.addId(this);
 	}
 
 }

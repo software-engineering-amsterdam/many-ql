@@ -28,17 +28,17 @@ public class CheckBox extends JCheckBox {
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this) {
-				context.put(question.getId(), new BoolValue(CheckBox.this.isSelected()));
+				context.setValue(question.getId(), new BoolValue(CheckBox.this.isSelected()));
 				checkDependencyVisibility();
 			}
 		}
 
 		private void checkDependencyVisibility() {			
-			Iterator<Expression> iterator = context.getExpressions(question.getId());			
+			Iterator<Expression> iterator = context.getReferencingExpressions(question.getId());			
 			while(iterator.hasNext())
 			{
 				Expression exp = iterator.next();
-				List<QuestionComponent> q = context.getQcomponent(exp);					
+				List<QuestionComponent> q = context.getDependantQuestions(exp);					
 				checkVisibilities(exp, q);
 			}
 		}
