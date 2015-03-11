@@ -39,5 +39,7 @@ NAME          : [a-zA-Z]+;
 
 ESCAPE        : '\\"';
 
+COMMENT       : ('//' .*? NL) -> skip;
+
 WS            : (' ' | '\t')+ -> skip;
 NL            :  ('\r'? '\n') -> skip;
