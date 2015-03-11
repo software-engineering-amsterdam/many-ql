@@ -35,9 +35,8 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		spinbox.setValue(integerValue.getValue());
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Value convertValue(Value value) {
+	public Value<?> convertValue(Value<?> value) {
 		if(!value.isNumeric()) {
 			throw new TypeMismatchException();
 		}

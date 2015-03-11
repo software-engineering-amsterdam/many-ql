@@ -22,8 +22,7 @@ public class CommandLine {
 		ValueEnvironment valueEnv = new ValueEnvironment();
 		
 		boolean correctTypes = false;
-		@SuppressWarnings("rawtypes")
-		Value evaluatorResult = null;
+		Value<?> evaluatorResult = null;
 		
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

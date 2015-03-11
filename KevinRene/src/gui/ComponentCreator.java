@@ -111,14 +111,13 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 		return widgetPanel;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	public UIComponent visit(ComputedQuestion compQuestionNode) {
     	UIComponent questionText = compQuestionNode.getText().accept(this);
     	UIComponent questionWidget = compQuestionNode.getType().accept(this);
     	
     	return new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText, 
-    			(InputWidget) questionWidget, compQuestionNode.getExpression(), valueEnvironment);
+    			(InputWidget<?>) questionWidget, compQuestionNode.getExpression(), valueEnvironment);
 	}
 	@Override
 	public UIComponent visit(Question questionNode) {

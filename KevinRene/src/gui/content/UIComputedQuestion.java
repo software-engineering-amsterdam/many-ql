@@ -12,7 +12,6 @@ import ql.ast.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 
-@SuppressWarnings("rawtypes")
 public class UIComputedQuestion extends UIComponent {
 	private final Identifier identifier;
 	private final Section questionPanel;
@@ -20,10 +19,10 @@ public class UIComputedQuestion extends UIComponent {
 	private final ValueEnvironment valueEnvironment;
 	
 	private final UIComponent questionText;
-	private final InputWidget inputWidget;
+	private final InputWidget<?> inputWidget;
 	
 	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
-			InputWidget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
+			InputWidget<?> inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
 		this.identifier = identifier;
 		this.expression = expression;
 		this.questionText = questionText;	
@@ -42,7 +41,7 @@ public class UIComputedQuestion extends UIComponent {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value<?> changedValue, UIComponent source) {
 		valueEnvironment.store(identifier, changedValue);
 		
 		super.handleChange(changedValue, this);

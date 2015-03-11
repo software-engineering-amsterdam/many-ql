@@ -15,9 +15,8 @@ public class Label extends UIComponent {
 		this.labelComponent = new JLabel(text.getValue());
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {}
+	public void handleChange(Value<?> changedValue, UIComponent source) {}
 	
 	@Override
 	public void updateComponent() {
