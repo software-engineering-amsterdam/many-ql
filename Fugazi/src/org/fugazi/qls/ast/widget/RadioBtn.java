@@ -62,6 +62,12 @@ public class RadioBtn extends Widget {
     }
 
     @Override
+    public void setLabel(String _label) {
+        this.label = _label;
+        this.componentLabel.setText(label);
+    }
+
+    @Override
     public void applyStyle(Style _style) {
         this.style = _style;
 
