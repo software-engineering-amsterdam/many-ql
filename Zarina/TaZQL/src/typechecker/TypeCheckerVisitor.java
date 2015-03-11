@@ -163,14 +163,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-		ifStatement.getExpression().accept(this);
-		ExpressionChecker expressionChecker = new ExpressionChecker
-												(this.errorCollector,
-												this.typeRepository,
-												ifStatement.getExpression());
-
-		expressionChecker.checkType(ifStatement.getExpression().getExpressionType());
-
+	//	ifStatement.getExpression().accept(this);
 		for(Question q : ifStatement.getIfStatement()) {
 			q.accept(this);
 		}
@@ -180,14 +173,8 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
-		ifElseStatement.getExpression().accept(this);
-		ExpressionChecker expressionChecker = new ExpressionChecker
-												(this.errorCollector,
-												this.typeRepository,
-												ifElseStatement.getExpression());
-
-		expressionChecker.checkType(ifElseStatement.getExpression().getExpressionType());
-
+		//ifElseStatement.getExpression().accept(this);
+		
 		for(Question q : ifElseStatement.getIfStatement()) {
 			q.accept(this);
 		}

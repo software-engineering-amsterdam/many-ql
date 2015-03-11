@@ -3,6 +3,7 @@ package ast.question;
 import java.util.List;
 
 import ast.expression.Expression;
+import ast.type.ChoiceType;
 
 public class IfStatement extends Question {
 
@@ -25,6 +26,10 @@ public class IfStatement extends Question {
 	@Override
 	public <T> T accept(IQuestionVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+	
+	public ChoiceType getExpressionType() {
+		return new ChoiceType();
 	}
 	
 	@Override
