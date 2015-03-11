@@ -56,7 +56,7 @@ public class Context {
 		while(iterator.hasNext())
 		{
 			IdLiteral key = iterator.next();
-			List<Expression> tempList = this.IdDependencies.get(key);
+			List<Expression> tempList = this.IdDependencies.get(key.name);
 			if(tempList != null)
 			{
 				tempList.add(value);
