@@ -47,7 +47,7 @@ public class GUIRender implements IFormVisitor<JPanel> {
 	
 	public GUIRender(ValueRepository valueRepository) {
 		this.panel = new JPanel();
-		this.panel.setLayout(new MigLayout("wrap 2")); 
+		this.panel.setLayout(new MigLayout( "hidemode 3")); 
 		this.valueRepository = valueRepository;
 		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
@@ -61,15 +61,16 @@ public class GUIRender implements IFormVisitor<JPanel> {
 	public JPanel getPanel() {
 		return panel;
 	}
-
+	
+	
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
             System.out.println(k+" <- added to panel ");
             this.panel.add(widgetsRepository.get(k).getLabel());
-            this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");
-        }	
-	}
+            this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");    
+        }
+    }
 	public Set<String> getIDkeys() {
 		Set<String> keys = widgetsRepository.keySet();
 		return keys;
