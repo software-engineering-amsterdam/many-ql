@@ -1,13 +1,17 @@
 package org.uva.sea.ql.encoders.runtime;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 
 public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
@@ -42,4 +46,18 @@ public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 		return result;
 	}
 
+	@Override
+	public Set<String> visit(BooleanExpression booleanExpression) {
+		return Collections.emptySet();
+	}
+
+	@Override
+	public Set<String> visit(IntegerExpression integerExpression) {
+		return Collections.emptySet();
+	}
+
+	@Override
+	public Set<String> visit(StringExpression stringExpression) {
+		return Collections.emptySet();
+	}
 }

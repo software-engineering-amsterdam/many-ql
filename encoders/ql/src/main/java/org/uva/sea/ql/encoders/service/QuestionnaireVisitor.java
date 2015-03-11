@@ -7,9 +7,11 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.encoders.EncodersQLBaseVisitor;
 import org.uva.sea.ql.encoders.EncodersQLParser.AddSubContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.AndContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.BooleanLiteralContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.BracedExpressionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ExpressionContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.IntegerLiteralContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.LtGtLeGeContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.MulDivContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.NameExpressionContext;
@@ -19,15 +21,19 @@ import org.uva.sea.ql.encoders.EncodersQLParser.OrContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.StringLiteralContext;
 import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
@@ -166,6 +172,27 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression expression = (Expression) visit(ctx.expr);
 		TextLocation textLocation = getTextLocation(ctx);
 		return new UnaryExpression(textLocation, operator, expression);
+	}
+
+	@Override
+	public Expression visitBooleanLiteral(BooleanLiteralContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		Boolean booleanLiteral = Boolean.valueOf(ctx.value.getText());
+		return new BooleanExpression(textLocation, booleanLiteral);
+	}
+
+	@Override
+	public Expression visitIntegerLiteral(IntegerLiteralContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		Integer integerLiteral = Integer.valueOf(ctx.value.getText());
+		return new IntegerExpression(textLocation, integerLiteral);
+	}
+
+	@Override
+	public Expression visitStringLiteral(StringLiteralContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		String stringLiteral = ctx.value.getText();
+		return new StringExpression(textLocation, stringLiteral);
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {

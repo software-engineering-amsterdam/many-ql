@@ -9,12 +9,17 @@ import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
@@ -118,4 +123,18 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		return UndefinedType.UNDEFINED;
 	}
 
+	@Override
+	public DataType visit(IntegerExpression integerExpression) {
+		return new IntegerType();
+	}
+
+	@Override
+	public DataType visit(StringExpression stringExpression) {
+		return new StringType();
+	}
+
+	@Override
+	public DataType visit(BooleanExpression booleanExpression) {
+		return new BooleanType();
+	}
 }
