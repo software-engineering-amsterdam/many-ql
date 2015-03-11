@@ -45,7 +45,11 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		return null;
 	}
 	
-	public abstract T visit(Question questionNode);
+	public T visit(Question questionNode) {
+		questionNode.getIdentifier().accept(this);
+		questionNode.getWidget().accept(this);
+		return null;
+	}
 	
 	public T visit(Section sectionNode) {
 		sectionNode.getHeader().accept(this);
@@ -75,9 +79,8 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		return null;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public T visit(ValueSet valueSetNode) {
-		for(Literal value : valueSetNode.values()) {
+		for(Literal<?> value : valueSetNode.values()) {
 			value.accept(this);
 		}
 		return null;

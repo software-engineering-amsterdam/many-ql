@@ -1,5 +1,7 @@
 package qls.ast.stylerule;
 
-public abstract class StyleProperty {
+import ql.ast.QLNode;
+
+public abstract class StyleProperty implements QLNode {
 
 }

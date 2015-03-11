@@ -20,7 +20,7 @@ public class StyleRule extends QLSStatement {
 	}
 
 	@Override
-	public String toString() {		
+	public String toString() {
 		return property.toString() + ": " + value.getValue();
 	}
 

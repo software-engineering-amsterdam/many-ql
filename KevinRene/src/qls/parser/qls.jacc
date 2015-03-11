@@ -14,11 +14,7 @@
 %token <FloatLiteral> FLOATLITERAL
 %token <FloatLiteral> MONEYLITERAL
 
-%token <Width> WIDTH
-%token <Font> FONT
-%token <FontSize> FONTSIZE
-%token <Height> HEIGHT
-%token <Color> COLOR
+%token WIDTH FONT FONTSIZE HEIGHT COLOR
 
 %token <Identifier> IDENTIFIER
 %token <Stylesheet> STYLESHEET 
@@ -41,7 +37,7 @@
 %type <StyleRule> styleRule
 %type <StyleRuleSet> styleRules
 %type <StyleProperty> styleProperty
-%type <Widget> widget
+%type <Widget> widgetType widget
 %type <Page> page
 
 %{
@@ -55,6 +51,7 @@ import ql.ast.expression.type.*;
 import qls.ast.*;
 import qls.ast.statement.*;
 import qls.ast.stylerule.*;
+import qls.ast.stylerule.property.*;
 import qls.ast.widget.*;
 
 @SuppressWarnings("all")
@@ -89,7 +86,7 @@ import qls.ast.widget.*;
         | QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
 	      ;
 
-	type 	: INTEGER	{ $$ = new QLInteger(); }
+	type : INTEGER	{ $$ = new QLInteger(); }
 	 		| MONEY		{ $$ = new QLFloat(); }
 			| FLOAT		{ $$ = new QLFloat(); }
 			| BOOLEAN	{ $$ = new QLBoolean(); }
@@ -103,7 +100,7 @@ import qls.ast.widget.*;
 			| STRINGLITERAL
 			;
 	
-	widget 	: WIDGET widgetType
+	widget : WIDGET widgetType { $$ = $2; }
 			;
 			
 	widgetType	: SPINNER           { $$ = new Spinner(); }
@@ -125,11 +122,11 @@ import qls.ast.widget.*;
 	styleRule	: styleProperty ':' literal { $$ = new StyleRule($1, $3); }
 				;
 				
-	styleProperty	: WIDTH
-					| HEIGHT
-					| FONT
-					| FONTSIZE
-					| COLOR
+	styleProperty	: WIDTH { $$ = new Width();  }
+					| HEIGHT      { $$ = new Height(); }
+					| FONT        { $$ = new Font();   }
+					| FONTSIZE    { $$ = new FontSize(); }
+					| COLOR       { $$ = new Color(); }
 					;
 
 %%

@@ -37,7 +37,9 @@ public class StyleRuleSet extends QLSStatement {
 			sb.append(rule.toString() + ", ");
 		}
 		
-		sb.setLength(sb.length() - 2);
+		if (rules.size() > 0) {
+			sb.setLength(sb.length() - 2);
+		}
 		sb.append(")");
 		
 		return sb.toString();
