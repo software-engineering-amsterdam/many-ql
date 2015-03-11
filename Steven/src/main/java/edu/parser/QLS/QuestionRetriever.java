@@ -28,7 +28,7 @@ public class QuestionRetriever implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
-        stylesheet.getStatements()
+        stylesheet.getPages()
                 .stream()
                 .forEach(statement -> statement.accept(this));
         return stylesheet;

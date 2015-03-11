@@ -70,7 +70,9 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
-        visitStatements(stylesheet.getStatements());
+        stylesheet.getPages()
+                .stream()
+                .forEach(page -> page.accept(this));
         return stylesheet;
     }
 
@@ -157,8 +159,19 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Section section) {
-        visitStatements(section.getStatements());
+        visitQuestions(section.getQuestions());
+        visitDefaultstatements(section.getDefaultStatements());
         return section;
+    }
+
+    private void visitDefaultstatements(List<Default> defaultStatements) {
+        defaultStatements.stream()
+                .forEach(statement -> statement.accept(this));
+    }
+
+    private void visitQuestions(List<QLSQuestion> sections) {
+        sections.stream()
+                .forEach(section -> section.accept(this));
     }
 
     @Override

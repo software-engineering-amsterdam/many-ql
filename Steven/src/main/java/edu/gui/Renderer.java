@@ -14,7 +14,6 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
-import edu.parser.QLS.nodes.statement.Statement;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
@@ -30,17 +29,17 @@ public class Renderer implements QLSVisitor {
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
     private final List<Question> questionsToRender;
-    private List<Style> defaultStyles;
+    private List<Default> globalDefaultStyles;
 
     public Renderer(Observer questionState) {
         questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
         mainWindow = new MainWindow(questionState);
-        defaultStyles = new ArrayList<>();
+        globalDefaultStyles = new ArrayList<>();
     }
 
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
-        this.defaultStyles = stylesheet.getStyles();
+        this.globalDefaultStyles = stylesheet.getGlobalDefaultStatements();
         initialize(inputQuestions, stylesheet);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
         mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
@@ -80,7 +79,7 @@ public class Renderer implements QLSVisitor {
     }
 
     private ArrayList<Section> createSection(List<QLSQuestion> convertedQuestions) {
-        Section section = new Section("Other", convertedQuestions, defaultStyles);
+        Section section = new Section("Other", convertedQuestions, globalDefaultStyles);
         ArrayList<Section> sections = new ArrayList<>();
         sections.add(section);
         return sections;
@@ -123,7 +122,7 @@ public class Renderer implements QLSVisitor {
     }
 
     private void visitStatements(Stylesheet stylesheet) {
-        stylesheet.getStatements()
+        stylesheet.getPages()
                 .stream()
                 .forEach(statement -> statement.accept(this));
     }
