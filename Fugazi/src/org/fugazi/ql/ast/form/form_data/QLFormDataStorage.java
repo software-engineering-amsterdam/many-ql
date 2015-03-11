@@ -40,6 +40,7 @@ public class QLFormDataStorage {
     }
 
     public List<Question> getAllQuestions() {
+        // TODO DUPLICATES!!!! RETURN ITERATOR
         List<Question> allQuestions = this.getQuestions();
         List<ComputedQuestion> computedQuestions = this.getComputedQuestions();
         allQuestions.addAll(computedQuestions);

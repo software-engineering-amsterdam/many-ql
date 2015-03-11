@@ -13,6 +13,7 @@ formAsParseResults = f.Form.form.ignore(b.BasicTypes.comment).parseFile("example
 f = f.forms.FormFactory.make_form(formAsParseResults)
 checker = t.TypeChecker(f, qls)
 
+print(f)
 pages = [1,2,3]
 gui = g.GUI.draw_pages(pages)
 

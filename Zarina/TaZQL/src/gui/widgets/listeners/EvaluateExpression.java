@@ -19,7 +19,8 @@ public class EvaluateExpression {
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);
 		this.setQuestion = setQuestion;
 		evaluate();
-		//setValueInGUI();
+		setValueInGUI();
+		setVisibilityInGUI();
 	}
 		
 	public Value evaluate() {
@@ -32,7 +33,15 @@ public class EvaluateExpression {
 	}
 	
 	public void setValueInGUI() {
-		this.setQuestion.setValue(evaluate());
+		if("true".equals(evaluate()) || "false".equals(evaluate())) {
+			this.setQuestion.setVisibilityValue(evaluate());
+		}
+		else {
+			this.setQuestion.setValue(evaluate());
+		}
 	}
 	
+	public void setVisibilityInGUI() {
+		this.setQuestion.setVisibilityValue(evaluate());
+	}
 }

@@ -1,14 +1,17 @@
 package gui.questions;
 
+import evaluator.Value;
+import gui.widgets.listeners.Updater;
+
 import java.util.LinkedHashSet;
 
-import evaluator.Value;
-
-public class IfQuestionUI implements IQuestionUI {
+public class IfQuestionUI implements IQuestionUI,IQuestionUpdater {
 	private final LinkedHashSet<IQuestionUI> ifBody;
-
-	public IfQuestionUI() {
+	private final Updater updater;
+	
+	public IfQuestionUI(Updater updater) {
 		this.ifBody = new LinkedHashSet<IQuestionUI>();	
+		this.updater = updater;
 	}
 
 	public void showIfBody(IQuestionUI iQuestionUI) {
@@ -17,6 +20,24 @@ public class IfQuestionUI implements IQuestionUI {
 
 	@Override
 	public void setValue(Value value) {
-		// TODO Auto-generated method stub		
+		assert false: "GUI Error. setValue() can't be used it if-statement questions.";
+	}
+	
+	
+	@Override
+	public void setVisibilityValue(Value value) {
+		for (IQuestionUI question : ifBody) {	
+			question.setVisibilityValue(value);
+		}
+	}
+	
+	@Override
+	public Updater getUpdater() {
+		return this.updater;
+	}
+
+	@Override
+	public void updateGUI() {
+		this.updater.updateGUI(this);
 	}
 }
