@@ -12,6 +12,7 @@ import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DefaultStyleHandler extends FullQLSFormVisitor {
@@ -169,13 +170,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private Type getQLQuestionType(Question _question) {
-        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
-        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
-            if (qlQuestion.getIdName().equals(_question.getIdName())) {
-                return qlQuestion.getType();
-            }
-        }
-        return null;
+        String questionIdName = _question.getIdName();
+        HashMap<String, Type> questionTypes = this.formDataStorage.getallQuestionTypes();
+        return questionTypes.get(questionIdName);
     }
 
     private String getQLQuestionLabel(Question _question) {
