@@ -1,9 +1,9 @@
 package gui.questions;
 
-import java.util.LinkedHashSet;
-
 import evaluator.Value;
 import gui.widgets.listeners.Updater;
+
+import java.util.LinkedHashSet;
 
 public class IfQuestionUI implements IQuestionUI,IQuestionUpdater {
 	private final LinkedHashSet<IQuestionUI> ifBody;
@@ -20,19 +20,17 @@ public class IfQuestionUI implements IQuestionUI,IQuestionUpdater {
 
 	@Override
 	public void setValue(Value value) {
-		// TODO Auto-generated method stub		
+		assert false: "GUI Error. setValue() can't be used it if-statement questions.";
 	}
-
+	
+	
 	@Override
 	public void setVisibilityValue(Value value) {
-		boolean visibility = Boolean.parseBoolean(value.toString());
-		System.out.println("visibility " + visibility);
-		for (IQuestionUI question : ifBody) {
+		for (IQuestionUI question : ifBody) {	
 			question.setVisibilityValue(value);
 		}
 	}
 	
-
 	@Override
 	public Updater getUpdater() {
 		return this.updater;

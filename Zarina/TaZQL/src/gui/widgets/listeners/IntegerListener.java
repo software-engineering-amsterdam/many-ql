@@ -40,10 +40,10 @@ public class IntegerListener extends AListener implements DocumentListener {
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
 			System.out.println("Integer: " + value);
 			evaluator.setValueInGUI();	
-			
+		//	evaluator.setVisibilityInGUI();	
 		}
 		catch(NumberFormatException ex){
-			//System.err.println("Ilegal input: digits only!");
+			//System.err.println("Illegal input: digits only!");
 			//ex.printStackTrace();
 			//TODO solve this horror
 		}	
