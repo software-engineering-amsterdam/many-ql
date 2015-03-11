@@ -17,7 +17,7 @@ public class QLSQuestionBuilder {
         identifier = new Identifier("identifier")
     }
 
-    public Page build() {
+    public QLSQuestion build() {
         return new QLSQuestion(identifier, styles)
     }
 

@@ -18,7 +18,7 @@ public class SectionBuilder {
         this.questions = new ArrayList<>()
     }
 
-    public Page build() {
+    public Section build() {
         return new Section(title, questions, defaultStatements)
     }
 
