@@ -8,6 +8,11 @@ public class BooleanValue extends Value {
     }
 
     @Override
+    public boolean inConditionalContext() {
+        return this.value;
+    }
+
+    @Override
     public Boolean getValue() {
         return this.value;
     }

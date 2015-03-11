@@ -48,8 +48,8 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void setValue(Value value) {
-        if (value.asBoolean()) {
+    public void setValue(final Value value) {
+        if (value.inConditionalContext()) {
             group.selectToggle(yesButton);
             return;
         }

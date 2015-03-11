@@ -7,6 +7,11 @@ public final class UndefinedValue extends Value {
     }
 
     @Override
+    public boolean inConditionalContext() {
+        return false;
+    }
+
+    @Override
     public Object getValue() {
         return null;
     }

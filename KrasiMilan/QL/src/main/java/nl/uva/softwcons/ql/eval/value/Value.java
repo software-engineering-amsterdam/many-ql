@@ -8,6 +8,10 @@ public abstract class Value {
     // TODO discuss my existence
     public abstract Object getValue();
 
+    public boolean inConditionalContext() {
+        throw new UnsupportedOperationException();
+    }
+
     public BigInteger asInteger() {
         throw new UnsupportedOperationException();
     }

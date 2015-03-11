@@ -25,8 +25,8 @@ public class CheckboxWidget extends Widget {
     }
 
     @Override
-    public void setValue(Value value) {
-        checkBox.setSelected(value.asBoolean());
+    public void setValue(final Value value) {
+        checkBox.setSelected(value.inConditionalContext());
     }
 
     @Override
