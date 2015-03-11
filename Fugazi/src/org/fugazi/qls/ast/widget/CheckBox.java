@@ -18,6 +18,15 @@ public class CheckBox extends Widget {
     public CheckBox() {
     }
 
+    public CheckBox(int _lineNum, String _label) {
+        super(_lineNum);
+        this.label = _label;
+    }
+
+    public CheckBox(String _label) {
+        this.label = _label;
+    }
+
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;

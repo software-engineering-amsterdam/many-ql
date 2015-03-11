@@ -1,8 +1,6 @@
 package org.fugazi.qls.ast.widget;
 
-import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -17,6 +15,15 @@ public class Slider extends Widget {
     }
 
     public Slider() {
+    }
+
+    public Slider(int _lineNum, String _label) {
+        super(_lineNum);
+        this.label = _label;
+    }
+
+    public Slider(String _label) {
+        this.label = _label;
     }
 
     @Override

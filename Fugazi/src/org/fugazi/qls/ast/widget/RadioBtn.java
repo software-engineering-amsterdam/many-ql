@@ -25,6 +25,19 @@ public class RadioBtn extends Widget {
         this.noLabel = _no;
     }
 
+    public RadioBtn(int _lineNum, String _label, String _yes, String _no) {
+        super(_lineNum);
+        this.yesLabel = _yes;
+        this.noLabel = _no;
+        this.label = _label;
+    }
+
+    public RadioBtn(String _label, String _yes, String _no) {
+        this.yesLabel = _yes;
+        this.noLabel = _no;
+        this.label = _label;
+    }
+
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;
