@@ -1,17 +1,24 @@
 package org.uva.qls.ast.style;
 
+import java.awt.Color;
+
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.ColorLiteral;
 import org.uva.qls.ast.literal.Literal;
 import org.uva.qls.visitor.StyleVisitor;
 
-public class Color extends Style {
+public class BackgroundColor extends StyleProperty {
 
 	private final ColorLiteral color;
-	
-	public Color(ColorLiteral color, CodePosition pos) {
+
+	public BackgroundColor(ColorLiteral color, CodePosition pos) {
 		super(pos);
 		this.color = color;
+	}
+
+	public BackgroundColor(Color color, CodePosition pos) {
+		super(pos);
+		this.color = new ColorLiteral(color, pos);
 	}
 
 	@Override

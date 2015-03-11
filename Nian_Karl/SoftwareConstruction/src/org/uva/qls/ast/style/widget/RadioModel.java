@@ -1,7 +1,9 @@
-package org.uva.qls.ast.widget;
+package org.uva.qls.ast.style.widget;
 
 import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.literal.Literal;
 import org.uva.qls.ast.literal.StrLiteral;
+import org.uva.qls.visitor.StyleVisitor;
 
 public class RadioModel extends WidgetType {
 
@@ -14,6 +16,14 @@ public class RadioModel extends WidgetType {
 		this.second = second;
 	}
 	
+	public RadioModel(String first, String second, CodePosition position) {
+		super(position);
+		this.first = new StrLiteral(first, position);
+		this.second = new StrLiteral(second, position);
+	}
+	
+	
+	
 	public StrLiteral getFirst() {
 		return first;
 	}
@@ -25,5 +35,16 @@ public class RadioModel extends WidgetType {
 	@Override
 	public String toString() {
 		return "radio";
+	}
+	
+	@Override
+	public <T> T accept(StyleVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
+	public Literal getLiteral() {
+		// TO-DO EEEH HMM..
+		return null;
 	}
 }

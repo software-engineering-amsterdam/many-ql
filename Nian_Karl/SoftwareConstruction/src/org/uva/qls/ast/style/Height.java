@@ -10,6 +10,10 @@ public class Height extends StyleNumber {
 		super(number, pos);
 	}
 
+	public Height(int number, CodePosition pos) {
+		super(number, pos);
+	}
+
 	@Override
 	public <T> T accept(StyleVisitor<T> visitor) {
 		return visitor.visit(this);

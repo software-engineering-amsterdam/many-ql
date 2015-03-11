@@ -1,7 +1,9 @@
-package org.uva.qls.ast.widget;
+package org.uva.qls.ast.style.widget;
 
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IntLiteral;
+import org.uva.qls.ast.literal.Literal;
+import org.uva.qls.visitor.StyleVisitor;
 
 public class SliderModel extends WidgetType {
 
@@ -25,6 +27,17 @@ public class SliderModel extends WidgetType {
 	@Override
 	public String toString() {
 		return "slider";
+	}
+	
+	@Override
+	public <T> T accept(StyleVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
+	public Literal getLiteral() {
+		// TO-DO EEEH HMM..
+		return null;
 	}
 
 }

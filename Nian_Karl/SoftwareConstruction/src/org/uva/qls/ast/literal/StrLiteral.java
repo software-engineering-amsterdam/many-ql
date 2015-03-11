@@ -16,6 +16,11 @@ public class StrLiteral extends Literal {
 		super(pos);
 		this.value = value;
 	}
+	
+	public StrLiteral(String string, CodePosition pos) {
+		super(pos);
+		this.value = new StrValue(string);
+	}
 
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {

@@ -1,9 +1,11 @@
-package org.uva.qls.ast.widget;
+package org.uva.qls.ast.style.widget;
 
 import java.util.ArrayList;
 
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IntLiteral;
+import org.uva.qls.ast.literal.Literal;
+import org.uva.qls.visitor.StyleVisitor;
 
 public class SpinboxModel extends WidgetType {
 
@@ -21,6 +23,17 @@ public class SpinboxModel extends WidgetType {
 	@Override
 	public String toString() {
 		return "spinbox";
+	}
+	
+	@Override
+	public <T> T accept(StyleVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
+	public Literal getLiteral() {
+		// TO-DO EEEH HMM..
+		return null;
 	}
 
 }

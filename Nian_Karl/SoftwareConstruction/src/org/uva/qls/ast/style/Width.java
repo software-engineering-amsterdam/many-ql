@@ -10,6 +10,10 @@ public class Width extends StyleNumber {
 		super(number, pos);
 	}
 
+	public Width(int number, CodePosition pos) {
+		super(number, pos);
+	}
+
 	@Override
 	public <T> T accept(StyleVisitor<T> visitor) {
 		return visitor.visit(this);

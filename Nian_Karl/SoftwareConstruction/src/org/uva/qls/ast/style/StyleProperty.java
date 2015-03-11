@@ -5,9 +5,9 @@ import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.Literal;
 import org.uva.qls.visitor.StyleVisitable;
 
-public abstract class Style extends BaseNode implements StyleVisitable{
+public abstract class StyleProperty extends BaseNode implements StyleVisitable{
 	
-	public Style(CodePosition pos) {
+	public StyleProperty(CodePosition pos) {
 		super(pos);
 	}
 	

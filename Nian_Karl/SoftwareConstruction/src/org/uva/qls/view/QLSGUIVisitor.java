@@ -1,42 +1,66 @@
 package org.uva.qls.view;
 
-import org.uva.ql.ast.Node;
-import org.uva.qls.ast.style.Color;
+import org.uva.qls.ast.style.BackgroundColor;
 import org.uva.qls.ast.style.Font;
 import org.uva.qls.ast.style.Fontsize;
 import org.uva.qls.ast.style.Height;
 import org.uva.qls.ast.style.Width;
+import org.uva.qls.ast.style.widget.CheckboxModel;
+import org.uva.qls.ast.style.widget.RadioModel;
+import org.uva.qls.ast.style.widget.SliderModel;
+import org.uva.qls.ast.style.widget.SpinboxModel;
+import org.uva.qls.ast.style.widget.TextboxModel;
 import org.uva.qls.visitor.StyleVisitor;
 
 public class QLSGUIVisitor implements StyleVisitor<Void> {
 
 	@Override
 	public Void visit(Height height) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(Width width) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(Fontsize fontsize) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(Font font) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visit(Color color) {
-		// TODO Auto-generated method stub
+	public Void visit(BackgroundColor color) {
+		return null;
+	}
+
+	@Override
+	public Void visit(TextboxModel textboxModel) {
+		return null;
+	}
+
+	@Override
+	public Void visit(SpinboxModel spinboxModel) {
+		return null;
+	}
+
+	@Override
+	public Void visit(SliderModel sliderModel) {
+		return null;
+	}
+
+	@Override
+	public Void visit(RadioModel radioModel) {
+		return null;
+	}
+
+	@Override
+	public Void visit(CheckboxModel checkboxModel) {
 		return null;
 	}
 

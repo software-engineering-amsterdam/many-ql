@@ -1,7 +1,7 @@
 package org.uva.qls.ast;
 
 
-public class BaseNode implements Node {
+public class BaseNode implements Node{
 	private final CodePosition pos;
 	
 	public BaseNode(CodePosition pos) {

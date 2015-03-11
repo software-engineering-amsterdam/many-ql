@@ -3,6 +3,7 @@ package org.uva.qls.ast.sheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.ql.ast.Node;
 import org.uva.qls.ast.BaseNode;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IdentifierLiteral;
@@ -22,11 +23,16 @@ public class Sheet extends BaseNode {
 		pageList.add(page);
 	}
 
-	public IdentifierLiteral getName() {
+	public IdentifierLiteral getIdentifier() {
 		return identifier;
 	}
 
 	public List<Page> getPageList() {
 		return pageList;
+	}
+	
+	@Override
+	public String toString() {
+		return identifier.getValue().toString();
 	}
 }
