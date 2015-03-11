@@ -1,7 +1,6 @@
 package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
@@ -111,7 +110,6 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     {
         Type questionType = getQuestionType(_question);
 
-        // todo this is a hack.
         // The question does not exist in the QL Form.
         if (questionType != null) {
             if (_segmentDefaultStyles.size() == 0) {
@@ -136,31 +134,35 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private void setWidgetToQuestion(Question _question, DefaultStyleDeclaration _styleDeclr) {
         Type questionType = getQuestionType(_question);
 
-        Widget currentDeclarationWidget = _styleDeclr.getWidget();
-        // if the widget is undefined, set the default widget fot that type.
-        if (currentDeclarationWidget.isUndefined()) {
-            currentDeclarationWidget = getDefaultWidgetForType(questionType);
-        }
+        if (questionType != null) {
+            Widget currentDeclarationWidget = _styleDeclr.getWidget();
+            // if the widget is undefined, set the default widget fot that type.
+            if (currentDeclarationWidget.isUndefined()) {
+                currentDeclarationWidget = getDefaultWidgetForType(questionType);
+            }
 
-        Style currentDeclarationStyle = _styleDeclr.getStyle();
-        // if the style is undefined, set the default style of that widget.
-        // otherwise set the right style.
-        if (currentDeclarationStyle.isUndefined()) {
-            currentDeclarationWidget.resetStyleToDefault();
-        } else {
-            currentDeclarationWidget.applyStyle(currentDeclarationStyle);
-        }
+            Style currentDeclarationStyle = _styleDeclr.getStyle();
+            // if the style is undefined, set the default style of that widget.
+            // otherwise set the right style.
+            if (currentDeclarationStyle.isUndefined()) {
+                currentDeclarationWidget.resetStyleToDefault();
+            } else {
+                currentDeclarationWidget.applyStyle(currentDeclarationStyle);
+            }
 
-        // set widget to the question.
-        _question.setWidget(currentDeclarationWidget);
+            // set widget to the question.
+            _question.setWidget(currentDeclarationWidget);
+        }
     }
 
     private void setDefaultWidgetToQuestion(Question _question) {
         Type questionType = getQuestionType(_question);
 
-        Widget defaultWidget = getDefaultWidgetForType(questionType);
-        defaultWidget.resetStyleToDefault();
-        _question.setWidget(defaultWidget);
+        if (questionType != null) {
+            Widget defaultWidget = getDefaultWidgetForType(questionType);
+            defaultWidget.resetStyleToDefault();
+            _question.setWidget(defaultWidget);
+        }
     }
 
     private Type getQuestionType(Question _question) {
