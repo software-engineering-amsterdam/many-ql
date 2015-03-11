@@ -111,19 +111,23 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     {
         Type questionType = getQuestionType(_question);
 
-        if (_segmentDefaultStyles.size() == 0) {
-            // if there is no default style declaration, set defaults
-            this.setDefaultWidgetToQuestion(_question);
-        } else {
-            for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
-                Type currentDeclarationType = currentDeclaration.getQuestionType();
+        // todo this is a hack.
+        // The question does not exist in the QL Form.
+        if (questionType != null) {
+            if (_segmentDefaultStyles.size() == 0) {
+                // if there is no default style declaration, set defaults
+                this.setDefaultWidgetToQuestion(_question);
+            } else {
+                for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
+                    Type currentDeclarationType = currentDeclaration.getQuestionType();
 
-                // if there is a style declaration for the question's type
-                if (questionType.equals(currentDeclarationType)) {
-                    this.setWidgetToQuestion(_question, currentDeclaration);
-                } else {
-                    // if there is no default style declaration for this type, set defaults
-                    this.setDefaultWidgetToQuestion(_question);
+                    // if there is a style declaration for the question's type
+                    if (questionType.equals(currentDeclarationType)) {
+                        this.setWidgetToQuestion(_question, currentDeclaration);
+                    } else {
+                        // if there is no default style declaration for this type, set defaults
+                        this.setDefaultWidgetToQuestion(_question);
+                    }
                 }
             }
         }
