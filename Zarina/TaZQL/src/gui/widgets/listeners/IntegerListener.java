@@ -34,18 +34,20 @@ public class IntegerListener extends AListener implements DocumentListener {
 	
 	@Override
 	public void update() {
-		try {
-			int value = Integer.valueOf(widget.getValue());
+		String regex ="[-+]?\\d+(\\.\\d+)?";
+		if(widget.getValue().trim().matches(regex)) {
+			Integer value = Integer.valueOf(widget.getValue().trim());
 			IntegerValue intValue = new IntegerValue(value);
-			evaluator.setValue(widget.getIdWidget().toString(), intValue);
 			System.out.println("Integer: " + value);
+			
+			evaluator.setValue(widget.getIdWidget().toString(), intValue);
 			evaluator.setValueInGUI();	
 			evaluator.setVisibilityInGUI();	
 		}
-		catch(NumberFormatException ex){
-			System.err.println("Illegal input: digits only!");
-			//ex.printStackTrace();
-			//TODO solve this horror
-		}	
-	} 	
+		else { 
+			System.out.println("Illegal input: digits only!");
+			//TODO add some error display
+		}
+	} 
+	
 }
