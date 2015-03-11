@@ -31,12 +31,15 @@ public class GUIEvaluator {
 
     public boolean evaluateIfStatement(IfStatement _ifStatement) {
         Expression condition = _ifStatement.getCondition();
-        ExpressionValue expressionValue = this.evaluator.evaluateExpression(condition);
-
+        return this.getConditionResult(condition);
+    }
+    
+    private boolean getConditionResult(Expression _condition) {
+        ExpressionValue expressionValue = this.evaluator.evaluateExpression(_condition);
         BoolValue result;
         if (!expressionValue.isUndefined()) {
-            result = (BoolValue) this.evaluator.evaluateExpression(condition);
-        }else {
+            result = (BoolValue) expressionValue;
+        } else {
             result = new BoolValue(false);
         }
         return result.getValue();
