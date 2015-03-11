@@ -1,7 +1,7 @@
 package nl.uva.softwcons.ql.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import helper.TestHelper;
+import nl.uva.softwcons.helper.TestHelper;
 import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.form.Form;
