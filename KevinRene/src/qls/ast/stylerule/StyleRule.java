@@ -4,13 +4,12 @@ import ql.ast.expression.Literal;
 import qls.ast.QLSStatement;
 import qls.ast.visitor.QLSVisitor;
 
-@SuppressWarnings("rawtypes")
 public class StyleRule extends QLSStatement {
 	
 	StyleProperty property;
-	Literal value;
+	Literal<?> value;
 	
-	public StyleRule(StyleProperty property, Literal value) {
+	public StyleRule(StyleProperty property, Literal<?> value) {
 		this.property = property;
 		this.value = value;
 	}

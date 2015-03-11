@@ -8,4 +8,9 @@ public class Spinner extends Widget {
 	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "Spinner";
+	}
 }

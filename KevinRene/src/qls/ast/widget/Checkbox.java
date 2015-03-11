@@ -10,4 +10,9 @@ public class Checkbox extends Widget {
 		return visitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "Checkbox";
+	}
+
 }

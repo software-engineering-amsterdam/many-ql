@@ -6,15 +6,15 @@ import qls.ast.visitor.QLSVisitor;
 
 public class Stylesheet extends QLSStatement {	
 	private final Identifier identifier;
-	private final QLSBlock block;
+	private final QLSBlock pages;
 
-	public Stylesheet(Identifier identifier, QLSBlock block) {
+	public Stylesheet(Identifier identifier, QLSBlock pages) {
 		this.identifier = identifier;
-		this.block = block;
+		this.pages = pages;
 	}
 	
-	public QLSBlock getBlock() {
-		return block;
+	public QLSBlock getPages() {
+		return pages;
 	}
 	
 	public Identifier getIdentifier() {

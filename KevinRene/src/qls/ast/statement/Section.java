@@ -6,19 +6,19 @@ import qls.ast.visitor.QLSVisitor;
 
 public class Section extends QLSStatement {
 	private final StringLiteral header;
-	private final QLSBlock block;
+	private final QLSBlock statements;
 	
-	public Section(StringLiteral header, QLSBlock block) {
+	public Section(StringLiteral header, QLSBlock statements) {
 		this.header = header;
-		this.block = block;
+		this.statements = statements;
 	}
 	
 	public StringLiteral getHeader() {
 		return header;
 	}
 	
-	public QLSBlock getBlock() {
-		return block;
+	public QLSBlock getStatements() {
+		return statements;
 	}
 	
 	@Override
@@ -28,6 +28,6 @@ public class Section extends QLSStatement {
 
 	@Override
 	public String toString() {
-		return getHeader().toString();
+		return "Section " + getHeader().toString();
 	}
 }

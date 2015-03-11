@@ -6,15 +6,15 @@ import qls.ast.visitor.QLSVisitor;
 
 public class Page extends QLSStatement {
 	private final Identifier identifier;
-	private final QLSBlock block;
+	private final QLSBlock statements;
 
-	public Page(Identifier identifier, QLSBlock block) {
+	public Page(Identifier identifier, QLSBlock statements) {
 		this.identifier = identifier;
-		this.block = block;
+		this.statements = statements;
 	}
 	
-	public QLSBlock getBlock() {
-		return block;
+	public QLSBlock getStatements() {
+		return statements;
 	}
 	
 	public Identifier getIdentifier() {
@@ -28,6 +28,6 @@ public class Page extends QLSStatement {
 
 	@Override
 	public String toString() {
-		return getIdentifier().toString();
+		return "Page " + getIdentifier().toString();
 	}
 }

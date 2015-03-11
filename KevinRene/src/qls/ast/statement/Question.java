@@ -4,13 +4,14 @@ import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
 import qls.ast.Widget;
 import qls.ast.visitor.QLSVisitor;
+import qls.ast.widget.DefaultWidget;
 
 public class Question extends QLSStatement {
 	private final Identifier identifier;
 	private Widget widget;
 	
 	public Question(Identifier identifier) {
-		this.identifier = identifier;
+		this(identifier, new DefaultWidget());
 	}
 	
 	public Question(Identifier identifier, Widget widget) {
@@ -20,6 +21,10 @@ public class Question extends QLSStatement {
 	
 	public Identifier getIdentifier() {
 		return identifier;
+	}
+	
+	public Widget getWidget() {
+		return widget;
 	}
 	
 	@Override

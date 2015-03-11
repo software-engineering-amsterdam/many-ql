@@ -24,6 +24,7 @@ import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.StyleRuleSet;
 import qls.ast.visitor.QLSVisitor;
 import qls.ast.widget.Checkbox;
+import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
@@ -165,6 +166,11 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	@Override
 	public Void visit(Default defaultNode) {
 		printNode(defaultNode);
+		
+		indent();
+		super.visit(defaultNode);
+		unindent();
+		
 		return null;
 	}
 
@@ -196,6 +202,12 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 		return null;
 	}
 
+	@Override
+	public Void visit(DefaultWidget defaultWidget) {
+		printNode(defaultWidget);			
+		return null;
+	}
+	
 	@Override
 	public Void visit(Checkbox checkboxNode) {
 		printNode(checkboxNode);
@@ -270,4 +282,6 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 		
 		return null;
 	}
+
+	
 }

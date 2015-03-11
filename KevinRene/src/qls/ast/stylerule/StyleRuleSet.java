@@ -9,6 +9,8 @@ import qls.ast.visitor.QLSVisitor;
 public class StyleRuleSet extends QLSStatement {
 	private List<StyleRule> rules = new ArrayList<StyleRule>();
 	
+	public StyleRuleSet() {}
+	
 	public StyleRuleSet(StyleRule rule) {
 		rules.add(rule);
 	}

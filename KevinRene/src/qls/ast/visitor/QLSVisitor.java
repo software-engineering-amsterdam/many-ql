@@ -13,6 +13,7 @@ import qls.ast.statement.Stylesheet;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.StyleRuleSet;
 import qls.ast.widget.Checkbox;
+import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
@@ -30,11 +31,10 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		super.setExpressionVisitor(this);
 	}
 	
-	public abstract T visit(Default defaultNode);
 	
 	public T visit(Page pageNode) {
 		pageNode.getIdentifier().accept(this);
-		pageNode.getBlock().accept(this);
+		pageNode.getStatements().accept(this);
 		return null;
 	}
 	
@@ -49,13 +49,13 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	
 	public T visit(Section sectionNode) {
 		sectionNode.getHeader().accept(this);
-		sectionNode.getBlock().accept(this);
+		sectionNode.getStatements().accept(this);
 		return null;
 	}
 	
 	public T visit(Stylesheet stylesheetNode) {
 		stylesheetNode.getIdentifier().accept(this);
-		stylesheetNode.getBlock().accept(this);
+		stylesheetNode.getPages().accept(this);
 		return null;
 	}
 	
@@ -65,6 +65,7 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	public abstract T visit(TextField textFieldNode);
 	public abstract T visit(Spinner spinnerNode);
 	public abstract T visit(Slider sliderNode);
+	public abstract T visit(DefaultWidget defaultWidget);
 
 	public abstract T visit(StyleRule styleRuleNode);
 	public T visit(StyleRuleSet styleRuleSetNode) {
@@ -81,4 +82,13 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		}
 		return null;
 	}
+
+
+	public T visit(Default defaultNode) {
+		defaultNode.getType().accept(this);
+		defaultNode.getStyleRuleSet().accept(this);
+		defaultNode.getWidget().accept(this);
+		return null;
+	}
+
 }

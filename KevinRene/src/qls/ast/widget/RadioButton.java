@@ -14,4 +14,9 @@ public class RadioButton extends Widget {
 	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "Radio";
+	}
 }
