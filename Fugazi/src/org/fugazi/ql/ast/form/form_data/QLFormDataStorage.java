@@ -8,6 +8,8 @@ import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class QLFormDataStorage {
@@ -32,15 +34,26 @@ public class QLFormDataStorage {
      */
 
     public List<Question> getQuestions() {
-        return this.questionsVisitor.getQuestions();
+        List<Question> questions = new ArrayList<>();
+        Iterator<Question> iterator = this.questionsVisitor.getQuestions();
+
+        // convert back to list
+        // this way internal lists will not be modified by clients
+        iterator.forEachRemaining(questions::add);
+        return questions;
     }
 
     public List<ComputedQuestion> getComputedQuestions() {
-        return this.computedQuestionsVisitor.getComputedQuestions();
+        List<ComputedQuestion> computedQuestions = new ArrayList<>();
+        Iterator<ComputedQuestion> iterator = this.computedQuestionsVisitor.getComputedQuestions();
+
+        // convert back to list
+        // this way internal lists will not be modified by clients
+        iterator.forEachRemaining(computedQuestions::add);
+        return computedQuestions;
     }
 
     public List<Question> getAllQuestions() {
-        // TODO DUPLICATES!!!! RETURN ITERATOR
         List<Question> allQuestions = this.getQuestions();
         List<ComputedQuestion> computedQuestions = this.getComputedQuestions();
         allQuestions.addAll(computedQuestions);
