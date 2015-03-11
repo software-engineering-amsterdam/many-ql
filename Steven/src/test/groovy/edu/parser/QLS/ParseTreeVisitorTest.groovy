@@ -32,25 +32,27 @@ class ParseTreeVisitorTest extends Specification {
         Stylesheet stylesheet = antlrParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_initial", parseTreeVisitor, Stylesheet.class)
 
         when:
-        def firstElement = stylesheet.statements.get(0)
-        def secondElement = stylesheet.statements.get(1)
-        def thirdElement = stylesheet.statements.get(2)
+        Assert.assertEquals(2, stylesheet.pages.size())
+        def firstElement = stylesheet.pages.get(0)
+        def secondElement = stylesheet.pages.get(1)
+        Assert.assertEquals(1, stylesheet.globalDefaultStatements.size())
+        def thirdElement = stylesheet.globalDefaultStatements.get(0)
 
         then:
         Assert.assertEquals("first element should be a Page", Page.class, firstElement.class)
         Assert.assertEquals("first element in Page should be a section", Section.class, firstElement.sections.get(0).class)
-        Assert.assertEquals("first element in first section should be question name2", "name2", firstElement.sections.get(0).statements.get(0).identifier.identifier)
+        Assert.assertEquals("first element in first section should be question name2", "name2", firstElement.sections.get(0).questions.get(0).identifier.identifier)
         Assert.assertEquals("second element in Page should be a section", Section.class, firstElement.sections.get(1).class)
-        Assert.assertEquals("first element in second section should be question name3", "name3", firstElement.sections.get(1).statements.get(0).identifier.identifier)
+        Assert.assertEquals("first element in second section should be question name3", "name3", firstElement.sections.get(1).questions.get(0).identifier.identifier)
 
         Assert.assertEquals("second element should be a Page", Page.class, secondElement.class)
         Assert.assertEquals("first element in Page should be a section", Section.class, secondElement.sections.get(0).class)
-        Assert.assertEquals("first element in first section should be question name4", "name4", secondElement.sections.get(0).statements.get(0).identifier.identifier)
-        Assert.assertEquals("first style of name4 is a widget", Widget.class, secondElement.sections.get(0).statements.get(0).styles.get(0).class)
-        Assert.assertEquals("first style of name4 is a widget named SPINBOX", "SPINBOX", secondElement.sections.get(0).statements.get(0).styles.get(0).widget.widget)
-        Assert.assertEquals("second style of name4 is a Width ", Width.class, secondElement.sections.get(0).statements.get(0).styles.get(1).class)
-        Assert.assertEquals("third style of name4 is a Font ", Font.class, secondElement.sections.get(0).statements.get(0).styles.get(2).class)
-        Assert.assertEquals("fourth style of name4 is a Color ", Color.class, secondElement.sections.get(0).statements.get(0).styles.get(3).class)
+        Assert.assertEquals("first element in first section should be question name4", "name4", secondElement.sections.get(0).questions.get(0).identifier.identifier)
+        Assert.assertEquals("first style of name4 is a widget", Widget.class, secondElement.sections.get(0).questions.get(0).styles.get(0).class)
+        Assert.assertEquals("first style of name4 is a widget named SPINBOX", "SPINBOX", secondElement.sections.get(0).questions.get(0).styles.get(0).widget.widget)
+        Assert.assertEquals("second style of name4 is a Width ", Width.class, secondElement.sections.get(0).questions.get(0).styles.get(1).class)
+        Assert.assertEquals("third style of name4 is a Font ", Font.class, secondElement.sections.get(0).questions.get(0).styles.get(2).class)
+        Assert.assertEquals("fourth style of name4 is a Color ", Color.class, secondElement.sections.get(0).questions.get(0).styles.get(3).class)
 
         Assert.assertEquals("Third element is a default statement", Default.class, thirdElement.class)
         Assert.assertEquals("first style of third element is a Color", Color.class, thirdElement.styles.get(0).class)
