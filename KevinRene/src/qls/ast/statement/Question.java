@@ -1,17 +1,25 @@
 package qls.ast.statement;
 
-import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
+import qls.ast.Widget;
 import qls.ast.visitor.QLSVisitor;
 
 public class Question extends QLSStatement {
+	private final Identifier identifier;
+	private Widget widget;
+	
 	public Question(Identifier identifier) {
-		
+		this.identifier = identifier;
 	}
 	
-	public Question(Identifier identifier, QLNode undeterminedNode) {
-		
+	public Question(Identifier identifier, Widget widget) {
+		this.identifier = identifier;
+		this.widget = widget;
+	}
+	
+	public Identifier getIdentifier() {
+		return identifier;
 	}
 	
 	@Override
@@ -21,8 +29,7 @@ public class Question extends QLSStatement {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Question";
 	}
 
 }

@@ -21,12 +21,20 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("section", SECTION);
 		KEYWORDS.put("question", QUESTION);
 		KEYWORDS.put("default", DEFAULT);
+		KEYWORDS.put("widget", WIDGET);
 		
 		KEYWORDS.put("boolean", BOOLEAN);
 		KEYWORDS.put("integer", INTEGER);
 		KEYWORDS.put("float", FLOAT);
 		KEYWORDS.put("money", MONEY);
 		KEYWORDS.put("string", STRING);
+		
+		KEYWORDS.put("checkbox", CHECKBOX);
+		KEYWORDS.put("spinner", SPINNER);
+		KEYWORDS.put("radio", RADIO);
+		KEYWORDS.put("slider", SLIDER);
+		KEYWORDS.put("text", TEXT);
+		KEYWORDS.put("dropdown", DROPDOWN);
 	}
 	
 	

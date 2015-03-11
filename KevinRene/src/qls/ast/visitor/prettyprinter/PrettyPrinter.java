@@ -188,6 +188,11 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	@Override
 	public Void visit(Section sectionNode) {
 		printNode(sectionNode);
+		
+		indent();
+		super.visit(sectionNode);
+		unindent();
+		
 		return null;
 	}
 

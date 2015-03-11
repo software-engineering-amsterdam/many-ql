@@ -46,6 +46,7 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	}
 	
 	public abstract T visit(Question questionNode);
+	
 	public T visit(Section sectionNode) {
 		sectionNode.getHeader().accept(this);
 		sectionNode.getBlock().accept(this);
@@ -53,7 +54,7 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	}
 	
 	public T visit(Stylesheet stylesheetNode) {
-		stylesheetNode.getIdentifier().accept(this);	
+		stylesheetNode.getIdentifier().accept(this);
 		stylesheetNode.getBlock().accept(this);
 		return null;
 	}

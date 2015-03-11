@@ -26,20 +26,23 @@
 %token <Section> SECTION 
 %token <Widget> WIDGET 
 %token <Question> QUESTION 
-%token DEFAULT 
+%token <Default> DEFAULT 
 
-%token RADIO DROPDOWN SLIDER SPINNER TEXT CHECKBOX
+%token RADIO DROPDOWN SLIDER SPINNER TEXT 
+%token <Checkbox> CHECKBOX
 %token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
 
 %type <Literal> literal
 %type <QLType> type
-%type <QLSBlock> statements
+%type <QLSBlock> statements pages
 %type <QLSStatement> statement
 %type <ValueSet> values
 %type <StyleRule> styleRule
 %type <StyleRuleSet> styleRules
 %type <StyleProperty> styleProperty
+%type <Widget> widget
+%type <Page> page
 
 %{
 import ql.ast.QLNode;
@@ -61,22 +64,30 @@ import qls.ast.widget.*;
 	top : stylesheet { result = $1; }
 		;
 		
-	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
+	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { $$ = new Stylesheet($2, $4); }
+				;
+
+  pages : page pages  { $$ = new QLSBlock($1, $2); }
+        | page        { $$ = new QLSBlock($1); }
+        ;
+
+  page : PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
+       ;
+
+	statements
+        : statement statements   { $$ = new QLSBlock($1, $2); }
+				| statement              { $$ = new QLSBlock($1); }
+        |                        { $$ = new QLSBlock(); }
 				;
 				
-	statements 	: statement statements  { $$ = new QLSBlock($1, $2); }
-				| statement                   { $$ = new QLSBlock($1); }
-        |                             { $$ = new QLSBlock(); }
-				;
-				
-	statement 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
-				| SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4); }
-				| QUESTION IDENTIFIER                       { $$ = new Question($2); }
-				| QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
-				| DEFAULT type widget                       { $$ = new Default($2, $3); }
-				| DEFAULT type '{' styleRules '}'           { $$ = new Default($2, $4); }
-				;
-	
+	statement
+        : SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
+        | DEFAULT type widget                       { $$ = new Default($2, $3);  }
+        | DEFAULT type '{' styleRules '}'           { $$ = new Default($2, $4);  }
+        | QUESTION IDENTIFIER                       { $$ = new Question($2);     }
+        | QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
+	      ;
+
 	type 	: INTEGER	{ $$ = new QLInteger(); }
 	 		| MONEY		{ $$ = new QLFloat(); }
 			| FLOAT		{ $$ = new QLFloat(); }
