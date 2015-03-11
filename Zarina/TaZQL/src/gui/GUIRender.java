@@ -1,8 +1,11 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -39,15 +42,18 @@ import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 import evaluator.ValueRepository;
 import gui.questions.SimpleQuestionUI;
+import gui.widgets.listeners.SaveButtonListener;
 
 public class GUIRender implements IFormVisitor<JPanel> {
 	private final JPanel panel;
 	private final ValueRepository valueRepository;
 	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
+	private final JButton saveData;
 	
 	public GUIRender(ValueRepository valueRepository) {
 		this.panel = new JPanel();
-		this.panel.setLayout(new MigLayout( "hidemode 3")); 
+		this.panel.setLayout(new MigLayout( "wrap 2, hidemode 3")); 
+		this.saveData = new JButton("Save questionnaire");
 		this.valueRepository = valueRepository;
 		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
@@ -70,7 +76,18 @@ public class GUIRender implements IFormVisitor<JPanel> {
             this.panel.add(widgetsRepository.get(k).getLabel());
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");    
         }
+        addSaveButton();
     }
+	
+	public void addSaveButton() {
+		saveData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+			   SaveButtonListener save = new SaveButtonListener(valueRepository);
+			}
+		});
+		this.panel.add(saveData, "span 2, align center");
+	}
+	
 	public Set<String> getIDkeys() {
 		Set<String> keys = widgetsRepository.keySet();
 		return keys;
