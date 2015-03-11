@@ -2,6 +2,7 @@ package org.fugazi.qls.type_checker;
 
 
 import org.fugazi.ql.type_checker.TestQlTypeCheckerBase;
+import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
@@ -53,11 +54,11 @@ public abstract class TestQlsTypeCheckerBase extends TestQlTypeCheckerBase {
         StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
 
         // Get the styles.
-//        DefaultStyleHandler defaultStyleDeclaration =
-//                new DefaultStyleHandler(this.formDataStorage, styleSheet);
-//        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+        DefaultStyleHandler defaultStyleDeclaration =
+                new DefaultStyleHandler(this.formDataStorage, styleSheet);
+        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
 
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styleSheet);
+        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
         // Perform QLS type checking.
         this.qlsChecker = new QLSTypeChecker();

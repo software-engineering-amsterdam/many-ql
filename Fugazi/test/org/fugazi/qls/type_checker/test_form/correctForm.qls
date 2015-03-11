@@ -4,6 +4,15 @@ stylesheet taxOfficeExample
       question hasMaintLoan
   }
 
+  page Private {
+    section "Data" {
+        question name
+            widget text
+        question age
+            widget spinbox
+    }
+  }
+
   page Selling { 
     section "Selling" {
       question hasSoldHouse
