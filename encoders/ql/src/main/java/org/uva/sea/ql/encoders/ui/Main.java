@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import org.controlsfx.dialog.ExceptionDialog;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.runtime.AstTransformer;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
@@ -44,7 +45,8 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		final TextField textField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
+		final TextField textField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY
+				+ DEFAULT_INPUT_FILE_NAME);
 		Button chooseInputButton = new Button("Choose input file...");
 		Button parseButton = new Button("Parse");
 		grid.add(textField, 0, 0);
@@ -56,7 +58,8 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(DEFAULT_INPUT_FILE_DIRECTORY));
+				fileChooser.setInitialDirectory(new File(
+						DEFAULT_INPUT_FILE_DIRECTORY));
 				File result = fileChooser.showOpenDialog(null);
 				if (result != null) {
 					textField.setText(result.getPath());
@@ -72,22 +75,28 @@ public class Main extends Application {
 				try {
 					AstTransformer astTransformer = new AstTransformer();
 					QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
-					Questionnaire questionnaire = questionnaireParsingService.parse(textField.getText());
-					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
-					List<Validation> validations = questionnaireParsingService.getTypeValidations();
+					Questionnaire questionnaire = questionnaireParsingService
+							.parse(textField.getText());
+					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer
+							.transform(questionnaire);
+					List<Validation> validations = questionnaireParsingService
+							.getTypeValidations();
 					stackPane.getChildren().clear();
 					if (!validations.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
-						Node validationsUI = validationsUIFactory.generateUI(validations);
+						Node validationsUI = validationsUIFactory
+								.generateUI(validations);
 						stackPane.getChildren().add(validationsUI);
 					} else {
 						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-						Node questionnaireUI = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
+						Node questionnaireUI = questionnaireUIFactory
+								.generateUI(runtimeQuestionnaire);
 						stackPane.getChildren().add(questionnaireUI);
 					}
 
 				} catch (IOException e) {
-					throw new RuntimeException(e);
+					ExceptionDialog dialog = new ExceptionDialog(e);
+					dialog.show();
 				}
 			}
 		});
@@ -98,5 +107,4 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
 }
