@@ -7,9 +7,9 @@ public abstract class StrRule  extends Rule
 {
     private String value;
 
-    public StrRule(String label, String value, int lineNumber)
+    public StrRule(String value, int lineNumber)
     {
-        super(label, lineNumber);
+        super(lineNumber);
         this.value = value;
     }
 }

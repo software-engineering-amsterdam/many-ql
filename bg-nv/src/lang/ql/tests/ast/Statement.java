@@ -1,10 +1,10 @@
-package lang.tests.ql.ast;
+package lang.ql.tests.ast;
 
 import lang.ql.ast.expression.*;
 import lang.ql.ast.type.*;
 import lang.ql.ast.statement.*;
-import lang.tests.ParserHelper;
-import lang.tests.TestHelper;
+import lang.ql.util.ParserHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +23,7 @@ public class Statement
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
         assertEquals("Example", q.getLabel());
-        assertTrue(q.getType() instanceof BoolType);
+        TestHelper.assertChildType(q.getType(), BoolType.class);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class Statement
         assertNotNull(q);
         assertEquals("testQuestion5", q.getId());
         assertEquals("Sample Test", q.getLabel());
-        assertTrue(q.getType() instanceof DecType);
+        TestHelper.assertChildType(q.getType(), DecType.class);
     }
 
     @Test
@@ -44,8 +44,8 @@ public class Statement
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
         assertEquals("Example", q.getLabel());
-        assertTrue(q.getType() instanceof IntType);
-        assertTrue(q.getCalculation() instanceof Add);
+        TestHelper.assertChildType(q.getType(), IntType.class);
+        TestHelper.assertChildType(q.getCalculation(), Add.class);
     }
 
     @Test
@@ -56,8 +56,8 @@ public class Statement
         assertNotNull(q);
         assertEquals("Quest_123", q.getId());
         assertEquals("Example", q.getLabel());
-        assertTrue(q.getType() instanceof StrType);
-        assertTrue(q.getCalculation() instanceof StrExpr);
+        TestHelper.assertChildType(q.getType(), StrType.class);
+        TestHelper.assertChildType(q.getCalculation(), StrExpr.class);
     }
 
     @Test
@@ -66,6 +66,6 @@ public class Statement
         IfCondition c = TestHelper.as(ParserHelper.ParseIfCondition("if(true)\n{ boolean a \"\"}"), IfCondition.class);
         assertNotNull(c);
         assertEquals(1, c.getBody().size());
-        assertTrue(c.getCondition() instanceof BoolExpr);
+        TestHelper.assertChildType(c.getCondition(), BoolExpr.class);
     }
 }

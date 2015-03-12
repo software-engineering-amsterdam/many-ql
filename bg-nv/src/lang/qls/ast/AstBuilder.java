@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by bore on 02/03/15.
  */
-public class QlsBuilder extends QLSBaseVisitor<AstNode>
+public class AstBuilder extends QLSBaseVisitor<AstNode>
 {
     @Override
     public AstNode visitStylesheet(@NotNull QLSParser.StylesheetContext context)

@@ -8,7 +8,6 @@ import lang.qls.semantics.Style;
 /**
  * Created by bore on 09/03/15.
  */
-// TODO: fix
 public class DefaultStyleCollector implements StylesheetVisitor<Style>, StatementVisitor<Style>
 {
     @Override
@@ -20,24 +19,25 @@ public class DefaultStyleCollector implements StylesheetVisitor<Style>, Statemen
     @Override
     public Style visit(Page p)
     {
-        Style result = new Style();
-        for (Statement stat : p.getBody())
-        {
-            Style statStyle = stat.accept(this);
-            result.addStyle(statStyle);
-        }
-
-        return result;
+        return this.extractStyle(p.getBody());
     }
 
     @Override
     public Style visit(Section s)
     {
+        return this.extractStyle(s.getBody());
+    }
+
+    private Style extractStyle(Iterable<Statement> stats)
+    {
         Style result = new Style();
-        for (Statement stat : s.getBody())
+        for (Statement stat : stats)
         {
-            Style statStyle = stat.accept(this);
-            result.addStyle(statStyle);
+            if (stat.isStyleDefinition())
+            {
+                Style statStyle = stat.accept(this);
+                result.addStyle(statStyle);
+            }
         }
 
         return result;

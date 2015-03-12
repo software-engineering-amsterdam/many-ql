@@ -15,22 +15,22 @@ import lang.qls.ast.StylesheetVisitor;
 /**
  * Created by bore on 09/03/15.
  */
-public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor<Void>
+public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
-    private QuestionMap questions;
-    private StyleStack styleStack;
-    private FormStyle styles;
+    private final QuestionMap questions;
+    private final StyleStack styleStack;
+    private final FormStyle styles;
 
     public static FormStyle getStyles(Stylesheet s, Form f)
     {
         QuestionResult result = QuestionCollector.collect(f);
-        StyleEvaluator styleEval = new StyleEvaluator(result.getQuestionMap());
+        StyleMerger styleEval = new StyleMerger(result.getQuestionMap());
         styleEval.visit(s);
 
         return styleEval.styles;
     }
 
-    private StyleEvaluator(QuestionMap questions)
+    private StyleMerger(QuestionMap questions)
     {
         this.questions = questions;
         this.styleStack = new StyleStack();
@@ -64,7 +64,7 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
 
     private void visitStyleable(Styleable s, Iterable<Statement> stats)
     {
-        Style style = s.getDefaultStyle();
+        Style style = s.getStyle();
 
         this.styleStack.push(style);
 

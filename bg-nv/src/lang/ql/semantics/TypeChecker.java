@@ -34,9 +34,11 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         QuestionMap questions = questionResult.getQuestionMap();
         TypeChecker typeChecker = new TypeChecker(questions);
 
-        f.accept(typeChecker);
-        typeChecker.checkForCyclicDependencies();
-        typeChecker.checkForLabelDuplication();
+        if (f.accept(typeChecker))
+        {
+            typeChecker.checkForCyclicDependencies();
+            typeChecker.checkForLabelDuplication();
+        }
 
         return typeChecker.messages;
     }

@@ -7,7 +7,7 @@ public class BackColor extends ColorRule
 {
     public BackColor(ColorValue value, int lineNumber)
     {
-        super("backcolor", value, lineNumber);
+        super(value, lineNumber);
     }
 
     @Override

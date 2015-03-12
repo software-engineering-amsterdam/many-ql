@@ -1,12 +1,11 @@
-package lang.tests.ql.ast;
+package lang.ql.tests.ast;
 
 import lang.ql.ast.expression.*;
-import lang.tests.ParserHelper;
-import lang.tests.TestHelper;
+import lang.ql.util.ParserHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by bore on 19/02/15.
@@ -25,7 +24,7 @@ public class RelationalExpr
     {
         Gt e = TestHelper.as(ParserHelper.ParseExpression("x>y>z"), Gt.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Gt);
+        TestHelper.assertChildType(e.getLeft(), Gt.class);
     }
 
     @Test
@@ -33,7 +32,7 @@ public class RelationalExpr
     {
         Gt e = TestHelper.as(ParserHelper.ParseExpression("(x>y)>z"), Gt.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Gt);
+        TestHelper.assertChildType(e.getLeft(), Gt.class);
     }
 
     @Test
@@ -41,7 +40,7 @@ public class RelationalExpr
     {
         Gt e = TestHelper.as(ParserHelper.ParseExpression("x>(y>z)"), Gt.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof Gt);
+        TestHelper.assertChildType(e.getRight(), Gt.class);
     }
     @Test
     public void gtEquExpr()
@@ -55,7 +54,7 @@ public class RelationalExpr
     {
         GtEqu e = TestHelper.as(ParserHelper.ParseExpression("x>=y>=z"), GtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof GtEqu);
+        TestHelper.assertChildType(e.getLeft(), GtEqu.class);
     }
 
     @Test
@@ -63,7 +62,7 @@ public class RelationalExpr
     {
         GtEqu e = TestHelper.as(ParserHelper.ParseExpression("(x>=y)>=z"), GtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof GtEqu);
+        TestHelper.assertChildType(e.getLeft(), GtEqu.class);
     }
 
     @Test
@@ -71,7 +70,7 @@ public class RelationalExpr
     {
         GtEqu e = TestHelper.as(ParserHelper.ParseExpression("x>=(y>=z)"), GtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof GtEqu);
+        TestHelper.assertChildType(e.getRight(), GtEqu.class);
     }
 
     @Test
@@ -86,7 +85,7 @@ public class RelationalExpr
     {
         Lt e = TestHelper.as(ParserHelper.ParseExpression("x<y<z"), Lt.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Lt);
+        TestHelper.assertChildType(e.getLeft(), Lt.class);
     }
 
     @Test
@@ -94,7 +93,7 @@ public class RelationalExpr
     {
         Lt e = TestHelper.as(ParserHelper.ParseExpression("(x<y)<z"), Lt.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Lt);
+        TestHelper.assertChildType(e.getLeft(), Lt.class);
     }
 
     @Test
@@ -102,7 +101,7 @@ public class RelationalExpr
     {
         Lt e = TestHelper.as(ParserHelper.ParseExpression("x<(y<z)"), Lt.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof Lt);
+        TestHelper.assertChildType(e.getRight(), Lt.class);
     }
 
     @Test
@@ -117,7 +116,7 @@ public class RelationalExpr
     {
         LtEqu e = TestHelper.as(ParserHelper.ParseExpression("x<=y<=z"), LtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof LtEqu);
+        TestHelper.assertChildType(e.getLeft(), LtEqu.class);
     }
 
     @Test
@@ -125,7 +124,7 @@ public class RelationalExpr
     {
         LtEqu e = TestHelper.as(ParserHelper.ParseExpression("(x<=y)<=z"), LtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof LtEqu);
+        TestHelper.assertChildType(e.getLeft(), LtEqu.class);
     }
 
     @Test
@@ -133,7 +132,7 @@ public class RelationalExpr
     {
         LtEqu e = TestHelper.as(ParserHelper.ParseExpression("x<=(y<=z)"), LtEqu.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof LtEqu);
+        TestHelper.assertChildType(e.getRight(), LtEqu.class);
     }
 
     @Test
@@ -148,7 +147,7 @@ public class RelationalExpr
     {
         Equ e = TestHelper.as(ParserHelper.ParseExpression("x==y==z"), Equ.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Equ);
+        TestHelper.assertChildType(e.getLeft(), Equ.class);
     }
 
     @Test
@@ -156,7 +155,7 @@ public class RelationalExpr
     {
         Equ e = TestHelper.as(ParserHelper.ParseExpression("(x==y)==z"), Equ.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof Equ);
+        TestHelper.assertChildType(e.getLeft(), Equ.class);
     }
 
     @Test
@@ -164,7 +163,7 @@ public class RelationalExpr
     {
         Equ e = TestHelper.as(ParserHelper.ParseExpression("x==(y==z)"), Equ.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof Equ);
+        TestHelper.assertChildType(e.getRight(), Equ.class);
     }
 
     @Test
@@ -179,7 +178,7 @@ public class RelationalExpr
     {
         NotEqu e = TestHelper.as(ParserHelper.ParseExpression("x!=y!=z"), NotEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof NotEqu);
+        TestHelper.assertChildType(e.getLeft(), NotEqu.class);
     }
 
     @Test
@@ -187,7 +186,7 @@ public class RelationalExpr
     {
         NotEqu e = TestHelper.as(ParserHelper.ParseExpression("(x!=y)!=z"), NotEqu.class);
         assertNotNull(e);
-        assertTrue(e.getLeft() instanceof NotEqu);
+        TestHelper.assertChildType(e.getLeft(), NotEqu.class);
     }
 
     @Test
@@ -195,7 +194,7 @@ public class RelationalExpr
     {
         NotEqu e = TestHelper.as(ParserHelper.ParseExpression("x!=(y!=z)"), NotEqu.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof NotEqu);
+        TestHelper.assertChildType(e.getRight(), NotEqu.class);
     }
 
     @Test
@@ -203,7 +202,7 @@ public class RelationalExpr
     {
         Lt e = TestHelper.as(ParserHelper.ParseExpression("x+y<z*w"), Lt.class);
         assertNotNull(e);
-        assertTrue(e.getRight() instanceof Mul);
-        assertTrue(e.getLeft() instanceof Add);
+        TestHelper.assertChildType(e.getRight(), Mul.class);
+        TestHelper.assertChildType(e.getLeft(), Add.class);
     }
 }
