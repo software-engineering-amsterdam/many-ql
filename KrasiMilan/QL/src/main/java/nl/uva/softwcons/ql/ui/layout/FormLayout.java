@@ -14,8 +14,8 @@ public class FormLayout {
         this.vbox = new VBox();
     }
 
-    public void add(Node node) {
-        this.vbox.getChildren().add(node);
+    public void add(QuestionLayout node) {
+        this.vbox.getChildren().add(node.getNode());
     }
 
     public Node getNode() {
