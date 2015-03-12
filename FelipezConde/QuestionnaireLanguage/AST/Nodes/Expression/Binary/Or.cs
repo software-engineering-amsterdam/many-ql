@@ -12,20 +12,13 @@ namespace AST.Nodes.Expression.Binary
     {
         private readonly IExpression left;
         private readonly IExpression right;
-        private string parsedString;
 
-        public Or(IExpression left, IExpression right, string parsedString, PositionInText position)
+        public Or(IExpression left, IExpression right, PositionInText position)
          : base(position)
         {
             this.left = left;
             this.right = right;
-            this.parsedString = parsedString;
         }
-        public override string GetParsedString()
-        {
-            return parsedString;
-        }
-
         public IExpression Left()
         { return left; }
         public IExpression Right()

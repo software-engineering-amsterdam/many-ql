@@ -3,13 +3,9 @@ using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
-<<<<<<< HEAD
 using AST.Visitors;
-using System.Collections.Generic;
-
-=======
 using AST.Storage;
->>>>>>> origin/master
+
 namespace AST.Evaluation
 {
     public class Evaluator : BaseVisitor<Value>

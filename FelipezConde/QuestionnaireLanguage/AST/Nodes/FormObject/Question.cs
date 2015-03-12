@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AST.Nodes.Labels;
-using Values = AST.Nodes.Values;
-using AST.Nodes.Values;
+using Values = AST.Nodes.Literals;
+using AST.Nodes.Literals;
 using Types = AST.Types;
 using AST.Nodes.Expression;
 
@@ -38,11 +38,6 @@ namespace AST.Nodes.FormObject
 
         public T Accept<T>(Visitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
-
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
-        }
 
         public Types.Type RetrieveType()
         {

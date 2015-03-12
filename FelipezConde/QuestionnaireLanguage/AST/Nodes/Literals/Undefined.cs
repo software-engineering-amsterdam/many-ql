@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AST.Nodes.Values
+namespace AST.Nodes.Literals
 {
-    public class Undefined : Value
+    public class Undefined : Literal
     {
         public override string MakeString()
         {
@@ -34,12 +34,12 @@ namespace AST.Nodes.Values
             return this;
         }
 
-        public override Value Equal(Value value)
+        public override Literal Equal(Literal value)
         {
             throw new NotImplementedException();
         }
 
-        public override Value NotEqual(Value value)
+        public override Literal NotEqual(Literal value)
         {
             throw new NotImplementedException();
         }

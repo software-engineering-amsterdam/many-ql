@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AST
+namespace AST.Nodes.Interfaces
 {
     public interface IVisitable
     {

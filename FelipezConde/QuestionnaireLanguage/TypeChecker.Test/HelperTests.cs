@@ -16,7 +16,7 @@ using Types = AST.Types;
 namespace TypeChecker.Test
 {
     [TestClass]
-    public class Helper
+    public class HelperTester
     {
         [TestMethod]
         public void ContainsError_Returns_False_On_Warning()
@@ -25,7 +25,7 @@ namespace TypeChecker.Test
                 new DuplicateLabel("bogus", new List<PositionInText>())
             };
 
-            Assert.IsFalse(TypeChecker.Helper.ContainsError(NoError));
+            Assert.IsFalse(Helper.ContainsError(NoError));
         }
         [TestMethod]
         public void ContainsError_Returns_True_On_Error()
@@ -34,7 +34,7 @@ namespace TypeChecker.Test
                 new UndefinedIdentifier(new PositionInText(), "bogus")
             };
 
-            Assert.IsTrue(TypeChecker.Helper.ContainsError(NoError));
+            Assert.IsTrue(Helper.ContainsError(NoError));
         }
         [TestMethod]
         public void GetDefinedIdentifiers_Returns_Correct_Identifier_Count()
@@ -50,11 +50,11 @@ namespace TypeChecker.Test
                     {  
                        CreateBogusQuestion(new Id("4", p), new Types.StringType()),
                        CreateBogusQuestion(new Id("5", p), new Types.StringType())
-                    }, "", new PositionInText()
+                    }, new PositionInText()
                 )
             };
             
-            var x = TypeChecker.Helper.GetDefinedIdentifiers(new Form(ls, "" , new PositionInText()));
+            var x = Helper.GetDefinedIdentifiers(new Form(ls, new PositionInText()));
 
             Assert.AreEqual(x.Count, 5);
 
@@ -62,7 +62,7 @@ namespace TypeChecker.Test
         public Question CreateBogusQuestion(Id id, Types.Type type)
         {
             return new Question(id, type,
-                        new Label("","",new PositionInText()),
+                        new Label("", new PositionInText()),
                         null,
                         new PositionInText()
                 );
@@ -81,11 +81,11 @@ namespace TypeChecker.Test
                     {  
                        CreateBogusQuestion(new Id("4", p), new Types.StringType()),
                        CreateBogusQuestion(new Id("5", p), new Types.StringType())
-                    }, "", new PositionInText()
+                    }, new PositionInText()
                 )
             };
             
-            var x = TypeChecker.Helper.GetIdentifierTypes(new Form(ls, "" , new PositionInText()));
+            var x = Helper.GetIdentifierTypes(new Form(ls, new PositionInText()));
 
             Assert.AreEqual(x.Count, 5);
         }
@@ -102,7 +102,6 @@ namespace TypeChecker.Test
                     new Id("5", p)
             };
 
-
             List<IFormObject> ls = new List<IFormObject> {
                 CreateBogusQuestion(ids[0], new Types.StringType()), 
                 CreateBogusQuestion(ids[1], new Types.StringType()), 
@@ -112,11 +111,11 @@ namespace TypeChecker.Test
                     {  
                        CreateBogusQuestion(ids[3], new Types.StringType()),
                        CreateBogusQuestion(ids[4], new Types.StringType())
-                    }, "", new PositionInText()
+                    }, new PositionInText()
                 )
             };
             
-            var x = TypeChecker.Helper.GetIdentifierTypes(new Form(ls, "" , new PositionInText()));
+            var x = Helper.GetIdentifierTypes(new Form(ls, new PositionInText()));
 
             foreach(Id id in ids)
             {

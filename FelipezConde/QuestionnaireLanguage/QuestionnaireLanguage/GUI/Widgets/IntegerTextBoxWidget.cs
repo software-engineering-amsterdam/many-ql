@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Values = AST.Nodes.Values;
+using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.Widgets
 {

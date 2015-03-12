@@ -1,6 +1,6 @@
 ﻿using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Values;
+using AST.Nodes.Literals;
 using System;
 using System.Collections.Generic;
 using System.Linq;

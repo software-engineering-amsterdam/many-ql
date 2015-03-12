@@ -1,20 +1,10 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using AST.Evaluation;
 using AST.Nodes;
-using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Interfaces;
-using AST.Nodes.Values;
 using AST.ParseTreeVisitors;
-using AST.Representation;
 using Grammar;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Test
 {
@@ -31,13 +21,7 @@ namespace AST.Test
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLMainParser parser = new QLMainParser(tokens);
 
-            //remove standard Error Listener
             parser.RemoveErrorListeners();
-
-            //Detect more errors (like ambiguousness errors)
-            //parser.AddErrorListener(new DiagnosticErrorListener());
-
-            //add standard error listener
             parser.AddErrorListener(new ParserErrorListener());
 
             IParseTree tree = parser.form();
@@ -46,15 +30,14 @@ namespace AST.Test
             FormVisitor visitor = new FormVisitor();
             Form ast = visitor.Visit(tree);
 
-            //TypeCheck.TypeChecker.GetTypeCheckDiagnosis(ast);
-
-            //Evaluate();
-
             return new ASTResult(ast);
         }
 
         public void Evaluate() 
         {
+            //THIS SHOULD BE USED IN EVALUATE.TEST 
+            /*
+
             Evaluator evaluator = new Evaluator();
 
             Bool boo1 = new Bool(true);
@@ -73,6 +56,7 @@ namespace AST.Test
             v = evaluator.Evaluate(new Add(int1, int2, "1 + 2", new PositionInText(0, 1, 2, 3)));
             v = evaluator.Evaluate(new Subtract(int2, int1, "2 - 1", new PositionInText(0, 1, 2, 3)));
             v = evaluator.Evaluate(new And(boo1, boo2, new PositionInText(0, 1, 2, 3)));
+             */
 
 	    }
     }

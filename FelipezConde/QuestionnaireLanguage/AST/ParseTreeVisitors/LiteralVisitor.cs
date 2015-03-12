@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Grammar;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Values;
+using AST.Nodes.Literals;
 using AST.Representation;
 using AST.Helpers;
-using Values = AST.Nodes.Values;
+using Values = AST.Nodes.Literals;
 namespace AST.ParseTreeVisitors
 {
     public class LiteralVisitor : QLMainBaseVisitor<ILiteral>

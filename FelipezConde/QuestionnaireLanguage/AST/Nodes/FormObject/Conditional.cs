@@ -12,16 +12,12 @@ namespace AST.Nodes.FormObject
     {
         private IList<IFormObject> body;
         public IExpression Condition { get; private set; }
-        public string parsedString;
 
-        public Conditional(IExpression condition, 
-                           IList<IFormObject> body, 
-                           string parsedString,
-                           PositionInText positionInText) : base(positionInText)
+        public Conditional(IExpression condition, IList<IFormObject> body, PositionInText positionInText) 
+            : base(positionInText)
         {
             this.Condition = condition;
             this.body = body;
-            this.parsedString = parsedString;
         }
 
         public void Accept(Visitors.IVisitor visitor)
@@ -37,11 +33,6 @@ namespace AST.Nodes.FormObject
         public IList<IFormObject> GetBody()
         {
             return this.body;
-        }
-
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
         }
     }
 }

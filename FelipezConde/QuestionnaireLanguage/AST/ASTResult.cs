@@ -1,7 +1,7 @@
 ﻿using AST.Nodes;
 using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Values;
+using AST.Nodes.Literals;
 using Notifications;
 using AST.Representation;
 using AST.Storage;
@@ -29,12 +29,12 @@ namespace AST
 
         }
 
-        public void SetValue(Id key, Value value)
+        public void SetValue(Id key, Literal value)
         {
             table.SetUpdateValue(key, value);
         }
 
-        public Value GetValue(Id key)
+        public Literal GetValue(Id key)
         {
             return table.GetValue(key);
         }

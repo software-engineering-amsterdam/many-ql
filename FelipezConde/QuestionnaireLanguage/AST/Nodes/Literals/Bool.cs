@@ -8,9 +8,9 @@ using AST.Nodes.Interfaces;
 using AST.Representation;
 using Types = AST.Types;
 
-namespace AST.Nodes.Values
+namespace AST.Nodes.Literals
 {
-    public class Bool : Value, ILiteral
+    public class Bool : Literal
     {
         private readonly bool value;
         private PositionInText positionInText;
@@ -52,54 +52,54 @@ namespace AST.Nodes.Values
             visitor.Visit(this);
         }
 
-        public Types.Type RetrieveType()
+        public override Types.Type RetrieveType()
         {
             return new Types.BoolType();
         }
 
         #region And
-        public override Value And(Value value)
+        public override Literal And(Literal value)
         {
             return value.BoolAnd(this);
         }
 
-        public  override Value BoolAnd(Bool boolValue)
+        public  override Literal BoolAnd(Bool boolValue)
         {
             return new Bool(GetValue() && boolValue.value);
         }
         #endregion
 
         #region Or
-        public override Value Or(Value value)
+        public override Literal Or(Literal value)
         {
             return value.BoolOr(this);
         }
 
-        public override Value BoolOr(Bool boolValue)
+        public override Literal BoolOr(Bool boolValue)
         {
             return new Bool(value || boolValue.value);
         }
         #endregion
 
         #region Equal
-        public override Value Equal(Value value)
+        public override Literal Equal(Literal value)
         {
             return value.BoolEqual(this);
         }
 
-        public override Value BoolEqual(Bool boolValue)
+        public override Literal BoolEqual(Bool boolValue)
         {
             return new Bool(value == boolValue.value);
         }
         #endregion
 
         #region NotEqual
-        public override Value NotEqual(Value value)
+        public override Literal NotEqual(Literal value)
         {
             return value.BoolEqual(this);
         }
 
-        public override Value BoolNotEqual(Bool boolValue)
+        public override Literal BoolNotEqual(Bool boolValue)
         {
             return new Bool(value != boolValue.value);
         }

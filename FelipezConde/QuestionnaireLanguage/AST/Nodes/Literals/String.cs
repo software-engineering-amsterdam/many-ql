@@ -8,9 +8,9 @@ using AST.Representation;
 using AST.Storage;
 using Types = AST.Types;
 
-namespace AST.Nodes.Values
+namespace AST.Nodes.Literals
 {
-    public class String : Value, ILiteral
+    public class String : Literal
     {
         private readonly string value;
         public String(string value)
@@ -47,28 +47,28 @@ namespace AST.Nodes.Values
         {
             visitor.Visit(this);
         }
-        public Types.Type RetrieveType()
+        public override Types.Type RetrieveType()
         {
-            throw new NotImplementedException();
+            return new Types.StringType();
         }
 
         #region Equal
-        public override Value Equal(Value value)
+        public override Literal Equal(Literal value)
         {
             return value.StringEqual(this);
         }
-        public override Value StringEqual(Values.String stringValue)
+        public override Literal StringEqual(Literals.String stringValue)
         {
             return new Bool(GetValue().Equals(stringValue.GetValue()));
         }
         #endregion
 
         #region NotEqual
-        public override Value NotEqual(Value value)
+        public override Literal NotEqual(Literal value)
         {
             return value.StringNotEqual(this);
         }
-        public override Value StringNotEqual(Values.String stringValue)
+        public override Literal StringNotEqual(Literals.String stringValue)
         {
             return new Bool(!GetValue().Equals(stringValue.GetValue()));
         }

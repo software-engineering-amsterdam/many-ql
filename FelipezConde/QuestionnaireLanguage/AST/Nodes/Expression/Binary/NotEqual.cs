@@ -12,13 +12,12 @@ namespace AST.Nodes.Expression.Binary
     {
         private readonly IExpression left;
         private readonly IExpression right;
-        private string parsedString;
-        public NotEqual(IExpression left, IExpression right, string parsedString, PositionInText position)
+
+        public NotEqual(IExpression left, IExpression right, PositionInText position)
             : base(position)
         {
             this.left = left;
             this.right = right;
-            this.parsedString = parsedString;
         }
         public IExpression Left()
         { return left; }
@@ -35,11 +34,6 @@ namespace AST.Nodes.Expression.Binary
         public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
         }
 
         public string MakeString()

@@ -38,8 +38,7 @@ namespace AST.ParseTreeVisitors
                                          .Select(child => child.Accept(new FormObjectVisitor()))
                                          .ToList();
 
-            return new Conditional(condition, body, context.formSection().GetText(),
-                                   Position.PositionFormParserRuleContext(context));
+            return new Conditional(condition, body, Position.PositionFormParserRuleContext(context));
 
         }
     }
