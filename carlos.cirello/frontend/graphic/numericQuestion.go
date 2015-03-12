@@ -23,11 +23,10 @@ GroupBox {
 }
 `
 
-func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
+func (g *Gui) newNumericQuestion(fieldName, caption string,
 	content float32) qml.Object {
 
-	qml := renderTemplateQuestion(numericFieldQML, fieldName, caption)
-	question = renderAndInsertAt(qml, g.targetContainer)
+	question := g.createQuestionQML(numericFieldQML, fieldName, caption)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	newFieldPtr.Set("text", content)
@@ -40,8 +39,8 @@ func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
 		g.answerStack[objectName] = content
 	})
 
-	g.updateCallbacks[fieldName] = func(content string) {
-		newFieldPtr.Set("text", content)
+	g.updateCallbacks[fieldName] = func(newValue string) {
+		newFieldPtr.Set("text", newValue)
 	}
 
 	return question

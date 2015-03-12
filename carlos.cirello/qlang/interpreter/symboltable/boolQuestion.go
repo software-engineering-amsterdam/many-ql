@@ -1,6 +1,14 @@
 package symboltable
 
-import "strconv"
+import (
+	"strconv"
+	"strings"
+)
+
+const (
+	AnswerYes = "Yes"
+	AnswerNo  = "No"
+)
 
 // BoolQuestion stores the answer of question which type is integer numeric
 type BoolQuestion struct {
@@ -11,10 +19,10 @@ type BoolQuestion struct {
 // and frontend
 const BoolQuestionType = "bool"
 
-// From takes the input from Frontend and stores locally - Boolean
+// From takes the input from Frontend and stores locally - String
 func (s *BoolQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
-	if val == 1 || str == "Yes" || str == "yes" {
+	if val == 1 || str == AnswerYes || strings.ToLower(str) == AnswerYes {
 		s.value = true
 	} else {
 		s.value = false
@@ -22,15 +30,15 @@ func (s *BoolQuestion) From(str string) error {
 	return err
 }
 
-// String prints in human form the content of the question - Boolean
+// String prints in human form the content of the question - String
 func (s BoolQuestion) String() string {
 	if s.value {
-		return "Yes"
+		return AnswerYes
 	}
-	return "No"
+	return AnswerNo
 }
 
-// Value converts underlying boolean into primitive boolean
+// Value converts underlying String into primitive String
 func (s BoolQuestion) Value() interface{} {
 	return s.value
 }
