@@ -63,6 +63,7 @@ public class QuestionBuilder {
 
     public QuestionBuilder store(Store store) {
         this.store = store
+        return this
     }
 
     public Question build() {
