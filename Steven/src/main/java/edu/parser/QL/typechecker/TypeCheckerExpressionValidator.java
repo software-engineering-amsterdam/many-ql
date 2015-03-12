@@ -1,4 +1,4 @@
-package edu.parser.QL;
+package edu.parser.QL.typechecker;
 
 import edu.exceptions.TypeCheckException;
 import edu.parser.QL.nodes.expression.*;

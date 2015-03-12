@@ -1,7 +1,8 @@
-package edu.parser.QL;
+package edu.parser.QL.typechecker;
 
 import edu.exceptions.TypeCheckException;
 import edu.nodes.QuestionType;
+import edu.parser.QL.QLVisitorImpl;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.Expression;
