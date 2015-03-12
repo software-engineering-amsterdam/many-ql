@@ -12,7 +12,8 @@
     - [ ] magic constants
     - [ ] duplicated code
 
-* QL [6/7]
+* QL [6/8]
+  - [ ] Write Code Walkthrough for Tijs and Vadim
   - [ ] Refactor [1/3]
     - [ ] Refactor Bool nodes into Visitor
     - [ ] Refactor Math nodes into Visitor
