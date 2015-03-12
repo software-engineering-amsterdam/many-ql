@@ -2,6 +2,7 @@ package edu.parser.QL.evaluator
 
 import edu.gui.components.store.Store
 import edu.parser.QL.nodes.expression.Addition
+import edu.parser.QL.nodes.expression.Multiplication
 import edu.parser.QL.nodes.expression.QLIdentifier
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QL.nodes.type.Number
@@ -39,7 +40,7 @@ class ComputedQuestionsRetrieverTest extends Specification {
         Assert.assertEquals(true, inputText.equals(text))
     }
 
-    def "should return number for ADDITION expression"() {
+    def "should return number for expression"() {
         setup:
         Number leftNumber = new Number(left)
         Number rightNumber = new Number(right)
@@ -61,7 +62,8 @@ class ComputedQuestionsRetrieverTest extends Specification {
         Assert.assertEquals(result, number.number)
 
         where:
-        left | right | expression                                 | result
-        4    | 6     | new Addition(new Number(4), new Number(6)) | 10
+        left | right | expression                                       | result
+        4    | 6     | new Addition(new Number(4), new Number(6))       | 10
+        4    | 6     | new Multiplication(new Number(4), new Number(6)) | 24
     }
 }

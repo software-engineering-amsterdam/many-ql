@@ -1,6 +1,7 @@
 package edu.parser.QL.evaluator;
 
 import edu.exceptions.EvaluationException;
+import edu.exceptions.TypeCheckException;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
@@ -21,9 +22,18 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(Addition addition) {
-        Number left = (Number) addition.getLeft().accept(this);
-        Number right = (Number) addition.getRight().accept(this);
+        Number left = getNumber(addition.getLeft());
+        Number right = getNumber(addition.getRight());
         return new Number(left.getNumber() + right.getNumber());
+    }
+
+    private Number getNumber(Expression expression) {
+        AbstractNode abstractNode = expression.accept(this);
+        if (abstractNode instanceof Number) {
+            return (Number) abstractNode;
+        } else {
+            throw new TypeCheckException("Invalid expression: " + expression);
+        }
     }
 
     @Override
@@ -75,7 +85,9 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(Multiplication multiplication) {
-        return null;
+        Number left = getNumber(multiplication.getLeft());
+        Number right = getNumber(multiplication.getRight());
+        return new Number(left.getNumber() * right.getNumber());
     }
 
     @Override
