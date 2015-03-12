@@ -2,7 +2,6 @@ package edu.gui.components;
 
 import edu.gui.Observer;
 import edu.gui.Subject;
-import edu.gui.components.store.TextStore;
 import edu.parser.QL.nodes.expression.QLIdentifier;
 
 import javax.swing.*;

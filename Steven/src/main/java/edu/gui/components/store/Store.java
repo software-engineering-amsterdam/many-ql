@@ -5,5 +5,6 @@ package edu.gui.components.store;
  */
 public interface Store {
 
-    public String getValue();
+    public abstract String getValue();
+
 }

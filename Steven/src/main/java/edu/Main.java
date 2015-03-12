@@ -5,12 +5,12 @@ import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
-import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.type.Text;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
@@ -96,7 +96,7 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     @Override
     public void update(TextBox textBox) {
         Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
-        question.setValue(new TextStore(textBox.getText()));
+        question.setValue(new Text(textBox.getText()));
     }
 
     @Override

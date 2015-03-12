@@ -1,7 +1,6 @@
 package edu.parser.QL;
 
 import edu.exceptions.EvaluationException;
-import edu.gui.components.store.NumberStore;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
@@ -52,7 +51,7 @@ public class Evaluator extends QLVisitorImpl {
     public AbstractNode visit(Addition addition) {
         Number left = (Number) addition.getLeft().accept(this);
         Number right = (Number) addition.getRight().accept(this);
-        return new Number(left.getValue() + right.getValue());
+        return new Number(left.getNumber() + right.getNumber());
     }
 
     @Override
@@ -73,14 +72,14 @@ public class Evaluator extends QLVisitorImpl {
     public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
         Number left = (Number) greaterOrEqual.getLeft().accept(this);
         Number right = (Number) greaterOrEqual.getRight().accept(this);
-        return new Boolean(left.getValue() >= right.getValue());
+        return new Boolean(left.getNumber() >= right.getNumber());
     }
 
     @Override
     public AbstractNode visit(GreaterThan greaterThan) {
         Number left = (Number) greaterThan.getLeft().accept(this);
         Number right = (Number) greaterThan.getRight().accept(this);
-        return new Boolean(left.getValue() > right.getValue());
+        return new Boolean(left.getNumber() > right.getNumber());
     }
 
     @Override
@@ -108,21 +107,21 @@ public class Evaluator extends QLVisitorImpl {
     public AbstractNode visit(LessOrEqual lessOrEqual) {
         Number left = (Number) lessOrEqual.getLeft().accept(this);
         Number right = (Number) lessOrEqual.getRight().accept(this);
-        return new Boolean(left.getValue() <= right.getValue());
+        return new Boolean(left.getNumber() <= right.getNumber());
     }
 
     @Override
     public AbstractNode visit(LessThan lessThan) {
         Number left = (Number) lessThan.getLeft().accept(this);
         Number right = (Number) lessThan.getRight().accept(this);
-        return new Boolean(left.getValue() < right.getValue());
+        return new Boolean(left.getNumber() < right.getNumber());
     }
 
     @Override
     public AbstractNode visit(Multiplication multiplication) {
         Number left = (Number) multiplication.getLeft().accept(this);
         Number right = (Number) multiplication.getRight().accept(this);
-        return new Number(left.getValue() * right.getValue());
+        return new Number(left.getNumber() * right.getNumber());
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Evaluator extends QLVisitorImpl {
     public AbstractNode visit(Question question) {
         if (isComputedQuestion(question)) {
             Number computedValue = getComputedValue(question.getExpression().get());
-            question.setValue(new NumberStore(computedValue.getValue()));
+            question.setValue(new Number(computedValue.getNumber()));
         }
 
         evaluatedQuestions.add(question);
@@ -172,10 +171,10 @@ public class Evaluator extends QLVisitorImpl {
     public AbstractNode visit(Division division) {
         Number left = (Number) division.getLeft().accept(this);
         Number right = (Number) division.getRight().accept(this);
-        if (left.getValue() == 0 || right.getValue() == 0) {
+        if (left.getNumber() == 0 || right.getNumber() == 0) {
             throw new ArithmeticException("Cannot divide by 0 for:" + division);
         }
-        return new Number(left.getValue() / right.getValue());
+        return new Number(left.getNumber() / right.getNumber());
     }
 
     @Override
