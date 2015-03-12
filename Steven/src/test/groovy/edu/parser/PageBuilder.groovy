@@ -19,5 +19,6 @@ public class PageBuilder {
 
     public PageBuilder addSection(Section section) {
         this.sections.add(section)
+        return this
     }
 }

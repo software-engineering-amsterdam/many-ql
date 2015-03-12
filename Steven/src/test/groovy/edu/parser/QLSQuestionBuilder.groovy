@@ -22,9 +22,11 @@ public class QLSQuestionBuilder {
 
     public QLSQuestionBuilder addStyle(Style style) {
         styles.add(style)
+        return this
     }
 
     public QLSQuestionBuilder identifier(String identifier) {
         this.identifier = new QLSIdentifier(identifier);
+        return this
     }
 }
