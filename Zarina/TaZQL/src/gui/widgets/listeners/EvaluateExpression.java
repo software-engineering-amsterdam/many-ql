@@ -19,7 +19,6 @@ public class EvaluateExpression {
 		this.expression = expression;
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);
 		this.setQuestion = setQuestion;
-		evaluate();
 		setValueInGUI();
 	}
 		
