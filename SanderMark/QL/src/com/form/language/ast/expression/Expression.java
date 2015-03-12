@@ -10,7 +10,7 @@ public interface Expression extends ASTNode {
 
     public abstract String showTokenInfo();
 
-    public abstract GenericValue<?> evaluate(Context context);
+    public abstract GenericValue evaluate(Context context);
 
     public abstract void collectIds(IdCollection idCollection);
 }

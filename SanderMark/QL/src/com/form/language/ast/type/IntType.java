@@ -21,7 +21,7 @@ public class IntType extends Type {
     }
 
     @Override
-    public GenericValue<?> defaultValue() {
+    public GenericValue defaultValue() {
 	// TODO Auto-generated method stub
 	return new IntValue(0);
     }

@@ -21,5 +21,5 @@ public abstract class Type {
 	return false;
     }
 
-    public abstract GenericValue<?> defaultValue();
+    public abstract GenericValue defaultValue();
 }

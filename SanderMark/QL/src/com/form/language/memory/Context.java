@@ -46,11 +46,11 @@ public class Context {
 	return dependencies.iterator();
     }
 
-    public void setValue(String key, GenericValue<?> value) {
+    public void setValue(String key, GenericValue value) {
 	this.memory.put(key, value);
     }
 
-    public GenericValue<?> getValue(String s) {
+    public GenericValue getValue(String s) {
 	return this.memory.get(s);
     }
 

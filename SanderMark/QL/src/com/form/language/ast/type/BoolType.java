@@ -21,7 +21,7 @@ public class BoolType extends Type {
     }
 
     @Override
-    public GenericValue<?> defaultValue() {
+    public GenericValue defaultValue() {
 	// TODO Auto-generated method stub
 	return new BoolValue(false);
     }

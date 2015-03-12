@@ -2,7 +2,7 @@ package com.form.language.ast.values;
 
 import com.form.language.memory.Context;
 
-public class IntValue extends GenericValue<Integer> {
+public class IntValue extends GenericValue {
     private final int value;
 
     public IntValue(int value) {

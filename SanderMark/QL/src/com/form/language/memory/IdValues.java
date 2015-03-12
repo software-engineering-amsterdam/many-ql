@@ -6,13 +6,13 @@ import java.util.Map;
 import com.form.language.ast.values.GenericValue;
 
 public class IdValues {
-    private Map<String, GenericValue<?>> values;
+    private Map<String, GenericValue> values;
 
     public IdValues() {
-	this.values = new HashMap<String, GenericValue<?>>();
+	this.values = new HashMap<String, GenericValue>();
     }
 
-    public void put(String idName, GenericValue<?> value) {
+    public void put(String idName, GenericValue value) {
 	this.values.put(idName, value);
     }
 
@@ -24,7 +24,7 @@ public class IdValues {
 	return result;
     }
 
-    public GenericValue<?> get(String idName) {
+    public GenericValue get(String idName) {
 	return this.values.get(idName);
     }
 }

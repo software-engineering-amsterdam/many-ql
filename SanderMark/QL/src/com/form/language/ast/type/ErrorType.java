@@ -20,7 +20,7 @@ public class ErrorType extends Type {
     }
 
     @Override
-    public GenericValue<?> defaultValue() {
+    public GenericValue defaultValue() {
 	return null;
     }
 

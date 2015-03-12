@@ -19,7 +19,7 @@ public class Negation extends UnaryExpression implements Expression {
     }
 
     @Override
-    public GenericValue<Integer> evaluate(Context context) {
+    public GenericValue evaluate(Context context) {
 	return new IntValue(-((IntValue) value.evaluate(context)).getValue());
     }
 

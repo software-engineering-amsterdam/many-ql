@@ -21,7 +21,7 @@ public class StringType extends Type {
     }
 
     @Override
-    public GenericValue<?> defaultValue() {
+    public GenericValue defaultValue() {
 	// TODO Auto-generated method stub
 	return new StringValue("");
     }

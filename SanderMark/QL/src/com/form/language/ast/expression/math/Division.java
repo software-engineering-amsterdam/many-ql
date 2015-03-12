@@ -19,7 +19,7 @@ public class Division extends BinaryExpression implements Expression {
     }
 
     @Override
-    public GenericValue<Integer> evaluate(Context context) {
+    public GenericValue evaluate(Context context) {
 	return new IntValue(((IntValue) super.left.evaluate(context)).getValue()
 		/ ((IntValue) super.right.evaluate(context)).getValue());
     }

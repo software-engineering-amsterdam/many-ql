@@ -2,7 +2,7 @@ package com.form.language.ast.values;
 
 import com.form.language.memory.Context;
 
-public class BoolValue extends GenericValue<Boolean> {
+public class BoolValue extends GenericValue {
     private final boolean value;
 
     public BoolValue(boolean value) {

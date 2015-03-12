@@ -2,7 +2,7 @@ package com.form.language.ast.values;
 
 import com.form.language.memory.Context;
 
-public class StringValue extends GenericValue<String> {
+public class StringValue extends GenericValue {
     private final String value;
 
     public StringValue(String value) {

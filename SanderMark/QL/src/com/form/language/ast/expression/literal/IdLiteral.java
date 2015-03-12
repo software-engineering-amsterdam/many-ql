@@ -37,7 +37,7 @@ public class IdLiteral extends Literal implements Expression {
     }
 
     @Override
-    public GenericValue<?> evaluate(Context context) {
+    public GenericValue evaluate(Context context) {
 	return context.getValue(name);
     }
 
