@@ -109,7 +109,8 @@ public class Main implements Observer { //todo: remove cloneable from project, u
         Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
         textBox.setText(question.getValue().getValue());
         if (computedQuestion(question)) {
-            textBox.setEditable(false);
+            textBox.setEditable(false); //grey out
+            textBox.removeEventListeners(); //do not update for computed questions
         }
     }
 
@@ -128,7 +129,6 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     public void initializeRequest(CheckBox checkBox) {
         Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
         checkBox.setSelected(question.isEnabled());
-
     }
 
     public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {

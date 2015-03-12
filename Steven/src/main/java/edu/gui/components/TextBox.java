@@ -48,4 +48,7 @@ public class TextBox extends JTextField implements Subject, FocusListener {
         notifyObservers();
     }
 
+    public void removeEventListeners() {
+        this.removeFocusListener(this);
+    }
 }
