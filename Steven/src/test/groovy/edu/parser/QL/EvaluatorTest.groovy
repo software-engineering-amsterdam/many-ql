@@ -82,7 +82,6 @@ class EvaluatorTest extends Specification {
         new Equal(new Multiplication(new Number(3), new Number(2)), new Number(6)) | _
         new Equal(new Division(new Number(9), new Number(3)), new Number(3))       | _
         new Not(new Boolean(false))                                                | _
-
     }
 
     def "Should not return question when if statements boolean condition is false"() {

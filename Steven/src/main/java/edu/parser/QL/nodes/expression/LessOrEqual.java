@@ -1,8 +1,5 @@
 package edu.parser.QL.nodes.expression;
 
-import edu.parser.QL.QLVisitor;
-import edu.parser.QL.nodes.AbstractNode;
-
 /**
  * Created by Steven Kok on 21/02/2015.
  */
@@ -12,8 +9,8 @@ public class LessOrEqual extends BinaryExpression {
     }
 
     @Override
-    public AbstractNode accept(QLVisitor QLVisitor) {
-        return QLVisitor.visit(this);
+    public Expression accept(ExpressionVisitor expressionVisitor) {
+        return expressionVisitor.visit(this);
     }
 
     @Override

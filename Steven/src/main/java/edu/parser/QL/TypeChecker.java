@@ -1,17 +1,22 @@
 package edu.parser.QL;
 
 import edu.exceptions.TypeCheckException;
+import edu.nodes.QuestionType;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.*;
+import edu.parser.QL.nodes.expression.Expression;
+import edu.parser.QL.nodes.expression.ExpressionVisitor;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.nodes.QuestionType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -25,12 +30,12 @@ public class TypeChecker extends QLVisitorImpl {
     public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
     public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
     private final Map<QLIdentifier, Question> questions;
-    private final Set<QLIdentifier> QLIdentifiers;
     private static final Logger logger = Logger.getLogger(TypeChecker.class.getName());
+    private final ExpressionVisitor expressionVisitor;
 
     public TypeChecker() {
         this.questions = new HashMap<>();
-        this.QLIdentifiers = new HashSet<>();
+        expressionVisitor = new TypeCheckerExpressionValidator(questions);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class TypeChecker extends QLVisitorImpl {
     }
 
     private AbstractNode visit(Expression expression) {
-        return expression.accept(this);
+        return expressionVisitor.visit(expression);
     }
 
     @Override
@@ -110,103 +115,6 @@ public class TypeChecker extends QLVisitorImpl {
         return questionType.equals(question.getQuestionType());
     }
 
-    @Override
-    public AbstractNode visit(Addition addition) {
-        return visitArithmeticExpression(addition);
-    }
-
-    @Override
-    public AbstractNode visit(And and) {
-        return visitLogicalExpression(and);
-    }
-
-    @Override
-    public AbstractNode visit(Or or) {
-        return visitLogicalExpression(or);
-    }
-
-    private AbstractNode visitLogicalExpression(BinaryExpression expression) {
-        if (expression.getLeft().hasBooleanOperands() && expression.getRight().hasBooleanOperands()) {
-            visit(expression.getLeft());
-            visit(expression.getRight());
-            return expression;
-        } else {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, expression.getClass().getSimpleName(), expression.toString()));
-        }
-    }
-
-    private AbstractNode visitArithmeticExpression(BinaryExpression expression) {
-        if (expression.getLeft().hasBooleanOperands() || expression.getRight().hasBooleanOperands()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.toString()));
-        }
-        visit(expression.getLeft());
-        visit(expression.getRight());
-        return expression;
-    }
-
-    @Override
-    public AbstractNode visit(Equal equal) {
-        visit(equal.getLeft());
-        visit(equal.getRight());
-        return equal;
-    }
-
-    @Override
-    public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
-        return visitArithmeticExpression(greaterOrEqual);
-    }
-
-    @Override
-    public AbstractNode visit(GreaterThan greaterThan) {
-        return visitArithmeticExpression(greaterThan);
-    }
-
-    @Override
-    public AbstractNode visit(QLIdentifier QLIdentifier) {
-        QLIdentifiers.add(QLIdentifier); // may overwrite existing items
-        checkReferenceToUndefinedQuestions();
-        return QLIdentifier;
-    }
-
-    // implicitly checks for cyclic dependencies of questions
-    private void checkReferenceToUndefinedQuestions() {
-        String undefinedReferences = QLIdentifiers
-                .stream()
-                .filter(identifier -> !questions.containsKey(identifier))
-                .map(QLIdentifier::toString)
-                .collect(Collectors.joining(", "));
-        if (!undefinedReferences.isEmpty()) {
-            throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);
-        }
-    }
-
-    @Override
-    public AbstractNode visit(LessOrEqual lessOrEqual) {
-        return visitArithmeticExpression(lessOrEqual);
-    }
-
-    @Override
-    public AbstractNode visit(LessThan lessThan) {
-        return visitArithmeticExpression(lessThan);
-    }
-
-    @Override
-    public AbstractNode visit(Multiplication multiplication) {
-        return visitArithmeticExpression(multiplication);
-    }
-
-    @Override
-    public AbstractNode visit(Division division) {
-        return visitArithmeticExpression(division);
-    }
-
-    @Override
-    public AbstractNode visit(Not not) {
-        if (!not.getOperand().hasBooleanOperands()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, not.getClass().getSimpleName(), not.toString()));
-        }
-        return visit(not.getOperand());
-    }
 
     @Override
     public AbstractNode visit(ElseClause elseClause) {

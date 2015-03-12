@@ -3,22 +3,27 @@ package edu.parser.QL;
 import edu.exceptions.EvaluationException;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.*;
+import edu.parser.QL.nodes.expression.EvaluatorExpressionValidator;
+import edu.parser.QL.nodes.expression.Expression;
+import edu.parser.QL.nodes.expression.ExpressionVisitor;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
+    private final ExpressionVisitor expressionVisitor;
+
+    public Evaluator() {
+        expressionVisitor = new EvaluatorExpressionValidator(evaluatedQuestions);
+    }
 
     public List<Question> evaluate(Form form) {
         this.evaluatedQuestions.clear();
@@ -44,97 +49,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private boolean isExpressionTrue(IfStatement ifStatement) {
-        return ((Boolean) ifStatement.getExpression().accept(this)).isTrue();
-    }
-
-    @Override
-    public AbstractNode visit(Addition addition) {
-        Number left = (Number) addition.getLeft().accept(this);
-        Number right = (Number) addition.getRight().accept(this);
-        return new Number(left.getNumber() + right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(And and) {
-        Boolean left = (Boolean) and.getLeft().accept(this);
-        Boolean right = (Boolean) and.getRight().accept(this);
-        return new Boolean(left.isTrue() && right.isTrue());
-    }
-
-    @Override
-    public AbstractNode visit(Equal equal) {
-        Number left = (Number) equal.getLeft().accept(this);
-        Number right = (Number) equal.getRight().accept(this);
-        return new Boolean(left.getValue() == right.getValue());
-    }
-
-    @Override
-    public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
-        Number left = (Number) greaterOrEqual.getLeft().accept(this);
-        Number right = (Number) greaterOrEqual.getRight().accept(this);
-        return new Boolean(left.getNumber() >= right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(GreaterThan greaterThan) {
-        Number left = (Number) greaterThan.getLeft().accept(this);
-        Number right = (Number) greaterThan.getRight().accept(this);
-        return new Boolean(left.getNumber() > right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(QLIdentifier QLIdentifier) {
-        Optional<Question> foundQuestion = getQuestion(QLIdentifier);
-        if (foundQuestion.isPresent()) {
-            return new Boolean(isQuestionEnabled(foundQuestion.get()));
-        } else {
-            return new Boolean(false); // if question does not exist, expression cannot be true.
-        }
-    }
-
-    private boolean isQuestionEnabled(Question foundQuestion) {
-        return foundQuestion.isEnabled();
-    }
-
-    private Optional<Question> getQuestion(QLIdentifier QLIdentifier) {
-        return evaluatedQuestions
-                .stream()
-                .filter(q -> q.getQLIdentifier().equals(QLIdentifier))
-                .findFirst();
-    }
-
-    @Override
-    public AbstractNode visit(LessOrEqual lessOrEqual) {
-        Number left = (Number) lessOrEqual.getLeft().accept(this);
-        Number right = (Number) lessOrEqual.getRight().accept(this);
-        return new Boolean(left.getNumber() <= right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(LessThan lessThan) {
-        Number left = (Number) lessThan.getLeft().accept(this);
-        Number right = (Number) lessThan.getRight().accept(this);
-        return new Boolean(left.getNumber() < right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(Multiplication multiplication) {
-        Number left = (Number) multiplication.getLeft().accept(this);
-        Number right = (Number) multiplication.getRight().accept(this);
-        return new Number(left.getNumber() * right.getNumber());
-    }
-
-    @Override
-    public AbstractNode visit(Not not) {
-        Boolean result = (Boolean) not.getOperand().accept(this);
-        return new Boolean(!result.isTrue());
-    }
-
-    @Override
-    public AbstractNode visit(Or or) {
-        Boolean left = (Boolean) or.getLeft().accept(this);
-        Boolean right = (Boolean) or.getRight().accept(this);
-        return new Boolean(left.isTrue() || right.isTrue());
+        return ((edu.parser.QL.nodes.type.Boolean) ifStatement.getExpression().accept(expressionVisitor)).isTrue();
     }
 
     @Override
@@ -159,7 +74,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private Number getComputedValue(Expression expression) {
-        AbstractNode abstractNode = expression.accept(this);
+        AbstractNode abstractNode = expression.accept(expressionVisitor);
         if (abstractNode instanceof Number) {
             return (Number) abstractNode;
         } else {
@@ -167,20 +82,5 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    @Override
-    public AbstractNode visit(Division division) {
-        Number left = (Number) division.getLeft().accept(this);
-        Number right = (Number) division.getRight().accept(this);
-        if (left.getNumber() == 0 || right.getNumber() == 0) {
-            throw new ArithmeticException("Cannot divide by 0 for:" + division);
-        }
-        return new Number(left.getNumber() / right.getNumber());
-    }
 
-    @Override
-    public AbstractNode visit(NotEqual notEqual) {
-        Number left = (Number) notEqual.getLeft().accept(this);
-        Number right = (Number) notEqual.getRight().accept(this);
-        return new Boolean(left.getValue() != right.getValue());
-    }
 }

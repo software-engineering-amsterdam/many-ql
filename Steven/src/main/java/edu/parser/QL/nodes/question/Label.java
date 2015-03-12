@@ -17,7 +17,6 @@ public class Label implements AbstractNode {
         return label;
     }
 
-    @Override
     public AbstractNode accept(QLVisitor QLVisitor) {
         return QLVisitor.visit(this);
     }
