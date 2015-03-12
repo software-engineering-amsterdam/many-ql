@@ -23,4 +23,10 @@ public class StringValue extends GenericValue {
 	// TODO Auto-generated method stub
 	return "\"" + this.value + "\"";
     }
+    
+    @Override
+    public Boolean equals(GenericValue comparison) {
+	return this.value == ((StringValue) comparison).getValue();
+    }
+
 }

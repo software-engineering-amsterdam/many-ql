@@ -23,4 +23,10 @@ public class IntValue extends GenericValue {
     public void addToMemory(String key, Context context) {
 	context.setValue(key, this);
     }
+    
+    @Override
+    public Boolean equals(GenericValue comparison) {
+	return this.value == ((IntValue) comparison).getValue();
+    }
+
 }

@@ -24,4 +24,9 @@ public class BoolValue extends GenericValue {
 	context.setValue(key, this);
     }
 
+    @Override
+    public Boolean equals(GenericValue comparison) {
+	return this.value == ((BoolValue) comparison).getValue();
+    }
+
 }
