@@ -20,6 +20,7 @@ public class Equal extends BinaryExpression implements Expression {
     }
 
     @Override
+    //TODO Override Object.equals
     public BoolValue evaluate(Context context) {
 	if (this.getType(context).isIntType()) {
 	    return new BoolValue(((IntValue) super.left.evaluate(context)).getValue() == ((IntValue) super.right.evaluate(context)).getValue());

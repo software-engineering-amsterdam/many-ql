@@ -9,6 +9,7 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.ast.values.StringValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
@@ -19,8 +20,18 @@ public class NotEqual extends BinaryExpression implements Expression {
     }
 
     @Override
+    //TODO Override Object.equals
     public BoolValue evaluate(Context context) {
-	return new BoolValue(((IntValue) super.left.evaluate(context)).getValue() != ((IntValue) super.right.evaluate(context)).getValue());
+	if (this.getType(context).isIntType()) {
+	    return new BoolValue(((IntValue) super.left.evaluate(context)).getValue() != ((IntValue) super.right.evaluate(context)).getValue());
+	}
+	if (this.getType(context).isBoolType()) {
+	    return new BoolValue(((BoolValue) super.left.evaluate(context)).getValue() != ((BoolValue) super.right.evaluate(context)).getValue());
+	}
+	if (this.getType(context).isStringType()) {
+	    return new BoolValue(((StringValue) super.left.evaluate(context)).getValue() != ((StringValue) super.right.evaluate(context)).getValue());
+	}
+	return null;
     }
 
     @Override
