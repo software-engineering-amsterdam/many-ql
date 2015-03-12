@@ -41,22 +41,17 @@ public class QuestionComponent extends JPanel {
 	createQuestionType();
     }
 
-    // Type checker implementation to be added
+    // TODO: Type checker implementation to be added
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
-	    // CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
 	    CheckBox checkbox = new CheckBox(question, this, rm);
 	    checkbox.setName(question.getId());
 	    add(checkbox);
 	} else if (question.getType(rm).isStringType()) {
-	    // TextField textfield = new
-	    // TextField(question,this,showCondition,rm);
 	    TextField textfield = new TextField(question, this, rm);
 	    textfield.setName(question.getId());
 	    add(textfield);
 	} else {
-	    // TextField textfield = new
-	    // TextField(question,this,showCondition,rm);
 	    TextField textfield = new TextField(question, this, rm);
 	    textfield.setName(question.getId());
 	    add(textfield);

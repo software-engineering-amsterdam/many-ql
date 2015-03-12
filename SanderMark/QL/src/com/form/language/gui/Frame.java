@@ -106,7 +106,7 @@ public class Frame {
 
 		form.initMemory(context);
 
-		QuestionFrame qf = new QuestionFrame(form, context);
+		new QuestionFrame(form, context);
 	    }
 	});
     }

@@ -26,6 +26,7 @@ public class TextField extends JTextField {
 	String s;
 	try {
 	    s = e.getDocument().getText(0, e.getDocument().getLength());
+	    //TODO: Finish this code?
 	    // If condition == true then show QUESTION
 	    // widgetListener.widgetValueChanged(getIdentifier(), new
 	    // StringValue(s));

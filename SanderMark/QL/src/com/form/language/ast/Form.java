@@ -48,4 +48,8 @@ public class Form {
 	return this.statementList.iterator();
     }
 
+    public String getId() {
+        return id;
+    }
+
 }
