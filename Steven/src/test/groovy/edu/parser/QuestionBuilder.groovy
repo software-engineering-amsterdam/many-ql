@@ -1,5 +1,7 @@
 package edu.parser
 
+import edu.gui.components.store.DefaultStore
+import edu.gui.components.store.Store
 import edu.nodes.QuestionType
 import edu.nodes.styles.Style
 import edu.parser.QL.nodes.expression.Expression
@@ -17,6 +19,7 @@ public class QuestionBuilder {
     private Label label
     private Optional<Expression> expression
     private List<Style> styles
+    private Store store
 
     QuestionBuilder() {
         this.isEnabled = false
@@ -25,6 +28,7 @@ public class QuestionBuilder {
         this.label = new Label("label")
         this.expression = Optional.empty()
         this.styles = Collections.emptyList()
+        this.store = new DefaultStore()
     }
 
     public QuestionBuilder isEnabled(boolean isEnabled) {
@@ -57,7 +61,11 @@ public class QuestionBuilder {
         return this
     }
 
+    public QuestionBuilder store(Store store) {
+        this.store = store
+    }
+
     public Question build() {
-        return new Question(identifier, questionType, label, isEnabled, expression, styles)
+        return new Question(identifier, questionType, label, isEnabled, expression, styles, store)
     }
 }

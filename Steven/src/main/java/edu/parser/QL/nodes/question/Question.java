@@ -1,6 +1,7 @@
 package edu.parser.QL.nodes.question;
 
 import edu.exceptions.ParseException;
+import edu.gui.components.store.Store;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
 import edu.parser.QL.QLVisitor;
@@ -24,14 +25,24 @@ public class Question extends Statement implements Cloneable {
     private final Optional<Expression> expression;
     private final boolean isEnabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
     private final List<Style> styles;
+    private Store value;
 
-    public Question(QLIdentifier QLIdentifier, QuestionType questionType, Label label, boolean isEnabled, Optional<Expression> expression, List<Style> styles) {
+    public Question(QLIdentifier QLIdentifier, QuestionType questionType, Label label, boolean isEnabled, Optional<Expression> expression, List<Style> styles, Store value) {
         this.expression = expression;
         this.QLIdentifier = QLIdentifier;
         this.questionType = questionType;
         this.label = label;
         this.isEnabled = isEnabled;
         this.styles = styles;
+        this.value = value;
+    }
+
+    public Store getValue() {
+        return value;
+    }
+
+    public void setValue(Store value) {
+        this.value = value;
     }
 
     public boolean isEnabled() { //todo: refactor to: getState
@@ -86,12 +97,12 @@ public class Question extends Statement implements Cloneable {
     public Question clone(boolean isEnabled) throws CloneNotSupportedException {
         Optional<Expression> clonedExpression = cloneExpression();
         List<Style> clonedStyles = cloneStyles();
-        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, clonedStyles);
+        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, clonedStyles, value);
     }
 
     public Question clone(List<Style> styles) throws CloneNotSupportedException {
         Optional<Expression> clonedExpression = cloneExpression();
-        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, styles);
+        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, styles, value);
     }
 
     private List<Style> cloneStyles() {

@@ -2,6 +2,7 @@ package edu.parser.QL;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
+import edu.gui.components.store.DefaultStore;
 import edu.nodes.QuestionType;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
@@ -66,7 +67,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
         Label label = (Label) visit(ctx.question_label());
         Optional<Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(QLIdentifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList());
+        return new Question(QLIdentifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList(), new DefaultStore());
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {
