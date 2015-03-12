@@ -2,6 +2,8 @@ package org.uva.sea.ql.encoders.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import javafx.application.Application;
@@ -28,7 +30,7 @@ import org.uva.sea.ql.encoders.validation.Validation;
 
 public class Main extends Application {
 
-	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "src/main/resources/ql/";
+	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "ql/";
 
 	private static final String DEFAULT_INPUT_FILE_NAME = "input_form.ql";
 
@@ -57,12 +59,21 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(
-						DEFAULT_INPUT_FILE_DIRECTORY));
-				File result = fileChooser.showOpenDialog(null);
-				if (result != null) {
-					textField.setText(result.getPath());
+				try {
+					URL resource = getURL(DEFAULT_INPUT_FILE_DIRECTORY
+							+ DEFAULT_INPUT_FILE_NAME);
+					File file = new File(resource.toURI());
+					file = file.getParentFile();
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setInitialDirectory(file);
+					File result = fileChooser.showOpenDialog(null);
+					if (result != null) {
+						textField.setText(result.getPath());
+					}
+				} catch (URISyntaxException e) {
+					ExceptionDialog dialog = new ExceptionDialog(e);
+					dialog.show();
+					e.printStackTrace();
 				}
 			}
 		});
@@ -75,8 +86,17 @@ public class Main extends Application {
 				try {
 					AstTransformer astTransformer = new AstTransformer();
 					QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
+					String text = textField.getText();
+					URL resource = getURL(text);
+					File file;
+					if (resource != null) {
+						file = new File(resource.toURI());
+					} else {
+						file = new File(text);
+					}
+
 					Questionnaire questionnaire = questionnaireParsingService
-							.parse(textField.getText());
+							.parse(file.getAbsolutePath());
 					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer
 							.transform(questionnaire);
 					List<Validation> validations = questionnaireParsingService
@@ -94,9 +114,10 @@ public class Main extends Application {
 						stackPane.getChildren().add(questionnaireUI);
 					}
 
-				} catch (IOException e) {
+				} catch (IOException | URISyntaxException e) {
 					ExceptionDialog dialog = new ExceptionDialog(e);
 					dialog.show();
+					e.printStackTrace();
 				}
 			}
 		});
@@ -106,5 +127,10 @@ public class Main extends Application {
 		Scene scene = new Scene(grid, 750, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	private URL getURL(String path) {
+		ClassLoader classLoader = getClass().getClassLoader();
+		return classLoader.getResource(path);
 	}
 }
