@@ -20,7 +20,10 @@ public class StrValue extends Value {
 
 	@Override
 	public boolean isDefined() {
-		return true;
+		if (!value.equals("") || value != null) {
+			return true;
+		}
+		return false;
 	}
-	
+
 }

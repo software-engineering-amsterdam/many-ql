@@ -1,10 +1,11 @@
-package org.uva.ql.typecheck;
+package org.uva.ql.typechecker;
 
 import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.typecheck.message.Error;
-import org.uva.ql.typecheck.relation.Relation;
+import org.uva.ql.typechecker.relation.Relation;
+import org.uva.util.message.Error;
+import org.uva.util.message.MessageManager;
 
 public class CyclicChecker {
 

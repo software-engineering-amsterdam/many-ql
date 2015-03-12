@@ -29,10 +29,6 @@ public class ColorLiteral extends Literal {
 		this.value = new ColorValue(color);
 	}
 	
-	
-
-	
-	
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {
 		return visitor.visit(this);

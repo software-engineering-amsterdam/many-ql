@@ -1,4 +1,4 @@
-package org.uva.ql.typecheck;
+package org.uva.ql.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +41,12 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.typecheck.message.Error;
-import org.uva.ql.typecheck.message.Warning;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.ql.visitor.StatementVisitor;
+import org.uva.util.message.Error;
+import org.uva.util.message.MessageManager;
+import org.uva.util.message.Warning;
 
 public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor<Boolean>,
 		QuestionnaireVisitor<Boolean> {

@@ -1,6 +1,5 @@
 package org.uva.ql.ast.value;
 
-
 public class StrValue extends Value {
 
 	private final String value;
@@ -43,14 +42,17 @@ public class StrValue extends Value {
 	public Value plus(Value arg) {
 		return arg.StrPlus(this);
 	}
-	
+
 	public Value StrPlus(StrValue arg) {
 		return new StrValue(arg.getValue() + getValue());
 	}
-	
+
 	@Override
 	public boolean isUndefined() {
+		if (value.equals("") || value == null) {
+			return true;
+		}
 		return false;
 	}
-	
+
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
 

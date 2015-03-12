@@ -1,9 +1,6 @@
-package org.uva.ql.typecheck;
+package org.uva.util.message;
 
 import java.util.ArrayList;
-
-import org.uva.ql.typecheck.message.Error;
-import org.uva.ql.typecheck.message.Warning;
 
 public class MessageManager{
 	

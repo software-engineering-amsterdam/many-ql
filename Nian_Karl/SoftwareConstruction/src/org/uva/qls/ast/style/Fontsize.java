@@ -24,5 +24,4 @@ public class Fontsize extends StyleNumber {
 		return "Fontsize<" + number.toString() + ">";
 	}
 
-
 }

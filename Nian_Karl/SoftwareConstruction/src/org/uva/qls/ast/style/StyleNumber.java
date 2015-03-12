@@ -23,5 +23,13 @@ public abstract class StyleNumber extends StyleProperty {
 	public Literal getLiteral() {
 		return number;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public Boolean isValid() {
+		if ((int) number.getValue().value() >= 0 && number.getValue().isDefined()) {
+			return true;
+		}
+		return false;
+	}
 	
 }
