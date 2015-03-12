@@ -69,7 +69,7 @@ class EvaluatorTest extends Specification {
         expression                                                                 | _
         new Boolean(true)                                                          | _
         new And(new Boolean(true), new Boolean(true))                              | _
-        new And(new QLIdentifier("unconditional"), new Boolean(true))                | _
+        new And(new QLIdentifier("unconditional"), new Boolean(true))              | _
         new And(new And(new Boolean(true), new Boolean(true)), new Boolean(true))  | _
         new Or(new Boolean(true), new Boolean(true))                               | _
         new Or(new Boolean(true), new Boolean(false))                              | _
@@ -113,7 +113,7 @@ class EvaluatorTest extends Specification {
         new And(new Boolean(false), new Boolean(true))                             | _
         new And(new Boolean(true), new Boolean(false))                             | _
         new And(new Boolean(false), new Boolean(false))                            | _
-        new And(new QLIdentifier("conditional"), new Boolean(true))                  | _
+        new And(new QLIdentifier("conditional"), new Boolean(true))                | _
         new Or(new Boolean(false), new Boolean(false))                             | _
         new GreaterThan(new Addition(new Number(1), new Number(2)), new Number(4)) | _
         new GreaterOrEqual(new Number(2), new Number(3))                           | _
@@ -123,7 +123,7 @@ class EvaluatorTest extends Specification {
         new Equal(new Multiplication(new Number(3), new Number(2)), new Number(7)) | _
         new Equal(new Division(new Number(9), new Number(3)), new Number(4))       | _
         new Not(new Boolean(true))                                                 | _
-        new Not(new QLIdentifier("unconditional"))                                   | _
+        new Not(new QLIdentifier("unconditional"))                                 | _
     }
 
     def "Should return question from elseClause when condition is false"() {
@@ -188,7 +188,9 @@ class EvaluatorTest extends Specification {
         questionsWithinIfStatement.add(new QuestionBuilder().identifier("conditionalQuestion").isEnabled(true).build())
         IfStatement ifStatement = new IfStatement(new QLIdentifier(identifierUnconditionalQuestion), questionsWithinIfStatement, Optional.empty())
 
-        formStatements.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build())
+
+        Question unconditionalQuestion = new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build()
+        formStatements.add(unconditionalQuestion)
         formStatements.add(ifStatement)
         def form = new Form(formStatements)
 
@@ -199,15 +201,13 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getQLIdentifier().identifier)
 
         then:
-        Set<Question> updatedQuestions = new ArrayList<>()
-        updatedQuestions.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(true).build())
-        List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
+        unconditionalQuestion.setState(true)
+        List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form)
         Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
 
         // disable question again
-        Set<Question> updatedQuestionsDisabled = new ArrayList<>()
-        updatedQuestionsDisabled.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build())
-        List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestionsDisabled)
+        unconditionalQuestion.setState(false)
+        List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form)
         Assert.assertEquals(1, evaluationReturnedUpdatedQuestionsDisabled.size())
 
     }

@@ -20,9 +20,4 @@ public class Addition extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public Addition clone() throws CloneNotSupportedException {
-        return new Addition(getLeft().clone(), getRight().clone());
-    }
 }

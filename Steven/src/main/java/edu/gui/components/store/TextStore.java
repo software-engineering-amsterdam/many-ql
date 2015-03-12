@@ -11,7 +11,13 @@ public class TextStore implements Store {
         this.text = text;
     }
 
-    public String getText() {
+    @Override
+    public String toString() {
+        return text;
+    }
+
+    @Override
+    public String getValue() {
         return text;
     }
 }

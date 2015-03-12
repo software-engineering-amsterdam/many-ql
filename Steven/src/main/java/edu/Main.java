@@ -1,12 +1,10 @@
 package edu;
 
-import edu.exceptions.CloneException;
 import edu.exceptions.ParseException;
 import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
-import edu.gui.components.store.Store;
 import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
@@ -17,7 +15,8 @@ import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +35,6 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private Map<Question, Store> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -49,7 +47,6 @@ public class Main implements Observer { //todo: remove cloneable from project, u
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new HashMap<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
@@ -72,7 +69,7 @@ public class Main implements Observer { //todo: remove cloneable from project, u
 
     private void evaluateForm() {
         evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions.keySet());
+        evaluatedQuestions = evaluator.evaluate(form);
     }
 
     private Stylesheet parseQLS() {
@@ -99,68 +96,30 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     @Override
     public void update(TextBox textBox) {
         Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
-        Question clonedQuestion = cloneQuestion(question);
         TextStore store = textBox.getStore();
         store.setText(textBox.getText());
-        addUpdatedQuestion(clonedQuestion, store);
-
+        question.setValue(store);
     }
 
     @Override
     public void initializeRequest(TextBox textBox) {
-        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getQLIdentifier());
-
-        if (updatedQuestion.isPresent()) {
-            TextStore textStore = (TextStore) updatedQuestions.get(updatedQuestion.get());
-            textBox.setText(textStore.getText());
-        }
+        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
+        textBox.setText(question.getValue().getValue());
     }
 
     @Override
     public void update(CheckBox checkBox) {
         Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
-        Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
-        addUpdatedQuestion(clonedQuestion, checkBox.getStore());
+        question.setState(checkBox.isSelected());
+        question.setValue(checkBox.getStore());
         reRender();
     }
 
     @Override
     public void initializeRequest(CheckBox checkBox) {
-        Optional<Question> question = getUpdatedQuestion(checkBox.getQLIdentifier());
-        if (question.isPresent()) {
-            checkBox.setSelected(question.get().isEnabled());
-        } else {
-            checkBox.setSelected(false);
-        }
-    }
+        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
+        checkBox.setSelected(question.isEnabled());
 
-    private Optional<Question> getUpdatedQuestion(QLIdentifier QLIdentifier) {
-        return updatedQuestions.keySet().stream()
-                .filter(updatedQuestion -> updatedQuestion.getQLIdentifier().equals(QLIdentifier))
-                .findFirst();
-    }
-
-    private void addUpdatedQuestion(Question clonedQuestion, Store store) {
-        if (updatedQuestions.containsKey(clonedQuestion)) {
-            updatedQuestions.remove(clonedQuestion);
-        }
-        updatedQuestions.put(clonedQuestion, store);
-    }
-
-    private Question cloneQuestionAndSetState(boolean isSelected, Question question) {
-        try {
-            return question.clone(isSelected);
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
-    }
-
-    private Question cloneQuestion(Question question) {
-        try {
-            return question.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
     }
 
     public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {

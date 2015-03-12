@@ -20,9 +20,4 @@ public class Equal extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public Equal clone() throws CloneNotSupportedException {
-        return new Equal(getLeft().clone(), getRight().clone());
-    }
 }

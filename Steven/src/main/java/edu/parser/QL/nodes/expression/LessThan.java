@@ -20,9 +20,4 @@ public class LessThan extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public LessThan clone() throws CloneNotSupportedException {
-        return new LessThan(getLeft().clone(), getRight().clone());
-    }
 }

@@ -1,6 +1,5 @@
 package edu.parser.QL.nodes.question;
 
-import edu.exceptions.ParseException;
 import edu.gui.components.store.Store;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
@@ -12,19 +11,18 @@ import edu.parser.QL.nodes.statement.Statement;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Question extends Statement implements Cloneable {
+public class Question extends Statement {
 
     private final QLIdentifier QLIdentifier;
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private final boolean isEnabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
-    private final List<Style> styles;
+    private boolean isEnabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private List<Style> styles;
     private Store value;
 
     public Question(QLIdentifier QLIdentifier, QuestionType questionType, Label label, boolean isEnabled, Optional<Expression> expression, List<Style> styles, Store value) {
@@ -41,6 +39,10 @@ public class Question extends Statement implements Cloneable {
         return value;
     }
 
+    public void setState(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
     public void setValue(Store value) {
         this.value = value;
     }
@@ -51,6 +53,10 @@ public class Question extends Statement implements Cloneable {
 
     public List<Style> getStyles() {
         return styles;
+    }
+
+    public void setStyles(List<Style> styles) {
+        this.styles = styles;
     }
 
     public QLIdentifier getQLIdentifier() {
@@ -87,44 +93,6 @@ public class Question extends Statement implements Cloneable {
     @Override
     public int hashCode() {
         return QLIdentifier.hashCode();
-    }
-
-    @Override
-    public Question clone() throws CloneNotSupportedException {
-        return clone(isEnabled);
-    }
-
-    public Question clone(boolean isEnabled) throws CloneNotSupportedException {
-        Optional<Expression> clonedExpression = cloneExpression();
-        List<Style> clonedStyles = cloneStyles();
-        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, clonedStyles, value);
-    }
-
-    public Question clone(List<Style> styles) throws CloneNotSupportedException {
-        Optional<Expression> clonedExpression = cloneExpression();
-        return new Question(QLIdentifier.clone(), questionType, label.clone(), isEnabled, clonedExpression, styles, value);
-    }
-
-    private List<Style> cloneStyles() {
-        return styles.stream()
-                .map(this::cloneStyle)
-                .collect(Collectors.toList());
-    }
-
-    private Style cloneStyle(Style style) {
-        try {
-            return style.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new ParseException(e);
-        }
-    }
-
-    private Optional<Expression> cloneExpression() throws CloneNotSupportedException {
-        Optional<Expression> expression = Optional.empty();
-        if (this.expression.isPresent()) {
-            Optional.of(this.expression.get().clone());
-        }
-        return expression;
     }
 
     @Override

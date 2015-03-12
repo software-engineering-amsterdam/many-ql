@@ -20,9 +20,4 @@ public class GreaterOrEqual extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public GreaterOrEqual clone() throws CloneNotSupportedException {
-        return new GreaterOrEqual(getLeft().clone(), getRight().clone());
-    }
 }

@@ -1,7 +1,6 @@
 package edu.gui;
 
 import edu.exceptions.EvaluationException;
-import edu.exceptions.GuiException;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
 import edu.parser.QL.nodes.question.Question;
@@ -109,15 +108,8 @@ public class Renderer implements QLSVisitor {
 
 
     private void storeQuestionWithStyle(Question inputQuestion, QLSQuestion qlsQuestion) {
-        this.questionsToRender.add(cloneQuestion(inputQuestion, qlsQuestion));
-    }
-
-    private Question cloneQuestion(Question inputQuestion, QLSQuestion qlsQuestion) {
-        try {
-            return inputQuestion.clone(qlsQuestion.getStyles());
-        } catch (CloneNotSupportedException e) {
-            throw new GuiException(e);
-        }
+        inputQuestion.setStyles(qlsQuestion.getStyles());
+        this.questionsToRender.add(inputQuestion);
     }
 
     private void visitStatements(Stylesheet stylesheet) {

@@ -1,6 +1,7 @@
 package edu.parser.QL;
 
 import edu.exceptions.EvaluationException;
+import edu.gui.components.store.NumberStore;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
@@ -10,23 +11,18 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
-    private Set<Question> updatedQuestions = new HashSet<>();
 
     public List<Question> evaluate(Form form) {
-        return evaluate(form, Collections.emptySet());
-    }
-
-    public List<Question> evaluate(Form form, Set<Question> updatedQuestions) {
         this.evaluatedQuestions.clear();
-        this.updatedQuestions = updatedQuestions;
         visit(form);
         return evaluatedQuestions;
     }
@@ -98,25 +94,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private boolean isQuestionEnabled(Question foundQuestion) {
-        Optional<Question> updatedQuestion = getUpdatedQuestion(foundQuestion);
-        if (updatedQuestion.isPresent()) {
-            return updatedQuestion.get().isEnabled();
-        } else {
-            return foundQuestion.isEnabled();
-        }
-    }
-
-    private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
-        List<Question> updatedQuestions = this.updatedQuestions.stream()
-                .filter(question -> question.getQLIdentifier().equals(foundQuestion.getQLIdentifier()))
-                .collect(Collectors.toList());
-        if (updatedQuestions.size() > 1) {
-            throw new EvaluationException("Updated question list contains duplicates.");
-        } else if (!updatedQuestions.isEmpty()) {
-            return Optional.of(updatedQuestions.get(0));
-        } else {
-            return Optional.empty();
-        }
+        return foundQuestion.isEnabled();
     }
 
     private Optional<Question> getQuestion(QLIdentifier QLIdentifier) {
@@ -168,10 +146,26 @@ public class Evaluator extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        boolean questionEnabled = isQuestionEnabled(question);
-        Question clonedQuestion = cloneQuestion(question, questionEnabled);
-        evaluatedQuestions.add(clonedQuestion);
+        if (isComputedQuestion(question)) {
+            Number computedValue = getComputedValue(question.getExpression().get());
+            question.setValue(new NumberStore(computedValue.getValue()));
+        }
+
+        evaluatedQuestions.add(question);
         return super.visit(question);
+    }
+
+    private boolean isComputedQuestion(Question question) {
+        return question.getExpression().isPresent();
+    }
+
+    private Number getComputedValue(Expression expression) {
+        AbstractNode abstractNode = expression.accept(this);
+        if (abstractNode instanceof Number) {
+            return (Number) abstractNode;
+        } else {
+            throw new EvaluationException("Computed question must return Number but got: " + expression);
+        }
     }
 
     @Override

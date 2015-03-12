@@ -7,7 +7,7 @@ import edu.parser.QL.nodes.AbstractNode;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class QLIdentifier extends Expression implements Cloneable {
+public class QLIdentifier extends Expression {
     private final Identifier identifier;
 
     public QLIdentifier(String identifier) {
@@ -47,10 +47,5 @@ public class QLIdentifier extends Expression implements Cloneable {
     @Override
     public boolean hasBooleanOperands() {
         return true;
-    }
-
-    @Override
-    public QLIdentifier clone() throws CloneNotSupportedException {
-        return new QLIdentifier(identifier.getIdentifier());
     }
 }

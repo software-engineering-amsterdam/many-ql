@@ -20,9 +20,4 @@ public class NotEqual extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public NotEqual clone() throws CloneNotSupportedException {
-        return new NotEqual(getLeft().clone(), getRight().clone());
-    }
 }

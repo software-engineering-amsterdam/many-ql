@@ -20,9 +20,4 @@ public class Multiplication extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
-
-    @Override
-    public Multiplication clone() throws CloneNotSupportedException {
-        return new Multiplication(getLeft().clone(), getRight().clone());
-    }
 }
