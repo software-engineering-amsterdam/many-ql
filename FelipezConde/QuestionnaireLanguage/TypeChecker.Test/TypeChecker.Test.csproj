@@ -50,8 +50,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
+    <Compile Include="HelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IdentifierCheckerTests.cs" />
+    <Compile Include="TypeCheckManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AST\AST.csproj">

@@ -1,26 +1,15 @@
-﻿using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using System;
+﻿using AST;
+using AST.Nodes.Expression;
+using AST.Nodes.Literals;
+using AST.Representation;
+using Evaluation;
+using QuestionnaireLanguage.Contracts;
+using QuestionnaireLanguage.Visitors;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using AST.Nodes.FormObject;
 using System.Windows;
-using AST.Nodes;
-using AST.Representation;
-using QuestionnaireLanguage.Resources;
+using System.Windows.Controls;
 using ASTIFormObject = AST.Nodes.Interfaces;
-using AST.Nodes.Expression;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using AST;
-using QuestionnaireLanguage.Visitors;
-using QuestionnaireLanguage.GUI.Widgets;
-using QuestionnaireLanguage.Contracts;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
-using AST.Evaluation;
-using AST.Nodes.Values;
 using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Controller
@@ -28,7 +17,7 @@ namespace QuestionnaireLanguage.Controller
     public class Processor
     {
         private static ASTResult astTree;
-        private static Evaluator evaluator;
+        private static EvaluationManager evaluator;
         private static IMain window;
 
         public ASTResult AstTree
@@ -41,7 +30,7 @@ namespace QuestionnaireLanguage.Controller
             window = mainWindow;
             astTree = ast;
 
-            evaluator = new Evaluator();
+            evaluator = new EvaluationManager();
         }
 
         public static UIElement ProcessBody(IList<ASTIFormObject.IFormObject> body, UIElement form)
@@ -70,12 +59,12 @@ namespace QuestionnaireLanguage.Controller
             return result;
         }
 
-        public static Value GetObjectValue(Id id)
+        public static Literal GetObjectValue(Id id)
         {
             return evaluator.GetValue(id);
         }
 
-        public static void UpdateValue(string id, Value value)
+        public static void UpdateValue(string id, Literal value)
         {
             evaluator.UpdateValue(new Id(id,new PositionInText()),value);
             window.DeleteElements();
@@ -91,7 +80,7 @@ namespace QuestionnaireLanguage.Controller
         {
         }
 
-        public static Value Evaluate(ASTIFormObject.IExpression expression)
+        public static Literal Evaluate(ASTIFormObject.IExpression expression)
         {
             return evaluator.Evaluate(expression);
         }

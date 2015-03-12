@@ -1,13 +1,7 @@
 ﻿using AST.Nodes.Expression;
 using AST.Nodes.Literals;
-using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AST.Storage
+namespace Evaluator.Storage
 {
     public interface ISymbolTable
     {

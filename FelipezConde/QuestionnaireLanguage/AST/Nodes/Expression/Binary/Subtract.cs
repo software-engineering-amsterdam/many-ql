@@ -12,18 +12,14 @@ namespace AST.Nodes.Expression.Binary
     {
         private readonly IExpression left;
         private readonly IExpression right;
-        private string parsedString;
 
-        public Subtract(IExpression left, IExpression right, string parsedString, PositionInText position)
+        public Subtract(IExpression left, IExpression right, PositionInText position)
             : base(position)
         {
             this.left = left;
             this.right = right;
-            this.parsedString = parsedString;
         }
 
-        public override string GetParsedString()
-        { return parsedString; }
 
         public IExpression Left()
         { return left; }
@@ -44,7 +40,7 @@ namespace AST.Nodes.Expression.Binary
             return "-";
         }
 
-        public Types.Type GetCompatibleType(Values.Int leftType, Types.IntType rightType)
+        public Types.Type GetCompatibleType(Literals.Int leftType, Types.IntType rightType)
         {
             return new Types.IntType();
         }

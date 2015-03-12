@@ -36,11 +36,6 @@ namespace AST.Nodes.Expression.Binary
             return visitor.Visit(this);
         }
 
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
-        }
-
         public string MakeString()
         {
             return "==";

@@ -12,16 +12,11 @@ namespace AST.Nodes.Expression.Unary
     public class Priority : ASTNode, IExpression, IUnary
     {
         private IExpression expression;
-        string parsedString;
-        public Priority(IExpression child, string parsedString, PositionInText position)
+        public Priority(IExpression child, PositionInText position)
             : base(position)
         {
             this.expression = child;
-            this.parsedString = parsedString;
         }
-
-        public override string GetParsedString()
-        { return parsedString; }
 
         //Visitor methods
         public T Accept<T>(Visitors.IVisitor<T> visitor)
@@ -34,28 +29,9 @@ namespace AST.Nodes.Expression.Unary
         {
             return expression;
         }
-
         public string MakeString()
         {
             return "()";
         }
-
-        //TypeCheck
-
-        public Types.Type GetCompatibleType(Types.BoolType ChildType)
-        {
-            return new Types.BoolType();
-        }
-
-        public Types.Type GetCompatibleType(Types.IntType ChildType)
-        {
-            return new Types.IntType();
-        }
-
-        public Types.Type GetCompatibleType(Types.Type rightType)
-        {
-            return new Types.UndefinedType();
-        }
-
     }
 }

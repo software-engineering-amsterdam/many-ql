@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Values = AST.Nodes.Values;
+using Values = AST.Nodes.Literals;
 using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Visitors.Interfaces

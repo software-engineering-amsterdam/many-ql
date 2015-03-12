@@ -1,6 +1,6 @@
 ﻿using AST.Nodes.FormObject;
 using ASTInterface = AST.Nodes.Interfaces;
-using AST.Nodes.Values;
+using AST.Nodes.Literals;
 using QuestionnaireLanguage.Controller;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
@@ -35,7 +35,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public UIElement ProcessFormObject(UIElement form)
         {
-            Value value = Processor.Evaluate(this.conditionalNode.Condition);
+            Literal value = Processor.Evaluate(this.conditionalNode.Condition);
 
             Widget stackPanelWidget = new StackPanelWidget();
             UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));

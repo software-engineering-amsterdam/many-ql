@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AST.Nodes.Interfaces;
 using AST.Representation;
-using AST.Nodes.Values;
+using AST.Nodes.Literals;
 using Types = AST.Types;
 
 namespace AST.Nodes.Expression
@@ -29,11 +29,6 @@ namespace AST.Nodes.Expression
         public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
         }
 
         public Types.Type RetrieveType()

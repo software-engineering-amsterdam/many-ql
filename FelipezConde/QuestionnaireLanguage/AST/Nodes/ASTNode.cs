@@ -16,7 +16,6 @@ namespace AST.Nodes
         {
             this.position = position;
         }
-        public abstract string GetParsedString();
         
         public PositionInText GetPosition()
         {

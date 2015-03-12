@@ -13,7 +13,7 @@ using System.Windows.Controls;
 using QuestionnaireLanguage.Visitors;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Controller;
-using Values = AST.Nodes.Values;
+using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
@@ -38,7 +38,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
             Widget widget = new TypeToWidgetVisitor(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
             Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
 
-            Values.Value widgetValue = Processor.GetObjectValue(questionNode.Identifier);
+            Values.Literal widgetValue = Processor.GetObjectValue(questionNode.Identifier);
 
             widgetValue = ProcessComputation(widgetValue);
 
@@ -48,7 +48,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
             return form;
         }
 
-        public Values.Value ProcessComputation(Values.Value value)
+        public Values.Literal ProcessComputation(Values.Literal value)
         {
             if (questionNode.Computation != null)
             {

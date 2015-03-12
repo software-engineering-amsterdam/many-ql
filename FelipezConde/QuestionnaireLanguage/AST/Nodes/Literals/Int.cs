@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using AST.Representation;
 using AST.Types;
 
-namespace AST.Nodes.Values
+namespace AST.Nodes.Literals
 {
-    public class Int : Value, ILiteral
+    public class Int : Literal
     {
         private readonly int value;
 
@@ -50,17 +50,17 @@ namespace AST.Nodes.Values
             visitor.Visit(this);
         }
 
-        public Types.Type RetrieveType()
+        public override Types.Type RetrieveType()
         {
             throw new NotImplementedException();
         }
 
         #region Add
-        public override Value Add(Value value)
+        public override Literal Add(Literal value)
         {
             return value.IntegerAdd(this);
         }
-        public override Value IntegerAdd(Values.Int intValue)
+        public override Literal IntegerAdd(Literals.Int intValue)
         {
             return new Int(intValue.GetValue() + GetValue());
         }
@@ -68,99 +68,99 @@ namespace AST.Nodes.Values
         #endregion
 
         #region Substract
-        public override Value Substract(Value value)
+        public override Literal Substract(Literal value)
         {
             return value.IntegerSubstract(this);
         }
-        public override Value IntegerSubstract(Values.Int intValue)
+        public override Literal IntegerSubstract(Literals.Int intValue)
         {
             return new Int(intValue.GetValue() - GetValue());
         }
         #endregion
 
         #region Divide
-        public override Value Divide(Value value)
+        public override Literal Divide(Literal value)
         {
             return value.IntegerDivide(this);
         }
-        public override Value IntegerDivide(Values.Int intValue)
+        public override Literal IntegerDivide(Literals.Int intValue)
         {
             return new Int(intValue.GetValue() / GetValue());
         }
         #endregion
 
         #region Multiply
-        public override Value Multiply(Value value)
+        public override Literal Multiply(Literal value)
         {
             return value.IntegerMultiply(this);
         }
-        public override Value IntegerMultiply(Values.Int intValue)
+        public override Literal IntegerMultiply(Literals.Int intValue)
         {
             return new Int(intValue.GetValue() * GetValue());
         }
         #endregion
 
         #region Equals
-        public override Value Equal(Value value)
+        public override Literal Equal(Literal value)
         {
             return value.IntegerEqual(this);
         }
-        public override Value IntegerEqual(Values.Int intValue)
+        public override Literal IntegerEqual(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() == GetValue());
         }
         #endregion
 
         #region NotEqual
-        public override Value NotEqual(Value value)
+        public override Literal NotEqual(Literal value)
         {
             return value.IntegerNotEqual(this);
         }
-        public override Value IntegerNotEqual(Values.Int intValue)
+        public override Literal IntegerNotEqual(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() != GetValue());
         }
         #endregion
         
         #region GreaterThan
-        public override Value Greater(Value value)
+        public override Literal Greater(Literal value)
         {
             return value.IntegerGreater(this);
         }
-        public override Value IntegerGreater(Values.Int intValue)
+        public override Literal IntegerGreater(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() > GetValue());
         }
         #endregion
 
         #region GreaterEqualThan
-        public override Value GreaterEqual(Value value)
+        public override Literal GreaterEqual(Literal value)
         {
             return value.IntegerGreaterEqual(this);
         }
-        public override Value IntegerGreaterEqual(Values.Int intValue)
+        public override Literal IntegerGreaterEqual(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() >= GetValue());
         }
         #endregion
 
         #region LessThan
-        public override Value Less(Value value)
+        public override Literal Less(Literal value)
         {
             return value.IntegerLess(this);
         }
-        public override Value IntegerLess(Values.Int intValue)
+        public override Literal IntegerLess(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() < GetValue());
         }
         #endregion
 
         #region LessEqualThan
-        public override Value LessEqual(Value value)
+        public override Literal LessEqual(Literal value)
         {
             return value.IntegerLessEqual(this);
         }
-        public override Value IntegerLessEqual(Values.Int intValue)
+        public override Literal IntegerLessEqual(Literals.Int intValue)
         {
             return new Bool(intValue.GetValue() <= GetValue());
         }

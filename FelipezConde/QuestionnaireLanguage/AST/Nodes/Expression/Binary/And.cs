@@ -34,24 +34,9 @@ namespace AST.Nodes.Expression.Binary
             return visitor.Visit(this);
         }
 
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
-        }
-
         public string MakeString()
         {
             return "&&";
-        }
-
-        public Types.Type GetCompatibleType(Types.BoolType leftType, Types.BoolType rightType)
-        {
-            return new Types.BoolType();
-        }
-
-        public Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType)
-        {
-            return new Types.UndefinedType();
         }
     }
 }
