@@ -62,14 +62,13 @@ func startQMLengine(appName string) qml.Object {
 	return cradle
 }
 
-func renderTemplateQuestion(qml, fieldName, question, validator string) string {
+func renderTemplateQuestion(qml, fieldName, question string) string {
 	var b bytes.Buffer
 	t := template.Must(template.New("newQuestion").Parse(qml))
 	t.Execute(&b, struct {
 		ObjectName   string
 		QuestionName string
-		Validator    string
-	}{fieldName, question, validator})
+	}{fieldName, question})
 	return b.String()
 }
 
