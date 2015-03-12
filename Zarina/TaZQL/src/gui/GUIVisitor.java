@@ -4,7 +4,6 @@ import evaluator.ValueRepository;
 import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
 import gui.questions.IfElseQuestionUI;
-import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
@@ -77,7 +76,7 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	
 	@Override
 	public IQuestionUI visit(IfStatement ifStatement) {
-		IfQuestionUI ifq = new IfQuestionUI(this.sendToUpdater(ifStatement.getExpression()));
+		IfElseQuestionUI ifq = new IfElseQuestionUI(this.sendToUpdater(ifStatement.getExpression()));
 	
 			for(Question q : ifStatement.getIfStatement()) {
 				ifq.showIfBody(q.accept(this));
