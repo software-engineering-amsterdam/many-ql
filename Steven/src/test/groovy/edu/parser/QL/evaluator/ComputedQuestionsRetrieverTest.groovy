@@ -31,7 +31,7 @@ class ComputedQuestionsRetrieverTest extends Specification {
                 .build())
 
         when:
-        Store store = questionsRetriever.visit(new QLIdentifier(identifier))
+        Store store = (Store) questionsRetriever.visit(new QLIdentifier(identifier))
 
         then:
         Assert.assertEquals(true, store instanceof Text)
