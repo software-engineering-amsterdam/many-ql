@@ -3,6 +3,7 @@ package gui;
 import evaluator.ValueRepository;
 import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
+import gui.questions.IfElseQuestionUI;
 import gui.questions.IfQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
@@ -88,9 +89,18 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 
 	@Override
 	public IQuestionUI visit(IfElseStatement ifElseStatement) {
-//		System.out.println("visited "+q.getClass());
-		// TODO Auto-generated method stub
-		return null;
+		IfElseQuestionUI ifq = new IfElseQuestionUI(this.sendToUpdater(ifElseStatement.getExpression()));
+		
+		for(Question q : ifElseStatement.getIfStatement()) {
+			ifq.showIfBody(q.accept(this));
+		}
+		
+		for(Question q : ifElseStatement.getElseStatement()) {
+			ifq.showElseBody(q.accept(this));
+		}
+		
+		ifq.updateGUI();
+		return ifq;
 	}
 	
 	
