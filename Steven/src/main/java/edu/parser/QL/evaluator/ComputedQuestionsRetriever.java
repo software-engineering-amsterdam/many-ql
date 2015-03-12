@@ -21,7 +21,9 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(Addition addition) {
-        return null;
+        Number left = (Number) addition.getLeft().accept(this);
+        Number right = (Number) addition.getRight().accept(this);
+        return new Number(left.getNumber() + right.getNumber());
     }
 
     @Override
@@ -98,16 +100,16 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(edu.parser.QL.nodes.type.Boolean aBoolean) {
-        return null;
+        return aBoolean;
     }
 
     @Override
     public AbstractNode visit(Number number) {
-        return null;
+        return number;
     }
 
     @Override
     public AbstractNode visit(Expression expression) {
-        return null;
+        return expression.accept(this);
     }
 }
