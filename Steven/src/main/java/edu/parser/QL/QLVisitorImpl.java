@@ -99,8 +99,8 @@ public abstract class QLVisitorImpl implements QLVisitor {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
-        return identifier;
+    public AbstractNode visit(QLIdentifier QLIdentifier) {
+        return QLIdentifier;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class SectionsPanel extends JPanel {
 
     private boolean isSectionQuestion(Question question, List<QLSQuestion> sectionQuestion) {
         return sectionQuestion.stream()
-                .anyMatch(q -> q.getIdentifier().getIdentifier().equals(question.getIdentifier().getIdentifier()));
+                .anyMatch(q -> q.getQLSIdentifier().getIdentifier().equals(question.getQLIdentifier().getIdentifier()));
     }
 
 

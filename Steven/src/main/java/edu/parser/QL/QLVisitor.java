@@ -2,7 +2,7 @@ package edu.parser.QL;
 
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
@@ -33,7 +33,7 @@ public interface QLVisitor {
 
     AbstractNode visit(edu.parser.QL.nodes.expression.GreaterThan greaterThan);
 
-    AbstractNode visit(Identifier identifier);
+    AbstractNode visit(QLIdentifier QLIdentifier);
 
     AbstractNode visit(edu.parser.QL.nodes.expression.LessOrEqual lessOrEqual);
 

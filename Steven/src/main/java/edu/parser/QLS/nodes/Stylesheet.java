@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class Stylesheet implements AbstractNode {
     private final List<Page> pages;
-    private final Identifier title;
+    private final QLSIdentifier title;
     private final List<Default> globalDefaultStatements;
 
-    public Stylesheet(Identifier title, List<Page> pages, List<Default> globalDefaultStatements) {
+    public Stylesheet(QLSIdentifier title, List<Page> pages, List<Default> globalDefaultStatements) {
         this.title = title;
         this.pages = pages;
         this.globalDefaultStatements = globalDefaultStatements;
@@ -28,7 +28,7 @@ public class Stylesheet implements AbstractNode {
         return globalDefaultStatements;
     }
 
-    public Identifier getTitle() {
+    public QLSIdentifier getTitle() {
         return title;
     }
 

@@ -1,11 +1,9 @@
-package edu.parser.QLS.nodes;
-
-import edu.parser.QLS.QLSVisitor;
+package edu.nodes;
 
 /**
- * Created by Steven Kok on 28/02/2015.
+ * Created by Steven Kok on 12/03/2015.
  */
-public class Identifier implements AbstractNode {
+public class Identifier {
 
     private final String identifier;
 
@@ -18,16 +16,6 @@ public class Identifier implements AbstractNode {
     }
 
     @Override
-    public AbstractNode accept(QLSVisitor QLSVisitor) {
-        return QLSVisitor.visit(this);
-    }
-
-    @Override
-    public String toString() {
-        return identifier;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -35,10 +23,18 @@ public class Identifier implements AbstractNode {
         Identifier that = (Identifier) o;
 
         return identifier.equals(that.identifier);
+
     }
 
     @Override
     public int hashCode() {
         return identifier.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Identifier{" +
+                "identifier='" + identifier + '\'' +
+                '}';
     }
 }

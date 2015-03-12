@@ -4,7 +4,7 @@ import edu.gui.Observer;
 import edu.gui.Subject;
 import edu.gui.components.store.DefaultStore;
 import edu.gui.components.store.Store;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,18 +17,18 @@ import java.util.List;
  */
 public class CheckBox extends JCheckBox implements Subject, ActionListener {
     private final List<Observer> observers = new ArrayList<>();
-    private final Identifier identifier;
+    private final QLIdentifier QLIdentifier;
 
-    public CheckBox(Identifier identifier) {
+    public CheckBox(QLIdentifier QLIdentifier) {
         this.addActionListener(this);
         setText("yes");
 
         setEnabled(true);
-        this.identifier = identifier;
+        this.QLIdentifier = QLIdentifier;
     }
 
-    public Identifier getIdentifier() {
-        return identifier;
+    public QLIdentifier getQLIdentifier() {
+        return QLIdentifier;
     }
 
     @Override

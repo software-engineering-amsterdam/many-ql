@@ -3,7 +3,7 @@ package edu.gui.components;
 import edu.gui.Observer;
 import edu.gui.Subject;
 import edu.gui.components.store.TextStore;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
@@ -16,16 +16,16 @@ import java.util.List;
  */
 public class TextBox extends JTextField implements Subject, FocusListener {
     private final List<Observer> observers = new ArrayList<>();
-    private final Identifier identifier;
+    private final QLIdentifier QLIdentifier;
 
-    public TextBox(Identifier identifier) {
+    public TextBox(QLIdentifier QLIdentifier) {
         this.addFocusListener(this);
         setColumns(15);
-        this.identifier = identifier;
+        this.QLIdentifier = QLIdentifier;
     }
 
-    public Identifier getIdentifier() {
-        return identifier;
+    public QLIdentifier getQLIdentifier() {
+        return QLIdentifier;
     }
 
     @Override

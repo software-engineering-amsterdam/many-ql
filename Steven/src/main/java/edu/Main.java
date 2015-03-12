@@ -11,7 +11,7 @@ import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 24/02/2015.
  */
-public class Main implements Observer {
+public class Main implements Observer { //todo: remove cloneable from project, use copy constructors
 
     public static final String PATH_TO_QL_INPUT_FILES = "src/test/resources/antlr/input/QL/";
     public static final String PATH_TO_QLS_INPUT_FILES = "src/test/resources/antlr/input/QLS/";
@@ -98,7 +98,7 @@ public class Main implements Observer {
 
     @Override
     public void update(TextBox textBox) {
-        Question question = getEvaluatedQuestion(textBox.getIdentifier());
+        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
         Question clonedQuestion = cloneQuestion(question);
         TextStore store = textBox.getStore();
         store.setText(textBox.getText());
@@ -108,7 +108,7 @@ public class Main implements Observer {
 
     @Override
     public void initializeRequest(TextBox textBox) {
-        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getIdentifier());
+        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getQLIdentifier());
 
         if (updatedQuestion.isPresent()) {
             TextStore textStore = (TextStore) updatedQuestions.get(updatedQuestion.get());
@@ -118,7 +118,7 @@ public class Main implements Observer {
 
     @Override
     public void update(CheckBox checkBox) {
-        Question question = getEvaluatedQuestion(checkBox.getIdentifier());
+        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
         Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
         addUpdatedQuestion(clonedQuestion, checkBox.getStore());
         reRender();
@@ -126,7 +126,7 @@ public class Main implements Observer {
 
     @Override
     public void initializeRequest(CheckBox checkBox) {
-        Optional<Question> question = getUpdatedQuestion(checkBox.getIdentifier());
+        Optional<Question> question = getUpdatedQuestion(checkBox.getQLIdentifier());
         if (question.isPresent()) {
             checkBox.setSelected(question.get().isEnabled());
         } else {
@@ -134,9 +134,9 @@ public class Main implements Observer {
         }
     }
 
-    private Optional<Question> getUpdatedQuestion(Identifier identifier) {
+    private Optional<Question> getUpdatedQuestion(QLIdentifier QLIdentifier) {
         return updatedQuestions.keySet().stream()
-                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(identifier))
+                .filter(updatedQuestion -> updatedQuestion.getQLIdentifier().equals(QLIdentifier))
                 .findFirst();
     }
 
@@ -163,14 +163,14 @@ public class Main implements Observer {
         }
     }
 
-    public Question getEvaluatedQuestion(Identifier identifier) {
+    public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {
         List<Question> question = evaluatedQuestions.stream()
-                .filter(q -> q.getIdentifier().equals(identifier))
+                .filter(q -> q.getQLIdentifier().equals(QLIdentifier))
                 .collect(Collectors.toList());
         if (question.isEmpty()) {
-            throw new IllegalArgumentException("cannot find question with identifier: " + identifier);
+            throw new IllegalArgumentException("cannot find question with identifier: " + QLIdentifier);
         } else if (question.size() > 1) {
-            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + identifier);
+            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + QLIdentifier);
         } else {
             return question.get(0);
         }

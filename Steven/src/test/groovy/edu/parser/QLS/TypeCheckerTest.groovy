@@ -3,7 +3,6 @@ package edu.parser.QLS
 import edu.Main
 import edu.Widgets
 import edu.exceptions.TypeCheckException
-import edu.nodes.QuestionType
 import edu.nodes.styles.Style
 import edu.nodes.styles.Widget
 import edu.nodes.styles.Width
@@ -11,9 +10,8 @@ import edu.parser.AntlrParser
 import edu.parser.QL.QLAntlrParser
 import edu.parser.QL.QuestionRetriever
 import edu.parser.QL.nodes.Form
-import edu.parser.QL.nodes.expression.Identifier
-import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
+import edu.parser.QLS.nodes.QLSIdentifier
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QuestionBuilder
@@ -41,7 +39,7 @@ class TypeCheckerTest extends Specification {
         questions.add(new QuestionBuilder().isEnabled(true).build())
 
         def identifier = "abcdefgh"
-        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new QLSIdentifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(questions)
@@ -58,7 +56,7 @@ class TypeCheckerTest extends Specification {
         def identifier = "identifier"
         questions.add(new QuestionBuilder().isEnabled(true).identifier(identifier).build())
 
-        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new QLSIdentifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(questions)
@@ -75,7 +73,7 @@ class TypeCheckerTest extends Specification {
 
         def styles = new ArrayList<Style>()
         styles.add(new Widget(Widgets.TEXT))
-        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new QLSIdentifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)
@@ -94,7 +92,7 @@ class TypeCheckerTest extends Specification {
         def styles = new ArrayList<Style>()
         styles.add(new Width(40))
         styles.add(new Widget(Widgets.CHECKBOX))
-        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new QLSIdentifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)

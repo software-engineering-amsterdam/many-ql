@@ -24,13 +24,13 @@ public class TypeChecker extends QLVisitorImpl {
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
     public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
     public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
-    private final Map<Identifier, Question> questions;
-    private final Set<Identifier> identifiers;
+    private final Map<QLIdentifier, Question> questions;
+    private final Set<QLIdentifier> QLIdentifiers;
     private static final Logger logger = Logger.getLogger(TypeChecker.class.getName());
 
     public TypeChecker() {
         this.questions = new HashMap<>();
-        this.identifiers = new HashSet<>();
+        this.QLIdentifiers = new HashSet<>();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TypeChecker extends QLVisitorImpl {
         if (questionAlreadyFound(question)) {
             return throwExceptionForDuplicateQuestion(question);
         } else {
-            return questions.put(question.getIdentifier(), question);
+            return questions.put(question.getQLIdentifier(), question);
         }
     }
 
@@ -93,20 +93,20 @@ public class TypeChecker extends QLVisitorImpl {
         if (foundQuestionHasSameType(question)) {
             throw new TypeCheckException(
                     String.format(ALREADY_DECLARED_QUESTION,
-                            question.getIdentifier().getIdentifier(), question.getQuestionType().name()));
+                            question.getQLIdentifier().getIdentifier(), question.getQuestionType().name()));
         } else {
             throw new TypeCheckException(
                     String.format(ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE,
-                            question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).getQuestionType().name()));
+                            question.getQLIdentifier().getIdentifier(), questions.get(question.getQLIdentifier()).getQuestionType().name()));
         }
     }
 
     private boolean questionAlreadyFound(Question question) {
-        return questions.containsKey(question.getIdentifier());
+        return questions.containsKey(question.getQLIdentifier());
     }
 
     private boolean foundQuestionHasSameType(Question question) {
-        QuestionType questionType = questions.get(question.getIdentifier()).getQuestionType();
+        QuestionType questionType = questions.get(question.getQLIdentifier()).getQuestionType();
         return questionType.equals(question.getQuestionType());
     }
 
@@ -162,18 +162,18 @@ public class TypeChecker extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
-        identifiers.add(identifier); // may overwrite existing items
+    public AbstractNode visit(QLIdentifier QLIdentifier) {
+        QLIdentifiers.add(QLIdentifier); // may overwrite existing items
         checkReferenceToUndefinedQuestions();
-        return identifier;
+        return QLIdentifier;
     }
 
     // implicitly checks for cyclic dependencies of questions
     private void checkReferenceToUndefinedQuestions() {
-        String undefinedReferences = identifiers
+        String undefinedReferences = QLIdentifiers
                 .stream()
                 .filter(identifier -> !questions.containsKey(identifier))
-                .map(Identifier::toString)
+                .map(QLIdentifier::toString)
                 .collect(Collectors.joining(", "));
         if (!undefinedReferences.isEmpty()) {
             throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);

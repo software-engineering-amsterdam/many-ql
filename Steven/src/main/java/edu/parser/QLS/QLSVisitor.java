@@ -1,7 +1,7 @@
 package edu.parser.QLS;
 
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
@@ -20,7 +20,7 @@ public interface QLSVisitor {
 
     AbstractNode visit(QLSQuestion question);
 
-    AbstractNode visit(Identifier identifier);
+    AbstractNode visit(QLSIdentifier QLSIdentifier);
 
     AbstractNode visit(Section section);
 

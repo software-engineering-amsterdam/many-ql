@@ -1,20 +1,21 @@
 package edu.parser.QL.nodes.expression;
 
+import edu.nodes.Identifier;
 import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Identifier extends Expression implements Cloneable {
-    private final String identifier;
+public class QLIdentifier extends Expression implements Cloneable {
+    private final Identifier identifier;
 
-    public Identifier(String identifier) {
-        this.identifier = identifier;
+    public QLIdentifier(String identifier) {
+        this.identifier = new Identifier(identifier);
     }
 
     public String getIdentifier() {
-        return identifier;
+        return identifier.getIdentifier();
     }
 
     @Override
@@ -27,7 +28,7 @@ public class Identifier extends Expression implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Identifier that = (Identifier) o;
+        QLIdentifier that = (QLIdentifier) o;
 
         return identifier.equals(that.identifier);
 
@@ -40,7 +41,7 @@ public class Identifier extends Expression implements Cloneable {
 
     @Override
     public String toString() {
-        return identifier;
+        return identifier.getIdentifier();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Identifier extends Expression implements Cloneable {
     }
 
     @Override
-    public Identifier clone() throws CloneNotSupportedException {
-        return new Identifier(identifier);
+    public QLIdentifier clone() throws CloneNotSupportedException {
+        return new QLIdentifier(identifier.getIdentifier());
     }
 }

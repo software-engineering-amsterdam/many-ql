@@ -8,7 +8,7 @@ import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.QuestionRetriever;
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
@@ -73,7 +73,7 @@ public class Renderer implements QLSVisitor {
 
     private List<QLSQuestion> convertQuestions(List<Question> remainingQuestions) {
         return remainingQuestions.stream()
-                .map(remainingQuestion -> new QLSQuestion(new Identifier(remainingQuestion.getIdentifier().getIdentifier()), remainingQuestion.getStyles()))
+                .map(remainingQuestion -> new QLSQuestion(new QLSIdentifier(remainingQuestion.getQLIdentifier().getIdentifier()), remainingQuestion.getStyles()))
                 .collect(Collectors.toList());
     }
 
@@ -97,7 +97,7 @@ public class Renderer implements QLSVisitor {
 
     private void storeQuestion(QLSQuestion stylesheetQuestion, List<Question> inputQuestions) {
         List<Question> question = inputQuestions.stream()
-                .filter(inputQuestion -> inputQuestion.getIdentifier().getIdentifier().equals(stylesheetQuestion.getIdentifier().getIdentifier()))
+                .filter(inputQuestion -> inputQuestion.getQLIdentifier().getIdentifier().equals(stylesheetQuestion.getQLSIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
 
         if (question.size() > 1) {
@@ -156,7 +156,7 @@ public class Renderer implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
+    public AbstractNode visit(QLSIdentifier QLSIdentifier) {
         throw new NotImplementedException();
     }
 

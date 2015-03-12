@@ -41,13 +41,13 @@ class ParseTreeVisitorTest extends Specification {
         then:
         Assert.assertEquals("first element should be a Page", Page.class, firstElement.class)
         Assert.assertEquals("first element in Page should be a section", Section.class, firstElement.sections.get(0).class)
-        Assert.assertEquals("first element in first section should be question name2", "name2", firstElement.sections.get(0).questions.get(0).identifier.identifier)
+        Assert.assertEquals("first element in first section should be question name2", "name2", firstElement.sections.get(0).questions.get(0).QLSIdentifier.identifier)
         Assert.assertEquals("second element in Page should be a section", Section.class, firstElement.sections.get(1).class)
-        Assert.assertEquals("first element in second section should be question name3", "name3", firstElement.sections.get(1).questions.get(0).identifier.identifier)
+        Assert.assertEquals("first element in second section should be question name3", "name3", firstElement.sections.get(1).questions.get(0).QLSIdentifier.identifier)
 
         Assert.assertEquals("second element should be a Page", Page.class, secondElement.class)
         Assert.assertEquals("first element in Page should be a section", Section.class, secondElement.sections.get(0).class)
-        Assert.assertEquals("first element in first section should be question name4", "name4", secondElement.sections.get(0).questions.get(0).identifier.identifier)
+        Assert.assertEquals("first element in first section should be question name4", "name4", secondElement.sections.get(0).questions.get(0).QLSIdentifier.identifier)
         Assert.assertEquals("first style of name4 is a widget", Widget.class, secondElement.sections.get(0).questions.get(0).styles.get(0).class)
         Assert.assertEquals("first style of name4 is a widget named SPINBOX", "SPINBOX", secondElement.sections.get(0).questions.get(0).styles.get(0).widget.widget)
         Assert.assertEquals("second style of name4 is a Width ", Width.class, secondElement.sections.get(0).questions.get(0).styles.get(1).class)

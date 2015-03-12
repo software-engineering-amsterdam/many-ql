@@ -8,7 +8,7 @@ import edu.nodes.styles.*;
 import edu.parser.QLS.antlrGenerated.QLSBaseVisitor;
 import edu.parser.QLS.antlrGenerated.QLSParser;
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
 public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     @Override
     public Stylesheet visitStylesheet(@NotNull QLSParser.StylesheetContext ctx) {
-        Identifier identifier = (Identifier) visitIdentifier(ctx.identifier());
+        QLSIdentifier QLSIdentifier = (QLSIdentifier) visitIdentifier(ctx.identifier());
         List<Page> questions = collectPages(ctx.stylesheet_element());
         List<Default> globalDefaultStatements = collectGlobalDefaultStatements(ctx.stylesheet_element());
-        return new Stylesheet(identifier, questions, globalDefaultStatements);
+        return new Stylesheet(QLSIdentifier, questions, globalDefaultStatements);
     }
 
     private List<Default> collectGlobalDefaultStatements(List<QLSParser.Stylesheet_elementContext> stylesheet_elementContexts) {
@@ -88,7 +88,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitIdentifier(@NotNull QLSParser.IdentifierContext ctx) {
-        return new Identifier(ctx.getText());
+        return new QLSIdentifier(ctx.getText());
     }
 
     @Override
@@ -157,9 +157,9 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitQuestion(@NotNull QLSParser.QuestionContext ctx) {
-        Identifier identifier = (Identifier) visitIdentifier(ctx.identifier());
+        QLSIdentifier QLSIdentifier = (QLSIdentifier) visitIdentifier(ctx.identifier());
         List<Style> styles = collectStyles(ctx.style());
-        return new QLSQuestion(identifier, styles);
+        return new QLSQuestion(QLSIdentifier, styles);
     }
 
     private List<Style> collectStyles(List<QLSParser.StyleContext> elements) {

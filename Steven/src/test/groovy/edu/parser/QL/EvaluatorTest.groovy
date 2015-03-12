@@ -36,7 +36,7 @@ class EvaluatorTest extends Specification {
         Question firstElement = returnedQuestions.get(0)
 
         then:
-        Assert.assertEquals(inputQuestion.identifier.identifier, firstElement.identifier.identifier)
+        Assert.assertEquals(inputQuestion.QLIdentifier.identifier, firstElement.QLIdentifier.identifier)
         Assert.assertEquals(1, returnedQuestions.size())
 
     }
@@ -62,14 +62,14 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals("List should contain only two elements", 2, returnedQuestions.size())
         Question outputUnconditionalQuestion = returnedQuestions.get(0);
         Question outputConditionalQuestion = returnedQuestions.get(1);
-        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
-        Assert.assertEquals(inputConditionalQuestion.identifier.identifier, outputConditionalQuestion.identifier.identifier)
+        Assert.assertEquals(inputUnconditionalQuestion.QLIdentifier.identifier, outputUnconditionalQuestion.QLIdentifier.identifier)
+        Assert.assertEquals(inputConditionalQuestion.QLIdentifier.identifier, outputConditionalQuestion.QLIdentifier.identifier)
 
         where:
         expression                                                                 | _
         new Boolean(true)                                                          | _
         new And(new Boolean(true), new Boolean(true))                              | _
-        new And(new Identifier("unconditional"), new Boolean(true))                | _
+        new And(new QLIdentifier("unconditional"), new Boolean(true))                | _
         new And(new And(new Boolean(true), new Boolean(true)), new Boolean(true))  | _
         new Or(new Boolean(true), new Boolean(true))                               | _
         new Or(new Boolean(true), new Boolean(false))                              | _
@@ -105,7 +105,7 @@ class EvaluatorTest extends Specification {
         then:
         Assert.assertEquals(1, returnedQuestions.size())
         Question outputUnconditionalQuestion = returnedQuestions.get(0);
-        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
+        Assert.assertEquals(inputUnconditionalQuestion.QLIdentifier.identifier, outputUnconditionalQuestion.QLIdentifier.identifier)
 
         where:
         expression                                                                 | _
@@ -113,7 +113,7 @@ class EvaluatorTest extends Specification {
         new And(new Boolean(false), new Boolean(true))                             | _
         new And(new Boolean(true), new Boolean(false))                             | _
         new And(new Boolean(false), new Boolean(false))                            | _
-        new And(new Identifier("conditional"), new Boolean(true))                  | _
+        new And(new QLIdentifier("conditional"), new Boolean(true))                  | _
         new Or(new Boolean(false), new Boolean(false))                             | _
         new GreaterThan(new Addition(new Number(1), new Number(2)), new Number(4)) | _
         new GreaterOrEqual(new Number(2), new Number(3))                           | _
@@ -123,7 +123,7 @@ class EvaluatorTest extends Specification {
         new Equal(new Multiplication(new Number(3), new Number(2)), new Number(7)) | _
         new Equal(new Division(new Number(9), new Number(3)), new Number(4))       | _
         new Not(new Boolean(true))                                                 | _
-        new Not(new Identifier("unconditional"))                                   | _
+        new Not(new QLIdentifier("unconditional"))                                   | _
     }
 
     def "Should return question from elseClause when condition is false"() {
@@ -175,8 +175,8 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals(2, returnedQuestions.size())
         Question outputUnconditionalQuestion = returnedQuestions.get(0)
         Question outputElseClauseQuestion = returnedQuestions.get(1)
-        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
-        Assert.assertEquals(inputElseClauseQuestion.identifier.identifier, outputElseClauseQuestion.identifier.identifier)
+        Assert.assertEquals(inputUnconditionalQuestion.QLIdentifier.identifier, outputUnconditionalQuestion.QLIdentifier.identifier)
+        Assert.assertEquals(inputElseClauseQuestion.QLIdentifier.identifier, outputElseClauseQuestion.QLIdentifier.identifier)
     }
 
     def "Should show question when if-statement evaluates to 'true' the second time"() {
@@ -186,7 +186,7 @@ class EvaluatorTest extends Specification {
 
         def identifierUnconditionalQuestion = "identifierUnconditionalQuestion"
         questionsWithinIfStatement.add(new QuestionBuilder().identifier("conditionalQuestion").isEnabled(true).build())
-        IfStatement ifStatement = new IfStatement(new Identifier(identifierUnconditionalQuestion), questionsWithinIfStatement, Optional.empty())
+        IfStatement ifStatement = new IfStatement(new QLIdentifier(identifierUnconditionalQuestion), questionsWithinIfStatement, Optional.empty())
 
         formStatements.add(new QuestionBuilder().identifier(identifierUnconditionalQuestion).isEnabled(false).build())
         formStatements.add(ifStatement)
@@ -196,7 +196,7 @@ class EvaluatorTest extends Specification {
         List<Question> initialEvaluationReturnedQuestions = evaluator.evaluate(form)
         Assert.assertEquals(1, initialEvaluationReturnedQuestions.size())
         Question initialReturnedQuestion = initialEvaluationReturnedQuestions.get(0)
-        Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getIdentifier().identifier)
+        Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getQLIdentifier().identifier)
 
         then:
         Set<Question> updatedQuestions = new ArrayList<>()
