@@ -183,27 +183,27 @@ public class TypeChecker implements LiteralVisitor<Boolean>, StyleVisitor<Boolea
 
 	@Override
 	public Boolean visit(Page page) {
-		return null;
+		return true;
 	}
 
 	@Override
 	public Boolean visit(Question question) {
-		return null;
+		return true;
 	}
 
 	@Override
 	public Boolean visit(Section section) {
-		return null;
+		return true;
 	}
 
 	@Override
 	public Boolean visit(Sheet sheet) {
-		return null;
+		return true;
 	}
 
 	@Override
 	public Boolean visit(Style style) {
-		return null;
+		return true;
 	}
 
 }
