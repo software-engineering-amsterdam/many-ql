@@ -26,6 +26,7 @@ public class IdentifierLiteral extends Literal {
 		return value;
 	}
 
+	
 	@Override
 	public Type getType() {
 		return new IdentifierType(this.getPosition());

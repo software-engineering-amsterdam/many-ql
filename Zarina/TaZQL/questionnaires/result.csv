@@ -1,8 +1,11 @@
 Question id, Answer
-hasSoldHouse,89
-halloIf,0
-stupidMe,false
-amountHouses2,66
-halloff,0
-amountHouses,67
-amountHouses3,98
+ifBody1,0
+calculation,970
+ifBody2,0
+hasSoldHouse,970
+extra,
+ifelseELSE,Else works!
+amountHouses,0
+ifText,90
+ifelseIF,
+myCheckbox,false

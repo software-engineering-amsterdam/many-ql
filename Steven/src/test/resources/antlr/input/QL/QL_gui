@@ -2,6 +2,7 @@
 form FORMNAME {
 
     NAME STRING "What is your name?"
+    RESULT STRING "Your name: "(NAME)
 
     NAME1 BOOLEAN "Are you a programmer?"
     if(!NAME1){

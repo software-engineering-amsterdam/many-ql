@@ -9,7 +9,7 @@ public class TextboxModel extends WidgetType {
 	public TextboxModel(CodePosition position) {
 		super(position);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "textbox";
@@ -25,5 +25,11 @@ public class TextboxModel extends WidgetType {
 		// TO-DO EEEH HMM..
 		return null;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Boolean isValid() {
+		return true;
+	}
+
 }

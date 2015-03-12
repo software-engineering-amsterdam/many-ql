@@ -1,20 +1,18 @@
 package edu.gui;
 
 import edu.exceptions.EvaluationException;
-import edu.exceptions.GuiException;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.QuestionRetriever;
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
-import edu.parser.QLS.nodes.statement.Statement;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
@@ -26,21 +24,20 @@ import java.util.stream.Collectors;
  * Created by Steven Kok on 06/03/2015.
  */
 public class Renderer implements QLSVisitor {
-    public static final String NOT_FOUND_QUESTIONS = "Not all questions are in the stylesheet.";
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
     private final List<Question> questionsToRender;
-    private List<Style> defaultStyles;
+    private List<Default> globalDefaultStyles;
 
     public Renderer(Observer questionState) {
         questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
         mainWindow = new MainWindow(questionState);
-        defaultStyles = new ArrayList<>();
+        globalDefaultStyles = new ArrayList<>();
     }
 
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
-        this.defaultStyles = stylesheet.getStyles();
+        this.globalDefaultStyles = stylesheet.getGlobalDefaultStatements();
         initialize(inputQuestions, stylesheet);
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
         mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
@@ -75,12 +72,12 @@ public class Renderer implements QLSVisitor {
 
     private List<QLSQuestion> convertQuestions(List<Question> remainingQuestions) {
         return remainingQuestions.stream()
-                .map(remainingQuestion -> new QLSQuestion(new Identifier(remainingQuestion.getIdentifier().getIdentifier()), remainingQuestion.getStyles()))
+                .map(remainingQuestion -> new QLSQuestion(new QLSIdentifier(remainingQuestion.getQLIdentifier().getIdentifier()), remainingQuestion.getStyles()))
                 .collect(Collectors.toList());
     }
 
     private ArrayList<Section> createSection(List<QLSQuestion> convertedQuestions) {
-        Section section = new Section("Other", convertedQuestions, defaultStyles);
+        Section section = new Section("Other", convertedQuestions, globalDefaultStyles);
         ArrayList<Section> sections = new ArrayList<>();
         sections.add(section);
         return sections;
@@ -99,7 +96,7 @@ public class Renderer implements QLSVisitor {
 
     private void storeQuestion(QLSQuestion stylesheetQuestion, List<Question> inputQuestions) {
         List<Question> question = inputQuestions.stream()
-                .filter(inputQuestion -> inputQuestion.getIdentifier().getIdentifier().equals(stylesheetQuestion.getIdentifier().getIdentifier()))
+                .filter(inputQuestion -> inputQuestion.getQLIdentifier().getIdentifier().equals(stylesheetQuestion.getQLSIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
 
         if (question.size() > 1) {
@@ -111,19 +108,12 @@ public class Renderer implements QLSVisitor {
 
 
     private void storeQuestionWithStyle(Question inputQuestion, QLSQuestion qlsQuestion) {
-        this.questionsToRender.add(cloneQuestion(inputQuestion, qlsQuestion));
-    }
-
-    private Question cloneQuestion(Question inputQuestion, QLSQuestion qlsQuestion) {
-        try {
-            return inputQuestion.clone(qlsQuestion.getStyles());
-        } catch (CloneNotSupportedException e) {
-            throw new GuiException(e);
-        }
+        inputQuestion.setStyles(qlsQuestion.getStyles());
+        this.questionsToRender.add(inputQuestion);
     }
 
     private void visitStatements(Stylesheet stylesheet) {
-        stylesheet.getStatements()
+        stylesheet.getPages()
                 .stream()
                 .forEach(statement -> statement.accept(this));
     }
@@ -158,7 +148,7 @@ public class Renderer implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
+    public AbstractNode visit(QLSIdentifier QLSIdentifier) {
         throw new NotImplementedException();
     }
 

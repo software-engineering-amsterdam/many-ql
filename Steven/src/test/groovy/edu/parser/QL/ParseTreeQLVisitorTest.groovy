@@ -34,7 +34,7 @@ class ParseTreeQLVisitorTest extends Specification {
 
         then:
         Assert.assertEquals(And.class, expression.class)
-        Assert.assertEquals(Identifier.class, expression.left.class)
+        Assert.assertEquals(QLIdentifier.class, expression.left.class)
         Assert.assertEquals(GreaterThan.class, expression.right.class)
         Assert.assertEquals(Multiplication.class, ((GreaterThan) expression.right).left.class)
         Assert.assertEquals(Number.class, ((GreaterThan) expression.right).right.class)
@@ -73,6 +73,6 @@ class ParseTreeQLVisitorTest extends Specification {
         Assert.assertEquals(true, ifStatement.elseClause.present)
         ElseClause elseClause = ifStatement.elseClause.get()
         Question question = (Question) elseClause.statements.get(0)
-        Assert.assertEquals("name2", question.identifier.identifier);
+        Assert.assertEquals("name2", question.QLIdentifier.identifier);
     }
 }

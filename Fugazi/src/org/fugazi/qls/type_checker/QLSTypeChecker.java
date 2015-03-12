@@ -88,7 +88,8 @@ public class QLSTypeChecker {
         List<org.fugazi.qls.ast.question.Question> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
 
-        HashMap<String, Type> questionTypes = this.getQlQuestionType(qlQuestions);
+//        HashMap<String, Type> questionTypes = this.getQlQuestionType(qlQuestions);
+        HashMap<String, Type> questionTypes = this.qlFormData.getallQuestionTypes();
 
         for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
             Widget questionWidget = question.getWidget();
@@ -128,14 +129,6 @@ public class QLSTypeChecker {
             qlsQuestionIdNames.add(question.getIdName());
         }
         return qlsQuestionIdNames;
-    }
-
-    private HashMap<String, Type> getQlQuestionType(List<Question> qlQuestions) {
-        HashMap<String, Type> questionTypes = new HashMap<>();
-        for (Question question : qlQuestions) {
-            questionTypes.put(question.getIdName(), question.getType());
-        }
-        return questionTypes;
     }
 
     /**

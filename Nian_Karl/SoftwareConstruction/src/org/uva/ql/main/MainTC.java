@@ -19,7 +19,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typechecker.TypeChecker;
 
 public class MainTC {
 

@@ -14,6 +14,9 @@ import org.uva.qls.ast.sheet.Section;
 import org.uva.qls.ast.sheet.Sheet;
 import org.uva.qls.ast.sheet.Style;
 import org.uva.qls.ast.style.StyleProperty;
+import org.uva.qls.typechecker.TypeChecker;
+
+import com.sun.org.glassfish.gmbal.ManagedAttribute;
 
 public class Main {
 
@@ -28,6 +31,10 @@ public class Main {
 		System.out.println();
 		System.out.println("omg");
 		printSheet(sheet);
+		System.out.println("TYPECHECKER.");
+		TypeChecker checker = new TypeChecker();
+		System.out.println(checker.visit(sheet));
+		checker.print();
 	}
 
 	private static void printSheet(Sheet sheet) {
@@ -48,7 +55,7 @@ public class Main {
 		for (Question question : section.getQuestionList()) {
 			printQuestion(question);
 		}
-		
+
 		for (Style style : section.getStyleList()) {
 			printStyle(style);
 		}

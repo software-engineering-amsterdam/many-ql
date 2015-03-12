@@ -6,7 +6,7 @@ import edu.parser.QL.nodes.AbstractNode;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Label implements AbstractNode, Cloneable {
+public class Label implements AbstractNode {
     private final String label;
 
     public Label(String label) {
@@ -17,7 +17,6 @@ public class Label implements AbstractNode, Cloneable {
         return label;
     }
 
-    @Override
     public AbstractNode accept(QLVisitor QLVisitor) {
         return QLVisitor.visit(this);
     }
@@ -36,10 +35,5 @@ public class Label implements AbstractNode, Cloneable {
     @Override
     public int hashCode() {
         return label.hashCode();
-    }
-
-    @Override
-    public Label clone() throws CloneNotSupportedException {
-        return new Label(label);
     }
 }

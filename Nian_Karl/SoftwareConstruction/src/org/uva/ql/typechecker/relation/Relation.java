@@ -1,4 +1,4 @@
-package org.uva.ql.typecheck.relation;
+package org.uva.ql.typechecker.relation;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 

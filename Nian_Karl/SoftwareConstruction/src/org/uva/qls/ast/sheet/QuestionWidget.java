@@ -3,6 +3,7 @@ package org.uva.qls.ast.sheet;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IdentifierLiteral;
 import org.uva.qls.ast.style.widget.WidgetType;
+import org.uva.qls.visitor.SheetVisitor;
 
 public class QuestionWidget extends Question {
 
@@ -15,7 +16,11 @@ public class QuestionWidget extends Question {
 
 	public WidgetType getWidget() {
 		return widget;
-
+	}
+	
+	@Override
+	public <T> T accept(SheetVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

@@ -17,7 +17,7 @@ public class SectionsPanel extends JPanel {
 
     public SectionsPanel(Section section, List<Question> questions, Observer questionState) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        List<QLSQuestion> qlsSectionQuestions = getQLSSectionQuestions(section);
+        List<QLSQuestion> qlsSectionQuestions = section.getQuestions();
         List<Question> sectionQuestions = getSectionQuestions(questions, qlsSectionQuestions);
         QuestionsPanel questionsPanel = new QuestionsPanel(sectionQuestions, questionState);
 
@@ -31,17 +31,9 @@ public class SectionsPanel extends JPanel {
                 .collect(Collectors.toList());
     }
 
-    private List<QLSQuestion> getQLSSectionQuestions(Section sections) {
-        return sections.getStatements()
-                .stream()
-                .filter(statement -> statement instanceof QLSQuestion)
-                .map(question -> (QLSQuestion) question)
-                .collect(Collectors.toList());
-    }
-
     private boolean isSectionQuestion(Question question, List<QLSQuestion> sectionQuestion) {
         return sectionQuestion.stream()
-                .anyMatch(q -> q.getIdentifier().getIdentifier().equals(question.getIdentifier().getIdentifier()));
+                .anyMatch(q -> q.getQLSIdentifier().getIdentifier().equals(question.getQLIdentifier().getIdentifier()));
     }
 
 

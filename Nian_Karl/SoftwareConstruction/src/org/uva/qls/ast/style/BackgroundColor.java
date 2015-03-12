@@ -36,4 +36,9 @@ public class BackgroundColor extends StyleProperty {
 		return "Color<" + color.toString() + ">";
 	}
 
+	@Override
+	public Boolean isValid() {
+		return color.getValue().isDefined();
+	}
+
 }

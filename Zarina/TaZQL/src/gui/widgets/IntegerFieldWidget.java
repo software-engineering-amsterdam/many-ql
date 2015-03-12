@@ -50,7 +50,7 @@ public class IntegerFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setText(Value value) {
-		widget.setText( value.toString());
+		widget.setText( value.toString()); 
 	}
 	
 	@Override

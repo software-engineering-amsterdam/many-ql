@@ -20,7 +20,6 @@ public class Form implements AbstractNode {
         return elements;
     }
 
-    @Override
     public AbstractNode accept(QLVisitor QLVisitor) {
         return QLVisitor.visit(this);
     }

@@ -1,4 +1,4 @@
-package org.uva.ql.typecheck.message;
+package org.uva.util.message;
 
 public abstract class Message {
 	

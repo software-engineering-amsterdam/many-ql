@@ -9,25 +9,23 @@ public class RadioModel extends WidgetType {
 
 	private final StrLiteral first;
 	private final StrLiteral second;
-	
+
 	public RadioModel(StrLiteral first, StrLiteral second, CodePosition position) {
 		super(position);
 		this.first = first;
 		this.second = second;
 	}
-	
+
 	public RadioModel(String first, String second, CodePosition position) {
 		super(position);
 		this.first = new StrLiteral(first, position);
 		this.second = new StrLiteral(second, position);
 	}
-	
-	
-	
+
 	public StrLiteral getFirst() {
 		return first;
 	}
-	
+
 	public StrLiteral getSecond() {
 		return second;
 	}
@@ -36,7 +34,7 @@ public class RadioModel extends WidgetType {
 	public String toString() {
 		return "radio";
 	}
-	
+
 	@Override
 	public <T> T accept(StyleVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -46,5 +44,14 @@ public class RadioModel extends WidgetType {
 	public Literal getLiteral() {
 		// TO-DO EEEH HMM..
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Boolean isValid() {
+		if (first.getValue().isDefined() && second.getValue().isDefined()) {
+			return true;
+		}
+		return false;
 	}
 }

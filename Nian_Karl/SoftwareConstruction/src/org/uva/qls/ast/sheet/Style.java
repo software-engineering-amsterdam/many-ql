@@ -6,12 +6,14 @@ import org.uva.qls.ast.BaseNode;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.style.StyleProperty;
 import org.uva.qls.ast.type.Type;
+import org.uva.qls.visitor.SheetVisitable;
+import org.uva.qls.visitor.SheetVisitor;
 
-public class Style extends BaseNode {
+public class Style extends BaseNode implements SheetVisitable {
 	private final Type type;
 	private final ArrayList<StyleProperty> styleProperties;
 
-	public Style(Type type, ArrayList<StyleProperty> styleProperties,CodePosition pos) {
+	public Style(Type type, ArrayList<StyleProperty> styleProperties, CodePosition pos) {
 		super(pos);
 		this.type = type;
 		this.styleProperties = styleProperties;
@@ -33,6 +35,11 @@ public class Style extends BaseNode {
 
 	public void addProperty(StyleProperty property) {
 		styleProperties.add(property);
+	}
+
+	@Override
+	public <T> T accept(SheetVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

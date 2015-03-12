@@ -206,11 +206,19 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
      */
 
     @Override
-    public Void visitBoolType(BoolType boolType){return null;}
+    public Void visitBoolType(BoolType boolType) {
+        return null;
+    }
+    
     @Override
-    public Void visitIntType(IntType intType){return null;}
+    public Void visitIntType(IntType intType) {
+        return null;
+    }
+    
     @Override
-    public Void visitStringType(StringType moneyType){return null;}
+    public Void visitStringType(StringType moneyType) {
+        return null;
+    }
 
     /**
      * =======================
@@ -221,10 +229,20 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
     public List<ASTNodeIssue> getErrors() {
         return this.astIssueHandler.getErrors();
     }
+    
     public List<ASTNodeIssue> getWarnings() {
         return this.astIssueHandler.getWarnings();
     }
-    public boolean hasErrors() {return this.astIssueHandler.hasErrors();}
-    public boolean hasWarnings() {return this.astIssueHandler.hasWarnings();}
-    public void clearErrorsAndWarnings(){ this.astIssueHandler.clearErrorsAndWarnings(); }
+    
+    public boolean hasErrors() {
+        return this.astIssueHandler.hasErrors();
+    }
+    
+    public boolean hasWarnings() {
+        return this.astIssueHandler.hasWarnings();
+    }
+    
+    public void clearErrorsAndWarnings() { 
+        this.astIssueHandler.clearErrorsAndWarnings(); 
+    }
 }

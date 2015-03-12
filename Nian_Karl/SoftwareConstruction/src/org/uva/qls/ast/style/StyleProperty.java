@@ -13,5 +13,5 @@ public abstract class StyleProperty extends BaseNode implements StyleVisitable{
 	
 	public abstract Literal getLiteral();
 	public abstract String toString();
-	
+	public abstract <T> T isValid();
 }

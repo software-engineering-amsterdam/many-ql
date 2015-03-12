@@ -14,9 +14,4 @@ public class Color extends Style {
     public int getColor() {
         return color;
     }
-
-    @Override
-    public Color clone() throws CloneNotSupportedException {
-        return new Color(color);
-    }
 }

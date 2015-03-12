@@ -1,9 +1,6 @@
 package tests.evaluator;
 
 import static org.junit.Assert.assertEquals;
-import evaluator.Value;
-import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,16 +21,19 @@ import ast.expression.logical.OrExpression;
 import ast.expression.variables.BooleanVariable;
 import ast.expression.variables.IntegerVariable;
 import ast.unary.NotExpression;
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
 
-public class TestInterpreter {
+public class TestEvaluator {
 
 	private final IntegerVariable int4 = new IntegerVariable(4);
 	
 	private ValueRepository valrep = new ValueRepository();
-	private EvaluateExpression eval;
+	private TestEvaluateExpression eval;
 	
 	@Before  // before each test
-    public void setUp() { eval = new EvaluateExpression(valrep); }
+    public void setUp() { eval = new TestEvaluateExpression(valrep); }
 	
 	@After
 	public void tearDown() { eval = null; }

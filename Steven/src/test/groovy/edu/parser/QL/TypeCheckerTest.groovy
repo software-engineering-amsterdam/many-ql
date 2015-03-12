@@ -4,6 +4,7 @@ import edu.Main
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
 import edu.parser.QL.nodes.Form
+import edu.parser.QL.typechecker.TypeChecker
 import junit.framework.Assert
 import spock.lang.Specification
 

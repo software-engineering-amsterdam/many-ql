@@ -1,5 +1,7 @@
 package org.uva.qls.ast.value;
 
+import org.uva.qls.visitor.TypeVisitor;
+
 public class StrValue extends Value {
 
 	private final String value;
@@ -20,7 +22,9 @@ public class StrValue extends Value {
 
 	@Override
 	public boolean isDefined() {
-		return true;
+		if (!value.equals("") || value != null) {
+			return true;
+		}
+		return false;
 	}
-	
 }

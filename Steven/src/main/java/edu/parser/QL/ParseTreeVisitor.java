@@ -2,6 +2,7 @@ package edu.parser.QL;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
+import edu.gui.components.store.DefaultStore;
 import edu.nodes.QuestionType;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
@@ -62,11 +63,11 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
     @Override
     public AbstractNode visitQuestion(@NotNull QLParser.QuestionContext ctx) {
         QuestionType questionType = (QuestionType) visit(ctx.question_type());
-        Identifier identifier = (Identifier) visit(ctx.identifier());
+        QLIdentifier QLIdentifier = (QLIdentifier) visit(ctx.identifier());
         Label label = (Label) visit(ctx.question_label());
         Optional<Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList());
+        return new Question(QLIdentifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList(), new DefaultStore());
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {
@@ -98,7 +99,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitIdentifier(@NotNull QLParser.IdentifierContext ctx) {
-        return new Identifier(ctx.getText());
+        return new QLIdentifier(ctx.getText());
     }
 
     @Override
@@ -125,7 +126,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
         } else if (ctx.numbers != null) {
             return visitNumbers(ctx);
         } else if (isIdentifier(ctx)) {
-            return new Identifier(ctx.getText());
+            return new QLIdentifier(ctx.getText());
         } else {
             throw new ParseException("Unknown expression: " + ctx.getText());
         }

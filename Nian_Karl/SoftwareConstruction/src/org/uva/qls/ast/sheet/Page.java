@@ -5,9 +5,10 @@ import java.util.List;
 import org.uva.qls.ast.BaseNode;
 import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.literal.IdentifierLiteral;
-import org.uva.qls.ast.style.StyleProperty;
+import org.uva.qls.visitor.SheetVisitable;
+import org.uva.qls.visitor.SheetVisitor;
 
-public class Page extends BaseNode {
+public class Page extends BaseNode implements SheetVisitable{
 
 	private final IdentifierLiteral identifier;
 	private final List<Section> sectionList;
@@ -51,5 +52,10 @@ public class Page extends BaseNode {
 	@Override
 	public String toString() {
 		return identifier.getValue().toString();
+	}
+
+	@Override
+	public <T> T accept(SheetVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }

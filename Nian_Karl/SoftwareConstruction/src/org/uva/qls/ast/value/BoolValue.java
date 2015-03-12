@@ -23,5 +23,4 @@ public class BoolValue extends Value  {
 	public boolean isDefined() {
 		return true;
 	}
-	
 }

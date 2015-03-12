@@ -69,7 +69,7 @@ FONT: 			'font';
 BACKGROUNDCOLOR:			'background-color';
 
 //Font keywords
-ARIAL: 			'arial';
+ARIAL: 			'Arial';
 
 
 //Symbols
