@@ -21,7 +21,6 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
-import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 
@@ -32,8 +31,6 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	private List<Validation> validations = new ArrayList<>();
 
 	private List<Question> questions = new ArrayList<>();
-
-	private QuestionByName questionByName = new QuestionByName();
 
 	public TypeCheckerVisitor(List<Question> questions) {
 		this.questions = questions;
@@ -54,8 +51,10 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 			DataType dataType = condition.accept(this);
 			if (!(dataType instanceof BooleanType)) {
 				TextLocation textLocation = condition.getTextLocation();
-				String validationMessage = "Condition has to be of type boolean. Type: " + dataType;
-				validations.add(new Validation(validationMessage, textLocation));
+				String validationMessage = "Condition has to be of type boolean. Type: "
+						+ dataType;
+				validations
+						.add(new Validation(validationMessage, textLocation));
 			}
 		}
 		Expression computed = question.getComputed();
@@ -68,7 +67,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		String label = question.getQuestionText();
 		boolean added = questionLabels.add(label);
 		if (!added) {
-			validations.add(new Validation("Duplicate label: " + label, question.getTextLocation()));
+			validations.add(new Validation("Duplicate label: " + label,
+					question.getTextLocation()));
 		}
 	}
 
@@ -82,20 +82,36 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	public DataType visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
 
-		Question question = questionByName.getQuestion(name, questions);
+		Question question = getQuestion(name, questions);
 		if (question != null) {
 			if (!questionNames.contains(name)) {
-				String validationMessage = "Reference may only be listed after the question it references. Question: " + name;
+				String validationMessage = "Reference may only be listed after the question it references. Question: "
+						+ name;
 				TextLocation textLocation = nameExpression.getTextLocation();
-				validations.add(new Validation(validationMessage, textLocation));
+				validations
+						.add(new Validation(validationMessage, textLocation));
 			}
 			return question.getDataType();
 		} else {
-			String validationMessage = "Reference to undefined question: " + name;
+			String validationMessage = "Reference to undefined question: "
+					+ name;
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new Validation(validationMessage, textLocation));
 			return UndefinedType.UNDEFINED;
 		}
+	}
+
+	private Question getQuestion(String name, List<Question> questions) {
+		for (Question question : questions) {
+			if (questionHasName(question, name)) {
+				return question;
+			}
+		}
+		return null;
+	}
+
+	private boolean questionHasName(Question question, String name) {
+		return name.equals(question.getName());
 	}
 
 	@Override
@@ -110,15 +126,16 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		Expression rightHand = binaryExpression.getRightHand();
 		DataType leftHandDataType = leftHand.accept(this);
 		DataType rightHandDataType = rightHand.accept(this);
-		if (leftHandDataType.equals(UndefinedType.UNDEFINED) || rightHandDataType.equals(UndefinedType.UNDEFINED)) {
+		if (leftHandDataType.equals(UndefinedType.UNDEFINED)
+				|| rightHandDataType.equals(UndefinedType.UNDEFINED)) {
 			return UndefinedType.UNDEFINED;
 		}
 		if (leftHandDataType.equals(rightHandDataType)) {
 			return leftHandDataType;
 		}
 		TextLocation textLocation = binaryExpression.getTextLocation();
-		String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
-				+ " righthand datatype=" + rightHandDataType;
+		String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype="
+				+ leftHandDataType + " righthand datatype=" + rightHandDataType;
 		validations.add(new Validation(validationMessage, textLocation));
 		return UndefinedType.UNDEFINED;
 	}
