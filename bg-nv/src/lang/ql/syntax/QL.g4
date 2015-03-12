@@ -1,6 +1,6 @@
 grammar QL;
 
-form : 'form' Identifier '{' (statement)+ '}';
+form : 'form' Identifier '{' (statement)+ '}' ;
 
 statement : question | ifCondition ;
 
@@ -27,17 +27,17 @@ expression
 
 fragment StringCharacter : EscapeSequence | ~[\\] ;
 
-fragment Quote : ["];
+fragment Quote : ["] ;
 
-fragment EscapeSequence : '\\' Quote;
+fragment EscapeSequence : '\\' Quote ;
 
-fragment Letter : [a-zA-Z];
+fragment Letter : [a-zA-Z] ;
 
-fragment Digit : ZeroDigit|NonZeroDigit;
+fragment Digit : ZeroDigit|NonZeroDigit ;
 
-fragment NonZeroDigit : [1-9];
+fragment NonZeroDigit : [1-9] ;
 
-fragment ZeroDigit : [0];
+fragment ZeroDigit : [0] ;
 
 QuestionType
    : 'boolean'
@@ -51,16 +51,16 @@ Boolean
    | 'false'
    ;
 
-Identifier : (Letter)(Letter|Digit|'_')*;
+Identifier : (Letter)(Letter|Digit|'_')* ;
 
-Integer : (ZeroDigit | NonZeroDigit Digit*);
+Integer : (ZeroDigit | NonZeroDigit Digit*) ;
 
 Decimal : ( NonZeroDigit Digit* | ZeroDigit? ) '.' Digit+ ;
 
-String : Quote StringCharacter*? Quote;
+String : Quote StringCharacter*? Quote ;
 
-Comment : '/*' .*? '*/' -> skip;
+Comment : '/*' .*? '*/' -> skip ;
 
-LineComment : '//' ~[\r\n]* -> skip;
+LineComment : '//' ~[\r\n]* -> skip ;
 
-WS : [ \t\r\n]+ -> skip;
+WS : [ \t\r\n]+ -> skip ;

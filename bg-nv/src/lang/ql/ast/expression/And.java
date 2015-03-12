@@ -20,11 +20,12 @@ public class And extends BinaryExpr
     }
 
     @Override
-    public Type getComputedType(Type childType)
+    public Type getReturnType(Type childType)
     {
         return new BoolType();
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

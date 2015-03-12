@@ -12,6 +12,7 @@ public class DecExpr extends ConstExpr<BigDecimal>
         super(value, lineNumber);
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

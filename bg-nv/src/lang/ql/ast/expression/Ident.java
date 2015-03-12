@@ -7,7 +7,7 @@ import lang.ql.ast.type.Type;
  */
 public class Ident extends Expr
 {
-    private String id;
+    private final String id;
 
     public Ident(String id, int lineNumber)
     {
@@ -20,6 +20,7 @@ public class Ident extends Expr
         return this.id;
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

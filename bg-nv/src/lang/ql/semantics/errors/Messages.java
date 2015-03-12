@@ -20,7 +20,12 @@ public class Messages
         this.messages.add(m);
     }
 
-    public boolean containsErrors()
+    public Message get(int i)
+    {
+        return this.messages.get(i);
+    }
+
+    public boolean containError()
     {
         for (Message m : this.messages)
         {
@@ -36,10 +41,5 @@ public class Messages
     public int size()
     {
         return this.messages.size();
-    }
-
-    public Message get(int i)
-    {
-        return this.messages.get(i);
     }
 }

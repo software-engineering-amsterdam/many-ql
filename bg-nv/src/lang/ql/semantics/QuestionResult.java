@@ -1,25 +1,22 @@
 package lang.ql.semantics;
 
-import lang.ql.semantics.errors.Message;
 import lang.ql.semantics.errors.Messages;
-
-import java.util.List;
 
 /**
  * Created by bore on 23/02/15.
  */
-public class SymbolResult
+public class QuestionResult
 {
-    private SymbolTable table;
-    private Messages messages;
+    private final QuestionMap table;
+    private final Messages messages;
 
-    public SymbolResult(SymbolTable table, Messages messages)
+    public QuestionResult(QuestionMap table, Messages messages)
     {
         this.table = table;
         this.messages = messages;
     }
 
-    public SymbolTable getSymbolTable()
+    public QuestionMap getQuestionMap()
     {
         return this.table;
     }
@@ -31,6 +28,6 @@ public class SymbolResult
 
     public boolean containsErrors()
     {
-        return this.getMessages().containsErrors();
+        return this.messages.containError();
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class IfCondition extends Statement
 {
-    private Expr condition;
-    private List<Statement> body;
+    private final Expr condition;
+    private final List<Statement> body;
 
     public IfCondition(Expr expr, List<Statement> statements, int lineNumber)
     {
@@ -29,6 +29,7 @@ public class IfCondition extends Statement
         return this.body;
     }
 
+    @Override
     public <T> T accept(StatVisitor<T> visitor)
     {
         return visitor.visit(this);

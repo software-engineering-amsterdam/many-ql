@@ -10,6 +10,7 @@ public class IntExpr extends ConstExpr<Integer>
         super(value, lineNumber);
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

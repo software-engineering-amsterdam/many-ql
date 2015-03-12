@@ -10,15 +10,13 @@ import lang.ql.semantics.errors.Error;
 import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 
-import java.util.*;
-
 /**
  * Created by bore on 13/02/15.
  */
 
 public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, ExprVisitor<Type>
 {
-    private SymbolTable symbolTable;
+    private QuestionMap questionMap;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
@@ -26,26 +24,26 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
     public static Messages check(Form f)
     {
-        SymbolResult symbolResult = QuestionCollector.extract(f);
+        QuestionResult questionResult = QuestionCollector.collect(f);
 
-        if (symbolResult.containsErrors())
+        if (questionResult.containsErrors())
         {
-            return symbolResult.getMessages();
+            return questionResult.getMessages();
         }
 
-        SymbolTable table = symbolResult.getSymbolTable();
-        TypeChecker typeChecker = new TypeChecker(table);
-        f.accept(typeChecker);
+        QuestionMap questions = questionResult.getQuestionMap();
+        TypeChecker typeChecker = new TypeChecker(questions);
 
-        typeChecker.checkForLabelDuplication();
+        f.accept(typeChecker);
         typeChecker.checkForCyclicDependencies();
+        typeChecker.checkForLabelDuplication();
 
         return typeChecker.messages;
     }
 
-    private TypeChecker(SymbolTable table)
+    private TypeChecker(QuestionMap table)
     {
-        this.symbolTable = table;
+        this.questionMap = table;
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
         this.messages = new Messages();
@@ -61,8 +59,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     {
         for (Statement statement : form.getBody())
         {
-            boolean r = statement.accept(this);
-            if (!r)
+            if (!(statement.accept(this)))
             {
                 return false;
             }
@@ -89,8 +86,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
         for (Statement statement : condition.getBody())
         {
-            boolean r = statement.accept(this);
-            if (!r)
+            if (!(statement.accept(this)))
             {
                 return false;
             }
@@ -139,8 +135,8 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Type visit(Ident n)
     {
-        Type type = this.symbolTable.resolve(n.getId());
-        if (type.isUndef())
+        String id = n.getId();
+        if (this.isIdentUndeclared(id))
         {
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
             return new UndefinedType();
@@ -148,11 +144,16 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
         if (this.isScopeSet())
         {
-            Question q = this.symbolTable.getQuestion(n.getId());
+            Question q = this.questionMap.get(n.getId());
             this.questionDependencies.addDependency(this.currentQuestion, q);
         }
 
-        return type;
+        return this.questionMap.getType(id);
+    }
+
+    private boolean isIdentUndeclared(String id)
+    {
+        return !(this.questionMap.contains(id));
     }
 
     @Override
@@ -295,7 +296,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return e.getComputedType(leftPromoted);
+        return e.getReturnType(leftPromoted);
     }
 
     // 1. Check if the operand is defined
@@ -314,7 +315,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return e.getComputedType(operand);
+        return e.getReturnType(operand);
     }
 
     private boolean isChildOfAllowedType(NaryExpr e, Type childType)
@@ -359,17 +360,17 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     {
         if (this.questionDependencies.containsCycle())
         {
-            List<String> cyclicIds = this.questionDependencies.getCycle();
-            this.messages.add(Error.cyclicQuestions(cyclicIds));
+            Identifiers cyclicIds = this.questionDependencies.getCycleIds();
+            this.messages.add(Error.cyclicQuestions(cyclicIds.toString()));
         }
     }
 
     private void checkForLabelDuplication()
     {
-        Set<List<String>> duplicates = this.labels.getDuplicateLabels();
-        for (List<String> d : duplicates)
+        LabelDuplicates duplicates = this.labels.getLabelDuplicatesSet();
+        for (Identifiers d : duplicates)
         {
-            this.messages.add(Warning.labelDuplication(d));
+            this.messages.add(Warning.labelDuplication(d.toString()));
         }
     }
 }

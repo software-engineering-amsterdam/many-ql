@@ -2,10 +2,9 @@ package lang.qls.semantics;
 
 import lang.ql.ast.form.Form;
 import lang.ql.ast.type.*;
-import lang.ql.gen.QLParser;
 import lang.ql.semantics.QuestionCollector;
-import lang.ql.semantics.SymbolResult;
-import lang.ql.semantics.SymbolTable;
+import lang.ql.semantics.QuestionResult;
+import lang.ql.semantics.QuestionMap;
 import lang.ql.semantics.errors.Messages;
 import lang.qls.ast.Page;
 import lang.qls.ast.rule.*;
@@ -23,19 +22,19 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private SymbolTable questions;
+    private QuestionMap questions;
     private Set<String> refQuestions;
     private Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
-        SymbolResult result = QuestionCollector.extract(f);
+        QuestionResult result = QuestionCollector.collect(f);
         if (result.containsErrors())
         {
             return result.getMessages();
         }
 
-        TypeChecker checker = new TypeChecker(result.getSymbolTable());
+        TypeChecker checker = new TypeChecker(result.getQuestionMap());
         if (checker.visit(s))
         {
             checker.allQuestionsReferencedCheck();
@@ -44,7 +43,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         return checker.messages;
     }
 
-    private TypeChecker(SymbolTable questions)
+    private TypeChecker(QuestionMap questions)
     {
         this.questions = questions;
         this.refQuestions = new HashSet<>();
@@ -97,7 +96,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         if (this.registerQuestion(q))
         {
             Rules rs = q.getBody();
-            Type qType = this.questions.getQuestionType(q.getId());
+            Type qType = this.questions.getType(q.getId());
 
             return this.visitRules(rs, qType, q.getLineNumber());
         }
@@ -108,7 +107,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     private Boolean registerQuestion(Question q)
     {
         String id = q.getId();
-        if (!(this.questions.containsQuestion(id)))
+        if (!(this.questions.contains(id)))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
             return false;
