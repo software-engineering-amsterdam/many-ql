@@ -20,11 +20,7 @@ public class IntegerListener extends AListener implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
-		SwingUtilities.invokeLater(new Runnable() {
-	     public void run() {
 	    	 update();
-	     }
-		});
 	}
 
 	@Override
@@ -36,17 +32,22 @@ public class IntegerListener extends AListener implements DocumentListener {
 	public void update() {
 		String regex ="[-+]?\\d+(\\.\\d+)?";
 		if(widget.getValue().trim().matches(regex)) {
+			System.out.println("Check of match: " + widget.getValue().trim().matches(regex));
 			Integer value = Integer.valueOf(widget.getValue().trim());
 			IntegerValue intValue = new IntegerValue(value);
 			System.out.println("Integer: " + value);
 			
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
-			evaluator.setValueInGUI();		
+			 SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	evaluator.setValueInGUI();
+		            }
+			 });
 		}
 		else { 
-			System.out.println("Illegal input: digits only!");
+			System.out.println("Illegal input: digits only!" + " Probably in: " + widget.getIdWidget().toString());
 			//TODO add some error display
 		}
 	} 
-	
 }
