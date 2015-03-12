@@ -1,6 +1,7 @@
 package edu.parser.QL.evaluator;
 
 import edu.exceptions.EvaluationException;
+import edu.gui.components.store.Store;
 import edu.parser.QL.QLVisitorImpl;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
@@ -9,7 +10,6 @@ import edu.parser.QL.nodes.expression.ExpressionVisitor;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.parser.QL.nodes.type.Number;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,12 @@ import java.util.List;
  */
 public class Evaluator extends QLVisitorImpl {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
-    private final ExpressionVisitor expressionVisitor;
+    private final ExpressionVisitor expressionEvaluator;
+    private final ExpressionVisitor computedQuestionsRetriever;
 
     public Evaluator() {
-        expressionVisitor = new EvaluatorExpressionValidator(evaluatedQuestions);
+        expressionEvaluator = new EvaluatorExpressionValidator(evaluatedQuestions);
+        computedQuestionsRetriever = new ComputedQuestionsRetriever();
     }
 
     public List<Question> evaluate(Form form) {
@@ -49,7 +51,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     private boolean isExpressionTrue(IfStatement ifStatement) {
-        return ((edu.parser.QL.nodes.type.Boolean) ifStatement.getExpression().accept(expressionVisitor)).isTrue();
+        return ((edu.parser.QL.nodes.type.Boolean) ifStatement.getExpression().accept(expressionEvaluator)).isTrue();
     }
 
     @Override
@@ -61,8 +63,8 @@ public class Evaluator extends QLVisitorImpl {
     @Override
     public AbstractNode visit(Question question) {
         if (isComputedQuestion(question)) {
-            Number computedValue = getComputedValue(question.getExpression().get());
-            question.setValue(new Number(computedValue.getNumber()));
+            Store computedValue = getComputedValue(question.getExpression().get());
+            question.setValue(computedValue);
         }
 
         evaluatedQuestions.add(question);
@@ -73,12 +75,12 @@ public class Evaluator extends QLVisitorImpl {
         return question.getExpression().isPresent();
     }
 
-    private Number getComputedValue(Expression expression) {
-        AbstractNode abstractNode = expression.accept(expressionVisitor);
-        if (abstractNode instanceof Number) {
-            return (Number) abstractNode;
+    private Store getComputedValue(Expression expression) {
+        AbstractNode abstractNode = expression.accept(computedQuestionsRetriever);
+        if (abstractNode instanceof Store) {
+            return (Store) abstractNode;
         } else {
-            throw new EvaluationException("Computed question must return Number but got: " + expression);
+            throw new EvaluationException("computedQuestionsRetriever returned invalid value: " + abstractNode);
         }
     }
 
