@@ -1,12 +1,9 @@
-package lang.tests;
+package lang.ql.util;
 
 import lang.ql.ast.AstNode;
 import lang.ql.gen.QLLexer;
 import lang.ql.gen.QLParser;
 import lang.ql.ast.AstBuilder;
-import lang.qls.ast.QlsBuilder;
-import lang.qls.gen.QLSLexer;
-import lang.qls.gen.QLSParser;
 import org.antlr.v4.runtime.*;
 
 import java.io.IOException;
@@ -57,22 +54,12 @@ public class ParserHelper
         return f.accept(visitor);
     }
 
-    public static AstNode ParseStylesheet(String file)
-    {
-        CharStream stream =  createFileStream(file);
-        QLSParser parser = createQLSParser(stream);
-        QLSParser.StylesheetContext s = parser.stylesheet();
-        QlsBuilder visitor = new QlsBuilder();
-
-        return s.accept(visitor);
-    }
-
-    private static CharStream createInputStream(String input)
+    public static CharStream createInputStream(String input)
     {
         return new ANTLRInputStream(input);
     }
 
-    private static CharStream createFileStream(String file)
+    public static CharStream createFileStream(String file)
     {
         CharStream stream = null;
         try
@@ -92,12 +79,5 @@ public class ParserHelper
         QLLexer lexer = new QLLexer(stream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         return new QLParser(tokens);
-    }
-
-    private static QLSParser createQLSParser(CharStream stream)
-    {
-        QLSLexer lexer = new QLSLexer(stream);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        return new QLSParser(tokens);
     }
 }

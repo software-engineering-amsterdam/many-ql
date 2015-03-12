@@ -21,6 +21,12 @@ public class QuestionWithRules extends Question
     }
 
     @Override
+    public boolean isStyleDefinition()
+    {
+        return false;
+    }
+
+    @Override
     public <T> T accept(StatementVisitor<T> visitor)
     {
         return visitor.visit(this);

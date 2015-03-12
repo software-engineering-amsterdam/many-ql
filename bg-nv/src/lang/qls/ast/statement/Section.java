@@ -32,13 +32,19 @@ public class Section extends Statement implements Styleable, RenderableParent
     }
 
     @Override
+    public boolean isStyleDefinition()
+    {
+        return false;
+    }
+
+    @Override
     public <T> T accept(StatementVisitor<T> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public Style getDefaultStyle()
+    public Style getStyle()
     {
         DefaultStyleCollector visitor = new DefaultStyleCollector();
         return visitor.visit(this);

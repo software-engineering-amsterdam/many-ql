@@ -7,7 +7,7 @@ public class FontSize extends IntRule
 {
     public FontSize(Integer value, int lineNumber)
     {
-        super("fontsize", value, lineNumber);
+        super(value, lineNumber);
     }
 
     @Override

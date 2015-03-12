@@ -1,7 +1,7 @@
-package lang.tests.ql.ast;
+package lang.ql.tests.ast;
 
-import lang.tests.ParserHelper;
-import lang.tests.TestHelper;
+import lang.ql.util.ParserHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 
@@ -18,7 +18,7 @@ public class Form
     @Test
     public void formExample1() throws FileNotFoundException
     {
-        lang.ql.ast.form.Form f = TestHelper.as(ParserHelper.ParseForm("ql/samples/example1"), lang.ql.ast.form.Form.class);
+        lang.ql.ast.form.Form f = TestHelper.as(ParserHelper.ParseForm("example1"), lang.ql.ast.form.Form.class);
         assertNotNull(f);
         assertEquals("Box1HouseOwning", f.getId());
         assertEquals(4, f.getBody().size());

@@ -12,5 +12,7 @@ public abstract class Statement extends AstNode
         super(lineNumber);
     }
 
+    public abstract boolean isStyleDefinition();
+
     public abstract <T> T accept(StatementVisitor<T> visitor);
 }

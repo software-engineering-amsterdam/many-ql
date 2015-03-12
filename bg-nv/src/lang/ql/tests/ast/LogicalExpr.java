@@ -1,11 +1,11 @@
-package lang.tests.ql.ast;
+package lang.ql.tests.ast;
 
 import lang.ql.ast.expression.And;
 import lang.ql.ast.expression.Gt;
 import lang.ql.ast.expression.Not;
 import lang.ql.ast.expression.Or;
-import lang.tests.ParserHelper;
-import lang.tests.TestHelper;
+import lang.ql.util.ParserHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +28,7 @@ public class LogicalExpr
     {
         Not a = TestHelper.as(ParserHelper.ParseExpression("!!x"), Not.class);
         assertNotNull(a);
-        assertTrue(a.getOperand() instanceof Not);
+        TestHelper.assertChildType(a.getOperand(), Not.class);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class LogicalExpr
     {
         And a = TestHelper.as(ParserHelper.ParseExpression("x&&y&&z"), And.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof And);
+        TestHelper.assertChildType(a.getLeft(), And.class);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class LogicalExpr
     {
         And a = TestHelper.as(ParserHelper.ParseExpression("(x&&y)&&z"), And.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof And);
+        TestHelper.assertChildType(a.getLeft(), And.class);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class LogicalExpr
     {
         And a = TestHelper.as(ParserHelper.ParseExpression("x&&(y&&z)"), And.class);
         assertNotNull(a);
-        assertTrue(a.getRight() instanceof And);
+        TestHelper.assertChildType(a.getRight(), And.class);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class LogicalExpr
     {
         Or a = TestHelper.as(ParserHelper.ParseExpression("x||y||z"), Or.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof Or);
+        TestHelper.assertChildType(a.getLeft(), Or.class);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class LogicalExpr
     {
         Or a = TestHelper.as(ParserHelper.ParseExpression("(x||y)||z"), Or.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof Or);
+        TestHelper.assertChildType(a.getLeft(), Or.class);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class LogicalExpr
     {
         Or a = TestHelper.as(ParserHelper.ParseExpression("x||(y||z)"), Or.class);
         assertNotNull(a);
-        assertTrue(a.getRight() instanceof Or);
+        TestHelper.assertChildType(a.getRight(), Or.class);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class LogicalExpr
     {
         And a = TestHelper.as(ParserHelper.ParseExpression("x||y&&z"), And.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof Or);
+        TestHelper.assertChildType(a.getLeft(), Or.class);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class LogicalExpr
     {
         And a = TestHelper.as(ParserHelper.ParseExpression("(x||y)&&z"), And.class);
         assertNotNull(a);
-        assertTrue(a.getLeft() instanceof Or);
+        TestHelper.assertChildType(a.getLeft(), Or.class);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class LogicalExpr
     {
         Or a = TestHelper.as(ParserHelper.ParseExpression("x||(y&&z)"), Or.class);
         assertNotNull(a);
-        assertTrue(a.getRight() instanceof And);
+        TestHelper.assertChildType(a.getRight(), And.class);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class LogicalExpr
     {
         Or a = TestHelper.as(ParserHelper.ParseExpression("x||!y"), Or.class);
         assertNotNull(a);
-        assertTrue(a.getRight() instanceof Not);
+        TestHelper.assertChildType(a.getRight(), Not.class);
     }
 
     @Test
@@ -130,7 +130,8 @@ public class LogicalExpr
     {
         Not a = TestHelper.as(ParserHelper.ParseExpression("!(x&&y)"), Not.class);
         assertNotNull(a);
-        assertTrue(a.getOperand() instanceof And);
+        TestHelper.assertChildType(a.getOperand(), And.class);
+
     }
 
     @Test
@@ -139,6 +140,6 @@ public class LogicalExpr
         And a = TestHelper.as(ParserHelper.ParseExpression("x||y>z&&w"), And.class);
         assertNotNull(a);
         Or left = TestHelper.as(a.getLeft(), Or.class);
-        assertTrue(left.getRight() instanceof Gt);
+        TestHelper.assertChildType(left.getRight(), Gt.class);
     }
 }

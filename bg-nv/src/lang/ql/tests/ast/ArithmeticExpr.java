@@ -1,8 +1,8 @@
-package lang.tests.ql.ast;
+package lang.ql.tests.ast;
 
 import lang.ql.ast.expression.*;
-import lang.tests.ParserHelper;
-import lang.tests.TestHelper;
+import lang.ql.util.ParserHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;

@@ -7,7 +7,7 @@ public class Width extends IntRule
 {
     public Width(Integer value, int lineNumber)
     {
-        super("width", value, lineNumber);
+        super(value, lineNumber);
     }
 
     @Override

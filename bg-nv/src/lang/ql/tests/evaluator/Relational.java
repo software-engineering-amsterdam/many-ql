@@ -1,9 +1,9 @@
-package lang.tests.ql.evaluator;
+package lang.ql.tests.evaluator;
 
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.BooleanValue;
 import lang.ql.semantics.values.UndefinedValue;
-import lang.tests.TestHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

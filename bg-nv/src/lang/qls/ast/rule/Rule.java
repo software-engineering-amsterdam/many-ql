@@ -8,17 +8,9 @@ import lang.ql.ast.type.Type;
  */
 public abstract class Rule extends AstNode
 {
-    private final String label;
-
-    public Rule(String label, int lineNumber)
+    public Rule(int lineNumber)
     {
         super(lineNumber);
-        this.label = label;
-    }
-
-    public String getLabel()
-    {
-        return this.label;
     }
 
     public boolean isCompatibleWithType(Type t)

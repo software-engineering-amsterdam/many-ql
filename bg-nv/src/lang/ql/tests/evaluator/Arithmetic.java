@@ -1,8 +1,8 @@
-package lang.tests.ql.evaluator;
+package lang.ql.tests.evaluator;
 
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.*;
-import lang.tests.TestHelper;
+import lang.ql.tests.TestHelper;
 import org.junit.Test;
 
 import java.math.BigDecimal;

@@ -7,7 +7,7 @@ public class Font extends StrRule
 {
     public Font(String value, int lineNumber)
     {
-        super("font", value, lineNumber);
+        super(value, lineNumber);
     }
 
     @Override

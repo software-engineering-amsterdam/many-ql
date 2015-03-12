@@ -9,7 +9,7 @@ import lang.qls.ast.rule.RuleVisitor;
  */
 public abstract class WidgetValue extends AstNode
 {
-    private String title;
+    private final String title;
 
     public WidgetValue(String title)
     {
