@@ -10,12 +10,11 @@ func main() {
 	defer errorHandler()
 	srcFn, inFn, outFn := cli.Args()
 
-	srcReader, styleReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
+	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 
 	fromInterpreter, toInterpreter, guiAppName := startInterpreter(srcReader, srcFn)
 	readInputCsv(fromInterpreter, toInterpreter, inReader)
-	stylePages, questionsIndex := loadStyle(styleReader, srcFn)
-	launchGUI(fromInterpreter, toInterpreter, guiAppName, stylePages, questionsIndex)
+	launchGUI(fromInterpreter, toInterpreter, guiAppName)
 
 	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
 	csvWriter.Write()
