@@ -18,7 +18,6 @@ public class Equal extends BinaryExpression implements Expression {
     }
 
     @Override
-    //TODO Override Object.equals
     public BoolValue evaluate(Context context) {
 	return new BoolValue(left.evaluate(context).equals(right.evaluate(context)));
     }
