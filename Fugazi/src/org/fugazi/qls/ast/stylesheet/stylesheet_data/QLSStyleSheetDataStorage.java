@@ -1,7 +1,6 @@
 package org.fugazi.qls.ast.stylesheet.stylesheet_data;
 
 
-import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.QuestionsVisitor;
 
