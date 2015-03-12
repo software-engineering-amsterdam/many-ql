@@ -9,7 +9,6 @@ namespace AST.Nodes.Interfaces
 {
     public interface IUnary : IExpression
     {
-        Types.Type GetCompatibleType(Types.Type value);
         IExpression GetChildExpression();
         string MakeString();
     }

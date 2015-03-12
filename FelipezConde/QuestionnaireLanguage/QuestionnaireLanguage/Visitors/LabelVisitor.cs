@@ -1,6 +1,5 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
-using QuestionnaireLanguage.GUI.Factories.Widgets;
 using QuestionnaireLanguage.GUI.Interfaces.Widgets;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors.Interfaces;
@@ -20,7 +19,7 @@ namespace QuestionnaireLanguage.Visitors
         }
         public LabelWidget Visit(Label node)
         {
-            return WidgetFactory.GetWidget(node);
+            return new LabelWidget();
         }
     }
 }

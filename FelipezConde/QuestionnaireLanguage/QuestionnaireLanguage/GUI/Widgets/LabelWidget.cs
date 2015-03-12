@@ -12,14 +12,12 @@ namespace QuestionnaireLanguage.GUI.Widgets
 {
     public class LabelWidget : Widget
     {
-        private Label node;
-        public LabelWidget(Label node)
+        public LabelWidget()
         {
-            this.node = node;
         }
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomLabel() { Content = node.Value };
+            return new CustomLabel() { Content = value, };
         }
     }
 }

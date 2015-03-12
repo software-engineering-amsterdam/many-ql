@@ -1,13 +1,13 @@
-# Grammar of form
+# Grammar of forms
 
 import pyparsing as pp
-import QL.Grammar.expressions as expressions
+import QL.Grammar.expression as expressions
 import QL.Factory.forms as forms
 import QL.Grammar.basic_types as basic_types
 import QL.Grammar.constants as constants
 
 
-class FormFormat:
+class Form:
 
     # _id :: characters
     id = basic_types.BasicTypes.characters
@@ -57,5 +57,5 @@ class FormFormat:
     # introduction :: Introduction : sentences
     introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + basic_types.BasicTypes.sentences))
 
-    # _form :: _id _introduction? statement+
+    # form :: id introduction? statement+
     form = (id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()

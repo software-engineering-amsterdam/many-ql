@@ -21,96 +21,93 @@ import com.form.language.memory.Context;
 
 public class Frame {
 
-	private JFrame frame;
-	private JTextArea textArea_input;
-	private JTextArea textArea_output;
-	private JButton button_parse;
-	private JButton button_createQuestionnaire;
-	private Form form;
+    private JFrame frame;
+    private JTextArea textArea_input;
+    private JTextArea textArea_output;
+    private JButton button_parse;
+    private JButton button_createQuestionnaire;
+    private Form form;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Frame window = new Frame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+	EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+		Frame window = new Frame();
+		window.frame.setVisible(true);
+	    }
+	});
+    }
 
-	/**
-	 * Create the application.
-	 */
-	public Frame() {
-		initialize();
-	}
+    /**
+     * Create the application.
+     */
+    public Frame() {
+	initialize();
+    }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		final Context context = new Context();
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 367);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-				
-		textArea_input = new JTextArea();
-		textArea_input.setBounds(10, 11, 414, 98);
-		frame.getContentPane().add(textArea_input);
-		
-		textArea_output = new JTextArea();
-		textArea_output.setBounds(10, 154, 414, 91);
-		frame.getContentPane().add(textArea_output);
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize() {
+	final Context context = new Context();
+	frame = new JFrame();
+	// TODO: fix these magic numbers
+	frame.setBounds(100, 100, 450, 367);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.getContentPane().setLayout(null);
+	// TODO: fix these magic numbers
+	textArea_input = new JTextArea();
+	textArea_input.setBounds(10, 11, 414, 98);
+	frame.getContentPane().add(textArea_input);
+	// TODO: fix these magic numbers
+	textArea_output = new JTextArea();
+	textArea_output.setBounds(10, 154, 414, 91);
+	frame.getContentPane().add(textArea_output);
+	// TODO: fix these magic numbers
+	final JPanel panel = new JPanel();
+	panel.setBounds(10, 256, 414, 62);
+	frame.getContentPane().add(panel);
 
-		final JPanel panel = new JPanel();
-		panel.setBounds(10, 256, 414, 62);
-		frame.getContentPane().add(panel);
-		
-		button_parse = new JButton("Parse");
-		button_parse.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {				
-				CharStream charStream = new ANTLRInputStream(textArea_input.getText());
-				GrammarLexer lexer = new GrammarLexer(charStream);
-				TokenStream tokenStream = new CommonTokenStream(lexer);
-				GrammarParser parser = new GrammarParser(tokenStream);
-				
-				form = parser.form().result;
-				
-				form.getTypes(context);
-				
-				
-				if(context.hasErrors()){
-					textArea_output.setText(context.getErrors());
-					System.out.println(context.getErrors());
-				} else
-				{
-					button_createQuestionnaire.setEnabled(true);
-				}
-			}
-		});
-		button_parse.setBounds(335, 120, 89, 23);
-		frame.getContentPane().add(button_parse);
-		
-		button_createQuestionnaire = new JButton("Create Survey");
-		button_createQuestionnaire.setEnabled(false);
-		button_createQuestionnaire.setBounds(216, 120, 109, 23);
-		frame.getContentPane().add(button_createQuestionnaire);
-		button_createQuestionnaire.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {			
-				
-				form.initMemory(context);
-				
-				QuestionFrame qf = new QuestionFrame(form,context);
-			}
-		});
-	}
+	button_parse = new JButton("Parse");
+	button_parse.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		CharStream charStream = new ANTLRInputStream(textArea_input.getText());
+		GrammarLexer lexer = new GrammarLexer(charStream);
+		TokenStream tokenStream = new CommonTokenStream(lexer);
+		GrammarParser parser = new GrammarParser(tokenStream);
+
+		form = parser.form().result;
+
+		form.getTypes(context);
+
+		if (context.hasErrors()) {
+		    textArea_output.setText(context.getErrors());
+		    System.out.println(context.getErrors());
+		} else {
+		    button_createQuestionnaire.setEnabled(true);
+		}
+	    }
+	});
+	// TODO: fix these magic numbers
+	button_parse.setBounds(335, 120, 89, 23);
+	frame.getContentPane().add(button_parse);
+
+	button_createQuestionnaire = new JButton("Create Survey");
+	button_createQuestionnaire.setEnabled(false);
+	// TODO: fix these magic numbers
+	button_createQuestionnaire.setBounds(216, 120, 109, 23);
+	frame.getContentPane().add(button_createQuestionnaire);
+	button_createQuestionnaire.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+
+		form.initMemory(context);
+
+		new QuestionFrame(form, context);
+	    }
+	});
+    }
 }

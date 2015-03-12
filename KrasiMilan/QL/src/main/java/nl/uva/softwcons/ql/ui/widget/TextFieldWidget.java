@@ -1,27 +1,17 @@
 package nl.uva.softwcons.ql.ui.widget;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
+import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
 
 public class TextFieldWidget extends Widget {
     private TextField textField;
-    private Property<Value> valueProperty;
+    private ValueConverter<String> converter;
 
     public TextFieldWidget(final ValueConverter<String> converter) {
         this.textField = new TextField();
-        this.valueProperty = new SimpleObjectProperty<Value>();
-
-        this.textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valueProperty.setValue(converter.toValue(newValue));
-            }
-        });
+        this.converter = converter;
     }
 
     @Override
@@ -35,13 +25,15 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.textField.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.textField.setDisable(!editable);
     }
 
     @Override
-    public Property<Value> getValueProperty() {
-        return valueProperty;
+    public void addListener(final ValueChangeListener<Value> listener) {
+        this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            listener.processValueChange(converter.toValue(newValue));
+        });
     }
 
 }

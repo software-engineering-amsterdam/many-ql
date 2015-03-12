@@ -9,11 +9,11 @@ class QuestionPlacementCheckerSpec extends Specification {
   val checker = new QuestionPlacementChecker()
   import checker._
 
-  val EmptySection = Section("section", List(), List())
+  val EmptySection = Section("section", List())
 
   "all question placed checker" should {
     "return None if all questions are placed" in {
-      val sectionWithQuestion = Section("section", List(Question(Variable("x"), Text(List()))), List())
+      val sectionWithQuestion = Section("section", List(Question(Variable("x"), Text(List()))))
       val environmentWithQuestion = Map("x" -> BooleanType())
 
       check(sectionWithQuestion, environmentWithQuestion) should beNone

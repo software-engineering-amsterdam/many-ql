@@ -10,9 +10,6 @@ namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class ObjectBase
     {
-        public ObjectBase()
-        { }
-
         public UIElement AddChildren(UIElement element, UIElement form)
         {
             try
@@ -40,7 +37,6 @@ namespace QuestionnaireLanguage.GUI.FormObject
             }
             catch (NullReferenceException e)
             {
-
                 Console.WriteLine(e.InnerException);
             }
 

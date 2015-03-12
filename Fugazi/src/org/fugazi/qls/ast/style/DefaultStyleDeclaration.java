@@ -39,4 +39,18 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitDefaultStyleDeclr(this);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
+            return false;
+        }
+
+        if (!(o instanceof DefaultStyleDeclaration)) {
+            return false;
+        }
+
+        DefaultStyleDeclaration other = (DefaultStyleDeclaration) o;
+        return (this.questionType.toString() == other.questionType.toString());
+    }
 }

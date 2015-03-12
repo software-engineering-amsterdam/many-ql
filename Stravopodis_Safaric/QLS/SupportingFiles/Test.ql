@@ -1,7 +1,6 @@
 
 form HouseSelling {
     
-    
     question hasSoldHouse typeof boolean {
         hasSoldHouse : "Did you sell a house in 2015?";
         hasSoldHouse : false;
@@ -12,11 +11,6 @@ form HouseSelling {
     question hasMaintLoan typeof boolean {
     	hasMaintLoan : "Did you sell a house in 2014 ?";
     }
-   	
-   	question hasSolved typeof boolean {
-   		hasSolved : "Has solved?";
-   	}
-   
     
      if (hasSoldHouse == true){
     	question sellingPrice typeof money {

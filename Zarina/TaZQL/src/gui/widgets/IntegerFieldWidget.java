@@ -1,14 +1,13 @@
 package gui.widgets;
 
-import evaluator.Value;
-import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
-import gui.widgets.listeners.IntegerListener;
-
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import ast.type.Type;
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.IntegerListener;
 
 public class IntegerFieldWidget implements IWidgetComponent {
 
@@ -16,16 +15,12 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	private final Type variableType;
 	private JTextField widget;
 	private final ValueRepository valueRepository;
-	private int value = 0;
-		
+			
 	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
 		this.variableType = variableType;
 		this.valueRepository = valueRepository;
-		this.widget = new JTextField("", 10);
-		
-		//Use this to update this field.
-		//this.widget.setText("hgfjgfcj");
+		this.widget = new JTextField(10);
 	}
 	
 	@Override
@@ -42,58 +37,45 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	public Type getWidgetType() {
 		return variableType;
 	}
-
-	@Override
-	public String getStringValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean getBooleanValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
+		value = valueRepository.getValue(id).toString(); 
 	}
 
 	@Override
-	public void setChoiceValue(boolean value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEnabled(boolean isEnabled) {
-		this.widget.setEnabled(isEnabled);	
-	}
-
-	@Override
-	public void addDocListener(EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
-	}
-
-	@Override
-	public int getIntegerValue() {
-		//return Integer.valueOf(widget.getText());
-		return value + Integer.valueOf(widget.getText());
-	}
-
-	@Override
-	public void setIntegerValue(int value) {
-		System.out.println("I got something");
-		System.out.println(value);
-		this.value = value + Integer.parseInt(valueRepository.getValue(id).toString());
-	
+	public String getValue() {
+		return  widget.getText(); 
 	}
 
 	@Override
 	public void setText(Value value) {
-		widget.setText("" +value);
-		
+		widget.setText( value.toString());
+	}
+	
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		this.widget.setEnabled(isEnabled);	
+	}
+	
+	@Override
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
+	}
+	
+	@Override
+	public boolean getBooleanValue() {
+		assert false: "Only for a checkbox";
+		return false;
+	}
+
+	@Override
+	public void setBooleanValue(boolean value) {
+		assert false: "Only for a checkbox, can't be used for digits.";
+	}
+	
+	@Override
+	public void setVisible(boolean visibility) {
+		widget.setVisible(visibility);
 	}
 }

@@ -1,6 +1,6 @@
 package nl.uva.softwcons.ql.eval;
 
-import static helper.TestHelper.DUMMY_LINE_INFO;
+import static nl.uva.softwcons.helper.TestHelper.DUMMY_LINE_INFO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;

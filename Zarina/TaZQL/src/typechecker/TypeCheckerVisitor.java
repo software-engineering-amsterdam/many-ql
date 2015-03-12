@@ -163,13 +163,26 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
+	//	ifStatement.getExpression().accept(this);
+		for(Question q : ifStatement.getIfStatement()) {
+			q.accept(this);
+		}
+	
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
+		//ifElseStatement.getExpression().accept(this);
+		
+		for(Question q : ifElseStatement.getIfStatement()) {
+			q.accept(this);
+		}
+		
+		for(Question q : ifElseStatement.getElseStatement()) {
+			q.accept(this);
+		}
+		
 		return null;
 	}
 

@@ -1,8 +1,6 @@
 package lang.ql.gui.control;
 
-import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
-import javafx.scene.layout.VBox;
 import lang.ql.gui.ModelVisitor;
 
 /**

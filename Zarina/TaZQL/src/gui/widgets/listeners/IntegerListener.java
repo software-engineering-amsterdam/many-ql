@@ -3,22 +3,14 @@ package gui.widgets.listeners;
 import evaluator.IntegerValue;
 import gui.widgets.IWidgetComponent;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import ast.expression.Expression;
-
 public class IntegerListener extends AListener implements DocumentListener {
-	//private final IWidgetComponent widget;
-	private int value = 0;
-	//private final ValueRepository valueRepository;
-//	private EvaluateExpression eval;
 	
-	public IntegerListener(IWidgetComponent widget,  EvaluateExpression_new evaluator) {//ValueRepository valueRepository) {
+	public IntegerListener(IWidgetComponent widget,  EvaluateExpression evaluator) {
 		super(widget, evaluator);
-		//this.widget = widget;
-		//this.valueRepository = valueRepository;
-		//eval = new EvaluateExpression(valueRepository);
 	}
 	
 	@Override
@@ -28,7 +20,11 @@ public class IntegerListener extends AListener implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
-		//update();
+		SwingUtilities.invokeLater(new Runnable() {
+	     public void run() {
+	    	 update();
+	     }
+		});
 	}
 
 	@Override
@@ -38,23 +34,19 @@ public class IntegerListener extends AListener implements DocumentListener {
 	
 	@Override
 	public void update() {
-		try {
-			value = Integer.valueOf(widget.getIntegerValue());
+		String regex ="[-+]?\\d+(\\.\\d+)?";
+		if(widget.getValue().trim().matches(regex)) {
+			Integer value = Integer.valueOf(widget.getValue().trim());
 			IntegerValue intValue = new IntegerValue(value);
-			//Expression expressionForEvaluation = (Expression) intValue;
-			//valueRepository.putID(widget.getIdWidget().toString(), intValue);
+			System.out.println("Integer: " + value);
+			
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
-			
-		//	evaluator.evaluate();
-			evaluator.setValueInGUI();
-			widget.getWidget().revalidate();
-			widget.getWidget().repaint();
-			
-			//System.out.println("Listener value: " + (valueRepository.getValue(widget.getIdWidget())).toString()   );
-			
+			evaluator.setValueInGUI();		
 		}
-		catch(NumberFormatException ex){
-			System.err.println("Ilegal input: digits only!");
-		}	
-	}
+		else { 
+			System.out.println("Illegal input: digits only!");
+			//TODO add some error display
+		}
+	} 
+	
 }

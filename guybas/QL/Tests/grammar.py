@@ -1,7 +1,7 @@
 import unittest
 import QL.Grammar.basic_types as basic_types
 import QL.Grammar.form as forms
-import QL.Grammar.expressions as expressions
+import QL.Grammar.expression as expressions
 import QL.AST.Expressions.simple_expression as simple_expression
 import QL.AST.Statements.AnswerTypes.bool as b
 import QL.AST.Statements.AnswerTypes.text as t
@@ -37,19 +37,19 @@ class TestBasicGrammar(unittest.TestCase):
 
     def test_grammar_answer_format(self):
         # Test the three different _type of _answer possibilities
-        result = forms.FormFormat.answerR.parseString("bool")
+        result = forms.Form.answerR.parseString("bool")
         self.assertIsInstance(result[0], b.Bool)
 
-        result = forms.FormFormat.answerR.parseString("text")
+        result = forms.Form.answerR.parseString("text")
         self.assertIsInstance(result[0], t.Text)
 
-        result = forms.FormFormat.answerR.parseString("number")
+        result = forms.Form.answerR.parseString("number")
         self.assertIsInstance(result[0], n.Number)
 
     @unittest.expectedFailure
     def test_grammar_answer_format_fail(self):
         # Not an _answer possibility
-        result = forms.FormFormat.answerR.parseString("set").asList()
+        result = forms.Form.answerR.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
 

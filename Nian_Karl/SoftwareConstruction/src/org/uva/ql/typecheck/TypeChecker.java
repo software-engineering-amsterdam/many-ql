@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
@@ -45,7 +46,6 @@ import org.uva.ql.typecheck.message.Warning;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.ql.visitor.StatementVisitor;
-import org.uva.utility.CodePosition;
 
 public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor<Boolean>,
 		QuestionnaireVisitor<Boolean> {

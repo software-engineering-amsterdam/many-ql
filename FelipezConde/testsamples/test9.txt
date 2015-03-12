@@ -1,5 +1,5 @@
 form {
-    question q1 string
+    question q1 int
 	label : "What do you think of computers?"
     question q2 bool 
 	label : "Do you want an extra question?"
@@ -7,11 +7,6 @@ form {
     enable when (q2 && True) {
         question f1 int
 		label : "hmm..."
-    }
-
-    enable when (q1 && True) {
-        question f2 int
-		label : "hmm2..."
-    }
-    
+		computed : q1 + 2
+    }    
 }

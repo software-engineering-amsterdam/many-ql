@@ -4,7 +4,9 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
+import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
+import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
@@ -52,8 +54,8 @@ public class Main {
         }
 
         // Render GUI.
-//        GUIBuilder guiBuilder = new GUIBuilder(form);
-//        guiBuilder.renderUI();
+        GUIBuilder guiBuilder = new GUIBuilder(form);
+        guiBuilder.renderUI();
 
         /** ---------------------
          * QLS
@@ -73,25 +75,30 @@ public class Main {
 
         // Build the AST.
         StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styleSheet);
+
+        // Get the styles.
+        DefaultStyleHandler defaultStyleDeclaration =
+                new DefaultStyleHandler(formDataStorage, styleSheet);
+        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+
+        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
         // Perform QLS type checking.
-        // Perform type checking.
-//        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheet);
-//        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-//                styleSheet, styleSheetData, formDataStorage
-//        );
-//
-//        // display warnings and errors and if form is not type-correct, exit
-//        printer = new ASTIssuePrinter(
-//                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-//        );
-//        printer.displayWarningsAndErrors();
-//
-//        if (!isQLSFormTypesCorrect) {
-//            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
-//            System.exit(-1);
-//        }
+        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
+        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
+                styleSheetData, formDataStorage
+        );
+
+        // display warnings and errors and if form is not type-correct, exit
+        printer = new ASTIssuePrinter(
+                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
+        );
+        printer.displayWarningsAndErrors();
+
+        if (!isQLSFormTypesCorrect) {
+            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
+            System.exit(-1);
+        }
 
         // todo: render gui with stylesheet.
 

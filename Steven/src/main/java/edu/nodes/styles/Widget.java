@@ -16,4 +16,8 @@ public class Widget extends Style {
         return widget;
     }
 
+    @Override
+    public Widget clone() throws CloneNotSupportedException {
+        return new Widget(widget);
+    }
 }

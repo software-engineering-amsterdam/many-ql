@@ -12,6 +12,5 @@ namespace AST.Nodes.Interfaces
         IExpression Left();
         IExpression Right();
         string MakeString();
-        Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType);
     }
 }

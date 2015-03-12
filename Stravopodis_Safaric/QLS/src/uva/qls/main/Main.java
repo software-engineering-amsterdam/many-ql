@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.qls.interpreter.typecheck.TypeCheckQLS;
+import uva.qls.interpreter.gui.GUI;
 import uva.qls.parser.*;
 import uva.qls.ast.visitor.*;
 import uva.qls.ast.*;
@@ -27,13 +27,13 @@ public class Main {
 		QLSMainVisitor visitor = new QLSMainVisitor();
 		ASTNode _ast = visitor.visit(tree);
 
-		TypeCheckQLS typeCheckQls = new TypeCheckQLS(_ast);
+		GUI gui = new GUI(_ast);
 		
-		for (String key : typeCheckQls.getErrorTable().getTable().keySet()){
-			System.err.println(key + " ===== " + typeCheckQls.getErrorTable().retrieveValue(key));
+		for (String key : gui.getTypeCheck().getErrorTable().getTable().keySet()){
+			System.err.println(key + " ===== " + gui.getTypeCheck().getErrorTable().retrieveValue(key));
 		}
 		
-		if (typeCheckQls.hasErrors())
+		if (gui.getTypeCheck().hasErrors())
 			System.out.println("Will not generate, has errors");
 	}
 	

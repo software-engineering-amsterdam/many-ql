@@ -9,21 +9,21 @@ import com.form.language.ast.values.StringValue;
 import com.form.language.memory.Context;
 
 public class StringLiteral extends Literal implements Expression {
-	private final String value;
-	
-	public StringLiteral(String value, Token tokenInfo) {
-		super(tokenInfo);
-		this.value = value;
-	}
+    private final String value;
 
-	@Override
-	public StringValue evaluate(Context context) {
-		return new StringValue(value);
-	}
+    public StringLiteral(String value, Token tokenInfo) {
+	super(tokenInfo);
+	this.value = value;
+    }
 
-	@Override
-	public Type getType(Context context) {
-		return new StringType();
-	}
-	
+    @Override
+    public StringValue evaluate(Context context) {
+	return new StringValue(value);
+    }
+
+    @Override
+    public Type getType(Context context) {
+	return new StringType();
+    }
+
 }

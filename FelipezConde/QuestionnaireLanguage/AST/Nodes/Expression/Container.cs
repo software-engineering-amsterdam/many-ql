@@ -11,26 +11,20 @@ namespace AST.Nodes.Expression
     public class Container : ASTNode, IExpression
     {
         public ILiteral Value { get; private set; }
-        private string parsedString;
 
-        public Container(string parsedString, ILiteral value, PositionInText position)
+        public Container(ILiteral value, PositionInText position)
             : base(position)
         {
             this.Value = value;
-            this.parsedString = parsedString;
-        }
-        public override string GetParsedString()
-        {
-            return parsedString;
         }
 
         //Visitor Methods
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

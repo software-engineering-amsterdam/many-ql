@@ -1,10 +1,9 @@
 package nl.uva.softwcons.ql.eval.value;
 
 public class StringValue extends Value {
-
     private final String stringValue;
 
-    public StringValue(String value) {
+    public StringValue(final String value) {
         this.stringValue = value;
     }
 
@@ -14,19 +13,18 @@ public class StringValue extends Value {
     }
 
     @Override
-    public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.stringValue != null && this.stringValue.equals(otherValue.asString()));
+    public Value isEqual(final Value otherValue) {
+        return otherValue.isEqualString(this);
+    }
+
+    @Override
+    public Value isEqualString(final Value otherValue) {
+        return new BooleanValue(this.stringValue.equals(otherValue.asString()));
     }
 
     @Override
     public String getValue() {
         return this.stringValue;
-    }
-
-    @Override
-    public Value getValueFromString(String string) {
-        // TODO Auto-generated method stub
-        return new StringValue(string);
     }
 
     @Override

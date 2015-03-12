@@ -1,11 +1,21 @@
 package org.uva.qls.visitor;
 
-import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.expression.literal.StrLiteral;
+import org.uva.qls.ast.literal.BoolLiteral;
+import org.uva.qls.ast.literal.ColorLiteral;
+import org.uva.qls.ast.literal.IntLiteral;
+import org.uva.qls.ast.literal.IdentifierLiteral;
+import org.uva.qls.ast.literal.StrLiteral;
 
 public interface LiteralVisitor<T> {
 
+	public T visit(BoolLiteral node);
+
+	public T visit(IntLiteral node);
+
 	public T visit(StrLiteral node);
-	public T visit(Identifier identifier);
-	
+
+	public T visit(ColorLiteral node);
+
+	public T visit(IdentifierLiteral node);
+
 }

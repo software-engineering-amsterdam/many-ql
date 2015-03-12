@@ -1,4 +1,4 @@
-# Grammar of the basic and question types
+# Grammar of the basic types
 
 import pyparsing as pp
 import QL.Factory.forms as f

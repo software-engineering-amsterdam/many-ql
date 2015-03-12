@@ -1,4 +1,5 @@
 ﻿using AST.Nodes.Expression;
+using AST.Nodes.Literals;
 using AST.Representation;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,10 @@ namespace AST.Storage
 {
     public interface ISymbolTable
     {
-        bool InTable();
-        Tuple<Id, ObjectValue> GetFullObject();
-        ObjectValue GetObjectValue();
-        void SetObjectValue();
-        ObjectType GetObjectType();
+        bool IsInTable(Id id);
+        Literal GetValue(Id id);
+        void SetUpdateValue(Id id, Literal value);
+        void AddValue(Id id, Literal value);
         
     }
 }

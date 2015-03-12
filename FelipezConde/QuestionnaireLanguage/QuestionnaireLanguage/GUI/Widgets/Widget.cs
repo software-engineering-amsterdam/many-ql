@@ -19,6 +19,6 @@ namespace QuestionnaireLanguage.GUI.Widgets
             set { _id = value; }
         }
 
-        public abstract UIElement CreateUIControl();
+        public abstract UIElement CreateUIControl(dynamic value);
     }
 }
