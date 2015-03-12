@@ -13,9 +13,4 @@ public class Font extends Style {
     public String getFont() {
         return font;
     }
-
-    @Override
-    public Font clone() throws CloneNotSupportedException {
-        return new Font(font);
-    }
 }
