@@ -96,9 +96,7 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     @Override
     public void update(TextBox textBox) {
         Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
-        TextStore store = textBox.getStore();
-        store.setText(textBox.getText());
-        question.setValue(store);
+        question.setValue(new TextStore(textBox.getText()));
     }
 
     @Override
@@ -111,7 +109,6 @@ public class Main implements Observer { //todo: remove cloneable from project, u
     public void update(CheckBox checkBox) {
         Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
         question.setState(checkBox.isSelected());
-        question.setValue(checkBox.getStore());
         reRender();
     }
 

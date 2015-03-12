@@ -5,9 +5,9 @@ package edu.gui.components.store;
  */
 public class TextStore implements Store {
 
-    private String text;
+    private final String text;
 
-    public void setText(String text) {
+    public TextStore(String text) {
         this.text = text;
     }
 

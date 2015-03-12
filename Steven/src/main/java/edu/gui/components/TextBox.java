@@ -35,19 +35,9 @@ public class TextBox extends JTextField implements Subject, FocusListener {
     }
 
     @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
     public void notifyObservers() {
         observers.stream()
                 .forEach(observer -> observer.update(this));
-    }
-
-    @Override
-    public TextStore getStore() {
-        return new TextStore();
     }
 
     @Override

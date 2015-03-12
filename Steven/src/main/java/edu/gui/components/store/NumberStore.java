@@ -5,13 +5,9 @@ package edu.gui.components.store;
  */
 public class NumberStore implements Store {
 
-    private int number;
+    private final int number;
 
     public NumberStore(int number) {
-        this.number = number;
-    }
-
-    public void setNumber(int number) {
         this.number = number;
     }
 
