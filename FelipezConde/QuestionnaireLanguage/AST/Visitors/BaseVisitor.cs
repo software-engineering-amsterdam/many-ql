@@ -103,25 +103,20 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Values.Bool node)
+        public virtual T Visit(Nodes.Literals.Bool node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Values.Int node)
+        public virtual T Visit(Nodes.Literals.Int node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Values.String node)
+        public virtual T Visit(Nodes.Literals.String node)
         {
             throw new NotImplementedException();
         }
-
-        //public virtual T Visit(Nodes.Values.Unknown node)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public virtual T Visit(Nodes.Labels.Label node)
         {
@@ -138,13 +133,12 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        public T Visit(Nodes.Values.Undefined undefined)
+        public virtual T Visit(Nodes.Literals.Undefined undefined)
         {
             throw new NotImplementedException();
         }
 
-
-        public T Visit(Nodes.Interfaces.IASTNode node)
+        public virtual T Visit(Nodes.Interfaces.IASTNode node)
         {
             throw new NotImplementedException();
         }

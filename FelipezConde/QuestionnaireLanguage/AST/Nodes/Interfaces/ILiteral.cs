@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Interfaces
 {
-    public interface ILiteral : IHasType, IVisitable
+    public interface ILiteral : IHasType, IExpression
     {
     }
 }

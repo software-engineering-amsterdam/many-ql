@@ -13,27 +13,26 @@ import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
 public class Negation extends UnaryExpression implements Expression {
-	
-	public Negation(Expression value, Token tokenInfo) {
-		super(value, tokenInfo);
-	}
 
-	@Override
-	public GenericValue<Integer> evaluate(Context context) {		
-		return new IntValue(-((IntValue)value.evaluate(context)).getValue());
-	}
+    public Negation(Expression value, Token tokenInfo) {
+	super(value, tokenInfo);
+    }
 
-	@Override
-	public Type getType(Context context) {
-		Type childType = value.getType(context);
-		if(childType.isIntType()){
-			return new IntType();
-		}
-		else{
-			if(!childType.isErrorType()){
-				context.addError(new Error(tokenInfo, "Expected -Int, but found -"  + childType));
-				}
-			return new ErrorType();
-		}
+    @Override
+    public GenericValue evaluate(Context context) {
+	return new IntValue(-((IntValue) value.evaluate(context)).getValue());
+    }
+
+    @Override
+    public Type getType(Context context) {
+	Type childType = value.getType(context);
+	if (childType.isIntType()) {
+	    return new IntType();
+	} else {
+	    if (!childType.isErrorType()) {
+		context.addError(new Error(tokenInfo, "Expected -Int, but found -" + childType));
+	    }
+	    return new ErrorType();
 	}
+    }
 }

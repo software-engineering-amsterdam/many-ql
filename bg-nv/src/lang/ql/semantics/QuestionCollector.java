@@ -12,20 +12,20 @@ import lang.ql.semantics.errors.Error;
  */
 public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private SymbolTable symbolTable;
-    private Messages messages;
+    private final QuestionMap questionMap;
+    private final Messages messages;
 
-    public static SymbolResult extract(Form f)
+    public static QuestionResult collect(Form f)
     {
         QuestionCollector visitor = new QuestionCollector();
         f.accept(visitor);
 
-        return new SymbolResult(visitor.symbolTable, visitor.messages);
+        return new QuestionResult(visitor.questionMap, visitor.messages);
     }
 
     private QuestionCollector()
     {
-        this.symbolTable = new SymbolTable();
+        this.questionMap = new QuestionMap();
         this.messages = new Messages();
     }
 
@@ -55,7 +55,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     public Void visit(Question q)
     {
         this.checkForError(q);
-        this.symbolTable.define(q);
+        this.questionMap.put(q);
 
         return null;
     }
@@ -64,7 +64,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     public Void visit(CalculatedQuestion q)
     {
         this.checkForError(q);
-        this.symbolTable.define(q);
+        this.questionMap.put(q);
 
         return null;
     }
@@ -72,21 +72,25 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     private void checkForError(Question q)
     {
         String id = q.getId();
-        if (this.symbolTable.containsQuestion(id))
+        if (this.questionMap.contains(id))
         {
-            Type duplicateType = this.symbolTable.resolve(id);
-            Question duplicateQuestion = this.symbolTable.getQuestion(id);
-            int duplicateLineNumber = duplicateQuestion.getLineNumber();
             int currentLineNumber = q.getLineNumber();
+            int duplicateLineNumber = this.questionMap.get(id).getLineNumber();
 
             Error error = Error.identifierAlreadyDeclared(id, duplicateLineNumber, currentLineNumber);
 
-            if (!(q.getType().equals(duplicateType)))
+            Type duplicateType = this.questionMap.getType(id);
+            if (this.isIdentTypeMismatchError(q.getType(), duplicateType))
             {
                 error = Error.identifierDeclaredOfDiffType(id, duplicateLineNumber, currentLineNumber);
             }
 
             this.messages.add(error);
         }
+    }
+
+    private boolean isIdentTypeMismatchError(Type type, Type duplicateType)
+    {
+        return !(type.equals(duplicateType));
     }
 }

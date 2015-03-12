@@ -21,20 +21,18 @@ public class GUIBuilder implements IMediator {
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final UIForm uiForm;
-    private final Form astForm;
 
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form) {
-        this.astForm = _form;
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         this.uiForm = new UIForm(_form.getName());
 
-        this.addIfStatementsToQuestion(astForm);
-        this.addComputedQuestions(astForm);
+        this.addIfStatementsToQuestion(_form);
+        this.addComputedQuestions(_form);
     }
 
     public void renderUI() {
@@ -82,12 +80,16 @@ public class GUIBuilder implements IMediator {
         for (ComputedQuestion computedQuestion : computedQuestions) {
             for (UIQuestion uiQuestion : questionsWithState.keySet()) {
                 if (computedQuestion.getIdName().equals(uiQuestion.getId())) {
-                    ExpressionValue result = guiEvaluator.evaluateComputedExpression(computedQuestion);
-                    UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) uiQuestion;
-                    uiComputedQuestion.setComputedValue(result);
+                    changeSingleComputedQuestion(computedQuestion, uiQuestion);
                 }
             }
         }
+    }
+    
+    private void changeSingleComputedQuestion(ComputedQuestion _computedQuestion, UIQuestion _uiQuestion) {
+        ExpressionValue result = guiEvaluator.evaluateComputedExpression(_computedQuestion);
+        UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) _uiQuestion;
+        uiComputedQuestion.setComputedValue(result);
     }
 
     private void addIfStatementsToQuestion(Form _form) {
@@ -115,7 +117,6 @@ public class GUIBuilder implements IMediator {
         for (IfStatement ifStatement : questionsWithState.get(_question)) {
             if (!guiEvaluator.evaluateIfStatement(ifStatement)) {
                 isTrue = false;
-                break;
             }
         }
         return isTrue;

@@ -11,5 +11,8 @@ namespace QuestionnaireLanguage.Contracts
     public interface IMain
     {
         UIElementCollection GetControls();
+        UIElement GetRootElement();
+        void DeleteElements();
+        void SetFocus(IInputElement inputElement);
     }
 }

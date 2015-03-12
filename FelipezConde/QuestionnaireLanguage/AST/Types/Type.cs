@@ -36,5 +36,10 @@ namespace AST.Types
         public abstract T Accept<T>(ITypeVisitor<T> visitor);
 
         public abstract string GetString();
+
+        public virtual Types.Type RetrieveType()
+        {
+            return new Types.UndefinedType();
+        }
     }
 }

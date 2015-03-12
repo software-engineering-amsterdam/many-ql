@@ -1,7 +1,8 @@
 ﻿using AST.Nodes;
 using AST.Nodes.Expression;
 using AST.Nodes.Interfaces;
-using AST.Notification;
+using AST.Nodes.Literals;
+using Notifications;
 using AST.Representation;
 using AST.Storage;
 using System;
@@ -28,14 +29,14 @@ namespace AST
 
         }
 
-        public void SetValue(Id key, ObjectValue value)
+        public void SetValue(Id key, Literal value)
         {
-            table.SetObjectValue(key, value);
+            table.SetUpdateValue(key, value);
         }
 
-        public ObjectValue GetValue(Id key)
+        public Literal GetValue(Id key)
         {
-            return table.GetObjectValue(key);
+            return table.GetValue(key);
         }
 
         public bool IsTypeCorrect()

@@ -1,16 +1,12 @@
 FORM Questionnaire {
-	hasSoldHouse "Have you sold any damn house?" choice
-	priceSoldHouse "How much did you pay for new house?" digits
-	hasBoughtHouse "How much did you get for old house?" digits
-	howIsLife "Are you still happy:" text
-	finalPrice "Are you still happy:" digits (priceSoldHouse * hasBoughtHouse)
-	newPrice "Let's test this:" digits ((priceSoldHouse + finalPrice) * hasBoughtHouse)
-	testint1 "Integer 1" digits
-	testint2 "Integer 2" digits
-	test1 "==:" choice (testint1 == hasSoldHouse)
-	test2 "-1:" digits (-testint1)
-	test3 "&&:" choice (hasSoldHouse && priceSoldHouse)
+	stupidMe "Should have turned it on..." choice
+	if(stupidMe) {
+		ifBody1 "If-statement please work" digits
+		ifBody2 "If-statement one more" digits
+	}
 	
-} END	
-
-
+	hasSoldHouse "How much did you get for your house?" digits
+	amountHouses "How much did you pay for new house?" digits
+	calculation "The difference is equals to:?" digits (hasSoldHouse - amountHouses)
+	
+} END

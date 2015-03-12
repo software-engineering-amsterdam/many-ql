@@ -106,7 +106,7 @@ question:
 	;
 
 
-// Extract question types out of grammar???
+// todo(carlos) Extract question types out of grammar???
 questionType:
 	StringQuestionToken
 	{

@@ -25,19 +25,14 @@ namespace AST.Nodes.Expression.Binary
 
         public IExpression Right()
         { return right; }
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override string GetParsedString()
-        {
-            throw new NotImplementedException();
         }
 
         public string MakeString()
@@ -54,7 +49,5 @@ namespace AST.Nodes.Expression.Binary
         {
             return new Types.UndefinedType();
         }
-
-
     }
 }

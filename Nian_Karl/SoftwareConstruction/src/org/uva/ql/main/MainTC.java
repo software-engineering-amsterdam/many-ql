@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.binary.Equal;
 import org.uva.ql.ast.expression.binary.Minus;
@@ -19,7 +20,6 @@ import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
-import org.uva.utility.CodePosition;
 
 public class MainTC {
 

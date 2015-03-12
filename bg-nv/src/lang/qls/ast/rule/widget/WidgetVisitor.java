@@ -11,5 +11,4 @@ public interface WidgetVisitor<T>
     T visit(Slider w);
     T visit(Spinbox w);
     T visit(Textbox w);
-
 }

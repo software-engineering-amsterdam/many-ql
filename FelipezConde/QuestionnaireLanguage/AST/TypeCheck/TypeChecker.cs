@@ -20,142 +20,19 @@ namespace AST.TypeCheck
     {
         public static List<INotification> GetTypeCheckDiagnosis(Form node)
         {
-            /*
-             * TODO: Report error after every step
-             */
-
             List<INotification> notifications = new List<INotification>(); 
 
-            //Shared Type Information
-            IList<Question> definedIdentifiers           = GetDefinedIdentifiers(node);
-            IList<Id> usedIdentifiers                    = GetUsedIdentifiers(node);
-            Dictionary<string, Types.Type> identifierToType = GetIdentifierTypes(node);
-            IList<IExpression> topLevelExpressions       = GetTopLevelExpressions(node);
+            notifications.AddRange(new IdentifierChecker(node).GetDiagnosis());
+            notifications.AddRange(new ExpressionChecker(node).GetDiagnosis());
+            //TODO: Add Cyclic dependency check
 
-            //Use of valid identifiers (unique and defined)
-            notifications.AddRange(IdentifierChecks(node, definedIdentifiers, usedIdentifiers));
-
-            //Top level expressions have a valid type
-            notifications.AddRange(CheckExpressionsHaveType(topLevelExpressions, identifierToType));
-
-            //Computed questions have valid type
-            notifications.AddRange(QuestionsHaveValidComputationType(definedIdentifiers, identifierToType));
-
-            //Conditionals expressions have type Boolean
-            notifications.AddRange(ConditionalsHaveTypeBool(node, identifierToType));
-            
             return notifications;
         }
 
-        private static IEnumerable<INotification> ConditionalsHaveTypeBool(Form node, Dictionary<string, Types.Type> identifierToType)
-        {
-            List<INotification> notifications = new List<INotification>();
-            var conditionals = node.Accept(new ConditionalCollector());
-
-            return conditionals.Where(c => 
-                                        !DeriveConditionalType(c, identifierToType)
-                                        .IsEqual(new Types.BoolType()))
-                               .Select(c => new NonBooleanCondition(c.GetPosition()));
-        }
-
-        private static IEnumerable<INotification> CheckExpressionsHaveType(IList<IExpression> topLevelExpressions, Dictionary<string, Types.Type> identifierToType)
-            {
-                List<INotification> notifications = new List<INotification>();
-
-                foreach (IExpression expr in topLevelExpressions)
-                { 
-                    var collector = new ExpressionTypeCollector(identifierToType);
-                    notifications.AddRange(collector.GetCollectedNotifications());
-                }
-
-                return notifications;
-            }
-        private static IEnumerable<INotification> QuestionsHaveValidComputationType(IList<Question> definedIdentifiers, Dictionary<string, Types.Type> identifierToType)
-        {
-            return definedIdentifiers.Where( q => q.Computation != null)
-                                     .Where( q => !DeriveQuestionType(q,identifierToType).IsEqual(identifierToType[q.Identifier]))
-                                     .Select(q => new ComputedQuestionTypeConflict(
-                                                        q,
-                                                        q.Identifier, 
-                                                        DeriveQuestionType(q, identifierToType).GetString()));
-        }
-
-        private static IEnumerable<INotification> IdentifierChecks(
-            Form node, 
-            IList<Question> definedIdentifiers,
-            IList<Id> usedIdentifiers
-            )
-        {
-            List<INotification> notifications = new List<INotification>(); 
-
-            notifications.AddRange( 
-                GetUndefinedIdentifiers(definedIdentifiers, usedIdentifiers)
-                );
-            notifications.AddRange(
-                GetDuplicateIdentifiers(definedIdentifiers)
-                );
-            
-            return notifications;
-        }
-
-        private static IEnumerable<INotification> GetDuplicateIdentifiers(IList<Question> definedIdentifiers)
-        {
-            return definedIdentifiers
-                            .GroupBy(
-                                x => x.Identifier,
-                                x => x.GetPosition(),
-                                (name, positions) => new { Name = name, Positions = positions }
-                             )
-                            .Where(occurrences => occurrences.Positions.Count() > 1)
-                            .Select(x => new DuplicateIdentifier(x.Name, x.Positions));
-        }
-
-        private static IEnumerable<UndefinedIdentifier> GetUndefinedIdentifiers(IList<Question> definedIdentifiers, IList<Id> usedIdentifiers)
-        {
-            return usedIdentifiers
-                    .Where(used => !definedIdentifiers.Any(defined => defined.Identifier == used.Identifier))
-                    .Select(x => new UndefinedIdentifier(x.GetPosition(), x.Identifier));
-        }
-
-        private static IList<Question> GetDefinedIdentifiers(Form node)
-        { 
-            return node.Accept(new QuestionCollector());
-        }
-        private static IList<Id> GetUsedIdentifiers(Form node)
-        { 
-            return node.Accept(new UsedIdentifierCollector()); 
-        }
-        private static Dictionary<string, Types.Type> GetIdentifierTypes(Form node)
-        {
-           return node.Accept(new IdentifierTypeCollector())
-                      .ToDictionary(x => x.name, x => x.type);
-        }
-
-        private static IList<IExpression> GetTopLevelExpressions(Form node)
-        {
-            return node.Accept(new TopLevelExpressionCollector());
-        }
-        private static Types.Type DeriveQuestionType(Question node, Dictionary<string, Types.Type> identifierToType)
-        {
-            return node.Computation.Accept(new ExpressionTypeCollector(identifierToType));
-        }
-
-        private static Types.Type DeriveConditionalType(Conditional node, Dictionary<string, Types.Type> identifierToType)
-        {
-            return node.Condition.Accept(new ExpressionTypeCollector(identifierToType));
-        }
-        
         public static bool IsTypeCorrect(Form node)
         {
-            //return false on the first error
-            foreach(IError error in GetTypeCheckDiagnosis(node))
-            {
-                return false;
-            }
-
-            return true;
+            return Helper.ContainsError(GetTypeCheckDiagnosis(node));
         }
-    
-    
+
     }
 }

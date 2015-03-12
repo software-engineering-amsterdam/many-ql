@@ -34,6 +34,7 @@ import org.uva.ql.antlr.QLParser.StatementContext;
 import org.uva.ql.antlr.QLParser.TypeBoolContext;
 import org.uva.ql.antlr.QLParser.TypeIntContext;
 import org.uva.ql.antlr.QLParser.TypeStrContext;
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.Node;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
@@ -68,7 +69,6 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
-import org.uva.utility.CodePosition;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
 

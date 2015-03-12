@@ -1,7 +1,7 @@
 package org.uva.qls.ast.type;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.visitor.TypeVisitor;
-import org.uva.utility.CodePosition;
 
 public class BoolType extends Type {
 

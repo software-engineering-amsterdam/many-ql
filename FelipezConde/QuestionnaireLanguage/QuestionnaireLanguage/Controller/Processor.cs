@@ -1,34 +1,23 @@
-﻿using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using System;
+﻿using AST;
+using AST.Nodes.Expression;
+using AST.Nodes.Literals;
+using AST.Representation;
+using Evaluation;
+using QuestionnaireLanguage.Contracts;
+using QuestionnaireLanguage.Visitors;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using AST.Nodes.FormObject;
 using System.Windows;
-using AST.Nodes;
-using AST.Representation;
-using QuestionnaireLanguage.Resources;
+using System.Windows.Controls;
 using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Factories.FormObjects;
-using AST.Nodes.Expression;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using AST;
-using QuestionnaireLanguage.Visitors;
-using QuestionnaireLanguage.GUI.Widgets;
-using QuestionnaireLanguage.Contracts;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
-using AST.Evaluation;
-using AST.Nodes.Values;
+using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Controller
 {
     public class Processor
     {
         private static ASTResult astTree;
-        private static Evaluator evaluator;
+        private static EvaluationManager evaluator;
         private static IMain window;
 
         public ASTResult AstTree
@@ -41,7 +30,7 @@ namespace QuestionnaireLanguage.Controller
             window = mainWindow;
             astTree = ast;
 
-            evaluator = new Evaluator();
+            evaluator = new EvaluationManager();
         }
 
         public static UIElement ProcessBody(IList<ASTIFormObject.IFormObject> body, UIElement form)
@@ -70,45 +59,47 @@ namespace QuestionnaireLanguage.Controller
             return result;
         }
 
-        public static ObjectValue GetObjectValue(Id id)
+        public static Literal GetObjectValue(Id id)
         {
-            return astTree.GetValue(id);
+            return evaluator.GetValue(id);
         }
 
-        public static void SetObjectValue(Id id, ObjectValue value)
+        public static void UpdateValue(string id, Literal value)
         {
-            astTree.SetValue(id,value);
-        }
-
-        public static void DeleteAstResult()
-        {
-            //astTree = null;
+            evaluator.UpdateValue(new Id(id,new PositionInText()),value);
+            window.DeleteElements();
+            Processor.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
 
         public static void UpdateChanges()
         {
-            UIElementCollection collection = window.GetControls();
+            Processor.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
 
         public static void SetVisible()
         {
         }
 
-        public static bool Evaluate(ASTIFormObject.IExpression expression)
+        public static Literal Evaluate(ASTIFormObject.IExpression expression)
         {
-            Value value = evaluator.Evaluate(expression);
-            return false;
+            return evaluator.Evaluate(expression);
         }
 
-        public static void AddValue(string key, Value value)
+        public static void AddValue(Id key, Types.Type type)
         {
-            evaluator.AddValue(key,value);
+            TypeToValueVisitor visitor = new TypeToValueVisitor();
+            evaluator.AddValue(key,visitor.VisitValue(type));
         }
 
-        /*TODO
-         * - Evaluate inputs
-         * - Change visibility
-         */
+        public static void UpdateValue(Id key, Types.Type type)
+        {
+            TypeToValueVisitor visitor = new TypeToValueVisitor();
+            evaluator.AddValue(key, visitor.VisitValue(type));
+        }
 
+        internal static void SetFocus(IInputElement inputElement)
+        {
+            window.SetFocus(inputElement);
+        }
     }
 }

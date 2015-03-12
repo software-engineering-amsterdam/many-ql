@@ -39,7 +39,7 @@ namespace AST.TypeCheck.Collectors
             if (node.Computation != null)
                 idList.AddRange(node.Computation.Accept(this));
 
-           idList.Add(new Id(node.Identifier, node.GetPosition()));
+           idList.Add(node.Identifier);
            return idList;
         }
 
@@ -53,12 +53,6 @@ namespace AST.TypeCheck.Collectors
                                .Accept(this)
                       ).ToList();
         }
-
-        public override IList<Id> Visit(IUnary node) //Is this a hack?
-        {
-            return node.GetChildExpression().Accept(this);
-        }
-
         public override IList<Id> Visit(Container node)
         {
             return new List<Id>();
@@ -68,7 +62,90 @@ namespace AST.TypeCheck.Collectors
         {
             return new List<Id> { node };
         }
-        
 
+        public override IList<Id> Visit(Nodes.Expression.Binary.And node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Or node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Equal node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.NotEqual node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.GreaterThan node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.GreaterThanOrEqual node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.LessThan node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.LessThanOrEqual node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Add node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Subtract node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Multiply node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Binary.Divide node)
+        {
+            return VisitBinary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Unary.Negate node)
+        {
+            return VisitUnary(node);
+        }
+
+        public override IList<Id> Visit(Nodes.Expression.Unary.Priority node)
+        {
+            return VisitUnary(node);
+        }
+
+        private IList<Id> VisitBinary(IBinary node)
+        {
+            return node.Left()
+                         .Accept(this)
+                         .Concat(
+                             node.Right()
+                                 .Accept(this)
+                        ).ToList();
+        }
+
+        private IList<Id> VisitUnary(IUnary node)
+        {
+            return node.GetChildExpression().Accept(this);
+        }
     }
 }

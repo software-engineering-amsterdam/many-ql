@@ -1,4 +1,4 @@
-﻿using AST.Nodes.Values;
+﻿using AST.Nodes.Literals;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using QuestionnaireLanguage.GUI.Interfaces.Widgets;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
@@ -14,14 +14,14 @@ namespace QuestionnaireLanguage.GUI.Widgets
 {
     public class CheckboxWidget : Widget
     {
-        public CheckboxWidget(string id, Bool node)
+        public CheckboxWidget(string id)
         {
             Id = id;
         }
 
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomCheckBox() { Name = Id };
+            return new CustomCheckBox() { Name = Id, IsChecked = value };
         }
     }
 }

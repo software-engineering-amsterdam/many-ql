@@ -26,8 +26,26 @@ public class Dropdown extends Widget {
         this.noLabel = _no;
     }
 
+    public Dropdown(int _lineNum, String _label, String _yes, String _no) {
+        super(_lineNum);
+        this.yesLabel = _yes;
+        this.noLabel = _no;
+        this.label = _label;
+    }
+
+    public Dropdown(String _label, String _yes, String _no) {
+        this.yesLabel = _yes;
+        this.noLabel = _no;
+        this.label = _label;
+    }
+
     @Override
     public void applyStyle(Style _style) {
+        this.style = _style;
+
+        // inherit properties that are not set in the given style from default.
+        this.style.inheriteFromStyle(this.getDefaultStyle());
+
         // todo
     }
 

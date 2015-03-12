@@ -1,11 +1,11 @@
 package org.uva.qls.ast.literal;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.type.IntType;
 import org.uva.qls.ast.type.Type;
 import org.uva.qls.ast.value.IntValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
-import org.uva.utility.CodePosition;
 
 public class IntLiteral extends Literal{
 
@@ -16,6 +16,12 @@ public class IntLiteral extends Literal{
 		this.value = value;
 	}
 
+	public IntLiteral(int value,CodePosition pos) {
+		super(pos);
+		this.value = new IntValue(value);
+	}
+
+	
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {
 		return visitor.visit(this);

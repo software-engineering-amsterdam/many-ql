@@ -5,7 +5,7 @@ import scala.util.parsing.input.Position
 class Error(val message: String, val position: Option[Position] = None) {
 
   override def toString: String = position match {
-    case Some(p) => s"Error: $message at line $position"
+    case Some(p) => s"Error: $message at line $p"
     case None => s"Error: $message"
   }
 

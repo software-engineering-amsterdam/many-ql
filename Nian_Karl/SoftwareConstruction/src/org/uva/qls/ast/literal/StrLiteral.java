@@ -1,11 +1,11 @@
 package org.uva.qls.ast.literal;
 
+import org.uva.qls.ast.CodePosition;
 import org.uva.qls.ast.type.StrType;
 import org.uva.qls.ast.type.Type;
 import org.uva.qls.ast.value.StrValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
-import org.uva.utility.CodePosition;
 
 
 public class StrLiteral extends Literal {
@@ -15,6 +15,11 @@ public class StrLiteral extends Literal {
 	public StrLiteral(StrValue value, CodePosition pos) {
 		super(pos);
 		this.value = value;
+	}
+	
+	public StrLiteral(String string, CodePosition pos) {
+		super(pos);
+		this.value = new StrValue(string);
 	}
 
 	@Override
@@ -34,7 +39,7 @@ public class StrLiteral extends Literal {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "<" + value.toString() + ">";
+		return super.toString() + "<\"" + value.toString() + "\">";
 	}
 
 

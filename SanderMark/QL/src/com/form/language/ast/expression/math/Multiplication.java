@@ -13,28 +13,28 @@ import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
 public class Multiplication extends BinaryExpression implements Expression {
-	
-	public Multiplication(Expression left, Expression right, Token tokenInfo) {
-		super(left,right, tokenInfo);
-	}
 
-	@Override
-	public GenericValue<Integer> evaluate(Context context) {
-		return new IntValue(((IntValue)super.left.evaluate(context)).getValue() * ((IntValue)super.right.evaluate(context)).getValue());
-	}
+    public Multiplication(Expression left, Expression right, Token tokenInfo) {
+	super(left, right, tokenInfo);
+    }
 
-	@Override
-	public Type getType(Context context) {
-		Type leftType = left.getType(context);
-		Type rightType = right.getType(context);
-		if(leftType.isIntType() && rightType.isIntType()){
-			return new IntType();
-		}
-		else{
-			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				context.addError(new Error(tokenInfo, "Expected Int * Int, but found " + leftType + " * " + rightType));
-			}
-			return new ErrorType();
-		}
+    @Override
+    public GenericValue evaluate(Context context) {
+	return new IntValue(((IntValue) super.left.evaluate(context)).getValue()
+		* ((IntValue) super.right.evaluate(context)).getValue());
+    }
+
+    @Override
+    public Type getType(Context context) {
+	Type leftType = left.getType(context);
+	Type rightType = right.getType(context);
+	if (leftType.isIntType() && rightType.isIntType()) {
+	    return new IntType();
+	} else {
+	    if (!(leftType.isErrorType() || rightType.isErrorType())) {
+		context.addError(new Error(tokenInfo, "Expected Int * Int, but found " + leftType + " * " + rightType));
+	    }
+	    return new ErrorType();
 	}
+    }
 }

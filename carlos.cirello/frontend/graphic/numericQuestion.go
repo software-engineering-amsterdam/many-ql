@@ -2,7 +2,7 @@ package graphic
 
 import "gopkg.in/qml.v1"
 
-const numericQuestionQMLTemplate = `
+const numericFieldQML = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
@@ -15,7 +15,7 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		TextField {
-			{{ .Validator }}
+			validator: IntValidator {}
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
 		}
@@ -24,11 +24,9 @@ GroupBox {
 `
 
 func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
-	content float32) (question qml.Object) {
+	content float32) qml.Object {
 
-	validator := `validator: IntValidator {}`
-	qml := renderTemplateQuestion(numericQuestionQMLTemplate, fieldName,
-		caption, validator)
+	qml := renderTemplateQuestion(numericFieldQML, fieldName, caption)
 	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)

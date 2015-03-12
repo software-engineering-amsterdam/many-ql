@@ -8,7 +8,6 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"gopkg.in/qml.v1"
 )
 
@@ -43,13 +42,10 @@ type Gui struct {
 	root            qml.Object
 	updateCallbacks map[string]func(v string)
 	targetContainer qml.Object
-
-	pages         map[string]*stylelang.Page
-	questionIndex map[string][]string
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, pages map[string]*stylelang.Page, questionIndex map[string][]string) frontend.Inputer {
+func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 
@@ -58,9 +54,6 @@ func GUI(appName string, pages map[string]*stylelang.Page, questionIndex map[str
 		sweepStack:      make(map[string]bool),
 		symbolTable:     make(map[string]qml.Object),
 		updateCallbacks: make(map[string]func(v string)),
-
-		pages:         pages,
-		questionIndex: questionIndex,
 	}
 	return driver
 }
@@ -156,8 +149,8 @@ func (g *Gui) Loop() {
 }
 
 func (g *Gui) loop() error {
-	win := startQMLengine(g.appName, drawTabBlock(g.pages["root"])).CreateWindow(nil)
-	g.root = win.Root().ObjectByName("rootView")
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	g.root = win.Root().ObjectByName("questions")
 	win.Show()
 	go g.renderLoop()
 	win.Wait()

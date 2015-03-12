@@ -12,14 +12,12 @@ namespace AST.Nodes.Expression.Binary
     {
         private readonly IExpression left;
         private readonly IExpression right;
-        private string parsedString;
 
-        public Multiply(IExpression left, IExpression right, string parsedString, PositionInText position)
+        public Multiply(IExpression left, IExpression right, PositionInText position)
             : base(position)
         {
             this.left = left;
             this.right = right;
-            this.parsedString = parsedString;
         }
 
          public IExpression Left()
@@ -28,17 +26,12 @@ namespace AST.Nodes.Expression.Binary
         public IExpression Right()
         { return right; }
 
-        public override string GetParsedString()
-        {
-            return parsedString;
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
            return visitor.Visit(this);
         }
@@ -57,7 +50,5 @@ namespace AST.Nodes.Expression.Binary
         {
             return new Types.UndefinedType();
         }
-
-
     }
 }

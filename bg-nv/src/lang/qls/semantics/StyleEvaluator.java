@@ -3,8 +3,8 @@ package lang.qls.semantics;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.type.Type;
 import lang.ql.semantics.QuestionCollector;
-import lang.ql.semantics.SymbolResult;
-import lang.ql.semantics.SymbolTable;
+import lang.ql.semantics.QuestionResult;
+import lang.ql.semantics.QuestionMap;
 import lang.qls.ast.Page;
 import lang.qls.ast.rule.Rules;
 import lang.qls.ast.statement.*;
@@ -17,20 +17,20 @@ import lang.qls.ast.StylesheetVisitor;
  */
 public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
-    private SymbolTable questions;
+    private QuestionMap questions;
     private StyleStack styleStack;
     private FormStyle styles;
 
     public static FormStyle getStyles(Stylesheet s, Form f)
     {
-        SymbolResult result = QuestionCollector.extract(f);
-        StyleEvaluator styleEval = new StyleEvaluator(result.getSymbolTable());
+        QuestionResult result = QuestionCollector.collect(f);
+        StyleEvaluator styleEval = new StyleEvaluator(result.getQuestionMap());
         styleEval.visit(s);
 
         return styleEval.styles;
     }
 
-    private StyleEvaluator(SymbolTable questions)
+    private StyleEvaluator(QuestionMap questions)
     {
         this.questions = questions;
         this.styleStack = new StyleStack();
@@ -79,7 +79,7 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
     @Override
     public Void visit(Question q)
     {
-        Type questionType = this.questions.getQuestionType(q.getId());
+        Type questionType = this.questions.getType(q.getId());
         Rules result = this.styleStack.getRulesForType(questionType);
 
         this.styles.registerStyle(q.getId(), result);
@@ -91,7 +91,7 @@ public class StyleEvaluator implements StylesheetVisitor<Void>, StatementVisitor
     public Void visit(QuestionWithRules q)
     {
         Rules r = q.getBody();
-        Type questionType = this.questions.getQuestionType(q.getId());
+        Type questionType = this.questions.getType(q.getId());
         Style s = new Style();
         s.addRules(questionType, r);
 

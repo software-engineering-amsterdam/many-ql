@@ -1,4 +1,5 @@
 ﻿using AST.Nodes.Expression;
+using AST.Nodes.Literals;
 using AST.Representation;
 using System;
 using System.Collections.Generic;
@@ -9,53 +10,35 @@ namespace AST.Storage
 {
     public class SymbolTable : ISymbolTable
     {
-        Dictionary<Id, ObjectValue> table;
+        Dictionary<Id, Literal> table;
 
-        public SymbolTable(){table = new Dictionary<Id, ObjectValue>();}
+        public SymbolTable() { table = new Dictionary<Id, Literal>(); }
 
-        public bool InTable(Id Id)
+        public bool IsInTable(Id id)
         {
-            return table.ContainsKey(Id);
+            return table.ContainsKey(id);
         }
 
-        public ObjectValue GetObjectValue(Id Id)
+        public Literal GetValue(Id id)
         {
-            return table[Id];
+            return table[id];
         }
 
-        public void SetObjectValue(Id id, ObjectValue newValue)
+        public void SetUpdateValue(Id id, Literal value)
         {
-            table[id] = newValue; 
+            if (!IsInTable(id))
+            {
+                table.Add(id, value);
+            }
+            else
+                table[id] = value;
         }
-
-        public IEnumerable<Id> GetKeys()
+        public void AddValue(Id id, Literal value)
         {
-            return table.Keys;
-        }
-
-        public bool InTable()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Tuple<Id, ObjectValue> GetFullObject()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ObjectValue GetObjectValue()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetObjectValue()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ObjectType GetObjectType()
-        {
-            throw new NotImplementedException();
+            if (!IsInTable(id))
+            {
+                table.Add(id, value);
+            }
         }
     }
 

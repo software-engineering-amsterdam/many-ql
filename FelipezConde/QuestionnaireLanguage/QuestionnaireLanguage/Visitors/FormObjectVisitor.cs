@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AST.Nodes.FormObject;
 using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Factories.FormObjects;
 using ASTIFormObject = AST.Nodes.Interfaces;
 using QuestionnaireLanguage.Visitors.Interfaces;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
@@ -18,13 +17,13 @@ namespace QuestionnaireLanguage.Visitors
         {
             return Visit((dynamic) formObject);
         }
-        public ConditionalObject Visit(Conditional conditional)
+        public ConditionalObject Visit(Conditional node)
         {
-            return FormObjectFactory.GetFormObject(conditional);
+            return new ConditionalObject(node);
         }
-        public QuestionObject Visit(Question question)
+        public QuestionObject Visit(Question node)
         {
-            return FormObjectFactory.GetFormObject(question);
+            return new QuestionObject(node);
         }
     }
 }

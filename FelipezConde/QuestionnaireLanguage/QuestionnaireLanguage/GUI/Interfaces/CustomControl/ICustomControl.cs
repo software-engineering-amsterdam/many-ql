@@ -8,8 +8,5 @@ namespace QuestionnaireLanguage.GUI.Interfaces.CustomControl
 {
     public interface ICustomControl
     {
-        IList<string> ListConditionalId { get; }
-
-        void AddConditionalPanelId(string id);
     }
 }

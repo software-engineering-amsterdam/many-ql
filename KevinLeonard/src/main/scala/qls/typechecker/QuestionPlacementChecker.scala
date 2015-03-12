@@ -8,7 +8,9 @@ class QuestionPlacementChecker {
 
   def check(s: Section, env: TypeEnvironment): Option[Error] = {
     val qlVariables = env.keySet
-    val qlsVariables = s.questions.map(getVariableName)
+    val qlsVariables = s.questions.map({
+      case q: Question => getVariableName(q)
+    })
     val notPlacedQuestion = qlVariables -- qlsVariables
 
     if (notPlacedQuestion.nonEmpty) {

@@ -73,7 +73,7 @@
 						<configuration>
 							<visitor>true</visitor>
 							<listener>false</listener>
-							<outputDirectory>${project.build.directory}/generated-sources/antlr4/nl/uva/softwcons/generated/</outputDirectory>
+							<outputDirectory>src/main/java/nl/uva/softwcons/generated/</outputDirectory>
 						</configuration>
 						<goals>
 							<goal>antlr4</goal>
@@ -94,7 +94,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>${project.build.directory}/generated-sources/antlr4/</source>
+								<source>src/main/java/nl/uva/softwcons/generated/</source>
 							</sources>
 						</configuration>
 					</execution>

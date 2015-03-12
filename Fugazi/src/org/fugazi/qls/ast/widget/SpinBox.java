@@ -1,6 +1,5 @@
 package org.fugazi.qls.ast.widget;
 
-import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
@@ -19,8 +18,22 @@ public class SpinBox extends Widget {
     public SpinBox() {
     }
 
+    public SpinBox(int _lineNum, String _label) {
+        super(_lineNum);
+        this.label = _label;
+    }
+
+    public SpinBox(String _label) {
+        this.label = _label;
+    }
+
     @Override
     public void applyStyle(Style _style) {
+        this.style = _style;
+
+        // inherit properties that are not set in the given style from default.
+        this.style.inheriteFromStyle(this.getDefaultStyle());
+
         // todo
     }
     public List<Type> getSupportedQuestionTypes() {

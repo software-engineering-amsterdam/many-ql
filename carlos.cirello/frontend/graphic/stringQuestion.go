@@ -2,7 +2,7 @@ package graphic
 
 import "gopkg.in/qml.v1"
 
-const stringQuestionQMLTemplate = `
+const stringFieldQML = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
@@ -26,8 +26,7 @@ GroupBox {
 func (g *Gui) renderNewStringQuestion(fieldName, caption string,
 	content string) (question qml.Object) {
 
-	qml := renderTemplateQuestion(stringQuestionQMLTemplate, fieldName,
-		caption, "")
+	qml := renderTemplateQuestion(stringFieldQML, fieldName, caption)
 	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)
