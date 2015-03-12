@@ -24,7 +24,7 @@ public class Evaluator extends QLVisitorImpl {
 
     public Evaluator() {
         expressionEvaluator = new EvaluatorExpressionValidator(evaluatedQuestions);
-        computedQuestionsRetriever = new ComputedQuestionsRetriever();
+        computedQuestionsRetriever = new ComputedQuestionsRetriever(evaluatedQuestions);
     }
 
     public List<Question> evaluate(Form form) {

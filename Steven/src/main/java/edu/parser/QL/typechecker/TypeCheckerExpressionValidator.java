@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 12/03/2015.
  */
-public class TypeCheckerExpressionValidator implements ExpressionVisitor {
+public class TypeCheckerExpressionValidator implements ExpressionVisitor<Expression> {
 
     private final Set<QLIdentifier> identifiers;
     private Map<QLIdentifier, Question> questions;
@@ -98,7 +98,7 @@ public class TypeCheckerExpressionValidator implements ExpressionVisitor {
 
     @Override
     public Expression visit(Expression expression) {
-        return expression.accept(this);
+        return (Expression) expression.accept(this);
     }
 
     @Override
@@ -125,10 +125,10 @@ public class TypeCheckerExpressionValidator implements ExpressionVisitor {
 
 
     @Override
-    public Expression visit(QLIdentifier QLIdentifier) {
-        identifiers.add(QLIdentifier); // may overwrite existing items
+    public Expression visit(QLIdentifier qlIdentifier) {
+        identifiers.add(qlIdentifier); // may overwrite existing items
         checkReferenceToUndefinedQuestions();
-        return QLIdentifier;
+        return qlIdentifier;
     }
 
 

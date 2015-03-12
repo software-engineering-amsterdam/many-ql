@@ -1,5 +1,7 @@
 package edu.parser.QL.nodes.expression;
 
+import edu.parser.QL.nodes.AbstractNode;
+
 /**
  * Created by Steven Kok on 21/02/2015.
  */
@@ -9,7 +11,7 @@ public class Division extends BinaryExpression {
     }
 
     @Override
-    public Expression accept(ExpressionVisitor expressionVisitor) {
+    public AbstractNode accept(ExpressionVisitor expressionVisitor) {
         return expressionVisitor.visit(this);
     }
 

@@ -1,6 +1,7 @@
 package edu.parser.QL.nodes.expression;
 
 import edu.nodes.Identifier;
+import edu.parser.QL.nodes.AbstractNode;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -17,7 +18,7 @@ public class QLIdentifier extends Expression {
     }
 
     @Override
-    public Expression accept(ExpressionVisitor expressionVisitor) {
+    public AbstractNode accept(ExpressionVisitor expressionVisitor) {
         return expressionVisitor.visit(this);
     }
 

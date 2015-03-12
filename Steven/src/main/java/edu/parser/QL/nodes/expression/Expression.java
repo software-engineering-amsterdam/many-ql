@@ -10,5 +10,5 @@ public abstract class Expression implements AbstractNode {
 
     public abstract boolean hasBooleanOperands();
 
-    public abstract Expression accept(ExpressionVisitor expressionVisitor);
+    public abstract AbstractNode accept(ExpressionVisitor expressionVisitor);
 }

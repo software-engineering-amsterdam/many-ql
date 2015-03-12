@@ -14,4 +14,6 @@ public class DefaultStore implements Store {
     public String getValue() {
         return toString();
     }
+
+
 }
