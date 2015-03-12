@@ -1,7 +1,6 @@
 package edu.parser.QL.evaluator
 
 import edu.gui.components.store.Store
-import edu.parser.QL.nodes.expression.Expression
 import edu.parser.QL.nodes.expression.QLIdentifier
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QL.nodes.type.Text
@@ -24,10 +23,12 @@ class ComputedQuestionsRetrieverTest extends Specification {
         setup:
         def identifier = "identifier"
 
-        def label = "label"
+
+
+        Text inputText = new Text("input")
         questionsRetriever.evaluatedQuestions.add(new QuestionBuilder()
                 .identifier(identifier)
-                .label(label)
+                .store(inputText)
                 .build())
 
         when:
@@ -36,6 +37,6 @@ class ComputedQuestionsRetrieverTest extends Specification {
         then:
         Assert.assertEquals(true, store instanceof Text)
         Text text = (Text) store
-        Assert.assertEquals(true, text.getText().equals(label))
+        Assert.assertEquals(true, inputText.equals(text))
     }
 }

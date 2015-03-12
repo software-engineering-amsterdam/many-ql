@@ -5,7 +5,6 @@ import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.QL.nodes.type.Text;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +47,7 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
     @Override
     public AbstractNode visit(QLIdentifier qlIdentifier) {
         Question question = getQuestion(qlIdentifier);
-        return new Text(question.getLabel().getLabel());
+        return question.getValue();
     }
 
     private Question getQuestion(QLIdentifier qlIdentifier) {
