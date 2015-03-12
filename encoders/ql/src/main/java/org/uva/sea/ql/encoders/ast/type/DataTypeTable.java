@@ -1,12 +1,7 @@
-package org.uva.sea.ql.encoders.service;
+package org.uva.sea.ql.encoders.ast.type;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.uva.sea.ql.encoders.ast.type.BooleanType;
-import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.IntegerType;
-import org.uva.sea.ql.encoders.ast.type.StringType;
 
 public class DataTypeTable {
 
