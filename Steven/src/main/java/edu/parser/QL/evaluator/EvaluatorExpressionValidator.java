@@ -1,5 +1,6 @@
-package edu.parser.QL.nodes.expression;
+package edu.parser.QL.evaluator;
 
+import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
@@ -119,7 +120,6 @@ public class EvaluatorExpressionValidator implements ExpressionVisitor {
         return new Boolean(left.getNumber() != right.getNumber());
     }
 
-
     @Override
     public Expression visit(QLIdentifier QLIdentifier) {
         Optional<Question> foundQuestion = getQuestion(QLIdentifier);
@@ -129,7 +129,6 @@ public class EvaluatorExpressionValidator implements ExpressionVisitor {
             return new Boolean(false); // if question does not exist, expression cannot be true.
         }
     }
-
 
     private boolean isQuestionEnabled(Question foundQuestion) {
         return foundQuestion.isEnabled();

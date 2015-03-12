@@ -7,10 +7,12 @@ import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
+import edu.parser.QL.evaluator.Evaluator;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.type.Text;
+import edu.parser.QL.typechecker.TypeChecker;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
