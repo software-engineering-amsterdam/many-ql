@@ -1,9 +1,11 @@
 package edu.parser
 
+import edu.gui.components.store.DefaultStore
+import edu.gui.components.store.Store
 import edu.nodes.QuestionType
 import edu.nodes.styles.Style
 import edu.parser.QL.nodes.expression.Expression
-import edu.parser.QL.nodes.expression.Identifier
+import edu.parser.QL.nodes.expression.QLIdentifier
 import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
 
@@ -12,19 +14,21 @@ import edu.parser.QL.nodes.question.Question
  */
 public class QuestionBuilder {
     private boolean isEnabled
-    private Identifier identifier
+    private QLIdentifier identifier
     private QuestionType questionType
     private Label label
     private Optional<Expression> expression
     private List<Style> styles
+    private Store store
 
     QuestionBuilder() {
         this.isEnabled = false
-        this.identifier = new Identifier("identifier")
+        this.identifier = new QLIdentifier("identifier")
         this.questionType = QuestionType.BOOLEAN
         this.label = new Label("label")
         this.expression = Optional.empty()
         this.styles = Collections.emptyList()
+        this.store = new DefaultStore()
     }
 
     public QuestionBuilder isEnabled(boolean isEnabled) {
@@ -33,7 +37,7 @@ public class QuestionBuilder {
     }
 
     public QuestionBuilder identifier(String identifier) {
-        this.identifier = new Identifier(identifier)
+        this.identifier = new QLIdentifier(identifier)
         return this
     }
 
@@ -57,7 +61,11 @@ public class QuestionBuilder {
         return this
     }
 
+    public QuestionBuilder store(Store store) {
+        this.store = store
+    }
+
     public Question build() {
-        return new Question(identifier, questionType, label, isEnabled, expression, styles)
+        return new Question(identifier, questionType, label, isEnabled, expression, styles, store)
     }
 }

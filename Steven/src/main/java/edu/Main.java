@@ -1,29 +1,30 @@
 package edu;
 
-import edu.exceptions.CloneException;
 import edu.exceptions.ParseException;
 import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.TextBox;
-import edu.gui.components.store.Store;
-import edu.gui.components.store.TextStore;
 import edu.parser.AntlrParser;
 import edu.parser.QL.*;
+import edu.parser.QL.evaluator.Evaluator;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.type.Text;
+import edu.parser.QL.typechecker.TypeChecker;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 24/02/2015.
  */
-public class Main implements Observer {
+public class Main implements Observer { //todo: remove cloneable from project, use copy constructors
 
     public static final String PATH_TO_QL_INPUT_FILES = "src/test/resources/antlr/input/QL/";
     public static final String PATH_TO_QLS_INPUT_FILES = "src/test/resources/antlr/input/QLS/";
@@ -36,7 +37,6 @@ public class Main implements Observer {
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private Map<Question, Store> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -49,7 +49,6 @@ public class Main implements Observer {
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new HashMap<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
@@ -72,7 +71,7 @@ public class Main implements Observer {
 
     private void evaluateForm() {
         evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions.keySet());
+        evaluatedQuestions = evaluator.evaluate(form);
     }
 
     private Stylesheet parseQLS() {
@@ -98,79 +97,38 @@ public class Main implements Observer {
 
     @Override
     public void update(TextBox textBox) {
-        Question question = getEvaluatedQuestion(textBox.getIdentifier());
-        Question clonedQuestion = cloneQuestion(question);
-        TextStore store = textBox.getStore();
-        store.setText(textBox.getText());
-        addUpdatedQuestion(clonedQuestion, store);
-
+        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
+        question.setValue(new Text(textBox.getText()));
     }
 
     @Override
     public void initializeRequest(TextBox textBox) {
-        Optional<Question> updatedQuestion = getUpdatedQuestion(textBox.getIdentifier());
-
-        if (updatedQuestion.isPresent()) {
-            TextStore textStore = (TextStore) updatedQuestions.get(updatedQuestion.get());
-            textBox.setText(textStore.getText());
-        }
+        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
+        textBox.setText(question.getValue().getValue());
     }
 
     @Override
     public void update(CheckBox checkBox) {
-        Question question = getEvaluatedQuestion(checkBox.getIdentifier());
-        Question clonedQuestion = cloneQuestionAndSetState(checkBox.isSelected(), question);
-        addUpdatedQuestion(clonedQuestion, checkBox.getStore());
+        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
+        question.setState(checkBox.isSelected());
         reRender();
     }
 
     @Override
     public void initializeRequest(CheckBox checkBox) {
-        Optional<Question> question = getUpdatedQuestion(checkBox.getIdentifier());
-        if (question.isPresent()) {
-            checkBox.setSelected(question.get().isEnabled());
-        } else {
-            checkBox.setSelected(false);
-        }
+        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
+        checkBox.setSelected(question.isEnabled());
+
     }
 
-    private Optional<Question> getUpdatedQuestion(Identifier identifier) {
-        return updatedQuestions.keySet().stream()
-                .filter(updatedQuestion -> updatedQuestion.getIdentifier().equals(identifier))
-                .findFirst();
-    }
-
-    private void addUpdatedQuestion(Question clonedQuestion, Store store) {
-        if (updatedQuestions.containsKey(clonedQuestion)) {
-            updatedQuestions.remove(clonedQuestion);
-        }
-        updatedQuestions.put(clonedQuestion, store);
-    }
-
-    private Question cloneQuestionAndSetState(boolean isSelected, Question question) {
-        try {
-            return question.clone(isSelected);
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
-    }
-
-    private Question cloneQuestion(Question question) {
-        try {
-            return question.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
-    }
-
-    public Question getEvaluatedQuestion(Identifier identifier) {
+    public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {
         List<Question> question = evaluatedQuestions.stream()
-                .filter(q -> q.getIdentifier().equals(identifier))
+                .filter(q -> q.getQLIdentifier().equals(QLIdentifier))
                 .collect(Collectors.toList());
         if (question.isEmpty()) {
-            throw new IllegalArgumentException("cannot find question with identifier: " + identifier);
+            throw new IllegalArgumentException("cannot find question with identifier: " + QLIdentifier);
         } else if (question.size() > 1) {
-            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + identifier);
+            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + QLIdentifier);
         } else {
             return question.get(0);
         }
