@@ -5,17 +5,38 @@ class TypeChecker:
     def __init__(self, form, sheet):
         self.form = form
         self.sheet = sheet
-        sheet_ids = sheet.get_ids()
-        print("\nType checker: \n")
+        self._sheet_ids = sheet.get_ids()
+        self._sheet_property_names = sheet.get_property_names()
+        self._form_type_dict = form.get_type_dict()
+        self._form_ids = form.get_ids()
 
-        print("Doubles:")
-        print(TypeChecker.check_duplicates(sheet_ids))
+    def is_valid(self):
+        valid = True
+        double_message = TypeChecker.check_duplicates(self._sheet_ids)
+        if double_message:
+            print("Doubles:")
+            print(double_message)
+            valid = False
 
-        print("Not existent:")
-        print(TypeChecker.check_existent(sheet_ids, form.get_ids()))
+        exist_message = TypeChecker.check_existent(self._sheet_ids, self._form_ids)
+        if exist_message:
+            print("Not existent:")
+            print(exist_message)
+            valid = False
 
-        print("Not correct widget:")
-        print(TypeChecker.check_types_widgets(sheet.get_widget_dict(), form.get_type_dict()))
+        widget_message = TypeChecker.check_types_widgets(self._sheet.get_widget_dict(), self._form_type_dict)
+        if widget_message:
+            print("Not correct widget:")
+            print(widget_message)
+            valid = False
+
+        property_message = TypeChecker.check_duplicate_properties(self._sheet_property_names)
+        if property_message:
+            print("Duplicate properties:")
+            print(property_message)
+
+        return valid
+
 
     @staticmethod
     def check_existent(sheet_ids, form_ids):
@@ -49,4 +70,14 @@ class TypeChecker:
             if t in widget_dict:
                 if not type_dict[t] in widget_dict[t].get_compatible():
                     message += "the _type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
+        return message
+
+    @staticmethod
+    def check_duplicate_properties(properties):
+        existent = []
+        message = ""
+        for p in properties:
+            if p in existent:
+                message += p + " exists more than once\n"
+            existent.append(p)
         return message

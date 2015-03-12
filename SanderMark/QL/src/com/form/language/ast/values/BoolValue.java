@@ -1,24 +1,32 @@
 package com.form.language.ast.values;
 
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
-public class BoolValue extends GenericValue<Boolean> {
-	private final boolean value;
-	
-	public BoolValue(boolean value) {
-		this.value = value;
-	}
-	public boolean getValue() {
-		return value;
-}
-	@Override
-	public String toString(){
-		return new Boolean(value).toString();
-		
-	}
-	@Override
-	public void addToMemory(String key, RuntimeMemory m) {
-		m.put(key, this);
-	}
-	
+public class BoolValue extends GenericValue {
+    private final boolean value;
+
+    public BoolValue(boolean value) {
+	this.value = value;
+    }
+
+    public boolean getValue() {
+	return value;
+    }
+
+    @Override
+    public String toString() {
+	return new Boolean(value).toString();
+
+    }
+
+    @Override
+    public void addToMemory(String key, Context context) {
+	context.setValue(key, this);
+    }
+
+    @Override
+    public Boolean equals(GenericValue comparison) {
+	return this.value == ((BoolValue) comparison).getValue();
+    }
+
 }

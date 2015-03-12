@@ -9,7 +9,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     public class Question : QLSNode
     {
-        public Question(TextPosition position)
+        internal Question(TextPosition position)
             : base(position)
         {
         }

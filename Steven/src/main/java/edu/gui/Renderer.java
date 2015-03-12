@@ -1,9 +1,10 @@
 package edu.gui;
 
 import edu.exceptions.EvaluationException;
-import edu.nodes.Question;
+import edu.exceptions.GuiException;
 import edu.nodes.QuestionType;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.QuestionRetriever;
 import edu.parser.QLS.nodes.AbstractNode;
@@ -13,11 +14,12 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
+import edu.parser.QLS.nodes.statement.Statement;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collections;
-import java.util.HashMap;
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -27,48 +29,96 @@ public class Renderer implements QLSVisitor {
     public static final String NOT_FOUND_QUESTIONS = "Not all questions are in the stylesheet.";
     private final QuestionRetriever questionRetriever;
     private final MainWindow mainWindow;
-    private final Map<Question, List<Style>> questions;
+    private final List<Question> questionsToRender;
+    private List<Style> defaultStyles;
 
-    public Renderer() {
-        questions = new HashMap<>();
+    public Renderer(Observer questionState) {
+        questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
-        mainWindow = new MainWindow();
+        mainWindow = new MainWindow(questionState);
+        defaultStyles = new ArrayList<>();
+    }
+
+    public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
+        this.defaultStyles = stylesheet.getStyles();
+        initialize(inputQuestions, stylesheet);
+        SwingUtilities.invokeLater(mainWindow::showMainWindow);
+        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+    }
+
+    public void reRender(List<Question> inputQuestions, Stylesheet stylesheet) {
+        initialize(inputQuestions, stylesheet);
+        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+    }
+
+    private void initialize(List<Question> inputQuestions, Stylesheet stylesheet) {
+        this.questionsToRender.clear();
         mainWindow.initialize();
-    }
-
-    public MainWindow render(List<Question> questions, Stylesheet stylesheet) {
-        mapQuestionsAndStyles(questions, stylesheet);
+        storeQuestionsFromStylesheet(inputQuestions, stylesheet);
         stylesheet.accept(this);
-        return mainWindow;
+        renderRemainingQuestions(inputQuestions);
     }
 
-    private void mapQuestionsAndStyles(List<Question> questions, Stylesheet stylesheet) {
+    private List<Question> getRemainingQuestions(List<Question> inputQuestions) {
+        return inputQuestions.stream()
+                .filter(inputQuestion -> !questionsToRender.contains(inputQuestion))
+                .collect(Collectors.toList());
+    }
+
+    private void renderRemainingQuestions(List<Question> inputQuestions) {
+        List<Question> remainingQuestions = getRemainingQuestions(inputQuestions);
+        List<QLSQuestion> convertedQuestions = convertQuestions(remainingQuestions);
+        ArrayList<Section> sections = createSection(convertedQuestions);
+        Page pageWithRemainingQuestions = new Page(sections);
+        addPage(pageWithRemainingQuestions, remainingQuestions);
+    }
+
+    private List<QLSQuestion> convertQuestions(List<Question> remainingQuestions) {
+        return remainingQuestions.stream()
+                .map(remainingQuestion -> new QLSQuestion(new Identifier(remainingQuestion.getIdentifier().getIdentifier()), remainingQuestion.getStyles()))
+                .collect(Collectors.toList());
+    }
+
+    private ArrayList<Section> createSection(List<QLSQuestion> convertedQuestions) {
+        Section section = new Section("Other", convertedQuestions, defaultStyles);
+        ArrayList<Section> sections = new ArrayList<>();
+        sections.add(section);
+        return sections;
+    }
+
+    private void storeQuestionsFromStylesheet(List<Question> inputQuestions, Stylesheet stylesheet) {
         List<QLSQuestion> stylesheetQuestions = extractQuestionsFromStylesheet(stylesheet);
 
-        questions.stream()
-                .forEach(question -> storeQuestions(stylesheetQuestions, question));
-
+        stylesheetQuestions.stream()
+                .forEach(stylesheetQuestion -> storeQuestion(stylesheetQuestion, inputQuestions));
     }
 
     private List<QLSQuestion> extractQuestionsFromStylesheet(Stylesheet stylesheet) {
-        return stylesheet.getStatements()
-                .stream()
-                .filter(statement -> statement instanceof QLSQuestion)
-                .map(question -> (QLSQuestion) question)
-                .collect(Collectors.toList());
+        return questionRetriever.retrieveQuestions(stylesheet);
     }
 
-    private void storeQuestions(List<QLSQuestion> stylesheetQuestions, Question question) {
-        List<QLSQuestion> qlsQuestions = stylesheetQuestions.stream()
-                .filter(qlsQuestion -> qlsQuestion.getIdentifier().getIdentifier().equals(question.getIdentifier().getIdentifier()))
+    private void storeQuestion(QLSQuestion stylesheetQuestion, List<Question> inputQuestions) {
+        List<Question> question = inputQuestions.stream()
+                .filter(inputQuestion -> inputQuestion.getIdentifier().getIdentifier().equals(stylesheetQuestion.getIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
 
-        if (qlsQuestions.isEmpty()) {
-            this.questions.put(question, Collections.EMPTY_LIST);
-        } else if (qlsQuestions.size() > 1) {
+        if (question.size() > 1) {
             throw new EvaluationException("Stylesheet contains duplicates.");
-        } else {
-            this.questions.put(question, qlsQuestions.get(0).getStyles());
+        } else if (!question.isEmpty()) {
+            storeQuestionWithStyle(question.get(0), stylesheetQuestion);
+        }
+    }
+
+
+    private void storeQuestionWithStyle(Question inputQuestion, QLSQuestion qlsQuestion) {
+        this.questionsToRender.add(cloneQuestion(inputQuestion, qlsQuestion));
+    }
+
+    private Question cloneQuestion(Question inputQuestion, QLSQuestion qlsQuestion) {
+        try {
+            return inputQuestion.clone(qlsQuestion.getStyles());
+        } catch (CloneNotSupportedException e) {
+            throw new GuiException(e);
         }
     }
 
@@ -76,13 +126,6 @@ public class Renderer implements QLSVisitor {
         stylesheet.getStatements()
                 .stream()
                 .forEach(statement -> statement.accept(this));
-    }
-
-    private void confirmAllQuestionsAreInStylesheet(Stylesheet evaluatedStylesheet, List<Question> questions) { // todo
-        List<QLSQuestion> stylesheetQuestions = questionRetriever.retrieveQuestions(evaluatedStylesheet);
-        if (stylesheetQuestions.size() != questions.size()) {
-            throw new EvaluationException(NOT_FOUND_QUESTIONS);
-        }
     }
 
     @Override
@@ -93,9 +136,13 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Page page) {
-        List<Section> sections = collectSections(page);
-        mainWindow.addPage(sections,questions);
+        addPage(page, questionsToRender);
         return page;
+    }
+
+    private void addPage(Page page, List<Question> questionsToRender) {
+        List<Section> sections = collectSections(page);
+        mainWindow.addPage(sections, questionsToRender);
     }
 
     private List<Section> collectSections(Page page) {
@@ -107,12 +154,12 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(QLSQuestion question) {
-        return null;
+        return question;
     }
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
@@ -122,16 +169,16 @@ public class Renderer implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Default aDefault) {
-        return null;
+        return aDefault;
     }
 
     @Override
     public AbstractNode visit(QuestionType questionType) {
-        return null;
+        return questionType;
     }
 
     @Override
     public AbstractNode visit(Style style) {
-        return null;
+        return style;
     }
 }

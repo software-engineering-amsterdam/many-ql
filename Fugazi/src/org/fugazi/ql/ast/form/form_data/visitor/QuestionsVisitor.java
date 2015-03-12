@@ -4,14 +4,14 @@ import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class QuestionsVisitor implements IStatementVisitor<Void> {
-    private final Form form;
+public class QuestionsVisitor extends StatementsVisitor {
     private List<Question> questions;
 
     public QuestionsVisitor(Form _form) {
-        this.form = _form;
+        super(_form);
     }
 
     /**
@@ -20,25 +20,11 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private Void visitForm() {
-        List<Statement> statementList = this.form.getBody();
-
-        for (Statement statement : statementList) {
-            statement.accept(this);
-        }
-        return null;
-    }
-
+    @Override
     public Void visitQuestion(Question question) {
         this.saveQuestion(question);
         return null;
     }
-
-    public Void visitComputedQuestion(ComputedQuestion assignQuest) {
-        return null;
-    }
-
-    public Void visitIfStatement(IfStatement ifStatement) {return null;}
 
     /**
      * =======================
@@ -56,13 +42,12 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    public List<Question> getQuestions() {
+    public Iterator<Question> getQuestions() {
         if (this.questions == null) {
             this.questions = new ArrayList<>();
-            // visit the form
+
             this.visitForm();
         }
-
-        return this.questions;
+        return this.questions.iterator();
     }
 }

@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import ql.value.StringValue;
 import net.miginfocom.swing.MigLayout;
-import cons.value.StringValue;
 
 public class TextField extends InputWidget<StringValue> implements CaretListener {	
 	protected JPanel container;

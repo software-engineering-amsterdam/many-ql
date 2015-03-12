@@ -1,8 +1,9 @@
 package edu.gui.components;
 
 
-import edu.nodes.Question;
+import edu.gui.Observer;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 
 import javax.swing.*;
@@ -15,15 +16,20 @@ import java.util.Map;
  */
 public class Page extends JPanel {
 
-    public Page(List<Section> sections, Map<Question, List<Style>> questions) throws HeadlessException {
+    public Page(List<Section> sections, List<Question> questions, Observer questionState) throws HeadlessException {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         sections.stream()
-                .forEach(section -> add(createSectionPanel(questions, section)));
+                .forEach(section -> addSectionsPanel(questions, section, questionState));
     }
 
-    private SectionsPanel createSectionPanel(Map<Question, List<Style>> questions, Section section) {
-        SectionsPanel sectionsPanel = new SectionsPanel(section, questions);
-        sectionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+    private void addSectionsPanel(List<Question> questions, Section section, Observer questionState) {
+        add(createSectionPanel(questions, section, questionState));
+        add(Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    private SectionsPanel createSectionPanel(List<Question> questions, Section section, Observer questionState) {
+        SectionsPanel sectionsPanel = new SectionsPanel(section, questions, questionState);
+        sectionsPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(section.getTitle()), BorderFactory.createEmptyBorder()));
 
         return sectionsPanel;
     }

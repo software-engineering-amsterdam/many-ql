@@ -1,0 +1,20 @@
+package nl.uva.bromance.ast.operators;
+
+import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Created by Ger on 24-2-2015.
+ */
+public abstract class Operator {
+    public static List<Operator> operatorTypes = Arrays.asList(new AndOperator(), new OrOperator(), new DivideOperator(), new MultiplyOperator(), new EqualsOperator(), new NotEqualsOperator(), new LargerThanEqualsOperator(), new LargerThanOperator(), new MinusOperator(), new PlusOperator(), new SmallerThanEqualsOperator(), new SmallerThanOperator());
+
+    public abstract Result performOperation(Result one, Result two) throws InvalidOperandException;
+
+    public abstract String getOperatorString();
+
+    public abstract Operator getNewOperatorOfThisType();
+}

@@ -1,18 +1,17 @@
 package nl.uva.softwcons.ql.ui.widget;
 
 import javafx.scene.control.TextField;
+import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
+import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
 
 public class TextFieldWidget extends Widget {
-
     private TextField textField;
+    private ValueConverter<String> converter;
 
-    public TextFieldWidget(final Value v) {
-        textField = new TextField();
-    }
-
-    public TextFieldWidget(String defaultText) {
-        textField = new TextField(defaultText);
+    public TextFieldWidget(final ValueConverter<String> converter) {
+        this.textField = new TextField();
+        this.converter = converter;
     }
 
     @Override
@@ -21,13 +20,20 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public void setValue(Value value) {
-        textField.setText(value.asString());
+    public void setValue(final Value value) {
+        this.textField.setText(value.toString());
     }
 
     @Override
-    public void processValueChanged(Value oldValue, Value newValue) {
-        setValue(newValue);
+    public void setEditable(boolean editable) {
+        this.textField.setDisable(!editable);
+    }
+
+    @Override
+    public void addListener(final ValueChangeListener<Value> listener) {
+        this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            listener.processValueChange(converter.toValue(newValue));
+        });
     }
 
 }

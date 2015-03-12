@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             }
         }
 
-        public Question(DataType dataType, Identifier id, string label, TextPosition position)
+        internal Question(DataType dataType, Identifier id, string label, TextPosition position)
             : base(position)
         {
             DataType = dataType;
@@ -51,7 +51,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             Expression = null;
         }
 
-        public Question(DataType dataType, Identifier id, string label, IExpression expression, TextPosition position)
+        internal Question(DataType dataType, Identifier id, string label, IExpression expression, TextPosition position)
             : this(dataType, id, label, position)
         {
             Expression = expression;

@@ -1,11 +1,9 @@
 package nl.uva.softwcons.ql.ast.type;
 
-public class DateType extends Type {
-
-    public static final DateType instance = new DateType();
+public final class DateType extends Type {
+    public static final DateType DATE_TYPE = new DateType();
 
     private DateType() {
-
     }
 
     @Override

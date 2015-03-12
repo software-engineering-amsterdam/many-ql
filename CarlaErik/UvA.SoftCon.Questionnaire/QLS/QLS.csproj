@@ -57,7 +57,7 @@
     <Compile Include="AST\Model\Question.cs" />
     <Compile Include="AST\Model\Section.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
-    <Compile Include="AST\Visitors\StyleSheetVisitor.cs" />
+    <Compile Include="AST\Building\StyleSheetVisitor.cs" />
     <Compile Include="Grammar\QLS.g4.lexer.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>

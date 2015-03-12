@@ -1,24 +1,23 @@
 package gui.questions;
 
-import evaluator.ValueRepository;
+import evaluator.Value;
+import gui.GUIRender;
+import gui.MainFrame;
 import gui.widgets.IWidgetComponent;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class SimpleQuestionUI implements IQuestionUI { 
 	private final String id;
 	private final JLabel label;
 	private final IWidgetComponent wc;
-	private ValueRepository valueRepository;
-	//private String value;
+	private Value value;
 	
-	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository) {
+	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc) {
 		this.id = id;
 		this.label = label;
 		this.wc = wc;
-		this.valueRepository = valueRepository;
-		this.wc.addDocListener();
-		//this.value = new String("");
 	}
 
 	public String getId() {
@@ -35,8 +34,20 @@ public class SimpleQuestionUI implements IQuestionUI {
 
 	
 	@Override
-	public void setValue(String value) {
-		value = valueRepository.getValue(id).toString();
+	public void setValue(Value value) {
+		this.value = value;
+		this.wc.setText(value);
+		this.wc.setVisible(true);
+	}
+	
+	public Value getValue(){
+		return this.value;
 	}
 
+	@Override
+	public void setVisibilityValue(Value value) {
+		boolean visibility = Boolean.parseBoolean(value.toString());
+		this.wc.setVisible(visibility);
+		this.label.setVisible(visibility);
+	}
 }

@@ -3,9 +3,6 @@ package edu.parser.QLS
 import edu.Main
 import edu.Widgets
 import edu.exceptions.TypeCheckException
-import edu.nodes.Identifier
-import edu.nodes.Label
-import edu.nodes.Question
 import edu.nodes.QuestionType
 import edu.nodes.styles.Style
 import edu.nodes.styles.Widget
@@ -14,8 +11,12 @@ import edu.parser.AntlrParser
 import edu.parser.QL.QLAntlrParser
 import edu.parser.QL.QuestionRetriever
 import edu.parser.QL.nodes.Form
+import edu.parser.QL.nodes.expression.Identifier
+import edu.parser.QL.nodes.question.Label
+import edu.parser.QL.nodes.question.Question
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
+import edu.parser.QuestionBuilder
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -37,7 +38,7 @@ class TypeCheckerTest extends Specification {
     def "should throw exception when stylesheet question is not contained in form questions"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
 
         def identifier = "abcdefgh"
         typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
@@ -55,7 +56,7 @@ class TypeCheckerTest extends Specification {
         List<Question> questions = new ArrayList<>()
 
         def identifier = "identifier"
-        questions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true))
+        questions.add(new QuestionBuilder().isEnabled(true).identifier(identifier).build())
 
         typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
 
@@ -69,7 +70,7 @@ class TypeCheckerTest extends Specification {
     def "Should throw typeCheckException when widget type is not compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
@@ -87,7 +88,7 @@ class TypeCheckerTest extends Specification {
     def "Should not throw typeCheckException when widget type is compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
@@ -113,7 +114,7 @@ class TypeCheckerTest extends Specification {
         typeChecker.start(questions, stylesheet)
 
         then:
-        Assert.assertEquals(4, typeChecker.stylesheetQuestions.size())
+        Assert.assertEquals(3, typeChecker.stylesheetQuestions.size())
     }
 
     def "should throw exception for duplicate questions"() {

@@ -28,7 +28,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
             private set;
         }
 
-        public UnaryExpression(Operation operation, IExpression operand, TextPosition position)
+        internal UnaryExpression(Operation operation, IExpression operand, TextPosition position)
             : base(position)
         {
             Operation = operation;

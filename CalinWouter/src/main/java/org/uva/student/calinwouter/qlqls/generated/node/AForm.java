@@ -2,24 +2,24 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AForm extends PForm {
+public final class AForm extends PForm
+{
     private TIdent _ident_;
     private final LinkedList<PStmt> _stmt_ = new LinkedList<PStmt>();
 
-    public AForm() {
+    public AForm()
+    {
         // Constructor
     }
 
     public AForm(
-            @SuppressWarnings("hiding") TIdent _ident_,
-            @SuppressWarnings("hiding") List<?> _stmt_) {
+        @SuppressWarnings("hiding") TIdent _ident_,
+        @SuppressWarnings("hiding") List<?> _stmt_)
+    {
         // Constructor
         setIdent(_ident_);
 
@@ -28,28 +28,35 @@ public final class AForm extends PForm {
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AForm(
-                cloneNode(this._ident_),
-                cloneList(this._stmt_));
+            cloneNode(this._ident_),
+            cloneList(this._stmt_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAForm(this);
     }
 
-    public TIdent getIdent() {
+    public TIdent getIdent()
+    {
         return this._ident_;
     }
 
-    public void setIdent(TIdent node) {
-        if (this._ident_ != null) {
+    public void setIdent(TIdent node)
+    {
+        if(this._ident_ != null)
+        {
             this._ident_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -59,19 +66,24 @@ public final class AForm extends PForm {
         this._ident_ = node;
     }
 
-    public LinkedList<PStmt> getStmt() {
+    public LinkedList<PStmt> getStmt()
+    {
         return this._stmt_;
     }
 
-    public void setStmt(List<?> list) {
-        for (PStmt e : this._stmt_) {
+    public void setStmt(List<?> list)
+    {
+        for(PStmt e : this._stmt_)
+        {
             e.parent(null);
         }
         this._stmt_.clear();
 
-        for (Object obj_e : list) {
+        for(Object obj_e : list)
+        {
             PStmt e = (PStmt) obj_e;
-            if (e.parent() != null) {
+            if(e.parent() != null)
+            {
                 e.parent().removeChild(e);
             }
 
@@ -81,21 +93,25 @@ public final class AForm extends PForm {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._ident_)
-                + toString(this._stmt_);
+            + toString(this._ident_)
+            + toString(this._stmt_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._ident_ == child) {
+        if(this._ident_ == child)
+        {
             this._ident_ = null;
             return;
         }
 
-        if (this._stmt_.remove(child)) {
+        if(this._stmt_.remove(child))
+        {
             return;
         }
 
@@ -103,16 +119,21 @@ public final class AForm extends PForm {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._ident_ == oldChild) {
+        if(this._ident_ == oldChild)
+        {
             setIdent((TIdent) newChild);
             return;
         }
 
-        for (ListIterator<PStmt> i = this._stmt_.listIterator(); i.hasNext(); ) {
-            if (i.next() == oldChild) {
-                if (newChild != null) {
+        for(ListIterator<PStmt> i = this._stmt_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
                     i.set((PStmt) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

@@ -1,8 +1,8 @@
 package org.fugazi.ql.ast.type;
 
-import org.fugazi.ql.ast.AbstractASTQLNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 
-public abstract class Type extends AbstractASTQLNode {
+public abstract class Type extends AbstractASTNode {
 
     public Type() {
         super();

@@ -14,4 +14,8 @@ public class Font extends Style {
         return font;
     }
 
+    @Override
+    public Font clone() throws CloneNotSupportedException {
+        return new Font(font);
+    }
 }

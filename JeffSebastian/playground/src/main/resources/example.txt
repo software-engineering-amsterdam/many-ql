@@ -2,9 +2,12 @@ form taxOfficeExample {
   boolean hasSoldHouse : "Did you sell a house in 2010?"
   boolean hasBoughtHouse : "Did you buy a house in 2010?"
   boolean hasMaintLoan : "Did you enter a loan?"
+  decimal age : "Your age?"
   
-  if (hasSoldHouse) {
+  if (hasSoldHouse && hasBoughtHouse) {
   	decimal income : "Your income?"
-  	decimal test : "some question?" ((100 - 20) - 10)
+  	decimal test : "some question?" (10.0 + 22.0)
+  	decimal dependent : "test?" (income + test)
   }
+  decimal name : "what is your name?"
 }

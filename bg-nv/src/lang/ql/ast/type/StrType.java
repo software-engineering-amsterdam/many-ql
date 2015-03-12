@@ -5,9 +5,16 @@ package lang.ql.ast.type;
  */
 public class StrType extends Type
 {
-    public StrType()
+    @Override
+    public boolean isString()
     {
-        super("string");
+        return true;
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return "string";
     }
 
     @Override

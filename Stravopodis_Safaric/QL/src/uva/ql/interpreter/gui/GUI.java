@@ -6,27 +6,24 @@ import java.awt.GridLayout;
 import javax.swing.JTextField;
 
 import uva.ql.ast.Prog;
-import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.literals.StringLiteral;
-import uva.ql.ast.statements.Assign;
 import uva.ql.interpreter.gui.elements.UIContainer;
 import uva.ql.interpreter.gui.elements.UIFrame;
 import uva.ql.interpreter.gui.elements.UILabel;
 import uva.ql.interpreter.gui.elements.UIScrollPanel;
 import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.Symbol;
-import uva.ql.interpreter.typecheck.SymbolMap;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
 import uva.ql.supporting.Tuple;
 
 public class GUI extends GUIVisitor{
 
-	private SymbolMap symbolTable;
+	private SymbolTable symbolTable;
 	public UIScrollPanel container;
 	public UIFrame frame;
 	private Prog prog;
 	
-	public GUI(SymbolMap _symbolTable, Prog _prog, Subject _subject) {
-		super(_symbolTable, _prog, _subject);
+	public GUI(SymbolTable _symbolTable, ExpressionTable _expressionTable, Prog _prog, Subject _subject) {
+		super(_symbolTable, _expressionTable, _prog, _subject);
 		this.gui = this;
 		this.prog = _prog;
 		this.symbolTable = _symbolTable;
@@ -36,7 +33,7 @@ public class GUI extends GUIVisitor{
 		this.visitProg(this.prog);
 	}
 	
-	public SymbolMap getSymbolTable(){
+	public SymbolTable getSymbolTable(){
 		return this.symbolTable;
 	}
 	
@@ -67,18 +64,4 @@ public class GUI extends GUIVisitor{
 			}
 		}
 	}
-	
-	public Expression expressionForQuestion(SymbolMap _symbolTable, String _identifier){
-		
-		Expression expression = null;
-		for (Symbol symbol : _symbolTable.retrieve(_identifier)){
-			if (symbol.getClassName().equals(Assign.class.getName())){
-				if (!symbol.getContent().getClass().equals(StringLiteral.class)){
-					expression = (Expression)this.visitExpression((Expression)symbol.getContent());
-				}
-			}
-		}
-		return expression;
-	}
-
 }

@@ -26,7 +26,7 @@ public class QLASTBuilder {
         return (Form) buildFromTree(parser.form());
     }
 
-    private AbstractASTQLNode buildFromTree(ParseTree tree) {
+    private AbstractASTNode buildFromTree(ParseTree tree) {
         return tree.accept(new FugaziQLVisitor());
     }
 }

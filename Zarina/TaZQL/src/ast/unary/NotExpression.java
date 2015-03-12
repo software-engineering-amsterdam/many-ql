@@ -3,7 +3,6 @@ package ast.unary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.type.ChoiceType;
-import ast.type.Type;
 
 public class NotExpression extends UnaryExpression {
 									

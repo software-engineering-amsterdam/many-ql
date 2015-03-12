@@ -15,13 +15,4 @@ public class Pages {
     public Pages(Page... pages) {
         this.pages = Arrays.asList(pages);
     }
-
-    protected Map<String, Object> findFieldStylingSettings(final String ident, final TypeDescriptor type) throws FieldNotFoundException {
-        for (Page page : pages) {
-            if (page.collectFields().contains(ident)) {
-                return page.findFieldStylingSettings(ident, type);
-            }
-        }
-        throw new FieldNotFoundException();
-    }
 }

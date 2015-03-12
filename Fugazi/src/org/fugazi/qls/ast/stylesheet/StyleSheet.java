@@ -1,12 +1,12 @@
 package org.fugazi.qls.ast.stylesheet;
 
-import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.segment.Page;
 
 import java.util.List;
 
-public class StyleSheet extends AbstractASTQLSNode {
+public class StyleSheet extends AbstractASTNode {
     
     private final String name;
     private final List<Page> pages;
@@ -24,6 +24,10 @@ public class StyleSheet extends AbstractASTQLSNode {
 
     public String getName() {
         return this.name;
+    }
+
+    public List<Page> getPages() {
+        return this.pages;
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

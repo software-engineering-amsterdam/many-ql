@@ -1,0 +1,36 @@
+stylesheet taxOfficeExample
+  page Housing {
+    section "Loaning"
+      question hasMaintLoan
+  }
+
+    page Private {
+      section "Data" {
+          question name
+              widget text
+          question age
+              widget spinbox
+      }
+    }
+
+  page Selling {
+    section "Selling" {
+      question hasSoldHouse
+        widget spinbox
+      section "You sold a house" {
+        question sellingPrice
+          widget checkbox
+        question privateDebt
+          widget checkbox
+        question valueResidue
+        default int {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
+    }
+    default bool widget spinbox
+  }

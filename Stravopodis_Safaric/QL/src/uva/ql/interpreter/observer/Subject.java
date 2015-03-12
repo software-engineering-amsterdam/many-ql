@@ -1,5 +1,6 @@
 package uva.ql.interpreter.observer;
 
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
 
 public class Subject {
 	
@@ -14,4 +15,12 @@ public class Subject {
 		this.observer.update();
 	}
 	
+	public void notifyObserver(ExpressionTable _expressionTable){
+		this.observer._expressionTable = _expressionTable;
+		this.observer.update();
+	}
+	
+	public ExpressionTable getExpressionTable(){
+		return this.observer._expressionTable;
+	}
 }

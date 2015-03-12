@@ -5,7 +5,7 @@ import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
@@ -24,7 +24,7 @@ public class TypeChecker extends QLVisitorImpl {
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
     public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
     public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
-    private final Map<Identifier, QLQuestion> questions;
+    private final Map<Identifier, Question> questions;
     private final Set<Identifier> identifiers;
     private static final Logger logger = Logger.getLogger(TypeChecker.class.getName());
 
@@ -81,7 +81,7 @@ public class TypeChecker extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(QLQuestion question) {
+    public AbstractNode visit(Question question) {
         if (questionAlreadyFound(question)) {
             return throwExceptionForDuplicateQuestion(question);
         } else {
@@ -89,7 +89,7 @@ public class TypeChecker extends QLVisitorImpl {
         }
     }
 
-    private AbstractNode throwExceptionForDuplicateQuestion(QLQuestion question) {
+    private AbstractNode throwExceptionForDuplicateQuestion(Question question) {
         if (foundQuestionHasSameType(question)) {
             throw new TypeCheckException(
                     String.format(ALREADY_DECLARED_QUESTION,
@@ -101,11 +101,11 @@ public class TypeChecker extends QLVisitorImpl {
         }
     }
 
-    private boolean questionAlreadyFound(QLQuestion question) {
+    private boolean questionAlreadyFound(Question question) {
         return questions.containsKey(question.getIdentifier());
     }
 
-    private boolean foundQuestionHasSameType(QLQuestion question) {
+    private boolean foundQuestionHasSameType(Question question) {
         QuestionType questionType = questions.get(question.getIdentifier()).getQuestionType();
         return questionType.equals(question.getQuestionType());
     }

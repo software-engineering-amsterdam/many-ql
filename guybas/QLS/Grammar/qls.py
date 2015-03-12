@@ -3,8 +3,9 @@
 import pyparsing as pp
 import QL.Grammar.basic_types as b
 import QL.Grammar.form as form
-from QLS.Factory.qls import *
+import QLS.Factory.qls as q
 from QLS.Grammar.widget import *
+import QLS.Factory.properties as p
 
 
 class QLS:
@@ -43,31 +44,31 @@ class QLS:
     optionals = Optional(Widget.widget)
 
     # question_style = q : _name _widget?
-    question_style = (Suppress("Question") + name + optionals).setParseAction(QLSFactory.make_question_style)
+    question_style = (Suppress("Question") + name + optionals).setParseAction(q.QLSFactory.make_question_style)
 
     # section :: Section _name { question_style+ }
     section = \
         (Suppress("Section") + name + obrac + Group(OneOrMore(question_style)) + cbrac
-        ).setParseAction(QLSFactory.make_section)
+        ).setParseAction(q.QLSFactory.make_section)
 
-    #
     default_property = (
-        Literal("font") + col + word |
-        Literal("size") + col + integer |
-        Literal("color") + col + hexacolor |
-        Literal("width") + col + integer)
+        (Suppress("font") + col + word).setParseAction(p.PropertyFactory.make_font) |
+        (Suppress("size") + col + integer).setParseAction(p.PropertyFactory.make_size) |
+        (Suppress("color") + col + hexacolor).setParseAction(p.PropertyFactory.make_color) |
+        (Suppress("width") + col + integer).setParseAction(p.PropertyFactory.make_width) |
+        (Suppress("height") + col + integer).setParseAction(p.PropertyFactory.make_height))
 
     #
     default_properties = OneOrMore(default_property)
 
     # default_settings :: Default answerR _widget
     default_setting = \
-        (Suppress("Default") + form.FormFormat.answerR + Widget.widget +
+        (Suppress("Default") + form.Form.answerR + Widget.widget +
          Optional(Group(obrac + default_properties + cbrac) )
-        ).setParseAction(QLSFactory.make_default)
+        ).setParseAction(q.QLSFactory.make_default)
 
     # page :: page _name { section+ }
-    page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(QLSFactory.make_page)
+    page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(q.QLSFactory.make_page)
 
     # sheet = Sheet _name page+
     sheet = Suppress("Sheet") + name + Group(OneOrMore(page | default_setting))

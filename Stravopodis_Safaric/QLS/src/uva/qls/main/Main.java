@@ -8,8 +8,8 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import uva.qls.interpreter.gui.GUI;
 import uva.qls.parser.*;
-import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.visitor.*;
 import uva.qls.ast.*;
 
@@ -25,10 +25,16 @@ public class Main {
 		ParseTree tree = parser.prog();
 		
 		QLSMainVisitor visitor = new QLSMainVisitor();
-		ASTNode ast = visitor.visit(tree);
+		ASTNode _ast = visitor.visit(tree);
+
+		GUI gui = new GUI(_ast);
 		
-		StatementVisitor<Object> v = new Visitor();
-		v.visitProg((Prog)ast);
+		for (String key : gui.getTypeCheck().getErrorTable().getTable().keySet()){
+			System.err.println(key + " ===== " + gui.getTypeCheck().getErrorTable().retrieveValue(key));
+		}
+		
+		if (gui.getTypeCheck().hasErrors())
+			System.out.println("Will not generate, has errors");
 	}
 	
 }

@@ -1,25 +1,20 @@
 import com.klq.AST2GUIConverter;
 import com.klq.ast.ANode;
-import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
-import com.klq.logic.question.Question;
+import com.klq.parser.KLQLexer;
+import com.klq.parser.KLQParser;
 import com.klq.typecheker.TypeChecker;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import parser.KLQLexer;
-import parser.KLQParser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

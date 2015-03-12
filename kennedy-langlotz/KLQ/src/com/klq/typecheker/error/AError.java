@@ -1,15 +1,17 @@
 package com.klq.typecheker.error;
 
+import com.common.Location;
+
 /**
  * Created by Juriaan on 1-3-2015.
  */
 public abstract class AError {
     private int code;
     private Boolean stopRunning;
-    private String location;
+    private Location location;
     private String errorMessage;
 
-    public AError(int code, Boolean stopRunning, String errorMessage, String location) {
+    public AError(int code, Boolean stopRunning, String errorMessage, Location location) {
         this.code = code;
         this.stopRunning = stopRunning;
         this.location = location;
@@ -17,7 +19,7 @@ public abstract class AError {
     }
 
     public String toString() {
-        return String.format("Error code %d --- %s --- at %s", code, errorMessage, location);
+        return String.format("Error code %d --- %s --- at %s", code, errorMessage, location.getBeginLine());
     }
 
     public Boolean getStopRunning() {

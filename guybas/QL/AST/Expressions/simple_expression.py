@@ -1,5 +1,5 @@
 import QL.AST.Expressions.expression as e
-import QL.AST.Elements.operators as operators
+import QL.AST.Elements.operator as operators
 import QL.AST.Expressions.complex_expression as c
 
 
@@ -47,4 +47,4 @@ class SimpleExpression(e.Expression):
     # Return the negative of the _expression
     def add_not(self):
         l = [SimpleExpression(self._expression)]
-        return SimpleExpression([operators.ExtraOperator("not"), c.ComplexExpression(l)])
+        return SimpleExpression([operators.Operator("not"), c.ComplexExpression(l)])

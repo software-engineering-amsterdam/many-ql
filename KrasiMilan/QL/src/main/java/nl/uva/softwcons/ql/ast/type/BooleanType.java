@@ -1,11 +1,9 @@
 package nl.uva.softwcons.ql.ast.type;
 
-public class BooleanType extends Type {
-
-    public static final BooleanType instance = new BooleanType();
+public final class BooleanType extends Type {
+    public static final BooleanType BOOLEAN_TYPE = new BooleanType();
 
     private BooleanType() {
-
     }
 
     @Override

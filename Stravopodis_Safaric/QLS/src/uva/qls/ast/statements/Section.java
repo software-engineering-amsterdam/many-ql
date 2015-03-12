@@ -6,13 +6,12 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class Section extends Statement {
 	
 	private StringLiteral name;
 	private List<Statement> statement;
-	
 	
 	public Section (StringLiteral _name,List<Statement> _statement, CodeLines _codeLines){
 		super(_codeLines);

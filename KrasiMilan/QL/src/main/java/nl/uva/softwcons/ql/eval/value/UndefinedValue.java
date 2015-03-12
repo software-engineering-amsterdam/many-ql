@@ -1,6 +1,15 @@
 package nl.uva.softwcons.ql.eval.value;
 
-public class UndefinedValue extends Value {
+public final class UndefinedValue extends Value {
+    public static final UndefinedValue UNDEFINED = new UndefinedValue();
+
+    private UndefinedValue() {
+    }
+
+    @Override
+    public boolean inConditionalContext() {
+        return false;
+    }
 
     @Override
     public Object getValue() {
@@ -8,124 +17,132 @@ public class UndefinedValue extends Value {
     }
 
     @Override
-    public Value getValueFromString(String string) {
-        // TODO Auto-generated method stub
-        return null;
+    public Value add(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value add(Value otherValue) {
-        return new UndefinedValue();
+    public Value subtract(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value subtract(Value otherValue) {
-        return new UndefinedValue();
+    public Value multiply(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value multiply(Value otherValue) {
-        return new UndefinedValue();
+    public Value divide(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value divide(Value otherValue) {
-        return new UndefinedValue();
+    public Value isEqual(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value isEqual(Value otherValue) {
-        return new UndefinedValue();
+    public Value isEqualBoolean(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value isGreater(Value otherValue) {
-        return new UndefinedValue();
+    public Value isEqualString(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value isLower(Value otherValue) {
-        return new UndefinedValue();
+    public Value isGreater(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value isGreaterOrEqual(Value otherValue) {
-        return new UndefinedValue();
+    public Value isLower(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value isLowerOrEqual(Value otherValue) {
-        return new UndefinedValue();
+    public Value isGreaterOrEqual(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value and(Value otherValue) {
-        return new UndefinedValue();
+    public Value isLowerOrEqual(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    public Value or(Value otherValue) {
-        return new UndefinedValue();
+    public Value and(final Value otherValue) {
+        return UNDEFINED;
+    }
+
+    @Override
+    public Value or(final Value otherValue) {
+        return UNDEFINED;
     }
 
     @Override
     public Value not() {
-        return new UndefinedValue();
+        return UNDEFINED;
     }
 
     @Override
-    protected Value addNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value addNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value subtractNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value subtractNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value multiplyNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value multiplyNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value divideNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value divideNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value isEqualNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value isEqualNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value isGreaterNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value isGreaterNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value isLowerNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value isLowerNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value isGreaterOrEqualNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value isGreaterOrEqualNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value isLowerOrEqualNumber(NumberValue otherValue) {
-        return new UndefinedValue();
+    public Value isLowerOrEqualNumber(final NumberValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value andBoolean(BooleanValue otherValue) {
-        return new UndefinedValue();
+    public Value andBoolean(final BooleanValue otherValue) {
+        return UNDEFINED;
     }
 
     @Override
-    protected Value orBoolean(BooleanValue otherValue) {
-        return new UndefinedValue();
+    public Value orBoolean(final BooleanValue otherValue) {
+        return UNDEFINED;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
 }

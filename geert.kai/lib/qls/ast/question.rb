@@ -1,6 +1,5 @@
 module QLS
   module AST
-
     class Selector
       attr_reader :declarations
 

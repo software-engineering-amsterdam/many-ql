@@ -9,8 +9,7 @@ form : stat* ;
 
 stat : ID STRING TYPE ('=' expr)?                                           # Question
      | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
-	 | TYPE ID ('=' expr)?                                                  # Declaration
-	 | ID '=' expr                                                          # Assignment
+	 | TYPE ID '=' expr                                                     # Definition
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride
@@ -35,9 +34,11 @@ expr : '(' expr ')'                   # PrecedenceOverride
 
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
-STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+STRING : '"' (ESC|.)*? '"' ;       // match anything between "..." (nongreedy)
 DATE   : '[' DAY '-' MONTH '-' YEAR ']' 
        | '[today]'
+	   | '[yesterday]'
+	   | '[tomorrow]'
        ;
 
 TYPE : 'int' | 'string' | 'bool' | 'date';

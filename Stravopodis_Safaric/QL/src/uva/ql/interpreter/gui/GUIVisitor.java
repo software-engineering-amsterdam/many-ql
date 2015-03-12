@@ -1,6 +1,7 @@
 package uva.ql.interpreter.gui;
 
 import java.util.List;
+
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
@@ -34,18 +35,21 @@ import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.gui.elements.UIContainer;
 import uva.ql.interpreter.observer.Observer;
 import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.SymbolMap;
+import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.table.SymbolTable;
 import uva.ql.supporting.ExpressionSupporting;
 import uva.ql.interpreter.gui.elements.*;
 
 public class GUIVisitor extends Observer implements StatementVisitorInterface<Object>, ExpressionVisitorInterface<Object>{
 
+	private ExpressionTable expressionTable;
+	private SymbolTable symbolTable;
 	
-	private SymbolMap symbolTable;
 	private Prog prog;
 	protected GUI gui;
 	
-	public GUIVisitor(SymbolMap _symbolTable, Prog _prog, Subject _subject){
+	public GUIVisitor(SymbolTable _symbolTable, ExpressionTable _expressionTable, Prog _prog, Subject _subject){
+		this.expressionTable = _expressionTable;
 		this.symbolTable = _symbolTable;
 		this.subject = _subject;
 		this.subject.setObserver(this);
@@ -54,9 +58,11 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 	
 	@Override
 	public void update() {
+		this.expressionTable = this.subject.getExpressionTable();
+		
 		this.gui.container.removeAll();
 		this.gui.container.revalidate();
-		
+	
 		this.visitProg(this.prog);
 	}
 	
@@ -93,10 +99,13 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 	public Object visitQuestion(Question question) {		
 		
 		String identifier = question.getIdentifier().evaluate().getValue();
-		Expression expression = this.gui.expressionForQuestion(this.symbolTable, identifier);
 		
-		UIQuestion uiQuestion = new UIQuestion(question, this.symbolTable, this.subject, expression);
+		Expression expression = this.expressionTable.getExpressionOfTypeClass(question.getIdentifier(), question.getType().getTypeName());
+		Expression expressionAccept = (Expression)expression.accept(this);
+		
+		UIQuestion uiQuestion = new UIQuestion(question, this.expressionTable, this.symbolTable, this.subject, expressionAccept);
 		UIContainer component = uiQuestion.createElement();
+		
 		this.gui.container.addComponent(component);
 		this.gui.container.getPanel().revalidate();
 		this.gui.setFocus(identifier, this.subject, component);
@@ -110,6 +119,14 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 		
 		Expression expression = ifStatement.getExpression();
 		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
+		//System.out.println("Expression if statement: " + binary.toString());
+		
+		this.expressionTable.printExpressionTable();
+		
+		// or even better, place the result from the previous, into the expression table so that you only grab it
+		//Identifier(valueResidue) IntegerLiteral(0) 
+		// Expression if statement: DecimalLiteral(0)>IntegerLiteral(0)
+			// if an identifier, look for its expression
 		
 		if ((boolean)binary.evaluate().getValue() == true){
 			for (Statement statement : ifStatement.getStatement()){
@@ -130,7 +147,7 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 		Expression left = (Expression)expression.getLeftExpr().accept(this);
 		Expression right = (Expression)expression.getRightExpr().accept(this);
 		
-		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbolTable, left, right, expression.getOperator());
+		ExpressionSupporting validateExpression = new ExpressionSupporting(this.expressionTable, this.symbolTable, left, right, expression.getOperator());
 		return validateExpression.expressionValidator();
 	}
 

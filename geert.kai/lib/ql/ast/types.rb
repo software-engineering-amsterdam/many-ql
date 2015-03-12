@@ -1,3 +1,5 @@
+require_relative "../../qls/ast/declaration"
+
 module QL
   module AST
     class Type
@@ -7,24 +9,24 @@ module QL
     end
 
     class IntegerType < Type
-      def widget(&block)
-        text_field(&block)
-      end 
+      def widget(controller)
+        QLS::AST::NumberText.new.widget(controller)
+      end
     end
 
     class StringType < Type
-      def widget(&block)
-        text_field(&block)
+      def widget(controller)
+        QLS::AST::Text.new.widget(controller)
       end
     end
 
     class BooleanType < Type
-      def widget(&block)
-        checkbox(&block)
+      def widget(controller)
+        QLS::AST::YesNoRadio.new.widget(controller)
       end
     end
 
-    class UndefinedType < Type
-    end
+    # class UndefinedType < Type
+    # end
   end
 end

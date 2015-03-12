@@ -2,38 +2,45 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIntType extends PType {
+public final class AIntType extends PType
+{
 
-    public AIntType() {
+    public AIntType()
+    {
         // Constructor
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AIntType();
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAIntType(this);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "";
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
         throw new RuntimeException("Not a child.");
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
         throw new RuntimeException("Not a child.");
     }

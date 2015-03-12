@@ -2,45 +2,55 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANumberElement extends PElement {
+public final class ANumberElement extends PElement
+{
     private TNumber _number_;
 
-    public ANumberElement() {
+    public ANumberElement()
+    {
         // Constructor
     }
 
     public ANumberElement(
-            @SuppressWarnings("hiding") TNumber _number_) {
+        @SuppressWarnings("hiding") TNumber _number_)
+    {
         // Constructor
         setNumber(_number_);
 
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new ANumberElement(
-                cloneNode(this._number_));
+            cloneNode(this._number_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseANumberElement(this);
     }
 
-    public TNumber getNumber() {
+    public TNumber getNumber()
+    {
         return this._number_;
     }
 
-    public void setNumber(TNumber node) {
-        if (this._number_ != null) {
+    public void setNumber(TNumber node)
+    {
+        if(this._number_ != null)
+        {
             this._number_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -51,15 +61,18 @@ public final class ANumberElement extends PElement {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._number_);
+            + toString(this._number_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._number_ == child) {
+        if(this._number_ == child)
+        {
             this._number_ = null;
             return;
         }
@@ -68,9 +81,11 @@ public final class ANumberElement extends PElement {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._number_ == oldChild) {
+        if(this._number_ == oldChild)
+        {
             setNumber((TNumber) newChild);
             return;
         }

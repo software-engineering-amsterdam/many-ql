@@ -10,7 +10,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
 {
     public class Multiply : BinaryExpression
     {
-        public Multiply(Operation operation, IExpression left, IExpression right, TextPosition position)
+        internal Multiply(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 
         public override void Accept(IQLVisitor visitor)

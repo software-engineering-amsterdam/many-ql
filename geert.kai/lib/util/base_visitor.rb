@@ -5,15 +5,14 @@ class BaseVisitor
   def initialize(base)
     @base = base
     after_initialize(base)
-    self
   end
 
   def after_initialize(base)
   end
 
-  def map_accept(statements)
-    statements.map do |statement|
-      statement.accept(self) 
+  def map_accept(list)
+    list.map do |item|
+      item.accept(self) 
     end
   end
 

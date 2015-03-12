@@ -6,24 +6,24 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class BoolLiteral extends Literal implements Expression {
-	private final boolean _value;
-	
-	public BoolLiteral(boolean _value, Token tokenInfo) {
-		super(tokenInfo);
-		this._value = _value;
-	}
+    private final boolean _value;
 
-	@Override
-	public BoolValue evaluate(RuntimeMemory mem) {
-		return new BoolValue(_value);
-	}
+    public BoolLiteral(boolean _value, Token tokenInfo) {
+	super(tokenInfo);
+	this._value = _value;
+    }
 
-	@Override
-	public Type getType() {
-		return new BoolType();
-	}
+    @Override
+    public BoolValue evaluate(Context context) {
+	return new BoolValue(_value);
+    }
+
+    @Override
+    public Type getType(Context context) {
+	return new BoolType();
+    }
 
 }

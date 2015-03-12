@@ -2,10 +2,12 @@ package typechecker;
 
 import java.util.List;
 
+import typechecker.elements.ExpressionChecker;
 import typechecker.elements.QuestionChecker;
 import typechecker.errors.ErrorCollector;
 import typechecker.errors.TaZQLError;
 import typechecker.errors.TaZQLWarning;
+import ast.expression.BinaryExpression;
 import ast.expression.BracketsExpression;
 import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
@@ -37,7 +39,17 @@ import ast.type.UndefinedType;
 import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
+import ast.unary.UnaryExpression;
 
+/*
+The type checker detects:
+    + reference to undefined questions
+    + duplicate question declarations with different types
+      conditions that are not of the type boolean
+    + operands of invalid type to operators 
+      cyclic dependencies between questions
+    + duplicate labels (warning)
+ */
 public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	private final ErrorCollector errorCollector;
 	private final TypeRepository typeRepository;
@@ -60,153 +72,198 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	}
 	
 	
-	public void checkQuestion(SimpleQuestion simpleQuestion) {
-		QuestionChecker questionChecker = new QuestionChecker(simpleQuestion.getQuestionId(),
-															  simpleQuestion.getQuestionText(),
-															  simpleQuestion.getQuestionType(),
+	public void checkQuestion(SimpleQuestion question) {
+		QuestionChecker questionChecker = new QuestionChecker(question.getQuestionId().getID(),
+															  question.getQuestionText(),
+															  question.getQuestionType(),
 															  this.errorCollector, this.typeRepository);
-		System.out.println("typerep: " + this.typeRepository.getTypeRepository());
 		questionChecker.checkDuplicateDeclaration();
 		questionChecker.checkDuplicateLabels();
 	}
+	
+	
+	public Void checkExpression(BinaryExpression expression) {
+		expression.getLeftExpression().accept(this);
+		expression.getRightExpression().accept(this);
+		
+		ExpressionChecker expressionCheckerLeft = new ExpressionChecker(this.errorCollector,
+																		this.typeRepository,
+																		expression.getLeftExpression());
+		ExpressionChecker expressionCheckerRight = new ExpressionChecker(this.errorCollector,
+																		 this.typeRepository,
+																		 expression.getRightExpression());
+
+		expressionCheckerLeft.checkType(expression.getExpressionType());
+		expressionCheckerRight.checkType(expression.getExpressionType());
+		return null;
+	}
+	
+	public Void checkUnaryExpression(UnaryExpression expression) {
+		expression.getUnaryExpression().accept(this);
+		
+		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
+																		this.typeRepository,
+																		expression.getUnaryExpression());
+		
+		expressionChecker.checkType(expression.getExpressionType());
+		return null;
+	}
+	
+	
+	/*** Visitors ***/
 	
 	@Override
 	public Void visit(Form form) {
 		for(Question q : form.getQuestionText())
 			q.accept(this);
-		
-		//Test
-		this.errorCollector.addError("Testing my awesome JDialog and arraylist");
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Question question) {
-		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Void visit(Id identifier) {
+		String id = identifier.getID();
+		
+		if(!this.typeRepository.isDeclared(id)) {
+			this.errorCollector.addError("Error: reference to undefined question *" + id + "*."); 
+		}
+		return null;
+	}
+
 
 	@Override
 	public Void visit(SimpleQuestion simpleQuestion) {
 		this.checkQuestion(simpleQuestion);
-		typeRepository.putID(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionType());
-		typeRepository.putIDLabel(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText());
+		typeRepository.putID(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionType());
+		typeRepository.putIDLabel(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText());
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(ComputationQuestion calQuestion) {
-		// TODO Auto-generated method stub
+		this.checkQuestion(calQuestion);
+		calQuestion.getExpression().accept(this);
+		
+		typeRepository.putID(calQuestion.getQuestionId().getID(), calQuestion.getQuestionType());
+		typeRepository.putIDLabel(calQuestion.getQuestionId().getID(), calQuestion.getQuestionText());
+		
+		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
+																	this.typeRepository,
+																	calQuestion.getExpression());
+
+		expressionChecker.checkType(calQuestion.getQuestionType());
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
+	//	ifStatement.getExpression().accept(this);
+		for(Question q : ifStatement.getIfStatement()) {
+			q.accept(this);
+		}
+	
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
+		//ifElseStatement.getExpression().accept(this);
+		
+		for(Question q : ifElseStatement.getIfStatement()) {
+			q.accept(this);
+		}
+		
+		for(Question q : ifElseStatement.getElseStatement()) {
+			q.accept(this);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(BracketsExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(MultiplicationExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(DivisionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(AdditionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(SubstractionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(EqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(NotEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(LessThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(LessEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(NotExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(PlusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(MinusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(AndExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(OrExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
@@ -227,12 +284,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 		return null;
 	}
 
-	@Override
-	public Void visit(Id identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public Void visit(TextType type) {
 		// TODO Auto-generated method stub

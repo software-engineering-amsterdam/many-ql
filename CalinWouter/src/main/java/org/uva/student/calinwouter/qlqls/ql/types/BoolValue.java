@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.IAllowTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
@@ -13,6 +14,11 @@ public class BoolValue extends Value<Boolean> {
         @Override
         public BoolValue getDefaultValue() {
             return new BoolValue(false);
+        }
+
+        @Override
+        public boolean isAllowed(final IAllowTypeChecker allowable) {
+            return allowable.allowsBooleanValue();
         }
     };
 
@@ -55,5 +61,10 @@ public class BoolValue extends Value<Boolean> {
 
     public BoolValue(Boolean value) {
         super(value);
+    }
+
+    @Override
+    public TypeDescriptor<?> getTypeDescriptor() {
+        return BOOL_VALUE_TYPE_DESCRIPTOR;
     }
 }

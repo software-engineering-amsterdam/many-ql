@@ -1,20 +1,21 @@
 package ast.question;
 
+import ast.expression.variables.Id;
 import ast.type.Type;
 
 public class SimpleQuestion extends Question {
-	private final String questionID;
+	private final Id questionID;
 	private final String questionText;
 	private final Type questionType;
 	
 	
-	public SimpleQuestion (String questionID, String questionText, Type questionType) {
+	public SimpleQuestion (Id questionID, String questionText, Type questionType) {
 		this.questionID = questionID;
 		this.questionText = questionText;
 		this.questionType = questionType;
 	}	
 	
-	public String getQuestionId(){
+	public Id getQuestionId(){
 		return questionID;
 	}
 	
@@ -29,7 +30,7 @@ public class SimpleQuestion extends Question {
 
 	@Override
 	public String toString() {
-		return this.questionID + " \"" + this.questionText + "\" " + this.questionType.toString() ;
+		return this.questionID.toString() + " \"" + this.questionText + "\" " + this.questionType.toString() ;
 	}
 	
 	@Override

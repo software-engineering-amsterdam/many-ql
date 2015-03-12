@@ -2,7 +2,8 @@ package uva.qls.ast;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
+
 public abstract class ASTNode {
 	
 	protected CodeLines codeLines;

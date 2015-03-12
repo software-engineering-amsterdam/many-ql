@@ -10,10 +10,10 @@ public class StyleError extends lang.ql.semantics.errors.Error
         super(m);
     }
 
-    public static StyleError widgetTypeMismatchDefaultStat(String declType, String assType, int line)
+    public static StyleError widgetTypeMismatch(String assType, int line)
     {
-        String m = String.format("Error (Line %d): widget of type %s cannot be assigned to default statement for type %s",
-                line, assType, declType);
+        String m = String.format("Error (Line %d): widget of type %s does not match the statement declaration type",
+                line, assType);
         return new StyleError(m);
     }
 

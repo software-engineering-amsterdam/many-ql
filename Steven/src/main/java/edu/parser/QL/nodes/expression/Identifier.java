@@ -6,7 +6,7 @@ import edu.parser.QL.nodes.AbstractNode;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Identifier extends Expression {
+public class Identifier extends Expression implements Cloneable {
     private final String identifier;
 
     public Identifier(String identifier) {
@@ -46,5 +46,10 @@ public class Identifier extends Expression {
     @Override
     public boolean hasBooleanOperands() {
         return true;
+    }
+
+    @Override
+    public Identifier clone() throws CloneNotSupportedException {
+        return new Identifier(identifier);
     }
 }

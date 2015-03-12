@@ -1,98 +1,116 @@
 import unittest
-from QL.Grammar.form import *
-from QL.AST.form import *
-from QL.AST.Elements import *
-from QL.Factory.expressions import *
-from QL.Factory.forms import *
+import QL.AST.Statements.question as q
+import QL.AST.Elements.operator as op
+import QL.AST.Statements.if_statement as i
+import QL.AST.Statements.else_statement as e
+import QL.AST.Expressions.simple_expression as se
+import QL.AST.Elements.variable as v
+import QL.AST.Elements.bool as b
+import QL.AST.form as f
+import QL.Factory.expressions as ef
+import QL.Factory.forms as ff
+import QL.Grammar.form as fg
+import QL.AST.Statements.AnswerTypes.bool as ab
+import QL.AST.Statements.AnswerTypes.number as an
+import QL.AST.Statements.AnswerTypes.text as at
+import QL.Grammar.constants as c
 
 
 class GenerateStatements:
     @staticmethod
     def generate_statements():
-            q1 = Question("1a", "bool", "Is this a _statements?")
-            q2 = Question("2a", "text", "What?")
-            q3 = Question("3a", "number", "Why!")
-            q4 = Question("4a", "bool", "when")
-            q5 = Question("5a", "text", "who.")
-            q6 = Question("6a", "number", "where?")
+        bo = ab.Bool()
+        te = at.Text()
+        nu = an.Number()
 
-            is_op = Operator("==")
-            plus_op = Operator("+")
+        q1 = q.Question("1a", bo, "Is this a statement?")
+        q2 = q.Question("2a", te, "What?")
+        q3 = q.Question("3a", nu, "Why!")
+        q4 = q.Question("4a", bo, "when")
+        q5 = q.Question("5a", te, "who.")
+        q6 = q.Question("6a", nu, "where?")
 
-            i1 = IfBlock(SimpleExpression([Variable("1a"), is_op, Bool(True)]), [q2, q3], "")
-            i2 = IfElseBlock(SimpleExpression([Variable("2a"),  plus_op, Variable("6a")]), [q4], [q5], "")
+        is_op = op.Operator("==")
+        plus_op = op.Operator("+")
 
-            f = Form("example", "Introduction", [q1, i1, q6, i2])
-            return f
+        i1 = i.IfBlock(se.SimpleExpression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
+        i2 = e.IfElseBlock(se.SimpleExpression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
+
+        form = f.Form("example", "Introduction", [q1, i1, q6, i2])
+        return form
 
 
 class TestFactories(unittest.TestCase):
 
-    def test_variable(self):
-        variable = ExpressionFactory.make_variable("hello")
-        self.assertIsInstance(variable, Variable)
+    def test_factory_variable(self):
+        variable = ef.ExpressionFactory.make_variable("hello")
+        self.assertIsInstance(variable, v.Variable)
 
-    def test_operators(self):
-        plus_op = ExpressionFactory.make_calc_operator("+")
-        self.assertIsInstance(plus_op, CalcOperator)
+    def test_factory_operators(self):
+        plus_op = ef.ExpressionFactory.make_operator("+")
+        self.assertIsInstance(plus_op, op.Operator)
 
-        min_op = ExpressionFactory.make_calc_operator("-")
-        self.assertIsInstance(min_op, CalcOperator)
+        min_op = ef.ExpressionFactory.make_operator("-")
+        self.assertIsInstance(min_op, op.Operator)
 
-        mul_op = ExpressionFactory.make_calc_operator("*")
-        self.assertIsInstance(mul_op, CalcOperator)
+        mul_op = ef.ExpressionFactory.make_operator("*")
+        self.assertIsInstance(mul_op, op.Operator)
 
-        div_op = ExpressionFactory.make_calc_operator("/")
-        self.assertIsInstance(div_op, CalcOperator)
+        div_op = ef.ExpressionFactory.make_operator("/")
+        self.assertIsInstance(div_op, op.Operator)
 
-        and_op = ExpressionFactory.make_comp_operator("==")
-        self.assertIsInstance(and_op, CompareOperator)
+        and_op = ef.ExpressionFactory.make_operator("==")
+        self.assertIsInstance(and_op, op.Operator)
 
-    def test_bool(self):
-        b = ExpressionFactory.make_bool(["True"])
+    def test_factory_bool(self):
+        b = ef.ExpressionFactory.make_bool(["True"])
         self.assertEqual(b.as_list(), [True])
 
-        b = ExpressionFactory.make_bool(["False"])
+        b = ef.ExpressionFactory.make_bool(["False"])
         self.assertEqual(b.as_list(), [False])
 
     @unittest.expectedFailure
-    def test_bool_fail(self):
-        b = ExpressionFactory.make_bool(["true"])
+    def test_factory_bool_fail(self):
+        b = ef.ExpressionFactory.make_bool(["true"])
         self.assertEqual(b.as_list(), [True])
 
-    def test_form_factory(self):
-        q1 = Question("1a", "bool", "Is this a _statements?")
-        q2 = Question("2a", "text", "What?")
-        q3 = Question("3a", "number", "Why!")
-        q4 = Question("4a", "bool", "when")
-        q5 = Question("5a", "text", "who.")
-        q6 = Question("6a", "number", "where?")
+    def test_factory_form(self):
+        bo = ab.Bool()
+        te = at.Text()
+        nu = an.Number()
 
-        is_op = Operator("==")
-        plus_op = Operator("+")
+        q1 = q.Question("1a", bo, "Is this a statement?")
+        q2 = q.Question("2a", te, "What?")
+        q3 = q.Question("3a", nu, "Why!")
+        q4 = q.Question("4a", bo, "when")
+        q5 = q.Question("5a", te, "who.")
+        q6 = q.Question("6a", nu, "where?")
 
-        i1 = IfBlock(SimpleExpression([Variable("1a"), is_op, Bool(True)]), [q2, q3], "")
-        i2 = IfElseBlock(SimpleExpression([Variable("2a"),  plus_op, Variable("6a")]), [q4], [q5], "")
+        is_op = op.Operator("==")
+        plus_op = op.Operator("+")
 
-        check = FormFactory.make_form(["example", "Introduction", q1, i1, q6, i2])
-        self.assertIsInstance(check, Form)
+        i1 = i.IfBlock(se.SimpleExpression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
+        i2 = e.IfElseBlock(se.SimpleExpression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
+
+        check = ff.FormFactory.make_form(["example", "Introduction", [q1, i1, q6, i2]])
+        self.assertIsInstance(check, f.Form)
 
 
 class TestAST(unittest.TestCase):
 
-    def test_question(self):
-        result = (FormFormat.question.parseString("Question why (text) : What do you like about hummus?")).asList()
-        self.assertIsInstance(result[0], Question)
-        self.assertEqual(result[0].id, "why")
-        self.assertEqual(result[0].type, "text")
-        self.assertEqual(result[0].label, "What do you like about hummus ?")
+    def test_ast_question(self):
+        result = (fg.Form.question.parseString("Question why (text) : What do you like about hummus?")).asList()
+        self.assertIsInstance(result[0], q.Question)
+        self.assertEqual(result[0].get_id(), "why")
+        self.assertEqual(result[0].get_type(), c.GrammarConstants.TEXT)
+        self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
-    def test_if_question(self):
-        result = (FormFormat.pIf.parseString(
+    def test_ast_if(self):
+        result = (fg.Form.pIf.parseString(
             "if (con == True) {  "
             "Question trans (bool) : Will transitive closure work? "
             "Question two (text) : This is a second q.}"))
-        self.assertIsInstance(result[0], IfBlock)
+        self.assertIsInstance(result[0], i.IfBlock)
 
         # Get all the ids
         self.assertEqual(result[0].id_collection(), ["trans", "two"])
@@ -104,20 +122,20 @@ class TestAST(unittest.TestCase):
         self.assertEqual(result[0].get_dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
-    def test_if_question_fail(self):
+    def test_ast_if_fail(self):
         # not a valid if else block
-        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
-        self.assertIsInstance(result[0], IfBlock)
+        result = (fg.Form.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
+        self.assertIsInstance(result[0], i.IfBlock)
 
-    def test_else_questions(self):
-        result = (FormFormat.pIfElse.parseString(
+    def test_ast_else(self):
+        result = (fg.Form.pIfElse.parseString(
             "if (con == True) "
             "{  Question trans (bool) : Will transitive closure work? } "
             "else "
             "{ Question iselse (bool) : Is this an else _statements? }")).asList()
-        self.assertIsInstance(result[0], IfElseBlock)
+        self.assertIsInstance(result[0], e.IfElseBlock)
 
-    def test_form(self):
+    def test_ast_form(self):
         form = GenerateStatements.generate_statements()
 
         # The _form has 6 questions, and therefore 6 labels
@@ -129,7 +147,7 @@ class TestAST(unittest.TestCase):
         # The _form has 2 conditional _statements and thus 2 expressions
         self.assertEqual(len(form.get_expressions()), 2)
 
-    def test_dependencies(self):
+    def test_ast_dependencies(self):
         form = GenerateStatements.generate_statements()
 
         # The transitive _dependencies of _statements
@@ -141,7 +159,7 @@ class TestAST(unittest.TestCase):
                           "5a": {"1a", "2a", "6a"},
                           "6a": set()})
 
-    def test_type_dictionary(self):
+    def test_ast_type_dictionary(self):
         form = GenerateStatements.generate_statements()
 
         self.assertEqual(form.get_type_dict(),
@@ -151,8 +169,4 @@ class TestAST(unittest.TestCase):
              "4a": "bool",
              "5a": "text",
              "6a": "number",
-             "bool": "bool",
-             "calc_operator": "calc_operator",
-             "comp_operator": "comp_operator",
-             "number": "number"
             })

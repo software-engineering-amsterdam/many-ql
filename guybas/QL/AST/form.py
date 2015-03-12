@@ -1,6 +1,4 @@
 # AST format of the Form
-import QL.Main.converters as converters
-import QL.AST.Elements.constants as constants
 
 
 class Form:
@@ -11,7 +9,7 @@ class Form:
 
         # set the statement _order and the parent _id's
         self._statements = (
-            Form.set_statement_ids(str(self),
+            Form.set_conditions(
                 Form.set_question_ordering(statements))
         )
 
@@ -92,10 +90,9 @@ class Form:
         return d
 
     @staticmethod
-    def set_statement_ids(string, statements):
-        m = converters.Converters.get_md5(str(string))
+    def set_conditions(statements):
         for s in statements:
-            s.set_parent_id(m)
+            s.set_parent_condition(None)
         return statements
 
     @staticmethod
@@ -146,11 +143,4 @@ class Form:
         d = {}
         for s in statements:
             d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
-
-        # The types and ids of these are the same
-        d[constants.ElementsConstants.COMP_OP] = constants.ElementsConstants.COMP_OP
-        d[constants.ElementsConstants.CALC_OP] = constants.ElementsConstants.CALC_OP
-        d[constants.ElementsConstants.BOOL] = constants.ElementsConstants.BOOL
-        d[constants.ElementsConstants.NUMBER] = constants.ElementsConstants.NUMBER
-
         return d

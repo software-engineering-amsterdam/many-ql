@@ -39,29 +39,6 @@ namespace Tests.VisitorTests
             x.ToString();
         }
 
-        [TestMethod]
-        public void EvaluationBasicTest()
-        {
-            string input = @"form ExampleBlock {
-                if (3==-11){}
-	            else {
-                     if (3==12)
-                        {}
-                     else {};
-                     };
-                }
-            ";
-            Build(input);
-
-            QLListener Listener = new QLListener();
-
-            Parser.AddParseListener(Listener);
-            Parser.formBlock();
-
-            Assert.IsTrue(Listener.AstExists);
-
-            AstHandler ast = Listener.GetAst();
-            ast.Evaluate();
-        }
+       
     }
 }

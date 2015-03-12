@@ -9,6 +9,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 public class ExpInterpreter extends AnalysisAdapter {
     private Value<?> value;
+    //private FormInterpreter formInterpreter;
     private FormInterpreter formInterpreter;
 
     @Override
@@ -119,8 +120,10 @@ public class ExpInterpreter extends AnalysisAdapter {
         return value;
     }
 
+    //public ExpInterpreter(FormInterpreter formInterpreter) {
     public ExpInterpreter(FormInterpreter formInterpreter) {
-        super();
+
+            super();
         this.formInterpreter = formInterpreter;
     }
 }

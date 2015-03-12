@@ -11,18 +11,8 @@ import java.util.Map;
 public class Defaults {
     private final Map<TypeDescriptor, Map<String, Object>> defaultStyleSheetSettings;
 
-    public Defaults(Map<TypeDescriptor, Map<String, Object>> defaultStyleSheetSettings) {
+    public Defaults(Map defaultStyleSheetSettings) {
         this.defaultStyleSheetSettings = (Map<TypeDescriptor, Map<String, Object>>)
-                Arrays.asList(defaultStyleSheetSettings);
-    }
-
-    /**
-     * Return a new map that overrides the default values with the specified values.
-     */
-    public Map<String, Object> createNewStylingSettingsMapUsingOverriding(final TypeDescriptor type, final Map<String, Object> fieldStylingSettings) {
-        Map<String, Object> newMap = new HashMap<String, Object>();
-        newMap.putAll(defaultStyleSheetSettings.get(type));
-        newMap.putAll(fieldStylingSettings);
-        return newMap;
+                defaultStyleSheetSettings;
     }
 }

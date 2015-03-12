@@ -7,7 +7,7 @@ import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
-import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Messages;
 import lang.ql.semantics.errors.Warning;
 
 import java.util.*;
@@ -22,12 +22,13 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
-    private List<Message> messages;
+    private Messages messages;
 
-    public static List<Message> check(Form f)
+    public static Messages check(Form f)
     {
-        SymbolResult symbolResult = SymbolVisitor.extract(f);
-        if (!(symbolResult.getMessages().isEmpty()))
+        SymbolResult symbolResult = QuestionCollector.extract(f);
+
+        if (symbolResult.containsErrors())
         {
             return symbolResult.getMessages();
         }
@@ -47,7 +48,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.symbolTable = table;
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
-        this.messages = new ArrayList<Message>();
+        this.messages = new Messages();
     }
 
     private UndefinedType undefinedType()
@@ -80,7 +81,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return false;
         }
 
-        if (!(condType.equals(new BoolType())))
+        if (!(condType.isBool()))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
             return false;
@@ -139,13 +140,13 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     public Type visit(Ident n)
     {
         Type type = this.symbolTable.resolve(n.getId());
-        if (type == null)
+        if (type.isUndef())
         {
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
             return new UndefinedType();
         }
 
-        if (this.currentQuestion != null)
+        if (this.isScopeSet())
         {
             Question q = this.symbolTable.getQuestion(n.getId());
             this.questionDependencies.addDependency(this.currentQuestion, q);
@@ -181,97 +182,97 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Type visit(Add e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Sub e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Mul e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Div e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Pos e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Neg e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Not e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Gt e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Lt e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(GtEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(LtEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Equ e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(NotEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(And e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Or e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     // 1. Check if the operands are defined
     // 2. Check if the operands are of the allowed types
     // 3. Check if the operands are of the same type, e.g. no 1=="string"
-    private Type visitBinaryExpr(BinaryExpr e)
+    private Type computeTypeOfBinaryExpr(BinaryExpr e)
     {
         Type left = e.getLeft().accept(this);
         Type right = e.getRight().accept(this);
@@ -294,12 +295,12 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return this.computeType(e, leftPromoted);
+        return e.getComputedType(leftPromoted);
     }
 
     // 1. Check if the operand is defined
     // 2. Check if the operand is of the correct type
-    private Type visitUnaryExpr(UnaryExpr e)
+    private Type computeTypeOfUnaryExpr(UnaryExpr e)
     {
         Type operand = e.getOperand().accept(this);
 
@@ -313,33 +314,18 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return this.computeType(e, operand);
+        return e.getComputedType(operand);
     }
 
-    private boolean isChildOfAllowedType(Expr e, Type childType)
+    private boolean isChildOfAllowedType(NaryExpr e, Type childType)
     {
-        String exprName = e.getClass().getSimpleName();
-        Set<Type> allowedTypes = ExprTypeMap.exprAllowedTypes.get(exprName);
-
-        if (!(allowedTypes.contains(childType)))
+        boolean isTypeAllowed = e.isTypeAllowed(childType);
+        if (!(isTypeAllowed))
         {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
         }
 
-        return allowedTypes.contains(childType);
-    }
-
-    private Type computeType(Expr e, Type childType)
-    {
-        String exprName = e.getClass().getSimpleName();
-        Type returnType = childType;
-
-        if (ExprTypeMap.exprReturnType.containsKey(exprName))
-        {
-            returnType = ExprTypeMap.exprReturnType.get(exprName);
-        }
-
-        return returnType;
+        return isTypeAllowed;
     }
 
     private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
@@ -348,7 +334,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         if (!(consistent))
         {
             this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), left, right, n.getLineNumber()));
+                    n.getClass().getSimpleName(), left.getTitle(), right.getTitle(), n.getLineNumber()));
         }
 
         return consistent;
@@ -364,11 +350,16 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.currentQuestion = null;
     }
 
+    private boolean isScopeSet()
+    {
+        return this.currentQuestion != null;
+    }
+
     private void checkForCyclicDependencies()
     {
-        List<String> cyclicIds = this.questionDependencies.findCycle();
-        if (cyclicIds != null)
+        if (this.questionDependencies.containsCycle())
         {
+            List<String> cyclicIds = this.questionDependencies.getCycle();
             this.messages.add(Error.cyclicQuestions(cyclicIds));
         }
     }

@@ -17,62 +17,17 @@ public class TypeInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseABoolType(final ABoolType node) {
-        setValue(new TypeDescriptor<BoolValue>() {
-            @Override
-            public void callTypeMethod(TypeCallback typeCallback) {
-                typeCallback.usesBoolean();
-            }
-
-            @Override
-            public BoolValue getDefaultValue() {
-                return new BoolValue(false);
-            }
-
-            @Override
-            public String toString() {
-                return BoolValue.TYPE_REFERENCE;
-            }
-        });
+        setValue(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR);
     }
 
     @Override
     public void caseAIntType(final AIntType node) {
-        setValue(new TypeDescriptor<IntegerValue>() {
-            @Override
-            public void callTypeMethod(TypeCallback typeCallback) {
-                typeCallback.usesInteger();
-            }
-
-            @Override
-            public IntegerValue getDefaultValue() {
-                return new IntegerValue(null);
-            }
-
-            @Override
-            public String toString() {
-                return IntegerValue.TYPE_REFERENCE;
-            }
-        });
+        setValue(IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
     }
 
     @Override
     public void caseAStringType(final AStringType node) {
-        setValue(new TypeDescriptor() {
-            @Override
-            public void callTypeMethod(TypeCallback typeCallback) {
-                typeCallback.usesString();
-            }
-
-            @Override
-            public StringValue getDefaultValue() {
-                return new StringValue("");
-            }
-
-            @Override
-            public String toString() {
-                return StringValue.TYPE_REFERENCE;
-            }
-        });
+        setValue(StringValue.STRING_VALUE_TYPE_DESCRIPTOR);
     }
 
     private void setValue(TypeDescriptor value) {

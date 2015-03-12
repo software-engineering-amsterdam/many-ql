@@ -1,4 +1,7 @@
-#
+import QL.Tools.converters as converters
+import QL.config as c
+
+
 class Processor:
 
     @staticmethod
@@ -8,6 +11,7 @@ class Processor:
         answers_dict['__builtins__'] = None
         try:
             result = eval(expression, answers_dict)
+            print(result)
             return result
         except Exception as e:
             print(e)
@@ -15,5 +19,9 @@ class Processor:
 
     @staticmethod
     def export_answers(answers_map, gui):
+        xml = converters.Converters.dict_to_xml(answers_map.get_answers())
+        f = open(c.Config.output_path, 'w')
+        f.write(xml)
+        f.close()
         print("done")
         gui.close()

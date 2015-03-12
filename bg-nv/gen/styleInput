@@ -1,7 +1,0 @@
-stylesheet taxOfficeExample {
-  page Housing {
-             question age {
-               widget radio("Yes", "No")
-             }
-    }
-}

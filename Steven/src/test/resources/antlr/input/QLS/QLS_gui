@@ -1,6 +1,5 @@
 stylesheet title{
 
-    question NAME
     page{
         section "section"{
             question NAME1
@@ -10,17 +9,21 @@ stylesheet title{
             question NAME2 {
                 width 40
             }
+            question NAME3
         }
     }
 
     page{
+        section "page2"{
+            question NAME5
+        }
     }
 
-    question NAME3{
-        widget YESNODROPDOWN
-        width 500
-        font "arial"
-        color # 123
+    page{
+        section "page3"{
+            question NAME6
+            question NAME
+        }
     }
 
     default STRING{

@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    public class Yesno : BinaryTreeElementBase, ITerminal<bool?>, ITerminalType
+    public class Yesno : BinaryTreeElementBase, ITerminal<bool?>, IResolvableTerminalType
     {
         public bool? Value { get; set; }
 
@@ -18,9 +18,10 @@ namespace QL.Model.Terminals
                 parsedValue = value.ToString().ToLowerInvariant() == "yes" ? true : false;
             }
             Value = parsedValue;
+
         }
 
-        public override Type GetReturnType()
+        public Type GetReturnType()
         {
             return GetType();
         }
@@ -31,10 +32,14 @@ namespace QL.Model.Terminals
             {
                 throw new Exception();
             }
+            
 
-            return Value.Value ? "Yes" : "No";
+            return Value.Value ? "yes" : "no";
         }
-        
+        public static bool operator ==(Yesno a, Yesno b) { return a.Value == b.Value; }
+        public static bool operator !=(Yesno a, Yesno b) { return a.Value != b.Value; }
+
+       
 
     }
 }

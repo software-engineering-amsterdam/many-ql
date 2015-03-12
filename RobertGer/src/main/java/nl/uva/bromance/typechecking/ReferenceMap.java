@@ -1,6 +1,6 @@
 package nl.uva.bromance.typechecking;
 
-import nl.uva.bromance.AST.Node;
+import nl.uva.bromance.ast.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,57 +1,35 @@
 require_relative "../../util/base_visitor"
+require_relative "../checker/question_visitor"
+require_relative "../../ql/ast/ast"
 
 module QL
-  class Runner < BaseVisitor
+  class Runner
+    attr_reader :questions, :renderers
 
-    attr_reader :questions
+    def initialize(ql_ast)
+      @ql_ast = ql_ast
+      @questions = Checking::QuestionVisitor.new(@ql_ast).questions
 
-    def after_initialize(base)    
-      @questions = QuestionVisitor.new(@base).questions
-
-      reset_visibilities
+      @renderers = @questions.map do |question|
+        QuestionRenderer.new(question)
+      end
+      
       @values = {}
+      calculate_visible_questions
     end
 
     def update_variable(variable_name, value)
       @values[variable_name] = value
       
-      calculate_visibilities
+      calculate_visible_questions
     end
 
-    def calculate_visibilities
-      reset_visibilities
-      visit @base
-      @visibilities
+    def calculate_visible_questions
+      @visible_questions = VisibleQuestionVisitor.new(@ql_ast).questions(@values)
     end
 
     def visible?(question)
-      @visibilities[question]
-    end
-
-
-    def visit_form(form)
-      map_accept(form.statements).flatten
-    end
-
-    def visit_conditional(condition)
-      case Evaluator.new(condition.expression).evaluate(@values)
-      when true
-        map_accept(condition.statements_true)
-      when false
-        map_accept(condition.statements_false)
-      when :undefined
-        []
-      end
-    end
-
-    def visit_question(question)
-      @visibilities[question] = true
-    end
-
-    private
-
-    def reset_visibilities
-      @visibilities = @questions.map { |q| [q, false] }.to_h
+      @visible_questions.include?(question)
     end
   end
 
@@ -61,19 +39,19 @@ module QL
       visit @base
     end
 
-    def visit_binary_expression(expression)
+    def visit_binary_expression(expression) #nil or undefined?
       lhs = expression.lhs.accept(self)
       rhs = expression.rhs.accept(self)
 
-      if lhs == :undefined || rhs == :undefined
-        :undefined
+      if lhs.nil? || rhs.nil?
+        nil
       else
         lhs.send(expression.operator, rhs)
       end
     end
 
     def visit_variable(variable)
-      @values[variable.name] || :undefined
+      @values[variable.name]
     end
 
     def visit_literal(literal)
@@ -81,22 +59,46 @@ module QL
     end
   end
 
-  class QuestionVisitor < BaseVisitor
-
-    def questions
+  class VisibleQuestionVisitor < Checking::QuestionVisitor
+    def questions(values)
+      @values = values
+      
       visit @base
     end
 
-    def visit_form(form)
-      map_accept(form.statements).flatten
-    end
-
     def visit_conditional(condition)
-      map_accept(condition.statements).flatten
+      case Evaluator.new(condition.expression).evaluate(@values)
+      when true
+        map_accept(condition.statements_true)
+      when false
+        map_accept(condition.statements_false)
+      when nil
+        []
+      end
+    end
+  end
+
+  class QuestionRenderer
+    def initialize(question, declarations = [])
+      @question = question
+      @declarations = declarations
     end
 
-    def visit_question(question)
-      question
+    def widget(controller)
+      @declarations.each do |declaration|
+        return declaration.widget(controller) if declaration.kind_of?(Widget)
+      end
+
+      return @question.type.widget(controller)
+    end
+
+    def render(controller)
+      widget = widget(controller)
+      widget.set_id(@question.variable_name)
+
+      label = Java::JavafxSceneControl::Label.new(@question.description)
+
+      QuestionPane.new(@question, label, widget)
     end
   end
 end

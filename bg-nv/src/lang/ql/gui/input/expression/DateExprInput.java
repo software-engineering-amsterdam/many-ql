@@ -1,22 +1,17 @@
 package lang.ql.gui.input.expression;
 
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.layout.VBox;
 import lang.ql.ast.expression.Expr;
 import lang.ql.gui.ModelVisitor;
-import lang.ql.semantics.ExprEvaluator;
+import lang.ql.gui.control.Control;
+import lang.ql.gui.control.ControlType;
 import lang.ql.semantics.ValueTable;
-import lang.ql.semantics.values.DateValue;
-import lang.ql.semantics.values.DecimalValue;
-import lang.ql.semantics.values.Value;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Nik on 28-02-2015
  */
-public class DateExprInput extends ExprInput<DatePicker>
+// TODO
+public class DateExprInput extends ExprInput
 {
     public DateExprInput(String id, Expr expression)
     {
@@ -25,31 +20,24 @@ public class DateExprInput extends ExprInput<DatePicker>
 
     public DateExprInput(String id, Expr expression, Boolean visible)
     {
-        super(id, new DatePicker(), expression, visible);
+        super(id, expression, visible);
     }
 
     @Override
-    public <T> T accept(ModelVisitor<T> visitor)
+    public <V> V accept(ModelVisitor<V> visitor)
     {
-        return visitor.visit(this);
+        return null;
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
-        Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeValue(getId(), val);
 
-        String strValue = "";
-        if (!val.isUndefined())
-        {
-            Date dateValue = ((DateValue)val).getValue();
-            strValue = "" + dateValue; //TODO: fix this
-        }
+    }
 
-        DatePicker dateInput = this.getControl();
-        //TODO: set value
-        dateInput.setDisable(getDisabled());
-        dateInput.setVisible(getVisible());
+    @Override
+    protected VBox createInputNode(ControlType control)
+    {
+        return null;
     }
 }

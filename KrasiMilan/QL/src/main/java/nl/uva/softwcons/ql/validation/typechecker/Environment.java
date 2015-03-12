@@ -1,11 +1,12 @@
 package nl.uva.softwcons.ql.validation.typechecker;
 
+import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.ql.ast.type.UndefinedType;
 
 public class Environment {
 
@@ -23,7 +24,7 @@ public class Environment {
      * @return the type of the given variable
      */
     public Type resolveVariable(final Identifier variableName) {
-        return this.identifiers.getOrDefault(variableName, UndefinedType.instance);
+        return this.identifiers.getOrDefault(variableName, UNDEFINED_TYPE);
     }
 
     public void defineVariable(final Identifier variableName, final Type variableType) {

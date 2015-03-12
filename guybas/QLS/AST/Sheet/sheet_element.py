@@ -18,4 +18,3 @@ class SheetElement:
     @staticmethod
     def id_widget_dict(elements):
         raise NotImplementedError("Not implemented by sub class")
-

@@ -3,22 +3,24 @@ package gui.widgets;
 import javax.swing.JComponent;
 
 import ast.type.Type;
+import evaluator.Value;
+import gui.widgets.listeners.EvaluateExpression;
 
 public interface IWidgetComponent {
 	
-	public JComponent getWidget();  // textfield, radio etc.
-	public String getIdWidget();	// id
-	public Type getWidgetType();	// choice/digits/text
+	public JComponent getWidget();  
+	public String getIdWidget();	
+	public Type getWidgetType();	
 	
-	public String getStringValue();			// inserted text (just for testing)
-	public boolean getBooleanValue();			// for my check box
-	public int getIntegerValue();
+	public void setEnabled(boolean isEnabled);	
+	public void addDocListener(EvaluateExpression evaluator);
+	public void setText(Value value);
 	
-	public void setValue(String value);
-	public void setChoiceValue(boolean value);
-	public void setIntegerValue(int value);
+	public boolean getBooleanValue();			
+	public String getValue();
 	
-	public void setEnabled(boolean isEnabled);
+	public void setBooleanValue(boolean value);
+	public void setValue(String value);	
 	
-	public void addDocListener();
+	public void setVisible(boolean visibility);
 }

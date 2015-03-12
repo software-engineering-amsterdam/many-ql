@@ -1,6 +1,5 @@
 package lang.ql.gui;
 
-
 import java.util.Observable;
 
 /**
@@ -28,9 +27,7 @@ public abstract class GuiElement extends Observable
     public void setVisible(Boolean visible)
     {
         this.visible = visible;
-//        setChanged();
-//        notifyObservers();
     }
 
-    public abstract <T> T accept(ModelVisitor<T> visitor);
+    public abstract <V> V accept(ModelVisitor<V> visitor);
 }

@@ -6,25 +6,24 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
-import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.Context;
 
 public class IntLiteral extends Literal implements Expression {
-	private final int _value;
-	
-	public IntLiteral(int _value, Token tokenInfo) {
-		super(tokenInfo);
-		this._value = _value;
-	}
+    private final int _value;
 
-	@Override
-	public IntValue evaluate(RuntimeMemory mem) {
-		return new IntValue(_value);
-	}
+    public IntLiteral(int _value, Token tokenInfo) {
+	super(tokenInfo);
+	this._value = _value;
+    }
 
-	@Override
-	public Type getType() {
-		return new IntType();
-	}
-	
+    @Override
+    public IntValue evaluate(Context context) {
+	return new IntValue(_value);
+    }
+
+    @Override
+    public Type getType(Context context) {
+	return new IntType();
+    }
 
 }

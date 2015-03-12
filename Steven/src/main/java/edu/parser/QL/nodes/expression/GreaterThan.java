@@ -20,4 +20,9 @@ public class GreaterThan extends BinaryExpression {
     public boolean hasBooleanOperands() {
         return false;
     }
+
+    @Override
+    public GreaterThan clone() throws CloneNotSupportedException {
+        return new GreaterThan(getLeft().clone(), getRight().clone());
+    }
 }
