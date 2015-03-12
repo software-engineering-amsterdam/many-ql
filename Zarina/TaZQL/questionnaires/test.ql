@@ -1,12 +1,22 @@
 FORM Questionnaire {
-	stupidMe "Should have turned it on..." choice
-	if(stupidMe) {
-		ifBody1 "If-statement please work" digits
-		ifBody2 "If-statement one more" digits
+	myCheckbox "1. If you check this box, you'll get extra questions" choice
+	if(myCheckbox) {
+		ifBody1 "1a. If-statement please work" digits
+		ifBody2 "1b. If-statement one more" digits
+	}
+	hasSoldHouse "2. How much did you get for your house?" digits
+	amountHouses "3. How much did you pay for new house?" digits
+	calculation "4. The difference between q#2 and q#3 equals to:" digits (hasSoldHouse - amountHouses)
+	
+	if(calculation > 100) {
+		ifText "4a. Appear in case of when calculation is bigger than 100" digits
 	}
 	
-	hasSoldHouse "How much did you get for your house?" digits
-	amountHouses "How much did you pay for new house?" digits
-	calculation "The difference is equals to:?" digits (hasSoldHouse - amountHouses)
-	
+	extra "5. Above should appear if-question" text
+	if(hasSoldHouse > 1000) {
+		ifelseIF "IF. Appears if question 2 value is bigger than 1000." text
+	}
+	else {
+		ifelseELSE "ELSE. By default and when answer on q#2 is less than 1k" text
+	}
 } END
