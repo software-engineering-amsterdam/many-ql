@@ -10,27 +10,7 @@ import (
 func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
 	content float32) qml.Object {
 
-	var question qml.Object
-	page, err := g.findPageForField(fieldName)
-	if err != nil {
-		question := g.renderTextboxNumericQuestion(fieldName, caption, content)
-		return question
-	}
-
-	widgetDefaults := page.Defaults()
-	t, ok := widgetDefaults["numeric"]
-	if !ok {
-		question = g.renderTextboxNumericQuestion(fieldName, caption, content)
-	}
-
-	if t == "spinbox" {
-		question = g.renderSpinboxNumericQuestion(fieldName, caption, content)
-	} else if t == "slider" {
-		question = g.renderTextboxNumericQuestion(fieldName, caption, content)
-	} else {
-		question = g.renderTextboxNumericQuestion(fieldName, caption, content)
-	}
-
+	question := g.renderTextboxNumericQuestion(fieldName, caption, content)
 	return question
 }
 

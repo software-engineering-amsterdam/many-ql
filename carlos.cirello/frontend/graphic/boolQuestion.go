@@ -5,28 +5,7 @@ import "gopkg.in/qml.v1"
 func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
 	content bool) qml.Object {
 
-	var question qml.Object
-	page, err := g.findPageForField(fieldName)
-	if err != nil {
-		question := g.renderCheckbox(fieldName, caption, content)
-		return question
-	}
-
-	widgetDefaults := page.Defaults()
-
-	t, ok := widgetDefaults["bool"]
-	if !ok {
-		question = g.renderCheckbox(fieldName, caption, content)
-	}
-
-	if t == "radio" {
-		question = g.renderRadio(fieldName, caption, content)
-	} else if t == "switch" {
-		question = g.renderSwitch(fieldName, caption, content)
-	} else {
-		question = g.renderCheckbox(fieldName, caption, content)
-	}
-
+	question := g.renderCheckbox(fieldName, caption, content)
 	return question
 }
 

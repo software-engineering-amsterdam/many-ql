@@ -2,57 +2,17 @@ package graphic
 
 import (
 	"bytes"
-	"errors"
 	"log"
 	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"gopkg.in/qml.v1"
 )
-
-func (g *Gui) findPageForField(fieldName string) (*stylelang.Page, error) {
-	lenIdx := len(g.questionIndex[fieldName]) - 1
-	pages := g.pages["root"].Pages()
-	var final *stylelang.Page
-	foundPage := false
-	for k, v := range g.questionIndex[fieldName] {
-		if v == "root" {
-			continue
-		}
-		if k < lenIdx {
-			pages = pages[v].Pages()
-			continue
-		}
-		final = pages[v]
-		foundPage = true
-	}
-	var err error = nil
-	if !foundPage {
-		err = errors.New("layout page not found")
-	}
-	return final, err
-}
 
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, invisible bool) {
 
 	container := g.root
-
-	lenIdx := len(g.questionIndex[newFieldName]) - 1
-	for k, v := range g.questionIndex[newFieldName] {
-		if v == "root" {
-			continue
-		}
-		container = container.ObjectByName(v)
-		if k < lenIdx {
-			container = container.ObjectByName("scroll")
-			container = container.Object("contentItem")
-			container = container.ObjectByName(v + "View")
-		}
-	}
-	container = container.ObjectByName("scroll")
-	container = container.Object("contentItem")
 	g.targetContainer = container
 
 	var question qml.Object
@@ -92,9 +52,9 @@ func (g *Gui) hideQuestion(fieldName string) {
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 
-func startQMLengine(appName, tabContainer string) qml.Object {
+func startQMLengine(appName string) qml.Object {
 	engine := qml.NewEngine()
-	cradleQML := renderCradle(appName, tabContainer)
+	cradleQML := renderCradle(appName)
 	cradle, err := engine.LoadString("cradle.qml", cradleQML)
 	if err != nil {
 		log.Fatal("Fatal error while parsing cradle.qml:", err)
