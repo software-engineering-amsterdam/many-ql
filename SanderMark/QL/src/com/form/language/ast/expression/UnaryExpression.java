@@ -7,8 +7,8 @@ import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
 public abstract class UnaryExpression implements Expression {
-    public Token tokenInfo;
-    public Expression value;
+    protected Token tokenInfo;
+    protected Expression value;
 
     public UnaryExpression(Expression value, Token tokenInfo) {
 	this.value = value;

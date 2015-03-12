@@ -11,7 +11,7 @@ import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
 public class IdLiteral extends Literal implements Expression {
-    public final String name;
+    private String name;
     private Type type;
 
     public IdLiteral(String value, Token tokenInfo) {
@@ -23,6 +23,10 @@ public class IdLiteral extends Literal implements Expression {
 	super(tokenInfo);
 	this.name = name;
 	this.type = questionType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Boolean IsReference() {
@@ -48,7 +52,7 @@ public class IdLiteral extends Literal implements Expression {
     private Type getTypeFromMemory(Context context) {
 	Type typeFromMemory = context.getIdType(this);
 	if (typeFromMemory == null) {
-	    context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
+	    context.addError(new Error(this.getTokenInfo(), "Undeclared variable reference"));
 	    return new ErrorType();
 	} else {
 	    return typeFromMemory;

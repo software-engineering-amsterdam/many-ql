@@ -20,7 +20,7 @@ public class GUIBuilder {
 	formGUI = new FormComponent(form, this, frame);
 	frame.add(formGUI);
 
-	for (Iterator<Statement> s = form.statementList.iterator(); s.hasNext();) {
+	for (Iterator<Statement> s = form.getStatements(); s.hasNext();) {
 	    Statement statement = s.next();
 
 	    // Hier mee geven, want deze komt uiteindelijk terug bij createGUI

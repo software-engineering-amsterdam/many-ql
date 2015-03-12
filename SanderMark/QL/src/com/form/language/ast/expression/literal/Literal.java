@@ -9,7 +9,7 @@ import com.form.language.memory.IdCollection;
 //TODO: this is weird, it doesnt inherit unary or binary yet is not in the same level
 public abstract class Literal implements Expression {
 
-    public Token tokenInfo;
+    private Token tokenInfo;
 
     public Literal(Token tokenInfo) {
 	this.tokenInfo = tokenInfo;
@@ -21,10 +21,14 @@ public abstract class Literal implements Expression {
     }
 
     public String showTokenInfo() {
-	return "line: " + tokenInfo.getLine() + ", column:" + tokenInfo.getCharPositionInLine();
+	return "line: " + getTokenInfo().getLine() + ", column:" + getTokenInfo().getCharPositionInLine();
     }
 
     @Override
     public void collectIds(IdCollection idCollection) {
+    }
+
+    public Token getTokenInfo() {
+	return tokenInfo;
     }
 }

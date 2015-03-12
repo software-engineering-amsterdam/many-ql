@@ -10,9 +10,10 @@ import com.form.language.memory.Context;
 
 //TODO: ifStatements can be part of a condition, so they will only be assigned conditionally (at runtime). There will be no problems compiletime, however.
 public class AssignmentStatement implements Statement {
-    public String id;
-    public Type type;
-    public Expression expression;
+    private String id;
+    //TODO: why don't we use type here?
+    private Type type;
+    private Expression expression;
     // TODO handle tokenInfo in constructor and perhaps in some errors?
     private Token tokenInfo;
 

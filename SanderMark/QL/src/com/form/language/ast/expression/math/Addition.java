@@ -19,8 +19,8 @@ public class Addition extends BinaryExpression implements Expression {
 
     @Override
     public IntValue evaluate(Context context) {
-	return new IntValue(((IntValue) super.left.evaluate(context)).getValue()
-		+ ((IntValue) super.right.evaluate(context)).getValue());
+	return new IntValue(((IntValue) left.evaluate(context)).getValue()
+		+ ((IntValue) right.evaluate(context)).getValue());
     }
 
     @Override

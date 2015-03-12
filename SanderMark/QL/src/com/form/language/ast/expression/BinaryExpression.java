@@ -7,9 +7,9 @@ import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
 public abstract class BinaryExpression implements Expression {
-    public Token tokenInfo;
-    public Expression left;
-    public Expression right;
+    protected Token tokenInfo;
+    protected Expression left;
+    protected Expression right;
 
     public BinaryExpression(Expression left, Expression right, Token tokenInfo) {
 	this.left = left;

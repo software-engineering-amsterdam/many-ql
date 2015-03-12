@@ -34,14 +34,14 @@ public class IdReferences {
 	    IdLiteral key = iterator.next();
 	    List<Expression> tempList;
 
-	    if (this.referenceMap.containsKey(key.name)) {
-		tempList = this.referenceMap.get(key.name);
+	    if (this.referenceMap.containsKey(key.getName())) {
+		tempList = this.referenceMap.get(key.getName());
 	    } else {
 		tempList = new ArrayList<Expression>();
 	    }
 
 	    tempList.add(value);
-	    this.referenceMap.put(key.name, tempList);
+	    this.referenceMap.put(key.getName(), tempList);
 	}
     }
 }

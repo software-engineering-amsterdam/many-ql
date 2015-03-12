@@ -13,9 +13,9 @@ public class CheckVariableErrors {
 	Iterator<IdLiteral> idIter = ids.iterator();
 	while (idIter.hasNext()) {
 	    IdLiteral id = idIter.next();
-	    Type idDeclared = types.getType(id.name);
+	    Type idDeclared = types.getType(id.getName());
 	    if (idDeclared.isErrorType()) {
-		resultErrors.add(new Error(id.tokenInfo, "The variable " + id.name + " is not declared"));
+		resultErrors.add(new Error(id.getTokenInfo(), "The variable " + id.getName() + " is not declared"));
 	    }
 	}
 	return resultErrors;

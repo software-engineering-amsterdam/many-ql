@@ -58,13 +58,13 @@ public class Context {
 	if (id.IsReference()) {
 	    this.globalIdList.addId(id);
 	}
-	this.declarations.put(id.name, id);
+	this.declarations.put(id.getName(), id);
     }
 
     public Type getIdType(IdLiteral id) {
-	IdLiteral declaration = this.declarations.get(id.name);
+	IdLiteral declaration = this.declarations.get(id.getName());
 	if (declaration == null) {
-	    this.addError(new Error(id.tokenInfo, "Undeclared variable reference"));
+	    this.addError(new Error(id.getTokenInfo(), "Undeclared variable reference"));
 	    return new ErrorType();
 	}
 	return declaration.getType(this);

@@ -14,8 +14,8 @@ import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
 public class IfStatement implements Statement {
-    public Expression conditions;
-    public List<Statement> thenStatements;
+    private Expression conditions;
+    private List<Statement> thenStatements;
     private Token tokenInfo;
 
     // BooleanExpression, get result and cast to boolean

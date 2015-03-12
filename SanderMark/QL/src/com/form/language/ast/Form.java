@@ -8,8 +8,8 @@ import com.form.language.ast.statement.Statement;
 import com.form.language.memory.Context;
 
 public class Form {
-    public String id;
-    public List<Statement> statementList;
+    private String id;
+    private List<Statement> statementList;
 
     public Form(String id) {
 	this.id = id;
@@ -42,6 +42,10 @@ public class Form {
 	for (Statement s : statementList) {
 	    System.out.println(s.getType(context));
 	}
+    }
+    
+    public Iterator<Statement> getStatements(){
+	return this.statementList.iterator();
     }
 
 }

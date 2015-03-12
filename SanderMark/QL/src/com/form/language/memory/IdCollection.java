@@ -30,7 +30,7 @@ public class IdCollection {
     public boolean containsId(String id) {
 	for (IdLiteral i : this.ids) {
 	    i.IsReference();
-	    if (i.name.equals(id)) {
+	    if (i.getName().equals(id)) {
 		return true;
 	    }
 	}
@@ -48,7 +48,7 @@ public class IdCollection {
     public String toString() {
 	String result = "";
 	for (IdLiteral id : ids) {
-	    result += id.name + "-->" + id.showTokenInfo() + "\n";
+	    result += id.getName() + "-->" + id.showTokenInfo() + "\n";
 	}
 	return result;
     }

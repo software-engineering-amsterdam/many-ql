@@ -14,7 +14,7 @@ public class IdTypeTable {
 	this.idMap = new HashMap<String, IdLiteral>();
 	for (IdLiteral id : idList.getList()) {
 	    if (!id.IsReference()) {
-		this.idMap.put(id.name, id);
+		this.idMap.put(id.getName(), id);
 	    }
 	}
     }
