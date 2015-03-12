@@ -84,18 +84,13 @@ func (g *Gui) DrawQuestion(
 }
 
 // UpdateQuestion updates an existing question in the GUI form stack
-func (g *Gui) UpdateQuestion(
-	identifier,
-	fieldType string,
-	content interface{},
-) {
+func (g *Gui) UpdateQuestion(identifier string, content interface{}) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	m := &render{
 		action:     updateQuestion,
 		identifier: identifier,
-		fieldType:  fieldType,
 		content:    content,
 	}
 	g.renderStack = append(g.renderStack, *m)
@@ -173,7 +168,7 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.fieldType, event.content)
+				g.updateQuestion(event.identifier, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

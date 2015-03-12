@@ -38,12 +38,18 @@ func (Draw Draw) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
 	if 0 == Draw.nest {
 		visible = event.Visible
 	}
+
+	ftyp := ""
+	if qcpy.Type() == ast.ScalarQuestionType {
+		ftyp = qcpy.Primitive()
+	}
+
 	Draw.toFrontend <- &event.Frontend{
 		Type: event.DrawQuestion,
 
 		Identifier: qcpy.Identifier(),
 		Label:      qcpy.Label(),
-		FieldType:  qcpy.Type(),
+		FieldType:  ftyp,
 
 		Visible: visible,
 	}

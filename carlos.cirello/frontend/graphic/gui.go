@@ -5,27 +5,25 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-func (g *Gui) addNewQuestion(newFieldType, newFieldName,
-	newFieldCaption string, invisible bool) {
-
+func (g *Gui) addNewQuestion(typ, name, caption string, invisible bool) {
 	var question qml.Object
-	switch newFieldType {
+	switch typ {
 	default:
-		question = g.newStringQuestion(newFieldName, newFieldCaption, "")
-	case ast.BoolQuestionType:
-		question = g.newBooleanQuestion(newFieldName, newFieldCaption, false)
-	case ast.NumericQuestionType:
-		question = g.newNumericQuestion(newFieldName, newFieldCaption, 0)
+		question = g.newStringQuestion(name, caption, "")
+	case ast.ScalarBoolPrimitive:
+		question = g.newBooleanQuestion(name, caption, false)
+	case ast.ScalarNumericPrimitive:
+		question = g.newNumericQuestion(name, caption, 0)
 	}
 
 	if !invisible {
 		question.Set("visible", true)
 	}
 
-	g.symbolTable[newFieldName] = question
+	g.symbolTable[name] = question
 }
 
-func (g *Gui) updateQuestion(fieldName, fieldType string, content interface{}) {
+func (g *Gui) updateQuestion(fieldName string, content interface{}) {
 	if question, ok := g.symbolTable[fieldName]; ok {
 		question.Set("visible", true)
 

@@ -6,6 +6,7 @@ import "text/scanner"
 // beings.
 type Parser interface {
 	Type() string
+	Primitive() string
 }
 
 // QuestionNode models the structure of one question within a Questionaire.
@@ -46,4 +47,9 @@ func (q QuestionNode) Clone() QuestionNode {
 // Frontend. It might be deprecated under architecture review.
 func (q QuestionNode) Type() string {
 	return q.content.Type()
+}
+
+// Primitive returns the underlying primitive for this question type.
+func (q QuestionNode) Primitive() string {
+	return q.content.Primitive()
 }
