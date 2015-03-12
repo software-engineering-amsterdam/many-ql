@@ -16,6 +16,7 @@ import org.uva.qls.ast.style.BackgroundColor;
 import org.uva.qls.ast.style.Font;
 import org.uva.qls.ast.style.Fontsize;
 import org.uva.qls.ast.style.Height;
+import org.uva.qls.ast.style.StyleProperty;
 import org.uva.qls.ast.style.Width;
 import org.uva.qls.ast.style.widget.CheckboxModel;
 import org.uva.qls.ast.style.widget.RadioModel;
@@ -69,7 +70,7 @@ public class TypeChecker implements LiteralVisitor<Boolean>, StyleVisitor<Boolea
 		if (font.isValid()) {
 			return true;
 		}
-		manager.addWarning(new Warning(Type.BELOW_ZERO, font.getPosition().getStartLine(), font.toString()));
+		manager.addWarning(new Warning(Type.INVALID_INPUT, font.getPosition().getStartLine(), font.toString()));
 		return false;
 	}
 
@@ -183,27 +184,73 @@ public class TypeChecker implements LiteralVisitor<Boolean>, StyleVisitor<Boolea
 
 	@Override
 	public Boolean visit(Page page) {
+		for (Section section : page.getSectionList()) {
+			if (!section.accept(this)) {
+				return false;
+			}
+		}
+
+		for (Style style : page.getStyleList()) {
+			if (!style.accept(this)) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
 	@Override
 	public Boolean visit(Question question) {
+		if (!question.getIdentifier().accept(this)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public Boolean visit(Section section) {
+		for (Question question : section.getQuestionList()) {
+			if (!question.accept(this)) {
+				return false;
+			}
+		}
+		for (Style style : section.getStyleList()) {
+			if (!style.accept(this)) {
+				return false;
+			}
+		}
+		if (!section.getSectionTitle().accept(this)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public Boolean visit(Sheet sheet) {
+		for (Page page : sheet.getPageList()) {
+			if (!page.accept(this)) {
+				return false;
+			}
+		}
+		if (!sheet.getIdentifier().accept(this)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public Boolean visit(Style style) {
+		for (StyleProperty prop : style.getStyleProperties()) {
+			if (!prop.accept(this)) {
+				return false;
+			}
+		}
 		return true;
+	}
+
+	public void print() {
+		manager.printErrors();
+		manager.printWarnings();
 	}
 
 }

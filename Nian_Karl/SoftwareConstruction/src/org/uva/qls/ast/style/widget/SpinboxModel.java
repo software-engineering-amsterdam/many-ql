@@ -42,9 +42,11 @@ public class SpinboxModel extends WidgetType {
 	public ArrayList<IntLiteral> isValid() {
 		ArrayList<IntLiteral> duplicatedValues = new ArrayList<IntLiteral>();
 		List<IntLiteral> newList = new ArrayList<IntLiteral>(new HashSet<IntLiteral>(values));
-		Iterator<IntLiteral> it = newList.iterator();
-		while (it.hasNext()) {
-			duplicatedValues.add((IntLiteral) it.next());
+		for (IntLiteral intLiteral : duplicatedValues) {
+			if (!newList.contains(intLiteral)) {
+				newList.add(intLiteral);
+				duplicatedValues.remove(intLiteral);
+			}
 		}
 		return duplicatedValues;
 	}

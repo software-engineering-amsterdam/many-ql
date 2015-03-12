@@ -23,7 +23,7 @@ public class Warning extends Message {
 			break;
 		case INVALID_INPUT:
 			content = "Input <" + literal + "> is invalid. ";
-
+			break;
 		case DUPLICATED_VALUES:
 			content = "Input <" + literal + "> is duplicated in it's list. ";
 			break;
