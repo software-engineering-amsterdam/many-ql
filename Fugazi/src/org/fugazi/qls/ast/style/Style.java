@@ -7,8 +7,6 @@ import java.util.List;
 
 public class Style extends AbstractASTNode {
 
-
-    
     private final List<StyleProperty> styleProperties;
 
     public Style(int _lineNum) {
