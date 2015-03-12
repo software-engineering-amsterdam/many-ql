@@ -25,14 +25,17 @@ public class StylesheetBuilder {
 
     public StylesheetBuilder title(String title) {
         this.title = new QLSIdentifier(title)
+        return this
     }
 
     public StylesheetBuilder addPage(Page page) {
         this.pages.add(page)
+        return this
     }
 
     public StylesheetBuilder addDefault(Default aDefault) {
         this.defaultStatements.add(aDefault)
+        return this
     }
 
 }

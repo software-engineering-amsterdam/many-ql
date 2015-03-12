@@ -1,6 +1,7 @@
 package edu.parser.QL.nodes.type;
 
 import edu.gui.components.store.Store;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.ExpressionVisitor;
 
@@ -25,7 +26,7 @@ public class Boolean extends Expression implements Store {
     }
 
     @Override
-    public Expression accept(ExpressionVisitor expressionVisitor) {
+    public AbstractNode accept(ExpressionVisitor expressionVisitor) {
         return expressionVisitor.visit(this);
     }
 

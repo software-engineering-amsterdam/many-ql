@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 12/03/2015.
  */
-public class EvaluatorExpressionValidator implements ExpressionVisitor {
+public class EvaluatorExpressionValidator implements ExpressionVisitor<Expression> {
     private final List<Question> evaluatedQuestions;
 
     public EvaluatorExpressionValidator(List<Question> evaluatedQuestions) {
@@ -110,7 +110,7 @@ public class EvaluatorExpressionValidator implements ExpressionVisitor {
 
     @Override
     public Expression visit(Expression expression) {
-        return expression.accept(this);
+        return (Expression) expression.accept(this);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class EvaluatorExpressionValidator implements ExpressionVisitor {
     }
 
     @Override
-    public Expression visit(QLIdentifier QLIdentifier) {
-        Optional<Question> foundQuestion = getQuestion(QLIdentifier);
+    public Expression visit(QLIdentifier qlIdentifier) {
+        Optional<Question> foundQuestion = getQuestion(qlIdentifier);
         if (foundQuestion.isPresent()) {
             return new Boolean(isQuestionEnabled(foundQuestion.get()));
         } else {

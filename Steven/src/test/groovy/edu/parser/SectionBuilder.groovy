@@ -24,13 +24,16 @@ public class SectionBuilder {
 
     public SectionBuilder addQuestion(QLSQuestion qlsQuestion) {
         questions.add(qlsQuestion)
+        return this
     }
 
     public SectionBuilder addDefault(Default aDefault) {
         defaultStatements.add(aDefault)
+        return this
     }
 
     public SectionBuilder title(String title) {
         this.title = title
+        return this
     }
 }
