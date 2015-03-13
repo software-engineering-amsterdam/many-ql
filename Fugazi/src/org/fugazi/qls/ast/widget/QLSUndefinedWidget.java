@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class UndefinedWidget extends Widget<NullType> {
+public class QLSUndefinedWidget extends AbstractQLSWidget<NullType> {
 
     @Override
     public void applyStyle(Style _style) {
@@ -38,6 +38,11 @@ public class UndefinedWidget extends Widget<NullType> {
 
     @Override
     public void setValue(NullType _value) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
         throw new AssertionError();
     }
 

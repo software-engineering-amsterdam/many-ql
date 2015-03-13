@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public abstract class Widget<W> extends AbstractASTNode implements IWidget<W> {
+public abstract class AbstractQLSWidget<W> extends AbstractASTNode implements IWidget<W> {
 
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 12;
@@ -23,11 +23,11 @@ public abstract class Widget<W> extends AbstractASTNode implements IWidget<W> {
     protected String label = "";
     protected Style style = new UndefinedStyle();
 
-    public Widget(int _lineNum) {
+    public AbstractQLSWidget(int _lineNum) {
         super(_lineNum);
     }
 
-    public Widget() {
+    public AbstractQLSWidget() {
     }
     
     public Font getDefaultFont() {

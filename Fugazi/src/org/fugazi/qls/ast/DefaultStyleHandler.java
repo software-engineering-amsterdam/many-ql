@@ -2,7 +2,7 @@ package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.segment.Segment;
@@ -10,7 +10,7 @@ import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
-import org.fugazi.qls.ast.widget.Widget;
+import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +60,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         this.inheritStyles(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
         this.addDeclarationsFromParent(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
 
-        for (Question question : section.getQuestions()) {
+        for (QLSQuestion question : section.getQuestions()) {
             this.constructQuestion(question, currentSegmentDefaultStyles);
         }
 
@@ -103,7 +103,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private void constructQuestion(
-            Question _question, List<DefaultStyleDeclaration> _segmentDefaultStyles)
+            QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles)
     {
         // The question does not exist in the QL Form, ignore (leave it as Undefined)
         if (!isQuestionExistsInQL(_question)) {
@@ -130,11 +130,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
     }
 
-    private void setWidgetToQuestion(Question _question, DefaultStyleDeclaration _styleDeclr) {
+    private void setWidgetToQuestion(QLSQuestion _question, DefaultStyleDeclaration _styleDeclr) {
         Type questionType = getQLQuestionType(_question);
         String questionLabel = getQLQuestionLabel(_question);
 
-        Widget currentDeclarationWidget = _styleDeclr.getWidget();
+        AbstractQLSWidget currentDeclarationWidget = _styleDeclr.getWidget();
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
             currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel);
@@ -155,7 +155,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         _question.setWidget(currentDeclarationWidget);
     }
     
-    private void setWidgetFromDeclaration(Question _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
+    private void setWidgetFromDeclaration(QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
             Type questionType = getQLQuestionType(_question);
             Type currentDeclarationType = currentDeclaration.getQuestionType();
@@ -170,7 +170,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
     }
     
-    private void styleQuestionFormDeclarations(Question _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
+    private void styleQuestionFormDeclarations(QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
         boolean isWidgetFoundInDeclaration = false;
 
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
@@ -189,20 +189,20 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }  
     }
     
-    private void setDefaultWidgetToQuestion(Question _question) {
+    private void setDefaultWidgetToQuestion(QLSQuestion _question) {
         Type questionType = getQLQuestionType(_question);
         String questionLabel = getQLQuestionLabel(_question);
 
-        Widget defaultWidget = getDefaultWidgetForType(questionType, questionLabel);
+        AbstractQLSWidget defaultWidget = getDefaultWidgetForType(questionType, questionLabel);
         this.setDefaultStyleToWidget(defaultWidget);
         _question.setWidget(defaultWidget);
     }
 
-    private void setDefaultStyleToWidget(Widget _widget) {
+    private void setDefaultStyleToWidget(AbstractQLSWidget _widget) {
         _widget.resetStyleToDefault();
     }
 
-    private boolean isQuestionExistsInQL(Question _question) {
+    private boolean isQuestionExistsInQL(QLSQuestion _question) {
         List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
         for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
             if (qlQuestion.getIdName().equals(_question.getIdName())) {
@@ -212,13 +212,13 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return false;
     }
      
-    private Type getQLQuestionType(Question _question) {
+    private Type getQLQuestionType(QLSQuestion _question) {
         String questionIdName = _question.getIdName();
         HashMap<String, Type> questionTypes = this.formDataStorage.getallQuestionTypes();
         return questionTypes.get(questionIdName);
     }
 
-    private String getQLQuestionLabel(Question _question) {
+    private String getQLQuestionLabel(QLSQuestion _question) {
         List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
         for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
             if (qlQuestion.getIdName().equals(_question.getIdName())) {
@@ -228,7 +228,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return "";
     }
 
-    private Widget getDefaultWidgetForType(Type _questionType, String _questionLabel) {
+    private AbstractQLSWidget getDefaultWidgetForType(Type _questionType, String _questionLabel) {
         DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
         return defaultWidgetsFactory.getDefaultWidget(_questionType, _questionLabel);
     }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class TextBox extends Widget<String> {
+public class QLSTextBox extends AbstractQLSWidget<String> {
 
     public final static int DEFAULT_WIDTH = 7;
 
@@ -20,22 +20,22 @@ public class TextBox extends Widget<String> {
     private JTextField componentValue;
     private JLabel componentLabel;
 
-    public TextBox(int _lineNum) {
+    public QLSTextBox(int _lineNum) {
         super(_lineNum);
         this.buildWidget("");
     }
 
-    public TextBox() {
+    public QLSTextBox() {
         this.buildWidget("");
     }
 
-    public TextBox(int _lineNum, String _label) {
+    public QLSTextBox(int _lineNum, String _label) {
         super(_lineNum);
         this.label = _label;
         this.buildWidget(_label);
     }
 
-    public TextBox(String _label) {
+    public QLSTextBox(String _label) {
         this.label = _label;
         this.buildWidget(_label);
     }
@@ -46,6 +46,12 @@ public class TextBox extends Widget<String> {
         this.componentLabel = new JLabel(_label);
         this.component.add(componentValue);
         this.component.add(componentLabel);
+    }
+
+    @Override
+    public void setLabel(String _label) {
+        this.label = _label;
+        this.componentLabel.setText(label);
     }
 
     @Override
@@ -79,11 +85,10 @@ public class TextBox extends Widget<String> {
     }
 
     @Override
-    public void setLabel(String _label) {
-        this.label = _label;
-        this.componentLabel.setText(label);
+    public void setReadOnly(boolean _isReadonly) {
+        this.componentValue.setEnabled(false);
     }
-
+    
     @Override
     public Width getDefaultWidth() {
         return new Width(DEFAULT_WIDTH);

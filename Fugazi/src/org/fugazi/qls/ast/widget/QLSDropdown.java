@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.widget;
 
+import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
@@ -7,26 +8,36 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
-import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class SpinBox extends Widget<String> {
+public class QLSDropdown extends AbstractQLSWidget<Boolean> {
 
-    public SpinBox(int _lineNum) {
+    private final String yesLabel;
+    private final String noLabel;
+
+    public QLSDropdown(int _lineNum, String _yes, String _no) {
         super(_lineNum);
+        this.yesLabel = _yes;
+        this.noLabel = _no;
     }
 
-    public SpinBox() {
+    public QLSDropdown(String _yes, String _no) {
+        this.yesLabel = _yes;
+        this.noLabel = _no;
     }
 
-    public SpinBox(int _lineNum, String _label) {
+    public QLSDropdown(int _lineNum, String _label, String _yes, String _no) {
         super(_lineNum);
+        this.yesLabel = _yes;
+        this.noLabel = _no;
         this.label = _label;
     }
 
-    public SpinBox(String _label) {
+    public QLSDropdown(String _label, String _yes, String _no) {
+        this.yesLabel = _yes;
+        this.noLabel = _no;
         this.label = _label;
     }
 
@@ -49,30 +60,35 @@ public class SpinBox extends Widget<String> {
     @Override
     public void addEventListener(EventListener _listener) {
         // todo
-        //this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
     }
 
     @Override
-    public String getValue() {
+    public Boolean getValue() {
         // todo
-        return "";
+        return false;
     }
 
     @Override
-    public void setValue(String _value) {
+    public void setValue(Boolean _value) {
         // todo
     }
-    
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        // todo
+    }
+
+
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
+        supportedTypes.add(new BoolType());
         supportedTypes.add(new IntType());
         supportedTypes.add(new StringType());
 
         return supportedTypes;
     }
 
-
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
-        return _visitor.visitSpinBox(this);
+        return _visitor.visitDropDown(this);
     }
 }

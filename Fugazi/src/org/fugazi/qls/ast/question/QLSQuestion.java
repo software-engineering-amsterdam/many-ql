@@ -2,19 +2,19 @@ package org.fugazi.qls.ast.question;
 
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.IQLSASTVisitor;
-import org.fugazi.qls.ast.widget.Widget;
+import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
-public class Question extends AbstractASTNode {
+public class QLSQuestion extends AbstractASTNode {
     private final String identifier;
-    private Widget widget;
+    private AbstractQLSWidget widget;
 
-    public Question(int _lineNum, String _identifier, Widget _widget) {
+    public QLSQuestion(int _lineNum, String _identifier, AbstractQLSWidget _widget) {
         super(_lineNum);
         this.identifier = _identifier;
         this.widget = _widget;
     }
 
-    public Question(String _identifier, Widget _widget) {
+    public QLSQuestion(String _identifier, AbstractQLSWidget _widget) {
         this.identifier = _identifier;
         this.widget = _widget;
     }
@@ -28,11 +28,11 @@ public class Question extends AbstractASTNode {
         return this.identifier.toString() + " " + "('" + this.widget.toString() + "')";
     }
 
-    public void setWidget(Widget _widget) {
+    public void setWidget(AbstractQLSWidget _widget) {
         this.widget = _widget;
     }
 
-    public Widget getWidget() {
+    public AbstractQLSWidget getWidget() {
         return this.widget;
     }
 

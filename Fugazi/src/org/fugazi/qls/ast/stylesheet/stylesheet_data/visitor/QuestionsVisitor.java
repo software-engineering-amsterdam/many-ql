@@ -1,15 +1,15 @@
 package org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor;
 
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
-import org.fugazi.qls.ast.widget.Widget;
+import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsVisitor extends FullQLSFormVisitor {
     private StyleSheet sheet;
-    private List<Question> questions;
+    private List<QLSQuestion> questions;
 
     public QuestionsVisitor(StyleSheet _sheet) {
         super();
@@ -23,8 +23,8 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
      */
 
     @Override
-    public Void visitQuestion(org.fugazi.qls.ast.question.Question question){
-        Widget widget = question.getWidget();
+    public Void visitQuestion(QLSQuestion question){
+        AbstractQLSWidget widget = question.getWidget();
         widget.accept(this);
 
         this.saveQuestion(question);
@@ -38,7 +38,7 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
      * =======================
      */
 
-    private void saveQuestion(Question question) {
+    private void saveQuestion(QLSQuestion question) {
         this.questions.add(question);
     }
 
@@ -48,7 +48,7 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
      * =======================
      */
 
-    public List<Question> getQuestions() {
+    public List<QLSQuestion> getQuestions() {
         if (this.questions == null) {
             this.questions = new ArrayList<>();
 

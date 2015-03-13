@@ -1,44 +1,30 @@
 package org.fugazi.qls.ast.widget;
 
-import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class Dropdown extends Widget<Boolean> {
+public class QLSSlider extends AbstractQLSWidget<Integer> {
 
-    private final String yesLabel;
-    private final String noLabel;
-
-    public Dropdown(int _lineNum, String _yes, String _no) {
+    public QLSSlider(int _lineNum) {
         super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
     }
 
-    public Dropdown(String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
+    public QLSSlider() {
     }
 
-    public Dropdown(int _lineNum, String _label, String _yes, String _no) {
+    public QLSSlider(int _lineNum, String _label) {
         super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
         this.label = _label;
     }
 
-    public Dropdown(String _label, String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
+    public QLSSlider(String _label) {
         this.label = _label;
     }
 
@@ -64,27 +50,29 @@ public class Dropdown extends Widget<Boolean> {
     }
 
     @Override
-    public Boolean getValue() {
+    public Integer getValue() {
         // todo
-        return false;
+        return 0;
     }
 
     @Override
-    public void setValue(Boolean _value) {
+    public void setValue(Integer _value) {
         // todo
     }
 
-
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        // todo
+    }
+    
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new BoolType());
         supportedTypes.add(new IntType());
-        supportedTypes.add(new StringType());
 
         return supportedTypes;
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
-        return _visitor.visitDropDown(this);
+        return _visitor.visitSlider(this);
     }
 }

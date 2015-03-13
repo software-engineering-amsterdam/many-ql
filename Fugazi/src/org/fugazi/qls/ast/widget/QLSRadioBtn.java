@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class RadioBtn extends Widget<Boolean> {
+public class QLSRadioBtn extends AbstractQLSWidget<Boolean> {
 
     private final String yesLabel;
     private final String noLabel;
@@ -23,7 +23,7 @@ public class RadioBtn extends Widget<Boolean> {
     private JRadioButton yesBtn;
     private JRadioButton noBtn;
 
-    public RadioBtn(int _lineNum, String _yes, String _no) {
+    public QLSRadioBtn(int _lineNum, String _yes, String _no) {
         super(_lineNum);
         this.yesLabel = _yes;
         this.noLabel = _no;
@@ -31,13 +31,13 @@ public class RadioBtn extends Widget<Boolean> {
         this.buildWidget("", _yes, _no);
     }
 
-    public RadioBtn(String _yes, String _no) {
+    public QLSRadioBtn(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.buildWidget("", _yes, _no);
     }
 
-    public RadioBtn(int _lineNum, String _label, String _yes, String _no) {
+    public QLSRadioBtn(int _lineNum, String _label, String _yes, String _no) {
         super(_lineNum);
         this.yesLabel = _yes;
         this.noLabel = _no;
@@ -45,7 +45,7 @@ public class RadioBtn extends Widget<Boolean> {
         this.buildWidget(_label, _yes, _no);
     }
 
-    public RadioBtn(String _label, String _yes, String _no) {
+    public QLSRadioBtn(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
@@ -74,6 +74,15 @@ public class RadioBtn extends Widget<Boolean> {
     }
 
     @Override
+    public void applyStyle(Style _style) {
+        this.style = _style;
+
+        // inherit properties that are not set in the given style from default.
+        this.style.inheriteFromStyle(this.getDefaultStyle());
+        // todo
+    }
+
+    @Override
     public JComponent getJComponent() {
         return component;
     }
@@ -98,12 +107,8 @@ public class RadioBtn extends Widget<Boolean> {
     }
 
     @Override
-    public void applyStyle(Style _style) {
-        this.style = _style;
-
-        // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
-        // todo
+    public void setReadOnly(boolean _isReadonly) {
+        this.component.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {

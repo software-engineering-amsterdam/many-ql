@@ -1,45 +1,32 @@
 package org.fugazi.qls.ast.widget;
 
-import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class CheckBox extends Widget<Boolean> {
+public class QLSSpinBox extends AbstractQLSWidget<String> {
 
-    private JCheckBox component;
-
-    public CheckBox(int _lineNum) {
+    public QLSSpinBox(int _lineNum) {
         super(_lineNum);
-        this.component = new JCheckBox();
     }
 
-    public CheckBox() {
-        this.component = new JCheckBox();
+    public QLSSpinBox() {
     }
 
-    public CheckBox(int _lineNum, String _label) {
+    public QLSSpinBox(int _lineNum, String _label) {
         super(_lineNum);
         this.label = _label;
-        this.component = new JCheckBox(label);
     }
 
-    public CheckBox(String _label) {
+    public QLSSpinBox(String _label) {
         this.label = _label;
-        this.component = new JCheckBox(label);
-    }
-
-    @Override
-    public void setLabel(String _label) {
-        this.label = _label;
-        this.component.setText(label);
     }
 
     @Override
@@ -54,33 +41,42 @@ public class CheckBox extends Widget<Boolean> {
 
     @Override
     public JComponent getJComponent() {
-        return component;
+        // todo
+        return null;
     }
 
     @Override
     public void addEventListener(EventListener _listener) {
-        component.addItemListener((ItemListener)_listener);
+        // todo
+        //this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
     }
 
     @Override
-    public Boolean getValue() {
-        return this.component.isSelected();
+    public String getValue() {
+        // todo
+        return "";
     }
 
     @Override
-    public void setValue(Boolean _value) {
-        this.component.setSelected(_value);
+    public void setValue(String _value) {
+        // todo
     }
 
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        // todo
+    }
+    
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new BoolType());
+        supportedTypes.add(new IntType());
         supportedTypes.add(new StringType());
 
         return supportedTypes;
     }
 
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
-        return _visitor.visitCheckBox(this);
+        return _visitor.visitSpinBox(this);
     }
 }
