@@ -35,7 +35,6 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("slider", SLIDER);
 		KEYWORDS.put("text", TEXT);
 		KEYWORDS.put("dropdown", DROPDOWN);
-
 		KEYWORDS.put("width", WIDTH);
 		KEYWORDS.put("height", HEIGHT);
 		KEYWORDS.put("font", FONT);

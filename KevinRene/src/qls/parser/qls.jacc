@@ -72,9 +72,9 @@ import qls.ast.widget.*;
 
 	statements
         : statement statements   { $$ = new QLSBlock($1, $2); }
-				| statement              { $$ = new QLSBlock($1); }
+		| statement              { $$ = new QLSBlock($1); }
         |                        { $$ = new QLSBlock(); }
-				;
+		;
 				
 	statement
         : SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
@@ -83,14 +83,14 @@ import qls.ast.widget.*;
         | DEFAULT type '{' styleRules widget '}'    { $$ = new Default($2, $4, $5);  }
         | QUESTION IDENTIFIER                       { $$ = new Question($2);     }
         | QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
-	      ;
+	    ;
 
 	type : INTEGER	{ $$ = new QLInteger(); }
-	 		| MONEY		{ $$ = new QLFloat(); }
-			| FLOAT		{ $$ = new QLFloat(); }
-			| BOOLEAN	{ $$ = new QLBoolean(); }
-			| STRING 	{ $$ = new QLString(); }
-			;
+	 	 | MONEY		{ $$ = new QLFloat(); }
+		 | FLOAT		{ $$ = new QLFloat(); }
+		 | BOOLEAN	{ $$ = new QLBoolean(); }
+		 | STRING 	{ $$ = new QLString(); }
+		 ;
 			
 	literal	: BOOLEANLITERAL
 			| INTEGERLITERAL

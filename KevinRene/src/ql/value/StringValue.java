@@ -216,4 +216,9 @@ public class StringValue extends Value<String> {
 	public Value<Boolean> andBoolean(boolean argument) {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Override
+	public String toString() {
+		return "\"" + getValue().toString() + "\"";
+	}
 }

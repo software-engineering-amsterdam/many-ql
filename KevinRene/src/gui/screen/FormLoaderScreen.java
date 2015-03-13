@@ -18,7 +18,7 @@ import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.statement.Form;
 import ql.ast.visitor.typechecker.TypeChecker;
-import ql.error.TypeErrors;
+import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
 public class FormLoaderScreen extends Screen {
@@ -29,7 +29,7 @@ public class FormLoaderScreen extends Screen {
 	private Button openButton;
 	private UILog log;
 	private QLNode formAst;
-	private TypeErrors errorEnvironment;
+	private ErrorEnvironment errorEnvironment;
 	
 	public FormLoaderScreen(UIComponent handler) {
 		log = new UILog();
@@ -46,17 +46,13 @@ public class FormLoaderScreen extends Screen {
 		fileChooser = new FormFileChooser();
 		fileChooser.setHandler(this);
 		
-		errorEnvironment = new TypeErrors();
+		errorEnvironment = new ErrorEnvironment();
 		
 		setHandler(handler);
 	}	
 	
 	public QLNode getFormAst() {
 		return formAst;
-	}
-	
-	private void logErrors() {
-		log.appendMessage(errorEnvironment.getErrors());
 	}
 	
 	private void addLogMessage(String logMessage) {
@@ -101,8 +97,7 @@ public class FormLoaderScreen extends Screen {
 			if(createFormAst(fileContents)) {
 				super.handleChange(changedValue, this);
 			} else {
-				addLogMessage("File is not a valid form.");
-				logErrors();
+				addLogMessage(errorEnvironment.getErrors());
 			}
 		} else {
 			addLogMessage("Open command cancelled by user.");
