@@ -11,4 +11,5 @@ public abstract class Style implements AbstractNode {
     public AbstractNode accept(QLSVisitor QLSVisitor) {
         return QLSVisitor.visit(this);
     }
+
 }

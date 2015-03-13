@@ -1,53 +1,54 @@
 style PartyForm {
-    
-    default {
-        spinbox {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        slider {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        text {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        textBlock {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        radio(min, max) {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
-        dropdown {
-            width: 400
-            font: "Arial"
-            fontSize: 14
-            color: #999999
-        }
+
+    default number spinbox {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
     }
-    
-    
-    page {
+    default number slider {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default string text {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default string textBlock {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default boolean radio {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+    default boolean dropdown {
+        width: 400
+        font: "Arial"
+        fontSize: 14
+        color: #999999
+    }
+
+    page page1 {
+
         // Number Questions
         section "Number Questions" {
-            comesToParty spinbox(min, max) {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
+        
+            section "Number Questions" {
+                comesToParty spinbox(min, max) {
+                    width: 400
+                    font: "Arial"
+                    fontSize: 14
+                    color: #999999
+                }
             }
             
             comesToParty slider(min, max) {
@@ -66,7 +67,7 @@ style PartyForm {
         }
     }
     
-    page {
+    page page2 {
         // String Questions
         section "String Questions" {
             comesToParty text {
@@ -87,7 +88,7 @@ style PartyForm {
         }
     }
     
-    page {
+    page page3 {
         // Boolean Questions
         section "Boolean Questions" {
             comesToParty radio {

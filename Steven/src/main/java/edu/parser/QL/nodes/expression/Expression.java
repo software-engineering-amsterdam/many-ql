@@ -9,4 +9,6 @@ import edu.parser.QL.nodes.AbstractNode;
 public abstract class Expression implements AbstractNode {
 
     public abstract boolean hasBooleanOperands();
+
+    public abstract AbstractNode accept(ExpressionVisitor expressionVisitor);
 }

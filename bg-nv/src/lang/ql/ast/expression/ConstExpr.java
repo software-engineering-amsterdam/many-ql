@@ -7,7 +7,7 @@ import lang.ql.ast.type.Type;
  */
 public abstract class ConstExpr<T> extends Expr
 {
-    protected T value;
+    protected final T value;
 
     public ConstExpr(T value, int lineNumber)
     {

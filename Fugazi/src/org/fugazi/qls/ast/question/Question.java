@@ -6,9 +6,9 @@ import org.fugazi.qls.ast.widget.Widget;
 
 public class Question extends AbstractASTNode {
     private final String identifier;
-    private final Widget widget;
+    private Widget widget;
 
-    public Question(int _lineNum,String _identifier, Widget _widget) {
+    public Question(int _lineNum, String _identifier, Widget _widget) {
         super(_lineNum);
         this.identifier = _identifier;
         this.widget = _widget;
@@ -19,13 +19,17 @@ public class Question extends AbstractASTNode {
         this.widget = _widget;
     }
 
-    public String getId() {
+    public String getIdName() {
         return this.identifier;
     }
 
     @Override
     public String toString() {
         return this.identifier.toString() + " " + "('" + this.widget.toString() + "')";
+    }
+
+    public void setWidget(Widget _widget) {
+        this.widget = _widget;
     }
 
     public Widget getWidget() {

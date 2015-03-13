@@ -2,12 +2,15 @@ package lang.qls.semantics;
 
 import lang.ql.ast.form.Form;
 import lang.ql.ast.type.*;
-import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.QuestionCollector;
+import lang.ql.semantics.QuestionResult;
+import lang.ql.semantics.QuestionMap;
+import lang.ql.semantics.errors.Messages;
 import lang.qls.ast.Page;
-import lang.qls.ast.Rule.*;
-import lang.qls.ast.Statement.*;
-import lang.qls.ast.Statement.Question;
-import lang.qls.ast.Statement.Statement;
+import lang.qls.ast.rule.*;
+import lang.qls.ast.statement.*;
+import lang.qls.ast.statement.Question;
+import lang.qls.ast.statement.Statement;
 import lang.qls.ast.Stylesheet;
 import lang.qls.ast.StylesheetVisitor;
 import lang.qls.semantics.messages.StyleError;
@@ -19,26 +22,32 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private QuestTypes qlQuestions;
+    private QuestionMap questions;
     private Set<String> refQuestions;
-    private List<Message> messages;
+    private Messages messages;
 
-    public static List<Message> check(Stylesheet s, Form f)
+    public static Messages check(Stylesheet s, Form f)
     {
-        QuestTypes qs = QLQuestionVisitor.extractQuestions(f);
-        TypeChecker checker = new TypeChecker(qs);
-        checker.visit(s);
+        QuestionResult result = QuestionCollector.collect(f);
+        if (result.containsErrors())
+        {
+            return result.getMessages();
+        }
 
-        checker.allQuestionsReferencedCheck();
+        TypeChecker checker = new TypeChecker(result.getQuestionMap());
+        if (checker.visit(s))
+        {
+            checker.allQuestionsReferencedCheck();
+        }
 
         return checker.messages;
     }
 
-    private TypeChecker(QuestTypes qlQuestions)
+    private TypeChecker(QuestionMap questions)
     {
-        this.qlQuestions = qlQuestions;
+        this.questions = questions;
         this.refQuestions = new HashSet<>();
-        this.messages = new ArrayList<>();
+        this.messages = new Messages();
     }
 
     @Override
@@ -46,10 +55,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Page p : s.getBody())
         {
-            Boolean r = p.accept(this);
-            if (!(r))
+            if (!(p.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -61,10 +69,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     {
         for (Statement s : p.getBody())
         {
-            Boolean r = s.accept(this);
-            if (!(r))
+            if (!(s.accept(this)))
             {
-                return r;
+                return false;
             }
         }
 
@@ -89,7 +96,8 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         if (this.registerQuestion(q))
         {
             Rules rs = q.getBody();
-            Type qType = this.qlQuestions.getType(q.getId());
+            Type qType = this.questions.getType(q.getId());
+
             return this.visitRules(rs, qType, q.getLineNumber());
         }
 
@@ -99,7 +107,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     private Boolean registerQuestion(Question q)
     {
         String id = q.getId();
-        if (!(this.qlQuestions.containsQuestion(id)))
+        if (!(this.questions.contains(id)))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
             return false;
@@ -139,7 +147,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (String id : this.qlQuestions)
+        for (String id : this.questions)
         {
             if (!(this.refQuestions.contains(id)))
             {
@@ -147,6 +155,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
                 return false;
             }
         }
+
         return true;
     }
 }

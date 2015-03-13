@@ -1,5 +1,8 @@
 package uva.qls.ast.primitive;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum PrimitiveType {
 
 	BOOLEAN("boolean"),
@@ -14,6 +17,14 @@ public enum PrimitiveType {
 	}
 	public String getName(){
 		return this.name;
+	}
+	
+	public static List<String> getAllTypes(){
+		List<String> types = new ArrayList<String>();
+		for (PrimitiveType type : values()){
+			types.add(type.getName());
+		}
+		return types;
 	}
 	
 	public static PrimitiveType findOperator(String operator){

@@ -1,7 +1,6 @@
 package uva.ql.ast.expressions.math;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.*;
-import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 

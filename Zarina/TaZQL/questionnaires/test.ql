@@ -1,16 +1,22 @@
 FORM Questionnaire {
-	hasSoldHouse "Have you sold any damn house?" choice
-	priceSoldHouse "How much did you pay for new house?" digits
-	hasBoughtHouse "How much did you get for old house?" digits
-	howIsLife "Are you still happy:" text
-	finalPrice "Are you still happy:" digits (priceSoldHouse * hasBoughtHouse)
-	newPrice "Let's test this:" digits ((priceSoldHouse + finalPrice) * hasBoughtHouse)
-	testint1 "Integer 1" digits
-	testint2 "Integer 2" digits
-	test1 "==:" choice (testint1 == hasSoldHouse)
-	test2 "-1:" digits (-testint1)
-	test3 "&&:" choice (hasSoldHouse && priceSoldHouse)
+	myCheckbox "1. If you check this box, you'll get extra questions" choice
+	if(myCheckbox) {
+		ifBody1 "1a. If-statement please work" digits
+		ifBody2 "1b. If-statement one more" digits
+	}
+	hasSoldHouse "2. How much did you get for your house?" digits
+	amountHouses "3. How much did you pay for new house?" digits
+	calculation "4. The difference between q#2 and q#3 equals to:" digits (hasSoldHouse - amountHouses)
 	
-} END	
-
-
+	if(calculation > 100) {
+		ifText "4a. Appear in case of when calculation is bigger than 100" digits
+	}
+	
+	extra "5. Above should appear if-question" text
+	if(hasSoldHouse > 1000) {
+		ifelseIF "IF. Appears if question 2 value is bigger than 1000." text
+	}
+	else {
+		ifelseELSE "ELSE. By default and when answer on q#2 is less than 1k" text
+	}
+} END

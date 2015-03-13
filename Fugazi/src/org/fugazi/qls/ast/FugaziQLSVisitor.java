@@ -100,8 +100,6 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 
     @Override public AbstractASTNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
         String identifier = ctx.ID().getText();
-        
-        // Todo: check for default style declaration on parents, otherwise set the default Widget.
         return new Question(this.getLineNumber(ctx), identifier, new UndefinedWidget());
     }
 
@@ -114,9 +112,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 	public AbstractASTNode visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx) {
         Type questionType = (Type) ctx.type().accept(this);
         Widget widget = (Widget) ctx.widget().accept(this);
-
-        // Todo: check for default style declaration on parents, otherwise set the default Style.
-        return new DefaultStyleDeclaration(this.getLineNumber(ctx), widget.getDefaultStyle(), widget, questionType);
+        return new DefaultStyleDeclaration(this.getLineNumber(ctx), new UndefinedStyle(), widget, questionType);
     }
     
     @Override 
@@ -144,14 +140,19 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 	public AbstractASTNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-		return new RadioBtn(this.getLineNumber(ctx), this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+		return new RadioBtn(this.getLineNumber(ctx),
+                this.removeStringQuotes(yesLabel),
+                this.removeStringQuotes(noLabel));
 	}
     
     @Override 
 	public AbstractASTNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-        return new Dropdown(this.getLineNumber(ctx), this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+        return new Dropdown(
+                this.getLineNumber(ctx),
+                this.removeStringQuotes(yesLabel),
+                this.removeStringQuotes(noLabel));
 	}
     
     @Override 

@@ -8,7 +8,7 @@ import lang.ql.ast.type.Type;
  */
 public class CalculatedQuestion extends Question
 {
-    private Expr calculation;
+    private final Expr calculation;
 
     public CalculatedQuestion(String id, Type type, String text, int lineNumber, Expr expr)
     {
@@ -21,6 +21,7 @@ public class CalculatedQuestion extends Question
         return this.calculation;
     }
 
+    @Override
     public <T> T accept(StatVisitor<T> visitor)
     {
         return visitor.visit(this);

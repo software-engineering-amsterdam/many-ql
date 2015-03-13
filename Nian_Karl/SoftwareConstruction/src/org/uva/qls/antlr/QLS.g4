@@ -10,21 +10,23 @@ question: QUESTION Identifier widget
 		|QUESTION Identifier;
 		
 
-style:DEFAULT type styling
-	|DEFAULT type LEFT_BRACE styling* RIGHT_BRACE
+style:DEFAULT type styleProp
+	|DEFAULT type LEFT_BRACE styleProp* RIGHT_BRACE
 	; 
 
-styling: WIDGET COLON widget
-	| WIDTH COLON IntegerLiteral
-	| HEIGHT COLON IntegerLiteral
-	| FONTSIZE COLON IntegerLiteral
-	| FONT COLON font
-	| COLOR COLON RgbValue
+styleProp : WIDGET COLON widgetProp = widget #widgetStyle
+	| WIDTH COLON widthProp = IntegerLiteral #widthStyle
+	| HEIGHT COLON heightProp = IntegerLiteral #heightStyle
+	| FONTSIZE COLON fontSizeProp = IntegerLiteral #fontSizeStyle
+	| FONT COLON fontProp = font #fontStyle
+	| BACKGROUNDCOLOR COLON colorProp = rgb #backgroundColorStyle
 	;
+	
+rgb : 'rgb' LEFT_PAREN red=IntegerLiteral COMMA green=IntegerLiteral COMMA blue=IntegerLiteral RIGHT_PAREN;
 
-type: INT
-	| STR
-	| BOOL
+type: 	INT #intType
+	| STR #strType
+	| BOOL #boolType
 	;
 
 
@@ -33,9 +35,9 @@ font: ARIAL;
 widget: TEXTBOX #textbox
 	| CHECKBOX #checkbox
 	| SPINBOX LEFT_BRACKET IntegerLiteral (COMMA IntegerLiteral)+ RIGHT_BRACKET #spinbox
-	| SLIDER LEFT_PAREN IntegerLiteral COMMA IntegerLiteral RIGHT_PAREN #slider
-	| DROPDOWN LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #dropdown
-	| RADIO LEFT_PAREN trueLabel = StringLiteral COMMA falseLabel = StringLiteral RIGHT_PAREN #radio
+	| SLIDER LEFT_PAREN min = IntegerLiteral COMMA max = IntegerLiteral RIGHT_PAREN #slider
+	| DROPDOWN LEFT_PAREN firstLabel = StringLiteral COMMA secondLabel = StringLiteral RIGHT_PAREN #dropdown
+	| RADIO LEFT_PAREN firstLabel = StringLiteral COMMA secondLabel = StringLiteral RIGHT_PAREN #radio
 	;
 
 /* LEXER RULES */
@@ -64,10 +66,10 @@ WIDTH: 			'width';
 HEIGHT: 		'height';
 FONTSIZE: 		'fontsize';
 FONT: 			'font';
-COLOR:			'color';
+BACKGROUNDCOLOR:			'background-color';
 
 //Font keywords
-ARIAL: 			'arial';
+ARIAL: 			'Arial';
 
 
 //Symbols
@@ -79,6 +81,7 @@ LEFT_BRACE:    '{';
 RIGHT_BRACE:   '}';
 LEFT_BRACKET:    '[';
 RIGHT_BRACKET:   ']';
+
 
 IntegerLiteral: [1-9][0-9]*;
 
@@ -94,6 +97,7 @@ SingleComment: '//' .*? '\n' -> skip;
 
 Identifier: [a-zA-Z][a-zA-Z0-9_]*;
 
-RgbValue: '#'[0-9]*;
+
+
 
 

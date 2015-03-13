@@ -1,47 +1,66 @@
 package lang.ql.gui.input.expression;
 
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 import lang.ql.ast.expression.Expr;
 import lang.ql.gui.ModelVisitor;
+import lang.ql.gui.control.Control;
+import lang.ql.gui.control.ControlType;
+import lang.ql.gui.control.IntegerControl;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.IntegerValue;
+import lang.ql.semantics.values.UndefinedValue;
 import lang.ql.semantics.values.Value;
 
 /**
  * Created by Nik on 28-02-2015
  */
-public class IntExprInput extends ExprInput<TextInputControl>
+public class IntExprInput extends ExprInput
 {
-    public IntExprInput(String id, Expr expression)
+    private final IntegerControl control;
+
+    public IntExprInput(String id, IntegerControl control, Expr expression)
     {
-        this(id, expression, true);
+        this(id, control, expression, true);
+        this.inputNode = this.createInputNode(control);
     }
 
-    public IntExprInput(String id, Expr expression, Boolean visible)
+    public IntExprInput(String id, IntegerControl control, Expr expression, Boolean visible)
     {
-        super(id, new TextField(), expression, visible);
+        super(id, expression, visible);
+        this.control = control;
     }
 
     @Override
-    public <T> T accept(ModelVisitor<T> visitor)
+    protected VBox createInputNode(ControlType control)
+    {
+        VBox box = new VBox();
+        box.getChildren().add(this.control.getGuiElement());
+        box.setAlignment(Pos.TOP_RIGHT);
+        box.setVisible(this.getVisible());
+        return box;
+    }
+
+    @Override
+    public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
     }
 
     @Override
-    public void update(ValueTable valueTable)
+    public void refreshElement(ValueTable valueTable)
     {
         Value val = valueTable.getValue(this.getId());
 
-        String strValue = "";
         if (!val.isUndefined())
         {
             assert val instanceof IntegerValue;
-            strValue = val.toString();
+            this.control.setValue((IntegerValue)val);
         }
-
-        TextInputControl textInput = this.getControl();
-        textInput.setText(strValue);
+        else
+        {
+            assert val instanceof UndefinedValue;
+            this.control.setValue((UndefinedValue)val);
+        }
     }
 }

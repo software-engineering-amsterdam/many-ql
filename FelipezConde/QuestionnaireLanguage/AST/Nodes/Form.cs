@@ -3,31 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AST.Nodes.FormSection;
 using AST.Nodes.Interfaces;
+using AST.Representation;
 
 
 namespace AST.Nodes
 {
-    public class Form : IASTNode
+    public class Form : ASTNode, IFormObjectContainer
     {
-        private IList<IASTNode> children;
+        private List<IFormObject> body;
 
-        public Form()
+        public Form(List<IFormObject> body, PositionInText position)
+            : base(position)
         {
-            children = new List<IASTNode>();
+            this.body = body;
+        }
+        
+        public IList<IFormObject> GetBody() { return body; }
+
+        //Visitor Methods
+        public void Accept(Visitors.IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
-        public void AddChild(IASTNode formSection)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
-            children.Add(formSection);
-        }
-
-        public IList<IASTNode> GetChildren()
-        {
-            return children;
+            return visitor.Visit(this);
         }
 
 
     }
+
 }

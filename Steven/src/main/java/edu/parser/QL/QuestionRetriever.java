@@ -2,10 +2,9 @@ package edu.parser.QL;
 
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class QuestionRetriever extends QLVisitorImpl {
         if (ifStatement.getElseClause().isPresent()) {
             visit(ifStatement.getElseClause().get());
         }
-        ifStatement.getExpression().accept(this);
         visitStatements(ifStatement.getStatements());
         return ifStatement;
     }
@@ -46,8 +44,8 @@ public class QuestionRetriever extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(QLQuestion question) {
-        allQuestions.add(createQuestion(question));
+    public AbstractNode visit(Question question) {
+        allQuestions.add(question);
         return question;
     }
 }

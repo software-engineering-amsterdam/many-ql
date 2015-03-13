@@ -2,18 +2,18 @@ package edu.parser.QLS;
 
 import edu.Widgets;
 import edu.exceptions.TypeCheckException;
+import edu.nodes.QuestionType;
+import edu.nodes.styles.Style;
+import edu.nodes.styles.Widget;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.nodes.Question;
-import edu.nodes.QuestionType;
-import edu.nodes.styles.Style;
-import edu.nodes.styles.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class TypeChecker implements QLSVisitor {
     private List<QLSQuestion> getDuplicateQuestions(List<QLSQuestion> stylesheetQuestions) {
         return stylesheetQuestions.stream()
                 .filter(a -> stylesheetQuestions.stream()
-                        .filter(b -> a.getIdentifier().equals(b.getIdentifier())).count() > 1)
+                        .filter(b -> a.getQLSIdentifier().equals(b.getQLSIdentifier())).count() > 1)
                 .collect(Collectors.toList());
     }
 
@@ -70,13 +70,10 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
-        visitStatements(stylesheet.getStatements());
+        stylesheet.getPages()
+                .stream()
+                .forEach(page -> page.accept(this));
         return stylesheet;
-    }
-
-    private void visitStatements(List<Statement> stylesheet) {
-        stylesheet.stream()
-                .forEach(element -> element.accept(this));
     }
 
     private void confirmQuestionsExistInForm(List<Question> questions) {
@@ -93,14 +90,14 @@ public class TypeChecker implements QLSVisitor {
     }
 
     private Predicate<Question> doesFormQuestionsContainStylesheetQuestion(QLSQuestion stylesheetQuestion) {
-        return question -> stylesheetQuestion.getIdentifier().getIdentifier()
-                .equals(question.getIdentifier().getIdentifier());
+        return question -> stylesheetQuestion.getQLSIdentifier().getIdentifier()
+                .equals(question.getQLIdentifier().getIdentifier());
     }
 
     private String listToString(List<QLSQuestion> list) {
         return list
                 .stream()
-                .map(element -> element.getIdentifier().getIdentifier())
+                .map(element -> element.getQLSIdentifier().getIdentifier())
                 .collect(Collectors.joining(", "));
     }
 
@@ -120,18 +117,18 @@ public class TypeChecker implements QLSVisitor {
     }
 
     private void confirmQuestionHasCompatibleType(QLSQuestion stylesheetQuestion) {
-        Question formQuestion = getFormQuestion(stylesheetQuestion.getIdentifier().getIdentifier());
+        Question formQuestion = getFormQuestion(stylesheetQuestion.getQLSIdentifier().getIdentifier());
         List<Widgets> supportedWidgets = formQuestion.getQuestionType().getWidgets();
         boolean isWidgetTypeCompatible = isWidgetTypeCompatible(stylesheetQuestion.getStyles(), supportedWidgets);
 
         if (!isWidgetTypeCompatible) {
-            throw new TypeCheckException("Widget type is not compatible for: " + stylesheetQuestion.getIdentifier());
+            throw new TypeCheckException("Widget type is not compatible for: " + stylesheetQuestion.getQLSIdentifier());
         }
     }
 
     private Question getFormQuestion(String identifier) {
         List<Question> questionList = this.allQuestions.stream()
-                .filter(formQuestion -> formQuestion.getIdentifier().getIdentifier().equals(identifier))
+                .filter(formQuestion -> formQuestion.getQLIdentifier().getIdentifier().equals(identifier))
                 .collect(Collectors.toList());
 
         if (questionList.isEmpty()) {
@@ -151,14 +148,25 @@ public class TypeChecker implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
-        return identifier;
+    public AbstractNode visit(QLSIdentifier QLSIdentifier) {
+        return QLSIdentifier;
     }
 
     @Override
     public AbstractNode visit(Section section) {
-        visitStatements(section.getStatements());
+        visitQuestions(section.getQuestions());
+        visitDefaultstatements(section.getDefaultStatements());
         return section;
+    }
+
+    private void visitDefaultstatements(List<Default> defaultStatements) {
+        defaultStatements.stream()
+                .forEach(statement -> statement.accept(this));
+    }
+
+    private void visitQuestions(List<QLSQuestion> sections) {
+        sections.stream()
+                .forEach(section -> section.accept(this));
     }
 
     @Override

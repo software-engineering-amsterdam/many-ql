@@ -1,14 +1,14 @@
 package edu.parser.QLS;
 
+import edu.nodes.QuestionType;
+import edu.nodes.styles.Style;
 import edu.parser.QLS.nodes.AbstractNode;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
-import edu.nodes.QuestionType;
-import edu.nodes.styles.Style;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class QuestionRetriever implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
-        stylesheet.getStatements()
+        stylesheet.getPages()
                 .stream()
                 .forEach(statement -> statement.accept(this));
         return stylesheet;
@@ -49,13 +49,13 @@ public class QuestionRetriever implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Identifier identifier) {
-        return identifier;
+    public AbstractNode visit(QLSIdentifier QLSIdentifier) {
+        return QLSIdentifier;
     }
 
     @Override
     public AbstractNode visit(Section section) {
-        section.getStatements()
+        section.getQuestions()
                 .stream()
                 .forEach(s -> s.accept(this));
         return section;

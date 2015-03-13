@@ -13,17 +13,18 @@ public class Add extends BinaryExpr
     }
 
     @Override
-    public Type getComputedType(Type childType)
-    {
-        return childType;
-    }
-
-    @Override
     public boolean isTypeAllowed(Type t)
     {
         return t.isNumerical() || t.isString();
     }
 
+    @Override
+    public Type getReturnType(Type childType)
+    {
+        return childType;
+    }
+
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

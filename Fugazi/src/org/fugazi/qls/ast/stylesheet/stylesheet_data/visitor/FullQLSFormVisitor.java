@@ -22,7 +22,7 @@ import java.util.List;
  */
 public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
 
-    public Void visitStyleSheet(StyleSheet styleSheet){
+    public Void visitStyleSheet(StyleSheet styleSheet) {
         List<Page> pages = styleSheet.getPages();
 
         for (Page page : pages) {
@@ -32,9 +32,9 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         return null;
     }
 
-    public Void visitPage(Page page){
+    public Void visitPage(Page page) {
         List<Section> sections = page.getSections();
-        List<DefaultStyleDeclaration> defaultStyles = page.getDefaultStyles();
+        List<DefaultStyleDeclaration> defaultStyles = page.getDefaultStyleDeclarations();
 
         for (Section section : sections) {
             section.accept(this);
@@ -46,9 +46,9 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         return null;
     }
 
-    public Void visitSection(Section section){
+    public Void visitSection(Section section) {
         List<Section> subsections = section.getSections();
-        List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyles();
+        List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyleDeclarations();
         List<Question> questions = section.getQuestions();
 
         for (Section subsection : subsections) {
@@ -64,42 +64,61 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         return null;
     }
 
-    public Void visitQuestion(Question question){
+    public Void visitQuestion(Question question) {
         Widget widget = question.getWidget();
         widget.accept(this);
 
         return null;
     }
 
-    public Void visitDefaultStyleDeclr(DefaultStyleDeclaration styleDeclr){
+    public Void visitDefaultStyleDeclr(DefaultStyleDeclaration styleDeclr) {
         Widget widget = styleDeclr.getWidget();
         widget.accept(this);
 
         return null;
     }
 
-    public Void visitColorProperty(Color _color){
+    public Void visitColorProperty(Color _color) {
         return null;
     }
-    public Void visitFontProperty(Font _font){
+    
+    public Void visitFontProperty(Font _font) {
         return null;
     }
-    public Void visitFontSizeProperty(FontSize _fontSize){
+    
+    public Void visitFontSizeProperty(FontSize _fontSize) {
         return null;
     }
-    public Void visitWidthProperty(Width _width){
+    
+    public Void visitWidthProperty(Width _width) {
         return null;
     }
 
-    public Void visitNullWidget(UndefinedWidget _widget){
+    public Void visitUndefinedWidget(UndefinedWidget _widget) {
         return null;
     }
-    public Void visitCheckBox(CheckBox _widget){
+    
+    public Void visitCheckBox(CheckBox _widget) {
         return null;
     }
-    public Void visitTextBox(TextBox _widget){return null;}
-    public Void visitSpinBox(SpinBox _widget){return null;}
-    public Void visitDropDown(Dropdown _widget){return null;}
-    public Void visitRadioBtn(RadioBtn _widget){return null;}
-    public Void visitSlider(Slider _widget){return null;}
+    
+    public Void visitTextBox(TextBox _widget) {
+        return null;
+    }
+    
+    public Void visitSpinBox(SpinBox _widget) {
+        return null;
+    }
+    
+    public Void visitDropDown(Dropdown _widget) {
+        return null;
+    }
+    
+    public Void visitRadioBtn(RadioBtn _widget) {
+        return null;
+    }
+    
+    public Void visitSlider(Slider _widget)  {
+        return null;
+    }
 }

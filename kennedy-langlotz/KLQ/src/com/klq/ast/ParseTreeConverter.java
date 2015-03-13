@@ -6,6 +6,7 @@ import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
 import com.klq.ast.impl.expr.literal.IdentifierNode;
@@ -15,6 +16,9 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.expr.value.DateValue;
+import com.klq.ast.impl.expr.value.Value;
+import com.klq.logic.question.Type; //TODO move Type somewhere else?
 import com.klq.parser.KLQBaseVisitor;
 import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -50,7 +54,15 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
         QuestionNode questionNode;
 
         if(ctx.answerOptions() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            if(ctx.type.getText().toLowerCase() == "boolean"){
+                List<AExpression> children = new ArrayList<AExpression>();
+                children.add(new StringNode("Yes"));
+                children.add(new StringNode("No"));
+                questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
+            }
+            else{
+                questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            }
         }
         else {
             List<AExpression> children = new ArrayList<AExpression>();
@@ -81,21 +93,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     @Override
     public ANode visitDate(KLQParser.DateContext ctx) {
         String dateString = ctx.Date().getText();
-        DateTimeFormatter formatter;
 
-        //TODO Move this logic to a better location
-        if(dateString.contains(".")){
-            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
-        }
-        else if(dateString.contains("/")){
-            formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
-        }
-        else{
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
-        }
+        DateValue date = (DateValue) ExpressionUtil.createTerminalFromString(Type.DATE, dateString);
 
         //TODO discuss with Timon localdate vs date and refactor
-        DateNode dateNode = new DateNode(Date.from(LocalDate.parse(dateString, formatter).atStartOfDay(ZoneId.systemDefault()).toInstant()), formatLocation(ctx));
+        DateNode dateNode = new DateNode(date.getValue(), formatLocation(ctx));
         return dateNode;
     }
 

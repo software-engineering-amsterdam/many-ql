@@ -1,0 +1,16 @@
+package qls.typechecker
+
+import ql.typechecker.Error
+import qls.ast.{Question, Section}
+
+class DuplicatePlacementChecker {
+
+  def check(s: Section): List[Error] = {
+    val names = s.questions.map({
+      case q: Question => q.variable.name
+    })
+    names.groupBy(identity).collect({
+      case (name, equalNames) if equalNames.size > 1 => new Error(s"Question $name is placed ${equalNames.size} times")
+    }).toList
+  }
+}

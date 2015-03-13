@@ -1,10 +1,10 @@
 package org.uva.ql.ast.expression.literal;
 
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
-import org.uva.utility.CodePosition;
 
 public class IntLiteral extends Literal{
 
@@ -31,7 +31,7 @@ public class IntLiteral extends Literal{
 	
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return new IntType();
+		return new IntType(getPosition());
 	}
 	
 }

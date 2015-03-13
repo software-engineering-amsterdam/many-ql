@@ -20,9 +20,7 @@ public class Boolean implements Type {
 		}
 	}
 
-	@Override
 	public <T> T accept(INodeVisitor<T> visitor) {
-		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 }

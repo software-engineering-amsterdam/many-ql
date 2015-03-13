@@ -6,33 +6,37 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
 import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.visitor.StatementVisitor;
+import uva.qls.ast.style.Style;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public class DefaultValue extends Statement {
 	
 	private Type type;
 	private Component component;
-	private List<Statement> statement;
+	private List<Style> style;
 
-	
 	public DefaultValue (Type _type,Component _component, CodeLines _codeLines ){
 		super(_codeLines);
 		this.component=_component;
 		this.type=_type;
 	}
 	
-	public DefaultValue(Type _type, List<Statement> _statement, CodeLines _codeLines){
+	public DefaultValue(Type _type, List<Style> _style, CodeLines _codeLines){
 		super(_codeLines);
-		this.statement=_statement;
-		this.type=_type;
+		this.style = _style;
+		this.type = _type;
 	}
 	
 	public Type getType(){
 		return this.type;
 	}
-	public List<Statement> getStatement(){
-		return this.statement;
+	public List<Style> getStyle(){
+		return this.style;
+	}
+	
+	public Component getComponent(){
+		return this.component;
 	}
 	
 	@Override
@@ -57,7 +61,7 @@ public class DefaultValue extends Statement {
 	
 	@Override
 	public String toString(){
-		return this.statement 	!= null ? "DefaultValue(" + this.getType().toString() + "," + this.statement.toString()
+		return this.style 		!= null ? "DefaultValue(" + this.getType().toString() + "," + this.style.toString()
 								: "DefaultValue(" + this.getType().toString() + "," + this.component.toString() + ")";
 	}
 }

@@ -11,7 +11,7 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/i
 // functionality.
 type Inputer interface {
 	DrawQuestion(identifier, label, typ string, visible event.Visibility)
-	UpdateQuestion(identifier string, fieldType string, value interface{})
+	UpdateQuestion(identifier string, value interface{})
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
@@ -56,8 +56,7 @@ func (f *frontend) loop() {
 				)
 
 			case event.UpdateQuestion:
-				f.driver.UpdateQuestion(r.Identifier,
-					r.FieldType, r.Value)
+				f.driver.UpdateQuestion(r.Identifier, r.Value)
 
 			case event.Flush:
 				f.driver.Flush()

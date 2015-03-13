@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 public abstract class FormField {
+    //private final FormInterpreter formInterpreter;
     private final FormInterpreter formInterpreter;
     private String label, variable;
 
@@ -25,6 +26,7 @@ public abstract class FormField {
         formInterpreter.setField(variable, value);
     }
 
+    //public FormField(String label, String variable, FormInterpreter formInterpreter) {
     public FormField(String label, String variable, FormInterpreter formInterpreter) {
         this.label = label;
         this.variable = variable;

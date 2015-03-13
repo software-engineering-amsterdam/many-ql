@@ -10,6 +10,7 @@ public class StrExpr extends ConstExpr<String>
         super(value, lineNumber);
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

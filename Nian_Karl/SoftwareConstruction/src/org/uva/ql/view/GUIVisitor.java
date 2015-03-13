@@ -18,7 +18,7 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.UndefinedType;
-import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.component.QuestionComponent;
 import org.uva.ql.view.listener.ButtonWidgetListener;
@@ -57,7 +57,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		widget.setDependent(false);
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
-		widgetListener.initializeValue(identifier.toString(), new Undefined());
+		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
 		return questionComponent;
 	}
 
@@ -67,7 +67,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		widget.setDependent(true);
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		Identifier identifier = questionComputeStatement.getIdentifier();
-		widgetListener.initializeValue(identifier.toString(), new Undefined());
+		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
 		widgetListener.addDependentQuestionComponent(questionComponent);
 		return questionComponent;
 	}

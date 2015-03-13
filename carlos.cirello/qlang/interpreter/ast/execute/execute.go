@@ -43,7 +43,7 @@ func (exec Execute) ActionNode(v *ast.Visitor, a *ast.ActionNode) {
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
 func (exec Execute) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
-	exec.symboltable.Create(q.Identifier(), q.Label(), q.Type())
+	exec.symboltable.Create(q)
 
 	r := exec.symboltable.Read(q.Identifier())
 
@@ -57,7 +57,6 @@ func (exec Execute) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
 		Type:       event.UpdateQuestion,
 		Identifier: q.Identifier(),
 		Label:      q.Label(),
-		FieldType:  q.Type(),
 		Value:      r.(fmt.Stringer).String(),
 	}
 }

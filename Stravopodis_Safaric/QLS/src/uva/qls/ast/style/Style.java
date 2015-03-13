@@ -4,7 +4,7 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.Statement;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.Tuple;
+import uva.qls.supporting.*;
 
 public abstract class Style extends Statement{
 

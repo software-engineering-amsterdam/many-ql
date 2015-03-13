@@ -9,7 +9,8 @@ import java.util.*;
  */
 public class QuestionDependencies
 {
-    private Map<String, Set<String>> dependencies;
+    private final Map<String, Set<String>> dependencies;
+    private Identifiers cyclicIds;
 
     public QuestionDependencies()
     {
@@ -34,42 +35,65 @@ public class QuestionDependencies
         this.dependencies.get(id).add(dep.getId());
     }
 
-    public List<String> findCycle()
+    public Identifiers getCycleIds()
     {
-        for (String k : this.dependencies.keySet())
-        {
-            List<String> buffer = new ArrayList<>();
-            buffer.add(k);
-            List<String> result = this.searchNeighbours(buffer);
-            if (result != null)
-            {
-                return result;
-            }
-        }
-        return null;
+        return this.cyclicIds;
     }
 
-    // TODO: refactor this code
-    private List<String> searchNeighbours(List<String> path)
+    public boolean containsCycle()
     {
-        String firstElement = path.get(0);
-        String lastElement = path.get(path.size()-1);
+        return this.findCycles();
+    }
+
+    private boolean findCycles()
+    {
+        this.cyclicIds = new Identifiers();
+
+        for (String id : this.dependencies.keySet())
+        {
+            Stack<String> path = new Stack<>();
+            path.add(id);
+            if (this.searchNeighboursForCycles(path))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean searchNeighboursForCycles(Stack<String> path)
+    {
+        String lastElement = path.lastElement();
         Set<String> neighbours = this.dependencies.get(lastElement);
 
         for (String n : neighbours)
         {
-            if (n.equals(firstElement))
+            if (this.isNeighbourFormingCycle(path, n))
             {
-                return path;
+                return true;
             }
-            path.add(n);
-            List<String> result = searchNeighbours(path);
-            if (result != null)
+
+            path.push(n);
+            if (this.searchNeighboursForCycles(path))
             {
-                return result;
+                return true;
             }
-            path.remove(path.size() - 1);
+            path.pop();
         }
-        return null;
+
+        return false;
+    }
+
+    private boolean isNeighbourFormingCycle(Stack<String> path, String n)
+    {
+        String firstElement = path.firstElement();
+        if (firstElement.equals(n))
+        {
+            this.cyclicIds.addAll(path);
+            return true;
+        }
+
+        return false;
     }
 }

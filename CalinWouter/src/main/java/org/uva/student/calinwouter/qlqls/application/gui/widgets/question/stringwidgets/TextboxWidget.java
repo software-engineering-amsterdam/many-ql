@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 public class TextboxWidget implements IWidget {
     private JTextField widget;
 
-    public TextboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public TextboxWidget(final Question question, final FormInterpreter formInterpreter) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -32,8 +32,8 @@ public class TextboxWidget implements IWidget {
             }
 
             public void updateField() {
-                headlessFormInterpreter.setField(question.getIdent(), new StringValue(widget.getText()));
-                headlessFormInterpreter.interpret();
+                formInterpreter.setField(question.getIdent(), new StringValue(widget.getText()));
+                formInterpreter.interpret();
             }
         });
     }

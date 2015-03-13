@@ -15,5 +15,4 @@ public class Widget extends Style {
     public Widgets getWidget() {
         return widget;
     }
-
 }

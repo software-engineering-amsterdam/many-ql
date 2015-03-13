@@ -2,7 +2,7 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
-import ql.types.{EvalEnvironment, Dependencies, VariableName}
+import types.{EvalEnvironment, Dependencies, VariableName}
 
 import scala.collection.immutable.StringOps
 import scala.util.Try
@@ -80,7 +80,9 @@ class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression], e
     }
   }
 
-  def updateValue(field: CheckBox, name: VariableName, value: Boolean): Unit =  if (valueDependencies contains name) field.selected = value
+  def updateValue(field: CheckBox, name: VariableName, value: Boolean): Unit =  if (valueDependencies contains name) {
+    field.selected = value
+  }
 
   def eval: Boolean = q.expression match {
     case Some(e) => evaluator.eval(e, env) match {
@@ -121,7 +123,9 @@ class NumberQuestionBox(q: Question, visibilityExpressions: List[Expression], en
     }
   }
 
-  def updateValue(field: TextField, name: VariableName, value: Int): Unit =  if (valueDependencies contains name) field.text = value.toString
+  def updateValue(field: TextField, name: VariableName, value: Int): Unit =  if (valueDependencies contains name) {
+    field.text = value.toString
+  }
 
   def eval: Int = q.expression match {
     case Some(e) => evaluator.eval(e, env) match {
@@ -159,7 +163,9 @@ class StringQuestionBox(q: Question, visibilityExpressions: List[Expression], en
     }
   }
 
-  def updateValue(field: TextField, name: VariableName, value: String): Unit =  if (valueDependencies contains name) field.text = value
+  def updateValue(field: TextField, name: VariableName, value: String): Unit =  if (valueDependencies contains name) {
+    field.text = value
+  }
 
   def eval: String = q.expression match {
     case Some(e) => evaluator.eval(e, env) match {

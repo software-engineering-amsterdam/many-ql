@@ -7,8 +7,8 @@ import lang.ql.ast.type.Type;
  */
 public abstract class BinaryExpr extends NaryExpr
 {
-    private Expr left;
-    private Expr right;
+    private final Expr left;
+    private final Expr right;
 
     public BinaryExpr(Expr left, Expr right, int lineNumber)
     {
@@ -23,10 +23,4 @@ public abstract class BinaryExpr extends NaryExpr
     }
 
     public Expr getRight() { return this.right; }
-
-    @Override
-    public boolean isTypeAllowed(Type t)
-    {
-        return t.isNumerical();
-    }
 }

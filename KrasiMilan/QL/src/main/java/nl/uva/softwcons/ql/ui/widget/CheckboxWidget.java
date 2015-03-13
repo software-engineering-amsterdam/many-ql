@@ -1,17 +1,17 @@
 package nl.uva.softwcons.ql.ui.widget;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.CheckBox;
+import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
+import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
 
 public class CheckboxWidget extends Widget {
     private CheckBox checkBox;
-    private Property<Value> valueProperty;
+    private ValueConverter<Boolean> converter;
 
-    public CheckboxWidget(final String checkString) {
+    public CheckboxWidget(final String checkString, final ValueConverter<Boolean> converter) {
         this.checkBox = new CheckBox(checkString);
-        this.valueProperty = new SimpleObjectProperty<Value>();
+        this.converter = converter;
     }
 
     @Override
@@ -20,18 +20,20 @@ public class CheckboxWidget extends Widget {
     }
 
     @Override
-    public void setValue(Value value) {
-        checkBox.setSelected(value.asBoolean());
+    public void setValue(final Value value) {
+        checkBox.setSelected(value.inConditionalContext());
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.checkBox.setVisible(visible);
+    public void setEditable(boolean editable) {
+        this.checkBox.setDisable(!editable);
     }
 
     @Override
-    public Property<Value> getValueProperty() {
-        return this.valueProperty;
+    public void addListener(final ValueChangeListener<Value> listener) {
+        this.checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            listener.processValueChange(converter.toValue(newValue));
+        });
     }
 
 }

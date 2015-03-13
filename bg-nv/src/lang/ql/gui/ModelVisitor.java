@@ -1,13 +1,15 @@
 package lang.ql.gui;
 
 import lang.ql.gui.canvas.Canvas;
-import lang.ql.gui.input.*;
+import lang.ql.gui.control.CheckBox;
+import lang.ql.gui.control.Radios;
+import lang.ql.gui.control.TextField;
 import lang.ql.gui.input.expression.*;
 import lang.ql.gui.input.regular.*;
 import lang.ql.gui.label.Label;
-import lang.ql.gui.section.ConditionalSection;
-import lang.ql.gui.section.LineSection;
-import lang.ql.gui.section.Section;
+import lang.ql.gui.segment.Conditional;
+import lang.ql.gui.segment.Row;
+import lang.ql.gui.segment.Page;
 
 /**
  * Created by Nik on 23-2-15.
@@ -16,8 +18,9 @@ public interface ModelVisitor<T>
 {
     public T visit(Canvas c);
 
-    public T visit(ConditionalSection section);
-    public T visit(LineSection lineSection);
+    public T visit(Page page);
+    public T visit(Conditional section);
+    public T visit(Row row);
 
     public T visit(Label label);
 
@@ -32,4 +35,8 @@ public interface ModelVisitor<T>
     public T visit(DecExprInput input);
     public T visit(IntExprInput input);
     public T visit(StrExprInput input);
+
+    public T visit(TextField control);
+    public T visit(CheckBox control);
+    public T visit(Radios control);
 }

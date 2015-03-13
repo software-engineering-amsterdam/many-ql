@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Representation;
 
 namespace AST.Nodes.Interfaces
 {
-    public interface IASTNode
+    public interface IASTNode : IVisitable
     {
-       // Parent Properties
-      //  iASTNode setParent();
-      //  iASTNode getParent();
-      //  iASTNode removeParent();
-        
-        //Child Properties
-      //  iASTNode getChild(int i);
-        void AddChild(IASTNode node);
-      //  iASTNode removeChild(int i);
+        PositionInText GetPosition();
 
     }
 }

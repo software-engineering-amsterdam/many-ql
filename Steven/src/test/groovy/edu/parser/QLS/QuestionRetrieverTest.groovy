@@ -27,7 +27,7 @@ class QuestionRetrieverTest extends Specification {
         List<QLSQuestion> evaluatedQuestions = questionRetriever.retrieveQuestions(stylesheet)
 
         then:
-        Assert.assertEquals(4, evaluatedQuestions.size())
+        Assert.assertEquals(3, evaluatedQuestions.size())
     }
 
 

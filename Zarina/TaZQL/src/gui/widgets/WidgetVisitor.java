@@ -25,7 +25,7 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	}
 	
 	@Override
-	public TextFieldWidget visit(TextType type) {
+	public TextFieldWidget visit(TextType type) { 
 		this.valueRepository.putID(id, new StringValue(""));
 		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
 	}
@@ -43,8 +43,8 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	}
 
 	@Override
-	public TextFieldWidget visit(UndefinedType type) {
-		assert false: "This supposed to be checked in typechecker";
+	public IntegerFieldWidget visit(UndefinedType type) {
+		assert false: "Unsupported type. This supposed to be checked in typechecker.";
 		return null;
 	}
 	

@@ -1,15 +1,14 @@
 package gui.widgets.listeners;
 
-import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
 
 public abstract class AListener {
 	protected final IWidgetComponent widget;
-	protected final ValueRepository valueRepository;
+	protected final EvaluateExpression evaluator;
 	
-	public AListener(IWidgetComponent widget, ValueRepository valueRepository) {
+	public AListener(IWidgetComponent widget, EvaluateExpression evaluator) { 
 		this.widget = widget;
-		this.valueRepository = valueRepository;
+		this.evaluator = evaluator;
 	}
 	
 	public abstract void update();

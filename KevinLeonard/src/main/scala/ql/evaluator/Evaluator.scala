@@ -1,7 +1,7 @@
 package ql.evaluator
 
 import ql.ast._
-import ql.types.EvalEnvironment
+import types.EvalEnvironment
 
 class Evaluator {
 
@@ -19,7 +19,7 @@ class Evaluator {
     case Sub(lhs, rhs) => doArithmeticOperation(_ - _, lhs, rhs, env)
     case Mul(lhs, rhs) => doArithmeticOperation(_ * _, lhs, rhs, env)
     case Div(lhs, rhs) => doArithmeticOperation(_ / _, lhs, rhs, env)
-    case Variable(v) => env getOrElse(v, throw new AssertionError(s"Error in type checker. Undefined variable $v."))
+    case Variable(name) => env getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
     case BooleanLiteral(v) => v
     case NumberLiteral(v) => v
     case StringLiteral(v) => v

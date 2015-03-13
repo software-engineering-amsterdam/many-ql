@@ -79,93 +79,195 @@ public interface QLSGrammarListener extends ParseTreeListener {
 	 */
 	void exitDefaultStyle(QLSGrammarParser.DefaultStyleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSGrammarParser#styleProperty}.
+	 * Enter a parse tree produced by the {@code width}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterStyleProperty(QLSGrammarParser.StylePropertyContext ctx);
+	void enterWidth(QLSGrammarParser.WidthContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSGrammarParser#styleProperty}.
+	 * Exit a parse tree produced by the {@code width}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitStyleProperty(QLSGrammarParser.StylePropertyContext ctx);
+	void exitWidth(QLSGrammarParser.WidthContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSGrammarParser#type}.
+	 * Enter a parse tree produced by the {@code fontName}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterType(QLSGrammarParser.TypeContext ctx);
+	void enterFontName(QLSGrammarParser.FontNameContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSGrammarParser#type}.
+	 * Exit a parse tree produced by the {@code fontName}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitType(QLSGrammarParser.TypeContext ctx);
+	void exitFontName(QLSGrammarParser.FontNameContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSGrammarParser#widgetType}.
+	 * Enter a parse tree produced by the {@code fontsize}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterWidgetType(QLSGrammarParser.WidgetTypeContext ctx);
+	void enterFontsize(QLSGrammarParser.FontsizeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSGrammarParser#widgetType}.
+	 * Exit a parse tree produced by the {@code fontsize}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitWidgetType(QLSGrammarParser.WidgetTypeContext ctx);
+	void exitFontsize(QLSGrammarParser.FontsizeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code number}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Enter a parse tree produced by the {@code color}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterNumber(QLSGrammarParser.NumberContext ctx);
+	void enterColor(QLSGrammarParser.ColorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code number}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Exit a parse tree produced by the {@code color}
+	 * labeled alternative in {@link QLSGrammarParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitNumber(QLSGrammarParser.NumberContext ctx);
+	void exitColor(QLSGrammarParser.ColorContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolean}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
 	void enterBoolean(QLSGrammarParser.BooleanContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code boolean}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
 	void exitBoolean(QLSGrammarParser.BooleanContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code id}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Enter a parse tree produced by the {@code number}
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterId(QLSGrammarParser.IdContext ctx);
+	void enterNumber(QLSGrammarParser.NumberContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code id}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Exit a parse tree produced by the {@code number}
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitId(QLSGrammarParser.IdContext ctx);
+	void exitNumber(QLSGrammarParser.NumberContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code string}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
 	void enterString(QLSGrammarParser.StringContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code string}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * labeled alternative in {@link QLSGrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
 	void exitString(QLSGrammarParser.StringContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code colorencode}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Enter a parse tree produced by the {@code checkbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
 	 * @param ctx the parse tree
 	 */
-	void enterColorencode(QLSGrammarParser.ColorencodeContext ctx);
+	void enterCheckbox(QLSGrammarParser.CheckboxContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code colorencode}
-	 * labeled alternative in {@link QLSGrammarParser#atom}.
+	 * Exit a parse tree produced by the {@code checkbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
 	 * @param ctx the parse tree
 	 */
-	void exitColorencode(QLSGrammarParser.ColorencodeContext ctx);
+	void exitCheckbox(QLSGrammarParser.CheckboxContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code spinbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void enterSpinbox(QLSGrammarParser.SpinboxContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code spinbox}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void exitSpinbox(QLSGrammarParser.SpinboxContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code radio}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void enterRadio(QLSGrammarParser.RadioContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code radio}
+	 * labeled alternative in {@link QLSGrammarParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void exitRadio(QLSGrammarParser.RadioContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arial}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterArial(QLSGrammarParser.ArialContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arial}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitArial(QLSGrammarParser.ArialContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code timesNewRoman}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code timesNewRoman}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitTimesNewRoman(QLSGrammarParser.TimesNewRomanContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code bazooka}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterBazooka(QLSGrammarParser.BazookaContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code bazooka}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitBazooka(QLSGrammarParser.BazookaContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code bookAntiqua}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code bookAntiqua}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitBookAntiqua(QLSGrammarParser.BookAntiquaContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code courier}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterCourier(QLSGrammarParser.CourierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code courier}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitCourier(QLSGrammarParser.CourierContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code dialog}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void enterDialog(QLSGrammarParser.DialogContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dialog}
+	 * labeled alternative in {@link QLSGrammarParser#font}.
+	 * @param ctx the parse tree
+	 */
+	void exitDialog(QLSGrammarParser.DialogContext ctx);
 }

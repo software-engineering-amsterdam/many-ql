@@ -1,7 +1,6 @@
 
 form HouseSelling {
     
-    
     question hasSoldHouse typeof boolean {
         hasSoldHouse : "Did you sell a house in 2015?";
         hasSoldHouse : false;
@@ -12,13 +11,12 @@ form HouseSelling {
     question hasMaintLoan typeof boolean {
     	hasMaintLoan : "Did you sell a house in 2014 ?";
     }
-   
     
      if (hasSoldHouse == true){
     	question sellingPrice typeof money {
     		sellingPrice : "Did you sell a house in 2014 ?";
     	}
-    	question privateDebt typeof money {
+    	question privateDebt typeof integer {
     		privateDebt : "What was the value of the private debt?";
     	}
     	question valueResidue typeof money {

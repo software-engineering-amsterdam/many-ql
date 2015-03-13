@@ -12,6 +12,12 @@ public class Error extends Message
         super(message);
     }
 
+    @Override
+    public boolean isError()
+    {
+        return true;
+    }
+
     public static Error typeMismatch(String id, String leftChildType, String rightChildType, int line)
     {
         String m = String.format("Error (Line %d): expression of type %s cannot have children of different type: %s and %s",
@@ -55,8 +61,8 @@ public class Error extends Message
                 line1, id, line1, line2));
     }
 
-    public static Error cyclicQuestions(List<String> ids)
+    public static Error cyclicQuestions(String idList)
     {
-        return new Error("Error: the following questions form a cyclic dependency: " + Message.getListString(ids));
+        return new Error(String.format("Error: the following questions form a cyclic dependency: %s", idList));
     }
 }

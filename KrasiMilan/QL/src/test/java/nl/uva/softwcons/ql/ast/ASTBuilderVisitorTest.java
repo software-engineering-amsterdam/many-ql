@@ -5,7 +5,7 @@ import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
 import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
-import helper.TestHelper;
+import nl.uva.softwcons.helper.TestHelper;
 import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Multiplication;
@@ -104,12 +104,8 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testMultiplicationExpression() {
         String question = "question: \"Question\" number(1*2)";
-        Form form = Questionnaire.build(buildForm("form1", question));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", question));
         assertThat(((ComputedQuestion) form.getStatements().get(0)).getExpression()).isExactlyInstanceOf(
                 Multiplication.class);
-    }
-
-    private String buildForm(final String formName, final String... statements) {
-        return String.format("form %s { %s }", formName, String.join(" ", statements));
     }
 }

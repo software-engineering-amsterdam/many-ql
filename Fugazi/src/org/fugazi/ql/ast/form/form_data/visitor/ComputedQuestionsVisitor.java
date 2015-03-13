@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ComputedQuestionsVisitor extends StatementsVisitor {
@@ -41,13 +42,13 @@ public class ComputedQuestionsVisitor extends StatementsVisitor {
      * =======================
      */
 
-    public List<ComputedQuestion> getComputedQuestions() {
+    public Iterator<ComputedQuestion> getComputedQuestions() {
         if (this.computedQuestions == null) {
             this.computedQuestions= new ArrayList<>();
 
             this.visitForm();
         }
 
-        return this.computedQuestions;
+        return this.computedQuestions.iterator();
     }
 }

@@ -8,7 +8,7 @@ import lang.ql.ast.type.Type;
  */
 public abstract class UnaryExpr extends NaryExpr
 {
-    private Expr operand;
+    private final Expr operand;
 
     public UnaryExpr(Expr operand, int lineNumber)
     {
@@ -22,13 +22,7 @@ public abstract class UnaryExpr extends NaryExpr
     }
 
     @Override
-    public boolean isTypeAllowed(Type t)
-    {
-        return t.isNumerical();
-    }
-
-    @Override
-    public Type getComputedType(Type childType)
+    public Type getReturnType(Type childType)
     {
         return new BoolType();
     }
