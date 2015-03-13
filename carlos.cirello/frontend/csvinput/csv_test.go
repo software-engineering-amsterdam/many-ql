@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 )
 
 const fakeCsv = `
@@ -13,8 +13,8 @@ question2,"description","2"
 `
 
 func TestCsvInputFrontend(t *testing.T) {
-	receive := make(chan *event.Frontend)
-	send := make(chan *event.Frontend)
+	receive := make(chan *plumbing.Frontend)
+	send := make(chan *plumbing.Frontend)
 	expectedAnswers := make(chan map[string]string)
 	fakeInterpreter(receive, send, expectedAnswers)
 
@@ -28,18 +28,18 @@ func TestCsvInputFrontend(t *testing.T) {
 	}
 }
 
-func fakeInterpreter(receive, send chan *event.Frontend, expectedAnswers chan map[string]string) {
-	go func(receive chan *event.Frontend) {
+func fakeInterpreter(receive, send chan *plumbing.Frontend, expectedAnswers chan map[string]string) {
+	go func(receive chan *plumbing.Frontend) {
 		for {
-			receive <- &event.Frontend{
-				Type: event.Flush,
+			receive <- &plumbing.Frontend{
+				Type: plumbing.Flush,
 			}
 		}
 	}(receive)
-	go func(send chan *event.Frontend, expectedAnswers chan map[string]string) {
+	go func(send chan *plumbing.Frontend, expectedAnswers chan map[string]string) {
 		for {
 			r := <-send
-			if r.Type == event.Answers {
+			if r.Type == plumbing.Answers {
 				expectedAnswers <- r.Answers
 			}
 		}
