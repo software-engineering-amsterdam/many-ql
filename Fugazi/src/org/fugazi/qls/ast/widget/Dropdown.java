@@ -7,10 +7,13 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
+import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class Dropdown extends Widget {
+public class Dropdown extends Widget<Boolean> {
 
     private final String yesLabel;
     private final String noLabel;
@@ -48,6 +51,29 @@ public class Dropdown extends Widget {
 
         // todo
     }
+
+    @Override
+    public JComponent getJComponent() {
+        // todo
+        return null;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        // todo
+    }
+
+    @Override
+    public Boolean getValue() {
+        // todo
+        return false;
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        // todo
+    }
+
 
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();

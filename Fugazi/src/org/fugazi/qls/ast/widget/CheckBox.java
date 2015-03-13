@@ -7,10 +7,12 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class CheckBox extends Widget {
+public class CheckBox extends Widget<Boolean> {
 
     private JCheckBox component;
 
@@ -48,6 +50,26 @@ public class CheckBox extends Widget {
         this.style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return component;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        component.addItemListener((ItemListener)_listener);
+    }
+
+    @Override
+    public Boolean getValue() {
+        return this.component.isSelected();
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        this.component.setSelected(_value);
     }
 
     public List<Type> getSupportedQuestionTypes() {

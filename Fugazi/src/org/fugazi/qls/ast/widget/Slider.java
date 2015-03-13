@@ -5,10 +5,12 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class Slider extends Widget {
+public class Slider extends Widget<Integer> {
 
     public Slider(int _lineNum) {
         super(_lineNum);
@@ -36,6 +38,28 @@ public class Slider extends Widget {
         // todo
     }
 
+    @Override
+    public JComponent getJComponent() {
+        // todo
+        return null;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        // todo
+    }
+
+    @Override
+    public Integer getValue() {
+        // todo
+        return 0;
+    }
+
+    @Override
+    public void setValue(Integer _value) {
+        // todo
+    }
+    
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
         supportedTypes.add(new IntType());

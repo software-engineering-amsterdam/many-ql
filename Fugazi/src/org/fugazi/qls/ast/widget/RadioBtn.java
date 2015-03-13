@@ -7,16 +7,21 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class RadioBtn extends Widget {
+public class RadioBtn extends Widget<Boolean> {
 
     private final String yesLabel;
     private final String noLabel;
 
     private JPanel component;
     private JLabel componentLabel;
+    private ButtonGroup radioButtonGroup;
+    private JRadioButton yesBtn;
+    private JRadioButton noBtn;
 
     public RadioBtn(int _lineNum, String _yes, String _no) {
         super(_lineNum);
@@ -51,9 +56,10 @@ public class RadioBtn extends Widget {
         this.component = new JPanel();
         this.componentLabel = new JLabel(_label);
 
-        JRadioButton yesBtn = new JRadioButton(_yes);
-        JRadioButton noBtn = new JRadioButton(_no);
-        ButtonGroup radioButtonGroup = new ButtonGroup();
+        this.yesBtn = new JRadioButton(_yes);
+        this.noBtn = new JRadioButton(_no);
+        this.radioButtonGroup = new ButtonGroup();
+        
         radioButtonGroup.add(yesBtn);
         radioButtonGroup.add(noBtn);
         component.add(yesBtn);
@@ -65,6 +71,30 @@ public class RadioBtn extends Widget {
     public void setLabel(String _label) {
         this.label = _label;
         this.componentLabel.setText(label);
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return component;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        this.yesBtn.addItemListener((ItemListener)_listener);
+        this.noBtn.addItemListener((ItemListener)_listener);
+    }
+
+    @Override
+    public Boolean getValue() {
+        // todo
+        //return this.component.isSelected();
+        return false;
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        // todo
+        //this.component.setSelected(_value);
     }
 
     @Override

@@ -7,10 +7,12 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
 
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class TextBox extends Widget {
+public class TextBox extends Widget<String> {
 
     public final static int DEFAULT_WIDTH = 7;
 
@@ -54,6 +56,26 @@ public class TextBox extends Widget {
         this.style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return this.component;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
+    }
+
+    @Override
+    public String getValue() {
+        return this.componentValue.getText();
+    }
+
+    @Override
+    public void setValue(String _value) {
+        this.componentValue.setText(_value);
     }
 
     @Override
