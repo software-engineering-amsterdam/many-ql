@@ -21,6 +21,6 @@ public class StyleRule extends QLSStatement {
 
 	@Override
 	public String toString() {
-		return property.toString() + ": " + value.getValue();
+		return property.toString() + " = " + value.getValue();
 	}
 }

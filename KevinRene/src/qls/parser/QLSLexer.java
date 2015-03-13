@@ -35,6 +35,12 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("slider", SLIDER);
 		KEYWORDS.put("text", TEXT);
 		KEYWORDS.put("dropdown", DROPDOWN);
+
+		KEYWORDS.put("width", WIDTH);
+		KEYWORDS.put("height", HEIGHT);
+		KEYWORDS.put("font", FONT);
+		KEYWORDS.put("fontsize", FONTSIZE);
+		KEYWORDS.put("color", COLOR);
 	}
 	
 	
@@ -59,7 +65,6 @@ public class QLSLexer implements QLSTokens {
 				c = -1;
 			}
 		}
-		
 	}
 	
 	public int nextToken() {
@@ -109,6 +114,7 @@ public class QLSLexer implements QLSTokens {
 			    case '{': nextChar(); return token = '{';
 			    case ')': nextChar(); return token = ')';
 			    case '(': nextChar(); return token = '(';
+			    case ',': nextChar(); return token = ',';
 			    
 			    case '"': {
 			    	StringBuilder sb = new StringBuilder();
@@ -159,10 +165,10 @@ public class QLSLexer implements QLSTokens {
 			    				n = 10 * n + (c - '0');
 			    			}
 			    			
+			    			yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
 			    			nextChar(); 
 			    		} while (Character.isDigit(c) || (c == '.' && !isFloat));
 			    		
-			    		yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
 			    		
 			    		return token = isFloat ? FLOATLITERAL : INTEGERLITERAL;
 			    	}
