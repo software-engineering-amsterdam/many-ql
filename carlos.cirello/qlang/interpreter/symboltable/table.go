@@ -100,7 +100,7 @@ func (s *SymbolTable) Create(q *ast.QuestionNode) {
 		symbol = new(ComputedQuestion)
 	}
 	s.upsert(identifier, symbol)
-	s.detectRepeatedLabel(label, identifier)
+	s.detectRepeatedLabel(identifier, label)
 }
 
 // Update looks for identifier in symboltable and updates a pointer if existing
@@ -119,7 +119,7 @@ func (s *SymbolTable) appendWarnf(warn string, vars ...interface{}) {
 	s.warn = append(s.warn, fmt.Errorf(warn, vars...))
 }
 
-func (s *SymbolTable) detectRepeatedLabel(label, identifier string) {
+func (s *SymbolTable) detectRepeatedLabel(identifier, label string) {
 	if _, ok := s.labels[label]; ok {
 		s.appendWarnf(
 			"Repeated question label at typechecker: %s for %s",
