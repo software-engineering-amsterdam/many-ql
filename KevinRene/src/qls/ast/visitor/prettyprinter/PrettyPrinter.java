@@ -22,6 +22,11 @@ import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.StyleRuleSet;
+import qls.ast.stylerule.property.Color;
+import qls.ast.stylerule.property.Font;
+import qls.ast.stylerule.property.FontSize;
+import qls.ast.stylerule.property.Height;
+import qls.ast.stylerule.property.Width;
 import qls.ast.visitor.QLSVisitor;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.DefaultWidget;
@@ -59,12 +64,14 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	 * 
 	 * @param node - The node to print.
 	 */
-	private void printNode(QLNode node) {
+	private Void printNode(QLNode node) {
 		String type = node.getClass().getSimpleName();
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
 		System.out.println(prefix + ("└── ") + nodeString + " : " + type);
+		
+		return null;
 	}
 	
 	
@@ -73,9 +80,7 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	 *********************/
 	@Override
 	public Void visit(Identifier identNode) {
-		printNode(identNode);
-		
-		return null;
+		return printNode(identNode);
 	}
 
 	/****************
@@ -83,44 +88,37 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	 ****************/
 	@Override
 	public Void visit(QLBoolean booleanNode) {
-		printNode(booleanNode);
-		return null;
+		return printNode(booleanNode);
 	}
 
 	@Override
 	public Void visit(QLFloat floatNode) {
-		printNode(floatNode);
-		return null;
+		return printNode(floatNode);
 	}
 	
 	@Override
 	public Void visit(QLForm formNode) {
-		printNode(formNode);
-		return null;
+		return printNode(formNode);
 	}
 
 	@Override
 	public Void visit(QLInteger intNode) {
-		printNode(intNode);
-		return null;
+		return printNode(intNode);
 	}
 
 	@Override
 	public Void visit(QLNumeric numericNode) {
-		printNode(numericNode);	
-		return null;
+		return printNode(numericNode);	
 	}
 
 	@Override
 	public Void visit(QLString stringNode) {
-		printNode(stringNode);
-		return null;
+		return printNode(stringNode);
 	}
 	
 	@Override
 	public Void visit(QLError qlError) {	
-		printNode(qlError);
-		return null;
+		return printNode(qlError);
 	}
 
 	/*******************
@@ -128,28 +126,22 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 	 *******************/
 	@Override
 	public Void visit(BooleanLiteral booleanNode) {
-		printNode(booleanNode);
-		
-		return null;
+		return printNode(booleanNode);
 	}
 
 	@Override
 	public Void visit(FloatLiteral floatNode) {
-		printNode(floatNode);
-		
-		return null;
+		return printNode(floatNode);
 	}
 
 	@Override
 	public Void visit(IntegerLiteral intNode) {
-		printNode(intNode);
-		return null;
+		return printNode(intNode);
 	}
 
 	@Override
 	public Void visit(StringLiteral stringNode) {
-		printNode(stringNode);	
-		return null;
+		return printNode(stringNode);	
 	}
 	
 	@Override
@@ -209,50 +201,42 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 
 	@Override
 	public Void visit(DefaultWidget defaultWidget) {
-		printNode(defaultWidget);			
-		return null;
+		return printNode(defaultWidget);			
 	}
 	
 	@Override
 	public Void visit(Checkbox checkboxNode) {
-		printNode(checkboxNode);
-		return null;
+		return printNode(checkboxNode);
 	}
 
 	@Override
 	public Void visit(Dropdown dropdownNode) {
-		printNode(dropdownNode);
-		return null;
+		return printNode(dropdownNode);
 	}
 
 	@Override
 	public Void visit(RadioButton radioButtonNode) {
-		printNode(radioButtonNode);
-		return null;
+		return printNode(radioButtonNode);
 	}
 
 	@Override
 	public Void visit(TextField textFieldNode) {
-		printNode(textFieldNode);
-		return null;
+		return printNode(textFieldNode);
 	}
 
 	@Override
 	public Void visit(Spinner spinnerNode) {
-		printNode(spinnerNode);
-		return null;
+		return printNode(spinnerNode);
 	}
 
 	@Override
 	public Void visit(Slider sliderNode) {
-		printNode(sliderNode);
-		return null;
+		return printNode(sliderNode);
 	}
 
 	@Override
 	public Void visit(StyleRule styleRuleNode) {
-		printNode(styleRuleNode);
-		return null;
+		return printNode(styleRuleNode);
 	}
 
 	@Override
@@ -288,5 +272,28 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 		return null;
 	}
 
-	
+	@Override
+	public Void visit(Color color) {
+		return printNode(color);
+	}
+
+	@Override
+	public Void visit(Width width) {
+		return printNode(width);
+	}
+
+	@Override
+	public Void visit(Height height) {
+		return printNode(height);
+	}
+
+	@Override
+	public Void visit(Font font) {
+		return printNode(font);
+	}
+
+	@Override
+	public Void visit(FontSize fontSize) {
+		return printNode(fontSize);
+	}
 }
