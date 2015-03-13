@@ -58,6 +58,12 @@
     <Compile Include="AST\Model\Section.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetVisitor.cs" />
+    <Compile Include="AST\Model\widget\Calendar.cs" />
+    <Compile Include="AST\Model\widget\Checkbox.cs" />
+    <Compile Include="AST\Model\widget\Dropdownbox.cs" />
+    <Compile Include="AST\Model\widget\Radiobuttons.cs" />
+    <Compile Include="AST\Model\widget\Spinbox.cs" />
+    <Compile Include="AST\Model\widget\Textbox.cs" />
     <Compile Include="Grammar\QLS.g4.lexer.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>
@@ -73,6 +79,7 @@
       <CustomToolNamespace>UvA.SoftCon.Questionnaire.QLS.Grammar</CustomToolNamespace>
       <Listener>False</Listener>
     </Antlr4>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +88,7 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
