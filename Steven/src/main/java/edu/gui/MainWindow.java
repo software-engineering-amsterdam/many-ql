@@ -78,7 +78,7 @@ public class MainWindow extends JFrame {
 
     public void goToSpecificPage(int pageNumber) {
         if (isInvalidPageNumber(pageNumber)) {
-            throw new GuiException(String.format("Cannot switch to page. totalpages: [%d] page: [%d]", totalPages, pageNumber));
+            throw new GuiException(String.format("Cannot switch to page. total pages: [%d] page: [%d]", totalPages, pageNumber));
         } else {
             jumpToPage(pageNumber);
 

@@ -5,6 +5,7 @@ form FORMNAME {
     RESULT STRING "Your name: "(NAME)
 
     AGE INTEGER "What is your age?"
+    AGERESULT INTEGER "Your age is: " (AGE)
 
     NAME1 BOOLEAN "Are you a programmer?"
     if(!NAME1){
