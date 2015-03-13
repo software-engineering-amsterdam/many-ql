@@ -2,8 +2,8 @@ grammar QL;
 form
     : 'form' identifier '{' statement+ '}';
 statement
-    : question
-    | if_statement
+    : question      #questionLabel
+    | if_statement  #if_statementLabel
     ;
 if_statement
     : 'if' '(' expression ')' '{' statement+ '}' else_clause?
@@ -12,17 +12,23 @@ else_clause
     : 'else' '{' statement+ '}'
     ;
 expression
-    : leftParenthesis='(' expression rightParenthesis=')'
-    | negation='!' expression
-    | left=expression (multiplication='*' | division='/')                                       right=expression
-    | left=expression (addition='+'| subtraction='-')                                           right=expression
-    | left=expression (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')right=expression
-    | left=expression (equal='==' | notEqual='!=')                                              right=expression
-    | left=expression (and='&&')                                                                right=expression
-    | left=expression (or='||')                                                                 right=expression
-    | numbers=NUMBERS
-    | identifier
-    | booleanExpression
+    : leftParenthesis=  '('     expression rightParenthesis     =')' #parenthesis
+    |                   '!'     expression #negationLabel
+    | left=expression   '*'     right=expression #multiplication
+    | left=expression   '/'     right=expression #division
+    | left=expression   '+'     right=expression #addition
+    | left=expression   '-'     right=expression #subtraction
+    | left=expression   '>'     right=expression #greaterThan
+    | left=expression   '<'     right=expression #lessThan
+    | left=expression   '<='    right=expression #lessOrEqual
+    | left=expression   '>='    right=expression #greaterOrEqual
+    | left=expression   '=='    right=expression #equal
+    | left=expression   '!='    right=expression #notEqual
+    | left=expression   '&&'    right=expression #and
+    | left=expression   '||'    right=expression #or
+    | numbers=      NUMBERS     #numbersLabel
+    | identifier                #identifierLabel
+    | booleanExpression         #booleanExpressionLabel
     ;
 booleanExpression
     : isTrue='true'
