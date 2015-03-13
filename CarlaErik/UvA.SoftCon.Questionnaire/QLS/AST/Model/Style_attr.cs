@@ -7,11 +7,7 @@ using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
-    public class Question : QLSNode
+    public class Style_attr: QLSNode
     {
-        internal Question(TextPosition position)
-            : base(position)
-        {
-        }
     }
 }

@@ -9,7 +9,22 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     public class Section : QLSNode
     {
+        public IEnumerable<Question_styles> Question_Styles
+        {
+            get;
+            private set;
+
+        }
+        public IEnumerable<Default_styles> Default_styles
+        {
+            get;
+            private set;
+        }
         internal Section(TextPosition position)
-            : base(position) { }
+            : base(position) 
+        {
+            Question_Styles = Question_Styles;
+            Default_styles = Default_styles;
+        }
     }
 }

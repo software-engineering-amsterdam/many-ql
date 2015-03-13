@@ -52,12 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Model\Default_styles.cs" />
     <Compile Include="AST\Model\Page.cs" />
     <Compile Include="AST\Model\QLSNode.cs" />
-    <Compile Include="AST\Model\Question.cs" />
+    <Compile Include="AST\Model\Question_styles.cs" />
     <Compile Include="AST\Model\Section.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetVisitor.cs" />
+    <Compile Include="AST\Model\Style_attr.cs" />
     <Compile Include="AST\Model\widget\Calendar.cs" />
     <Compile Include="AST\Model\widget\Checkbox.cs" />
     <Compile Include="AST\Model\widget\Dropdownbox.cs" />
