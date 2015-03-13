@@ -17,3 +17,13 @@ func NewActionNode(action interface{}, pos scanner.Position) *ActionNode {
 func (a *ActionNode) Action() interface{} {
 	return a.action
 }
+
+func DelegateActionNodeExecution(e Executer, a *ActionNode) {
+	action := a.Action()
+	switch action.(type) {
+	case *QuestionNode:
+		e.QuestionNode(action.(*QuestionNode))
+	case *IfNode:
+		e.IfNode(action.(*IfNode))
+	}
+}

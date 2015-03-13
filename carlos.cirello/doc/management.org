@@ -12,11 +12,10 @@
     - [ ] magic constants
     - [ ] duplicated code
 
-* QL [5/9]
+* QL [6/9]
   - [ ] Write Code Walkthrough for Tijs and Vadim
-  - [ ] Refactor [1/3]
-    - [ ] Refactor Bool nodes into Visitor
-    - [ ] Refactor Math nodes into Visitor
+  - [ ] Refactor [1/2]
+    - [ ] Expand tests
     - [X] Extract question typing from AST
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
@@ -24,8 +23,7 @@
   - [X] Basic Architecture
   - [X] Interpreter wise error handling
     - [X] Pretty and informing error message
-  - [ ] Resolve the Visitor debate. {6}
-    - [ ] Review Visitor debate - consider Tijs may not "like" it.
+  - [X] Resolve the Visitor debate. {6}
   - [X] Compiler [2/2] {1}
     - [X] Write grammar [8/8]
       - [X] form parsing :MUST:

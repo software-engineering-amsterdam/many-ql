@@ -24,3 +24,9 @@ func (q *QuestionaireNode) Label() string {
 func (q *QuestionaireNode) Stack() []*ActionNode {
 	return q.stack
 }
+
+func DelegateQuestionaireNodeExecution(e Executer, q *QuestionaireNode) {
+	for _, actionNode := range q.Stack() {
+		e.ActionNode(actionNode)
+	}
+}

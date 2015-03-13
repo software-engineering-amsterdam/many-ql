@@ -1,7 +1,5 @@
 package execute
 
-// todo(carlos): refactor math nodes into visitor
-
 import (
 	"log"
 

@@ -13,7 +13,7 @@ func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
 	symboltable.SetWatchError(true)
 
-	tc.Visit(q)
+	tc.QuestionaireNode(q)
 
 	symboltable.ShowWarn()
 	symboltable.PanicErr()
@@ -36,7 +36,7 @@ drawLoop:
 		case r := <-v.receive:
 			switch r.Type {
 			case event.ReadyT:
-				v.draw.Visit(v.questionaire)
+				v.draw.QuestionaireNode(v.questionaire)
 				v.send <- &event.Frontend{Type: event.Flush}
 				break drawLoop
 			}
@@ -49,7 +49,7 @@ drawLoop:
 			receive <- &event.Frontend{Type: event.ReadyT}
 		}(v.receive)
 	}
-	v.execute.Visit(v.questionaire)
+	v.execute.QuestionaireNode(v.questionaire)
 	v.send <- &event.Frontend{Type: event.Flush}
 	return redraw
 }
@@ -67,12 +67,12 @@ mainLoop:
 					q := v.symbols.Read(identifier)
 					q.(symboltable.StringParser).From(answer)
 					v.symbols.Update(identifier, q)
-					v.execute.Visit(v.questionaire)
+					v.execute.QuestionaireNode(v.questionaire)
 					v.send <- &event.Frontend{Type: event.Flush}
 				}
 
 			case event.ReadyT:
-				v.execute.Visit(v.questionaire)
+				v.execute.QuestionaireNode(v.questionaire)
 				v.send <- &event.Frontend{Type: event.Flush}
 
 			case event.Redraw:

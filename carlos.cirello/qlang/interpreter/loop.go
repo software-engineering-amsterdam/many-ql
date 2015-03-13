@@ -15,8 +15,8 @@ type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *event.Frontend
 	receive      chan *event.Frontend
-	execute      *ast.Visitor
-	draw         *ast.Visitor
+	execute      ast.Executer
+	draw         ast.Executer
 	symbols      *symboltable.SymbolTable
 }
 

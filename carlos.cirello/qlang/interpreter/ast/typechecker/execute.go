@@ -8,7 +8,7 @@ import (
 )
 
 // New is the factory for Typechecker visitor struct
-func New() (*ast.Visitor, *symboltable.SymbolTable) {
+func New() (ast.Executer, *symboltable.SymbolTable) {
 	toFrontend := make(chan *event.Frontend)
 	st := symboltable.New()
 
@@ -19,43 +19,41 @@ func New() (*ast.Visitor, *symboltable.SymbolTable) {
 	}(toFrontend)
 
 	tc := &Typechecker{
-		execute: execute.NewExecute(toFrontend, st),
+		execute: execute.New(toFrontend, st),
 	}
-	return ast.NewVisitor(tc), st
+	return tc, st
 }
 
 // Typechecker is the delegation structure for Execute and typechecking visitors
 type Typechecker struct {
-	execute *execute.Execute
+	execute ast.Executer
 }
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
-func (tc Typechecker) QuestionaireNode(v *ast.Visitor, q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack() {
-		v.Visit(actionNode)
-	}
+func (tc Typechecker) QuestionaireNode(q *ast.QuestionaireNode) {
+	ast.DelegateQuestionaireNodeExecution(tc, q)
 }
 
 // ActionNode branches to QuestionNode or IfNode executers
-func (tc Typechecker) ActionNode(v *ast.Visitor, a *ast.ActionNode) {
-	tc.execute.ActionNode(v, a)
+func (tc Typechecker) ActionNode(a *ast.ActionNode) {
+	ast.DelegateActionNodeExecution(tc, a)
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
-func (tc Typechecker) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
-	tc.execute.QuestionNode(v, q)
+func (tc Typechecker) QuestionNode(q *ast.QuestionNode) {
+	tc.execute.QuestionNode(q)
 }
 
 // IfNode analyzes condition and run all children (ActionNodes)
-func (tc Typechecker) IfNode(v *ast.Visitor, i *ast.IfNode) {
-	tc.execute.ResolveComparisonNode(i.Conditions())
+func (tc Typechecker) IfNode(i *ast.IfNode) {
+	tc.execute.(ast.Comparator).ResolveComparisonNode(i.Conditions())
 
 	for _, actionNode := range i.Stack() {
-		v.Visit(actionNode)
+		tc.ActionNode(actionNode)
 	}
 
 	if i.ElseNode() != nil {
-		v.Visit(i.ElseNode())
+		tc.IfNode(i.ElseNode())
 	}
 }

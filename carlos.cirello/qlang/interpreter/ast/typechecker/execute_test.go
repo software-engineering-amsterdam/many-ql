@@ -16,7 +16,7 @@ func TestDuplicatedIdentifier(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
 	}
@@ -36,7 +36,7 @@ func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
 	}
@@ -51,7 +51,7 @@ func TestDuplicatedIdentifierDifferentTypes(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: duplicated identifiers should trigger error, even with different types")
 	}
@@ -69,7 +69,7 @@ func TestInvalidOperands(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: invalid operations should trigger error")
 	}
@@ -96,7 +96,7 @@ func TestCyclicDependencies(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: cyclic dependencies should trigger error")
 	}
@@ -111,7 +111,7 @@ func TestRepeatedCaptions(t *testing.T) {
 		"test.ql",
 	)
 	tc, st := New()
-	tc.Visit(form)
+	tc.QuestionaireNode(form)
 	if warn := st.Warn(); warn == nil {
 		t.Errorf("Typecheck error: duplicated captions should trigger warnings")
 	}

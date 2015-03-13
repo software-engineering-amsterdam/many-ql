@@ -13,29 +13,27 @@ type Draw struct {
 }
 
 // New is the factory for Draw struct
-func New(toFrontend chan *event.Frontend) *ast.Visitor {
-	return ast.NewVisitor(&Draw{toFrontend: toFrontend, nest: 0})
+func New(toFrontend chan *event.Frontend) ast.Executer {
+	return &Draw{toFrontend: toFrontend, nest: 0}
 }
 
 // QuestionaireNode Drawer all actionNodes of a questionaire (form)
-func (Draw Draw) QuestionaireNode(v *ast.Visitor, q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack() {
-		v.Visit(actionNode)
-	}
+func (d Draw) QuestionaireNode(q *ast.QuestionaireNode) {
+	ast.DelegateQuestionaireNodeExecution(d, q)
 }
 
 // ActionNode branches to QuestionNode or IfNode Drawerrs
-func (Draw Draw) ActionNode(v *ast.Visitor, a *ast.ActionNode) {
-	v.Visit(a.Action().(ast.Acceptable))
+func (d Draw) ActionNode(a *ast.ActionNode) {
+	ast.DelegateActionNodeExecution(d, a)
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
-func (Draw Draw) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
+func (d Draw) QuestionNode(q *ast.QuestionNode) {
 
 	qcpy := q.Clone()
 	visible := event.Hidden
-	if 0 == Draw.nest {
+	if 0 == d.nest {
 		visible = event.Visible
 	}
 
@@ -44,7 +42,7 @@ func (Draw Draw) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
 		ftyp = qcpy.Primitive()
 	}
 
-	Draw.toFrontend <- &event.Frontend{
+	d.toFrontend <- &event.Frontend{
 		Type: event.DrawQuestion,
 
 		Identifier: qcpy.Identifier(),
@@ -56,13 +54,13 @@ func (Draw Draw) QuestionNode(v *ast.Visitor, q *ast.QuestionNode) {
 }
 
 // IfNode analyzes condition and run all children (ActionNodes)
-func (Draw *Draw) IfNode(v *ast.Visitor, i *ast.IfNode) {
-	Draw.nest++
+func (d Draw) IfNode(i *ast.IfNode) {
+	d.nest++
 	for _, actionNode := range i.Stack() {
-		v.Visit(actionNode)
+		d.ActionNode(actionNode)
 	}
 	if i.ElseNode() != nil {
-		v.Visit(i.ElseNode())
+		d.IfNode(i.ElseNode())
 	}
-	Draw.nest--
+	d.nest--
 }
