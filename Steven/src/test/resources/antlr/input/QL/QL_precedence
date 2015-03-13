@@ -1,0 +1,5 @@
+form FORMNAME {
+    if(1+3*5+3){
+        NAME2 BOOLEAN "label"
+    }
+}
