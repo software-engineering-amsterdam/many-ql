@@ -3,7 +3,7 @@ form FORMNAME {
         NAME2 BOOLEAN "label"
     }
 
-    if(3-4/2*5+1){
+    if(3-4/(2*5)+1){
         NAME3 BOOLEAN "label2"
     }
 }
