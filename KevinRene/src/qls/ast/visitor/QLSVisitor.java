@@ -12,6 +12,11 @@ import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.StyleRuleSet;
+import qls.ast.stylerule.property.Color;
+import qls.ast.stylerule.property.Font;
+import qls.ast.stylerule.property.FontSize;
+import qls.ast.stylerule.property.Height;
+import qls.ast.stylerule.property.Width;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
@@ -94,4 +99,10 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		return null;
 	}
 
+
+	public abstract T visit(Color color);
+	public abstract T visit(Width width);
+	public abstract T visit(Height height);
+	public abstract T visit(Font font);
+	public abstract T visit(FontSize fontSize);
 }
