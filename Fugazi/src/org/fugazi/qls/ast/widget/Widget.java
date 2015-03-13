@@ -63,19 +63,28 @@ public abstract class Widget<W> extends AbstractASTNode implements IWidget<W> {
 
     public abstract void applyStyle(Style _style);
 
+    @Override
     public JComponent getJComponent() {
         throw new AssertionError();
     }
 
+    @Override
     public W getValue() {
         throw new AssertionError();
     }
-    
+
+    @Override
     public void setValue(W _value) {
         throw new AssertionError();
     }
 
+    @Override
     public void addEventListener(EventListener _listener) {
+        throw new AssertionError();
+    }
+    
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
         throw new AssertionError();
     }
 

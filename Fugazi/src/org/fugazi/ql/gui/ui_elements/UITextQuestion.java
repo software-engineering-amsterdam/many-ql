@@ -5,6 +5,7 @@ import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.TextBox;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -17,7 +18,9 @@ public class UITextQuestion extends UIQuestion {
         super(_med, _question);
         this.value = ""; // default
 
-        this.widget = new TextBox(_question.getLabel());
+        WidgetsFactory widgetsFactory = new WidgetsFactory();
+
+        this.widget = widgetsFactory.getDefaultWidgetForType(_question.getType(), _question.getLabel());
         
         this.widget.addEventListener(new DocumentListener() {
 
