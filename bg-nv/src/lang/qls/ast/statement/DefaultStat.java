@@ -29,6 +29,12 @@ public class DefaultStat extends Statement
     }
 
     @Override
+    public boolean isStyleDefinition()
+    {
+        return true;
+    }
+
+    @Override
     public <T> T accept(StatementVisitor<T> visitor)
     {
         return visitor.visit(this);

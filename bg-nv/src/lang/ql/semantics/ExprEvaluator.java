@@ -8,7 +8,7 @@ import lang.ql.semantics.values.*;
  */
 public class ExprEvaluator implements ExprVisitor<Value>
 {
-    private ValueTable valueTable;
+    private final ValueTable valueTable;
 
     public static Value evaluate(Expr e, ValueTable valueTable)
     {
@@ -54,19 +54,22 @@ public class ExprEvaluator implements ExprVisitor<Value>
     @Override
     public Value visit(Neg e)
     {
-        return e.getOperand().accept(this).neg();
+        Value op = e.getOperand().accept(this);
+        return op.neg();
     }
 
     @Override
     public Value visit(Pos e)
     {
-        return e.getOperand().accept(this).pos();
+        Value op = e.getOperand().accept(this);
+        return op.pos();
     }
 
     @Override
     public Value visit(Not e)
     {
-        return e.getOperand().accept(this).not();
+        Value op = e.getOperand().accept(this);
+        return op.not();
     }
 
     @Override

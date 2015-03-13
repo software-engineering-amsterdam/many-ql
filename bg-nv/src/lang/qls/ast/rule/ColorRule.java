@@ -7,9 +7,9 @@ public abstract class ColorRule extends Rule
 {
     private ColorValue value;
 
-    public ColorRule(String label, ColorValue value, int lineNumber)
+    public ColorRule(ColorValue value, int lineNumber)
     {
-        super(label, lineNumber);
+        super(lineNumber);
         this.value = value;
     }
 }

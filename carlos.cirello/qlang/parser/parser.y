@@ -3,7 +3,6 @@
 package parser
 
 import (
-	"fmt"
 	"strconv"
 	"text/scanner"
 
@@ -106,27 +105,14 @@ question:
 	;
 
 
-// Extract question types out of grammar???
 questionType:
-	StringQuestionToken
+	TextToken
 	{
-		$$.questionType = new(ast.StringQuestion)
-	}
-	| NumericQuestionToken
-	{
-		$$.questionType = new(ast.NumericQuestion)
-	}
-	| BoolQuestionToken
-	{
-		$$.questionType = new(ast.BoolQuestion)
+		$$.questionType = ast.NewScalarQuestion($1.content, $1.position)
 	}
 	| ComputedQuestionToken '=' term
 	{
 		$$.questionType = ast.NewComputedQuestion($3.evaluatable)
-	}
-	| term
-	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'numeric', 'bool' or 'computed'. Found: %s", $1.content))
 	}
 	;
 

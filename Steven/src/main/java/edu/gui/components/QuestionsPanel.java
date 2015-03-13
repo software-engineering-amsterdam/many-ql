@@ -59,13 +59,13 @@ public class QuestionsPanel extends JPanel {
     private void addInputField(Question question) {
         Subject component = getComponent(question);
         component.registerObserver(questionState);
-        add((JComponent) component, gbc);
+        add(component.getComponent(), gbc);
 
     }
 
     private Subject getComponent(Question question) {
         try {
-            Class<Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
+            Class<? extends Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
             return component.getDeclaredConstructor(Question.class).newInstance(question);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new GuiException(e);

@@ -7,9 +7,9 @@ import lang.ql.ast.type.Type;
  */
 public class Question extends Statement
 {
-    private String id;
-    private Type type;
-    private String label;
+    private final String id;
+    private final Type type;
+    private final String label;
 
     public Question(String id, Type questionType, String label, int lineNumber)
     {
@@ -34,6 +34,7 @@ public class Question extends Statement
         return this.label;
     }
 
+    @Override
     public <T> T accept(StatVisitor<T> visitor)
     {
         return visitor.visit(this);

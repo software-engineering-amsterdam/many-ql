@@ -10,7 +10,7 @@ public class BoolValue extends Value  {
 	}
 
 	@Override
-	public Boolean getValue() {
+	public Boolean value() {
 		return value;
 	}
 
@@ -23,5 +23,4 @@ public class BoolValue extends Value  {
 	public boolean isDefined() {
 		return true;
 	}
-	
 }

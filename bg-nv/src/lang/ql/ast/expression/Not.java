@@ -18,6 +18,7 @@ public class Not extends UnaryExpr
         return t.isBool();
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

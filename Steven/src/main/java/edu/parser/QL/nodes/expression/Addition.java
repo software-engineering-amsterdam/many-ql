@@ -1,6 +1,5 @@
 package edu.parser.QL.nodes.expression;
 
-import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 
 /**
@@ -12,17 +11,12 @@ public class Addition extends BinaryExpression {
     }
 
     @Override
-    public AbstractNode accept(QLVisitor QLVisitor) {
-        return QLVisitor.visit(this);
-    }
-
-    @Override
     public boolean hasBooleanOperands() {
         return false;
     }
 
     @Override
-    public Addition clone() throws CloneNotSupportedException {
-        return new Addition(getLeft().clone(), getRight().clone());
+    public AbstractNode accept(ExpressionVisitor expressionVisitor) {
+        return expressionVisitor.visit(this);
     }
 }

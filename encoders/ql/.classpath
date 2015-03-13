@@ -7,7 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/antlr4"/>
-	<classpathentry kind="src" path="src/tools/java"/>
 	<classpathentry kind="src" output="target/classes" path="target/generated-sources/antlr4">
 		<attributes>
 			<attribute name="ignore_optional_problems" value="true"/>

@@ -7,7 +7,7 @@ public class ForeColor extends ColorRule
 {
     public ForeColor(ColorValue value, int lineNumber)
     {
-        super("forecolor", value, lineNumber);
+        super(value, lineNumber);
     }
 
     @Override

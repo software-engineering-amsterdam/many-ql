@@ -14,7 +14,7 @@ public abstract class NaryExpr extends Expr
 
     public abstract boolean isTypeAllowed(Type t);
 
-    public abstract Type getComputedType(Type childType);
+    public abstract Type getReturnType(Type childType);
 
     @Override
     public <T> T accept(ExprVisitor<T> visitor)

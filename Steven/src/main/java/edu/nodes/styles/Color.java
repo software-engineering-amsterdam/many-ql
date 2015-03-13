@@ -14,5 +14,4 @@ public class Color extends Style {
     public int getColor() {
         return color;
     }
-
 }

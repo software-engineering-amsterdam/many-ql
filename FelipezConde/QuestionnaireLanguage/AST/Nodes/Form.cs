@@ -12,27 +12,22 @@ namespace AST.Nodes
     public class Form : ASTNode, IFormObjectContainer
     {
         private List<IFormObject> body;
-        private string parsedString;
 
-        public Form(List<IFormObject> body, string parsedString , PositionInText position)
+        public Form(List<IFormObject> body, PositionInText position)
             : base(position)
         {
             this.body = body;
-            this.parsedString = parsedString;
         }
         
         public IList<IFormObject> GetBody() { return body; }
 
-        public override string GetParsedString()
-        { return parsedString; }
-
         //Visitor Methods
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

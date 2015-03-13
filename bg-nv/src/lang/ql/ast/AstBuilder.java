@@ -5,6 +5,7 @@ import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.Type;
 import lang.ql.ast.type.TypeFactory;
+import lang.ql.util.StringHelper;
 import org.antlr.v4.runtime.misc.NotNull;
 
 /**
@@ -14,7 +15,6 @@ import lang.ql.gen.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AstBuilder extends QLBaseVisitor<AstNode>
@@ -22,7 +22,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
     @Override
     public AstNode visitForm(@NotNull QLParser.FormContext context)
     {
-        List<Statement> statements = new ArrayList<Statement>();
+        List<Statement> statements = new ArrayList<>();
         for (QLParser.StatementContext statementContext : context.statement())
         {
             Statement s = (Statement)this.visit(statementContext);
@@ -31,6 +31,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
 
         String questionID = context.Identifier().getText();
         int lineNumber = context.Identifier().getSymbol().getLine();
+
         return new Form(questionID, statements, lineNumber);
     }
 
@@ -42,7 +43,12 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
             return visit(context.question());
         }
 
-        return visit(context.ifCondition());
+        if (context.ifCondition() != null)
+        {
+            return visit(context.ifCondition());
+        }
+
+        throw new IllegalArgumentException("Unknown statement type");
     }
 
     @Override
@@ -50,7 +56,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
     {
         String id = context.Identifier().getText();
         Type questionType = TypeFactory.createType(context.QuestionType().getText());
-        String text = unescapedString(context.String().getText());
+        String text = StringHelper.unescapeString(context.String().getText());
         int lineNumber = context.Identifier().getSymbol().getLine();
 
         if (context.expression() != null)
@@ -67,7 +73,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
     {
         Expr expr = (Expr)visitExpression(context.expression());
 
-        List<Statement> ifStatements = new ArrayList<Statement>();
+        List<Statement> ifStatements = new ArrayList<>();
         for (QLParser.StatementContext statement : context.statement())
         {
             Statement s = (Statement)this.visit(statement);
@@ -118,7 +124,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
         if (operator.equals("&&")) { return new And(left, right, lineNumber); }
         if (operator.equals("||")) { return new Or(left, right, lineNumber); }
 
-        throw new IllegalArgumentException("No such binary operator: " + operator);
+        throw new IllegalArgumentException("Unknown binary operator: " + operator);
     }
 
     public Expr visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
@@ -130,7 +136,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
         if (operator.equals("-")) { return new Neg(operand, lineNumber); }
         if (operator.equals("!")) { return new Not(operand, lineNumber); }
 
-        throw new IllegalArgumentException("No such unary operator: " + operator);
+        throw new IllegalArgumentException("Unknown unary operator: " + operator);
     }
 
     public Expr visitConstantExpression(QLParser.ExpressionContext operandContext)
@@ -145,7 +151,7 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
 
         if (operandContext.String() != null)
         {
-            String s = unescapedString(operandContext.String().getText());
+            String s = StringHelper.unescapeString(operandContext.String().getText());
             return new StrExpr(s, lineNumber);
         }
 
@@ -166,12 +172,6 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
             return new DecExpr(value, lineNumber);
         }
 
-        throw new IllegalArgumentException("Illegal constant expression");
-    }
-
-    private String unescapedString(String s)
-    {
-        String result = s.substring(1, s.length()-1);
-        return result.replace("\\\"", "\"");
+        throw new IllegalArgumentException("Unknown expression");
     }
 }

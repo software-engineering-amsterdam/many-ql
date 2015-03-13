@@ -9,7 +9,7 @@ public class IntValue extends Value {
 	}
 
 	@Override
-	public Integer getValue() {
+	public Integer value() {
 		return value;
 	}
 
@@ -20,7 +20,10 @@ public class IntValue extends Value {
 
 	@Override
 	public boolean isDefined() {
-		return true;
+		if (value != null) {
+			return true;
+		}
+		return false;
 	}
-	
+
 }

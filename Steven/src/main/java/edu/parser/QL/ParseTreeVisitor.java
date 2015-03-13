@@ -2,6 +2,7 @@ package edu.parser.QL;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
+import edu.gui.components.store.DefaultStore;
 import edu.nodes.QuestionType;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
@@ -14,9 +15,9 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
-import edu.parser.QL.nodes.type.Number;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,20 +27,111 @@ import java.util.stream.Collectors;
  */
 public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
     @Override
+    public AbstractNode visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
+        return new Boolean(ctx.isTrue != null);
+    }
+
+    @Override
+    public AbstractNode visitGreaterOrEqual(@NotNull QLParser.GreaterOrEqualContext ctx) {
+        return new GreaterOrEqual((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitNumbersLabel(@NotNull QLParser.NumbersLabelContext ctx) {
+        String number = ctx.numbers.getText();
+        return new edu.parser.QL.nodes.type.Number(Integer.parseInt(number));
+    }
+
+    @Override
+    public AbstractNode visitLessOrEqual(@NotNull QLParser.LessOrEqualContext ctx) {
+        return new LessOrEqual((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitSubtraction(@NotNull QLParser.SubtractionContext ctx) {
+        return new Subtraction((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitNotEqual(@NotNull QLParser.NotEqualContext ctx) {
+        return new NotEqual((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitDivision(@NotNull QLParser.DivisionContext ctx) {
+        return new Division((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitEqual(@NotNull QLParser.EqualContext ctx) {
+        return new Equal((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitLessThan(@NotNull QLParser.LessThanContext ctx) {
+        return new LessThan((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitMultiplication(@NotNull QLParser.MultiplicationContext ctx) {
+        return new Multiplication((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitAddition(@NotNull QLParser.AdditionContext ctx) {
+        return new Addition((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitGreaterThan(@NotNull QLParser.GreaterThanContext ctx) {
+        return new GreaterThan((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitNegationLabel(@NotNull QLParser.NegationLabelContext ctx) {
+        Expression expression = (Expression) ctx.expression().accept(this);
+        return new Not(expression);
+    }
+
+    @Override
+    public AbstractNode visitOr(@NotNull QLParser.OrContext ctx) {
+        return new Or((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitAnd(@NotNull QLParser.AndContext ctx) {
+        return new And((Expression) ctx.left.accept(this), (Expression) ctx.right.accept(this));
+    }
+
+    @Override
+    public AbstractNode visitIdentifierLabel(@NotNull QLParser.IdentifierLabelContext ctx) {
+        return ctx.identifier().accept(this);
+    }
+
+    @Override
+    public AbstractNode visitParenthesis(@NotNull QLParser.ParenthesisContext ctx) {
+        return ctx.expression().accept(this);
+    }
+
+    @Override
+    public AbstractNode visitBooleanExpressionLabel(@NotNull QLParser.BooleanExpressionLabelContext ctx) {
+        return ctx.booleanExpression().accept(this);
+    }
+
+    @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
         List<Statement> statements = collectStatements(ctx.statement());
         return new Form(statements);
     }
 
     @Override
-    public AbstractNode visitStatement(@NotNull QLParser.StatementContext ctx) throws ParseException {
-        if (isStatement(ctx)) {
-            return visit(ctx.if_statement());
-        } else if (isQuestion(ctx)) {
-            return visit(ctx.question());
-        } else {
-            throw new ParseException("Found unknown or invalid Statement entry.");
-        }
+    public AbstractNode visitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) {
+        return ctx.question().accept(this);
+    }
+
+    @Override
+    public AbstractNode visitIf_statementLabel(@NotNull QLParser.If_statementLabelContext ctx) {
+        return ctx.if_statement().accept(this);
     }
 
     @Override
@@ -61,11 +153,11 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
     @Override
     public AbstractNode visitQuestion(@NotNull QLParser.QuestionContext ctx) {
         QuestionType questionType = (QuestionType) visit(ctx.question_type());
-        Identifier identifier = (Identifier) visit(ctx.identifier());
+        QLIdentifier QLIdentifier = (QLIdentifier) visit(ctx.identifier());
         Label label = (Label) visit(ctx.question_label());
         Optional<Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression);
+        return new Question(QLIdentifier, questionType, label, isQuestionEnabled, questionExpression, Collections.emptyList(), new DefaultStore());
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {
@@ -74,7 +166,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
 
     private Optional<Expression> getQuestionExpression(QLParser.QuestionContext expressionContext) {
         if (expressionContext.question_expression() != null) {
-            Expression expression = (Expression) visitExpression(expressionContext.question_expression().expression());
+            Expression expression = (Expression) expressionContext.question_expression().accept(this);
             return Optional.of(expression);
         } else {
             return Optional.empty();
@@ -83,7 +175,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitQuestion_expression(@NotNull QLParser.Question_expressionContext ctx) {
-        return visitExpression(ctx.expression());
+        return ctx.expression().accept(this);
     }
 
     @Override
@@ -97,7 +189,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitIdentifier(@NotNull QLParser.IdentifierContext ctx) {
-        return new Identifier(ctx.getText());
+        return new QLIdentifier(ctx.getText());
     }
 
     @Override
@@ -107,163 +199,6 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
         } catch (InvalidArgumentException e) {
             throw new ParseException("No question type found for: " + ctx.getText());
         }
-    }
-
-    @Override
-    public AbstractNode visitExpression(@NotNull QLParser.ExpressionContext ctx) {
-        if (hasParenthesis(ctx)) {
-            return visitExpression(ctx.expression().get(0));
-        }
-
-        if (isBinaryOperator(ctx)) {
-            return visitBinaryOperator(ctx);
-        } else if (isUnaryOperator(ctx)) {
-            return visitUnaryOperator(ctx);
-        } else if (isBoolean(ctx)) {
-            return visitBoolean(ctx);
-        } else if (ctx.numbers != null) {
-            return visitNumbers(ctx);
-        } else if (isIdentifier(ctx)) {
-            return new Identifier(ctx.getText());
-        } else {
-            throw new ParseException("Unknown expression: " + ctx.getText());
-        }
-    }
-
-    private AbstractNode visitNumbers(QLParser.ExpressionContext ctx) {
-        return new Number(Integer.parseInt(ctx.getText()));
-    }
-
-    private boolean isBoolean(QLParser.ExpressionContext ctx) {
-        return ctx.booleanExpression() != null;
-    }
-
-    private AbstractNode visitBoolean(@NotNull QLParser.ExpressionContext ctx) {
-        if (isBoolean(ctx)) {
-            return new Boolean(ctx.booleanExpression().isTrue != null);
-        } else {
-            throw new ParseException("Unknown value for Boolean: " + ctx.getText());
-        }
-    }
-
-    private boolean hasParenthesis(QLParser.ExpressionContext ctx) {
-        return (ctx.leftParenthesis != null && ctx.rightParenthesis != null);
-    }
-
-    private boolean isIdentifier(QLParser.ExpressionContext ctx) {
-        return ctx.identifier() != null;
-    }
-
-    private AbstractNode visitBinaryOperator(QLParser.ExpressionContext ctx) {
-        Expression left = (Expression) visit(ctx.left);
-        Expression right = (Expression) visit(ctx.right);
-
-        if (ctx.arithmeticOperator() != null) {
-            return visitArithmeticOperator(ctx, left, right);
-        } else if (ctx.logicalOperator() != null) {
-            return visitLogicalOperator(ctx.logicalOperator(), left, right);
-        } else {
-            throw new ParseException("No binary operator for symbol: " + ctx.arithmeticOperator().getText());
-        }
-    }
-
-
-    private boolean isMultiplication(QLParser.ExpressionContext ctx) {
-        return ctx.arithmeticOperator().multiplication != null;
-    }
-
-    private boolean isAddition(QLParser.ExpressionContext ctx) {
-        return ctx.arithmeticOperator().add != null;
-    }
-
-    public AbstractNode visitArithmeticOperator(QLParser.ExpressionContext ctx, Expression left, Expression right) {
-        if (isMultiplication(ctx)) {
-            return new Multiplication(left, right);
-        } else if (isAddition(ctx)) {
-            return new Addition(left, right);
-        } else {
-            throw new ParseException("No arithmetic Operator for input: " + ctx.getText());
-        }
-    }
-
-    public AbstractNode visitLogicalOperator(@NotNull QLParser.LogicalOperatorContext ctx, Expression left, Expression right) {
-        if (isLessThan(ctx)) {
-            return new LessThan(left, right);
-        } else if (isGreaterThan(ctx)) {
-            return new GreaterThan(left, right);
-        } else if (isAnd(ctx)) {
-            return new And(left, right);
-        } else if (isOr(ctx)) {
-            return new Or(left, right);
-        } else if (isLessOrEqual(ctx)) {
-            return new LessOrEqual(left, right);
-        } else if (isGreaterOrEqual(ctx)) {
-            return new GreaterOrEqual(left, right);
-        } else if (isEqual(ctx)) {
-            return new Equal(left, right);
-        } else if (isNotEqual(ctx)) {
-            return new NotEqual(left, right);
-        } else {
-            throw new ParseException("No Logical Operator for input: " + ctx.getText());
-        }
-    }
-
-    private boolean isLessThan(QLParser.LogicalOperatorContext ctx) {
-        return ctx.lessThan != null;
-    }
-
-    private boolean isGreaterThan(QLParser.LogicalOperatorContext ctx) {
-        return ctx.greatherThan != null;
-    }
-
-    private boolean isAnd(QLParser.LogicalOperatorContext ctx) {
-        return ctx.and != null;
-    }
-
-    private boolean isOr(QLParser.LogicalOperatorContext ctx) {
-        return ctx.or != null;
-    }
-
-    private boolean isLessOrEqual(QLParser.LogicalOperatorContext ctx) {
-        return ctx.lessOrEqual != null;
-    }
-
-    private boolean isGreaterOrEqual(QLParser.LogicalOperatorContext ctx) {
-        return ctx.greaterOrEqual != null;
-    }
-
-    private boolean isEqual(QLParser.LogicalOperatorContext ctx) {
-        return ctx.equal != null;
-    }
-
-    private boolean isNotEqual(QLParser.LogicalOperatorContext ctx) {
-        return ctx.notEqual != null;
-    }
-
-    private AbstractNode visitUnaryOperator(QLParser.ExpressionContext ctx) {
-        if (ctx.negation != null) {
-            return new Not((Expression) visitExpression(ctx.expression(0)));
-        } else {
-            throw new ParseException("Unknown unary Operator: " + ctx.getText());
-        }
-    }
-
-    private boolean isUnaryOperator(QLParser.ExpressionContext ctx) {
-        return ctx.negation != null;
-    }
-
-    private boolean isQuestion(QLParser.StatementContext ctx) {
-        return ctx.question() != null;
-    }
-
-    private boolean isStatement(QLParser.StatementContext ctx) {
-        return ctx.if_statement() != null;
-    }
-
-    private boolean isBinaryOperator(QLParser.ExpressionContext ctx) {
-        return (ctx.arithmeticOperator() != null || ctx.logicalOperator() != null)
-                && ctx.left != null
-                && ctx.right != null;
     }
 
     private List<Statement> collectStatements(List<QLParser.StatementContext> statementContexts) {

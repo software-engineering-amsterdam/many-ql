@@ -1,28 +1,20 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Nodes.Expression;
 using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
-using AST.Nodes.Expression;
+using AST.Nodes.Interfaces;
 using AST.Nodes.Values;
+using AST.Visitors;
+using AST.Storage;
+
 namespace AST.Evaluation
 {
     public class Evaluator : BaseVisitor<Value>
     {
-        IDictionary<string, Value> identifierLookup;
-
-        public Evaluator(IDictionary<string, Value> identifierLookup)
-        {
-            this.identifierLookup = identifierLookup;
-        }
+        ISymbolTable symbolTable;
 
         public Evaluator()
         {
-            this.identifierLookup = new Dictionary<string, Value>();
+            this.symbolTable = new SymbolTable();
         }
 
         public Value Evaluate(IExpression expression)
@@ -30,23 +22,39 @@ namespace AST.Evaluation
             return expression.Accept(this);
         }
 
-        public void AddValue(string key, Value value)
+        public void AddValue(Id key, Value value)
         {
-            this.identifierLookup.Add(key, value);
+            this.symbolTable.AddValue(key, value);
         }
 
-        public Value GetValue(string key)
+        public void UpdateValue(Id key, Value value)
+        {
+                this.symbolTable.SetUpdateValue(key, value);
+        }
+
+        public Value GetValue(Id key)
         {
             Value result = null;
-            result = this.identifierLookup[key];
-            
+            result = this.symbolTable.GetValue(key);
             return result;
         }
+
 
         public override Value Visit(Container node)
         {
             return node.Value.Accept(this);
         }
+
+        public override Value Visit(Id node)
+        {
+            return this.GetValue(node);
+        }
+
+        public override Value Visit(Nodes.Labels.Label node)
+        {
+            return new Nodes.Values.String(node.Value);
+        }
+
 
         #region Comparison
         public override Value Visit(And node)
@@ -175,15 +183,7 @@ namespace AST.Evaluation
         }
         #endregion
 
-        public override Value Visit(Id node)
-        {
-            return this.GetValue(node.Identifier);
-        }
-        
-        public override Value Visit(Nodes.Labels.Label node)
-        {
-            return new Nodes.Values.String(node.Value);
-        }
+
 
     }
 }

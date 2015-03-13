@@ -24,10 +24,7 @@ namespace AST.ParseTreeVisitors
                                                        .Select(child => child.Accept(new FormObjectVisitor()))
                                                        .ToList();
 
-            return new Form(formObjects,
-                            context.GetText(),
-                            Position.PositionFormParserRuleContext(context)
-                            );
+            return new Form(formObjects, Position.PositionFormParserRuleContext(context));
         }
 
     }

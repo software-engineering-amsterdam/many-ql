@@ -9,6 +9,8 @@ type ComputedQuestion struct {
 // and frontend
 const ComputedQuestionType = "computed"
 
+const computedQuestionPrimitive = "string"
+
 // NewComputedQuestion factory of ComputedQuestion struct
 func NewComputedQuestion(expression Evaluatable) *ComputedQuestion {
 	return &ComputedQuestion{
@@ -24,4 +26,8 @@ func (c ComputedQuestion) Type() string {
 // Expression returns the stored expression
 func (c ComputedQuestion) Expression() Evaluatable {
 	return c.expression
+}
+
+func (c *ComputedQuestion) Primitive() string {
+	return computedQuestionPrimitive
 }

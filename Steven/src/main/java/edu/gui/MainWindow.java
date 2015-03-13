@@ -2,14 +2,12 @@ package edu.gui;
 
 import edu.exceptions.GuiException;
 import edu.gui.components.Page;
-import edu.nodes.styles.Style;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Steven Kok on 24/02/2015.
@@ -23,66 +21,88 @@ public class MainWindow extends JFrame {
     private JButton nextButton;
     private JButton backButton;
     private final Observer questionState;
+    private CardLayout cardLayout;
 
     public MainWindow(Observer questionState) {
         mainPanel = new JPanel();
         questionPanel = new JPanel();
         paginationPanel = new JPanel();
         this.questionState = questionState;
+        cardLayout = new CardLayout(10, 10);
     }
 
     public void initialize() {
+        resetToDefaultState();
         mainPanel.setLayout(new BorderLayout());
-        CardLayout cardLayout = new CardLayout(10, 10);
         questionPanel.setLayout(cardLayout);
         mainPanel.add(questionPanel, BorderLayout.CENTER);
         mainPanel.add(paginationPanel, BorderLayout.PAGE_END);
         add(mainPanel);
-        addPaginationButtons(cardLayout);
+        addPaginationButtons();
     }
 
-    private void addPaginationButtons(CardLayout cardLayout) {
+    private void resetToDefaultState() {
+        mainPanel.removeAll();
+        questionPanel.removeAll();
+        resetPagination();
+    }
+
+    private void resetPagination() {
+        totalPages = 0;
+        paginationPanel.removeAll();
+    }
+
+    private void addPaginationButtons() {
         nextButton = new JButton("Next");
-        nextButton.addActionListener(e -> nextPage(cardLayout));
+        nextButton.addActionListener(e -> nextPage());
 
         backButton = new JButton("Back");
         backButton.setVisible(false);
-        backButton.addActionListener(e -> previousPage(cardLayout));
+        backButton.addActionListener(e -> previousPage());
 
         paginationPanel.add(backButton);
         paginationPanel.add(nextButton);
     }
 
-    private void nextPage(CardLayout cardLayout) {
-        if (currentPage >= totalPages) {
-            throw new GuiException(String.format("Cannot switch to next page. totalpages: [%d] currentpage: [%d]", totalPages, currentPage));
+    public void nextPage() {
+        goToSpecificPage(currentPage + 1);
+    }
+
+    private void previousPage() {
+        goToSpecificPage(currentPage - 1);
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void goToSpecificPage(int pageNumber) {
+        if (isInvalidPageNumber(pageNumber)) {
+            throw new GuiException(String.format("Cannot switch to page. total pages: [%d] page: [%d]", totalPages, pageNumber));
         } else {
-            cardLayout.show(questionPanel, String.valueOf(++currentPage));
-        }
+            jumpToPage(pageNumber);
 
-        if (!atFirstPage()) {
-            backButton.setVisible(true);
-        }
+            if (atFirstPage()) {
+                backButton.setVisible(false);
+            } else {
+                backButton.setVisible(true);
+            }
 
-        if (atLastPage()) {
-            nextButton.setVisible(false);
+            if (atLastPage()) {
+                nextButton.setVisible(false);
+            } else {
+                nextButton.setVisible(true);
+            }
         }
     }
 
-    private void previousPage(CardLayout cardLayout) {
-        if (currentPage <= 1) {
-            throw new GuiException(String.format("Cannot switch to previous page. currentpage: [%d]", currentPage));
-        } else {
-            cardLayout.show(questionPanel, String.valueOf(--currentPage));
-        }
+    private void jumpToPage(int pageNumber) {
+        currentPage = pageNumber;
+        cardLayout.show(questionPanel, String.valueOf(pageNumber));
+    }
 
-        if (atFirstPage()) {
-            backButton.setVisible(false);
-        }
-
-        if (!atLastPage()) {
-            nextButton.setVisible(true);
-        }
+    private boolean isInvalidPageNumber(int pageNumber) {
+        return pageNumber > totalPages || currentPage < 1;
     }
 
     private boolean atLastPage() {
@@ -101,7 +121,7 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
-    public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
+    public void addPage(List<Section> sections, List<Question> questions) {
         Page page = new Page(sections, questions, questionState);
         questionPanel.add(page, String.valueOf(++totalPages));
     }

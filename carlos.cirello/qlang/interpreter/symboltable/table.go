@@ -78,29 +78,29 @@ func (s *SymbolTable) Read(identifier string) interface{} {
 }
 
 // Create looks for identifier in symboltable and creates a pointer if missing
-func (s *SymbolTable) Create(identifier, label string, typ interface{}) {
+func (s *SymbolTable) Create(q *ast.QuestionNode) {
+	identifier := q.Identifier()
+	label := q.Label()
+	qType := q.Type()
+
 	_, ok := s.symbolExistP(identifier)
-	if !ok {
-		var symbol interface{}
-		switch typ {
-		default:
-			log.Fatalf("impossible to create symbol type %s", typ)
-		case ast.StringQuestionType:
-			symbol = new(StringQuestion)
-		case ast.NumericQuestionType:
-			symbol = new(NumericQuestion)
-		case ast.BoolQuestionType:
-			symbol = new(BoolQuestion)
-		case ast.ComputedQuestionType:
-			symbol = new(ComputedQuestion)
-		}
-		s.upsert(identifier, symbol)
-		s.detectRepeatedLabel(label, identifier)
-	} else {
-		s.appendErrf(
-			"Duplicated identifier found at typechecker: %s",
+	if ok {
+		s.appendErrf("Duplicated identifier found at typechecker: %s",
 			identifier)
+		return
 	}
+
+	var symbol interface{}
+	switch qType {
+	default:
+		log.Fatalf("impossible to create symbol type %s", qType)
+	case ast.ScalarQuestionType:
+		symbol = scalarQuestionFactory(q.Primitive())
+	case ast.ComputedQuestionType:
+		symbol = new(ComputedQuestion)
+	}
+	s.upsert(identifier, symbol)
+	s.detectRepeatedLabel(label, identifier)
 }
 
 // Update looks for identifier in symboltable and updates a pointer if existing

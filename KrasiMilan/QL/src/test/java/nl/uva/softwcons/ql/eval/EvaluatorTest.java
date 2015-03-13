@@ -1,16 +1,16 @@
 package nl.uva.softwcons.ql.eval;
 
-import static helper.TestHelper.DUMMY_LINE_INFO;
-import static helper.TestHelper.QUESTION;
-import static helper.TestHelper.QUESTION2;
-import static helper.TestHelper.QUESTION3;
-import static helper.TestHelper.UNUSED;
+import static nl.uva.softwcons.helper.TestHelper.DUMMY_LINE_INFO;
+import static nl.uva.softwcons.helper.TestHelper.QUESTION;
+import static nl.uva.softwcons.helper.TestHelper.QUESTION2;
+import static nl.uva.softwcons.helper.TestHelper.QUESTION3;
+import static nl.uva.softwcons.helper.TestHelper.UNUSED;
 import static nl.uva.softwcons.ql.eval.value.UndefinedValue.UNDEFINED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import helper.TestHelper;
+import nl.uva.softwcons.helper.TestHelper;
 import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.form.Form;

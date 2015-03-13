@@ -33,7 +33,7 @@ public class Page extends AstNode implements Styleable, RenderableParent
     }
 
     @Override
-    public Style getDefaultStyle()
+    public Style getStyle()
     {
         DefaultStyleCollector visitor = new DefaultStyleCollector();
         return visitor.visit(this);

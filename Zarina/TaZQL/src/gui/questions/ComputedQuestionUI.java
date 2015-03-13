@@ -1,6 +1,5 @@
 package gui.questions;
 
-import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.listeners.Updater;
@@ -11,8 +10,8 @@ public class ComputedQuestionUI extends SimpleQuestionUI implements IQuestionUpd
 	private Updater updater;
 	
 	public ComputedQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository, Updater updater) {
-		super(id, label, wc, valueRepository);
-		this.getWc().setEnabled(false); // read-only
+		super(id, label, wc); 
+		this.getWc().setEnabled(false); 
 		this.updater = updater;
 	}
 

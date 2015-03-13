@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class LabelMap
 {
-    private Map<String, Set<String>> labelToId;
+    private final Map<String, Identifiers> labelToId;
 
     public LabelMap()
     {
@@ -26,24 +26,29 @@ public class LabelMap
         }
         else
         {
-            Set<String> ids = new HashSet<>();
+            Identifiers ids = new Identifiers();
             ids.add(id);
             this.labelToId.put(label, ids);
         }
     }
 
-    public Set<List<String>> getDuplicateLabels()
+    public LabelDuplicates getLabelDuplicatesSet()
     {
-        Set<List<String>> result = new HashSet<>();
-        for (Set<String> s : this.labelToId.values())
+        LabelDuplicates result = new LabelDuplicates();
+
+        for (Identifiers identifiers : this.labelToId.values())
         {
-            if (s.size() > 1)
+            if (this.containsDuplicates(identifiers))
             {
-                List l = new ArrayList();
-                l.addAll(s);
-                result.add(l);
+                result.add(identifiers);
             }
         }
+
         return result;
+    }
+
+    private boolean containsDuplicates(Identifiers id)
+    {
+        return id.size() > 1;
     }
 }

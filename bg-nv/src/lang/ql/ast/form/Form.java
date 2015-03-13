@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Form extends AstNode
 {
-    private String id;
-    private List<Statement> body;
+    private final String id;
+    private final List<Statement> body;
 
     public Form(String id, List<Statement> body, int lineNumber)
     {

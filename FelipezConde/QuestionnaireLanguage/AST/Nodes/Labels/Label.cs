@@ -10,27 +10,21 @@ namespace AST.Nodes.Labels
 {
     public class Label : ASTNode, ILabel
     {
-        private string parsedString;
+
         public string Value {get; private set;}
 
-        public Label(string parsedString, string value, PositionInText position)
+        public Label(string value, PositionInText position)
             : base(position)
         {
-            this.parsedString = parsedString;
             this.Value = value;
         }
 
-        public override string GetParsedString()
-        {
-            return parsedString;
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
+        public void Accept(Visitors.IVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(Visitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

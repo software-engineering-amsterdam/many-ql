@@ -8,56 +8,60 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdCollection;
 
 public class IdLiteral extends Literal implements Expression {
-	public final String name;
-	private Type type;
-	
-	public IdLiteral(String value, Token tokenInfo) {
-		super(tokenInfo);
-		this.name = value;
-	}
-	public IdLiteral(String name, Type questionType,IdCollector idCollector,Token tokenInfo)
-	{
-		super(tokenInfo);
-		this.name = name;
-		this.type = questionType;	
-	}
-	
-	public Boolean IsReference(){
-		if(this.type == null){
-			return true;
-		}
-		return false;
-	}
+    private String name;
+    private Type type;
 
-	@Override
-	public GenericValue<?> evaluate(Context context) {
-		return context.getValue(name);
+    public IdLiteral(String value, Token tokenInfo) {
+	super(tokenInfo);
+	this.name = value;
+    }
+
+    public IdLiteral(String name, Type questionType, IdCollection idCollection, Token tokenInfo) {
+	super(tokenInfo);
+	this.name = name;
+	this.type = questionType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Boolean IsReference() {
+	if (this.type == null) {
+	    return true;
 	}
-	
-	public Type getType(Context context){
-		if(this.IsReference()){
-			return getTypeFromMemory(context);
-		}
-		context.addId(this);
-		return this.type;
+	return false;
+    }
+
+    @Override
+    public GenericValue evaluate(Context context) {
+	return context.getValue(name);
+    }
+
+    public Type getType(Context context) {
+	if (this.IsReference()) {
+	    return getTypeFromMemory(context);
 	}
-	
-	private Type getTypeFromMemory(Context context) {
-		Type typeFromMemory = context.getIdType(this);
-		if(typeFromMemory == null){
-			context.addError(new Error(this.tokenInfo, "Undeclared variable reference"));
-			return new ErrorType();
-		} else{ 
-			return typeFromMemory;
-		}
+	context.addId(this);
+	return this.type;
+    }
+
+    private Type getTypeFromMemory(Context context) {
+	Type typeFromMemory = context.getIdType(this);
+	if (typeFromMemory == null) {
+	    context.addError(new Error(this.getTokenInfo(), "Undeclared variable reference"));
+	    return new ErrorType();
+	} else {
+	    return typeFromMemory;
 	}
-	
-	@Override
-	public void collectIds(IdCollector idCollector) {
-		idCollector.addId(this);
-	}
+    }
+
+    @Override
+    public void collectIds(IdCollection idCollection) {
+	idCollection.addId(this);
+    }
 
 }

@@ -29,7 +29,7 @@ func TestCsvInputFrontend(t *testing.T) {
 func fakeInterpreter(receive, send chan *event.Frontend) {
 	<-send
 
-	q := *ast.NewQuestionNode("A question", "Q1", new(ast.BoolQuestion), *new(scanner.Position))
+	q := *ast.NewQuestionNode("A question", "Q1", new(ast.ScalarQuestion), *new(scanner.Position))
 	receive <- &event.Frontend{
 		Type:       event.UpdateQuestion,
 		Identifier: q.Identifier(),

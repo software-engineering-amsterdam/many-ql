@@ -13,5 +13,4 @@ public class Font extends Style {
     public String getFont() {
         return font;
     }
-
 }

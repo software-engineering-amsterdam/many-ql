@@ -13,26 +13,25 @@ import com.form.language.memory.Context;
 
 public class Not extends UnaryExpression implements Expression {
 
-	public Not(Expression value, Token tokenInfo) {
-		super(value, tokenInfo);
-	}
+    public Not(Expression value, Token tokenInfo) {
+	super(value, tokenInfo);
+    }
 
-	@Override
-	public BoolValue evaluate(Context context) {
-		return new BoolValue(!((BoolValue)value.evaluate(context)).getValue());
-	}
+    @Override
+    public BoolValue evaluate(Context context) {
+	return new BoolValue(!((BoolValue) value.evaluate(context)).getValue());
+    }
 
-	@Override
-	public Type getType(Context context) {
-		Type childType = value.getType(context);
-		if(childType.getType().isBoolType()){
-			return new BoolType();
-		}			
-		else{
-			if(!childType.isErrorType()){
-				context.addError(new Error(tokenInfo, "Expected !Boolean, but found !"  + childType));
-			}
-			return new ErrorType();
-		}
+    @Override
+    public Type getType(Context context) {
+	Type childType = value.getType(context);
+	if (childType.getType().isBoolType()) {
+	    return new BoolType();
+	} else {
+	    if (!childType.isErrorType()) {
+		context.addError(new Error(tokenInfo, "Expected !Boolean, but found !" + childType));
+	    }
+	    return new ErrorType();
 	}
+    }
 }

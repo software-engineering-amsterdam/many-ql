@@ -7,8 +7,9 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
+import org.fugazi.ql.ast.type.Type;
 
-import java.util.List;
+import java.util.*;
 
 public class QLFormDataStorage {
     private final Form form;
@@ -32,11 +33,23 @@ public class QLFormDataStorage {
      */
 
     public List<Question> getQuestions() {
-        return this.questionsVisitor.getQuestions();
+        List<Question> questions = new ArrayList<>();
+        Iterator<Question> iterator = this.questionsVisitor.getQuestions();
+
+        // convert back to list
+        // this way internal lists will not be modified by clients
+        iterator.forEachRemaining(questions::add);
+        return questions;
     }
 
     public List<ComputedQuestion> getComputedQuestions() {
-        return this.computedQuestionsVisitor.getComputedQuestions();
+        List<ComputedQuestion> computedQuestions = new ArrayList<>();
+        Iterator<ComputedQuestion> iterator = this.computedQuestionsVisitor.getComputedQuestions();
+
+        // convert back to list
+        // this way internal lists will not be modified by clients
+        iterator.forEachRemaining(computedQuestions::add);
+        return computedQuestions;
     }
 
     public List<Question> getAllQuestions() {
@@ -49,5 +62,15 @@ public class QLFormDataStorage {
 
     public List<IfStatement> getIfStatements() {
         return this.ifStatementsVisitor.getIfStatement();
+    }
+
+    public HashMap<String, Type> getallQuestionTypes() {
+        List<Question> questions = this.getAllQuestions();
+        HashMap<String, Type> questionTypes = new HashMap<>();
+
+        for (Question question : questions) {
+            questionTypes.put(question.getIdName(), question.getType());
+        }
+        return questionTypes;
     }
 }

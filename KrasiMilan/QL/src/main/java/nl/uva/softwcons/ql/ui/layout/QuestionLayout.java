@@ -12,17 +12,22 @@ public class QuestionLayout {
 
     public QuestionLayout(final Question question) {
         this.question = question;
-        vbox = new VBox();
+        this.vbox = new VBox();
+
         this.add(new Label(this.question.getLabel()));
     }
 
     public void add(Node node) {
-        // node.setOnMouseReleased(value);
         vbox.getChildren().add(node);
     }
 
     public Node getNode() {
         return this.vbox;
+    }
+
+    public void setVisible(final boolean visible) {
+        this.vbox.setVisible(visible);
+        this.vbox.setManaged(visible);
     }
 
 }

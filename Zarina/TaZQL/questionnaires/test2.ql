@@ -1,10 +1,21 @@
-FORM anotherOne {
-	if (hasSoldHouse || (price > 20 && price <= 35)) {
- 	sellingPrice "How much did you pay?" digits
-	}
-	else {
-	sellingPrice "Let's fix this else part?" text
-	}
-	hasBoughtHouse "How much did you pay for it?" text
-	hasBoughtHouse "Well, well" text (hasSoldHouse * hasBoughtHouse)
-} END
+FORM Questionnaire {
+	hasSoldHouse "Have you sold any damn house?" choice
+	priceSoldHouse "How much did you pay for new house?" digits
+	hasBoughtHouse "How much did you get for old house?" digits
+	howIsLife "Are you still happy:" text
+	finalPrice "Are you still happy:" digits (priceSoldHouse * hasBoughtHouse)
+	newPrice "Let's test this:" digits ((priceSoldHouse + finalPrice) * hasBoughtHouse)
+	testint1 "Integer 1" digits
+	testint2 "Integer 2" digits
+	test1 "==:" choice (testint1 == hasSoldHouse)
+	test2 "-1:" digits (-testint1)
+	test3 "&&:" choice (hasSoldHouse && priceSoldHouse)
+	
+	finalPrice "Are you still happy:" digits (hasSoldHouse * 2)
+	anotherPrice "Let's see: " digits
+	stringTest "Text time" text
+	calPrice "Calculation:" digits (finalPrice - anotherPrice)
+	
+} END	
+
+

@@ -2,7 +2,7 @@ package edu.parser.QLS.nodes.statement;
 
 import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.QLSVisitor;
-import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.QLSIdentifier;
 import edu.nodes.styles.Style;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
  */
 public class QLSQuestion extends Statement {
     private final List<Style> styles;
-    private final Identifier identifier;
+    private final QLSIdentifier QLSIdentifier;
 
-    public QLSQuestion(Identifier identifier, List<Style> styles) {
+    public QLSQuestion(QLSIdentifier QLSIdentifier, List<Style> styles) {
         this.styles = styles;
-        this.identifier = identifier;
+        this.QLSIdentifier = QLSIdentifier;
     }
 
-    public Identifier getIdentifier() {
-        return identifier;
+    public QLSIdentifier getQLSIdentifier() {
+        return QLSIdentifier;
     }
 
     public List<Style> getStyles() {
@@ -35,7 +35,7 @@ public class QLSQuestion extends Statement {
     @Override
     public String toString() {
         return "QLSQuestion{" +
-                "identifier=" + identifier +
+                "identifier=" + QLSIdentifier +
                 '}';
     }
 }

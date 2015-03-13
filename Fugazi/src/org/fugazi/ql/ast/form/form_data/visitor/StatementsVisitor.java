@@ -26,7 +26,9 @@ public abstract class StatementsVisitor implements IStatementVisitor<Void> {
         return null;
     }
 
-    public Void visitQuestion(Question question) {return null;}
+    public Void visitQuestion(Question question) {
+        return null;
+    }
 
     public Void visitIfStatement(IfStatement ifStatement) {
         List<Statement> statementList = ifStatement.getBody();

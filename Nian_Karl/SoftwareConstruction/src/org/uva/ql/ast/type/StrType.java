@@ -1,7 +1,7 @@
 package org.uva.ql.ast.type;
 
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.visitor.TypeVisitor;
-import org.uva.utility.CodePosition;
 
 public class StrType extends Type {
 	

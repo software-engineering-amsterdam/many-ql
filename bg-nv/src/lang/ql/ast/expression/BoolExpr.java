@@ -10,6 +10,7 @@ public class BoolExpr extends ConstExpr<Boolean>
         super(value, lineNumber);
     }
 
+    @Override
     public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);

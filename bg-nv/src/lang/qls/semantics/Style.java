@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Style
 {
-    private Map<Type, Rules> typeToRules;
+    private final Map<Type, Rules> typeToRules;
 
     public Style()
     {

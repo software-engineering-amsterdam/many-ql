@@ -36,8 +36,8 @@ namespace QuestionnaireLanguage
             TestClass test = new TestClass();
             ASTResult ast = test.GetAST(path + fileName);
 
-            //Processor procesor = new Processor(this, ast);
-            //UIElement element = Processor.ProcessBody(ast.Ast.GetBody(),this._stack);
+            Processor procesor = new Processor(this, ast);
+            UIElement element = Processor.ProcessBody(ast.Ast.GetBody(), this._stack);
         }
 
         public UIElementCollection GetControls()
@@ -48,6 +48,21 @@ namespace QuestionnaireLanguage
         public void AddControl(UIElement element)
         {
             this._stack.Children.Add(element);
+        }
+
+        public UIElement GetRootElement()
+        {
+            return this._stack;
+        }
+
+        public void DeleteElements()
+        {
+            this._stack.Children.Clear();
+        }
+
+        public void SetFocus(IInputElement inputElement)
+        {
+            Keyboard.Focus(inputElement);
         }
     }
 }
