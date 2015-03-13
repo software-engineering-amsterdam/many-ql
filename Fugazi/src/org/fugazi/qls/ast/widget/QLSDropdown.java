@@ -7,33 +7,35 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class Dropdown extends Widget {
+public class QLSDropdown extends AbstractQLSWidget<Boolean> {
 
     private final String yesLabel;
     private final String noLabel;
 
-    public Dropdown(int _lineNum, String _yes, String _no) {
+    public QLSDropdown(int _lineNum, String _yes, String _no) {
         super(_lineNum);
         this.yesLabel = _yes;
         this.noLabel = _no;
     }
 
-    public Dropdown(String _yes, String _no) {
+    public QLSDropdown(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
     }
 
-    public Dropdown(int _lineNum, String _label, String _yes, String _no) {
+    public QLSDropdown(int _lineNum, String _label, String _yes, String _no) {
         super(_lineNum);
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
     }
 
-    public Dropdown(String _label, String _yes, String _no) {
+    public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
@@ -48,6 +50,34 @@ public class Dropdown extends Widget {
 
         // todo
     }
+
+    @Override
+    public JComponent getJComponent() {
+        // todo
+        return null;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        // todo
+    }
+
+    @Override
+    public Boolean getValue() {
+        // todo
+        return false;
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        // todo
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        // todo
+    }
+
 
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();

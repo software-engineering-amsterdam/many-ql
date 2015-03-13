@@ -7,7 +7,7 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
@@ -74,9 +74,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             sections.add(section);
         }
 
-        List<Question> questions = new ArrayList<>();
+        List<QLSQuestion> questions = new ArrayList<>();
         for (QLSParser.QuestionContext questionContext : ctx.question()) {
-            Question question = (Question) questionContext.accept(this);
+            QLSQuestion question = (QLSQuestion) questionContext.accept(this);
             questions.add(question);
         }
 
@@ -92,15 +92,15 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     @Override public AbstractASTNode visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx) {
         String identifier = ctx.ID().getText();
 
-        Widget widget = (Widget) ctx.widget().accept(this);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
         widget.setLabel(identifier);
 
-        return new Question(this.getLineNumber(ctx), identifier, widget);
+        return new QLSQuestion(this.getLineNumber(ctx), identifier, widget);
     }
 
     @Override public AbstractASTNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
         String identifier = ctx.ID().getText();
-        return new Question(this.getLineNumber(ctx), identifier, new UndefinedWidget());
+        return new QLSQuestion(this.getLineNumber(ctx), identifier, new QLSUndefinedWidget());
     }
 
     @Override 
@@ -111,14 +111,14 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     @Override 
 	public AbstractASTNode visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx) {
         Type questionType = (Type) ctx.type().accept(this);
-        Widget widget = (Widget) ctx.widget().accept(this);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
         return new DefaultStyleDeclaration(this.getLineNumber(ctx), new UndefinedStyle(), widget, questionType);
     }
     
     @Override 
 	public AbstractASTNode visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx) {
         Type questionType = (Type) ctx.type().accept(this);
-        Widget widget = (Widget) ctx.widget().accept(this);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
 
         List<StyleProperty> styleProperties = new ArrayList<>();
         for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
@@ -133,14 +133,14 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     
     @Override 
 	public AbstractASTNode visitCheckboxWidget(@NotNull QLSParser.CheckboxWidgetContext ctx) {
-        return new CheckBox(this.getLineNumber(ctx));
+        return new QLSCheckBox(this.getLineNumber(ctx));
 	}
     
     @Override 
 	public AbstractASTNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-		return new RadioBtn(this.getLineNumber(ctx),
+		return new QLSRadioBtn(this.getLineNumber(ctx),
                 this.removeStringQuotes(yesLabel),
                 this.removeStringQuotes(noLabel));
 	}
@@ -149,7 +149,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 	public AbstractASTNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-        return new Dropdown(
+        return new QLSDropdown(
                 this.getLineNumber(ctx),
                 this.removeStringQuotes(yesLabel),
                 this.removeStringQuotes(noLabel));
@@ -157,17 +157,17 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     
     @Override 
 	public AbstractASTNode visitSpinboxWidget(@NotNull QLSParser.SpinboxWidgetContext ctx) {
-		return new SpinBox(this.getLineNumber(ctx));
+		return new QLSSpinBox(this.getLineNumber(ctx));
 	}
     
     @Override 
 	public AbstractASTNode visitSliderWidget(@NotNull QLSParser.SliderWidgetContext ctx) {
-		return new Slider(this.getLineNumber(ctx));
+		return new QLSSlider(this.getLineNumber(ctx));
 	}
     
     @Override 
 	public AbstractASTNode visitTextWidget(@NotNull QLSParser.TextWidgetContext ctx) {
-		return new TextBox(this.getLineNumber(ctx));
+		return new QLSTextBox(this.getLineNumber(ctx));
 	}
     
     @Override 

@@ -3,14 +3,16 @@ package org.fugazi.ql.gui.ui_elements;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.widgets.Label;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 public class UIComputedQuestion extends UIQuestion {
 
     public UIComputedQuestion(IMediator _med, ComputedQuestion _question, ExpressionValue _value) {
         super(_med, _question);
 
-        this.widget = new Label(_question.getLabel(), _value.getValue().toString());
+        WidgetsFactory widgetsFactory = new WidgetsFactory();
+
+        this.widget = widgetsFactory.getDefaultWidgetForType(_question.getType(), _question.getLabel(), _value);
     }
     
     @Override
