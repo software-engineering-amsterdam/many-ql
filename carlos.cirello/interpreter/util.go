@@ -5,8 +5,8 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/typechecker"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 func typecheck(q *ast.QuestionaireNode) {
@@ -17,12 +17,6 @@ func typecheck(q *ast.QuestionaireNode) {
 
 	symboltable.ShowWarn()
 	symboltable.PanicErr()
-}
-
-func openChannels() (toFrontend, fromFrontend chan *plumbing.Frontend) {
-	toFrontend = make(chan *plumbing.Frontend)
-	fromFrontend = make(chan *plumbing.Frontend)
-	return toFrontend, fromFrontend
 }
 
 func (v *interpreter) drawLoop(redraw bool) bool {

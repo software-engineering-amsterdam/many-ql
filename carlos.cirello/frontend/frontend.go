@@ -4,7 +4,7 @@ The interface with the user can be either Graphic, Text or Web.
 */
 package frontend
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 
 // Inputer describes the actions which frontend must implement
 // in order to be compliant with the VM expectations of

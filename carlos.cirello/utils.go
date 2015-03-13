@@ -8,17 +8,16 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
-func readInputCsv(fromInterpreter, toInterpreter chan *plumbing.Frontend, inReader io.Reader) {
+func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
-	csvReader := csvinput.New(fromInterpreter, toInterpreter, inReader)
+	csvReader := csvinput.New(pipes, inReader)
 	csvReader.Read()
-
 }
 
 func errorHandler() {
@@ -28,22 +27,17 @@ func errorHandler() {
 }
 
 func startInterpreter(srcReader io.Reader, srcFn string) (
-	fromInterpreter,
-	toInterpreter chan *plumbing.Frontend,
+	pipes *plumbing.Pipes,
 	guiAppName string,
 ) {
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)
-	fromInterpreter, toInterpreter = interpreter.New(aQuestionaire)
+	pipes = interpreter.New(aQuestionaire)
 	guiAppName = aQuestionaire.Label()
-	return fromInterpreter, toInterpreter, guiAppName
+	return pipes, guiAppName
 }
 
-func launchGUI(
-	fromInterpreter,
-	toInterpreter chan *plumbing.Frontend,
-	guiAppName string,
-) {
+func launchGUI(pipes *plumbing.Pipes, guiAppName string) {
 	driver := graphic.GUI(guiAppName)
-	frontend.New(fromInterpreter, toInterpreter, driver)
+	frontend.New(pipes.FromInterpreter(), pipes.ToInterpreter(), driver)
 	driver.Loop()
 }

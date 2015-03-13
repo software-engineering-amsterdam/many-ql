@@ -3,8 +3,8 @@ package typechecker
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 // New is the factory for Typechecker visitor struct

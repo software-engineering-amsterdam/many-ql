@@ -7,8 +7,8 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/draw"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 type interpreter struct {
@@ -22,23 +22,23 @@ type interpreter struct {
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *plumbing.Frontend, chan *plumbing.Frontend) {
+func New(q *ast.QuestionaireNode) *plumbing.Pipes {
 	typecheck(q)
 
-	toFrontend, fromFrontend := openChannels()
+	pipes := plumbing.New()
 	st := symboltable.New()
 
 	v := &interpreter{
 		questionaire: q,
-		send:         toFrontend,
-		receive:      fromFrontend,
-		execute:      execute.New(toFrontend, st),
-		draw:         draw.New(toFrontend),
+		send:         pipes.ToFrontend(),
+		receive:      pipes.FromFrontend(),
+		execute:      execute.New(pipes.ToFrontend(), st),
+		draw:         draw.New(pipes.ToFrontend()),
 		symbols:      st,
 	}
 	go v.loop()
 
-	return toFrontend, fromFrontend
+	return pipes
 }
 
 func (v *interpreter) loop() {

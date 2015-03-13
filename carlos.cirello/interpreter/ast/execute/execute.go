@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 // Execute implements Executer interface, and it is used by Visitor to traverse

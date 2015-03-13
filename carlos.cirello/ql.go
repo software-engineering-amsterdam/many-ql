@@ -12,10 +12,10 @@ func main() {
 
 	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 
-	fromInterpreter, toInterpreter, guiAppName := startInterpreter(srcReader, srcFn)
-	readInputCsv(fromInterpreter, toInterpreter, inReader)
-	launchGUI(fromInterpreter, toInterpreter, guiAppName)
+	pipes, guiAppName := startInterpreter(srcReader, srcFn)
+	readInputCsv(pipes, inReader)
+	launchGUI(pipes, guiAppName)
 
-	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
+	csvWriter := csvoutput.New(pipes, outWriter)
 	csvWriter.Write()
 }

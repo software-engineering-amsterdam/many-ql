@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 const fakeCsv = `
@@ -13,12 +13,11 @@ question2,"description","2"
 `
 
 func TestCsvInputFrontend(t *testing.T) {
-	receive := make(chan *plumbing.Frontend)
-	send := make(chan *plumbing.Frontend)
+	pipes := plumbing.New()
 	expectedAnswers := make(chan map[string]string)
-	fakeInterpreter(receive, send, expectedAnswers)
+	fakeInterpreter(pipes, expectedAnswers)
 
-	csvinput := New(receive, send, strings.NewReader(fakeCsv))
+	csvinput := New(pipes, strings.NewReader(fakeCsv))
 	go csvinput.Read()
 
 	got := <-expectedAnswers
@@ -28,7 +27,10 @@ func TestCsvInputFrontend(t *testing.T) {
 	}
 }
 
-func fakeInterpreter(receive, send chan *plumbing.Frontend, expectedAnswers chan map[string]string) {
+func fakeInterpreter(pipes *plumbing.Pipes, expectedAnswers chan map[string]string) {
+	receive := pipes.FromInterpreter()
+	send := pipes.ToInterpreter()
+
 	go func(receive chan *plumbing.Frontend) {
 		for {
 			receive <- &plumbing.Frontend{

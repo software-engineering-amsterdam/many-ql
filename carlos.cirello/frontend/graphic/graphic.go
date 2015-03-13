@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 	"gopkg.in/qml.v1"
 )
 

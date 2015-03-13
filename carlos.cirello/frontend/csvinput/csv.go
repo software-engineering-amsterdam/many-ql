@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 // Input holds an io.Reader which is used to transfer the responses of the form
@@ -17,11 +17,10 @@ type Input struct {
 
 // New takes in a pair of channels for the interpreter, a reader stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *plumbing.Frontend,
-	stream io.Reader) *Input {
+func New(pipes *plumbing.Pipes, stream io.Reader) *Input {
 	return &Input{
-		receive: fromInterpreter,
-		send:    toInterpreter,
+		receive: pipes.FromInterpreter(),
+		send:    pipes.ToInterpreter(),
 		stream:  stream,
 	}
 }

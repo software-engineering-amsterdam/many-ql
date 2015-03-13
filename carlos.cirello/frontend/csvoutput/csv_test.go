@@ -6,19 +6,18 @@ import (
 	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 const expectedCsv = `Q1,A question,No
 `
 
 func TestCsvInputFrontend(t *testing.T) {
-	receive := make(chan *plumbing.Frontend)
-	send := make(chan *plumbing.Frontend)
+	pipes := plumbing.New()
 	buf := new(bytes.Buffer)
-	go fakeInterpreter(receive, send)
+	go fakeInterpreter(pipes)
 
-	csvoutput := New(receive, send, buf)
+	csvoutput := New(pipes, buf)
 	csvoutput.Write()
 
 	if got := buf.String(); got != expectedCsv {
@@ -26,7 +25,10 @@ func TestCsvInputFrontend(t *testing.T) {
 	}
 }
 
-func fakeInterpreter(receive, send chan *plumbing.Frontend) {
+func fakeInterpreter(pipes *plumbing.Pipes) {
+	receive := pipes.FromInterpreter()
+	send := pipes.ToInterpreter()
+
 	<-send
 
 	q := *ast.NewQuestionNode("A question", "Q1", new(ast.ScalarQuestion), *new(scanner.Position))
