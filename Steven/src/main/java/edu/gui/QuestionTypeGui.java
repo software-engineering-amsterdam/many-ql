@@ -8,7 +8,8 @@ import edu.nodes.QuestionType;
  */
 public enum QuestionTypeGui {
     STRING(edu.gui.components.TextBox.class, QuestionType.STRING),
-    BOOLEAN(edu.gui.components.CheckBox.class, QuestionType.BOOLEAN);
+    BOOLEAN(edu.gui.components.CheckBox.class, QuestionType.BOOLEAN),
+    INTEGER(edu.gui.components.NumberBox.class, QuestionType.INTEGER);
 
     private final Class<? extends Subject> component;
     private final QuestionType questionType;

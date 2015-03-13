@@ -4,6 +4,8 @@ form FORMNAME {
     NAME STRING "What is your name?"
     RESULT STRING "Your name: "(NAME)
 
+    AGE INTEGER "What is your age?"
+
     NAME1 BOOLEAN "Are you a programmer?"
     if(!NAME1){
         NAME2 BOOLEAN "You should be!"
