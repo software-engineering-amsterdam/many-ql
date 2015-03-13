@@ -13,6 +13,8 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.ITypeVisitor;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
+import org.fugazi.ql.gui.widgets.IWidget;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeVisitor<UIQuestion> {
 
@@ -20,6 +22,7 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
     private final IMediator mediator;
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
+    private final WidgetsFactory widgetsFactory;
 
     public UIQuestionBuilder(
             IMediator _med, Question _question, ValueStorage _valueStorage)
@@ -28,22 +31,30 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
         this.mediator = _med;
         this.valueStorage = _valueStorage;
         this.guiEvaluator = new GUIEvaluator(valueStorage);
+        this.widgetsFactory = new WidgetsFactory();
     }
 
     /**
      * Type Visitor
      */
     public UIQuestion visitBoolType(BoolType boolType) {
-        return new UIBoolQuestion(this.mediator, this.question);
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(boolType, this.question.getLabel()); 
+        
+        return new UIBoolQuestion(
+                this.mediator, this.question, widget);
     }
 
     public UIQuestion visitIntType(IntType intType) {
-        return new UINumQuestion(this.mediator, this.question);
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(intType, this.question.getLabel());
+        return new UINumQuestion(
+                this.mediator, this.question, widget);
 
     }
 
-    public UIQuestion visitStringType(StringType moneyType) {
-        return new UITextQuestion(this.mediator, this.question);
+    public UIQuestion visitStringType(StringType stringType) {
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(stringType, this.question.getLabel());
+        return new UITextQuestion(
+                this.mediator, this.question, widget);
     }
 
     /**
@@ -59,7 +70,7 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
 
     public UIQuestion visitComputedQuestion(ComputedQuestion computedQuestion) {
         ExpressionValue result = guiEvaluator.evaluateComputedExpression(computedQuestion);
-        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(mediator, computedQuestion, result);
-        return uiComputedQuestion;
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(computedQuestion.getType(), this.question.getLabel(), result);
+        return new UIComputedQuestion(mediator, computedQuestion, widget, result);
     }
 }

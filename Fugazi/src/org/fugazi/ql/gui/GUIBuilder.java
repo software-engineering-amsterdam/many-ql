@@ -122,7 +122,7 @@ public class GUIBuilder implements IMediator {
         return isTrue;
     }
 
-    private UIQuestion createUiQuestion(Question _question) {
+    protected UIQuestion createUiQuestion(Question _question) {
         UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
         return _question.accept(typeVisitor);
     }    
