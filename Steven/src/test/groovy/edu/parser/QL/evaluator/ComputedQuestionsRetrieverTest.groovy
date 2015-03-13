@@ -64,6 +64,10 @@ class ComputedQuestionsRetrieverTest extends Specification {
         expression                                       | result
         new Addition(new Number(4), new Number(6))       | 10
         new Multiplication(new Number(4), new Number(6)) | 24
+        new Division(new Number(12), new Number(4))      | 3
+        new Division(new Number(0), new Number(4))       | 4
+        new Division(new Number(5), new Number(0))       | 5
+        new Division(new Number(0), new Number(0))       | 0
     }
 
     def "should throw TypeCheckException for not supported operations"() {

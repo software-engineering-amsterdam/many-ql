@@ -108,7 +108,33 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(Division division) {
-        return null;
+        Number left = getNumber(division.getLeft());
+        Number right = getNumber(division.getRight());
+        if (bothZero(left, right)) {
+            return new Number(0);
+        } else if (onlyLeftZero(left, right)) {
+            return new Number(right.getNumber());
+        } else if (onlyRightZero(left, right)) {
+            return new Number(left.getNumber());
+        } else {
+            return new Number(left.getNumber() / right.getNumber());
+        }
+    }
+
+    private boolean onlyRightZero(Number left, Number right) {
+        return isOnlyFirstParameterZero(right, left);
+    }
+
+    private boolean onlyLeftZero(Number left, Number right) {
+        return isOnlyFirstParameterZero(left, right);
+    }
+
+    private boolean isOnlyFirstParameterZero(Number zeroValue, Number nonZeroValue) {
+        return zeroValue.getNumber() == 0 && nonZeroValue.getNumber() > 0;
+    }
+
+    private boolean bothZero(Number left, Number right) {
+        return left.getNumber() == 0 && right.getNumber() == 0;
     }
 
     @Override
