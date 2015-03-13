@@ -1,9 +1,8 @@
 package edu.parser.QL.evaluator
 
+import edu.exceptions.TypeCheckException
 import edu.gui.components.store.Store
-import edu.parser.QL.nodes.expression.Addition
-import edu.parser.QL.nodes.expression.Multiplication
-import edu.parser.QL.nodes.expression.QLIdentifier
+import edu.parser.QL.nodes.expression.*
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QL.nodes.type.Number
 import edu.parser.QL.nodes.type.Text
@@ -67,4 +66,24 @@ class ComputedQuestionsRetrieverTest extends Specification {
         new Multiplication(new Number(4), new Number(6)) | 24
     }
 
+    def "should throw TypeCheckException for not supported operations"() {
+        when:
+        questionsRetriever.visit(expression)
+
+        then:
+        def exception = thrown(TypeCheckException.class)
+        Assert.assertEquals(true, exception.message.contains(ComputedQuestionsRetriever.NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS))
+
+        where:
+        expression                                       | _
+        new And(new Number(4), new Number(6))            | _
+        new Or(new Number(4), new Number(6))             | _
+        new Equal(new Number(4), new Number(6))          | _
+        new NotEqual(new Number(4), new Number(6))       | _
+        new Not(new QLIdentifier("identifier"))          | _
+        new GreaterOrEqual(new Number(4), new Number(6)) | _
+        new GreaterThan(new Number(4), new Number(6))    | _
+        new LessOrEqual(new Number(4), new Number(6))    | _
+        new LessThan(new Number(4), new Number(6))       | _
+    }
 }
