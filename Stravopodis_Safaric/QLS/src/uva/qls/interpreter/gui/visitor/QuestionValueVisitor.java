@@ -77,8 +77,14 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 	}
 
 	@Override
-	public Object visitSection(Section section) {
+	public List<String> visitSection(Section section) {
 		List<String> pushedTypes = this.defaultValues(section.getStatement());
+		
+		for(Statement s : section.getStatement()){
+			if (s.getClass().equals(Question.class)){
+				s.accept(this);
+			}
+		}
 		
 		if (pushedTypes.size() > 1){
 			for (String type : pushedTypes)
@@ -86,7 +92,7 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 		}
 		
 		this.visitStatements(section.getStatement());
-		return null;
+		return pushedTypes;
 	}
 	
 	@Override
@@ -100,7 +106,25 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 		if (question.getComponent() == null){
 			this.gui.getQuestionValueTable().putValue(question, this.gui.table.retrieveValue(questionType).peek());
 		}
+		else {
+			DefaultTableValue value = new DefaultTableValue(question.getComponent(), new Type(questionType, question.getLOC()));
+			this.gui.getQuestionValueTable().putValue(question, value);
+		}
 		
+		return null;
+	}
+	
+	private void visitStatements(List<Statement> statements){
+		for (Statement statement : statements){
+			if (!statement.getClass().equals(Question.class))
+				statement.accept(this);
+		}
+		
+	}
+
+	@Override
+	public Object visitStatement(Statement statement) {
+		statement.accept(this);
 		return null;
 	}
 	
@@ -111,38 +135,21 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 			
 			if (s.getClass().equals(DefaultValue.class)){
 				
-				DefaultValue _value = (DefaultValue)s;
-				DefaultTableValue value = new DefaultTableValue(_value.getStyle(), _value.getComponent(), _value.getType());
-				
-				this.gui.table.push(_value.getType().getTypeName(), value);
-				typesPushed.add(_value.getType().getTypeName());
+				this.gui.table.push(((DefaultValue)s).getType().getTypeName(), (DefaultTableValue)s.accept(this));
+				typesPushed.add(((DefaultValue)s).getType().getTypeName());
 			}
 		}
 		return typesPushed;
 	}
-	
-	private void visitStatements(List<Statement> statements){
-		for (Statement statement : statements){
-			statement.accept(this);
-		}
+
+	@Override
+	public DefaultTableValue visitDefaultValueComponent(DefaultValue defaultValue) {
+		return new DefaultTableValue(defaultValue.getStyle(), defaultValue.getComponent(), defaultValue.getType());
 	}
 
 	@Override
-	public Object visitStatement(Statement statement) {
-		statement.accept(this);
-		return null;
-	}
-
-	@Override
-	public Object visitDefaultValueComponent(DefaultValue defaultValue) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitDefaultValueStatements(DefaultValue defaultValue) {
-		// TODO Auto-generated method stub
-		return null;
+	public DefaultTableValue visitDefaultValueStatements(DefaultValue defaultValue) {
+		return new DefaultTableValue(defaultValue.getStyle(), defaultValue.getComponent(), defaultValue.getType());
 	}
 
 	@Override

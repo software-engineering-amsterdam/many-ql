@@ -1,6 +1,7 @@
 package uva.qls.ast.component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
@@ -33,6 +34,11 @@ public class Spinbox extends Component{
 	@Override
 	public GenericValue<?> evaluate() {
 		return null;
+	}
+	
+	@Override
+	public void componentStyle(List<Style> style) {
+		this.style = style;
 	}
 	
 	@Override

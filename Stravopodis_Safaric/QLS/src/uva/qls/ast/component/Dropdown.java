@@ -2,6 +2,7 @@ package uva.qls.ast.component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
@@ -46,6 +47,12 @@ public class Dropdown extends Component{
 	public Tuple<String, String> evaluate() {
 		return this.values;
 	}
+	
+	@Override
+	public void componentStyle(List<Style> style) {
+		this.style = style;
+	}
+	
 	@Override
 	public String toString(){
 		return "Dropdown(" + this.values.toString() + " " + this.style.toString() + ")";

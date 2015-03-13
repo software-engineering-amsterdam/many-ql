@@ -1,6 +1,7 @@
 package uva.qls.ast.component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.StringValue;
@@ -38,6 +39,12 @@ public class Checkbox extends Component{
 	public StringValue evaluate() {
 		return new StringValue(this.value.evaluatedValue());
 	}
+	
+	@Override
+	public void componentStyle(List<Style> style) {
+		this.style = style;
+	}
+	
 	@Override
 	public String toString(){
 		return "Checkbox(" + this.value.evaluatedValue() + " " + this.style.toString() + ")";
