@@ -82,20 +82,24 @@ func (s *SymbolTable) Create(q *ast.QuestionNode) {
 	identifier := q.Identifier()
 	label := q.Label()
 	qType := q.Type()
+	pos := q.Pos()
+	primitive := q.Primitive()
 
 	_, ok := s.symbolExistP(identifier)
 	if ok {
-		s.appendErrf("Duplicated identifier found at typechecker: %s",
-			identifier)
+		s.appendErrf("%s:symboltable error: duplicated identifier found at symbol table: %s",
+			pos, identifier)
 		return
 	}
 
 	var symbol interface{}
 	switch qType {
-	default:
-		log.Fatalf("impossible to create symbol type %s", qType)
 	case ast.ScalarQuestionType:
-		symbol = scalarQuestionFactory(q.Primitive())
+		newSymbol, err := scalarQuestionFactory(primitive)
+		if err != nil {
+			log.Fatalf("%s:symboltable error: %s", pos, err.Error())
+		}
+		symbol = newSymbol
 	case ast.ComputedQuestionType:
 		symbol = new(ComputedQuestion)
 	}

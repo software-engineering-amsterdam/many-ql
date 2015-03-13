@@ -112,7 +112,7 @@ questionType:
 	}
 	| ComputedQuestionToken '=' term
 	{
-		$$.questionType = ast.NewComputedQuestion($3.evaluatable)
+		$$.questionType = ast.NewComputedQuestion($3.evaluatable, $3.position)
 	}
 	;
 

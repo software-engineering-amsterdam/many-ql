@@ -467,7 +467,7 @@ qldefault:
 	case 8:
 		//line parser.y:114
 		{
-			qlVAL.questionType = ast.NewComputedQuestion(qlS[qlpt-0].evaluatable)
+			qlVAL.questionType = ast.NewComputedQuestion(qlS[qlpt-0].evaluatable, qlS[qlpt-0].position)
 		}
 	case 9:
 		//line parser.y:121

@@ -53,3 +53,8 @@ func (q QuestionNode) Type() string {
 func (q QuestionNode) Primitive() string {
 	return q.content.Primitive()
 }
+
+// Pos returns the token position of the question in the source file
+func (q *QuestionNode) Pos() scanner.Position {
+	return q.pos
+}

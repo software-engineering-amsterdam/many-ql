@@ -2,20 +2,18 @@ package symboltable
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 )
 
-func scalarQuestionFactory(primitive string) fmt.Stringer {
+func scalarQuestionFactory(primitive string) (fmt.Stringer, error) {
 	switch primitive {
 	case ast.ScalarStringPrimitive:
-		return new(StringQuestion)
+		return new(StringQuestion), nil
 	case ast.ScalarNumericPrimitive:
-		return new(NumericQuestion)
+		return new(NumericQuestion), nil
 	case ast.ScalarBoolPrimitive:
-		return new(BoolQuestion)
+		return new(BoolQuestion), nil
 	}
-	log.Println(primitive)
-	return nil
+	return nil, fmt.Errorf("Invalid question type. Got %s", primitive)
 }
