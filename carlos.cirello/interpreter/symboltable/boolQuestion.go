@@ -6,8 +6,10 @@ import (
 )
 
 const (
+	// AnswerYes is the string value for boolean true
 	AnswerYes = "Yes"
-	AnswerNo  = "No"
+	// AnswerNo is the string value for boolean false
+	AnswerNo = "No"
 )
 
 // BoolQuestion stores the answer of question which type is integer numeric

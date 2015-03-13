@@ -32,6 +32,8 @@ func (c ComputedQuestion) Expression() Evaluatable {
 	return c.expression
 }
 
+// Primitive returns the basic primitive necessary to hold the result of a
+// computed question
 func (c *ComputedQuestion) Primitive() string {
 	return computedQuestionPrimitive
 }

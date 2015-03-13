@@ -25,6 +25,8 @@ func (q *QuestionaireNode) Stack() []*ActionNode {
 	return q.stack
 }
 
+// DelegateQuestionaireNodeExecution defines the execution of
+// QuestionaireNode to be used by Executers
 func DelegateQuestionaireNodeExecution(e Executer, q *QuestionaireNode) {
 	for _, actionNode := range q.Stack() {
 		e.ActionNode(actionNode)

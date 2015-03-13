@@ -18,6 +18,8 @@ func (a *ActionNode) Action() interface{} {
 	return a.action
 }
 
+// DelegateActionNodeExecution defines the execution of ActionNode to be used by
+// Executers
 func DelegateActionNodeExecution(e Executer, a *ActionNode) {
 	action := a.Action()
 	switch action.(type) {

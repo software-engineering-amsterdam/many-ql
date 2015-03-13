@@ -13,9 +13,15 @@ const (
 	// interpreter and frontend
 	ScalarQuestionType = "scalar"
 
-	ScalarStringPrimitive  = "string"
+	// ScalarStringPrimitive is the constant which define "string" question
+	// type.
+	ScalarStringPrimitive = "string"
+	// ScalarNumericPrimitive is the constant which define "numeric"
+	// question type.
 	ScalarNumericPrimitive = "numeric"
-	ScalarBoolPrimitive    = "bool"
+	// ScalarBoolPrimitive is the constant which define "bool" question
+	// type.
+	ScalarBoolPrimitive = "bool"
 )
 
 // NewScalarQuestion factory of ScalarQuestion struct

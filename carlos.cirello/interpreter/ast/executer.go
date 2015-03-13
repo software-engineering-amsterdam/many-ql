@@ -8,6 +8,7 @@ type Executer interface {
 	QuestionNode(q *QuestionNode)
 }
 
+// Comparator interface describe the root call to resolve comparison nodes in AST
 type Comparator interface {
 	ResolveComparisonNode(n interface{}) bool
 }
