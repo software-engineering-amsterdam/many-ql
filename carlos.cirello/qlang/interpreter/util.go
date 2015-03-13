@@ -5,7 +5,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/typechecker"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 )
 
@@ -19,15 +19,15 @@ func typecheck(q *ast.QuestionaireNode) {
 	symboltable.PanicErr()
 }
 
-func openChannels() (toFrontend, fromFrontend chan *event.Frontend) {
-	toFrontend = make(chan *event.Frontend)
-	fromFrontend = make(chan *event.Frontend)
+func openChannels() (toFrontend, fromFrontend chan *plumbing.Frontend) {
+	toFrontend = make(chan *plumbing.Frontend)
+	fromFrontend = make(chan *plumbing.Frontend)
 	return toFrontend, fromFrontend
 }
 
 func (v *interpreter) drawLoop(redraw bool) bool {
-	v.send <- &event.Frontend{
-		Type: event.ReadyP,
+	v.send <- &plumbing.Frontend{
+		Type: plumbing.ReadyP,
 	}
 
 drawLoop:
@@ -35,9 +35,9 @@ drawLoop:
 		select {
 		case r := <-v.receive:
 			switch r.Type {
-			case event.ReadyT:
+			case plumbing.ReadyT:
 				v.draw.QuestionaireNode(v.questionaire)
-				v.send <- &event.Frontend{Type: event.Flush}
+				v.send <- &plumbing.Frontend{Type: plumbing.Flush}
 				break drawLoop
 			}
 		}
@@ -45,12 +45,12 @@ drawLoop:
 
 	if redraw {
 		redraw = false
-		go func(receive chan *event.Frontend) {
-			receive <- &event.Frontend{Type: event.ReadyT}
+		go func(receive chan *plumbing.Frontend) {
+			receive <- &plumbing.Frontend{Type: plumbing.ReadyT}
 		}(v.receive)
 	}
 	v.execute.QuestionaireNode(v.questionaire)
-	v.send <- &event.Frontend{Type: event.Flush}
+	v.send <- &plumbing.Frontend{Type: plumbing.Flush}
 	return redraw
 }
 
@@ -62,27 +62,27 @@ mainLoop:
 		case r := <-v.receive:
 			switch r.Type {
 
-			case event.Answers:
+			case plumbing.Answers:
 				for identifier, answer := range r.Answers {
 					q := v.symbols.Read(identifier)
 					q.(symboltable.StringParser).From(answer)
 					v.symbols.Update(identifier, q)
 					v.execute.QuestionaireNode(v.questionaire)
-					v.send <- &event.Frontend{Type: event.Flush}
+					v.send <- &plumbing.Frontend{Type: plumbing.Flush}
 				}
 
-			case event.ReadyT:
+			case plumbing.ReadyT:
 				v.execute.QuestionaireNode(v.questionaire)
-				v.send <- &event.Frontend{Type: event.Flush}
+				v.send <- &plumbing.Frontend{Type: plumbing.Flush}
 
-			case event.Redraw:
+			case plumbing.Redraw:
 				redraw = true
 				break mainLoop
 
 			}
 
 		case <-ticker:
-			v.send <- &event.Frontend{Type: event.FetchAnswers}
+			v.send <- &plumbing.Frontend{Type: plumbing.FetchAnswers}
 		}
 	}
 }

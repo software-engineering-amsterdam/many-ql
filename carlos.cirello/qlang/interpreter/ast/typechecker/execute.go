@@ -3,16 +3,16 @@ package typechecker
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 )
 
 // New is the factory for Typechecker visitor struct
 func New() (ast.Executer, *symboltable.SymbolTable) {
-	toFrontend := make(chan *event.Frontend)
+	toFrontend := make(chan *plumbing.Frontend)
 	st := symboltable.New()
 
-	go func(toFrontend chan *event.Frontend) {
+	go func(toFrontend chan *plumbing.Frontend) {
 		for {
 			<-toFrontend
 		}

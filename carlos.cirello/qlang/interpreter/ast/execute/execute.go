@@ -4,19 +4,19 @@ import (
 	"fmt"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 )
 
 // Execute implements Executer interface, and it is used by Visitor to traverse
 // AST
 type Execute struct {
-	toFrontend  chan *event.Frontend
+	toFrontend  chan *plumbing.Frontend
 	symboltable *symboltable.SymbolTable
 }
 
 // New is the factory for a ast.Visitor with Execute struct tree inside
-func New(toFrontend chan *event.Frontend, symboltable *symboltable.SymbolTable) ast.Executer {
+func New(toFrontend chan *plumbing.Frontend, symboltable *symboltable.SymbolTable) ast.Executer {
 	return &Execute{
 		toFrontend:  toFrontend,
 		symboltable: symboltable,
@@ -46,8 +46,8 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 		r.(symboltable.StringParser).From(computed)
 	}
 
-	exec.toFrontend <- &event.Frontend{
-		Type:       event.UpdateQuestion,
+	exec.toFrontend <- &plumbing.Frontend{
+		Type:       plumbing.UpdateQuestion,
 		Identifier: q.Identifier(),
 		Label:      q.Label(),
 		Value:      r.(fmt.Stringer).String(),

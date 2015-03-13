@@ -8,11 +8,11 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
 )
 
-func readInputCsv(fromInterpreter, toInterpreter chan *event.Frontend, inReader io.Reader) {
+func readInputCsv(fromInterpreter, toInterpreter chan *plumbing.Frontend, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
@@ -29,7 +29,7 @@ func errorHandler() {
 
 func startInterpreter(srcReader io.Reader, srcFn string) (
 	fromInterpreter,
-	toInterpreter chan *event.Frontend,
+	toInterpreter chan *plumbing.Frontend,
 	guiAppName string,
 ) {
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)
@@ -40,7 +40,7 @@ func startInterpreter(srcReader io.Reader, srcFn string) (
 
 func launchGUI(
 	fromInterpreter,
-	toInterpreter chan *event.Frontend,
+	toInterpreter chan *plumbing.Frontend,
 	guiAppName string,
 ) {
 	driver := graphic.GUI(guiAppName)

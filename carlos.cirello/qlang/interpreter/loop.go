@@ -7,14 +7,14 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/draw"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 )
 
 type interpreter struct {
 	questionaire *ast.QuestionaireNode
-	send         chan *event.Frontend
-	receive      chan *event.Frontend
+	send         chan *plumbing.Frontend
+	receive      chan *plumbing.Frontend
 	execute      ast.Executer
 	draw         ast.Executer
 	symbols      *symboltable.SymbolTable
@@ -22,7 +22,7 @@ type interpreter struct {
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+func New(q *ast.QuestionaireNode) (chan *plumbing.Frontend, chan *plumbing.Frontend) {
 	typecheck(q)
 
 	toFrontend, fromFrontend := openChannels()

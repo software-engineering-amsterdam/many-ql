@@ -4,20 +4,20 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 )
 
 // Input holds an io.Reader which is used to transfer the responses of the form
 // from a CSV file.
 type Input struct {
-	receive chan *event.Frontend
-	send    chan *event.Frontend
+	receive chan *plumbing.Frontend
+	send    chan *plumbing.Frontend
 	stream  io.Reader
 }
 
 // New takes in a pair of channels for the interpreter, a reader stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *event.Frontend,
+func New(fromInterpreter, toInterpreter chan *plumbing.Frontend,
 	stream io.Reader) *Input {
 	return &Input{
 		receive: fromInterpreter,
@@ -51,8 +51,8 @@ func (i *Input) readAnswers() (answers map[string]string) {
 func (i *Input) handshake() {
 	// handshake
 	<-i.receive
-	i.send <- &event.Frontend{
-		Type: event.ReadyT,
+	i.send <- &plumbing.Frontend{
+		Type: plumbing.ReadyT,
 	}
 
 	// skip rendering
@@ -60,7 +60,7 @@ renderingSkipLoop:
 	for {
 		select {
 		case r := <-i.receive:
-			if r.Type == event.Flush {
+			if r.Type == plumbing.Flush {
 				break renderingSkipLoop
 			}
 		}
@@ -68,15 +68,15 @@ renderingSkipLoop:
 }
 
 func (i *Input) sendAnswers(answers map[string]string) {
-	answersEvent := &event.Frontend{
-		Type:    event.Answers,
+	answerEvent := &plumbing.Frontend{
+		Type:    plumbing.Answers,
 		Answers: answers,
 	}
 commLoop:
 	for {
 		select {
 		case <-i.receive:
-		case i.send <- answersEvent:
+		case i.send <- answerEvent:
 			break commLoop
 
 		default:
@@ -86,7 +86,7 @@ commLoop:
 }
 
 func (i *Input) handoverAndRedraw() {
-	redrawEvent := &event.Frontend{Type: event.Redraw}
+	redrawEvent := &plumbing.Frontend{Type: plumbing.Redraw}
 redrawLoop:
 	for {
 		select {

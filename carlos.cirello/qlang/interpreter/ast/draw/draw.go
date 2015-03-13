@@ -2,18 +2,18 @@ package draw
 
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
 )
 
 // Draw implements Executer interface, and it is used by Visitor to traverse
 // AST
 type Draw struct {
-	toFrontend chan *event.Frontend
+	toFrontend chan *plumbing.Frontend
 	nest       int
 }
 
 // New is the factory for Draw struct
-func New(toFrontend chan *event.Frontend) ast.Executer {
+func New(toFrontend chan *plumbing.Frontend) ast.Executer {
 	return &Draw{toFrontend: toFrontend, nest: 0}
 }
 
@@ -32,9 +32,9 @@ func (d Draw) ActionNode(a *ast.ActionNode) {
 func (d Draw) QuestionNode(q *ast.QuestionNode) {
 
 	qcpy := q.Clone()
-	visible := event.Hidden
+	visible := plumbing.Hidden
 	if 0 == d.nest {
-		visible = event.Visible
+		visible = plumbing.Visible
 	}
 
 	ftyp := ""
@@ -42,8 +42,8 @@ func (d Draw) QuestionNode(q *ast.QuestionNode) {
 		ftyp = qcpy.Primitive()
 	}
 
-	d.toFrontend <- &event.Frontend{
-		Type: event.DrawQuestion,
+	d.toFrontend <- &plumbing.Frontend{
+		Type: plumbing.DrawQuestion,
 
 		Identifier: qcpy.Identifier(),
 		Label:      qcpy.Label(),

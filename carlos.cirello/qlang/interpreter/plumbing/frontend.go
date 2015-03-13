@@ -1,4 +1,4 @@
-package event
+package plumbing
 
 // Frontend carries the communication between VM and Frontend
 type Frontend struct {
