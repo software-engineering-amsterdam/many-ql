@@ -1,6 +1,7 @@
 package edu.gui;
 
 import edu.gui.components.CheckBox;
+import edu.gui.components.NumberBox;
 import edu.gui.components.TextBox;
 
 /**
@@ -12,7 +13,5 @@ public interface Observer {
 
     void update(CheckBox checkBox);
 
-    public void initializeRequest(TextBox textBox);
-
-    void initializeRequest(CheckBox checkBox);
+    void update(NumberBox numberBox);
 }

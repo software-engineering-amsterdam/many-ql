@@ -14,6 +14,7 @@ import java.util.Optional;
  * Created by Steven Kok on 12/03/2015.
  */
 public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNode> {
+    public static final String NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS = "Not supported operation for computed questions: ";
     private final List<Question> evaluatedQuestions;
 
     public ComputedQuestionsRetriever(List<Question> evaluatedQuestions) {
@@ -38,22 +39,22 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(And and) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + and);
     }
 
     @Override
     public AbstractNode visit(Equal equal) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + equal);
     }
 
     @Override
     public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + greaterOrEqual);
     }
 
     @Override
     public AbstractNode visit(GreaterThan greaterThan) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + greaterThan);
     }
 
     @Override
@@ -75,12 +76,12 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(LessOrEqual lessOrEqual) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + lessOrEqual);
     }
 
     @Override
     public AbstractNode visit(LessThan lessThan) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + lessThan);
     }
 
     @Override
@@ -92,27 +93,53 @@ public class ComputedQuestionsRetriever implements ExpressionVisitor<AbstractNod
 
     @Override
     public AbstractNode visit(Not not) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + not);
     }
 
     @Override
     public AbstractNode visit(NotEqual notEqual) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + notEqual);
     }
 
     @Override
     public AbstractNode visit(Or or) {
-        return null;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + or);
     }
 
     @Override
     public AbstractNode visit(Division division) {
-        return null;
+        Number left = getNumber(division.getLeft());
+        Number right = getNumber(division.getRight());
+        if (bothZero(left, right)) {
+            return new Number(0);
+        } else if (onlyLeftZero(left, right)) {
+            return new Number(right.getNumber());
+        } else if (onlyRightZero(left, right)) {
+            return new Number(left.getNumber());
+        } else {
+            return new Number(left.getNumber() / right.getNumber());
+        }
+    }
+
+    private boolean onlyRightZero(Number left, Number right) {
+        return isOnlyFirstParameterZero(right, left);
+    }
+
+    private boolean onlyLeftZero(Number left, Number right) {
+        return isOnlyFirstParameterZero(left, right);
+    }
+
+    private boolean isOnlyFirstParameterZero(Number zeroValue, Number nonZeroValue) {
+        return zeroValue.getNumber() == 0 && nonZeroValue.getNumber() > 0;
+    }
+
+    private boolean bothZero(Number left, Number right) {
+        return left.getNumber() == 0 && right.getNumber() == 0;
     }
 
     @Override
     public AbstractNode visit(edu.parser.QL.nodes.type.Boolean aBoolean) {
-        return aBoolean;
+        throw new TypeCheckException(NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS + aBoolean);
     }
 
     @Override
