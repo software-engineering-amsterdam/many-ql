@@ -1,5 +1,13 @@
 lexer grammar EncodersQLSLexerRules;
 
+DATATYPE      : ( BOOLEAN 
+                | INTEGER 
+                | STRING
+                );
+                
+BOOLEAN       : 'boolean';
+INTEGER       : 'integer';
+STRING        : 'string';
 
 STRINGLITERAL  : '"' (ESCAPE | .)*? '"';
 BOOLEANLITERAL: 'true' | 'false';

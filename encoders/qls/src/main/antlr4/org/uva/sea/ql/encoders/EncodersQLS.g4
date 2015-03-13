@@ -2,17 +2,20 @@ grammar EncodersQLS;
 import EncodersQLSLexerRules;
 
 stylesheet:
-    'stylesheet' name=NAME '{'  
+    'stylesheet' name=NAME 
     page+
-    '}'
     EOF;
     
-page: 'page''{'  
+page: 'page' name=NAME '{'
       section+
+      defaults?
       '}';
     
-section: 'section' name=NAME
-         question;
+section: 'section' name=STRINGLITERAL '{'
+         section*
+         question*
+         defaults?
+         '}';
 
 question:  'question' name=NAME
             widget?;
@@ -23,6 +26,10 @@ spinbox: 'spinbox';
 
 radio: 'radio' '(' STRINGLITERAL (',' STRINGLITERAL)* ')';
 
-
-
-    
+defaults: 'default' DATATYPE '{'
+          ('width:' INTEGERLITERAL)?
+          ('font:' STRINGLITERAL)?
+          ('fontsize:' INTEGERLITERAL)?
+          ('color:' INTEGERLITERAL)?
+          (widget)?
+          '}';
