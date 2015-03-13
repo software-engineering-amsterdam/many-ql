@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 )
 
 func TestBasic(t *testing.T) {

@@ -5,8 +5,8 @@ import (
 	"testing"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 const expectedCsv = `Q1,A question,No

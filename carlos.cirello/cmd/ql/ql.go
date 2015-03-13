@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli/iostream"
 )
 
 func main() {

@@ -11,7 +11,7 @@ package parser
 import (
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 )
 
 // ReadQL generates a AST (*ast.Questionaire and children) out of source code.

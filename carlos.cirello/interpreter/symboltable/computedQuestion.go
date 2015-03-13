@@ -1,6 +1,6 @@
 package symboltable
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 
 // ComputedQuestion stores the answer of question which type is integer numeric
 type ComputedQuestion struct {

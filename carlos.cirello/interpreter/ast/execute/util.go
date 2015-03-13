@@ -3,8 +3,8 @@ package execute
 import (
 	"log"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,

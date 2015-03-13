@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func TestDuplicatedIdentifier(t *testing.T) {

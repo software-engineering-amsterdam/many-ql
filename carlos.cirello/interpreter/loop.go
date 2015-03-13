@@ -4,11 +4,11 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/draw"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/draw"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast/execute"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
 
 type interpreter struct {

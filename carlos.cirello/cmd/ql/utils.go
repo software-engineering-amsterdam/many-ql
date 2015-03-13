@@ -7,9 +7,9 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func readInputCsv(fromInterpreter, toInterpreter chan *plumbing.Frontend, inReader io.Reader) {

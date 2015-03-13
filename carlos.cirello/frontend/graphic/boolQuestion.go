@@ -1,7 +1,7 @@
 package graphic
 
 import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"gopkg.in/qml.v1"
 )
 

@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 )
 
 // Input holds an io.Reader which is used to transfer the responses of the form

@@ -1,8 +1,8 @@
 package draw
 
 import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/plumbing"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/plumbing"
 )
 
 // Draw implements Executer interface, and it is used by Visitor to traverse
