@@ -1,6 +1,6 @@
 all:
 	go generate ./...
-	go build ./cmd/...
+	go build -o ql
 	echo "Build successful"
 	./ql -h || echo
 
