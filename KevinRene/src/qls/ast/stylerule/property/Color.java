@@ -2,13 +2,14 @@ package qls.ast.stylerule.property;
 
 import java.util.Arrays;
 
+import ql.ast.expression.Literal;
 import ql.ast.expression.type.QLString;
-import qls.ast.stylerule.StyleProperty;
+import qls.ast.stylerule.StyleRule;
 import qls.ast.visitor.QLSVisitor;
 
-public class Color extends StyleProperty {
-	public Color() {
-		super(Arrays.asList(QLString.class));
+public class Color extends StyleRule {
+	public Color(Literal<?> value) {
+		super(Arrays.asList(QLString.class), value);
 	}
 
 	@Override

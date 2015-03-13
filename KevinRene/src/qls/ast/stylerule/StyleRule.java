@@ -1,26 +1,29 @@
 package qls.ast.stylerule;
 
-import ql.ast.expression.Literal;
-import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import java.util.List;
 
-public class StyleRule extends QLSStatement {
+import ql.ast.expression.Literal;
+import ql.ast.expression.QLType;
+import qls.ast.QLSStatement;
+
+public abstract class StyleRule extends QLSStatement {
+	protected final List<Class<? extends QLType>> compatibleTypes;
+	private final Literal<?> value;
 	
-	StyleProperty property;
-	Literal<?> value;
-	
-	public StyleRule(StyleProperty property, Literal<?> value) {
-		this.property = property;
+	public StyleRule(List<Class<? extends QLType>> compatibleTypes, Literal<?> value) {
+		this.compatibleTypes = compatibleTypes;
 		this.value = value;
 	}
-
-	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
-		return visitor.visit(this);
+	
+	public Literal<?> getValue() {
+		return this.value;
 	}
-
-	@Override
+	
 	public String toString() {
-		return property.toString() + " = " + value.getValue();
+		return this.getClass().getSimpleName() + "(" + value.toString() + ")";
+	}
+	
+	public boolean compatibleWith(QLType type) {
+		return this.compatibleTypes.contains(type.getClass());
 	}
 }

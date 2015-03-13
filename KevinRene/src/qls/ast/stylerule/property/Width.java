@@ -2,13 +2,14 @@ package qls.ast.stylerule.property;
 
 import java.util.Arrays;
 
+import ql.ast.expression.Literal;
 import ql.ast.expression.type.QLInteger;
-import qls.ast.stylerule.StyleProperty;
+import qls.ast.stylerule.StyleRule;
 import qls.ast.visitor.QLSVisitor;
 
-public class Width extends StyleProperty {
-	public Width() {
-		super(Arrays.asList(QLInteger.class));
+public class Width extends StyleRule {
+	public Width(Literal<?> value) {
+		super(Arrays.asList(QLInteger.class), value);
 	}
 	
 	@Override

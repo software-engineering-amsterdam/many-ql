@@ -36,7 +36,6 @@
 %type <ValueSet> values
 %type <StyleRule> styleRule
 %type <StyleRuleSet> styleRules
-%type <StyleProperty> styleProperty
 %type <Widget> widgetType widget
 %type <Page> page
 
@@ -119,14 +118,11 @@ import qls.ast.widget.*;
 				| styleRule                    { $$ = new StyleRuleSet($1); }
 				;
 				
-	styleRule	: styleProperty ':' literal { $$ = new StyleRule($1, $3); }
-				;
-				
-	styleProperty	: WIDTH { $$ = new Width();  }
-					| HEIGHT      { $$ = new Height(); }
-					| FONT        { $$ = new Font();   }
-					| FONTSIZE    { $$ = new FontSize(); }
-					| COLOR       { $$ = new Color(); }
+  styleRule	: WIDTH     ':' literal  { $$ = new Width($3);  }
+					| HEIGHT      ':' literal  { $$ = new Height($3); }
+					| FONT        ':' literal  { $$ = new Font($3);   }
+					| FONTSIZE    ':' literal  { $$ = new FontSize($3); }
+					| COLOR       ':' literal  { $$ = new Color($3); }
 					;
 
 %%

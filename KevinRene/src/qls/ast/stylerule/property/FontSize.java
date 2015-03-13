@@ -2,13 +2,14 @@ package qls.ast.stylerule.property;
 
 import java.util.Arrays;
 
+import ql.ast.expression.Literal;
 import ql.ast.expression.type.QLInteger;
-import qls.ast.stylerule.StyleProperty;
+import qls.ast.stylerule.StyleRule;
 import qls.ast.visitor.QLSVisitor;
 
-public class FontSize extends StyleProperty {
-	public FontSize() {
-		super(Arrays.asList(QLInteger.class));
+public class FontSize extends StyleRule {
+	public FontSize(Literal<?> value) {
+		super(Arrays.asList(QLInteger.class), value);
 	}
 	
 	@Override

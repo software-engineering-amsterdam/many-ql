@@ -274,26 +274,58 @@ public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor
 
 	@Override
 	public Void visit(Color color) {
-		return printNode(color);
+		printNode(color);
+		
+		indent();
+		color.getValue().accept(this);
+		unindent();
+		
+		return null;
 	}
 
 	@Override
 	public Void visit(Width width) {
-		return printNode(width);
+		printNode(width);
+
+		
+		indent();
+		width.getValue().accept(this);
+		unindent();
+		
+		return null;
 	}
 
 	@Override
 	public Void visit(Height height) {
-		return printNode(height);
+		printNode(height);
+
+		
+		indent();
+		height.getValue().accept(this);
+		unindent();
+		
+		return null;
 	}
 
 	@Override
 	public Void visit(Font font) {
-		return printNode(font);
+		printNode(font);
+		
+		indent();
+		font.getValue().accept(this);
+		unindent();
+		
+		return null;
 	}
 
 	@Override
 	public Void visit(FontSize fontSize) {
-		return printNode(fontSize);
+		printNode(fontSize);
+		
+		indent();
+		fontSize.getValue().accept(this);
+		unindent();
+		
+		return null;
 	}
 }
