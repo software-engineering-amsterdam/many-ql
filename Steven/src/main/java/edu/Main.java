@@ -4,6 +4,7 @@ import edu.exceptions.ParseException;
 import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
+import edu.gui.components.NumberBox;
 import edu.gui.components.TextBox;
 import edu.parser.AntlrParser;
 import edu.parser.QL.ParseTreeVisitor;
@@ -26,8 +27,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 24/02/2015.
  */
-public class Main implements Observer { //todo: remove cloneable from project, use copy constructors
-
+public class Main implements Observer {
     public static final String PATH_TO_QL_INPUT_FILES = "src/test/resources/antlr/input/QL/";
     public static final String PATH_TO_QLS_INPUT_FILES = "src/test/resources/antlr/input/QLS/";
 
@@ -99,36 +99,23 @@ public class Main implements Observer { //todo: remove cloneable from project, u
 
     @Override
     public void update(TextBox textBox) {
-        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
+        Question question = getEvaluatedQuestion(textBox.getIdentifier());
         question.setValue(new Text(textBox.getText()));
         reRender();
     }
 
     @Override
-    public void initializeRequest(TextBox textBox) {
-        Question question = getEvaluatedQuestion(textBox.getQLIdentifier());
-        textBox.setText(question.getValue().getValue());
-        if (computedQuestion(question)) {
-            textBox.setEditable(false);
-        }
-    }
-
-    private boolean computedQuestion(Question question) {
-        return question.getExpression().isPresent();
-    }
-
-    @Override
     public void update(CheckBox checkBox) {
-        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
+        Question question = getEvaluatedQuestion(checkBox.getIdentifier());
         question.setState(checkBox.isSelected());
         reRender();
     }
 
     @Override
-    public void initializeRequest(CheckBox checkBox) {
-        Question question = getEvaluatedQuestion(checkBox.getQLIdentifier());
-        checkBox.setSelected(question.isEnabled());
-
+    public void update(NumberBox numberBox) {
+        Question question = getEvaluatedQuestion(numberBox.getIdentifier());
+        question.setValue(new Text(numberBox.getText()));
+        reRender();
     }
 
     public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {

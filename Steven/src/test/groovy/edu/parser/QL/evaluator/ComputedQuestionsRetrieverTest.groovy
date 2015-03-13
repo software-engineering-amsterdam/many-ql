@@ -1,9 +1,8 @@
 package edu.parser.QL.evaluator
 
+import edu.exceptions.TypeCheckException
 import edu.gui.components.store.Store
-import edu.parser.QL.nodes.expression.Addition
-import edu.parser.QL.nodes.expression.Multiplication
-import edu.parser.QL.nodes.expression.QLIdentifier
+import edu.parser.QL.nodes.expression.*
 import edu.parser.QL.nodes.question.Question
 import edu.parser.QL.nodes.type.Number
 import edu.parser.QL.nodes.type.Text
@@ -42,8 +41,8 @@ class ComputedQuestionsRetrieverTest extends Specification {
 
     def "should return number for expression"() {
         setup:
-        Number leftNumber = new Number(left)
-        Number rightNumber = new Number(right)
+        Number leftNumber = (Number) expression.getLeft()
+        Number rightNumber = (Number) expression.getRight()
         questionsRetriever.evaluatedQuestions.add(new QuestionBuilder()
                 .store(leftNumber)
                 .identifier("left")
@@ -62,8 +61,33 @@ class ComputedQuestionsRetrieverTest extends Specification {
         Assert.assertEquals(result, number.number)
 
         where:
-        left | right | expression                                       | result
-        4    | 6     | new Addition(new Number(4), new Number(6))       | 10
-        4    | 6     | new Multiplication(new Number(4), new Number(6)) | 24
+        expression                                       | result
+        new Addition(new Number(4), new Number(6))       | 10
+        new Multiplication(new Number(4), new Number(6)) | 24
+        new Division(new Number(12), new Number(4))      | 3
+        new Division(new Number(0), new Number(4))       | 4
+        new Division(new Number(5), new Number(0))       | 5
+        new Division(new Number(0), new Number(0))       | 0
+    }
+
+    def "should throw TypeCheckException for not supported operations"() {
+        when:
+        questionsRetriever.visit(expression)
+
+        then:
+        def exception = thrown(TypeCheckException.class)
+        Assert.assertEquals(true, exception.message.contains(ComputedQuestionsRetriever.NOT_SUPPORTED_OPERATION_FOR_COMPUTED_QUESTIONS))
+
+        where:
+        expression                                       | _
+        new And(new Number(4), new Number(6))            | _
+        new Or(new Number(4), new Number(6))             | _
+        new Equal(new Number(4), new Number(6))          | _
+        new NotEqual(new Number(4), new Number(6))       | _
+        new Not(new QLIdentifier("identifier"))          | _
+        new GreaterOrEqual(new Number(4), new Number(6)) | _
+        new GreaterThan(new Number(4), new Number(6))    | _
+        new LessOrEqual(new Number(4), new Number(6))    | _
+        new LessThan(new Number(4), new Number(6))       | _
     }
 }

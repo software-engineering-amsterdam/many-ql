@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.uva.sea.ql</groupId>
-	<artifactId>encoders</artifactId>
+	<groupId>org.uva.sea.ql.encoders</groupId>
+	<artifactId>ql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>encoders</name>
+	<name>Questionnaire Language</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -26,6 +26,11 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.controlsfx</groupId>
+			<artifactId>controlsfx</artifactId>
+			<version>8.20.8</version>
 		</dependency>
 	</dependencies>
 

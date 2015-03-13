@@ -1,6 +1,7 @@
 package uva.qls.ast.component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
@@ -35,6 +36,11 @@ public class Radio extends Component {
 	@Override
 	public Tuple<String, String> evaluate() {
 		return this.values;
+	}
+	
+	@Override
+	public void componentStyle(List<Style> style) {
+		this.style = style;
 	}
 	
 	@Override

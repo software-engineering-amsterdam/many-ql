@@ -1,14 +1,18 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.model.Form;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 
 public class Main {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -28,6 +32,16 @@ public class Main {
             if (reader != null) {
                 reader.close();
             }
+        }
+    }
+
+    private static void executeQl(String ql) {
+        try {
+            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            Map.Entry<Form, QLIntepreter> qlOutput = InterpreterHelper.interpretQlString(ql);
+            new QLGUI(qlOutput.getKey(), qlOutput.getValue(),formTypeChecker).render();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -52,7 +66,8 @@ public class Main {
         String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String ql = readFile(currentLocation + "../../src/main/resources/ql.txt");
         String qls = readFile(currentLocation + "../../src/main/resources/qls.txt");
-        executeQlQls(ql, qls);
+        //executeQlQls(ql, qls);
+        executeQl(ql);
     }
 
 }

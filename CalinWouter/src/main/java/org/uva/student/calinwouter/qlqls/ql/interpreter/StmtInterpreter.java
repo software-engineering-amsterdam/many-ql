@@ -7,9 +7,9 @@ import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
 import java.util.LinkedList;
 
-//public class HeadlessStmtInterpreter extends StmtInterpreter {
 public class StmtInterpreter extends AnalysisAdapter{
     private final FormInterpreter formInterpreter;
+    private final QLIntepreter qlIntepreter;
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
@@ -19,7 +19,7 @@ public class StmtInterpreter extends AnalysisAdapter{
             formInterpreter.setField(node.getIdent().getText(),
                     typeInterpreter.getValue().getDefaultValue());
         }
-        ((FormInterpreter) formInterpreter).addFormField(new QuestionField(node.getStr().getText(),
+        formInterpreter.addFormField(new QuestionField(node.getStr().getText(),
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
@@ -30,21 +30,24 @@ public class StmtInterpreter extends AnalysisAdapter{
         try {
             node.getExp().apply(expInterpreter);
         } catch (Exception e) {
+            //formInterpreter.setField(node.getIdent().getText(), null);
             formInterpreter.setField(node.getIdent().getText(), null);
             return;
         }
-        formInterpreter.setField(node.getIdent().getText(),
+        //formInterpreter.setField(node.getIdent().getText(),
+          //      expInterpreter.getValue());
+        qlIntepreter.setField(node.getIdent().getText(),
                 expInterpreter.getValue());
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
 
-        ((FormInterpreter) formInterpreter).addFormField(new ComputedValueField(node.getStr().getText(),
+        formInterpreter.addFormField(new ComputedValueField(node.getStr().getText(),
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));
     }
 
     protected StmtInterpreter createStmtInterpreter() {
-        return new StmtInterpreter(formInterpreter);
+        return new StmtInterpreter(formInterpreter, qlIntepreter);
     }
 
     @Override
@@ -74,9 +77,9 @@ public class StmtInterpreter extends AnalysisAdapter{
         }
     }
 
-    public StmtInterpreter(FormInterpreter formInterpreter) {
+    public StmtInterpreter(FormInterpreter formInterpreter, QLIntepreter qlIntepreter) {
         this.formInterpreter = formInterpreter;
-       //super(formInterpreter);
+        this.qlIntepreter = qlIntepreter;
     }
 
 }

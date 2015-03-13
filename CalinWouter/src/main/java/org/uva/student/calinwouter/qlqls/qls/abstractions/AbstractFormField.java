@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.qls.abstractions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.qls.model.IRenderable;
+import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public abstract class AbstractFormField {
     /**
      * Call the applicable renderer on the provided renderer.
      */
-    public abstract <T> T applyRenderer(IRenderable<T> iRenderable) throws FieldNotFoundException;
+    public abstract <T> T applyRenderer(IQlsRenderer<T> iQlsRenderer) throws FieldNotFoundException;
 
     public AbstractFormField(String ident) {
         this(ident, new HashMap<String, Object>());

@@ -1,42 +1,49 @@
 package edu.gui.components;
 
-import edu.gui.Observer;
 import edu.gui.Subject;
-import edu.parser.QL.nodes.expression.QLIdentifier;
+import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Steven Kok on 25/02/2015.
  */
-public class TextBox extends JTextField implements Subject, FocusListener {
-    private final List<Observer> observers = new ArrayList<>();
-    private final QLIdentifier QLIdentifier;
+public class TextBox extends AbstractBox implements Subject, FocusListener {
 
-    public TextBox(QLIdentifier QLIdentifier) {
-        this.addFocusListener(this);
-        setColumns(15);
-        this.QLIdentifier = QLIdentifier;
+    private final JTextField jTextField;
+
+    public TextBox(Question question) {
+        super(question);
+        jTextField = new JTextField();
+        jTextField.addFocusListener(this);
+        jTextField.setColumns(15);
+        initialize();
     }
 
-    public QLIdentifier getQLIdentifier() {
-        return QLIdentifier;
+    private void initialize() {
+        jTextField.setText(getQuestion().getValue().getValue());
+        if (computedQuestion(getQuestion())) {
+            jTextField.setEditable(false);
+            this.removeEventListeners();
+        }
     }
 
     @Override
-    public void registerObserver(Observer observer) {
-        observers.add(observer);
-        observer.initializeRequest(this);
+    public void removeEventListeners() {
+        this.jTextField.removeFocusListener(this);
     }
 
     @Override
     public void notifyObservers() {
-        observers.stream()
+        getObservers().stream()
                 .forEach(observer -> observer.update(this));
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return jTextField;
     }
 
     @Override
@@ -48,4 +55,7 @@ public class TextBox extends JTextField implements Subject, FocusListener {
         notifyObservers();
     }
 
+    public String getText() {
+        return jTextField.getText();
+    }
 }

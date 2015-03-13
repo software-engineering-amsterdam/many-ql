@@ -4,6 +4,9 @@ form FORMNAME {
     NAME STRING "What is your name?"
     RESULT STRING "Your name: "(NAME)
 
+    AGE INTEGER "What is your age?"
+    AGERESULT INTEGER "Your age is: " (AGE)
+
     NAME1 BOOLEAN "Are you a programmer?"
     if(!NAME1){
         NAME2 BOOLEAN "You should be!"
@@ -12,6 +15,7 @@ form FORMNAME {
     }
 
     NAME4 STRING "text text text"
+    COMPUTED STRING "computed:" (1+5*6+3)
     NAME5 STRING "blabla"
     NAME6 BOOLEAN "check"
     NAME7 STRING "not in qls"

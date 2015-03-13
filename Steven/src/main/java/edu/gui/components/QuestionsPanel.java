@@ -4,7 +4,6 @@ import edu.exceptions.GuiException;
 import edu.gui.Observer;
 import edu.gui.QuestionTypeGui;
 import edu.gui.Subject;
-import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
@@ -60,14 +59,14 @@ public class QuestionsPanel extends JPanel {
     private void addInputField(Question question) {
         Subject component = getComponent(question);
         component.registerObserver(questionState);
-        add((JComponent) component, gbc);
+        add(component.getComponent(), gbc);
 
     }
 
     private Subject getComponent(Question question) {
         try {
             Class<? extends Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
-            return component.getDeclaredConstructor(QLIdentifier.class).newInstance(question.getQLIdentifier());
+            return component.getDeclaredConstructor(Question.class).newInstance(question);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new GuiException(e);
         }

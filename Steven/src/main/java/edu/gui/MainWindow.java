@@ -2,14 +2,12 @@ package edu.gui;
 
 import edu.exceptions.GuiException;
 import edu.gui.components.Page;
-import edu.nodes.styles.Style;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Steven Kok on 24/02/2015.
@@ -49,7 +47,7 @@ public class MainWindow extends JFrame {
         resetPagination();
     }
 
-    private void resetPagination() { //todo: remember on which page
+    private void resetPagination() {
         totalPages = 0;
         paginationPanel.removeAll();
     }
@@ -80,7 +78,7 @@ public class MainWindow extends JFrame {
 
     public void goToSpecificPage(int pageNumber) {
         if (isInvalidPageNumber(pageNumber)) {
-            throw new GuiException(String.format("Cannot switch to page. totalpages: [%d] page: [%d]", totalPages, pageNumber));
+            throw new GuiException(String.format("Cannot switch to page. total pages: [%d] page: [%d]", totalPages, pageNumber));
         } else {
             jumpToPage(pageNumber);
 
