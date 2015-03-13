@@ -23,6 +23,9 @@ public class ColorValue extends Value {
 	
 	@Override
 	public boolean isDefined() {
-		return true;
+		if (value != null) {
+			return true;
+		}
+		return false;
 	}
 }

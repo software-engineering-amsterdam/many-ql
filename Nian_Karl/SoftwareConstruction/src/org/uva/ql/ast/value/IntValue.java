@@ -135,6 +135,9 @@ public class IntValue extends Value {
 
 	@Override
 	public boolean isUndefined() {
+		if (value == null) {
+			return true;
+		}
 		return false;
 	}
 }

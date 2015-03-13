@@ -9,7 +9,7 @@ import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.GUIVisitor;
 
 public class Main {

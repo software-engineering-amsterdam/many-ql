@@ -5,14 +5,16 @@ import uva.qls.ast.Prog;
 import uva.qls.interpreter.gui.table.DefaultTable;
 import uva.qls.interpreter.gui.table.QuestionValueTable;
 import uva.qls.interpreter.gui.visitor.QuestionValueVisitor;
+import uva.qls.interpreter.gui.visitor.Renderer;
 import uva.qls.interpreter.typecheck.TypeCheckQLS;
 
 public class GUI {
 
 	private TypeCheckQLS typeCheck;
 	private QuestionValueVisitor visitor;
-	public DefaultTable table;
 	private QuestionValueTable questionValueTable;
+	private Renderer renderer;
+	public DefaultTable table;
 	
 	public GUI(ASTNode _ast){
 		this.questionValueTable = new QuestionValueTable();
@@ -21,6 +23,7 @@ public class GUI {
 		this.typeCheck = new TypeCheckQLS(_ast);
 		this.visitor = new QuestionValueVisitor(this);
 		this.visitor.visitProg((Prog)_ast);
+		this.renderer = new Renderer(this.questionValueTable);
 	}
 	
 	public QuestionValueTable getQuestionValueTable(){
@@ -33,5 +36,9 @@ public class GUI {
 	
 	public TypeCheckQLS getTypeCheck(){
 		return this.typeCheck;
+	}
+	
+	public Renderer getRenderer(){
+		return this.renderer;
 	}
 }

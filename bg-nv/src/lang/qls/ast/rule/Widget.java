@@ -12,7 +12,7 @@ public class Widget extends Rule
 
     public Widget(WidgetValue value, int lineNumber)
     {
-        super("widget", lineNumber);
+        super(lineNumber);
         this.value = value;
     }
 

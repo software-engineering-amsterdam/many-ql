@@ -1,6 +1,7 @@
 package uva.qls.ast.component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
@@ -36,6 +37,12 @@ public class Slider extends Component{
 	public Tuple<String, String> evaluate() {
 		return this.minMax;
 	}
+	
+	@Override
+	public void componentStyle(List<Style> style) {
+		this.style = style;
+	}
+	
 	@Override
 	public String toString(){
 		return "Slider(" + this.minMax.toString() + " " + this.style.toString() + ")";

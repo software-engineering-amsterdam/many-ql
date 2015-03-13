@@ -3,7 +3,7 @@ package org.uva.ql.ast.expression.association;
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Parenthese extends Expression {

@@ -13,20 +13,21 @@ stylesheet taxOfficeExample
             color: #999999
           }
 
-    	question sellingPrice
     	question valueResidue
 
 		section "some section" {
 			default boolean widget dropdown ("Si", "No")
-			question hasSoldHouse
+			question hasMaintLoan
 		}
+		
+		question hasRentHouse
 		
 		section "sellingPrice" {
 			default money widget textbox
 			question sellingPrice
 		}
 
-		default money {
+		default money widget textbox {
 			width : 200
 			font : "Arial"
 			color: #999999

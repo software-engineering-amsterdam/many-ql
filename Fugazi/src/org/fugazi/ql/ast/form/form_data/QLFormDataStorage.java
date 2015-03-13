@@ -7,10 +7,9 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
+import org.fugazi.ql.ast.type.Type;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class QLFormDataStorage {
     private final Form form;
@@ -63,5 +62,15 @@ public class QLFormDataStorage {
 
     public List<IfStatement> getIfStatements() {
         return this.ifStatementsVisitor.getIfStatement();
+    }
+
+    public HashMap<String, Type> getallQuestionTypes() {
+        List<Question> questions = this.getAllQuestions();
+        HashMap<String, Type> questionTypes = new HashMap<>();
+
+        for (Question question : questions) {
+            questionTypes.put(question.getIdName(), question.getType());
+        }
+        return questionTypes;
     }
 }

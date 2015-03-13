@@ -30,7 +30,7 @@ public class Main extends Application
 
         try
         {
-            CharStream stream = new ANTLRFileStream("src/lang/tests/formInput");
+            CharStream stream = new ANTLRFileStream("src/lang/samples/formInput");
             QLLexer lexer = new QLLexer(stream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
@@ -41,16 +41,16 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
-            CharStream s = new ANTLRFileStream("src/lang/tests/styleInput");
+            CharStream s = new ANTLRFileStream("src/lang/samples/styleInput");
             QLSLexer l = new QLSLexer(s);
             QLSParser p = new QLSParser(new CommonTokenStream(l));
             ParserRuleContext style = p.stylesheet();
 
-            lang.qls.ast.QlsBuilder builder = new lang.qls.ast.QlsBuilder();
+            lang.qls.ast.AstBuilder builder = new lang.qls.ast.AstBuilder();
             Stylesheet styleAst = (Stylesheet)builder.visit(style);
 
             lang.qls.semantics.TypeChecker.check(styleAst, ast);
-            StyleEvaluator.getStyles(styleAst, ast);
+            StyleMerger.getStyles(styleAst, ast);
 
         }
         catch (IOException e)

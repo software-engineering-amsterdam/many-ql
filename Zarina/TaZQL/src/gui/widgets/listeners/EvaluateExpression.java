@@ -1,6 +1,7 @@
  package gui.widgets.listeners;
 
 import ast.expression.Expression;
+import evaluator.BooleanValue;
 import evaluator.EvaluatorVisitor;
 import evaluator.Value;
 import evaluator.ValueRepository;
@@ -18,7 +19,6 @@ public class EvaluateExpression {
 		this.expression = expression;
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);
 		this.setQuestion = setQuestion;
-		evaluate();
 		setValueInGUI();
 	}
 		
@@ -32,7 +32,11 @@ public class EvaluateExpression {
 	}
 	
 	public void setValueInGUI() {
-		if("true".equals(String.valueOf(evaluate())) || "false".equals(String.valueOf(evaluate()))) {
+		String trueValue = new BooleanValue(true).toString();
+		String falseValue = new BooleanValue(false).toString();
+		String evaluatedValue = String.valueOf(evaluate());
+		
+		if(trueValue.equals(evaluatedValue) || falseValue.equals(evaluatedValue)) {
 			this.setQuestion.setVisibilityValue(evaluate());
 		}
 		else {

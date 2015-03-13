@@ -1,6 +1,9 @@
 package graphic
 
-import "gopkg.in/qml.v1"
+import (
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
+	"gopkg.in/qml.v1"
+)
 
 const checkboxQML = `
 import QtQuick 2.2
@@ -39,11 +42,10 @@ GroupBox {
 }
 `
 
-func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
+func (g *Gui) newBooleanQuestion(fieldName, caption string,
 	content bool) qml.Object {
 
-	qml := renderTemplateQuestion(checkboxQML, fieldName, caption)
-	question = renderAndInsertAt(qml, g.targetContainer)
+	question := g.createQuestionQML(checkboxQML, fieldName, caption)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	if content {
@@ -62,12 +64,12 @@ func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
 		}
 	})
 
-	g.updateCallbacks[fieldName] = func(content string) {
-		if content == "Yes" {
-			newFieldPtr.Set("checked", true)
-		} else {
-			newFieldPtr.Set("checked", false)
+	g.updateCallbacks[fieldName] = func(newValue string) {
+		v := false
+		if newValue == symboltable.AnswerYes {
+			v = true
 		}
+		newFieldPtr.Set("checked", v)
 	}
 
 	return question

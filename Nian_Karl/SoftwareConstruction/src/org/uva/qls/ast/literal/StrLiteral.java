@@ -7,7 +7,6 @@ import org.uva.qls.ast.value.StrValue;
 import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
 
-
 public class StrLiteral extends Literal {
 
 	private final StrValue value;
@@ -16,7 +15,7 @@ public class StrLiteral extends Literal {
 		super(pos);
 		this.value = value;
 	}
-	
+
 	public StrLiteral(String string, CodePosition pos) {
 		super(pos);
 		this.value = new StrValue(string);
@@ -36,11 +35,14 @@ public class StrLiteral extends Literal {
 	public Type getType() {
 		return new StrType(this.getPosition());
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + "<\"" + value.toString() + "\">";
 	}
 
+	public String getStringValue() {
+		return value.value();
+	}
 
 }

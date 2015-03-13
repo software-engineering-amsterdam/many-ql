@@ -15,7 +15,6 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		TextField {
-			{{ .Validator }}
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
 		}
@@ -23,11 +22,10 @@ GroupBox {
 }
 `
 
-func (g *Gui) renderNewStringQuestion(fieldName, caption string,
+func (g *Gui) newStringQuestion(fieldName, caption string,
 	content string) (question qml.Object) {
 
-	qml := renderTemplateQuestion(stringFieldQML, fieldName, caption)
-	question = renderAndInsertAt(qml, g.targetContainer)
+	question = g.createQuestionQML(stringFieldQML, fieldName, caption)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	newFieldPtr.Set("text", content)
@@ -40,8 +38,8 @@ func (g *Gui) renderNewStringQuestion(fieldName, caption string,
 		g.answerStack[objectName] = content
 	})
 
-	g.updateCallbacks[fieldName] = func(content string) {
-		newFieldPtr.Set("text", content)
+	g.updateCallbacks[fieldName] = func(newValue string) {
+		newFieldPtr.Set("text", newValue)
 	}
 	return question
 }

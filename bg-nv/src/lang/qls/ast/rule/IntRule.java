@@ -7,9 +7,9 @@ public abstract class IntRule extends Rule
 {
     private final Integer value;
 
-    public IntRule(String label, Integer value, int lineNumber)
+    public IntRule(Integer value, int lineNumber)
     {
-        super(label, lineNumber);
+        super(lineNumber);
         this.value = value;
     }
 
