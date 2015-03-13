@@ -46,10 +46,10 @@ import ql.error.TypeErrors;
 
 public class TypeChecker extends StatementVisitor<QLType> implements ExpressionVisitor<QLType> {
 	private static TypeErrors typeErrors;
-	private TypeEnvironment register;	
+	private TypeEnvironment typeEnv;	
 	
-	private TypeChecker(TypeEnvironment register) {
-		this.register = register;
+	private TypeChecker(TypeEnvironment typeEnv) {
+		this.typeEnv = typeEnv;
 		super.setExpressionVisitor(this);
 	}
 	
@@ -57,8 +57,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Statement tree, TypeEnvironment register) {
-		TypeChecker typeChecker = new TypeChecker(register);
+	public static boolean check(Statement tree, TypeEnvironment typeEnv) {
+		TypeChecker typeChecker = new TypeChecker(typeEnv);
 		typeErrors = new TypeErrors();
 		
 		tree.accept(typeChecker);
@@ -72,8 +72,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Expression tree, TypeEnvironment register) {
-		TypeChecker typeChecker = new TypeChecker(register);
+	public static boolean check(Expression tree, TypeEnvironment typeEnv) {
+		TypeChecker typeChecker = new TypeChecker(typeEnv);
 		typeErrors = new TypeErrors();
 		
 		tree.accept(typeChecker);
@@ -87,8 +87,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Statement tree, TypeEnvironment register, TypeErrors errors) {
-		TypeChecker typeChecker = new TypeChecker(register);
+	public static boolean check(Statement tree, TypeEnvironment typeEnv, TypeErrors errors) {
+		TypeChecker typeChecker = new TypeChecker(typeEnv);
 		
 		typeErrors = errors;
 		
@@ -242,7 +242,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(StringLiteral stringNode) {	return stringNode.getType(); }
 	
 	public QLType visit(Identifier identifier) {
-		QLType identifierType = register.resolve(identifier);
+		QLType identifierType = typeEnv.resolve(identifier);
 		
 		if(identifierType == null) {
 			typeErrors.undefinedVariable(identifier);
@@ -267,8 +267,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		
 		Identifier questionIdentifier = compQuestionNode.getIdentifier();
 		
-		if(register.resolve(questionIdentifier) == null) {
-			register.store(questionIdentifier, questionType);
+		if(typeEnv.resolve(questionIdentifier) == null) {
+			typeEnv.store(questionIdentifier, questionType);
 		} else {
 			typeErrors.doubleDefinedVariable(questionIdentifier);
 		}
@@ -280,8 +280,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(Form formNode) {
 		Identifier formIdentifier = formNode.getIdentifier();
 		
-		if(register.resolve(formIdentifier) == null) {
-			register.store(formNode.getIdentifier(), formNode.getType());
+		if(typeEnv.resolve(formIdentifier) == null) {
+			typeEnv.store(formNode.getIdentifier(), formNode.getType());
 		} else {
 			typeErrors.doubleDefinedVariable(formIdentifier);
 		}
@@ -325,8 +325,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(Question questionNode) {
 		Identifier questionIdentifier = questionNode.getIdentifier();
 		
-		if(register.resolve(questionIdentifier) == null) {
-			register.store(questionIdentifier, questionNode.getType());
+		if(typeEnv.resolve(questionIdentifier) == null) {
+			typeEnv.store(questionIdentifier, questionNode.getType());
 		} else {
 			typeErrors.doubleDefinedVariable(questionIdentifier);
 		}
@@ -343,10 +343,10 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	}
 	
 	private void increaseScope() {
-		register = new TypeEnvironment(register);
+		typeEnv = new TypeEnvironment(typeEnv);
 	}
 	
 	private void decreaseScope() {
-		register = register.getParent();
+		typeEnv = typeEnv.getParent();
 	}
 }
