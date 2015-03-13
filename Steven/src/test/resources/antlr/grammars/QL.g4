@@ -14,8 +14,12 @@ else_clause
 expression
     : leftParenthesis='(' expression rightParenthesis=')'
     | negation='!' expression
-    | left=expression arithmeticOperator right=expression
-    | left=expression logicalOperator right=expression
+    | left=expression (multiplication='*' | division='/')                                       right=expression
+    | left=expression (addition='+'| subtraction='-')                                           right=expression
+    | left=expression (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')right=expression
+    | left=expression (equal='==' | notEqual='!=')                                              right=expression
+    | left=expression (and='&&')                                                                right=expression
+    | left=expression (or='||')                                                                 right=expression
     | numbers=NUMBERS
     | identifier
     | booleanExpression
@@ -23,16 +27,6 @@ expression
 booleanExpression
     : isTrue='true'
     | isFalse='false'
-    ;
-arithmeticOperator
-    : (multiplication='*' | division='/')
-    | (add='+'| min='-')
-    ;
-logicalOperator
-    : (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')
-    | (equal='==' | notEqual='!=')
-    | and='&&'
-    | or='||'
     ;
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
