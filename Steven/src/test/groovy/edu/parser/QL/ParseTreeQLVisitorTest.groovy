@@ -75,13 +75,4 @@ class ParseTreeQLVisitorTest extends Specification {
         Question question = (Question) elseClause.statements.get(0)
         Assert.assertEquals("name2", question.QLIdentifier.identifier);
     }
-
-    def "should parse operator precedence correctly"(){
-        when:
-        Form form = antlrParser.parse(INPUT_PATH + "QL_precedence", parseTreeWalker, Form.class)
-
-
-        then:
-        true
-    }
 }
