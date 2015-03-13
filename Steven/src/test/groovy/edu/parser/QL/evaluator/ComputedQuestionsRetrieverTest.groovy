@@ -42,8 +42,8 @@ class ComputedQuestionsRetrieverTest extends Specification {
 
     def "should return number for expression"() {
         setup:
-        Number leftNumber = new Number(left)
-        Number rightNumber = new Number(right)
+        Number leftNumber = (Number) expression.getLeft()
+        Number rightNumber = (Number) expression.getRight()
         questionsRetriever.evaluatedQuestions.add(new QuestionBuilder()
                 .store(leftNumber)
                 .identifier("left")
@@ -62,8 +62,9 @@ class ComputedQuestionsRetrieverTest extends Specification {
         Assert.assertEquals(result, number.number)
 
         where:
-        left | right | expression                                       | result
-        4    | 6     | new Addition(new Number(4), new Number(6))       | 10
-        4    | 6     | new Multiplication(new Number(4), new Number(6)) | 24
+        expression                                       | result
+        new Addition(new Number(4), new Number(6))       | 10
+        new Multiplication(new Number(4), new Number(6)) | 24
     }
+
 }
