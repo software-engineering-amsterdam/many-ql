@@ -5,6 +5,8 @@ import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.CheckBox;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -32,7 +34,9 @@ public class UIBoolQuestion extends UIQuestion {
         super(_med, _question);
         this.value = false; // default
 
-        this.widget = new CheckBox(_question.getLabel());
+        WidgetsFactory widgetsFactory = new WidgetsFactory();
+
+        this.widget = widgetsFactory.getDefaultWidgetForType(_question.getType(), _question.getLabel());
         this.widget.addEventListener(new BoolQuestionListener(this));
     }
 

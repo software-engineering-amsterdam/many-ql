@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Utilities.AST;
 
-namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
+namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.widget
 {
-    public class Question : QLSNode
+    public class Checkbox : QLSNode
     {
-        internal Question(TextPosition position)
-            : base(position)
+        public bool IsComputed
         {
+            get;
+            private set;
         }
+
     }
 }

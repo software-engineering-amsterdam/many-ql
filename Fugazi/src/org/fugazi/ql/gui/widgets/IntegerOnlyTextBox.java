@@ -57,4 +57,9 @@ public class IntegerOnlyTextBox implements IWidget<String> {
     public void setValue(String _value) {
         this.input.setText(_value);
     }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.input.setEnabled(false);
+    }
 }

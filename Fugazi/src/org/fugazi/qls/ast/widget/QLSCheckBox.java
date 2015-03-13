@@ -7,29 +7,31 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class CheckBox extends Widget {
+public class QLSCheckBox extends AbstractQLSWidget<Boolean> {
 
     private JCheckBox component;
 
-    public CheckBox(int _lineNum) {
+    public QLSCheckBox(int _lineNum) {
         super(_lineNum);
         this.component = new JCheckBox();
     }
 
-    public CheckBox() {
+    public QLSCheckBox() {
         this.component = new JCheckBox();
     }
 
-    public CheckBox(int _lineNum, String _label) {
+    public QLSCheckBox(int _lineNum, String _label) {
         super(_lineNum);
         this.label = _label;
         this.component = new JCheckBox(label);
     }
 
-    public CheckBox(String _label) {
+    public QLSCheckBox(String _label) {
         this.label = _label;
         this.component = new JCheckBox(label);
     }
@@ -48,6 +50,31 @@ public class CheckBox extends Widget {
         this.style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return component;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        component.addItemListener((ItemListener)_listener);
+    }
+
+    @Override
+    public Boolean getValue() {
+        return this.component.isSelected();
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        this.component.setSelected(_value);
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.component.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {
