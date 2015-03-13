@@ -1,4 +1,4 @@
-package edu.parser.QL
+package edu.parser.QL.evaluator
 
 import edu.nodes.QuestionType
 import edu.parser.QL.evaluator.Evaluator

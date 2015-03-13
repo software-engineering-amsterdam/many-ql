@@ -1,8 +1,10 @@
-package edu.parser.QL
+package edu.parser.QL.typechecker
 
 import edu.Main
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
+import edu.parser.QL.ParseTreeVisitor
+import edu.parser.QL.QLAntlrParser
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.typechecker.TypeChecker
 import junit.framework.Assert
