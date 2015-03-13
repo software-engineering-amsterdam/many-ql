@@ -8,6 +8,6 @@ import edu.parser.QL.nodes.AbstractNode;
  */
 public abstract class Statement implements AbstractNode {
 
-    public abstract AbstractNode accept(QLVisitor QLVisitor); //todo: create statement visitor
+    public abstract AbstractNode accept(QLVisitor QLVisitor);
 
 }

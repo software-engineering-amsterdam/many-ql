@@ -21,7 +21,7 @@ public class Question extends Statement {
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private boolean isEnabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private boolean isEnabled;
     private List<Style> styles;
     private Store value;
 
@@ -47,7 +47,7 @@ public class Question extends Statement {
         this.value = value;
     }
 
-    public boolean isEnabled() { //todo: refactor to: getState
+    public boolean isEnabled() {
         return isEnabled;
     }
 
