@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 public interface IAllowTypeChecker {
 

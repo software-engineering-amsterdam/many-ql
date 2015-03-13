@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
-public interface IRenderable<T> {
+public interface IQlsRenderer<T> {
 
     public T render(Question question) throws FieldNotFoundException;
 

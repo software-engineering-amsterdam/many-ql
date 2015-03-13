@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;

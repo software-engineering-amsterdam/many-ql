@@ -1,7 +1,8 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql;
 
+import org.uva.student.calinwouter.qlqls.ql.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.IAllowTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 
 // TODO add I before name
 public interface TypeDescriptor<T extends Value<?>> {

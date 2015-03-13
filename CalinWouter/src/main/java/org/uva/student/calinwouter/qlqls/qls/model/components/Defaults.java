@@ -1,10 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @Data

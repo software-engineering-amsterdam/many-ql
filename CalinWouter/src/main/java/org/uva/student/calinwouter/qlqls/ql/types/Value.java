@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.CastException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 
 /**
  * Value with basic operators. Implementations should support value=null for the typechecker, which basically

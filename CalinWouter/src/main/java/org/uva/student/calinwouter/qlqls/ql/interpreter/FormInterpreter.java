@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
+import org.uva.student.calinwouter.qlqls.ql.model.Form;
 import org.uva.student.calinwouter.qlqls.ql.model.FormField;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
@@ -19,8 +20,10 @@ import java.util.Map;
 public class FormInterpreter extends AnalysisAdapter {
     private List<FormField> fields;
     private List<ChangedStateEventListener> changedStateEventListeners;
-    private AForm form;
+    private AForm aForm;
     private Map<String, Value<?>> variableMap;
+    private Form form;
+    private QLIntepreter qlIntepreter;
 
 
     public void setField(String key, Value<?> value) {
@@ -28,23 +31,26 @@ public class FormInterpreter extends AnalysisAdapter {
     }
 
     public void addFormField(FormField field) {
-        fields.add(field);
+        //fields.add(field);
+        form.addFormField(field);
     }
 
     public Value<?> getField(String key) {
         return variableMap.get(key);
     }
 
+    public AForm getaForm() {
+        return aForm;
+    }
+
     public List<FormField> getFields() {
         return fields;
     }
 
-    public AForm getForm() {
-        return form;
-    }
+    public Form getForm() { return form;}
 
     public String getLabelForField(String fieldName) throws LabelNotAvailableException {
-        if (form == null) throw new IllegalStateException("No form was applied on the headless form interpreter.");
+        if (aForm == null) throw new IllegalStateException("No aForm was applied on the headless aForm interpreter.");
         for (FormField f : fields) {
             if (fieldName.equals(f.getVariable()))
                 return f.getLabel();
@@ -64,7 +70,7 @@ public class FormInterpreter extends AnalysisAdapter {
     }
 
     protected StmtInterpreter createStmtInterpreter() {
-        return new StmtInterpreter(this);
+        return new StmtInterpreter(this, qlIntepreter);
     }
 
     private void notifyListeners() {
@@ -74,9 +80,9 @@ public class FormInterpreter extends AnalysisAdapter {
     }
 
     public void interpret() {
-        if (form == null) throw new IllegalStateException("No form was applied on the headless form interpreter.");
+        if (aForm == null) throw new IllegalStateException("No aForm was applied on the headless aForm interpreter.");
         fields = new LinkedList<FormField>();
-        LinkedList<PStmt> stmts = form.getStmt();
+        LinkedList<PStmt> stmts = aForm.getStmt();
         for (PStmt stmt : stmts) {
             stmt.apply(createStmtInterpreter());
         }
@@ -85,11 +91,17 @@ public class FormInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAForm(AForm form) {
-        this.form = form;
+        fields = new LinkedList<FormField>();
+        LinkedList<PStmt> stmts = form.getStmt();
+        for (PStmt stmt : stmts) {
+            stmt.apply(createStmtInterpreter());
+        }
     }
 
-    public FormInterpreter() {
+    public FormInterpreter(QLIntepreter qlIntepreter) {
+        form = new Form();
         variableMap = new HashMap<String, Value<?>>();
         changedStateEventListeners = new LinkedList<ChangedStateEventListener>();
+        this.qlIntepreter = qlIntepreter;
     }
 }
