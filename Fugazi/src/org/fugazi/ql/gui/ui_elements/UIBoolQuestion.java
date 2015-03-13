@@ -4,7 +4,6 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.widgets.CheckBox;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.awt.event.ItemEvent;
