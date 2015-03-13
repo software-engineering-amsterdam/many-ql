@@ -50,10 +50,10 @@ import ql.errorhandling.error.UndefinedVariableError;
 
 public class TypeChecker extends StatementVisitor<QLType> implements ExpressionVisitor<QLType> {
 	private static ErrorEnvironment typeErrors;
-	private TypeEnvironment typeEnv;	
+	private TypeEnvironment typeEnvironment;	
 	
 	private TypeChecker(TypeEnvironment typeEnv) {
-		this.typeEnv = typeEnv;
+		this.typeEnvironment = typeEnv;
 		super.setExpressionVisitor(this);
 	}
 	
@@ -61,13 +61,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Statement tree, TypeEnvironment typeEnv) {
-		TypeChecker typeChecker = new TypeChecker(typeEnv);
+	public static boolean check(Statement tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		typeErrors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
-		
-		typeErrors.outputErrors();
 		
 		return typeErrors.hasErrors();
 	}	
@@ -76,13 +74,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Expression tree, TypeEnvironment typeEnv) {
-		TypeChecker typeChecker = new TypeChecker(typeEnv);
+	public static boolean check(Expression tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		typeErrors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
-		
-		typeErrors.outputErrors();
 		
 		return typeErrors.hasErrors();
 	}	
@@ -91,14 +87,12 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Statement tree, TypeEnvironment register, ErrorEnvironment errors) {
-		TypeChecker typeChecker = new TypeChecker(typeEnv);
+	public static boolean check(Statement tree, TypeEnvironment typeEnvironment, ErrorEnvironment errors) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		
 		typeErrors = errors;
 		
 		tree.accept(typeChecker);
-		
-		typeErrors.outputErrors();
 		
 		return typeErrors.hasErrors();
 	}	
@@ -246,7 +240,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(StringLiteral stringNode) {	return stringNode.getType(); }
 	
 	public QLType visit(Identifier identifier) {
-		QLType identifierType = typeEnv.resolve(identifier);
+		QLType identifierType = typeEnvironment.resolve(identifier);
 		
 		if(identifierType == null) {
 			typeErrors.addError(new UndefinedVariableError(identifier));
@@ -271,8 +265,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		
 		Identifier questionIdentifier = compQuestionNode.getIdentifier();
 		
-		if(typeEnv.resolve(questionIdentifier) == null) {
-			typeEnv.store(questionIdentifier, questionType);
+		if(typeEnvironment.resolve(questionIdentifier) == null) {
+			typeEnvironment.store(questionIdentifier, questionType);
 		} else {
 			typeErrors.addError(new RedefinedVariableError(questionIdentifier));
 		}
@@ -284,8 +278,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(Form formNode) {
 		Identifier formIdentifier = formNode.getIdentifier();
 		
-		if(typeEnv.resolve(formIdentifier) == null) {
-			typeEnv.store(formNode.getIdentifier(), formNode.getType());
+		if(typeEnvironment.resolve(formIdentifier) == null) {
+			typeEnvironment.store(formNode.getIdentifier(), formNode.getType());
 		} else {
 			typeErrors.addError(new RedefinedVariableError(formIdentifier));
 		}
@@ -329,8 +323,8 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	public QLType visit(Question questionNode) {
 		Identifier questionIdentifier = questionNode.getIdentifier();
 		
-		if(typeEnv.resolve(questionIdentifier) == null) {
-			typeEnv.store(questionIdentifier, questionNode.getType());
+		if(typeEnvironment.resolve(questionIdentifier) == null) {
+			typeEnvironment.store(questionIdentifier, questionNode.getType());
 		} else {
 			typeErrors.addError(new RedefinedVariableError(questionIdentifier));
 		}
@@ -347,10 +341,10 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	}
 	
 	private void increaseScope() {
-		typeEnv = new TypeEnvironment(typeEnv);
+		typeEnvironment = new TypeEnvironment(typeEnvironment);
 	}
 	
 	private void decreaseScope() {
-		typeEnv = typeEnv.getParent();
+		typeEnvironment = typeEnvironment.getParent();
 	}
 }

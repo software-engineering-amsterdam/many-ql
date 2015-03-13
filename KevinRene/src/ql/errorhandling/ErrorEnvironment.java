@@ -30,6 +30,7 @@ public class ErrorEnvironment {
 		for (Error error : errors) {
 			errorString.append(error.getMessage() + "\n");
 		}
+		
 		return errorString.toString();
 	}
 }

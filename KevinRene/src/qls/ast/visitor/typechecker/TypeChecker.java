@@ -2,7 +2,7 @@ package qls.ast.visitor.typechecker;
 
 import ql.TypeEnvironment;
 import ql.ast.visitor.ExpressionVisitor;
-import ql.error.TypeErrors;
+import ql.errorhandling.ErrorEnvironment;
 import qls.ast.QLSStatement;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.property.Color;
@@ -20,7 +20,7 @@ import qls.ast.widget.Spinner;
 import qls.ast.widget.TextField;
 
 public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
-	private static TypeErrors typeErrors;
+	private static ErrorEnvironment errors;
 	private TypeEnvironment typeEnv;
 	
 	private TypeChecker(TypeEnvironment typeEnv) {
@@ -34,29 +34,29 @@ public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<V
 	 */
 	public static boolean check(QLSStatement tree, TypeEnvironment typeEnv) {
 		TypeChecker typeChecker = new TypeChecker(typeEnv);
-		typeErrors = new TypeErrors();
+		errors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
 		
-		typeErrors.outputErrors();
+		errors.outputErrors();
 		
-		return typeErrors.hasErrors();
+		return errors.hasErrors();
 	}
 	
 	/**
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(QLSStatement tree, TypeEnvironment typeEnv, TypeErrors errors) {
+	public static boolean check(QLSStatement tree, TypeEnvironment typeEnv, ErrorEnvironment errorEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnv);
 		
-		typeErrors = errors;
+		errors = errorEnvironment;
 		
 		tree.accept(typeChecker);
 		
-		typeErrors.outputErrors();
+		errors.outputErrors();
 		
-		return typeErrors.hasErrors();
+		return errors.hasErrors();
 	}
 	
 	@Override
