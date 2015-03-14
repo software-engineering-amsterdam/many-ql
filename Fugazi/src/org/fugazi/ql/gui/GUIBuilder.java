@@ -67,6 +67,7 @@ public class GUIBuilder implements IMediator {
     private void removeQuestionFromForm(UIQuestion _uiQuestion) {
         if (questionsInForm.contains(_uiQuestion)) {
             questionsInForm.remove(_uiQuestion);
+            _uiQuestion.resetState();
             uiForm.removeQuestion(_uiQuestion);
         }
     }
@@ -122,7 +123,7 @@ public class GUIBuilder implements IMediator {
         return isTrue;
     }
 
-    private UIQuestion createUiQuestion(Question _question) {
+    protected UIQuestion createUiQuestion(Question _question) {
         UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
         return _question.accept(typeVisitor);
     }    

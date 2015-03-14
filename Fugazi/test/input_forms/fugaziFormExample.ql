@@ -1,6 +1,5 @@
 /**
  * The tax Office form.
- *
  */
 form taxOfficeExample {
   bool hasSoldHouse("Did you sell a house in 2010?");

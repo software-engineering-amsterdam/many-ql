@@ -4,8 +4,7 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.widgets.CheckBox;
-import org.fugazi.ql.gui.widgets.WidgetsFactory;
+import org.fugazi.ql.gui.widgets.IWidget;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -30,14 +29,10 @@ public class UIBoolQuestion extends UIQuestion {
 
     private Boolean value;
 
-    public UIBoolQuestion(IMediator _med, Question _question) {
-        super(_med, _question);
-        this.value = false; // default
-
-        WidgetsFactory widgetsFactory = new WidgetsFactory();
-
-        this.widget = widgetsFactory.getDefaultWidgetForType(_question.getType(), _question.getLabel());
+    public UIBoolQuestion(IMediator _med, Question _question, IWidget _widget) {
+        super(_med, _question, _widget);
         this.widget.addEventListener(new BoolQuestionListener(this));
+        this.resetState();
     }
 
     public void setState(Boolean _value) {
@@ -48,5 +43,12 @@ public class UIBoolQuestion extends UIQuestion {
     @Override
     public ExpressionValue getState() {
         return new BoolValue(value);
+    }
+
+    @Override
+    public void resetState() {
+        this.value = false;
+        this.setState(false);
+        this.widget.setValue(false);
     }
 }
