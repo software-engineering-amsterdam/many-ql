@@ -8,12 +8,9 @@ import nl.uva.softwcons.ql.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ql.ast.type.Type;
 
 public abstract class ArithmeticExpression extends BinaryExpression {
-    private final LineInfo lineInfo;
 
     public ArithmeticExpression(final Expression left, final Expression right, final LineInfo lineInfo) {
-        super(left, right);
-
-        this.lineInfo = lineInfo;
+        super(left, right, lineInfo);
     }
 
     /**
@@ -34,8 +31,4 @@ public abstract class ArithmeticExpression extends BinaryExpression {
         return UNDEFINED_TYPE;
     }
 
-    @Override
-    public LineInfo getLineInfo() {
-        return lineInfo;
-    }
 }

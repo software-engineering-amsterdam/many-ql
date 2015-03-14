@@ -5,11 +5,11 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.type.Type;
 
 public abstract class BinaryExpression extends Expression {
+    private final Expression leftExpression;
+    private final Expression rightExpression;
 
-    private Expression leftExpression;
-    private Expression rightExpression;
-
-    public BinaryExpression(final Expression left, final Expression right) {
+    public BinaryExpression(final Expression left, final Expression right, final LineInfo lineInfo) {
+        super(lineInfo);
         this.leftExpression = left;
         this.rightExpression = right;
     }
@@ -20,11 +20,6 @@ public abstract class BinaryExpression extends Expression {
 
     public Expression getRightExpression() {
         return rightExpression;
-    }
-
-    @Override
-    public LineInfo getLineInfo() {
-        return leftExpression.getLineInfo();
     }
 
     /**
@@ -38,6 +33,6 @@ public abstract class BinaryExpression extends Expression {
      * @return The resulting type when the operation is allowed and Undefined
      *         otherwise
      */
-    public abstract Type resolveType(Type type, Type otherType);
+    public abstract Type resolveType(final Type type, final Type otherType);
 
 }

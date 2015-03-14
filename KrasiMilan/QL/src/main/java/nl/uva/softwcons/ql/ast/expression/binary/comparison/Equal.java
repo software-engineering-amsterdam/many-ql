@@ -11,7 +11,7 @@ public class Equal extends EqualityExpression {
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <T> T accept(final ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

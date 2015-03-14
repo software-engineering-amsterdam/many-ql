@@ -6,9 +6,8 @@ import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.Expression;
 
 public class Conditional extends Statement implements Computable {
-
-    private Expression condition;
-    private List<Question> questions;
+    private final Expression condition;
+    private final List<Question> questions;
 
     public Conditional(final Expression condition, final List<Question> questions) {
         this.condition = condition;
@@ -30,7 +29,7 @@ public class Conditional extends Statement implements Computable {
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(final StatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
