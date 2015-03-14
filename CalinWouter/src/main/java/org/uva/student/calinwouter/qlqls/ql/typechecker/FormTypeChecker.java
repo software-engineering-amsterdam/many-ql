@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldInUseException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelInUseException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.*;

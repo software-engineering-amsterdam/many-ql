@@ -1,4 +1,4 @@
-// Generated from /home/alex/Develop/Msc/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
+// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
 package org.fugazi.qls.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -33,7 +33,7 @@ public class QLSParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'stylesheet'", "'page'", "'{'", "'}'", "'section'", "'question'", 
 		"'widget'", "'default'", "'checkbox'", "'radio'", "'('", "','", "')'", 
-		"'dropdown'", "'spinbox'", "'slider'", "'text'", "'width:'", "'font:'", 
+		"'dropdown'", "'spinbox'", "'slider'", "'textbox'", "'width:'", "'font:'", 
 		"'fontsize:'", "'color:'", "'bool'", "'int'", "'string'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
@@ -367,6 +367,15 @@ public class QLSParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class QuestionWithoutWidgetContext extends QuestionContext {
+		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
+		public QuestionWithoutWidgetContext(QuestionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitQuestionWithoutWidget(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class QuestionWithWidgetContext extends QuestionContext {
 		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
 		public WidgetContext widget() {
@@ -376,15 +385,6 @@ public class QLSParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitQuestionWithWidget(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class QuestionWithoutWidgetContext extends QuestionContext {
-		public TerminalNode ID() { return getToken(QLSParser.ID, 0); }
-		public QuestionWithoutWidgetContext(QuestionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitQuestionWithoutWidget(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -479,20 +479,6 @@ public class QLSParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class NoStylesDefaultDeclrContext extends DefaultStyleDeclrContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public WidgetContext widget() {
-			return getRuleContext(WidgetContext.class,0);
-		}
-		public NoStylesDefaultDeclrContext(DefaultStyleDeclrContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitNoStylesDefaultDeclr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class StylesDefaultDeclrContext extends DefaultStyleDeclrContext {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
@@ -510,6 +496,20 @@ public class QLSParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitStylesDefaultDeclr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NoStylesDefaultDeclrContext extends DefaultStyleDeclrContext {
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public WidgetContext widget() {
+			return getRuleContext(WidgetContext.class,0);
+		}
+		public NoStylesDefaultDeclrContext(DefaultStyleDeclrContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitNoStylesDefaultDeclr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -595,19 +595,25 @@ public class QLSParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class CheckboxWidgetContext extends SupportedWidgetContext {
-		public CheckboxWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitCheckboxWidget(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class TextWidgetContext extends SupportedWidgetContext {
 		public TextWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitTextWidget(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class RadioWidgetContext extends SupportedWidgetContext {
+		public Token yes;
+		public Token no;
+		public List<TerminalNode> STRING() { return getTokens(QLSParser.STRING); }
+		public TerminalNode STRING(int i) {
+			return getToken(QLSParser.STRING, i);
+		}
+		public RadioWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitRadioWidget(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -625,25 +631,19 @@ public class QLSParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class CheckboxWidgetContext extends SupportedWidgetContext {
+		public CheckboxWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitCheckboxWidget(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class SliderWidgetContext extends SupportedWidgetContext {
 		public SliderWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSliderWidget(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class RadioWidgetContext extends SupportedWidgetContext {
-		public Token yes;
-		public Token no;
-		public List<TerminalNode> STRING() { return getTokens(QLSParser.STRING); }
-		public TerminalNode STRING(int i) {
-			return getToken(QLSParser.STRING, i);
-		}
-		public RadioWidgetContext(SupportedWidgetContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitRadioWidget(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -766,21 +766,21 @@ public class QLSParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class FontStylePropertyContext extends StylePropertyContext {
-		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
-		public FontStylePropertyContext(StylePropertyContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFontStyleProperty(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class FontsizeStylePropertyContext extends StylePropertyContext {
 		public TerminalNode NUMBER() { return getToken(QLSParser.NUMBER, 0); }
 		public FontsizeStylePropertyContext(StylePropertyContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFontsizeStyleProperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FontStylePropertyContext extends StylePropertyContext {
+		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
+		public FontStylePropertyContext(StylePropertyContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFontStyleProperty(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -857,14 +857,6 @@ public class QLSParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class IntTypeContext extends TypeContext {
-		public IntTypeContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitIntType(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class StringTypeContext extends TypeContext {
 		public StringTypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
@@ -878,6 +870,14 @@ public class QLSParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitBoolType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntTypeContext extends TypeContext {
+		public IntTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitIntType(this);
 			else return visitor.visitChildren(this);
 		}
 	}

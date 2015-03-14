@@ -1,10 +1,13 @@
 package org.fugazi.ql.gui.widgets;
 
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
+
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.util.EventListener;
 
-public class TextBox implements IWidget<String> {
+public class TextBox implements IWidget {
 
     private final String label;
 
@@ -35,12 +38,18 @@ public class TextBox implements IWidget<String> {
     }
 
     @Override
-    public String getValue() {
-        return this.input.getText();
+    public StringValue getValue() {
+        return new StringValue(this.input.getText());
     }
 
     @Override
-    public void setValue(String _value) {
-        this.input.setText(_value);
+    public void setValue(ExpressionValue _value) {
+        StringValue value = (StringValue) _value;
+        this.input.setText(value.getValue());
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.input.setEnabled(false);
     }
 }

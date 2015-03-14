@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.ABoolType;
 import org.uva.student.calinwouter.qlqls.generated.node.AIntType;
 import org.uva.student.calinwouter.qlqls.generated.node.AStringType;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;

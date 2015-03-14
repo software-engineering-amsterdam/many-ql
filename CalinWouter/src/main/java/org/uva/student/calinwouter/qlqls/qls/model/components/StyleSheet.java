@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;

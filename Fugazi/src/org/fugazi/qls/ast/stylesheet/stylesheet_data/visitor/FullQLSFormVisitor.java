@@ -2,7 +2,7 @@ package org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor;
 
 
 import org.fugazi.qls.ast.IQLSASTVisitor;
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
@@ -49,7 +49,7 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
     public Void visitSection(Section section) {
         List<Section> subsections = section.getSections();
         List<DefaultStyleDeclaration> defaultStyles = section.getDefaultStyleDeclarations();
-        List<Question> questions = section.getQuestions();
+        List<QLSQuestion> questions = section.getQuestions();
 
         for (Section subsection : subsections) {
             subsection.accept(this);
@@ -57,22 +57,22 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         for (DefaultStyleDeclaration declaration : defaultStyles) {
             declaration.accept(this);
         }
-        for (Question question : questions) {
+        for (QLSQuestion question : questions) {
             question.accept(this);
         }
 
         return null;
     }
 
-    public Void visitQuestion(Question question) {
-        Widget widget = question.getWidget();
+    public Void visitQuestion(QLSQuestion question) {
+        AbstractQLSWidget widget = question.getWidget();
         widget.accept(this);
 
         return null;
     }
 
     public Void visitDefaultStyleDeclr(DefaultStyleDeclaration styleDeclr) {
-        Widget widget = styleDeclr.getWidget();
+        AbstractQLSWidget widget = styleDeclr.getWidget();
         widget.accept(this);
 
         return null;
@@ -94,31 +94,31 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
         return null;
     }
 
-    public Void visitUndefinedWidget(UndefinedWidget _widget) {
+    public Void visitUndefinedWidget(QLSUndefinedWidget _widget) {
         return null;
     }
     
-    public Void visitCheckBox(CheckBox _widget) {
+    public Void visitCheckBox(QLSCheckBox _widget) {
         return null;
     }
     
-    public Void visitTextBox(TextBox _widget) {
+    public Void visitTextBox(QLSTextBox _widget) {
         return null;
     }
     
-    public Void visitSpinBox(SpinBox _widget) {
+    public Void visitSpinBox(QLSSpinBox _widget) {
         return null;
     }
     
-    public Void visitDropDown(Dropdown _widget) {
+    public Void visitDropDown(QLSDropdown _widget) {
         return null;
     }
     
-    public Void visitRadioBtn(RadioBtn _widget) {
+    public Void visitRadioBtn(QLSRadioBtn _widget) {
         return null;
     }
     
-    public Void visitSlider(Slider _widget)  {
+    public Void visitSlider(QLSSlider _widget)  {
         return null;
     }
 }

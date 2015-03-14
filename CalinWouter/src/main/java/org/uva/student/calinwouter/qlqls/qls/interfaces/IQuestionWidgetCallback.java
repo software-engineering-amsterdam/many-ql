@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls.interfaces;
 
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 
-public interface IQuestionWidgetCallback<T> {
+public interface IQuestionWidgetCallback<T>{
 
     T createWidget(Checkbox checkbox);
 

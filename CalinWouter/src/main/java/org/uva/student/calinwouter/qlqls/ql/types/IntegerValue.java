@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.IAllowTypeChecker;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.IAllowTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
 
 public class IntegerValue extends Value<Integer> {
     public static final TypeDescriptor<IntegerValue> INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<IntegerValue>() {

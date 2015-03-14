@@ -7,17 +7,11 @@ import (
 	"sync"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 	"gopkg.in/qml.v1"
 )
 
 type renderAction int
-
-const (
-	drawQuestion renderAction = iota
-	updateQuestion
-	nukeQuestion
-)
 
 type render struct {
 	action     renderAction
@@ -28,10 +22,10 @@ type render struct {
 	invisible  bool
 }
 
-// Gui holds the driver which is used by Frontend to execute the application
+// Gui holds the driver which is used by Frontend to execute the application.
 type Gui struct {
-	renderEvent chan render
-	appName     string
+	renderplumbing chan render
+	appName        string
 
 	mu              sync.Mutex
 	drawStack       []render
@@ -49,7 +43,7 @@ func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 
-		renderEvent:     make(chan render),
+		renderplumbing:  make(chan render),
 		answerStack:     make(map[string]string),
 		sweepStack:      make(map[string]bool),
 		symbolTable:     make(map[string]qml.Object),
@@ -58,18 +52,18 @@ func GUI(appName string) frontend.Inputer {
 	return driver
 }
 
-// DrawQuestion adds a new question into the GUI form stack
+// DrawQuestion adds a new question into the GUI form stack.
 func (g *Gui) DrawQuestion(
 	identifier,
 	label,
 	typ string,
-	visible event.Visibility,
+	visible plumbing.Visibility,
 ) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	invisible := false
-	if visible == event.Hidden {
+	if visible == plumbing.Hidden {
 		invisible = true
 	}
 	m := &render{
@@ -83,7 +77,7 @@ func (g *Gui) DrawQuestion(
 	g.sweepStack[identifier] = true
 }
 
-// UpdateQuestion updates an existing question in the GUI form stack
+// UpdateQuestion updates an existing question in the GUI form stack.
 func (g *Gui) UpdateQuestion(identifier string, content interface{}) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -103,22 +97,22 @@ func (g *Gui) Flush() {
 	defer g.mu.Unlock()
 
 	for _, v := range g.drawStack {
-		g.renderEvent <- v
+		g.renderplumbing <- v
 	}
 	g.drawStack = []render{}
 
 	for _, v := range g.renderStack {
-		g.renderEvent <- v
+		g.renderplumbing <- v
 	}
 	g.renderStack = []render{}
 
 	for k, v := range g.sweepStack {
 		if !v {
-			nukeEvent := &render{
+			nukeplumbing := &render{
 				action:     nukeQuestion,
 				identifier: k,
 			}
-			g.renderEvent <- *nukeEvent
+			g.renderplumbing <- *nukeplumbing
 			delete(g.sweepStack, k)
 		} else {
 			g.sweepStack[k] = false
@@ -127,7 +121,7 @@ func (g *Gui) Flush() {
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend
-// process and VM
+// process and VM.
 func (g *Gui) FetchAnswers() map[string]string {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -145,7 +139,7 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName).CreateWindow(nil)
-	g.root = win.Root().ObjectByName("questions")
+	g.root = win.Root().ObjectByName(rootNode)
 	win.Show()
 	go g.renderLoop()
 	win.Wait()
@@ -155,24 +149,24 @@ func (g *Gui) loop() error {
 func (g *Gui) renderLoop() {
 	for {
 		select {
-		case event := <-g.renderEvent:
-			switch event.action {
+		case plumbing := <-g.renderplumbing:
+			switch plumbing.action {
 			case drawQuestion:
 				qml.Lock()
 				g.addNewQuestion(
-					event.fieldType,
-					event.identifier,
-					event.label,
-					event.invisible,
+					plumbing.fieldType,
+					plumbing.identifier,
+					plumbing.label,
+					plumbing.invisible,
 				)
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.content)
+				g.updateQuestion(plumbing.identifier, plumbing.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
-				g.hideQuestion(event.identifier)
+				g.hideQuestion(plumbing.identifier)
 				qml.Unlock()
 			}
 		}

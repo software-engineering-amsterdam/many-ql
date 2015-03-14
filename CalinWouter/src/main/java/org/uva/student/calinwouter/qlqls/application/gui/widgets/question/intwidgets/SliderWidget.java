@@ -1,7 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Slider;
@@ -20,14 +22,14 @@ public class SliderWidget implements IWidget {
         return sliderWidget;
     }
 
-    public SliderWidget(final Question question, final FormInterpreter formInterpreter, Slider slider) {
+    public SliderWidget(final Question question, final QLIntepreter qlIntepreter, final SymbolTable symbolTable, Slider slider) {
         this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
 
         sliderWidget.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                formInterpreter.setField(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
-                formInterpreter.interpret();
+                symbolTable.setVariable(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
+                qlIntepreter.interpret();
             }
         });
     }

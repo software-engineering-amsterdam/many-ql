@@ -1,10 +1,13 @@
 package org.fugazi.ql.gui.widgets;
 
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+
 import javax.swing.*;
 import java.awt.event.ItemListener;
 import java.util.EventListener;
 
-public class CheckBox implements IWidget<Boolean> {
+public class CheckBox implements IWidget {
 
     private final String label;
     
@@ -26,12 +29,18 @@ public class CheckBox implements IWidget<Boolean> {
     }
 
     @Override
-    public Boolean getValue() {
-        return this.component.isSelected();
+    public BoolValue getValue() {
+        return new BoolValue(this.component.isSelected());
     }
 
     @Override
-    public void setValue(Boolean _value) {
-        this.component.setSelected(_value);
+    public void setValue(ExpressionValue _value) {
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
+    }
+    
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.component.setEnabled(false);
     }
 }
