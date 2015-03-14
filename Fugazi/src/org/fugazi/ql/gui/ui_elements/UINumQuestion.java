@@ -29,8 +29,6 @@ public class UINumQuestion extends UIQuestion {
 
     public void setState(String _value) {
 
-        System.out.println(_value);
-        
         if (_value.equals("")) {
             this.resetState();
         } else {
