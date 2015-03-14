@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QLS
 {
     /// <summary>
-    /// Checks whether widget assignments are compatible with question types.
+    /// Checks whether widget assignments are compatible with their question types.
     /// </summary>
     internal class TypeCheckingVisitor : QLSVisitor
     {

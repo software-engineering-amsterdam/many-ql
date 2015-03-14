@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeController.cs" />
     <Compile Include="Validation\QLS\QuestionReferencingVisitor.cs" />
+    <Compile Include="Validation\QLS\StyleAttributeVisitor.cs" />
     <Compile Include="Validation\QLS\TypeCheckingVisitor.cs" />
     <Compile Include="Validation\QLValidator.cs" />
     <Compile Include="Validation\QL\DuplicateLabelCheckingVisitor.cs" />
