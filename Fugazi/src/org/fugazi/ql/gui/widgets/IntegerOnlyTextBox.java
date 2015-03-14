@@ -34,8 +34,6 @@ public class IntegerOnlyTextBox implements IWidget<String> {
 
         this.panel.add(label);
         this.panel.add(input);
-        
-        this.setValue("0");
     }
 
     @Override
