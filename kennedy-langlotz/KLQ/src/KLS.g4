@@ -82,12 +82,8 @@ value
     : STRING
     | INT
     | HEXCOLOR
-    | fontStyles
+    | fontStyle
     | widget
-    ;
-
-fontStyles
-    : fontStyle (',' fontStyle)?
     ;
 
 fontStyle

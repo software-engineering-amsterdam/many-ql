@@ -1,6 +1,6 @@
 package com.klq.ast;
 
-import com.common.Location;
+import com.common.ast.Location;
 
 /**
  * Created by juriaan on 9-2-15.

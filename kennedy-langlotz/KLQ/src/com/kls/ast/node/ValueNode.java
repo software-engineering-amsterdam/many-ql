@@ -1,7 +1,7 @@
 package com.kls.ast.node;
 
 import com.kls.ast.IVisitor;
-import com.common.Location;
+import com.common.ast.Location;
 import com.kls.ast.node.value.AValue;
 
 /**

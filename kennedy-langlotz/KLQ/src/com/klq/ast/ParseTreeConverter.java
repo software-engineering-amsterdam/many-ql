@@ -1,6 +1,6 @@
 package com.klq.ast;
 
-import com.common.Location;
+import com.common.ast.Location;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
@@ -17,20 +17,14 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.ast.impl.expr.value.DateValue;
-import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.question.Type; //TODO move Type somewhere else?
 import com.klq.parser.KLQBaseVisitor;
 import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by juriaan on 16-2-15.
@@ -195,6 +189,6 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     }
 
     private Location formatLocation(ParserRuleContext ctx){
-        return new Location(ctx, "A file");
+        return new Location("A file", ctx);
     }
 }

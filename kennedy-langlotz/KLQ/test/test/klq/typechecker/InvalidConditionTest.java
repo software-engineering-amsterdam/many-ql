@@ -9,7 +9,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.typecheker.TypeChecker;
-import com.klq.typecheker.error.InvalidCondition;
+import com.common.typechecker.error.InvalidCondition;
 import org.junit.Before;
 import org.junit.Test;
 

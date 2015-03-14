@@ -1,6 +1,6 @@
-package com.klq.typecheker.error;
+package com.common.typechecker.error;
 
-import com.common.Location;
+import com.common.ast.Location;
 
 /**
  * Created by Juriaan on 1-3-2015.

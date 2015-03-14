@@ -1,6 +1,6 @@
 package com.klq.ast.impl.expr.math;
 
-import com.common.Location;
+import com.common.ast.Location;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
 

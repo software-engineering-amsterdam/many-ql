@@ -1,4 +1,4 @@
-package com.klq.typecheker.error;
+package com.common.typechecker.error;
 
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.logic.question.Type;

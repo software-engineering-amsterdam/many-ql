@@ -1,6 +1,6 @@
 package com.kls.ast.node;
 
-import com.common.Location;
+import com.common.ast.Location;
 
 import java.util.List;
 

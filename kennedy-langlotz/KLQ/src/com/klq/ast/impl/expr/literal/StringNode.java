@@ -1,6 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
-import com.common.Location;
+import com.common.ast.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.StringValue;

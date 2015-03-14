@@ -7,6 +7,6 @@ package com.kls.ast.node.value;
 public class ColorValue extends AValue<String> {
 
     public ColorValue(String hexColor){
-        super(hexColor);
+        super(hexColor, Type.COLOR);
     }
 }
