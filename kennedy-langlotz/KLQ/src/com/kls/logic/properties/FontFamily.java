@@ -7,7 +7,7 @@ public class FontFamily extends AProperty {
     private String value;
 
     public FontFamily(String value){
-        super("font-family");
+        super("-fx-font-family");
         this.value = value;
     }
 

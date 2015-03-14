@@ -7,7 +7,7 @@ public class FontSize extends AProperty {
     private Integer value;
 
     public FontSize(Integer value){
-        super("font-size");
+        super("-fx-font-size");
         this.value = value;
     }
 

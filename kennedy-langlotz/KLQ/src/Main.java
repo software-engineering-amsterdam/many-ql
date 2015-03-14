@@ -7,6 +7,10 @@ import com.klq.logic.controller.Store;
 import com.klq.parser.KLQLexer;
 import com.klq.parser.KLQParser;
 import com.klq.typecheker.TypeChecker;
+import com.kls.logic.StyleMap;
+import com.kls.logic.properties.FontFamily;
+import com.kls.logic.properties.FontSize;
+import com.kls.logic.style.QuestionStyle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -68,7 +72,14 @@ public class Main extends Application {
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);
 
-        QuestionPage page = new QuestionPage(store);
+        //test stuff. remove later
+        StyleMap styleMap = new StyleMap();
+        QuestionStyle qStyle = new QuestionStyle();
+        FontSize size = new FontSize(18);
+        qStyle.addProperty(size);
+        styleMap.addPageStyle("question1", qStyle);
+
+        QuestionPage page = new QuestionPage(store, styleMap);
         page.addQuestions(store.getOrderedQuestions());
 
         questionnaire = new Questionnaire(store);

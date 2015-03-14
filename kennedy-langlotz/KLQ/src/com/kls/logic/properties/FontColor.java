@@ -7,7 +7,7 @@ public class FontColor extends AProperty {
     private String value;
 
     public FontColor(String value){
-        super("color");
+        super("-fx-color");
         this.value = value;
     }
 
