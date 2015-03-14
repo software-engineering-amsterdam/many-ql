@@ -4,6 +4,7 @@ import com.form.language.memory.Context;
 
 public abstract class GenericValue {
     public abstract void addToMemory(String key, Context context);
-    public abstract Boolean equals(GenericValue value);
+    public abstract boolean equals(Object o);
+    public abstract int hashCode();
     public abstract String toString();
 }

@@ -3,7 +3,7 @@ package com.form.language.ast.values;
 import com.form.language.memory.Context;
 
 public class IntValue extends GenericValue {
-    private final int value;
+    private final Integer value;
 
     public IntValue(int value) {
 	this.value = value;
@@ -25,8 +25,23 @@ public class IntValue extends GenericValue {
     }
     
     @Override
-    public Boolean equals(GenericValue comparison) {
-	return this.value == ((IntValue) comparison).getValue();
+    public boolean equals(Object o) {
+	if(o == this){
+	    return true;
+	}
+	if (!(o instanceof IntValue)){
+	    return false;
+	}
+	IntValue castO = (IntValue) o;
+	if(value == null){
+	    return castO.value == null;
+	} else {
+	    return this.value.equals(castO.value);
+	}
     }
 
+    @Override
+    public int hashCode() {
+	return value;
+    }
 }

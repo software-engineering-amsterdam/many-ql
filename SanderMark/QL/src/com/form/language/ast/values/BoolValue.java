@@ -3,13 +3,13 @@ package com.form.language.ast.values;
 import com.form.language.memory.Context;
 
 public class BoolValue extends GenericValue {
-    private final boolean value;
+    private final Boolean value;
 
     public BoolValue(boolean value) {
 	this.value = value;
     }
 
-    public boolean getValue() {
+    public Boolean getValue() {
 	return value;
     }
 
@@ -25,8 +25,23 @@ public class BoolValue extends GenericValue {
     }
 
     @Override
-    public Boolean equals(GenericValue comparison) {
-	return this.value == ((BoolValue) comparison).getValue();
+    public boolean equals(Object o) {
+	if(o == this){
+	    return true;
+	}
+	if (!(o instanceof BoolValue)){
+	    return false;
+	}
+	BoolValue castO = (BoolValue) o;
+	if(value == null){
+	    return castO.value == null;
+	} else {
+	    return this.value.equals(castO.value);
+	}
     }
 
+    @Override
+    public int hashCode() {
+	return (value? 1 : 0);
+    }
 }
