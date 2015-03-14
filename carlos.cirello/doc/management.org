@@ -20,7 +20,6 @@
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
     - [X] Extract plumbing
-    - [ ] Reduce concurrency calls within Frontend and Graphic driver
   - [ ] Write walkthrough doc for Tijs
   - [X] Basic Architecture
   - [X] Interpreter wise error handling
