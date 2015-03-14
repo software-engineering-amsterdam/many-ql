@@ -11,25 +11,27 @@ page: 'page' name=NAME '{'
       defaults?
       '}';
     
-section: 'section' name=STRINGLITERAL '{'
-         section*
-         question*
-         defaults?
-         '}';
+section: 'section' name=STRINGLITERAL
+      ('{' (question | section | defaults)+ '}') |   (question defaults?)
+         ;
 
 question:  'question' name=NAME
             widget?;
             
-widget: 'widget' spinbox | radio;
+widget: 'widget' (spinbox | radio | checkbox);
 
 spinbox: 'spinbox';
 
+checkbox: 'checkbox';
+
 radio: 'radio' '(' STRINGLITERAL (',' STRINGLITERAL)* ')';
 
-defaults: 'default' DATATYPE '{'
-          ('width:' INTEGERLITERAL)?
-          ('font:' STRINGLITERAL)?
-          ('fontsize:' INTEGERLITERAL)?
-          ('color:' INTEGERLITERAL)?
-          (widget)?
-          '}';
+defaults: 'default' DATATYPE 
+         property | ('{' (property)+ '}');
+
+property:   ('width:' value=INTEGERLITERAL)
+          | ('font:' value=STRINGLITERAL)
+          | ('fontsize:' value=INTEGERLITERAL)
+          | ('color:' '#'value=INTEGERLITERAL)
+          | (widget)
+          ;

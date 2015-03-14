@@ -17,7 +17,7 @@ stylesheet taxOfficeExample
         question privateDebt
           widget spinbox 
         question valueResidue
-        default money {
+        default integer {
           width: 400
           font: "Arial" 
           fontsize: 14
