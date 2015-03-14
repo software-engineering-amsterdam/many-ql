@@ -18,29 +18,32 @@ default_styles : 'default' TYPE '{' style_attr+ '}'            # DefaultStyles
                ;
 
 style_attr : 'width:'	INT										# Width
-           | 'widget:'	WIDGET                                  # Widget
+           | 'widget:'	widget_attr                             # Widget
            | 'font:'	STRING                                  # Font
            | 'fontsize:'INT										# FontSize
            | 'color:'	HEXACOLOR                               # Color
 		   ;
+
+widget_attr : 'calendar'                                          # Calendar
+		  | 'checkbox'                                          # CheckBox
+		  | 'dropdownbox' '(' STRING ',' STRING ')'             # DropDown
+		  | 'radiobuttons' '(' STRING ','  STRING ')'           # RadioButtons
+		  | 'spinbox'                                           # SpinBox
+		  |	'textbox'                                           # TextBox
+		  ;
+
 
 /*
  *   Lexer Rules
  */
 
 ID        : LETTER (LETTER | DIGIT)* ;
-HEXACOLOR : '#' DIGIT DIGIT DIGIT DIGIT DIGIT DIGIT ;
+HEXACOLOR : '#' HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC ;
 INT       : '-'? DIGIT+ ;             
 STRING    : '"' (ESC|.)*? '"' ;       
-WIDGET    : 'calendar' 
-		  | 'checkbox' 
-		  | 'dropdownbox' '(' STRING ',' STRING ')' 
-		  | 'radiobuttons' '(' STRING ','  STRING ')'
-		  | 'spinbox' 
-		  |	'textbox'
-		  ;
 TYPE      : 'int' | 'string' | 'bool' | 'date';
 
+HEXADEC   : [0-9A-F] ;
 DIGIT     : [0-9] ;
 LETTER    : [a-zA-Z] ;
 ESC       : '\\"' | '\\\\' ;

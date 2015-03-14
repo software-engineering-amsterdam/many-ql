@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
-namespace UvA.SoftCon.Questionnaire.Common.AST
+namespace UvA.SoftCon.Questionnaire.Common.AST.Building
 {
     public static class ParserRuleContextExtensions
     {

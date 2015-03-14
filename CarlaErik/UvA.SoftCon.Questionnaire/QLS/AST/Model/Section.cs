@@ -4,27 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
+using UvA.SoftCon.Questionnaire.Common.AST.Building;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     public class Section : QLSNode
     {
-        public IEnumerable<QuestionStyle> Question_Styles
+        public IEnumerable<QuestionStyle> QuestionStyles
         {
             get;
             private set;
 
         }
-        public IEnumerable<Default_styles> Default_styles
+        public IEnumerable<DefaultStyle> DefaultStyles
         {
             get;
             private set;
         }
-        internal Section(TextPosition position)
+
+        internal Section(IEnumerable<QuestionStyle> questionStyles, IEnumerable<DefaultStyle> defaultStyles, TextPosition position)
             : base(position) 
         {
-            Question_Styles = Question_Styles;
-            Default_styles = Default_styles;
+            QuestionStyles = questionStyles;
+            DefaultStyles = defaultStyles;
         }
     }
 }

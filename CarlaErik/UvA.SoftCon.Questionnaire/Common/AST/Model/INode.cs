@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.widget
+namespace UvA.SoftCon.Questionnaire.Common.AST.Model
 {
-    class Spinbox
+    public interface INode
     {
+        TextPosition Position { get; }
     }
 }

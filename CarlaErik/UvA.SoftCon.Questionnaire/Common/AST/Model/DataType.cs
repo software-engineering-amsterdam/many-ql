@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common;
 
-namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
+namespace UvA.SoftCon.Questionnaire.Common.AST.Model
 {
     public enum DataType
     {
