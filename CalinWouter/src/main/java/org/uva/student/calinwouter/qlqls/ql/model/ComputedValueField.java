@@ -8,8 +8,8 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 public class ComputedValueField extends FormField {
 
 
-    public ComputedValueField(String lbl, String variable, TypeDescriptor<?> typeDescriptor, FormInterpreter formInterpreter) {
-        super(lbl, variable, formInterpreter);
+    public ComputedValueField(String lbl, String variable, TypeDescriptor<?> typeDescriptor) {
+        super(lbl, variable);
     }
 
     @Override

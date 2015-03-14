@@ -5,6 +5,7 @@ import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.generated.parser.Parser;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
+import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.Form;
@@ -18,6 +19,7 @@ import java.io.StringReader;
 import java.util.AbstractMap;
 import java.util.Map;
 
+//TODO this class should probably be moved somewhere else as it's an interpreter helper both for QL and QLS
 public class InterpreterHelper {
 
     /*private static void applyInterpreterUsing(String input, FormInterpreter formInterpreter) throws ParserException, IOException, LexerException {
@@ -58,16 +60,19 @@ public class InterpreterHelper {
         return qlsInterpreter.interpret((AStylesheetBegin) ast.getPBegin());
     }
 
-    public static Map.Entry<Form, QLIntepreter> interpretQlString(String input) throws ParserException, IOException, LexerException {
+    public static QLIntepreter interpretQlString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
-        QLIntepreter qlIntepreter = new QLIntepreter((AForm) ((AFormBegin) ast.getPBegin()).getForm());
-        return new AbstractMap.SimpleEntry<Form, QLIntepreter>(qlIntepreter.interpret(), qlIntepreter);
+        SymbolTable symbolTable = new SymbolTable();
+        QLIntepreter qlIntepreter = new QLIntepreter((AForm) ((AFormBegin) ast.getPBegin()).getForm(), symbolTable);
+        qlIntepreter.interpret();
+        return qlIntepreter;
     }
 
     public static FormInterpreter initializeHeadlessInterpreter(String input) throws ParserException, IOException, LexerException {
-        FormInterpreter formInterpreter = new FormInterpreter(new QLIntepreter(new AForm())); // TODO this is just a workaround to make the code run
+        QLIntepreter qlIntepreter = new QLIntepreter(new AForm(), new SymbolTable());
+        FormInterpreter formInterpreter = new FormInterpreter(qlIntepreter.getSymbolTable(), qlIntepreter.getForm()); // TODO this is just a workaround to make the code run
         applyInterpreterUsing(input, formInterpreter);
         return formInterpreter;
     }

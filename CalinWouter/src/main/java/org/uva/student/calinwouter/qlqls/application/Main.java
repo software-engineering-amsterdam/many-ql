@@ -38,9 +38,9 @@ public class Main {
     private static void executeQl(String ql) {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            Map.Entry<Form, QLIntepreter> qlOutput = InterpreterHelper.interpretQlString(ql);
-            new QLGUI(qlOutput.getKey(), qlOutput.getValue(),formTypeChecker).render();
-        } catch (Exception e) {
+            QLIntepreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
+            new QLGUI(qlIntepreter, qlIntepreter.getSymbolTable(),qlIntepreter.getForm() ,formTypeChecker).render();
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -48,11 +48,9 @@ public class Main {
     private static void executeQlQls(String ql, String qls) {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            FormInterpreter formInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            QLIntepreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
-            formInterpreter.interpret();
-            new QLSGUI(styleSheet, formInterpreter, formTypeChecker).render();
-
+            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.getSymbolTable(), formTypeChecker).render();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,8 +64,8 @@ public class Main {
         String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String ql = readFile(currentLocation + "../../src/main/resources/ql.txt");
         String qls = readFile(currentLocation + "../../src/main/resources/qls.txt");
-        //executeQlQls(ql, qls);
-        executeQl(ql);
+        executeQlQls(ql, qls);
+        //executeQl(ql);
     }
 
 }

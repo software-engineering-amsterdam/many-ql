@@ -12,8 +12,8 @@ public class QuestionField extends FormField {
         return iQlRenderer.render(this);
     }
 
-    public QuestionField(String lbl, String variable, TypeDescriptor<?> typeDescriptor, FormInterpreter formInterpreter) {
-        super(lbl, variable, formInterpreter);
+    public QuestionField(String lbl, String variable, TypeDescriptor<?> typeDescriptor) {
+        super(lbl, variable);
     }
 
 }

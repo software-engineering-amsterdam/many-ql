@@ -43,6 +43,8 @@ public abstract class AbstractSwingGUI{
     protected abstract Component renderFrameContent();
 
     public void repaintFrame() {
-        frame.repaint();
+        final Container contentPane = frame.getContentPane();
+        contentPane.removeAll();
+        contentPane.add(renderFrameContent());
     }
 }

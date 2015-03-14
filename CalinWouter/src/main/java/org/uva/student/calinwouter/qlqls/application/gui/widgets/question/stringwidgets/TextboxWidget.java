@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
@@ -15,7 +16,7 @@ import java.awt.*;
 public class TextboxWidget implements IWidget {
     private JTextField widget;
 
-    public TextboxWidget(final Question question, final FormInterpreter formInterpreter) {
+    public TextboxWidget(final Question question, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -34,13 +35,13 @@ public class TextboxWidget implements IWidget {
             }
 
             public void updateField() {
-                formInterpreter.setField(question.getIdent(), new StringValue(widget.getText()));
-                formInterpreter.interpret();
+                symbolTable.setVariable(question.getIdent(), new StringValue(widget.getText()));
+                qlIntepreter.interpret();
             }
         });
     }
 
-    public TextboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter) {
+    public TextboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -59,7 +60,7 @@ public class TextboxWidget implements IWidget {
             }
 
             public void updateField() {
-                qlIntepreter.setField(questionField.getVariable(), new StringValue(widget.getText()));
+                symbolTable.setVariable(questionField.getVariable(), new StringValue(widget.getText()));
                 qlIntepreter.interpret();
             }
         });

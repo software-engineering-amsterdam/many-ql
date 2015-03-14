@@ -3,35 +3,31 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.model.Form;
-import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-//TODO all the variableMap related functions should be moved to SymbolTable
 public class QLIntepreter {
     private List<ChangedStateEventListener> changedStateEventListeners;
-    private Map<String, Value<?>> variableMap;
+    private AForm aForm;
+    private Form form;
+    private SymbolTable symbolTable;
     private FormInterpreter formInterpreter;
-    private AForm form;
 
-    public void setField(String key, Value<?> value) {
-        variableMap.put(key, value);
-        formInterpreter.setField(key,value);
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
     }
 
-    public Value<?> getField(String key) {
-        return variableMap.get(key);
+    public Form getForm() {
+        return form;
     }
 
     public Form interpret(){
-        System.out.println("interpreting");
-        formInterpreter = new FormInterpreter(this);
-        form.apply(formInterpreter);
+        form = new Form();
+        formInterpreter = new FormInterpreter(symbolTable, form);
+        aForm.apply(formInterpreter);
         notifyListeners();
-        return formInterpreter.getForm();
+        return form;
     }
 
     private void notifyListeners() {
@@ -44,9 +40,9 @@ public class QLIntepreter {
         changedStateEventListeners.add(changedStateEventListener);
     }
 
-    public QLIntepreter(AForm form) {
-        this.form = form;
+    public QLIntepreter(AForm aForm, SymbolTable symbolTable) {
+        this.aForm = aForm;
         changedStateEventListeners = new LinkedList<ChangedStateEventListener>();
-        variableMap = new HashMap<String, Value<?>>();
+        this.symbolTable = symbolTable;
     }
 }
