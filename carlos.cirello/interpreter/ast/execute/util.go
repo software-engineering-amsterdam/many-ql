@@ -1,11 +1,22 @@
 package execute
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
+
+func (exec Execute) resolveExpression(n interface{}) string {
+	switch n.(type) {
+	case *ast.ConcatNode:
+		return exec.resolveStringNode(n)
+	default:
+		return fmt.Sprintf("%f", exec.resolveMathNode(n))
+	}
+
+}
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
 	right float32) {

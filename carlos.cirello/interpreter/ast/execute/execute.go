@@ -42,8 +42,7 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 	if q.Type() == ast.ComputedQuestionType {
 		expr := q.Content().(*ast.ComputedQuestion).Expression()
-		computed := fmt.Sprintf("%f", exec.resolveMathNode(expr))
-		r.(symboltable.StringParser).From(computed)
+		r.(symboltable.StringParser).From(exec.resolveExpression(expr))
 	}
 
 	exec.toFrontend <- &plumbing.Frontend{
