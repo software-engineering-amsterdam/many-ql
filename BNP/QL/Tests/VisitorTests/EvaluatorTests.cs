@@ -96,6 +96,8 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.CheckType());
             Assert.IsTrue(Handler.Evaluate());
             Identifier i = new Identifier("Q1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
             NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2;

@@ -16,7 +16,7 @@ namespace QL.Evaluation
         //public static TerminalWrapper operator -(TerminalWrapper a, TerminalWrapper b);
         //public static TerminalWrapper operator *(TerminalWrapper a, TerminalWrapper b);
         //public static TerminalWrapper operator /(TerminalWrapper a, TerminalWrapper b);
-
+        
         
     }
 

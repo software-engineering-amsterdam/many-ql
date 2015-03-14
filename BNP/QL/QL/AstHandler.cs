@@ -31,7 +31,7 @@ namespace QL.Model
         private AstHandler()
         {
             ASTHandlerExceptions = new ObservableCollection<QLException>();
-            TypeReference = new SortedDictionary<Identifier, Type>();
+            TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
             

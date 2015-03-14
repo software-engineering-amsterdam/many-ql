@@ -78,6 +78,20 @@ namespace QL.Evaluation
                 throw new NotImplementedException("implement cannot compare null with smth exception");
             }
         }
+        public override int GetHashCode()
+        {
+            string w="yesnowrapper";
+            return new { w, Value }.GetHashCode();
+        }
 
+        public bool Equals(YesnoWrapper obj)
+        {
+            return Value == obj.Value;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is YesnoWrapper) return Equals(obj as YesnoWrapper);
+            return false;
+        }
     }
 }

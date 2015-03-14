@@ -150,7 +150,7 @@ namespace QL.Evaluation
 
         public void Visit(PlusOperator node)
         {
-            IList<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
+            ICollection<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on operator +", node));
@@ -164,7 +164,7 @@ namespace QL.Evaluation
 
         public void Visit(MinusOperator node)
         {
-            IList<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
+            ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on operator -", node));

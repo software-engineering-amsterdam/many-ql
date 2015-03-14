@@ -63,8 +63,22 @@ namespace QL.Evaluation
             }
 
         }
-       
 
+        public override int GetHashCode()
+        {
+            string w = "textwrapper";
+
+            return new { w, Value }.GetHashCode();
+        }
+        public bool Equals(TextWrapper obj)
+        {
+            return Value == obj.Value;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is TextWrapper) return Equals(obj as TextWrapper);
+            return false;
+        }
 
     }
 }

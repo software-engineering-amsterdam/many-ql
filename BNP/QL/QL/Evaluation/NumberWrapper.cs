@@ -31,7 +31,7 @@ namespace QL.Evaluation
 
         public static YesnoWrapper operator ==(NumberWrapper a, NumberWrapper b)
         {
-            if (a.Value.HasValue != null || b.Value.HasValue != null)
+            if (a.Value.HasValue || b.Value.HasValue )
             {
                 return new YesnoWrapper(a.Value.Value == b.Value.Value);
             }
@@ -153,7 +153,12 @@ namespace QL.Evaluation
             }
 
         }
-        
+        public override int GetHashCode()
+        {
+            string w = "numberwrapper";
+
+            return new { w, Value }.GetHashCode();
+        }
         
     }
 }
