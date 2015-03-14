@@ -3,6 +3,8 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSSpinBox extends AbstractQLSWidget<String> {
+public class QLSSpinBox extends AbstractQLSWidget {
 
     public QLSSpinBox(int _lineNum) {
         super(_lineNum);
@@ -52,14 +54,15 @@ public class QLSSpinBox extends AbstractQLSWidget<String> {
     }
 
     @Override
-    public String getValue() {
-        // todo
-        return "";
+    public StringValue getValue() {
+        //todo
+        return new StringValue("");
     }
 
     @Override
-    public void setValue(String _value) {
-        // todo
+    public void setValue(ExpressionValue _value) {
+        StringValue value = (StringValue) _value;
+        //todo
     }
 
     @Override

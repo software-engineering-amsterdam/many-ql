@@ -49,6 +49,6 @@ public class UIBoolQuestion extends UIQuestion {
     public void resetState() {
         this.value = false;
         this.setState(false);
-        this.widget.setValue(false);
+        this.widget.setValue(new BoolValue(false));
     }
 }

@@ -3,6 +3,7 @@ package org.fugazi.ql.gui.ui_elements;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.IWidget;
 
@@ -19,7 +20,7 @@ public class UINumQuestion extends UIQuestion {
         this.widget.addEventListener(new DocumentListener() {
             
             public void insertUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
+                setState(widget.getValue().getValue().toString());
             }
             public void removeUpdate(DocumentEvent e) {}
             public void changedUpdate(DocumentEvent e) {}
@@ -47,6 +48,6 @@ public class UINumQuestion extends UIQuestion {
     public void resetState() {
         this.value = 0;
         this.setState("0");
-        this.widget.setValue("0");
+        this.widget.setValue(new IntValue(0));
     }
 }

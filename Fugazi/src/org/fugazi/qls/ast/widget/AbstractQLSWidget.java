@@ -2,6 +2,7 @@ package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public abstract class AbstractQLSWidget<W> extends AbstractASTNode implements IWidget<W> {
+public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidget {
 
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 12;
@@ -69,12 +70,12 @@ public abstract class AbstractQLSWidget<W> extends AbstractASTNode implements IW
     }
 
     @Override
-    public W getValue() {
+    public ExpressionValue getValue() {
         throw new AssertionError();
     }
 
     @Override
-    public void setValue(W _value) {
+    public void setValue(ExpressionValue _value) {
         throw new AssertionError();
     }
 

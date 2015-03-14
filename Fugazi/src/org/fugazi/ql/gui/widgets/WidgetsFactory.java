@@ -32,21 +32,21 @@ public class WidgetsFactory {
         
         if (type.equals(new BoolType())) {
             IWidget widget = new CheckBox(label);
-            widget.setValue(_value.getValue());
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }
 
         if (type.equals(new StringType())) {
             IWidget widget = new TextBox(label);
-            widget.setValue(_value.getValue().toString());
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }
 
         if (type.equals(new IntType())) {
-            IWidget widget = new TextBox(label);
-            widget.setValue(_value.getValue().toString());
+            IWidget widget = new IntegerOnlyTextBox(label);
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }

@@ -4,6 +4,8 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSDropdown extends AbstractQLSWidget<Boolean> {
+public class QLSDropdown extends AbstractQLSWidget {
 
     private final String yesLabel;
     private final String noLabel;
@@ -63,13 +65,12 @@ public class QLSDropdown extends AbstractQLSWidget<Boolean> {
     }
 
     @Override
-    public Boolean getValue() {
-        // todo
-        return false;
+    public BoolValue getValue() {
+        return new BoolValue(false);
     }
 
     @Override
-    public void setValue(Boolean _value) {
+    public void setValue(ExpressionValue _value) {
         // todo
     }
 

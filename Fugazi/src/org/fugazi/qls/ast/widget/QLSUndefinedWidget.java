@@ -1,6 +1,8 @@
 package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSUndefinedWidget extends AbstractQLSWidget<NullType> {
+public class QLSUndefinedWidget extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
@@ -32,12 +34,12 @@ public class QLSUndefinedWidget extends AbstractQLSWidget<NullType> {
     }
 
     @Override
-    public NullType getValue() {
+    public UndefinedValue getValue() {
         throw new AssertionError();
     }
 
     @Override
-    public void setValue(NullType _value) {
+    public void setValue(ExpressionValue _value) {
         throw new AssertionError();
     }
 
