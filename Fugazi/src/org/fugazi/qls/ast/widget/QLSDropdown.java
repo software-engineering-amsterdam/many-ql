@@ -43,6 +43,14 @@ public class QLSDropdown extends AbstractQLSWidget {
         this.label = _label;
     }
 
+    public String getYesLabel() {
+        return yesLabel;
+    }
+    
+    public String getNoLabel() {
+        return noLabel;        
+    }
+
     @Override
     public void applyStyle(Style _style) {
         this.style = _style;
@@ -78,7 +86,6 @@ public class QLSDropdown extends AbstractQLSWidget {
     public void setReadOnly(boolean _isReadonly) {
         // todo
     }
-
 
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
