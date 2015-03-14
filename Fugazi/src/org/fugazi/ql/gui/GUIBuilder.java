@@ -13,6 +13,7 @@ import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
 import org.fugazi.ql.gui.visitor.UIQuestionBuilder;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.util.*;
 
@@ -28,16 +29,17 @@ public class GUIBuilder implements IMediator {
     
     private UIQuestionBuilder uiQuestionBuilder;
 
-    public GUIBuilder(Form _form) {
+    // Todo temporary to test QLS.
+    public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         this.uiForm = new UIForm(_form.getName());
-        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage);
+        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         this.addIfStatementsToQuestion(_form);
         this.addComputedQuestions(_form);
     }
-
+    
     public void renderUI() {
         setupForm();
         uiForm.showForm();
