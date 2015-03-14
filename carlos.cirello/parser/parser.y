@@ -34,6 +34,7 @@ var finalQuestionaire *ast.QuestionaireNode
 
 %left  '+'  '-'
 %left  '*'  '/'
+%left  '.'
 
 // Add tokens here must also lead to a lexer update at lexer.go
 %token BlockBeginToken
@@ -48,7 +49,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token NumericQuestionToken
 %token BoolQuestionToken
 %token ComputedQuestionToken
-%token '+' '-' '*' '/' '(' ')' '!'
+%token '+' '-' '*' '/' '(' ')' '!' '.'
 %token LessThanToken
 %token LessOrEqualsThanToken
 %token MoreThanToken
@@ -214,6 +215,10 @@ term:
 	| term '/' term
 	{
 		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| term '.' term
+	{
+		$$.evaluatable = ast.NewConcatNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| '(' andOrBlock ')'
 	{
