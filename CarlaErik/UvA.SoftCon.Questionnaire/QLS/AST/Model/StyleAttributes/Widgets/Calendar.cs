@@ -12,6 +12,16 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
         internal Calendar(TextPosition position)
             : base(position) { }
 
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitCalendar(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitCalendar(this);
+        }
+
         public override bool SupportsDataType(DataType dataType)
         {
             return dataType == DataType.Date;

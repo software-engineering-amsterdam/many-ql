@@ -20,5 +20,15 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
         {
             RGBCode = rgbCode;
         }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitColorStyle(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitColorStyle(this);
+        }
     }
 }

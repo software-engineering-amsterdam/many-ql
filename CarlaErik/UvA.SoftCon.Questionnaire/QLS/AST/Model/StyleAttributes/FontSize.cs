@@ -21,6 +21,16 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
             Size = size;
         }
 
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitFontSize(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitFontSize(this);
+        }
+
         public override string ToString()
         {
             return String.Format("{0}pt", Size);

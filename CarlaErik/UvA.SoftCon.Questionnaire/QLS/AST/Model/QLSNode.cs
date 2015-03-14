@@ -13,7 +13,9 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             : base(position)
         {
         }
-      //  public abstract void Accept(IQLSVisitor visitor);
-      //  public abstract T Accept(IQLSVisitor visitor);
+
+        public abstract void Accept(IQLSVisitor visitor);
+
+        public abstract T Accept<T>(IQLSVisitor<T> visitor);
     }
 }

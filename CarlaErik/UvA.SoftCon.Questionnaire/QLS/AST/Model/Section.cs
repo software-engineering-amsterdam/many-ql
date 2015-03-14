@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     public class Section : QLSNode
     {
-        public IEnumerable<QuestionStyle> QuestionStyles
+        public IEnumerable<QuestionReference> QuestionReferences
         {
             get;
             private set;
@@ -23,11 +23,21 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             private set;
         }
 
-        internal Section(IEnumerable<QuestionStyle> questionStyles, IEnumerable<DefaultStyle> defaultStyles, TextPosition position)
+        internal Section(IEnumerable<QuestionReference> questionReferences, IEnumerable<DefaultStyle> defaultStyles, TextPosition position)
             : base(position) 
         {
-            QuestionStyles = questionStyles;
+            QuestionReferences = questionReferences;
             DefaultStyles = defaultStyles;
+        }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitSection(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitSection(this);
         }
     }
 }

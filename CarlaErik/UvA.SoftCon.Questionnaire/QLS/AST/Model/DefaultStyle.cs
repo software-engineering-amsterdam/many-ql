@@ -29,5 +29,15 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             DataType = dataType;
             StyleAttributes = styleAttributes;
         }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitDefaultStyle(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitDefaultStyle(this);
+        }
     }
 }

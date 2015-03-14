@@ -9,28 +9,28 @@ stylesheet : 'stylesheet' ID '{' page* '}'                     # StyleSheet
 
 page       : 'page' STRING '{' (section|default_styles)* '}'
            ;
-section    : 'section' STRING '{' (question_styles|default_styles)* '}'
+section    : 'section' STRING '{' (question_ref|default_styles)* '}'
            ;
 
-question_styles : 'question' ID '{' style_attr* '}'            # QuestionStyles
-                ;
+question_ref   : 'question' ID '{' style_attr* '}'             # QuestionReference
+               ;
 default_styles : 'default' TYPE '{' style_attr+ '}'            # DefaultStyles
                ;
 
-style_attr : 'width:'	INT										# Width
-           | 'widget:'	widget_attr                             # Widget
-           | 'font:'	STRING                                  # Font
-           | 'fontsize:'INT										# FontSize
-           | 'color:'	HEXACOLOR                               # Color
+style_attr : 'width:'	INT									 	  # Width
+           | 'widget:'	widget_attr                               # Widget
+           | 'font:'	STRING                                    # Font
+           | 'fontsize:'INT                                       # FontSize
+           | 'color:'	HEXACOLOR                                 # Color
 		   ;
 
 widget_attr : 'calendar'                                          # Calendar
-		  | 'checkbox'                                          # CheckBox
-		  | 'dropdownbox' '(' STRING ',' STRING ')'             # DropDown
-		  | 'radiobuttons' '(' STRING ','  STRING ')'           # RadioButtons
-		  | 'spinbox'                                           # SpinBox
-		  |	'textbox'                                           # TextBox
-		  ;
+	  	    | 'checkbox'                                          # CheckBox
+		    | 'dropdownbox' '(' STRING ',' STRING ')'             # DropDown
+		    | 'radiobuttons' '(' STRING ','  STRING ')'           # RadioButtons
+		    | 'spinbox'                                           # SpinBox
+		    | 'textbox'                                           # TextBox
+		    ;
 
 
 /*

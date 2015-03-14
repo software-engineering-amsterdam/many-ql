@@ -13,12 +13,12 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
     {
         public override Section VisitSection(QLSParser.SectionContext context)
         {
-            var questionStyles = new List<QuestionStyle>();
+            var questionStyles = new List<QuestionReference>();
             var defaultStyles = new List<DefaultStyle>();
 
-            foreach (var questionStyleContext in context.question_styles())
+            foreach (var questionStyleContext in context.question_ref())
             {
-                questionStyles.Add(questionStyleContext.Accept(new QuestionStyleVisitor()));
+                questionStyles.Add(questionStyleContext.Accept(new QuestionReferenceVisitor()));
             }
             foreach (var defaultStyleContext in context.default_styles())
             {

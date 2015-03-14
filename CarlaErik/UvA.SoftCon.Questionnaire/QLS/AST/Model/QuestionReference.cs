@@ -8,7 +8,7 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
-    public class QuestionStyle : QLSNode
+    public class QuestionReference : QLSNode
     {
         public Identifier Id
         {
@@ -22,11 +22,21 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             private set;
         }
 
-        internal QuestionStyle(Identifier id, IEnumerable<StyleAttribute> styleAttributes, TextPosition position)
+        internal QuestionReference(Identifier id, IEnumerable<StyleAttribute> styleAttributes, TextPosition position)
             : base(position)
         {
             Id = id;
             StyleAttributes = styleAttributes;
+        }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitQuestionReference(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitQuestionReference(this);
         }
     }
 }

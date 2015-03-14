@@ -28,6 +28,16 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
             FalseLabel = falseLabel;
         }
 
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitRadioButtons(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitRadioButtons(this);
+        }
+
         public override bool SupportsDataType(DataType dataType)
         {
             return dataType == DataType.Boolean;

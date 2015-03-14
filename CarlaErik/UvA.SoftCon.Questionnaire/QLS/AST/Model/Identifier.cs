@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     /// <summary>
-    /// A name that uniquely defines or refers to a question.
+    /// A name that refers to a question in the QL AST.
     /// </summary>
     public class Identifier : QLSNode
     {
@@ -23,6 +23,16 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             : base(position)
         {
             Name = name;
+        }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitIdentifier(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitIdentifier(this);
         }
 
         public override string ToString()

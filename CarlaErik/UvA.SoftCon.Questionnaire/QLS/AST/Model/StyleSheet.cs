@@ -31,5 +31,15 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             Id = id;
             Pages = pages;
         }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitStyleSheet(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitStyleSheet(this);
+        }
     }
 }
