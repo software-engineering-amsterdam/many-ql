@@ -24,9 +24,9 @@ defaults:
         ;
 
 property:  
-            ('width:' value=INTEGERLITERAL)
-          | ('font:' value=STRINGLITERAL)
-          | ('fontsize:' value=INTEGERLITERAL)
-          | ('color:' '#'value=INTEGERLITERAL)
-          | (widget)
+            ('width:' value=INTEGERLITERAL)     #Width
+          | ('font:' value=STRINGLITERAL)       #Font
+          | ('fontsize:' value=INTEGERLITERAL)  #FontSize
+          | ('color:' '#'value=INTEGERLITERAL)  #Color
+          | (widget)                            #WidgetProperty
           ;
