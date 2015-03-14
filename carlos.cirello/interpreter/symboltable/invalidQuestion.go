@@ -10,6 +10,7 @@ type InvalidQuestion struct {
 // and frontend
 const InvalidQuestionType = "invalid"
 
+// NewInvalidQuestion is the constructor method for InvalidQuestion
 func NewInvalidQuestion(primitive string) *InvalidQuestion {
 	return &InvalidQuestion{primitive}
 }

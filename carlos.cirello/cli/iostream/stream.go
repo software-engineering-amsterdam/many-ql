@@ -6,9 +6,11 @@ import (
 	"os"
 )
 
+// Stdio represents the constant expected from CLI args in order to expect input
+// from stdin, and generate output to stdout
 const Stdio = "-"
 
-// New instantiates streams according to parameters input. As Unix convention,
+// Open instantiates streams according to parameters input. As Unix convention,
 // "-" always means stdin/stdout.
 func Open(srcFn, inFn, outFn string) (srcReader, inReader io.Reader,
 	outWriter io.Writer) {
