@@ -2,11 +2,14 @@ package org.fugazi.ql.gui.ui_elements;
 
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.IWidget;
 
 public class UIComputedQuestion extends UIQuestion {
 
+    private ExpressionValue value;
+    
     public UIComputedQuestion(
             IMediator _med, 
             ComputedQuestion _question,
@@ -14,15 +17,17 @@ public class UIComputedQuestion extends UIQuestion {
             ExpressionValue _value) 
     {
         super(_med, _question, _widget);
+        this.value = _value;
     }
     
     @Override
     public ExpressionValue getState() {
-        return null;
+        return this.value;
     }
 
     @Override
     public void resetState() {
+        this.value = new UndefinedValue();
     }
     
     public void setComputedValue(ExpressionValue _value) {

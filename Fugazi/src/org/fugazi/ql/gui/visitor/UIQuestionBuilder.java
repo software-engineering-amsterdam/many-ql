@@ -70,7 +70,10 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
 
     public UIQuestion visitComputedQuestion(ComputedQuestion computedQuestion) {
         ExpressionValue result = guiEvaluator.evaluateComputedExpression(computedQuestion);
-        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(computedQuestion.getType(), this.question.getLabel(), result);
-        return new UIComputedQuestion(mediator, computedQuestion, widget, result);
+        IWidget widget = 
+                this.widgetsFactory.getDefaultWidgetForType(computedQuestion.getType(), this.question.getLabel(), result);
+        
+        return new UIComputedQuestion(
+                mediator, computedQuestion, widget, result);
     }
 }
