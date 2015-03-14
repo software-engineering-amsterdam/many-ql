@@ -52,6 +52,108 @@ namespace QL.Evaluation
             }
         }
 
+        public static NumberWrapper operator +(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new NumberWrapper(a.Value.Value + b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static NumberWrapper operator -(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new NumberWrapper(a.Value.Value - b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static NumberWrapper operator *(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new NumberWrapper(a.Value.Value * b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static NumberWrapper operator /(NumberWrapper a, NumberWrapper b)
+        {
+            
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                if (b.Value.Value == 0)
+                {
+                    throw new EvaluationError("Zero division error");
+                }
+                return new NumberWrapper(a.Value.Value / b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static YesnoWrapper operator <(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value < b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static YesnoWrapper operator <=(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value <= b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static YesnoWrapper operator >(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value > b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        public static YesnoWrapper operator >=(NumberWrapper a, NumberWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value >= b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+        
         
     }
 }

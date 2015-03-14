@@ -116,13 +116,31 @@ namespace Tests.VisitorTests
             Number n = new Number();
             n.Value = 12345;
             NumberWrapper c = new NumberWrapper(n);
-            Assert.IsTrue((c==a).ToBool());
+            Assert.IsTrue((c == a).ToBool());
             Assert.IsFalse((c != a).ToBool());
 
             b.Value = 23456;
-            Assert.IsFalse((c==b).ToBool());
+            Assert.IsFalse((c == b).ToBool());
             Assert.IsTrue((c != b).ToBool());
 
+        }
+
+        [TestMethod]
+        public void PlusOperatorTest()
+        {
+            //we expect that yesno should throw and exception but number and text should add, resp. concat.
+           
+            NumberWrapper na = new NumberWrapper(12345);
+            NumberWrapper nb = new NumberWrapper(12345);
+            
+            TextWrapper ta = new TextWrapper("bla");
+            TextWrapper tb = new TextWrapper("ble");
+
+
+            Assert.AreEqual((na + nb).Value, 24690);
+            Assert.AreEqual((ta + tb).Value, "blable");
+            
+           
         }
 
 

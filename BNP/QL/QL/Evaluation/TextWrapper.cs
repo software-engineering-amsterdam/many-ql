@@ -51,6 +51,19 @@ namespace QL.Evaluation
                 throw new NotImplementedException("implement cannot compare null with smth exception");
             }
         }
+        public static TextWrapper operator +(TextWrapper a, TextWrapper b)
+        {
+            if (a.Value != null || b.Value != null)
+            {
+                return new TextWrapper(a.Value + b.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+
+        }
+       
 
 
     }

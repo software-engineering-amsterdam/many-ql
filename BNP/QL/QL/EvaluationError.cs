@@ -12,5 +12,8 @@ namespace QL
         {
             get { return "Evaluator"; }
         }
+        public EvaluationError(string message)
+            : base(message)
+        { }
     }
 }

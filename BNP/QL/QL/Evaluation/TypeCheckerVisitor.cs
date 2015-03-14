@@ -150,18 +150,29 @@ namespace QL.Evaluation
 
         public void Visit(PlusOperator node)
         {
+            IList<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on addition operator", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator +", node));
             }
+            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
+            {
+                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
+            }           
+            
         }
 
         public void Visit(MinusOperator node)
         {
+            IList<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on subtraction operator", node));
+                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator -", node));
             }
+            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
+            {
+                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
+            }  
         }
 
         public void Visit(AndOperator node)

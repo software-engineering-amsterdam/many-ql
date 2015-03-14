@@ -56,5 +56,28 @@ namespace QL.Evaluation
                 throw new NotImplementedException("implement cannot compare null with smth exception");
             }
         }
+        public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value & b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+        }
+        public static YesnoWrapper operator |(YesnoWrapper a, YesnoWrapper b)
+        {
+            if (a.Value.HasValue || b.Value.HasValue)
+            {
+                return new YesnoWrapper(a.Value.Value | b.Value.Value);
+            }
+            else
+            {
+                throw new NotImplementedException("implement cannot compare null with smth exception");
+            }
+        }
+
     }
 }
