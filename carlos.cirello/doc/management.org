@@ -14,12 +14,12 @@
 
 * QL [6/9]
   - [ ] Write Code Walkthrough for Tijs and Vadim
-  - [ ] Refactor [1/2]
+  - [ ] Refactor [2/4]
     - [ ] Expand tests
     - [X] Extract question typing from AST
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
-    - [ ] Extract plumbing
+    - [X] Extract plumbing
   - [ ] Write walkthrough doc for Tijs
   - [X] Basic Architecture
   - [X] Interpreter wise error handling

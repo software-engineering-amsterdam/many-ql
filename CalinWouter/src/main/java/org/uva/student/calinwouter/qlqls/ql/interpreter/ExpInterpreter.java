@@ -2,6 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.VariableNotSetException;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
@@ -9,7 +10,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 public class ExpInterpreter extends AnalysisAdapter {
     private Value<?> value;
-    private FormInterpreter formInterpreter;
+    private SymbolTable symbolTable;
 
     @Override
     public void caseAAddExp(AAddExp node) {
@@ -98,7 +99,7 @@ public class ExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        Value<?> value = (formInterpreter.getField(node.getIdent().getText()));
+        Value<?> value = (symbolTable.getVariable(node.getIdent().getText()));
         if (value == null) {
             throw new VariableNotSetException(node.getIdent().getText());
         }
@@ -106,7 +107,7 @@ public class ExpInterpreter extends AnalysisAdapter {
     }
 
     private Value<?> interpExp(Node n) {
-        ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
+        ExpInterpreter expInterpreter = new ExpInterpreter(symbolTable);
         n.apply(expInterpreter);
         return expInterpreter.getValue();
     }
@@ -119,8 +120,8 @@ public class ExpInterpreter extends AnalysisAdapter {
         return value;
     }
 
-    public ExpInterpreter(FormInterpreter formInterpreter) {
+    public ExpInterpreter(SymbolTable symbolTable) {
         super();
-        this.formInterpreter = formInterpreter;
+        this.symbolTable = symbolTable;
     }
 }

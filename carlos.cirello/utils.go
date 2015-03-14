@@ -6,6 +6,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
@@ -18,6 +19,11 @@ func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
 	}
 	csvReader := csvinput.New(pipes, inReader)
 	csvReader.Read()
+}
+
+func writeOutputCsv(pipes *plumbing.Pipes, outWriter io.Writer) {
+	csvWriter := csvoutput.New(pipes, outWriter)
+	csvWriter.Write()
 }
 
 func errorHandler() {

@@ -97,7 +97,8 @@ func (s *SymbolTable) Create(q *ast.QuestionNode) {
 	case ast.ScalarQuestionType:
 		newSymbol, err := scalarQuestionFactory(primitive)
 		if err != nil {
-			log.Fatalf("%s:symboltable error: %s", pos, err.Error())
+			s.appendErrf("%s:symboltable error: %s", pos,
+				err.Error())
 		}
 		symbol = newSymbol
 	case ast.ComputedQuestionType:

@@ -15,5 +15,6 @@ func scalarQuestionFactory(primitive string) (fmt.Stringer, error) {
 	case ast.ScalarBoolPrimitive:
 		return new(BoolQuestion), nil
 	}
-	return nil, fmt.Errorf("Invalid question type. Got %s", primitive)
+	return NewInvalidQuestion(primitive),
+		fmt.Errorf("Invalid question type. Got %s", primitive)
 }

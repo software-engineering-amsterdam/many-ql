@@ -8,8 +8,8 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 
 import java.util.LinkedList;
 
+//TODO this class still uses the TypeInterpreter class - this must be changed!
 public class StmtTypeChecker extends AnalysisAdapter {
-    // TODO rename it
     private final FormTypeChecker formTypeChecker;
 
     // TODO apply most to the actual ql as well.
@@ -51,7 +51,6 @@ public class StmtTypeChecker extends AnalysisAdapter {
         }
     }
 
-    //protected StmtInterpreter createStmtInterpreter() {
     protected StmtTypeChecker createStmtInterpreter(){
         return new StmtTypeChecker(formTypeChecker);
     }
@@ -84,7 +83,6 @@ public class StmtTypeChecker extends AnalysisAdapter {
     }
 
     public StmtTypeChecker(FormTypeChecker formTypeChecker) {
-        //super(formTypeChecker);
         this.formTypeChecker = formTypeChecker;
     }
 

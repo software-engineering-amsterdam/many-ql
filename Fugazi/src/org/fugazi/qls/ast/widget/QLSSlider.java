@@ -2,6 +2,9 @@ package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.IntValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSSlider extends AbstractQLSWidget<Integer> {
+public class QLSSlider extends AbstractQLSWidget {
 
     public QLSSlider(int _lineNum) {
         super(_lineNum);
@@ -50,13 +53,14 @@ public class QLSSlider extends AbstractQLSWidget<Integer> {
     }
 
     @Override
-    public Integer getValue() {
-        // todo
-        return 0;
+    public IntValue getValue() {
+        //todo
+        return new IntValue(0);
     }
 
     @Override
-    public void setValue(Integer _value) {
+    public void setValue(ExpressionValue _value) {
+        IntValue value = (IntValue) _value;
         // todo
     }
 

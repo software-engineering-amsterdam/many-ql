@@ -4,13 +4,13 @@ import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.*;
-import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.form;
+import static org.uva.student.calinwouter.qlqls.helper.QLGeneratorHelper.form;
 
 /**
  * - Reference to undefined questions

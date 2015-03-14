@@ -5,7 +5,6 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO not yet used
 public class SymbolTable {
     private Map<String, Value<?>> variableMap;
 

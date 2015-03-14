@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
@@ -21,26 +22,25 @@ public class CheckboxWidget implements IWidget {
         return checkbox;
     }
 
-    public CheckboxWidget(final Question question, final FormInterpreter formInterpreter) {
+    public CheckboxWidget(final Question question, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                formInterpreter.setField(question.getIdent(), new BoolValue(checkbox.isSelected()));
-                formInterpreter.interpret();
+                symbolTable.setVariable(question.getIdent(), new BoolValue(checkbox.isSelected()));
+                qlIntepreter.interpret();
             }
         });
     }
 
-    public CheckboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter) {
+    public CheckboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener( new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                //TODO setting fields actually sets the value for a variable in the variable map -> this should be part of the Symbol table in the end
-                qlIntepreter.setField(questionField.getVariable(), new BoolValue(checkbox.isSelected()));
+                symbolTable.setVariable(questionField.getVariable(), new BoolValue(checkbox.isSelected()));
                 qlIntepreter.interpret();
             }
         });
