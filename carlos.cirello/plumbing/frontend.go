@@ -1,6 +1,8 @@
 package plumbing
 
-// Frontend carries the communication between VM and Frontend
+// Frontend carries the communication between VM and Frontend. The basic
+// structure of question is repeated here, so occasional extensions of AST or
+// Symbol Table internals do not affect internals of Frontend.
 type Frontend struct {
 	Type FrontendEventType
 
