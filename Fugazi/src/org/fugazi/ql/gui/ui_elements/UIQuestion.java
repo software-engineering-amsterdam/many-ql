@@ -18,6 +18,8 @@ public abstract class UIQuestion extends Colleague {
     }
 
     public abstract ExpressionValue getState();
+    
+    public abstract void resetState();
 
     @Override
     public String getId() {

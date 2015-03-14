@@ -20,6 +20,10 @@ public class UIComputedQuestion extends UIQuestion {
     public ExpressionValue getState() {
         return null;
     }
+
+    @Override
+    public void resetState() {
+    }
     
     public void setComputedValue(ExpressionValue _value) {
         this.widget.setValue(_value.getValue().toString());

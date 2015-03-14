@@ -15,7 +15,6 @@ public class UINumQuestion extends UIQuestion {
 
     public UINumQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med, _question, _widget);
-        this.value = 0; // default
 
         this.widget.addEventListener(new DocumentListener() {
             
@@ -25,12 +24,15 @@ public class UINumQuestion extends UIQuestion {
             public void removeUpdate(DocumentEvent e) {}
             public void changedUpdate(DocumentEvent e) {}
         });
+        this.resetState();
     }
 
     public void setState(String _value) {
 
+        System.out.println(_value);
+        
         if (_value.equals("")) {
-            this.value = 0;
+            this.resetState();
         } else {
             this.value = Integer.parseInt(_value);
         }
@@ -41,5 +43,12 @@ public class UINumQuestion extends UIQuestion {
     @Override
     public ExpressionValue getState() {
         return new IntValue(value);
+    }
+
+    @Override
+    public void resetState() {
+        this.value = 0;
+        this.setState("0");
+        this.widget.setValue("0");
     }
 }
