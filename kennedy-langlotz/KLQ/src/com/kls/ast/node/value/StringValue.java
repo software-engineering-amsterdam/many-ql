@@ -6,7 +6,7 @@ package com.kls.ast.node.value;
 public class StringValue extends AValue<String> {
 
     public StringValue(String value) {
-        super(value);
+        super(value.substring(1, value.length()-2), Type.STRING);
     }
 
     @Override

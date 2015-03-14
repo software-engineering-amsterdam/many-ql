@@ -1,12 +1,9 @@
 package com.klq.ast.impl;
 
-import com.common.Location;
-import com.klq.ast.ANode;
+import com.common.ast.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.logic.question.Type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

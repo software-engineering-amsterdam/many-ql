@@ -1,6 +1,6 @@
 package com.klq.ast.impl.expr;
 
-import com.common.Location;
+import com.common.ast.Location;
 import com.klq.ast.IVisitor;
 
 /**

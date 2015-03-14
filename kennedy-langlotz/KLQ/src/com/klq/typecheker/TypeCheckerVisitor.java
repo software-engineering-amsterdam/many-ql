@@ -15,11 +15,10 @@ import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.math.*;
 import com.klq.logic.question.Type;
-import com.klq.typecheker.error.*;
+import com.common.typechecker.error.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by juriaan on 2-3-15.

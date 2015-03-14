@@ -6,6 +6,6 @@ package com.kls.ast.node.value;
 public class FontSizeValue extends AValue<Integer> {
 
     public FontSizeValue(int fontSize){
-        super(fontSize);
+        super(fontSize, Type.FONT_SIZE);
     }
 }

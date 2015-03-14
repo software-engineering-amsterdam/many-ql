@@ -1,7 +1,6 @@
-package com.klq.typecheker.error;
+package com.common.typechecker.error;
 
-import com.common.Location;
-import com.klq.ast.impl.expr.AExpression;
+import com.common.ast.Location;
 import com.klq.logic.question.Type;
 
 /**

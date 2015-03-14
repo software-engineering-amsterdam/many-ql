@@ -1,7 +1,7 @@
 package com.kls.ast.node;
 
 import com.kls.ast.IVisitor;
-import com.common.Location;
+import com.common.ast.Location;
 
 /**
  * Created by Timon on 03.03.2015.
@@ -11,7 +11,6 @@ public abstract class ANodeBase {
 
     public ANodeBase(Location location){
         this.location = location;
-        print();
     }
 
     public abstract <T> T accept(IVisitor<T> visitor);

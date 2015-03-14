@@ -1,10 +1,9 @@
 package com.klq.typecheker;
 
 import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
 import com.klq.logic.question.Type;
-import com.klq.typecheker.error.AError;
-import com.klq.typecheker.error.NotUniqueID;
+import com.common.typechecker.error.AError;
+import com.common.typechecker.error.NotUniqueID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class QuestionTable {
 
     public void add(String questionId, QuestionNode node){
         if(table.containsKey(questionId)){
-            errors.add(new NotUniqueID(node));
+            errors.add(new NotUniqueID(node.getQuestionID(), node.getLocation()));
         }
         else{
             table.put(questionId, node);

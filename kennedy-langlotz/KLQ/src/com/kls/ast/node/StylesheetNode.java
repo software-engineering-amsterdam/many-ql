@@ -1,7 +1,7 @@
 package com.kls.ast.node;
 
 import com.kls.ast.IVisitor;
-import com.common.Location;
+import com.common.ast.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.List;
 public class StylesheetNode extends ANodeBase {
     private final List<AGroupNodeBase> groups;
     private final List<ASelectorNodeBase> selectors;
-
 
     public StylesheetNode(Location location) {
         super(location);
