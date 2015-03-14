@@ -9,7 +9,6 @@ import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
 import java.util.List;
 
-
 public class QLSWidgetsFactory extends WidgetsFactory {
     
     private final QLSStyleSheetDataStorage styleSheetDataStorage;
@@ -32,7 +31,7 @@ public class QLSWidgetsFactory extends WidgetsFactory {
         String label = _question.getLabel();
         AbstractQLSWidget widget = (AbstractQLSWidget) getQlsWidget(_question.getIdName());
         widget.setLabel(label);
-        widget.setValue(_value.getValue());
+        widget.setValue(_value);
         widget.setReadOnly(true);
 
         return widget;
@@ -41,7 +40,7 @@ public class QLSWidgetsFactory extends WidgetsFactory {
     private IWidget getQlsWidget(String _qlQuestionId) {
         List<QLSQuestion> qlsQuestions = styleSheetDataStorage.getQuestions();
         for (QLSQuestion qlsQuestion : qlsQuestions) {
-            if (qlsQuestion.getIdName().equals(qlsQuestion)) {
+            if (qlsQuestion.getIdName().equals(_qlQuestionId)) {
                 return qlsQuestion.getWidget();
             }
         }

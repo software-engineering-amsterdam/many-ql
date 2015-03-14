@@ -24,11 +24,11 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
     private final WidgetsFactory widgetsFactory;
 
     public UIQuestionBuilder(
-            IMediator _med, ValueStorage _valueStorage)
+            IMediator _med, ValueStorage _valueStorage, WidgetsFactory _widgetsFactory)
     {
         this.mediator = _med;
         this.guiEvaluator = new GUIEvaluator(_valueStorage);
-        this.widgetsFactory = new WidgetsFactory();
+        this.widgetsFactory = _widgetsFactory;
     }
 
     /**
