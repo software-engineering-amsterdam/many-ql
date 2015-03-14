@@ -5,20 +5,19 @@ import (
 	"testing"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 const expectedCsv = `Q1,A question,No
 `
 
 func TestCsvInputFrontend(t *testing.T) {
-	receive := make(chan *event.Frontend)
-	send := make(chan *event.Frontend)
+	pipes := plumbing.New()
 	buf := new(bytes.Buffer)
-	go fakeInterpreter(receive, send)
+	go fakeInterpreter(pipes)
 
-	csvoutput := New(receive, send, buf)
+	csvoutput := New(pipes, buf)
 	csvoutput.Write()
 
 	if got := buf.String(); got != expectedCsv {
@@ -26,18 +25,21 @@ func TestCsvInputFrontend(t *testing.T) {
 	}
 }
 
-func fakeInterpreter(receive, send chan *event.Frontend) {
+func fakeInterpreter(pipes *plumbing.Pipes) {
+	receive := pipes.FromInterpreter()
+	send := pipes.ToInterpreter()
+
 	<-send
 
 	q := *ast.NewQuestionNode("A question", "Q1", new(ast.ScalarQuestion), *new(scanner.Position))
-	receive <- &event.Frontend{
-		Type:       event.UpdateQuestion,
+	receive <- &plumbing.Frontend{
+		Type:       plumbing.UpdateQuestion,
 		Identifier: q.Identifier(),
 		Label:      q.Label(),
 		FieldType:  q.Type(),
 		Value:      "No",
 	}
-	receive <- &event.Frontend{
-		Type: event.Flush,
+	receive <- &plumbing.Frontend{
+		Type: plumbing.Flush,
 	}
 }

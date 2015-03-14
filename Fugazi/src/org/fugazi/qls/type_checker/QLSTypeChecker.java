@@ -6,8 +6,9 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
-import org.fugazi.qls.ast.widget.Widget;
+import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
 import java.util.*;
 
@@ -31,10 +32,10 @@ public class QLSTypeChecker {
         List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<String> qlQuestionIdNames = this.getQlQuestionIdNames(qlQuestions);
 
-        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+        List<QLSQuestion> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
 
-        for (org.fugazi.qls.ast.question.Question question : qlsQuestions ) {
+        for (QLSQuestion question : qlsQuestions ) {
             if (!qlQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.QLS_ERROR.UNDEFINED, question,
@@ -48,7 +49,7 @@ public class QLSTypeChecker {
 
     private void checkIfAllQuestionsPlaced() {
         List<Question> qlQuestions = this.qlFormData.getAllQuestions();
-        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+        List<QLSQuestion> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
         List<String> qlsQuestionIdNames = this.getQlsQuestionIdNames(qlsQuestions);
 
@@ -65,11 +66,11 @@ public class QLSTypeChecker {
     }
 
     private void checkForMultipleQuestionPlacements() {
-        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+        List<QLSQuestion> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
         List<String> qlsQuestionIdNames = new ArrayList<>();
 
-        for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
+        for (QLSQuestion question : qlsQuestions) {
             if (qlsQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.QLS_ERROR.DUPLICATE, question,
@@ -85,14 +86,14 @@ public class QLSTypeChecker {
 
     private void checkWidgetTypeCompatibility() {
         List<Question> qlQuestions = this.qlFormData.getAllQuestions();
-        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+        List<QLSQuestion> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
 
 //        HashMap<String, Type> questionTypes = this.getQlQuestionType(qlQuestions);
         HashMap<String, Type> questionTypes = this.qlFormData.getallQuestionTypes();
 
-        for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
-            Widget questionWidget = question.getWidget();
+        for (QLSQuestion question : qlsQuestions) {
+            AbstractQLSWidget questionWidget = question.getWidget();
             List<Type> supportedQuestionTypes = questionWidget.getSupportedQuestionTypes();
             Type questionType = questionTypes.get(question.getIdName());
 
@@ -123,9 +124,9 @@ public class QLSTypeChecker {
         return qlQuestionIdNames;
     }
 
-    private List<String> getQlsQuestionIdNames(List<org.fugazi.qls.ast.question.Question> qlsQuestions) {
+    private List<String> getQlsQuestionIdNames(List<QLSQuestion> qlsQuestions) {
         List<String> qlsQuestionIdNames = new ArrayList<>();
-        for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
+        for (QLSQuestion question : qlsQuestions) {
             qlsQuestionIdNames.add(question.getIdName());
         }
         return qlsQuestionIdNames;

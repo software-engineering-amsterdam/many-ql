@@ -102,7 +102,7 @@ OR cmd+shift+G*
 QL & QLS
 =========
 
-##### QL Requirements
+#### QL Requirements
 
 - Questions are enabled and disabled when different values are
   entered.

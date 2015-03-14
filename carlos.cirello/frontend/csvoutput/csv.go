@@ -4,24 +4,23 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
 // Output holds an io.Writer which is used to store the responses of the form
 // (either into a file, or some other medium).
 type Output struct {
-	receive chan *event.Frontend
-	send    chan *event.Frontend
+	receive chan *plumbing.Frontend
+	send    chan *plumbing.Frontend
 	stream  io.Writer
 }
 
 // New takes in a pair of channels for the interpreter, a writer stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *event.Frontend,
-	stream io.Writer) *Output {
+func New(pipes *plumbing.Pipes, stream io.Writer) *Output {
 	return &Output{
-		receive: fromInterpreter,
-		send:    toInterpreter,
+		receive: pipes.FromInterpreter(),
+		send:    pipes.ToInterpreter(),
 		stream:  stream,
 	}
 }
@@ -34,8 +33,8 @@ func (o *Output) Write() {
 }
 
 func (o *Output) handshake() {
-	readyT := &event.Frontend{
-		Type: event.ReadyT,
+	readyT := &plumbing.Frontend{
+		Type: plumbing.ReadyT,
 	}
 
 readyTLoop:
@@ -55,9 +54,9 @@ commLoop:
 		select {
 		case r := <-o.receive:
 			switch r.Type {
-			case event.UpdateQuestion:
+			case plumbing.UpdateQuestion:
 				csv.Write([]string{r.Identifier, r.Label, r.Value})
-			case event.Flush:
+			case plumbing.Flush:
 				csv.Flush()
 				break commLoop
 			}

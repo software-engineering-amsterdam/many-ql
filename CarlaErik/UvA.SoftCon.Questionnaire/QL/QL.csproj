@@ -82,7 +82,6 @@
     <Compile Include="AST\Model\Expressions\Unary\UnaryExpression.cs" />
     <Compile Include="AST\Model\QLNode.cs" />
     <Compile Include="AST\Model\QuestionForm.cs" />
-    <Compile Include="AST\Model\Statements\DataType.cs" />
     <Compile Include="AST\Model\Statements\Definition.cs" />
     <Compile Include="AST\Model\Statements\IfStatement.cs" />
     <Compile Include="AST\Model\Statements\IStatement.cs" />
@@ -99,9 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
-      <Name>Utilities</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,14 +4,11 @@ import javax.swing.*;
 import java.util.EventListener;
 
 public interface IWidget <T> {
-
-    /**
-     * Get the Java Swing implementation.
-     */
-    public JComponent getJComponent();
     
+    public JComponent getJComponent();
+
     public T getValue();
     public void setValue(T _value);
-
+    public void setReadOnly(boolean _isReadonly);
     public void addEventListener(EventListener _listener);
 }
