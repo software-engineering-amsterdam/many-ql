@@ -1,3 +1,6 @@
+// Package csvinput is responsible for reading the result of a form in CSV
+// format into the runtime. It fulfills package frontend interface, therefore
+// from package interpreter perspective, this is just another interface.
 package csvinput
 
 import (

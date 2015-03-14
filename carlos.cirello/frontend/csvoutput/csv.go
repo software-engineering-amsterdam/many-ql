@@ -1,3 +1,6 @@
+// Package csvoutput is responsible for storing the result of a form in a CSV
+// file from the runtime. It fulfills package frontend interface, therefore
+// from package interpreter perspective, this is just another interface.
 package csvoutput
 
 import (

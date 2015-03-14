@@ -6,23 +6,23 @@ import (
 )
 
 // Draw implements Executer interface, and it is used by Visitor to traverse
-// AST
+// AST.
 type Draw struct {
 	toFrontend chan *plumbing.Frontend
 	nest       int
 }
 
-// New is the factory for Draw struct
+// New is the factory for Draw struct.
 func New(toFrontend chan *plumbing.Frontend) ast.Executer {
 	return &Draw{toFrontend: toFrontend, nest: 0}
 }
 
-// QuestionaireNode Drawer all actionNodes of a questionaire (form)
+// QuestionaireNode Drawer all actionNodes of a questionaire (form).
 func (d Draw) QuestionaireNode(q *ast.QuestionaireNode) {
 	ast.DelegateQuestionaireNodeExecution(d, q)
 }
 
-// ActionNode branches to QuestionNode or IfNode Drawerrs
+// ActionNode branches to QuestionNode or IfNode nodes.
 func (d Draw) ActionNode(a *ast.ActionNode) {
 	ast.DelegateActionNodeExecution(d, a)
 }
@@ -53,7 +53,7 @@ func (d Draw) QuestionNode(q *ast.QuestionNode) {
 	}
 }
 
-// IfNode analyzes condition and run all children (ActionNodes)
+// IfNode skips any condition evaluation and draw all children (ActionNodes).
 func (d Draw) IfNode(i *ast.IfNode) {
 	d.nest++
 	for _, actionNode := range i.Stack() {

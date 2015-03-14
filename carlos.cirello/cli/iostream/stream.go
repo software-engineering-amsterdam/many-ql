@@ -7,7 +7,7 @@ import (
 )
 
 // Stdio represents the constant expected from CLI args in order to expect input
-// from stdin, and generate output to stdout
+// from stdin, and generate output to stdout.
 const Stdio = "-"
 
 // Open instantiates streams according to parameters input. As Unix convention,

@@ -22,7 +22,7 @@ type render struct {
 	invisible  bool
 }
 
-// Gui holds the driver which is used by Frontend to execute the application
+// Gui holds the driver which is used by Frontend to execute the application.
 type Gui struct {
 	renderplumbing chan render
 	appName        string
@@ -52,7 +52,7 @@ func GUI(appName string) frontend.Inputer {
 	return driver
 }
 
-// DrawQuestion adds a new question into the GUI form stack
+// DrawQuestion adds a new question into the GUI form stack.
 func (g *Gui) DrawQuestion(
 	identifier,
 	label,
@@ -77,7 +77,7 @@ func (g *Gui) DrawQuestion(
 	g.sweepStack[identifier] = true
 }
 
-// UpdateQuestion updates an existing question in the GUI form stack
+// UpdateQuestion updates an existing question in the GUI form stack.
 func (g *Gui) UpdateQuestion(identifier string, content interface{}) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -121,7 +121,7 @@ func (g *Gui) Flush() {
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend
-// process and VM
+// process and VM.
 func (g *Gui) FetchAnswers() map[string]string {
 	g.mu.Lock()
 	defer g.mu.Unlock()
