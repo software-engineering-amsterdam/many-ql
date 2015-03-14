@@ -9,6 +9,7 @@ import java.util.Map;
  * Created by Juriaan on 14-3-2015.
  */
 public class StyleMap {
+    //TODO rethink this class
     private Map<String, AStyle> pageStyle;
     private Map<String, AStyle> sectionStyle;
     private Map<String, AStyle> questionStyle;
@@ -29,5 +30,13 @@ public class StyleMap {
 
     public void addQuestionStyle(String identifier, AStyle AStyle){
         questionStyle.put(identifier, AStyle);
+    }
+
+    public AStyle getStyle(String identifier){
+        return pageStyle.get(identifier);
+    }
+
+    public boolean contains(String identifier){
+        return pageStyle.containsKey(identifier);
     }
 }
