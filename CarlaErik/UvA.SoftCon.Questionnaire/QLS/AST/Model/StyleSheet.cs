@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
@@ -12,16 +13,33 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
     /// </summary>
     public class StyleSheet : QLSNode
     {
+        public Identifier Id
+        {
+            get;
+            private set;
+        }
+
         public IEnumerable<Page> Pages
         {
             get;
             private set;
         }
 
-        internal StyleSheet(IEnumerable<Page> pages, TextPosition position)
+        internal StyleSheet(Identifier id, IEnumerable<Page> pages, TextPosition position)
             : base(position)
         {
+            Id = id;
             Pages = pages;
+        }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitStyleSheet(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitStyleSheet(this);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
+using UvA.SoftCon.Questionnaire.Common;
+using UvA.SoftCon.Questionnaire.Common.AST.Building;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.QL.Grammar;
-using UvA.SoftCon.Questionnaire.Common;
-using UvA.SoftCon.Questionnaire.Common.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Building
 {

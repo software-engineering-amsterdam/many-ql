@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using UvA.SoftCon.Questionnaire.Common.AST.Building;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.Grammar;
-using UvA.SoftCon.Questionnaire.Common.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Building
 {

@@ -52,28 +52,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\Model\Default_styles.cs" />
+    <Compile Include="AST\Building\DefaultStyleVisitor.cs" />
+    <Compile Include="AST\Building\PageVisitor.cs" />
+    <Compile Include="AST\Building\QuestionReferenceVisitor.cs" />
+    <Compile Include="AST\Building\SectionVisitor.cs" />
+    <Compile Include="AST\Building\StyleAttributeVisitor.cs" />
+    <Compile Include="AST\Model\DefaultStyle.cs" />
+    <Compile Include="AST\Model\Identifier.cs" />
     <Compile Include="AST\Model\Page.cs" />
     <Compile Include="AST\Model\QLSNode.cs" />
-    <Compile Include="AST\Model\QuestionStyle.cs" />
+    <Compile Include="AST\Model\QuestionReference.cs" />
     <Compile Include="AST\Model\Section.cs" />
+    <Compile Include="AST\Model\StyleAttributes\ColorStyle.cs" />
+    <Compile Include="AST\Model\StyleAttributes\FontName.cs" />
+    <Compile Include="AST\Model\StyleAttributes\FontSize.cs" />
+    <Compile Include="AST\Model\StyleAttributes\StyleAttribute.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\Widget.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Width.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetVisitor.cs" />
-    <Compile Include="AST\Model\Style_attr.cs" />
-    <Compile Include="AST\Model\widget\Calendar.cs" />
-    <Compile Include="AST\Model\widget\Checkbox.cs" />
-    <Compile Include="AST\Model\widget\Dropdownbox.cs" />
-    <Compile Include="AST\Model\widget\Radiobuttons.cs" />
-    <Compile Include="AST\Model\widget\Spinbox.cs" />
-    <Compile Include="AST\Model\widget\Textbox.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\Calendar.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\CheckBox.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\DropDown.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\RadioButtons.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\SpinBox.cs" />
+    <Compile Include="AST\Model\StyleAttributes\Widgets\TextBox.cs" />
     <Compile Include="Grammar\QLS.g4.lexer.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>
     <Compile Include="Grammar\QLS.g4.parser.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>
+    <Compile Include="IQLSVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLSController.cs" />
+    <Compile Include="QLSVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="Grammar\QLS.g4">

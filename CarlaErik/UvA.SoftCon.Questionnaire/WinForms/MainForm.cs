@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
@@ -132,7 +133,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 var report = runtimeController.Validate(form);
 
-                OutputTextBox.AppendText(report.GetReport());
+                OutputTextBox.AppendText(report.ToString());
 
                 if (report.NrOfErrors > 0)
                 {

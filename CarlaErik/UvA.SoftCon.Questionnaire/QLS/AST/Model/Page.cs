@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
@@ -15,10 +16,27 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             private set;
         }
 
-        internal Page(IEnumerable<Section> sections, TextPosition position)
+        public IEnumerable<DefaultStyle> DefaultStyles
+        {
+            get;
+            private set;
+        }
+
+        internal Page(IEnumerable<Section> sections, IEnumerable<DefaultStyle> defaultStyles, TextPosition position)
             : base(position)
         {
             Sections = sections;
+            DefaultStyles = defaultStyles;
+        }
+
+        public override void Accept(IQLSVisitor visitor)
+        {
+            visitor.VisitPage(this);
+        }
+
+        public override T Accept<T>(IQLSVisitor<T> visitor)
+        {
+            return visitor.VisitPage(this);
         }
     }
 }

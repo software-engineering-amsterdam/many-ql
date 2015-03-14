@@ -51,6 +51,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLSControllerTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QLS\QLS.csproj">
+      <Project>{affaeebf-af97-4c93-b471-f892de2e1325}</Project>
+      <Name>QLS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

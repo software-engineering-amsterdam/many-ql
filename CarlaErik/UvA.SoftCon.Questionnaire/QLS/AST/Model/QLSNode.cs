@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
@@ -13,7 +13,9 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             : base(position)
         {
         }
-      //  public abstract void Accept(IQLSVisitor visitor);
-      //  public abstract T Accept(IQLSVisitor visitor);
+
+        public abstract void Accept(IQLSVisitor visitor);
+
+        public abstract T Accept<T>(IQLSVisitor<T> visitor);
     }
 }
