@@ -13,6 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
     {
         public override StyleSheet VisitStyleSheet(QLSParser.StyleSheetContext context)
         {
+            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
             var pages = new List<Page>();
 
             foreach (var child in context.page())
@@ -20,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
                 pages.Add(child.Accept(new PageVisitor()));
             }
 
-            return new StyleSheet(pages, context.GetTextPosition());
+            return new StyleSheet(id, pages, context.GetTextPosition());
         }
     }
 }

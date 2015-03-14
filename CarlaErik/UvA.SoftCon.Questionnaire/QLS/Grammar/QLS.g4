@@ -4,7 +4,7 @@ grammar QLS;
  *   Parser Rules
  */
 
-stylesheet : 'stylesheet' ID page*                             # StyleSheet
+stylesheet : 'stylesheet' ID '{' page* '}'                     # StyleSheet
 	       ;
 
 page       : 'page' STRING '{' (section|default_styles)* '}'
