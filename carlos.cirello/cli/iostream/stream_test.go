@@ -6,7 +6,7 @@ import (
 )
 
 func TestDefaults(t *testing.T) {
-	srcFn, inFn, outFn := Open("-", "", "-")
+	srcFn, inFn, outFn := Open(Stdio, "", Stdio)
 
 	if srcFn != os.Stdin {
 		t.Errorf("Expected os.Stdin for srcFn. Got: %#v", srcFn)
@@ -47,7 +47,7 @@ func TestOutputFileError(t *testing.T) {
 	defer func() {
 		recover()
 	}()
-	Open("-", "", os.TempDir())
+	Open(Stdio, "", os.TempDir())
 
 	t.Error("Error when creating invalid file: it should panic.")
 }
