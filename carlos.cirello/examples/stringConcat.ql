@@ -7,7 +7,7 @@ form TheForm {
 	"Surname" surname string
 	"Full name" fullname computed = name . " " . surname
 
-	// if (name . " ". surname == "carlos cirello"){
-	// 	"Age" age numeric
-	// }
+	if (name . " ". surname == "carlos cirello"){
+		"Age" age numeric
+	}
 }

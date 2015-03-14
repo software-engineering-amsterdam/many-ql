@@ -16,7 +16,7 @@ func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 		return vl == vr
 	}
 
-	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
 	return left == right
 }
 
@@ -30,7 +30,7 @@ func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
 		return vl != vr
 	}
 
-	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
 	return left != right
 }
 
