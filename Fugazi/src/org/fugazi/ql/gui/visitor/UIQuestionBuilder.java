@@ -35,21 +35,21 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
      * Type Visitor
      */
     public UIQuestion visitBoolType(BoolType boolType) {
-        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(boolType, this.question.getLabel()); 
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForQuestion(this.question);
         
         return new UIBoolQuestion(
                 this.mediator, this.question, widget);
     }
 
     public UIQuestion visitIntType(IntType intType) {
-        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(intType, this.question.getLabel());
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForQuestion(this.question);
         return new UINumQuestion(
                 this.mediator, this.question, widget);
 
     }
 
     public UIQuestion visitStringType(StringType stringType) {
-        IWidget widget = this.widgetsFactory.getDefaultWidgetForType(stringType, this.question.getLabel());
+        IWidget widget = this.widgetsFactory.getDefaultWidgetForQuestion(this.question);
         return new UITextQuestion(
                 this.mediator, this.question, widget);
     }
@@ -71,7 +71,7 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
         
         ExpressionValue result = guiEvaluator.evaluateComputedExpression(computedQuestion);
         IWidget widget = 
-                this.widgetsFactory.getDefaultWidgetForType(computedQuestion.getType(), this.question.getLabel(), result);
+                this.widgetsFactory.getDefaultWidgetForQuestion(this.question, result);
         
         return new UIComputedQuestion(
                 mediator, computedQuestion, widget, result);

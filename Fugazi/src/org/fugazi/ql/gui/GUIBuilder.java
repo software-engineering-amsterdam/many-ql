@@ -25,11 +25,14 @@ public class GUIBuilder implements IMediator {
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
+    
+    private UIQuestionBuilder uiQuestionBuilder;
 
     public GUIBuilder(Form _form) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         this.uiForm = new UIForm(_form.getName());
+        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage);
 
         this.addIfStatementsToQuestion(_form);
         this.addComputedQuestions(_form);
@@ -124,7 +127,6 @@ public class GUIBuilder implements IMediator {
     }
 
     protected UIQuestion createUiQuestion(Question _question) {
-        UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, valueStorage);
-        return _question.accept(typeVisitor);
+        return _question.accept(this.uiQuestionBuilder);
     }    
 }
