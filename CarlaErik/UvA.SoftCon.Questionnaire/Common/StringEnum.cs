@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.Utilities
+namespace UvA.SoftCon.Questionnaire.Common
 {
     /// <summary>
     /// Provides support for string enumerations.
@@ -119,7 +119,7 @@ namespace UvA.SoftCon.Questionnaire.Utilities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UvA.SoftCon.Questionnaire.Utilities.StringValueAttribute"/> class.
+        /// Initializes a new instance of the <see cref="UvA.SoftCon.Questionnaire.Common.StringValueAttribute"/> class.
         /// </summary>
         /// <param name="value">The string value for the enumeration field.</param>
         /// <exception cref="System.ArgumentNullException">When <paramref name="value"/> is null.</exception>

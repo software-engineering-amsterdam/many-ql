@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.Grammar;
-using UvA.SoftCon.Questionnaire.Utilities;
-using UvA.SoftCon.Questionnaire.Utilities.AST;
+using UvA.SoftCon.Questionnaire.Common;
+using UvA.SoftCon.Questionnaire.Common.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Building
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.Common;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {

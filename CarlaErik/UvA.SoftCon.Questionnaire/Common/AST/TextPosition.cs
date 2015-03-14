@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.Utilities.AST
+namespace UvA.SoftCon.Questionnaire.Common.AST
 {
     /// <summary>
     /// Represents a character position in a text file.

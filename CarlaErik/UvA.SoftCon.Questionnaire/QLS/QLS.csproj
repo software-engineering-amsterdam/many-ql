@@ -55,7 +55,7 @@
     <Compile Include="AST\Model\Default_styles.cs" />
     <Compile Include="AST\Model\Page.cs" />
     <Compile Include="AST\Model\QLSNode.cs" />
-    <Compile Include="AST\Model\Question_styles.cs" />
+    <Compile Include="AST\Model\QuestionStyle.cs" />
     <Compile Include="AST\Model\Section.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetVisitor.cs" />
@@ -81,13 +81,12 @@
       <CustomToolNamespace>UvA.SoftCon.Questionnaire.QLS.Grammar</CustomToolNamespace>
       <Listener>False</Listener>
     </Antlr4>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
-      <Name>Utilities</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

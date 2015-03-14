@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.Utilities.AST
+namespace UvA.SoftCon.Questionnaire.Common.AST
 {
     public interface INode
     {
