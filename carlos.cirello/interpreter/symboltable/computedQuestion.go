@@ -26,3 +26,8 @@ func (c *ComputedQuestion) From(str string) error {
 func (c ComputedQuestion) String() string {
 	return c.result
 }
+
+// Value converts underlying int into primitive int
+func (c ComputedQuestion) Value() interface{} {
+	return c.result
+}
