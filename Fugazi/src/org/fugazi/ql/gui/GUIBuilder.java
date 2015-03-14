@@ -124,7 +124,7 @@ public class GUIBuilder implements IMediator {
     }
 
     protected UIQuestion createUiQuestion(Question _question) {
-        UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
+        UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, valueStorage);
         return _question.accept(typeVisitor);
     }    
 }

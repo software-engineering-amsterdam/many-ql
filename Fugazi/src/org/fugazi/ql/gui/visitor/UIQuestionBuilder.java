@@ -18,19 +18,16 @@ import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeVisitor<UIQuestion> {
 
-    private final Question question;
+    private Question question;
     private final IMediator mediator;
-    private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final WidgetsFactory widgetsFactory;
 
     public UIQuestionBuilder(
-            IMediator _med, Question _question, ValueStorage _valueStorage)
+            IMediator _med, ValueStorage _valueStorage)
     {
-        this.question = _question;
         this.mediator = _med;
-        this.valueStorage = _valueStorage;
-        this.guiEvaluator = new GUIEvaluator(valueStorage);
+        this.guiEvaluator = new GUIEvaluator(_valueStorage);
         this.widgetsFactory = new WidgetsFactory();
     }
 
@@ -61,6 +58,7 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
      * Statement Visitor
      */
     public UIQuestion visitQuestion(Question question) {
+        this.question = question;
         return question.getType().accept(this);
     }
 
@@ -69,6 +67,8 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
     }
 
     public UIQuestion visitComputedQuestion(ComputedQuestion computedQuestion) {
+        this.question = computedQuestion;
+        
         ExpressionValue result = guiEvaluator.evaluateComputedExpression(computedQuestion);
         IWidget widget = 
                 this.widgetsFactory.getDefaultWidgetForType(computedQuestion.getType(), this.question.getLabel(), result);
