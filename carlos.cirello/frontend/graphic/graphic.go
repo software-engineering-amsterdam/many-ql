@@ -13,12 +13,6 @@ import (
 
 type renderAction int
 
-const (
-	drawQuestion renderAction = iota
-	updateQuestion
-	nukeQuestion
-)
-
 type render struct {
 	action     renderAction
 	identifier string
@@ -145,7 +139,7 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName).CreateWindow(nil)
-	g.root = win.Root().ObjectByName("questions")
+	g.root = win.Root().ObjectByName(rootNode)
 	win.Show()
 	go g.renderLoop()
 	win.Wait()
