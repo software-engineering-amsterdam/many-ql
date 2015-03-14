@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.IntValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -54,14 +55,14 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
 
     @Override
-    public StringValue getValue() {
+    public IntValue getValue() {
         //todo
-        return new StringValue("");
+        return new IntValue(0);
     }
 
     @Override
     public void setValue(ExpressionValue _value) {
-        StringValue value = (StringValue) _value;
+        IntValue value = (IntValue) _value;
         //todo
     }
 
