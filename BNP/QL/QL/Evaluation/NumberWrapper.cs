@@ -29,22 +29,22 @@ namespace QL.Evaluation
         }
 
 
-        public static TerminalWrapper operator ==(NumberWrapper a, NumberWrapper b)
+        public static YesnoWrapper operator ==(NumberWrapper a, NumberWrapper b)
         {
-            if (a.Value != null || b.Value != null)
+            if (a.Value.HasValue != null || b.Value.HasValue != null)
             {
-                return new YesnoWrapper(a.Value == b.Value);
+                return new YesnoWrapper(a.Value.Value == b.Value.Value);
             }
             else
             {
                 throw new NotImplementedException("implement cannot compare null with smth exception");
             }
         }
-        public static TerminalWrapper operator !=(NumberWrapper a, NumberWrapper b)
+        public static YesnoWrapper operator !=(NumberWrapper a, NumberWrapper b)
         {
             if (a.Value.HasValue || b.Value.HasValue)
             {
-                return new YesnoWrapper(a.Value.Value == b.Value.Value);
+                return new YesnoWrapper(a.Value.Value != b.Value.Value);
             }
             else
             {

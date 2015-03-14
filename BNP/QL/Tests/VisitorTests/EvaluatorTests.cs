@@ -95,15 +95,38 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
             Assert.IsTrue(Handler.Evaluate());
-            Identifier i=new Identifier("Q1");
+            Identifier i = new Identifier("Q1");
             NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2;
             Assert.IsTrue(Handler.Evaluate());
 
 
-             
+
         }
+        [TestMethod]
+        public void EvaluatedValueComparisson()
+        {
+            YesnoWrapper yes = new YesnoWrapper(true);
+            YesnoWrapper no = new YesnoWrapper(false);
+            NumberWrapper a = new NumberWrapper(12345);
+            NumberWrapper b = new NumberWrapper(12345);
+
+            Assert.IsTrue((a == b).ToBool());
+            Number n = new Number();
+            n.Value = 12345;
+            NumberWrapper c = new NumberWrapper(n);
+            Assert.IsTrue((c==a).ToBool());
+            Assert.IsFalse((c != a).ToBool());
+
+            b.Value = 23456;
+            Assert.IsFalse((c==b).ToBool());
+            Assert.IsTrue((c != b).ToBool());
+
+        }
+
+
+
         //todo create real unit tests like new TextWrapper("def") != new TextWrapper("abc")
        
     }

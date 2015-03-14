@@ -29,6 +29,10 @@ namespace QL.Evaluation
             Value = a;
         }
 
+        public bool ToBool()
+        {
+            return Value.Value ? true : false;
+        }
         public static  YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
         {
             if (a.Value.HasValue || b.Value.HasValue)
