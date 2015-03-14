@@ -34,7 +34,7 @@ supportedWidget : 'checkbox'                                    # checkboxWidget
                 | 'dropdown' '(' yes=STRING ',' no=STRING ')'   # dropdownWidget
                 | 'spinbox'                                     # spinboxWidget
                 | 'slider'                                      # sliderWidget
-                | 'text'                                        # textWidget
+                | 'textbox'                                     # textWidget
                 ;
 
 // Properties for styling
