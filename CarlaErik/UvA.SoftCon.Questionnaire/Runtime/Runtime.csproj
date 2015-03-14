@@ -55,16 +55,17 @@
     <Compile Include="Evaluation\Types\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeController.cs" />
-    <Compile Include="Validation\DuplicateLabelCheckingVisitor.cs" />
+    <Compile Include="Validation\QLValidator.cs" />
+    <Compile Include="Validation\QL\DuplicateLabelCheckingVisitor.cs" />
     <Compile Include="Validation\ErrorReporting\Message.cs" />
-    <Compile Include="Validation\ErrorReporting\ErrorReport.cs" />
+    <Compile Include="Validation\ErrorReporting\ValidationReport.cs" />
     <Compile Include="Validation\ErrorReporting\Severity.cs" />
-    <Compile Include="Validation\InvalidDefinition.cs" />
-    <Compile Include="Validation\InvalidBinaryExpression.cs" />
-    <Compile Include="Validation\InvalidUnaryExpression.cs" />
-    <Compile Include="Validation\LiteralCheckingVisitor.cs" />
-    <Compile Include="Validation\TypeCheckingVisitor.cs" />
-    <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
+    <Compile Include="Validation\QL\InvalidDefinition.cs" />
+    <Compile Include="Validation\QL\InvalidBinaryExpression.cs" />
+    <Compile Include="Validation\QL\InvalidUnaryExpression.cs" />
+    <Compile Include="Validation\QL\LiteralCheckingVisitor.cs" />
+    <Compile Include="Validation\QL\TypeCheckingVisitor.cs" />
+    <Compile Include="Validation\QL\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QL\QL.csproj">
@@ -76,7 +77,9 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\QLS\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

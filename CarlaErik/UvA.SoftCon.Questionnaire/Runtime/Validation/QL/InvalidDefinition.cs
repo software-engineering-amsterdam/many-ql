@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.Validation
+namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
 {
     public class InvalidDefinition
     {

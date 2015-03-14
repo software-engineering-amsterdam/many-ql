@@ -13,28 +13,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime
 {
     public class RuntimeController
     {
-        public ErrorReport Validate(QuestionForm form)
+        public ValidationReport Validate(QuestionForm form)
         {
             if (form == null) { throw new ArgumentNullException("form"); }
 
-            var variableUsageVisitor = new VariableUsageCheckingVisitor();
-            var duplicateLabelVisitor = new DuplicateLabelCheckingVisitor();
-            var typeCheckingVisitor = new TypeCheckingVisitor();
-            var literalCheckingVisitor = new LiteralCheckingVisitor();
+            var validator = new QLValidator();
 
-            variableUsageVisitor.Visit(form);
-            duplicateLabelVisitor.Visit(form);
-            typeCheckingVisitor.Visit(form);
-            literalCheckingVisitor.Visit(form);
-
-            var errorReport = new ErrorReport();
-
-            errorReport.AddVariableUsageMessages(variableUsageVisitor);
-            errorReport.AddDuplicateLabelMessages(duplicateLabelVisitor);
-            errorReport.AddTypeCheckingMessages(typeCheckingVisitor);
-            errorReport.AddLiteralCheckingMessages(literalCheckingVisitor);
-
-            return errorReport;
+            return validator.Validate(form);
         }
 
         public IDictionary<string, Value> Interpretet(QuestionForm form, IDictionary<string, Value> context)

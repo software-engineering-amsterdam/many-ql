@@ -133,7 +133,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 var report = runtimeController.Validate(form);
 
-                OutputTextBox.AppendText(report.GetReport());
+                OutputTextBox.AppendText(report.ToString());
 
                 if (report.NrOfErrors > 0)
                 {

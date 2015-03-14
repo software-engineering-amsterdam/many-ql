@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.Validation
+namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
 {
     /// <summary>
     /// Checks for duplicate labels in questions.
