@@ -20,6 +20,8 @@
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
     - [X] Extract plumbing
+    - [ ] String concatenation
+    - [ ] Improve error message precision
   - [ ] Write walkthrough doc for Tijs
   - [X] Basic Architecture
   - [X] Interpreter wise error handling
