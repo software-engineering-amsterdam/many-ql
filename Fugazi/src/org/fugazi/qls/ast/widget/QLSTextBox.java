@@ -2,6 +2,8 @@ package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSTextBox extends AbstractQLSWidget<String> {
+public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
@@ -75,13 +77,14 @@ public class QLSTextBox extends AbstractQLSWidget<String> {
     }
 
     @Override
-    public String getValue() {
-        return this.componentValue.getText();
+    public StringValue getValue() {
+        return new StringValue(this.componentValue.getText());
     }
 
     @Override
-    public void setValue(String _value) {
-        this.componentValue.setText(_value);
+    public void setValue(ExpressionValue _value) {
+        StringValue value = (StringValue) _value;
+        this.componentValue.setText(value.getValue());
     }
 
     @Override

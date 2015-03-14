@@ -1,52 +1,52 @@
 package org.fugazi.ql.gui.widgets;
 
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.statement.Question;
+import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 
 
 public class WidgetsFactory {
 
-    public IWidget getDefaultWidgetForType(Type _type, String _questionLabel) {
+    public IWidget getDefaultWidgetForQuestion(Question _question) {
+        Type type = _question.getType();
+        String label = _question.getLabel();
 
-        if (_type.equals(new BoolType())) {
-            return new CheckBox(_questionLabel);
+        if (type.equals(new BoolType())) {
+            return new CheckBox(label);
         }
 
-        if (_type.equals(new StringType())) {
-            return new TextBox(_questionLabel);
+        if (type.equals(new StringType())) {
+            return new TextBox(label);
         }
 
-        if (_type.equals(new IntType())) {
-            return new IntegerOnlyTextBox(_questionLabel);
+        if (type.equals(new IntType())) {
+            return new IntegerOnlyTextBox(label);
         }
 
         return null;
     }
     
-    public IWidget getDefaultWidgetForType(Type _type, String _questionLabel, ExpressionValue _value) {
-
-        IWidget widget;
-
-        if (_type.equals(new BoolType())) {
-            widget = new CheckBox(_questionLabel);
-            widget.setValue(_value.getValue());
+    public IWidget getDefaultWidgetForQuestion(Question _question, ExpressionValue _value) {
+        Type type = _question.getType();
+        String label = _question.getLabel();
+        
+        if (type.equals(new BoolType())) {
+            IWidget widget = new CheckBox(label);
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }
 
-        if (_type.equals(new StringType())) {
-            widget = new TextBox(_questionLabel);
-            widget.setValue(_value.getValue().toString());
+        if (type.equals(new StringType())) {
+            IWidget widget = new TextBox(label);
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }
 
-        if (_type.equals(new IntType())) {
-            widget = new TextBox(_questionLabel);
-            widget.setValue(_value.getValue().toString());
+        if (type.equals(new IntType())) {
+            IWidget widget = new IntegerOnlyTextBox(label);
+            widget.setValue(_value);
             widget.setReadOnly(true);
             return widget;
         }

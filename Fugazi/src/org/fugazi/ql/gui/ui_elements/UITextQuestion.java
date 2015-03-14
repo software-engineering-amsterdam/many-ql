@@ -44,6 +44,6 @@ public class UITextQuestion extends UIQuestion {
     public void resetState() {
         this.value = "";
         this.setState("");
-        this.widget.setValue("");
+        this.widget.setValue(new StringValue(""));
     }
 }

@@ -3,6 +3,8 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSCheckBox extends AbstractQLSWidget<Boolean> {
+public class QLSCheckBox extends AbstractQLSWidget {
 
     private JCheckBox component;
 
@@ -63,15 +65,16 @@ public class QLSCheckBox extends AbstractQLSWidget<Boolean> {
     }
 
     @Override
-    public Boolean getValue() {
-        return this.component.isSelected();
+    public BoolValue getValue() {
+        return new BoolValue(this.component.isSelected());
     }
 
     @Override
-    public void setValue(Boolean _value) {
-        this.component.setSelected(_value);
-    }
-
+    public void setValue(ExpressionValue _value) {
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
+    } 
+    
     @Override
     public void setReadOnly(boolean _isReadonly) {
         this.component.setEnabled(false);
