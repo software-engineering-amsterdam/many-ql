@@ -3,6 +3,8 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.IntValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -11,22 +13,28 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-public class QLSSpinBox extends AbstractQLSWidget<String> {
+public class QLSSpinBox extends AbstractQLSWidget {
 
+    private final JSpinner spinbox;
+    
     public QLSSpinBox(int _lineNum) {
         super(_lineNum);
+        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
     }
 
     public QLSSpinBox() {
+        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
     }
 
     public QLSSpinBox(int _lineNum, String _label) {
         super(_lineNum);
         this.label = _label;
+        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
     }
 
     public QLSSpinBox(String _label) {
         this.label = _label;
+        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
     }
 
     @Override
@@ -41,30 +49,28 @@ public class QLSSpinBox extends AbstractQLSWidget<String> {
 
     @Override
     public JComponent getJComponent() {
-        // todo
-        return null;
+        return spinbox;
     }
 
     @Override
     public void addEventListener(EventListener _listener) {
-        // todo
-        //this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
+        //spinbox.addChangeListener((ChangeListener)_listener);
     }
 
     @Override
-    public String getValue() {
-        // todo
-        return "";
+    public IntValue getValue() {
+        return new IntValue((int)spinbox.getValue());
     }
 
     @Override
-    public void setValue(String _value) {
-        // todo
+    public void setValue(ExpressionValue _value) {
+        IntValue value = (IntValue) _value;
+        spinbox.setValue(value.getValue());
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        // todo
+        spinbox.setEnabled(false);
     }
     
     public List<Type> getSupportedQuestionTypes() {
