@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.helper;
+package org.uva.student.calinwouter.qlqls.helper;
 
 public class QLGeneratorHelper {
 
