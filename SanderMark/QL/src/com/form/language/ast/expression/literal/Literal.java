@@ -19,7 +19,6 @@ public abstract class Literal extends Expression {
 	return true;
     }
 
-
     @Override
     public void collectIds(IdCollection idCollection) {
     }

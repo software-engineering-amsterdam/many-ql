@@ -13,6 +13,9 @@ public abstract class ASTNode {
 	this.tokenInfo = tokenInfo;
     }
     
+    public Token getTokenInfo(){
+	return tokenInfo;
+    }
     public String showTokenInfo() {
 	return "line: " + tokenInfo.getLine() + ", column:" + tokenInfo.getCharPositionInLine();
     }
