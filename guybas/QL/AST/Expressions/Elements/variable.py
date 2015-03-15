@@ -1,4 +1,4 @@
-import QL.AST.Elements.element as e
+import QL.AST.Expressions.Elements.element as e
 
 
 class Variable(e.Element):
@@ -8,7 +8,7 @@ class Variable(e.Element):
     def pretty_print(self):
         return str(self.name)
 
-    def return_type(self, type_dict):
+    def return_type_string(self, type_dict):
         return type_dict[self.name]
 
     def pretty_print(self):

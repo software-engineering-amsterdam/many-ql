@@ -1,5 +1,5 @@
 # AST for operators
-import QL.AST.Elements.element as e
+import QL.AST.Expressions.Elements.element as e
 
 
 class Operator(e.Element):
@@ -15,5 +15,5 @@ class Operator(e.Element):
     def as_list(self):
         return [self.operator]
 
-    def return_type(self, type_dict):
+    def return_type_string(self, type_dict):
         return self.pretty_print()

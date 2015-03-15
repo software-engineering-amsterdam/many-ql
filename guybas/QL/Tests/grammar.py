@@ -2,7 +2,7 @@ import unittest
 import QL.Grammar.basic_types as basic_types
 import QL.Grammar.grammar as forms
 import QL.Grammar.expression as expressions
-import QL.AST.Expressions.simple_expression as simple_expression
+import QL.AST.Expressions.expression as simple_expression
 import QL.AST.Statements.AnswerTypes.bool as b
 import QL.AST.Statements.AnswerTypes.text as t
 import QL.AST.Statements.AnswerTypes.number as n
@@ -58,7 +58,7 @@ class TestExpressionGrammar(unittest.TestCase):
     def test_expression_simple(self):
         result = expressions.Expressions.expr.parseString(" id == True")
         result = efactory.ExpressionFactory.make_sub_expression(result)
-        self.assertIsInstance(result, simple_expression.SimpleExpression)
+        self.assertIsInstance(result, simple_expression.Expression)
 
         s = result.as_list()
         self.assertEqual(s, ["id", "==", True])
@@ -83,14 +83,14 @@ class TestExpressionGrammar(unittest.TestCase):
 
     def test_expression_type(self):
         result = expressions.Expressions.expr.parseString("1 + 2 - (3 * 4) / 6 == True")
-        self.assertEqual(result[0].return_type({}),
+        self.assertEqual(result[0].return_type_string({}),
                          "number + number - "
                          "(number * number) "
                          "/ number == bool")
 
     def test_expression_type_variable(self):
         result = expressions.Expressions.expr.parseString("bas + 5 == True")
-        self.assertEqual(result[0].return_type({"bas" : "number"}),
+        self.assertEqual(result[0].return_type_string({"bas" : "number"}),
                          "number + number == bool")
 
     def test_expression_dependencies(self):

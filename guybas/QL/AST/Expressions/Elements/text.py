@@ -1,4 +1,4 @@
-import QL.AST.Elements.element as e
+import QL.AST.Expressions.Elements.element as e
 import QL.Grammar.constants as constants
 
 
@@ -9,7 +9,7 @@ class Text(e.Element):
     def pretty_print(self):
         return str(self.text)
 
-    def return_type(self, type_dict):
+    def return_type_string(self, type_dict):
         return constants.GrammarConstants.TEXT
 
     def get_dependencies(self):

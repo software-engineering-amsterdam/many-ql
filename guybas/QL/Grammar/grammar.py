@@ -51,10 +51,10 @@ operator = pp.oneOf('+ - / * and or not > >= < <= ==').setParseAction(expression
 expr = pp.Forward()
 
 # atom :: ( expr ) | value
-atom = (pp.Suppress("(") + expr + pp.Suppress(")")).setParseAction(expression_factory.make_expression) | value
+atom = (pp.Suppress("(") + expr + pp.Suppress(")")) | value
 
 # expr :: atom | (operator expr)*
-expr << (atom + pp.ZeroOrMore(operator + expr)).setParseAction(expression_factory.make_sub_expression)
+expr << (atom + pp.ZeroOrMore(operator + expr)).setParseAction(expression_factory.make_expression)
 
 # _id :: characters
 id = characters

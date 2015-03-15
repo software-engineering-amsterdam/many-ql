@@ -54,8 +54,7 @@ class GUI:
 
         c_results = True
         if condition is not None:
-            p = processor.Processor()
-            c_results = p.eval_expression(condition.pretty_print(), self._answersMap)
+            c_results = processor.eval_expression(condition.pretty_print(), self._answersMap)
         if not c_results:
             return False
 
