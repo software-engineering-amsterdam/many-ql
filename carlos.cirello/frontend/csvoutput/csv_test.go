@@ -23,7 +23,7 @@ func TestCsvInputFrontend(t *testing.T) {
 	if got := buf.String(); got != expectedCsv {
 		t.Error(
 			"Error generating output CSV file. Expected Q1,A question,No rows. Got:",
-			got
+			got,
 		)
 	}
 }
