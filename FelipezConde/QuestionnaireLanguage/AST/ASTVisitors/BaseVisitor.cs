@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AST.Visitors
+namespace AST.ASTVisitors
 {
     public abstract class BaseVisitor<T> : IVisitor<T>
     {
@@ -93,11 +89,6 @@ namespace AST.Visitors
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Container node)
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual T Visit(Nodes.Expression.Id node)
         {
             throw new NotImplementedException();
@@ -122,25 +113,11 @@ namespace AST.Visitors
         {
             throw new NotImplementedException();
         }
-        
-        public virtual T Visit(Nodes.Interfaces.IBinary binaryExpression)
+
+        public virtual T Visit(Nodes.Expression.Binary.Binary node) 
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Interfaces.IUnary unaryExpression)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Visit(Nodes.Literals.Undefined undefined)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T Visit(Nodes.Interfaces.IASTNode node)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

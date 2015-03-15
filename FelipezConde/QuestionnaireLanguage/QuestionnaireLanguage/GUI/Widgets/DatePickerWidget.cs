@@ -1,12 +1,5 @@
-﻿using QuestionnaireLanguage.GUI.Widgets;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
+﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace QuestionnaireLanguage.GUI.Widgets

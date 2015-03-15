@@ -1,40 +1,20 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Nodes.Expression.Binary
 {
-    public class And : ASTNode, IExpression, IBinary
+    public class And : Binary, IExpression
     {
-        private readonly IExpression left;
-        private readonly IExpression right;
-
         public And(IExpression left, IExpression right, PositionInText position)
-            : base(position)
-        {
-            this.left = left;
-            this.right = right;
-        }
+            : base(left, right, position)
+        {}
 
-        public IExpression Left()
-        { return left; }
-        public IExpression Right()
-        { return right; }
-
-        public void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public string MakeString()
+        public override string ToString()
         {
             return "&&";
         }

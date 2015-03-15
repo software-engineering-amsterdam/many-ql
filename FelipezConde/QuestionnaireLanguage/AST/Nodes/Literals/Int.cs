@@ -1,11 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Representation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Representation;
-using AST.Types;
 
 namespace AST.Nodes.Literals
 {
@@ -34,20 +28,14 @@ namespace AST.Nodes.Literals
             return this;
         }
 
-        public override string MakeString()
+        public override string ToString()
         {
             return "int";
         }
 
-        // Visitor Methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override Types.Type RetrieveType()

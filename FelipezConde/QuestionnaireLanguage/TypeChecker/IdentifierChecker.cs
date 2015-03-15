@@ -22,7 +22,7 @@ namespace TypeChecker
             this.usedIdentifiers = GetUsedIdentifiers(); 
         }
 
-        public IEnumerable<INotification> GetDiagnosis()
+        public IEnumerable<INotification> AnalyzeAndReport()
         {
             List<INotification> notifications = new List<INotification>();
 

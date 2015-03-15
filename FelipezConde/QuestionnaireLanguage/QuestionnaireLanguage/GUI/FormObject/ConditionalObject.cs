@@ -1,21 +1,10 @@
 ﻿using AST.Nodes.FormObject;
-using ASTInterface = AST.Nodes.Interfaces;
 using AST.Nodes.Literals;
 using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
-using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes.FormObject;
+﻿using AST.Nodes.FormObject;
 using QuestionnaireLanguage.GUI.FormObject;
-using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.Visitors.Interfaces;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
+using QuestionnaireLanguage.Visitors.Interfaces;
+using ASTFormObject = AST.Nodes.FormObject;
 
 namespace QuestionnaireLanguage.Visitors
 {
     public class FormObjectVisitor : IFormObjectVisitor
     {
-        public IFormObject VisitFormObject(ASTIFormObject.IFormObject formObject)
+        public IFormObject VisitFormObject(ASTFormObject.FormObject formObject)
         {
             return Visit((dynamic) formObject);
         }

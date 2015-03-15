@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AST.Nodes.Literals;
 using Grammar;
-using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using AST.Representation;
-using AST.Helpers;
 using Values = AST.Nodes.Literals;
 namespace AST.ParseTreeVisitors
 {
-    public class LiteralVisitor : QLMainBaseVisitor<ILiteral>
+    public class LiteralVisitor : QLMainBaseVisitor<Literal>
     {
-        public override ILiteral VisitTrueBool(QLMainParser.TrueBoolContext context)
+        public override Literal VisitTrueBool(QLMainParser.TrueBoolContext context)
         {
             string show = context.TRUE().GetText();
             return new Values.Bool(true);
         }
 
-        public override ILiteral VisitFalseBool(QLMainParser.FalseBoolContext context)
+        public override Literal VisitFalseBool(QLMainParser.FalseBoolContext context)
         {
             return new Values.Bool(false);
         }
 
-        public override ILiteral VisitStringValue(QLMainParser.StringValueContext context)
+        public override Literal VisitStringValue(QLMainParser.StringValueContext context)
         {
             string stringValue = context.@string().STRINGLITERAL().GetText();
 
@@ -31,7 +24,7 @@ namespace AST.ParseTreeVisitors
                                      ); 
         }
 
-        public override ILiteral VisitIntValue(QLMainParser.IntValueContext context)
+        public override Literal VisitIntValue(QLMainParser.IntValueContext context)
         {
             string intValue = context.@int().INTLITERAL().GetText();
 

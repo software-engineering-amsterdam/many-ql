@@ -62,9 +62,6 @@ nonAssociative  : associative EQ associative      #EQ
                 | id                              #NonAssociativeId
                 ;
 
-
-
-
 /*Token Names*/
 GT   : '>';
 LT   : '<';

@@ -7,12 +7,10 @@ using Evaluator.Storage;
 using QuestionnaireLanguage.Contracts;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
 using QuestionnaireLanguage.Visitors;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using ASTIFormObject = AST.Nodes.Interfaces;
+using ASTFormObject = AST.Nodes.FormObject;
+using AST.Nodes.Interfaces;
 using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Controller
@@ -31,9 +29,9 @@ namespace QuestionnaireLanguage.Controller
             //symbolTable = new SymbolTable();
         }
 
-        public static UIElement ProcessBody(IList<ASTIFormObject.IFormObject> body, UIElement form)
+        public static UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
         {
-            foreach (ASTIFormObject.IFormObject node in body)
+            foreach (ASTFormObject.FormObject node in body)
             {
                 form = new FormObjectVisitor().VisitFormObject(node).ProcessFormObject(form);
             }
@@ -55,7 +53,7 @@ namespace QuestionnaireLanguage.Controller
             MainController.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
         
-        public static Literal Evaluate(ASTIFormObject.IExpression expression)
+        public static Literal Evaluate(IExpression expression)
         {
             return new EvaluationManager().Evaluate(expression);
         }

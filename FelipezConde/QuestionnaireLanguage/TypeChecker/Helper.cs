@@ -29,7 +29,5 @@ namespace TypeChecker
 
             return false;
         }
-
-
     }
 }

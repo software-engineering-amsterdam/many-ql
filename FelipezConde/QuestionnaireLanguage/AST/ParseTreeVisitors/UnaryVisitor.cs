@@ -1,10 +1,5 @@
 ﻿using AST.Nodes.Interfaces;
 using Grammar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.ParseTreeVisitors
 {
@@ -12,9 +7,8 @@ namespace AST.ParseTreeVisitors
     {
         public override IExpression VisitNegateUnary(QLMainParser.NegateUnaryContext context)
         {
-            return context.expression().Accept(new UnaryVisitor());
+            return context.expression().Accept(new ExpressionVisitor());
         }
-
         public override IExpression VisitPriorityUnary(QLMainParser.PriorityUnaryContext context)
         {
             return context.expression().Accept(new ExpressionVisitor());

@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Evaluation;
-using AST.Representation;
-using AST.Nodes.Literals;
-using AST.Nodes.Expression;
-using AST.Nodes.Interfaces;
+﻿using AST.Nodes.Expression;
 using AST.Nodes.Expression.Binary;
+using AST.Nodes.Interfaces;
+using AST.Nodes.Literals;
+using AST.Representation;
+using Evaluation;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Evaluator.Test
 {

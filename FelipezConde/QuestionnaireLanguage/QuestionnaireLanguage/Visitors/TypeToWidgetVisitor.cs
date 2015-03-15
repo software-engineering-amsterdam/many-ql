@@ -1,14 +1,5 @@
-﻿using AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Widgets;
+﻿using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Values = AST.Nodes.Literals;
-using Labels = AST.Nodes.Labels;
 using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Visitors

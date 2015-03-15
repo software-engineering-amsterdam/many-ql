@@ -1,18 +1,9 @@
 ﻿using AST.Nodes.FormObject;
-using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using QuestionnaireLanguage.Visitors;
-using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.GUI.Interfaces.FormObject;
+using QuestionnaireLanguage.GUI.Widgets;
+using QuestionnaireLanguage.Visitors;
+using System.Windows;
 using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.FormObject

@@ -1,12 +1,13 @@
 form {
     question q1 int
-	label : "What do you think of computers?"
+ 	label : "What do you think of computers?"
+    
     question q2 bool 
-	label : "Do you want an extra question?"
+ 	label : "Do you want an extra question?"
     
     enable when (q2 && True) {
         question f1 int
-		label : "hmm..."
-		computed : q1 + 2
+  		label : "hmm..."
+  		computed : q1 + 2
     }    
 }

@@ -2,9 +2,9 @@
 using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using AST.Visitors;
 using AST.Nodes.Labels;
+using AST.Nodes.Literals;
+using AST.ASTVisitors;
 using Evaluator.Storage;
 
 namespace Evaluation
@@ -157,11 +157,6 @@ namespace Evaluation
             return new String(node.GetValue());
         }
         #endregion
-
-        public override Literal Visit(Container node)
-        {
-            return node.Value.Accept(this);
-        }
 
         public override Literal Visit(Id node)
         {

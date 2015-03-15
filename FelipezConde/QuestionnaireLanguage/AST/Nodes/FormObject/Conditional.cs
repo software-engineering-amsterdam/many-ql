@@ -1,36 +1,27 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Nodes.FormObject
 {
-    public class Conditional : ASTNode, IFormObjectContainer, IFormObject
+    public class Conditional : FormObject, IFormObjectContainer
     {
-        private IList<IFormObject> body;
+        private IList<FormObject> body;
         public IExpression Condition { get; private set; }
 
-        public Conditional(IExpression condition, IList<IFormObject> body, PositionInText positionInText) 
+        public Conditional(IExpression condition, IList<FormObject> body, PositionInText positionInText) 
             : base(positionInText)
         {
             this.Condition = condition;
             this.body = body;
         }
 
-        public void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public IList<IFormObject> GetBody()
+        public IList<FormObject> GetBody()
         {
             return this.body;
         }

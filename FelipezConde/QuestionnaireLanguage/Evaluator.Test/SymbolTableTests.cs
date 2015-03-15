@@ -3,11 +3,6 @@ using AST.Nodes.Literals;
 using AST.Representation;
 using Evaluator.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Evaluator.Test
 {

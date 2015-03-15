@@ -1,19 +1,12 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Nodes.Labels;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
+﻿using AST.Nodes.Labels;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.Visitors
 {
     public class LabelVisitor : ILabelVisitor
     {
-        public Widget VisitValue(ILabel value)
+        public Widget VisitValue(Label value)
         {
             return Visit((dynamic)value);
         }
