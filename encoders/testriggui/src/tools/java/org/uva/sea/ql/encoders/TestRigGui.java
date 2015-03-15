@@ -60,9 +60,9 @@ public class TestRigGui extends JFrame implements ActionListener {
 	private final String inputLocation;
 
 	public static void main(String[] args) throws Exception {
-		String grammarName = TestRigGui.class.getPackage().getName() + ".EncodersQL";
-		String startName = "questionnaire";
-		String inputLocation = "ql/input_form.ql";
+		String grammarName = TestRigGui.class.getPackage().getName() + ".EncodersQLS";
+		String startName = "stylesheet";
+		String inputLocation = "qls/stylesheet.qls";
 		if (args.length == 3) {
 			grammarName = args[0];
 			startName = args[1];
