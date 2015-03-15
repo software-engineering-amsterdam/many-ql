@@ -3,6 +3,7 @@ package org.uva.sea.ql.encoders.visitor;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.uva.sea.ql.encoders.ast.QuestionBuilder.question;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,6 @@ import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
-import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitorTest {
@@ -23,13 +23,11 @@ public class TypeCheckerVisitorTest {
 
 	@Test
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
-		String questionLabel = "Depends on this and that";
-		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType(), questionLabel);
 		Expression leftHand = new BooleanExpression(new TextLocation(10, 10), true);
 		Expression rightHand = new BooleanExpression(new TextLocation(10, 10), true);
 		Expression condition = new BinaryExpression(new TextLocation(8, 0), leftHand, rightHand, "&&");
-		questionA.setCondition(condition);
-		List<Question> questions = Arrays.asList(questionA);
+		Question question = question().withCondition(condition).build();
+		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeCheckerVisitor(questions);
 
 		List<Validation> validations = visitor.checkTypes();
@@ -38,13 +36,11 @@ public class TypeCheckerVisitorTest {
 
 	@Test
 	public void testCheckTypes_conditionsWithIntegersAreNotAllowed() {
-		String questionLabel = "Depends on this and that";
-		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType(), questionLabel);
 		Expression leftHand = new IntegerExpression(new TextLocation(10, 10), 0);
 		Expression rightHand = new IntegerExpression(new TextLocation(10, 10), 1);
 		Expression condition = new BinaryExpression(new TextLocation(8, 0), leftHand, rightHand, "&&");
-		questionA.setCondition(condition);
-		List<Question> questions = Arrays.asList(questionA);
+		Question question = question().withCondition(condition).build();
+		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeCheckerVisitor(questions);
 
 		List<Validation> validations = visitor.checkTypes();
@@ -56,8 +52,8 @@ public class TypeCheckerVisitorTest {
 	@Test
 	public void testCheckTypes_duplicateLabelsAreNotAllowed() {
 		String questionLabel = "What is the meaning of life?";
-		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType(), questionLabel);
-		Question questionB = new Question(new TextLocation(12, 10), "questionB", new StringType(), questionLabel);
+		Question questionA = question().withQuestionText(questionLabel).build();
+		Question questionB = question().withQuestionText(questionLabel).build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
@@ -70,8 +66,8 @@ public class TypeCheckerVisitorTest {
 	@Test
 	public void testCheckTypes_differentLabelsAreAllowed() {
 		String questionLabel = "What is the meaning of life?";
-		Question questionA = new Question(new TextLocation(10, 10), "questionA", new StringType(), questionLabel);
-		Question questionB = new Question(new TextLocation(12, 10), "questionB", new StringType(), questionLabel + "2");
+		Question questionA = question().withQuestionText(questionLabel).build();
+		Question questionB = question().withQuestionText(questionLabel + "2").build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
