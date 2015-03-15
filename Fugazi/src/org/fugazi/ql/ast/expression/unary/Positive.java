@@ -10,10 +10,6 @@ public class Positive extends Unary {
     public Positive(Expression _expr) {
         super(_expr);
     }
-    
-    public Positive(Expression _expr, int _lineNum) {
-        super(_expr, _lineNum);
-    }
 
     @Override
     public String toString() {

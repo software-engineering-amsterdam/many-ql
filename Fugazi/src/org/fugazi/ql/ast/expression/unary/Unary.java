@@ -10,11 +10,6 @@ public abstract class Unary extends Expression {
         super();
         this.expr = _expr;
     }
-    
-    public Unary(Expression _expr, int _lineNum) {
-        super(_lineNum);
-        this.expr = _expr;
-    }
 
     public Expression getExpr() {
         return this.expr;

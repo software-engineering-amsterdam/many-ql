@@ -10,10 +10,6 @@ public class Div extends Numerical {
     public Div(Expression _left, Expression _right) {
         super(_left, _right);
     }
-    
-    public Div(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
-    }
 
     @Override
     public String toString() {

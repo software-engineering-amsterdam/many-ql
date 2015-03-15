@@ -8,8 +8,8 @@ public class ComputedQuestion extends Question {
 
     private final Expression computed;
 
-    public ComputedQuestion(Type _type, String _label, ID _identifier, Expression _computed, int _lineNum) {
-        super(_type, _label, _identifier, _lineNum);
+    public ComputedQuestion(Type _type, String _label, ID _identifier, Expression _computed) {
+        super(_type, _label, _identifier);
         this.computed = _computed;
     }
 

@@ -10,10 +10,6 @@ public class Negative extends Unary {
     public Negative(Expression _expr) {
         super(_expr);
     }
-    
-    public Negative(Expression _expr, int _lineNum) {
-        super(_expr, _lineNum);
-    }
 
     @Override
     public String toString() {

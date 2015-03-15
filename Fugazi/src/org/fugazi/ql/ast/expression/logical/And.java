@@ -10,10 +10,6 @@ public class And extends Logical {
     public And(Expression _left, Expression _right) {
         super(_left, _right);
     }
-    
-    public And(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
-    }
 
     @Override
     public String toString() {

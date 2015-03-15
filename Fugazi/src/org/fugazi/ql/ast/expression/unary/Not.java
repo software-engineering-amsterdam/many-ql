@@ -10,10 +10,6 @@ public class Not extends Unary {
     public Not(Expression _expr) {
         super(_expr);
     }
-    
-    public Not(Expression _expr, int _lineNum) {
-        super(_expr, _lineNum);
-    }
 
     @Override
     public String toString() {

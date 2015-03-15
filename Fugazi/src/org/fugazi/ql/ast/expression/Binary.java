@@ -11,12 +11,6 @@ public abstract class Binary extends Expression {
         this.right = _right;
     }
 
-    public Binary(Expression _left, Expression _right, int _lineNum) {
-        super(_lineNum);
-        this.left = _left;
-        this.right = _right;
-    }
-
     public Expression getLeft() {
         return this.left;
     }

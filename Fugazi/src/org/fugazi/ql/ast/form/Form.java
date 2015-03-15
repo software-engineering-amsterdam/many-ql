@@ -11,8 +11,7 @@ public class Form extends AbstractASTNode {
     private final String name;
     private final List<Statement> body;
 
-    public Form(String _name, List<Statement> _body, int _lineNum) {
-        super(_lineNum);
+    public Form(String _name, List<Statement> _body) {
         this.name = _name;
         this.body = _body;
     }

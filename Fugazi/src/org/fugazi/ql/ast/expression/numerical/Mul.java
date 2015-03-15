@@ -10,10 +10,6 @@ public class Mul extends Numerical {
     public Mul(Expression _left, Expression _right) {
         super(_left, _right);
     }
-    
-    public Mul(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
-    }
 
     @Override
     public String toString() {

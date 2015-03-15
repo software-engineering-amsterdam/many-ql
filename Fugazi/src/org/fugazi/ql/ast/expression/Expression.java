@@ -8,10 +8,6 @@ public abstract class Expression extends AbstractASTNode {
     public Expression() {
         super();
     }
-    
-    public Expression(int _lineNum) {
-        super(_lineNum);
-    }
 
     public abstract String toString();
 

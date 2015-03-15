@@ -14,11 +14,6 @@ public class STRING extends Literal {
 
         this.value = _value;
     }
-    public STRING(String _value, int _lineNum) {
-        super(_lineNum);
-
-        this.value = _value;
-    }
 
     public String getValue() {
         return this.value;
