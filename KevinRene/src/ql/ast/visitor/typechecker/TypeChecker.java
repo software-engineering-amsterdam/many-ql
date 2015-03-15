@@ -55,6 +55,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	private TypeChecker(TypeEnvironment typeEnvironment) {
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 		
 		this.typeEnvironment = typeEnvironment;
 		errorEnvironment = new ErrorEnvironment();

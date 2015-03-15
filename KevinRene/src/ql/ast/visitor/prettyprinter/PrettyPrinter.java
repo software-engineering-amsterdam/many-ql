@@ -49,6 +49,7 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	
 	private PrettyPrinter() {
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 		
 		prefixSymbol = "└── ";
 		treeString = new StringBuilder();

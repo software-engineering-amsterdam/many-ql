@@ -26,14 +26,16 @@ import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.NotEqual;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 import ql.value.UndefinedValue;
 
-public class Evaluator extends StatementVisitor<Value> implements ExpressionVisitor<Value> {
+public class Evaluator extends StatementVisitor<Value> implements ExpressionVisitor<Value>, TypeVisitor<Void> {
 	private ValueEnvironment valueEnv;
 	
 	private Evaluator(ValueEnvironment valueEnv) {
 		this.valueEnv = valueEnv;
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 	}
 	
 	public static Value check(Statement tree, ValueEnvironment valueEnvironment) {
