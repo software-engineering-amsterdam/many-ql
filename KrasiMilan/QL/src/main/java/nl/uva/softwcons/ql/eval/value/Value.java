@@ -1,7 +1,6 @@
 package nl.uva.softwcons.ql.eval.value;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public abstract class Value {
 
@@ -9,10 +8,6 @@ public abstract class Value {
     public abstract Object getValue();
 
     public boolean inConditionalContext() {
-        throw new UnsupportedOperationException();
-    }
-
-    public BigInteger asInteger() {
         throw new UnsupportedOperationException();
     }
 
