@@ -6,7 +6,8 @@ import QL.AST.Expressions.Elements.bool as boolean
 import QL.AST.Expressions.Elements.number as number
 import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
-import QL.AST.Expressions.expression as expression
+import QL.AST.Expressions.simple_expression as expression
+import QL.AST.Expressions.complex_expression as ce
 
 
 def make_variable(tokens):
@@ -36,6 +37,21 @@ def make_text(tokens):
     t = form.make_sentence(tokens)
     return text.Text(t)
 
+def remove_parenthesis(e):
+    l = []
+    for x in e:
+        if type(x) == list:
+            l += (remove_parenthesis(x[0]))
+        else:
+            l.append(x)
+    return l
+
+
+def make_sub_expression(tokens):
+    return ce.ComplexExpression(tokens)
+
 
 def make_expression(tokens):
-    return expression.Expression(tokens)
+    return expression.SimpleExpression(tokens)
+
+

@@ -6,8 +6,7 @@ import QL.Factory.forms as form_factory
 
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-
-#new_form = grammar.FormAPI(grammar)
+print(form.pretty_print())
 
 typeChecker = type_checker.TypeChecker(form)
 typeChecker.is_valid_form()

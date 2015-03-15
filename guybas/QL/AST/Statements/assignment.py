@@ -21,7 +21,7 @@ class Assignment(statement.IStatement):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment _id: " + self.id + "\n"
         s += "   " * (level + 1) + "Assignment number: "+ str(self.order) + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expr + "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + (self.expression).pretty_print() + "\n"
         s += "   " * (level + 1) + "Assignment _type: " + str(self.type)
         s += "\n"
         return s

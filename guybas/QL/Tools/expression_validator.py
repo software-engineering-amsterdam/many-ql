@@ -5,7 +5,6 @@ import QL.Grammar.constants as constants
 
 def validator(expression):
     try:
-        print(expression)
         b = pp.Literal(constants.GrammarConstants.BOOL)
         number = pp.Literal(constants.GrammarConstants.NUMBER)
         text = pp.Literal(constants.GrammarConstants.TEXT)

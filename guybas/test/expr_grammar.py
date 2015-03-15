@@ -1,7 +1,7 @@
 import pyparsing as pp
 from QL.Grammar.grammar import *
 import QL.Factory.expressions as e
-import QL.AST.Expressions.expression as ex
+
 
 # value :: bool | number | statement_id | text
 value = (bool.setParseAction(expression_factory.make_bool) |
@@ -28,5 +28,4 @@ test = ["9 + 2 + 3",
         "(9 + 2) * 3 == 33 && 1"]
 
 for t in test:
-    temp = ex.Expression(expr.parseString(t))
-    print(temp.pretty_print())
+    temp = e.make_expression(expr.parseString(t))
