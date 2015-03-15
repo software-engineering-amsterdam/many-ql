@@ -43,7 +43,9 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 	if q.Type() == ast.ComputedQuestionType {
 		expr := q.Content().(*ast.ComputedQuestion).Expression()
-		r.(symboltable.StringParser).From(exec.resolveExpression(expr))
+		r.(symboltable.StringParser).From(
+			exec.resolveExpressionIntoString(expr),
+		)
 	}
 
 	exec.toFrontend <- &plumbing.Frontend{

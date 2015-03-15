@@ -8,7 +8,17 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
 
-func (exec Execute) resolveBothExpressions(n ast.DoubleTermNode) (left, right string) {
+func (exec Execute) resolveExpressionIntoString(expr interface{}) string {
+	r := exec.resolveExpression(expr)
+	switch r.(type) {
+	case float32:
+		return fmt.Sprintf("%f", r)
+	default:
+		return fmt.Sprintf("%s", r)
+	}
+}
+
+func (exec Execute) resolveBothExpressions(n ast.DoubleTermNode) (left, right interface{}) {
 	lt := n.LeftTerm()
 	rt := n.RightTerm()
 
@@ -18,14 +28,14 @@ func (exec Execute) resolveBothExpressions(n ast.DoubleTermNode) (left, right st
 	return left, right
 }
 
-func (exec Execute) resolveExpression(n interface{}) string {
+func (exec Execute) resolveExpression(n interface{}) interface{} {
 	switch n.(type) {
 	case *ast.ConcatNode:
 		return exec.resolveStringNode(n)
 	case *ast.TermNode:
-		return exec.resolveTermNode(n).(string)
+		return exec.resolveTermNode(n)
 	default:
-		return fmt.Sprintf("%f", exec.resolveMathNode(n))
+		return exec.resolveMathNode(n)
 	}
 }
 
