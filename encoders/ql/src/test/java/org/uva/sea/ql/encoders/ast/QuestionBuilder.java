@@ -13,7 +13,7 @@ public class QuestionBuilder {
 	private Expression computed;
 	private Expression condition;
 
-	public static QuestionBuilder question() {
+	public static QuestionBuilder aQuestion() {
 		QuestionBuilder builder = new QuestionBuilder();
 		builder.textLocation = new TextLocation(10, 10);
 		builder.name = "why";
