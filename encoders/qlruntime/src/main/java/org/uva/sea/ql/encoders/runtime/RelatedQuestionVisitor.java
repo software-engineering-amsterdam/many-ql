@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
@@ -13,6 +12,7 @@ import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.StringExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
+import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
 
 public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 

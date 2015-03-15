@@ -2,7 +2,6 @@ package org.uva.sea.ql.encoders.runtime;
 
 import java.util.List;
 
-import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
@@ -19,6 +18,7 @@ import org.uva.sea.ql.encoders.runtime.value.StringValue;
 import org.uva.sea.ql.encoders.runtime.value.Value;
 import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
+import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
 
 public class ComputedEvaluatorVisitor extends BaseAstVisitor<Value> {
 

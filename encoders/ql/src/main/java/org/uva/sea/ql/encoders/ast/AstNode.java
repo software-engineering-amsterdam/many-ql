@@ -1,5 +1,7 @@
 package org.uva.sea.ql.encoders.ast;
 
+import org.uva.sea.ql.encoders.visitor.AstVisitor;
+
 public abstract class AstNode {
 
 	private TextLocation textLocation;

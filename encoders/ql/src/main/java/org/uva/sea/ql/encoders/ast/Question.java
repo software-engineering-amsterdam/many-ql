@@ -2,6 +2,7 @@ package org.uva.sea.ql.encoders.ast;
 
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
 /**
  * Represents a question in the {@link Questionnaire}

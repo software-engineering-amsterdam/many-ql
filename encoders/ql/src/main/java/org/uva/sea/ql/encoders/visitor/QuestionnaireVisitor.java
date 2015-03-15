@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.ast;
+package org.uva.sea.ql.encoders.visitor;
 
 import java.util.List;
 
@@ -22,6 +22,11 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StringLiteralContext;
+import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.ast.ConditionalBlock;
+import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;

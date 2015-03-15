@@ -3,6 +3,8 @@ package org.uva.sea.ql.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.encoders.visitor.AstVisitor;
+
 public class ConditionalBlock extends AstNode {
 
 	public ConditionalBlock(TextLocation textLocation) {

@@ -1,5 +1,8 @@
-package org.uva.sea.ql.encoders.ast;
+package org.uva.sea.ql.encoders.visitor;
 
+import org.uva.sea.ql.encoders.ast.ConditionalBlock;
+import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
@@ -21,6 +20,7 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
+import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 
