@@ -1,28 +1,13 @@
 grammar EncodersQL;
 import EncodersQLLexerRules;
 
-questionnaire:
-    'form' formName=NAME '{'  
-    statement+
-    '}'
-    EOF;
+questionnaire: 'form' name=NAME '{' statement+ '}' EOF;
 
-statement:
-     question
-     | conditionalBlock
-     ;
-        
-question:
-     questionLabel=STRINGLITERAL 
-     questionName=NAME ':' type=DATATYPE ('=' computed=expression)?
-     ;
-         
-     
-conditionalBlock:
-     'if' '(' expression ')' '{' 
-     question+
-     '}'
-     ;
+statement: question | conditionalBlock;
+
+question: label=STRINGLITERAL name=NAME ':' type=DATATYPE ('=' computed=expression)?;
+
+conditionalBlock: 'if' '(' expression ')' '{' question+ '}';
     
 expression:
     '(' expr=expression ')'                                         #BracedExpression
@@ -38,7 +23,3 @@ expression:
     | value=BOOLEANLITERAL                                          #BooleanLiteral
     | value=INTEGERLITERAL                                          #IntegerLiteral
     ;
-
-
-
-    

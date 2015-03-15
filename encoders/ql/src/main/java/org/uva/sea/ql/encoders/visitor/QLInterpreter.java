@@ -43,7 +43,7 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
 		Questionnaire questionnaire = new Questionnaire(getTextLocation(ctx));
-		questionnaire.setName(ctx.formName.getText());
+		questionnaire.setName(ctx.name.getText());
 		List<StatementContext> statements = ctx.statement();
 
 		for (StatementContext statementContext : statements) {
@@ -73,13 +73,13 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
-		String questionName = ctx.questionName.getText();
+		String questionName = ctx.name.getText();
 		DataTypeTable dataTypeTable = new DataTypeTable();
 		DataType dataType = dataTypeTable.get(ctx.type.getText());
 		if (dataType == null) {
 			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
 		}
-		String questionLabel = ctx.questionLabel.getText();
+		String questionLabel = ctx.label.getText();
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
 
