@@ -52,6 +52,6 @@ public abstract class BaseTest {
 		
 		System.out.println("   Result: " + errors.hasErrors());
 
-		assertEquals(expected, errors.hasErrors());
+		assertEquals(expected, !errors.hasErrors());
 	}
 }

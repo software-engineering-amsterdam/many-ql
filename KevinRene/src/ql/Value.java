@@ -6,8 +6,7 @@ import ql.value.IntegerValue;
 import ql.value.StringValue;
 
 
-public abstract class Value {
-	
+public abstract class Value {	
 	public boolean isUndefined() {
 		return false;
 	}

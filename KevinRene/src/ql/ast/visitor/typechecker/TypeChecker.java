@@ -48,7 +48,7 @@ import ql.errorhandling.error.RedefinedVariableError;
 import ql.errorhandling.error.TypeError;
 import ql.errorhandling.error.UndefinedVariableError;
 
-public class TypeChecker extends StatementVisitor<QLType> implements ExpressionVisitor<QLType> {
+public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType> {
 	private ErrorEnvironment errorEnvironment;
 	private TypeEnvironment typeEnvironment;	
 	
@@ -244,7 +244,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 */	
 	@Override
 
-	public QLType visit(ComputedQuestion compQuestionNode) {		
+	public Void visit(ComputedQuestion compQuestionNode) {		
 		QLType questionType = compQuestionNode.getType();
 		QLType expressionType = compQuestionNode.getExpression().accept(this);
 		
@@ -260,11 +260,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
 		
-		return questionType;
+		return null;
 	}
 	
 	@Override
-	public QLType visit(Form formNode) {
+	public Void visit(Form formNode) {
 		Identifier formIdentifier = formNode.getIdentifier();
 		
 		if(typeEnvironment.resolve(formIdentifier) == null) {
@@ -275,11 +275,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		
 		super.visit(formNode);
 		
-		return formNode.getType();
+		return null;
 	}
 	
 	@Override
-	public QLType visit(If ifNode) {		
+	public Void visit(If ifNode) {		
 		// The expression must have a boolean type
 		QLType ifType = ifNode.getExpression().accept(this);
 		
@@ -289,11 +289,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 			
 		ifNode.getBlock().accept(this);
 		
-		return ifType;
+		return null;
 	}
 	
 	@Override
-	public QLType visit(IfElse ifElseNode) {
+	public Void visit(IfElse ifElseNode) {
 		// The expression must have a boolean type
 		QLType ifType = ifElseNode.getExpression().accept(this);
 		
@@ -305,11 +305,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		ifElseNode.getIfBranch().accept(this);
 		ifElseNode.getElseBranch().accept(this);
 		
-		return ifType;
+		return null;
 	}
 
 	@Override
-	public QLType visit(Question questionNode) {
+	public Void visit(Question questionNode) {
 		Identifier questionIdentifier = questionNode.getIdentifier();
 		
 		if(typeEnvironment.resolve(questionIdentifier) == null) {
@@ -318,11 +318,11 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
 		
-		return questionNode.getType();
+		return null;
 	}
 	
 	@Override
-	public QLType visit(Block blockNode) {
+	public Void visit(Block blockNode) {
 		increaseScope();
 		super.visit(blockNode);
 		decreaseScope();

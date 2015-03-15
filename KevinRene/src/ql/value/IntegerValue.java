@@ -224,7 +224,6 @@ public class IntegerValue extends Value {
 		throw new UnsupportedOperationException();
 	}
 	
-	
 	public Integer getValue() {
 		return value;
 	}

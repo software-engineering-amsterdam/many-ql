@@ -36,13 +36,13 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 	}
 	
 	@Override
-	public Value convertValue(Value value) {
+	public Number convertValue(Value value) {
 		if(!value.isNumeric()) {
 			throw new TypeMismatchException();
 		}
 		
 		// Force an ugly cast into a float.
-		return new FloatValue(Float.parseFloat(value.toString()));
+		return Float.parseFloat(value.toString());
 	}
 	
 	@Override

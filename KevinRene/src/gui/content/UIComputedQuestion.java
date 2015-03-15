@@ -57,6 +57,7 @@ public class UIComputedQuestion extends UIComponent {
 		}
 
 		inputWidget.setValue(expressionValue);
+		inputWidget.updateComponent();
 	}
 	
 	
