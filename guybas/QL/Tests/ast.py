@@ -9,7 +9,7 @@ import QL.AST.Elements.bool as b
 import QL.AST.form as f
 import QL.Factory.expressions as ef
 import QL.Factory.forms as ff
-import QL.Grammar.form as fg
+import QL.Grammar.grammar as fg
 import QL.AST.Statements.AnswerTypes.bool as ab
 import QL.AST.Statements.AnswerTypes.number as an
 import QL.AST.Statements.AnswerTypes.text as at
@@ -99,14 +99,14 @@ class TestFactories(unittest.TestCase):
 class TestAST(unittest.TestCase):
 
     def test_ast_question(self):
-        result = (fg.Form.question.parseString("Question why (text) : What do you like about hummus?")).asList()
+        result = (fg.Grammar.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], q.Question)
         self.assertEqual(result[0].get_id(), "why")
         self.assertEqual(result[0].get_type(), c.GrammarConstants.TEXT)
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
     def test_ast_if(self):
-        result = (fg.Form.pIf.parseString(
+        result = (fg.Grammar.pIf.parseString(
             "if (con == True) {  "
             "Question trans (bool) : Will transitive closure work? "
             "Question two (text) : This is a second q.}"))
@@ -124,11 +124,11 @@ class TestAST(unittest.TestCase):
     @unittest.expectedFailure
     def test_ast_if_fail(self):
         # not a valid if else block
-        result = (fg.Form.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
+        result = (fg.Grammar.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
         self.assertIsInstance(result[0], i.IfBlock)
 
     def test_ast_else(self):
-        result = (fg.Form.pIfElse.parseString(
+        result = (fg.Grammar.pIfElse.parseString(
             "if (con == True) "
             "{  Question trans (bool) : Will transitive closure work? } "
             "else "
