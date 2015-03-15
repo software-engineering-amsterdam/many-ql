@@ -1,8 +1,9 @@
 package edu;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
+import edu.gui.DefaultRenderer;
 import edu.gui.Observer;
-import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
 import edu.gui.components.NumberBox;
 import edu.gui.components.TextBox;
@@ -36,43 +37,71 @@ public class Main implements Observer {
     private final TypeChecker typeChecker;
     private final Evaluator evaluator;
     private final edu.parser.QLS.TypeChecker qlsTypeChecker;
-    private final Renderer renderer;
+    private final ArgumentParserResult inputFileLocation;
     private final Form form;
-    private final Stylesheet stylesheet;
-    private List<Question> evaluatedQuestions;
+    private final DefaultRenderer defaultRenderer;
+    List<Question> evaluatedQuestions;
 
-    public Main() {
+    public Main(ArgumentParserResult inputFileLocation) {
+        this.inputFileLocation = inputFileLocation;
         qlParser = new QLAntlrParser();
         qlsParser = new QLSAntlrParser();
         typeChecker = new TypeChecker();
         evaluator = new Evaluator();
         qlsTypeChecker = new edu.parser.QLS.TypeChecker();
-        renderer = new Renderer(this);
         form = parseQL();
-        typeChecker.visit(form);
-        stylesheet = parseQLS();
+        defaultRenderer = new DefaultRenderer(this);
         evaluatedQuestions = new ArrayList<>();
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.start();
+        try {
+            ArgumentParser argumentParser = new ArgumentParser();
+            ArgumentParserResult inputFileLocation = argumentParser.parse(args);
+            Main main = new Main(inputFileLocation);
+            main.start(inputFileLocation);
+        } catch (InvalidArgumentException e) {
+            showErrorWindow(e.getRealMessage());
+        }
     }
 
-    public void start() {
-        evaluateForm();
+    private static void showErrorWindow(String errorMessage) {
+        //todo create window with error message
+    }
+
+    public void start(ArgumentParserResult inputFileLocation) {
+        if (isQLSFileAvailable(inputFileLocation)) {
+            startWithQLS();
+        } else {
+            startWithoutQLS();
+        }
+    }
+
+    private boolean isQLSFileAvailable(ArgumentParserResult inputFileLocation) {
+        return inputFileLocation.getQLSFileLocation().isPresent();
+    }
+
+    private void startWithoutQLS() {
+        Form form = parseQL();
+        typeChecker.visit(form);
+        evaluatedQuestions = evaluateForm(form);
+        defaultRenderer.render(evaluatedQuestions);
+    }
+
+    private void startWithQLS() {
+        typeChecker.visit(form);
+        Stylesheet stylesheet = parseQLS();
+        evaluatedQuestions = evaluateForm(form);
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
-        renderer.render(evaluatedQuestions, stylesheet);
     }
 
     public void reRender() {
-        evaluateForm();
-        renderer.reRender(evaluatedQuestions, stylesheet);
+        List<Question> evaluatedQuestions = evaluateForm(form);
+        defaultRenderer.reRender(evaluatedQuestions);
     }
 
-    private void evaluateForm() {
-        evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form);
+    private List<Question> evaluateForm(Form form) {
+        return evaluator.evaluate(form);
     }
 
     private Stylesheet parseQLS() {
@@ -91,7 +120,7 @@ public class Main implements Observer {
         }
     }
 
-    private static List<Question> getAllFormQuestions(Form form) {
+    private List<Question> getAllFormQuestions(Form form) {
         QuestionRetriever questionRetriever = new QuestionRetriever();
         return questionRetriever.retrieveQuestions(form);
     }
@@ -117,7 +146,7 @@ public class Main implements Observer {
         reRender();
     }
 
-    public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {
+    private Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {
         List<Question> question = evaluatedQuestions.stream()
                 .filter(q -> q.getQLIdentifier().equals(QLIdentifier))
                 .collect(Collectors.toList());

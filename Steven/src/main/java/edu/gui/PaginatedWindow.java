@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Steven Kok on 24/02/2015.
  */
-public class MainWindow extends JFrame {
+public class PaginatedWindow extends JFrame { //todo: do not exted Jframe
     private final JPanel mainPanel;
     private final JPanel questionPanel;
     private final JPanel paginationPanel;
@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
     private final Observer questionState;
     private CardLayout cardLayout;
 
-    public MainWindow(Observer questionState) {
+    public PaginatedWindow(Observer questionState) {
         mainPanel = new JPanel();
         questionPanel = new JPanel();
         paginationPanel = new JPanel();

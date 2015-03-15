@@ -23,34 +23,34 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 06/03/2015.
  */
-public class Renderer implements QLSVisitor {
+public class StylesheetRenderer implements QLSVisitor {
     private final QuestionRetriever questionRetriever;
-    private final MainWindow mainWindow;
+    private final PaginatedWindow paginatedWindow;
     private final List<Question> questionsToRender;
     private List<Default> globalDefaultStyles;
 
-    public Renderer(Observer questionState) {
+    public StylesheetRenderer(Observer questionState) {
         questionsToRender = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
-        mainWindow = new MainWindow(questionState);
+        paginatedWindow = new PaginatedWindow(questionState);
         globalDefaultStyles = new ArrayList<>();
     }
 
     public void render(List<Question> inputQuestions, Stylesheet stylesheet) {
         this.globalDefaultStyles = stylesheet.getGlobalDefaultStatements();
         initialize(inputQuestions, stylesheet);
-        SwingUtilities.invokeLater(mainWindow::showMainWindow);
-        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+        SwingUtilities.invokeLater(paginatedWindow::showMainWindow);
+        paginatedWindow.goToSpecificPage(paginatedWindow.getCurrentPage());
     }
 
     public void reRender(List<Question> inputQuestions, Stylesheet stylesheet) {
         initialize(inputQuestions, stylesheet);
-        mainWindow.goToSpecificPage(mainWindow.getCurrentPage());
+        paginatedWindow.goToSpecificPage(paginatedWindow.getCurrentPage());
     }
 
     private void initialize(List<Question> inputQuestions, Stylesheet stylesheet) {
         this.questionsToRender.clear();
-        mainWindow.initialize();
+        paginatedWindow.initialize();
         storeQuestionsFromStylesheet(inputQuestions, stylesheet);
         stylesheet.accept(this);
         renderRemainingQuestions(inputQuestions);
@@ -132,7 +132,7 @@ public class Renderer implements QLSVisitor {
 
     private void addPage(Page page, List<Question> questionsToRender) {
         List<Section> sections = collectSections(page);
-        mainWindow.addPage(sections, questionsToRender);
+        paginatedWindow.addPage(sections, questionsToRender);
     }
 
     private List<Section> collectSections(Page page) {
