@@ -11,40 +11,38 @@ import QL.Factory.forms as form
 
 
 # Factory for creating expressions
-class ExpressionFactory:
 
-    @staticmethod
-    def make_variable(tokens):
-        v = tokens[0]
-        return variable.Variable(v)
+def make_variable(tokens):
+    v = tokens[0]
+    return variable.Variable(v)
 
-    @staticmethod
-    def make_number(tokens):
-        n = int(tokens[0])
-        return number.Number(n)
 
-    @staticmethod
-    def make_operator(tokens):
-        op = tokens[0]
-        return operator.Operator(op)
+def make_number(tokens):
+    n = int(tokens[0])
+    return number.Number(n)
 
-    @staticmethod
-    def make_bool(tokens):
-        value = tokens[0]
-        if value == "True":
-            return boolean.Bool(True)
-        else:
-            return boolean.Bool(False)
 
-    @staticmethod
-    def make_text(tokens):
-        t = form.FormFactory.make_sentence(tokens)
-        return text.Text(t)
+def make_operator(tokens):
+    op = tokens[0]
+    return operator.Operator(op)
 
-    @staticmethod
-    def make_sub_expression(tokens):
-        return simple_expression.SimpleExpression(tokens)
 
-    @staticmethod
-    def make_expression(tokens):
-        return complex_expression.ComplexExpression(tokens)
+def make_bool(tokens):
+    value = tokens[0]
+    if value == "True":
+        return boolean.Bool(True)
+    else:
+        return boolean.Bool(False)
+
+
+def make_text(tokens):
+    t = form.make_sentence(tokens)
+    return text.Text(t)
+
+
+def make_sub_expression(tokens):
+    return simple_expression.SimpleExpression(tokens)
+
+
+def make_expression(tokens):
+    return complex_expression.ComplexExpression(tokens)

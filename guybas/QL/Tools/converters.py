@@ -18,11 +18,11 @@ class Converters:
         """
         Turn a simple dict of key/value pairs into XML
         """
-        xml = "<?xml version='1.0' encoding='UTF-8'?>\n<form>\n"
+        xml = "<?xml version='1.0' encoding='UTF-8'?>\n<grammar>\n"
         for key, val in d.items():
             xml += "    <question>\n"
             xml += "        <identifier>" + str(key) + "</identifier>\n"
             xml += "        <answer>" + str(val) + "</answer>\n"
             xml += "    </question>\n"
-        xml += "</form>"
+        xml += "</grammar>"
         return xml

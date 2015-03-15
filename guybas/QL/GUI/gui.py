@@ -45,7 +45,7 @@ class GUI:
         self._answersMap.update(statement, None)
         statement.set_element(self)
         elements = statement.get_element()
-        # don't print anything if has no elements (e.g. assignment)
+        # don't print anything if has no elements (expression_factory.g. assignment)
         if elements is None:
             return False
 
@@ -80,7 +80,7 @@ class GUI:
         if elements is None:
             return None
         for e in elements:
-            # print(e.grid_info())
+            # print(expression_factory.grid_info())
             e.destroy()
 
         self.draw_statement(statement)
