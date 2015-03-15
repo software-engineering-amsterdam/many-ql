@@ -20,6 +20,6 @@ public class TextLocation {
 
 	@Override
 	public String toString() {
-		return "Line: " + line + " Position in line: " + column;
+		return "Line: " + line + " Column: " + column;
 	}
 }
