@@ -12,7 +12,7 @@ public class BooleanToBooleanValueConverter implements ValueConverter<Boolean> {
 
     @Override
     public Boolean fromValue(final Value value) {
-        return value.asBoolean();
+        return value.getBoolean();
     }
 
 }

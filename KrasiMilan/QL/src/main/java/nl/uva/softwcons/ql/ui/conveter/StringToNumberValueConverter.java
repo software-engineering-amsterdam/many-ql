@@ -20,7 +20,7 @@ public class StringToNumberValueConverter implements ValueConverter<String> {
 
     @Override
     public String fromValue(final Value value) {
-        return value.asDecimal().toPlainString();
+        return value.getNumber().toPlainString();
     }
 
 }

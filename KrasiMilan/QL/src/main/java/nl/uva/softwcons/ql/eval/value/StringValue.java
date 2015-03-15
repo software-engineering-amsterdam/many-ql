@@ -8,7 +8,7 @@ public class StringValue extends Value {
     }
 
     @Override
-    public String asString() {
+    public String getString() {
         return stringValue;
     }
 
@@ -19,7 +19,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isEqualString(final Value otherValue) {
-        return new BooleanValue(this.stringValue.equals(otherValue.asString()));
+        return new BooleanValue(this.stringValue.equals(otherValue.getString()));
     }
 
     @Override

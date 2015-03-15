@@ -18,7 +18,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Boolean asBoolean() {
+    public Boolean getBoolean() {
         return value;
     }
 
@@ -44,17 +44,17 @@ public class BooleanValue extends Value {
 
     @Override
     public Value andBoolean(final BooleanValue otherValue) {
-        return new BooleanValue(this.value && otherValue.asBoolean());
+        return new BooleanValue(this.value && otherValue.getBoolean());
     }
 
     @Override
     public Value orBoolean(final BooleanValue otherValue) {
-        return new BooleanValue(this.value || otherValue.asBoolean());
+        return new BooleanValue(this.value || otherValue.getBoolean());
     }
 
     @Override
     public Value isEqualBoolean(final Value otherValue) {
-        return new BooleanValue(this.value.equals(otherValue.asBoolean()));
+        return new BooleanValue(this.value.equals(otherValue.getBoolean()));
     }
 
     @Override

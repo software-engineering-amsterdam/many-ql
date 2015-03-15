@@ -17,7 +17,7 @@ public class StringToStringValueConverter implements ValueConverter<String> {
 
     @Override
     public String fromValue(final Value value) {
-        return value.asString();
+        return value.getString();
     }
 
 }

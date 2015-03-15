@@ -11,15 +11,15 @@ public abstract class Value {
         throw new UnsupportedOperationException();
     }
 
-    public BigDecimal asDecimal() {
+    public BigDecimal getNumber() {
         throw new UnsupportedOperationException();
     }
 
-    public String asString() {
+    public String getString() {
         throw new UnsupportedOperationException();
     }
 
-    public Boolean asBoolean() {
+    public Boolean getBoolean() {
         throw new UnsupportedOperationException();
     }
 
