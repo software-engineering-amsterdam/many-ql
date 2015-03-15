@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,24 +16,33 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
-public class TextField extends JTextField {
+public class TextField {
 
 	private static final long serialVersionUID = 1L;    
 	private Context context;
 	private Question question;
-
+	private JTextField textfield;
+	
 	public TextField(Question question, QuestionComponent questionComponent, Context context) {
 		this.context = context;
 		this.question = question;
-		this.setMaximumSize(new Dimension(200, 20));
+		this.textfield = new JTextField();
+		
+		this.textfield.setMaximumSize(new Dimension(200, 20));
 		TextFieldListener textfieldListener = new TextFieldListener();
-		this.getDocument().addDocumentListener(textfieldListener);
+		this.textfield.getDocument().addDocumentListener(textfieldListener);
 	}
+	
+	// TODO: quick fix can be done better
+		public JTextField getTextField()
+		{
+			return this.textfield;
+		}
 
 	// TODO ADD HANDELER
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			context.setValue(question.getId(), new IntValue(Integer.parseInt(TextField.this.getText())));
+			context.setValue(question.getId(), new IntValue(Integer.parseInt(TextField.this.textfield.getText())));
 			checkDependencyVisibility();
 		}
 
