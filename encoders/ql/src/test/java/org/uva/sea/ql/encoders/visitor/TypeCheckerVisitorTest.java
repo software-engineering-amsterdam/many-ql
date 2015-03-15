@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.validation;
+package org.uva.sea.ql.encoders.visitor;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.type.StringType;
+import org.uva.sea.ql.encoders.validation.Validation;
 import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
 
 public class TypeCheckerVisitorTest {
