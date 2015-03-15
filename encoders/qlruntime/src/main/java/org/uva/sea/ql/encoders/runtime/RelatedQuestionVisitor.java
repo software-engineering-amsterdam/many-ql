@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
 import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
 
 public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {

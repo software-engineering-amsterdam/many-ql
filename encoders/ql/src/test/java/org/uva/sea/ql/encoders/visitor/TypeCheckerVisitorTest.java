@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.Test;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
 import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitorTest {

@@ -4,12 +4,12 @@ import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
+import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
+import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
 
 public interface AstVisitor<T> {
 
