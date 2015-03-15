@@ -14,13 +14,13 @@
 
 * QL [6/9]
   - [ ] Write Code Walkthrough for Tijs and Vadim
-  - [ ] Refactor [2/4]
+  - [ ] Refactor [3/5]
     - [ ] Expand tests
     - [X] Extract question typing from AST
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
     - [X] Extract plumbing
-    - [ ] String concatenation
+    - [X] String concatenation
     - [ ] Improve error message precision
   - [ ] Write walkthrough doc for Tijs
   - [X] Basic Architecture
