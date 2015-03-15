@@ -24,7 +24,7 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
-import org.uva.sea.ql.encoders.validation.Validation;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class TypeCheckerVisitor implements AstVisitor<DataType> {
 
@@ -38,7 +38,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 
 	private Set<String> questionNames = new HashSet<String>();
 
-	private List<Validation> validations = new ArrayList<>();
+	private List<TypeValidation> validations = new ArrayList<>();
 
 	private List<Question> questions = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 		this.questions = questions;
 	}
 
-	public List<Validation> checkTypes() {
+	public List<TypeValidation> checkTypes() {
 		for (Question question : questions) {
 			questionNames.add(question.getName());
 			checkForDuplicateLabel(question);
@@ -62,7 +62,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 			if (!(dataType instanceof BooleanType)) {
 				TextLocation textLocation = condition.getTextLocation();
 				String validationMessage = getString(BOOLEAN_CONDITION, dataType);
-				validations.add(new Validation(validationMessage, textLocation));
+				validations.add(new TypeValidation(validationMessage, textLocation));
 			}
 		}
 		Expression computed = question.getComputed();
@@ -76,7 +76,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 		boolean added = questionLabels.add(label);
 		if (!added) {
 			String validationMessage = getString(DUPLICATE_LABEL, label);
-			validations.add(new Validation(validationMessage, question.getTextLocation()));
+			validations.add(new TypeValidation(validationMessage, question.getTextLocation()));
 		}
 	}
 
@@ -95,13 +95,13 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 			if (!questionNames.contains(name)) {
 				String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
 				TextLocation textLocation = nameExpression.getTextLocation();
-				validations.add(new Validation(validationMessage, textLocation));
+				validations.add(new TypeValidation(validationMessage, textLocation));
 			}
 			return question.getDataType();
 		} else {
 			String validationMessage = getString(UNDEFINED_QUESTION, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
-			validations.add(new Validation(validationMessage, textLocation));
+			validations.add(new TypeValidation(validationMessage, textLocation));
 			return UndefinedType.UNDEFINED;
 		}
 	}
@@ -139,7 +139,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 		}
 		TextLocation textLocation = binaryExpression.getTextLocation();
 		String validationMessage = getString(MATCHING_DATA_TYPES, leftHandDataType, rightHandDataType);
-		validations.add(new Validation(validationMessage, textLocation));
+		validations.add(new TypeValidation(validationMessage, textLocation));
 		return UndefinedType.UNDEFINED;
 	}
 

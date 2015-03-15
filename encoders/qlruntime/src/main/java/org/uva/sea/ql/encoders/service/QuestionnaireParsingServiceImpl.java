@@ -14,8 +14,8 @@ import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.validation.SyntaxValidation;
-import org.uva.sea.ql.encoders.validation.Validation;
+import org.uva.sea.ql.encoders.validation.SyntaxError;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 import org.uva.sea.ql.encoders.visitor.QuestionnaireVisitor;
 import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
 
@@ -24,21 +24,21 @@ import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
  */
 public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingService {
 
-	public List<Validation> validations = new ArrayList<Validation>();
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Questionnaire parse(String location) throws IOException {
+	public QuestionnaireParsingResult parse(String location) throws IOException {
 		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(location));
 		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(lexer));
 
+		List<SyntaxError> syntaxErrors = new ArrayList<SyntaxError>();
+
 		parser.addErrorListener(new BaseErrorListener() {
 			@Override
-			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int column,
-					String msg, RecognitionException e) {
-				validations.add(new SyntaxValidation(msg, new TextLocation(line, column)));
+			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int column, String msg,
+					RecognitionException e) {
+				syntaxErrors.add(new SyntaxError(msg, new TextLocation(line, column)));
 			}
 		});
 
@@ -48,13 +48,10 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
 		TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(questionnaire.getQuestions());
-		validations.addAll(typeChecker.checkTypes());
+		List<TypeValidation> typeValidations = new ArrayList<>();
+		typeValidations.addAll(typeChecker.checkTypes());
 
-		return questionnaire;
+		return new QuestionnaireParsingResult(questionnaire, syntaxErrors, typeValidations);
 	}
 
-	@Override
-	public List<Validation> getTypeValidations() {
-		return validations;
-	}
 }

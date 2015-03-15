@@ -28,7 +28,8 @@ public class QuestionnaireParsingServiceImplTest {
 	public void testQuestionnaireNameIsParsed() throws Exception {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
-		Questionnaire questionnaire = questionnaireParsingService.parse(location);
+		QuestionnaireParsingResult questionnaireParsingResult = questionnaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
 
 		assertThat(questionnaire.getName(), is("taxOfficeExample"));
 	}
@@ -39,7 +40,9 @@ public class QuestionnaireParsingServiceImplTest {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String hasSoldHouse = "hasSoldHouse";
-		Questionnaire questionnaire = questionnaireParsingService.parse(location);
+
+		QuestionnaireParsingResult questionnaireParsingResult = questionnaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
 
 		Question question = questionnaire.getQuestion(hasSoldHouse);
 		assertThat(question, is(notNullValue()));
@@ -53,7 +56,9 @@ public class QuestionnaireParsingServiceImplTest {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String questionName = "sellingPrice";
-		Questionnaire questionnaire = questionnaireParsingService.parse(location);
+
+		QuestionnaireParsingResult questionnaireParsingResult = questionnaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
 
 		Question question = questionnaire.getQuestion(questionName);
 		assertThat(question, is(notNullValue()));
