@@ -1,5 +1,7 @@
 package org.uva.sea.ql.encoders.visitor;
 
+import static org.uva.sea.ql.encoders.message.Messages.getString;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,12 @@ import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
+
+	private static final String BOOLEAN_CONDITION = "booleanCondition";
+	private static final String DUPLICATE_LABEL = "duplicateLabel";
+	private static final String REFERENCE_BEFORE_STATED = "referenceBeforeStated";
+	private static final String UNDEFINED_QUESTION = "undefinedQuestion";
+	private static final String MATCHING_DATA_TYPES = "matchingDataTypes";
 
 	private Set<String> questionLabels = new HashSet<>();
 
@@ -51,10 +59,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 			DataType dataType = condition.accept(this);
 			if (!(dataType instanceof BooleanType)) {
 				TextLocation textLocation = condition.getTextLocation();
-				String validationMessage = "Condition has to be of type boolean. Type: "
-						+ dataType;
-				validations
-						.add(new Validation(validationMessage, textLocation));
+				String validationMessage = getString(BOOLEAN_CONDITION, dataType);
+				validations.add(new Validation(validationMessage, textLocation));
 			}
 		}
 		Expression computed = question.getComputed();
@@ -67,8 +73,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		String label = question.getQuestionText();
 		boolean added = questionLabels.add(label);
 		if (!added) {
-			validations.add(new Validation("Duplicate label: " + label,
-					question.getTextLocation()));
+			String validationMessage = getString(DUPLICATE_LABEL, label);
+			validations.add(new Validation(validationMessage, question.getTextLocation()));
 		}
 	}
 
@@ -85,16 +91,13 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		Question question = getQuestion(name, questions);
 		if (question != null) {
 			if (!questionNames.contains(name)) {
-				String validationMessage = "Reference may only be listed after the question it references. Question: "
-						+ name;
+				String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
 				TextLocation textLocation = nameExpression.getTextLocation();
-				validations
-						.add(new Validation(validationMessage, textLocation));
+				validations.add(new Validation(validationMessage, textLocation));
 			}
 			return question.getDataType();
 		} else {
-			String validationMessage = "Reference to undefined question: "
-					+ name;
+			String validationMessage = getString(UNDEFINED_QUESTION, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new Validation(validationMessage, textLocation));
 			return UndefinedType.UNDEFINED;
@@ -126,16 +129,14 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		Expression rightHand = binaryExpression.getRightHand();
 		DataType leftHandDataType = leftHand.accept(this);
 		DataType rightHandDataType = rightHand.accept(this);
-		if (leftHandDataType.equals(UndefinedType.UNDEFINED)
-				|| rightHandDataType.equals(UndefinedType.UNDEFINED)) {
+		if (leftHandDataType.equals(UndefinedType.UNDEFINED) || rightHandDataType.equals(UndefinedType.UNDEFINED)) {
 			return UndefinedType.UNDEFINED;
 		}
 		if (leftHandDataType.equals(rightHandDataType)) {
 			return leftHandDataType;
 		}
 		TextLocation textLocation = binaryExpression.getTextLocation();
-		String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype="
-				+ leftHandDataType + " righthand datatype=" + rightHandDataType;
+		String validationMessage = getString(MATCHING_DATA_TYPES, leftHandDataType, rightHandDataType);
 		validations.add(new Validation(validationMessage, textLocation));
 		return UndefinedType.UNDEFINED;
 	}
