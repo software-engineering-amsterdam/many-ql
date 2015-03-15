@@ -8,11 +8,9 @@ using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.Contracts
 {
-    public interface IMain
+    public interface IMainWindow
     {
-        UIElementCollection GetControls();
         UIElement GetRootElement();
         void DeleteElements();
-        void SetFocus(IInputElement inputElement);
     }
 }

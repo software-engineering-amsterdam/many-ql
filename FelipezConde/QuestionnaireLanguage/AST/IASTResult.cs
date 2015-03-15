@@ -11,8 +11,6 @@ namespace AST
 {
     public interface IASTResult
     {
-        void SetValue(string key, ObjectValue value);
-        Literal GetValue(Id key);
         bool IsTypeCorrect();
 
         bool HasDuplicateIdentifiers();

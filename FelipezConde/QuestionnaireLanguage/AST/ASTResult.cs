@@ -4,7 +4,6 @@ using AST.Nodes.Interfaces;
 using AST.Nodes.Literals;
 using Notifications;
 using AST.Representation;
-using AST.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,28 +14,16 @@ namespace AST
     public class ASTResult : IASTResult
     {
         public IFormObjectContainer Ast { get; private set; }
-        private SymbolTable table;
         private List<INotification> notifications;
 
         public ASTResult(IFormObjectContainer tree)
         {
             this.Ast = tree;
-            table = new SymbolTable();
             
             //todo: traverse AST and typecheck
             //todo: init notifications and stuff
             //todo: probably something else
 
-        }
-
-        public void SetValue(Id key, Literal value)
-        {
-            table.SetUpdateValue(key, value);
-        }
-
-        public Literal GetValue(Id key)
-        {
-            return table.GetValue(key);
         }
 
         public bool IsTypeCorrect()

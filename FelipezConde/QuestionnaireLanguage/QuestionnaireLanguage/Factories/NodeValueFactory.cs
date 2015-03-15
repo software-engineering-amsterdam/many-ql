@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Values = AST.Nodes.Literals;
 
-namespace QuestionnaireLanguage.Factory
+namespace QuestionnaireLanguage.Factories
 {
     public static class NodeValueFactory
     {
