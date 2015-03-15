@@ -33,29 +33,40 @@ namespace QL.Visitors
         {
             return Value.Value ? true : false;
         }
-        public static  YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
+    
+
+        public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
         {
-            if (a.Value.HasValue || b.Value.HasValue)
+            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
             {
-                return new YesnoWrapper(a.Value.Value == b.Value.Value);
+                return new YesnoWrapper(false);
+            }
+            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            {
+                return new YesnoWrapper(true);
             }
             else
             {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
+                return new YesnoWrapper(a.Value == b.Value);
+            }
+        }
+        public static YesnoWrapper operator !=(YesnoWrapper a, YesnoWrapper b)
+        {
+            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
+            {
+                return new YesnoWrapper(true);
+            }
+            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            {
+                return new YesnoWrapper(false);
+            }
+            else
+            {
+                return new YesnoWrapper(a.Value != b.Value);
             }
         }
 
-        public static  YesnoWrapper operator !=(YesnoWrapper a, YesnoWrapper b)
-        {
-            if (a.Value.HasValue || b.Value.HasValue)
-            {
-                return new YesnoWrapper(a.Value.Value != b.Value.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
-        }
+        
         public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
         {
             if (a.Value.HasValue || b.Value.HasValue)
