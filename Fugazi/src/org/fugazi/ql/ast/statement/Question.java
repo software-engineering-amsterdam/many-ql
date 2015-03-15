@@ -5,26 +5,22 @@ import org.fugazi.ql.ast.type.Type;
 
 public class Question extends Statement {
 
-    protected final Type type;
-    
-    protected final String label;
-    
-    protected final ID identifier;
+    private final Type type;
+    private final String label;
+    private final ID identifier;
 
-    public Question(Type _type, String _label, ID _identifier, int _lineNum) {
-        super(_lineNum);
-
+    public Question(Type _type, String _label, ID _identifier) {
         this.type = _type;
         this.label = _label;
         this.identifier = _identifier;
     }
 
     public Type getType() {
-        return  this.type;
+        return this.type;
     }
 
     public String getLabel() {
-        return  this.label;
+        return this.label;
     }
 
     public ID getIdentifier() {

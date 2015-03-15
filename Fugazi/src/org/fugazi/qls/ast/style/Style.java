@@ -9,18 +9,8 @@ public class Style extends AbstractASTNode {
 
     private final List<StyleProperty> styleProperties;
 
-    public Style(int _lineNum) {
-        super(_lineNum);
-        styleProperties = null;
-    }
-
     public Style() {
         styleProperties = null;
-    }
-
-    public Style(int _lineNum, List<StyleProperty> _styleProperties) {
-        super(_lineNum);
-        styleProperties = _styleProperties;
     }
 
     public Style(List<StyleProperty> _styleProperties) {
