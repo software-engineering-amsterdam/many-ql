@@ -48,10 +48,6 @@ class Question(statement.IStatement):
             dependencies[self._id] = []
         return dependencies
 
-    # Return expressions
-    def return_expressions(self):
-        return []
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         if not self._order:

@@ -1,7 +1,6 @@
 import QL.AST.Expressions.iexpression as e
 import QL.AST.Expressions.Elements.operator as operators
 import QL.AST.Expressions.sub_expression as c
-import pyparsing as pp
 
 
 # IExpression without parenthesis
@@ -9,7 +8,6 @@ class Expression(e.IExpression):
     # initialization
     def __init__(self, expression):
         self._expression = expression
-        self._dependencies = Expression.dependency_collection(self._expression)
 
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
@@ -27,7 +25,10 @@ class Expression(e.IExpression):
 
     # get all variables in the _expression
     def get_dependencies(self):
-        return self._dependencies
+        dependencies = []
+        for element in self._expression:
+            dependencies += element.get_dependencies()
+        return dependencies
 
     # return the expressions as a list of lists
     def as_list(self):
@@ -35,14 +36,6 @@ class Expression(e.IExpression):
         for x in self._expression:
             l += x.as_list()
         return l
-
-    # static helper method to get the _dependencies once
-    @staticmethod
-    def dependency_collection(expression):
-        dependencies = []
-        for element in expression:
-            dependencies += element.get_dependencies()
-        return dependencies
 
     # Return the negative of the _expression
     def add_not(self):

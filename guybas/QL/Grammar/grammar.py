@@ -46,23 +46,30 @@ value = (bool.setParseAction(expression_factory.make_bool) |
          text.setParseAction(expression_factory.make_text))
 
 
-############
-not_op = pp.Literal("!").setParseAction(expression_factory.make_operator)
-mul_op = pp.oneOf('* /').setParseAction(expression_factory.make_operator)
-plus_op = pp.oneOf('+ -').setParseAction(expression_factory.make_operator)
-comp_op = pp.oneOf('> >= == < <=').setParseAction(expression_factory.make_operator)
-extra_op = pp.oneOf('&& ||').setParseAction(expression_factory.make_operator)
+# not_op :: not
+not_op = pp.Literal("not").setParseAction(expression_factory.make_operator)
 
-expr = pp.infixNotation\
-        (value,
+# mul_op :: * | /
+mul_op = pp.oneOf('* /').setParseAction(expression_factory.make_operator)
+
+# plus_op :: + | -
+plus_op = pp.oneOf('+ -').setParseAction(expression_factory.make_operator)
+
+# comp_op :: > | >= | == | < | <=
+comp_op = pp.oneOf('> >= == < <=').setParseAction(expression_factory.make_operator)
+
+# extra_op :: and | or
+extra_op = pp.oneOf('and or').setParseAction(expression_factory.make_operator)
+
+# expr uses the above operators in the following order and associations
+# 1 means it binds to one operand, 2 means it binds to two operands
+expr = pp.infixNotation(value,
          [(not_op, 1, pp.opAssoc.RIGHT),
-             (mul_op, 2, pp.opAssoc.LEFT),
-             (plus_op, 2, pp.opAssoc.LEFT),
-             (comp_op, 2, pp.opAssoc.RIGHT),
-             (extra_op, 2, pp.opAssoc.LEFT)
-         ]
+          (mul_op, 2, pp.opAssoc.LEFT),
+          (plus_op, 2, pp.opAssoc.LEFT),
+          (comp_op, 2, pp.opAssoc.RIGHT),
+          (extra_op, 2, pp.opAssoc.LEFT)]
     ).setParseAction(expression_factory.make_expression)
-############
 
 # _id :: characters
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
@@ -106,5 +113,5 @@ statement <<= (pIfElse |
 # introduction :: Introduction : sentences
 introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + sentences))
 
-# grammar :: statement_id introduction? statement+
+# form :: statement_id introduction? statement+
 form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement)))

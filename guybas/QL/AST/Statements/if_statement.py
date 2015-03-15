@@ -14,9 +14,6 @@ class IfBlock(statement.IStatement):
         self._statements = statements
         self._element = None
         self._parent_id = None
-        self._expressions = IfBlock.expression_collection(self._condition, self._statements)
-        self._statement_dict = IfBlock.statement_dict(self._statements)
-        self._id_type_dict = IfBlock.id_type_collection(self._statements)
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
@@ -55,10 +52,6 @@ class IfBlock(statement.IStatement):
             dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies
 
-    # return all sub (expressions)
-    def return_expressions(self):
-        return self._expressions
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
@@ -68,7 +61,10 @@ class IfBlock(statement.IStatement):
 
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
-        return self._id_type_dict
+        d = {}
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+        return d
 
     # Get the _order of elements in the statement
     def get_order(self):
@@ -76,7 +72,11 @@ class IfBlock(statement.IStatement):
 
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
-        return self._statement_dict
+        d = {}
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        return d
+
 
     #################################
     # Getters of the if statement   #
@@ -99,9 +99,6 @@ class IfBlock(statement.IStatement):
     def get_c_statements(self):
         return self._statements
 
-    def get_id(self):
-        return None
-
     def get_condition(self):
         return self._condition
 
@@ -110,26 +107,5 @@ class IfBlock(statement.IStatement):
 
     def get_e_statements(self):
         return []
-
-    @staticmethod
-    def expression_collection(condition, statements):
-        s = [condition]
-        for x in statements:
-            s += x.return_expressions()
-        return s
-
-    @staticmethod
-    def statement_dict(statements):
-        d = {}
-        for s in statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
-        return d
-
-    @staticmethod
-    def id_type_collection(statements):
-        d = {}
-        for s in statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
-        return d
 
 
