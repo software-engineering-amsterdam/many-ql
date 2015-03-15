@@ -101,7 +101,7 @@ public class GUIBuilder implements IMediator {
         for (Question question : questionsList) {
             UIQuestion uiQuestion = createUiQuestion(question);
             valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
-            questionsWithState.put(uiQuestion, new ArrayList<IfStatement>());
+            questionsWithState.put(uiQuestion, new ArrayList<>());
 
             // get if statements which the questionsInForm are included.
             for (IfStatement ifStatement : ifStatementsList) {
@@ -123,6 +123,7 @@ public class GUIBuilder implements IMediator {
     }
 
     private UIQuestion createUiQuestion(Question _question) {
+        // TODO Alex why is typeVisitor UIQuestionBilder?? is this correct naming
         UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
         return _question.accept(typeVisitor);
     }    
