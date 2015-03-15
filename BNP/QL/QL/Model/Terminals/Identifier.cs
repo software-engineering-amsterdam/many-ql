@@ -3,7 +3,7 @@ using QL.Errors;
 
 namespace QL.Model.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType, IComparable<Identifier>
+    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType
     {
         public string Value { get; private set; }
         
@@ -16,7 +16,7 @@ namespace QL.Model.Terminals
         }
 
         public void SetValue(object value)
-        {
+        { 
             Value = value.ToString();
         }
 
@@ -25,26 +25,55 @@ namespace QL.Model.Terminals
             throw new NotImplementedException();
         }
 
+        
+        public bool Equals(Identifier obj)
+        {
+            return Value == obj.Value;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is Identifier) return Equals(obj as Identifier);
             return false;
         }
 
-        public bool Equals(Identifier obj)
+        public static bool operator ==(Identifier a, Identifier b)
         {
-            return Value == obj.Value;
+            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
+            {
+                return false;
+            }
+            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            {
+                return true;
+            }
+            else
+            {
+                return a.Value == b.Value;
+            }
         }
-
+        public static bool operator !=(Identifier a, Identifier b)
+        {
+            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            {
+                return false;
+            }
+            else
+            {
+                return a.Value != b.Value;
+            }
+        }
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            string w = "identifier";
+            int i=13;
+            return new {i, w, Value}.GetHashCode();
         }
-
-        public int CompareTo(Identifier other)
-        {
-            return other.Value == this.Value ? 0 : -1;
-        }
+        
 
         public override string ToString()
         {

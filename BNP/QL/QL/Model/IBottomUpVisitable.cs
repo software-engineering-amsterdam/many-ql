@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 
 namespace QL.Model
-{
 
-    public interface IVisitable
+{
+    public interface IBottomUpVisitable
     {
-        void Accept(IVisitor visitor);
+        void AcceptBottomUp(IVisitor visitor);
     }
 }
