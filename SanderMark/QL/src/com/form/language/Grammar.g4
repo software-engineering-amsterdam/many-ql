@@ -40,7 +40,7 @@ ifStatement returns [Statement result]
 ;
 
 assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result);}
+: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result, $ID);}
 ;
 
 expression returns [Expression result]

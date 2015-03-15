@@ -10,10 +10,7 @@ class Text(e.Element):
         return str(self.text)
 
     def return_type_string(self, type_dict):
-        return constants.GrammarConstants.TEXT
+        return constants.TEXT
 
     def get_dependencies(self):
         return []
-
-    def as_list(self):
-        return [self.text]

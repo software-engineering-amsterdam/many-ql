@@ -10,6 +10,3 @@ class Element:
 
     def get_dependencies(self):
         raise Exception("Not implemented by sub class")
-
-    def as_list(self):
-        raise Exception("Not implemented by sub class")

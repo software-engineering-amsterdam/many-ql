@@ -2,7 +2,7 @@ import unittest
 import QL.Grammar.basic_types as basic_types
 import QL.Grammar.grammar as forms
 import QL.Grammar.expression as expressions
-import QL.AST.Expressions.expression as simple_expression
+import QL.AST.Expressions.expression_interface as simple_expression
 import QL.AST.Statements.AnswerTypes.bool as b
 import QL.AST.Statements.AnswerTypes.text as t
 import QL.AST.Statements.AnswerTypes.number as n
@@ -58,7 +58,7 @@ class TestExpressionGrammar(unittest.TestCase):
     def test_expression_simple(self):
         result = expressions.Expressions.expr.parseString(" statement_id == True")
         result = efactory.ExpressionFactory.make_sub_expression(result)
-        self.assertIsInstance(result, simple_expression.Expression)
+        self.assertIsInstance(result, simple_expression.IExpression)
 
         s = result.as_list()
         self.assertEqual(s, ["statement_id", "==", True])

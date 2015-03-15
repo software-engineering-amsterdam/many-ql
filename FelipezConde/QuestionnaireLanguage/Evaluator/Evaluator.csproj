@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="EvaluationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\ISymbolTable.cs" />
     <Compile Include="Storage\SymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>

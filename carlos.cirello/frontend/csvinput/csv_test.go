@@ -25,7 +25,7 @@ func TestCsvInputFrontend(t *testing.T) {
 	if rowcount != 2 {
 		t.Error(
 			"Error parsing input CSV file. Expected 2 rows. Got:",
-			rowcount
+			rowcount,
 		)
 	}
 }

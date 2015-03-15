@@ -1,6 +1,5 @@
 package com.form.language.ast.values;
 
-import com.form.language.memory.Context;
 
 public class IntValue extends GenericValue {
     private final Integer value;
@@ -19,11 +18,6 @@ public class IntValue extends GenericValue {
 
     }
 
-    @Override
-    public void addToMemory(String key, Context context) {
-	context.setValue(key, this);
-    }
-    
     @Override
     public boolean equals(Object o) {
 	if(o == this){

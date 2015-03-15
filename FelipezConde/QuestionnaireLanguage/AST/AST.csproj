@@ -104,8 +104,6 @@
     <Compile Include="Nodes\Literals\String.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Representation\PositionInText.cs" />
-    <Compile Include="Storage\ISymbolTable.cs" />
-    <Compile Include="Storage\SymbolTable.cs" />
     <Compile Include="Test\ParserErrorListener.cs" />
     <Compile Include="Test\TestClass.cs" />
     <Compile Include="Visitors\BaseVisitor.cs" />

@@ -1,7 +1,6 @@
 package com.form.language.gui.widget;
 
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
-import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 

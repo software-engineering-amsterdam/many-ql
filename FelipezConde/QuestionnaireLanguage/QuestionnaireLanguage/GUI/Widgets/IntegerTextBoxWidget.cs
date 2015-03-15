@@ -13,11 +13,14 @@ namespace QuestionnaireLanguage.GUI.Widgets
 {
     public class IntegerTextBoxWidget : TextBoxWidget
     {
-        public IntegerTextBoxWidget(){}
+        public IntegerTextBoxWidget(string id)
+        {
+            Id = id;
+        }
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value) };
+            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsComputed };
         }
 
         private string GetControlValue(dynamic value)
@@ -34,11 +37,6 @@ namespace QuestionnaireLanguage.GUI.Widgets
             }
 
             return result;
-        }
-
-        public IntegerTextBoxWidget(string id)
-        {
-            Id = id;
         }
     }
 }

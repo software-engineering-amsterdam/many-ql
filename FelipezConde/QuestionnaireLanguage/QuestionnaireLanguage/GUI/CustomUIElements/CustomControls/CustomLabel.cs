@@ -10,22 +10,8 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
     public class CustomLabel : Label, ICustomControl
     {
-        private IList<string> listConditionalId;
-        public IList<string> ListConditionalId
-        {
-            get { return this.listConditionalId; }
-            private set { this.listConditionalId = value; }
-
-        }
-
         #region Constructor
         public CustomLabel() { }
         #endregion
-
-
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
-        }
     }
 }

@@ -11,8 +11,8 @@ func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 	lt, ltOk := n.LeftTerm().(*ast.TermNode)
 	rt, rtOk := n.RightTerm().(*ast.TermNode)
 	if ltOk && rtOk {
-		vl := exec.TermNode(lt)
-		vr := exec.TermNode(rt)
+		vl := exec.resolveTermNode(lt)
+		vr := exec.resolveTermNode(rt)
 		return vl == vr
 	}
 

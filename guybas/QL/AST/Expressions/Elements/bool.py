@@ -7,7 +7,7 @@ class Bool(e.Element):
         self.bool = pbool
 
     def return_type_string(self, type_dict):
-        return constants.GrammarConstants.BOOL
+        return constants.BOOL
 
     def pretty_print(self):
         return str(self.bool)

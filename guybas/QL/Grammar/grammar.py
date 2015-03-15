@@ -45,38 +45,39 @@ value = (bool.setParseAction(expression_factory.make_bool) |
          statement_id_var.setParseAction(expression_factory.make_variable) |
          text.setParseAction(expression_factory.make_text))
 
-# operator :: + | - | / | * | and | or | not | > | >= | < | <= | ==
-operator = pp.oneOf('+ - / * and or not > >= < <= ==').setParseAction(expression_factory.make_operator)
 
-op_1 = pp.oneOf("+ -")
-op_2 = pp.oneOf("* /")
-comp_op = pp.oneOf("> >= < <= == not")
-extra_op = pp.oneOf("and or")
+# not_op :: not
+not_op = pp.Literal("not")
 
+# mul_op :: * | /
+mul_op = pp.oneOf('* /')
 
-expr = pp.operatorPrecedence( pp.operand,
-    [("!", 1, pp.opAssoc.LEFT),
-     ("^", 2, pp.opAssoc.RIGHT),
-     (comp_op, 1, pp.opAssoc.RIGHT),
-     (multop, 2, pp.opAssoc.LEFT),
-     (plusop, 2, pp.opAssoc.LEFT),]
-    )
+# plus_op :: + | -
+plus_op = pp.oneOf('+ -')
 
-expr = pp.Forward()
+# comp_op :: > | >= | == | < | <=
+comp_op = pp.oneOf('> >= == < <=')
 
-# atom :: ( expr ) | value
-atom = (pp.Suppress("(") + expr + pp.Suppress(")")) | value
+# extra_op :: and | or
+extra_op = pp.oneOf('and or')
 
-# expr :: atom | (operator expr)*
-expr << (atom + pp.ZeroOrMore(operator + expr)).setParseAction(expression_factory.make_expression)
+# expr uses the above operators in the following order and associations
+# 1 means it binds to one operand, 2 means it binds to two operands
+expr = pp.infixNotation(value,
+         [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
+          (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
+          (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
+          (comp_op, 2, pp.opAssoc.RIGHT, expression_factory.make_compare),
+          (extra_op, 2, pp.opAssoc.LEFT)]
+    ).setParseAction(expression_factory.make_expression)
 
 # _id :: characters
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # answerR :: "bool" | "number" | "text"
-answerR = (pp.Literal(constants.GrammarConstants.BOOL).setParseAction(form_factory.make_bool_type) |
-           pp.Literal(constants.GrammarConstants.NUMBER).setParseAction(form_factory.make_number_type) |
-           pp.Literal(constants.GrammarConstants.TEXT).setParseAction(form_factory.make_text_type))
+answerR = (pp.Literal(constants.BOOL).setParseAction(form_factory.make_bool_type) |
+           pp.Literal(constants.NUMBER).setParseAction(form_factory.make_number_type) |
+           pp.Literal(constants.TEXT).setParseAction(form_factory.make_text_type))
 
 # q :: Question _id ( answerR ) : _label
 question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + sentence
@@ -112,5 +113,5 @@ statement <<= (pIfElse |
 # introduction :: Introduction : sentences
 introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + sentences))
 
-# grammar :: statement_id introduction? statement+
-form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()
+# form :: statement_id introduction? statement+
+form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement)))

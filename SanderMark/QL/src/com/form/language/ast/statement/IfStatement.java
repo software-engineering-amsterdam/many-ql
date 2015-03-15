@@ -13,17 +13,15 @@ import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
-public class IfStatement implements Statement {
+public class IfStatement extends Statement {
     private Expression conditions;
     private List<Statement> thenStatements;
-    private Token tokenInfo;
 
     // BooleanExpression, get result and cast to boolean
     public IfStatement(Expression conditions, List<Statement> thenStatements, Token tokenInfo) {
-	super();
+	super(tokenInfo);
 	this.conditions = conditions;
 	this.thenStatements = thenStatements;
-	this.tokenInfo = tokenInfo;
     }
 
     @Override

@@ -1,6 +1,5 @@
 # Type Checker
 import collections
-
 import QL.Tools.expression_validator as validator
 
 
@@ -10,9 +9,6 @@ class TypeChecker:
     def __init__(self, form):
         self._ids = form.get_ids()
         self._labels = form.get_labels()
-        self._dependencies = form.get_dependencies()
-        self._expressions = form.get_expressions()
-        self._type_dict = form.get_type_dict()
 
     def is_valid_form(self):
         valid = True
@@ -71,7 +67,7 @@ def check_dependencies(dependencies):
 def check_expressions(expressions, type_dict):
     messages = ""
     for e in expressions:
-        if validator.ExpressionValidator.validator(e.return_type_string(type_dict)):
+        if validator.validator(e.return_type_string(type_dict)):
             continue
         else:
             messages += e.pretty_print() + " is malformed\n"

@@ -1,6 +1,6 @@
 ﻿using AST.Nodes.Literals;
 using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.Factory;
+using QuestionnaireLanguage.Factories;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Conditional Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Processor.UpdateValue(((CustomCheckBox)sender).Name,
+            MainController.UpdateValue(((CustomCheckBox)sender).Name,
                                    NodeValueFactory.GetNodeValue(((CustomCheckBox)sender).IsChecked));
         }
 
