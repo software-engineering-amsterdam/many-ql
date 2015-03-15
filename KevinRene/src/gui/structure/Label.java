@@ -16,7 +16,7 @@ public class Label extends UIComponent {
 	}
 
 	@Override
-	public void handleChange(Value<?> changedValue, UIComponent source) {}
+	public void handleChange(Value changedValue, UIComponent source) {}
 	
 	@Override
 	public void updateComponent() {

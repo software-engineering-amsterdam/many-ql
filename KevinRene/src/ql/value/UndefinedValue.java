@@ -2,10 +2,7 @@ package ql.value;
 
 import ql.Value;
 
-public class UndefinedValue extends Value<Void> {
-	public UndefinedValue() {
-		super(null);
-	}
+public class UndefinedValue extends Value {
 	
 	@Override
 	public boolean isUndefined() {
@@ -13,213 +10,213 @@ public class UndefinedValue extends Value<Void> {
 	}
 
 	@Override
-	public Value<Void> add(Value<?> argument) {
+	public Value add(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> divide(Value<?> argument) {
+	public Value divide(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> multiply(Value<?> argument) {
+	public Value multiply(Value argument) {
 		return this;
 	}
 	
 	@Override
-	public Value<Void> subtract(Value<?> argument) {
+	public Value subtract(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> not() {
+	public Value not() {
 		return this;
 	}
 
 	@Override
-	public Value<Void> positive() {
+	public Value positive() {
 		return this;
 	}
 
 	@Override
-	public Value<Void> negative() {
+	public Value negative() {
 		return this;
 	}
 
 	@Override
-	public Value<?> or(Value<?> argument) {
-		return argument.orBoolean(false);
+	public Value or(Value argument) {
+		return argument.orBoolean(new BooleanValue(false));
 	}
 
 	@Override
-	public Value<Void> notEqualTo(Value<?> argument) {
+	public Value notEqualTo(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerThan(Value<?> argument) {
+	public Value lowerThan(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerOrEqual(Value<?> argument) {
+	public Value lowerOrEqual(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterThan(Value<?> argument) {
+	public Value greaterThan(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterOrEqual(Value<?> argument) {
+	public Value greaterOrEqual(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> equalTo(Value<?> argument) {
+	public Value equalTo(Value argument) {
 		return this;
 	}
 
 	@Override
-	public Value<?> and(Value<?> argument) {
-		return argument.andBoolean(false);
+	public Value and(Value argument) {
+		return argument.andBoolean(new BooleanValue(false));
 	}
 
 	@Override
-	public Value<Void> addInteger(int argument) {
+	public Value addInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> addFloat(float argument) {
+	public Value addFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> addString(String argument) {
+	public Value addString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> divideInteger(int argument) {
+	public Value divideInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> divideFloat(float argument) {
+	public Value divideFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> multiplyInteger(int argument) {
+	public Value multiplyInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> multiplyFloat(float argument) {
+	public Value multiplyFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> subtractInteger(int argument) {
+	public Value subtractInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> subtractFloat(float argument) {
+	public Value subtractFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Boolean> orBoolean(boolean argument) {
-		return new BooleanValue(argument);
+	public Value orBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue());
 		
 	}
 
 	@Override
-	public Value<Void> notEqualToBoolean(boolean argument) {
+	public Value notEqualToBoolean(BooleanValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> notEqualToInteger(int argument) {
+	public Value notEqualToInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> notEqualToFloat(float argument) {
+	public Value notEqualToFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> notEqualToString(String argument) {
+	public Value notEqualToString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerThanInteger(int argument) {
+	public Value lowerThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerThanFloat(float argument) {
+	public Value lowerThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerOrEqualInteger(int argument) {
+	public Value lowerOrEqualInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> lowerOrEqualFloat(float argument) {
+	public Value lowerOrEqualFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterThanInteger(int argument) {
+	public Value greaterThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterThanFloat(float argument) {
+	public Value greaterThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterOrEqualThanInteger(int argument) {
+	public Value greaterOrEqualThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> greaterOrEqualThanFloat(float argument) {
+	public Value greaterOrEqualThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> equalToBoolean(boolean argument) {
+	public Value equalToBoolean(BooleanValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> equalToInteger(int argument) {
+	public Value equalToInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> equalToFloat(float argument) {
+	public Value equalToFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Void> equalToString(String argument) {
+	public Value equalToString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value<Boolean> andBoolean(boolean argument) {
+	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(false);
 	}
 	

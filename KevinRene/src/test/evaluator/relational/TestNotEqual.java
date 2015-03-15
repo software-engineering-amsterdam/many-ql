@@ -41,7 +41,7 @@ public class TestNotEqual extends BaseTest {
    	 });
     }
 
-    public TestNotEqual(String input, Value<?> expected) {
-   	 super(input, expected);
+    public TestNotEqual(String input, Value expected) {
+    	super(input, expected);
     }
 }

@@ -11,7 +11,7 @@ public abstract class UIComponent {
 		this.handler = handler;
 	}
 	
-	public void handleChange(Value<?> changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, UIComponent source) {
 		handler.handleChange(changedValue, source);
 	}
 	

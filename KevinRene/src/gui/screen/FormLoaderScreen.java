@@ -87,7 +87,7 @@ public class FormLoaderScreen extends Screen {
 	}
 	
 	@Override
-	public void handleChange(Value<?> changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, UIComponent source) {
 		if (source != openButton) {
 			return;
 		}

@@ -42,7 +42,7 @@ public class TestAddition extends BaseTest {
     	 });
      }
 
-     public TestAddition(String input, Value<?> expected) {
+     public TestAddition(String input, Value expected) {
     	 super(input, expected); 
      }
 }

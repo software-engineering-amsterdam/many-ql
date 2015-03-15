@@ -2,218 +2,240 @@ package ql.value;
 
 import ql.Value;
 
-public class BooleanValue extends Value<Boolean> {
+public class BooleanValue extends Value {
+	final boolean value;
+	
 	public BooleanValue(Boolean value) {
-		super(value);
+		this.value = value;
 	}
 
 	@Override
-	public Value<Boolean> add(Value<?> argument) {
+	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add to a Boolean.");
 	}
 
 	@Override
-	public Value<Boolean> addInteger(int argument) {
+	public Value addInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Float> addFloat(float argument) {
+	public Value addFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<String> addString(String argument) {
+	public Value addString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> divide(Value<?> argument) {
+	public Value divide(Value argument) {
 		throw new UnsupportedOperationException("Cannot divideide a Boolean.");
 	}
 
 	@Override
-	public Value<Boolean> divideInteger(int argument) {
+	public Value divideInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Float> divideFloat(float argument) {
+	public Value divideFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> multiply(Value<?> argument) {
+	public Value multiply(Value argument) {
 		throw new UnsupportedOperationException("Cannot multiplytiply by a Boolean.");
 	}
 
 	@Override
-	public Value<Boolean> multiplyInteger(int argument) {
+	public Value multiplyInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Float> multiplyFloat(float argument) {
+	public Value multiplyFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> subtract(Value<?> argument) {
+	public Value subtract(Value argument) {
 		throw new UnsupportedOperationException("Cannot subtracttract from a Boolean.");
 	}
 
 	@Override
-	public Value<Boolean> subtractInteger(int argument) {
+	public Value subtractInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Float> subtractFloat(float argument) {
+	public Value subtractFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> not() {
+	public Value not() {
 		return new BooleanValue(!getValue());
 	}
 
 	@Override
-	public Value<Boolean> positive() {
+	public Value positive() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> negative() {
+	public Value negative() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<?> or(Value<?> argument) {
-		return argument.orBoolean(getValue());
+	public Value or(Value argument) {
+		return argument.orBoolean(this);
 	}
 
 	@Override
-	public Value<Boolean> orBoolean(boolean argument) {
-		return new BooleanValue(argument || getValue());
+	public Value orBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue() || getValue());
 	}
 
 	@Override
-	public Value<?> notEqualTo(Value<?> argument) {
-		return argument.notEqualToBoolean(getValue());
+	public Value notEqualTo(Value argument) {
+		return argument.notEqualToBoolean(this);
 	}
 
 	@Override
-	public Value<Boolean> notEqualToBoolean(boolean argument) {
-		return new BooleanValue(argument != getValue());
+	public Value notEqualToBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue() != getValue());
 	}
 
 	@Override
-	public Value<Boolean> notEqualToInteger(int argument) {
+	public Value notEqualToInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> notEqualToFloat(float argument) {
+	public Value notEqualToFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> notEqualToString(String argument) {
+	public Value notEqualToString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerThan(Value<?> argument) {
+	public Value lowerThan(Value argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerThanInteger(int argument) {
+	public Value lowerThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerThanFloat(float argument) {
+	public Value lowerThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerOrEqual(Value<?> argument) {
+	public Value lowerOrEqual(Value argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerOrEqualInteger(int argument) {
+	public Value lowerOrEqualInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> lowerOrEqualFloat(float argument) {
+	public Value lowerOrEqualFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterThan(Value<?> argument) {
+	public Value greaterThan(Value argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterThanInteger(int argument) {
+	public Value greaterThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterThanFloat(float argument) {
+	public Value greaterThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterOrEqual(Value<?> argument) {
+	public Value greaterOrEqual(Value argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterOrEqualThanInteger(int argument) {
+	public Value greaterOrEqualThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> greaterOrEqualThanFloat(float argument) {
+	public Value greaterOrEqualThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<?> equalTo(Value<?> argument) {
-		return argument.equalToBoolean(getValue());
+	public Value equalTo(Value argument) {
+		return argument.equalToBoolean(this);
 	}
 
 	@Override
-	public Value<Boolean> equalToBoolean(boolean argument) {
-		return new BooleanValue(argument == getValue());
+	public Value equalToBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue() == getValue());
 	}
 
 	@Override
-	public Value<Boolean> equalToInteger(int argument) {
+	public Value equalToInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> equalToFloat(float argument) {
+	public Value equalToFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<Boolean> equalToString(String argument) {
+	public Value equalToString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value<?> and(Value<?> argument) {
-		return argument.andBoolean(getValue());
+	public Value and(Value argument) {
+		return argument.andBoolean(this);
 	}
 
 	@Override
-	public Value<Boolean> andBoolean(boolean argument) {
-		return new BooleanValue(argument && getValue());
+	public Value andBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue() && getValue());
+	}
+	
+	
+
+	public Boolean getValue() {
+		return this.value;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof BooleanValue) {
+			return getValue().equals(((BooleanValue) obj).getValue());
+		}
+		
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return getValue().toString();
 	}
 }

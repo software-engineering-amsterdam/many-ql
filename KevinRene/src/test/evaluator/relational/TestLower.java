@@ -65,7 +65,7 @@ public class TestLower extends BaseTest {
 		});
 	}
 
-	public TestLower(String input, Value<?> expected) {
+	public TestLower(String input, Value expected) {
 		super(input, expected);
 	}
 }

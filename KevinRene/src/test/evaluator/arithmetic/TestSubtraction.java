@@ -42,7 +42,7 @@ public class TestSubtraction extends BaseTest {
     	 });
      }
 
-     public TestSubtraction(String input, Value<?> expected) {
+     public TestSubtraction(String input, Value expected) {
     	 super(input, expected); 
      }
 }

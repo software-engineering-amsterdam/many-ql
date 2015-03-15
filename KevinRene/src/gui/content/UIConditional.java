@@ -54,7 +54,7 @@ public class UIConditional extends UIComponent {
 	@Override
 	public void updateComponent() {
 		// Recalculate the value for this computedQuestion
-		Value<?> value = Evaluator.check(expression, valueEnvironment);
+		Value value = Evaluator.check(expression, valueEnvironment);
 		
 		if(value.isUndefined()) {
 			activateElsePanel();

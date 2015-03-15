@@ -22,7 +22,7 @@ public class TestBooleanLiteral extends BaseTest {
 		);
 	}
 
-	public TestBooleanLiteral(String input, Value<?> expected) {
+	public TestBooleanLiteral(String input, Value expected) {
 		super(input, expected);
 	}
 }

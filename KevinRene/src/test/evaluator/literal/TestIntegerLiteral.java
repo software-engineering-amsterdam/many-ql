@@ -22,7 +22,7 @@ public class TestIntegerLiteral extends BaseTest {
     	 });
      }
 
-     public TestIntegerLiteral(String input, Value<?> expected) {
+     public TestIntegerLiteral(String input, Value expected) {
     	 super(input, expected);
      }
 }

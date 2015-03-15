@@ -42,7 +42,7 @@ public class TestDivision extends BaseTest {
     	 });
      }
 
-     public TestDivision(String input, Value<?> expected) {
+     public TestDivision(String input, Value expected) {
     	 super(input, expected); 
      }
 }

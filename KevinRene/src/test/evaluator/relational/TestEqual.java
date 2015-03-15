@@ -67,7 +67,7 @@ public class TestEqual extends BaseTest {
    	 });
     }
 
-    public TestEqual(String input, Value<?> expected) {
+    public TestEqual(String input, Value expected) {
    	 super(input, expected);
     }
 }

@@ -35,7 +35,7 @@ public class Application extends UIComponent {
 	}
 	
 	@Override
-	public void handleChange(Value<?> changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, UIComponent source) {
 		if(source == fileLoaderScreen) {
 			formScreen = new FormScreen(this, (Statement) fileLoaderScreen.getFormAst());
 			activePanel.addSection(formScreen.getScreen());

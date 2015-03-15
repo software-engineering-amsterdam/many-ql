@@ -36,7 +36,7 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 	}
 	
 	@Override
-	public Value<?> convertValue(Value<?> value) {
+	public Value convertValue(Value value) {
 		if(!value.isNumeric()) {
 			throw new TypeMismatchException();
 		}
