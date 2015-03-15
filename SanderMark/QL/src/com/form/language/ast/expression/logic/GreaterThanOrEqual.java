@@ -12,7 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class GreaterThanOrEqual extends BinaryExpression implements Expression {
+public class GreaterThanOrEqual extends BinaryExpression  {
 
     public GreaterThanOrEqual(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

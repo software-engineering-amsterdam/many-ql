@@ -2,7 +2,6 @@ package com.form.language.ast.expression.literal;
 
 import org.antlr.v4.runtime.Token;
 
-import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
@@ -10,7 +9,7 @@ import com.form.language.error.Error;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
-public class IdLiteral extends Literal implements Expression {
+public class IdLiteral extends Literal {
     private String name;
     private Type type;
 
@@ -52,7 +51,7 @@ public class IdLiteral extends Literal implements Expression {
     private Type getTypeFromMemory(Context context) {
 	Type typeFromMemory = context.getIdType(this);
 	if (typeFromMemory == null) {
-	    context.addError(new Error(this.getTokenInfo(), "Undeclared variable reference"));
+	    context.addError(new Error(tokenInfo, "Undeclared variable reference"));
 	    return new ErrorType();
 	} else {
 	    return typeFromMemory;

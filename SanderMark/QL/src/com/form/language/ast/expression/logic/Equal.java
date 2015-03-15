@@ -11,7 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Equal extends BinaryExpression implements Expression {
+public class Equal extends BinaryExpression {
 
     public Equal(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

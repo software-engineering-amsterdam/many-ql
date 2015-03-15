@@ -8,18 +8,16 @@ import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
-public class Question implements Statement {
+public class Question extends Statement {
     private String id;
     private String questionLabel;
     private Type questionType;
-    private Token tokenInfo;
 
     public Question(String questionLabel, String id, Type questionType, Token tokenInfo) {
-	super();
+	super(tokenInfo);
 	this.questionLabel = questionLabel;
 	this.id = id;
 	this.questionType = questionType;
-	this.tokenInfo = tokenInfo;
     }
 
     @Override

@@ -6,15 +6,14 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
-public abstract class BinaryExpression implements Expression {
-    protected Token tokenInfo;
+public abstract class BinaryExpression extends Expression {
     protected Expression left;
     protected Expression right;
 
-    public BinaryExpression(Expression left, Expression right, Token tokenInfo) {
+    protected BinaryExpression(Expression left, Expression right, Token tokenInfo) {
+	super(tokenInfo);
 	this.left = left;
 	this.right = right;
-	this.tokenInfo = tokenInfo;
     }
 
     @Override

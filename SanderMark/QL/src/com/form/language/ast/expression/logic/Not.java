@@ -11,7 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Not extends UnaryExpression implements Expression {
+public class Not extends UnaryExpression  {
 
     public Not(Expression value, Token tokenInfo) {
 	super(value, tokenInfo);
