@@ -19,7 +19,7 @@ public class ComputedQuestion extends Question {
 
     @Override
     public String toString() {
-        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computed.toString();
+        return this.getType().toString() + this.getIdName() + " " + "('" + this.getLabel() + "') = " + this.computed.toString();
     }
 
     public <T> T accept(IStatementVisitor<T> visitor) {
