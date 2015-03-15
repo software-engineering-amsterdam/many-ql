@@ -5,6 +5,6 @@ form TheForm {
 
 	if (age1 > 0){
 		"You are" computedAge computed = totalAge
-		"You are" computedAge2 computed = totalAge * 2
+		"You are (duplicated)" computedAge2 computed = totalAge * 2
 	}
 }
