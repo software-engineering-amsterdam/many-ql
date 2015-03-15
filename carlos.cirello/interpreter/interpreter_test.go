@@ -138,6 +138,35 @@ func TestDuplicatedIdentifier(t *testing.T) {
 	runFormAndTrapError(t, form)
 }
 
+func TestReservedWords(t *testing.T) {
+	form := `
+	form SomeForm {
+		"q1" q1 bool
+
+		if (q1 == true) {
+			"q2" q2 string
+		}
+		if (q1) {
+			"q3" q3 string
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,Yes`,
+		`q1,q1,Yes`+"\n"+
+			`q2,q2,`+"\n"+
+			`q3,q3,`+"\n",
+	)
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,No`,
+		`q1,q1,No`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {

@@ -5,6 +5,7 @@ import "text/scanner"
 // TermNode struct which hold the deepest data in AST
 type TermNode struct {
 	typ                 TermNodeType
+	booleanConstant     bool
 	numericConstant     float32
 	stringConstant      string
 	identifierReference string
@@ -13,10 +14,12 @@ type TermNode struct {
 }
 
 // NewTermNode factory for TermNode AST node
-func NewTermNode(typ TermNodeType, numericConstant float32, stringConstant,
-	identifierReference string, pos scanner.Position) *TermNode {
+func NewTermNode(typ TermNodeType, booleanConstant bool, numericConstant float32,
+	stringConstant, identifierReference string,
+	pos scanner.Position) *TermNode {
 	return &TermNode{
 		typ:                 typ,
+		booleanConstant:     booleanConstant,
 		numericConstant:     numericConstant,
 		stringConstant:      stringConstant,
 		identifierReference: identifierReference,
@@ -44,6 +47,11 @@ func (t *TermNode) IdentifierReference() string {
 	return t.identifierReference
 }
 
+// BooleanConstant getter method for booleanConstant property
+func (t *TermNode) BooleanConstant() bool {
+	return t.booleanConstant
+}
+
 // Pos getter method for pos property
 func (t *TermNode) Pos() scanner.Position {
 	return t.pos
@@ -60,4 +68,7 @@ const (
 	IdentifierReferenceNodeType
 	// StringConstantNodeType is a quoted string representing literal text
 	StringConstantNodeType
+	// BooleanConstantNodeType is a quoted string representing literal
+	// booleans
+	BooleanConstantNodeType
 )

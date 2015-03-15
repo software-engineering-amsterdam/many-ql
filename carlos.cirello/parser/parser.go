@@ -98,7 +98,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:293
+//line parser.y:298
 
 //line yacctab:1
 var qlExca = []int{
@@ -495,7 +495,7 @@ qldefault:
 		//line parser.y:141
 		{
 			elseNode := ast.NewIfNode(
-				ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", qlS[qlpt-3].position),
+				ast.NewTermNode(ast.NumericConstantNodeType, true, 1, "", "", qlS[qlpt-3].position),
 				qlS[qlpt-1].stack,
 				nil,
 				qlS[qlpt-3].position,
@@ -596,6 +596,7 @@ qldefault:
 			qlVAL.num = float32(num)
 			termNode := ast.NewTermNode(
 				ast.NumericConstantNodeType,
+				false,
 				qlVAL.num,
 				"",
 				"",
@@ -604,10 +605,11 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 31:
-		//line parser.y:249
+		//line parser.y:250
 		{
 			termNode := ast.NewTermNode(
 				ast.IdentifierReferenceNodeType,
+				false,
 				qlVAL.num,
 				"",
 				qlS[qlpt-0].content,
@@ -616,10 +618,11 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 32:
-		//line parser.y:260
+		//line parser.y:262
 		{
 			termNode := ast.NewTermNode(
 				ast.StringConstantNodeType,
+				false,
 				qlVAL.num,
 				qlS[qlpt-0].content,
 				"",
@@ -628,10 +631,11 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 33:
-		//line parser.y:271
+		//line parser.y:274
 		{
 			termNode := ast.NewTermNode(
-				ast.NumericConstantNodeType,
+				ast.BooleanConstantNodeType,
+				true,
 				1,
 				"",
 				"",
@@ -640,10 +644,11 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 34:
-		//line parser.y:282
+		//line parser.y:286
 		{
 			termNode := ast.NewTermNode(
-				ast.NumericConstantNodeType,
+				ast.BooleanConstantNodeType,
+				false,
 				0,
 				"",
 				"",

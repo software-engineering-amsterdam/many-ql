@@ -140,7 +140,7 @@ ifBlock:
 	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}'
 	{
 		elseNode := ast.NewIfNode(
-			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", $8.position),
+			ast.NewTermNode(ast.NumericConstantNodeType, true, 1, "", "", $8.position),
 			$10.stack,
 			nil,
 			$8.position,
@@ -238,6 +238,7 @@ value:
 		$$.num = float32(num)
 		termNode := ast.NewTermNode(
 			ast.NumericConstantNodeType,
+			false,
 			$$.num,
 			"",
 			"",
@@ -249,6 +250,7 @@ value:
 	{
 		termNode := ast.NewTermNode(
 			ast.IdentifierReferenceNodeType,
+			false,
 			$$.num,
 			"",
 			$1.content,
@@ -260,6 +262,7 @@ value:
 	{
 		termNode := ast.NewTermNode(
 			ast.StringConstantNodeType,
+			false,
 			$$.num,
 			$1.content,
 			"",
@@ -270,7 +273,8 @@ value:
 	| BoolTrueToken
 	{
 		termNode := ast.NewTermNode(
-			ast.NumericConstantNodeType,
+			ast.BooleanConstantNodeType,
+			true,
 			1,
 			"",
 			"",
@@ -281,7 +285,8 @@ value:
 	| BoolFalseToken
 	{
 		termNode := ast.NewTermNode(
-			ast.NumericConstantNodeType,
+			ast.BooleanConstantNodeType,
+			false,
 			0,
 			"",
 			"",

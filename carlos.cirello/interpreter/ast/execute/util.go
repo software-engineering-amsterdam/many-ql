@@ -104,6 +104,8 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		return t.(*ast.TermNode).NumericConstant()
 	case ast.StringConstantNodeType:
 		return t.(*ast.TermNode).StringConstant()
+	case ast.BooleanConstantNodeType:
+		return t.(*ast.TermNode).BooleanConstant()
 	}
 	return nil
 }
