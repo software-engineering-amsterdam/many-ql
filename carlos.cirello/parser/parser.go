@@ -495,7 +495,7 @@ qldefault:
 		//line parser.y:141
 		{
 			elseNode := ast.NewIfNode(
-				ast.NewTermNode(ast.NumericConstantNodeType, true, 1, "", "", qlS[qlpt-3].position),
+				ast.NewTermNode(ast.NumericLiteralNodeType, true, 1, "", "", qlS[qlpt-3].position),
 				qlS[qlpt-1].stack,
 				nil,
 				qlS[qlpt-3].position,
@@ -595,7 +595,7 @@ qldefault:
 			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
 			qlVAL.num = float32(num)
 			termNode := ast.NewTermNode(
-				ast.NumericConstantNodeType,
+				ast.NumericLiteralNodeType,
 				false,
 				qlVAL.num,
 				"",
@@ -621,7 +621,7 @@ qldefault:
 		//line parser.y:262
 		{
 			termNode := ast.NewTermNode(
-				ast.StringConstantNodeType,
+				ast.StringLiteralNodeType,
 				false,
 				qlVAL.num,
 				qlS[qlpt-0].content,
@@ -634,7 +634,7 @@ qldefault:
 		//line parser.y:274
 		{
 			termNode := ast.NewTermNode(
-				ast.BooleanConstantNodeType,
+				ast.BooleanLiteralNodeType,
 				true,
 				1,
 				"",
@@ -647,7 +647,7 @@ qldefault:
 		//line parser.y:286
 		{
 			termNode := ast.NewTermNode(
-				ast.BooleanConstantNodeType,
+				ast.BooleanLiteralNodeType,
 				false,
 				0,
 				"",

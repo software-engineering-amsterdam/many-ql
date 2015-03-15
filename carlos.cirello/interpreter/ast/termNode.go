@@ -5,23 +5,23 @@ import "text/scanner"
 // TermNode struct which hold the deepest data in AST
 type TermNode struct {
 	typ                 TermNodeType
-	booleanConstant     bool
-	numericConstant     float32
-	stringConstant      string
+	booleanLiteral      bool
+	numericLiteral      float32
+	stringLiteral       string
 	identifierReference string
 	pos                 scanner.Position
 	Evaluatable
 }
 
 // NewTermNode factory for TermNode AST node
-func NewTermNode(typ TermNodeType, booleanConstant bool, numericConstant float32,
-	stringConstant, identifierReference string,
+func NewTermNode(typ TermNodeType, booleanLiteral bool, numericLiteral float32,
+	stringLiteral, identifierReference string,
 	pos scanner.Position) *TermNode {
 	return &TermNode{
 		typ:                 typ,
-		booleanConstant:     booleanConstant,
-		numericConstant:     numericConstant,
-		stringConstant:      stringConstant,
+		booleanLiteral:      booleanLiteral,
+		numericLiteral:      numericLiteral,
+		stringLiteral:       stringLiteral,
 		identifierReference: identifierReference,
 		pos:                 pos,
 	}
@@ -32,14 +32,14 @@ func (t *TermNode) Type() TermNodeType {
 	return t.typ
 }
 
-// NumericConstant getter method for numericConstant property
-func (t *TermNode) NumericConstant() float32 {
-	return t.numericConstant
+// NumericLiteral getter method for numericLiteral property
+func (t *TermNode) NumericLiteral() float32 {
+	return t.numericLiteral
 }
 
-// StringConstant getter method for stringConstant property
-func (t *TermNode) StringConstant() string {
-	return t.stringConstant
+// StringLiteral getter method for stringLiteral property
+func (t *TermNode) StringLiteral() string {
+	return t.stringLiteral
 }
 
 // IdentifierReference getter method for identifierReference property
@@ -47,9 +47,9 @@ func (t *TermNode) IdentifierReference() string {
 	return t.identifierReference
 }
 
-// BooleanConstant getter method for booleanConstant property
-func (t *TermNode) BooleanConstant() bool {
-	return t.booleanConstant
+// BooleanLiteral getter method for booleanLiteral property
+func (t *TermNode) BooleanLiteral() bool {
+	return t.booleanLiteral
 }
 
 // Pos getter method for pos property
@@ -61,14 +61,14 @@ func (t *TermNode) Pos() scanner.Position {
 type TermNodeType int
 
 const (
-	// NumericConstantNodeType is integer or float
-	NumericConstantNodeType TermNodeType = iota
+	// NumericLiteralNodeType is integer or float
+	NumericLiteralNodeType TermNodeType = iota
 	// IdentifierReferenceNodeType is a non-quoted string representing a
 	// variable
 	IdentifierReferenceNodeType
-	// StringConstantNodeType is a quoted string representing literal text
-	StringConstantNodeType
-	// BooleanConstantNodeType is a quoted string representing literal
+	// StringLiteralNodeType is a quoted string representing literal text
+	StringLiteralNodeType
+	// BooleanLiteralNodeType is a quoted string representing literal
 	// booleans
-	BooleanConstantNodeType
+	BooleanLiteralNodeType
 )

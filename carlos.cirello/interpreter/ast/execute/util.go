@@ -100,12 +100,12 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		return q.(symboltable.ValueLoader).Value()
 	}
 	switch t.(*ast.TermNode).Type() {
-	case ast.NumericConstantNodeType:
-		return t.(*ast.TermNode).NumericConstant()
-	case ast.StringConstantNodeType:
-		return t.(*ast.TermNode).StringConstant()
-	case ast.BooleanConstantNodeType:
-		return t.(*ast.TermNode).BooleanConstant()
+	case ast.NumericLiteralNodeType:
+		return t.(*ast.TermNode).NumericLiteral()
+	case ast.StringLiteralNodeType:
+		return t.(*ast.TermNode).StringLiteral()
+	case ast.BooleanLiteralNodeType:
+		return t.(*ast.TermNode).BooleanLiteral()
 	}
 	return nil
 }
