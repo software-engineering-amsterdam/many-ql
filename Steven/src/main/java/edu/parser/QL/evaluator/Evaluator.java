@@ -2,22 +2,27 @@ package edu.parser.QL.evaluator;
 
 import edu.exceptions.EvaluationException;
 import edu.gui.components.store.Store;
-import edu.parser.QL.QLVisitorImpl;
+import edu.nodes.QuestionType;
+import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.ExpressionVisitor;
+import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
+import edu.parser.QL.nodes.statement.Statement;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public class Evaluator extends QLVisitorImpl {
+public class Evaluator implements QLVisitor {
     private final List<Question> evaluatedQuestions = new ArrayList<>();
     private final ExpressionVisitor expressionEvaluator;
     private final ExpressionVisitor computedQuestionsRetriever;
@@ -68,7 +73,7 @@ public class Evaluator extends QLVisitorImpl {
         }
 
         evaluatedQuestions.add(question);
-        return super.visit(question);
+        return question;
     }
 
     private boolean isComputedQuestion(Question question) {
@@ -84,5 +89,27 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
+    public List<Statement> visitStatements(List<Statement> statements) {
+        if (statements != null && !statements.isEmpty()) {
+            return statements.stream()
+                    .map(statement -> (Statement) statement.accept(this))
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
 
+    @Override
+    public AbstractNode visit(Statement statement) {
+        return statement;
+    }
+
+    @Override
+    public AbstractNode visit(Label label) {
+        return label;
+    }
+
+    @Override
+    public AbstractNode visit(QuestionType questionType) {
+        return questionType;
+    }
 }

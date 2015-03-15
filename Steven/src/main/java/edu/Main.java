@@ -67,7 +67,6 @@ public class Main implements Observer {
 
     public void reRender() {
         evaluateForm();
-        qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.reRender(evaluatedQuestions, stylesheet);
     }
 

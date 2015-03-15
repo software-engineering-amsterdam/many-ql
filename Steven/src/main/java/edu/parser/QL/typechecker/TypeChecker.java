@@ -2,7 +2,7 @@ package edu.parser.QL.typechecker;
 
 import edu.exceptions.TypeCheckException;
 import edu.nodes.QuestionType;
-import edu.parser.QL.QLVisitorImpl;
+import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.Expression;
@@ -14,17 +14,14 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class TypeChecker extends QLVisitorImpl {
+public class TypeChecker implements QLVisitor {
 
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
@@ -87,6 +84,11 @@ public class TypeChecker extends QLVisitorImpl {
     }
 
     @Override
+    public AbstractNode visit(Label label) {
+        return label;
+    }
+
+    @Override
     public AbstractNode visit(Question question) {
         if (questionAlreadyFound(question)) {
             return throwExceptionForDuplicateQuestion(question);
@@ -116,10 +118,24 @@ public class TypeChecker extends QLVisitorImpl {
         return questionType.equals(question.getQuestionType());
     }
 
-
     @Override
     public AbstractNode visit(ElseClause elseClause) {
         visitStatements(elseClause.getStatements());
         return elseClause;
     }
+
+    @Override
+    public AbstractNode visit(QuestionType questionType) {
+        return questionType;
+    }
+
+    public List<Statement> visitStatements(List<Statement> statements) {
+        if (statements != null && !statements.isEmpty()) {
+            return statements.stream()
+                    .map(statement -> (Statement) statement.accept(this))
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
 }
