@@ -12,3 +12,6 @@ type Executer interface {
 type Comparator interface {
 	ResolveComparisonNode(n interface{}) bool
 }
+
+// Evaluatable common interface among all AST nodes
+type Evaluatable interface{}

@@ -8,6 +8,7 @@ form TheForm {
 	"Full name" fullname computed = name . " " . surname
 
 	if (name . " ". surname == "carlos cirello"){
+		"You are" fullnameCC computed = fullname
 		"Age" age numeric
 	}
 }

@@ -2,6 +2,7 @@ package execute
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 )
@@ -35,11 +36,20 @@ func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 	value := exec.resolveTermNode(s)
 	switch t := value.(type) {
 	default:
-		log.Fatalf("%s: variable %s not a number. Got %T", s.Pos(), s.IdentifierReference(), t)
+		log.Fatalf("%s: variable %s not a number. Got %T", s.Pos(),
+			s.IdentifierReference(), t)
 	case int:
 		return float32(value.(int))
 	case float32:
 		return value.(float32)
+	case string:
+		str := value.(string)
+		v, err := strconv.ParseFloat(str, 32)
+		if err != nil {
+			log.Fatalf("%s: variable %s not a number.",
+				s.Pos(), s.IdentifierReference(), str)
+		}
+		return float32(v)
 	}
 	return 0
 }

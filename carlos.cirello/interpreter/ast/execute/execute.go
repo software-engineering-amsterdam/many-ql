@@ -16,7 +16,8 @@ type Execute struct {
 }
 
 // New is the factory for a ast.Visitor with Execute struct tree inside
-func New(toFrontend chan *plumbing.Frontend, symboltable *symboltable.SymbolTable) ast.Executer {
+func New(toFrontend chan *plumbing.Frontend,
+	symboltable *symboltable.SymbolTable) ast.Executer {
 	return &Execute{
 		toFrontend:  toFrontend,
 		symboltable: symboltable,

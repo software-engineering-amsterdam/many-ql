@@ -38,13 +38,15 @@ func setupInReader(inFn string) (inReader io.Reader) {
 
 func setupOutReader(outFn string) (outWriter io.Writer) {
 	outWriter = os.Stdout
-	if Stdio != outFn {
-		writer, err := os.Create(outFn)
-		if nil != err {
-			panic(fmt.Sprint("Error creating output file: ", err))
-		}
-		outWriter = writer
+	if Stdio == outFn {
+		return outWriter
 	}
+
+	writer, err := os.Create(outFn)
+	if nil != err {
+		panic(fmt.Sprint("Error creating output file: ", err))
+	}
+	outWriter = writer
 	return outWriter
 }
 
