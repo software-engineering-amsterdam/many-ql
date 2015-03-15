@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Radio;
@@ -20,7 +20,7 @@ public class RadioWidget implements IWidget {
         return btnPanelYesNo;
     }
 
-    public RadioWidget(final Question question, final QLIntepreter qlIntepreter, final VariableTable symbolTable, Radio radio) {
+    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
         JRadioButton yesBtn = new JRadioButton(radio.getYesLbl());
         JRadioButton noBtn = new JRadioButton(radio.getNoLbl());

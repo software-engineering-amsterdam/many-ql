@@ -1,9 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 
@@ -17,7 +17,7 @@ public class LabelWidget implements IWidget {
     private JLabel valueLabel;
 
 
-    public LabelWidget(final ComputedValue computedValue, final QLIntepreter qlIntepreter, final VariableTable symbolTable) {
+    public LabelWidget(final ComputedValue computedValue, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         valueLabel = new JLabel();
         qlIntepreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
@@ -31,7 +31,7 @@ public class LabelWidget implements IWidget {
         });
     }
 
-    public LabelWidget(final ComputedValueField computedValueField, final QLIntepreter qlIntepreter, final VariableTable symbolTable) {
+    public LabelWidget(final ComputedValueField computedValueField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         valueLabel = new JLabel();
         qlIntepreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override

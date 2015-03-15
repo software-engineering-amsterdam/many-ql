@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 public abstract class AbstractFormField {
     private String label, variable;
 
-    public abstract <T> T applyRenderer(IQLRenderer<T> iQlRenderer) throws FieldNotFoundException;
+    public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer) throws FieldNotFoundException;
 
     public String getVariable() {
         return variable;

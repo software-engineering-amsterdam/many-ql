@@ -3,10 +3,10 @@ package org.uva.student.calinwouter.qlqls.application.gui.ql;
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.*;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
@@ -16,7 +16,7 @@ import java.awt.*;
 
 public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
-    private final QLIntepreter qlIntepreter;
+    private final QLInterpreter qlIntepreter;
     private final FormTypeChecker formTypeChecker;
     private final VariableTable symbolTable;
 
@@ -62,7 +62,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
-    public QLGUI( QLIntepreter qlIntepreter, VariableTable symbolTable, ResultingFieldsCollection form, FormTypeChecker formTypeChecker) {
+    public QLGUI( QLInterpreter qlIntepreter, VariableTable symbolTable, ResultingFieldsCollection form, FormTypeChecker formTypeChecker) {
         this.qlIntepreter = qlIntepreter;
         this.formTypeChecker = formTypeChecker;
         this.symbolTable = symbolTable;

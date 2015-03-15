@@ -5,8 +5,8 @@ import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.generated.parser.Parser;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
@@ -35,12 +35,12 @@ public class InterpreterHelper {
         return qlsInterpreter.interpret((AStylesheetBegin) ast.getPBegin());
     }
 
-    public static QLIntepreter interpretQlString(String input) throws ParserException, IOException, LexerException {
+    public static QLInterpreter interpretQlString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
         VariableTable symbolTable = new VariableTable();
-        QLIntepreter qlIntepreter = new QLIntepreter((AForm) ((AFormBegin) ast.getPBegin()).getForm(), symbolTable);
+        QLInterpreter qlIntepreter = new QLInterpreter((AForm) ((AFormBegin) ast.getPBegin()).getForm(), symbolTable);
         qlIntepreter.interpret();
         return qlIntepreter;
     }

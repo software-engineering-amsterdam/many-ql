@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -20,7 +20,7 @@ public class CheckboxWidget implements IWidget {
         return checkbox;
     }
 
-    public CheckboxWidget(final Question question, final QLIntepreter qlIntepreter, final VariableTable symbolTable) {
+    public CheckboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener(new ItemListener() {
@@ -32,7 +32,7 @@ public class CheckboxWidget implements IWidget {
         });
     }
 
-    public CheckboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter, final VariableTable symbolTable) {
+    public CheckboxWidget(final QuestionField questionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener( new ItemListener() {

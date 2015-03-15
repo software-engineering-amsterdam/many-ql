@@ -5,14 +5,14 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidget
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.IntboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
 public class QLWidgetFetcher implements TypeCallback{
-    private final QLIntepreter qlIntepreter;
+    private final QLInterpreter qlIntepreter;
     private final QLGUI qlgui;
     private final QuestionField questionField;
     private IWidget widget;
@@ -45,7 +45,7 @@ public class QLWidgetFetcher implements TypeCallback{
         return widget;
     }
 
-    public QLWidgetFetcher(QLIntepreter qlIntepreter, QuestionField questionField, QLGUI qlgui, VariableTable symbolTable) {
+    public QLWidgetFetcher(QLInterpreter qlIntepreter, QuestionField questionField, QLGUI qlgui, VariableTable symbolTable) {
         this.qlIntepreter = qlIntepreter;
         this.qlgui = qlgui;
         this.questionField = questionField;

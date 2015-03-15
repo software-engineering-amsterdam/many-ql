@@ -11,7 +11,7 @@ public class ComputedValueField extends AbstractFormField {
     }
 
     @Override
-    public <T> T applyRenderer(IQLRenderer<T> iQlRenderer) throws FieldNotFoundException {
-        return iQlRenderer.render(this);
+    public <T> T applyRenderer(IQLRenderer<T> iQLRenderer) throws FieldNotFoundException {
+        return iQLRenderer.render(this);
     }
 }

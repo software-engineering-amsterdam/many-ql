@@ -3,7 +3,6 @@ package org.uva.student.calinwouter.qlqls.ql.typechecker;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.PTypeInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTypeTable;
 

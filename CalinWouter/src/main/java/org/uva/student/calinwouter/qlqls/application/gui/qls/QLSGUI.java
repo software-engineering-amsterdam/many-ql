@@ -4,9 +4,9 @@ import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
     private final StyleSheet styleSheet;
-    private final QLIntepreter qlIntepreter;
+    private final QLInterpreter qlIntepreter;
     private final VariableTable symbolTable;
     private final FormTypeChecker formTypeChecker;
 
@@ -134,7 +134,7 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         return styleSheet.getStyleSheetName();
     }
 
-    public QLSGUI(StyleSheet styleSheet, QLIntepreter qlIntepreter, VariableTable symbolTable,
+    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable symbolTable,
                   FormTypeChecker formTypeChecker) {
         this.qlIntepreter = qlIntepreter;
         this.symbolTable = symbolTable;
