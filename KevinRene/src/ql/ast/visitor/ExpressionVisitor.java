@@ -22,13 +22,13 @@ import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.Not;
 import ql.ast.expression.relational.NotEqual;
 import ql.ast.expression.relational.Or;
-import ql.ast.expression.type.QLBoolean;
-import ql.ast.expression.type.QLError;
-import ql.ast.expression.type.QLFloat;
-import ql.ast.expression.type.QLForm;
-import ql.ast.expression.type.QLInteger;
-import ql.ast.expression.type.QLNumeric;
-import ql.ast.expression.type.QLString;
+import ql.ast.type.QLBoolean;
+import ql.ast.type.QLError;
+import ql.ast.type.QLFloat;
+import ql.ast.type.QLForm;
+import ql.ast.type.QLInteger;
+import ql.ast.type.QLNumeric;
+import ql.ast.type.QLString;
 
 public interface ExpressionVisitor<T> {	
 	default T visit(Unary unaryNode) {

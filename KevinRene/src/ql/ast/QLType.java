@@ -1,20 +1,17 @@
-package ql.ast.expression;
+package ql.ast;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ql.ast.Expression;
+import ql.ast.visitor.ExpressionVisitor;
 
-public abstract class QLType extends Expression {
+public abstract class QLType implements QLNode {
 	protected List<Class<? extends QLType>> compatibleTypes;
 	
 	public QLType(List<Class<? extends QLType>> compatibleTypes) {
-		super(Arrays.asList());
 		this.compatibleTypes = compatibleTypes;
 	}
 	
-	@Override
 	public String toString() {
 		return this.getClass().getSimpleName();
 	}
@@ -31,4 +28,8 @@ public abstract class QLType extends Expression {
 				.map(ct -> ct.getSimpleName())
 				.collect(Collectors.toList());
 	}
+	
+
+	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	public abstract QLType getType();
 }

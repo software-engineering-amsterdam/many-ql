@@ -1,8 +1,8 @@
-package ql.ast.expression.type;
+package ql.ast.type;
 
 import java.util.Arrays;
 
-import ql.ast.expression.QLType;
+import ql.ast.QLType;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class QLBoolean extends QLType {

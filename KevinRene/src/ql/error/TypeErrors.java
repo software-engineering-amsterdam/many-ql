@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.ast.QLNode;
+import ql.ast.QLType;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.QLType;
 import ql.ast.statement.Question;
 
 

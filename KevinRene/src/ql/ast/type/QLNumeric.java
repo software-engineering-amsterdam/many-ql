@@ -1,18 +1,18 @@
-package ql.ast.expression.type;
+package ql.ast.type;
 
 import java.util.Arrays;
 
-import ql.ast.expression.QLType;
+import ql.ast.QLType;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class QLString extends QLType {		
-	public QLString() {
-		super(Arrays.asList(QLString.class));
+public class QLNumeric extends QLType {
+	public QLNumeric() {
+		super(Arrays.asList(QLFloat.class, QLInteger.class, QLNumeric.class));
 	}
-	
+
 	@Override
 	public QLType getType() {
-		return new QLString();
+		return new QLNumeric();
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package qls.ast.statement;
 
-import ql.ast.expression.QLType;
+import ql.ast.QLType;
 import qls.ast.QLSStatement;
 import qls.ast.Widget;
 import qls.ast.stylerule.StyleRuleSet;

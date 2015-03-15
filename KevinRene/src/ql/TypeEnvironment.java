@@ -3,8 +3,8 @@ package ql;
 import java.util.HashMap;
 import java.util.Map;
 
+import ql.ast.QLType;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.QLType;
 
 public class TypeEnvironment {
 	private Map<String, QLType> environment = new HashMap<String, QLType>();

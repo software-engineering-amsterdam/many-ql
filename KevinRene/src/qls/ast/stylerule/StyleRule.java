@@ -2,8 +2,8 @@ package qls.ast.stylerule;
 
 import java.util.List;
 
+import ql.ast.QLType;
 import ql.ast.expression.Literal;
-import ql.ast.expression.QLType;
 import qls.ast.QLSStatement;
 
 public abstract class StyleRule extends QLSStatement {

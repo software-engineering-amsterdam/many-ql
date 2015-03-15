@@ -1,14 +1,14 @@
-package ql.ast.expression.type;
+package ql.ast.type;
 
-import ql.ast.expression.QLType;
+import ql.ast.QLType;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class QLInteger extends QLNumeric {	
-	public QLInteger() {}
+public class QLFloat extends QLNumeric {
+	public QLFloat() {}
 	
 	@Override
 	public QLType getType() {
-		return new QLInteger();
+		return new QLFloat();
 	}
 	
 	@Override

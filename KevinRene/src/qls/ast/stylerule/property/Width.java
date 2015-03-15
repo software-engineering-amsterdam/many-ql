@@ -3,7 +3,7 @@ package qls.ast.stylerule.property;
 import java.util.Arrays;
 
 import ql.ast.expression.Literal;
-import ql.ast.expression.type.QLInteger;
+import ql.ast.type.QLInteger;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.visitor.QLSVisitor;
 
