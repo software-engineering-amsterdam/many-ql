@@ -13,6 +13,8 @@ import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
 
 public interface AstVisitor<T> {
 
+	static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
+
 	T visit(UnaryExpression unaryExpression);
 
 	T visit(BinaryExpression binaryExpression);
@@ -21,16 +23,16 @@ public interface AstVisitor<T> {
 
 	T visit(NameExpression nameExpression);
 
-	T visit(Question question);
-
-	T visit(Questionnaire questionnaire);
-
-	T visit(ConditionalBlock conditionalBlock);
-
 	T visit(StringLiteral stringLiteral);
 
 	T visit(IntegerLiteral integerLiteral);
 
 	T visit(BooleanLiteral booleanLiteral);
+
+	T visit(Question question);
+
+	T visit(Questionnaire questionnaire);
+
+	T visit(ConditionalBlock conditionalBlock);
 
 }
