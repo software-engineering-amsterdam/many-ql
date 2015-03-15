@@ -29,10 +29,7 @@ public class IdLiteral extends Literal {
     }
 
     public Boolean IsReference() {
-	if (this.type == null) {
-	    return true;
-	}
-	return false;
+	return (this.type == null);
     }
 
     @Override

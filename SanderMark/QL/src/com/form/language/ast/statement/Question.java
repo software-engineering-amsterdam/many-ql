@@ -36,7 +36,7 @@ public class Question extends Statement {
     }
 
     public void initMemory(Context context) {
-	questionType.defaultValue().addToMemory(id, context);
+	context.setValue(id, questionType.defaultValue());
     }
 
     @Override

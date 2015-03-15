@@ -29,7 +29,7 @@ public class AssignmentStatement extends Statement {
     }
 
     public void initMemory(Context context) {
-	expression.evaluate(context).addToMemory(id, context);
+	context.setValue(id, expression.evaluate(context));
     }
 
     @Override

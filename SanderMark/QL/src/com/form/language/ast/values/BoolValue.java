@@ -1,6 +1,5 @@
 package com.form.language.ast.values;
 
-import com.form.language.memory.Context;
 
 public class BoolValue extends GenericValue {
     private final Boolean value;
@@ -17,11 +16,6 @@ public class BoolValue extends GenericValue {
     public String toString() {
 	return new Boolean(value).toString();
 
-    }
-
-    @Override
-    public void addToMemory(String key, Context context) {
-	context.setValue(key, this);
     }
 
     @Override
