@@ -10,6 +10,7 @@ import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
+import ql.ast.visitor.prettyprinter.printer.ConsolePrinter;
 import ql.ast.visitor.typechecker.TypeChecker;
 import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
@@ -45,19 +46,18 @@ public class CommandLine {
 						errorEnvironment = TypeChecker.check((Statement) tree, register);
 						evaluatorResult = Evaluator.check((Statement) tree, valueEnv);
 						
-						PrettyPrinter.print((Statement) tree);
+						PrettyPrinter.print((Statement) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
 					} else if(tree instanceof Expression) {
 						errorEnvironment = TypeChecker.check((Expression) tree, register);
 						evaluatorResult = Evaluator.check((Expression) tree, valueEnv);
 						
-						PrettyPrinter.print((Expression) tree);
+						PrettyPrinter.print((Expression) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
 					} else {
 						errorEnvironment = TypeChecker.check((QLType) tree, register);
-						
-						//PrettyPrinter.print((QLType) tree);
+						PrettyPrinter.print((QLType) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
 					}					
 					
-					if(!errorEnvironment.hasErrors()) {
+					if(errorEnvironment.hasErrors()) {
 						System.out.println(errorEnvironment.getErrors());
 						continue;
 					}

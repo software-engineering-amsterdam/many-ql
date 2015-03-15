@@ -4,10 +4,11 @@ import ql.ast.Expression;
 import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
+import ql.ast.visitor.prettyprinter.PrintWriter;
 
-public abstract class Error {
+public abstract class Error implements PrintWriter {
 	private QLNode origin;
-	private String errorMessage;
+	private String errorMessage, errorSourceStack;
 	
 	public Error(QLNode origin, String errorMessage) {
 		this.origin = origin;
@@ -22,20 +23,25 @@ public abstract class Error {
 		return origin.getClass().getSimpleName();
 	}
 	
+	@Override
+	public void printString(String output) {
+		errorSourceStack = output;
+	};
+	
 	private String getErrorSourceString() {
-		StringBuilder errorSourceString = new StringBuilder("-- Error Source Node -- \n");
-		
 		if(origin instanceof Expression) {
-			errorSourceString.append(PrettyPrinter.stringify((Expression) origin, "   -> "));
+			PrettyPrinter.print((Expression) origin, this, "   -> ");
 		} else {
-			errorSourceString.append(PrettyPrinter.stringify((Statement) origin, "   -> "));
+			PrettyPrinter.print((Statement) origin, this, "   -> ");
 		}
 		
-		return errorSourceString.toString();
+		return errorSourceStack;
 	}
 	
-	public String getMessage() {
+	@Override
+	public String toString() {
 		return "[" + this.getClass().getSimpleName() + "]: " + errorMessage + "\n"
-				+ getErrorSourceString();
+				+ "-- Error Source Node -- \n" + getErrorSourceString();
 	}
 }
+	

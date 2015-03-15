@@ -21,11 +21,12 @@ import qls.ast.widget.TextField;
 
 public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
 	private static ErrorEnvironment errors;
-	private TypeEnvironment typeEnv;
+	private TypeEnvironment typeEnvironment;
 	
-	private TypeChecker(TypeEnvironment typeEnv) {
-		this.typeEnv = typeEnv;
+	private TypeChecker(TypeEnvironment typeEnvironment) {
+		this.typeEnvironment = typeEnvironment;
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 	}
 	
 	/**

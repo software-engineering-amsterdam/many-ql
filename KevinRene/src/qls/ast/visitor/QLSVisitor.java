@@ -35,6 +35,7 @@ import qls.ast.widget.ValueSet;
 public abstract class QLSVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T>, TypeVisitor<T> {
 	public QLSVisitor() {
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 	}
 	
 	

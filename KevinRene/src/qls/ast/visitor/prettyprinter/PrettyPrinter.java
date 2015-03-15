@@ -13,7 +13,6 @@ import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
-import ql.ast.visitor.ExpressionVisitor;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
@@ -37,7 +36,7 @@ import qls.ast.widget.Spinner;
 import qls.ast.widget.TextField;
 import qls.ast.widget.ValueSet;
 
-public class PrettyPrinter extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
+public class PrettyPrinter extends QLSVisitor<Void> {
 	private String prefix = "";
 	
 	/**

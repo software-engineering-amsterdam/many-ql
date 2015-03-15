@@ -20,7 +20,7 @@ public class ErrorEnvironment {
 	
 	public void outputErrors() {
 		for (Error error : errors) {
-			System.out.println(error.getMessage());
+			System.out.println(error);
 		}
 	}
 	
@@ -28,7 +28,7 @@ public class ErrorEnvironment {
 		StringBuilder errorString = new StringBuilder();
 		
 		for (Error error : errors) {
-			errorString.append(error.getMessage() + "\n");
+			errorString.append(error + "\n");
 		}
 		
 		return errorString.toString();
