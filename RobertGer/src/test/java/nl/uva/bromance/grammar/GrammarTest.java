@@ -17,6 +17,8 @@ import java.io.IOException;
 
 public class GrammarTest extends ParsingTest {
 
+    protected static String START;
+    protected static String END;
     protected FakeGrammarListener listener;
     protected ParseTreeWalker walker;
 
@@ -39,6 +41,10 @@ public class GrammarTest extends ParsingTest {
         parser.removeErrorListeners();
         parser.addErrorListener(new GrammarErrorListener());
         return parser.questionnaire();
+    }
+
+    protected String insertChildIntoCalculation(String child) {
+        return START + child + END;
     }
 
     //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
@@ -125,5 +131,47 @@ public class GrammarTest extends ParsingTest {
             super.exitInput(ctx);
             this.inputCount += 1;
         }
+    }
+
+    //Test all grammar types as childeren
+
+    public void CalculationAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_CALCULATION)));
+    }
+
+    public void ExpressionAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_EXPRESSION)));
+    }
+
+    public void FormAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_FORM)));
+    }
+
+    public void IfStatementAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_IF)));
+    }
+
+    public void ElseIfStatementAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_ELSE_IF)));
+    }
+
+    public void ElseStatementAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_ELSE)));
+    }
+
+    public void InputAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_INPUT)));
+    }
+
+    public void LabelAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_LABEL)));
+    }
+
+    public void QuestionAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_QUESTION)));
+    }
+
+    public void QuestionnaireAsChildSetup() throws IOException, GrammarErrorListener.SyntaxError {
+        walker.walk(listener, createTree(insertChildIntoCalculation(CORRECT_QUESTIONNAIRE)));
     }
 }

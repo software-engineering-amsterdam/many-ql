@@ -26,7 +26,14 @@ public class ParsingTest {
             CORRECT_IF +
             "    }\n";
 
-    public static final String CORRECT_FORM_SETUP = "Name: \"Tax\" {\n" +
+    protected static final String CORRECT_FORM_SETUP = "Name: \"Tax\" {\n" +
             CORRECT_FORM +
             "}";
+
+    protected static final String CORRECT_INPUT = "Input: expression";
+
+    protected static final String CORRECT_LABEL = "Label: \"identifier\"{ Text: \"something\"}";
+
+    protected static final String CORRECT_EXPRESSION = "expression";
+
 }

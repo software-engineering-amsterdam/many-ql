@@ -8,62 +8,38 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class QuestionGrammarTest extends GrammarTest {
+/**
+ * Created by Robert on 15-3-2015.
+ */
+public class ElseIfStatementGrammarTest extends GrammarTest {
 
     @Before
     public void setupStartEnd() {
         START = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
-                "           Answer: integer" +
-                "Text: \" How much money did you earn through employer paid wages during 2014 ? \"";
+                CORRECT_IF +
+                "Else If: expression {";
         END = "}}}";
     }
 
-    @Test
-    public void question() throws IOException {
+    @org.junit.Test
+    public void correctElseIf() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                CORRECT_QUESTION +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
                 "    }}";
-
         walker.walk(listener, createTree(content));
 
-        assertThat(listener.questionCount).isEqualTo(1);
+        assertThat(listener.ifStatementCount).isEqualTo(1);
+        assertThat(listener.elseIfStatementCount).isEqualTo(1);
     }
 
-    @Test
-    public void questionWithoutText() throws IOException {
+    @org.junit.Test
+    public void elseIfStatementWithoutPrecedingIfStatement() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
-                "           Answer: integer" +
-                "       }" +
-                "    }}";
-
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
-
-        walker.walk(listener, createTree(content));
-    }
-
-    @Test
-    public void questionWithoutAnswerType() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
-                "           Text: \"How much money did you earn through employer paid wages during 2014?\"" +
-                "    }}}";
-
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
-
-        walker.walk(listener, createTree(content));
-    }
-
-    @Test
-    public void malformedQuestion() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
+                CORRECT_ELSE_IF +
                 "    }}";
 
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
@@ -71,39 +47,52 @@ public class QuestionGrammarTest extends GrammarTest {
         walker.walk(listener, createTree(content));
     }
 
-    @Test
-    public void questionWithoutIdentifier() throws IOException {
+    @org.junit.Test
+    public void elseIfWithoutBodyContents() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     Question: {" +
-                "           Text: \"How much money did you earn through employer paid wages during 2014?\"" +
-                "           Answer: integer" +
-                "       }" +
+                CORRECT_IF +
+                "\n     Else If: something{}" +
                 "    }}";
-
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
 
         walker.walk(listener, createTree(content));
+
     }
 
-    @Test
-    public void formContainsMultipleQuestions() throws IOException {
+    @org.junit.Test
+    public void elseIfWithoutExpression() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                CORRECT_QUESTION +
-                CORRECT_QUESTION +
+                CORRECT_IF +
+                "\n     Else If: {}" +
                 "    }}";
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
 
         walker.walk(listener, createTree(content));
 
-        assertThat(listener.questionCount).isEqualTo(2);
+    }
+
+    @org.junit.Test
+    public void multipleCorrectElseIf() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
+                CORRECT_ELSE_IF +
+                "    }}";
+        walker.walk(listener, createTree(content));
+
+        assertThat(listener.elseIfStatementCount).isEqualTo(2);
     }
 
     //Test all grammar types as children (by testing all possible types for all possible children we are by extension testing all possible types for all possible parents)
     @Test
     public void CalculationAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         CalculationAsChildSetup();
+
+        assertThat(listener.elseIfStatementCount).isEqualTo(1);
+        assertThat(listener.calculationCount).isEqualTo(1);
     }
 
     @Test
@@ -138,9 +127,10 @@ public class QuestionGrammarTest extends GrammarTest {
 
     @Test
     public void InputAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         InputAsChildSetup();
 
+        assertThat(listener.elseIfStatementCount).isEqualTo(1);
+        assertThat(listener.inputCount).isEqualTo(1);
     }
 
     @Test
