@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.validation.typechecker.error;
+package nl.uva.softwcons.ql.validation.identifier.error;
 
 import static nl.uva.softwcons.ql.ast.I18n.i;
 import nl.uva.softwcons.ql.ast.LineInfo;
