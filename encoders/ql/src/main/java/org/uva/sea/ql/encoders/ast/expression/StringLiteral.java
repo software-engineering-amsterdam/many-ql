@@ -3,17 +3,17 @@ package org.uva.sea.ql.encoders.ast.expression;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
-public class StringExpression extends Expression {
+public class StringLiteral extends Expression {
 
-	private final String stringLiteral;
+	private final String value;
 
-	public StringExpression(TextLocation textLocation, String stringLiteral) {
+	public StringLiteral(TextLocation textLocation, String value) {
 		super(textLocation);
-		this.stringLiteral = stringLiteral;
+		this.value = value;
 	}
 
-	public String getStringLiteral() {
-		return stringLiteral;
+	public String getValue() {
+		return value;
 	}
 
 	@Override

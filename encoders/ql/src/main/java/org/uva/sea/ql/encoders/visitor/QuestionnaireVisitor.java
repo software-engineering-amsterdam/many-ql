@@ -28,12 +28,12 @@ import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.DataTypeTable;
@@ -187,22 +187,22 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Expression visitBooleanLiteral(BooleanLiteralContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		Boolean booleanLiteral = Boolean.valueOf(ctx.value.getText());
-		return new BooleanExpression(textLocation, booleanLiteral);
+		Boolean value = Boolean.valueOf(ctx.value.getText());
+		return new BooleanLiteral(textLocation, value);
 	}
 
 	@Override
 	public Expression visitIntegerLiteral(IntegerLiteralContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		Integer integerLiteral = Integer.valueOf(ctx.value.getText());
-		return new IntegerExpression(textLocation, integerLiteral);
+		Integer value = Integer.valueOf(ctx.value.getText());
+		return new IntegerLiteral(textLocation, value);
 	}
 
 	@Override
 	public Expression visitStringLiteral(StringLiteralContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		String stringLiteral = ctx.value.getText();
-		return new StringExpression(textLocation, stringLiteral);
+		String value = ctx.value.getText();
+		return new StringLiteral(textLocation, value);
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {

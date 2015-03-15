@@ -4,11 +4,11 @@ import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 
 public interface AstVisitor<T> {
@@ -27,10 +27,10 @@ public interface AstVisitor<T> {
 
 	T visit(ConditionalBlock conditionalBlock);
 
-	T visit(StringExpression stringExpression);
+	T visit(StringLiteral stringLiteral);
 
-	T visit(IntegerExpression integerExpression);
+	T visit(IntegerLiteral integerLiteral);
 
-	T visit(BooleanExpression booleanExpression);
+	T visit(BooleanLiteral booleanLiteral);
 
 }

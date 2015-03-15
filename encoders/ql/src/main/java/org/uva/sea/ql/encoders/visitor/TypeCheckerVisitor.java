@@ -10,12 +10,12 @@ import java.util.Set;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.ast.type.DataType;
@@ -142,17 +142,17 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	}
 
 	@Override
-	public DataType visit(IntegerExpression integerExpression) {
+	public DataType visit(IntegerLiteral integerLiteral) {
 		return new IntegerType();
 	}
 
 	@Override
-	public DataType visit(StringExpression stringExpression) {
+	public DataType visit(StringLiteral stringLiteral) {
 		return new StringType();
 	}
 
 	@Override
-	public DataType visit(BooleanExpression booleanExpression) {
+	public DataType visit(BooleanLiteral booleanLiteral) {
 		return new BooleanType();
 	}
 }

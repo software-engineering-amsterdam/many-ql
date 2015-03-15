@@ -3,17 +3,17 @@ package org.uva.sea.ql.encoders.ast.expression;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
-public class IntegerExpression extends Expression {
+public class BooleanLiteral extends Expression {
 
-	private final int integerLiteral;
+	private final Boolean value;
 
-	public IntegerExpression(TextLocation textLocation, int integerLiteral) {
+	public BooleanLiteral(TextLocation textLocation, Boolean value) {
 		super(textLocation);
-		this.integerLiteral = integerLiteral;
+		this.value = value;
 	}
 
-	public int getIntegerLiteral() {
-		return integerLiteral;
+	public Boolean getValue() {
+		return value;
 	}
 
 	@Override

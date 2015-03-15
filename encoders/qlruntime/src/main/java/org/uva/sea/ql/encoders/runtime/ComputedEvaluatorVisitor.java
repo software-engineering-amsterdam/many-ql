@@ -3,12 +3,12 @@ package org.uva.sea.ql.encoders.runtime;
 import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
@@ -65,17 +65,17 @@ public class ComputedEvaluatorVisitor extends BaseAstVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(BooleanExpression booleanExpression) {
-		return new BooleanValue(booleanExpression.getBooleanLiteral());
+	public Value visit(BooleanLiteral booleanLiteral) {
+		return new BooleanValue(booleanLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(IntegerExpression integerExpression) {
-		return new IntegerValue(integerExpression.getIntegerLiteral());
+	public Value visit(IntegerLiteral integerLiteral) {
+		return new IntegerValue(integerLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(StringExpression stringExpression) {
-		return new StringValue(stringExpression.getStringLiteral());
+	public Value visit(StringLiteral stringLiteral) {
+		return new StringValue(stringLiteral.getValue());
 	}
 }

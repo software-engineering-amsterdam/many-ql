@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
 
@@ -47,17 +47,17 @@ public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 	}
 
 	@Override
-	public Set<String> visit(BooleanExpression booleanExpression) {
+	public Set<String> visit(BooleanLiteral booleanLiteral) {
 		return Collections.emptySet();
 	}
 
 	@Override
-	public Set<String> visit(IntegerExpression integerExpression) {
+	public Set<String> visit(IntegerLiteral integerLiteral) {
 		return Collections.emptySet();
 	}
 
 	@Override
-	public Set<String> visit(StringExpression stringExpression) {
+	public Set<String> visit(StringLiteral stringLiteral) {
 		return Collections.emptySet();
 	}
 }

@@ -4,11 +4,11 @@ import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
-import org.uva.sea.ql.encoders.ast.expression.BooleanExpression;
+import org.uva.sea.ql.encoders.ast.expression.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
-import org.uva.sea.ql.encoders.ast.expression.IntegerExpression;
+import org.uva.sea.ql.encoders.ast.expression.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
-import org.uva.sea.ql.encoders.ast.expression.StringExpression;
+import org.uva.sea.ql.encoders.ast.expression.StringLiteral;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 
 public class BaseAstVisitor<T> implements AstVisitor<T> {
@@ -51,17 +51,17 @@ public class BaseAstVisitor<T> implements AstVisitor<T> {
 	}
 
 	@Override
-	public T visit(BooleanExpression booleanExpression) {
+	public T visit(BooleanLiteral booleanLiteral) {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
-	public T visit(IntegerExpression integerExpression) {
+	public T visit(IntegerLiteral integerLiteral) {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 
 	@Override
-	public T visit(StringExpression stringExpression) {
+	public T visit(StringLiteral stringLiteral) {
 		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
 	}
 }
