@@ -4,9 +4,8 @@ package frontend
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 
-// Inputer describes the actions which frontend must implement
-// in order to be compliant with the VM expectations of
-// functionality.
+// Inputer describes the actions which frontend must implement in order to be
+// compliant with the VM expectations of functionality.
 type Inputer interface {
 	DrawQuestion(identifier, label, typ string, visible plumbing.Visibility)
 	UpdateQuestion(identifier string, value interface{})
@@ -22,9 +21,8 @@ type frontend struct {
 	driver Inputer
 }
 
-// New instantiates a frontend goroutine, looping all the
-// communications with the VM into the chosen Frontend
-// (GUI, Text, Web).
+// New instantiates a frontend goroutine, looping all the communications with
+// the interpreter into the chosen Frontend (GUI, Text, Web).
 func New(fromInterpreter, toInterpreter chan *plumbing.Frontend, driver Inputer) {
 	f := &frontend{
 		receive: fromInterpreter,

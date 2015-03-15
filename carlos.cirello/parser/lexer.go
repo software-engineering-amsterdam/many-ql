@@ -73,6 +73,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 	txt := x.scanner.TokenText()
 	nextRune := string(x.scanner.Peek())
+	txtAhead := txt + nextRune
 	typ := TextToken
 
 	if tok == scanner.Float || tok == scanner.Int {
@@ -93,19 +94,19 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IfToken
 	} else if txt == ElseTokenText {
 		typ = ElseToken
-	} else if (txt + nextRune) == LessOrEqualsThanTokenText {
+	} else if txtAhead == LessOrEqualsThanTokenText {
 		x.scanner.Scan()
 		typ = LessOrEqualsThanToken
 		txt = LessOrEqualsThanTokenText
-	} else if (txt + nextRune) == MoreOrEqualsThanTokenText {
+	} else if txtAhead == MoreOrEqualsThanTokenText {
 		x.scanner.Scan()
 		typ = MoreOrEqualsThanToken
 		txt = MoreOrEqualsThanTokenText
-	} else if (txt + nextRune) == EqualsToTokenText {
+	} else if txtAhead == EqualsToTokenText {
 		x.scanner.Scan()
 		typ = EqualsToToken
 		txt = EqualsToTokenText
-	} else if (txt + nextRune) == NotEqualsToTokenText {
+	} else if txtAhead == NotEqualsToTokenText {
 		x.scanner.Scan()
 		typ = NotEqualsToToken
 		txt = NotEqualsToTokenText
@@ -134,7 +135,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 // The parser calls this method on a parse error.
 func (x *lexer) Error(s string) {
-	panic(fmt.Sprintf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s))
+	panic(fmt.Sprintf("%s:parse error: %s", x.pos, s))
 }
 
 func stripSurroundingQuotes(str string) string {
