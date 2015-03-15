@@ -81,6 +81,74 @@ func TestComparisonBoolQuestions(t *testing.T) {
 	)
 }
 
+func TestAdditionWrongTypes(t *testing.T) {
+	form := `
+	form SomeForm {
+		"1 - Who said the logic is the cement of our civilization with which we ascended from chaos using reason as our guide?"
+		questionOne   string
+
+		"2 - What's the answer to life the universe and everything?"
+		questionTwo   numeric
+
+		"3 - Are you happy today?"
+		questionThree bool
+
+		"4 - Bad Question" questionTwentyTwo computed = questionOne + questionTwo
+	}
+	`
+	runFormAndTrapError(t, form)
+}
+
+func TestInvalidQuestionType(t *testing.T) {
+	form := `
+	form SomeForm {
+		"Invalid Question Type"
+		questionOne   invalidType
+
+		"Invalid Question Type 2"
+		questionTwo   invalidType2
+	}
+	`
+	runFormAndTrapError(t, form)
+}
+
+func TestDuplicatedLabel(t *testing.T) {
+	form := `
+	form SomeForm {
+		"Invalid Question Type"
+		questionOne   numeric
+
+		"Invalid Question Type"
+		questionTwo   numeric
+	}
+	`
+	runSuccessfulForm(t, form)
+}
+
+func TestDuplicatedIdentifier(t *testing.T) {
+	form := `
+	form SomeForm {
+		"Invalid Question Type"
+		questionOne   numeric
+
+		"Invalid Question Type"
+		questionOne   numeric
+	}
+	`
+	runFormAndTrapError(t, form)
+}
+
+func runFormAndTrapError(t *testing.T, source string) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Log("Error captured. Got:", r)
+		}
+	}()
+
+	runForm(source)
+	t.Error("Interpreter should have failed.")
+}
+
 func runSuccessfulFormWithIO(t *testing.T, form, in, expected string) {
 	pipes := runSuccessfulForm(t, form)
 	sendCsv(pipes, in)
@@ -90,13 +158,17 @@ func runSuccessfulFormWithIO(t *testing.T, form, in, expected string) {
 	}
 }
 
-func runSuccessfulForm(t *testing.T, str string) *plumbing.Pipes {
+func runSuccessfulForm(t *testing.T, source string) *plumbing.Pipes {
 	defer func() {
 		if r := recover(); r != nil {
-			t.Error("Syntax should not fail. Got:", r)
+			t.Error("Interpreter should not fail. Got:", r)
 		}
 	}()
-	form := parser.ReadQL(strings.NewReader(str), "test.ql")
+	return runForm(source)
+}
+
+func runForm(source string) *plumbing.Pipes {
+	form := parser.ReadQL(strings.NewReader(source), "test.ql")
 	return New(form)
 }
 
