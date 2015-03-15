@@ -49,8 +49,7 @@ expression returns [Expression result]
   | mulDiv = multDivExpression 				{$result = $mulDiv.result;}
   | addSub = addSubExpression				{$result = $addSub.result;}
   | comp   = comparisonExpression			{$result = $comp.result;}
-  | l=expression AND r=expression				{ $result = new And($l.result, $r.result, $AND); }
-  | l=expression OR r=expression				{ $result = new Or($l.result, $r.result, $OR); }
+  | andOr = andOrExpression					{$result = $andOr.result;}
   | lit = literal							{ $result = $lit.result; }
   ;
 
@@ -75,6 +74,11 @@ comparisonExpression returns[Expression result]
 	| l=expression GTEQ r=expression			{ $result = new GreaterThanOrEqual($l.result, $r.result, $GTEQ); }
 	| l=expression LT r=expression				{ $result = new LessThan($l.result, $r.result, $LT); }
 	| l=expression LTEQ r=expression			{ $result = new LessThanOrEqual($l.result, $r.result, $LTEQ); }
+;
+
+andOrExpression returns[Expression result]
+  : l=expression AND r=expression			{ $result = new And($l.result, $r.result, $AND); }
+  | l=expression OR r=expression			{ $result = new Or($l.result, $r.result, $OR); }
 ;
 
 literal returns [Expression result]
