@@ -30,10 +30,14 @@ namespace QL.Model
         }
 
 
+        public virtual void AcceptSingle(IVisitor visitor)
+        {
+            visitor.Visit((dynamic)this);
 
+        }
         public virtual void Accept(IVisitor visitor)
         {
-            visitor.Visit((dynamic)this); //dynamic!! BECAUSE It's cloning to implement this for everything as the same
+            visitor.Visit((dynamic)this); //better to use dynamic than clone it everywhere underneath
 
             foreach (ElementBase child in Children)
             {

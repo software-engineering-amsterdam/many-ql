@@ -9,6 +9,7 @@ using QL.Grammars;
 using QL.Infrastructure;
 using Antlr4.Runtime;
 using System.IO;
+using QL.Visitors.UIWrappers;
 
 namespace QL.Model
 {
@@ -26,12 +27,14 @@ namespace QL.Model
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
         public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
+        public IList<IRenderable> ElementsToDisplay;
         string Input;
         Stream InputStream;
 
         bool AstBuilt;
         bool TypeChecked;
         bool Evaluated;
+        bool UIEvaluated;
 
         private AstHandler()
         {
@@ -39,8 +42,8 @@ namespace QL.Model
             TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-            
-            AstBuilt = TypeChecked = Evaluated = false;
+            ElementsToDisplay = new List<IRenderable>();
+            AstBuilt = TypeChecked = Evaluated = UIEvaluated = false;
         }
 
         public AstHandler(string input) : this()
@@ -134,6 +137,28 @@ namespace QL.Model
                 ReferenceLookupTable.Clear();
             }
             return Evaluated;
+        }
+        public bool EvaluateUI()
+        {
+            if (!Evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+            UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
+            try
+            {
+               RootNode.AcceptSingle(visitor);
+            }
+            catch (QLError ex)
+            {
+                ASTHandlerExceptions.Add(ex);
+            }
+            UIEvaluated = !ASTHandlerExceptions.Any();
+            if (!UIEvaluated) {
+                ElementsToDisplay.Clear();
+                }
+            return UIEvaluated;
+
         }
     }
 }

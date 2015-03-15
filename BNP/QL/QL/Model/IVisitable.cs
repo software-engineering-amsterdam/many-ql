@@ -10,5 +10,9 @@ namespace QL.Model
     public interface IVisitable
     {
         void Accept(IVisitor visitor);
+
+        void AcceptBottomUp(IVisitor visitor);
+        void AcceptSingle(IVisitor visitor);
+
     }
 }
