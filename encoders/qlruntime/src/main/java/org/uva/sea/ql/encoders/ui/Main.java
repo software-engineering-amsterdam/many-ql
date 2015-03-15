@@ -47,8 +47,7 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		final TextField textField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY
-				+ DEFAULT_INPUT_FILE_NAME);
+		final TextField textField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
 		Button chooseInputButton = new Button("Choose input file...");
 		Button parseButton = new Button("Parse");
 		grid.add(textField, 0, 0);
@@ -60,8 +59,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					URL resource = getURL(DEFAULT_INPUT_FILE_DIRECTORY
-							+ DEFAULT_INPUT_FILE_NAME);
+					URL resource = getURL(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
 					File file = new File(resource.toURI());
 					file = file.getParentFile();
 					FileChooser fileChooser = new FileChooser();
@@ -95,22 +93,17 @@ public class Main extends Application {
 						file = new File(text);
 					}
 
-					Questionnaire questionnaire = questionnaireParsingService
-							.parse(file.getAbsolutePath());
-					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer
-							.transform(questionnaire);
-					List<Validation> validations = questionnaireParsingService
-							.getTypeValidations();
+					Questionnaire questionnaire = questionnaireParsingService.parse(file.getAbsolutePath());
+					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
+					List<Validation> validations = questionnaireParsingService.getTypeValidations();
 					stackPane.getChildren().clear();
 					if (!validations.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
-						Node validationsUI = validationsUIFactory
-								.generateUI(validations);
+						Node validationsUI = validationsUIFactory.generateUI(validations);
 						stackPane.getChildren().add(validationsUI);
 					} else {
 						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-						Node questionnaireUI = questionnaireUIFactory
-								.generateUI(runtimeQuestionnaire);
+						Node questionnaireUI = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
 						stackPane.getChildren().add(questionnaireUI);
 					}
 

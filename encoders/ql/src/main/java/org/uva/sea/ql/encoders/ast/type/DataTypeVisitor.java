@@ -1,6 +1,5 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-
 public interface DataTypeVisitor<T> {
 
 	T visit(BooleanType qlBoolean);

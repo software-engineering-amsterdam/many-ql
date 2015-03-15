@@ -47,8 +47,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		List<StatementContext> statements = ctx.statement();
 
 		for (StatementContext statementContext : statements) {
-			ConditionalBlockContext conditionalBlock = statementContext
-					.conditionalBlock();
+			ConditionalBlockContext conditionalBlock = statementContext.conditionalBlock();
 			if (conditionalBlock != null) {
 				ConditionalBlock cb = (ConditionalBlock) visit(conditionalBlock);
 				questionnaire.addQuestions(cb.getQuestions());
@@ -78,16 +77,14 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		DataTypeTable dataTypeTable = new DataTypeTable();
 		DataType dataType = dataTypeTable.get(ctx.type.getText());
 		if (dataType == null) {
-			throw new IllegalStateException("Unknown dataType "
-					+ ctx.type.getText());
+			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
 		}
 		String questionString = ctx.questionString.getText();
 		questionString = removeFirstAndListCharOfString(questionString);
 		questionString = unescapedString(questionString);
 
 		TextLocation textLocation = getTextLocation(ctx);
-		Question question = new Question(textLocation, questionName, dataType,
-				questionString);
+		Question question = new Question(textLocation, questionName, dataType, questionString);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
 			Expression condition = (Expression) visit(parent.expression());
