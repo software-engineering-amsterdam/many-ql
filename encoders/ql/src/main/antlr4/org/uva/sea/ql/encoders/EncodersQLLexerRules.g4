@@ -35,7 +35,7 @@ STRINGLITERAL  : '"' (ESCAPE | .)*? '"';
 BOOLEANLITERAL: 'true' | 'false';
 INTEGERLITERAL: [0-9]+;
 
-NAME          : [a-zA-Z]+;
+NAME          : [a-zA-Z]+[a-zA-Z0-9]*;
 
 ESCAPE        : '\\"';
 
