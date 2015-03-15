@@ -45,16 +45,24 @@ value = (bool.setParseAction(expression_factory.make_bool) |
          statement_id_var.setParseAction(expression_factory.make_variable) |
          text.setParseAction(expression_factory.make_text))
 
-# operator :: + | - | / | * | and | or | not | > | >= | < | <= | ==
-operator = pp.oneOf('+ - / * and or not > >= < <= ==').setParseAction(expression_factory.make_operator)
 
-expr = pp.Forward()
+############
+not_op = pp.Literal("!").setParseAction(expression_factory.make_operator)
+mul_op = pp.oneOf('* /').setParseAction(expression_factory.make_operator)
+plus_op = pp.oneOf('+ -').setParseAction(expression_factory.make_operator)
+comp_op = pp.oneOf('> >= == < <=').setParseAction(expression_factory.make_operator)
+extra_op = pp.oneOf('&& ||').setParseAction(expression_factory.make_operator)
 
-# atom :: ( expr ) | value
-atom = (pp.Suppress("(") + expr + pp.Suppress(")")).setParseAction(expression_factory.make_sub_expression) | value
-
-# expr :: atom | (operator expr)*
-expr << (atom + pp.ZeroOrMore(operator + expr)).setParseAction(expression_factory.make_expression)
+expr = pp.infixNotation\
+        (value,
+         [(not_op, 1, pp.opAssoc.RIGHT),
+             (mul_op, 2, pp.opAssoc.LEFT),
+             (plus_op, 2, pp.opAssoc.LEFT),
+             (comp_op, 2, pp.opAssoc.RIGHT),
+             (extra_op, 2, pp.opAssoc.LEFT)
+         ]
+    ).setParseAction(expression_factory.make_expression)
+############
 
 # _id :: characters
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
@@ -99,4 +107,4 @@ statement <<= (pIfElse |
 introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + sentences))
 
 # grammar :: statement_id introduction? statement+
-form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()
+form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement)))

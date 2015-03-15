@@ -1,5 +1,5 @@
 import QL.AST.Expressions.iexpression as e
-
+import pyparsing as pp
 
 # Expressions with sub-expressions
 class SubExpression(e.IExpression):
@@ -19,8 +19,7 @@ class SubExpression(e.IExpression):
     # return a pretty printed string of the _expression
     def pretty_print(self, level=0):
         s = ""
-        for x in self._expression:
-            s += "(" + x.pretty_print() + ")"
+        s += "(" + self._expression.pretty_print() + ")"
         return s
 
     # get all variables in the _expression
@@ -37,9 +36,7 @@ class SubExpression(e.IExpression):
     # static helper method to get the _dependencies once
     @staticmethod
     def dependency_collection(expression):
-        dependencies = []
-        for x in expression:
-            dependencies += x.get_dependencies()
+        dependencies = expression.get_dependencies()
         return dependencies
 
 

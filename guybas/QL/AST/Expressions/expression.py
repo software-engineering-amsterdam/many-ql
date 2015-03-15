@@ -1,6 +1,7 @@
 import QL.AST.Expressions.iexpression as e
 import QL.AST.Expressions.Elements.operator as operators
 import QL.AST.Expressions.sub_expression as c
+import pyparsing as pp
 
 
 # IExpression without parenthesis
@@ -20,9 +21,8 @@ class Expression(e.IExpression):
     # return a pretty printed string of the _expression
     def pretty_print(self, level = 0):
         s = ""
-        if self._expression:
-            for x in self._expression:
-                s += x.pretty_print()
+        for x in self._expression:
+            s += x.pretty_print()
         return s
 
     # get all variables in the _expression

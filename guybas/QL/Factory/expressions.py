@@ -8,7 +8,8 @@ import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
 import QL.AST.Expressions.expression as expression
 import QL.AST.Expressions.sub_expression as ce
-
+import QL.AST.Expressions.Elements.element as el
+import pyparsing as pp
 
 def make_variable(tokens):
     v = tokens[0]
@@ -46,12 +47,29 @@ def remove_parenthesis(e):
             l.append(x)
     return l
 
+def make_add_expression(tokens):
+    print("add" + str(tokens))
+
+def make_mul_expression(tokens):
+    print(tokens)
+
+def make_expression2(tokens):
+    print("new expression")
+    print(tokens)
 
 def make_sub_expression(tokens):
     return ce.SubExpression(tokens)
 
 
 def make_expression(tokens):
-    return expression.Expression(tokens)
+    l = []
+    for x in tokens:
+        if type(x) == pp.ParseResults:
+            l.append(expression.Expression(make_expression(x)))
+        elif isinstance(x, el.Element):
+            l.append(x)
+        else:
+            l.append(ce.SubExpression(x))
+    return l
 
 
