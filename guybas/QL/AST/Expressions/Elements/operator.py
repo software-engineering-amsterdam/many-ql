@@ -17,3 +17,25 @@ class Operator(e.Element):
 
     def return_type_string(self, type_dict):
         return self.pretty_print()
+
+
+class Opar:
+    def __init__(self):
+        pass
+
+    def pretty_print(self):
+        return "("
+
+    def get_dependencies(self):
+        return []
+
+
+class Cpar:
+    def __init__(self):
+        pass
+
+    def pretty_print(self):
+        return ")"
+
+    def get_dependencies(self):
+        return []

@@ -1,6 +1,5 @@
 # Type Checker
 import collections
-
 import QL.Tools.expression_validator as validator
 
 
@@ -71,7 +70,7 @@ def check_dependencies(dependencies):
 def check_expressions(expressions, type_dict):
     messages = ""
     for e in expressions:
-        if validator.ExpressionValidator.validator(e.return_type_string(type_dict)):
+        if validator.validator(e.return_type_string(type_dict)):
             continue
         else:
             messages += e.pretty_print() + " is malformed\n"

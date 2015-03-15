@@ -8,6 +8,7 @@ class Form:
         self._introduction = introduction
 
         # set the statement _order and the parent _id's
+        self._statements = statements
         self._statements = (
             Form.set_conditions(
                 Form.set_question_ordering(statements))
