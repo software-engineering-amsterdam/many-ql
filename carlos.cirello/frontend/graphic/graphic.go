@@ -163,7 +163,10 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(plumbing.identifier, plumbing.content)
+				g.updateQuestion(
+					plumbing.identifier,
+					plumbing.content,
+				)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

@@ -58,7 +58,11 @@ commLoop:
 		case r := <-o.receive:
 			switch r.Type {
 			case plumbing.UpdateQuestion:
-				csv.Write([]string{r.Identifier, r.Label, r.Value})
+				csv.Write([]string{
+					r.Identifier,
+					r.Label,
+					r.Value,
+				})
 			case plumbing.Flush:
 				csv.Flush()
 				break commLoop

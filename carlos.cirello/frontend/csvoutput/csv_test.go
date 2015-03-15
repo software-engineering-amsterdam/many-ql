@@ -21,7 +21,10 @@ func TestCsvInputFrontend(t *testing.T) {
 	csvoutput.Write()
 
 	if got := buf.String(); got != expectedCsv {
-		t.Error("Error generating output CSV file. Expected Q1,A question,No rows. Got:", got)
+		t.Error(
+			"Error generating output CSV file. Expected Q1,A question,No rows. Got:",
+			got
+		)
 	}
 }
 
@@ -31,7 +34,8 @@ func fakeInterpreter(pipes *plumbing.Pipes) {
 
 	<-send
 
-	q := *ast.NewQuestionNode("A question", "Q1", new(ast.ScalarQuestion), *new(scanner.Position))
+	q := *ast.NewQuestionNode("A question", "Q1", new(ast.ScalarQuestion),
+		*new(scanner.Position))
 	receive <- &plumbing.Frontend{
 		Type:       plumbing.UpdateQuestion,
 		Identifier: q.Identifier(),
