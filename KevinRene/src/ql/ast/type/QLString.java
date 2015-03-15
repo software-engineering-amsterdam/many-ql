@@ -1,7 +1,7 @@
 package ql.ast.type;
 
 import ql.ast.QLType;
-import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.TypeVisitor;
 
 public class QLString extends QLType {		
 	public QLString() {
@@ -9,7 +9,7 @@ public class QLString extends QLType {
 	}
 
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {		
+	public <T> T accept(TypeVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 	

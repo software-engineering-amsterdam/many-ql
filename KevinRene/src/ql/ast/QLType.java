@@ -3,7 +3,7 @@ package ql.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.TypeVisitor;
 
 public abstract class QLType implements QLNode {
 	protected List<QLType> compatibleTypes;
@@ -25,7 +25,7 @@ public abstract class QLType implements QLNode {
 		return compatibleTypes;
 	}
 
-	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	public abstract <T> T accept(TypeVisitor<T> visitor);
 	
 	@Override
 	public int hashCode() {

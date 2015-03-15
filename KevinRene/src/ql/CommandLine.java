@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import ql.ast.Expression;
 import ql.ast.QLNode;
+import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
@@ -45,12 +46,16 @@ public class CommandLine {
 						evaluatorResult = Evaluator.check((Statement) tree, valueEnv);
 						
 						PrettyPrinter.print((Statement) tree);
-					} else {
+					} else if(tree instanceof Expression) {
 						errorEnvironment = TypeChecker.check((Expression) tree, register);
 						evaluatorResult = Evaluator.check((Expression) tree, valueEnv);
 						
 						PrettyPrinter.print((Expression) tree);
-					}
+					} else {
+						errorEnvironment = TypeChecker.check((QLType) tree, register);
+						
+						//PrettyPrinter.print((QLType) tree);
+					}					
 					
 					if(!errorEnvironment.hasErrors()) {
 						System.out.println(errorEnvironment.getErrors());

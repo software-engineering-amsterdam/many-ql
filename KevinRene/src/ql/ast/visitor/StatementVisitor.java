@@ -10,9 +10,14 @@ import ql.ast.statement.Question;
 
 public abstract class StatementVisitor<T> {
 	private ExpressionVisitor<?> expressionVisitor;
+	private TypeVisitor<?> typeVisitor;
 	
 	public void setExpressionVisitor(ExpressionVisitor<?> expressionVisitor) {
 		this.expressionVisitor = expressionVisitor;
+	}
+	
+	public void setTypeVisitor(TypeVisitor<?> typeVisitor) {
+		this.typeVisitor = typeVisitor;
 	}
 	
 	public T visit(Block blockNode) {
@@ -24,7 +29,7 @@ public abstract class StatementVisitor<T> {
 	
 	public T visit(ComputedQuestion compQuestionNode) {
 		compQuestionNode.getIdentifier().accept(expressionVisitor);
-		compQuestionNode.getType().accept(expressionVisitor);
+		compQuestionNode.getType().accept(typeVisitor);
 		compQuestionNode.getText().accept(expressionVisitor);
 		compQuestionNode.getExpression().accept(expressionVisitor);
 		return null;
@@ -51,7 +56,7 @@ public abstract class StatementVisitor<T> {
 	
 	public T visit(Question questionNode) {
 		questionNode.getIdentifier().accept(expressionVisitor);
-		questionNode.getType().accept(expressionVisitor);
+		questionNode.getType().accept(typeVisitor);
 		questionNode.getText().accept(expressionVisitor);
 		return null;
 	}

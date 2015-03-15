@@ -40,8 +40,9 @@ import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 
-public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void> {
+public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	private String prefix = "";
 	private final String prefixSymbol;
 	private StringBuilder treeString;

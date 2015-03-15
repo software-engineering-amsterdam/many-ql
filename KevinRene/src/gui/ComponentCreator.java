@@ -30,8 +30,9 @@ import ql.ast.type.QLInteger;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 
-public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent> {	
+public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent>, TypeVisitor<UIComponent> {	
 	private ValueEnvironment valueEnvironment;
 
 	private ComponentCreator(ValueEnvironment valueEnvironment) {

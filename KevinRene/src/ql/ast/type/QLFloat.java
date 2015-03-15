@@ -1,6 +1,6 @@
 package ql.ast.type;
 
-import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.TypeVisitor;
 
 public class QLFloat extends QLNumeric {
 	public QLFloat() {
@@ -8,7 +8,7 @@ public class QLFloat extends QLNumeric {
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {		
+	public <T> T accept(TypeVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
 }

@@ -22,13 +22,6 @@ import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Lower;
 import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.NotEqual;
-import ql.ast.type.QLBoolean;
-import ql.ast.type.QLError;
-import ql.ast.type.QLFloat;
-import ql.ast.type.QLForm;
-import ql.ast.type.QLInteger;
-import ql.ast.type.QLNumeric;
-import ql.ast.type.QLString;
 
 public interface ExpressionVisitor<T> {	
 	default T visit(Unary unaryNode) {
@@ -43,15 +36,6 @@ public interface ExpressionVisitor<T> {
 	};
 	
 	default T visit(Identifier identNode) {	return null; }
-	
-	// Types contain nothing. An empty function will be the default visit action.
-	default T visit(QLBoolean booleanNode) { return null; }
-	default T visit(QLFloat floatNode) { return null; }   
-	default T visit(QLForm formNode) { return null; } 
-	default T visit(QLNumeric numericNode) { return null; }
-	default T visit(QLInteger intNode) { return null; }
-	default T visit(QLString stringNode) { return null; }
-	default T visit(QLError errNode) { return null; }
 	
 	default T visit(BooleanLiteral booleanNode) { return null; }	
 	default T visit(FloatLiteral floatNode) { return null; }

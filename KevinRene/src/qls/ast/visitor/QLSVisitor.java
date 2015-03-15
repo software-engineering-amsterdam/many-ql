@@ -3,6 +3,7 @@ package qls.ast.visitor;
 import ql.ast.expression.Literal;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 import qls.ast.QLSStatement;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
@@ -31,7 +32,7 @@ import qls.ast.widget.ValueSet;
  * 
  * @author Rene
  */
-public abstract class QLSVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T> {
+public abstract class QLSVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T>, TypeVisitor<T> {
 	public QLSVisitor() {
 		super.setExpressionVisitor(this);
 	}

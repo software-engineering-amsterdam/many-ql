@@ -22,10 +22,10 @@ import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.Equal;
-import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Greater;
-import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.NotEqual;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
@@ -42,13 +42,14 @@ import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 import ql.errorhandling.ErrorEnvironment;
 import ql.errorhandling.error.IllegalAssignmentError;
 import ql.errorhandling.error.RedefinedVariableError;
 import ql.errorhandling.error.TypeError;
 import ql.errorhandling.error.UndefinedVariableError;
 
-public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType> {
+public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<QLType> {
 	private ErrorEnvironment errorEnvironment;
 	private TypeEnvironment typeEnvironment;	
 	
@@ -63,10 +64,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		return errorEnvironment;
 	}
 	
-	/**
-	 * Entry point, static type checks the supplied tree
-	 * @return a boolean indicating pass or fail
-	 */
 	public static ErrorEnvironment check(Statement tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 				
@@ -75,11 +72,15 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		return typeChecker.getErrorEnvironment();
 	}	
 	
-	/**
-	 * Entry point, static type checks the supplied tree
-	 * @return a boolean indicating pass or fail
-	 */
 	public static ErrorEnvironment check(Expression tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
+		
+		tree.accept(typeChecker);
+
+		return typeChecker.getErrorEnvironment();
+	}
+	
+	public static ErrorEnvironment check(QLType tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		
 		tree.accept(typeChecker);
@@ -214,18 +215,28 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	/**
 	 * Types
 	 */
-	
+	@Override
 	public QLType visit(QLBoolean booleanNode) { return booleanNode; }
+	@Override
 	public QLType visit(QLFloat floatNode) { return floatNode; }
+	@Override
 	public QLType visit(QLForm formNode) { return formNode; }   
+	@Override
 	public QLType visit(QLNumeric numericNode) { return numericNode; }
+	@Override
 	public QLType visit(QLInteger intNode) { return intNode; }
+	@Override
 	public QLType visit(QLString stringNode) { return stringNode; }
+	@Override
 	public QLType visit(QLError errNode) { return errNode; }
 	
+	@Override
 	public QLType visit(BooleanLiteral booleanNode) { return booleanNode.getType(); }	
+	@Override
 	public QLType visit(FloatLiteral floatNode) { return floatNode.getType(); }
+	@Override
 	public QLType visit(IntegerLiteral intNode) { return intNode.getType(); }
+	@Override
 	public QLType visit(StringLiteral stringNode) {	return stringNode.getType(); }
 	
 	public QLType visit(Identifier identifier) {
@@ -243,7 +254,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 * Statements
 	 */	
 	@Override
-
 	public Void visit(ComputedQuestion compQuestionNode) {		
 		QLType questionType = compQuestionNode.getType();
 		QLType expressionType = compQuestionNode.getExpression().accept(this);
@@ -273,9 +283,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 			errorEnvironment.addError(new RedefinedVariableError(formIdentifier));
 		}
 		
-		super.visit(formNode);
-		
-		return null;
+		return super.visit(formNode);
 	}
 	
 	@Override
@@ -287,9 +295,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 			errorEnvironment.addError(new TypeError(ifNode, new QLBoolean(), ifType));
 		}		
 			
-		ifNode.getBlock().accept(this);
-		
-		return null;
+		return ifNode.getBlock().accept(this);
 	}
 	
 	@Override
@@ -303,9 +309,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 		
 		ifElseNode.getIfBranch().accept(this);
-		ifElseNode.getElseBranch().accept(this);
-		
-		return null;
+		return ifElseNode.getElseBranch().accept(this);
 	}
 
 	@Override
