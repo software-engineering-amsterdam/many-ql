@@ -14,5 +14,7 @@ public abstract class Statement extends AstNode
 
     public abstract boolean isStyleDefinition();
 
+    public abstract boolean isRenderable();
+    
     public abstract <T> T accept(StatementVisitor<T> visitor);
 }

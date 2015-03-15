@@ -7,12 +7,17 @@ import ql.ast.type.Type;
  */
 public abstract class NaryExpr extends Expr
 {
+    public NaryExpr()
+    {
+
+    }
+
     public NaryExpr(int lineNumber)
     {
         super(lineNumber);
     }
 
-    public abstract boolean isTypeAllowed(Type t);
+    public abstract boolean isTypeCompatibleWithExpr(Type t);
 
     public abstract Type getReturnType(Type childType);
 

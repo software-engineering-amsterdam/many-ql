@@ -1,15 +1,19 @@
 package qls.gui;
 
+import javafx.scene.layout.GridPane;
 import ql.ast.statement.CalculatedQuestion;
 import ql.ast.statement.IfCondition;
 import ql.ast.statement.Question;
 import ql.gui.GuiElement;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
-import ql.gui.segment.Segment;
+import ql.gui.segment.*;
+import ql.semantics.ConditionalQuestion;
 import ql.semantics.Flat;
 import qls.ast.*;
+import qls.ast.Page;
 import qls.ast.statement.*;
+import qls.ast.statement.Section;
 
 import java.util.*;
 
@@ -19,8 +23,9 @@ import java.util.*;
 // TODO
 public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Segment>, StatementVisitor<Segment>
 {
-    private Map<String, GuiElement> elems;
     private final Stylesheet stylesheet;
+    private Map<String, GuiElement> elems;
+    private Flat flat;
 
     public StyledModeler(Stylesheet stylesheet)
     {
@@ -31,63 +36,69 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     @Override
     public Canvas model(Flat flat)
     {
-        //TODO: get the renderables!
-        Collection<Renderable> renderables = Collections.emptyList();
-
-        List<Segment> segments = new ArrayList<>();
-        for (Renderable r : renderables)
+        // We do not need renderables, we only need to avoid visiting default statements
+//        //TODO: get the renderables!
+//        Collection<Renderable> renderables = Collections.emptyList();
+//
+//        List<Segment> segments = new ArrayList<>();
+//        for (Renderable r : renderables)
+//        {
+//            // TODO: create a renderable visitor?
+//            // segments.add(r.accept(this));
+//        }
+        this.flat = flat;
+        List<Segment> pageSegments = new ArrayList<>();
+        for (Page p : this.stylesheet.getBody())
         {
-            // TODO: create a renderable visitor?
-            // segments.add(r.accept(this));
+            pageSegments.add(p.accept(this));
         }
-        return null;
-    }
 
-    @Override
-    public Segment visit(qls.ast.statement.Question q)
-    {
-        return null;
-    }
-
-    @Override
-    public Segment visit(CalculatedQuestion q)
-    {
-        return null;
-    }
-
-    @Override
-    public Segment visit(IfCondition c)
-    {
-        return null;
+        return new Canvas("Unicorn!", pageSegments);
     }
 
     @Override
     public Segment visit(Section s)
     {
-        return null;
-    }
+        List<Segment> segments = new ArrayList<>();
 
-    private Segment visitRend(RenderableParent r)
-    {
-        return null;
+        for (Statement stat : s.getBody())
+        {
+            if (stat.isRenderable())
+            {
+                Segment segment = stat.accept(this);
+                segments.add(segment);
+            }
+        }
+        //Why does Section require Node?
+        return new ql.gui.segment.Section(new GridPane(), segments, true);
     }
 
     @Override
-    public Segment visit(Question q)
+    public Segment visit(qls.ast.statement.Question q)
     {
-        return null;
+        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
+
+        Segment qs = cq.getQuestion().accept(this);
+        List<Segment> r = new ArrayList<>();
+        r.add(qs);
+        return new Conditional(cq.getCondition(), r);
     }
 
     @Override
     public Segment visit(QuestionWithRules q)
     {
-        return null;
+        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
+
+        Segment qs = cq.getQuestion().accept(this);
+        List<Segment> r = new ArrayList<>();
+        r.add(qs);
+        return new Conditional(cq.getCondition(), r);
     }
 
     @Override
     public Segment visit(DefaultStat d)
     {
-        return null;
+        throw new IllegalStateException("Visiting a default node is not allowed");
     }
 
     @Override
@@ -99,6 +110,17 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     @Override
     public Segment visit(Page p)
     {
-        return null;
+        List<Segment> segments = new ArrayList<>();
+
+        for (Statement stat : p.getBody())
+        {
+            if (stat.isRenderable())
+            {
+                Segment segment = stat.accept(this);
+                segments.add(segment);
+            }
+        }
+
+        return new ql.gui.segment.Page(segments, true);
     }
 }

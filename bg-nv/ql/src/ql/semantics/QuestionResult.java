@@ -28,6 +28,6 @@ public class QuestionResult
 
     public boolean containsErrors()
     {
-        return this.messages.containError();
+        return this.messages.containsError();
     }
 }

@@ -7,6 +7,11 @@ import ql.ast.AstNode;
  */
 public abstract class Expr extends AstNode
 {
+    public Expr()
+    {
+
+    }
+
     public Expr(int lineNumber)
     {
         super(lineNumber);

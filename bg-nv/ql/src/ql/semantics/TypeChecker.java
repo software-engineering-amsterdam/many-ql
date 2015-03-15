@@ -16,6 +16,8 @@ import ql.semantics.errors.Warning;
 
 public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, ExprVisitor<Type>
 {
+    private final static UndefinedType UndefType = new UndefinedType();
+
     private QuestionMap questionMap;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
@@ -53,7 +55,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
     private UndefinedType undefinedType()
     {
-        return new UndefinedType();
+        return UndefType;
     }
 
     @Override
@@ -100,7 +102,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Boolean visit(Question q)
     {
-        this.questionDependencies.addQuestion(q);
+        this.questionDependencies.addQuestion(q.getId());
         this.labels.registerLabel(q);
 
         return true;
@@ -109,7 +111,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Boolean visit(CalculatedQuestion q)
     {
-        this.questionDependencies.addQuestion(q);
+        this.questionDependencies.addQuestion(q.getId());
         this.labels.registerLabel(q);
         Type defined = q.getType();
 
@@ -137,25 +139,25 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Type visit(Ident n)
     {
-        String id = n.getId();
-        if (this.isIdentUndeclared(id))
+        if (this.isIdentUndeclared(n))
         {
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
-            return new UndefinedType();
+            return UndefType;
         }
+
+        String id = n.getId();
 
         if (this.isScopeSet())
         {
-            Question q = this.questionMap.get(n.getId());
-            this.questionDependencies.addDependency(this.currentQuestion, q);
+            this.questionDependencies.addDependency(this.currentQuestion.getId(), id);
         }
 
         return this.questionMap.getType(id);
     }
 
-    private boolean isIdentUndeclared(String id)
+    private boolean isIdentUndeclared(Ident id)
     {
-        return !(this.questionMap.contains(id));
+        return !(this.questionMap.contains(id.getId()));
     }
 
     @Override
@@ -322,7 +324,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
     private boolean isChildOfAllowedType(NaryExpr e, Type childType)
     {
-        boolean isTypeAllowed = e.isTypeAllowed(childType);
+        boolean isTypeAllowed = e.isTypeCompatibleWithExpr(childType);
         if (!(isTypeAllowed))
         {
             this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));

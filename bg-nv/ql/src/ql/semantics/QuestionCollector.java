@@ -75,7 +75,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
         if (this.questionMap.contains(id))
         {
             int currentLineNumber = q.getLineNumber();
-            int duplicateLineNumber = this.questionMap.get(id).getLineNumber();
+            int duplicateLineNumber = this.questionMap.getLineNumber(id);
 
             Error error = Error.identifierAlreadyDeclared(id, duplicateLineNumber, currentLineNumber);
 

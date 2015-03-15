@@ -11,7 +11,7 @@ import java.util.Stack;
  */
 public class StyleStack
 {
-    Stack<Style> stack;
+    private final Stack<Style> stack;
 
     public StyleStack()
     {

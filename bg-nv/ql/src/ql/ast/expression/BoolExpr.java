@@ -5,6 +5,11 @@ package ql.ast.expression;
  */
 public class BoolExpr extends ConstExpr<Boolean>
 {
+    public BoolExpr(Boolean value)
+    {
+        super(value);
+    }
+
     public BoolExpr(Boolean value, int lineNumber)
     {
         super(value, lineNumber);

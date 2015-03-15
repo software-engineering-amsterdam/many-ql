@@ -1,45 +1,78 @@
 package ql.semantics;
 
+import ql.ast.expression.Expr;
 import ql.ast.form.Form;
 import ql.ast.form.FormVisitor;
-import ql.ast.statement.CalculatedQuestion;
-import ql.ast.statement.IfCondition;
-import ql.ast.statement.Question;
-import ql.ast.statement.StatVisitor;
+import ql.ast.statement.*;
+
+import java.util.Stack;
 
 /**
  * Created by Nik on 10-3-15.
  */
 public class Flattener implements FormVisitor<Void>, StatVisitor<Void>
 {
+    private final Flat flat;
+    private final ConditionStack conditionStack;
 
-    public static Flat flatten(Form ast)
+    public static Flat flatten(Form f)
     {
-        Flattener f = new Flattener();
-        return new Flat();
+        Flattener flattener = new Flattener();
+        f.accept(flattener);
+        return flattener.flat;
+    }
+
+    private Flattener()
+    {
+        this.flat = new Flat();
+        this.conditionStack = new ConditionStack();
     }
 
     @Override
     public Void visit(Form f)
     {
-        return null;
-    }
+        for (Statement s : f.getBody())
+        {
+            s.accept(this);
+        }
 
-    @Override
-    public Void visit(Question q)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion q)
-    {
         return null;
     }
 
     @Override
     public Void visit(IfCondition c)
     {
+        this.conditionStack.push(c.getCondition());
+
+        for (Statement s : c.getBody())
+        {
+            s.accept(this);
+        }
+
+        this.conditionStack.pop();
         return null;
+    }
+
+    @Override
+    public Void visit(Question q)
+    {
+        this.addQuestionToFlat(q);
+
+        return null;
+    }
+
+    @Override
+    public Void visit(CalculatedQuestion q)
+    {
+        this.addQuestionToFlat(q);
+
+        return null;
+    }
+
+    private void addQuestionToFlat(Question q)
+    {
+        Expr condition = this.conditionStack.peek();
+        ConditionalQuestion cq = new ConditionalQuestion(condition, q);
+        this.flat.addQuestion(cq);
     }
 }

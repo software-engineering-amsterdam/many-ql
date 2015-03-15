@@ -1,12 +1,11 @@
 package qls.ast.statement;
 
 import qls.ast.rule.Rules;
-import qls.ast.statement.*;
 
 /**
  * Created by bore on 02/03/15.
  */
-public class QuestionWithRules extends qls.ast.statement.Question
+public class QuestionWithRules extends Question
 {
     private final Rules body;
 

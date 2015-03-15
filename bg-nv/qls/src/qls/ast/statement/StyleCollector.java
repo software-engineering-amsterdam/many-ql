@@ -8,13 +8,9 @@ import qls.semantics.Style;
 /**
  * Created by bore on 09/03/15.
  */
-public class DefaultStyleCollector implements StylesheetVisitor<Style>, StatementVisitor<Style>
+public class StyleCollector extends DefaultStatementVisitor<Style> implements StylesheetVisitor<Style>
 {
-    @Override
-    public Style visit(Stylesheet s)
-    {
-        return new Style();
-    }
+    private static final Style style = new Style();
 
     @Override
     public Style visit(Page p)
@@ -31,7 +27,8 @@ public class DefaultStyleCollector implements StylesheetVisitor<Style>, Statemen
     private Style extractStyle(Iterable<qls.ast.statement.Statement> stats)
     {
         Style result = new Style();
-        for (qls.ast.statement.Statement stat : stats)
+
+        for (Statement stat : stats)
         {
             if (stat.isStyleDefinition())
             {
@@ -52,14 +49,14 @@ public class DefaultStyleCollector implements StylesheetVisitor<Style>, Statemen
     }
 
     @Override
-    public Style visit(Question q)
+    public Style visit(Stylesheet s)
     {
-        return new Style();
+        return style;
     }
 
     @Override
-    public Style visit(QuestionWithRules q)
+    public Style visitDefault(Statement s)
     {
-        return new Style();
+        return style;
     }
 }

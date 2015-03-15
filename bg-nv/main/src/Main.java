@@ -8,9 +8,11 @@ import ql.ast.AstBuilder;
 import ql.gui.SimpleGui;
 import ql.gui.SimpleModeler;
 import ql.semantics.TypeChecker;
+import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
 import qls.gen.QLSLexer;
 import qls.gen.QLSParser;
+import qls.gui.StyledModeler;
 import qls.semantics.*;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
@@ -22,6 +24,7 @@ import java.io.IOException;
 public class Main extends Application
 {
     private static Form ast;
+    private static Stylesheet stylesheet;
 
     public static void main(String[] args)
     {
@@ -38,7 +41,12 @@ public class Main extends Application
             AstBuilder visitor = new AstBuilder();
             ast = (Form) visitor.visit(tree);
 
-            TypeChecker.check(ast);
+            Messages ms = TypeChecker.check(ast);
+            if (ms.containsError())
+            {
+                System.err.print(ms.toString());
+                System.exit(1);
+            }
 
             CharStream s = new ANTLRFileStream(args[1]);
             QLSLexer l = new QLSLexer(s);
@@ -46,10 +54,10 @@ public class Main extends Application
             ParserRuleContext style = p.stylesheet();
 
             qls.ast.AstBuilder builder = new qls.ast.AstBuilder();
-            Stylesheet styleAst = (Stylesheet)builder.visit(style);
+            stylesheet = (Stylesheet)builder.visit(style);
 
-            qls.semantics.TypeChecker.check(styleAst, ast);
-            StyleMerger.getStyles(styleAst, ast);
+            qls.semantics.TypeChecker.check(stylesheet, ast);
+            StyleMerger.getStyles(stylesheet, ast);
 
         }
         catch (IOException e)
@@ -62,6 +70,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        SimpleGui.run(ast, new SimpleModeler(), primaryStage);
+        SimpleGui.run(ast, new StyledModeler(stylesheet), primaryStage);
     }
 }

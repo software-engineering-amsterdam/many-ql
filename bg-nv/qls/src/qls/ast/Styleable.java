@@ -7,5 +7,5 @@ import qls.semantics.Style;
  */
 public interface Styleable
 {
-    Style getStyle();
+    public Style getStyle();
 }

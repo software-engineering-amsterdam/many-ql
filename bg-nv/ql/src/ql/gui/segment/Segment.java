@@ -16,6 +16,10 @@ public abstract class Segment<T extends Node> extends GuiElement
     public Segment(T container, List<Segment> subsegments, Boolean visible)
     {
         super(visible);
+
+        assert subsegments != null;
+        assert container != null;
+
         this.container = container;
         this.subsegments = subsegments;
         this.setVisible(visible);

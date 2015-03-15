@@ -17,22 +17,19 @@ public class QuestionDependencies
         this.dependencies = new HashMap<>();
     }
 
-    public void addQuestion(Question q)
+    public void addQuestion(String id)
     {
-        String id = q.getId();
         if (!(this.dependencies.containsKey(id)))
         {
             this.dependencies.put(id, new HashSet<>());
         }
     }
 
-    public void addDependency(Question q, Question dep)
+    public void addDependency(String q, String dep)
     {
-        String id = q.getId();
+        assert this.dependencies.containsKey(q);
 
-        assert this.dependencies.containsKey(id);
-
-        this.dependencies.get(id).add(dep.getId());
+        this.dependencies.get(q).add(dep);
     }
 
     public Identifiers getCycleIds()

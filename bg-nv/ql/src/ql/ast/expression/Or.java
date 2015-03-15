@@ -14,7 +14,7 @@ public class Or extends BinaryExpr
     }
 
     @Override
-    public boolean isTypeAllowed(Type t)
+    public boolean isTypeCompatibleWithExpr(Type t)
     {
         return t.isBool();
     }

@@ -36,6 +36,12 @@ public class DefaultStat extends qls.ast.statement.Statement
     }
 
     @Override
+    public boolean isRenderable()
+    {
+        return false;
+    }
+
+    @Override
     public <T> T accept(StatementVisitor<T> visitor)
     {
         return visitor.visit(this);

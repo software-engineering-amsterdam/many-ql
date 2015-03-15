@@ -300,6 +300,6 @@ public class UndefinedValue extends Value<Void>
 
     public <T> T accept(ValueVisitor<T> visitor)
     {
-        return null;
+        throw new IllegalStateException("Visiting undefined value");
     }
 }

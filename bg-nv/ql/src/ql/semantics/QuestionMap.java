@@ -27,13 +27,15 @@ public class QuestionMap implements Iterable<String>
         return this.questionMap.containsKey(id);
     }
 
-    public Question get(String id)
+    public int getLineNumber(String id)
     {
-        return this.questionMap.get(id);
+        assert this.questionMap.containsKey(id);
+        return this.questionMap.get(id).getLineNumber();
     }
 
     public Type getType(String id)
     {
+        assert this.questionMap.containsKey(id);
         return this.questionMap.get(id).getType();
     }
 

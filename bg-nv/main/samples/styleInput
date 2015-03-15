@@ -7,5 +7,7 @@ stylesheet sample {
             width: 15
             widget checkbox
          }
+         question name
+         question surname
     }
 }

@@ -13,8 +13,13 @@ public class And extends BinaryExpr
         super(left, right, lineNumber);
     }
 
+    public And(Expr left, Expr right)
+    {
+        super(left, right);
+    }
+
     @Override
-    public boolean isTypeAllowed(Type t)
+    public boolean isTypeCompatibleWithExpr(Type t)
     {
         return t.isBool();
     }

@@ -14,7 +14,7 @@ public class LtEqu extends BinaryExpr
     }
 
     @Override
-    public boolean isTypeAllowed(Type t)
+    public boolean isTypeCompatibleWithExpr(Type t)
     {
         return t.isNumerical();
     }

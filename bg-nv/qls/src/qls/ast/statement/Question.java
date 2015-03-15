@@ -25,6 +25,12 @@ public class Question extends Statement
     }
 
     @Override
+    public boolean isRenderable()
+    {
+        return true;
+    }
+
+    @Override
     public <T> T accept(StatementVisitor<T> visitor)
     {
         return visitor.visit(this);

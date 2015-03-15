@@ -11,6 +11,18 @@ public class ForeColor extends ColorRule
     }
 
     @Override
+    public boolean isOverwrittenBy(Rule r)
+    {
+        return r.isOverwrittenByForeColor(this);
+    }
+
+    @Override
+    protected boolean isOverwrittenByForeColor(ForeColor r)
+    {
+        return true;
+    }
+
+    @Override
     public <T> T accept(RuleVisitor<T> visitor)
     {
         return visitor.visit(this);

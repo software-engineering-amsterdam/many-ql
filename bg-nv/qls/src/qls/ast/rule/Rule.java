@@ -13,10 +13,7 @@ public abstract class Rule extends AstNode
         super(lineNumber);
     }
 
-    public boolean isCompatibleWithType(Type t)
-    {
-        throw new IllegalStateException("Unsupported rule type");
-    }
+    public abstract boolean isCompatibleWithType(Type t);
 
     public boolean isOverwrittenBy(Rule r)
     {
@@ -28,12 +25,21 @@ public abstract class Rule extends AstNode
         return false;
     }
 
-    protected boolean isOverwrittenByWidget(Widget r)
+    protected boolean isOverwrittenByFont(Font r)
     {
         return false;
     }
 
-    protected boolean isOverwrittenByFont(Font r)
+    protected boolean isOverwrittenByFontSize(FontSize r)
+    {
+        return false;
+    }
+
+    protected boolean isOverwrittenByForeColor(ForeColor r) { return false; }
+
+    protected boolean isOverwrittenByBackColor(BackColor r) { return false; }
+
+    protected boolean isOverwrittenByWidget(Widget r)
     {
         return false;
     }

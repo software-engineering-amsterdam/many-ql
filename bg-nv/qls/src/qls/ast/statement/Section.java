@@ -13,12 +13,16 @@ public class Section extends Statement implements Styleable, RenderableParent
 {
     private final String name;
     private final List<Statement> body;
+    private final Style style;
 
     public Section(String name, List<Statement> body, int lineNumber)
     {
         super(lineNumber);
         this.name = name;
         this.body = body;
+
+        StyleCollector c = new StyleCollector();
+        this.style = c.visit(this);
     }
 
     public String getName()
@@ -46,8 +50,13 @@ public class Section extends Statement implements Styleable, RenderableParent
     @Override
     public Style getStyle()
     {
-        DefaultStyleCollector visitor = new DefaultStyleCollector();
-        return visitor.visit(this);
+        return this.style;
+    }
+
+    @Override
+    public boolean isRenderable()
+    {
+        return true;
     }
 
     @Override

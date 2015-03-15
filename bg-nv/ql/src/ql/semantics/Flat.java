@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Flat implements Iterable<ConditionalQuestion>
 {
-    private List<ConditionalQuestion> flat;
+    private final List<ConditionalQuestion> flat;
 
     public Flat()
     {

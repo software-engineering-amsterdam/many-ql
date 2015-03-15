@@ -11,6 +11,18 @@ public class FontSize extends IntRule
     }
 
     @Override
+    public boolean isOverwrittenBy(Rule r)
+    {
+        return r.isOverwrittenByFontSize(this);
+    }
+
+    @Override
+    protected boolean isOverwrittenByFontSize(FontSize r)
+    {
+        return true;
+    }
+
+    @Override
     public <T> T accept(RuleVisitor<T> visitor)
     {
         return visitor.visit(this);

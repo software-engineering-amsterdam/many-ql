@@ -13,7 +13,7 @@ public class Mul extends BinaryExpr
     }
 
     @Override
-    public boolean isTypeAllowed(Type t)
+    public boolean isTypeCompatibleWithExpr(Type t)
     {
         return t.isNumerical();
     }

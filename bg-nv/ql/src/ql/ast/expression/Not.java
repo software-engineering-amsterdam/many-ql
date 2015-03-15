@@ -13,7 +13,7 @@ public class Not extends UnaryExpr
     }
 
     @Override
-    public boolean isTypeAllowed(Type t)
+    public boolean isTypeCompatibleWithExpr(Type t)
     {
         return t.isBool();
     }

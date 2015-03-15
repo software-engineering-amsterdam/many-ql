@@ -22,9 +22,9 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private QuestionMap questions;
-    private Set<String> refQuestions;
-    private Messages messages;
+    private final QuestionMap questions;
+    private final Set<String> refQuestions;
+    private final Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
@@ -81,6 +81,14 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     @Override
     public Boolean visit(Section s)
     {
+        for (Statement stat : s.getBody())
+        {
+            if (!(stat.accept(this)))
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 

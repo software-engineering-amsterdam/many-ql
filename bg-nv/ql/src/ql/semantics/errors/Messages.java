@@ -25,7 +25,7 @@ public class Messages
         return this.messages.get(i);
     }
 
-    public boolean containError()
+    public boolean containsError()
     {
         for (Message m : this.messages)
         {
