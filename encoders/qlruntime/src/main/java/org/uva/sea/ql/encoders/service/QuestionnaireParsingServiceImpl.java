@@ -36,9 +36,9 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 		parser.addErrorListener(new BaseErrorListener() {
 			@Override
-			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
+			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int column,
 					String msg, RecognitionException e) {
-				validations.add(new SyntaxValidation(msg, new TextLocation(line, charPositionInLine)));
+				validations.add(new SyntaxValidation(msg, new TextLocation(line, column)));
 			}
 		});
 

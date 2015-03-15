@@ -3,17 +3,17 @@ package org.uva.sea.ql.encoders.ast;
 public class TextLocationBuilder {
 
 	private int line;
-	private int charPositionInLine;
+	private int column;
 
 	public static TextLocationBuilder aTextLocation() {
 		TextLocationBuilder builder = new TextLocationBuilder();
 		builder.line = 10;
-		builder.charPositionInLine = 10;
+		builder.column = 10;
 		return builder;
 	}
 
 	public TextLocation build() {
-		return new TextLocation(line, charPositionInLine);
+		return new TextLocation(line, column);
 	}
 
 	public TextLocationBuilder withLine(int line) {
@@ -21,8 +21,8 @@ public class TextLocationBuilder {
 		return this;
 	}
 
-	public TextLocationBuilder withCharPositionInLine(int charPositionInLine) {
-		this.charPositionInLine = charPositionInLine;
+	public TextLocationBuilder withColumn(int column) {
+		this.column = column;
 		return this;
 	}
 }

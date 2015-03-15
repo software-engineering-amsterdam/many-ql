@@ -25,7 +25,7 @@ public class Validation {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("line " + textLocation.getLine());
-		builder.append(":" + textLocation.getCharPositionInLine());
+		builder.append(":" + textLocation.getColumn());
 		builder.append(" ");
 		builder.append(validationMessage);
 		builder.append("\n");

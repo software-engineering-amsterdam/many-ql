@@ -3,15 +3,15 @@ package org.uva.sea.ql.encoders.ast;
 public class TextLocation {
 
 	private int line;
-	private int charPositionInLine;
+	private int column;
 
-	public TextLocation(int line, int charPositionInLine) {
+	public TextLocation(int line, int column) {
 		this.line = line;
-		this.charPositionInLine = charPositionInLine;
+		this.column = column;
 	}
 
-	public int getCharPositionInLine() {
-		return charPositionInLine;
+	public int getColumn() {
+		return column;
 	}
 
 	public int getLine() {
@@ -20,6 +20,6 @@ public class TextLocation {
 
 	@Override
 	public String toString() {
-		return "Line: " + line + " Position in line: " + charPositionInLine;
+		return "Line: " + line + " Position in line: " + column;
 	}
 }

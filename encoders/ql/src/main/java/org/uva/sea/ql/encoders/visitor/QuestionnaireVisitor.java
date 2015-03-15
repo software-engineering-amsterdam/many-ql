@@ -208,8 +208,8 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
 		Token start = ctx.getStart();
 		int line = start.getLine();
-		int charPositionInLine = start.getCharPositionInLine();
-		return new TextLocation(line, charPositionInLine);
+		int column = start.getCharPositionInLine();
+		return new TextLocation(line, column);
 	}
 
 }
