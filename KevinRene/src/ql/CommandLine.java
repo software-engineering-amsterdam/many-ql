@@ -10,6 +10,7 @@ import ql.ast.Statement;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
 public class CommandLine {
@@ -20,8 +21,8 @@ public class CommandLine {
 	public static void main(String[] args) {
 		TypeEnvironment register = new TypeEnvironment();
 		ValueEnvironment valueEnv = new ValueEnvironment();
+		ErrorEnvironment errorEnvironment;
 		
-		boolean correctTypes = false;
 		Value evaluatorResult = null;
 		
 		try {
@@ -40,19 +41,19 @@ public class CommandLine {
 					QLNode tree = Parser.parse(str);
 					
 					if(tree instanceof Statement) {
-						correctTypes = TypeChecker.check((Statement) tree, register);
+						errorEnvironment = TypeChecker.check((Statement) tree, register);
 						evaluatorResult = Evaluator.check((Statement) tree, valueEnv);
 						
 						PrettyPrinter.print((Statement) tree);
 					} else {
-						correctTypes = TypeChecker.check((Expression) tree, register);
+						errorEnvironment = TypeChecker.check((Expression) tree, register);
 						evaluatorResult = Evaluator.check((Expression) tree, valueEnv);
 						
 						PrettyPrinter.print((Expression) tree);
 					}
 					
-					if(!correctTypes) {
-						System.out.println("Type error detected in the form.");
+					if(!errorEnvironment.hasErrors()) {
+						System.out.println(errorEnvironment.getErrors());
 						continue;
 					}
 					

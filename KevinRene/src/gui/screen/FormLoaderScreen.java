@@ -28,8 +28,7 @@ public class FormLoaderScreen extends Screen {
 	private Section buttonPanel, logPanel;
 	private Button openButton;
 	private UILog log;
-	private QLNode formAst;
-	private ErrorEnvironment errorEnvironment;
+	private QLNode parsedTree;
 	
 	public FormLoaderScreen(UIComponent handler) {
 		log = new UILog();
@@ -46,13 +45,11 @@ public class FormLoaderScreen extends Screen {
 		fileChooser = new FormFileChooser();
 		fileChooser.setHandler(this);
 		
-		errorEnvironment = new ErrorEnvironment();
-		
 		setHandler(handler);
 	}	
 	
 	public QLNode getFormAst() {
-		return formAst;
+		return parsedTree;
 	}
 	
 	private void addLogMessage(String logMessage) {
@@ -72,14 +69,27 @@ public class FormLoaderScreen extends Screen {
 		return FAILURE;
 	}
 	
-	private boolean createFormAst(String formCode) {
-        formAst = Parser.parse(formCode);
-
-		if(formAst instanceof Form) {
-			return TypeChecker.check((Statement) formAst, new TypeEnvironment(), errorEnvironment);
+	private boolean isValidForm(QLNode tree) {
+		return tree instanceof Form;
+	}
+	
+	private boolean processFile() {
+		String fileContents = loadSelectedFile();
+		
+		if(fileContents == FAILURE) {
+			return false;
 		}
 		
-		return false;
+		parsedTree = Parser.parse(fileContents);
+		
+		if(!isValidForm(parsedTree)) {
+			return false;
+		} 
+		
+		ErrorEnvironment errorEnvironment = TypeChecker.check((Statement) parsedTree, new TypeEnvironment());
+		addLogMessage(errorEnvironment.getErrors());
+		
+		return !errorEnvironment.hasErrors();
 	}
 	
 	@Override
@@ -89,15 +99,8 @@ public class FormLoaderScreen extends Screen {
 		}
 		
 		if (fileChooser.showOpenDialog(getScreen())) {
-			String fileContents = loadSelectedFile();
-			if(fileContents == FAILURE) {
-				return;
-			}
-			
-			if(createFormAst(fileContents)) {
+			if(processFile()) {
 				super.handleChange(changedValue, this);
-			} else {
-				addLogMessage(errorEnvironment.getErrors());
 			}
 		} else {
 			addLogMessage("Open command cancelled by user.");

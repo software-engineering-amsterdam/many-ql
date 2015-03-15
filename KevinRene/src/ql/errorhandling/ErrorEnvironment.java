@@ -11,7 +11,7 @@ public class ErrorEnvironment {
 	}
 	
 	public boolean hasErrors() {
-		return errors.isEmpty();
+		return !errors.isEmpty();
 	}
 	
 	public void addError(Error error) {

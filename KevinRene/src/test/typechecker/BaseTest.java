@@ -11,6 +11,7 @@ import ql.ast.Expression;
 import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
 public abstract class BaseTest {
@@ -41,16 +42,16 @@ public abstract class BaseTest {
 
 	@Test
 	public void test() {
-		boolean expressionValue;
+		ErrorEnvironment errors;
 
 		if(inputNode instanceof Expression) {
-			expressionValue = TypeChecker.check((Expression) inputNode, register);
+			errors = TypeChecker.check((Expression) inputNode, register);
 		} else {
-			expressionValue = TypeChecker.check((Statement) inputNode, register);
+			errors = TypeChecker.check((Statement) inputNode, register);
 		}
 		
-		System.out.println("   Result: " + expressionValue);
+		System.out.println("   Result: " + errors.hasErrors());
 
-		assertEquals(expected, expressionValue);
+		assertEquals(expected, errors.hasErrors());
 	}
 }

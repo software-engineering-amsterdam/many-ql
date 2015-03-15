@@ -14,19 +14,19 @@ import ql.ast.expression.arithmetic.Multiply;
 import ql.ast.expression.arithmetic.Negation;
 import ql.ast.expression.arithmetic.Positive;
 import ql.ast.expression.arithmetic.Subtract;
+import ql.ast.expression.booleanalgebra.And;
+import ql.ast.expression.booleanalgebra.Not;
+import ql.ast.expression.booleanalgebra.Or;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
-import ql.ast.expression.relational.And;
 import ql.ast.expression.relational.Equal;
 import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Greater;
 import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.Lower;
 import ql.ast.expression.relational.NotEqual;
-import ql.ast.expression.relational.Not;
-import ql.ast.expression.relational.Or;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.Form;
@@ -49,54 +49,43 @@ import ql.errorhandling.error.TypeError;
 import ql.errorhandling.error.UndefinedVariableError;
 
 public class TypeChecker extends StatementVisitor<QLType> implements ExpressionVisitor<QLType> {
-	private static ErrorEnvironment typeErrors;
+	private ErrorEnvironment errorEnvironment;
 	private TypeEnvironment typeEnvironment;	
 	
-	private TypeChecker(TypeEnvironment typeEnv) {
-		this.typeEnvironment = typeEnv;
+	private TypeChecker(TypeEnvironment typeEnvironment) {
 		super.setExpressionVisitor(this);
+		
+		this.typeEnvironment = typeEnvironment;
+		errorEnvironment = new ErrorEnvironment();
+	}
+	
+	public ErrorEnvironment getErrorEnvironment() {
+		return errorEnvironment;
 	}
 	
 	/**
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Statement tree, TypeEnvironment typeEnvironment) {
+	public static ErrorEnvironment check(Statement tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
-		typeErrors = new ErrorEnvironment();
-		
+				
 		tree.accept(typeChecker);
 
-		return typeErrors.hasErrors();
+		return typeChecker.getErrorEnvironment();
 	}	
 	
 	/**
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(Expression tree, TypeEnvironment typeEnvironment) {
+	public static ErrorEnvironment check(Expression tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
-		typeErrors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
 
-		return typeErrors.hasErrors();
+		return typeChecker.getErrorEnvironment();
 	}	
-	
-	/**
-	 * Entry point, static type checks the supplied tree
-	 * @return a boolean indicating pass or fail
-	 */
-	public static boolean check(Statement tree, TypeEnvironment typeEnvironment, ErrorEnvironment errors) {
-		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
-		
-		typeErrors = errors;
-		
-		tree.accept(typeChecker);
-		
-		return typeErrors.hasErrors();
-	}	
-	
 	
 	/**
 	 * Checks whether the given expression passes the type checker. 
@@ -113,7 +102,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 				
 		// Both operands should be compatible with compatibleWith
 		if (!isCompatibleWith(actualTypes, expectedTypes)) {
-			typeErrors.addError(new TypeError(expr, expectedTypes, actualTypes));
+			errorEnvironment.addError(new TypeError(expr, expectedTypes, actualTypes));
 		}
 		
 		return expr.getType();
@@ -243,7 +232,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		QLType identifierType = typeEnvironment.resolve(identifier);
 		
 		if(identifierType == null) {
-			typeErrors.addError(new UndefinedVariableError(identifier));
+			errorEnvironment.addError(new UndefinedVariableError(identifier));
 			return new QLError();
 		}
 		
@@ -260,7 +249,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		QLType expressionType = compQuestionNode.getExpression().accept(this);
 		
 		if(!questionType.compatibleWith(expressionType)) {
-			typeErrors.addError(new IllegalAssignmentError(compQuestionNode, questionType, expressionType));
+			errorEnvironment.addError(new IllegalAssignmentError(compQuestionNode, questionType, expressionType));
 		}
 		
 		Identifier questionIdentifier = compQuestionNode.getIdentifier();
@@ -268,7 +257,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		if(typeEnvironment.resolve(questionIdentifier) == null) {
 			typeEnvironment.store(questionIdentifier, questionType);
 		} else {
-			typeErrors.addError(new RedefinedVariableError(questionIdentifier));
+			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
 		
 		return questionType;
@@ -281,7 +270,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		if(typeEnvironment.resolve(formIdentifier) == null) {
 			typeEnvironment.store(formNode.getIdentifier(), formNode.getType());
 		} else {
-			typeErrors.addError(new RedefinedVariableError(formIdentifier));
+			errorEnvironment.addError(new RedefinedVariableError(formIdentifier));
 		}
 		
 		super.visit(formNode);
@@ -295,7 +284,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		QLType ifType = ifNode.getExpression().accept(this);
 		
 		if (!ifType.compatibleWith(new QLBoolean())) {
-			typeErrors.addError(new TypeError(ifNode, new QLBoolean(), ifType));
+			errorEnvironment.addError(new TypeError(ifNode, new QLBoolean(), ifType));
 		}		
 			
 		ifNode.getBlock().accept(this);
@@ -309,7 +298,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		QLType ifType = ifElseNode.getExpression().accept(this);
 		
 		if (!ifType.compatibleWith(new QLBoolean())) {
-			typeErrors.addError(new TypeError(ifElseNode, new QLBoolean(), ifType));
+			errorEnvironment.addError(new TypeError(ifElseNode, new QLBoolean(), ifType));
 		}		
 
 		
@@ -326,7 +315,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		if(typeEnvironment.resolve(questionIdentifier) == null) {
 			typeEnvironment.store(questionIdentifier, questionNode.getType());
 		} else {
-			typeErrors.addError(new RedefinedVariableError(questionIdentifier));
+			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
 		
 		return questionNode.getType();
