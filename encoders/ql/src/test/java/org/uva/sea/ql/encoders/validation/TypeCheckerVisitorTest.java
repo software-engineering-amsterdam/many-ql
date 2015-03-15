@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.type.StringType;
+import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
 
 public class TypeCheckerVisitorTest {
 

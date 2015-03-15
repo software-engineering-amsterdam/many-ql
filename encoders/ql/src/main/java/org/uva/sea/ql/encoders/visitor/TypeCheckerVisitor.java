@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.validation;
+package org.uva.sea.ql.encoders.visitor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
-import org.uva.sea.ql.encoders.visitor.BaseAstVisitor;
+import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 

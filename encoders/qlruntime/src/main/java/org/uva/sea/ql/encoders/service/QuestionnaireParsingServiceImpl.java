@@ -15,9 +15,9 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.validation.SyntaxValidation;
-import org.uva.sea.ql.encoders.validation.TypeCheckerVisitor;
 import org.uva.sea.ql.encoders.validation.Validation;
 import org.uva.sea.ql.encoders.visitor.QuestionnaireVisitor;
+import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
