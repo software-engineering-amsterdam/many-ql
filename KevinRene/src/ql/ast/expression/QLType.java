@@ -26,7 +26,7 @@ public abstract class QLType extends Expression {
 	/**
 	 * @return the list of compatibilities
 	 */
-	public List<String> compatibilities() {
+	public List<String> compatibilitiesAsStrings() {
 		return compatibleTypes.stream()
 				.map(ct -> ct.getSimpleName())
 				.collect(Collectors.toList());

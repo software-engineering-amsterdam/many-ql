@@ -44,7 +44,7 @@ public class TypeErrors {
 				.collect(Collectors.joining(" & "));
 		
 		errors.add(new Error(node, "Expected type: " 
-				+ compatibleTo.compatibilities() + ", actual types: " 
+				+ compatibleTo.compatibilitiesAsStrings() + ", actual types: " 
 				+ actualTypes	+ "."));
 	}
 	
