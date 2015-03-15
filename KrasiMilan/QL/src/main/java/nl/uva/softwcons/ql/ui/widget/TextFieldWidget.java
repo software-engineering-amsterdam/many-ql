@@ -21,7 +21,7 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public void setValue(final Value value) {
-        this.textField.setText(value.toString());
+        this.textField.setText(converter.fromValue(value));
     }
 
     @Override
