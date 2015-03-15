@@ -20,7 +20,7 @@ import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitorTest {
 
-	private TypeCheckerVisitor visitor;
+	private TypeChecker visitor;
 
 	@Test
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
@@ -29,7 +29,7 @@ public class TypeCheckerVisitorTest {
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, "&&");
 		Question question = aQuestion().withCondition(condition).build();
 		List<Question> questions = Arrays.asList(question);
-		visitor = new TypeCheckerVisitor(questions);
+		visitor = new TypeChecker(questions);
 
 		List<TypeValidation> validations = visitor.checkTypes();
 		assertThat(validations.size(), is(0));
@@ -42,7 +42,7 @@ public class TypeCheckerVisitorTest {
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, "&&");
 		Question question = aQuestion().withCondition(condition).build();
 		List<Question> questions = Arrays.asList(question);
-		visitor = new TypeCheckerVisitor(questions);
+		visitor = new TypeChecker(questions);
 
 		List<TypeValidation> validations = visitor.checkTypes();
 		Validation validation = validations.get(0);
@@ -56,7 +56,7 @@ public class TypeCheckerVisitorTest {
 		Question questionA = aQuestion().withQuestionLabel(questionLabel).build();
 		Question questionB = aQuestion().withQuestionLabel(questionLabel).build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
-		visitor = new TypeCheckerVisitor(questions);
+		visitor = new TypeChecker(questions);
 
 		List<TypeValidation> validations = visitor.checkTypes();
 		Validation validation = validations.get(0);
@@ -70,7 +70,7 @@ public class TypeCheckerVisitorTest {
 		Question questionA = aQuestion().withQuestionLabel(questionLabel).build();
 		Question questionB = aQuestion().withQuestionLabel(questionLabel + "2").build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
-		visitor = new TypeCheckerVisitor(questions);
+		visitor = new TypeChecker(questions);
 
 		List<TypeValidation> validations = visitor.checkTypes();
 		assertThat(validations.size(), is(0));

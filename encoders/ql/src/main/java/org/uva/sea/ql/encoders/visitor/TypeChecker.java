@@ -26,7 +26,7 @@ import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 
-public class TypeCheckerVisitor implements AstVisitor<DataType> {
+public class TypeChecker implements AstVisitor<DataType> {
 
 	private static final String BOOLEAN_CONDITION = "booleanCondition";
 	private static final String DUPLICATE_LABEL = "duplicateLabel";
@@ -42,7 +42,7 @@ public class TypeCheckerVisitor implements AstVisitor<DataType> {
 
 	private List<Question> questions = new ArrayList<>();
 
-	public TypeCheckerVisitor(List<Question> questions) {
+	public TypeChecker(List<Question> questions) {
 		this.questions = questions;
 	}
 

@@ -17,7 +17,7 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.validation.SyntaxError;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 import org.uva.sea.ql.encoders.visitor.QuestionnaireVisitor;
-import org.uva.sea.ql.encoders.visitor.TypeCheckerVisitor;
+import org.uva.sea.ql.encoders.visitor.TypeChecker;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
@@ -47,7 +47,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
-		TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(questionnaire.getQuestions());
+		TypeChecker typeChecker = new TypeChecker(questionnaire.getQuestions());
 		List<TypeValidation> typeValidations = new ArrayList<>();
 		typeValidations.addAll(typeChecker.checkTypes());
 
