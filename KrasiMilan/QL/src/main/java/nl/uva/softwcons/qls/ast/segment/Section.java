@@ -28,4 +28,9 @@ public class Section extends PageSegment implements ASTNode {
         return styles;
     }
 
+    @Override
+    public <T> T visit(final SegmentVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

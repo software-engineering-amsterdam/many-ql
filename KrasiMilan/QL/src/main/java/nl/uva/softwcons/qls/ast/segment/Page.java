@@ -29,4 +29,8 @@ public class Page implements ASTNode {
         return styles;
     }
 
+    public <T> T accept(final SegmentVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

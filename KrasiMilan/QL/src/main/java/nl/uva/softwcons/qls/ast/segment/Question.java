@@ -26,4 +26,9 @@ public class Question extends PageSegment implements ASTNode {
         return widget;
     }
 
+    @Override
+    public <T> T visit(final SegmentVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }
