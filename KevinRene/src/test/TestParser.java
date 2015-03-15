@@ -46,7 +46,7 @@ public class TestParser {
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?)))", result.toString());
+				+ "\"Did you sell a house in 2010?\")))", result.toString());
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class TestParser {
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
-				+ "what is your house?, 105050 * 238482 / 2342)))", result.toString());
+				+ "\"what is your house?\", 105050 * 238482 / 2342)))", result.toString());
 	}
 	
 	@Test
@@ -79,8 +79,8 @@ public class TestParser {
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?), IfThen(5 == 5, "
-				+ "Block(Question(houseValue, QLFloat, Lol I dont care)))))", result.toString());
+				+ "\"Did you sell a house in 2010?\"), IfThen(5 == 5, "
+				+ "Block(Question(houseValue, QLFloat, \"Lol I dont care\")))))", result.toString());
 	}
 	
 	@Test
@@ -100,7 +100,7 @@ public class TestParser {
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?), ComputedQuestion(houseValue, "
-				+ "QLFloat, Your house is worth:, 5000.0)))", result.toString());
+				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(houseValue, "
+				+ "QLFloat, \"Your house is worth:\", 5000.0)))", result.toString());
 	}	
 }

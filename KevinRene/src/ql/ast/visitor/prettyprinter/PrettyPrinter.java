@@ -43,21 +43,82 @@ import ql.ast.visitor.StatementVisitor;
 
 public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void> {
 	private String prefix = "";
+	private final String prefixSymbol;
+	private StringBuilder treeString;
 	
 	private PrettyPrinter() {
 		super.setExpressionVisitor(this);
+		
+		prefixSymbol = "└── ";
+		treeString = new StringBuilder();
+	}
+	
+	private PrettyPrinter(String prefixSymbol) {
+		super.setExpressionVisitor(this);
+		
+		this.prefixSymbol = prefixSymbol;
+		treeString = new StringBuilder();
+	}
+	
+	public String getTreeString() {
+		return treeString.toString();
+	}
+	
+	/* 
+	 * Expression with default prefix 
+	 */
+	public static String stringify(Expression expression) {
+		PrettyPrinter printer = new PrettyPrinter();
+		expression.accept(printer);
+		
+		return printer.getTreeString();
 	}
 	
 	public static void print(Expression expression) {
+		System.out.println(stringify(expression));
+	}
+	
+	/* 
+	 * Statement with default prefix 
+	 */
+	public static String stringify(Statement statement) {
 		PrettyPrinter printer = new PrettyPrinter();
+		statement.accept(printer);
 		
-		expression.accept(printer);
+		return printer.getTreeString();
 	}
 	
 	public static void print(Statement statement) {
-		PrettyPrinter printer = new PrettyPrinter();
+		System.out.println(stringify(statement));
+	}
+	
+	/* 
+	 * Expression with custom prefix 
+	 */
+	public static String stringify(Expression expression, String prefixSymbol) {
+		PrettyPrinter printer = new PrettyPrinter(prefixSymbol);
+		expression.accept(printer);
 		
+		return printer.getTreeString();
+	}
+	
+	public static void print(Expression expression, String prefixSymbol) {
+		System.out.println(stringify(expression, prefixSymbol));
+	}
+	
+	
+	/* 
+	 * Statement with custom prefix 
+	 */
+	public static String stringify(Statement statement, String prefixSymbol) {
+		PrettyPrinter printer = new PrettyPrinter(prefixSymbol);
 		statement.accept(printer);
+		
+		return printer.getTreeString();
+	}
+	
+	public static void print(Statement statement, String prefixSymbol) {
+		System.out.println(stringify(statement, prefixSymbol));
 	}
 	
 	
@@ -90,7 +151,7 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
-		System.out.println(prefix + ("└── ") + nodeString + " : " + type);
+		treeString.append(prefix + (prefixSymbol) + nodeString + " : " + type + "\n");
 	}
 	
 	/**

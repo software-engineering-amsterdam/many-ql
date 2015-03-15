@@ -35,11 +35,17 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("slider", SLIDER);
 		KEYWORDS.put("text", TEXT);
 		KEYWORDS.put("dropdown", DROPDOWN);
+<<<<<<< HEAD
+
 		KEYWORDS.put("width", WIDTH);
 		KEYWORDS.put("height", HEIGHT);
 		KEYWORDS.put("font", FONT);
 		KEYWORDS.put("fontsize", FONTSIZE);
 		KEYWORDS.put("color", COLOR);
+=======
+		
+		KEYWORDS.put("width", WIDTH);
+>>>>>>> Changed error output format. A string representation of the erroneous node is now included.
 	}
 	
 	
