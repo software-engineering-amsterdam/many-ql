@@ -13,7 +13,7 @@ statement:
      ;
         
 question:
-     questionString=STRINGLITERAL 
+     questionLabel=STRINGLITERAL 
      questionName=NAME ':' type=DATATYPE ('=' computed=expression)?
      ;
          

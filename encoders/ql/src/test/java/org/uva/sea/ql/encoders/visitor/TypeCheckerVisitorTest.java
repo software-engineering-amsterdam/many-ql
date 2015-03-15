@@ -52,8 +52,8 @@ public class TypeCheckerVisitorTest {
 	@Test
 	public void testCheckTypes_duplicateLabelsAreNotAllowed() {
 		String questionLabel = "What is the meaning of life?";
-		Question questionA = question().withQuestionText(questionLabel).build();
-		Question questionB = question().withQuestionText(questionLabel).build();
+		Question questionA = question().withQuestionLabel(questionLabel).build();
+		Question questionB = question().withQuestionLabel(questionLabel).build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
@@ -66,8 +66,8 @@ public class TypeCheckerVisitorTest {
 	@Test
 	public void testCheckTypes_differentLabelsAreAllowed() {
 		String questionLabel = "What is the meaning of life?";
-		Question questionA = question().withQuestionText(questionLabel).build();
-		Question questionB = question().withQuestionText(questionLabel + "2").build();
+		Question questionA = question().withQuestionLabel(questionLabel).build();
+		Question questionB = question().withQuestionLabel(questionLabel + "2").build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 

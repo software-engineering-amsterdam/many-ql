@@ -9,7 +9,7 @@ public class QuestionBuilder {
 	private TextLocation textLocation;
 	private String name;
 	private DataType dataType;
-	private String questionText;
+	private String questionLabel;
 	private Expression computed;
 	private Expression condition;
 
@@ -18,14 +18,14 @@ public class QuestionBuilder {
 		builder.textLocation = new TextLocation(10, 10);
 		builder.name = "why";
 		builder.dataType = new BooleanType();
-		builder.questionText = "Why?";
+		builder.questionLabel = "Why?";
 		builder.computed = null;
 		builder.condition = null;
 		return builder;
 	}
 
 	public Question build() {
-		Question question = new Question(textLocation, name, dataType, questionText);
+		Question question = new Question(textLocation, name, dataType, questionLabel);
 		question.setCondition(condition);
 		question.setComputed(computed);
 		return question;
@@ -46,8 +46,8 @@ public class QuestionBuilder {
 		return this;
 	}
 
-	public QuestionBuilder withQuestionText(String questionText) {
-		this.questionText = questionText;
+	public QuestionBuilder withQuestionLabel(String questionLabel) {
+		this.questionLabel = questionLabel;
 		return this;
 	}
 

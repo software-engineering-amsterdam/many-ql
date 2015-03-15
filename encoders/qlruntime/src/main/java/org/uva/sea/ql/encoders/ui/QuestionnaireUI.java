@@ -57,7 +57,7 @@ public class QuestionnaireUI {
 			Question question = runtimeQuestion.getQuestion();
 
 			DataType dataType = question.getDataType();
-			Label label = new Label(question.getQuestionText());
+			Label label = new Label(question.getQuestionLabel());
 			grid.add(label, 0, y);
 			boolean visible = question.getCondition() == null;
 			label.setVisible(visible);

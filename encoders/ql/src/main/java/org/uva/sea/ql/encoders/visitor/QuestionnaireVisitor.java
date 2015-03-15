@@ -79,12 +79,12 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		if (dataType == null) {
 			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
 		}
-		String questionString = ctx.questionString.getText();
-		questionString = removeFirstAndListCharOfString(questionString);
-		questionString = unescapedString(questionString);
+		String questionLabel = ctx.questionLabel.getText();
+		questionLabel = removeFirstAndListCharOfString(questionLabel);
+		questionLabel = unescapedString(questionLabel);
 
 		TextLocation textLocation = getTextLocation(ctx);
-		Question question = new Question(textLocation, questionName, dataType, questionString);
+		Question question = new Question(textLocation, questionName, dataType, questionLabel);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
 			Expression condition = (Expression) visit(parent.expression());

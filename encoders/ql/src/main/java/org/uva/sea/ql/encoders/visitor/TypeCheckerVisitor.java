@@ -70,7 +70,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	}
 
 	private void checkForDuplicateLabel(Question question) {
-		String label = question.getQuestionText();
+		String label = question.getQuestionLabel();
 		boolean added = questionLabels.add(label);
 		if (!added) {
 			String validationMessage = getString(DUPLICATE_LABEL, label);

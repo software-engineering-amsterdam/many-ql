@@ -13,17 +13,17 @@ public class Question extends AstNode {
 
 	private final DataType type;
 
-	private final String questionText;
+	private final String questionLabel;
 
 	private Expression condition = null;
 
 	private Expression computed = null;
 
-	public Question(TextLocation textLocation, String name, DataType dataType, String questionText) {
+	public Question(TextLocation textLocation, String name, DataType dataType, String questionLabel) {
 		super(textLocation);
 		this.name = name;
 		this.type = dataType;
-		this.questionText = questionText;
+		this.questionLabel = questionLabel;
 	}
 
 	public String getName() {
@@ -34,8 +34,8 @@ public class Question extends AstNode {
 		return type;
 	}
 
-	public String getQuestionText() {
-		return questionText;
+	public String getQuestionLabel() {
+		return questionLabel;
 	}
 
 	public Expression getCondition() {
