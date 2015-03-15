@@ -1,4 +1,4 @@
-import QL.AST.Expressions.iexpression as e
+import QL.AST.Expressions.expression_interface as e
 
 
 # Expressions with sub-expressions
@@ -23,13 +23,6 @@ class SubExpression(e.IExpression):
     def get_dependencies(self):
         dependencies = self._expression.get_dependencies()
         return dependencies
-
-    # return the expressions as a list of lists
-    def as_list(self):
-        l = []
-        for x in self._expression:
-            l.append(x.as_list())
-        return l
 
 
 

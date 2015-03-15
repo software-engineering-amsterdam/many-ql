@@ -5,9 +5,6 @@ class Variable(e.Element):
     def __init__(self, name):
         self.name = name
 
-    def pretty_print(self):
-        return str(self.name)
-
     def return_type_string(self, type_dict):
         return type_dict[self.name]
 
@@ -15,7 +12,4 @@ class Variable(e.Element):
         return self.name
 
     def get_dependencies(self):
-        return [self.name]
-
-    def as_list(self):
         return [self.name]

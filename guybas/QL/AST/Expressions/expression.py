@@ -1,5 +1,4 @@
-import QL.AST.Expressions.iexpression as e
-import QL.AST.Expressions.Elements.operator as operators
+import QL.AST.Expressions.expression_interface as e
 import QL.AST.Expressions.sub_expression as c
 
 
@@ -26,16 +25,9 @@ class Expression(e.IExpression):
     # get all variables in the _expression
     def get_dependencies(self):
         dependencies = []
-        for element in self._expression:
-            dependencies += element.get_dependencies()
+        # for element in self._expression:
+        #     dependencies += element.get_dependencies()
         return dependencies
-
-    # return the expressions as a list of lists
-    def as_list(self):
-        l = []
-        for x in self._expression:
-            l += x.as_list()
-        return l
 
     # Return the negative of the _expression
     def add_not(self):

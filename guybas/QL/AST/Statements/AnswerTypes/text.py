@@ -7,7 +7,7 @@ class Text:
         pass
 
     def pretty_print(self, level = 0):
-        return "    " * level + constants.GrammarConstants.TEXT
+        return "    " * level + constants.TEXT
 
     def get_gui_element(self, statement, gui):
         return t.TextEntry(statement, gui)

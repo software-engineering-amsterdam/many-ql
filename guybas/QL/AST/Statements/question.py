@@ -21,6 +21,7 @@ class Question(statement.IStatement):
         self.element = None
         self.parentCondition = None
 
+
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Question\n"

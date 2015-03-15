@@ -47,27 +47,27 @@ value = (bool.setParseAction(expression_factory.make_bool) |
 
 
 # not_op :: not
-not_op = pp.Literal("not").setParseAction(expression_factory.make_operator)
+not_op = pp.Literal("not")
 
 # mul_op :: * | /
-mul_op = pp.oneOf('* /').setParseAction(expression_factory.make_operator)
+mul_op = pp.oneOf('* /')
 
 # plus_op :: + | -
-plus_op = pp.oneOf('+ -').setParseAction(expression_factory.make_operator)
+plus_op = pp.oneOf('+ -')
 
 # comp_op :: > | >= | == | < | <=
-comp_op = pp.oneOf('> >= == < <=').setParseAction(expression_factory.make_operator)
+comp_op = pp.oneOf('> >= == < <=')
 
 # extra_op :: and | or
-extra_op = pp.oneOf('and or').setParseAction(expression_factory.make_operator)
+extra_op = pp.oneOf('and or')
 
 # expr uses the above operators in the following order and associations
 # 1 means it binds to one operand, 2 means it binds to two operands
 expr = pp.infixNotation(value,
-         [(not_op, 1, pp.opAssoc.RIGHT),
-          (mul_op, 2, pp.opAssoc.LEFT),
-          (plus_op, 2, pp.opAssoc.LEFT),
-          (comp_op, 2, pp.opAssoc.RIGHT),
+         [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
+          (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
+          (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
+          (comp_op, 2, pp.opAssoc.RIGHT, expression_factory.make_compare),
           (extra_op, 2, pp.opAssoc.LEFT)]
     ).setParseAction(expression_factory.make_expression)
 
@@ -75,9 +75,9 @@ expr = pp.infixNotation(value,
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # answerR :: "bool" | "number" | "text"
-answerR = (pp.Literal(constants.GrammarConstants.BOOL).setParseAction(form_factory.make_bool_type) |
-           pp.Literal(constants.GrammarConstants.NUMBER).setParseAction(form_factory.make_number_type) |
-           pp.Literal(constants.GrammarConstants.TEXT).setParseAction(form_factory.make_text_type))
+answerR = (pp.Literal(constants.BOOL).setParseAction(form_factory.make_bool_type) |
+           pp.Literal(constants.NUMBER).setParseAction(form_factory.make_number_type) |
+           pp.Literal(constants.TEXT).setParseAction(form_factory.make_text_type))
 
 # q :: Question _id ( answerR ) : _label
 question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + sentence

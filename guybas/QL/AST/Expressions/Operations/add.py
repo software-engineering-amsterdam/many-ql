@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Elements.element as e
+import QL.Grammar.constants as constants
 
 
 class Add(e.Element):
@@ -11,8 +12,8 @@ class Add(e.Element):
 
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
-        raise NotImplementedError("Not implemented by sub class")
+        return constants.NUMBER
 
     # get all variables in the _expression
     def get_dependencies(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return [self._operand1.get_dependencies(), self._operand2.get_dependencies()]

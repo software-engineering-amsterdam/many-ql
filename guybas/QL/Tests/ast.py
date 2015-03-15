@@ -4,7 +4,7 @@ import QL.AST.Statements.question as q
 import QL.AST.Elements.operator as op
 import QL.AST.Statements.if_statement as i
 import QL.AST.Statements.else_statement as e
-import QL.AST.Expressions.iexpression as se
+import QL.AST.Expressions.expression_interface as se
 import QL.AST.Elements.variable as v
 import QL.AST.Expressions.Elements.bool as b
 import QL.AST.form as f
