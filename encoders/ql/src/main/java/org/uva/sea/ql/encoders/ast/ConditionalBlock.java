@@ -1,22 +1,27 @@
 package org.uva.sea.ql.encoders.ast;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
-public class ConditionalBlock extends AstNode {
+public class ConditionalBlock extends Statement {
 
-	public ConditionalBlock(TextLocation textLocation) {
+	private final Expression condition;
+
+	private final List<Question> questions;
+
+	public ConditionalBlock(TextLocation textLocation, Expression condition, List<Question> questions) {
 		super(textLocation);
+		this.condition = condition;
+		this.questions = questions;
 	}
 
-	private final List<Question> questions = new ArrayList<Question>();
-
-	public void add(Question question) {
-		questions.add(question);
+	public Expression getCondition() {
+		return condition;
 	}
 
+	@Override
 	public List<Question> getQuestions() {
 		return questions;
 	}

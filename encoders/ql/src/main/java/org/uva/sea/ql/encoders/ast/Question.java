@@ -1,5 +1,8 @@
 package org.uva.sea.ql.encoders.ast;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
@@ -7,7 +10,7 @@ import org.uva.sea.ql.encoders.visitor.AstVisitor;
 /**
  * Represents a question in the {@link Questionnaire}
  */
-public class Question extends AstNode {
+public class Question extends Statement {
 
 	private final String name;
 
@@ -57,5 +60,10 @@ public class Question extends AstNode {
 	@Override
 	public <T> T accept(AstVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public List<Question> getQuestions() {
+		return Collections.singletonList(this);
 	}
 }

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -26,6 +27,7 @@ import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.Statement;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
@@ -42,32 +44,29 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
-		Questionnaire questionnaire = new Questionnaire(getTextLocation(ctx));
-		questionnaire.setName(ctx.name.getText());
-		List<StatementContext> statements = ctx.statement();
+		String name = ctx.name.getText();
 
-		for (StatementContext statementContext : statements) {
-			ConditionalBlockContext conditionalBlock = statementContext.conditionalBlock();
-			if (conditionalBlock != null) {
-				ConditionalBlock cb = (ConditionalBlock) visit(conditionalBlock);
-				questionnaire.addQuestions(cb.getQuestions());
-			}
-			QuestionContext questionContext = statementContext.question();
-			if (questionContext != null) {
-				Question question = (Question) visit(questionContext);
-				questionnaire.addQuestion(question);
-			}
+		List<Statement> statements = new ArrayList<>();
+		for (StatementContext statementContext : ctx.statement()) {
+			Statement statement = (Statement) statementContext.accept(this);
+			statements.add(statement);
 		}
+
+		TextLocation textLocation = getTextLocation(ctx);
+		Questionnaire questionnaire = new Questionnaire(textLocation, name, statements);
 		return questionnaire;
 	}
 
 	@Override
 	public ConditionalBlock visitConditionalBlock(ConditionalBlockContext ctx) {
-		ConditionalBlock cb = new ConditionalBlock(getTextLocation(ctx));
+		Expression condition = (Expression) visit(ctx.expression());
+		List<Question> questions = new ArrayList<>();
 		for (QuestionContext questionContext : ctx.question()) {
 			Question question = (Question) visit(questionContext);
-			cb.add(question);
+			questions.add(question);
 		}
+		TextLocation textLocation = getTextLocation(ctx);
+		ConditionalBlock cb = new ConditionalBlock(textLocation, condition, questions);
 		return cb;
 	}
 

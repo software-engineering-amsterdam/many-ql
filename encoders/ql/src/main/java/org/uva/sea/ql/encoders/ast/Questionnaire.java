@@ -5,25 +5,28 @@ import java.util.List;
 
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
-/**
- * Questionnaire containing {@link Question}s.
- */
 public class Questionnaire extends AstNode {
 
-	public Questionnaire(TextLocation textLocation) {
+	private final String name;
+
+	private final List<Statement> statements;
+
+	public Questionnaire(TextLocation textLocation, String name, List<Statement> statements) {
 		super(textLocation);
+		this.name = name;
+		this.statements = statements;
 	}
 
-	private String name;
-
-	private List<Question> questions = new ArrayList<Question>();
-
 	public List<Question> getQuestions() {
+		List<Question> questions = new ArrayList<>();
+		for (Statement statement : statements) {
+			questions.addAll(statement.getQuestions());
+		}
 		return questions;
 	}
 
 	public Question getQuestion(String name) {
-		for (Question question : questions) {
+		for (Question question : getQuestions()) {
 			if (question.getName().equals(name)) {
 				return question;
 			}
@@ -31,20 +34,8 @@ public class Questionnaire extends AstNode {
 		return null;
 	}
 
-	public void addQuestion(Question question) {
-		questions.add(question);
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void addQuestions(List<Question> questionsToAdd) {
-		questions.addAll(questionsToAdd);
 	}
 
 	@Override
