@@ -48,20 +48,6 @@ value = (bool.setParseAction(expression_factory.make_bool) |
 # operator :: + | - | / | * | and | or | not | > | >= | < | <= | ==
 operator = pp.oneOf('+ - / * and or not > >= < <= ==').setParseAction(expression_factory.make_operator)
 
-op_1 = pp.oneOf("+ -")
-op_2 = pp.oneOf("* /")
-comp_op = pp.oneOf("> >= < <= == not")
-extra_op = pp.oneOf("and or")
-
-
-expr = pp.operatorPrecedence( pp.operand,
-    [("!", 1, pp.opAssoc.LEFT),
-     ("^", 2, pp.opAssoc.RIGHT),
-     (comp_op, 1, pp.opAssoc.RIGHT),
-     (multop, 2, pp.opAssoc.LEFT),
-     (plusop, 2, pp.opAssoc.LEFT),]
-    )
-
 expr = pp.Forward()
 
 # atom :: ( expr ) | value
