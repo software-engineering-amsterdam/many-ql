@@ -4,8 +4,7 @@ import org.fugazi.ql.ast.AbstractASTNode;
 
 public abstract class Statement extends AbstractASTNode {
 
-    public Statement(int _lineNum) {
-        super( _lineNum);
+    public Statement() {
     }
 
     public abstract String toString();

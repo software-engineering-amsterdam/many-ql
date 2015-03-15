@@ -8,7 +8,7 @@ import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 /**
  * Created by Ger on 24-2-2015.
  */
-public class SmallerThanEqualsOperator extends Operator {
+public class LargerThanOrEqualsOperator extends Operator {
 
     @Override
     public Result performOperation(Result one, Result two) throws InvalidOperandException {
@@ -17,17 +17,17 @@ public class SmallerThanEqualsOperator extends Operator {
         } else {
             IntResult intResultOne = (IntResult) one;
             IntResult intResultTwo = (IntResult) two;
-            return ((BooleanResult) intResultOne.smallerThan(intResultTwo)).or((BooleanResult) intResultOne.isEqual(intResultTwo));
+            return ((BooleanResult) intResultOne.largerThan(intResultTwo)).or((BooleanResult) intResultOne.isEqual(intResultTwo));
         }
     }
 
     @Override
     public String getOperatorString() {
-        return "<=";
+        return ">=";
     }
 
     @Override
     public Operator getNewOperatorOfThisType() {
-        return new SmallerThanEqualsOperator();
+        return new LargerThanOrEqualsOperator();
     }
 }

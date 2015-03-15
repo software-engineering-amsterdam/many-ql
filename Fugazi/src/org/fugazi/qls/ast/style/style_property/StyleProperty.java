@@ -8,11 +8,6 @@ public abstract class StyleProperty<T> extends AbstractASTNode {
     protected final String name;
     protected final T value;
 
-    public StyleProperty(int _lineNum, String _name, T _value) {
-        this.name = _name;
-        this.value = _value;
-    }
-
     public StyleProperty(String _name, T _value) {
         this.name = _name;
         this.value = _value;

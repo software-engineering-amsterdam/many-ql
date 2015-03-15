@@ -10,16 +10,6 @@ public class Section extends Segment {
 
     private final List<QLSQuestion> questions;
 
-    public Section(int _lineNum, 
-                   String _name, 
-                   List<Section> _sections, 
-                   List<DefaultStyleDeclaration> _defaultStyles, 
-                   List<QLSQuestion> _questions)
-    {
-        super(_lineNum, _sections, _defaultStyles, _name);
-        this.questions = _questions;
-    }
-
     public Section(String _name, 
                    List<Section> _sections, 
                    List<DefaultStyleDeclaration> _defaultStyles, 

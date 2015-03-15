@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Label extends Node implements CanContainConditionals {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Form.class));
     private String identifier;
 
     private IfStatement ifStatement;
@@ -21,7 +20,6 @@ public class Label extends Node implements CanContainConditionals {
 
     public Label(int lineNumber, String id) {
         super(lineNumber, Label.class);
-        this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id.substring(1, id.length() - 1); // Remove double brackets around id
         } else {
