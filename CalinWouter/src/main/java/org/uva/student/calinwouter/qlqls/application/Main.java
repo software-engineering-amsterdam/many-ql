@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application;
 import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
@@ -35,7 +35,7 @@ public class Main {
     private static void executeQl(String ql) {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            QLIntepreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
+            QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             new QLGUI(qlIntepreter, qlIntepreter.getSymbolTable(),qlIntepreter.getForm() ,formTypeChecker).render();
         } catch (Exception e){
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class Main {
     private static void executeQlQls(String ql, String qls) {
         try {
             FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            QLIntepreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
+            QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
             new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.getSymbolTable(), formTypeChecker).render();
         } catch (Exception e) {

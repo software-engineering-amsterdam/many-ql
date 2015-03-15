@@ -1,8 +1,8 @@
 import unittest
 import QL.Grammar.basic_types as basic_types
-import QL.Grammar.form as forms
+import QL.Grammar.grammar as forms
 import QL.Grammar.expression as expressions
-import QL.AST.Expressions.simple_expression as simple_expression
+import QL.AST.Expressions.expression as simple_expression
 import QL.AST.Statements.AnswerTypes.bool as b
 import QL.AST.Statements.AnswerTypes.text as t
 import QL.AST.Statements.AnswerTypes.number as n
@@ -37,31 +37,31 @@ class TestBasicGrammar(unittest.TestCase):
 
     def test_grammar_answer_format(self):
         # Test the three different _type of _answer possibilities
-        result = forms.Form.answerR.parseString("bool")
+        result = forms.Grammar.answerR.parseString("bool")
         self.assertIsInstance(result[0], b.Bool)
 
-        result = forms.Form.answerR.parseString("text")
+        result = forms.Grammar.answerR.parseString("text")
         self.assertIsInstance(result[0], t.Text)
 
-        result = forms.Form.answerR.parseString("number")
+        result = forms.Grammar.answerR.parseString("number")
         self.assertIsInstance(result[0], n.Number)
 
     @unittest.expectedFailure
     def test_grammar_answer_format_fail(self):
         # Not an _answer possibility
-        result = forms.Form.answerR.parseString("set").asList()
+        result = forms.Grammar.answerR.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
 
 class TestExpressionGrammar(unittest.TestCase):
 
     def test_expression_simple(self):
-        result = expressions.Expressions.expr.parseString(" id == True")
+        result = expressions.Expressions.expr.parseString(" statement_id == True")
         result = efactory.ExpressionFactory.make_sub_expression(result)
-        self.assertIsInstance(result, simple_expression.SimpleExpression)
+        self.assertIsInstance(result, simple_expression.Expression)
 
         s = result.as_list()
-        self.assertEqual(s, ["id", "==", True])
+        self.assertEqual(s, ["statement_id", "==", True])
 
     def test_expression_complex(self):
         result = expressions.Expressions.expr.parseString("4 / 2 + (3 - 1) * 4")
@@ -83,14 +83,14 @@ class TestExpressionGrammar(unittest.TestCase):
 
     def test_expression_type(self):
         result = expressions.Expressions.expr.parseString("1 + 2 - (3 * 4) / 6 == True")
-        self.assertEqual(result[0].return_type({}),
+        self.assertEqual(result[0].return_type_string({}),
                          "number + number - "
                          "(number * number) "
                          "/ number == bool")
 
     def test_expression_type_variable(self):
         result = expressions.Expressions.expr.parseString("bas + 5 == True")
-        self.assertEqual(result[0].return_type({"bas" : "number"}),
+        self.assertEqual(result[0].return_type_string({"bas" : "number"}),
                          "number + number == bool")
 
     def test_expression_dependencies(self):

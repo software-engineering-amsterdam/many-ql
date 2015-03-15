@@ -1,12 +1,13 @@
-import QL.Grammar.form as form
+import QL.Grammar.grammar as grammar
 import QL.GUI.gui as g
 import QL.Tools.type_checker as type_checker
 import QL.config as c
+import QL.Factory.forms as form_factory
 
-formAsParseResults = form.Form.form.ignore(form.basic_types.BasicTypes.comment).parseFile(c.Config.input_path)
-form = form.forms.FormFactory.make_form(formAsParseResults)
+formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
+form = form_factory.make_form(formAsParseResults)
 
-#new_form = form.FormAPI(form)
+#new_form = grammar.FormAPI(grammar)
 
 typeChecker = type_checker.TypeChecker(form)
 typeChecker.is_valid_form()

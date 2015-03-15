@@ -25,8 +25,28 @@ public class StringValue extends GenericValue {
     }
     
     @Override
-    public Boolean equals(GenericValue comparison) {
-	return this.value == ((StringValue) comparison).getValue();
+    public boolean equals(Object o) {
+	if(o == this){
+	    return true;
+	}
+	if (!(o instanceof StringValue)){
+	    return false;
+	}
+	StringValue castO = (StringValue) o;
+	if(value == null){
+	    return castO.value == null;
+	} else {
+	    return this.value.equals(castO.value);
+	}
     }
-
+    
+    @Override
+    public int hashCode() {
+	int result = 17;
+	for(int i = 0; i<value.length(); i++){
+	    int c = (int)value.charAt(i) ;
+	    result = 31 * result + c;
+	}
+	return result;
+    }
 }

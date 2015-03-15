@@ -106,9 +106,6 @@ public class ASTBuilderVisitorTest {
         Section section1 = (Section) page1.getRegions().get(0);
         Section section2 = (Section) page2.getRegions().get(0);
 
-        System.out.println(section1.getLabel());
-        System.out.println(section2.getLabel());
-
         assertThat(section1.getLabel()).isEqualTo("s1");
         assertThat(section2.getLabel()).isEqualTo("s2");
 

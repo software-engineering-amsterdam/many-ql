@@ -102,7 +102,7 @@ class IfElseBlock(if_statement.IfBlock):
         for s in self._statements:
             s.set_parent_condition(self._condition)
         for s in self.else_statements:
-            s.set_parent_condition(self._condition.add_not())
+            pass # s.set_parent_condition(self._condition.add_not())
 
     def set_element(self, gui):
         ...

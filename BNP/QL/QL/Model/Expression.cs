@@ -13,7 +13,7 @@ namespace QL.Model
         int ONLY_CHILD = 0;
         public Expression() { }
 
-        public ElementBase Child
+        public ElementBase Child //ITypeResolvable rather than ElementBase
         {
             get{
                 if (Children.Any()) { 

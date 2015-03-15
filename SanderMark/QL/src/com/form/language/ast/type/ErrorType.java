@@ -2,7 +2,7 @@ package com.form.language.ast.type;
 
 import com.form.language.ast.values.GenericValue;
 
-public class ErrorType extends Type {
+public final class ErrorType extends Type {
 
     @Override
     public Type getType() {
@@ -10,7 +10,7 @@ public class ErrorType extends Type {
     }
 
     @Override
-    public Boolean isErrorType() {
+    public boolean isErrorType() {
 	return true;
     }
 
@@ -23,5 +23,15 @@ public class ErrorType extends Type {
     public GenericValue defaultValue() {
 	return null;
     }
-
+    
+    @Override
+    public boolean equals(Object o) {
+	return (o instanceof ErrorType);
+    }
+    
+    @Override
+    //TODO: this makes sense because there are no fields. But maybe it is some sort of bad smell? We never use different instances of this 'object'
+    public int hashCode() {
+	return 2;
+    }
 }

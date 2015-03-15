@@ -6,8 +6,9 @@ using System.Text;
 
 namespace QL.Model
 {
+
     public interface IVisitable
     {
-         void Accept(IVisitor visitor);
+        void Accept(IVisitor visitor);
     }
 }

@@ -9,7 +9,7 @@ class GUI(ql_gui.GUI):
     def set_intro_font_style(self, font_style):
         """
         set introduction font style
-        :param font_style: family size weight (e.g. Helvetica 15 bold)
+        :param font_style: family size weight (expression_factory.g. Helvetica 15 bold)
         :return:
         """
         self.intro_element.configure(font=font_style)

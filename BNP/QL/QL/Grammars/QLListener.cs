@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using QL;
+using QL.Errors;
 using QL.Model;
 using System.Diagnostics;
 using QL.Model.Terminals;
@@ -19,7 +20,7 @@ namespace QL.Grammars
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
-        private IList<Exception> AstBuilderExceptions;
+        private IList<QLException> AstBuilderExceptions;
 
 
         public QLListener()
@@ -27,7 +28,7 @@ namespace QL.Grammars
             _childrenStack = new Stack<Stack<ElementBase>>();
         }
 
-        public QLListener(IList<Exception> AstBuilderExceptions)
+        public QLListener(IList<QLException> AstBuilderExceptions)
         {
             this.AstBuilderExceptions = AstBuilderExceptions;
             _childrenStack = new Stack<Stack<ElementBase>>();
@@ -180,7 +181,7 @@ namespace QL.Grammars
 
             if (context as QLParser.TextContext != null) return new Text();
 
-            Debug.Assert(false, "No appropriate subtype for the type has been evaluated");
+            AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
             return null; // formality
         }
 
