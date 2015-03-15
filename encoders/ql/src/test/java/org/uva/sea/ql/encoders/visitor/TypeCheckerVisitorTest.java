@@ -15,6 +15,7 @@ import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 import org.uva.sea.ql.encoders.validation.Validation;
 
 public class TypeCheckerVisitorTest {
@@ -30,7 +31,7 @@ public class TypeCheckerVisitorTest {
 		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeCheckerVisitor(questions);
 
-		List<Validation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = visitor.checkTypes();
 		assertThat(validations.size(), is(0));
 	}
 
@@ -43,7 +44,7 @@ public class TypeCheckerVisitorTest {
 		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeCheckerVisitor(questions);
 
-		List<Validation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = visitor.checkTypes();
 		Validation validation = validations.get(0);
 		assertThat(validation, is(notNullValue()));
 		assertThat(validation.getValidationMessage(), is("Condition has to be of type boolean. Type encountered is 'integer'"));
@@ -57,7 +58,7 @@ public class TypeCheckerVisitorTest {
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
-		List<Validation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = visitor.checkTypes();
 		Validation validation = validations.get(0);
 		assertThat(validation, is(notNullValue()));
 		assertThat(validation.getValidationMessage(), is("Duplicate label 'What is the meaning of life?'"));
@@ -71,7 +72,7 @@ public class TypeCheckerVisitorTest {
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		visitor = new TypeCheckerVisitor(questions);
 
-		List<Validation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = visitor.checkTypes();
 		assertThat(validations.size(), is(0));
 	}
 

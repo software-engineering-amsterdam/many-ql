@@ -24,9 +24,11 @@ import org.controlsfx.dialog.ExceptionDialog;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.runtime.AstTransformer;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.service.QuestionnaireParsingResult;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
-import org.uva.sea.ql.encoders.validation.Validation;
+import org.uva.sea.ql.encoders.validation.SyntaxError;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class Main extends Application {
 
@@ -93,19 +95,25 @@ public class Main extends Application {
 						file = new File(text);
 					}
 
-					Questionnaire questionnaire = questionnaireParsingService.parse(file.getAbsolutePath());
-					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
-					List<Validation> validations = questionnaireParsingService.getTypeValidations();
+					QuestionnaireParsingResult questionnaireParsingResult = questionnaireParsingService.parse(file
+							.getAbsolutePath());
+					List<SyntaxError> syntaxErrors = questionnaireParsingResult.getSyntaxErrors();
+					List<TypeValidation> typeValidations = questionnaireParsingResult.getTypeValidations();
 					stackPane.getChildren().clear();
-					if (!validations.isEmpty()) {
+					Node node;
+					if (!syntaxErrors.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
-						Node validationsUI = validationsUIFactory.generateUI(validations);
-						stackPane.getChildren().add(validationsUI);
+						node = validationsUIFactory.generateUI(syntaxErrors);
+					} else if (!typeValidations.isEmpty()) {
+						ValidationsUI validationsUIFactory = new ValidationsUI();
+						node = validationsUIFactory.generateUI(typeValidations);
 					} else {
+						Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
+						RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
 						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-						Node questionnaireUI = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
-						stackPane.getChildren().add(questionnaireUI);
+						node = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
 					}
+					stackPane.getChildren().add(node);
 
 				} catch (IOException | URISyntaxException e) {
 					ExceptionDialog dialog = new ExceptionDialog(e);

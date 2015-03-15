@@ -13,7 +13,7 @@ import org.uva.sea.ql.encoders.validation.Validation;
 
 public class ValidationsUI {
 
-	public Node generateUI(List<Validation> validations) {
+	public Node generateUI(List<? extends Validation> validations) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
