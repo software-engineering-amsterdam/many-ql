@@ -2,7 +2,7 @@ package org.fugazi.ql.evaluator.expression_value;
 
 public abstract class ExpressionValue<T> {
 
-    protected final T value;
+    private final T value;
     
     ExpressionValue(T _value) {
         this.value = _value;
@@ -81,11 +81,11 @@ public abstract class ExpressionValue<T> {
     }
 
     public BoolValue equal(ExpressionValue exprValue) {
-        return new BoolValue(this.value == exprValue.getValue());
+        return new BoolValue(this.getValue() == exprValue.getValue());
     }
 
     public BoolValue notEqual(ExpressionValue exprValue) {
-        return new BoolValue(this.value != exprValue.getValue());
+        return new BoolValue(this.getValue()  != exprValue.getValue());
     }
 
     public ExpressionValue greater(ExpressionValue exprValue) {

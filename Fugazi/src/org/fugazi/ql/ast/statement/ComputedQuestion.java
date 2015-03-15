@@ -8,8 +8,8 @@ public class ComputedQuestion extends Question {
 
     private final Expression computed;
 
-    public ComputedQuestion(Type _type, String _label, ID _identifier, Expression _computed, int _lineNum) {
-        super(_type, _label, _identifier, _lineNum);
+    public ComputedQuestion(Type _type, String _label, ID _identifier, Expression _computed) {
+        super(_type, _label, _identifier);
         this.computed = _computed;
     }
 
@@ -19,7 +19,7 @@ public class ComputedQuestion extends Question {
 
     @Override
     public String toString() {
-        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computed.toString();
+        return this.getType().toString() + this.getIdName() + " " + "('" + this.getLabel() + "') = " + this.computed.toString();
     }
 
     public <T> T accept(IStatementVisitor<T> visitor) {

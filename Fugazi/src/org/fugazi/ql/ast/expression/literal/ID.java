@@ -13,12 +13,6 @@ public class ID extends Literal {
         this.name = _name;
         this.type = _type;
     }
-    public ID(String _name, Type _type, int _lineNum) {
-        super(_lineNum);
-
-        this.name = _name;
-        this.type = _type;
-    }
 
     public String getName() {
         return this.name;

@@ -103,7 +103,7 @@ public class Main {
 //        guiBuilder.renderUI();
         
         // QL
-        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+        GUIBuilder guiBuilder = new GUIBuilder(form);
         guiBuilder.renderUI();
     }
 }

@@ -24,10 +24,6 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     protected String label = "";
     protected Style style = new UndefinedStyle();
 
-    public AbstractQLSWidget(int _lineNum) {
-        super(_lineNum);
-    }
-
     public AbstractQLSWidget() {
     }
     

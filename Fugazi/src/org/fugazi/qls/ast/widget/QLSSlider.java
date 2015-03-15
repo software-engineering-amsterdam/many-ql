@@ -15,16 +15,7 @@ import java.util.List;
 
 public class QLSSlider extends AbstractQLSWidget {
 
-    public QLSSlider(int _lineNum) {
-        super(_lineNum);
-    }
-
     public QLSSlider() {
-    }
-
-    public QLSSlider(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
     }
 
     public QLSSlider(String _label) {

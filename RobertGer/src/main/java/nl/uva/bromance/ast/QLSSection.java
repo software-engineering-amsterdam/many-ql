@@ -1,20 +1,14 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 public class QLSSection extends Node {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(QLSPage.class));
 	private String identifier;
     public QLSSection(int lineNumber, String id) {
         super(lineNumber, QLSSection.class);
-        super.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id.substring(1, id.length() - 1).toLowerCase();
         } else {

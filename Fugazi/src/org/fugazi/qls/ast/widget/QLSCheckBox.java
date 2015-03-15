@@ -18,19 +18,8 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     private JCheckBox component;
 
-    public QLSCheckBox(int _lineNum) {
-        super(_lineNum);
-        this.component = new JCheckBox();
-    }
-
     public QLSCheckBox() {
         this.component = new JCheckBox();
-    }
-
-    public QLSCheckBox(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
-        this.component = new JCheckBox(label);
     }
 
     public QLSCheckBox(String _label) {

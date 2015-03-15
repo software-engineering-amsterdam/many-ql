@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Question extends Node implements HasIdentifier {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
     private List<StringResult> customQuestionOptions = new ArrayList<>();
     private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
@@ -29,7 +28,6 @@ public class Question extends Node implements HasIdentifier {
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber, Question.class);
         this.identifier = identifier;
-        this.setAcceptedParents(parentsAllowed);
     }
 
     public Optional<Identifier> getIdentifier() {
