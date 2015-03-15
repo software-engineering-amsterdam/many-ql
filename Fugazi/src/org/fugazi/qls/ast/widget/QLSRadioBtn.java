@@ -25,26 +25,10 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     private JRadioButton yesBtn;
     private JRadioButton noBtn;
 
-    public QLSRadioBtn(int _lineNum, String _yes, String _no) {
-        super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-
-        this.buildWidget("", _yes, _no);
-    }
-
     public QLSRadioBtn(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.buildWidget("", _yes, _no);
-    }
-
-    public QLSRadioBtn(int _lineNum, String _label, String _yes, String _no) {
-        super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.label = _label;
-        this.buildWidget(_label, _yes, _no);
     }
 
     public QLSRadioBtn(String _label, String _yes, String _no) {

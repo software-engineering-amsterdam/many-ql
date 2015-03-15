@@ -146,7 +146,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         return type;
     }
 
-    @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
+    @Override 
+    public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
         IntType type = new IntType();
         type.setLineNumber(this.getLineNumber(ctx));
         return type;
