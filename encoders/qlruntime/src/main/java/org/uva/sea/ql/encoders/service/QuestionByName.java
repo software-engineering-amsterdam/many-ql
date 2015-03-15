@@ -3,7 +3,7 @@ package org.uva.sea.ql.encoders.service;
 import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Question;
-import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
+import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestion;
 
 public class QuestionByName {
 

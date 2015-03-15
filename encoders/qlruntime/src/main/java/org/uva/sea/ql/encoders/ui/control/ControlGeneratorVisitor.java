@@ -10,7 +10,7 @@ import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
-import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
+import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
 import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
 import org.uva.sea.ql.encoders.runtime.value.StringValue;
