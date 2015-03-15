@@ -8,7 +8,6 @@ import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
 import QL.AST.Expressions.expression as expression
 
-# Factory for creating expressions
 
 def make_variable(tokens):
     v = tokens[0]

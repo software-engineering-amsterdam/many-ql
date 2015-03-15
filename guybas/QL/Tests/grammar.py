@@ -56,12 +56,12 @@ class TestBasicGrammar(unittest.TestCase):
 class TestExpressionGrammar(unittest.TestCase):
 
     def test_expression_simple(self):
-        result = expressions.Expressions.expr.parseString(" id == True")
+        result = expressions.Expressions.expr.parseString(" statement_id == True")
         result = efactory.ExpressionFactory.make_sub_expression(result)
         self.assertIsInstance(result, simple_expression.Expression)
 
         s = result.as_list()
-        self.assertEqual(s, ["id", "==", True])
+        self.assertEqual(s, ["statement_id", "==", True])
 
     def test_expression_complex(self):
         result = expressions.Expressions.expr.parseString("4 / 2 + (3 - 1) * 4")
