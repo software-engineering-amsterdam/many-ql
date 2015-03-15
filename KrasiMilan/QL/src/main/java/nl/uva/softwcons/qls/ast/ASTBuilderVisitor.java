@@ -31,8 +31,8 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.ql.util.Utils;
 import nl.uva.softwcons.qls.ast.segment.Page;
+import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
-import nl.uva.softwcons.qls.ast.segment.QuestionRegion;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.style.StyleProperty;
@@ -62,7 +62,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public Page visitPage(PageContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
-        final List<QuestionRegion> sections = ctx.questionRegion().stream().map(st -> (QuestionRegion) st.accept(this))
+        final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
         final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))
@@ -74,7 +74,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public Section visitSection(SectionContext ctx) {
         final String label = Utils.unquote(ctx.STRING().getText());
-        final List<QuestionRegion> content = ctx.questionRegion().stream().map(st -> (QuestionRegion) st.accept(this))
+        final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
         final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))

@@ -7,13 +7,13 @@ package nl.uva.softwcons.generated;
 /* Parser */
 stylesheet:   'stylesheet' ID '{' page+ '}';
 
-page: 'page' ID '{' questionRegion+ defaultStatement* '}';
+page: 'page' ID '{' pageSegment+ defaultStatement* '}';
 
-section: 'section' STRING '{' questionRegion+ defaultStatement* '}';
+section: 'section' STRING '{' pageSegment+ defaultStatement* '}';
 
-questionRegion: question
-              | section
-              ;
+pageSegment: question
+           | section
+           ;
 
 defaultStatement: 'default' type widget;
 

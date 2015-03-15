@@ -4,7 +4,7 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.widget.Widget;
 
-public class Question extends QuestionRegion implements ASTNode {
+public class Question extends PageSegment implements ASTNode {
     private final Identifier id;
     private final Widget widget;
 
