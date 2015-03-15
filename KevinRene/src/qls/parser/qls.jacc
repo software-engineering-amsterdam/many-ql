@@ -43,9 +43,9 @@
 import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.Literal;
-import ql.ast.expression.QLType;
+import ql.ast.QLType;
+import ql.ast.type.*;
 import ql.ast.expression.literal.*;
-import ql.ast.expression.type.*;
 
 import qls.ast.*;
 import qls.ast.statement.*;

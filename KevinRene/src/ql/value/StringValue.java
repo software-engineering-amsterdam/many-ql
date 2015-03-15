@@ -222,6 +222,11 @@ public class StringValue extends Value {
 	public String getValue() {
 		return value;
 	}
+
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -66,7 +66,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		typeErrors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
-		
+
 		return typeErrors.hasErrors();
 	}	
 	
@@ -79,7 +79,7 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 		typeErrors = new ErrorEnvironment();
 		
 		tree.accept(typeChecker);
-		
+
 		return typeErrors.hasErrors();
 	}	
 	
@@ -226,13 +226,13 @@ public class TypeChecker extends StatementVisitor<QLType> implements ExpressionV
 	 * Types
 	 */
 	
-	public QLType visit(QLBoolean booleanNode) { return booleanNode.getType(); }
-	public QLType visit(QLFloat floatNode) { return floatNode.getType(); }
-	public QLType visit(QLForm formNode) { return formNode.getType(); }   
-	public QLType visit(QLNumeric numericNode) { return numericNode.getType(); }
-	public QLType visit(QLInteger intNode) { return intNode.getType(); }
-	public QLType visit(QLString stringNode) { return stringNode.getType(); }
-	public QLType visit(QLError errNode) { return errNode.getType(); }
+	public QLType visit(QLBoolean booleanNode) { return booleanNode; }
+	public QLType visit(QLFloat floatNode) { return floatNode; }
+	public QLType visit(QLForm formNode) { return formNode; }   
+	public QLType visit(QLNumeric numericNode) { return numericNode; }
+	public QLType visit(QLInteger intNode) { return intNode; }
+	public QLType visit(QLString stringNode) { return stringNode; }
+	public QLType visit(QLError errNode) { return errNode; }
 	
 	public QLType visit(BooleanLiteral booleanNode) { return booleanNode.getType(); }	
 	public QLType visit(FloatLiteral floatNode) { return floatNode.getType(); }

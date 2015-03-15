@@ -1,35 +1,42 @@
 package ql.ast;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import ql.ast.visitor.ExpressionVisitor;
 
 public abstract class QLType implements QLNode {
-	protected List<Class<? extends QLType>> compatibleTypes;
+	protected List<QLType> compatibleTypes;
 	
-	public QLType(List<Class<? extends QLType>> compatibleTypes) {
-		this.compatibleTypes = compatibleTypes;
-	}
-	
-	public String toString() {
-		return this.getClass().getSimpleName();
+	public QLType() {
+		compatibleTypes = new ArrayList<QLType>();
 	}
 	
 	public boolean compatibleWith(QLType type) {
-		return this.compatibleTypes.contains(type.getClass());
+		return compatibleTypes.stream()
+				.map(compatibleType -> compatibleType.equals(type))
+				.reduce(false, (x, y) -> x || y);
 	}
 	
 	/**
 	 * @return the list of compatibilities
 	 */
-	public List<String> compatibilitiesAsStrings() {
-		return compatibleTypes.stream()
-				.map(ct -> ct.getSimpleName())
-				.collect(Collectors.toList());
+	public List<QLType> getCompatibilities() {
+		return compatibleTypes;
 	}
-	
 
 	public abstract <T> T accept(ExpressionVisitor<T> visitor);
-	public abstract QLType getType();
+	
+	@Override
+	public int hashCode() {
+		return this.getClass().getSimpleName().hashCode();
+	}
+	
+	@Override
+	public abstract boolean equals(Object comparisonObject);
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

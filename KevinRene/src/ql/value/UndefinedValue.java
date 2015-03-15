@@ -3,7 +3,6 @@ package ql.value;
 import ql.Value;
 
 public class UndefinedValue extends Value {
-	
 	@Override
 	public boolean isUndefined() {
 		return true;
@@ -218,6 +217,11 @@ public class UndefinedValue extends Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(false);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Boolean.hashCode(false);
 	}
 	
 	@Override

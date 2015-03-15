@@ -40,7 +40,8 @@
 %{
 import ql.ast.*;
 import ql.ast.expression.*;
-import ql.ast.expression.type.*;
+import ql.ast.QLType;
+import ql.ast.type.*;
 import ql.ast.expression.literal.*;
 import ql.ast.expression.arithmetic.*;
 import ql.ast.expression.relational.*;

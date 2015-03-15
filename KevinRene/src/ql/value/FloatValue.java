@@ -230,6 +230,11 @@ public class FloatValue extends Value {
 	}
 	
 	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof FloatValue) {
 			return getValue().equals(((FloatValue) obj).getValue());

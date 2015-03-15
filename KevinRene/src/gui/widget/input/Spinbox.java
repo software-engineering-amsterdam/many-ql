@@ -8,7 +8,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.Value;
-import ql.value.IntegerValue;
 
 public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {
 	protected JSpinner spinbox;

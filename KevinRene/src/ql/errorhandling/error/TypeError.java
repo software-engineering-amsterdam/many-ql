@@ -13,7 +13,8 @@ public class TypeError extends Error {
 	}
 	
 	public TypeError(QLNode origin, QLType expectedType, List<QLType> actualTypes) {		
-		super(origin, "Expected (" + expectedType.compatibilitiesAsStrings() + ") got (" + typesToString(actualTypes) + ").");
+		super(origin, "Expected (" + typesToString(expectedType.getCompatibilities()) 
+				+ ") got (" + typesToString(actualTypes) + ").");
 	}
 	
 	private static String typesToString(List<QLType> types) {

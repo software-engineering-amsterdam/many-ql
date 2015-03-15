@@ -3,7 +3,7 @@ package ql.value;
 import ql.Value;
 
 public class BooleanValue extends Value {
-	final boolean value;
+	private final boolean value;
 	
 	public BooleanValue(Boolean value) {
 		this.value = value;
@@ -219,12 +219,15 @@ public class BooleanValue extends Value {
 		return new BooleanValue(argument.getValue() && getValue());
 	}
 	
-	
-
 	public Boolean getValue() {
 		return this.value;
 	}
 
+	@Override
+	public int hashCode() {
+		return Boolean.hashCode(value);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof BooleanValue) {

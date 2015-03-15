@@ -28,5 +28,19 @@ public class Identifier extends Expression {
 	@Override
 	public String toString() {
 		return identifier;
-	}	
+	}
+	
+	@Override
+	public int hashCode() {
+		return identifier.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object comparisonObject) {
+		if(comparisonObject instanceof Identifier) {
+			return hashCode() == ((Identifier) comparisonObject).hashCode();
+		}
+		
+		return false;
+	}
 }

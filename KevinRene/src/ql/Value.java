@@ -105,6 +105,10 @@ public abstract class Value {
 	public abstract Value and(Value argument);
 	public abstract Value andBoolean(BooleanValue argument);
 	
-	public abstract boolean equals(Object obj);		
+	@Override
+	public abstract int hashCode();
+	@Override
+	public abstract boolean equals(Object obj);
+	@Override
 	public abstract String toString();
 }

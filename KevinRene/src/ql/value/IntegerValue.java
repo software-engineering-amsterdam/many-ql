@@ -230,6 +230,11 @@ public class IntegerValue extends Value {
 	}
 	
 	@Override
+	public int hashCode() {
+		return Integer.hashCode(value);
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof IntegerValue) {
 			return getValue().equals(((IntegerValue) obj).getValue());

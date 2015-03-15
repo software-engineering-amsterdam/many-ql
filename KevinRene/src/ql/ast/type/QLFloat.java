@@ -1,14 +1,10 @@
 package ql.ast.type;
 
-import ql.ast.QLType;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class QLFloat extends QLNumeric {
-	public QLFloat() {}
-	
-	@Override
-	public QLType getType() {
-		return new QLFloat();
+	public QLFloat() {
+		compatibleTypes.add(this);
 	}
 	
 	@Override
