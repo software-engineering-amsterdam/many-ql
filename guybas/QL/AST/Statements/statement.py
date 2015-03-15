@@ -27,10 +27,6 @@ class IStatement:
     def get_dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")
 
-    # return all sub (expressions)
-    def return_expressions(self):
-        raise NotImplementedError("Not implemented by sub class")
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         raise NotImplementedError("Not implemented by sub class")

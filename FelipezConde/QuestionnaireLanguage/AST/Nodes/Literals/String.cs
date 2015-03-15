@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AST.Representation;
-using AST.Storage;
 using Types = AST.Types;
 
 namespace AST.Nodes.Literals

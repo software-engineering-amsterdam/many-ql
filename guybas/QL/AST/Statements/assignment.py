@@ -47,10 +47,6 @@ class Assignment(statement.IStatement):
             dependencies[self.id] = dependencies[self.id] + self.parent_condition.get_dependencies()
         return dependencies
 
-    # return all sub (expressions)
-    def return_expressions(self):
-        return []
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         if not self.order:
@@ -80,9 +76,6 @@ class Assignment(statement.IStatement):
 
     def set_parent_condition(self, condition):
         self.parent_condition = condition
-
-    def set_element(self, gui):
-        ...
 
     def get_type(self):
         return self.type

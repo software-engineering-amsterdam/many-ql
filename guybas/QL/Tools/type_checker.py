@@ -9,9 +9,6 @@ class TypeChecker:
     def __init__(self, form):
         self._ids = form.get_ids()
         self._labels = form.get_labels()
-        self._dependencies = form.get_dependencies()
-        self._expressions = form.get_expressions()
-        self._type_dict = form.get_type_dict()
 
     def is_valid_form(self):
         valid = True

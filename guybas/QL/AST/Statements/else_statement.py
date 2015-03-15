@@ -55,15 +55,6 @@ class IfElseBlock(if_statement.IfBlock):
             dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies
 
-    # return all sub (expressions)
-    def return_expressions(self):
-        s = [self._condition]
-        for x in self._statements:
-            s += x.return_expressions()
-        for x in self.else_statements:
-            s += x.return_expressions()
-        return s
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
@@ -105,12 +96,6 @@ class IfElseBlock(if_statement.IfBlock):
         for s in self.else_statements:
             pass # s.set_parent_condition(self._condition.add_not())
 
-    def set_element(self, gui):
-        ...
-
     def get_e_statements(self):
         return self.else_statements
-
-    def get_element(self):
-        return self._element
 

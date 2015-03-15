@@ -9,28 +9,8 @@ class Form:
 
         # set the statement _order and the parent _id's
         self._statements = statements
-        self._statements = (
-            Form.set_conditions(
-                Form.set_question_ordering(statements))
-        )
-
-        # create dictionary of ids as keys and types as values
-        self._type_dict = self.create_statement_dict(self._statements)
-
-        # get all ids
-        self._ids = Form.id_collection(self._statements)
-
-        # get all labels
-        self._labels = Form.label_collection(self._statements)
-
-        # get all _dependencies (variables)
-        self._dependencies = Form.dependency_collection(self._statements)
-
-        # get all expressions
-        self._expressions = Form.expression_collection(self._statements)
-
-        # get a dictionary of ids as keys and _statements as values
-        self._statement_dict = Form.id_statement_dict(self._statements)
+        self.set_conditions()
+        self.set_question_ordering()
 
     # Pretty print the _form
     def pretty_print(self):
@@ -54,66 +34,20 @@ class Form:
         return self._introduction
 
     def get_ids(self):
-        return self._ids
-
-    def get_labels(self):
-        return self._labels
-
-    def get_dependencies(self):
-        return self._dependencies
-
-    def get_expressions(self):
-        return self._expressions
-
-    def get_type_dict(self):
-        return self._type_dict
-
-    def get_statement_dict(self):
-        return self._statement_dict
-
-    #########################
-    # static helper methods #
-    #########################
-
-    # Set the ordering of questions for display
-    @staticmethod
-    def set_question_ordering(statements):
-        c = 0
-        for s in statements:
-            c = s.set_order(c)
-        return statements
-
-    @staticmethod
-    def id_statement_dict(statements):
-        d = {}
-        for s in statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
-        return d
-
-    @staticmethod
-    def set_conditions(statements):
-        for s in statements:
-            s.set_parent_condition(None)
-        return statements
-
-    @staticmethod
-    def id_collection(statements):
         ids = []
-        for s in statements:
+        for s in self._statements:
             ids += (s.id_collection())
         return ids
 
-    @staticmethod
-    def label_collection(statements):
+    def get_labels(self):
         labels = []
-        for s in statements:
+        for s in self._statements:
             labels += s.label_collection()
         return labels
 
-    @staticmethod
-    def dependency_collection(statements):
+    def get_dependencies(self):
         dependencies = {}
-        for s in statements:
+        for s in self._statements:
             new_dependencies = s.get_dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         # Get transitive _dependencies
@@ -121,6 +55,28 @@ class Form:
         for k in dependencies:
             transitive_dependencies[k] = Form.transitive_dependencies_key(k, set([]), set([]), dependencies)
         return transitive_dependencies
+
+    def get_type_dict(self):
+        d = {}
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+        return d
+
+    def get_statement_dict(self):
+        d = {}
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        return d
+
+    # Set the ordering of questions for display
+    def set_question_ordering(self):
+        c = 0
+        for s in self._statements:
+            c = s.set_order(c)
+
+    def set_conditions(self):
+        for s in self._statements:
+            s.set_parent_condition(None)
 
     @staticmethod
     def transitive_dependencies_key(key, values, checked, dependencies):
@@ -130,18 +86,3 @@ class Form:
             if v not in checked:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
-
-    @staticmethod
-    def expression_collection(statements):
-        expressions = []
-        for x in statements:
-            expressions += x.return_expressions()
-        return expressions
-
-    # Create a dictionary with ids as keys and types as values
-    @staticmethod
-    def create_statement_dict(statements):
-        d = {}
-        for s in statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
-        return d

@@ -15,11 +15,6 @@ namespace QuestionnaireLanguage.GUI.Widgets
 {
     public class StringTextBoxWidget : TextBoxWidget
     {
-        public StringTextBoxWidget()
-        {
-
-        }
-
         public StringTextBoxWidget(string id)
         {
             Id = id;
@@ -27,7 +22,7 @@ namespace QuestionnaireLanguage.GUI.Widgets
 
         public override UIElement CreateUIControl(object value)
         {
-            return new CustomTextBox(false) { Name = Id, Text = value.ToString() };
+            return new CustomTextBox(false) { Name = Id, Text = value.ToString(), IsReadOnly = IsComputed };
         }
     }
 }

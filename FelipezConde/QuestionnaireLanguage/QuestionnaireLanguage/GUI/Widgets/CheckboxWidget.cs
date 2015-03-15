@@ -21,7 +21,7 @@ namespace QuestionnaireLanguage.GUI.Widgets
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomCheckBox() { Name = Id, IsChecked = value };
+            return new CustomCheckBox() { Name = Id, IsChecked = value, IsEnabled = !IsComputed };
         }
     }
 }

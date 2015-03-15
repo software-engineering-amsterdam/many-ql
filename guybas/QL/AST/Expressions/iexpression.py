@@ -22,10 +22,6 @@ class IExpression:
     def as_list(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # static helper method to get the _dependencies once
-    @staticmethod
-    def dependency_collection(expression):
-        raise NotImplementedError("Not implemented by sub class")
 
 
 

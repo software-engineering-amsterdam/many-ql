@@ -17,14 +17,14 @@ using AST;
 using AST.Test;
 using QuestionnaireLanguage.Controller;
 using QuestionnaireLanguage.Contracts;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
+using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
 
 namespace QuestionnaireLanguage
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IMain
+    public partial class MainWindow : Window, IMainWindow
     {
         public MainWindow()
         {
@@ -36,18 +36,8 @@ namespace QuestionnaireLanguage
             TestClass test = new TestClass();
             ASTResult ast = test.GetAST(path + fileName);
 
-            Processor procesor = new Processor(this, ast);
-            UIElement element = Processor.ProcessBody(ast.Ast.GetBody(), this._stack);
-        }
-
-        public UIElementCollection GetControls()
-        {
-            return this._stack.Children;
-        }
-
-        public void AddControl(UIElement element)
-        {
-            this._stack.Children.Add(element);
+            MainController procesor = new MainController(this, ast);
+            MainController.ProcessBody(ast.Ast.GetBody(), this._stack);
         }
 
         public UIElement GetRootElement()
@@ -58,11 +48,6 @@ namespace QuestionnaireLanguage
         public void DeleteElements()
         {
             this._stack.Children.Clear();
-        }
-
-        public void SetFocus(IInputElement inputElement)
-        {
-            Keyboard.Focus(inputElement);
         }
     }
 }
