@@ -33,7 +33,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Handler.CheckType());
-            Assert.AreEqual(0,Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0,Handler.ASTHandlerExceptions.Count);
 
         }
 
@@ -50,7 +50,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
         }
         [TestMethod]
         public void TypeCheckerCollectException2()
@@ -65,7 +65,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(3, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Tests.VisitorTests
             ");
 
             Assert.IsTrue(Handler.CheckType());
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -100,7 +100,7 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
 
@@ -117,7 +117,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.CheckType());
 
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
 
@@ -133,7 +133,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Handler.CheckType());
 
 
-            Assert.AreEqual(3, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -153,7 +153,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.CheckType());
 
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -169,7 +169,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Handler.CheckType());
 
 
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -185,7 +185,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
     }

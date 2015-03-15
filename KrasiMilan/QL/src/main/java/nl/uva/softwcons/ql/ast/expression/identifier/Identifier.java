@@ -5,12 +5,11 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.ExpressionVisitor;
 
 public class Identifier extends Expression {
-    private String name;
-    private LineInfo lineInfo;
+    private final String name;
 
-    public Identifier(String name, LineInfo lineInfo) {
+    public Identifier(final String name, final LineInfo lineInfo) {
+        super(lineInfo);
         this.name = name;
-        this.lineInfo = lineInfo;
     }
 
     public String getName() {
@@ -18,13 +17,8 @@ public class Identifier extends Expression {
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <T> T accept(final ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    @Override
-    public LineInfo getLineInfo() {
-        return this.lineInfo;
     }
 
     @Override

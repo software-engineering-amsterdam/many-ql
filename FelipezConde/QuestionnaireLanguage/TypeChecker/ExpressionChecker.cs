@@ -24,7 +24,7 @@ namespace TypeChecker
             this.topLevelExpressions = GetTopLevelExpressions();
         }
 
-        public IList<INotification> GetDiagnosis()
+        public IList<INotification> AnalyzeAndReport()
         {
             List<INotification> Diagnosis = new List<INotification>();
          

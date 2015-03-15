@@ -7,12 +7,12 @@ import nl.uva.softwcons.ql.ast.expression.unary.UnaryExpression;
 
 public class Not extends UnaryExpression {
 
-    public Not(Expression expr, LineInfo lineInfo) {
+    public Not(final Expression expr, final LineInfo lineInfo) {
         super(expr, lineInfo);
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <T> T accept(final ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

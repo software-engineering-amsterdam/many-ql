@@ -1,25 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using QL.Errors;
+using QL.Model;
+
 namespace QL.Infrastructure
 {
     public class LexerErrorHandler : IAntlrErrorListener<int>
     {
-        private System.Collections.Generic.IList<Exception> LexerExceptions;
+        private readonly IList<QLException> _lexerErrors;
 
         public LexerErrorHandler()
         {
-            this.LexerExceptions = new System.Collections.Generic.List < Exception >();
+            _lexerErrors = new List<QLException>();
         }
 
-        public LexerErrorHandler(System.Collections.Generic.IList<Exception> LexerExceptions)
+        public LexerErrorHandler(IList<QLException> lexerErrors)
         {
-            this.LexerExceptions = LexerExceptions;
+            _lexerErrors = lexerErrors;
         }
+
         public void SyntaxError(IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            
-            LexerExceptions.Add(new QLError("Error in lexer at line " + line + ":" + charPositionInLine));
+            LexerError error = new LexerError(msg, new SourceLocation(line, charPositionInLine + 1));
+            _lexerErrors.Add(error);
         }
 
     }

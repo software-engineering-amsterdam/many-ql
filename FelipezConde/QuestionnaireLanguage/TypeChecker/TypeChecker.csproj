@@ -51,6 +51,7 @@
     <Compile Include="Notifications\Errors\ComputedQuestionTypeConflict.cs" />
     <Compile Include="Notifications\Errors\DuplicateIdentifier.cs" />
     <Compile Include="Notifications\Errors\Error.cs" />
+    <Compile Include="Notifications\PositionPrinter.cs" />
     <Compile Include="Notifications\Warnings\DuplicateLabel.cs" />
     <Compile Include="Notifications\Errors\IncompatibleBinaryOperator.cs" />
     <Compile Include="Notifications\Errors\IncompatibleUnaryOperator.cs" />

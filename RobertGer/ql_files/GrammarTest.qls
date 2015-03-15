@@ -8,5 +8,5 @@ Page: "General Information" {
 	}
 }
 Page: "Income" {
-	Question: "Income" {}
+	Question: "Income1" {}
 }

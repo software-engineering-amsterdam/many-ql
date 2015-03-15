@@ -1,9 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -16,7 +15,7 @@ import java.awt.*;
 public class TextboxWidget implements IWidget {
     private JTextField widget;
 
-    public TextboxWidget(final Question question, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
+    public TextboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -41,7 +40,7 @@ public class TextboxWidget implements IWidget {
         });
     }
 
-    public TextboxWidget(final QuestionField questionField, final QLIntepreter qlIntepreter, final SymbolTable symbolTable) {
+    public TextboxWidget(final QuestionField questionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override

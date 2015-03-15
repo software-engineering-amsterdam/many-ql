@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public abstract class Node implements Visualizable, TypeCheckable {
     private List<Node> children;
-    private List<Class<? extends Node>> acceptedParents;
     private final int lineNumber;
     private final Class<? extends Node> type;
 
@@ -27,27 +26,11 @@ public abstract class Node implements Visualizable, TypeCheckable {
     }
 
     public void addChild(Node child) {
-        if (child.parentIsAccepted(type)) {
-            this.children.add(child);
-        } else {
-            System.err.println("Invalid Node Error @ Line " + child.getLineNumber() + " : " + child.getClass() + " is not a valid child for a " + type + " node");
-        }
-    }
-
-    protected boolean parentIsAccepted(Class<? extends Node> parent) {
-        for (Class<? extends Node> p : this.acceptedParents) {
-            if (parent.equals(p))
-                return true;
-        }
-        return false;
+        this.children.add(child);
     }
 
     public int getLineNumber() {
         return lineNumber;
-    }
-
-    protected void setAcceptedParents(List<Class<? extends Node>> parents) {
-        this.acceptedParents = parents;
     }
 
     public void printDebug() {

@@ -15,11 +15,4 @@ class Mapper:
         return self.answers
 
     def get_answer_by_id(self, qid):
-        if qid in self.answers.keys():
-            return self.answers[qid]
-        raise exceptions.QException("Answer _id " + qid + " does not exist.")
-
-    def id_exists(self, qid):
-        if qid in self.answers.keys():
-            return True
-        return False
+        return self.answers[qid]

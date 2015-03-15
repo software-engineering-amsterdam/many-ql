@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 
 /**

@@ -19,28 +19,23 @@ public class QLSDropdown extends AbstractQLSWidget {
     private final String yesLabel;
     private final String noLabel;
 
-    public QLSDropdown(int _lineNum, String _yes, String _no) {
-        super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-    }
-
     public QLSDropdown(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
-    }
-
-    public QLSDropdown(int _lineNum, String _label, String _yes, String _no) {
-        super(_lineNum);
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.label = _label;
     }
 
     public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
+    }
+
+    public String getYesLabel() {
+        return yesLabel;
+    }
+    
+    public String getNoLabel() {
+        return noLabel;        
     }
 
     @Override
@@ -78,7 +73,6 @@ public class QLSDropdown extends AbstractQLSWidget {
     public void setReadOnly(boolean _isReadonly) {
         // todo
     }
-
 
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();

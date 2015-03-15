@@ -1,5 +1,4 @@
-﻿using AST.Helpers;
-using AST.Representation;
+﻿using AST.Representation;
 using Notifications;
 using System.Collections.Generic;
 
@@ -20,7 +19,7 @@ namespace TypeChecker.Notifications.Warnings
         {
             return string.Format("Duplicated label \"{0}\" at {1}",
                     label,
-                    Position.PrettyPrint(positions)
+                    PositionPrinter.PrettyPrint(positions)
                 );
         }
     }

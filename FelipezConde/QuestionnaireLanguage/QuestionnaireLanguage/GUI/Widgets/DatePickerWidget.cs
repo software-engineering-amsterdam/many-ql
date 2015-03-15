@@ -1,28 +1,23 @@
-﻿using AST.Nodes.Values;
-using QuestionnaireLanguage.GUI.Widgets;
-using QuestionnaireLanguage.GUI.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
+﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace QuestionnaireLanguage.GUI.Widgets
 {
-    class DatePickerWidget : Widget<CustomDatePicker>
+    class DatePickerWidget : Widget
     {
-        public DatePickerWidget(string id, Date node)
+        public DatePickerWidget(string id)
         {
-            CreateUIControl();
             Id = id;
         }
 
-        public UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomDatePicker() { Name = Id, Focusable = false };
+            DateTime outDate;
+            DateTime.TryParse(value, out outDate);
+
+            return new CustomDatePicker() { Name = Id, Focusable = false, IsEnabled = !IsComputed,
+                SelectedDate = (outDate == DateTime.MinValue) ? DateTime.Today : outDate };
         }
     }
 }

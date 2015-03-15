@@ -1,54 +1,22 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Nodes.Expression.Binary
 {
-    public class Multiply : ASTNode, IExpression, IBinary
+    public class Multiply : Binary, IExpression
     {
-        private readonly IExpression left;
-        private readonly IExpression right;
-
         public Multiply(IExpression left, IExpression right, PositionInText position)
-            : base(position)
-        {
-            this.left = left;
-            this.right = right;
-        }
+            : base(left, right, position)
+        { }
 
-         public IExpression Left()
-        { return left; }
-
-        public IExpression Right()
-        { return right; }
-
-        public void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
            return visitor.Visit(this);
         }
 
-        public string MakeString()
+        public override string ToString()
         {
             return "*";
-        }
-
-        public Types.Type GetCompatibleType(Types.IntType leftType, Types.IntType rightType)
-        {
-            return new Types.IntType();
-        }
-
-        public Types.Type GetCompatibleType(Types.Type leftType, Types.Type rightType)
-        {
-            return new Types.UndefinedType();
         }
     }
 }

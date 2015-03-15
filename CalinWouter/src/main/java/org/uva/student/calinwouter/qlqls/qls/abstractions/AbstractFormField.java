@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Form fields are either questions or computed values, always consisting of an identifier and a set of
+ * ResultingFieldsCollection fields are either questions or computed values, always consisting of an identifier and a set of
  * styling arguments.
  */
 @Data

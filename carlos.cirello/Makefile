@@ -11,9 +11,6 @@ test:
 coverage:
 	bash ./coverage.sh
 
-autotest:
-	./autotest.sh '.' 'clear; make test; go run ql.go'
-
 todos:
 	grep -RHin "// todo" * | grep -iv "grep -RHIn"
 	grep -RHin "//todo" * | grep -iv "grep -RHIn"

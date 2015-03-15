@@ -1,9 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Combo;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -21,7 +20,7 @@ public class ComboWidget implements IWidget {
         return yesNoComboBox;
     }
 
-    public ComboWidget(final Question question, final QLIntepreter qlIntepreter, final SymbolTable symbolTable, Combo combo) {
+    public ComboWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Combo combo) {
         yesNoComboBox = new JComboBox(new String[]{combo.getYesLbl(), combo.getNoLbl()});
         yesNoComboBox.setSelectedIndex(-1);
 

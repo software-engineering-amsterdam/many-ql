@@ -1,15 +1,10 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using AST.Nodes.FormObject;
 
 namespace AST.Nodes.Interfaces
 {
     public interface IFormObjectContainer
     {
-        IList<IFormObject> GetBody();
+        IList<FormObject.FormObject> GetBody();
     }
 }

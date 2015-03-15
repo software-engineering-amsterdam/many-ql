@@ -16,19 +16,8 @@ import java.util.List;
 public class QLSSpinBox extends AbstractQLSWidget {
 
     private final JSpinner spinbox;
-    
-    public QLSSpinBox(int _lineNum) {
-        super(_lineNum);
-        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
-    }
 
     public QLSSpinBox() {
-        this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
-    }
-
-    public QLSSpinBox(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
         this.spinbox = new JSpinner(new SpinnerNumberModel( 2,1,7,1 ));
     }
 

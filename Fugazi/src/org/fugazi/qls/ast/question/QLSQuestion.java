@@ -8,12 +8,6 @@ public class QLSQuestion extends AbstractASTNode {
     private final String identifier;
     private AbstractQLSWidget widget;
 
-    public QLSQuestion(int _lineNum, String _identifier, AbstractQLSWidget _widget) {
-        super(_lineNum);
-        this.identifier = _identifier;
-        this.widget = _widget;
-    }
-
     public QLSQuestion(String _identifier, AbstractQLSWidget _widget) {
         this.identifier = _identifier;
         this.widget = _widget;

@@ -14,13 +14,9 @@ public class LE extends Comparison {
         super(_left, _right);
     }
 
-    public LE(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
-    }
-
     @Override
     public String toString() {
-        return this.left.toString() + " <= " + this.right.toString();
+        return this.getLeft().toString() + " <= " + this.getRight().toString();
     }
 
     @Override

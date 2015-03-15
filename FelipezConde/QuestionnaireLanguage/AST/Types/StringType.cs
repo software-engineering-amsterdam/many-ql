@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace AST.Types
 {
     public class StringType : Type
     {
         public override bool IsString()
         {
-            return false;
+            return true;
         }
 
         public override bool IsEqual(Type type)
@@ -18,10 +13,10 @@ namespace AST.Types
             return type.IsString();
         }
 
-        public override void Accept(Visitors.ITypeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        //public override void Accept(Visitors.ITypeVisitor visitor)
+        //{
+        //    visitor.Visit(this);
+        //}
 
         public override T Accept<T>(Visitors.ITypeVisitor<T> visitor)
         {

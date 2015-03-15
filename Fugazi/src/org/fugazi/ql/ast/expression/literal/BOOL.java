@@ -13,11 +13,6 @@ public class BOOL extends Literal {
 
         this.value = _value;
     }
-    public BOOL(Boolean _value, int _lineNum) {
-        super(_lineNum);
-
-        this.value = _value;
-    }
 
     public Boolean getValue() {
         return this.value;

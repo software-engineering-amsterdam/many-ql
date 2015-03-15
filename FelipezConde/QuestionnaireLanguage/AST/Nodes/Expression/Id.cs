@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes.Interfaces;
+﻿using AST.Nodes.Interfaces;
 using AST.Representation;
-using AST.Nodes.Literals;
-using Types = AST.Types;
 
 namespace AST.Nodes.Expression
 {
@@ -21,12 +14,7 @@ namespace AST.Nodes.Expression
             this.Name = name;
         }
 
-        public void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

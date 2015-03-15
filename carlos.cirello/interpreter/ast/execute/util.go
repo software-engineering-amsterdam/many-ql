@@ -1,11 +1,43 @@
 package execute
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
+
+func (exec Execute) resolveExpressionIntoString(expr interface{}) string {
+	r := exec.resolveExpression(expr)
+	switch r.(type) {
+	case float32:
+		return fmt.Sprintf("%f", r)
+	default:
+		return fmt.Sprintf("%s", r)
+	}
+}
+
+func (exec Execute) resolveBothExpressions(n ast.DoubleTermNode) (left, right interface{}) {
+	lt := n.LeftTerm()
+	rt := n.RightTerm()
+
+	left = exec.resolveExpression(lt)
+	right = exec.resolveExpression(rt)
+
+	return left, right
+}
+
+func (exec Execute) resolveExpression(n interface{}) interface{} {
+	switch n.(type) {
+	case *ast.ConcatNode:
+		return exec.resolveStringNode(n)
+	case *ast.TermNode:
+		return exec.resolveTermNode(n)
+	default:
+		return exec.resolveMathNode(n)
+	}
+}
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
 	right float32) {
@@ -22,7 +54,9 @@ func (exec Execute) resolveMathNode(n interface{}) float32 {
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		log.Fatalf("%s:runtime error: Unknown type while resolving node %T", pos, t)
+		log.Fatalf(
+			"%s:runtime error: Unknown type while resolving node %T",
+			pos, t)
 	case *ast.MathAddNode:
 		return exec.MathAddNode(n.(*ast.MathAddNode))
 	case *ast.MathSubNode:
@@ -43,7 +77,9 @@ func (exec *Execute) resolveNumeric(n *ast.TermNode) float32 {
 	switch t := node.(type) {
 	default:
 		pos := n.Pos()
-		log.Fatalf("%s:runtime error: Type impossible to execute comparison. got: %T", pos, t)
+		log.Fatalf(
+			"%s:runtime error: Type impossible to execute comparison. got: %T",
+			pos, t)
 	case int:
 		nodeVal = float32(node.(int))
 	case float32:
@@ -64,10 +100,12 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		return q.(symboltable.ValueLoader).Value()
 	}
 	switch t.(*ast.TermNode).Type() {
-	case ast.NumericConstantNodeType:
-		return t.(*ast.TermNode).NumericConstant()
-	case ast.StringConstantNodeType:
-		return t.(*ast.TermNode).StringConstant()
+	case ast.NumericLiteralNodeType:
+		return t.(*ast.TermNode).NumericLiteral()
+	case ast.StringLiteralNodeType:
+		return t.(*ast.TermNode).StringLiteral()
+	case ast.BooleanLiteralNodeType:
+		return t.(*ast.TermNode).BooleanLiteral()
 	}
 	return nil
 }

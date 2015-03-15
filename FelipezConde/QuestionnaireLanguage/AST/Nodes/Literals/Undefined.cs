@@ -1,15 +1,10 @@
-﻿using AST.Nodes.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace AST.Nodes.Literals
 {
     public class Undefined : Literal
     {
-        public override string MakeString()
+        public override string ToString()
         {
             return "undefined";
         }
@@ -19,12 +14,7 @@ namespace AST.Nodes.Literals
             return new Representation.PositionInText();
         }
 
-        public override void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

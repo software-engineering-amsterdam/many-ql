@@ -1,28 +1,20 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Nodes.Expression;
+using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
-using Values = AST.Nodes.Literals;
-using AST.Nodes.Literals;
-using Types = AST.Types;
-using AST.Nodes.Expression;
+using AST.Representation;
 
 namespace AST.Nodes.FormObject
 {
-    public class Question : ASTNode, IFormObject, IHasType
+    public class Question : FormObject, IHasType
     {
-        public ILabel Label {get; private set;}
+        public Label Label {get; private set;}
         public IExpression Computation {get; private set;}
         public Id Identifier {get; private set;}
         private Types.Type type;
 
         public Question(Id identifier,
                         Types.Type type,
-                        ILabel label,
+                        Label label,
                         IExpression computation,
                         PositionInText positionInText)
             : base(positionInText)
@@ -33,10 +25,7 @@ namespace AST.Nodes.FormObject
             this.Computation = computation;
         }
 
-        public void Accept(Visitors.IVisitor visitor)
-        { visitor.Visit(this); }
-
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
 
         public Types.Type RetrieveType()

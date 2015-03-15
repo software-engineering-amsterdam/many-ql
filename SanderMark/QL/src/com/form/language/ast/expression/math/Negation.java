@@ -12,7 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Negation extends UnaryExpression implements Expression {
+public class Negation extends UnaryExpression  {
 
     public Negation(Expression value, Token tokenInfo) {
 	super(value, tokenInfo);

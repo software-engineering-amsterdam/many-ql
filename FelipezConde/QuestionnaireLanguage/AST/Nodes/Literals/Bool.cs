@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes;
-using AST.Nodes.Interfaces;
-using AST.Representation;
-using Types = AST.Types;
+﻿using AST.Representation;
 
 namespace AST.Nodes.Literals
 {
@@ -31,7 +23,7 @@ namespace AST.Nodes.Literals
             return value;
         }
 
-        public override string MakeString()
+        public override string ToString()
         {
             return "bool";
         }
@@ -41,15 +33,9 @@ namespace AST.Nodes.Literals
             return this;
         }
 
-        // Visitor Methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override Types.Type RetrieveType()

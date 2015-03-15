@@ -10,8 +10,8 @@ namespace TypeChecker
         {
             List<INotification> notifications = new List<INotification>(); 
 
-            notifications.AddRange(new IdentifierChecker(node).GetDiagnosis());
-            notifications.AddRange(new ExpressionChecker(node).GetDiagnosis());
+            notifications.AddRange(new IdentifierChecker(node).AnalyzeAndReport());
+            notifications.AddRange(new ExpressionChecker(node).AnalyzeAndReport());
             //TODO: Add Cyclic dependency check
 
             return notifications;

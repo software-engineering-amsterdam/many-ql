@@ -1,29 +1,14 @@
 ﻿using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.Factory;
+using QuestionnaireLanguage.Factories;
 using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
     public class CustomTextBox : TextBox, ICustomControl
     {
         private bool isNumeric;
-        private static IList<string> listConditionalId;
-
-        public IList<string> ListConditionalId
-        {
-            get { return listConditionalId; }
-            private set { listConditionalId = value; }
-
-        }
 
         #region Constructors
         public CustomTextBox(bool isNumeric)
@@ -63,12 +48,12 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
                 int outValue = 0;
                 int.TryParse(((CustomTextBox)sender).Text, out outValue);
 
-                Processor.UpdateValue(((CustomTextBox)sender).Name,
+                MainController.UpdateValue(((CustomTextBox)sender).Name,
                                    NodeValueFactory.GetNodeValue(outValue));
             }
             else
             {
-                Processor.UpdateValue(((CustomTextBox)sender).Name,
+                MainController.UpdateValue(((CustomTextBox)sender).Name,
                                    NodeValueFactory.GetNodeValue(((CustomTextBox)sender).Text));
             }
         }

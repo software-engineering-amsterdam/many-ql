@@ -2,7 +2,7 @@
 
 import pyparsing as pp
 import QL.Grammar.basic_types as b
-import QL.Grammar.form as form
+import QL.Grammar.grammar as form
 import QLS.Factory.qls as q
 from QLS.Grammar.widget import *
 import QLS.Factory.properties as p
@@ -63,7 +63,7 @@ class QLS:
 
     # default_settings :: Default answerR _widget
     default_setting = \
-        (Suppress("Default") + form.Form.answerR + Widget.widget +
+        (Suppress("Default") + form.Grammar.answerR + Widget.widget +
          Optional(Group(obrac + default_properties + cbrac) )
         ).setParseAction(q.QLSFactory.make_default)
 

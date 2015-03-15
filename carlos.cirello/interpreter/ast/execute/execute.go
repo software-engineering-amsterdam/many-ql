@@ -16,7 +16,8 @@ type Execute struct {
 }
 
 // New is the factory for a ast.Visitor with Execute struct tree inside
-func New(toFrontend chan *plumbing.Frontend, symboltable *symboltable.SymbolTable) ast.Executer {
+func New(toFrontend chan *plumbing.Frontend,
+	symboltable *symboltable.SymbolTable) ast.Executer {
 	return &Execute{
 		toFrontend:  toFrontend,
 		symboltable: symboltable,
@@ -42,8 +43,9 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 	if q.Type() == ast.ComputedQuestionType {
 		expr := q.Content().(*ast.ComputedQuestion).Expression()
-		computed := fmt.Sprintf("%f", exec.resolveMathNode(expr))
-		r.(symboltable.StringParser).From(computed)
+		r.(symboltable.StringParser).From(
+			exec.resolveExpressionIntoString(expr),
+		)
 	}
 
 	exec.toFrontend <- &plumbing.Frontend{

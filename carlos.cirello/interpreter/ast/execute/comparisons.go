@@ -11,12 +11,12 @@ func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 	lt, ltOk := n.LeftTerm().(*ast.TermNode)
 	rt, rtOk := n.RightTerm().(*ast.TermNode)
 	if ltOk && rtOk {
-		vl := exec.TermNode(lt)
-		vr := exec.TermNode(rt)
+		vl := exec.resolveTermNode(lt)
+		vr := exec.resolveTermNode(rt)
 		return vl == vr
 	}
 
-	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
 	return left == right
 }
 
@@ -30,7 +30,7 @@ func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
 		return vl != vr
 	}
 
-	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
 	return left != right
 }
 
@@ -103,7 +103,9 @@ func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		panic(fmt.Sprintf("%s:runtime error: impossible condition type. got: %T", pos, t))
+		panic(fmt.Sprintf(
+			"%s:runtime error: impossible condition type. got: %T",
+			pos, t))
 
 	case *ast.TermNode:
 		conditionState = exec.TermNode(n.(*ast.TermNode))
@@ -121,10 +123,12 @@ func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 		conditionState = exec.LessThanNode(n.(*ast.LessThanNode))
 
 	case *ast.MoreOrEqualsThanNode:
-		conditionState = exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode))
+		conditionState = exec.MoreOrEqualsThanNode(
+			n.(*ast.MoreOrEqualsThanNode))
 
 	case *ast.LessOrEqualsThanNode:
-		conditionState = exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode))
+		conditionState = exec.LessOrEqualsThanNode(
+			n.(*ast.LessOrEqualsThanNode))
 
 	case *ast.BoolAndNode:
 		conditionState = exec.BoolAndNode(n.(*ast.BoolAndNode))

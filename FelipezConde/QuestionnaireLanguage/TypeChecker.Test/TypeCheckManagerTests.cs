@@ -44,13 +44,13 @@ namespace TypeChecker.Test
                 new Question(new Id("1", pos), 
                              new Types.BoolType(),
                              new Label("", pos),
-                             new Container(new Bool(true), pos), 
+                             new Bool(true), 
                              pos
                              ),
                 new Question(new Id("2", pos), 
                              new Types.IntType(),
                              new Label("", pos),
-                             new Container(new Int(3), pos), 
+                             new Int(3), 
                              pos
                              )
             };
@@ -65,13 +65,13 @@ namespace TypeChecker.Test
                 new Question(new Id("1", pos), 
                              new Types.IntType(),
                              new Label("", pos),
-                             new Container(new Bool(true), pos), 
+                             new Bool(true), 
                              pos
                              ),
                 new Question(new Id("2", pos), 
                              new Types.BoolType(),
                              new Label("", pos),
-                             new Container(new Int(3), pos), 
+                             new Int(3), 
                              pos
                              )
             };

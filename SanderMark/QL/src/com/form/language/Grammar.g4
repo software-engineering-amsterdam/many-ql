@@ -40,28 +40,46 @@ ifStatement returns [Statement result]
 ;
 
 assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result);}
+: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result, $ID);}
+;
+	
+expression returns [Expression result]
+  : LBRACE x=expression RBRACE				{ $result = $x.result;}
+  | unary = unaryExpression 				{$result = $unary.result;} 
+  | mulDiv = multDivExpression 				{$result = $mulDiv.result;}
+  | addSub = addSubExpression				{$result = $addSub.result;}
+  | comp   = comparisonExpression			{$result = $comp.result;}
+  | andOr = andOrExpression					{$result = $andOr.result;}
+  | lit = literal							{ $result = $lit.result; }
+  ;
+
+unaryExpression returns [Expression result]
+:   MINUS x=expression						{ $result = new Negation($x.result, $MINUS);}
+	| EXCL x=expression						{ $result = new Not($x.result,$EXCL);}
 ;
 
-expression returns [Expression result]
-	: LBRACE x=expression RBRACE				{ $result = $x.result;}
-	| MINUS x=expression						{ $result = new Negation($x.result, $MINUS);}
-	| EXCL x=expression							{ $result = new Not($x.result,$EXCL);}
-	| l=expression MULT r=expression			{ $result = new Multiplication($l.result, $r.result, $MULT);}
-	| l=expression DIV r=expression				{ $result = new Division($l.result, $r.result, $DIV);}
-	| l=expression PLUS r=expression			{ $result = new Addition($l.result, $r.result, $PLUS); }
+multDivExpression returns [Expression result]
+: 	l=expression MULT r=expression			{ $result = new Multiplication($l.result, $r.result, $MULT);}
+	| l=expression DIV r=expression			{ $result = new Division($l.result, $r.result, $DIV);}
+;
+
+addSubExpression returns [Expression result]
+: 	l=expression PLUS r=expression			{ $result = new Addition($l.result, $r.result, $PLUS); }
 	| l=expression MINUS r=expression			{ $result = new Substraction($l.result, $r.result, $MINUS); }
-	| l=expression EQ r=expression				{ $result = new Equal($l.result, $r.result, $EQ); }
+;
+
+comparisonExpression returns[Expression result]
+:	 l=expression EQ r=expression				{ $result = new Equal($l.result, $r.result, $EQ); }
 	| l=expression GT r=expression				{ $result = new GreaterThan($l.result, $r.result, $GT); }
 	| l=expression GTEQ r=expression			{ $result = new GreaterThanOrEqual($l.result, $r.result, $GTEQ); }
 	| l=expression LT r=expression				{ $result = new LessThan($l.result, $r.result, $LT); }
 	| l=expression LTEQ r=expression			{ $result = new LessThanOrEqual($l.result, $r.result, $LTEQ); }
-	| l=expression AND r=expression				{ $result = new And($l.result, $r.result, $AND); }
-	| l=expression OR r=expression				{ $result = new Or($l.result, $r.result, $OR); }
-	| lit = literal								{ $result = $lit.result; }
-	;
+;
 
-
+andOrExpression returns[Expression result]
+  : l=expression AND r=expression			{ $result = new And($l.result, $r.result, $AND); }
+  | l=expression OR r=expression			{ $result = new Or($l.result, $r.result, $OR); }
+;
 
 literal returns [Expression result]
 	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),$BOOLEAN);}

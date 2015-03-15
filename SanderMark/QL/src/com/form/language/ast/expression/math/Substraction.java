@@ -12,7 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Substraction extends BinaryExpression implements Expression {
+public class Substraction extends BinaryExpression {
 
     public Substraction(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

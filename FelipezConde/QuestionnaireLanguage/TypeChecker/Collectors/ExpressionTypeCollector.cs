@@ -1,8 +1,7 @@
 ﻿using AST.Nodes.Expression;
 using AST.Nodes.Expression.Binary;
 using AST.Nodes.Expression.Unary;
-using AST.Nodes.Interfaces;
-using AST.Visitors;
+using AST.ASTVisitors;
 using Notifications;
 using System.Collections.Generic;
 using TypeChecker.Notifications.Errors;
@@ -26,12 +25,7 @@ namespace TypeChecker.Collectors
         public void ClearCollectedNotifications()
         { collectedNotifications = new List<INotification>(); }
 
-        #region Id, container
-        public override Types.Type Visit(Container node)
-        {
-            return node.Value.RetrieveType();
-        }
-
+        #region Id
         public override Types.Type Visit(Id node)
         {
             return idToType[node];
@@ -111,41 +105,41 @@ namespace TypeChecker.Collectors
         }
         #endregion
 
-        private Types.Type VisitBinaryExpectedType(IBinary node, Types.Type expectedType)
+        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedType)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
 
             if (!left.IsEqual(expectedType) && right.IsEqual(expectedType))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.MakeString(), left.GetString(), right.GetString()));
+                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
             }
 
             return expectedType;
         }
-        private Types.Type VisitBinary(IBinary node)
+        private Types.Type VisitBinary(Binary node)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
 
             if (!left.IsEqual(right))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.MakeString(), left.GetString(), right.GetString()));
+                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
             }
 
             return left;
         }
-        private Types.Type VisitUnary(IUnary node)
+        private Types.Type VisitUnary(Unary node)
         {
             return node.GetChildExpression().Accept(this);
         }
-        private Types.Type VisitUnaryExpectedType(IUnary node, Types.Type expectedType)
+        private Types.Type VisitUnaryExpectedType(Unary node, Types.Type expectedType)
         {
             Types.Type childType = node.GetChildExpression().Accept(this);
 
             if (childType.IsEqual(expectedType))
             {
-                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.MakeString(), childType.GetString()));
+                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.ToString(), childType.GetString()));
             }
 
             return expectedType;

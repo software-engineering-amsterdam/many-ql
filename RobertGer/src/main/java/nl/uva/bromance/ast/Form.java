@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Form extends Node implements CanContainConditionals {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Questionnaire.class));
     private String identifier;
 
     private IfStatement ifStatement;
@@ -25,7 +24,6 @@ public class Form extends Node implements CanContainConditionals {
 
     public Form(int lineNumber, String id) {
         super(lineNumber, Form.class);
-        this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             // Remove double quotes around the identifier
             this.identifier = id.substring(1, id.length() - 1);

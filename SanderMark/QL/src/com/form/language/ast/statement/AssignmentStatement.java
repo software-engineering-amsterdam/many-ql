@@ -9,16 +9,15 @@ import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
 //TODO: ifStatements can be part of a condition, so they will only be assigned conditionally (at runtime). There will be no problems compiletime, however.
-public class AssignmentStatement implements Statement {
+public class AssignmentStatement extends Statement {
     private String id;
     //TODO: why don't we use type here?
     private Type type;
     private Expression expression;
     // TODO handle tokenInfo in constructor and perhaps in some errors?
-    private Token tokenInfo;
 
-    public AssignmentStatement(String id, Type type, Expression expression) {
-	super();
+    public AssignmentStatement(String id, Type type, Expression expression, Token tokenInfo) {
+	super(tokenInfo);
 	this.id = id;
 	this.type = type;
 	this.expression = expression;
@@ -30,7 +29,7 @@ public class AssignmentStatement implements Statement {
     }
 
     public void initMemory(Context context) {
-	expression.evaluate(context).addToMemory(id, context);
+	context.setValue(id, expression.evaluate(context));
     }
 
     @Override
