@@ -8,11 +8,11 @@ using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using QL.Errors;
+using QL.Exceptions;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
-using QL.Evaluation;
+using QL.Visitors;
 
 
 namespace QL

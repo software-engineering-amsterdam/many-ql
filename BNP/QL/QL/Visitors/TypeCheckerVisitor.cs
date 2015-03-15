@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QL.Errors;
+using QL.Exceptions;
 using QL.Model;
 using QL.Model.Operators;
 
 using QL.Model.Terminals;
 
-namespace QL.Evaluation
+namespace QL.Visitors
 {
     class TypeCheckerVisitor: IVisitor
     {
@@ -229,7 +229,7 @@ namespace QL.Evaluation
         # region Type distinction
         
         Type DetermineType(Identifier i)
-        {
+        { 
             if (TypeReference.ContainsKey(i)){
                 return TypeReference[i];}
             else{

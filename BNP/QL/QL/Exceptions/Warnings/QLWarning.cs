@@ -1,10 +1,12 @@
 ﻿using System;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class QLWarning : QLException
     {
+        /* Base class for all QL Warnings
+         */
         public QLWarning()
         {
         }

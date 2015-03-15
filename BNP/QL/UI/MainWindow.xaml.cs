@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
-using QL.Errors;
+using QL.Exceptions;
 using QL.Model;
 using QL.UI.Controls;
 

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QL.Errors;
 
-namespace QL
+namespace QL.Exceptions
 {
     public class EvaluationWarning : QLWarning
     {

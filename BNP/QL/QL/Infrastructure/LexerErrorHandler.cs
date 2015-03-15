@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
-using QL.Errors;
+using QL.Exceptions;
 using QL.Model;
 
 namespace QL.Infrastructure

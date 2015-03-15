@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Grammars;
 using QL.Model;
 using QL;
-using QL.Evaluation;
+using QL.Visitors;
 
 namespace Tests.VisitorTests
 {

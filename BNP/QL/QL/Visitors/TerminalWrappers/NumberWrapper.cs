@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using QL.Model;
 using QL.Model.Terminals;
+using QL.Exceptions;
 
-namespace QL.Evaluation
+namespace QL.Visitors
 {
     public class NumberWrapper:TerminalWrapper
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using QL;
-using QL.Errors;
+using QL.Exceptions;
 using QL.Model;
 using System.Diagnostics;
 using QL.Model.Terminals;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using QL.Errors;
-using QL.Evaluation;
+using QL.Exceptions;
+using QL.Visitors;
 using QL.Model.Terminals;
 using System;
 using QL.Grammars;
@@ -14,6 +14,11 @@ namespace QL.Model
 {
     public class AstHandler
     {
+        /*This is the god class.
+         * After putting source as into the constructor, this class accumulates all the information 
+         * made by evaluator, type checker ...
+         * Is this good, bad? 
+         */
         public Form RootNode { get; private set; }
 
         public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }

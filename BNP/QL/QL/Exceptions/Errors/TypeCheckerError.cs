@@ -1,7 +1,7 @@
 ﻿using System;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class TypeCheckerError : QLError
     {

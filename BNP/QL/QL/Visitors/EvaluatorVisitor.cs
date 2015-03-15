@@ -1,4 +1,4 @@
-﻿using QL.Errors;
+﻿using QL.Exceptions;
 using QL.Model;
 using QL.Model.Operators;
 using QL.Model.Terminals;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL.Evaluation
+namespace QL.Visitors
 {
     public class EvaluatorVisitor : IVisitor
     {

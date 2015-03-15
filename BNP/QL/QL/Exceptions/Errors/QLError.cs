@@ -2,10 +2,12 @@
 using System.Runtime.Serialization;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class QLError : QLException
     {
+        /* Base class for all QL Errors
+         */
         public QLError()
         {
         }

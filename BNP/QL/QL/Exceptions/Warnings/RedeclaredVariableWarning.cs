@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class RedeclaredVariableWarning : QLWarning
     {

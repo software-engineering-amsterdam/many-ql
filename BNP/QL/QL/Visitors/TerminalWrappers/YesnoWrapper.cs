@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using QL.Model;
 using QL.Model.Terminals;
 
-namespace QL.Evaluation
+namespace QL.Visitors
 {
     public class YesnoWrapper:TerminalWrapper
     {

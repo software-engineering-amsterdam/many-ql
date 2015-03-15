@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class ParserError : QLError
     {

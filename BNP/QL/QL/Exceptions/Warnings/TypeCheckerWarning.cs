@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QL.Errors;
+using QL.Exceptions;
 
 namespace QL
 {
