@@ -8,6 +8,7 @@ public abstract class Literal extends Expression {
     public Literal() {
         super();
     }
+    
     public Literal(int _lineNum) {
         super(_lineNum);
     }

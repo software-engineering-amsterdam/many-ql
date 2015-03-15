@@ -9,7 +9,6 @@ import java.util.List;
 public class Form extends AbstractASTNode {
 
     private final String name;
-
     private final List<Statement> body;
 
     public Form(String _name, List<Statement> _body, int _lineNum) {
