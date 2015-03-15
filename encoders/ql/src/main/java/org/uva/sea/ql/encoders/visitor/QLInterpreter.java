@@ -83,19 +83,19 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
 
+		Expression condition = null;
+		Expression computed = null;
 		TextLocation textLocation = getTextLocation(ctx);
-		Question question = new Question(textLocation, questionName, dataType, questionLabel);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
-			Expression condition = (Expression) visit(parent.expression());
-			question.setCondition(condition);
+			condition = (Expression) visit(parent.expression());
 		}
 		ExpressionContext computedCtx = ctx.computed;
 		if (computedCtx != null) {
-			Expression computed = (Expression) visit(computedCtx);
-			question.setComputed(computed);
+			computed = (Expression) visit(computedCtx);
 			System.out.println(computed);
 		}
+		Question question = new Question(textLocation, questionName, dataType, questionLabel, condition, computed);
 		super.visitChildren(ctx);
 		return question;
 	}

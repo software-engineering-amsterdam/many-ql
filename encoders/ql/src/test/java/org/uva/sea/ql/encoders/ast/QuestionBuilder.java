@@ -25,9 +25,7 @@ public class QuestionBuilder {
 	}
 
 	public Question build() {
-		Question question = new Question(textLocation, name, dataType, questionLabel);
-		question.setCondition(condition);
-		question.setComputed(computed);
+		Question question = new Question(textLocation, name, dataType, questionLabel, condition, computed);
 		return question;
 	}
 

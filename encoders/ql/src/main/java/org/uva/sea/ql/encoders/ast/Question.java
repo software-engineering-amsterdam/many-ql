@@ -15,15 +15,18 @@ public class Question extends AstNode {
 
 	private final String questionLabel;
 
-	private Expression condition = null;
+	private final Expression condition;
 
-	private Expression computed = null;
+	private final Expression computed;
 
-	public Question(TextLocation textLocation, String name, DataType dataType, String questionLabel) {
+	public Question(TextLocation textLocation, String name, DataType type, String questionLabel, Expression condition,
+			Expression computed) {
 		super(textLocation);
 		this.name = name;
-		this.type = dataType;
+		this.type = type;
 		this.questionLabel = questionLabel;
+		this.condition = condition;
+		this.computed = computed;
 	}
 
 	public String getName() {
@@ -44,14 +47,6 @@ public class Question extends AstNode {
 
 	public Expression getComputed() {
 		return computed;
-	}
-
-	public void setCondition(Expression condition) {
-		this.condition = condition;
-	}
-
-	public void setComputed(Expression expression) {
-		this.computed = expression;
 	}
 
 	@Override
