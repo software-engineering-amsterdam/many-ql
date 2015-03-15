@@ -11,13 +11,9 @@ namespace QuestionnaireLanguage.GUI.Widgets
 {
     public abstract class Widget : IWidget
     {
-        private string _id;
+        public virtual string Id { get; set; }
 
-        public string Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public virtual bool IsComputed { get; set; }
 
         public abstract UIElement CreateUIControl(dynamic value);
     }

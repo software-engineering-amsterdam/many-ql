@@ -10,7 +10,7 @@ namespace AST.Types
     {
         public override bool IsString()
         {
-            return false;
+            return true;
         }
 
         public override bool IsEqual(Type type)

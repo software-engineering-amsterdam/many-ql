@@ -17,7 +17,7 @@ using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class QuestionObject : ObjectBase, IFormObject
+    public class QuestionObject : IFormObject
     {
         private Question questionNode;
 
@@ -25,7 +25,7 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            Processor.AddValue(questionNode.Identifier, questionNode.RetrieveType());
+            MainController.AddValue(questionNode.Identifier, questionNode.RetrieveType());
         }
         #endregion
 
@@ -36,26 +36,32 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public UIElement ProcessFormObject(UIElement form)
         {
             Widget widget = new TypeToWidgetVisitor(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
+            widget.IsComputed = questionNode.Computation != null ? true : false;
+
             Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
 
-            Values.Literal widgetValue = Processor.GetObjectValue(questionNode.Identifier);
+            Values.Literal widgetValue = ProcessComputation();
 
-            widgetValue = ProcessComputation(widgetValue);
-
-            AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
-            AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
+            MainController.AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
+            MainController.AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
 
             return form;
         }
 
-        public Values.Literal ProcessComputation(Values.Literal value)
+        public Values.Literal ProcessComputation()
         {
+            Values.Literal result;
+
             if (questionNode.Computation != null)
             {
-                value = Processor.Evaluate(questionNode.Computation);
+                result = MainController.Evaluate(questionNode.Computation);
+            }
+            else
+            {
+                result = MainController.GetObjectValue(questionNode.Identifier);
             }
 
-            return value;
+            return result;
         }
 
         #endregion
