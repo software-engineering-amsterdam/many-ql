@@ -18,8 +18,7 @@ import javafx.scene.text.Text;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.runtime.ComputedEvaluatorVisitor;
-import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
+import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
@@ -94,9 +93,10 @@ public class QuestionnaireUI {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					OperatorTable operatorTable = new OperatorTable();
-					ConditionEvaluatorVisitor conditionEvaluatorVisitor = new ConditionEvaluatorVisitor(runtimeQuestions,
-							operatorTable);
-					BooleanValue value = condition.accept(conditionEvaluatorVisitor);
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions, operatorTable);
+					// The cast to BooleanValue should be safe, because the
+					// types should already be checked at this point.
+					BooleanValue value = (BooleanValue) condition.accept(expressionEvaluator);
 					Boolean visible = value.getValue();
 					control.setVisible(visible);
 					label.setVisible(visible);
@@ -120,9 +120,8 @@ public class QuestionnaireUI {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					OperatorTable operatorTable = new OperatorTable();
-					ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(runtimeQuestions,
-							operatorTable);
-					Value value = computed.accept(computedEvaluatorVisitor);
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions, operatorTable);
+					Value value = computed.accept(expressionEvaluator);
 					runtimeQuestion.setValue(value);
 				}
 			});

@@ -23,13 +23,13 @@ import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
-public class ComputedEvaluatorVisitor implements AstVisitor<Value> {
+public class ExpressionEvaluator implements AstVisitor<Value> {
 
 	private final List<RuntimeQuestion> questions;
 
 	private final OperatorTable operatorTable;
 
-	public ComputedEvaluatorVisitor(List<RuntimeQuestion> questions, OperatorTable operatorTable) {
+	public ExpressionEvaluator(List<RuntimeQuestion> questions, OperatorTable operatorTable) {
 		this.questions = questions;
 		this.operatorTable = operatorTable;
 	}
