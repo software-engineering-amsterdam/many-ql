@@ -15,4 +15,9 @@ public class StringToStringValueConverter implements ValueConverter<String> {
         return new StringValue(value);
     }
 
+    @Override
+    public String fromValue(final Value value) {
+        return value.asString();
+    }
+
 }

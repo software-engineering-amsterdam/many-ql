@@ -11,4 +11,10 @@ public class DateValueConverter implements ValueConverter<String> {
         return null;
     }
 
+    @Override
+    public String fromValue(Value value) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

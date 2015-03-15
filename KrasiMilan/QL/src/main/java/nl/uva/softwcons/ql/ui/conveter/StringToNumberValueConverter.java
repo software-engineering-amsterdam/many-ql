@@ -18,4 +18,9 @@ public class StringToNumberValueConverter implements ValueConverter<String> {
         return new NumberValue(new BigDecimal(value));
     }
 
+    @Override
+    public String fromValue(final Value value) {
+        return value.asDecimal().toPlainString();
+    }
+
 }

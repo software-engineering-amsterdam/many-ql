@@ -10,4 +10,9 @@ public class BooleanToBooleanValueConverter implements ValueConverter<Boolean> {
         return new BooleanValue(value);
     }
 
+    @Override
+    public Boolean fromValue(final Value value) {
+        return value.asBoolean();
+    }
+
 }
