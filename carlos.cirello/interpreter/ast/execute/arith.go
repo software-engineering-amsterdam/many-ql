@@ -45,7 +45,7 @@ func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 		str := value.(string)
 		v, err := strconv.ParseFloat(str, 32)
 		if err != nil {
-			log.Fatalf("%s: variable %s not a number. Got `%s`", s.Pos(), s.IdentifierReference(), str)
+			log.Fatalf("%s: variable %s not a number.", s.Pos(), s.IdentifierReference(), str)
 		}
 		return float32(v)
 	}

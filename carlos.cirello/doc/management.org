@@ -12,8 +12,7 @@
     - [ ] magic constants
     - [ ] duplicated code
 
-* QL [6/9]
-  - [ ] Write Code Walkthrough for Tijs and Vadim
+* QL [6/7]
   - [ ] Refactor [3/5]
     - [ ] Expand tests
     - [X] Extract question typing from AST
@@ -22,7 +21,6 @@
     - [X] Extract plumbing
     - [X] String concatenation
     - [ ] Improve error message precision
-  - [ ] Write walkthrough doc for Tijs
   - [X] Basic Architecture
   - [X] Interpreter wise error handling
     - [X] Pretty and informing error message
