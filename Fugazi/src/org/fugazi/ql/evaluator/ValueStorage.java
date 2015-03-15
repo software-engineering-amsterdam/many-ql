@@ -17,12 +17,4 @@ public class ValueStorage extends HashMap<String, ExpressionValue> {
     public ExpressionValue getExpressionValue(String _id) {
         return this.containsKey(_id) ? this.get(_id) : new UndefinedValue();
     }
-
-    public Object getRealValue(String _id) {
-        return this.containsKey(_id) ? this.get(_id).getValue() : null;
-    }
-
-    public Boolean isValueExists(String _id) {
-        return this.containsKey(_id);
-    }
 }
