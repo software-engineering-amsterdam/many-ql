@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
 public class IntegerValue extends Value {
+    // TODO here and at other places, add equals to typedescriptor!!
     public static final TypeDescriptor INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor() {
         @Override
         public void callTypeMethod(final TypeCallback typeCallback) {
@@ -66,10 +67,6 @@ public class IntegerValue extends Value {
         typeCallback.usesInteger();
     }
 
-    public IntegerValue(Integer value) {
-        super(value);
-    }
-
     @Override
     public Value eq(Value value) {
         return new BoolValue(value.getValue().equals(getValue()));
@@ -77,5 +74,9 @@ public class IntegerValue extends Value {
 
     public Value neq(Value value) {
         return new BoolValue(!value.getValue().equals(getValue()));
+    }
+
+    public IntegerValue(Integer value) {
+        super(value);
     }
 }

@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 

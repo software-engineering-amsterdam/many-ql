@@ -17,17 +17,8 @@ public class StringValue extends Value {
     };
 
     @Override
-    public Value add(Value value) {
-        return new StringValue((String) getValue() + value.getValue());
-    }
-
-    @Override
     public void apply(TypeCallback typeCallback) {
         typeCallback.usesString();
-    }
-
-    public StringValue(String value) {
-        super(value);
     }
 
     @Override
@@ -37,5 +28,9 @@ public class StringValue extends Value {
 
     public Value neq(Value value) {
         return new BoolValue(!value.getValue().equals(getValue()));
+    }
+
+    public StringValue(String value) {
+        super(value);
     }
 }

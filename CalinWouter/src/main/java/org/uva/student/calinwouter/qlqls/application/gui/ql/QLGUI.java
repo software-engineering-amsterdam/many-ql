@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.L
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.*;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;

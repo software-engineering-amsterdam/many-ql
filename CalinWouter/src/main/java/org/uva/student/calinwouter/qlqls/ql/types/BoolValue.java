@@ -36,10 +36,6 @@ public class BoolValue extends Value {
         typeCallback.usesBoolean();
     }
 
-    public BoolValue(Boolean value) {
-        super(value);
-    }
-
     @Override
     public Value eq(Value value) {
         return new BoolValue(value.getValue().equals(getValue()));
@@ -51,5 +47,9 @@ public class BoolValue extends Value {
 
     public boolean isTrue() {
         return (Boolean) getValue();
+    }
+
+    public BoolValue(Boolean value) {
+        super(value);
     }
 }

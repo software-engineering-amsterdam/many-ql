@@ -117,12 +117,11 @@ public class PExpInterpreter extends AnalysisAdapter {
     }
 
     private Value interpretExpression(Node n) {
-        PExpInterpreter expInterpreter = new PExpInterpreter(variableTable);
-        n.apply(expInterpreter);
-        return expInterpreter.popValue();
+        n.apply(this);
+        return popValue();
     }
 
-    PExpInterpreter(VariableTable variableTable) {
+    public PExpInterpreter(VariableTable variableTable) {
         super();
         this.variableTable = variableTable;
         this.valueStack = new Stack<Value>();

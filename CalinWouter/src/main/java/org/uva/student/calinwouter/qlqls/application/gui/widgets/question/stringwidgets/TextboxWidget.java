@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.strin
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;

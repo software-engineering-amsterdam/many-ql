@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application;
 import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
+import org.uva.student.calinwouter.qlqls.ql.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 

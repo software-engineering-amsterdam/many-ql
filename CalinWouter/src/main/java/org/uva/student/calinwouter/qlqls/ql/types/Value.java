@@ -67,6 +67,7 @@ public abstract class Value {
     }
 
     public Value(Object value) {
+        assert(value != null);
         this.value = value;
     }
 

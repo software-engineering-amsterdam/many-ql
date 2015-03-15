@@ -41,7 +41,7 @@ public class PTypeInterpreter extends AnalysisAdapter {
         return typeDescriptorStack.pop();
     }
 
-    PTypeInterpreter() {
+    public PTypeInterpreter() {
         this.typeDescriptorStack = new Stack<TypeDescriptor>();
     }
 

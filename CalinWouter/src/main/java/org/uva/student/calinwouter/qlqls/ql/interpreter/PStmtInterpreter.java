@@ -60,7 +60,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
         }
     }
 
-    PStmtInterpreter(VariableTable variableTable, ResultingFieldsCollection form) {
+    public PStmtInterpreter(VariableTable variableTable, ResultingFieldsCollection form) {
         this.expInterpreter = new PExpInterpreter(variableTable);
         this.variableTable = variableTable;
         this.form = form;
