@@ -6,8 +6,8 @@ import QL.AST.Expressions.Elements.bool as boolean
 import QL.AST.Expressions.Elements.number as number
 import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
-import QL.AST.Expressions.simple_expression as expression
-import QL.AST.Expressions.complex_expression as ce
+import QL.AST.Expressions.expression as expression
+import QL.AST.Expressions.sub_expression as ce
 
 
 def make_variable(tokens):
@@ -48,10 +48,10 @@ def remove_parenthesis(e):
 
 
 def make_sub_expression(tokens):
-    return ce.ComplexExpression(tokens)
+    return ce.SubExpression(tokens)
 
 
 def make_expression(tokens):
-    return expression.SimpleExpression(tokens)
+    return expression.Expression(tokens)
 
 

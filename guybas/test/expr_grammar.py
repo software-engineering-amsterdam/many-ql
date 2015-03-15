@@ -15,17 +15,30 @@ plus_op = pp.oneOf('+ -').setParseAction(e.make_operator)
 comp_op = pp.oneOf('> >= == < <=').setParseAction(e.make_operator)
 extra_op = pp.oneOf('&& ||').setParseAction(e.make_operator)
 
-expr = pp.operatorPrecedence(value,
-    [(not_op, 1, pp.opAssoc.RIGHT),
-     (mul_op, 2, pp.opAssoc.LEFT),
-     (plus_op, 2, pp.opAssoc.LEFT),
-     (comp_op, 2, pp.opAssoc.RIGHT),
-     (extra_op, 2, pp.opAssoc.LEFT)]
-    )
+expr = pp.infixNotation\
+        (value,
+         [(not_op, 1, pp.opAssoc.RIGHT),
+             (mul_op, 2, pp.opAssoc.LEFT),
+             (plus_op, 2, pp.opAssoc.LEFT),
+             (comp_op, 2, pp.opAssoc.RIGHT),
+             (extra_op, 2, pp.opAssoc.LEFT)
+         ]
+    ).setParseAction(e.make_sub_expression)
 
 test = ["9 + 2 + 3",
-        "9 + !2 * 3",
-        "(9 + 2) * 3 == 33 && 1"]
+        "(9 + !2 * 3)",
+        "((9 + 2) * 3 == 33 && 1)"]
+
+
+def make_expressions(tokens):
+    l = []
+    for t in tokens:
+        if type(t) == pp.ParseResults:
+            l.append(e.make_sub_expression(make_expressions(t)))
+        else:
+            l.append(e.make_expression(t))
+    return l
 
 for t in test:
-    temp = e.make_expression(expr.parseString(t))
+    temp = expr.parseString(t)
+    print(temp)

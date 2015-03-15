@@ -4,7 +4,7 @@ import QL.AST.Statements.question as q
 import QL.AST.Elements.operator as op
 import QL.AST.Statements.if_statement as i
 import QL.AST.Statements.else_statement as e
-import QL.AST.Expressions.expression as se
+import QL.AST.Expressions.iexpression as se
 import QL.AST.Elements.variable as v
 import QL.AST.Expressions.Elements.bool as b
 import QL.AST.form as f
@@ -34,8 +34,8 @@ class GenerateStatements:
         is_op = op.Operator("==")
         plus_op = op.Operator("+")
 
-        i1 = i.IfBlock(se.Expression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
-        i2 = e.IfElseBlock(se.Expression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
+        i1 = i.IfBlock(se.IExpression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
+        i2 = e.IfElseBlock(se.IExpression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
 
         form = f.Form("example", "Introduction", [q1, i1, q6, i2])
         return form
@@ -90,8 +90,8 @@ class TestFactories(unittest.TestCase):
         is_op = op.Operator("==")
         plus_op = op.Operator("+")
 
-        i1 = i.IfBlock(se.Expression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
-        i2 = e.IfElseBlock(se.Expression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
+        i1 = i.IfBlock(se.IExpression([v.Variable("1a"), is_op, b.Bool(True)]), [q2, q3])
+        i2 = e.IfElseBlock(se.IExpression([v.Variable("2a"),  plus_op, v.Variable("6a")]), [q4], [q5])
 
         check = ff.FormFactory.make_form(["example", "Introduction", [q1, i1, q6, i2]])
         self.assertIsInstance(check, f.Form)

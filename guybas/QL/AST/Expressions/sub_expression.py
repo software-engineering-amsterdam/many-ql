@@ -1,13 +1,13 @@
-import QL.AST.Expressions.expression as e
+import QL.AST.Expressions.iexpression as e
 
 
 # Expressions with sub-expressions
-class ComplexExpression(e.Expression):
+class SubExpression(e.IExpression):
 
     # initialization
     def __init__(self, expr):
         self._expression = expr
-        self._dependencies = ComplexExpression.dependency_collection(self._expression)
+        self._dependencies = SubExpression.dependency_collection(self._expression)
 
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
