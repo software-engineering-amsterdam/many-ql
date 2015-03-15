@@ -17,12 +17,4 @@ public abstract class Comparison extends Binary {
     }
 
     public abstract List<Type> getSupportedTypes();
-
-    public Expression getLeft() {
-        return this.left;
-    }
-
-    public Expression getRight() {
-        return this.right;
-    }
 }

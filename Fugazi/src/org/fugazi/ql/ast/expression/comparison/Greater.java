@@ -19,7 +19,7 @@ public class Greater extends Comparison {
 
     @Override
     public String toString() {
-        return this.left.toString() + " > " + this.right.toString();
+        return this.getLeft().toString() + " > " + this.getRight().toString();
     }
 
     @Override
