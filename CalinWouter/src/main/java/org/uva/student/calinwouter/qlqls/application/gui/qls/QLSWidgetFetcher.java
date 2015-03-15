@@ -9,8 +9,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwid
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SliderWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SpinboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
-import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
@@ -23,7 +22,7 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final Question question;
     private final QLIntepreter qlIntepreter;
-    private final SymbolTable symbolTable;
+    private final VariableTable symbolTable;
     private final StylingSettings stylingSettings;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
@@ -65,7 +64,7 @@ public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
         return createLabelWithWidgetWidget(new IntboxWidget(question, qlIntepreter, symbolTable));
     }
 
-    public QLSWidgetFetcher(QLIntepreter qlIntepreter, SymbolTable symbolTable, Question question,
+    public QLSWidgetFetcher(QLIntepreter qlIntepreter, VariableTable symbolTable, Question question,
                             StylingSettings stylingSettings) {
         this.qlIntepreter = qlIntepreter;
         this.symbolTable = symbolTable;

@@ -1,48 +1,22 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
-import org.uva.student.calinwouter.qlqls.ql.SymbolTable;
-import org.uva.student.calinwouter.qlqls.ql.model.Form;
-
-import java.util.LinkedList;
-import java.util.List;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
+import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 
 public class QLIntepreter {
-    private List<ChangedStateEventListener> changedStateEventListeners;
-    private AForm aForm;
-    private Form form;
-    private SymbolTable symbolTable;
-    private FormInterpreter formInterpreter;
+    private final AForm aForm;
+    private final VariableTable variableTable;
 
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
-    public Form getForm() {
-        return form;
-    }
-
-    public Form interpret(){
-        form = new Form();
-        formInterpreter = new FormInterpreter(symbolTable, form);
+    public ResultingFieldsCollection interpret() {
+        ResultingFieldsCollection form = new ResultingFieldsCollection();
+        PFormInterpreter formInterpreter = new PFormInterpreter(variableTable, form);
         aForm.apply(formInterpreter);
-        notifyListeners();
         return form;
     }
 
-    private void notifyListeners() {
-        for (ChangedStateEventListener changedStateEventListener : changedStateEventListeners) {
-            changedStateEventListener.onStateChanged();
-        }
-    }
-
-    public void subscribeChangedStateEventListener(ChangedStateEventListener changedStateEventListener) {
-        changedStateEventListeners.add(changedStateEventListener);
-    }
-
-    public QLIntepreter(AForm aForm, SymbolTable symbolTable) {
+    public QLIntepreter(AForm aForm, VariableTable variableTable) {
         this.aForm = aForm;
-        changedStateEventListeners = new LinkedList<ChangedStateEventListener>();
-        this.symbolTable = symbolTable;
+        this.variableTable = variableTable;
     }
 }

@@ -1,11 +1,10 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.typechecker.IAllowTypeChecker;
-import org.uva.student.calinwouter.qlqls.ql.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
-public class IntegerValue extends Value<Integer> {
-    public static final TypeDescriptor<IntegerValue> INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<IntegerValue>() {
+public class IntegerValue extends Value {
+    public static final TypeDescriptor INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor() {
         @Override
         public void callTypeMethod(final TypeCallback typeCallback) {
             typeCallback.usesInteger();
@@ -15,106 +14,51 @@ public class IntegerValue extends Value<Integer> {
         public IntegerValue getDefaultValue() {
             return new IntegerValue(0);
         }
-
-        @Override
-        public boolean isAllowed(final IAllowTypeChecker allowable) {
-            return allowable.allowsIntegerValue();
-        }
     };
 
     @Override
-    public Value<?> add(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new IntegerValue(null);
-            return new IntegerValue(getValue() + (Integer) value.getValue());
-        }
-        return super.add(value);
+    public Value add(Value value) {
+        return new IntegerValue((Integer) getValue() + (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> sub(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new IntegerValue(null);
-            return new IntegerValue(getValue() - (Integer) value.getValue());
-        }
-        return super.sub(value);
+    public Value sub(Value value) {
+        return new IntegerValue((Integer) getValue() - (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> mul(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new IntegerValue(null);
-            return new IntegerValue(getValue() * (Integer) value.getValue());
-        }
-        return super.mul(value);
+    public Value mul(Value value) {
+        return new IntegerValue((Integer) getValue() * (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> div(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new IntegerValue(null);
-            return new IntegerValue(getValue() / (Integer) value.getValue());
-        }
-        return super.div(value);
+    public Value div(Value value) {
+        return new IntegerValue((Integer) getValue() / (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> mod(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new IntegerValue(null);
-            return new IntegerValue(getValue() % (Integer) value.getValue());
-        }
-        return super.mod(value);
+    public Value mod(Value value) {
+        return new IntegerValue((Integer) getValue() % (Integer) value.getValue());
     }
 
     @Override
-    public Class<Integer> getTypeModelClass() {
-        return Integer.class;
+    public Value lt(Value value) {
+        return new BoolValue((Integer) getValue() < (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> lt(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() < (Integer) value.getValue());
-        }
-        return super.lt(value);
+    public Value gt(Value value) {
+        return new BoolValue((Integer) getValue() > (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> gt(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() > (Integer) value.getValue());
-        }
-        return super.gt(value);
+    public Value lte(Value value) {
+        return new BoolValue((Integer) getValue() <= (Integer) value.getValue());
     }
 
     @Override
-    public Value<?> lte(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() <= (Integer) value.getValue());
-        }
-        return super.lte(value);
-    }
-
-    @Override
-    public Value<?> gte(Value<?> value) {
-        if (value.getTypeModelClass() == Integer.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() >= (Integer) value.getValue());
-        }
-        return super.gte(value);
+    public Value gte(Value value) {
+        return new BoolValue((Integer) getValue() >= (Integer) value.getValue());
     }
 
     @Override
@@ -127,7 +71,11 @@ public class IntegerValue extends Value<Integer> {
     }
 
     @Override
-    public TypeDescriptor<?> getTypeDescriptor() {
-        return INTEGER_VALUE_TYPE_DESCRIPTOR;
+    public Value eq(Value value) {
+        return new BoolValue(value.getValue().equals(getValue()));
+    }
+
+    public Value neq(Value value) {
+        return new BoolValue(!value.getValue().equals(getValue()));
     }
 }

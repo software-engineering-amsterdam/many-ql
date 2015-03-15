@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql;
+package org.uva.student.calinwouter.qlqls.ql.interfaces;
 
 /**
  * This interface provides callback methods for specific types.

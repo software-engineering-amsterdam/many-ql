@@ -14,7 +14,7 @@ import static org.uva.student.calinwouter.qlqls.helper.QLGeneratorHelper.value;
 public class TestPrecedence {
 
     private Object calcValue(String exp) throws ParserException, IOException, LexerException {
-        FormInterpreter formInterpreter =
+        PFormInterpreter formInterpreter =
                 InterpreterHelper.interpetStringHeadless(form(value("value", "", "int", exp)));
         return formInterpreter.getField("value").getValue();
     }

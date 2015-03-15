@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
 import java.util.Map;
 

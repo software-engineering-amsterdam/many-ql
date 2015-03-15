@@ -6,19 +6,19 @@ import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableExceptio
 import java.util.LinkedList;
 import java.util.List;
 
-public class Form {
-    private List<FormField> fields;
+public class ResultingFieldsCollection {
+    private List<AbstractFormField> fields;
 
-    public void addFormField(FormField field) {
+    public void addFormField(AbstractFormField field) {
         fields.add(field);
     }
 
-    public List<FormField> getFields() {
+    public List<AbstractFormField> getFields() {
         return fields;
     }
 
     public String getLabelForField(String fieldName) throws LabelNotAvailableException {
-        for (FormField f : fields) {
+        for (AbstractFormField f : fields) {
             if (fieldName.equals(f.getVariable()))
                 return f.getLabel();
         }
@@ -26,13 +26,13 @@ public class Form {
     }
 
     public boolean hasField(String fieldName) {
-        for (FormField f: fields)
+        for (AbstractFormField f: fields)
             if (fieldName.equals(f.getVariable()))
                 return  true;
         return false;
     }
 
-    public Form() {
-        fields = new LinkedList<FormField>();
+    public ResultingFieldsCollection() {
+        fields = new LinkedList<AbstractFormField>();
     }
 }
