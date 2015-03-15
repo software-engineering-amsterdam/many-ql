@@ -13,6 +13,7 @@ import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
 import org.fugazi.ql.gui.visitor.UIQuestionBuilder;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.util.*;
 
@@ -25,16 +26,30 @@ public class GUIBuilder implements IMediator {
     private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
+    
+    private UIQuestionBuilder uiQuestionBuilder;
 
+    // Todo temporary to test QLS.
     public GUIBuilder(Form _form) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         this.uiForm = new UIForm(_form.getName());
+        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, new WidgetsFactory());
 
         this.addIfStatementsToQuestion(_form);
         this.addComputedQuestions(_form);
     }
+    
+    public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
+        this.valueStorage = new ValueStorage();
+        this.guiEvaluator = new GUIEvaluator(valueStorage);
+        this.uiForm = new UIForm(_form.getName());
+        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
+        this.addIfStatementsToQuestion(_form);
+        this.addComputedQuestions(_form);
+    }
+    
     public void renderUI() {
         setupForm();
         uiForm.showForm();
@@ -67,6 +82,7 @@ public class GUIBuilder implements IMediator {
     private void removeQuestionFromForm(UIQuestion _uiQuestion) {
         if (questionsInForm.contains(_uiQuestion)) {
             questionsInForm.remove(_uiQuestion);
+            _uiQuestion.resetState();
             uiForm.removeQuestion(_uiQuestion);
         }
     }
@@ -122,9 +138,7 @@ public class GUIBuilder implements IMediator {
         return isTrue;
     }
 
-    private UIQuestion createUiQuestion(Question _question) {
-        // TODO Alex why is typeVisitor UIQuestionBilder?? is this correct naming
-        UIQuestionBuilder typeVisitor = new UIQuestionBuilder(this, _question, valueStorage);
-        return _question.accept(typeVisitor);
+    protected UIQuestion createUiQuestion(Question _question) {
+        return _question.accept(this.uiQuestionBuilder);
     }    
 }

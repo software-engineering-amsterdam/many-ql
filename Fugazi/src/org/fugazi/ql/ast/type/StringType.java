@@ -5,9 +5,6 @@ public class StringType extends Type {
     public StringType() {
         super();
     }
-    public StringType(int _lineNum) {
-        super(_lineNum);
-    }
 
     @Override
     public String toString() {

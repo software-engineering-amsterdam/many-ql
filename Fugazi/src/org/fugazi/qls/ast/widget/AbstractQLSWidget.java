@@ -2,15 +2,19 @@ package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public abstract class Widget extends AbstractASTNode {
+public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidget {
 
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 12;
@@ -20,11 +24,7 @@ public abstract class Widget extends AbstractASTNode {
     protected String label = "";
     protected Style style = new UndefinedStyle();
 
-    public Widget(int _lineNum) {
-        super(_lineNum);
-    }
-
-    public Widget() {
+    public AbstractQLSWidget() {
     }
     
     public Font getDefaultFont() {
@@ -59,6 +59,31 @@ public abstract class Widget extends AbstractASTNode {
     }
 
     public abstract void applyStyle(Style _style);
+
+    @Override
+    public JComponent getJComponent() {
+        throw new AssertionError();
+    }
+
+    @Override
+    public ExpressionValue getValue() {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void setValue(ExpressionValue _value) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        throw new AssertionError();
+    }
+    
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        throw new AssertionError();
+    }
 
     public abstract List<Type> getSupportedQuestionTypes();
 

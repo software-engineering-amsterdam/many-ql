@@ -2,12 +2,14 @@ import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.gui.GUIBuilder;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
 import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
+import org.fugazi.qls.gui.QLSWidgetsFactory;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
 import java.io.FileInputStream;
@@ -50,11 +52,7 @@ public class Main {
         if (!isFormTypesCorrect) {
             System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
             System.exit(-1);
-        }
-
-        // Render GUI.
-        GUIBuilder guiBuilder = new GUIBuilder(form);
-        guiBuilder.renderUI();
+        }        
 
         /** ---------------------
          * QLS
@@ -99,7 +97,13 @@ public class Main {
             System.exit(-1);
         }
 
-        // todo: render gui with stylesheet.
-
+        // todo: temporary to test QLS.
+//        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+//        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
+//        guiBuilder.renderUI();
+        
+        // QL
+        GUIBuilder guiBuilder = new GUIBuilder(form);
+        guiBuilder.renderUI();
     }
 }

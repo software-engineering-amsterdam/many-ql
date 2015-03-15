@@ -7,7 +7,7 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
@@ -42,7 +42,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             pages.add(page);
         }
 
-        return new StyleSheet(this.getLineNumber(ctx), name, pages);
+        StyleSheet styleSheet = new StyleSheet(name, pages);
+        styleSheet.setLineNumber(this.getLineNumber(ctx));
+        return styleSheet;
     }
     
     @Override 
@@ -61,7 +63,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             defaultStyles.add(defaultStyle);
         }
 
-		return new Page(this.getLineNumber(ctx), name, sections, defaultStyles);
+        Page page = new Page(name, sections, defaultStyles);
+        page.setLineNumber(this.getLineNumber(ctx));
+        return page;
 	}
 
     @Override 
@@ -74,9 +78,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             sections.add(section);
         }
 
-        List<Question> questions = new ArrayList<>();
+        List<QLSQuestion> questions = new ArrayList<>();
         for (QLSParser.QuestionContext questionContext : ctx.question()) {
-            Question question = (Question) questionContext.accept(this);
+            QLSQuestion question = (QLSQuestion) questionContext.accept(this);
             questions.add(question);
         }
 
@@ -86,21 +90,28 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             defaultStyles.add(defaultStyle);
         }
 
-        return new Section(this.getLineNumber(ctx), this.removeStringQuotes(name), sections, defaultStyles, questions);
+        Section section = new Section(this.removeStringQuotes(name), sections, defaultStyles, questions);
+        section.setLineNumber(this.getLineNumber(ctx));
+        return section;
 	}
 
     @Override public AbstractASTNode visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx) {
         String identifier = ctx.ID().getText();
 
-        Widget widget = (Widget) ctx.widget().accept(this);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
         widget.setLabel(identifier);
 
-        return new Question(this.getLineNumber(ctx), identifier, widget);
+        QLSQuestion qlsQuestion = new QLSQuestion(identifier, widget);
+        qlsQuestion.setLineNumber(this.getLineNumber(ctx));
+        return qlsQuestion;
     }
 
     @Override public AbstractASTNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
         String identifier = ctx.ID().getText();
-        return new Question(this.getLineNumber(ctx), identifier, new UndefinedWidget());
+
+        QLSQuestion qlsQuestion = new QLSQuestion(identifier, new QLSUndefinedWidget());
+        qlsQuestion.setLineNumber(this.getLineNumber(ctx));
+        return qlsQuestion;
     }
 
     @Override 
@@ -111,14 +122,17 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     @Override 
 	public AbstractASTNode visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx) {
         Type questionType = (Type) ctx.type().accept(this);
-        Widget widget = (Widget) ctx.widget().accept(this);
-        return new DefaultStyleDeclaration(this.getLineNumber(ctx), new UndefinedStyle(), widget, questionType);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
+
+        DefaultStyleDeclaration defaultStyleDeclaration = new DefaultStyleDeclaration(new UndefinedStyle(), widget, questionType);
+        defaultStyleDeclaration.setLineNumber(this.getLineNumber(ctx));
+        return defaultStyleDeclaration;
     }
     
     @Override 
 	public AbstractASTNode visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx) {
         Type questionType = (Type) ctx.type().accept(this);
-        Widget widget = (Widget) ctx.widget().accept(this);
+        AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
 
         List<StyleProperty> styleProperties = new ArrayList<>();
         for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
@@ -126,82 +140,107 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
             styleProperties.add(styleProperty);
         }
 
-        Style style = new Style(this.getLineNumber(ctx), styleProperties);
+        Style style = new Style(styleProperties);
+        style.setLineNumber(this.getLineNumber(ctx));
 
-        return new DefaultStyleDeclaration(this.getLineNumber(ctx), style, widget, questionType);
+        DefaultStyleDeclaration defaultStyleDeclaration = new DefaultStyleDeclaration(style, widget, questionType);
+        defaultStyleDeclaration.setLineNumber(this.getLineNumber(ctx));
+        return defaultStyleDeclaration;
 	}
     
     @Override 
 	public AbstractASTNode visitCheckboxWidget(@NotNull QLSParser.CheckboxWidgetContext ctx) {
-        return new CheckBox(this.getLineNumber(ctx));
+        QLSCheckBox widget = new QLSCheckBox();
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-		return new RadioBtn(this.getLineNumber(ctx),
-                this.removeStringQuotes(yesLabel),
-                this.removeStringQuotes(noLabel));
+
+        QLSRadioBtn widget = new QLSRadioBtn(this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
         String yesLabel = ctx.yes.getText();
         String noLabel = ctx.no.getText();
-        return new Dropdown(
-                this.getLineNumber(ctx),
-                this.removeStringQuotes(yesLabel),
-                this.removeStringQuotes(noLabel));
+        QLSDropdown widget = new QLSDropdown(this.removeStringQuotes(yesLabel), this.removeStringQuotes(noLabel));
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitSpinboxWidget(@NotNull QLSParser.SpinboxWidgetContext ctx) {
-		return new SpinBox(this.getLineNumber(ctx));
+        QLSSpinBox widget = new QLSSpinBox();
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitSliderWidget(@NotNull QLSParser.SliderWidgetContext ctx) {
-		return new Slider(this.getLineNumber(ctx));
+        QLSSlider widget = new QLSSlider();
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitTextWidget(@NotNull QLSParser.TextWidgetContext ctx) {
-		return new TextBox(this.getLineNumber(ctx));
+        QLSTextBox widget = new QLSTextBox();
+        widget.setLineNumber(this.getLineNumber(ctx));
+        return widget;
 	}
     
     @Override 
 	public AbstractASTNode visitWidthStyleProperty(@NotNull QLSParser.WidthStylePropertyContext ctx) {
-		return new Width(this.getLineNumber(ctx), Integer.parseInt(ctx.NUMBER().getText()));
+        Width styleProperty = new Width(Integer.parseInt(ctx.NUMBER().getText()));
+        styleProperty.setLineNumber(this.getLineNumber(ctx));
+		return styleProperty;
 	}
     
     @Override
 	public AbstractASTNode visitFontStyleProperty(@NotNull QLSParser.FontStylePropertyContext ctx) {
-		return new Font(this.getLineNumber(ctx), this.removeStringQuotes(ctx.STRING().getText()));
+        Font styleProperty = new Font(this.removeStringQuotes(ctx.STRING().getText()));
+        styleProperty.setLineNumber(this.getLineNumber(ctx));
+        return styleProperty;
 	}
     
     @Override 
 	public AbstractASTNode visitFontsizeStyleProperty(@NotNull QLSParser.FontsizeStylePropertyContext ctx) {
-        return new FontSize(this.getLineNumber(ctx), Integer.parseInt(ctx.NUMBER().getText()));
+        FontSize styleProperty = new FontSize(Integer.parseInt(ctx.NUMBER().getText()));
+        styleProperty.setLineNumber(this.getLineNumber(ctx));
+        return styleProperty;
 	}
     
     @Override 
 	public AbstractASTNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) {
-        return new Color(this.getLineNumber(ctx), this.removeStringQuotes(ctx.HEX().getText()));
+        Color styleProperty = new Color(this.removeStringQuotes(ctx.HEX().getText()));
+        styleProperty.setLineNumber(this.getLineNumber(ctx));
+        return styleProperty;
 	}
     
     @Override 
 	public AbstractASTNode visitBoolType(@NotNull QLSParser.BoolTypeContext ctx) {
-		return new BoolType(this.getLineNumber(ctx));
+        BoolType type = new BoolType();
+        type.setLineNumber(this.getLineNumber(ctx));
+        return type;
 	}
     
     @Override 
 	public AbstractASTNode visitIntType(@NotNull QLSParser.IntTypeContext ctx) {
-        return new IntType(this.getLineNumber(ctx));
+        IntType type = new IntType();
+        type.setLineNumber(this.getLineNumber(ctx));
+        return type;
 	}
     
     @Override 
     public AbstractASTNode visitStringType(@NotNull QLSParser.StringTypeContext ctx) {
-        return new StringType(this.getLineNumber(ctx));
+        StringType type = new StringType();
+        type.setLineNumber(this.getLineNumber(ctx));
+        return type;
 	}
 }

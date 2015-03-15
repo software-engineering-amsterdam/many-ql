@@ -4,7 +4,7 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.widgets.IntegerOnlyTextBox;
+import org.fugazi.ql.gui.widgets.IWidget;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,26 +13,24 @@ public class UINumQuestion extends UIQuestion {
 
     private Integer value;
 
-    public UINumQuestion(IMediator _med, Question _question) {
-        super(_med, _question);
-        this.value = 0; // default
-
-        this.widget = new IntegerOnlyTextBox(_question.getLabel());
+    public UINumQuestion(IMediator _med, Question _question, IWidget _widget) {
+        super(_med, _question, _widget);
 
         this.widget.addEventListener(new DocumentListener() {
             
             public void insertUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
+                setState(widget.getValue().getValue().toString());
             }
             public void removeUpdate(DocumentEvent e) {}
             public void changedUpdate(DocumentEvent e) {}
         });
+        this.resetState();
     }
 
     public void setState(String _value) {
 
         if (_value.equals("")) {
-            this.value = 0;
+            this.resetState();
         } else {
             this.value = Integer.parseInt(_value);
         }
@@ -43,5 +41,12 @@ public class UINumQuestion extends UIQuestion {
     @Override
     public ExpressionValue getState() {
         return new IntValue(value);
+    }
+
+    @Override
+    public void resetState() {
+        this.value = 0;
+        this.setState("0");
+        this.widget.setValue(new IntValue(0));
     }
 }

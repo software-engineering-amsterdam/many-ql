@@ -13,11 +13,6 @@ public class INT extends Literal {
 
         this.value = _value;
     }
-    public INT(int _value, int _lineNum) {
-        super(_lineNum);
-
-        this.value = _value;
-    }
 
     public int getValue() {
         return this.value;

@@ -2,15 +2,19 @@ package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
 
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class TextBox extends Widget {
+public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
@@ -18,22 +22,11 @@ public class TextBox extends Widget {
     private JTextField componentValue;
     private JLabel componentLabel;
 
-    public TextBox(int _lineNum) {
-        super(_lineNum);
+    public QLSTextBox() {
         this.buildWidget("");
     }
 
-    public TextBox() {
-        this.buildWidget("");
-    }
-
-    public TextBox(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
-        this.buildWidget(_label);
-    }
-
-    public TextBox(String _label) {
+    public QLSTextBox(String _label) {
         this.label = _label;
         this.buildWidget(_label);
     }
@@ -47,6 +40,12 @@ public class TextBox extends Widget {
     }
 
     @Override
+    public void setLabel(String _label) {
+        this.label = _label;
+        this.componentLabel.setText(label);
+    }
+
+    @Override
     public void applyStyle(Style _style) {
         this.style = _style;
 
@@ -57,11 +56,31 @@ public class TextBox extends Widget {
     }
 
     @Override
-    public void setLabel(String _label) {
-        this.label = _label;
-        this.componentLabel.setText(label);
+    public JComponent getJComponent() {
+        return this.component;
     }
 
+    @Override
+    public void addEventListener(EventListener _listener) {
+        this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
+    }
+
+    @Override
+    public StringValue getValue() {
+        return new StringValue(this.componentValue.getText());
+    }
+
+    @Override
+    public void setValue(ExpressionValue _value) {
+        StringValue value = (StringValue) _value;
+        this.componentValue.setText(value.getValue());
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.componentValue.setEnabled(false);
+    }
+    
     @Override
     public Width getDefaultWidth() {
         return new Width(DEFAULT_WIDTH);

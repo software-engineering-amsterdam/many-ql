@@ -6,16 +6,14 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.Type;
 
 public class Or extends Logical {
+    
     public Or(Expression _left, Expression _right) {
         super(_left, _right);
-    }
-    public Or(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
     }
 
     @Override
     public String toString() {
-        return this.left.toString() + " || " + this.right.toString();
+        return this.getLeft().toString() + " || " + this.getRight().toString();
     }
 
     @Override

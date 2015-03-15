@@ -4,39 +4,38 @@ import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class Dropdown extends Widget {
+public class QLSDropdown extends AbstractQLSWidget {
 
     private final String yesLabel;
     private final String noLabel;
 
-    public Dropdown(int _lineNum, String _yes, String _no) {
-        super(_lineNum);
+    public QLSDropdown(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
     }
 
-    public Dropdown(String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-    }
-
-    public Dropdown(int _lineNum, String _label, String _yes, String _no) {
-        super(_lineNum);
+    public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
     }
 
-    public Dropdown(String _label, String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.label = _label;
+    public String getYesLabel() {
+        return yesLabel;
+    }
+    
+    public String getNoLabel() {
+        return noLabel;        
     }
 
     @Override
@@ -46,6 +45,32 @@ public class Dropdown extends Widget {
         // inherit properties that are not set in the given style from default.
         this.style.inheriteFromStyle(this.getDefaultStyle());
 
+        // todo
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        // todo
+        return null;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        // todo
+    }
+
+    @Override
+    public BoolValue getValue() {
+        return new BoolValue(false);
+    }
+
+    @Override
+    public void setValue(ExpressionValue _value) {
+        // todo
+    }
+
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
         // todo
     }
 

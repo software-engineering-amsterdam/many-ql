@@ -3,33 +3,26 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-public class CheckBox extends Widget {
+public class QLSCheckBox extends AbstractQLSWidget {
 
     private JCheckBox component;
 
-    public CheckBox(int _lineNum) {
-        super(_lineNum);
+    public QLSCheckBox() {
         this.component = new JCheckBox();
     }
 
-    public CheckBox() {
-        this.component = new JCheckBox();
-    }
-
-    public CheckBox(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
-        this.component = new JCheckBox(label);
-    }
-
-    public CheckBox(String _label) {
+    public QLSCheckBox(String _label) {
         this.label = _label;
         this.component = new JCheckBox(label);
     }
@@ -48,6 +41,32 @@ public class CheckBox extends Widget {
         this.style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return component;
+    }
+
+    @Override
+    public void addEventListener(EventListener _listener) {
+        component.addItemListener((ItemListener)_listener);
+    }
+
+    @Override
+    public BoolValue getValue() {
+        return new BoolValue(this.component.isSelected());
+    }
+
+    @Override
+    public void setValue(ExpressionValue _value) {
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
+    } 
+    
+    @Override
+    public void setReadOnly(boolean _isReadonly) {
+        this.component.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {

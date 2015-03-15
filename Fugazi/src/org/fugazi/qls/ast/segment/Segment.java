@@ -7,17 +7,14 @@ import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import java.util.List;
 
 public abstract class Segment extends AbstractASTNode {
-    protected final String name;
-    protected final List<Section> sections;
-    protected final List<DefaultStyleDeclaration> defaultStyleDeclarations;
+    private final String name;
+    private final List<Section> sections;
+    private final List<DefaultStyleDeclaration> defaultStyleDeclarations;
 
-    public Segment(int _lineNum, List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
-        super(_lineNum);
-        this.sections = _sections;
-        this.defaultStyleDeclarations = _defaultStyles;
-        this.name = _name;
-    }
-    public Segment(List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
+    public Segment(List<Section> _sections, 
+                   List<DefaultStyleDeclaration> _defaultStyles, 
+                   String _name)
+    {
         this.sections = _sections;
         this.defaultStyleDeclarations = _defaultStyles;
         this.name = _name;

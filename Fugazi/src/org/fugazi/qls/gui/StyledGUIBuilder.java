@@ -1,4 +1,4 @@
-package org.fugazi.qls;
+package org.fugazi.qls.gui;
 
 public class StyledGUIBuilder {
 }
