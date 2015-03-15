@@ -22,8 +22,7 @@
     - [X] String concatenation
     - [ ] Improve error message precision
   - [X] Basic Architecture
-  - [X] Interpreter wise error handling
-    - [X] Pretty and informing error message
+  - [X] Interpreter wise error handling - Pretty and informing error message
   - [X] Resolve the Visitor debate. {6}
   - [X] Compiler [2/2] {1}
     - [X] Write grammar [8/8]
