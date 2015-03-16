@@ -31,7 +31,7 @@ public class QLSWidgetsFactory extends WidgetsFactory {
         String label = _question.getLabel();
         AbstractQLSWidget widget = (AbstractQLSWidget) getQlsWidget(_question.getIdName());
         widget.setLabel(label);
-        widget.setValue(_value);
+        widget.setWidgetValue(_value);
         widget.setReadOnly(true);
 
         return widget;

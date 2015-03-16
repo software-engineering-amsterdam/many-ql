@@ -60,29 +60,29 @@ public class Main {
         /** ---------------------
          * QLS
          * --------------------- */
-        String inputQLSFile = null;
-
-        if (args.length > 1)
-            inputQLSFile = args[1];
-
-        InputStream qlsInput = System.in;
-
-        if (inputQLFile != null)
-            qlsInput = new FileInputStream(inputQLSFile);
-
-         // Create The AST Builder.
-        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
-
-        // Build the AST.
-        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
-
-        // Get the styles.
-        DefaultStyleHandler defaultStyleDeclaration =
-                new DefaultStyleHandler(formDataStorage, styleSheet);
-        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
-
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
-
+//        String inputQLSFile = null;
+//
+//        if (args.length > 1)
+//            inputQLSFile = args[1];
+//
+//        InputStream qlsInput = System.in;
+//
+//        if (inputQLFile != null)
+//            qlsInput = new FileInputStream(inputQLSFile);
+//
+//         // Create The AST Builder.
+//        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
+//
+//        // Build the AST.
+//        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+//
+//        // Get the styles.
+//        DefaultStyleHandler defaultStyleDeclaration =
+//                new DefaultStyleHandler(formDataStorage, styleSheet);
+//        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+//
+//        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
+//
 //        // Perform QLS type checking.
 //        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
 //        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(

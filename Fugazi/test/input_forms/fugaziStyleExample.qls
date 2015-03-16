@@ -1,5 +1,7 @@
 stylesheet taxOfficeExample 
   page Housing {
+    section "Info"
+      question name
     section "Buying"
       question hasBoughtHouse  
         widget checkbox 

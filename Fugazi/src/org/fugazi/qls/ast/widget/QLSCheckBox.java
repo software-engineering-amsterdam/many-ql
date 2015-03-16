@@ -6,6 +6,7 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -55,17 +56,17 @@ public class QLSCheckBox extends AbstractQLSWidget {
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
-        component.addItemListener((ItemListener)_listener);
+    public void addEventListener(WidgetsEventListener _listener) {
+        //todo
     }
 
     @Override
-    public BoolValue getValue() {
+    public BoolValue getWidgetValue() {
         return new BoolValue(this.component.isSelected());
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public void setWidgetValue(ExpressionValue _value) {
         BoolValue value = (BoolValue) _value;
         this.component.setSelected(value.getValue());
     } 

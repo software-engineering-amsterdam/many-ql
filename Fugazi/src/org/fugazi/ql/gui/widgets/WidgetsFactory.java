@@ -20,7 +20,7 @@ public class WidgetsFactory implements ITypeVisitor<IWidget> {
         this.questionLabel = _question.getLabel();
 
         IWidget widget = type.accept(this);
-        widget.setValue(_value);
+        widget.setWidgetValue(_value);
         widget.setReadOnly(true);
         return widget;
     }

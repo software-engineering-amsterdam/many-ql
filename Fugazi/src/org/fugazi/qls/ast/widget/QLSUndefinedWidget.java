@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
 import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -40,12 +41,12 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
     }
 
     @Override
-    public UndefinedValue getValue() {
+    public UndefinedValue getWidgetValue() {
         throw new AssertionError();
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public void setWidgetValue(ExpressionValue _value) {
         throw new AssertionError();
     }
 
@@ -55,7 +56,7 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
+    public void addEventListener(WidgetsEventListener _listener) {
         throw new AssertionError();
     }
 

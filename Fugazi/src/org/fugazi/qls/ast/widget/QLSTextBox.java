@@ -5,6 +5,7 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
@@ -67,17 +68,17 @@ public class QLSTextBox extends AbstractQLSWidget {
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
-        this.componentValue.getDocument().addDocumentListener((DocumentListener) _listener);
+    public void addEventListener(WidgetsEventListener _listener) {
+        //todo
     }
 
     @Override
-    public StringValue getValue() {
+    public StringValue getWidgetValue() {
         return new StringValue(this.componentValue.getText());
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public void setWidgetValue(ExpressionValue _value) {
         StringValue value = (StringValue) _value;
         this.componentValue.setText(value.getValue());
     }
