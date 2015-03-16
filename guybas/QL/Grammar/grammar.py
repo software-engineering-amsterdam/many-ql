@@ -114,4 +114,4 @@ statement <<= (pIfElse |
 introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + sentences))
 
 # form :: statement_id introduction? statement+
-form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement)))
+form = (statement_id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()

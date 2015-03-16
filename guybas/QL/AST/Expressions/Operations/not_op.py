@@ -7,7 +7,7 @@ class Not(e.Element):
         self._operand = operand
 
     def pretty_print(self,level=0):
-        return "not " + self._operand
+        return "not " + self._operand.pretty_print()
 
     # get the return _type of the _expression
     def return_type_string(self, type_dict):

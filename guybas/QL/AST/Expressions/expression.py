@@ -19,7 +19,7 @@ class Expression(e.IExpression):
     def pretty_print(self, level = 0):
         s = ""
         for x in self._expression:
-            s += x.pretty_print()
+            s += "(" + x.pretty_print() + ")"
         return s
 
     # get all variables in the _expression
@@ -30,6 +30,6 @@ class Expression(e.IExpression):
         return dependencies
 
     # Return the negative of the _expression
-    def add_not(self):
-        l = [Expression(self._expression)]
-        return Expression([operators.Operator("not"), c.SubExpression(l)])
+    # def add_not(self):
+    #     l = [Expression(self._expression)]
+    #     return Expression([operators.Operator("not"), c.SubExpression(l)])

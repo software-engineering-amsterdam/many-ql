@@ -16,7 +16,7 @@ class SubExpression(e.IExpression):
     # return a pretty printed string of the _expression
     def pretty_print(self, level=0):
         s = ""
-        s += "(" + self._expression.pretty_print() + ")"
+        s += self._expression
         return s
 
     # get all variables in the _expression
