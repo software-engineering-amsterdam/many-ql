@@ -1,6 +1,5 @@
 package com.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.typechecker.error.AError;
 
