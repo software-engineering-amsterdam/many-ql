@@ -1,21 +1,11 @@
 package ql.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ql.ast.type.QLBoolean;
-import ql.ast.type.QLFloat;
-import ql.ast.type.QLInteger;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 
 public abstract class QLType implements QLNode {
-	protected List<QLType> compatibleTypes;
-	
-	public QLType() {
-		compatibleTypes = new ArrayList<QLType>();
-	}
 	
 	/**
 	 * Addition
