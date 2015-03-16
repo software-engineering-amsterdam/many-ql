@@ -14,6 +14,10 @@ public class StaticFields {
         staticFormFields.add(staticFieldElement);
     }
 
+    public List<AbstractStaticFormField> getStaticFormFields() {
+        return staticFormFields;
+    }
+
     public TypeDescriptor getTypeOfField(String ident) {
         for (AbstractStaticFormField staticFormField : staticFormFields) {
             if (staticFormField.getVariable().equals(ident)) {
