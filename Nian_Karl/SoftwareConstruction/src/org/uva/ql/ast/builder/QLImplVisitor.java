@@ -69,7 +69,6 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.value.BoolValue;
 import org.uva.ql.ast.value.StrValue;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
@@ -291,15 +290,13 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitLiteralStr(LiteralStrContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		StrValue value = new StrValue(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN, ""));
-		return new StrLiteral(value, pos);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN, ""), pos);
 	}
 
 	@Override
 	public Node visitLiteralBool(LiteralBoolContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		BoolValue value = new BoolValue(Boolean.parseBoolean(ctx.getText()));
-		return new BoolLiteral(value, pos);
+		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
 	}
 
 	@Override

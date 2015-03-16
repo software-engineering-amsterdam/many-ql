@@ -16,6 +16,11 @@ public class BoolLiteral extends Literal {
 		this.value = value;
 	}
 
+	public BoolLiteral(boolean value, CodePosition pos) {
+		super(pos);
+		this.value = new BoolValue(value);
+	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
