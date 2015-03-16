@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interfaces.IAllowTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
@@ -14,6 +15,11 @@ public class IntegerValue extends Value {
         @Override
         public IntegerValue getDefaultValue() {
             return new IntegerValue(0);
+        }
+
+        @Override
+        public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
+            return  allowTypeChecker.allowsIntegerValue();
         }
     };
 

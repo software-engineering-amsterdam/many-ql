@@ -7,4 +7,7 @@ public interface TypeDescriptor {
     void callTypeMethod(TypeCallback typeCallback);
 
     Value getDefaultValue();
+
+    boolean isAllowed(IAllowTypeChecker allowTypeChecker);
+
 }
