@@ -3,9 +3,9 @@ import QL.AST.Statements.statement as statement
 
 class Assignment(statement.IStatement):
 
-    #################################
-    # override method of statement  #
-    #################################
+    #
+    # override methods of statement
+    #
 
     # init
     def __init__(self, qid, qtype, expression):
@@ -51,9 +51,9 @@ class Assignment(statement.IStatement):
     def get_statement_dict(self):
         return {self.id: self}
 
-    ##########################
-    # Methods of assignment  #
-    ##########################
+    #
+    # Methods of assignment
+    #
 
     # TODO: change below?
 
@@ -66,7 +66,7 @@ class Assignment(statement.IStatement):
     def get_label(self):
         return self.expression.pretty_print()
 
-    def valid_type_message(self):
-        return True
-
+    #
+    def valid_type_message(self, td):
+        return self.condition.is_valid_expression_message(td)
 

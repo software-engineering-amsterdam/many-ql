@@ -6,8 +6,8 @@ import QL.Grammar.Factory.forms as form_factory
 
 
 #
-# e = grammar.expr.parseString("not 5 + 3 * 2 - 1 == 4")
-# print(e[0].pretty_print())
+# p = grammar.expr.parseString("not 5 + 3 * 2 - 1 == 4")
+# print(p[0].pretty_print())
 
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)

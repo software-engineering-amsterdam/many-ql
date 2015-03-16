@@ -1,16 +1,16 @@
-import QL.AST.Expressions.Primitives.primitive as e
+import QL.AST.Expressions.Primitives.primitive as p
 
 
-class Variable(e.Primitive):
+class Variable(p.Primitive):
     def __init__(self, name):
-        self.name = name
+        self.__name = name
 
     def return_type_string(self, type_dict):
-        return type_dict[self.name]
+        return type_dict[self.__name]
 
     def pretty_print(self):
-        return self.name
+        return self.__name
 
     # The dependency of the calling object is this variable
     def get_dependency_collection(self):
-        return [self.name]
+        return [self.__name]
