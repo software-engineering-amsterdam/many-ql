@@ -49,4 +49,9 @@ public class BooleanQuestionPane extends AQuestionPane {
         rb.setSelected(false);
         return rb;
     }
+
+    @Override
+    protected boolean matchesInput(String input) {
+        return true;
+    }
 }

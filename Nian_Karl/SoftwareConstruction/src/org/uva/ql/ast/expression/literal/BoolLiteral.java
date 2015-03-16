@@ -3,27 +3,30 @@ package org.uva.ql.ast.expression.literal;
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.value.BoolValue;
 import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
 
 public class BoolLiteral extends Literal {
-	
-	private final Boolean value;
 
-	public BoolLiteral(Boolean value,CodePosition pos) {
+	private final BoolValue value;
+
+	public BoolLiteral(BoolValue value, CodePosition pos) {
 		super(pos);
 		this.value = value;
 	}
-	
+
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
-	public Boolean getValue() {
+	@SuppressWarnings("unchecked")
+	@Override
+	public BoolValue getValue() {
 		return value;
 	}
-	
+
 	@Override
 	public String toString() {
 		return value.toString();

@@ -32,7 +32,7 @@ public class MainFrame {
 	}
 	
 	public void magic(Form form, ValueRepository valueRepository) {
-		JPanel mainpanel = GUIRender.maker(form, valueRepository);
+		JPanel mainpanel = GUIRenderer.make(form, valueRepository);
 		contentPane.add(mainpanel);
 		mainFrame.setTitle(form.getFormId().toString());
 		

@@ -40,12 +40,12 @@ public class SimpleVisitor implements FormVisitor, StatementVisitor, ExpressionV
 
 	@Override
 	public void visit(Question question) {
-		System.out.println(question.getQuestion());
+		System.out.println(question.getLabel());
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		System.out.println(calculatedQuestion.getQuestion());
+		System.out.println(calculatedQuestion.getLabel());
 		calculatedQuestion.getExpression().accept(this);
 	}
 

@@ -136,6 +136,14 @@ class EvaluatorSpec extends Specification {
       eval(Div(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(2))
     }
 
+    "succeed for negation expressions" in {
+      eval(Negation(NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(-1))
+    }
+
+    "succeed for nested negation expressions" in {
+      eval(Negation(Negation(NumberLiteral(NumberValue(1)))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(1))
+    }
+
     "succeed for variable expressions" in {
       eval(Variable("test"), ObservableMap.empty[VariableName, Value] += ("test" -> NumberValue(3))) must beEqualTo(NumberValue(3))
     }
@@ -157,7 +165,7 @@ class EvaluatorSpec extends Specification {
     }
 
     "succeed for multiple nested expressions" in {
-      eval(And(Equal(NumberLiteral(NumberValue(7)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), NumberLiteral(NumberValue(2))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      eval(And(Equal(NumberLiteral(NumberValue(1)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), Negation(NumberLiteral(NumberValue(2)))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
     }
   }
 

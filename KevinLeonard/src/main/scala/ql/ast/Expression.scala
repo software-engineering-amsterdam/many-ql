@@ -18,6 +18,7 @@ case class Add(lhs: Expression, rhs: Expression) extends Expression
 case class Sub(lhs: Expression, rhs: Expression) extends Expression
 case class Mul(lhs: Expression, rhs: Expression) extends Expression
 case class Div(lhs: Expression, rhs: Expression) extends Expression
+case class Negation(expression: Expression) extends Expression
 case class Variable(name: VariableName) extends Expression
 
 sealed trait Literal extends Expression

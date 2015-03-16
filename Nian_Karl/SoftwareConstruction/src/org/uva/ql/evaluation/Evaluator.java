@@ -173,17 +173,17 @@ public class Evaluator implements ExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(IntLiteral node) {
-		return new IntValue(node.getValue());
+		return node.getValue();
 	}
 
 	@Override
 	public Value visit(BoolLiteral node) {
-		return new BoolValue(node.getValue());
+		return node.getValue();
 	}
 
 	@Override
 	public Value visit(StrLiteral node) {
-		return new StrValue(node.getValue());
+		return node.getValue();
 	}
 
 	@Override
