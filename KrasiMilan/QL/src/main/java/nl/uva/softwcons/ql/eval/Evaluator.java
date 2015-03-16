@@ -71,13 +71,12 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void> {
     }
 
     private void reevaluateIdentifierReferences(final Identifier variableName) {
-        // TODO discuss sequence of calls here
-        this.referencesResolver.getReferencedConditionals(variableName).forEach(c -> c.accept(this));
-
         this.referencesResolver.getReferencedQuestions(variableName).forEach(q -> {
             q.accept(this);
             this.reevaluateIdentifierReferences(q.getId());
         });
+
+        this.referencesResolver.getReferencedConditionals(variableName).forEach(c -> c.accept(this));
     }
 
     private void notifyListeners(final Computable computable, final Value newValue) {
