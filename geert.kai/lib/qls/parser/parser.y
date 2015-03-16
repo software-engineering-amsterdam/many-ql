@@ -85,23 +85,24 @@ rule
     ;
 
   type
-    : 'boolean' { result = BooleanType.new }
-    | 'integer' { result = IntegerType.new }
-    | 'string'  { result = StringType.new }
+    : 'boolean' { result = QL::AST::BooleanType.new }
+    | 'integer' { result = QL::AST::IntegerType.new }
+    | 'string'  { result = QL::AST::StringType.new }
     ;
 
   integer
-    : INTEGER { result = IntegerLiteral.new(val[0].to_i) }
+    : INTEGER { result = QL::AST::IntegerLiteral.new(val[0].to_i) }
     ;
 
   string
-    : STRING { result = StringLiteral.new(val[0][1..-2]) }
+    : STRING { result = QL::AST::StringLiteral.new(val[0][1..-2]) }
     ;
 end
 
 ---- inner
 
   require_relative '../ast/ast.rb'
+  require_relative '../../ql/ast/ast.rb'
   
   include AST
 

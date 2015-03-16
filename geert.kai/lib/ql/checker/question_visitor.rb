@@ -5,7 +5,7 @@ require_relative "../../util/array"
 module QL
   module Checking
     class QuestionVisitor < BaseVisitor
-      def questions
+      def run
         (visit @base).flatten
       end
 
@@ -23,12 +23,8 @@ module QL
     end
 
     class DuplicateLabelChecker
-      def initialize(base)
-        @base = base
-      end
-      
-      def errors
-        labels = QuestionVisitor.new(@base).questions.map(&:description)
+      def self.run(base)
+        labels = QuestionVisitor.run(base).map(&:description)
         labels.duplicates.map { |label| Exception.new("Duplicate label: #{label}.") }
       end
     end

@@ -10,6 +10,7 @@ module QLS
 
 
   require_relative '../ast/ast.rb'
+  require_relative '../../ql/ast/ast.rb'
   
   include AST
 
@@ -355,27 +356,27 @@ end
 # reduce 32 omitted
 
 def _reduce_33(val, _values, result)
- result = BooleanType.new 
+ result = QL::AST::BooleanType.new 
     result
 end
 
 def _reduce_34(val, _values, result)
- result = IntegerType.new 
+ result = QL::AST::IntegerType.new 
     result
 end
 
 def _reduce_35(val, _values, result)
- result = StringType.new 
+ result = QL::AST::StringType.new 
     result
 end
 
 def _reduce_36(val, _values, result)
- result = IntegerLiteral.new(val[0].to_i) 
+ result = QL::AST::IntegerLiteral.new(val[0].to_i) 
     result
 end
 
 def _reduce_37(val, _values, result)
- result = StringLiteral.new(val[0][1..-2]) 
+ result = QL::AST::StringLiteral.new(val[0][1..-2]) 
     result
 end
 

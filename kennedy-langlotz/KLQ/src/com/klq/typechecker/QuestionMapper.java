@@ -3,6 +3,7 @@ package com.klq.typechecker;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.stmt.*;
 import com.klq.typechecker.error.AError;
+import com.klq.typechecker.error.NotUniqueID;
 
 import java.util.List;
 
@@ -11,9 +12,11 @@ import java.util.List;
  */
 public class QuestionMapper implements IStatementVisitor<Void> {
     private QuestionTable table;
+    private List<AError> errors;
 
     public QuestionMapper(List<AError> errors) {
-        this.table = new QuestionTable(errors);
+        this.errors = errors;
+        this.table = new QuestionTable();
     }
 
     public QuestionTable getTable() {
@@ -30,13 +33,13 @@ public class QuestionMapper implements IStatementVisitor<Void> {
 
     @Override
     public Void visit(QuestionNode node) {
-        table.add(node.getID(), node);
+        checkDuplicateId(node);
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        table.add(node.getID(), node);
+        checkDuplicateId(node);
         return null;
     }
 
@@ -46,5 +49,14 @@ public class QuestionMapper implements IStatementVisitor<Void> {
             child.accept(this);
         }
         return null;
+    }
+
+    private void checkDuplicateId(QuestionNode node){
+        if(table.has(node.getID())){
+            errors.add(new NotUniqueID(node.getID(), node.getLocation()));
+        }
+        else{
+            table.add(node.getID(), node);
+        }
     }
 }

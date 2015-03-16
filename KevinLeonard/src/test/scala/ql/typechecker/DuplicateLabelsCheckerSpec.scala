@@ -1,12 +1,11 @@
 package ql.typechecker
 
-import ql.ast._
 import org.specs2.mutable.Specification
+import ql.ast.{BooleanType, Form, Question, Sequence, Variable}
 
 class DuplicateLabelsCheckerSpec extends Specification {
 
   val checker = new DuplicateLabelsChecker
-  import checker._
 
   "duplicate labels checker" should {
     "detect duplicate label" in {
@@ -19,7 +18,7 @@ class DuplicateLabelsCheckerSpec extends Specification {
       )))
       val result = List(Warning("Label \'label2\' is used 2 times"), Warning("Label \'label\' is used 3 times"))
 
-      check(form) must beEqualTo(result)
+      checker.check(form) must beEqualTo(result)
     }
   }
 }

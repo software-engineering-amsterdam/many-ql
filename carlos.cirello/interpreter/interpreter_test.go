@@ -196,6 +196,40 @@ func TestModuloOperator(t *testing.T) {
 	)
 }
 
+func TestLikeOperator(t *testing.T) {
+	form := `
+	form SomeForm {
+		"name" name string
+		"name2" name2 string
+
+		if (name like name2) {
+			"names are alike" alike string
+		}else{
+			"names are different" different string
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`name,name,name`+"\n"+
+			`name2,name2," NAME"`+"\n",
+		`name,name,name`+"\n"+
+			`name2,name2," NAME"`+"\n"+
+			`alike,names are alike,`+"\n",
+	)
+
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`name,name,name`+"\n"+
+			`name2,name2,VERYDIFFERENT`+"\n",
+		`name,name,name`+"\n"+
+			`name2,name2,VERYDIFFERENT`+"\n"+
+			`different,names are different,`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {
