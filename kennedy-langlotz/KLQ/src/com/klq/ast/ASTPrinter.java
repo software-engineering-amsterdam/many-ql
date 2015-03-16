@@ -1,15 +1,9 @@
 package com.klq.ast;
 
-import com.klq.ast.impl.stmt.ComputedQuestionNode;
-import com.klq.ast.impl.stmt.ConditionalNode;
-import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.ast.impl.stmt.QuestionnaireNode;
+import com.klq.ast.impl.expr.literal.*;
+import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.bool.*;
-import com.klq.ast.impl.expr.literal.DateNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.ast.impl.expr.literal.NumberNode;
-import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
@@ -18,14 +12,14 @@ import com.klq.ast.impl.expr.math.SubtractNode;
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public class ASTPrinter implements IVisitor<Void> {
+public class ASTPrinter implements IStatementVisitor<Void>, IExpressionVisitor<Void> {
     @Override
     public Void visit(QuestionnaireNode node) {
         System.out.println("Questionnaire Node");
         System.out.printf("children count: %s", node.getChildren().size());
         System.out.println();
         printLine();
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             child.accept(this);
         }
         return null;
@@ -134,7 +128,7 @@ public class ASTPrinter implements IVisitor<Void> {
         node.printSelf();
         printLine();
         node.getCondition().accept(this);
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             child.accept(this);
         }
         return null;
@@ -143,6 +137,15 @@ public class ASTPrinter implements IVisitor<Void> {
     @Override
     public Void visit(StringNode node) {
         System.out.println("String Node");
+        //System.out.printf("Value: %s", node.getString());
+        System.out.println();
+        printLine();
+        return null;
+    }
+
+    @Override
+    public Void visit(BooleanNode node) {
+        System.out.println("Boolean Node");
         //System.out.printf("Value: %s", node.getString());
         System.out.println();
         printLine();
@@ -199,11 +202,6 @@ public class ASTPrinter implements IVisitor<Void> {
         node.printChildren();
         printLine();
         visitBinaryChildren(node);
-        return null;
-    }
-
-    @Override
-    public Void visit(ANode node) {
         return null;
     }
 

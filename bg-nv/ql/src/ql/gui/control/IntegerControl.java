@@ -5,4 +5,5 @@ package ql.gui.control;
  */
 public interface IntegerControl extends Control
 {
+
 }

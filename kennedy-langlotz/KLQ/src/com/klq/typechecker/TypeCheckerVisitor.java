@@ -1,19 +1,15 @@
 package com.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.impl.expr.literal.*;
-import com.klq.ast.impl.stmt.ComputedQuestionNode;
-import com.klq.ast.impl.stmt.ConditionalNode;
-import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.bool.*;
+import com.klq.ast.impl.expr.literal.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.stmt.*;
 import com.klq.logic.question.Type;
 import com.klq.typechecker.error.*;
 
@@ -57,7 +53,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     ==================================================================================================================*/
     @Override
     public Void visit(QuestionnaireNode node) {
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             child.accept(this);
         }
 
@@ -98,7 +94,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
             errors.add(new InvalidCondition(node));
         }
 
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             child.accept(this);
         }
         return null;
@@ -138,12 +134,6 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
             return null;
         }
     }
-
-    @Override
-    public Type visit(ANode node) {
-        return null;
-    }
-
     /*==================================================================================================================
     Expressions - Mathematical
     ==================================================================================================================*/

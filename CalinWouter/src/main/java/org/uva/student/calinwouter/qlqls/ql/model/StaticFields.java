@@ -31,4 +31,13 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
     public Iterator<AbstractStaticFormField> iterator() {
         return staticFormFields.iterator();
     }
+
+    public boolean containsField(String variableName) {
+        for (AbstractStaticFormField staticFormField : staticFormFields) {
+            if (staticFormField.getVariable().equals(variableName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

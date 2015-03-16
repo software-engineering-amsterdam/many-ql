@@ -13,5 +13,4 @@ public interface IStatementVisitor<T>{
     public T visit(QuestionNode node);
     public T visit(ComputedQuestionNode node);
     public T visit(ConditionalNode node);
-    public T visit(ANode node);
 }

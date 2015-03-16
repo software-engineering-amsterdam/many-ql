@@ -10,19 +10,19 @@ import java.util.ArrayList;
  * Created by juriaan on 10-2-15.
  */
 public class QuestionnaireNode extends AStatementNode {
-    private ArrayList<ANode> children;
+    private ArrayList<AStatementNode> children;
 
     public QuestionnaireNode(Location location) {
         super(location);
-        this.children = new ArrayList<ANode>();
+        this.children = new ArrayList<AStatementNode>();
     }
 
     public QuestionnaireNode() {
         super();
-        this.children = new ArrayList<ANode>();
+        this.children = new ArrayList<AStatementNode>();
     }
 
-    public ArrayList<ANode> getChildren() {
+    public ArrayList<AStatementNode> getChildren() {
         return children;
     }
 

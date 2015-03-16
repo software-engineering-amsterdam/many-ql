@@ -1,6 +1,7 @@
 import com.klq.AST2GUIConverter;
 import com.klq.ast.ANode;
 import com.klq.ast.ParseTreeConverter;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
@@ -60,7 +61,7 @@ public class Main extends Application {
         ParseTree tree = parser.questionnaire();
 
         ParseTreeConverter eval = new ParseTreeConverter();
-        ANode ast = eval.visit(tree);
+        QuestionnaireNode ast = (QuestionnaireNode) eval.visit(tree);
 
         TypeChecker tc = new TypeChecker(ast);
         tc.reportErrors();

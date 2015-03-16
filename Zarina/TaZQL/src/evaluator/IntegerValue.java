@@ -1,18 +1,10 @@
 package evaluator;
 
 public class IntegerValue extends Value<Integer>  {
-//	private final Integer integerValue;
 	
-	public IntegerValue(Integer integerValue) {
+	public IntegerValue(int integerValue) {
 		super(integerValue);
-		//this.integerValue = integerValue;
 	}
-	/*
-	public Integer getIntegerValue() {
-		return integerValue;
-	}
-	*/
-	
 	
 	public Value add(Value value) {
 		return value.addInt(this); 
@@ -55,7 +47,6 @@ public class IntegerValue extends Value<Integer>  {
 	}
 
 	public Value plus() {
-		// TODO to be tested (for minus too).
 		return new IntegerValue(getValue());
 	}
 
@@ -101,13 +92,5 @@ public class IntegerValue extends Value<Integer>  {
 
 	public Value notEqualInt(IntegerValue value) {
 		return new BooleanValue(value.getValue() != getValue());
-	}
-/*
-	public boolean equals(Object object) {
-		if (object instanceof IntegerValue) {	
-			return getValue().equals(((IntegerValue) object).getValue());
-		}
-		return false;
-	}
-	*/	
+	}	
 }

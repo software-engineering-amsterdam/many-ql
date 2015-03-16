@@ -14,9 +14,6 @@ public abstract class ANode {
         this.location = location;
     }
 
-    public void printSelf() {
-    }
-
     public Location getLocation() {
         return location;
     }

@@ -59,7 +59,7 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
     }
 
     @Override
-    public ExprInput visit(UndefinedType type)
+    public ExprInput visit(UndefType type)
     {
         return null;
     }

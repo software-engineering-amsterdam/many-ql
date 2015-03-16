@@ -2,8 +2,8 @@ package org.uva.qls.visitor;
 
 import org.uva.qls.ast.literal.BoolLiteral;
 import org.uva.qls.ast.literal.ColorLiteral;
-import org.uva.qls.ast.literal.IntLiteral;
 import org.uva.qls.ast.literal.IdentifierLiteral;
+import org.uva.qls.ast.literal.IntLiteral;
 import org.uva.qls.ast.literal.StrLiteral;
 
 public interface LiteralVisitor<T> {

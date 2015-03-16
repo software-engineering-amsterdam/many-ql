@@ -27,6 +27,22 @@ public class StringType implements QuestionType {
 
     @Override
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
-        parent.getChildren().add(new TextField());
+        TextField tf = new TextField();
+        String id = q.getIdentifier().get().getId();
+
+        String answer = answerMap.get(id);
+        if (answer != null) {
+            tf.setText(answer);
+        }
+        if (visualizer.getFocusId() == q.hashCode()){
+            visualizer.setFocusedNode(tf);
+        }
+
+        // Disable any input other than numbers
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                answerMap.put(id, newValue);
+                visualizer.visualize(q.hashCode());
+        });
+        parent.getChildren().add(tf);
     }
 }

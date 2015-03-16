@@ -7,8 +7,8 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.BooleanControl;
 import ql.gui.control.Control;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
