@@ -35,17 +35,17 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value addInteger(IntegerValue v)
+    public Value addInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value addDecimal(DecimalValue v)
+    public Value addDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value addString(StringValue v)
+    public Value addString(StrValue v)
     {
         throw new IllegalStateException();
     }
@@ -55,12 +55,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value subInteger(IntegerValue v)
+    public Value subInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value subDecimal(DecimalValue v)
+    public Value subDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -70,12 +70,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value mulInteger(IntegerValue v)
+    public Value mulInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value mulDecimal(DecimalValue v)
+    public Value mulDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -85,12 +85,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value divInteger(IntegerValue v)
+    public Value divInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value divDecimal(DecimalValue v)
+    public Value divDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -135,12 +135,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value gtInteger(IntegerValue v)
+    public Value gtInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value gtDecimal(DecimalValue v)
+    public Value gtDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -150,12 +150,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value ltInteger(IntegerValue v)
+    public Value ltInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value ltDecimal(DecimalValue v)
+    public Value ltDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -165,12 +165,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value gtEquInteger(IntegerValue v)
+    public Value gtEquInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value gtEquDecimal(DecimalValue v)
+    public Value gtEquDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -180,12 +180,12 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value ltEquInteger(IntegerValue v)
+    public Value ltEquInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value ltEquDecimal(DecimalValue v)
+    public Value ltEquDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
@@ -195,22 +195,22 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value equInteger(IntegerValue v)
+    public Value equInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value equDecimal(DecimalValue v)
+    public Value equDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value equString(StringValue v)
+    public Value equString(StrValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value equBoolean(BooleanValue v)
+    public Value equBoolean(BoolValue v)
     {
         throw new IllegalStateException();
     }
@@ -220,22 +220,22 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value notEquInteger(IntegerValue v)
+    public Value notEquInteger(IntValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value notEquDecimal(DecimalValue v)
+    public Value notEquDecimal(DecValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value notEquString(StringValue v)
+    public Value notEquString(StrValue v)
     {
         throw new IllegalStateException();
     }
 
-    public Value notEquBoolean(BooleanValue v)
+    public Value notEquBoolean(BoolValue v)
     {
         throw new IllegalStateException();
     }
@@ -245,7 +245,7 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value andBoolean(BooleanValue v)
+    public Value andBoolean(BoolValue v)
     {
         throw new IllegalStateException();
     }
@@ -255,7 +255,7 @@ public abstract class Value<T>
         throw new IllegalStateException();
     }
 
-    public Value orBoolean(BooleanValue v)
+    public Value orBoolean(BoolValue v)
     {
         throw new IllegalStateException();
     }

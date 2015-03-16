@@ -7,7 +7,7 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
 import ql.gui.control.StringControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.StringValue;
+import ql.semantics.values.StrValue;
 import ql.semantics.values.Value;
 
 /**
@@ -40,7 +40,7 @@ public class StrInput extends RegularInput<String>
     {
         this.resetValidation();
         userInput = userInput.trim();
-        return new StringValue(userInput);
+        return new StrValue(userInput);
     }
 
     @Override

@@ -20,11 +20,12 @@ public class Messages
         this.messages.add(m);
     }
 
-    public Message get(int i)
+    public void addAll(Messages ms)
     {
-        return this.messages.get(i);
+        this.messages.addAll(ms.messages);
     }
 
+    // TODO: These methods are exposed for testing; So refactoring one smell causes another, sigh
     public boolean containsError()
     {
         for (Message m : this.messages)
@@ -36,6 +37,11 @@ public class Messages
         }
 
         return false;
+    }
+
+    public Message get(int i)
+    {
+        return this.messages.get(i);
     }
 
     public int size()

@@ -15,6 +15,7 @@ module QL
       end
       
       @values = {}
+
       calculate_visible_questions
     end
 
@@ -26,10 +27,11 @@ module QL
 
     def calculate_visible_questions
       @visible_questions = VisibleQuestionVisitor.new(@ql_ast).questions(@values)
+      File.write('temp/stylesheets/visible_questions.css', @visible_questions)
     end
 
     def visible?(question)
-      @visible_questions.include?(question)
+      true#@visible_questions.include?(question)
     end
   end
 
@@ -62,42 +64,72 @@ module QL
   class VisibleQuestionVisitor < Checking::QuestionVisitor
     def questions(values)
       @values = values
+      @visible = true
       
-      visit @base
+      super().join
     end
 
     def visit_conditional(condition)
-      case Evaluator.new(condition.expression).evaluate(@values)
-      when true
-        map_accept(condition.statements_true)
-      when false
-        map_accept(condition.statements_false)
-      when nil
-        []
+      result = Evaluator.new(condition.expression).evaluate(@values)
+
+      if result.nil?
+        @visible = false
+        statements = map_accept(condition.statements)
+        @visible = true
+        statements
+      else
+        @visible = result
+        true_statements = map_accept(condition.statements_true)
+        @visible = !result
+        false_statements = map_accept(condition.statements_false)
+        @visible = true
+        true_statements + false_statements
       end
+    end
+
+    def visit_question(question)
+      "##{question.variable_name} {#{visibilty_tag}}\n\n"
+    end
+
+    def visibilty_tag
+      "\n\t -fx-background-color: #CCFF99;" if @visible
     end
   end
 
   class QuestionRenderer
+    attr_reader :question, :declarations
+    attr_accessor :classes
+
     def initialize(question, declarations = [])
       @question = question
       @declarations = declarations
     end
 
-    def widget(controller)
+    def widget_builder
       @declarations.each do |declaration|
-        return declaration.widget(controller) if declaration.kind_of?(Widget)
+        return declaration if declaration.kind_of?(QLS::AST::Widget)
       end
 
-      return @question.type.widget(controller)
+      return @question.type
     end
 
     def render(controller)
-      widget = widget(controller)
+      widget = widget_builder.widget(controller)
       widget.set_id(@question.variable_name)
 
-      label = Java::JavafxSceneControl::Label.new(@question.description)
 
+      label = Java::JavafxSceneControl::Label.new(@question.description)
+      label.set_id(@question.variable_name)
+
+      (@classes << widget_builder.class_name).each do |klass|
+        widget.get_style_class.add(klass)
+        label.get_style_class.add(klass)
+      end
+      widget.get_style_class.add("widget")
+      label.get_style_class.add("label")
+
+     # widget.get_style_class(widget.name)
+      
       QuestionPane.new(@question, label, widget)
     end
   end

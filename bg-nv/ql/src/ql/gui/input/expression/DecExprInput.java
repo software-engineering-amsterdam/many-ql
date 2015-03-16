@@ -7,8 +7,8 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
 import ql.gui.control.DecimalControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.DecimalValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.DecValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**

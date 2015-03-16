@@ -3,9 +3,9 @@ package ql.semantics.values;
 /**
  * Created by bore on 16/02/15.
  */
-public class BooleanValue extends Value<Boolean>
+public class BoolValue extends Value<Boolean>
 {
-    public BooleanValue(boolean value)
+    public BoolValue(boolean value)
     {
         super(value);
     }
@@ -13,7 +13,7 @@ public class BooleanValue extends Value<Boolean>
     @Override
     public Value not()
     {
-        return new BooleanValue(!(this.getValue()));
+        return new BoolValue(!(this.getValue()));
     }
 
     @Override
@@ -23,9 +23,9 @@ public class BooleanValue extends Value<Boolean>
     }
 
     @Override
-    public Value andBoolean(BooleanValue v)
+    public Value andBoolean(BoolValue v)
     {
-        return new BooleanValue(v.getValue() && this.getValue());
+        return new BoolValue(v.getValue() && this.getValue());
     }
 
     @Override
@@ -35,9 +35,9 @@ public class BooleanValue extends Value<Boolean>
     }
 
     @Override
-    public Value orBoolean(BooleanValue v)
+    public Value orBoolean(BoolValue v)
     {
-        return new BooleanValue(v.getValue() || this.getValue());
+        return new BoolValue(v.getValue() || this.getValue());
     }
 
     @Override
@@ -47,9 +47,9 @@ public class BooleanValue extends Value<Boolean>
     }
 
     @Override
-    public Value equBoolean(BooleanValue v)
+    public Value equBoolean(BoolValue v)
     {
-        return new BooleanValue(v.getValue().equals(this.getValue()));
+        return new BoolValue(v.getValue().equals(this.getValue()));
     }
 
     @Override
@@ -59,9 +59,9 @@ public class BooleanValue extends Value<Boolean>
     }
 
     @Override
-    public Value notEquBoolean(BooleanValue v)
+    public Value notEquBoolean(BoolValue v)
     {
-        return new BooleanValue(!(v.getValue().equals(this.getValue())));
+        return new BoolValue(!(v.getValue().equals(this.getValue())));
     }
 
     @Override
