@@ -12,7 +12,7 @@ public class BooleanValue extends Value<Boolean> {
 	}
 	
 	@Override
-	public Value andBoolean(BooleanValue value) {
+	public BooleanValue andBoolean(BooleanValue value) {
 		return new BooleanValue(value.getValue() && getValue());
 	}
 
@@ -22,17 +22,17 @@ public class BooleanValue extends Value<Boolean> {
 	}
 	
 	@Override
-	public Value equalBoolean(BooleanValue value) {
+	public BooleanValue equalBoolean(BooleanValue value) {
 		return new BooleanValue(value.getValue().equals(getValue()));
 	}
 
 	@Override
-	public Value not() {
+	public BooleanValue not() {
 		return notBoolean();
 	}
 	
 	@Override
-	public Value notBoolean() {
+	public BooleanValue notBoolean() {
 		return new BooleanValue(!(getValue()));
 	}
 
@@ -42,17 +42,17 @@ public class BooleanValue extends Value<Boolean> {
 	}
 	
 	@Override
-	public Value notEqualBoolean(BooleanValue value) {
+	public BooleanValue notEqualBoolean(BooleanValue value) {
 		return new BooleanValue(!(value.getValue().equals(getValue())));
 	}
 
 	@Override
-	public Value or(Value value) {
+	public BooleanValue or(Value value) {
 		return orBoolean(this);
 	}
 	
 	@Override
-	public Value orBoolean(BooleanValue value) {
+	public BooleanValue orBoolean(BooleanValue value) {
 		return new BooleanValue(value.getValue() || getValue());
 	}
 

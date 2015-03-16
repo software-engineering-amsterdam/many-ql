@@ -65,7 +65,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
 
 		if (!symbolResult.getErrorList().hasErrors()) {
-			Result<DependencyTable> result = DependencyResolver.resolve(form);
 			TypeChecker typeChecker = new TypeChecker(symbolResult);
 			typeChecker.visit(form);
 			return new Result<SymbolTable>(typeChecker.errors,
