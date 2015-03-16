@@ -63,7 +63,10 @@ namespace QL.Visitors
 
         public void Visit(QuestionUnit node)
         {
-            IdentifierLookupTable[node.Identifier] = node.DataType;//this should be used for further value assignment
+            IdentifierLookupTable[node.Identifier] = node.DataType;
+            if (!ReferenceLookupTable.ContainsKey(node.DataType)) { 
+                ReferenceLookupTable[node.DataType]= TerminalWrapper.CreateWrapper(node.DataType);
+            }
         }
 
         public void Visit(Expression node)
@@ -82,7 +85,7 @@ namespace QL.Visitors
                     }
                     else
                     {
-                        ReferenceLookupTable[node] = null;
+                        throw new Exception("reference not initialized, not possible");
                     }
                 }
                 else
@@ -97,7 +100,8 @@ namespace QL.Visitors
             }
             else
             {
-                ReferenceLookupTable[node] = null;
+                throw new Exception("how is this possible? there should be at least null valued wrapper");
+                //ReferenceLookupTable[node] = null;
             }
         }
         #endregion
@@ -107,10 +111,8 @@ namespace QL.Visitors
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) == ((dynamic)rightWrapper);
-            }
+
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) == ((dynamic)rightWrapper);
             
         }
 
@@ -118,50 +120,35 @@ namespace QL.Visitors
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) != ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) != ((dynamic)rightWrapper);
         }
 
         public void Visit(GreaterThanOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) > ((dynamic)rightWrapper);
-            }
         }
 
         public void Visit(GreaterThanEqualToOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) >= ((dynamic)rightWrapper);
-            }
         }
 
         public void Visit(LessThanOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) < ((dynamic)rightWrapper);
-            }
         }
 
         public void Visit(LessThanEqualToOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) <= ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) <= ((dynamic)rightWrapper);
         }
 
         public void Visit(MultiplicationOperator node)
@@ -169,10 +156,7 @@ namespace QL.Visitors
 
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) * ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) * ((dynamic)rightWrapper);
             
         }
 
@@ -181,10 +165,7 @@ namespace QL.Visitors
 
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) / ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) / ((dynamic)rightWrapper);
         }
 
         public void Visit(PlusOperator node)
@@ -192,10 +173,8 @@ namespace QL.Visitors
 
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) + ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) + ((dynamic)rightWrapper);
+            
         }
 
         public void Visit(MinusOperator node)
@@ -203,30 +182,21 @@ namespace QL.Visitors
 
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) - ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) - ((dynamic)rightWrapper);
         }
 
         public void Visit(AndOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) & ((dynamic)rightWrapper);
-            }
-        }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) & ((dynamic)rightWrapper);
+         }
 
         public void Visit(OrOperator node)
         {
             TerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             TerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            if (leftWrapper != null && rightWrapper != null)
-            {
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) | ((dynamic)rightWrapper);
-            }
+            ReferenceLookupTable[node] = ((dynamic)leftWrapper) | ((dynamic)rightWrapper);
         }
         #endregion
 
