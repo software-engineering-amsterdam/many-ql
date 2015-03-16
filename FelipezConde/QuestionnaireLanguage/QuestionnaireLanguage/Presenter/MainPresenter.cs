@@ -13,6 +13,7 @@ using ASTFormObject = AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
 using Types = AST.Types;
 using Evaluator.Values;
+using AST.Nodes;
 
 namespace QuestionnaireLanguage.Presenter
 {
@@ -55,7 +56,7 @@ namespace QuestionnaireLanguage.Presenter
             MainPresenter.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
         
-        public static Value Evaluate(Nodes.Expression expression)
+        public static Value Evaluate(BaseExpression expression)
         {
             return new EvaluationManager(symbolTable).Evaluate(expression);
         }

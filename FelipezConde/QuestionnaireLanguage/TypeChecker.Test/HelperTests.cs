@@ -10,7 +10,7 @@ using AST.Nodes;
 using AST.Nodes.Interfaces;
 using AST.Nodes.FormObject;
 using AST.Nodes.Labels;
-using AST.Nodes.Expression;
+using AST.Nodes.BaseExpression;
 using Types = AST.Types;
 
 namespace TypeChecker.Test

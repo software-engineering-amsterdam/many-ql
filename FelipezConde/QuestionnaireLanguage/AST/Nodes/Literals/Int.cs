@@ -32,5 +32,10 @@ namespace AST.Nodes.Literals
         {
             throw new NotImplementedException();
         }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

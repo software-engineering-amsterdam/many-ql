@@ -5,11 +5,12 @@ using System;
 
 namespace AST.Nodes.Literals
 {
-    public abstract class Literal : Expression, IHasType
+    public abstract class Literal : BaseExpression, IHasType
     {
         protected Literal(PositionInText position)
             : base(position) {}
         public virtual Types.Type RetrieveType(){throw new NotImplementedException();}
-        public abstract override T Accept<T>(ASTVisitors.IVisitor<T> visitor);
+
+        public abstract override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor);
     } 
 }
