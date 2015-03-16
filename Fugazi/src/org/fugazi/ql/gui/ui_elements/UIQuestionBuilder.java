@@ -11,6 +11,9 @@ import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.TypeToWidgetVisitor;
 
+/**
+ * This is used to build UIQuestions from Questions (Factory)
+ */
 public class UIQuestionBuilder implements IStatementVisitor<UIQuestion> {
 
     private final IMediator mediator;
@@ -32,7 +35,7 @@ public class UIQuestionBuilder implements IStatementVisitor<UIQuestion> {
     }
 
     public UIQuestion visitIfStatement(IfStatement _ifStatement) {
-        throw new AssertionError();
+        throw new AssertionError(); // Should never go in here
     }
 
     public UIQuestion visitComputedQuestion(ComputedQuestion _computedQuestion) {
