@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.widget;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
@@ -11,13 +12,15 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class QLSRadioBtn extends AbstractQLSWidget {
 
+    private BoolValue value;
+    private String actionCommandValue;
     private final String yesLabel;
     private final String noLabel;
 
@@ -28,45 +31,40 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     private JRadioButton noBtn;
 
     public QLSRadioBtn(String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.buildWidget("", _yes, _no);
+        this("", _yes, _no);
     }
 
     public QLSRadioBtn(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
-        this.buildWidget(_label, _yes, _no);
-    }
 
-    private void buildWidget(String _label, String _yes, String _no) {
         this.component = new JPanel();
         this.componentLabel = new JLabel(_label);
 
         this.yesBtn = new JRadioButton(_yes);
         this.noBtn = new JRadioButton(_no);
         this.radioButtonGroup = new ButtonGroup();
-        
-        radioButtonGroup.add(yesBtn);
-        radioButtonGroup.add(noBtn);
-        component.add(yesBtn);
-        component.add(noBtn);
-        component.add(componentLabel);
+
+        this.radioButtonGroup.add(this.yesBtn);
+        this.radioButtonGroup.add(this.noBtn);
+        this.component.add(this.yesBtn);
+        this.component.add(this.noBtn);
+        this.component.add(this.componentLabel);
     }
 
     public String getYesLabel() {
-        return yesLabel;
+        return this.yesLabel;
     }
 
     public String getNoLabel() {
-        return noLabel;
+        return this.noLabel;
     }
 
     @Override
     public void setLabel(String _label) {
         this.label = _label;
-        this.componentLabel.setText(label);
+        this.componentLabel.setText(_label);
     }
 
     @Override
@@ -90,17 +88,41 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
-        //todo
+        this.yesBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionCommandValue = e.getActionCommand();
+                _listener.stateChanged();
+            }
+        });
+
+        this.noBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionCommandValue = e.getActionCommand();
+                _listener.stateChanged();
+            }
+        });
     }
 
     @Override
     public BoolValue getWidgetValue() {
+        if (this.actionCommandValue.equals(this.yesLabel)) {
+            return new BoolValue(true);
+        }
         return new BoolValue(false);
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        // todo
+        this.value = (BoolValue) _value;
+        if (this.value.getValue().equals(true)) {
+            this.yesBtn.setSelected(true);
+            this.noBtn.setSelected(false);
+        } else {
+            this.yesBtn.setSelected(false);
+            this.noBtn.setSelected(true);
+        }
     }
 
     @Override
