@@ -19,7 +19,7 @@ public class TextField extends BaseTextField {
 
 	@Override
 	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType()) && isDependent()) {
+		if (!type.isEqual(new UndefinedType())) {
 			getWidget().setText(value.toString());
 		}
 	}

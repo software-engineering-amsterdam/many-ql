@@ -54,7 +54,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	@Override
 	public Panel visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
-		widget.setDependent(false);
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
@@ -64,7 +63,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	@Override
 	public Panel visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
-		widget.setDependent(true);
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		Identifier identifier = questionComputeStatement.getIdentifier();
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
