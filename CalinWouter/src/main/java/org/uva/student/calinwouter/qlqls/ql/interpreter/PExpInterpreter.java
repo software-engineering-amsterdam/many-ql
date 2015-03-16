@@ -101,14 +101,11 @@ public class PExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        Value value = oldVariableTable.getVariable(node.getIdent().getText());
         if (newVariableTable.isSet(node.getIdent().getText())) {
-            value = newVariableTable.getVariable(node.getIdent().getText());
-        }
-        if (value == null) {
+            Value value = newVariableTable.getVariable(node.getIdent().getText());
+            pushValue(value);
+        } else
             throw new VariableNotSetException(node.getIdent().getText());
-        }
-        pushValue(value);
     }
 
     public Value popValue() {
