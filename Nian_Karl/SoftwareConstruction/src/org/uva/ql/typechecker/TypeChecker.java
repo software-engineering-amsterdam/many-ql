@@ -34,7 +34,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
+import org.uva.ql.ast.statement.QuestionComputed;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
@@ -131,7 +131,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	// Checkers
 	public boolean checkLabel(QuestionNormal question) {
-		String label = question.getLabel().getValue();
+		String label = question.getLabel().toString();
 		if (hasLabel(label)) {
 			Warning warning = new Warning(Warning.Type.DUPLICATE, question.getPosition().getStartLine(), label);
 			messageManager.addWarning(warning);
@@ -244,7 +244,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(QuestionCompute question) {
+	public Boolean visit(QuestionComputed question) {
 		questionComputes.add(question.getIdentifier());
 		boolean result1 = checkDeclaration(question);
 		boolean result2 = checkLabel(question);

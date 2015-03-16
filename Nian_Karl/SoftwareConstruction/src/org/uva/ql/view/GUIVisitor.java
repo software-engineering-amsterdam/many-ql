@@ -11,7 +11,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
+import org.uva.ql.ast.statement.QuestionComputed;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
@@ -62,7 +62,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public Panel visit(QuestionCompute questionComputeStatement) {
+	public Panel visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
 		widget.setDependent(true);
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);

@@ -62,18 +62,19 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
+import org.uva.ql.ast.statement.QuestionComputed;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.value.StrValue;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
 
-	private final String DOUBLE_QUOTE_ESCAPE_PATTERN = "^\"|\"$"; 
-	
+	private final String DOUBLE_QUOTE_ESCAPE_PATTERN = "^\"|\"$";
+
 	@Override
 	public Node visitQuestionnaire(QuestionnaireContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
@@ -119,7 +120,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock, pos);
 		return ifElseStatement;
 	}
-	
+
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
@@ -136,12 +137,12 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new QuestionCompute(id, label, type, expr, pos);
+		return new QuestionComputed(id, label, type, expr, pos);
 	}
 
 	@Override
 	public Node visitTypeInt(TypeIntContext ctx) {
-		
+
 		return new IntType(CodePosition.getCodePosition(ctx));
 	}
 
@@ -226,7 +227,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitExprEqual(ExprEqualContext ctx) {
-		
+
 		CodePosition pos = CodePosition.getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
@@ -275,7 +276,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitLiteralId(LiteralIdContext ctx) {
-		
+
 		CodePosition pos = CodePosition.getCodePosition(ctx);
 		return new Identifier(ctx.Identifier().getText(), pos);
 	}
@@ -287,15 +288,15 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	}
 
 	@Override
-	public Node visitLiteralBool(LiteralBoolContext ctx) {
+	public Node visitLiteralStr(LiteralStrContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN, ""), pos);
 	}
 
 	@Override
-	public Node visitLiteralStr(LiteralStrContext ctx) {
+	public Node visitLiteralBool(LiteralBoolContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
+		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
 	}
 
 	@Override
@@ -313,8 +314,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionLabel(QuestionLabelContext ctx) {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		return new StrLiteral(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN,""), pos);
+		StrValue value = new StrValue(ctx.StringLiteral().getText().replaceAll(DOUBLE_QUOTE_ESCAPE_PATTERN, ""));
+		return new StrLiteral(value, pos);
 	}
-	
-	
 }
