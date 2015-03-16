@@ -34,6 +34,7 @@ var finalQuestionaire *ast.QuestionaireNode
 
 %left  '+'  '-'
 %left  '*'  '/'
+%left  '.'  '%'
 
 // Add tokens here must also lead to a lexer update at lexer.go
 %token BlockBeginToken
@@ -48,7 +49,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token NumericQuestionToken
 %token BoolQuestionToken
 %token ComputedQuestionToken
-%token '+' '-' '*' '/' '(' ')' '!'
+%token '+' '-' '*' '/' '(' ')' '!' '.' '%'
 %token LessThanToken
 %token LessOrEqualsThanToken
 %token MoreThanToken
@@ -139,7 +140,7 @@ ifBlock:
 	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}'
 	{
 		elseNode := ast.NewIfNode(
-			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", $8.position),
+			ast.NewTermNode(ast.NumericLiteralNodeType, true, 1, "", "", $8.position),
 			$10.stack,
 			nil,
 			$8.position,
@@ -215,6 +216,14 @@ term:
 	{
 		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
+	| term '%' term
+	{
+		$$.evaluatable = ast.NewMathModNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| term '.' term
+	{
+		$$.evaluatable = ast.NewConcatNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
 	| '(' andOrBlock ')'
 	{
 		$$ = $2
@@ -232,7 +241,8 @@ value:
 		num, _ := strconv.ParseFloat($1.content, 32)
 		$$.num = float32(num)
 		termNode := ast.NewTermNode(
-			ast.NumericConstantNodeType,
+			ast.NumericLiteralNodeType,
+			false,
 			$$.num,
 			"",
 			"",
@@ -244,6 +254,7 @@ value:
 	{
 		termNode := ast.NewTermNode(
 			ast.IdentifierReferenceNodeType,
+			false,
 			$$.num,
 			"",
 			$1.content,
@@ -254,7 +265,8 @@ value:
 	| QuotedStringToken
 	{
 		termNode := ast.NewTermNode(
-			ast.StringConstantNodeType,
+			ast.StringLiteralNodeType,
+			false,
 			$$.num,
 			$1.content,
 			"",
@@ -265,7 +277,8 @@ value:
 	| BoolTrueToken
 	{
 		termNode := ast.NewTermNode(
-			ast.NumericConstantNodeType,
+			ast.BooleanLiteralNodeType,
+			true,
 			1,
 			"",
 			"",
@@ -276,7 +289,8 @@ value:
 	| BoolFalseToken
 	{
 		termNode := ast.NewTermNode(
-			ast.NumericConstantNodeType,
+			ast.BooleanLiteralNodeType,
+			false,
 			0,
 			"",
 			"",

@@ -1,41 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AST.Nodes.Literals;
 using Grammar;
-using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using AST.Representation;
-using AST.Helpers;
 using Values = AST.Nodes.Literals;
 namespace AST.ParseTreeVisitors
 {
-    public class LiteralVisitor : QLMainBaseVisitor<ILiteral>
+    public class LiteralVisitor : QLMainBaseVisitor<Literal>
     {
-        public override ILiteral VisitTrueBool(QLMainParser.TrueBoolContext context)
+        public override Literal VisitTrueBool(QLMainParser.TrueBoolContext context)
         {
             string show = context.TRUE().GetText();
-            return new Values.Bool(true);
+            return new Values.Bool(true, new Representation.PositionInText(context));
         }
 
-        public override ILiteral VisitFalseBool(QLMainParser.FalseBoolContext context)
+        public override Literal VisitFalseBool(QLMainParser.FalseBoolContext context)
         {
-            return new Values.Bool(false);
+            return new Values.Bool(false, new Representation.PositionInText(context));
         }
 
-        public override ILiteral VisitStringValue(QLMainParser.StringValueContext context)
+        public override Literal VisitStringValue(QLMainParser.StringValueContext context)
         {
             string stringValue = context.@string().STRINGLITERAL().GetText();
 
-            return new Values.String(stringValue.Substring(1, stringValue.Length-2)
+            return new Values.String(stringValue.Substring(1, stringValue.Length-2),
+                                     new Representation.PositionInText(context)
                                      ); 
         }
 
-        public override ILiteral VisitIntValue(QLMainParser.IntValueContext context)
+        public override Literal VisitIntValue(QLMainParser.IntValueContext context)
         {
             string intValue = context.@int().INTLITERAL().GetText();
 
-            return new Values.Int(int.Parse(intValue));
+            return new Values.Int(int.Parse(intValue), new Representation.PositionInText(context));
         }
     }
 }

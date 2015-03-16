@@ -36,7 +36,6 @@ import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.ql.validation.Error;
-import nl.uva.softwcons.ql.validation.typechecker.error.DuplicateQuestionIdentifier;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidConditionType;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidOperatorTypes;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidQuestionExpressionType;
@@ -59,7 +58,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Void visit(final ComputedQuestion computedQuestion) {
-        defineQuestionInEnvironment(computedQuestion);
+        this.env.defineVariable(computedQuestion.getId(), computedQuestion.getType());
 
         final Type questionExpressionType = computedQuestion.getExpression().accept(this);
         if (questionExpressionType != computedQuestion.getType()) {
@@ -71,7 +70,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Void visit(final Question question) {
-        defineQuestionInEnvironment(question);
+        this.env.defineVariable(question.getId(), question.getType());
 
         return null;
     }
@@ -206,23 +205,6 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final NumberLiteral expr) {
         return NUMBER_TYPE;
-    }
-
-    /**
-     * Registers the given question in the current environment or adds a
-     * {@link DuplicateQuestionIdentifier} error to the current errors list in
-     * case the variable has already been defined.
-     * 
-     * @param question
-     *            The question which should be defined in the current
-     *            environment
-     */
-    private void defineQuestionInEnvironment(final Question question) {
-        if (this.env.resolveVariable(question.getId()) == UNDEFINED_TYPE) {
-            this.env.defineVariable(question.getId(), question.getType());
-        } else {
-            this.errorsFound.add(new DuplicateQuestionIdentifier(question.getLineInfo()));
-        }
     }
 
     /**

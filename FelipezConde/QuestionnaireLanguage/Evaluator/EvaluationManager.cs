@@ -1,61 +1,28 @@
-﻿using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Expression.Unary;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions.Binary;
+using AST.Nodes.Expressions.Unary;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using AST.Visitors;
-using AST.Storage;
 using AST.Nodes.Labels;
+using AST.Nodes.Literals;
+using AST.ASTVisitors;
+using Evaluator.Storage;
+using AST.Nodes.Expressions;
 
 namespace Evaluation
 {
     public class EvaluationManager : BaseVisitor<Literal>
     {
-        ISymbolTable symbolTable;
-
         public EvaluationManager()
         {
-            this.symbolTable = new SymbolTable();
         }
 
-        public Literal Evaluate(IExpression expression)
+        #region Operations
+        public Literal Evaluate(Expression expression)
         {
             return expression.Accept(this);
         }
-
-        public void AddValue(Id key, Literal value)
-        {
-            this.symbolTable.AddValue(key, value);
-        }
-
-        public void UpdateValue(Id key, Literal value)
-        {
-            this.symbolTable.SetUpdateValue(key, value);
-        }
-
-        public Literal GetValue(Id key)
-        {
-            Literal result = null;
-            result = this.symbolTable.GetValue(key);
-            return result;
-        }
-
-        public override Literal Visit(Container node)
-        {
-            return node.Value.Accept(this);
-        }
-
-        public override Literal Visit(Id node)
-        {
-            return this.GetValue(node);
-        }
-
-        public override Literal Visit(Label node)
-        {
-            return new String(node.Value);
-        }
-
-
+        #endregion
+        
         #region Comparison
         public override Literal Visit(And node)
         {
@@ -169,18 +136,28 @@ namespace Evaluation
         #region Values
         public override Literal Visit(Bool node)
         {
-            return new Bool(node.GetValue());
+            return new Bool(node.GetValue(), node.GetPosition());
         }
 
         public override Literal Visit(Int node)
         {
-            return new Int(node.GetValue());
+            return new Int(node.GetValue(), node.GetPosition());
         }
 
         public override Literal Visit(String node)
         {
-            return new String(node.GetValue());
+            return new String(node.GetValue(), node.GetPosition());
         }
         #endregion
+
+        public override Literal Visit(Id node)
+        {
+            return SymbolTable.GetValue(node);
+        }
+
+        public override Literal Visit(Label node)
+        {
+            return new String(node.Value, node.GetPosition());
+        }
     }
 }

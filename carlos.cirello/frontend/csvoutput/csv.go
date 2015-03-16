@@ -10,32 +10,29 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
-// Output holds an io.Writer which is used to store the responses of the form
-// (either into a file, or some other medium).
-type Output struct {
+type output struct {
 	receive chan *plumbing.Frontend
 	send    chan *plumbing.Frontend
 	stream  io.Writer
 }
 
 // New takes in a pair of channels for the interpreter, a writer stream and
-// prepare an object to be consumed later.
-func New(pipes *plumbing.Pipes, stream io.Writer) *Output {
-	return &Output{
+// writes CSV output.
+func Write(pipes *plumbing.Pipes, stream io.Writer) {
+	output := &output{
 		receive: pipes.FromInterpreter(),
 		send:    pipes.ToInterpreter(),
 		stream:  stream,
 	}
+	output.write()
 }
 
-// Write reads all questions from current state of the interpreter and writes to
-// output stream.
-func (o *Output) Write() {
+func (o *output) write() {
 	o.handshake()
 	o.writeLines()
 }
 
-func (o *Output) handshake() {
+func (o *output) handshake() {
 	readyT := &plumbing.Frontend{
 		Type: plumbing.ReadyT,
 	}
@@ -50,7 +47,7 @@ readyTLoop:
 	}
 }
 
-func (o *Output) writeLines() {
+func (o *output) writeLines() {
 	csv := csv.NewWriter(o.stream)
 commLoop:
 	for {
@@ -58,7 +55,11 @@ commLoop:
 		case r := <-o.receive:
 			switch r.Type {
 			case plumbing.UpdateQuestion:
-				csv.Write([]string{r.Identifier, r.Label, r.Value})
+				csv.Write([]string{
+					r.Identifier,
+					r.Label,
+					r.Value,
+				})
 			case plumbing.Flush:
 				csv.Flush()
 				break commLoop

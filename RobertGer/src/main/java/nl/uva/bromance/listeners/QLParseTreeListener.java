@@ -72,7 +72,7 @@ public class QLParseTreeListener extends QLBaseListener {
         // TODO: Maybe make this prettier somehow?
         Question peek = (Question) nodeStack.peek();
         peek.setQuestionType("custom");
-        peek.setCustomQuestionOptions(ctx.STRING());
+        peek.setMultipleChoiceOptions(ctx.STRING());
     }
 
     @Override

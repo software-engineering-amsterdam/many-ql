@@ -3,7 +3,8 @@ package ql.ast.expression;
 import java.util.Arrays;
 
 import ql.ast.Expression;
-import ql.ast.expression.type.QLError;
+import ql.ast.QLType;
+import ql.ast.type.QLError;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Identifier extends Expression {
@@ -27,5 +28,19 @@ public class Identifier extends Expression {
 	@Override
 	public String toString() {
 		return identifier;
-	}	
+	}
+	
+	@Override
+	public int hashCode() {
+		return identifier.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object comparisonObject) {
+		if(comparisonObject instanceof Identifier) {
+			return hashCode() == ((Identifier) comparisonObject).hashCode();
+		}
+		
+		return false;
+	}
 }

@@ -23,4 +23,8 @@ public class Stylesheet implements ASTNode {
         return id;
     }
 
+    public <T> T accept(final StylesheetVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

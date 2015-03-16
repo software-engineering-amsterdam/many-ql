@@ -13,7 +13,7 @@ public class BoolValue extends ExpressionValue<Boolean> {
 
     @Override
     public ExpressionValue andBool(BoolValue exprValue) {
-        return new BoolValue(this.value && exprValue.getValue());
+        return new BoolValue(this.getValue() && exprValue.getValue());
     }
 
     @Override
@@ -23,11 +23,11 @@ public class BoolValue extends ExpressionValue<Boolean> {
 
     @Override
     public ExpressionValue orBool(BoolValue exprValue) {
-        return new BoolValue(this.value || exprValue.getValue());
+        return new BoolValue(this.getValue() || exprValue.getValue());
     }
 
     @Override
     public ExpressionValue not() {
-        return new BoolValue( !this.value );
+        return new BoolValue( !this.getValue() );
     }
 }

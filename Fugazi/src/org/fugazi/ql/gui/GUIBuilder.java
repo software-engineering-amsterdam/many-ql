@@ -30,6 +30,16 @@ public class GUIBuilder implements IMediator {
     private UIQuestionBuilder uiQuestionBuilder;
 
     // Todo temporary to test QLS.
+    public GUIBuilder(Form _form) {
+        this.valueStorage = new ValueStorage();
+        this.guiEvaluator = new GUIEvaluator(valueStorage);
+        this.uiForm = new UIForm(_form.getName());
+        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, new WidgetsFactory());
+
+        this.addIfStatementsToQuestion(_form);
+        this.addComputedQuestions(_form);
+    }
+    
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);

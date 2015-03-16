@@ -1,22 +1,12 @@
-﻿using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.Factories;
+using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
     class CustomDatePicker : DatePicker, ICustomControl
     {
-        private static IList<string> listConditionalId;
-
-        public IList<string> ListConditionalId
-        {
-            get { return listConditionalId; }
-            private set { listConditionalId = value; }
-        }
 
         #region Constructor
         public CustomDatePicker()
@@ -32,17 +22,11 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         }
         #endregion
 
-        #region ICustomControl
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
-        }
-        #endregion
-
         #region Events
         void CustomDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            MainController.UpdateValue(((CustomDatePicker)sender).Name,
+                                  NodeValueFactory.GetNodeValue(((CustomDatePicker)sender).Text));
         }
         #endregion
     }

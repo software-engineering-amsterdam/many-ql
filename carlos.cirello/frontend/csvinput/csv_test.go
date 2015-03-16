@@ -17,17 +17,20 @@ func TestCsvInputFrontend(t *testing.T) {
 	expectedAnswers := make(chan map[string]string)
 	fakeInterpreter(pipes, expectedAnswers)
 
-	csvinput := New(pipes, strings.NewReader(fakeCsv))
-	go csvinput.Read()
+	go Read(pipes, strings.NewReader(fakeCsv))
 
 	got := <-expectedAnswers
 	rowcount := len(got)
 	if rowcount != 2 {
-		t.Error("Error parsing input CSV file. Expected 2 rows. Got:", rowcount)
+		t.Error(
+			"Error parsing input CSV file. Expected 2 rows. Got:",
+			rowcount,
+		)
 	}
 }
 
-func fakeInterpreter(pipes *plumbing.Pipes, expectedAnswers chan map[string]string) {
+func fakeInterpreter(pipes *plumbing.Pipes,
+	expectedAnswers chan map[string]string) {
 	receive := pipes.FromInterpreter()
 	send := pipes.ToInterpreter()
 
@@ -38,7 +41,8 @@ func fakeInterpreter(pipes *plumbing.Pipes, expectedAnswers chan map[string]stri
 			}
 		}
 	}(receive)
-	go func(send chan *plumbing.Frontend, expectedAnswers chan map[string]string) {
+	go func(send chan *plumbing.Frontend,
+		expectedAnswers chan map[string]string) {
 		for {
 			r := <-send
 			if r.Type == plumbing.Answers {

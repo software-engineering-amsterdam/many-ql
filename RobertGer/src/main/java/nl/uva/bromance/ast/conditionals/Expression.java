@@ -1,26 +1,21 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Identifier;
-import nl.uva.bromance.ast.Input;
 import nl.uva.bromance.ast.Node;
 import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
 import org.antlr.v4.runtime.Token;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class Expression extends Node {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
     private Optional<Operator> operator = Optional.empty();
     private Optional<Terminal> terminal = Optional.empty();
 
     public Expression(int lineNumber, Optional<Token> operatorToken) {
         super(lineNumber, Expression.class);
-        this.setAcceptedParents(parentsAllowed);
         if (operatorToken.isPresent()) {
             for (Operator operatorType : Operator.operatorTypes) {
                 if (operatorType.getOperatorString().equals(operatorToken.get().getText())) {

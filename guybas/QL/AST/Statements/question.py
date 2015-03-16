@@ -16,10 +16,10 @@ class Question(statement.IStatement):
         self._id = qid
         self._label = label
         self._type = qtype
-        self._parent_id = None
         self._order = None
         self.element = None
         self.parentCondition = None
+
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
@@ -47,10 +47,6 @@ class Question(statement.IStatement):
         if self._id not in dependencies:
             dependencies[self._id] = []
         return dependencies
-
-    # Return expressions
-    def return_expressions(self):
-        return []
 
     # set the _order number of the statement, only set once
     def set_order(self, order_num):

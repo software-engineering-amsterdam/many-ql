@@ -1,8 +1,8 @@
 package ql.ast.statement;
 
+import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.QLType;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.visitor.StatementVisitor;
 

@@ -1,17 +1,11 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.QLIntepreter;
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
-import org.uva.student.calinwouter.qlqls.ql.model.Form;
-import org.uva.student.calinwouter.qlqls.ql.model.FormField;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.model.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
-import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,8 +21,8 @@ public class LabelWithWidgetWidget implements IWidget {
         return labelWithWidgetWidget;
     }
 
-    public LabelWithWidgetWidget(final AbstractFormField model, StylingSettings stylingSettings, IWidget widget,
-                                 final QLIntepreter qlIntepreter) {
+    public LabelWithWidgetWidget(final org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField model, StylingSettings stylingSettings, IWidget widget,
+                                 final QLInterpreter qlIntepreter) {
         final Label fieldLabel = new Label();
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
@@ -67,8 +61,8 @@ public class LabelWithWidgetWidget implements IWidget {
         });
     }
 
-    public LabelWithWidgetWidget(final FormField formField, StylingSettings stylingSettings, IWidget widget,
-                                 final QLIntepreter qlIntepreter, final QLGUI qlgui) {
+    public LabelWithWidgetWidget(final AbstractFormField formField, StylingSettings stylingSettings, IWidget widget,
+                                 final QLInterpreter qlIntepreter, final QLGUI qlgui) {
         final Label fieldLabel = new Label(formField.getLabel());
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);

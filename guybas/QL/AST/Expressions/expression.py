@@ -1,35 +1,35 @@
-import QL.AST.Elements.element as e
+import QL.AST.Expressions.expression_interface as e
+import QL.AST.Expressions.sub_expression as c
 
 
-# Expression interface
-class Expression(e.Element):
+# IExpression without parenthesis
+class Expression(e.IExpression):
     # initialization
-    def __init__(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def __init__(self, expression):
+        self._expression = expression
 
     # get the return _type of the _expression
-    def return_type(self, type_dict):
-        raise NotImplementedError("Not implemented by sub class")
+    def return_type_string(self, type_dict):
+        types = ""
+        for x in self._expression:
+            types += x.return_type_string(type_dict)
+        return types
 
     # return a pretty printed string of the _expression
-    def pretty_print(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def pretty_print(self, level = 0):
+        s = ""
+        for x in self._expression:
+            s += x.pretty_print()
+        return s
 
     # get all variables in the _expression
     def get_dependencies(self):
-        raise NotImplementedError("Not implemented by sub class")
+        dependencies = []
+        # for element in self._expression:
+        #     dependencies += element.get_dependencies()
+        return dependencies
 
-    # return the expressions as a list of lists
-    def as_list(self):
-        raise NotImplementedError("Not implemented by sub class")
-
-    # static helper method to get the _dependencies once
-    @staticmethod
-    def dependency_collection(expression):
-        raise NotImplementedError("Not implemented by sub class")
-
-
-
-
-
-
+    # Return the negative of the _expression
+    def add_not(self):
+        l = [Expression(self._expression)]
+        return Expression([operators.Operator("not"), c.SubExpression(l)])

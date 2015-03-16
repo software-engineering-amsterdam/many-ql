@@ -59,10 +59,10 @@
     <Compile Include="Factories\NodeValueFactory.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomDatePicker.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomLabel.cs" />
-    <Compile Include="GUI\CustomUIElements\CustomPanel\CustomStackPanel.cs" />
+    <Compile Include="GUI\CustomUIElements\CustomPanels\CustomStackPanel.cs" />
     <Compile Include="GUI\Interfaces\CustomPanel\ICustomStackPanel.cs" />
-    <Compile Include="GUI\Widgets\BaseWidget.cs" />
     <Compile Include="GUI\Widgets\CheckboxWidget.cs" />
+    <Compile Include="GUI\Widgets\DatePickerWidget.cs" />
     <Compile Include="GUI\Widgets\LabelWidget.cs" />
     <Compile Include="GUI\Widgets\StackPanelWidget.cs" />
     <Compile Include="GUI\Widgets\Widget.cs" />
@@ -74,23 +74,16 @@
     <Compile Include="GUI\FormObject\ConditionalObject.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\FormObject\ObjectBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GUI\Interfaces\Widgets\IWidget.cs" />
     <Compile Include="GUI\Interfaces\CustomControl\ICustomControl.cs" />
-    <Compile Include="GUI\Interfaces\CustomControl\ICustomControlVisitor.cs" />
     <Compile Include="GUI\Interfaces\FormObject\IFormObject.cs" />
-    <Compile Include="Controller\Processor.cs" />
-    <Compile Include="Contracts\IMain.cs" />
-    <Compile Include="Resources\TypeNames.cs" />
+    <Compile Include="Controller\MainController.cs" />
+    <Compile Include="Contracts\IMainWindow.cs" />
     <Compile Include="Visitors\FormObjectVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\ICustomControlVisitor.cs" />
     <Compile Include="Visitors\Interfaces\IFormObjectVisitor.cs" />
     <Compile Include="Visitors\Interfaces\ILabelVisitor.cs" />
     <Compile Include="Visitors\Interfaces\ITypeToValueVisitor.cs" />
     <Compile Include="Visitors\Interfaces\ITypeToWidgetVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\IValueVisitor.cs" />
     <Compile Include="Visitors\LabelVisitor.cs" />
     <Compile Include="Visitors\TypeToValueVisitor.cs" />
     <Compile Include="Visitors\TypeToWidgetVisitor.cs" />

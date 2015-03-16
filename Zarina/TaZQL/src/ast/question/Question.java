@@ -1,7 +1,9 @@
 package ast.question;
 
+import ast.AST;
 
-public abstract class Question extends IQuestionVisitable {
+
+public abstract class Question extends AST {
 	
 	public abstract String toString();
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using QL.Errors;
 using QL.Evaluation;
@@ -15,74 +16,66 @@ namespace QL.Model
     {
         public Form RootNode { get; private set; }
 
-        public IList<Exception> AstBuilderExceptions { get; private set; }
-
-
-        public IList<QLError> TypeCheckerErrors { get; private set; }        // TODO | maybe merge warnings & errors
-        public IList<QLWarning> TypeCheckerWarnings { get; private set; }    // TODO | after UI has completed
-        public IList<QLError> EvaluationErrors { get; private set; }
-        public IList<QLWarning> EvaluationWarnings { get; private set; }
-        
+        public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
+       
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
-        public IDictionary<ITypeResolvable, IResolvableTerminalType> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
-
+        public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
         string Input;
         Stream InputStream;
 
         bool AstBuilt;
         bool TypeChecked;
         bool Evaluated;
-        
 
-
-
-
-        
-        public AstHandler(string input)        {
-            
-            TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
-            AstBuilt = TypeChecked = Evaluated = false;
-            Input = input;
-
-        }
-        public AstHandler(Stream input)
+        private AstHandler()
         {
-
-            TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
+            ASTHandlerExceptions = new ObservableCollection<QLException>();
+            TypeReference = new Dictionary<Identifier, Type>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
+            
             AstBuilt = TypeChecked = Evaluated = false;
-            InputStream = input;
-
         }
 
-        
+        public AstHandler(string input) : this()
+        {
+            Input = input;
+        }
+
+        public AstHandler(Stream input) : this()
+        {
+            InputStream = input;
+        }
 
         public bool BuildAST()
         {
+            ASTHandlerExceptions.Clear();
 
-            AstBuilderExceptions = new List<Exception>();
             AntlrInputStream inputStream;
-            if (Input!=null){
+            if (Input != null)
+            {
                 inputStream = new AntlrInputStream(Input);
-                }
-            else if (InputStream!=null){
+            }
+            else if (InputStream != null)
+            {
                 inputStream = new AntlrInputStream(InputStream);
-                }
-            else{
+            }
+            else
+            {
                 throw new Exception("no input");
             }
 
             QLLexer lexer = new QLLexer(inputStream);
-            lexer.AddErrorListener(new LexerErrorHandler(AstBuilderExceptions));
+            lexer.AddErrorListener(new LexerErrorHandler(ASTHandlerExceptions));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
-            parser.AddErrorListener(new ParserErrorHandler(AstBuilderExceptions));
-            QLListener listener = new QLListener(AstBuilderExceptions);
+            parser.AddErrorListener(new ParserErrorHandler(ASTHandlerExceptions));
+            QLListener listener = new QLListener(ASTHandlerExceptions);
             parser.AddParseListener(listener);
             parser.formBlock();            // parses the input as a formBlock(cos it's on the top)
-            RootNode = listener.GetAstRootNode();            
-            AstBuilt=!AstBuilderExceptions.Any();
+            RootNode = listener.GetAstRootNode();
+            AstBuilt = !ASTHandlerExceptions.Any();
             return AstBuilt;
         }
 
@@ -91,27 +84,21 @@ namespace QL.Model
         {
             if (!AstBuilt)
             {
-                throw new Exception("Ast is not built");
+                throw new QLException("Ast is not built");
             }
 
-            TypeCheckerErrors = new List<QLError>();
-            TypeCheckerWarnings = new List<QLWarning>();
-            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, TypeCheckerErrors, TypeCheckerWarnings);
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
             try
             {
                 RootNode.Accept(typeChecker);
             }
             catch (QLError ex)
             {
-                /*
-                These exceptions are caught because of something, 
-                 * not directly related with type checking,
-                 * is preventing from finishing the type checking.
-                */
-                TypeCheckerErrors.Add(ex);
+                /* Exceptions preventing TypeChecker from finishing */
+                ASTHandlerExceptions.Add(ex);
             }
 
-            TypeChecked =  !TypeCheckerErrors.Any();
+            TypeChecked = !ASTHandlerExceptions.Any();
             return TypeChecked;
         }
 
@@ -122,21 +109,25 @@ namespace QL.Model
                 throw new Exception("Not type checked");
             }
 
-            EvaluationErrors = new List<QLError>();
-            EvaluationWarnings = new List<QLWarning>();
-
-            EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings);
+            IdentifierTable.Clear();//because we want to see variables without declaration?
+            EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
-                RootNode.Accept(evaluator);
-                ReferenceLookupTable = evaluator.GetValuesIfNoErrors();
+                RootNode.AcceptBottomUp(evaluator);
             }
             catch (QLError ex)
             {
-                EvaluationErrors.Add(ex);
+                /* Exceptions preventing Evaluator from finishing */
+                ASTHandlerExceptions.Add(ex);
             }
 
-            Evaluated= !EvaluationErrors.Any();
+            Evaluated = !ASTHandlerExceptions.Any();
+            if (!Evaluated)
+            {
+                //if evaluation did not went well, references should not be accesible
+                //TODO: separate errors and warnings AGAIN, because warnings should not cause this
+                ReferenceLookupTable.Clear();
+            }
             return Evaluated;
         }
     }

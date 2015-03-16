@@ -2,19 +2,19 @@ package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 public class Stylesheet extends QLSStatement {	
 	private final Identifier identifier;
-	private final QLSBlock block;
+	private final QLSBlock pages;
 
-	public Stylesheet(Identifier identifier, QLSBlock block) {
+	public Stylesheet(Identifier identifier, QLSBlock pages) {
 		this.identifier = identifier;
-		this.block = block;
+		this.pages = pages;
 	}
 	
-	public QLSBlock getBlock() {
-		return block;
+	public QLSBlock getPages() {
+		return pages;
 	}
 	
 	public Identifier getIdentifier() {
@@ -22,14 +22,13 @@ public class Stylesheet extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Stylesheet";
 	}
 
 }

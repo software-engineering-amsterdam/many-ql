@@ -1,5 +1,5 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
+using AST.Nodes.Expressions;
 using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
 using Notifications;
@@ -15,7 +15,7 @@ namespace TypeChecker
     {
         private readonly Form node;
         private readonly Dictionary<Id, Types.Type> identifierToType;
-        private readonly IList<IExpression> topLevelExpressions;
+        private readonly IList<Expression> topLevelExpressions;
 
         public ExpressionChecker(Form node)
         {
@@ -24,7 +24,7 @@ namespace TypeChecker
             this.topLevelExpressions = GetTopLevelExpressions();
         }
 
-        public IList<INotification> GetDiagnosis()
+        public IList<INotification> AnalyzeAndReport()
         {
             List<INotification> Diagnosis = new List<INotification>();
          
@@ -39,7 +39,7 @@ namespace TypeChecker
         {
             List<INotification> notifications = new List<INotification>();
 
-            foreach (IExpression expr in topLevelExpressions)
+            foreach (Expression expr in topLevelExpressions)
             {
                 ExpressionTypeCollector collector = new ExpressionTypeCollector(identifierToType);
 
@@ -72,7 +72,7 @@ namespace TypeChecker
 
             return new Types.UndefinedType();
         }
-        private IList<IExpression> GetTopLevelExpressions()
+        private IList<Expression> GetTopLevelExpressions()
         {
             return node.Accept(new TopLevelExpressionCollector());
         }

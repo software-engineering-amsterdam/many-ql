@@ -65,7 +65,6 @@ public class TestLowerOrEqual extends BaseTest {
 		});
     }
 
-    @SuppressWarnings("rawtypes")
     public TestLowerOrEqual(String input, Value expected) {
    	 	super(input, expected);
     }

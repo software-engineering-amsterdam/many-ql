@@ -44,7 +44,7 @@ public class StatementTest {
     private AssignmentStatement getAssigmentStatementObject() throws IOException {
 	GrammarParser parser = AstTest.getParser("true");
 	Expression expression = parser.expression().result;
-	return new AssignmentStatement("hasHouseSold", new BoolType(), expression);
+	return new AssignmentStatement("hasHouseSold", new BoolType(), expression, null);
     }
 
     private IfStatement getIfStatementObject() throws IOException {

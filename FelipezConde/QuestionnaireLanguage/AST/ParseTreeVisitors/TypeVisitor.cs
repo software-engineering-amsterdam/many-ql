@@ -1,11 +1,4 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Helpers;
-using Grammar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Types = AST.Types;
+﻿using Grammar;
 
 
 namespace AST.ParseTreeVisitors
@@ -16,7 +9,6 @@ namespace AST.ParseTreeVisitors
         {
             return new Types.BoolType();
         }
-
         public override Types.Type VisitStringType(QLMainParser.StringTypeContext context)
         {
             return new Types.StringType();

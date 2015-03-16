@@ -22,19 +22,8 @@ public class QLSTextBox extends AbstractQLSWidget {
     private JTextField componentValue;
     private JLabel componentLabel;
 
-    public QLSTextBox(int _lineNum) {
-        super(_lineNum);
-        this.buildWidget("");
-    }
-
     public QLSTextBox() {
         this.buildWidget("");
-    }
-
-    public QLSTextBox(int _lineNum, String _label) {
-        super(_lineNum);
-        this.label = _label;
-        this.buildWidget(_label);
     }
 
     public QLSTextBox(String _label) {

@@ -1,11 +1,4 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Visitors;
+﻿using AST.Representation;
 
 namespace AST.Nodes
 {

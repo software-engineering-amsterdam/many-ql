@@ -12,16 +12,16 @@ class Assignment(statement.IStatement):
         self.id = qid
         self.type = qtype
         self.expression = expression
-        self.parent_id = None
         self.order = None
         self.element = None
+        self.parent_condition = None
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment _id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment number: "+ str(self.order) + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expr + "\n"
+        s += "   " * (level + 1) + "Assignment number: " + str(self.order) + "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + self.expression.pretty_print() + "\n"
         s += "   " * (level + 1) + "Assignment _type: " + str(self.type)
         s += "\n"
         return s
@@ -46,10 +46,6 @@ class Assignment(statement.IStatement):
         else:
             dependencies[self.id] = dependencies[self.id] + self.parent_condition.get_dependencies()
         return dependencies
-
-    # return all sub (expressions)
-    def return_expressions(self):
-        return []
 
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
@@ -80,9 +76,6 @@ class Assignment(statement.IStatement):
 
     def set_parent_condition(self, condition):
         self.parent_condition = condition
-
-    def set_element(self, gui):
-        ...
 
     def get_type(self):
         return self.type

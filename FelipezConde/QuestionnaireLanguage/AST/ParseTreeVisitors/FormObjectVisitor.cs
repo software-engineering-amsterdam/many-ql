@@ -1,44 +1,43 @@
-﻿using AST.Nodes.FormObject;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions;
+using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
+using AST.Nodes.Labels;
+using AST.Representation;
 using Grammar;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AST.Representation;
-using AST.Helpers;
-using Type = AST.Types;
-using AST.Nodes.Expression;
 
 namespace AST.ParseTreeVisitors
 {
-    public class FormObjectVisitor : QLMainBaseVisitor<IFormObject>
+    public class FormObjectVisitor : QLMainBaseVisitor<FormObject>
     {
-        public override IFormObject VisitQuestion(QLMainParser.QuestionContext context)
+        public override FormObject VisitQuestion(QLMainParser.QuestionContext context)
         {
             string identifier = context.id().GetText();
-            PositionInText IdPosition = Position.PositionFormParserRuleContext(context.id());
-            PositionInText position = Position.PositionFormParserRuleContext(context);
+            PositionInText IdPosition = new PositionInText(context.id());
+            PositionInText position = new PositionInText(context);
 
             Types.Type typeName = context.type().Accept(new TypeVisitor());
 
-            ILabel label = context.label().Accept(new LabelVisitor());
-            IExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
+            QLMainParser.LabelContext labelContext = context.label();
+            Label label = new Label(labelContext.STRINGLITERAL().GetText(), new PositionInText(labelContext));
+            Expression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
 
             return new Question(new Id(identifier,IdPosition), typeName, label, computation,
                                 position);
         }
 
-        public override IFormObject VisitConditional(QLMainParser.ConditionalContext context)
+        public override FormObject VisitConditional(QLMainParser.ConditionalContext context)
         {
-            IExpression condition = context.expression().Accept(new ExpressionVisitor());
+            Expression condition = context.expression().Accept(new ExpressionVisitor());
 
-            List<IFormObject> body = context.formSection()
+            List<FormObject> body = context.formSection()
                                          .formObject()
                                          .Select(child => child.Accept(new FormObjectVisitor()))
                                          .ToList();
 
-            return new Conditional(condition, body, Position.PositionFormParserRuleContext(context));
+            return new Conditional(condition, body, new PositionInText(context));
 
         }
     }

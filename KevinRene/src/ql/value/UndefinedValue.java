@@ -2,14 +2,7 @@ package ql.value;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
 public class UndefinedValue extends Value {
-
-	@SuppressWarnings("unchecked")
-	public UndefinedValue() {
-		super(null);
-	}
-	
 	@Override
 	public boolean isUndefined() {
 		return true;
@@ -52,7 +45,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value or(Value argument) {
-		return argument.orBoolean(false);
+		return argument.orBoolean(new BooleanValue(false));
 	}
 
 	@Override
@@ -87,143 +80,148 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value and(Value argument) {
-		return argument.andBoolean(false);
+		return argument.andBoolean(new BooleanValue(false));
 	}
 
 	@Override
-	public Value addInteger(int argument) {
-		return this;		
-	}
-
-	@Override
-	public Value addFloat(float argument) {
+	public Value addInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value addString(String argument) {
+	public Value addFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value divideInteger(int argument) {
+	public Value addString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value divideFloat(float argument) {
+	public Value divideInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value multiplyInteger(int argument) {
+	public Value divideFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value multiplyFloat(float argument) {
+	public Value multiplyInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value subtractInteger(int argument) {
+	public Value multiplyFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value subtractFloat(float argument) {
+	public Value subtractInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value orBoolean(boolean argument) {
-		return new BooleanValue(argument);
+	public Value subtractFloat(FloatValue argument) {
+		return this;
+	}
+
+	@Override
+	public Value orBoolean(BooleanValue argument) {
+		return new BooleanValue(argument.getValue());
 		
 	}
 
 	@Override
-	public Value notEqualToBoolean(boolean argument) {
+	public Value notEqualToBoolean(BooleanValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value notEqualToInteger(int argument) {
+	public Value notEqualToInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value notEqualToFloat(float argument) {
+	public Value notEqualToFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value notEqualToString(String argument) {
+	public Value notEqualToString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value lowerThanInteger(int argument) {
+	public Value lowerThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value lowerThanFloat(float argument) {
+	public Value lowerThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value lowerOrEqualInteger(int argument) {
+	public Value lowerOrEqualInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value lowerOrEqualFloat(float argument) {
+	public Value lowerOrEqualFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value greaterThanInteger(int argument) {
+	public Value greaterThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value greaterThanFloat(float argument) {
+	public Value greaterThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value greaterOrEqualThanInteger(int argument) {
+	public Value greaterOrEqualThanInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value greaterOrEqualThanFloat(float argument) {
+	public Value greaterOrEqualThanFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value equalToBoolean(boolean argument) {
+	public Value equalToBoolean(BooleanValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value equalToInteger(int argument) {
+	public Value equalToInteger(IntegerValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value equalToFloat(float argument) {
+	public Value equalToFloat(FloatValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value equalToString(String argument) {
+	public Value equalToString(StringValue argument) {
 		return this;
 	}
 
 	@Override
-	public Value andBoolean(boolean argument) {
+	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(false);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Boolean.hashCode(false);
 	}
 	
 	@Override

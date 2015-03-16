@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Antlr4.Runtime;
+using System;
 
 namespace AST.Representation
 {
@@ -16,6 +13,26 @@ namespace AST.Representation
             this.EndLine = EndLine;
             this.StartColumn = StartColumn;
             this.EndColumn = EndColumn;
+        }
+
+        public PositionInText(ParserRuleContext context)
+        {
+            this.StartLine = context.Start.Line;
+            this.EndLine = context.Stop.Line;
+            this.StartColumn = context.Start.Column;
+            this.EndColumn =  context.Stop.Column;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("lines [ {0} (character position: {1}), {2} (character position: {3})",
+                            new int[] { 
+                                this.StartLine,
+                                this.StartColumn,
+                                this.EndLine,
+                                this.EndColumn
+                            }
+                        );
         }
 
     }

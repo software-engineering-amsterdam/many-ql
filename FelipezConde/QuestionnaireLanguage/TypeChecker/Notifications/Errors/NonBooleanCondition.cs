@@ -1,12 +1,4 @@
-﻿using AST.Helpers;
-using AST.Nodes.FormObject;
-using AST.Representation;
-using Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Representation;
 
 namespace TypeChecker.Notifications.Errors
 {

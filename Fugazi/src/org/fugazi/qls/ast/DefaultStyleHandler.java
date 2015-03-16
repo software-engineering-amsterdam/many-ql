@@ -20,6 +20,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private final StyleSheet styledStyleSheet;
     private Segment currentSegment;
     private final QLFormDataStorage formDataStorage;
+    private final DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
 
     public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet styleSheet) {
         this.formDataStorage = _formDataStorage;
@@ -137,10 +138,12 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         AbstractQLSWidget currentDeclarationWidget = _styleDeclr.getWidget();
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
-            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel);
+            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel); 
+        } else {
+            // TODO: NEEDS TO CREATE NEW OBJECT HERE
         }
 
-        Style currentDeclarationStyle = _styleDeclr.getStyle();
+        Style currentDeclarationStyle = _styleDeclr.getStyle();  // TODO: NEEDS TO CREATE NEW OBJECT HERE
         
         // if the style is undefined, set the default style of that widget.
         // otherwise set the right style.
@@ -228,8 +231,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return "";
     }
 
-    private AbstractQLSWidget getDefaultWidgetForType(Type _questionType, String _questionLabel) {
-        DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
+    private AbstractQLSWidget getDefaultWidgetForType(Type _questionType, String _questionLabel) {        
         return defaultWidgetsFactory.getDefaultWidget(_questionType, _questionLabel);
     }
 }

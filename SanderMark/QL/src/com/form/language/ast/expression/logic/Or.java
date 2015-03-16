@@ -11,7 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Or extends BinaryExpression implements Expression {
+public class Or extends BinaryExpression {
 
     public Or(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

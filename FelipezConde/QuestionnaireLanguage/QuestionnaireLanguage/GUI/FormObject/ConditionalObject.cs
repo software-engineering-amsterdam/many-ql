@@ -1,25 +1,14 @@
 ﻿using AST.Nodes.FormObject;
-using ASTInterface = AST.Nodes.Interfaces;
 using AST.Nodes.Literals;
 using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
-using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
 using QuestionnaireLanguage.GUI.Interfaces.FormObject;
 using QuestionnaireLanguage.GUI.Widgets;
 using QuestionnaireLanguage.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class ConditionalObject : ObjectBase, IFormObject
+    public class ConditionalObject : IFormObject
     {
         private Conditional conditionalNode;
 
@@ -35,17 +24,13 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public UIElement ProcessFormObject(UIElement form)
         {
-            Literal value = Processor.Evaluate(this.conditionalNode.Condition);
+            Literal value = MainController.Evaluate(this.conditionalNode.Condition);
 
             Widget stackPanelWidget = new StackPanelWidget();
             UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
 
-            return AddChildren(Processor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            return MainController.AddChildren(MainController.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
-
-        #endregion
-
-        #region Private Methods
 
         #endregion
     }

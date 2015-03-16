@@ -42,7 +42,6 @@ public class TestDivision extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestDivision(String input, Value expected) {
     	 super(input, expected); 
      }

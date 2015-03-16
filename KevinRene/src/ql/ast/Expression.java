@@ -2,7 +2,6 @@ package ql.ast;
 
 import java.util.List;
 
-import ql.ast.expression.QLType;
 import ql.ast.visitor.ExpressionVisitor;
 
 public abstract class Expression implements QLNode {	

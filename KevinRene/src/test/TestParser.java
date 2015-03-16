@@ -27,7 +27,7 @@ public class TestParser {
 	public void testParsableString() {
 		String myExpression = "5 + 5";
 		
-		QLNode result = formParser.parse(myExpression);
+		QLNode result = Parser.parse(myExpression);
 		assertNotNull(result);
 		
 		assertEquals("5 + 5", result.toString());
@@ -42,11 +42,11 @@ public class TestParser {
 				+ "}"
 				+ "}";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?)))", result.toString());
+				+ "\"Did you sell a house in 2010?\")))", result.toString());
 	}
 	
 	@Test
@@ -54,11 +54,11 @@ public class TestParser {
 		String myForm =
 				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
-				+ "what is your house?, 105050 * 238482 / 2342)))", result.toString());
+				+ "\"what is your house?\", 105050 * 238482 / 2342)))", result.toString());
 	}
 	
 	@Test
@@ -75,12 +75,12 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 		
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?), IfThen(5 == 5, "
-				+ "Block(Question(houseValue, QLFloat, Lol I dont care)))))", result.toString());
+				+ "\"Did you sell a house in 2010?\"), IfThen(5 == 5, "
+				+ "Block(Question(houseValue, QLFloat, \"Lol I dont care\")))))", result.toString());
 	}
 	
 	@Test
@@ -96,11 +96,11 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 
-		QLNode result = formParser.parse(myForm);
+		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
-				+ "Did you sell a house in 2010?), ComputedQuestion(houseValue, "
-				+ "QLFloat, Your house is worth:, 5000.0)))", result.toString());
+				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(houseValue, "
+				+ "QLFloat, \"Your house is worth:\", 5000.0)))", result.toString());
 	}	
 }

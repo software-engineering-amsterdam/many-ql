@@ -1,10 +1,9 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Expression.Unary;
+using AST.Nodes.Expressions;
+using AST.Nodes.Expressions.Binary;
+using AST.Nodes.Expressions.Unary;
 using AST.Nodes.FormObject;
-using AST.Nodes.Interfaces;
-using AST.Visitors;
+using AST.ASTVisitors;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,7 +41,7 @@ namespace TypeChecker.Collectors
         }
 
         //Expression
-        public override IList<Id> Visit(IBinary node) //Is this a hack?
+        public override IList<Id> Visit(Binary node)
         {
             return node.Left()
                        .Accept(this)
@@ -50,10 +49,6 @@ namespace TypeChecker.Collectors
                            node.Right()
                                .Accept(this)
                       ).ToList();
-        }
-        public override IList<Id> Visit(Container node)
-        {
-            return new List<Id>();
         }
 
         public override IList<Id> Visit(Id node)
@@ -131,7 +126,7 @@ namespace TypeChecker.Collectors
             return VisitUnary(node);
         }
 
-        private IList<Id> VisitBinary(IBinary node)
+        private IList<Id> VisitBinary(Binary node)
         {
             return node.Left()
                          .Accept(this)
@@ -141,7 +136,7 @@ namespace TypeChecker.Collectors
                         ).ToList();
         }
 
-        private IList<Id> VisitUnary(IUnary node)
+        private IList<Id> VisitUnary(Unary node)
         {
             return node.GetChildExpression().Accept(this);
         }

@@ -12,7 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class Multiplication extends BinaryExpression implements Expression {
+public class Multiplication extends BinaryExpression {
 
     public Multiplication(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

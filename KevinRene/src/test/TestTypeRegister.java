@@ -7,8 +7,8 @@ import org.junit.Test;
 import ql.TypeEnvironment;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.StringLiteral;
-import ql.ast.expression.type.QLFloat;
 import ql.ast.statement.Question;
+import ql.ast.type.QLFloat;
 
 public class TestTypeRegister {
 		

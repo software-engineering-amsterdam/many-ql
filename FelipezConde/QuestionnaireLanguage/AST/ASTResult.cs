@@ -1,62 +1,18 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
-using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using Notifications;
 using AST.Representation;
-using AST.Storage;
+using Notifications;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AST
 {
-    public class ASTResult : IASTResult
+    public class ASTResult
     {
-        public IFormObjectContainer Ast { get; private set; }
-        private SymbolTable table;
-        private List<INotification> notifications;
+        public Form Ast { get; private set; } //implicit contract -> This has to be a form object, otherwise things will go wrong!
 
-        public ASTResult(IFormObjectContainer tree)
+        public ASTResult(Form tree)
         {
             this.Ast = tree;
-            table = new SymbolTable();
-            
-            //todo: traverse AST and typecheck
-            //todo: init notifications and stuff
-            //todo: probably something else
-
-        }
-
-        public void SetValue(Id key, Literal value)
-        {
-            table.SetUpdateValue(key, value);
-        }
-
-        public Literal GetValue(Id key)
-        {
-            return table.GetValue(key);
-        }
-
-        public bool IsTypeCorrect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasDuplicateIdentifiers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsCorrect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(string key, ObjectValue value)
-        {
-            throw new NotImplementedException();
         }
     }
 }

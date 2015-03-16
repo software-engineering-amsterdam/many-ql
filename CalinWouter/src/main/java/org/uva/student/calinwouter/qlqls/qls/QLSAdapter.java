@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.PTypeInterpreter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -118,7 +118,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outATypeElement(ATypeElement node) {
-        TypeInterpreter typeInterpreter = new TypeInterpreter();
+        PTypeInterpreter typeInterpreter = new PTypeInterpreter();
         node.getType().apply(typeInterpreter);
         argumentStack.push(typeInterpreter.getValue());
     }

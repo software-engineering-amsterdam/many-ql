@@ -1,11 +1,4 @@
-﻿using AST.Helpers;
-using AST.Representation;
-using Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Representation;
 
 namespace TypeChecker.Notifications.Errors
 {
@@ -23,7 +16,7 @@ namespace TypeChecker.Notifications.Errors
             {
                 return string.Format("Undefined identifier \"{0}\" at {1}",
                                       name,
-                                      Position.PrettyPrint(position));
+                                      position.ToString());
             }               
     }
 }

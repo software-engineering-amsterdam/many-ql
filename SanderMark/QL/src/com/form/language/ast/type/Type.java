@@ -5,21 +5,28 @@ import com.form.language.ast.values.GenericValue;
 public abstract class Type {
     public abstract Type getType();
 
-    public Boolean isBoolType() {
+    public boolean isBoolType() {
 	return false;
     }
 
-    public Boolean isErrorType() {
+    public boolean isErrorType() {
 	return false;
     }
 
-    public Boolean isStringType() {
+    public boolean isStringType() {
 	return false;
     }
 
-    public Boolean isIntType() {
+    public boolean isIntType() {
 	return false;
     }
 
     public abstract GenericValue defaultValue();
+    
+    
+    @Override
+    public abstract boolean equals(Object o);
+    
+    @Override
+    public abstract int hashCode();
 }

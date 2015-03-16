@@ -1,0 +1,1 @@
+randomQuestion : boolean { "Whatever" }

@@ -11,7 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.memory.Context;
 
-public class And extends BinaryExpression implements Expression {
+public class And extends BinaryExpression {
 
     public And(Expression left, Expression right, Token tokenInfo) {
 	super(left, right, tokenInfo);

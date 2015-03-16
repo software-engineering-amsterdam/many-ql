@@ -1,23 +1,18 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.Widgets
 {
     public class IntegerTextBoxWidget : TextBoxWidget
     {
-        public IntegerTextBoxWidget(){}
+        public IntegerTextBoxWidget(string id)
+        {
+            Id = id;
+        }
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value) };
+            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsComputed };
         }
 
         private string GetControlValue(dynamic value)
@@ -34,11 +29,6 @@ namespace QuestionnaireLanguage.GUI.Widgets
             }
 
             return result;
-        }
-
-        public IntegerTextBoxWidget(string id)
-        {
-            Id = id;
         }
     }
 }

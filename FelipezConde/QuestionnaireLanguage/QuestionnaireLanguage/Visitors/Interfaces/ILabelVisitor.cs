@@ -1,10 +1,5 @@
-﻿using QuestionnaireLanguage.GUI.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes.Labels;
+﻿using AST.Nodes.Labels;
+using QuestionnaireLanguage.GUI.Widgets;
 
 namespace QuestionnaireLanguage.Visitors.Interfaces
 {
