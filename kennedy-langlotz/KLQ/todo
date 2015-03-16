@@ -10,11 +10,30 @@ public void printSelf() {
 
     }
 
+I have trouble understanding the package com.klq.logic.question
+It seems it's wrapping AST stuff, but what is the added value? There's no JavaFx widgets either.
+Is this an unneeded level of indirection.
+=====> The added value is making the hierarchy flatter. E.g., a question with a condition that has another condition above doesn't know about the upper condition.)
+
+Typo: typecheker.
+
+Why is the questionType a String? Can't you just create Type objects in the ANTLR visitor/listener?
+ String questionType,
+ 
+This constructor should call the other one: the initialization logic is now duplicated.
+  public Location(ParserRuleContext context, String inputFile){
+  
+I like the design of the Store class, with one exception: the reference to the JavaFX stuff. Can you eliminate that dependency? The store should not have to know about the GUI.
+=====> Only the progressProperty is from JFX anymore.
+
+This is a library class. Can you move the methods to somewhere they make more sense?
+public class InputValidator
+=====> made a matchesInput() method in each Type of QuestionPane.
+
+
 ======================================================================================================================================================================================================
 EVERYTHING ABOVE THIS LINE IS FIXED
 ======================================================================================================================================================================================================
-Why is the questionType a String? Can't you just create Type objects in the ANTLR visitor/listener?
- String questionType,
 
 Identifiers are not literals, so they in the wrong package.
 And they are also not values: public class IdentifierValue extends Value<String> {
@@ -22,9 +41,6 @@ And they are also not values: public class IdentifierValue extends Value<String>
 
 In Main this field is never initialize (Main is not instantiated, it seems):
  private Questionnaire questionnaire;
-
-This constructor should call the other one: the initialization logic is now duplicated.
-  public Location(ParserRuleContext context, String inputFile){
 
 What does it mean for a ComputedQuestionNode to have a list of children? What do they represent?
 
@@ -34,20 +50,12 @@ Here there is the problem that now the children (?) can be anything, including E
 Try to design the hierarchy such that the types ensure that you can only build valid trees.
 Same problem with QuestionnaireNode
 
-I like the design of the Store class, with one exception: the reference to the JavaFX stuff. Can you eliminate that dependency? The store should not have to know about the GUI.
-
-I have trouble understanding the package com.klq.logic.question
-It seems it's wrapping AST stuff, but what is the added value? There's no JavaFx widgets either.
-Is this an unneeded level of indirection.
-
 Isn't this too general? What is allowed as answers for answersets?
 private List<AExpression> answers;
 
 
 Return List<ANode>
 public ArrayList<ANode> getChildren() {
-
-Typo: typecheker.
 
 Tangling in QuestionTable: it should do one thing (maintaining relation between name and question object), but it also checks for undefined names. This can be easily moved elsewhere. Also: again use List<> at declaration sites.
 
@@ -64,10 +72,6 @@ These expression depend on singletonness of types: childType != node.getQuestion
 
 In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
 the case that null is returned is missed. Although you get away with it, it's a very fine line.
-
-This is a library class. Can you move the methods to somewhere they make more sense?
-
-public class InputValidator
 
 Avoid extending stdlib base classes (like JavaFX): you're not extending the framework, and probably you don't support the full contract of the base class. Better to encapsulate instead of extend.
 
