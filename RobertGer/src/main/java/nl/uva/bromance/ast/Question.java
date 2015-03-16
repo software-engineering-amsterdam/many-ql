@@ -139,7 +139,8 @@ public class Question extends QLNode implements HasIdentifier {
     public void setMultipleChoiceOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
             String customOption = option.getText();
-            multipleChoiceOptions.add(new StringResult(customOption)); // Remove double quotes around string.
+            customOption = customOption.substring(1, customOption.length() - 1); // Remove double quotes around the question.
+            multipleChoiceOptions.add(new StringResult(customOption));
         }
         CustomResult result = new CustomResult(multipleChoiceOptions);
         this.identifier.setResult(result);
