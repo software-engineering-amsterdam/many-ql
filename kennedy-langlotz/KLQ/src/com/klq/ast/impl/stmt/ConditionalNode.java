@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ConditionalNode extends AStatementNode {
     AExpression condition;
-    ArrayList<AStatementNode> children;
+    List<AStatementNode> children;
 
     public ConditionalNode(AExpression condition, ArrayList<AStatementNode> children, Location location) {
         super(location);
