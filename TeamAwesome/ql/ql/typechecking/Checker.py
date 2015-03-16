@@ -3,6 +3,7 @@ from ..ast import Visitor as ASTVisitors
 
 class StatementChecker(ASTVisitors.StatementVisitor):
     def __init__(self, ast, resultAlg):
+        self._resultAlg = resultAlg
         self._result = resultAlg.empty()
         self._ast = ast
 
@@ -13,6 +14,7 @@ class StatementChecker(ASTVisitors.StatementVisitor):
 
 class FullChecker(ASTVisitors.FullVisitor):
     def __init__(self, ast, resultAlg):
+        self._resultAlg = resultAlg
         self._result = resultAlg.empty()
         self._ast = ast
 

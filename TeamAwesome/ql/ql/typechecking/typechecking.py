@@ -6,13 +6,15 @@ from . import \
 
 from typechecking import Result
 
-def check(ast, resultAlg = Result.DefaultResult()):
+def check(ast):
     modules = [
         CyclicQuestionDependencies,
         TypesOfExpressions,
         DuplicateQuestionLabels,
         QuestionRedefinitions
     ];
+
+    resultAlg = Result.DefaultResultAlg()
 
     checkers = map(lambda m: m.Checker(ast, resultAlg), modules)
     results = map(lambda c: c.visit(ast.root), checkers)
