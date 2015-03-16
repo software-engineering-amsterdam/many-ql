@@ -6,7 +6,6 @@ import ql.gen.QLLexer;
 import ql.gen.QLParser;
 import ql.ast.AstBuilder;
 import ql.gui.SimpleGui;
-import ql.gui.SimpleModeler;
 import ql.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
