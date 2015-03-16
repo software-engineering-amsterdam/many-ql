@@ -2,31 +2,31 @@ package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTypeTable;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFieldsList;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 
 public class TypeCollector extends AnalysisAdapter {
-    private final VariableTypeTable variableTypeTable;
+    private final StaticFieldsList staticFieldsList;
     private String currentIdentifier;
 
     @Override
     public void caseAIntType(final AIntType node) {
         assert(currentIdentifier != null);
-        variableTypeTable.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
+        staticFieldsList.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
         currentIdentifier = null;
     }
 
     @Override
     public void caseAStringType(final AStringType node) {
         assert(currentIdentifier != null);
-        variableTypeTable.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
+        staticFieldsList.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
         currentIdentifier = null;
     }
 
     @Override
     public void caseABoolType(final ABoolType node) {
         assert(currentIdentifier != null);
-        variableTypeTable.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
+        staticFieldsList.setVariableType(currentIdentifier, IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
         currentIdentifier = null;
     }
 
@@ -66,7 +66,7 @@ public class TypeCollector extends AnalysisAdapter {
         }
     }
 
-    public TypeCollector(VariableTypeTable variableTypeTable) {
-        this.variableTypeTable = variableTypeTable;
+    public TypeCollector(StaticFieldsList staticFieldsList) {
+        this.staticFieldsList = staticFieldsList;
     }
 }

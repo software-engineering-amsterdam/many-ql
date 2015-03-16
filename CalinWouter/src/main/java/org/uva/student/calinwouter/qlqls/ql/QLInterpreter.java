@@ -7,15 +7,11 @@ import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 
 public class QLInterpreter {
 
-    /**
-     * Interpret the provided form using the provided variable table.
-     * @return the collected fields.
-     */
-    public ResultingFieldsCollection interpret(AForm aForm, VariableTable variableTable) {
-        ResultingFieldsCollection form = new ResultingFieldsCollection();
-        PFormInterpreter formInterpreter = new PFormInterpreter(variableTable, form);
+    public VariableTable interpret(AForm aForm, VariableTable oldVariableTable) {
+        VariableTable newVariableTable = new VariableTable();
+        PFormInterpreter formInterpreter = new PFormInterpreter(oldVariableTable, newVariableTable);
         aForm.apply(formInterpreter);
-        return form;
+        return newVariableTable;
     }
 
 }
