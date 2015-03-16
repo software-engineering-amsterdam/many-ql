@@ -1,6 +1,6 @@
 package ql.gui.widgets
 
-import ql.ast._
+import ql.ast.{BooleanValue, Expression, Question, Value}
 import ql.evaluator.Evaluator
 import ql.gui.DependencyResolver
 import types.{Dependencies, EvalEnvironment, VariableName}
