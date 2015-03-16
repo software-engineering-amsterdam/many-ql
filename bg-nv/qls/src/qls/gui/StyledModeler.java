@@ -69,8 +69,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
                 segments.add(segment);
             }
         }
-        //Why does Section require Node?
-        return new ql.gui.segment.Section(new GridPane(), segments, true);
+        return new ql.gui.segment.Section(segments, true);
     }
 
     @Override
