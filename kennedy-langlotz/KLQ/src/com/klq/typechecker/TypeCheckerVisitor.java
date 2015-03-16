@@ -68,17 +68,17 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(QuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
+        cyclicDetector.addKey(node.getID());
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
-        currentQuestion = node.getQuestionID();
+        cyclicDetector.addKey(node.getID());
+        currentQuestion = node.getID();
 
         Type childType = (Type) node.getComputedAnswer().accept(this);
-        if(childType != node.getQuestionType()){
+        if(childType != node.getType()){
             errors.add(new TypeMismatch(node, childType));
         }
 

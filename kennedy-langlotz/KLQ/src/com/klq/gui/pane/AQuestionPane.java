@@ -104,10 +104,10 @@ public abstract class AQuestionPane extends GridPane {
 
     protected void questionAnswered(String result) {
         if (result == null || result.trim().isEmpty()){
-            store.updateAnswer(question.getId(), null);
+            store.updateAnswer(question.getID(), null);
         } else {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-            store.updateAnswer(question.getId(), expr);
+            store.updateAnswer(question.getID(), expr);
         }
     }
 

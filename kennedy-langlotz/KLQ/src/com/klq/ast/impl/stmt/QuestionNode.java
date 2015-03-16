@@ -41,11 +41,11 @@ public class QuestionNode extends AStatementNode {
         System.out.println();
     }
 
-    public String getQuestionID() {
+    public String getID() {
         return questionID;
     }
 
-    public Type getQuestionType() {
+    public Type getType() {
         return questionType;
     }
 

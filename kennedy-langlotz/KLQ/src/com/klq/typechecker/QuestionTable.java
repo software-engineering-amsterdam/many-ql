@@ -23,7 +23,7 @@ public class QuestionTable {
 
     public void add(String questionId, QuestionNode node){
         if(table.containsKey(questionId)){
-            errors.add(new NotUniqueID(node.getQuestionID(), node.getLocation()));
+            errors.add(new NotUniqueID(node.getID(), node.getLocation()));
         }
         else{
             table.put(questionId, node);
@@ -39,6 +39,6 @@ public class QuestionTable {
     }
 
     public Type getQuestionType(String questionId){
-        return table.get(questionId).getQuestionType();
+        return table.get(questionId).getType();
     }
 }
