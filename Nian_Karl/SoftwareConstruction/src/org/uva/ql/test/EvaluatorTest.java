@@ -68,202 +68,202 @@ public class EvaluatorTest {
 	public void testGetValue() {
 		int expected = 99;
 		evaluator.addValue(id.toString(), new IntValue(99));
-		int actual = (int) evaluator.getValue(id.toString()).getValue();
+		int actual = (int) evaluator.getValue(id.toString()).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNot1() {
 		boolean expected = !true;
-		boolean actual = (boolean) evaluator.evaluate(new Not(bool1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Not(bool1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	public void testNot2() {
 		boolean expected = !false;
-		boolean actual = (boolean) evaluator.evaluate(new Not(bool2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Not(bool2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testPositive() {
 		int expected = +15;
-		int actual = (int) evaluator.evaluate(new Positive(int1, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Positive(int1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNegative() {
 		int expected = -15;
-		int actual = (int) evaluator.evaluate(new Negative(int1, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Negative(int1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testPlusInt() {
 		int expected = 15 + 5;
-		int actual = (int) evaluator.evaluate(new Plus(int1, int2, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Plus(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testPlusStr() {
 		String expected = "Hello" + "World";
-		String actual = (String) evaluator.evaluate(new Plus(str1, str2, pos)).getValue();
+		String actual = (String) evaluator.evaluate(new Plus(str1, str2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testMinus() {
 		int expected = 15 - 5;
-		int actual = (int) evaluator.evaluate(new Minus(int1, int2, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Minus(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testMutiply() {
 		int expected = 15 * 5;
-		int actual = (int) evaluator.evaluate(new Multiply(int1, int2, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Multiply(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testDivide() {
 		int expected = 15 / 5;
-		int actual = (int) evaluator.evaluate(new Divide(int1, int2, pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Divide(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testAnd() {
 		boolean expected = true && false;
-		boolean actual = (boolean) evaluator.evaluate(new And(bool1, bool2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new And(bool1, bool2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testOr() {
 		boolean expected = true || false;
-		boolean actual = (boolean) evaluator.evaluate(new Or(bool1, bool2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Or(bool1, bool2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualInt1() {
 		boolean expected = 15 == 15;
-		boolean actual = (boolean) evaluator.evaluate(new Equal(int1, int1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(int1, int1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualInt2() {
 		boolean expected = 15 == 5;
-		boolean actual = (boolean) evaluator.evaluate(new Equal(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualBool1() {
 		boolean expected = true == true;
-		boolean actual = (boolean) evaluator.evaluate(new Equal(bool1, bool1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(bool1, bool1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualBool2() {
 		boolean expected = true == false;
-		boolean actual = (boolean) evaluator.evaluate(new Equal(bool1, bool2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(bool1, bool2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualStr1() {
 		boolean expected = "Hello" == "Hello";
-		boolean actual = (boolean) evaluator.evaluate(new Equal(str1, str1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(str1, str1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testEqualStr2() {
 		boolean expected = "Hello" == "World";
-		boolean actual = (boolean) evaluator.evaluate(new Equal(str1, str2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Equal(str1, str2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualInt1() {
 		boolean expected = 15 != 15;
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(int1, int1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(int1, int1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualInt2() {
 		boolean expected = 15 != 5;
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualBool1() {
 		boolean expected = true != true;
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(bool1, bool1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(bool1, bool1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualBool2() {
 		boolean expected = true != false;
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(bool1, bool2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(bool1, bool2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualStr1() {
 		boolean expected = "Hello" != "Hello";
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(str1, str1, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(str1, str1, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testNotEqualStr2() {
 		boolean expected = "Hello" != "World";
-		boolean actual = (boolean) evaluator.evaluate(new NotEqual(str1, str2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new NotEqual(str1, str2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testGreater() {
 		boolean expected = 15 > 5;
-		boolean actual = (boolean) evaluator.evaluate(new Greater(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Greater(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testGreaterEqual() {
 		boolean expected = 15 >= 5;
-		boolean actual = (boolean) evaluator.evaluate(new GreaterEqual(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new GreaterEqual(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testLess() {
 		boolean expected = 15 < 5;
-		boolean actual = (boolean) evaluator.evaluate(new Less(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new Less(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testLessEqual() {
 		boolean expected = 15 <= 5;
-		boolean actual = (boolean) evaluator.evaluate(new LessEqual(int1, int2, pos)).getValue();
+		boolean actual = (boolean) evaluator.evaluate(new LessEqual(int1, int2, pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testParenthese() {
 		int expected = (15 - 5);
-		int actual = (int) evaluator.evaluate(new Parenthese(new Minus(int1, int2, pos), pos)).getValue();
+		int actual = (int) evaluator.evaluate(new Parenthese(new Minus(int1, int2, pos), pos)).value();
 		Assert.assertEquals(expected, actual);
 	}
 	
@@ -271,7 +271,7 @@ public class EvaluatorTest {
 	public void testCombination() {
 		boolean expected = ((15 - 5) * 5) > 15 * 5;
 		Expression expr = new Greater(new Multiply(new Minus(int1, int2, pos), int2, pos), new Multiply(int1, int2, pos), pos);
-		boolean actual = (boolean) evaluator.evaluate(expr).getValue();
+		boolean actual = (boolean) evaluator.evaluate(expr).value();
 		Assert.assertEquals(expected, actual);
 	}
 

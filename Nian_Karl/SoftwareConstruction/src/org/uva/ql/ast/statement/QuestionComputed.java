@@ -7,11 +7,11 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.visitor.StatementVisitor;
 
-public class QuestionCompute extends QuestionNormal {
+public class QuestionComputed extends QuestionNormal {
 
 	private final Expression expression;
 
-	public QuestionCompute(Identifier identifier, StrLiteral label, Type type, Expression expr, CodePosition pos) {
+	public QuestionComputed(Identifier identifier, StrLiteral label, Type type, Expression expr, CodePosition pos) {
 		super(identifier, label, type, pos);
 		this.expression = expr;
 	}
