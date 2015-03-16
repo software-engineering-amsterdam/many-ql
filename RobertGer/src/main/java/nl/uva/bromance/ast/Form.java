@@ -10,11 +10,9 @@ import nl.uva.bromance.ast.conditionals.IfStatement;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
+import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Form extends QLNode implements CanContainConditionals {
     private String identifier;
@@ -47,7 +45,7 @@ public class Form extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         Label label = new Label(this.identifier);
