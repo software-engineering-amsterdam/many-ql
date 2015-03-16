@@ -7,20 +7,19 @@
   {6} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
 
 * QualityWithoutAName Cards
-  - [ ] backlog [1/3]
-    - [ ] get rid of switch statements
+  - [ ] backlog [2/3]
+    - [X] get rid of switch statements
     - [X] magic constants
     - [ ] duplicated code
 
-* QL [6/7]
-  - [ ] Refactor [3/5]
-    - [ ] Expand tests
+* QL [7/7]
+  - [X] Refactor [4/4]
+    - [X] Expand tests
     - [X] Extract question typing from AST
       - [X] Update grammar and runtime
       - [X] Handle invalid question types - error messages
     - [X] Extract plumbing
     - [X] String concatenation
-    - [ ] Improve error message precision
   - [X] Basic Architecture
   - [X] Interpreter wise error handling - Pretty and informing error message
   - [X] Resolve the Visitor debate. {6}

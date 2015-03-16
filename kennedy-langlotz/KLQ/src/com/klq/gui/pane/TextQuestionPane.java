@@ -25,7 +25,7 @@ public class TextQuestionPane extends AQuestionPane {
             inputField.textProperty().bind(question.computedProperty());
         }
         inputField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (InputValidator.matches(question.getType(), newValue)){
+            if (matches(question.getType(), newValue)){
                 questionAnswered(newValue);
             }
         });

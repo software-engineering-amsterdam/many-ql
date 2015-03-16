@@ -2,9 +2,9 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticComputedValueField;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 
 import javax.swing.*;
@@ -31,14 +31,14 @@ public class LabelWidget implements IWidget {
         });
     }
 
-    public LabelWidget(final ComputedValueField computedValueField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public LabelWidget(final StaticComputedValueField staticComputedValueField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         valueLabel = new JLabel();
         qlIntepreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 try {
                     valueLabel.setText(symbolTable
-                            .getVariable(computedValueField.getVariable()).getValue().toString());
+                            .getVariable(staticComputedValueField.getVariable()).getValue().toString());
                 } catch (NullPointerException e) {
                     valueLabel.setText("-");
                 }

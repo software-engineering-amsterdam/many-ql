@@ -14,4 +14,9 @@ public class BooleanType extends Type {
 		return new BooleanValue(false);
 	}
 
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
 }

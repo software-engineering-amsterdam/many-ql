@@ -4,6 +4,8 @@ import (
 	"io"
 	"log"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
@@ -17,13 +19,11 @@ func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
-	csvReader := csvinput.New(pipes, inReader)
-	csvReader.Read()
+	csvinput.Read(pipes, inReader)
 }
 
 func writeOutputCsv(pipes *plumbing.Pipes, outWriter io.Writer) {
-	csvWriter := csvoutput.New(pipes, outWriter)
-	csvWriter.Write()
+	csvoutput.Write(pipes, outWriter)
 }
 
 func errorHandler() {
@@ -46,4 +46,11 @@ func launchGUI(pipes *plumbing.Pipes, guiAppName string) {
 	driver := graphic.GUI(guiAppName)
 	frontend.New(pipes.FromInterpreter(), pipes.ToInterpreter(), driver)
 	driver.Loop()
+}
+
+func openIoStreams() (srcFn string, srcReader, inReader io.Reader,
+	outWriter io.Writer) {
+	srcFn, inFn, outFn := cli.Args()
+	srcReader, inReader, outWriter = iostream.Open(srcFn, inFn, outFn)
+	return srcFn, srcReader, inReader, outWriter
 }

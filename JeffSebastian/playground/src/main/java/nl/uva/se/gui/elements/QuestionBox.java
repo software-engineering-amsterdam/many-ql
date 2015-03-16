@@ -20,7 +20,7 @@ public class QuestionBox extends VBox {
 	}
 
 	public void addQuestion(Question question) {
-		Text title = new Text(question.getQuestion());
+		Text title = new Text(question.getLabel());
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		this.getChildren().add(title);
 

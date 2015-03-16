@@ -1,9 +1,10 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.conditionals.CustomResult;
+import nl.uva.bromance.ast.conditionals.HasIdentifier;
+import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.typechecking.ReferenceMap;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Question extends Node implements HasIdentifier {
-    private List<StringResult> customQuestionOptions = new ArrayList<>();
+    private List<StringResult> multipleChoiceOptions = new ArrayList<>();
     private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
     private Identifier identifier;
@@ -82,27 +83,8 @@ public class Question extends Node implements HasIdentifier {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
             parent.getChildren().add(l);
-            if (isQuestionTypeInteger()) {
-                TextField tf = new TextField();
-                // Disable any input other than numbers
-                tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue.matches("[0-9]*")) {
-                        tf.setText(oldValue);
-                    }
-                });
-                parent.getChildren().add(tf);
-            } else if (isQuestionTypeString()) {
-                parent.getChildren().add(new TextField());
-            } else if (isQuestionTypeBoolean()) {
-                parent.getChildren().add(new CheckBox());
-            } else if (isQuestionTypeCustom()) {
-                ToggleGroup group = new ToggleGroup();
-                for (StringResult option : customQuestionOptions) {
-                    RadioButton radioButton = new RadioButton(option.getResult());
-                    radioButton.setToggleGroup(group);
-                    parent.getChildren().add(radioButton);
-                }
-            }
+            // Add the actual input field
+            questionType.addQuestionToPane(parent, multipleChoiceOptions);
         }
         return Optional.empty();
     }
@@ -149,17 +131,16 @@ public class Question extends Node implements HasIdentifier {
         return questionType instanceof IntegerType;
     }
 
-
     public boolean isQuestionTypeCustom() {
         return questionType instanceof CustomType;
     }
 
-    public void setCustomQuestionOptions(List<TerminalNode> options) {
+    public void setMultipleChoiceOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
             String customOption = option.getText();
-            customQuestionOptions.add(new StringResult(customOption)); // Remove double quotes around string.
+            multipleChoiceOptions.add(new StringResult(customOption)); // Remove double quotes around string.
         }
-        CustomResult result = new CustomResult(customQuestionOptions);
+        CustomResult result = new CustomResult(multipleChoiceOptions);
         this.identifier.setResult(result);
         this.identifier.getId();
     }

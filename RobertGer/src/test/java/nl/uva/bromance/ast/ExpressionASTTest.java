@@ -81,12 +81,12 @@ public class ExpressionASTTest extends ASTTest {
 
     @Test
     public void correctBiggerThanOrEqualExpression() throws IOException {
-        assertExpressionOperator(">=", new LargerThanEqualsOperator());
+        assertExpressionOperator(">=", new LargerThanOrEqualsOperator());
     }
 
     @Test
     public void correctLessThanOrEqualExpression() throws IOException {
-        assertExpressionOperator("<=", new SmallerThanEqualsOperator());
+        assertExpressionOperator("<=", new SmallerThanOrEqualsOperator());
     }
 
     @Test
