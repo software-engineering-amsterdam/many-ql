@@ -26,7 +26,6 @@ UNDERLINED      : 'underlined' ;
 DEFAULT         : 'default' ;
 
 //Types from KLQ
-SET         : 'set' ;
 BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
 KLQSTRING   : 'string' ;
@@ -108,8 +107,7 @@ defaultStyle
     ;
 
 klqType
-    : 'set'
-    | 'boolean'
+    : 'boolean'
     | 'date'
     | 'string'
     | 'numeral'
