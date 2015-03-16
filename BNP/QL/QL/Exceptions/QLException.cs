@@ -35,6 +35,11 @@ namespace QL.Exceptions
             SourceLocation = source.SourceLocation;
         }
 
+        public QLException(string message, SourceLocation source) : base(message)
+        {
+            SourceLocation = source;
+        }
+
         public QLException(string message, Exception inner) : base(message, inner)
         { }
 

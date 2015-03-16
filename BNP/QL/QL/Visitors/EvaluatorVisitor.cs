@@ -1,4 +1,5 @@
 ﻿using QL.Exceptions;
+using QL.Exceptions.Errors;
 using QL.Model;
 using QL.Model.Operators;
 using QL.Model.Terminals;

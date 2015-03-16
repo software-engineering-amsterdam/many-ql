@@ -1,4 +1,4 @@
-﻿namespace QL.Exceptions
+﻿namespace QL.Exceptions.Errors
 {
     public class DivisionByZeroError : QLError
     {

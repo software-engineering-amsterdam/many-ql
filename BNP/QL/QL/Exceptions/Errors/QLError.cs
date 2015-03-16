@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using QL.Model;
 
-namespace QL.Exceptions
+namespace QL.Exceptions.Errors
 {
     public class QLError : QLException
     {

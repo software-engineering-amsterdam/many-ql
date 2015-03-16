@@ -1,80 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="QL.Errors.DivisionByZeroError" Collapsed="true">
-    <Position X="6.5" Y="5.5" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.DivisionByZeroError" Collapsed="true">
+    <Position X="13.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\DivisionByZeroError.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\DivisionByZeroError.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.ParserError" Collapsed="true">
-    <Position X="5.5" Y="3.25" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.EvaluationError" Collapsed="true">
+    <Position X="17.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\ParserError.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\EvaluationError.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.QLError" Collapsed="true">
-    <Position X="6.5" Y="2" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.LexerError" Collapsed="true">
+    <Position X="20" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\QLError.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\LexerError.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.QLWarning" Collapsed="true">
-    <Position X="1.5" Y="2" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.ParserError" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\QLWarning.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\ParserError.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.RedeclaredVariableWarning" Collapsed="true">
-    <Position X="0.5" Y="3.25" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.QLError" Collapsed="true">
+    <Position X="17.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\RedeclaredVariableWarning.cs</FileName>
+      <FileName>Exceptions\Errors\QLError.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.TypeCheckerError" Collapsed="true">
-    <Position X="7.5" Y="3.25" Width="1.5" />
+  <Class Name="QL.Exceptions.Errors.TypeCheckerError" Collapsed="true">
+    <Position X="22.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\TypeCheckerError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.EvaluationWarning" Collapsed="true">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\EvaluationWarning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.QLWarning" Collapsed="true">
+    <Position X="8.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\TypeCheckerError.cs</FileName>
+      <FileName>Exceptions\Warnings\QLWarning.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.QLException" Collapsed="true">
-    <Position X="3.25" Y="0.5" Width="1.5" />
+  <Class Name="QL.Exceptions.Warnings.RedeclaredVariableWarning" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAABAAAAAAAAEAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\QLException.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\RedeclaredVariableWarning.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Errors.LexerError" Collapsed="true">
-    <Position X="5.5" Y="4.25" Width="1.5" />
+  <Class Name="QL.Exceptions.Warnings.TypeCheckerWarning" Collapsed="true">
+    <Position X="6.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Errors\LexerError.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\TypeCheckerWarning.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.TypeCheckerWarning" Collapsed="true">
-    <Position X="2.5" Y="3.25" Width="1.5" />
+  <Class Name="QL.Exceptions.QLException" Collapsed="true">
+    <Position X="14.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TypeCheckerWarning.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="QL.EvaluationError" Collapsed="true">
-    <Position X="7.5" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>EvaluationError.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="QL.EvaluationWarning" Collapsed="true">
-    <Position X="2.5" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>EvaluationWarning.cs</FileName>
+      <HashCode>AAAAAABAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAwAAAA=</HashCode>
+      <FileName>Exceptions\QLException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

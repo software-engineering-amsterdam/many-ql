@@ -1,12 +1,13 @@
 ﻿using System;
 using QL.Model;
 
-namespace QL.Exceptions
+namespace QL.Exceptions.Warnings
 {
+    /// <summary>
+    /// Base class for all QL Warnings 
+    /// </summary>
     public class QLWarning : QLException
     {
-        /* Base class for all QL Warnings
-         */
         public QLWarning()
         {
         }
@@ -22,6 +23,11 @@ namespace QL.Exceptions
         }
 
         public QLWarning(string message, ElementBase source)
+            : base(message, source)
+        {
+        }
+
+        public QLWarning(string message, SourceLocation source)
             : base(message, source)
         {
         }

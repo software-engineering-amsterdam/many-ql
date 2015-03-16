@@ -48,15 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />
     <Compile Include="Exceptions\Errors\ParserError.cs" />
     <Compile Include="Exceptions\QLException.cs" />
     <Compile Include="Exceptions\Warnings\QLWarning.cs" />
-    <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
     <Compile Include="Visitors\EvaluatorVisitor.cs" />
     <Compile Include="Visitors\EvaluationWrappers\TerminalWrapper.cs" />
+    <Compile Include="Evaluation\GUIBuilderVisitor.cs" />
     <Compile Include="Visitors\IVisitor.cs" />
     <Compile Include="Visitors\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\Errors\QLError.cs" />

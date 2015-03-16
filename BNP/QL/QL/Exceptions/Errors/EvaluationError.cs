@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using QL.Errors;
-
-namespace QL
+﻿namespace QL.Exceptions.Errors
 {
     public class EvaluationError : QLError
     {
+        public EvaluationError(string message) : base(message)
+        { }
+
         public override string Origin
         {
             get { return "Evaluator"; }

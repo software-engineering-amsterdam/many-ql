@@ -1,6 +1,6 @@
-﻿using System;
+﻿using QL.Model;
 
-namespace QL.Exceptions
+namespace QL.Exceptions.Warnings
 {
     public class RedeclaredVariableWarning : QLWarning
     {
@@ -9,7 +9,13 @@ namespace QL.Exceptions
             get { return "Redeclared var"; }
         }
 
-        public RedeclaredVariableWarning(string message) : base(message)
+        public RedeclaredVariableWarning(string message)
+            : base(message)
+        {
+        }
+
+        public RedeclaredVariableWarning(string message, SourceLocation source)
+            : base(message, source)
         {
         }
     }
