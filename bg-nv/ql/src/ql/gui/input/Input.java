@@ -51,8 +51,6 @@ public abstract class Input extends GuiElement
         return id;
     }
 
-    public abstract void update(ValueTable valueTable);
-
     protected abstract VBox createInputNode(Control control);
 //    {
 //        VBox box = new VBox();

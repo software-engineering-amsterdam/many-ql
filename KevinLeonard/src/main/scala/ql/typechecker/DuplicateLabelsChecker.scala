@@ -1,6 +1,6 @@
 package ql.typechecker
 
-import ql.ast._
+import ql.ast.{Form, IfStatement, Question, Sequence, Statement}
 import types.Label
 
 class DuplicateLabelsChecker {

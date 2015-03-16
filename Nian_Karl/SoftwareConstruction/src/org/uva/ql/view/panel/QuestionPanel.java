@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionPanel extends Panel {
 
@@ -33,8 +34,8 @@ public class QuestionPanel extends Panel {
 		gridCounterY++;
 	}
 
-	protected void initializeBlock(ArrayList<Panel> block) {
-		for (Panel panel : block) {
+	protected void initializeBlock(List<Panel> elseBlockPanels) {
+		for (Panel panel : elseBlockPanels) {
 			addWithConstraints(panel);
 		}
 	}

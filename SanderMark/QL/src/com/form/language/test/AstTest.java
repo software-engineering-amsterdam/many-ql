@@ -84,9 +84,12 @@ public class AstTest {
 
     @Test
     public void testExpressionNegative() throws RecognitionException, IOException {
-	String str = "-1";
+	String str = "-1 ";
 	GrammarParser parser = AstTest.getParser(str);
-	int actual = ((IntValue) (parser.expression().result).evaluate(new Context())).getValue();
+	Context ctxt = new Context();
+	parser.expression().result.getType(ctxt);
+	System.out.println(ctxt.getErrors());
+	int actual = ((IntValue) (parser.expression().result).evaluate(ctxt)).getValue();
 	int exspected = -1;
 	assertEquals(exspected, actual);
     }
@@ -111,10 +114,10 @@ public class AstTest {
 
     @Test
     public void testExpressionDivision() throws RecognitionException, IOException {
-	String str = "1/1";
+	String str = "6/3";
 	GrammarParser parser = AstTest.getParser(str);
 	int actual = ((IntValue) (parser.expression().result).evaluate(new Context())).getValue();
-	int exspected = 1 / 1;
+	int exspected = 6 / 3;
 	assertEquals(exspected, actual);
     }
 
@@ -129,10 +132,10 @@ public class AstTest {
 
     @Test
     public void testExpressionSubstraction() throws RecognitionException, IOException {
-	String str = "1-1";
+	String str = "5-1";
 	GrammarParser parser = AstTest.getParser(str);
 	int actual = ((IntValue) (parser.expression().result).evaluate(new Context())).getValue();
-	int exspected = 1 - 1;
+	int exspected = 5 - 1;
 	assertEquals(exspected, actual);
     }
 
@@ -174,10 +177,10 @@ public class AstTest {
 
     @Test
     public void testExpressionLessThanOrEqual() throws RecognitionException, IOException {
-	String str = "1<=1";
+	String str = "5<=6";
 	GrammarParser parser = AstTest.getParser(str);
 	boolean actual = ((BoolValue) (parser.expression().result).evaluate(new Context())).getValue();
-	boolean exspected = 1 <= 1;
+	boolean exspected = 5 <= 6;
 	assertEquals(exspected, actual);
     }
 

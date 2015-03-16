@@ -1,25 +1,30 @@
 package qls.semantics;
 
+import ql.gui.control.*;
+import ql.gui.control.Spinbox;
 import ql.gui.segment.RowStyle;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
+import qls.ast.rule.widget.Dropdown;
+import qls.ast.rule.widget.Radio;
+import qls.ast.rule.widget.Slider;
 
 /**
  * Created by bore on 10/03/15.
  */
-public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Void>
+public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
 {
     private RowStyle result;
 
-    public static boolean convert(Rules rs)
+    public static RowStyle convert(Rules rs)
     {
         RulesToGui visitor = new RulesToGui();
         for (Rule r : rs)
         {
             r.accept(visitor);
         }
-        
-        return true;
+
+        return visitor.result;
     }
 
     private RulesToGui()
@@ -37,66 +42,72 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Void>
     @Override
     public Void visit(Font r)
     {
+        this.result.setFont(r.getValue());
         return null;
     }
 
     @Override
     public Void visit(FontSize r)
     {
+        this.result.setFontSize(r.getValue());
         return null;
     }
 
     @Override
     public Void visit(BackColor r)
     {
+        this.result.setBackColor(r.getValue().getColor());
         return null;
     }
 
     @Override
     public Void visit(ForeColor r)
     {
+        this.result.setForeColor(r.getValue().getColor());
         return null;
     }
 
     @Override
     public Void visit(Widget r)
     {
+        Control c = r.getValue().accept(this);
+        this.result.setWidget(c);
         return null;
     }
 
     @Override
-    public Void visit(Checkbox w)
+    public Control visit(Checkbox w)
     {
-        return null;
+        return new CheckBox(true, true); //TODO: check these values
     }
 
     @Override
-    public Void visit(Dropdown w)
+    public Control visit(Dropdown w)
     {
-        return null;
+        return new ql.gui.control.Dropdown(true, true);
     }
 
     @Override
-    public Void visit(Radio w)
+    public Control visit(Radio w)
     {
-        return null;
+        return new Radios(true, true, w.getYesLabel(), w.getNoLabel());
     }
 
     @Override
-    public Void visit(Slider w)
+    public Control visit(Slider w)
     {
-        return null;
+        return new ql.gui.control.Slider(true, true);
     }
 
     @Override
-    public Void visit(Spinbox w)
+    public Control visit(qls.ast.rule.widget.Spinbox w)
     {
-        return null;
+        return new Spinbox(true, true);
     }
 
     @Override
-    public Void visit(Textbox w)
+    public Control visit(Textbox w)
     {
-        return null;
+        return new TextField(true, true);
     }
 }

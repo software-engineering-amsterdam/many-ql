@@ -1,4 +1,4 @@
-package nl.uva.se.gui.widgets;
+package nl.uva.se.gui.builders;
 
 import nl.uva.se.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.gui.widgets.boxes.QuestionBox;
