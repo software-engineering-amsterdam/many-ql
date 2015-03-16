@@ -1,15 +1,15 @@
 package ast.expression.comparison;
 
-import ast.expression.BinaryExpression;
+import ast.expression.Binary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.type.ChoiceType;
 
 // For ==
 
-public class EqualExpression extends BinaryExpression {
+public class Equal extends Binary {
 						
-	public EqualExpression (Expression leftExp, Expression rightExp) {
+	public Equal (Expression leftExp, Expression rightExp) {
 		super (leftExp, rightExp);
 	}
 				
@@ -24,7 +24,7 @@ public class EqualExpression extends BinaryExpression {
 	}
 
 	@Override
-	public ChoiceType getExpressionType() {
+	public ChoiceType getType() {
 		return new ChoiceType();
 	}
 }

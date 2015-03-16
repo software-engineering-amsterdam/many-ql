@@ -1,15 +1,15 @@
 package ast.expression.logical;
 
-import ast.expression.BinaryExpression;
+import ast.expression.Binary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.type.ChoiceType;
 
 // For &&
 
-public class AndExpression extends BinaryExpression {
+public class And extends Binary {
 							
-	public AndExpression (Expression leftExp, Expression rightExp) {
+	public And (Expression leftExp, Expression rightExp) {
 		super(leftExp, rightExp);
 	}
 				
@@ -24,7 +24,7 @@ public class AndExpression extends BinaryExpression {
 	}
 
 	@Override
-	public ChoiceType getExpressionType() {
+	public ChoiceType getType() {
 		return new ChoiceType();
 	}
 }
