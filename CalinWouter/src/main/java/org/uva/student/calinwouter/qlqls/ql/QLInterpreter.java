@@ -3,7 +3,6 @@ package org.uva.student.calinwouter.qlqls.ql;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.PFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 
 public class QLInterpreter {
 
