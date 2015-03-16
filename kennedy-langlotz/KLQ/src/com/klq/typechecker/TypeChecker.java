@@ -1,4 +1,4 @@
-package com.klq.typecheker;
+package com.klq.typechecker;
 
 import com.klq.ast.ANode;
 import com.common.typechecker.error.AError;

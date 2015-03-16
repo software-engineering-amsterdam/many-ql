@@ -47,24 +47,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
 
-        if(ctx.answerOptions() == null){
-            if(ctx.type.getText().toLowerCase() == "boolean"){
-                List<AExpression> children = new ArrayList<AExpression>();
-                children.add(new StringNode("Yes"));
-                children.add(new StringNode("No"));
-                questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
-            }
-            else{
-                questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
-            }
-        }
-        else {
-            List<AExpression> children = new ArrayList<AExpression>();
-
-            for(KLQParser.ExprContext child : ctx.answerOptions().expr()){
-                children.add((AExpression) visit(child));
-            }
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
+        if(ctx.expr() != null){
+            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+        } else {
+            AExpression computedAnswer = (AExpression) visit(ctx.expr());
+            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
         }
         return questionNode;
     }

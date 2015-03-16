@@ -1,4 +1,4 @@
-package com.klq.typecheker;
+package com.klq.typechecker;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IExpressionVisitor;
@@ -81,17 +81,11 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
         cyclicDetector.addKey(node.getQuestionID());
         currentQuestion = node.getQuestionID();
 
-        if(node.getQuestionType() == Type.SET) {
-            for (ANode child : node.getChildren()) {
-                child.accept(this);
-            }
+        Type childType = (Type) node.getComputedAnswer().accept(this);
+        if(childType != node.getQuestionType()){
+            errors.add(new TypeMismatch(node, childType));
         }
-        else{
-            Type childType = (Type) node.getChildren().get(0).accept(this);
-            if(childType != node.getQuestionType()){
-                errors.add(new TypeMismatch(node, childType));
-            }
-        }
+
         return null;
     }
 
