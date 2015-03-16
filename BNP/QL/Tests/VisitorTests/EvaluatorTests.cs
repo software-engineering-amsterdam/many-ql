@@ -163,10 +163,7 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
             Assert.IsTrue(Handler.Evaluate());
-            Identifier i = new Identifier("Q1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
-            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            NumberWrapper nw = (NumberWrapper)Handler.GetWrappedValue("Q1");            
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
             Assert.IsTrue(Handler.Evaluate(), "reevaluation");
@@ -174,10 +171,7 @@ namespace Tests.VisitorTests
             nw.Value = 31; // new answer to the question
             Assert.IsTrue(Handler.Evaluate(), "reevaluation");
 
-            Identifier S1 = new Identifier("S1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
-            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            NumberWrapper S1_value = (NumberWrapper)Handler.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(31 * 2 + 123, S1_value.Value);
         }
@@ -194,20 +188,16 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
             Assert.IsTrue(Handler.Evaluate());
-            Identifier i = new Identifier("Q1");
-            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            NumberWrapper nw = (NumberWrapper)Handler.GetWrappedValue("Q1");
             
             nw.Value = 0; // new answer to the question, division by zero
             Assert.IsFalse(Handler.Evaluate(), "division by zero");
 
             Assert.IsInstanceOfType(Handler.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
             nw.Value = 1; // new answer to the question
-            Assert.IsFalse(Handler.Evaluate(), "reevaluation");
+            Assert.IsTrue(Handler.Evaluate(), "reevaluation failed");
 
-            Identifier S1 = new Identifier("S1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
-            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            NumberWrapper S1_value = (NumberWrapper)Handler.GetWrappedValue("S1");            
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(123+(123/1), S1_value.Value);
         }     

@@ -116,6 +116,10 @@ namespace QL
             {
                 throw new QLException("Ast is not built");
             }
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
 
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
             try
@@ -138,7 +142,10 @@ namespace QL
             {
                 throw new Exception("Not type checked");
             }
-
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
             EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
@@ -162,6 +169,10 @@ namespace QL
             {
                 throw new Exception("Expressions not evaluated");
             }
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
             UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
             try
             {
@@ -177,6 +188,21 @@ namespace QL
                 }
             return _uiEvaluated;
 
+        }
+        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        {
+            //convenience method for getting the Terminal wrapper based on identifier name. 
+            return GetWrappedValue(new Identifier(IdentifierName));
+        }
+        public ITerminalWrapper GetWrappedValue(Identifier i)
+        {
+            //convenience method for getting the Terminal wrapper based on Identifier node. 
+            if (!_evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+
+            return ReferenceLookupTable[IdentifierTable[i]];
         }
     }
 }
