@@ -32,7 +32,6 @@ public class QuestionNode extends AStatementNode {
         return visitor.visit(this);
     }
 
-    @Override
     public void printSelf(){
         System.out.printf("questionID: %s", questionID);
         System.out.println();

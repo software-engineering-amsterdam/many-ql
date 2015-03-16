@@ -11,6 +11,9 @@ public abstract class AListener {
 		this.evaluator = evaluator;
 	}
 	
-	public abstract void update();
+	public void update() {
+		evaluator.setValue(widget.getIdWidget().toString(), widget.getValue());	
+		evaluator.setValueInGUI();	
+	}
 }
 

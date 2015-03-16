@@ -18,14 +18,18 @@ public class Addition extends BinaryExpression {
 
     @Override
     public IntValue evaluate(Context context) {
-	return new IntValue(((IntValue) left.evaluate(context)).getValue()
-		+ ((IntValue) right.evaluate(context)).getValue());
+	return new IntValue(((IntValue) left.evaluate(context)).getValue() + ((IntValue) right.evaluate(context)).getValue());
     }
 
     @Override
     public Type getType(Context context) {
 	Type leftType = left.getType(context);
 	Type rightType = right.getType(context);
+	String  s = "PLUS";
+	switch(s){
+	case "PLUS": System.out.println(1);
+	case "MINUS": System.out.println(1);
+	}
 	if (leftType.isIntType() && rightType.isIntType()) {
 	    return new IntType();
 	} else {
