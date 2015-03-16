@@ -1,9 +1,6 @@
 package com.klq.ast;
 
-import com.klq.ast.impl.ComputedQuestionNode;
-import com.klq.ast.impl.ConditionalNode;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
@@ -36,7 +33,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
         QuestionnaireNode ast = new QuestionnaireNode(formatLocation(ctx));
 
         for(KLQParser.QuestionContext question : ctx.question()){
-            ast.getChildren().add(visit(question));
+            ast.getChildren().add((AStatementNode) visit(question));
         }
         return ast;
     }
@@ -56,11 +53,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
 
     @Override
     public ANode visitCondQuestion(KLQParser.CondQuestionContext ctx) {
-        ANode condition = visit(ctx.expr());
-        ArrayList<ANode> body = new ArrayList<ANode>();
+        AExpression condition = (AExpression) visit(ctx.expr());
+        ArrayList<AStatementNode> body = new ArrayList<AStatementNode>();
 
         for(KLQParser.QuestionContext question : ctx.question()){
-            body.add(visit(question));
+            body.add((AStatementNode) visit(question));
         }
 
         return new ConditionalNode(condition, body, formatLocation(ctx));

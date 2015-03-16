@@ -16,19 +16,25 @@ public class IfStatement extends Statement {
 		this.expression = _expression;
 		this.statement = _statement;
 	}
+	
 	public Expression getExpression(){
 		return this.expression;
 	}
+	
 	public List<Statement> getStatement(){
 		return this.statement;
 	}
-	public CodeLines getCodeLines(){
+	
+	@Override
+	public CodeLines getCodeLine() {
 		return this.codeLines;
 	}
+	
 	@Override
 	public <T> T accept(StatementVisitorInterface<T> visitor) {
 		return visitor.visitIfStatement(this);
 	}
+	
 	@Override
 	public String toString(){
 		return "IfStatement(" + this.expression.toString() + "," + this.statement.toString() + ")";

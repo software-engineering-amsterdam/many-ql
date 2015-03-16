@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\Model\DataType.cs" />
-    <Compile Include="AST\Model\INode.cs" />
     <Compile Include="AST\Model\Node.cs" />
     <Compile Include="AST\Building\ParserRuleContextExtensions.cs" />
     <Compile Include="AST\Model\TextPosition.cs" />

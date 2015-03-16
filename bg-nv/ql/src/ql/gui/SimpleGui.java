@@ -32,10 +32,10 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
         Canvas canvas = modeler.model(flat);
 
         SimpleGui gui = new SimpleGui(ast);
-
         DataStore dataStore = new DataStore(ast);
         //TODO: user feedback
         canvas.setSubmitAction(e -> dataStore.store(gui.valueTable));
+        canvas.accept(gui);
         gui.start(canvas, stage);
     }
 

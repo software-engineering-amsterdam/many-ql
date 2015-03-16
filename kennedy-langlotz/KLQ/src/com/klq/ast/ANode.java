@@ -14,11 +14,6 @@ public abstract class ANode {
         this.location = location;
     }
 
-    public abstract <T> T  accept(IVisitor<T> visitor);
-
-    public void printSelf() {
-    }
-
     public Location getLocation() {
         return location;
     }

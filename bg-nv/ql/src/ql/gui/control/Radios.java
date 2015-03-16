@@ -6,8 +6,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import ql.gui.ModelVisitor;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -71,7 +71,7 @@ public class Radios extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Void visit(UndefinedValue value)
+    public Void visit(UndefValue value)
     {
         this.trueRadio.setSelected(false);
         this.falseRadio.setSelected(false);
@@ -79,7 +79,7 @@ public class Radios extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Void visit(BooleanValue value)
+    public Void visit(BoolValue value)
     {
         //TODO: make sure this works - are the groups ok?
         if (value.getValue())

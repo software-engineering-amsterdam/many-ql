@@ -5,6 +5,7 @@ import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
 import ql.semantics.ValueTable;
+import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 28-02-2015
@@ -23,15 +24,15 @@ public class DateExprInput extends ExprInput
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public void setValue(Value value)
     {
-        return null;
+//        this.control.setValue(value);
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public <V> V accept(ModelVisitor<V> visitor)
     {
-
+        return null;
     }
 
     @Override

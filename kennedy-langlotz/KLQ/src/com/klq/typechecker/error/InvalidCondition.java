@@ -1,6 +1,6 @@
 package com.klq.typechecker.error;
 
-import com.klq.ast.impl.ConditionalNode;
+import com.klq.ast.impl.stmt.ConditionalNode;
 
 /**
  * Created by Juriaan on 1-3-2015.

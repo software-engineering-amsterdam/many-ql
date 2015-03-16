@@ -2,9 +2,11 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +59,7 @@ public class LabelText extends QLNode {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 

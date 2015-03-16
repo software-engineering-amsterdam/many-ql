@@ -76,6 +76,9 @@ class IfBlock(statement.IStatement):
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
+    def valid_type(self, td):
+        x = self._condition.is_valid_expression(td)
+        return x
 
     #################################
     # Getters of the if statement   #

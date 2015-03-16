@@ -29,11 +29,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             DefaultStyles = defaultStyles;
         }
 
-        public override void Accept(IQLSVisitor visitor)
-        {
-            visitor.VisitPage(this);
-        }
-
         public override T Accept<T>(IQLSVisitor<T> visitor)
         {
             return visitor.VisitPage(this);

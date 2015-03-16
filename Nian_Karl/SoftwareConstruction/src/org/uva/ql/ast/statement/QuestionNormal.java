@@ -37,10 +37,9 @@ public class QuestionNormal extends Statement {
 
 	@Override
 	public String toString() {
-		return "[Question] " + "\n\tIdentifier = " + identifier.toString() + "\n\tLabel = " + label.toString()
-				+ "\n\tType = " + type.toString();
+		return getIdentifier().toString();
 	}
-	
+
 	public String getText() {
 		return label.toString();
 	}

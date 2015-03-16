@@ -18,14 +18,14 @@ class DuplicatePlacementCheckerSpec extends Specification {
 
     "return one error if one question is placed multiple times" in {
       val sectionWithQuestions = Section("section", List(Question(Variable("x"), Text(List())), Question(Variable("x"), Text(List())), Question(Variable("y"), Text(List()))))
-      val errors = List(new Error("Question x is placed 2 times"))
+      val errors = List(Error("Question x is placed 2 times"))
 
       check(sectionWithQuestions) must beEqualTo(errors)
     }
 
     "return multiple errors if multiple questions are placed multiple times" in {
       val sectionWithQuestions = Section("section", List(Question(Variable("x"), Text(List())), Question(Variable("x"), Text(List())), Question(Variable("y"), Text(List())), Question(Variable("y"), Text(List()))))
-      val errors = List(new Error("Question y is placed 2 times"), new Error("Question x is placed 2 times"))
+      val errors = List(Error("Question y is placed 2 times"), Error("Question x is placed 2 times"))
 
       check(sectionWithQuestions) must beEqualTo(errors)
     }

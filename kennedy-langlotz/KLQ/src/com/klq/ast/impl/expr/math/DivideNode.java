@@ -1,7 +1,7 @@
 package com.klq.ast.impl.expr.math;
 
 import com.klq.ast.Location;
-import com.klq.ast.IVisitor;
+import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.NumberValue;
 import com.klq.ast.impl.expr.value.UndefinedValue;
@@ -26,7 +26,7 @@ public class DivideNode extends AMathNode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

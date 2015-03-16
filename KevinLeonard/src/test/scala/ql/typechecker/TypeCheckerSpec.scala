@@ -47,7 +47,7 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed boolean question with invalid expression" in {
       val question = Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1))))
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType()))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType()))
       
       check(question, EmptyEnvironment) must beEqualTo(result)
     }
@@ -61,7 +61,7 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed number question with invalid expression" in {
       val question = Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false))))
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType()))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType()))
       
       check(question, EmptyEnvironment) must beEqualTo(result)
     }
@@ -75,7 +75,7 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed string question with invalid expression" in {
       val question = Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1))))
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType()))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType()))
       
       check(question, EmptyEnvironment) must beEqualTo(result)
     }
@@ -89,14 +89,14 @@ class TypeCheckerSpec extends Specification {
 
     "return error, if invalid boolean condition" in {
       val ifBlock = IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None)
-      val result = (List(new Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
       
       check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in if block" in {
       val ifBlock = IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None)
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
       
       check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
@@ -110,21 +110,21 @@ class TypeCheckerSpec extends Specification {
 
     "return error, if invalid boolean condition (with else block)" in {
       val ifBlock = IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None)))
-      val result = (List(new Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
       
       check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in if block (with else block)" in {
       val ifBlock = IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None)))
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
       
       check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in else block" in {
       val ifBlock = IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1))))))
-      val result = (List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
       
       check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
@@ -492,7 +492,7 @@ class TypeCheckerSpec extends Specification {
     "detect duplicate question declarations" in {
       val question = Question(BooleanType(), Variable("X"), "label", None)
       val environmentWithQuestion = Map("X" -> BooleanType())
-      val errors = List(new Error("Variable X is already defined", Some(NoPosition)))
+      val errors = List(Error("Variable X is already defined", Some(NoPosition)))
 
       check(question, environmentWithQuestion) must beEqualTo((errors, environmentWithQuestion))
     }
