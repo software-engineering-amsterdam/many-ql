@@ -1,14 +1,13 @@
 package com.form.language.ast.expression;
 
-import org.antlr.v4.runtime.Token;
-
+import com.form.language.error.QLToken;
 import com.form.language.memory.IdCollection;
 
 public abstract class BinaryExpression extends Expression {
     protected Expression left;
     protected Expression right;
 
-    protected BinaryExpression(Expression left, Expression right, Token tokenInfo) {
+    protected BinaryExpression(Expression left, Expression right, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.left = left;
 	this.right = right;
