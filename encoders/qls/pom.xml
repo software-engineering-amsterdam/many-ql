@@ -32,6 +32,11 @@
 			<artifactId>controlsfx</artifactId>
 			<version>8.20.8</version>
 		</dependency>
+		<dependency>
+			<groupId>org.uva.sea.ql.encoders</groupId>
+			<artifactId>ql</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
