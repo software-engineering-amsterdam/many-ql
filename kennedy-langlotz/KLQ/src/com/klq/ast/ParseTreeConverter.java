@@ -1,6 +1,5 @@
 package com.klq.ast;
 
-import com.common.ast.Location;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
@@ -24,7 +23,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by juriaan on 16-2-15.
@@ -47,7 +45,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
 
-        if(ctx.expr() != null){
+        if(ctx.expr() == null){
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         } else {
             AExpression computedAnswer = (AExpression) visit(ctx.expr());

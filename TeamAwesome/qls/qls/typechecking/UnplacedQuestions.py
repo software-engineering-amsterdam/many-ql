@@ -11,7 +11,10 @@ class Checker(Checker.StatementChecker):
         )
 
         if qlQuestion is None:
-            self._result = self._result.withError(Message.Error(
-                "Undefined question `"+node.identifier+"`",
-                node
-            ))
+            self._result = self._resultAlg.withError(
+                self._result,
+                Message.Error(
+                    "Undefined question `"+node.identifier+"`",
+                    node
+                )
+            )

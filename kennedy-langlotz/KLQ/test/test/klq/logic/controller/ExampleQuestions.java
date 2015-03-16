@@ -80,7 +80,7 @@ public class ExampleQuestions{
         optionSet.add(new String("BAM"));
         Text text = new Text("New Kids?");
 
-        Question q = new Question(id, Type.SET, optionSet, text);
+        Question q = new Question(id, Type.BOOLEAN, optionSet, text);
         return q;
     }*/
 }

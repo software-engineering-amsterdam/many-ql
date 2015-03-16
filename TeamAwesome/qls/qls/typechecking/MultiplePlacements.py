@@ -13,7 +13,8 @@ class Checker(Checker.StatementChecker):
         for identifier, lines in self._questions.items():
             if len(lines) > 1:
                 for l in lines:
-                    self._result = self._result.withError(
+                    self._result = self._resultAlg.withError(
+                        self._result,
                         Message.Error(
                             'duplicate question placement `'+identifier+'`',
                             l

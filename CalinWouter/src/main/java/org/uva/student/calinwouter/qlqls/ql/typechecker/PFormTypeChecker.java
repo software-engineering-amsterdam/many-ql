@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.PTypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTypeTable;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 
 public class PFormTypeChecker extends AnalysisAdapter {
     private PExpTypeChecker pExpTypeChecker;
@@ -24,7 +24,7 @@ public class PFormTypeChecker extends AnalysisAdapter {
         pExpTypeChecker.checkLastEntryIsOfType(pTypeInterpreter.popValue());
     }
 
-    public PFormTypeChecker(VariableTypeTable variableTypeTable, TypeCheckResults typeCheckResults) {
-        this.pExpTypeChecker = new PExpTypeChecker(variableTypeTable, typeCheckResults);
+    public PFormTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
+        this.pExpTypeChecker = new PExpTypeChecker(staticFields, typeCheckResults);
     }
 }

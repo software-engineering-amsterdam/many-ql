@@ -28,13 +28,13 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
-        for (AbstractFormField f : qlIntepreter.getForm().getFields()) {
+        for (AbstractStaticFormField f : qlIntepreter.getForm().getFields()) {
             panel.add(render(f));
         }
         return panel;
     }
 
-    public Component render(AbstractFormField formField) {
+    public Component render(AbstractStaticFormField formField) {
         try {
             return formField.applyRenderer(this);
         } catch (FieldNotFoundException e) {
@@ -43,18 +43,18 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     }
 
     @Override
-    public Component render(QuestionField questionField) {
-        final String questionIdentifier = questionField.getVariable();
+    public Component render(StaticQuestionField staticQuestionField) {
+        final String questionIdentifier = staticQuestionField.getVariable();
         final TypeDescriptor typeDescriptor = formTypeChecker.getTypeDescriptor(questionIdentifier);
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, questionField, this, symbolTable);
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, this, symbolTable);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
 
     @Override
-    public Component render(ComputedValueField computedValueField) {
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueField, qlIntepreter, symbolTable);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValueField,
+    public Component render(StaticComputedValueField staticComputedValueField) {
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(staticComputedValueField, qlIntepreter, symbolTable);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(staticComputedValueField,
                     null,
                     valueRepresentingLabelWidget,
                     qlIntepreter,

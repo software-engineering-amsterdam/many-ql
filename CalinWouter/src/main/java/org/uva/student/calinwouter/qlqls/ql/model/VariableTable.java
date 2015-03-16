@@ -8,6 +8,10 @@ import java.util.Map;
 public class VariableTable {
     private Map<String, Value> variableMap;
 
+    public boolean isSet(String ident) {
+        return variableMap.get(ident) != null;
+    }
+
     public void setVariable(String ident, Value value) {
         variableMap.put(ident, value);
     }

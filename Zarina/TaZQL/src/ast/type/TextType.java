@@ -6,7 +6,7 @@ public class TextType extends Type {
 	public TextType() {}
 	
 	@Override
-	public String getValue() {
+	public String getName() {
 		return "text";
 	}
 	
