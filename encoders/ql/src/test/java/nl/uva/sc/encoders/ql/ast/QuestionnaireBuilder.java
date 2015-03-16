@@ -28,6 +28,7 @@ public class QuestionnaireBuilder {
 	}
 
 	public QuestionnaireBuilder withQuestions(List<Question> questions) {
+		statements.clear();
 		statements.addAll(questions);
 		return this;
 	}
