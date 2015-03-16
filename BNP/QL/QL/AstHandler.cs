@@ -44,7 +44,7 @@ namespace QL
         /// <summary>
         /// 
         /// </summary>
-        public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
         public IList<IRenderable> ElementsToDisplay;
 
@@ -57,7 +57,7 @@ namespace QL
         {
             ASTHandlerExceptions = new ObservableCollection<QLException>();
             TypeReference = new Dictionary<Identifier, Type>();
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
             ElementsToDisplay = new List<IRenderable>();
             _astBuilt = _typeChecked = _evaluated = _uiEvaluated = false;

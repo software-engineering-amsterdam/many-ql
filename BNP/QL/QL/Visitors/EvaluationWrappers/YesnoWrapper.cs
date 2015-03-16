@@ -8,7 +8,7 @@ using QL.Model.Terminals;
 
 namespace QL.Visitors
 {
-    public class YesnoWrapper:TerminalWrapper //TODO change to  struct
+    public class YesnoWrapper:ITerminalWrapper //TODO change to  struct
     {
         
         public bool? Value;

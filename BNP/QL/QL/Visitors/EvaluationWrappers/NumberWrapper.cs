@@ -10,7 +10,7 @@ using QL.Exceptions;
 
 namespace QL.Visitors
 {
-    public class NumberWrapper : TerminalWrapper//TODO change to  struct
+    public class NumberWrapper : ITerminalWrapper//TODO change to  struct
     {
         public int? Value;
         IResolvableTerminalType _node;

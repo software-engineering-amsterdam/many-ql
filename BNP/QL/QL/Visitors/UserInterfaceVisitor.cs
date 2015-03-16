@@ -16,14 +16,14 @@ namespace QL.Visitors
     {
         IList<IRenderable> ElementsToDisplay;
         private System.Collections.ObjectModel.ObservableCollection<QL.Exceptions.QLException> ASTHandlerExceptions;
-        private IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable;
+        private IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable;
         private IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable;
         public IList<QLException> Exceptions { get; private set; }
 
 
         public UserInterfaceVisitor(
             System.Collections.ObjectModel.ObservableCollection<QL.Exceptions.QLException> ASTHandlerExceptions,
-            IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable, 
+            IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable, 
             IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable, 
             IList<IRenderable> ElementsToDisplay
             )

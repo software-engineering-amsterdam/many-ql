@@ -55,8 +55,9 @@
     <Compile Include="Exceptions\QLException.cs" />
     <Compile Include="Exceptions\Warnings\QLWarning.cs" />
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="Visitors\EvaluatorVisitor.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\TerminalWrapper.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\ITerminalWrapper.cs" />
     <Compile Include="Evaluation\GUIBuilderVisitor.cs" />
     <Compile Include="Visitors\IVisitor.cs" />
     <Compile Include="Visitors\TypeCheckerVisitor.cs" />

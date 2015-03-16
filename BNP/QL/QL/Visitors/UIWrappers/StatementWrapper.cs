@@ -9,7 +9,7 @@ namespace QL.Visitors.UIWrappers
     public class StatementWrapper : IRenderable
     {
         private Model.StatementUnit node;
-        private TerminalWrapper terminalWrapper;
+        private ITerminalWrapper terminalWrapper;
         public string _text;
 
 
@@ -18,7 +18,7 @@ namespace QL.Visitors.UIWrappers
         public bool _editable;
         public string _value;
 
-        public StatementWrapper(Model.StatementUnit node, TerminalWrapper terminalWrapper)
+        public StatementWrapper(Model.StatementUnit node, ITerminalWrapper terminalWrapper)
         {
             // TODO: Complete member initialization
             this.node = node;

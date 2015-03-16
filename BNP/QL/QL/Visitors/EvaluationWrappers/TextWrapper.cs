@@ -8,7 +8,7 @@ using QL.Model.Terminals;
 
 namespace QL.Visitors
 {
-    public class TextWrapper : TerminalWrapper//TODO change to  struct
+    public class TextWrapper : ITerminalWrapper//TODO change to  struct
     {
         public string Value;
         IResolvableTerminalType _node;
