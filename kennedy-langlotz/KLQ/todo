@@ -47,6 +47,8 @@ Try to design the hierarchy such that the types ensure that you can only build v
 Same problem with QuestionnaireNode
 
 In QuestionMapper you see problem of not having a separate StatemenVisitor: lot of refused bequest (bogus methods on expression returning null).
+
+Also mentioned before: the firstPass and secondPass things *could* be used incorrectly: encode the dependency explicitly by letting the result of one pass be input to the second pass.
 ======================================================================================================================================================================================================
 EVERYTHING ABOVE THIS LINE IS FIXED
 ======================================================================================================================================================================================================
@@ -59,9 +61,6 @@ In Main this field is never initialize (Main is not instantiated, it seems):
  private Questionnaire questionnaire;
 
 Tangling in QuestionTable: it should do one thing (maintaining relation between name and question object), but it also checks for undefined names. This can be easily moved elsewhere. Also: again use List<> at declaration sites.
-
-
-Also mentioned before: the firstPass and secondPass things *could* be used incorrectly: encode the dependency explicitly by letting the result of one pass be input to the second pass.
 
 This is not so good: you use the accidental AST class types to check for QL types. Even though this could work, now it doesn't, since the BooleanNode is not an instance of ABooleanNode.
  if(node.getCondition() instanceof ABooleanNode) {

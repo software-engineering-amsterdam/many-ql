@@ -7,6 +7,7 @@ import com.klq.typechecker.error.NotUniqueID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,9 +15,9 @@ import java.util.Map;
  */
 public class QuestionTable {
     private Map<String, QuestionNode> table;
-    private ArrayList<AError> errors;
+    private List<AError> errors;
 
-    public QuestionTable(ArrayList<AError> errors) {
+    public QuestionTable(List<AError> errors) {
         this.errors = errors;
         table = new HashMap<String, QuestionNode>();
     }

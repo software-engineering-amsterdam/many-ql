@@ -20,7 +20,7 @@ import java.util.List;
  * Created by juriaan on 2-3-15.
  */
 public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementVisitor<Void> {
-    private ArrayList<AError> errors;
+    private List<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
     private String currentQuestion; //tracks for which question we are currently detecting the cycle
@@ -29,7 +29,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private List<Type> allowedBooleanExprTypes;
     private List<Type> allowedAndOrExprTypes;
 
-    public TypeCheckerVisitor(ArrayList<AError> errors, QuestionTable table) {
+    public TypeCheckerVisitor(List<AError> errors, QuestionTable table) {
         this.errors = errors;
         this.table = table;
         this.cyclicDetector = new CyclicDetector(); //TODO fill this and run it
