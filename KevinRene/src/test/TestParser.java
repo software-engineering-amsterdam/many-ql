@@ -45,7 +45,7 @@ public class TestParser {
 		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
-		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, boolean, "
 				+ "\"Did you sell a house in 2010?\")))", result.toString());
 	}
 	
@@ -57,7 +57,7 @@ public class TestParser {
 		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
-		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
+		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, float, "
 				+ "\"what is your house?\", 105050 * 238482 / 2342)))", result.toString());
 	}
 	
@@ -78,9 +78,9 @@ public class TestParser {
 		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
-		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, boolean, "
 				+ "\"Did you sell a house in 2010?\"), IfThen(5 == 5, "
-				+ "Block(Question(houseValue, QLFloat, \"Lol I dont care\")))))", result.toString());
+				+ "Block(Question(houseValue, float, \"Lol I dont care\")))))", result.toString());
 	}
 	
 	@Test
@@ -99,8 +99,8 @@ public class TestParser {
 		QLNode result = Parser.parse(myForm);
 		assertNotNull(result);
 		
-		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, boolean, "
 				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(houseValue, "
-				+ "QLFloat, \"Your house is worth:\", 5000.0)))", result.toString());
+				+ "float, \"Your house is worth:\", 5000.0)))", result.toString());
 	}	
 }

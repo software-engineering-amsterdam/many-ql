@@ -21,10 +21,10 @@ public class TestAddition extends BaseTest {
 				{ "10.5 + 5", true},
 				// Floats with floats.
 				{ "5.0 + 10.5", true},
-				// Additions with strings. Not allowed.
-				{ "\"String 1\" + 5", false},
-				{ "5 + \"String 1\"", false},
-				{ "\"String 1\" + \"String 2\"", false},
+				// Additions with strings. Concatenation
+				{ "\"String 1\" + 5", true},
+				{ "5 + \"String 1\"", true},
+				{ "\"String 1\" + \"String 2\"", true},
 				// Addition with booleans. Not allowed.
 				{ "true + 5", false},
 				{ "5 + true", false},
