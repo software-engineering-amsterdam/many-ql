@@ -26,7 +26,8 @@ public class AssignmentStatement extends Statement {
     public Type getType(Context context) {
 	return expression.getType(context);
     }
-
+    
+    @Override
     public void initMemory(Context context) {
 	context.setValue(id, expression.evaluate(context));
     }
