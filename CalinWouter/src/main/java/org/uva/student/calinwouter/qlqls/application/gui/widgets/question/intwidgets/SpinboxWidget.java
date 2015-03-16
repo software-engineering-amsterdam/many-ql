@@ -14,14 +14,14 @@ import java.awt.*;
 public class SpinboxWidget implements IWidget {
     private JSpinner spinner;
 
-    public SpinboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public SpinboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable variableTable) {
         spinner = new JSpinner(new SpinnerNumberModel());
 
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                symbolTable.setVariable(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
-                qlIntepreter.interpret();
+                variableTable.setVariable(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
+                qlIntepreter.interpret(variableTable);
             }
         });
     }

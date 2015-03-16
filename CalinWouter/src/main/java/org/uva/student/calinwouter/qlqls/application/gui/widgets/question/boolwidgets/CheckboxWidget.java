@@ -5,6 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
@@ -20,26 +21,14 @@ public class CheckboxWidget implements IWidget {
         return checkbox;
     }
 
-    public CheckboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTable variableTable) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                symbolTable.setVariable(question.getIdent(), new BoolValue(checkbox.isSelected()));
-                qlIntepreter.interpret();
-            }
-        });
-    }
-
-    public CheckboxWidget(final StaticQuestionField staticQuestionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
-        this.checkbox = new JCheckBox();
-
-        checkbox.addItemListener( new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                symbolTable.setVariable(staticQuestionField.getVariable(), new BoolValue(checkbox.isSelected()));
-                qlIntepreter.interpret();
+                variableTable.setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
+                qlIntepreter.interpret(variableTable);
             }
         });
     }

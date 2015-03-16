@@ -21,14 +21,14 @@ public class SliderWidget implements IWidget {
         return sliderWidget;
     }
 
-    public SliderWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Slider slider) {
+    public SliderWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable variableTable, Slider slider) {
         this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
 
         sliderWidget.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                symbolTable.setVariable(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
-                qlIntepreter.interpret();
+                variableTable.setVariable(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
+                qlIntepreter.interpret(variableTable);
             }
         });
     }

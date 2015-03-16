@@ -20,7 +20,7 @@ public class ComboWidget implements IWidget {
         return yesNoComboBox;
     }
 
-    public ComboWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Combo combo) {
+    public ComboWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable variableTable, Combo combo) {
         yesNoComboBox = new JComboBox(new String[]{combo.getYesLbl(), combo.getNoLbl()});
         yesNoComboBox.setSelectedIndex(-1);
 
@@ -29,13 +29,13 @@ public class ComboWidget implements IWidget {
             public void itemStateChanged(ItemEvent e) {
                 if (yesNoComboBox.getSelectedIndex() == 0) {
                     System.out.println("true");
-                    symbolTable.setVariable(question.getIdent(), new BoolValue(true));
-                    qlIntepreter.interpret();
+                    variableTable.setVariable(question.getIdent(), new BoolValue(true));
+                    qlIntepreter.interpret(variableTable);
                     return;
                 }
                 System.out.println("false");
-                symbolTable.setVariable(question.getIdent(), new BoolValue(false));
-                qlIntepreter.interpret();
+                variableTable.setVariable(question.getIdent(), new BoolValue(false));
+                qlIntepreter.interpret(variableTable);
             }
         });
     }

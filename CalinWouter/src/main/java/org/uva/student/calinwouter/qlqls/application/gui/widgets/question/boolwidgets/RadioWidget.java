@@ -20,7 +20,7 @@ public class RadioWidget implements IWidget {
         return btnPanelYesNo;
     }
 
-    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Radio radio) {
+    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable variableTable, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
         JRadioButton yesBtn = new JRadioButton(radio.getYesLbl());
         JRadioButton noBtn = new JRadioButton(radio.getNoLbl());
@@ -34,8 +34,8 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("true");
-                symbolTable.setVariable(question.getIdent(), new BoolValue(true));
-                qlIntepreter.interpret();
+                variableTable.setVariable(question.getIdent(), new BoolValue(true));
+                qlIntepreter.interpret(variableTable);
             }
         });
 
@@ -43,8 +43,8 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("false");
-                symbolTable.setVariable(question.getIdent(), new BoolValue(false));
-                qlIntepreter.interpret();
+                variableTable.setVariable(question.getIdent(), new BoolValue(false));
+                qlIntepreter.interpret(variableTable);
             }
         });
     }
