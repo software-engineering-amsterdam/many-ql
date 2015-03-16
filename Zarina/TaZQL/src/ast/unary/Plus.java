@@ -2,12 +2,12 @@ package ast.unary;
 
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 import ast.type.Type;
 
-public class MinusExpression extends UnaryExpression {
+public class Plus extends Unary {
 	
-	public MinusExpression (Expression expression) {
+	public Plus (Expression expression) {
 		super(expression);
 	}
 
@@ -18,11 +18,13 @@ public class MinusExpression extends UnaryExpression {
 
 	@Override
 	public String toString() {
-		return " - " + this.getUnaryExpression().toString();
+		return " + " + this.getUnaryExpression().toString();
 	}
 
 	@Override
-	public Type getExpressionType() {
-		return new DigitsType();
+	public Type getType() {
+		return new IntegerType();
 	}
 }
+
+
