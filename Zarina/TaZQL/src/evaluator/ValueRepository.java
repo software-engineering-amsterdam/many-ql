@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import ast.type.Type;
+
 public class ValueRepository {
 	private final Map<String, Value> valueRepository; 
 	
@@ -29,5 +31,9 @@ public class ValueRepository {
 	public Set<String> getIDkeys() {
 		Set<String> keys = valueRepository.keySet();
 		return keys;
+	}
+	
+	public Map<String, Value> getValueRepository() {
+		return valueRepository;
 	}
 }

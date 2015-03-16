@@ -1,7 +1,6 @@
 package com.klq.ast.impl.expr;
 
 import com.klq.ast.Location;
-import com.klq.ast.IVisitor;
 
 /**
  * Created by Juriaan on 21-2-2015.

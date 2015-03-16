@@ -16,9 +16,6 @@ class Question(statement.IStatement):
         self._id = qid
         self._label = label
         self._type = qtype
-        self._order = None
-        self.element = None
-        self.parentCondition = None
 
 
     # pretty print ast, with level giving the indentation
@@ -48,22 +45,9 @@ class Question(statement.IStatement):
             dependencies[self._id] = []
         return dependencies
 
-    # set the _order number of the statement, only set once
-    def set_order(self, order_num):
-        if not self._order:
-            self._order = order_num
-            return self._order + 1
-        else:
-            print("Warning: _order set more than once")
-        return self._order + 1
-
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         return {self._id: self._type.pretty_print()}
-
-    # Get the _order of elements in the statement
-    def get_order(self):
-        return self._order
 
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
@@ -98,6 +82,8 @@ class Question(statement.IStatement):
     def get_parent_condition(self):
         return self.parentCondition
 
+    def valid_type(self, td):
+        return True
 
 
 

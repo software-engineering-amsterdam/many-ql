@@ -7,4 +7,4 @@ gem 'require_all'
 gem 'jrubyfx'
 gem 'ruby-debug'
 gem 'racc'
-
+gem 'data_uri'

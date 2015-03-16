@@ -34,7 +34,6 @@ public class ConditionalNode extends AStatementNode {
         return children;
     }
 
-    @Override
     public void printSelf() {
         System.out.printf("Condition class: %s", condition.getClass());
         System.out.println();

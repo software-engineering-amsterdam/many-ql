@@ -31,9 +31,26 @@ public class CustomType implements QuestionType {
     @Override
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
         ToggleGroup group = new ToggleGroup();
+        String id = q.getIdentifier().get().getId();
+        String selectedButton = answerMap.get(id);
+
+        group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+            RadioButton rb = (RadioButton)newToggle.getToggleGroup().getSelectedToggle();
+            answerMap.put(id, rb.getText());
+            if (oldToggle != null && !oldToggle.equals(newToggle)){
+                visualizer.visualize(q.hashCode());
+            }
+        });
+
         for (StringResult option : multipleChoice) {
             RadioButton radioButton = new RadioButton(option.getResult());
             radioButton.setToggleGroup(group);
+            if (option.getResult().equals(selectedButton)){
+                radioButton.setSelected(true);
+                if (visualizer.getFocusId() == q.hashCode()){
+                    visualizer.setFocusedNode(radioButton);
+                }
+            }
             parent.getChildren().add(radioButton);
         }
     }

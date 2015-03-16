@@ -56,7 +56,7 @@ public class InputBuilder implements TypeVisitor<Input>
     }
 
     @Override
-    public Input visit(UndefinedType type)
+    public Input visit(UndefType type)
     {
         return null;
     }

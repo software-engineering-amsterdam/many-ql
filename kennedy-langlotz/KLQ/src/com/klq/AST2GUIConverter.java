@@ -2,7 +2,6 @@ package com.klq;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.IVisitor;
 import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
