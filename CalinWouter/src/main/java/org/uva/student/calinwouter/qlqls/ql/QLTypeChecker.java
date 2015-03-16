@@ -7,17 +7,22 @@ import org.uva.student.calinwouter.qlqls.ql.typechecker.PFormTypeChecker;
 
 public class QLTypeChecker {
     private final AForm aForm;
+    private final StaticFields staticFields;
 
     public TypeCheckResults typeCheck() {
         TypeCheckResults typeCheckResults = new TypeCheckResults();
-        StaticFields staticFields = QLStaticAnalyser.collectStaticFields(aForm);
         PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
         aForm.apply(formTypeChecker);
         return typeCheckResults;
     }
 
-    public QLTypeChecker(AForm aForm) {
+    public QLTypeChecker(AForm aForm, StaticFields staticFields) {
         this.aForm = aForm;
+        this.staticFields = staticFields;
+    }
+
+    public QLTypeChecker(AForm aForm) {
+        this(aForm, new QLStaticAnalyser(aForm).collectStaticFields());
     }
 
 }
