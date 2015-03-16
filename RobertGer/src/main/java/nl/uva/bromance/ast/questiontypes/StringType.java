@@ -26,13 +26,13 @@ public class StringType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
         TextField tf = new TextField();
         String id = q.getIdentifier().get().getId();
 
-        String answer = answerMap.get(id);
+        StringResult answer = (StringResult) answerMap.get(id);
         if (answer != null) {
-            tf.setText(answer);
+            tf.setText(answer.getResult());
         }
         if (visualizer.getFocusId() == q.hashCode()){
             visualizer.setFocusedNode(tf);
@@ -40,7 +40,7 @@ public class StringType implements QuestionType {
 
         // Disable any input other than numbers
         tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                answerMap.put(id, newValue);
+                answerMap.put(id, new StringResult(newValue));
                 visualizer.visualize(q.hashCode());
         });
         parent.getChildren().add(tf);

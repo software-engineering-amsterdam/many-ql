@@ -1,14 +1,13 @@
 package ql.gui;
 
 import ql.gui.canvas.Canvas;
-import ql.gui.control.CheckBox;
-import ql.gui.control.Radios;
-import ql.gui.control.TextField;
+import ql.gui.control.*;
 import ql.gui.input.*;
 import ql.gui.label.Label;
 import ql.gui.segment.Conditional;
 import ql.gui.segment.Row;
 import ql.gui.segment.Page;
+import ql.gui.segment.Section;
 
 /**
  * Created by Nik on 23-2-15.
@@ -20,6 +19,7 @@ public interface ModelVisitor<T>
     public T visit(Page page);
     public T visit(Conditional section);
     public T visit(Row row);
+    public T visit(Section section);
 
     public T visit(Label label);
 
@@ -34,4 +34,7 @@ public interface ModelVisitor<T>
     public T visit(TextField control);
     public T visit(CheckBox control);
     public T visit(Radios control);
+    public T visit(Slider control);
+    public T visit(Spinbox control);
+    public T visit(Dropdown control);
 }

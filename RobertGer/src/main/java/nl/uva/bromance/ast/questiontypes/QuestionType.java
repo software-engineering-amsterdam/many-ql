@@ -17,6 +17,6 @@ public interface QuestionType {
 
     public Result getCorrespondingResultType();
 
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q);
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q);
 
 }

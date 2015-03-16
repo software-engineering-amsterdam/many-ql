@@ -19,7 +19,17 @@ import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 public class Gui extends Application {
 
 	public static void main(String[] args) {
-		launch(args);
+		//launch(args);
+		System.out.println("isValid: " + isValid("11"));
+		System.out.println("isValid: " + isValid("11.00"));
+		System.out.println("isValid: " + isValid("11"));
+	}
+	
+	public static boolean isValid(String input) {
+		if (input.matches("\\d+(\\.\\d+)")) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

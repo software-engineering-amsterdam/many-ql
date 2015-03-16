@@ -28,7 +28,7 @@ public class ExpressionEvaluatorTest extends ASTTest {
                 "}";
         AST<QLNode> ast = createAst(content);
 
-        new ExpressionEvaluator().evaluate(ast.getRoot());
+        new ExpressionEvaluator(null).evaluate(ast.getRoot());
 
         List<Expression> expressions = ast.getAllChildrenOfType_ForAst(Expression.class);
         assertThat(expressions.get(0).getResult()).isInstanceOf(IntResult.class);

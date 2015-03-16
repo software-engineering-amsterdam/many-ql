@@ -28,12 +28,13 @@ public class TextQuestion extends TextField implements BaseQuestion<String> {
 	}
 
 	@Override
-	public void undoChange(String oldValue) {
-		this.setText(oldValue);		
+	public void reset() {
+		this.setText("");
 	}
 
 	@Override
-	public void reset() {
-		this.setText("");		
+	public String undoChange(String newValue, String oldValue) {
+		this.setText(oldValue);
+		return this.getText();
 	}
 }

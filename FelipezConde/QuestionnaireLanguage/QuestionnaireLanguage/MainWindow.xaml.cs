@@ -16,15 +16,15 @@ namespace QuestionnaireLanguage
         {
             InitializeComponent();
 
-            //string path = @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
-            string path =  @"C:\Users\Jonatan\Desktop\Software Construction\QL Assignment\many-ql\FelipezConde\testsamples\";
-            string fileName = "demo.txt";
+            string path = @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
+            //string path =  @"C:\Users\Jonatan\Desktop\Software Construction\QL Assignment\many-ql\FelipezConde\testsamples\";
+            string fileName = "test2.txt";
 
             TestClass test = new TestClass();
             ASTResult ast = test.GetAST(path + fileName);
 
             MainPresenter procesor = new MainPresenter(this, ast);
-            MainPresenter.ProcessBody(ast.Ast.GetBody(), this._stack);
+            procesor.ProcessBody(ast.Ast.GetBody(), this._stack);
         }
 
         public UIElement GetRootElement()

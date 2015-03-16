@@ -42,6 +42,6 @@ public class Spinbox extends ControlElement implements BoolControl
     @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
-        return null;
+        return visitor.visit(this);
     }
 }
