@@ -6,8 +6,8 @@ import ql.ast.visitor.ExpressionVisitor;
 import qls.QLSValue;
 import qls.ast.visitor.QLSVisitor;
 
-public abstract class QLSLiteral<T extends QLSValue> extends Literal<T> {
-	public QLSLiteral(T value) {
+public abstract class QLSLiteral<U extends QLSValue> extends Literal<U> {
+	public QLSLiteral(U value) {
 		super(value);
 	}
 
@@ -17,9 +17,9 @@ public abstract class QLSLiteral<T extends QLSValue> extends Literal<T> {
 	}
 	
 	@Override
-	public <U> U accept(ExpressionVisitor<U> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		throw new UnsupportedOperationException();
 	}
 	
-	public abstract <U> U accept(QLSVisitor<U> visitor);
+	public abstract <T> T accept(QLSVisitor<T> visitor);
 }
