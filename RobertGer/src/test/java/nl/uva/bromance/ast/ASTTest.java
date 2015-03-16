@@ -8,6 +8,8 @@ import nl.uva.bromance.parsers.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,8 +21,10 @@ import java.io.IOException;
  * */
 public class ASTTest extends ParsingTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
-    protected AST createAst(String content) throws IOException {
+    protected AST<QLNode> createAst(String content) throws IOException {
         QLLexer lexer = new QLLexer(new ANTLRInputStream(new ByteArrayInputStream(content.getBytes())));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParseTreeListener listener = new QLParseTreeListener();

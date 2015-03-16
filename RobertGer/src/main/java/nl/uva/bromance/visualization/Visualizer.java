@@ -11,6 +11,9 @@ import nl.uva.bromance.ast.AST;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.QLSNode;
 import nl.uva.bromance.ast.QLSPage;
+import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
+import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.util.QLFileReader;
 import nl.uva.bromance.util.QLSFileReader;
 import org.controlsfx.dialog.Dialogs;
@@ -71,9 +74,6 @@ public class Visualizer {
                 qlsAst = null;
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
-                    // TODO: Re enable evaluator and typechecker
-                    //TypeChecker tc = new TypeChecker(ast);
-                    //tc.runChecks();
                 } catch (IOException e) {
                     Dialogs.create()
                             .owner(stage)
@@ -111,14 +111,21 @@ public class Visualizer {
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
     }
 
+    //TODO: Method length is a bit much. Consider restructuring.
     public void visualize(int focusId) {
         this.focusId = focusId;
         setBaseView();
-        System.out.println("Running visualizer!");
+
+        //TODO:Think if something explicit, to know when it was a refresh.
+        new ExpressionEvaluator().evaluate(qlAst.getRoot());
+        new ConditionalHandler().handle(qlAst.getRoot());
+
         Optional<? extends Pane> pagePane = Optional.of(pages);
         Optional<? extends Pane> questionPane = Optional.of(questions);
-        //ExpressionEvaluator ee = new ExpressionEvaluator(qlAst);
+
+        //TODO: This it to long, break it up in smaller methods.
         if (qlsAst != null) {
+
             for (QLSNode n : qlsAst.getRoot().getChildren()) {
                 if (n instanceof QLSPage) {
                     QLSPage page = (QLSPage) n;

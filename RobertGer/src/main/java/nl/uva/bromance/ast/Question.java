@@ -25,6 +25,7 @@ public class Question extends QLNode implements HasIdentifier {
     private Range questionRange;
     private boolean isVisible = true;
 
+    //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber, Question.class);
         this.identifier = identifier;
@@ -77,7 +78,7 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
         if (isVisible) {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
@@ -124,14 +125,6 @@ public class Question extends QLNode implements HasIdentifier {
 
     public boolean isQuestionTypeString() {
         return questionType instanceof StringType;
-    }
-
-    public boolean isQuestionTypeInteger() {
-        return questionType instanceof IntegerType;
-    }
-
-    public boolean isQuestionTypeCustom() {
-        return questionType instanceof CustomType;
     }
 
     public void setMultipleChoiceOptions(List<TerminalNode> options) {

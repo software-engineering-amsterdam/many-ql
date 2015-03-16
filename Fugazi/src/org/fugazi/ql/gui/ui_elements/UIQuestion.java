@@ -17,9 +17,19 @@ public abstract class UIQuestion extends Colleague {
         this.widget = _widget;
     }
 
+    public abstract void setState(ExpressionValue _value);
     public abstract ExpressionValue getState();
-    
+
     public abstract void resetState();
+
+    public void addToForm(UIForm _form) {
+        this.widget.render(_form);
+    }
+
+    public void removeFromForm(UIForm _form) {
+        this.widget.supress(_form);
+        this.resetState();
+    }
 
     @Override
     public String getId() {

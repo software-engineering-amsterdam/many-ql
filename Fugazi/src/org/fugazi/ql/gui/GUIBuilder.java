@@ -12,7 +12,7 @@ import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
-import org.fugazi.ql.gui.visitor.UIQuestionBuilder;
+import org.fugazi.ql.gui.ui_elements.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.util.*;
@@ -29,17 +29,6 @@ public class GUIBuilder implements IMediator {
     
     private UIQuestionBuilder uiQuestionBuilder;
 
-    // Todo temporary to test QLS.
-    public GUIBuilder(Form _form) {
-        this.valueStorage = new ValueStorage();
-        this.guiEvaluator = new GUIEvaluator(valueStorage);
-        this.uiForm = new UIForm(_form.getName());
-        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, new WidgetsFactory());
-
-        this.addIfStatementsToQuestion(_form);
-        this.addComputedQuestions(_form);
-    }
-    
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
@@ -49,61 +38,60 @@ public class GUIBuilder implements IMediator {
         this.addIfStatementsToQuestion(_form);
         this.addComputedQuestions(_form);
     }
-    
+
     public void renderUI() {
-        setupForm();
-        uiForm.showForm();
+        this.setupForm();
+        this.uiForm.showForm();
     }
 
     @Override
     public void getChangeFromColleagues(Colleague _origin) {
-        valueStorage.saveValue(_origin.getId(), _origin.getState());
-        checkComputedQuestions();
-        renderUI();
+        this.valueStorage.saveValue(_origin.getId(), _origin.getState());
+        this.checkComputedQuestions();
+        this.renderUI();
     }
 
     private void setupForm() {
-        for (UIQuestion uiQuestion : questionsWithState.keySet()) {
+        for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
             if (isQuestionStateTrue(uiQuestion)) {
-                addQuestionToForm(uiQuestion);
+                this.addQuestionToForm(uiQuestion);
             } else {
-                removeQuestionFromForm(uiQuestion);
+                this.removeQuestionFromForm(uiQuestion);
             }
         }
     }
 
     private void addQuestionToForm(UIQuestion _uiQuestion) {
-        if (!questionsInForm.contains(_uiQuestion)) {
-            questionsInForm.add(_uiQuestion);
-            uiForm.addQuestion(_uiQuestion);
+        if (!this.questionsInForm.contains(_uiQuestion)) {
+            this.questionsInForm.add(_uiQuestion);
+            _uiQuestion.addToForm(this.uiForm);
         }
     }
 
     private void removeQuestionFromForm(UIQuestion _uiQuestion) {
-        if (questionsInForm.contains(_uiQuestion)) {
-            questionsInForm.remove(_uiQuestion);
-            _uiQuestion.resetState();
-            uiForm.removeQuestion(_uiQuestion);
+        if (this.questionsInForm.contains(_uiQuestion)) {
+            this.questionsInForm.remove(_uiQuestion);
+            _uiQuestion.removeFromForm(this.uiForm);
         }
     }
 
     private void addComputedQuestions(Form _form) {
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        computedQuestions = formDataStorage.getComputedQuestions();
+        this.computedQuestions = formDataStorage.getComputedQuestions();
     }
 
     private void checkComputedQuestions() {
-        for (ComputedQuestion computedQuestion : computedQuestions) {
-            for (UIQuestion uiQuestion : questionsWithState.keySet()) {
+        for (ComputedQuestion computedQuestion : this.computedQuestions) {
+            for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
                 if (computedQuestion.getIdName().equals(uiQuestion.getId())) {
-                    changeSingleComputedQuestion(computedQuestion, uiQuestion);
+                    this.changeSingleComputedQuestion(computedQuestion, uiQuestion);
                 }
             }
         }
     }
     
     private void changeSingleComputedQuestion(ComputedQuestion _computedQuestion, UIQuestion _uiQuestion) {
-        ExpressionValue result = guiEvaluator.evaluateComputedExpression(_computedQuestion);
+        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
         UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) _uiQuestion;
         uiComputedQuestion.setComputedValue(result);
     }
@@ -116,13 +104,13 @@ public class GUIBuilder implements IMediator {
         // Get all the questions of the form.
         for (Question question : questionsList) {
             UIQuestion uiQuestion = createUiQuestion(question);
-            valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
-            questionsWithState.put(uiQuestion, new ArrayList<>());
+            this.valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
+            this.questionsWithState.put(uiQuestion, new ArrayList<>());
 
             // get if statements which the questionsInForm are included.
             for (IfStatement ifStatement : ifStatementsList) {
                 if (ifStatement.getBody().contains(question)) {
-                    questionsWithState.get(uiQuestion).add(ifStatement);
+                    this.questionsWithState.get(uiQuestion).add(ifStatement);
                 }
             }
         }
@@ -130,8 +118,8 @@ public class GUIBuilder implements IMediator {
 
     private boolean isQuestionStateTrue(UIQuestion _question) {
         boolean isTrue = true;
-        for (IfStatement ifStatement : questionsWithState.get(_question)) {
-            if (!guiEvaluator.evaluateIfStatement(ifStatement)) {
+        for (IfStatement ifStatement : this.questionsWithState.get(_question)) {
+            if (!this.guiEvaluator.evaluateIfStatement(ifStatement)) {
                 isTrue = false;
             }
         }
