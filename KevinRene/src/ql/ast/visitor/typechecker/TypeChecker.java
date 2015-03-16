@@ -89,41 +89,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 		return typeChecker.getErrorEnvironment();
 	}	
-	
-	/**
-	 * Checks whether the given expression passes the type checker. 
-	 * If the types are not compatible with the given compatibleWith type
-	 * then an error is added to the errors list.
-	 * @param expression
-	 * @param expectedTypes The QLType the operands should be compatible with
-	 */
-	private QLType checkExpression(Expression expression) {		
-		List<QLType> operandTypes = expression.getOperands()
-				.stream()
-				.map(operand -> operand.accept(this))
-				.collect(Collectors.toList());
-				
-		// Both operands should be compatible with compatibleWith
-		if (!isCompatibleWith(expression, operandTypes)) {
-			errorEnvironment.addError(new TypeError(expression, expression.getCompatibilities(), operandTypes));
-		}
 		
-		return expression.getType();
-	}
-	
-	/**
-	 * Checks whether the operands of an expression are compatible with the
-	 * expected QLType.
-	 * @param expr
-	 * @param compatibleWith
-	 */
-	public boolean isCompatibleWith(Expression expression, List<QLType> operandTypes) {		
-		return operandTypes
-				.stream()
-				.map(type -> expression.compatibleWith(type))
-				.allMatch(a -> a);
-	}	
-	
 	/**
 	 * OPERATORS 
 	 */
@@ -133,7 +99,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = add.getRight().accept(this);
 		
 		if (!lhs.add(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(add, lhs, rhs));
 		}
 		
 		return add.getType();
@@ -145,7 +111,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = div.getRight().accept(this);
 		
 		if (!lhs.divide(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(div, lhs, rhs));
 		}
 		
 		return div.getType();
@@ -157,7 +123,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = mul.getRight().accept(this);
 		
 		if (!lhs.multiply(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(mul, lhs, rhs));
 		}
 		
 		return mul.getType();
@@ -169,7 +135,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = sub.getRight().accept(this);
 		
 		if (!lhs.subtract(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(sub, lhs, rhs));
 		}
 		
 		return sub.getType();
@@ -180,7 +146,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType lhs = neg.getExpression().accept(this);
 		
 		if (!lhs.negative()) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(neg, lhs));
 		}
 		
 		return neg.getType();
@@ -191,7 +157,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType lhs = pos.getExpression().accept(this);
 		
 		if (!lhs.positive()) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(pos, lhs));
 		}
 		
 		return pos.getType();
@@ -210,7 +176,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = eq.getRight().accept(this);
 		
 		if (!lhs.equalTo(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(eq, lhs, rhs));
 		}
 		
 		return eq.getType();
@@ -222,7 +188,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = neq.getRight().accept(this);
 		
 		if (!lhs.notEqualTo(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(neq, lhs, rhs));
 		}
 		
 		return neq.getType();
@@ -238,7 +204,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = geq.getRight().accept(this);
 		
 		if (!lhs.greaterOrEqual(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(geq, lhs, rhs));
 		}
 		
 		return geq.getType();
@@ -250,7 +216,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = gt.getRight().accept(this);
 		
 		if (!lhs.greaterThan(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(gt, lhs, rhs));
 		}
 		
 		return gt.getType();
@@ -262,7 +228,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = leq.getRight().accept(this);
 		
 		if (!lhs.lowerOrEqual(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(leq, lhs, rhs));
 		}
 		
 		return leq.getType();
@@ -274,7 +240,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = lt.getRight().accept(this);
 		
 		if (!lhs.lowerThan(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(lt, lhs, rhs));
 		}
 		
 		return lt.getType();
@@ -287,7 +253,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = and.getRight().accept(this);
 		
 		if (!lhs.and(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(and, lhs, rhs));
 		}
 		
 		return and.getType();
@@ -299,7 +265,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType rhs = or.getRight().accept(this);
 		
 		if (!lhs.or(rhs)) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(or, lhs, rhs));
 		}
 		
 		return or.getType();
@@ -310,7 +276,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType lhs = not.getExpression().accept(this);
 		
 		if (!lhs.not()) {
-			// TODO error
+			errorEnvironment.addError(new TypeError(not, lhs));
 		}
 		
 		return not.getType();
