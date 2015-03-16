@@ -11,13 +11,14 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class QLSCheckBox extends AbstractQLSWidget {
 
+    private BoolValue value;
     private JCheckBox component;
 
     public QLSCheckBox() {
@@ -57,20 +58,28 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
-        //todo
+
+        component.addItemListener(
+                new ItemListener() {
+                    public void itemStateChanged(ItemEvent e) {
+                        _listener.stateChanged();
+                    }
+                }
+        );
     }
 
     @Override
     public BoolValue getWidgetValue() {
-        return new BoolValue(this.component.isSelected());
+        this.value = new BoolValue(this.component.isSelected());
+        return value;
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        BoolValue value = (BoolValue) _value;
-        this.component.setSelected(value.getValue());
-    } 
-    
+        this.value = (BoolValue) _value;
+        this.component.setSelected(this.value.getValue());
+    }
+
     @Override
     public void setReadOnly(boolean _isReadonly) {
         this.component.setEnabled(false);

@@ -42,7 +42,7 @@ public class CheckBox implements IWidget {
 
     @Override
     public BoolValue getWidgetValue() {
-        value = new BoolValue(this.component.isSelected());
+        this.value = new BoolValue(this.component.isSelected());
         return value;
     }
 

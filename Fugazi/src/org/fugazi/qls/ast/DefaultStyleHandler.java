@@ -158,7 +158,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     
     private void setWidgetFromDeclaration(QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
-            Type questionType = getQLQuestionType(_question);
+            Type questionType = this.getQLQuestionType(_question);
             Type currentDeclarationType = currentDeclaration.getQuestionType();
 
             // if there is a style declaration for the question's type
