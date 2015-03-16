@@ -32,22 +32,35 @@ import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final Map<String, Type> identifiers = new HashMap<>();
+    private final Map<String, Type> identifierTypes = new HashMap<>();
 
     private void addIdentifier(String _name, Type _type) {
-        identifiers.put(_name, _type);
+        identifierTypes.put(_name, _type);
     }
 
-    private Type getIdentifierType(String _name) {
-        return identifiers.containsKey(_name) ? identifiers.get(_name) : new UndefinedType();
-    }
-    
     private String removeStringQuotes(String _str) {
         return _str.replaceAll("^\"|\"$", "");
     }
 
     private int getLineNumber(ParserRuleContext ctx) {
         return ctx.getStart().getLine();
+    }
+
+    private Type getIdentifierType(String _name) {
+        return (
+                identifierTypes.containsKey(_name) ?
+                    identifierTypes.get(_name) : new UndefinedType()
+        );
+    }
+
+    /**
+     * =======================
+     * Exposed
+     * =======================
+     */
+
+    public Map<String, Type> getIdentifierTypes() {
+        return this.identifierTypes;
     }
 
     /**

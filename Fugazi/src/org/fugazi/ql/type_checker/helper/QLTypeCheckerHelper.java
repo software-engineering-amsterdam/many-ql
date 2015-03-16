@@ -9,10 +9,6 @@ import org.fugazi.ql.ast.type.*;
  */
 public class QLTypeCheckerHelper {
 
-    public static boolean isDefined(ID idLiteral) {
-        return !(idLiteral.getType().equals(new UndefinedType()));
-    }
-
     // TODO put it in expression
 
     public static boolean isExpressionOfTypeBool(Expression expression) {

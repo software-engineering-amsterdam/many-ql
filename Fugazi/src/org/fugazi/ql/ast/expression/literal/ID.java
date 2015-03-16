@@ -2,6 +2,7 @@ package org.fugazi.ql.ast.expression.literal;
 
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.UndefinedType;
 
 public class ID extends Literal {
 
@@ -18,9 +19,9 @@ public class ID extends Literal {
         return this.name;
     }
 
-    public Type getType() {
-        return this.type;
-    }
+//    public Type getType() {
+//        return this.type;
+//    }
 
     @Override
     public String toString() {
@@ -44,17 +45,12 @@ public class ID extends Literal {
         }
 
         ID other = (ID) obj;
-        return (
-                this.getName().equals(other.getName())
-                && this.getType().equals(other.getType())
-        );
+        return (this.getName().equals(other.getName()));
     }
 
     @Override
     public int hashCode() {
-        return (
-                this.getType().toString().hashCode() * name.hashCode()
-        );
+        return (this.name.hashCode());
     }
 }
 

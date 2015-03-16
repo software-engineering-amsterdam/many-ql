@@ -31,7 +31,7 @@ public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(6, errors.size());
+        assertEquals(4, errors.size());
     }
 
     @Test
@@ -44,19 +44,16 @@ public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
             receivedTypes.add(error.getErrorType());
         }
         // we expect two of each kind
-        int cyclicDeps = 0, undefined = 0, wrongAssignment = 0;
+        int cyclicDeps = 0, wrongAssignment = 0;
         for (ASTNodeIssueType received : receivedTypes) {
             if (received.equals(ASTNodeIssueType.ERROR.CYCLIC)) {
                 cyclicDeps++;
-            }  else if (received.equals(ASTNodeIssueType.ERROR.UNDEFINED)) {
-                undefined++;
             }  else if (received.equals(ASTNodeIssueType.ERROR.TYPE_MISMATCH)) {
                 wrongAssignment++;
             }
         }
 
         assertEquals(2, cyclicDeps);
-        assertEquals(2, undefined);
         assertEquals(2, wrongAssignment);
 
     }

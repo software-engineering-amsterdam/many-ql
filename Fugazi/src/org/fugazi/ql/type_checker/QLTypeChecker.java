@@ -25,11 +25,16 @@ public class QLTypeChecker {
     private final TypeMismatchVisitor typeMismatchVisitor;
 
     private final ASTIssueHandler astIssueHandler;
-    private QLFormDataStorage formData;
 
-    public QLTypeChecker() {
+    private final Form form;
+    private final QLFormDataStorage formData;
+
+    public QLTypeChecker(Form _form, QLFormDataStorage _formData) {
+        this.form = _form;
+        this.formData = _formData;
+
         this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
-        this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor();
+        this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor(this.formData);
         this.typeMismatchVisitor = new TypeMismatchVisitor();
 
         this.astIssueHandler = new ASTIssueHandler();
@@ -151,8 +156,7 @@ public class QLTypeChecker {
      * =====================
      */
 
-    public boolean checkForm(Form form, QLFormDataStorage formData) {
-        this.formData = formData;
+    public boolean checkForm() {
 
         // clear errors and warnings
         // (so that multiple checks can be performed on one instance)
@@ -165,9 +169,9 @@ public class QLTypeChecker {
         this.checkAssignmentTypes();
 
         // perform all the checks that are done on the fly
-        this.checkForUndefinedQuestions(form);
-        this.checkForTypeMismatches(form);
-        this.checkForCyclicDependencies(form);
+        this.checkForUndefinedQuestions(this.form);
+        this.checkForTypeMismatches(this.form);
+        this.checkForCyclicDependencies(this.form);
 
         return this.isFormCorrect();
     }
