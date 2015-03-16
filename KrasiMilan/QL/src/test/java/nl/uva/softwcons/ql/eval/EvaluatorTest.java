@@ -7,6 +7,7 @@ import static nl.uva.softwcons.helper.TestHelper.QUESTION3;
 import static nl.uva.softwcons.helper.TestHelper.UNUSED;
 import static nl.uva.softwcons.ql.eval.value.UndefinedValue.UNDEFINED;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -19,14 +20,27 @@ import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.eval.value.BooleanValue;
 import nl.uva.softwcons.ql.eval.value.NumberValue;
-import nl.uva.softwcons.ql.eval.value.StringValue;
 import nl.uva.softwcons.ql.eval.value.Value;
 
 import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 
 public class EvaluatorTest {
 
     private static final Identifier QUESTION4 = new Identifier("question4", DUMMY_LINE_INFO);
+
+    private static final class BooleanValueMatcher extends ArgumentMatcher<Value> {
+        private final boolean expectedValue;
+
+        public BooleanValueMatcher(boolean expectedValue) {
+            this.expectedValue = expectedValue;
+        }
+
+        @Override
+        public boolean matches(Object argument) {
+            return ((Value) argument).getBoolean() == expectedValue;
+        }
+    }
 
     @Test
     public void testGettingANonexistentValue() {
@@ -60,9 +74,9 @@ public class EvaluatorTest {
         String question3Text = "question3: \"Label\" number (\"lazy\")";
         Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text, question3Text));
 
-        assertThat(new Evaluator(form).getValue(QUESTION)).isEqualTo(new BooleanValue(true));
-        assertThat(new Evaluator(form).getValue(QUESTION2)).isEqualTo(new NumberValue(30));
-        assertThat(new Evaluator(form).getValue(QUESTION3)).isEqualTo(new StringValue("lazy"));
+        assertThat(new Evaluator(form).getValue(QUESTION).getBoolean()).isEqualTo(true);
+        assertThat(new Evaluator(form).getValue(QUESTION2).getNumber()).isEqualTo("30");
+        assertThat(new Evaluator(form).getValue(QUESTION3).getString()).isEqualTo("lazy");
     }
 
     @Test
@@ -73,7 +87,7 @@ public class EvaluatorTest {
 
         e.updateValue(QUESTION, new BooleanValue(true));
 
-        assertThat(e.getValue(QUESTION)).isEqualTo(new BooleanValue(true));
+        assertThat(e.getValue(QUESTION).getBoolean()).isEqualTo(true);
     }
 
     @Test
@@ -87,7 +101,7 @@ public class EvaluatorTest {
 
         e.updateValue(QUESTION, new NumberValue(1));
 
-        assertThat(e.getValue(QUESTION2)).isEqualTo(new BooleanValue(true));
+        assertThat(e.getValue(QUESTION2).getBoolean()).isEqualTo(true);
     }
 
     @Test
@@ -101,7 +115,7 @@ public class EvaluatorTest {
 
         e.updateValue(QUESTION, new NumberValue(1));
 
-        assertThat(e.getValue(QUESTION2)).isEqualTo(new NumberValue(10));
+        assertThat(e.getValue(QUESTION2).getNumber()).isEqualTo("10");
     }
 
     @Test
@@ -120,9 +134,9 @@ public class EvaluatorTest {
 
         e.updateValue(QUESTION, new NumberValue(1));
 
-        assertThat(e.getValue(QUESTION2)).isEqualTo(new BooleanValue(true));
-        assertThat(e.getValue(QUESTION3)).isEqualTo(new BooleanValue(true));
-        assertThat(e.getValue(QUESTION4)).isEqualTo(new BooleanValue(false));
+        assertThat(e.getValue(QUESTION2).getBoolean()).isEqualTo(true);
+        assertThat(e.getValue(QUESTION3).getBoolean()).isEqualTo(true);
+        assertThat(e.getValue(QUESTION4).getBoolean()).isEqualTo(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -143,7 +157,7 @@ public class EvaluatorTest {
         e.updateValue(QUESTION, new NumberValue(1));
 
         // verify callback is called with the correct value
-        verify(listener).processValueChange(new BooleanValue(true));
+        verify(listener).processValueChange(argThat(new BooleanValueMatcher(true)));
     }
 
     @SuppressWarnings("unchecked")
@@ -164,7 +178,7 @@ public class EvaluatorTest {
         e.updateValue(QUESTION, new NumberValue(1));
 
         // verify callback is called with the correct value
-        verify(listener).processValueChange(new BooleanValue(true));
+        verify(listener).processValueChange(argThat(new BooleanValueMatcher(true)));
     }
 
     @SuppressWarnings("unchecked")
@@ -186,7 +200,7 @@ public class EvaluatorTest {
         e.updateValue(QUESTION, new NumberValue(1));
 
         // verify callback is called with the correct value
-        verify(listener).processValueChange(new BooleanValue(true));
+        verify(listener).processValueChange(argThat(new BooleanValueMatcher(true)));
     }
 
     @SuppressWarnings("unchecked")
@@ -216,9 +230,9 @@ public class EvaluatorTest {
         e.updateValue(QUESTION, new NumberValue(1));
 
         // verify callbacks are called with the correct values
-        verify(question2listener).processValueChange(new BooleanValue(true));
-        verify(question3listener).processValueChange(new BooleanValue(true));
-        verify(question4listener).processValueChange(new BooleanValue(false));
+        verify(question2listener).processValueChange(argThat(new BooleanValueMatcher(true)));
+        verify(question3listener).processValueChange(argThat(new BooleanValueMatcher(true)));
+        verify(question4listener).processValueChange(argThat(new BooleanValueMatcher(false)));
     }
 
 }
