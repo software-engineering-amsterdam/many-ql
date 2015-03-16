@@ -16,7 +16,7 @@ namespace AST.Nodes.Expressions.Binary
 
         public override string ToString()
         {
-            return ">=";
+            return "<=";
         }
     }
 }

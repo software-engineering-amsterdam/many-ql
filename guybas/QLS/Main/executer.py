@@ -17,5 +17,3 @@ print(f)
 pages = [1,2,3]
 gui = g.GUI.draw_pages(pages)
 
-
-# TODO: all imports in init
