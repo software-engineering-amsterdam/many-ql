@@ -38,6 +38,8 @@ public class TextQuestionPane extends AQuestionPane {
 
     @Override
     protected boolean matchesInput(String input) {
+        if (input.trim().isEmpty())
+            return true;
         if (question.getType() == Type.NUMERAL) {
             return input.matches("-?\\d+(\\.\\d+)?");
         }
