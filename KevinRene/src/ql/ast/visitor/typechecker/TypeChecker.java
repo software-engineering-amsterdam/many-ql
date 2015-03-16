@@ -66,7 +66,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 				
 		tree.accept(typeChecker);
-		typeChecker.getErrorEnvironment().outputErrors();
 
 		return typeChecker.getErrorEnvironment();
 	}	
