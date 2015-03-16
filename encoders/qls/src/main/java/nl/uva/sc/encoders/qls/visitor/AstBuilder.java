@@ -1,7 +1,7 @@
 package nl.uva.sc.encoders.qls.visitor;
 
-import nl.uva.sc.encoders.EncodersQLSBaseVisitor;
-import nl.uva.sc.encoders.EncodersQLSParser.PageContext;
+import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.TextLocation;
