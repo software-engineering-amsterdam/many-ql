@@ -13,11 +13,6 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Boolean getValue() {
-        return this.value;
-    }
-
-    @Override
     public Boolean getBoolean() {
         return value;
     }

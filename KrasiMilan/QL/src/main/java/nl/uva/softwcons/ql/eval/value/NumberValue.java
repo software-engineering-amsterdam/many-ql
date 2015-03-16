@@ -6,11 +6,6 @@ import java.math.BigInteger;
 public class NumberValue extends Value {
     private final BigDecimal value;
 
-    @Override
-    public Number getValue() {
-        return this.value;
-    }
-
     public NumberValue(int value) {
         this.value = new BigDecimal(value);
     }

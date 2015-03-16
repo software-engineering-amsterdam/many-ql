@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 public abstract class Value {
 
-    // TODO discuss my existence
-    public abstract Object getValue();
-
     public boolean inConditionalContext() {
         throw new UnsupportedOperationException();
     }

@@ -23,11 +23,6 @@ public class StringValue extends Value {
     }
 
     @Override
-    public String getValue() {
-        return this.stringValue;
-    }
-
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
