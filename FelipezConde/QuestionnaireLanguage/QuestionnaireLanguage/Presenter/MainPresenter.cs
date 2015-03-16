@@ -1,19 +1,15 @@
 ﻿using AST;
-using Nodes = AST.Nodes;
+using AST.Nodes;
 using AST.Nodes.Expressions;
-using AST.Representation;
 using Evaluation;
-using Evaluator.Storage;
+using Evaluation.Values;
 using QuestionnaireLanguage.Contracts;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
 using QuestionnaireLanguage.Visitors;
 using System.Collections.Generic;
 using System.Windows;
-using ASTFormObject = AST.Nodes.FormObject;
-using AST.Nodes.Interfaces;
+using ASTFormObject = AST.Nodes.FormObjects;
 using Types = AST.Types;
-using Evaluator.Values;
-using AST.Nodes;
 
 namespace QuestionnaireLanguage.Presenter
 {
@@ -58,7 +54,7 @@ namespace QuestionnaireLanguage.Presenter
         
         public static Value Evaluate(BaseExpression expression)
         {
-            return new EvaluationManager(symbolTable).Evaluate(expression);
+            return new Evaluator(symbolTable).Evaluate(expression);
         }
 
         public static void AddValue(Id key, Types.Type type)

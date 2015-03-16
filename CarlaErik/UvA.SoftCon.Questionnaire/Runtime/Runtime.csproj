@@ -58,17 +58,11 @@
     <Compile Include="Validation\QLS\QuestionReferencingChecker.cs" />
     <Compile Include="Validation\QLS\StyleAttributeChecker.cs" />
     <Compile Include="Validation\QLS\TypeChecker.cs" />
-    <Compile Include="Validation\QLValidator.cs" />
     <Compile Include="Validation\QL\DuplicateLabelChecker.cs" />
-    <Compile Include="Validation\ErrorReporting\Message.cs" />
-    <Compile Include="Validation\ErrorReporting\ValidationReport.cs" />
-    <Compile Include="Validation\ErrorReporting\Severity.cs" />
-    <Compile Include="Validation\QL\InvalidDefinition.cs" />
-    <Compile Include="Validation\QL\InvalidBinaryExpression.cs" />
-    <Compile Include="Validation\QL\InvalidUnaryExpression.cs" />
+    <Compile Include="Validation\QL\DuplicateQuestionChecker.cs" />
+    <Compile Include="Validation\QL\ASTChecker.cs" />
     <Compile Include="Validation\QL\LiteralChecker.cs" />
     <Compile Include="Validation\QL\TypeChecker.cs" />
-    <Compile Include="Validation\QL\VariableUsageChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QLS\QLS.csproj">

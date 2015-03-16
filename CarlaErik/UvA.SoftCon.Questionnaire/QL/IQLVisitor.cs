@@ -16,7 +16,6 @@ namespace UvA.SoftCon.Questionnaire.QL
         T Visit(StringLiteral literal);
         T Visit(DateLiteral literal);
         T Visit(Question question);
-        T Visit(Definition definition);
         T Visit(IfStatement ifStatement);
         T Visit(Add add);
         T Visit(And and);

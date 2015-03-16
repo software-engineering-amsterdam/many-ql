@@ -16,17 +16,12 @@ public class Input extends QLNode implements ContainsExpression {
     }
 
     @Override
-    public Expression getExpression() {
-        return expression;
-    }
-
-    @Override
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
 
     @Override
-    public void handleExpressionResult(Result result) {
+    public void handleExpressionResult() {
 
     }
 

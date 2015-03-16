@@ -7,87 +7,125 @@ import ql.ast.type.*;
 import ql.semantics.errors.Error;
 import ql.semantics.errors.Messages;
 import ql.semantics.errors.Warning;
+import ql.util.StringHelper;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by bore on 13/02/15.
  */
 
-public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>
+public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private final QuestionMap questionMap;
+    private final QuestionSet questionSet;
     private final QuestionDependencies questionDependencies;
     private final LabelMap labels;
     private final Messages messages;
 
     public static Messages check(Form f)
     {
-        QuestionResult questionResult = QuestionCollector.collect(f);
-
-        if (questionResult.containsErrors())
-        {
-            return questionResult.getMessages();
-        }
-
-        QuestionMap questions = questionResult.getQuestionMap();
+        QuestionSet questions = QuestionCollector.collect(f);
         QuestionDependencies dependencies = QuestionDependenciesBuilder.build(f);
         TypeChecker typeChecker = new TypeChecker(questions, dependencies);
+        typeChecker.checkForIdentDuplication();
 
-        if (f.accept(typeChecker))
-        {
-            typeChecker.checkForCyclicDependencies();
-            typeChecker.checkForLabelDuplication();
-        }
+        f.accept(typeChecker);
+
+        typeChecker.checkForCyclicDependencies();
+        typeChecker.checkForLabelDuplication();
 
         return typeChecker.messages;
     }
 
-    private TypeChecker(QuestionMap questions, QuestionDependencies dependencies)
+    private TypeChecker(QuestionSet questions, QuestionDependencies dependencies)
     {
-        this.questionMap = questions;
+        this.questionSet = questions;
         this.questionDependencies = dependencies;
         this.labels = new LabelMap();
         this.messages = new Messages();
     }
 
-    @Override
-    public Boolean visit(Form form)
+    private void checkForIdentDuplication()
     {
-        for (Statement statement : form.getBody())
+        Set<List<Question>> identDuplications = this.getDuplicate();
+
+        for (List<Question> qs : identDuplications)
         {
-            if (!(statement.accept(this)))
+            List<String> lines = this.getLineNumbers(qs);
+            String id = qs.get(0).getId();
+            Error error = Error.identifierAlreadyDeclared(id, lines);
+
+            this.messages.add(error);
+        }
+    }
+
+    private List<String> getLineNumbers(List<Question> questions)
+    {
+        List<String> lines = new ArrayList<>();
+        for (Question q : questions)
+        {
+            lines.add(Integer.toString(q.getLineNumber()));
+        }
+        return lines;
+    }
+
+    private Set<List<Question>> getDuplicate()
+    {
+        Map<String, List<Question>> idToQuestion = new HashMap<>();
+        for (Question q : this.questionSet)
+        {
+            if (idToQuestion.containsKey(q.getId()))
             {
-                return false;
+                List<Question> list = idToQuestion.get(q.getId());
+                list.add(q);
+            }
+            else
+            {
+                List<Question> list = new ArrayList<>();
+                list.add(q);
+                idToQuestion.put(q.getId(), list);
             }
         }
 
-        return true;
+        return idToQuestion.values().stream().
+                filter(s -> s.size() > 1).
+                collect(Collectors.toSet());
     }
 
     @Override
-    public Boolean visit(IfCondition condition)
+    public Void visit(Form form)
     {
-        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questionMap);
+        for (Statement statement : form.getBody())
+        {
+            statement.accept(this);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(IfCondition condition)
+    {
+        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questionSet);
         if (condResult.containsErrors())
         {
             this.messages.addAll(condResult.getMessages());
-            return false;
+            //return false;
         }
 
         if (this.isTypeAllowedInCond(condResult.getType()))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
-            return false;
+            //return false;
         }
 
         for (Statement statement : condition.getBody())
         {
-            if (!(statement.accept(this)))
-            {
-                return false;
-            }
+            statement.accept(this);
         }
 
-        return true;
+        return null;
     }
 
     private boolean isTypeAllowedInCond(Type type)
@@ -96,23 +134,22 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>
     }
 
     @Override
-    public Boolean visit(Question q)
+    public Void visit(Question q)
     {
         this.labels.registerLabel(q);
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(CalculatedQuestion q)
+    public Void visit(CalculatedQuestion q)
     {
         this.labels.registerLabel(q);
         Type defined = q.getType();
 
-        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questionMap);
+        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questionSet);
         if (typeResult.containsErrors())
         {
             this.messages.addAll(typeResult.getMessages());
-            return false;
         }
 
         Type assigned = typeResult.getType().promoteTo(defined);
@@ -121,11 +158,9 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>
         {
             this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
                     q.getLineNumber()));
-
-            return false;
         }
 
-        return true;
+        return null;
     }
 
 

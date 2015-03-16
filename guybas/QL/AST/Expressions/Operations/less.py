@@ -1,4 +1,4 @@
-import QL.AST.Expressions.Elements.element as e
+import QL.AST.Expressions.Primitives.primitive as e
 import QL.Grammar.constants as constants
 import QL.AST.Expressions.Operations.binary_expression as b
 

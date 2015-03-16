@@ -1,37 +1,40 @@
-# Factory for creating Expression elements out of parsed tokens
+# Factory for creating Expression elements out of parsed subtrees
 
-import QL.AST.Expressions.Elements.variable as variable
-import QL.AST.Expressions.Elements.bool as boolean
-import QL.AST.Expressions.Elements.number as number
-import QL.AST.Expressions.Elements.text as text
+# TODO fix these imports
+import QL.AST.Expressions.Primitives.variable as variable
+import QL.AST.Expressions.Primitives.bool as boolean
+import QL.AST.Expressions.Primitives.number as number
+import QL.AST.Expressions.Primitives.text as text
 import QL.Grammar.Factory.forms as form
+
+# import all expression operations
 from QL.AST.Expressions.Operations import *
 
 
 #
-# Types
+# Primitive types
 #
 
-def make_variable(tokens):
-    v = tokens[0]
+def make_variable(subtrees):
+    v = subtrees[0]
     return variable.Variable(v)
 
 
-def make_number(tokens):
-    n = int(tokens[0])
+def make_number(subtrees):
+    n = int(subtrees[0])
     return number.Number(n)
 
 
-def make_bool(tokens):
-    value = tokens[0]
+def make_bool(subtrees):
+    value = subtrees[0]
     if value == "True":
         return boolean.Bool(True)
     else:
         return boolean.Bool(False)
 
 
-def make_text(tokens):
-    t = form.make_sentence(tokens)
+def make_text(subtrees):
+    t = form.make_sentence(subtrees)
     return text.Text(t)
 
 
@@ -39,60 +42,63 @@ def make_text(tokens):
 # Operations
 #
 
-def make_add_min_expression(tokens):
-    tokens = tokens[0]
-    x = tokens[0]
-    for i in range(1, len(tokens)-1, 2):
-        if tokens[i] == "+":
-            x = add.Add("+", x, tokens[i + 1])
+# As pyparsing is not able to make a distinction between operators with the same precedence we need to do it manually
+# Also a sub expression can exist out of multiple operators (+ or - here) and operands so therefore the for loop
+# Every operator is made using the last operator (or first primitive) on the left and the found operand on the right
+# (When left associative)
+def make_add_min_expression(subtrees):
+    subtrees = subtrees[0]
+    x = subtrees[0]
+    for i in range(1, len(subtrees)-1, 2):
+        if subtrees[i] == "+":
+            x = add.Add("+", x, subtrees[i + 1])
         else:
-            x = minus.Minus("-", x, tokens[i + 1])
+            x = minus.Minus("-", x, subtrees[i + 1])
     return x
 
 
-def make_mul_expression(tokens):
-    tokens = tokens[0]
-    x = tokens[0]
-    for i in range(1, len(tokens)-1, 2):
-        if tokens[i] == "*":
-            x = multiplication.Multiplication("*", x, tokens[i + 1])
+def make_mul_expression(subtrees):
+    subtrees = subtrees[0]
+    x = subtrees[0]
+    for i in range(1, len(subtrees)-1, 2):
+        if subtrees[i] == "*":
+            x = multiplication.Multiplication("*", x, subtrees[i + 1])
         else:
-            x = division.Division("/", x, tokens[i + 1])
+            x = division.Division("/", x, subtrees[i + 1])
     return x
 
 
-# unfortunately, as it is not possible to give the same precedence level in pyparsing
-# it needs to be checked here manually
-def make_compare(tokens):
-    tokens = tokens[0]
-    x = tokens[0]
-    for i in range(1, len(tokens)-1, 2):
-        if tokens[i] == ">":
-            x = greater.Greater(">", x, tokens[i + 1])
-        elif tokens[i] == "<":
-            x = less.Less("<", x, tokens[i + 1])
-        elif tokens[i] == ">=":
-            x = greater_equal.GreaterEqual(">=", x, tokens[i + 1])
-        elif tokens[i] == "<=":
-            return less_equal.LessEqual("<=", x, tokens[i + 1])
-        elif tokens[i] == "==":
-            x = equal.Equal("==", x, tokens[i + 1])
+# TODO check if this is done correctly w.r.t. associativity
+def make_compare(subtrees):
+    subtrees = subtrees[0]
+    x = subtrees[0]
+    for i in range(1, len(subtrees)-1, 2):
+        if subtrees[i] == ">":
+            x = greater.Greater(">", x, subtrees[i + 1])
+        elif subtrees[i] == "<":
+            x = less.Less("<", x, subtrees[i + 1])
+        elif subtrees[i] == ">=":
+            x = greater_equal.GreaterEqual(">=", x, subtrees[i + 1])
+        elif subtrees[i] == "<=":
+            return less_equal.LessEqual("<=", x, subtrees[i + 1])
+        elif subtrees[i] == "==":
+            x = equal.Equal("==", x, subtrees[i + 1])
         else:
             raise Exception("make_compare got wrong input")
     return x
 
 
-def make_extra(tokens):
-    tokens = tokens[0]
-    x = tokens[0]
-    for i in range(1, len(tokens)-1, 2):
-        if tokens[i] == "and":
-            x = and_op.And("and", x, tokens[i + 1])
+def make_extra(subtrees):
+    subtrees = subtrees[0]
+    x = subtrees[0]
+    for i in range(1, len(subtrees)-1, 2):
+        if subtrees[i] == "and":
+            x = and_op.And("and", x, subtrees[i + 1])
         else:
-            x = or_op.Or("or", x, tokens[i + 1])
+            x = or_op.Or("or", x, subtrees[i + 1])
     return x
 
 
-def make_not(tokens):
-    tokens = tokens[0]
-    return not_op.Not("not", tokens[1])
+def make_not(subtrees):
+    subtrees = subtrees[0]
+    return not_op.Not("not", subtrees[1])

@@ -14,11 +14,11 @@ public class QLSParseTreeListener extends QLSBaseListener {
     }
 
     private Stack<QLSNode> nodeStack = new Stack<>();
-    private AST qlAST = null;
-    private AST qlsAST = null;
+    private AST<QLNode> qlAST = null;
+    private AST<QLSNode> qlsAST = null;
     private QLSStylesheet ast = null;
 
-    public AST getAst() {
+    public AST<QLSNode> getAst() {
         return qlsAST;
     }
 
@@ -27,7 +27,7 @@ public class QLSParseTreeListener extends QLSBaseListener {
     }
 
     public void exitStylesheet(QLSParser.StylesheetContext ctx) {
-        qlsAST = new AST(nodeStack.pop());
+        qlsAST = new AST<>(nodeStack.pop());
         System.out.println("--Printing QLS ast--");
         qlsAST.printDebug();
     }

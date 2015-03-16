@@ -63,7 +63,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             return visitor.Visit(this);
         }
 
-        internal override void AppendQuestions(ICollection<Question> questions)
+        internal override void CollectQuestions(ICollection<Question> questions)
         {
             questions.Add(this);
         }

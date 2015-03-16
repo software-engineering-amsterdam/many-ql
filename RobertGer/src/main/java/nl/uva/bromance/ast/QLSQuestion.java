@@ -32,7 +32,7 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
         return this.questionNode.visualize(parent, answerMap, visualizer);
     }
 

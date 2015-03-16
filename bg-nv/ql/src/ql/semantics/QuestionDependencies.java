@@ -62,8 +62,13 @@ public class QuestionDependencies
     private boolean searchNeighboursForCycles(Stack<String> path)
     {
         String lastElement = path.lastElement();
-        Set<String> neighbours = this.dependencies.get(lastElement);
 
+        if (this.isIdentUndeclared(lastElement))
+        {
+            return false;
+        }
+
+        Set<String> neighbours = this.dependencies.get(lastElement);
         for (String n : neighbours)
         {
             if (this.isNeighbourFormingCycle(path, n))
@@ -92,5 +97,10 @@ public class QuestionDependencies
         }
 
         return false;
+    }
+
+    private boolean isIdentUndeclared(String id)
+    {
+        return !this.dependencies.containsKey(id);
     }
 }

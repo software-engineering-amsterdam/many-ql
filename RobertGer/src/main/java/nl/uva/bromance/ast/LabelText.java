@@ -59,7 +59,7 @@ public class LabelText extends QLNode {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 

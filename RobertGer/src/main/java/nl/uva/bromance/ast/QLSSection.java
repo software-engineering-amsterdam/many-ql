@@ -18,7 +18,7 @@ public class QLSSection extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         javafx.scene.control.Label label = new javafx.scene.control.Label(this.identifier);
         label.getStyleClass().add("formHeader");

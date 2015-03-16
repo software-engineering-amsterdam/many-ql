@@ -1,8 +1,8 @@
-﻿using AST.Nodes.FormObject;
+﻿using AST.Nodes.FormObjects;
 using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.GUI.FormObject.Interface;
 using QuestionnaireLanguage.Visitors.Interfaces;
-using ASTFormObject = AST.Nodes.FormObject;
+using ASTFormObject = AST.Nodes.FormObjects;
 
 namespace QuestionnaireLanguage.Visitors
 {

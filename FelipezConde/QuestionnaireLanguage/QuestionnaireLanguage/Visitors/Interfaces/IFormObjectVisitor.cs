@@ -1,4 +1,4 @@
-﻿using AST.Nodes.FormObject;
+﻿using AST.Nodes.FormObjects;
 using QuestionnaireLanguage.GUI.FormObject;
 
 namespace QuestionnaireLanguage.Visitors.Interfaces

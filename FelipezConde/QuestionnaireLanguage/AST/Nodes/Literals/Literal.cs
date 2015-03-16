@@ -1,6 +1,6 @@
 ﻿using AST.Nodes;
 using AST.Nodes.Interfaces;
-using AST.Representation;
+
 using System;
 
 namespace AST.Nodes.Literals
@@ -9,7 +9,7 @@ namespace AST.Nodes.Literals
     {
         protected Literal(PositionInText position)
             : base(position) {}
-        public virtual Types.Type RetrieveType(){throw new NotImplementedException();}
+        public abstract Types.Type RetrieveType();
 
         public abstract override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor);
     } 

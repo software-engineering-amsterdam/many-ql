@@ -1,5 +1,6 @@
 package org.fugazi.ql.ast.form.form_data;
 
+import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
@@ -8,11 +9,13 @@ import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.UndefinedType;
 
 import java.util.*;
 
 public class QLFormDataStorage {
     private final Form form;
+    private final Map<String, Type> idTypes;
 
     private final QuestionsVisitor questionsVisitor;
     private final ComputedQuestionsVisitor computedQuestionsVisitor;
@@ -20,6 +23,7 @@ public class QLFormDataStorage {
 
     public QLFormDataStorage(Form _form) {
         this.form = _form;
+        this.idTypes = _form.getIdentifierTypes();
 
         this.questionsVisitor = new QuestionsVisitor(this.form);
         this.computedQuestionsVisitor = new ComputedQuestionsVisitor(this.form);
@@ -65,12 +69,15 @@ public class QLFormDataStorage {
     }
 
     public HashMap<String, Type> getallQuestionTypes() {
-        List<Question> questions = this.getAllQuestions();
-        HashMap<String, Type> questionTypes = new HashMap<>();
+        return this.questionsVisitor.getQuestionTypes();
+    }
 
-        for (Question question : questions) {
-            questionTypes.put(question.getIdName(), question.getType());
+    public Type getIdType(ID _id) {
+        String idName = _id.getName();
+        Type idType = this.idTypes.get(idName);
+        if (idType == null) {
+            idType = new UndefinedType();
         }
-        return questionTypes;
+        return idType;
     }
 }

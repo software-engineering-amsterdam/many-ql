@@ -1,76 +1,61 @@
-# Factory for creating Expression elements out of parsed tokens
+# Factory for creating Form elements out of parsed subtrees
 
 import QL.AST.Statements.question as question
 import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
 import QL.AST.Statements.assignment as assignment
 import QL.AST.form as form
-import QL.AST.Statements.AnswerTypes.bool as a
-import QL.AST.Statements.AnswerTypes.text as t
-import QL.AST.Statements.AnswerTypes.number as n
 
 
 def make_sentence(tokens):
     return ' '.join(tokens)
 
 
-def make_bool_type(tokens):
-    return a.Bool()
-
-
-def make_number_type(tokens):
-    return n.Number()
-
-
-def make_text_type(tokens):
-    return t.Text()
-
-
-def make_question(tokens):
-    number = tokens[0]
-    q = tokens[1]
-    answer_type = tokens[2]
+def make_question(subtrees):
+    number = subtrees[0]
+    q = subtrees[1]
+    answer_type = subtrees[2]
     return question.Question(number, q, answer_type)
 
 
-def make_if(tokens):
-    condition = tokens[0]
+def make_if(subtrees):
+    condition = subtrees[0]
     questions = []
-    for i in range(1, len(tokens)):
-        questions.append(tokens[i])
+    for i in range(1, len(subtrees)):
+        questions.append(subtrees[i])
     return if_statement.IfBlock(condition, questions)
 
 
-def make_else(tokens):
-    condition = tokens[0]
+def make_else(subtrees):
+    condition = subtrees[0]
     questions = []
     k = 1
-    for i in range(1, len(tokens) + 1):
-        if tokens[i] == "else":
+    for i in range(1, len(subtrees) + 1):
+        if subtrees[i] == "else":
             break
         else:
-            questions.append(tokens[i])
+            questions.append(subtrees[i])
             k += 1
     else_questions = []
-    for i in range(k + 1, len(tokens)):
-        else_questions.append(tokens[i])
+    for i in range(k + 1, len(subtrees)):
+        else_questions.append(subtrees[i])
     x = else_statement.IfElseBlock(condition, questions, else_questions)
     return x
 
 
-def make_assignment(tokens):
-    qid = tokens[0]
-    qtype = tokens[1]
-    expression = tokens[2]
+def make_assignment(subtrees):
+    qid = subtrees[0]
+    qtype = subtrees[1]
+    expression = subtrees[2]
     return assignment.Assignment(qid, qtype, expression)
 
 
-def make_form(tokens):
-    name = tokens[0]
-    if len(tokens) > 2:
-        introduction = make_sentence(tokens[1])
-        statements = tokens[2]
+def make_form(subtrees):
+    name = subtrees[0]
+    if len(subtrees) > 2:
+        introduction = make_sentence(subtrees[1])
+        statements = subtrees[2]
         return form.Form(name, introduction, statements)
     else:
-        statements = tokens[1]
+        statements = subtrees[1]
         return form.Form(name, "", statements)

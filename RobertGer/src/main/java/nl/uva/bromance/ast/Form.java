@@ -3,10 +3,7 @@ package nl.uva.bromance.ast;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import nl.uva.bromance.ast.conditionals.CanContainConditionals;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
@@ -45,7 +42,7 @@ public class Form extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         Label label = new Label(this.identifier);
