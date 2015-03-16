@@ -7,18 +7,19 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.form.language.ast.statement.Question;
-import com.form.language.ast.values.StringValue;
+import com.form.language.ast.values.IntValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
-public class TextField extends Widget { 
+public class IntegerTextField extends Widget {
+  
 	private JTextField textfield;
 	
-	public TextField(Question question, QuestionComponent questionComponent, Context context) {
+	public IntegerTextField(Question question, QuestionComponent questionComponent, Context context) {
 		super(question,context);
-		this.textfield = new JTextField();		
-		this.textfield.setMaximumSize(new Dimension(200, 20));
+		this.textfield = new JTextField();
 		
+		this.textfield.setMaximumSize(new Dimension(200, 20));
 		TextFieldListener textfieldListener = new TextFieldListener();
 		this.textfield.getDocument().addDocumentListener(textfieldListener);
 	}
@@ -32,7 +33,7 @@ public class TextField extends Widget {
 	// TODO ADD HANDELER
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			setContextString(new StringValue(TextField.this.textfield.getText()));
+			setContextInt( new IntValue(Integer.parseInt(IntegerTextField.this.textfield.getText())));
 			checkDependencyVisibility();
 		}
 
