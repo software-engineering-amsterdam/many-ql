@@ -1,19 +1,18 @@
+class Questionnaire(object):
+    def __init__(self, statements):
+        self.statements = statements
+
+    def accept(self, visitor):
+        for statement in self.statements:
+            statement.accept(visitor)
+        return visitor.visitQuestionnaire(self)
+
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
     def accept(self, visitor):
         raise NotImplementedError
-
-class Questionnaire(Node):
-    def __init__(self, statements):
-        super().__init__(0)
-        self.statements = statements
-
-    def accept(self, visitor):
-        for statement in self.statements:
-            statement.accept(visitor)
-        visitor.visitQuestionnaire(self)
 
 class FormStatement(Node):
     def __init__(self, identifier, statements, lineNumber):
@@ -27,7 +26,7 @@ class FormStatement(Node):
     def accept(self, visitor):
         for statement in self.statements:
             statement.accept(visitor)
-        visitor.visitFormStatement(self)
+        return visitor.visitFormStatement(self)
 
 class QuestionStatement(Node):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
@@ -44,7 +43,7 @@ class QuestionStatement(Node):
     def accept(self, visitor):
         if self.expr:
             self.expr.accept(visitor)
-        visitor.visitQuestionStatement(self)
+        return visitor.visitQuestionStatement(self)
 
 class IfStatement(Node):
     def __init__(self, expr, statements, lineNumber):
@@ -58,7 +57,7 @@ class IfStatement(Node):
     def accept(self, visitor):
         for statement in self.statements:
             statement.accept(visitor)
-        visitor.visitIfStatement(self)
+        return visitor.visitIfStatement(self)
 
 class AtomicExpression(Node):
     def __init__(self, atom, lineNumber):
@@ -70,7 +69,7 @@ class AtomicExpression(Node):
 
     def accept(self, visitor):
         self.atom.accept(visitor)
-        visitor.visitAtomicExpression(self)
+        return visitor.visitAtomicExpression(self)
 
 class UnaryExpression(Node):
     def __init__(self, op, expression, lineNumber):
@@ -83,7 +82,7 @@ class UnaryExpression(Node):
 
     def accept(self, visitor):
         self.expression.accept(visitor)
-        visitor.visitUnaryExpression(self)
+        return visitor.visitUnaryExpression(self)
 
 class BinaryExpression(Node):
     def __init__(self, left, op, right, lineNumber):
@@ -98,4 +97,38 @@ class BinaryExpression(Node):
     def accept(self, visitor):
         self.left.accept(visitor)
         self.right.accept(visitor)
-        visitor.visitBinaryExpression(self)
+        return visitor.visitBinaryExpression(self)
+
+
+class AtomBaseType(Node):
+    def __init__(self, value, lineNumber):
+        super().__init__(lineNumber)
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    def __str__(self):
+        return str(self.value)
+
+class Boolean(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitBoolean(self)
+
+class Integer(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitInteger(self)
+
+class String(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitString(self)
+
+class Money(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitMoney(self)
+
+class Identifier(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitIdentifier(self)
+
