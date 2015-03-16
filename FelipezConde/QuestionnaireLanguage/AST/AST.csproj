@@ -44,11 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASTResult.cs" />
-    <Compile Include="Nodes\Expression\Binary\Binary.cs" />
-    <Compile Include="Nodes\Expression\Unary\Unary.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Binary.cs" />
+    <Compile Include="Nodes\Expressions\Unary\Unary.cs" />
     <Compile Include="Nodes\FormObject\FormObject.cs" />
     <Compile Include="Nodes\Interfaces\IVisitable.cs" />
-    <Compile Include="Nodes\Expression\Id.cs" />
+    <Compile Include="Nodes\Expressions\Id.cs" />
     <Compile Include="Nodes\ASTNode.cs" />
     <Compile Include="Types\UndefinedType.cs" />
     <Compile Include="Nodes\Interfaces\IFormObjectContainer.cs" />
@@ -67,21 +67,21 @@
     <Compile Include="ParseTreeVisitors\FormVisitor.cs" />
     <Compile Include="ParseTreeVisitors\TypeVisitor.cs" />
     <Compile Include="ParseTreeVisitors\LiteralVisitor.cs" />
-    <Compile Include="Nodes\Expression\Binary\Add.cs" />
-    <Compile Include="Nodes\Expression\Binary\Divide.cs" />
-    <Compile Include="Nodes\Expression\Binary\Multiply.cs" />
-    <Compile Include="Nodes\Expression\Binary\Subtract.cs" />
-    <Compile Include="Nodes\Expression\Binary\GreaterThan.cs" />
-    <Compile Include="Nodes\Expression\Binary\GreaterThanOrEqual.cs" />
-    <Compile Include="Nodes\Expression\Binary\LessThan.cs" />
-    <Compile Include="Nodes\Expression\Binary\LessThanOrEqual.cs" />
-    <Compile Include="Nodes\Expression\Binary\And.cs" />
-    <Compile Include="Nodes\Expression\Binary\Equal.cs" />
-    <Compile Include="Nodes\Interfaces\IExpression.cs" />
-    <Compile Include="Nodes\Expression\Binary\NotEqual.cs" />
-    <Compile Include="Nodes\Expression\Unary\Negate.cs" />
-    <Compile Include="Nodes\Expression\Binary\Or.cs" />
-    <Compile Include="Nodes\Expression\Unary\Priority.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Add.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Divide.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Multiply.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Subtract.cs" />
+    <Compile Include="Nodes\Expressions\Binary\GreaterThan.cs" />
+    <Compile Include="Nodes\Expressions\Binary\GreaterThanOrEqual.cs" />
+    <Compile Include="Nodes\Expressions\Binary\LessThan.cs" />
+    <Compile Include="Nodes\Expressions\Binary\LessThanOrEqual.cs" />
+    <Compile Include="Nodes\Expressions\Binary\And.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Equal.cs" />
+    <Compile Include="Nodes\Expression.cs" />
+    <Compile Include="Nodes\Expressions\Binary\NotEqual.cs" />
+    <Compile Include="Nodes\Expressions\Unary\Negate.cs" />
+    <Compile Include="Nodes\Expressions\Binary\Or.cs" />
+    <Compile Include="Nodes\Expressions\Unary\Priority.cs" />
     <Compile Include="Nodes\Form.cs" />
     <Compile Include="Nodes\FormObject\Conditional.cs" />
     <Compile Include="Nodes\FormObject\Question.cs" />
@@ -93,7 +93,7 @@
     <Compile Include="Test\ParserErrorListener.cs" />
     <Compile Include="Test\TestClass.cs" />
     <Compile Include="ASTVisitors\BaseVisitor.cs" />
-    <Compile Include="ASTVisitors\IVisitor{T}.cs" />
+    <Compile Include="ASTVisitors\IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

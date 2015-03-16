@@ -7,8 +7,8 @@ import ast.type.Type;
 public class ComputationQuestion extends SimpleQuestion {
 	private final Expression expression;
 		
-	public ComputationQuestion (Id questionID, String questionText, Type questionType, Expression expression) {
-		super(questionID, questionText, questionType);
+	public ComputationQuestion (Id ID, String TEXT, Type TYPE, Expression expression) {
+		super(ID, TEXT, TYPE);
 		this.expression = expression;
 	}	
 	

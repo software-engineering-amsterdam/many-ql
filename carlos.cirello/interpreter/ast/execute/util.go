@@ -65,6 +65,8 @@ func (exec Execute) resolveMathNode(n interface{}) float32 {
 		return exec.MathMulNode(n.(*ast.MathMulNode))
 	case *ast.MathDivNode:
 		return exec.MathDivNode(n.(*ast.MathDivNode))
+	case *ast.MathModNode:
+		return exec.MathModNode(n.(*ast.MathModNode))
 	case *ast.TermNode:
 		return exec.MathTermNode(n.(*ast.TermNode))
 	}

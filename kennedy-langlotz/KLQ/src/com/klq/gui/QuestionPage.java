@@ -2,7 +2,7 @@ package com.klq.gui;
 
 import com.klq.gui.pane.AQuestionPane;
 import com.klq.gui.pane.DateQuestionPane;
-import com.klq.gui.pane.SetQuestionPane;
+import com.klq.gui.pane.BooleanQuestionPane;
 import com.klq.gui.pane.TextQuestionPane;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
@@ -57,9 +57,8 @@ public class QuestionPage extends ScrollPane {
     private AQuestionPane createQuestionPane(Question question){
         AQuestionPane questionPane;
         switch (question.getType()){
-            case SET:
             case BOOLEAN:
-                questionPane = new SetQuestionPane(question, store);
+                questionPane = new BooleanQuestionPane(question, store);
                 break;
             case NUMERAL:
             case STRING:

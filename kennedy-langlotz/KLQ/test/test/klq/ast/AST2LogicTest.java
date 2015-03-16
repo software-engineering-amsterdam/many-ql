@@ -50,7 +50,7 @@ public class AST2LogicTest {
 /*    @Test
     public void testComputedQuestion() throws Exception {
         AddNode add = new AddNode(new NumberNode(13), new NumberNode(17));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
+        ast.getComputedAnswer().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
 
         fillStore();
 
