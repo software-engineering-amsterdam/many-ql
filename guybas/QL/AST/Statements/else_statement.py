@@ -3,9 +3,9 @@ import QL.AST.Statements.if_statement as if_statement
 
 class IfElseBlock(if_statement.IfBlock):
 
-    #################################
-    # override method of statement  #
-    #################################
+    #
+    # override methods of statement
+    #
 
     # init
     def __init__(self, condition, statements, else_statements):
@@ -55,15 +55,6 @@ class IfElseBlock(if_statement.IfBlock):
             dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies
 
-    # set the _order number of the statement, only set once
-    def set_order(self, order_num):
-        c = order_num
-        for s in self._statements:
-            c = s.set_order(c)
-        for s in self.else_statements:
-            c = s.set_order(c)
-        return c
-
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         d = {}
@@ -83,18 +74,9 @@ class IfElseBlock(if_statement.IfBlock):
 
         return d
 
-    ##############################
-    # Method of else statement   #
-    ##############################
-
-    # TODO: change structure below
-
-    # Override
-    def set_parent_condition(self, condition):
-        for s in self._statements:
-            s.set_parent_condition(self._condition)
-        for s in self.else_statements:
-            pass # s.set_parent_condition(self._condition.add_not())
+    #
+    # Method of else statement
+    #
 
     def get_e_statements(self):
         return self.else_statements
