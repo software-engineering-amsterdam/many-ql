@@ -14,14 +14,15 @@ public class RadioButton extends InputWidget<BooleanValue> implements ActionList
 	private JRadioButton radioButton;
 
 	public RadioButton() {
-		this.radioButton = new JRadioButton();
-		this.radioButton.addActionListener(this);
+		radioButton = new JRadioButton();
+		radioButton.addActionListener(this);
 	}
 	
 	public RadioButton(BooleanValue booleanValue) {
-		this.radioButton = new JRadioButton();		
-		this.radioButton.setSelected(booleanValue.getValue());
-		this.radioButton.addActionListener(this);
+		radioButton = new JRadioButton();		
+		radioButton.add(new JRadioButton());
+		radioButton.setSelected(booleanValue.getValue());
+		radioButton.addActionListener(this);
 	}
 	
 	@Override

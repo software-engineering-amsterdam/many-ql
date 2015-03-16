@@ -85,7 +85,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * of nodes has been entered.
 	 */
 	private void indent() {
-		this.prefix += "   ";
+		prefix += "   ";
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * exits. 
 	 */
 	private void unindent() {
-		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
+		prefix = prefix.substring(0, this.prefix.length() - 3);
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
-		return prefix + (prefixSymbol) + nodeString + " : " + type + "\n";
+		return prefix + prefixSymbol + nodeString + " : " + type + "\n";
 	}
 	
 	/**
@@ -120,11 +120,14 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * @param binaryNode - The binary node to print.
 	 */
 	private String printBinaryNode(Binary binaryNode) {
+		StringBuilder binaryString = new StringBuilder(printNode(binaryNode));
+		
 		indent();
-		ExpressionVisitor.super.visit(binaryNode);
+		binaryString.append(binaryNode.getLeft().accept(this));
+		binaryString.append(binaryNode.getRight().accept(this));
 		unindent();
 		
-		return printNode(binaryNode);
+		return binaryString.toString();
 	}
 	
 	/**
@@ -135,11 +138,13 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * @param unaryNode - The unary node to print.
 	 */
 	private String printUnaryNode(Unary unaryNode) {
+		StringBuilder unaryString = new StringBuilder(printNode(unaryNode));
+		
 		indent();
-		ExpressionVisitor.super.visit(unaryNode);
+		unaryString.append(unaryNode.getExpression().accept(this));
 		unindent();
 		
-		return printNode(unaryNode);
+		return unaryString.toString();
 	}
 
 	/*********************

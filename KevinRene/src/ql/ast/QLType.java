@@ -36,7 +36,5 @@ public abstract class QLType implements QLNode {
 	}
 	
 	@Override
-	public String toString() {
-		return this.getClass().getSimpleName();
-	}
+	public abstract String toString();
 }

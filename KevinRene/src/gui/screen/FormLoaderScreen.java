@@ -22,8 +22,6 @@ import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
 public class FormLoaderScreen extends Screen {
-	private final String FAILURE = "Failed";
-	
 	private FormFileChooser fileChooser;
 	private Section buttonPanel, logPanel;
 	private Button openButton;
@@ -32,6 +30,7 @@ public class FormLoaderScreen extends Screen {
 	
 	public FormLoaderScreen(UIComponent handler) {
 		log = new UILog();
+		log.setHandler(this);
 		logPanel = new Section(this);
 		logPanel.addComponent(log);
 		
@@ -66,23 +65,19 @@ public class FormLoaderScreen extends Screen {
 			addLogMessage(selectedFile.getAbsolutePath() + " cannot be found.");
 		}
 		
-		return FAILURE;
-	}
-	
-	private boolean isValidForm(QLNode tree) {
-		return tree instanceof Form;
+		return null;
 	}
 	
 	private boolean processFile() {
 		String fileContents = loadSelectedFile();
 		
-		if(fileContents == FAILURE) {
+		if(fileContents == null) {
 			return false;
 		}
 		
 		parsedTree = Parser.parse(fileContents);
 		
-		if(!isValidForm(parsedTree)) {
+		if(!(parsedTree instanceof Form)) {
 			return false;
 		} 
 		

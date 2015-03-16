@@ -12,4 +12,9 @@ public class QLString extends QLType {
 	public <T> T accept(TypeVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "string";
+	}
 }
