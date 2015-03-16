@@ -10,7 +10,7 @@ class Question:
 
         self.order = order
         self.gui_element = None
-        self.ast_question = ast_question
+        self.ast = ast_question
 
     def set_gui_element(self, gui):
         e_factory = gui_elements_f.Factory(self, gui)
@@ -22,3 +22,6 @@ class Question:
 
     def get_gui_element(self):
         return self.gui_element
+
+    def get_ast(self):
+        return self.ast

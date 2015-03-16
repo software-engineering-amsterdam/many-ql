@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.application.gui.ql;
+package org.uva.student.calinwouter.qlqls.application.gui;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;

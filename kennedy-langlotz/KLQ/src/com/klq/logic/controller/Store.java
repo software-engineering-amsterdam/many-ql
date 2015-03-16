@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Timon on 23.02.2015.
@@ -91,13 +92,14 @@ public class Store implements IKLQItem {
     }
 
     private void updateComputedQuestions(){
-        for (Question q : store.values()){
-            if (q.isComputedQuestion()){
-                AExpression computedExpression = q.getComputedExpression();
+        Collection<Question> questions = store.values();
+        questions.forEach(question -> {
+            if (question.isComputedQuestion()) {
+                AExpression computedExpression = question.getComputedExpression();
                 Value result = computedExpression.evaluate(variables);
-                q.setComputedValue(result.toString());
+                question.setComputedValue(result.toString());
             }
-        }
+        });
     }
 
     private void updateQuestionnaireProgress(){
