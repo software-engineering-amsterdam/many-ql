@@ -10,6 +10,10 @@ public void printSelf() {
 
     }
 
+//This is still questionable
+In QuestionPage: why have the types themselves decide how to render themselves?
+ switch (question.getType()){}
+
 I have trouble understanding the package com.klq.logic.question
 It seems it's wrapping AST stuff, but what is the added value? There's no JavaFx widgets either.
 Is this an unneeded level of indirection.
@@ -73,6 +77,3 @@ In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowe
 the case that null is returned is missed. Although you get away with it, it's a very fine line.
 
 Avoid extending stdlib base classes (like JavaFX): you're not extending the framework, and probably you don't support the full contract of the base class. Better to encapsulate instead of extend.
-
-In QuestionPage: why have the types themselves decide how to render themselves?
- switch (question.getType()){
