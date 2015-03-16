@@ -20,35 +20,17 @@ func typecheck(q *ast.QuestionaireNode) {
 }
 
 func (v *interpreter) drawLoop(redraw bool) bool {
-	v.send <- &plumbing.Frontend{
-		Type: plumbing.ReadyP,
-	}
-
-drawLoop:
-	for {
-		select {
-		case r := <-v.receive:
-			switch r.Type {
-			case plumbing.ReadyT:
-				v.draw.QuestionaireNode(v.questionaire)
-				v.send <- &plumbing.Frontend{Type: plumbing.Flush}
-				break drawLoop
-			}
-		}
-	}
-
+	v.handshake()
+	v.drawAndFlush()
 	if redraw {
 		redraw = false
-		go func(receive chan *plumbing.Frontend) {
-			receive <- &plumbing.Frontend{Type: plumbing.ReadyT}
-		}(v.receive)
+		go v.confirmRedraw()
 	}
-	v.execute.QuestionaireNode(v.questionaire)
-	v.send <- &plumbing.Frontend{Type: plumbing.Flush}
+	v.renderAndFlush(v.execute)
 	return redraw
 }
 
-func (v *interpreter) mainLoop(redraw bool) {
+func (v *interpreter) mainLoop() {
 	ticker := time.Tick(100 * time.Millisecond)
 mainLoop:
 	for {
@@ -57,26 +39,58 @@ mainLoop:
 			switch r.Type {
 
 			case plumbing.Answers:
-				for identifier, answer := range r.Answers {
-					q := v.symbols.Read(identifier)
-					q.(symboltable.StringParser).From(answer)
-					v.symbols.Update(identifier, q)
-					v.execute.QuestionaireNode(v.questionaire)
-					v.send <- &plumbing.Frontend{Type: plumbing.Flush}
-				}
+				v.flushAnswers(r.Answers)
 
 			case plumbing.ReadyT:
-				v.execute.QuestionaireNode(v.questionaire)
-				v.send <- &plumbing.Frontend{Type: plumbing.Flush}
+				v.renderAndFlush(v.execute)
 
 			case plumbing.Redraw:
-				redraw = true
 				break mainLoop
 
 			}
 
 		case <-ticker:
-			v.send <- &plumbing.Frontend{Type: plumbing.FetchAnswers}
+			v.fetchAnswers()
 		}
+	}
+}
+
+func (v *interpreter) renderAndFlush(exec ast.Executer) {
+	exec.QuestionaireNode(v.questionaire)
+	v.send <- &plumbing.Frontend{Type: plumbing.Flush}
+}
+
+func (v *interpreter) fetchAnswers() {
+	v.send <- &plumbing.Frontend{Type: plumbing.FetchAnswers}
+}
+
+func (v *interpreter) confirmRedraw() {
+	v.receive <- &plumbing.Frontend{Type: plumbing.ReadyT}
+}
+
+func (v *interpreter) handshake() {
+	v.send <- &plumbing.Frontend{Type: plumbing.ReadyP}
+}
+
+func (v *interpreter) drawAndFlush() {
+drawLoop:
+	for {
+		select {
+		case r := <-v.receive:
+			switch r.Type {
+			case plumbing.ReadyT:
+				v.renderAndFlush(v.draw)
+				break drawLoop
+			}
+		}
+	}
+}
+
+func (v *interpreter) flushAnswers(answers map[string]string) {
+	for identifier, answer := range answers {
+		q := v.symbols.Read(identifier)
+		q.(symboltable.StringParser).From(answer)
+		v.symbols.Update(identifier, q)
+		v.renderAndFlush(v.execute)
 	}
 }

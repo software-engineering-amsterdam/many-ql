@@ -1,5 +1,6 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly
-// with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact
+// directly with Interpreter. It is the package gopkg.in/qml.v1. All
+// compilations constraints apply.
 package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
@@ -97,14 +98,12 @@ func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	for _, v := range g.drawStack {
+	allRender := append(g.drawStack, g.renderStack...)
+	for _, v := range allRender {
 		g.renderplumbing <- v
 	}
-	g.drawStack = []render{}
 
-	for _, v := range g.renderStack {
-		g.renderplumbing <- v
-	}
+	g.drawStack = []render{}
 	g.renderStack = []render{}
 
 	for k, v := range g.sweepStack {
@@ -122,7 +121,7 @@ func (g *Gui) Flush() {
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend
-// process and VM.
+// process and Interpreter.
 func (g *Gui) FetchAnswers() map[string]string {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -201,14 +200,17 @@ func (g *Gui) updateQuestion(fieldName string, content interface{}) {
 
 		fieldPtr := question.ObjectByName(fieldName)
 
-		if fieldPtr.Bool("activeFocus") {
-			// Don't let regular update loop to overwrite current
-			// user edit in the focused field.
-			return
-		}
-
-		g.updateCallbacks[fieldName](content.(string))
+		g.updateIfUnfocused(fieldPtr, fieldName, content.(string))
 	}
+}
+
+func (g *Gui) updateIfUnfocused(fieldPtr qml.Object, fieldName,
+	content string) {
+	if fieldPtr.Bool("activeFocus") {
+		return
+	}
+
+	g.updateCallbacks[fieldName](content)
 }
 
 func (g *Gui) hideQuestion(fieldName string) {

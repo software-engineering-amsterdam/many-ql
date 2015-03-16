@@ -1,7 +1,7 @@
 package com.klq.ast.impl.expr.literal;
 
-import com.common.ast.Location;
-import com.klq.ast.IVisitor;
+import com.klq.ast.impl.Location;
+import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.Value;
 
@@ -27,7 +27,7 @@ public class IdentifierNode extends AExpression {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

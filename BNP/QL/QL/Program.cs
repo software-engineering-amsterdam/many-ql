@@ -8,11 +8,12 @@ using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using QL.Errors;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
-using QL.Evaluation;
+using QL.Visitors;
 
 
 namespace QL
@@ -28,7 +29,7 @@ namespace QL
 
                 Stream inputStream = Console.OpenStandardInput();
 
-                AstHandler ast = new AstHandler(inputStream);
+                ASTHandler ast = new ASTHandler(inputStream);
 
                 if (ast.BuildAST())
                 {

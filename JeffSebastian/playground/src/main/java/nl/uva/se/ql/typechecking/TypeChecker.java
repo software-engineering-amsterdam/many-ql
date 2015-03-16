@@ -35,7 +35,7 @@ import nl.uva.se.ql.ast.type.DecimalType;
 import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
-import nl.uva.se.ql.ast.type.TypeFactory;
+import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
 import nl.uva.se.ql.interpretation.Result;
 import nl.uva.se.ql.interpretation.error.ErrorList;
@@ -46,7 +46,7 @@ import nl.uva.se.ql.interpretation.error.TypeNotAllowed;
 import nl.uva.se.ql.interpretation.error.UndefinedReference;
 
 public class TypeChecker implements FormVisitor, StatementVisitor,
-		ExpressionVisitor<Type> {
+		ExpressionVisitor<Type>, TypeVisitor<Type> {
 
 	private static final Type BOOLEAN = new BooleanType();
 	private static final Type INTEGER = new IntegerType();
@@ -65,7 +65,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
 
 		if (!symbolResult.getErrorList().hasErrors()) {
-			Result<DependencyTable> result = DependencyResolver.resolve(form);
 			TypeChecker typeChecker = new TypeChecker(symbolResult);
 			typeChecker.visit(form);
 			return new Result<SymbolTable>(typeChecker.errors,
@@ -240,7 +239,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		}
 
 		if (leftType.equals(rightType)) {
-			return TypeFactory.getTypeForName(leftType.getTypeName());
+			return leftType.accept(this);
 		}
 
 		errors.addError(new InvalidOperandType(left.getLineNumber(), 
@@ -251,7 +250,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 
 	private Type getTypeForExpression(Type type, Expression expr, Type... types) {
 		if (type.isIn(types)) {
-			return TypeFactory.getTypeForName(type.getTypeName());
+			return type.accept(this);
 		}
 
 		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
@@ -268,6 +267,31 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
 				expr.getOffset(), type, expr.getClass().getName()));
 
+		return new UndefinedType();
+	}
+
+	@Override
+	public Type visit(BooleanType booleanType) {
+		return new BooleanType();
+	}
+
+	@Override
+	public Type visit(DecimalType decimalType) {
+		return new DecimalType();
+	}
+
+	@Override
+	public Type visit(IntegerType integerType) {
+		return new IntegerType();
+	}
+
+	@Override
+	public Type visit(StringType stringType) {
+		return new StringType();
+	}
+
+	@Override
+	public Type visit(UndefinedType undefinedType) {
 		return new UndefinedType();
 	}
 }

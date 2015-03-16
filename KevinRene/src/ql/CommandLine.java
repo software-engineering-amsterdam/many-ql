@@ -6,16 +6,16 @@ import java.io.InputStreamReader;
 
 import ql.ast.Expression;
 import ql.ast.QLNode;
+import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
+import ql.ast.visitor.prettyprinter.printer.ConsolePrinter;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
 public class CommandLine {
-	private static Parser formParser = new Parser();
-	private static PrettyPrinter prettyPrinter = new PrettyPrinter();
-	
 	/**
 	 * The main method, which gets executed once this class is run. Enabled the user
 	 * to enter a string, which is then parsed and shown as an AST.
@@ -23,9 +23,8 @@ public class CommandLine {
 	public static void main(String[] args) {
 		TypeEnvironment register = new TypeEnvironment();
 		ValueEnvironment valueEnv = new ValueEnvironment();
+		ErrorEnvironment errorEnvironment;
 		
-		boolean correctTypes = false;
-		@SuppressWarnings("rawtypes")
 		Value evaluatorResult = null;
 		
 		try {
@@ -41,22 +40,25 @@ public class CommandLine {
 					break;
 				} 
 				else {
-					QLNode tree = formParser.parse(str);
+					QLNode tree = Parser.parse(str);
 					
 					if(tree instanceof Statement) {
-						correctTypes = TypeChecker.check((Statement) tree, register);
+						errorEnvironment = TypeChecker.check((Statement) tree, register);
 						evaluatorResult = Evaluator.check((Statement) tree, valueEnv);
 						
-						((Statement) tree).accept(prettyPrinter);
-					} else {
-						correctTypes = TypeChecker.check((Expression) tree, register);
+						PrettyPrinter.print((Statement) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
+					} else if(tree instanceof Expression) {
+						errorEnvironment = TypeChecker.check((Expression) tree, register);
 						evaluatorResult = Evaluator.check((Expression) tree, valueEnv);
 						
-						((Expression) tree).accept(prettyPrinter);
-					}
+						PrettyPrinter.print((Expression) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
+					} else {
+						errorEnvironment = TypeChecker.check((QLType) tree, register);
+						PrettyPrinter.print((QLType) tree, new ConsolePrinter(), PrettyPrinter.DEFAULT_PREFIX);
+					}					
 					
-					if(!correctTypes) {
-						System.out.println("Type error detected in the form.");
+					if(errorEnvironment.hasErrors()) {
+						System.out.println(errorEnvironment.getErrors());
 						continue;
 					}
 					

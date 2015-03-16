@@ -8,7 +8,7 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 10-3-15.
  */
-public class TextField extends Control implements IntegerControl, DecimalControl, StringControl
+public class TextField extends ControlElement implements IntControl, DecControl, StrControl
 {
     private final javafx.scene.control.TextInputControl textField;
 
@@ -21,7 +21,26 @@ public class TextField extends Control implements IntegerControl, DecimalControl
     }
 
     @Override
-    public Node getGuiElement()
+    public void setVisible(Boolean visible)
+    {
+        this.textField.setVisible(visible);
+        this.textField.setManaged(visible);
+    }
+
+    @Override
+    public void setValue(Value value)
+    {
+        value.accept(this);
+    }
+
+    @Override
+    public void setDisabled(Boolean disabled)
+    {
+        this.textField.setDisable(disabled);
+    }
+
+    @Override
+    public Node getControlNode()
     {
         return this.textField;
     }
@@ -33,43 +52,6 @@ public class TextField extends Control implements IntegerControl, DecimalControl
     }
 
     @Override
-    public void setVisible(Boolean visible)
-    {
-        this.textField.setVisible(visible);
-        this.textField.setManaged(visible);
-    }
-
-    @Override
-    public void setDisabled(Boolean disabled)
-    {
-        this.textField.setDisable(disabled);
-    }
-
-    @Override
-    public void setValue(UndefinedValue value)
-    {
-        this.setText("");
-    }
-
-    @Override
-    public void setValue(StringValue value)
-    {
-        this.setText(value.getValue());
-    }
-
-    @Override
-    public void setValue(DecimalValue value)
-    {
-        this.setText(value.getValue().toString());
-    }
-
-    @Override
-    public void setValue(IntegerValue value)
-    {
-        this.setText(value.getValue().toString());
-    }
-
-    @Override
     public void addListener(ChangeListener listener)
     {
         this.textField.textProperty().addListener(listener);
@@ -78,5 +60,33 @@ public class TextField extends Control implements IntegerControl, DecimalControl
     private void setText(String text)
     {
         this.textField.setText(text);
+    }
+
+    @Override
+    public Void visit(DecValue val)
+    {
+        this.setText(val.getValue().toString());
+        return null;
+    }
+
+    @Override
+    public Void visit(IntValue val)
+    {
+        this.setText(val.getValue().toString());
+        return null;
+    }
+
+    @Override
+    public Void visit(StrValue val)
+    {
+        this.setText(val.getValue());
+        return null;
+    }
+
+    @Override
+    public Void visit(UndefValue val)
+    {
+        this.setText("");
+        return null;
     }
 }

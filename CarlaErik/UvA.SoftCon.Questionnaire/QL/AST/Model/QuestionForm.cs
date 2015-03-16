@@ -14,28 +14,16 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
     /// </summary>
     public sealed class QuestionForm : QLNode
     {
-        public IEnumerable<IStatement> Statements
+        public IEnumerable<Statement> Statements
         {
             get;
             private set;
         }
 
-        public IEnumerable<Question> AllQuestions
-        {
-            get;
-            private set;
-        }
-
-        public QuestionForm(IEnumerable<IStatement> statements, TextPosition position)
+        public QuestionForm(IEnumerable<Statement> statements, TextPosition position)
             : base(position)
         {
             Statements = statements;
-            AllQuestions = GetAllQuestions();
-        }
-
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override T Accept<T>(IQLVisitor<T> visitor)
@@ -43,13 +31,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
             return visitor.Visit(this);
         }
 
-        private IEnumerable<Question> GetAllQuestions()
+        public IEnumerable<Question> GetAllQuestions()
         {
             var questions = new List<Question>();
 
             foreach (var statement in Statements)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
             return questions;
         }

@@ -11,14 +11,14 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
     /// <summary>
     /// Represents a visitor for the <c>stat</c> parser rule.
     /// </summary>
-    internal class StatementVisitor : QLBaseVisitor<IStatement>
+    internal class StatementVisitor : QLBaseVisitor<Statement>
     {
-        public override IStatement VisitIfStatement(QLParser.IfStatementContext context)
+        public override Statement VisitIfStatement(QLParser.IfStatementContext context)
         {
-            IExpression condition = context.expr().Accept(new ExpressionVisitor());
+            Expression condition = context.expr().Accept(new ExpressionVisitor());
 
-            var thenStatements = new List<IStatement>();
-            var elseStatements = new List<IStatement>();
+            var thenStatements = new List<Statement>();
+            var elseStatements = new List<Statement>();
            
             foreach (var statement in context._then) 
             {
@@ -32,7 +32,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             return new IfStatement(condition, thenStatements, elseStatements, context.GetTextPosition());
         }
 
-        public override IStatement VisitQuestion(QLParser.QuestionContext context)
+        public override Statement VisitQuestion(QLParser.QuestionContext context)
         {
             DataType type = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
@@ -43,22 +43,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
 
             if (context.expr() != null)
             {
-                IExpression expression = context.expr().Accept(new ExpressionVisitor());
+                Expression expression = context.expr().Accept(new ExpressionVisitor());
                 return new Question(type, id, label, expression, context.GetTextPosition());
             }
             else
             {
                 return new Question(type, id, label, context.GetTextPosition());
             }
-        }
-
-        public override IStatement VisitDefinition(QLParser.DefinitionContext context)
-        {
-            DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
-            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
-            IExpression expression = context.expr().Accept(new ExpressionVisitor());
-
-            return new Definition(dataType, id, expression, context.GetTextPosition());
         }
     }
 }

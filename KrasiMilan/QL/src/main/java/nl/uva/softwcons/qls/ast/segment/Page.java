@@ -8,12 +8,12 @@ import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
 
 public class Page implements ASTNode {
     private final Identifier id;
-    private final List<PageSegment> regions;
+    private final List<PageSegment> segments;
     private final List<DefaultStyle> styles;
 
     public Page(final Identifier id, final List<PageSegment> regions, final List<DefaultStyle> styles) {
         this.id = id;
-        this.regions = regions;
+        this.segments = regions;
         this.styles = styles;
     }
 
@@ -21,8 +21,8 @@ public class Page implements ASTNode {
         return id;
     }
 
-    public List<PageSegment> getRegions() {
-        return regions;
+    public List<PageSegment> getSegments() {
+        return segments;
     }
 
     public List<DefaultStyle> getStyles() {

@@ -2,8 +2,7 @@ package ql.gui.input;
 
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
-import ql.gui.control.ControlType;
-import ql.semantics.ValueTable;
+import ql.gui.control.Control;
 
 /**
  * Created by Nik on 17-2-15.
@@ -13,11 +12,13 @@ public abstract class Input extends GuiElement
     private String id;
     private Boolean disabled;
     protected VBox inputNode;
+    protected final Control control;
 
-    public Input(String id, Boolean visible, Boolean disabled)
+    public Input(String id, Control control, Boolean visible, Boolean disabled)
     {
         super(visible);
         this.id = id;
+        this.control = control;
         this.disabled = disabled;
     }
 
@@ -29,7 +30,6 @@ public abstract class Input extends GuiElement
     public void setDisabled(Boolean disabled)
     {
         this.disabled = disabled;
-//        this.control.setDisabled(disabled);
     }
 
     public VBox getInputNode()
@@ -41,9 +41,8 @@ public abstract class Input extends GuiElement
     public void setVisible(Boolean visible)
     {
         super.setVisible(visible);
-//        this.inputNode.setVisible(visible);
-//        this.inputNode.setManaged(visible);
-//        this.control.setVisible(visible);
+        this.inputNode.setVisible(visible);
+        this.inputNode.setManaged(visible);
     }
 
     public String getId()
@@ -51,14 +50,5 @@ public abstract class Input extends GuiElement
         return id;
     }
 
-    public abstract void update(ValueTable valueTable);
-
-    protected abstract VBox createInputNode(ControlType control);
-//    {
-//        VBox box = new VBox();
-//        box.getChildren().add(control.getControl());
-//        box.setAlignment(Pos.TOP_RIGHT);
-//        box.setVisible(this.getVisible());
-//        return box;
-//    }
+    protected abstract VBox createInputNode(Control control);
 }

@@ -7,10 +7,10 @@ public abstract class Value {
 	
 	private static final UndefinedValue UNDEFINED = new UndefinedValue(); 
 	
-	public abstract Object getValue();
+	public abstract Object value();
+	public boolean isDefined() {return false;}
 	public abstract String toString();
 	
-	public boolean isUndefined(){return true;}
 	public Value not() {return UNDEFINED;}
 	public Value positive() {return UNDEFINED;}
 	public Value negative() {return UNDEFINED;}
@@ -45,4 +45,5 @@ public abstract class Value {
 	public Value strEqual(StrValue arg) {return UNDEFINED;}
 	public Value strNotEqual(StrValue arg) {return UNDEFINED;}
 	public Value StrPlus(StrValue arg) {return UNDEFINED;}
+	
 }

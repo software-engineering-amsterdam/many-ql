@@ -1,12 +1,13 @@
 package ql.semantics.errors;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by bore on 10/03/15.
  */
-public class Messages
+public class Messages implements Iterable<Message>
 {
     private List<Message> messages;
 
@@ -20,9 +21,9 @@ public class Messages
         this.messages.add(m);
     }
 
-    public Message get(int i)
+    public void addAll(Messages ms)
     {
-        return this.messages.get(i);
+        this.messages.addAll(ms.messages);
     }
 
     public boolean containsError()
@@ -38,8 +39,8 @@ public class Messages
         return false;
     }
 
-    public int size()
+    public Iterator<Message> iterator()
     {
-        return this.messages.size();
+        return this.messages.iterator();
     }
 }

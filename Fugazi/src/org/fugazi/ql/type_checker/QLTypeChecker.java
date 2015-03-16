@@ -8,7 +8,6 @@ import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -25,12 +24,17 @@ public class QLTypeChecker {
     private final TypeMismatchVisitor typeMismatchVisitor;
 
     private final ASTIssueHandler astIssueHandler;
-    private QLFormDataStorage formData;
 
-    public QLTypeChecker() {
-        this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
-        this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor();
-        this.typeMismatchVisitor = new TypeMismatchVisitor();
+    private final Form form;
+    private final QLFormDataStorage formData;
+
+    public QLTypeChecker(Form _form, QLFormDataStorage _formData) {
+        this.form = _form;
+        this.formData = _formData;
+
+        this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor(this.formData);
+        this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor(this.formData);
+        this.typeMismatchVisitor = new TypeMismatchVisitor(this.formData);
 
         this.astIssueHandler = new ASTIssueHandler();
     }
@@ -61,6 +65,9 @@ public class QLTypeChecker {
 
     private void checkQuestionTypes() {
         List<Question> questions = this.formData.getQuestions();
+        // this.formData.getAllQuestionTypes() cannot be reused since
+        // duplicate keys are simply overwritten there. The place to detect them
+        // is here.
         Map<String, Type> questionTypes = new HashMap<>();
 
         for (Question question : questions) {
@@ -83,7 +90,7 @@ public class QLTypeChecker {
             Expression expression = ifStatement.getCondition();
 
             // check if condition of type bool
-            boolean conditionIsBool = QLTypeCheckerHelper.isExpressionOfTypeBool(expression);
+            boolean conditionIsBool = expression.isExpressionOfTypeBool(this.formData);
             if (!conditionIsBool) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
@@ -101,11 +108,11 @@ public class QLTypeChecker {
             Expression computed = question.getComputedExpression();
 
             // check if assigned types equal
-            boolean typesEqual = QLTypeCheckerHelper.areTypesEqual(type, computed.getReturnedType());
+            boolean typesEqual = (type.equals(computed.getReturnedType(this.formData)));
             if (!typesEqual) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,
-                        "Attempted to assign type " + computed.getReturnedType()
+                        "Attempted to assign type " + computed.getReturnedType(this.formData)
                                 + " to variable of type " + type.getClass() + "."
                 );
             }
@@ -148,8 +155,7 @@ public class QLTypeChecker {
      * =====================
      */
 
-    public boolean checkForm(Form form, QLFormDataStorage formData) {
-        this.formData = formData;
+    public boolean checkForm() {
 
         // clear errors and warnings
         // (so that multiple checks can be performed on one instance)
@@ -162,9 +168,9 @@ public class QLTypeChecker {
         this.checkAssignmentTypes();
 
         // perform all the checks that are done on the fly
-        this.checkForUndefinedQuestions(form);
-        this.checkForTypeMismatches(form);
-        this.checkForCyclicDependencies(form);
+        this.checkForUndefinedQuestions(this.form);
+        this.checkForTypeMismatches(this.form);
+        this.checkForCyclicDependencies(this.form);
 
         return this.isFormCorrect();
     }
@@ -177,7 +183,7 @@ public class QLTypeChecker {
         return (this.astIssueHandler.hasErrors()
                 || this.undefinedQuestionsVisitor.hasErrors()
                 || this.typeMismatchVisitor.hasErrors()
-                || this.undefinedQuestionsVisitor.hasErrors());
+                || this.cyclicDependenciesVisitor.hasErrors());
     }
 
     public List<ASTNodeIssue> getErrors() {

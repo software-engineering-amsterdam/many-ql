@@ -1,16 +1,12 @@
 import com.klq.AST2GUIConverter;
-import com.klq.ast.ANode;
 import com.klq.ast.ParseTreeConverter;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
 import com.klq.parser.KLQLexer;
 import com.klq.parser.KLQParser;
-import com.klq.typecheker.TypeChecker;
-import com.kls.logic.StyleMap;
-import com.kls.logic.properties.FontFamily;
-import com.kls.logic.properties.FontSize;
-import com.kls.logic.style.QuestionStyle;
+import com.klq.typechecker.TypeChecker;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -63,8 +59,8 @@ public class Main extends Application {
         KLQParser parser = new KLQParser(tokens);
         ParseTree tree = parser.questionnaire();
 
-        ParseTreeConverter eval = new ParseTreeConverter();
-        ANode ast = eval.visit(tree);
+        ParseTreeConverter eval = new ParseTreeConverter(file);
+        QuestionnaireNode ast = (QuestionnaireNode) eval.visit(tree);
 
         TypeChecker tc = new TypeChecker(ast);
         tc.reportErrors();
@@ -73,13 +69,15 @@ public class Main extends Application {
         Store store = (Store) ast.accept(AST2GUIConverter);
 
         //test stuff. remove later
+        /*
         StyleMap styleMap = new StyleMap();
         QuestionStyle qStyle = new QuestionStyle();
         FontSize size = new FontSize(18);
         qStyle.addProperty(size);
         styleMap.addPageStyle("question1", qStyle);
+        */
 
-        QuestionPage page = new QuestionPage(store, styleMap);
+        QuestionPage page = new QuestionPage(store/*, styleMap*/);
         page.addQuestions(store.getOrderedQuestions());
 
         questionnaire = new Questionnaire(store);

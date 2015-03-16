@@ -13,12 +13,7 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public Boolean getValue() {
-        return this.value;
-    }
-
-    @Override
-    public Boolean asBoolean() {
+    public Boolean getBoolean() {
         return value;
     }
 
@@ -44,42 +39,17 @@ public class BooleanValue extends Value {
 
     @Override
     public Value andBoolean(final BooleanValue otherValue) {
-        return new BooleanValue(this.value && otherValue.asBoolean());
+        return new BooleanValue(this.value && otherValue.getBoolean());
     }
 
     @Override
     public Value orBoolean(final BooleanValue otherValue) {
-        return new BooleanValue(this.value || otherValue.asBoolean());
+        return new BooleanValue(this.value || otherValue.getBoolean());
     }
 
     @Override
     public Value isEqualBoolean(final Value otherValue) {
-        return new BooleanValue(this.value.equals(otherValue.asBoolean()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BooleanValue other = (BooleanValue) obj;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+        return new BooleanValue(this.value.equals(otherValue.getBoolean()));
     }
 
 }

@@ -1,6 +1,5 @@
 package uva.ql.ast;
 
-import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 
 public class Prog extends ASTNode{
@@ -14,11 +13,6 @@ public class Prog extends ASTNode{
 	
 	public Form getForm(){
 		return this.form;
-	}
-	
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
 	}
 	
 	public <T> T accept(StatementVisitorInterface<T> visitor){

@@ -1,8 +1,8 @@
 package com.klq.gui.pane;
 
-import com.klq.gui.InputValidator;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
+import com.klq.ast.impl.Type;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 
@@ -25,10 +25,24 @@ public class TextQuestionPane extends AQuestionPane {
             inputField.textProperty().bind(question.computedProperty());
         }
         inputField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (InputValidator.matches(question.getType(), newValue)){
+            if (matchesInput(newValue)){
+                inputField.setStyle("-fx-border-color: cornflowerblue");
                 questionAnswered(newValue);
+            } else {
+                inputField.setStyle("-fx-border-color: red");
             }
         });
         return inputField;
+    }
+
+
+    @Override
+    protected boolean matchesInput(String input) {
+        if (input.trim().isEmpty())
+            return true;
+        if (question.getType() == Type.NUMERAL) {
+            return input.matches("-?\\d+(\\.\\d+)?");
+        }
+        return true;
     }
 }

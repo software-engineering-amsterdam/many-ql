@@ -55,6 +55,8 @@ literal
 Type
 	: 'boolean'
 	| 'decimal'
+	| 'integer'
+	| 'string'
 	;
 	
 // FRAGMENTS

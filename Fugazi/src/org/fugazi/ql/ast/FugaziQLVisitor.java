@@ -21,10 +21,7 @@ import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.statement.Statement;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.parser.QLBaseVisitor;
 import org.fugazi.ql.parser.QLParser;
 
@@ -35,22 +32,35 @@ import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final Map<String, Type> identifiers = new HashMap<>();
+    private final Map<String, Type> identifierTypes = new HashMap<>();
 
     private void addIdentifier(String _name, Type _type) {
-        identifiers.put(_name, _type);
+        identifierTypes.put(_name, _type);
     }
 
-    private Type getIdentifier(String _name) {
-        return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
-    }
-    
     private String removeStringQuotes(String _str) {
         return _str.replaceAll("^\"|\"$", "");
     }
 
     private int getLineNumber(ParserRuleContext ctx) {
         return ctx.getStart().getLine();
+    }
+
+    private Type getIdentifierType(String _name) {
+        return (
+                identifierTypes.containsKey(_name) ?
+                    identifierTypes.get(_name) : new UndefinedType()
+        );
+    }
+
+    /**
+     * =======================
+     * Exposed
+     * =======================
+     */
+
+    public Map<String, Type> getIdentifierTypes() {
+        return this.identifierTypes;
     }
 
     /**
@@ -99,7 +109,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
         
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
         
         this.addIdentifier(identifier.getName(), type);
@@ -117,7 +127,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
 
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
 
         this.addIdentifier(identifier.getName(), type);
@@ -323,8 +333,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         String name = ctx.ID().getText();
-        Type type = this.getIdentifier(name);
-        ID identifier = new ID(name, type);
+        ID identifier = new ID(name);
         identifier.setLineNumber(this.getLineNumber(ctx));
         return identifier;
     }

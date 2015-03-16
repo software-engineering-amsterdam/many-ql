@@ -6,7 +6,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 )
 
-// EqualsNode is the visitor for Equals comparison operation
+// EqualsNode is the visitor for Equals comparison operation.
 func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 	lt, ltOk := n.LeftTerm().(*ast.TermNode)
 	rt, rtOk := n.RightTerm().(*ast.TermNode)
@@ -20,7 +20,7 @@ func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 	return left == right
 }
 
-// NotEqualsNode is the visitor for not equals comparison operation
+// NotEqualsNode is the visitor for not equals comparison operation.
 func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
 	lt, ltOk := n.LeftTerm().(*ast.TermNode)
 	rt, rtOk := n.RightTerm().(*ast.TermNode)
@@ -34,31 +34,49 @@ func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
 	return left != right
 }
 
-// MoreThanNode is the visitor for More Than comparison operation
+// LikeNode is the visitor for "like" comparison operation. This operator
+// compares strings normalizing them first, by stripping surrounding spaces and
+// putting them in lower case letters.
+func (exec Execute) LikeNode(n *ast.LikeNode) bool {
+	lt, ltOk := n.LeftTerm().(*ast.TermNode)
+	rt, rtOk := n.RightTerm().(*ast.TermNode)
+	if ltOk && rtOk {
+		vl := convertToStringAndTrim(exec.resolveTermNode(lt))
+		vr := convertToStringAndTrim(exec.resolveTermNode(rt))
+		return vl == vr
+	}
+
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
+	return convertToStringAndTrim(left) == convertToStringAndTrim(right)
+}
+
+// MoreThanNode is the visitor for More Than comparison operation.
 func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left > right
 }
 
-// LessThanNode is the visitor for Less Than comparison operation
+// LessThanNode is the visitor for Less Than comparison operation.
 func (exec Execute) LessThanNode(n *ast.LessThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left < right
 }
 
-// MoreOrEqualsThanNode is the visitor for More Or Equals Than comparison operation
+// MoreOrEqualsThanNode is the visitor for More Or Equals Than comparison
+// operation.
 func (exec Execute) MoreOrEqualsThanNode(n *ast.MoreOrEqualsThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left >= right
 }
 
-// LessOrEqualsThanNode is the visitor for Less Or Equals Than comparison operation
+// LessOrEqualsThanNode is the visitor for Less Or Equals Than comparison
+// operation.
 func (exec Execute) LessOrEqualsThanNode(n *ast.LessOrEqualsThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left <= right
 }
 
-// TermNode is the visitor for Term comparison operation
+// TermNode is the visitor for Term comparison operation.
 func (exec Execute) TermNode(s *ast.TermNode) bool {
 	value := exec.resolveTermNode(s)
 
@@ -76,27 +94,27 @@ func (exec Execute) TermNode(s *ast.TermNode) bool {
 	return false
 }
 
-// BoolAndNode is the visitor for "and" comparison operation
+// BoolAndNode is the visitor for "and" comparison operation.
 func (exec Execute) BoolAndNode(n *ast.BoolAndNode) bool {
 	left := exec.ResolveComparisonNode(n.DoubleTermNode.LeftTerm())
 	right := exec.ResolveComparisonNode(n.DoubleTermNode.RightTerm())
 	return left && right
 }
 
-// BoolOrNode is the visitor for "or" comparison operation
+// BoolOrNode is the visitor for "or" comparison operation.
 func (exec Execute) BoolOrNode(n *ast.BoolOrNode) bool {
 	left := exec.ResolveComparisonNode(n.DoubleTermNode.LeftTerm())
 	right := exec.ResolveComparisonNode(n.DoubleTermNode.RightTerm())
 	return left || right
 }
 
-// BoolNegNode is the visitor for negation comparison operation
+// BoolNegNode is the visitor for negation comparison operation.
 func (exec Execute) BoolNegNode(n *ast.BoolNegNode) bool {
 	return !exec.ResolveComparisonNode(n.Term())
 }
 
 // ResolveComparisonNode is the helper function to process all comparison
-// operations
+// operations.
 func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 	conditionState := true
 
@@ -115,6 +133,9 @@ func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 
 	case *ast.EqualsNode:
 		conditionState = exec.EqualsNode(n.(*ast.EqualsNode))
+
+	case *ast.LikeNode:
+		conditionState = exec.LikeNode(n.(*ast.LikeNode))
 
 	case *ast.MoreThanNode:
 		conditionState = exec.MoreThanNode(n.(*ast.MoreThanNode))

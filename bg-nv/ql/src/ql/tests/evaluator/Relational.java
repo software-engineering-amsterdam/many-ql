@@ -1,8 +1,9 @@
 package ql.tests.evaluator;
 
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.ValueTableEntry;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.tests.TestHelper;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class Relational
     @Test
     public void gtDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.1>1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.1>1.0", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -26,7 +27,7 @@ public class Relational
     @Test
     public void gtDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0>1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0>1.0", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -34,14 +35,14 @@ public class Relational
     @Test
     public void gtIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("3>1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("3>1", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
     @Test
     public void gtIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1>3", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1>3", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -49,7 +50,7 @@ public class Relational
     @Test
     public void ltDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0<1.1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0<1.1", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -57,7 +58,7 @@ public class Relational
     @Test
     public void ltDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0<1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0<1.0", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -65,14 +66,14 @@ public class Relational
     @Test
     public void ltIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1<3", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1<3", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
     @Test
     public void ltIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("3<1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("3<1", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -80,7 +81,7 @@ public class Relational
     @Test
     public void ltEquDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0<=1.1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0<=1.1", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -88,7 +89,7 @@ public class Relational
     @Test
     public void ltEquDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.1<=1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.1<=1.0", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -96,14 +97,14 @@ public class Relational
     @Test
     public void ltEquIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1<=3", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1<=3", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
     @Test
     public void ltEquIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("3<=1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("3<=1", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -111,7 +112,7 @@ public class Relational
     @Test
     public void gtEquDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.1>=1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.1>=1.0", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -119,7 +120,7 @@ public class Relational
     @Test
     public void gtEquDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0>=1.1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0>=1.1", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -127,14 +128,14 @@ public class Relational
     @Test
     public void gtEquIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("3>=1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("3>=1", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
     @Test
     public void gtEquIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1>=3", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1>=3", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -142,7 +143,7 @@ public class Relational
     @Test
     public void notEquBoolTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true!=false", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true!=false", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -150,7 +151,7 @@ public class Relational
     @Test
     public void notEquBoolFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true!=true", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true!=true", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -158,7 +159,7 @@ public class Relational
     @Test
     public void notEquStringTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("\"string\"!=\"s\"", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("\"string\"!=\"s\"", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -166,7 +167,7 @@ public class Relational
     @Test
     public void notEquStringFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("\"string\"!=\"string\"", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("\"string\"!=\"string\"", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -174,7 +175,7 @@ public class Relational
     @Test
     public void notEquDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0!=1.1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0!=1.1", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -182,7 +183,7 @@ public class Relational
     @Test
     public void notEquDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0!=1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0!=1.0", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -190,14 +191,14 @@ public class Relational
     @Test
     public void notEquIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("10!=11", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("10!=11", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
     @Test
     public void notEquIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1!=1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1!=1", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -205,7 +206,7 @@ public class Relational
     @Test
     public void equBoolTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true==true", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true==true", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -213,7 +214,7 @@ public class Relational
     @Test
     public void equBoolFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true==false", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true==false", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -221,7 +222,7 @@ public class Relational
     @Test
     public void equStringTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("\"string\"==\"string\"", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("\"string\"==\"string\"", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -229,7 +230,7 @@ public class Relational
     @Test
     public void equStringFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("\"string\"==\"s\"", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("\"string\"==\"s\"", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -237,7 +238,7 @@ public class Relational
     @Test
     public void equDecTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0==1.0", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0==1.0", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -245,7 +246,7 @@ public class Relational
     @Test
     public void equDecFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1.0==1.1", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1.0==1.1", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -253,7 +254,7 @@ public class Relational
     @Test
     public void equIntTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("10==10", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("10==10", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -261,7 +262,7 @@ public class Relational
     @Test
     public void equIntFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("1==2", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("1==2", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -270,8 +271,8 @@ public class Relational
     public void undefinedEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1==hasHouse==2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1==hasHouse==2", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -279,8 +280,8 @@ public class Relational
     public void undefinedLt()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1<hasHouse<2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1<hasHouse<2", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -288,8 +289,8 @@ public class Relational
     public void undefinedGt()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1>hasHouse>2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1>hasHouse>2", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -297,8 +298,8 @@ public class Relational
     public void undefinedLtEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1<=hasHouse<=2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1<=hasHouse<=2", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -306,8 +307,8 @@ public class Relational
     public void undefinedGtEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1>=hasHouse>=2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1>=hasHouse>=2", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -315,8 +316,8 @@ public class Relational
     public void undefinedNotEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("1!=hasHouse!=2", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("1!=hasHouse!=2", table), UndefValue.class);
         assertNotNull(v);
     }
 }

@@ -9,7 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.question.Question;
+import uva.ql.ast.statements.Question;
 import uva.ql.interpreter.observer.Subject;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 import uva.ql.interpreter.typecheck.table.ExpressionTable;

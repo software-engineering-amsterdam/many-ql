@@ -10,7 +10,7 @@ grammar Grammar;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
-	
+	import com.form.language.error.QLToken;
 	import com.form.language.memory.*;
 }
 
@@ -31,61 +31,81 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, $ID);}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, new QLToken($ID.line,$ID.pos));}
 	;
 	
 ifStatement returns [Statement result]
 : IF exp=expression 'then' slist=statementList
-  'end' {$result = new IfStatement($exp.result,$slist.result, $IF);}
+  'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
 ;
 
 assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result, $ID);}
+: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result,new QLToken($ID.line,$ID.pos));}
 ;
-	
+
 expression returns [Expression result]
-  : LBRACE x=expression RBRACE				{ $result = $x.result;}
-  | unary = unaryExpression 				{$result = $unary.result;} 
-  | mulDiv = multDivExpression 				{$result = $mulDiv.result;}
-  | addSub = addSubExpression				{$result = $addSub.result;}
-  | comp   = comparisonExpression			{$result = $comp.result;}
-  | andOr = andOrExpression					{$result = $andOr.result;}
-  | lit = literal							{ $result = $lit.result; }
+// Parentheses
+  : '(' x=expression ')' { $result = $x.result;}
+//	Unary
+  |	op=('-' | '!') x=expression	{
+  		switch($op.text){
+			case "-":  	$result = new Negation($x.result, new QLToken($op.line,$op.pos));
+						break;
+			case "!": 	$result = new Not($x.result,new QLToken($op.line,$op.pos));
+						break;
+		}
+  	}
+// Multiplication Division
+  | l=expression op=('*' | '/') r=expression {
+  	  	switch($op.text){
+			case "*": 	$result = new Multiplication($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case "/": 	$result = new Division($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+		}
+	}
+// Addition Substraction
+  | l=expression op=('+' | '-') r=expression { 
+	  	switch($op.text){
+			case "+":  	$result = new Addition($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case "-": 	$result = new Substraction($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+		}
+	}
+// Comparison
+  | l=expression op=('==' | '>' | '>=' | '<' | '<=' ) r=expression {
+  		switch($op.text){
+			case "==": 	$result = new Equal($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case ">": 	$result = new GreaterThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case ">=": 	$result = new GreaterThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case "<": 	$result = new LessThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case "<=": 	$result = new LessThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+		}
+	}
+// Conjunct Disjunct
+  |  l=expression op=('&&' | '||') r=expression {
+  	  	switch($op.text){
+			case "&&": 	$result = new And($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+			case "||": 	$result = new Or($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
+		}
+	}
+// Literal
+  | lit = literal	{ $result = $lit.result; }
   ;
 
-unaryExpression returns [Expression result]
-:   MINUS x=expression						{ $result = new Negation($x.result, $MINUS);}
-	| EXCL x=expression						{ $result = new Not($x.result,$EXCL);}
-;
-
-multDivExpression returns [Expression result]
-: 	l=expression MULT r=expression			{ $result = new Multiplication($l.result, $r.result, $MULT);}
-	| l=expression DIV r=expression			{ $result = new Division($l.result, $r.result, $DIV);}
-;
-
-addSubExpression returns [Expression result]
-: 	l=expression PLUS r=expression			{ $result = new Addition($l.result, $r.result, $PLUS); }
-	| l=expression MINUS r=expression			{ $result = new Substraction($l.result, $r.result, $MINUS); }
-;
-
-comparisonExpression returns[Expression result]
-:	 l=expression EQ r=expression				{ $result = new Equal($l.result, $r.result, $EQ); }
-	| l=expression GT r=expression				{ $result = new GreaterThan($l.result, $r.result, $GT); }
-	| l=expression GTEQ r=expression			{ $result = new GreaterThanOrEqual($l.result, $r.result, $GTEQ); }
-	| l=expression LT r=expression				{ $result = new LessThan($l.result, $r.result, $LT); }
-	| l=expression LTEQ r=expression			{ $result = new LessThanOrEqual($l.result, $r.result, $LTEQ); }
-;
-
-andOrExpression returns[Expression result]
-  : l=expression AND r=expression			{ $result = new And($l.result, $r.result, $AND); }
-  | l=expression OR r=expression			{ $result = new Or($l.result, $r.result, $OR); }
-;
-
 literal returns [Expression result]
-	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),$BOOLEAN);}
-	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),$INTEGER);}
-	| STRING	{$result = new StringLiteral($STRING.text,$STRING);}
-	| ID	    {$result = new IdLiteral($ID.text,$ID);}
+	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),new QLToken($BOOLEAN.line,$BOOLEAN.pos));}
+	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),new QLToken($INTEGER.line,$INTEGER.pos));}
+	| STRING	{$result = new StringLiteral($STRING.text,new QLToken($STRING.line,$STRING.pos));}
+	| ID	    {$result = new IdLiteral($ID.text,new QLToken($ID.line,$ID.pos));}
 	;
 
 type returns [Type result]
@@ -103,18 +123,3 @@ INTEGER : [0-9]+;
 ID : ([a-z][A-Za-z0-9]+);
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
-
-OR: '||';
-AND: '&&';
-LTEQ: '<=';
-LT: '<';
-GTEQ: '>=';
-GT: '>';
-EQ: '==';
-PLUS: '+';
-DIV: '/';
-MULT: '*';
-EXCL: '!';
-MINUS: '-';
-RBRACE: ')';
-LBRACE: '(';

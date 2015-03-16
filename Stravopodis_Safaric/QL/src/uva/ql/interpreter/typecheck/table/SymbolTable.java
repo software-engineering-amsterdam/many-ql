@@ -3,44 +3,41 @@ package uva.ql.interpreter.typecheck.table;
 import java.util.HashMap;
 import java.util.Map;
 
+import uva.ql.ast.type.*;
+import uva.ql.supporting.table.Table;
 
-public class SymbolTable extends Table<String, SymbolTableValue>{
+public class SymbolTable extends Table <String, Type> {
 
-	private Map<String, SymbolTableValue> symbolMap;
-	
-	public SymbolTable(){
-		this.symbolMap = new HashMap<String, SymbolTableValue>();
-	}
-	
-	public Map<String, SymbolTableValue> getTable() {
-		return this.symbolMap;
-	}
+	private final Map<String, Type> symbolTable = new HashMap<String, Type>();
 	
 	@Override
-	public void putValue(String identifier, SymbolTableValue value) {
-		this.symbolMap.put(identifier, value);
+	public void putValue(String key, Type value) {
+		this.symbolTable.put(key, value);
 	}
 
 	@Override
-	public boolean keyExists(String identifier) {
-		return this.symbolMap.keySet().contains(identifier);
+	public boolean keyExists(String key) {
+		return this.symbolTable.containsKey(key);
 	}
 
 	@Override
-	public boolean valueExists(String identifier, SymbolTableValue value) {
-		return this.symbolMap.get(identifier) != null;
+	public boolean valueExists(String key, Type value) {
+		
+		if (this.keyExists(key)){
+			return this.symbolTable.get(key).equals(value);
+		}
+		
+		return false;
 	}
 
 	@Override
-	public SymbolTableValue retrieveValue(String identifier) {
-		return this.symbolMap.get(identifier);
+	public Type retrieveValue(String key) {
+		return this.symbolTable.get(key);
 	}
-	
+
 	@Override
 	public String toString() {
-		String s = "";
-		for (String key : this.symbolMap.keySet())
-			s += key + " " + this.symbolMap.get(key) + " ";
-		return s;
+		return this.symbolTable.toString();
 	}
+
 }

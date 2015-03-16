@@ -19,14 +19,14 @@
 //    public void testSetParent() throws Exception {
 //        Node newChild = addChild();
 //        assertNotNull(newChild.getParent());
-//        assertEquals(parentNode.getChildren().size(), 1);
-//        assertTrue(parentNode.getChildren().contains(newChild));
+//        assertEquals(parentNode.getComputedAnswer().size(), 1);
+//        assertTrue(parentNode.getComputedAnswer().contains(newChild));
 //    }
 //
 //    @Test
 //    public void testRemoveParent() throws Exception {
 //        addChild().removeParent();
-//        assertTrue(parentNode.getChildren().isEmpty());
+//        assertTrue(parentNode.getComputedAnswer().isEmpty());
 //    }
 //
 //    private Node addChild(){

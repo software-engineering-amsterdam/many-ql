@@ -82,7 +82,7 @@ public abstract class AQuestionPane extends GridPane {
     }
 
     private Label createQuestionLabel() {
-        String text = question.getText().toString();
+        String text = question.getText();
         Label result = new Label(text);
         Font font = new Font("Arial Bold", 14);
         result.setFont(font);
@@ -99,12 +99,14 @@ public abstract class AQuestionPane extends GridPane {
      */
     protected abstract Node createInputControl();
 
+    protected abstract boolean matchesInput(String input);
+
     protected void questionAnswered(String result) {
         if (result == null || result.trim().isEmpty()){
-            store.updateAnswer(question.getId(), null);
+            store.updateAnswer(question.getID(), null);
         } else {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-            store.updateAnswer(question.getId(), expr);
+            store.updateAnswer(question.getID(), expr);
         }
     }
 
@@ -155,5 +157,4 @@ public abstract class AQuestionPane extends GridPane {
         }
         return frames;
     }
-
 }

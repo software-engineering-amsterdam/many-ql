@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interfaces.IAllowTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
@@ -13,6 +14,16 @@ public class BoolValue extends Value {
         @Override
         public BoolValue getDefaultValue() {
             return new BoolValue(false);
+        }
+
+        @Override
+        public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
+            return allowTypeChecker.allowsStringValue();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof BoolValue;
         }
     };
 

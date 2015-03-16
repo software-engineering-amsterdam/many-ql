@@ -28,14 +28,14 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (test == "A") {
+if (1 + 2) {
     Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {
     Question check2 (bool) : Another one?
 }
 
-if (5 - (3 + ((2 / 1))) == 4) {
+if (5 - 3 + 2 + 1 == 4) {
     Question dunno (bool) : Do you know what to write?
 }
 

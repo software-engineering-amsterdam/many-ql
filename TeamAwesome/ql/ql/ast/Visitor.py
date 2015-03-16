@@ -1,93 +1,50 @@
-from patterns.Visitor import Visitor as GenericVisitor
-
-
-class ExpressionVisitor(GenericVisitor):
-    def _visitAtomicExpression(self, node):
-        self.visit(node.left)
-
-    def _visitUnaryExpression(self, node):
-        self.visit(node.right)
-
-    def _visitBinaryExpression(self, node):
-        self.visit(node.left)
-        self.visit(node.right)
-
-    def _visitIdentifier(self, node):
+class ExpressionVisitor:
+    def visitUnaryExpressionBegin(self, node):
         pass
 
-    def _visitStr(self, node):
+    def visitUnaryExpressionEnd(self, node):
         pass
 
-    def _visitMoney(self, node):
+    def visitBinaryExpressionBegin(self, node):
         pass
 
-    def _visitInt(self, node):
+    def visitBinaryExpressionEnd(self, node):
         pass
 
-    def _visitBool(self, node):
+    def visitBoolean(self, node):
         pass
 
-
-class StatementVisitor(GenericVisitor):
-    def _visitRoot(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitFormStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitQuestionStatement(self, node):
+    def visitInteger(self, node):
         pass
 
-    def _visitIfStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-
-class FullVisitor(GenericVisitor):
-    def _visitRoot(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitFormStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitQuestionStatement(self, node):
-        if node.expr is not None:
-            self.visit(node.expr)
-
-    def _visitIfStatement(self, node):
-        self.visit(node.expr)
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitAtomicExpression(self, node):
-        self.visit(node.left)
-
-    def _visitUnaryExpression(self, node):
-        self.visit(node.right)
-
-    def _visitBinaryExpression(self, node):
-        self.visit(node.left)
-        self.visit(node.right)
-
-    def _visitIdentifier(self, node):
+    def visitString(self, node):
         pass
 
-    def _visitStr(self, node):
+    def visitMoney(self, node):
         pass
 
-    def _visitMoney(self, node):
+    def visitIdentifier(self, node):
+        pass
+    
+
+class StatementVisitor:
+    def visitQuestionnaireBegin(self, questionnaire):
         pass
 
-    def _visitInt(self, node):
+    def visitQuestionnaireEnd(self, questionnaire):
         pass
 
-    def _visitBool(self, node):
+    def visitFormStatementBegin(self, node):
         pass
 
+    def visitFormStatementEnd(self, node):
+        pass
 
-class Visitor(FullVisitor):
-    pass
+    def visitIfStatementBegin(self, node):
+        pass
+
+    def visitIfStatementEnd(self, node):
+        pass
+
+    def visitQuestionStatement(self, node):
+        pass

@@ -1,18 +1,21 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Identifier;
-import nl.uva.bromance.ast.Node;
-import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.operators.Operator;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import org.antlr.v4.runtime.Token;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Expression extends Node {
+public class Expression extends QLNode {
     private String text;
     private Optional<Operator> operator = Optional.empty();
     private Optional<Terminal> terminal = Optional.empty();
+    private Result result;
+    private Optional<Expression> leftHandSide = Optional.empty();
+    private Optional<Expression> rightHandSide = Optional.empty();
 
     public Expression(int lineNumber, Optional<Token> operatorToken) {
         super(lineNumber, Expression.class);
@@ -31,64 +34,13 @@ public class Expression extends Node {
             System.out.print("\t");
         }
         System.out.print("[Expression] " + text + " \n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }
 
     public void setText(String t) {
         this.text = t;
-    }
-
-    public Result evaluate(List<Identifier> identifiers) {
-        if (operator.isPresent()) {
-            return processOperatorExpression(identifiers);
-        } else {
-            return processTerminal(identifiers);
-
-        }
-    }
-
-    private Result processTerminal(List<Identifier> identifiers) {
-
-        Result result = null;
-        if (terminal.isPresent()) {
-            Terminal terminal = this.terminal.get();
-            if (terminal.isInteger()) {
-                result = new IntResult(Integer.parseInt(terminal.getValue()));
-            } else if (terminal.isString()) {
-                result = new StringResult(terminal.getValue());
-            } else {
-                for (Identifier identifier : identifiers) {
-                    //TODO: What if there is an identifier with the same id?
-                    if (terminal.getValue().equals(identifier.getId())) {
-                        result = identifier.getResult();
-                        break;
-                    }
-                }
-            }
-        } else {
-
-            //TODO: Why is this necessary?
-            // No text or operator, so one kid who does have something of use for us.
-            result = ((Expression) getChildren().get(0)).evaluate(identifiers);
-        }
-
-        return result;
-    }
-
-
-    private Result processOperatorExpression(List<Identifier> identifiers) {
-        Result resultOne = getLeftHandSide().evaluate(identifiers);
-        Result resultTwo = getRightHandSide().evaluate(identifiers);
-        try {
-            return operator.get().performOperation(resultOne, resultTwo);
-
-            //TODO: This should be done in TypeChecking. Don't want to run into operandExpressions when running the program.
-        } catch (InvalidOperandException e) {
-            System.err.println("Got invalid operands [" + resultOne.getClass().getSimpleName() + "," + resultTwo.getClass().getSimpleName() + "] for operator type :" + operator.getClass().getSimpleName());
-            return new BooleanResult(false);
-        }
     }
 
     public Optional<Terminal> getTerminal() {
@@ -99,15 +51,53 @@ public class Expression extends Node {
         return operator;
     }
 
-    private Expression getLeftHandSide() {
-        return (Expression) getChildren().get(0);
-    }
-
-    private Expression getRightHandSide() {
-        return (Expression) getChildren().get(1);
-    }
-
     public void setTerminal(Terminal terminal) {
         this.terminal = Optional.of(terminal);
+    }
+
+
+    //TODO: Create something that makes it obvious that this is postorder traversal
+    @Override
+    public void accept(NodeVisitor visitor) {
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+        visitor.visit(this);
+    }
+
+    public Optional<Expression> getLeftHandSide() {
+        return leftHandSide;
+    }
+
+    public void setLeftHandSide(Optional<Expression> leftHandSide) {
+        this.leftHandSide = leftHandSide;
+    }
+
+    public void setRightHandSide(Optional<Expression>rightHandSide) {
+        this.rightHandSide = rightHandSide;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+    public Result getResult() {
+        return this.result;
+    }
+
+    public Result getLeftHandSideResult() {
+        if(leftHandSide.isPresent()) {
+            return leftHandSide.get().getResult();
+        }
+        else
+        {return null;}
+
+    }
+    public Result getRightHandSideResult() {
+        if(rightHandSide.isPresent()) {
+            return rightHandSide.get().getResult();
+        }
+        else
+        {return null;}
+
     }
 }

@@ -24,12 +24,13 @@ func New() (ast.Executer, *symboltable.SymbolTable) {
 	return tc, st
 }
 
-// Typechecker is the delegation structure for Execute and typechecking visitors
+// Typechecker is the delegation structure for Execute and typechecking
+// visitors.
 type Typechecker struct {
 	execute ast.Executer
 }
 
-// QuestionaireNode execute all actionNodes of a questionaire (form)
+// QuestionaireNode execute all actionNodes of a questionaire (form).
 func (tc Typechecker) QuestionaireNode(q *ast.QuestionaireNode) {
 	ast.DelegateQuestionaireNodeExecution(tc, q)
 }
@@ -45,7 +46,7 @@ func (tc Typechecker) QuestionNode(q *ast.QuestionNode) {
 	tc.execute.QuestionNode(q)
 }
 
-// IfNode analyzes condition and run all children (ActionNodes)
+// IfNode analyzes condition and run all children (ActionNodes).
 func (tc Typechecker) IfNode(i *ast.IfNode) {
 	tc.execute.(ast.Comparator).ResolveComparisonNode(i.Conditions())
 

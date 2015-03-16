@@ -17,5 +17,4 @@ public class Label extends JLabel{
 	public String getText() {
 		return labelValue;
 	}
-	
 }

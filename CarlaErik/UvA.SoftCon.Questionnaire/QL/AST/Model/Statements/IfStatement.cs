@@ -9,27 +9,27 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
 {
-    public class IfStatement : QLNode, IStatement
+    public class IfStatement : Statement
     {
-        public IExpression If
+        public Expression If
         {
             get;
             private set;
         }
 
-        public IEnumerable<IStatement> Then
+        public IEnumerable<Statement> Then
         {
             get;
             private set;
         }
 
-        public IEnumerable<IStatement> Else
+        public IEnumerable<Statement> Else
         {
             get;
             private set;
         }
 
-        internal IfStatement(IExpression @if, IEnumerable<IStatement> then, IEnumerable<IStatement> @else, TextPosition position)
+        internal IfStatement(Expression @if, IEnumerable<Statement> then, IEnumerable<Statement> @else, TextPosition position)
             : base(position)
         {
             If = @if;
@@ -37,25 +37,20 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             Else = @else;
         }
 
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
         public override T Accept<T>(IQLVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public void AppendQuestions(ICollection<Question> questions)
+        internal override void CollectQuestions(ICollection<Question> questions)
         {
             foreach (var statement in Then)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
             foreach (var statement in Else)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
         }
     }

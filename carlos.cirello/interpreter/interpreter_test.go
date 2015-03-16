@@ -167,6 +167,69 @@ func TestReservedWords(t *testing.T) {
 	)
 }
 
+func TestModuloOperator(t *testing.T) {
+	form := `
+	form SomeForm {
+		"q1" q1 numeric
+
+		if (q1 % 2 == 0) {
+			"modulo 0" q2 string
+		}
+		if (q1 % 2 != 0) {
+			"modulo not 0" q3 string
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,2`,
+		`q1,q1,2`+"\n"+
+			`q2,modulo 0,`+"\n",
+	)
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,3`,
+		`q1,q1,3`+"\n"+
+			`q3,modulo not 0,`+"\n",
+	)
+}
+
+func TestLikeOperator(t *testing.T) {
+	form := `
+	form SomeForm {
+		"name" name string
+		"name2" name2 string
+
+		if (name like name2) {
+			"names are alike" alike string
+		}else{
+			"names are different" different string
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`name,name,name`+"\n"+
+			`name2,name2," NAME"`+"\n",
+		`name,name,name`+"\n"+
+			`name2,name2," NAME"`+"\n"+
+			`alike,names are alike,`+"\n",
+	)
+
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`name,name,name`+"\n"+
+			`name2,name2,VERYDIFFERENT`+"\n",
+		`name,name,name`+"\n"+
+			`name2,name2,VERYDIFFERENT`+"\n"+
+			`different,names are different,`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -202,22 +265,17 @@ func runForm(source string) *plumbing.Pipes {
 }
 
 func sendCsv(pipes *plumbing.Pipes, str string) {
-	csvReader := csvinput.New(pipes, strings.NewReader(str))
-	csvReader.Read()
+	csvinput.Read(pipes, strings.NewReader(str))
 	unlockInterpreter(pipes)
 }
 
 func unlockInterpreter(pipes *plumbing.Pipes) {
-drawLoop:
-	for {
-		select {
-		case r := <-pipes.FromInterpreter():
-			switch r.Type {
-			case plumbing.ReadyP:
-				pipes.ToInterpreter() <- &plumbing.Frontend{
-					Type: plumbing.ReadyT,
-				}
-				break drawLoop
+	select {
+	case r := <-pipes.FromInterpreter():
+		switch r.Type {
+		case plumbing.ReadyP:
+			pipes.ToInterpreter() <- &plumbing.Frontend{
+				Type: plumbing.ReadyT,
 			}
 		}
 	}
@@ -225,7 +283,6 @@ drawLoop:
 
 func readCsv(pipes *plumbing.Pipes) string {
 	var b bytes.Buffer
-	csvWriter := csvoutput.New(pipes, &b)
-	csvWriter.Write()
+	csvoutput.Write(pipes, &b)
 	return b.String()
 }

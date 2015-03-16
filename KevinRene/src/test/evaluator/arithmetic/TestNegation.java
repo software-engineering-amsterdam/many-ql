@@ -31,7 +31,6 @@ public class TestNegation extends BaseTest {
      	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestNegation(String input, Value expected) {
     	 super(input, expected); 
      }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.uva.ql.antlr.QLImplErrorListener;
 import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.ast.builder.QLImplVisitor;
@@ -15,10 +16,13 @@ import org.uva.ql.view.GUIVisitor;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		
+		QLImplErrorListener errorListener = new QLImplErrorListener();
 		ANTLRFileStream input = new ANTLRFileStream("scripts/ql/quest1.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
+		parser.addErrorListener(errorListener);
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
@@ -26,7 +30,17 @@ public class Main {
 		if (questionnaire.accept(typeChecker)) {
 			GUIVisitor guiVisitor = new GUIVisitor();
 			questionnaire.accept(guiVisitor);
+<<<<<<< HEAD
 		}
 		typeChecker.printMessages();
+||||||| merged common ancestors
+//		}
+//		typeChecker.printMessages();
+=======
+		}
+		typeChecker.printMessages();
+
+>>>>>>> b0dcee3df62a4a5cfbefc84e2ed8dd6c04bd998e
 	}
+
 }

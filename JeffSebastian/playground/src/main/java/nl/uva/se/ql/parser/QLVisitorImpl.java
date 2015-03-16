@@ -1,13 +1,8 @@
 package nl.uva.se.ql.parser;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import nl.uva.se.ql.ast.Node;
 import nl.uva.se.ql.ast.expression.Expression;
@@ -38,8 +33,12 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.Statement;
+import nl.uva.se.ql.ast.type.BooleanType;
+import nl.uva.se.ql.ast.type.DecimalType;
+import nl.uva.se.ql.ast.type.IntegerType;
+import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
-import nl.uva.se.ql.ast.type.TypeFactory;
+import nl.uva.se.ql.ast.type.UndefinedType;
 import nl.uva.se.ql.constant.Operator;
 import nl.uva.se.ql.parser.QLParser.ConditionContext;
 import nl.uva.se.ql.parser.QLParser.ExpressionContext;
@@ -68,7 +67,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitQuestion(QuestionContext ctx) {
-		Type type = TypeFactory.getTypeForName((ctx.Type().getText()));
+		Type type = getTypeForName((ctx.Type().getText()));
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
 		String id = ctx.Identifier().getText();
@@ -211,6 +210,20 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		}
 		
 		return new StringLiteral(lineNumber, offset, ctx.getText().substring(1, ctx.getText().length()-1));
+	}
+	
+	public Type getTypeForName(String typeName) {
+		if (typeName.equalsIgnoreCase("boolean")) {
+			return new BooleanType();
+		} else if (typeName.equalsIgnoreCase("integer")) {
+			return new IntegerType();
+		} else if (typeName.equalsIgnoreCase("decimal")) {
+			return new DecimalType();
+		} else if (typeName.equalsIgnoreCase("string")) {
+			return new StringType();
+		}
+		
+		return new UndefinedType();
 	}
 
 }

@@ -1,7 +1,8 @@
 package com.klq.ast.impl.expr;
 
-import com.common.ast.Location;
-import com.klq.ast.ANode;
+import com.klq.ast.IExpressionVisitor;
+import com.klq.ast.impl.Location;
+import com.klq.ast.impl.ANode;
 import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
@@ -18,6 +19,8 @@ public abstract class AExpression extends ANode {
     public AExpression() {
         super();
     }
+
+    public abstract <T> T  accept(IExpressionVisitor<T> visitor);
 
     public abstract Value evaluate(Map<String, Value> variableTable);
 

@@ -14,13 +14,9 @@ public interface IWidgetComponent {
 	
 	public void setEnabled(boolean isEnabled);	
 	public void addDocListener(EvaluateExpression evaluator);
-	public void setText(Value value);
 	
-	public boolean getBooleanValue();			
-	public String getValue();
-	
-	public void setBooleanValue(boolean value);
-	public void setValue(String value);	
+	public Value getValue();
+	public void setValue(Value value);	
 	
 	public void setVisible(boolean visibility);
 }

@@ -4,10 +4,11 @@ package org.uva.ql.ast.value;
 public class UndefinedValue extends Value {
 
 	public UndefinedValue() {
+		
 	}
 
 	@Override
-	public UndefinedValue getValue() {
+	public UndefinedValue value() {
 		return this;
 	}
 

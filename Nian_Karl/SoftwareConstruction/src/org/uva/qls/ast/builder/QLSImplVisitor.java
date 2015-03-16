@@ -25,7 +25,6 @@ import org.uva.qls.antlr.QLSParser.StrTypeContext;
 import org.uva.qls.antlr.QLSParser.StyleContext;
 import org.uva.qls.antlr.QLSParser.StylePropContext;
 import org.uva.qls.antlr.QLSParser.TextboxContext;
-import org.uva.qls.antlr.QLSParser.TypeContext;
 import org.uva.qls.antlr.QLSParser.WidgetStyleContext;
 import org.uva.qls.antlr.QLSParser.WidthStyleContext;
 import org.uva.qls.ast.CodePosition;

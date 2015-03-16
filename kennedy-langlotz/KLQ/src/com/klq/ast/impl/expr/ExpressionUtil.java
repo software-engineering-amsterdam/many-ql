@@ -1,6 +1,6 @@
 package com.klq.ast.impl.expr;
 
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.value.*;
 
 import java.math.BigDecimal;
@@ -24,7 +24,6 @@ public class ExpressionUtil {
             case NUMERAL:
                 return createNumberFromString(value);
             case STRING:
-            case SET:
                 return new StringValue(value);
         }
         throw new IllegalArgumentException("Type is not a valid type! Type: " + type);

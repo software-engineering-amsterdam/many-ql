@@ -1,22 +1,19 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
 
 //TODO: Create ifsequence class.
-public class IfStatement extends Node implements ContainsExpression {
+public class IfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
     public IfStatement(int lineNumber) {
         super(lineNumber, IfStatement.class);
-    }
-
-    @Override
-    public Expression getExpression() {
-        return expression;
     }
 
     @Override
@@ -25,11 +22,21 @@ public class IfStatement extends Node implements ContainsExpression {
     }
 
     @Override
-    public void handleExpressionResult(Result result) {
+    public void handleExpressionResult() {
+        Result result = expression.getResult();
+        //TODO: Should force this in TypeChecking.
         if (result instanceof BooleanResult) {
-            for (Node child : this.getChildren()) {
+            for (QLNode child : this.getChildren()) {
                 child.isVisible(((BooleanResult) result).getResult());
             }
+        }
+    }
+
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
         }
     }
 }

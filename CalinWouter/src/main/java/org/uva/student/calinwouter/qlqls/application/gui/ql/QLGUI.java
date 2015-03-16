@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
@@ -8,7 +9,6 @@ import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
 import org.uva.student.calinwouter.qlqls.ql.model.*;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import javax.swing.*;
@@ -17,8 +17,9 @@ import java.awt.*;
 public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     private final QLInterpreter qlIntepreter;
-    private final FormTypeChecker formTypeChecker;
-    private final VariableTable symbolTable;
+    private final StaticFields fieldsList;
+    private final VariableTable variableTable;
+    private final VariableTableWrapper variableTableWrapper;
 
     @Override
     protected String getFrameTitle() {
@@ -28,13 +29,14 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
-        for (AbstractFormField f : qlIntepreter.getForm().getFields()) {
+        for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
         }
         return panel;
     }
 
-    public Component render(AbstractFormField formField) {
+    public Component render(AbstractStaticFormField formField) {
+        //TODO should not catch any exception anymore
         try {
             return formField.applyRenderer(this);
         } catch (FieldNotFoundException e) {
@@ -43,28 +45,30 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     }
 
     @Override
-    public Component render(QuestionField questionField) {
-        final String questionIdentifier = questionField.getVariable();
-        final TypeDescriptor typeDescriptor = formTypeChecker.getTypeDescriptor(questionIdentifier);
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, questionField, this, symbolTable);
+    public Component render(StaticQuestionField staticQuestionField) {
+        final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper, this);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
 
     @Override
-    public Component render(ComputedValueField computedValueField) {
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueField, qlIntepreter, symbolTable);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValueField,
+    public Component render(StaticComputedValueField staticComputedValueField) {
+        final String identifier = staticComputedValueField.getVariable();
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(identifier, variableTableWrapper);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(staticComputedValueField.getLabel(),
+                    identifier,
                     null,
                     valueRepresentingLabelWidget,
-                    qlIntepreter,
+                    variableTableWrapper,
                     this);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
-    public QLGUI( QLInterpreter qlIntepreter, VariableTable symbolTable, ResultingFieldsCollection form, FormTypeChecker formTypeChecker) {
+    public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFields fieldsList) {
         this.qlIntepreter = qlIntepreter;
-        this.formTypeChecker = formTypeChecker;
-        this.symbolTable = symbolTable;
+        this.variableTable = variableTable;
+        this.fieldsList = fieldsList;
+        variableTableWrapper = new VariableTableWrapper(variableTable);
     }
 }

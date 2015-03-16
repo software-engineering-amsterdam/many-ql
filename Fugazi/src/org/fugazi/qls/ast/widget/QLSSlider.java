@@ -5,6 +5,8 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -15,11 +17,15 @@ import java.util.List;
 
 public class QLSSlider extends AbstractQLSWidget {
 
+    private final JSlider slider;
+
     public QLSSlider() {
+        this.slider = new JSlider();
     }
 
     public QLSSlider(String _label) {
         this.label = _label;
+        this.slider = new JSlider();
     }
 
     @Override
@@ -33,24 +39,28 @@ public class QLSSlider extends AbstractQLSWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        // todo
-        return null;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.slider);
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
-        // todo
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.slider);
     }
 
     @Override
-    public IntValue getValue() {
+    public void addEventListener(WidgetsEventListener _listener) {
+        //todo
+    }
+
+    @Override
+    public IntValue getWidgetValue() {
         //todo
         return new IntValue(0);
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public void setWidgetValue(ExpressionValue _value) {
         IntValue value = (IntValue) _value;
         // todo
     }

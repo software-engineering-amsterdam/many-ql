@@ -1,11 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
-import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,31 +14,17 @@ public class LabelWidget implements IWidget {
     private JLabel valueLabel;
 
 
-    public LabelWidget(final ComputedValue computedValue, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public LabelWidget(final String questionIdentifier , final VariableTableWrapper variableTableWrapper) {
         valueLabel = new JLabel();
-        qlIntepreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
-            @Override
-            public void onStateChanged() {
-                try {
-                    valueLabel.setText(symbolTable.getVariable(computedValue.getIdent()).getValue().toString());
-                } catch (NullPointerException e) {
-                    valueLabel.setText("-");
-                }
-            }
-        });
-    }
 
-    public LabelWidget(final ComputedValueField computedValueField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
-        valueLabel = new JLabel();
-        qlIntepreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                try {
-                    valueLabel.setText(symbolTable
-                            .getVariable(computedValueField.getVariable()).getValue().toString());
-                } catch (NullPointerException e) {
+                if(variableTableWrapper.getVariableTable().isSet(questionIdentifier)) {
+                    valueLabel.setText(variableTableWrapper.getVariableTable().getVariable(questionIdentifier).getValue().toString());
+                }else
                     valueLabel.setText("-");
-                }
+                valueLabel.revalidate();
             }
         });
     }

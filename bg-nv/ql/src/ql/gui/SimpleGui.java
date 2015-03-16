@@ -6,16 +6,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ql.ast.form.Form;
 import ql.gui.canvas.Canvas;
-import ql.gui.control.CheckBox;
-import ql.gui.control.Radios;
-import ql.gui.control.TextField;
-import ql.gui.input.expression.*;
-import ql.gui.input.regular.*;
+import ql.gui.control.*;
+import ql.gui.input.*;
 import ql.gui.label.Label;
-import ql.gui.segment.Conditional;
-import ql.gui.segment.Page;
-import ql.gui.segment.Row;
-import ql.gui.segment.Segment;
+import ql.gui.segment.*;
 import ql.semantics.*;
 
 /**
@@ -23,8 +17,9 @@ import ql.semantics.*;
  */
 public class SimpleGui<T extends Node> implements ModelVisitor<Void>
 {
-    private ValueTable valueTable;
+    private final ValueTable valueTable;
     private final Refresher refresher;
+
 
     public static void run(Form ast, Modeler modeler, Stage stage)
     {
@@ -32,21 +27,22 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
         Canvas canvas = modeler.model(flat);
 
         SimpleGui gui = new SimpleGui(ast);
-
         DataStore dataStore = new DataStore(ast);
         //TODO: user feedback
         canvas.setSubmitAction(e -> dataStore.store(gui.valueTable));
+        canvas.accept(gui);
         gui.start(canvas, stage);
     }
 
     private SimpleGui(Form ast)
     {
         this.valueTable = Evaluator.evaluate(ast);
-        this.refresher = new Refresher();
+        this.refresher = new Refresher(this.valueTable);
     }
 
     private void start(Canvas canvas, Stage stage)
     {
+        this.refresher.refresh();
         Parent parent = canvas.getParent();
         stage.setTitle(canvas.getName());
         stage.setScene(new Scene(parent, 600, 700));
@@ -77,8 +73,6 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     public Void visit(Conditional segment)
     {
         this.refresher.addItem(segment);
-        segment.refreshElement(this.valueTable);
-
         for (Segment subsegment : segment.getSubsegments())
         {
             subsegment.accept(this);
@@ -92,6 +86,12 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     {
         row.getLabel().accept(this);
         row.getInput().accept(this);
+        return null;
+    }
+
+    @Override
+    public Void visit(Section section)
+    {
         return null;
     }
 
@@ -126,33 +126,15 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(BoolExprInput input)
+    public Void visit(ExprInput input)
     {
         return handleInputVisit(input);
     }
 
     @Override
-    public Void visit(DateExprInput input)
+    public Void visit(Label label)
     {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(DecExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(IntExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(StrExprInput input)
-    {
-        return handleInputVisit(input);
+        return null;
     }
 
     @Override
@@ -174,7 +156,19 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(Label label)
+    public Void visit(Slider control)
+    {
+        return null;
+    }
+
+    @Override
+    public Void visit(Spinbox control)
+    {
+        return null;
+    }
+
+    @Override
+    public Void visit(Dropdown control)
     {
         return null;
     }
@@ -182,18 +176,13 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     private Void handleInputVisit(RegularInput input)
     {
         input.addObserver(this.refresher);
-        input.attachListener(this.valueTable);
-
         return null;
     }
 
-    private Void handleInputVisit (ExprInput input)
+    private Void handleInputVisit(ExprInput input)
     {
         this.refresher.addItem(input);
-
         input.evaluate(this.valueTable);
-        input.refreshElement(this.valueTable);
-
         return null;
     }
 }

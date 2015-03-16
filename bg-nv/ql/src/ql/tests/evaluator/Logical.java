@@ -1,8 +1,9 @@
 package ql.tests.evaluator;
 
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.ValueTableEntry;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.tests.TestHelper;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class Logical
     @Test
     public void andFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true&&false", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true&&false", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -24,7 +25,7 @@ public class Logical
     @Test
     public void andTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true&&true", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true&&true", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -32,7 +33,7 @@ public class Logical
     @Test
     public void orTrue()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("true||false", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("true||false", null), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
@@ -40,7 +41,7 @@ public class Logical
     @Test
     public void orFalse()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("false||false", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("false||false", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -48,7 +49,7 @@ public class Logical
     @Test
     public void not()
     {
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("!true", null), BooleanValue.class);
+        BoolValue v = TestHelper.as(TestHelper.evaluate("!true", null), BoolValue.class);
         assertNotNull(v);
         assertFalse(v.getValue());
     }
@@ -57,8 +58,8 @@ public class Logical
     public void undefinedNot()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -66,8 +67,8 @@ public class Logical
     public void undefinedAnd()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", table), UndefValue.class);
         assertNotNull(v);
     }
 
@@ -75,8 +76,8 @@ public class Logical
     public void undefinedOr()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", table), UndefinedValue.class);
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        UndefValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", table), UndefValue.class);
         assertNotNull(v);
     }
 }
