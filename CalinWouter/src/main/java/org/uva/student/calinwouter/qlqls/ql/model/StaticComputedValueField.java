@@ -1,13 +1,14 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
-public class ComputedValueField extends AbstractFormField {
+public class StaticComputedValueField extends AbstractStaticFormField {
 
 
-    public ComputedValueField(String lbl, String variable) {
-        super(lbl, variable);
+    public StaticComputedValueField(String lbl, String variable, TypeDescriptor typeDescriptor) {
+        super(lbl, variable, typeDescriptor);
     }
 
     @Override

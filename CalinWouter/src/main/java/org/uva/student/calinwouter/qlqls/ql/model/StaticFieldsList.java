@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public class StaticFieldsList {
-    private final List<StaticFieldElement> staticFields;
+    private final List<AbstractStaticFormField> staticFields;
 
-    public void addStaticField(StaticFieldElement staticFieldElement) {
+    public void addStaticField(AbstractStaticFormField staticFieldElement) {
         staticFields.add(staticFieldElement);
     }
 
     public StaticFieldsList() {
-        this.staticFields = new LinkedList<StaticFieldElement>();
+        this.staticFields = new LinkedList<AbstractStaticFormField>();
     }
 
 }

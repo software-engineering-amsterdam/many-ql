@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFieldsList;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.TypeCollector;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.StaticFieldsCollector;
 
 public class QLStaticAnalyser {
 
@@ -11,7 +11,7 @@ public class QLStaticAnalyser {
      */
     public static StaticFieldsList collectStaticFields(AForm form) {
         StaticFieldsList staticFieldsList = new StaticFieldsList();
-        TypeCollector typeCollector = new TypeCollector(staticFieldsList);
+        StaticFieldsCollector typeCollector = new StaticFieldsCollector(staticFieldsList);
         form.apply(typeCollector);
         return staticFieldsList;
     }
