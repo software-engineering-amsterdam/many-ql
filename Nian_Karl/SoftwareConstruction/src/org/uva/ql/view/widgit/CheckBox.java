@@ -42,7 +42,7 @@ public class CheckBox extends Widget {
 	@Override
 	public void setWidgetValue(Value value, Type type) {
 		if (!type.isEqual(new UndefinedType())) {
-			if (type.isBool() && !value.isUndefined()) {
+			if (type.isBool() && value.isDefined()) {
 				BoolValue booleanValue = (BoolValue) value;
 				if (booleanValue.value()) {
 					checkBox.setSelected(true);

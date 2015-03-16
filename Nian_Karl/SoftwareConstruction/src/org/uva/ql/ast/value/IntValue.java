@@ -7,6 +7,15 @@ public class IntValue extends Value {
 	public IntValue(Integer value) {
 		this.value = value;
 	}
+	
+	public boolean equals(IntValue intValue) {
+		return value == intValue.value();
+	}
+	
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
 
 	@Override
 	public Integer value() {
@@ -129,11 +138,4 @@ public class IntValue extends Value {
 		return new BoolValue(arg.value() != value());
 	}
 
-	@Override
-	public boolean isUndefined() {
-		if (value == null) {
-			return true;
-		}
-		return false;
-	}
 }
