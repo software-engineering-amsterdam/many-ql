@@ -9,11 +9,11 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Identifier extends Literal {
 
-	private final String name;
+	private final String identifier;
 
-	public Identifier(String name, CodePosition pos) {
+	public Identifier(String identifier, CodePosition pos) {
 		super(pos);
-		this.name = name;
+		this.identifier = identifier;
 	}
 
 	@Override
@@ -22,17 +22,17 @@ public class Identifier extends Literal {
 	}
 
 	public Value getValue(Evaluator evaluator) {
-		return evaluator.getValue(name);
+		return evaluator.getValue(identifier);
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return identifier;
 	}
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return typeChecker.getType(name);
+		return typeChecker.getType(this);
 	}
 
 	@Override
@@ -42,7 +42,17 @@ public class Identifier extends Literal {
 	}
 	
 	public boolean equals(Identifier id) {
-		return name.equals(id.toString());
+		return this.hashCode() == (id.hashCode());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashCode() == obj.hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return identifier.hashCode();
 	}
 
 }
