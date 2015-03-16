@@ -37,6 +37,19 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
+import org.uva.sea.ql.encoders.ast.operator.AddOperator;
+import org.uva.sea.ql.encoders.ast.operator.AndOperator;
+import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.ast.operator.DivideOperator;
+import org.uva.sea.ql.encoders.ast.operator.GreaterOrEqualOperator;
+import org.uva.sea.ql.encoders.ast.operator.GreaterThanOperator;
+import org.uva.sea.ql.encoders.ast.operator.LessOrEqualOperator;
+import org.uva.sea.ql.encoders.ast.operator.LessThanOperator;
+import org.uva.sea.ql.encoders.ast.operator.MultiplyOperator;
+import org.uva.sea.ql.encoders.ast.operator.NotOperator;
+import org.uva.sea.ql.encoders.ast.operator.OrOperator;
+import org.uva.sea.ql.encoders.ast.operator.SubstractOperator;
+import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.DataTypeTable;
 
@@ -124,63 +137,70 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Expression visitNeEq(NeEqContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitMulDiv(MulDivContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitLtGtLeGe(LtGtLeGeContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitOr(OrContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitAddSub(AddSubContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitAnd(AndContext ctx) {
 		String operator = ctx.operator.getText();
+		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new BinaryExpression(textLocation, leftHand, rightHand, binaryOperator);
 	}
 
 	@Override
 	public Expression visitNot(NotContext ctx) {
 		String operator = ctx.operator.getText();
+		UnaryOperator unaryOperator = getUnaryOperator(operator);
 		Expression expression = (Expression) visit(ctx.expr);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new UnaryExpression(textLocation, operator, expression);
+		return new UnaryExpression(textLocation, unaryOperator, expression);
 	}
 
 	@Override
@@ -211,4 +231,39 @@ public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
 		return new TextLocation(line, column);
 	}
 
+	private BinaryOperator getBinaryOperator(String operator) {
+		switch (operator) {
+		case "*":
+			return new MultiplyOperator();
+		case "/":
+			return new DivideOperator();
+		case "+":
+			return new AddOperator();
+		case "-":
+			return new SubstractOperator();
+		case "&&":
+			return new AndOperator();
+		case "||":
+			return new OrOperator();
+		case "<":
+			return new LessThanOperator();
+		case ">":
+			return new GreaterThanOperator();
+		case "<=":
+			return new LessOrEqualOperator();
+		case ">=":
+			return new GreaterOrEqualOperator();
+		default:
+			throw new AssertionError("Operator " + operator + " is not suppoerted.");
+		}
+	}
+
+	private UnaryOperator getUnaryOperator(String operator) {
+		switch (operator) {
+		case "!":
+			return new NotOperator();
+		default:
+			throw new AssertionError("Operator " + operator + " is not suppoerted.");
+		}
+	}
 }

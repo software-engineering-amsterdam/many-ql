@@ -24,7 +24,6 @@ import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
 import org.uva.sea.ql.encoders.runtime.value.Value;
-import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 import org.uva.sea.ql.encoders.ui.control.ControlGeneratorVisitor;
 import org.uva.sea.ql.encoders.ui.control.ControlWrapper;
@@ -92,8 +91,7 @@ public class QuestionnaireUI {
 
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
-					OperatorTable operatorTable = new OperatorTable();
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions, operatorTable);
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
 					// The cast to BooleanValue should be safe, because the
 					// types should already be checked at this point.
 					BooleanValue value = (BooleanValue) condition.accept(expressionEvaluator);
@@ -119,8 +117,7 @@ public class QuestionnaireUI {
 
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
-					OperatorTable operatorTable = new OperatorTable();
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions, operatorTable);
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
 					Value value = computed.accept(expressionEvaluator);
 					runtimeQuestion.setValue(value);
 				}

@@ -10,14 +10,13 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
+import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestion;
-import org.uva.sea.ql.encoders.runtime.operator.BinaryOperator;
-import org.uva.sea.ql.encoders.runtime.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
 import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
 import org.uva.sea.ql.encoders.runtime.value.StringValue;
 import org.uva.sea.ql.encoders.runtime.value.Value;
-import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 import org.uva.sea.ql.encoders.visitor.ExpressionVisitor;
 
@@ -25,11 +24,8 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
 	private final List<RuntimeQuestion> questions;
 
-	private final OperatorTable operatorTable;
-
-	public ExpressionEvaluator(List<RuntimeQuestion> questions, OperatorTable operatorTable) {
+	public ExpressionEvaluator(List<RuntimeQuestion> questions) {
 		this.questions = questions;
-		this.operatorTable = operatorTable;
 	}
 
 	@Override
@@ -45,16 +41,16 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 		Value leftValue = leftHand.accept(this);
 		Value rightValue = rightHand.accept(this);
 
-		BinaryOperator operator = operatorTable.getBinaryOperator(binaryExpression.getOperator());
-		return operator.calculate(leftValue, rightValue);
+		BinaryOperator operator = binaryExpression.getOperator();
+		return operator.accept(new BinaryEvaluator(leftValue, rightValue));
 	}
 
 	@Override
 	public Value visit(UnaryExpression unaryExpression) {
 		Expression expression = unaryExpression.getExpression();
-		UnaryOperator operator = operatorTable.getUnaryOperator(unaryExpression.getOperator());
+		UnaryOperator operator = unaryExpression.getOperator();
 		Value value = expression.accept(this);
-		return operator.calculate(value);
+		return operator.accept(new UnaryEvaluator(value));
 	}
 
 	@Override
@@ -79,5 +75,4 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 	public Value visit(StringLiteral stringLiteral) {
 		return new StringValue(stringLiteral.getValue());
 	}
-
 }

@@ -15,6 +15,7 @@ import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
+import org.uva.sea.ql.encoders.ast.operator.AndOperator;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 import org.uva.sea.ql.encoders.validation.Validation;
 
@@ -26,7 +27,7 @@ public class TypeCheckerVisitorTest {
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
 		Expression leftHand = new BooleanLiteral(aTextLocation().build(), true);
 		Expression rightHand = new BooleanLiteral(aTextLocation().build(), true);
-		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, "&&");
+		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
 		Question question = aQuestion().withCondition(condition).build();
 		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeChecker(questions);
@@ -39,7 +40,7 @@ public class TypeCheckerVisitorTest {
 	public void testCheckTypes_conditionsWithIntegersAreNotAllowed() {
 		Expression leftHand = new IntegerLiteral(aTextLocation().build(), 0);
 		Expression rightHand = new IntegerLiteral(aTextLocation().build(), 1);
-		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, "&&");
+		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
 		Question question = aQuestion().withCondition(condition).build();
 		List<Question> questions = Arrays.asList(question);
 		visitor = new TypeChecker(questions);
