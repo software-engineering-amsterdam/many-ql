@@ -45,9 +45,4 @@ public class TextQuestionPane extends AQuestionPane {
         }
         return true;
     }
-
-    private  final String NUMBER_PATTERN = "-?\\d+(\\.\\d+)?";
-    private boolean matchesNumber(String input){
-        return input.matches(NUMBER_PATTERN);
-    }
 }
