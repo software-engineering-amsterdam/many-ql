@@ -1,22 +1,20 @@
 ﻿using AST.ASTVisitors.Interfaces;
 using AST.Nodes.Interfaces;
-using AST.Representation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AST.Nodes.FormObject
+namespace AST.Nodes.FormObjects
 {
-    public abstract class FormObject : ASTNode, IVisitable
+    public abstract class FormObject : ASTNode
     {
         public FormObject(PositionInText pos)
             :base(pos)
         { }
 
-        public abstract T Accept<T>(FormObjectVisitor<T> visitor);
+        public abstract T Accept<T>(IFormObjectVisitor<T> visitor);
 
-        public abstract T Accept<T>(ASTVisitors.IVisitor<T> visitor);
     }
 }

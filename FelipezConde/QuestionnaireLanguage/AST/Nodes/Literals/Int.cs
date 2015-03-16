@@ -1,5 +1,4 @@
-﻿using AST.Representation;
-using System;
+﻿using System;
 
 namespace AST.Nodes.Literals
 {
@@ -23,19 +22,14 @@ namespace AST.Nodes.Literals
             return "int";
         }
 
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
-
         public override Types.Type RetrieveType()
         {
-            throw new NotImplementedException();
+            return new Types.IntType();
         }
 
         public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
         {
-            throw new NotImplementedException();
+            return visitor.Visit(this);
         }
     }
 }

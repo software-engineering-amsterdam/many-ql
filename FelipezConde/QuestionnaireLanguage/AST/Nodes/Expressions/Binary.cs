@@ -1,5 +1,4 @@
 ﻿using AST.Nodes.Interfaces;
-using AST.Representation;
 
 namespace AST.Nodes.Expressions
 {
@@ -21,6 +20,5 @@ namespace AST.Nodes.Expressions
         public BaseExpression Right()
         { return right; }
 
-        public abstract override T Accept<T>(ASTVisitors.IVisitor<T> visitor);
     }
 }

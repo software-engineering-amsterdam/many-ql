@@ -1,8 +1,7 @@
 ﻿using AST.Nodes.Interfaces;
-using AST.Representation;
 using System.Collections.Generic;
 
-namespace AST.Nodes.FormObject
+namespace AST.Nodes.FormObjects
 {
     public class Conditional : FormObject, IFormObjectContainer
     {
@@ -16,19 +15,14 @@ namespace AST.Nodes.FormObject
             this.body = body;
         }
 
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
-
         public IList<FormObject> GetBody()
         {
             return this.body;
         }
 
-        public override T Accept<T>(ASTVisitors.Interfaces.FormObjectVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.Interfaces.IFormObjectVisitor<T> visitor)
         {
-            throw new System.NotImplementedException();
+            return visitor.Visit(this);
         }
     }
 }

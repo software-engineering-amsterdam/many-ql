@@ -7,7 +7,7 @@ namespace AST.ASTVisitors.Interfaces
 {
     public interface IExpressionVisitor<T>
     {
-        T visit(Id node);
+        T Visit(Id node);
         T Visit(And node);
         T Visit(Or node);
         T Visit(Equal node);
@@ -24,9 +24,6 @@ namespace AST.ASTVisitors.Interfaces
         T Visit(Negate node);
         T Visit(Priority priority);
 
-        T Visit(Id node);
-
-        //Values
         T Visit(Bool node);
         T Visit(Int node);
         T Visit(AST.Nodes.Literals.String node);

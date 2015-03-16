@@ -1,5 +1,5 @@
-﻿using AST.Nodes.FormObject;
-using Evaluator.Values;
+﻿using AST.Nodes.FormObjects;
+using Evaluation.Values;
 using QuestionnaireLanguage.Presenter;
 using QuestionnaireLanguage.GUI.FormObject.Interface;
 using QuestionnaireLanguage.GUI.FormObject;

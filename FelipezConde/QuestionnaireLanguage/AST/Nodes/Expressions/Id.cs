@@ -1,5 +1,4 @@
 ﻿using AST.Nodes.Interfaces;
-using AST.Representation;
 
 namespace AST.Nodes.Expressions
 {
@@ -14,14 +13,9 @@ namespace AST.Nodes.Expressions
             this.Name = name;
         }
 
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
-
         public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
         {
-            throw new System.NotImplementedException();
+            return visitor.Visit(this);
         }
 
         public Types.Type RetrieveType()
