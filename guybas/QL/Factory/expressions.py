@@ -55,9 +55,9 @@ def make_mul_expression(tokens):
     x = tokens[0]
     for i in range(1, len(tokens)-1, 2):
         if tokens[i] == "*":
-            x = multiplication.Multiplication(x, tokens[i + 1])
+            x = multiplication.Multiplication("*", x, tokens[i + 1])
         else:
-            x = division.Division(x, tokens[i + 1])
+            x = division.Division("/", x, tokens[i + 1])
     return x
 
 
@@ -72,9 +72,9 @@ def make_compare(tokens):
         elif tokens[i] == "<":
             x = less.Less("<", x, tokens[i + 1])
         elif tokens[i] == ">=":
-            x = greater_equal.GreaterEqual(x, tokens[i + 1])
+            x = greater_equal.GreaterEqual(">=", x, tokens[i + 1])
         elif tokens[i] == "<=":
-            return less_equal.LessEqual(x, tokens[i + 1])
+            return less_equal.LessEqual("<=", x, tokens[i + 1])
         elif tokens[i] == "==":
             x = equal.Equal("==", x, tokens[i + 1])
         else:
@@ -84,24 +84,15 @@ def make_compare(tokens):
 
 def make_extra(tokens):
     tokens = tokens[0]
-    if tokens[1] == "and":
-        return and_op.And(tokens[0], tokens[2])
-    else:
-        return or_op.Or(tokens[0], tokens[2])
+    x = tokens[0]
+    for i in range(1, len(tokens)-1, 2):
+        if tokens[i] == "and":
+            x = and_op.And("and", x, tokens[i + 1])
+        else:
+            x = or_op.Or("or", x, tokens[i + 1])
+    return x
 
 
 def make_not(tokens):
     tokens = tokens[0]
-    return not_op.Not(tokens[1])
-
-
-#
-# Final expression
-#
-
-
-def make_expression(tokens):
-    return tokens
-
-
-
+    return not_op.Not("not", tokens[1])

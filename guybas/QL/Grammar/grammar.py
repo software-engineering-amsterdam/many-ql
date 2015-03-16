@@ -69,7 +69,7 @@ expr = pp.infixNotation(value,
           (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
           (comp_op, 2, pp.opAssoc.RIGHT, expression_factory.make_compare),
           (extra_op, 2, pp.opAssoc.LEFT)]
-    ).setParseAction(expression_factory.make_expression)
+    )
 
 # _id :: characters
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")

@@ -9,8 +9,6 @@ class Form:
 
         # set the statement _order and the parent _id's
         self._statements = statements
-        self.set_conditions()
-        self.set_question_ordering()
 
     # Pretty print the _form
     def pretty_print(self):
@@ -67,16 +65,6 @@ class Form:
         for s in self._statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
-
-    # Set the ordering of questions for display
-    def set_question_ordering(self):
-        c = 0
-        for s in self._statements:
-            c = s.set_order(c)
-
-    def set_conditions(self):
-        for s in self._statements:
-            s.set_parent_condition(None)
 
     @staticmethod
     def transitive_dependencies_key(key, values, checked, dependencies):

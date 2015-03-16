@@ -16,3 +16,6 @@ class Not(e.Element):
     # get all variables in the _expression
     def get_dependencies(self):
         raise NotImplementedError("Not implemented by sub class")
+
+    def is_valid_expression(self, td):
+        return self._operand.is_valid_expression() and self._operand.return_type_string == constants.BOOL
