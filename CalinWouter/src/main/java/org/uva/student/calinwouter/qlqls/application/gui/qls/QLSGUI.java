@@ -1,13 +1,15 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.staticfieldscollector.PTypeCollector;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
@@ -27,7 +29,8 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
     private final StyleSheet styleSheet;
     private final QLInterpreter qlIntepreter;
     private final VariableTable symbolTable;
-    private final FormTypeChecker formTypeChecker;
+    private final StaticFields staticFields;
+    private final VariableTableWrapper variableTableWrapper;
 
     /**
      * In case of a question, render the field by checking its type, fetching its styling settings,
@@ -74,13 +77,8 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
      * before the QLSGUI takes place in case a field is not in both QL and QLS.
      */
     // TODO maybe this method could be part of the typeChecker
-    private TypeDescriptor getTypeDescriptor(FormTypeChecker formTypeChecker, String ident) {
-        for (Map.Entry<String, TypeDescriptor<?>> fieldToTypeMap : formTypeChecker.getFields()) {
-            if (fieldToTypeMap.getKey().equals(ident)) {
-                return fieldToTypeMap.getValue();
-            }
-        }
-        throw new RuntimeException(new FieldNotFoundException());
+    private TypeDescriptor getTypeDescriptor(String ident) {
+        return staticFields.getTypeOfField(ident);
     }
 
     /**
@@ -92,10 +90,10 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
     public Component render(Question question) {
         try {
             final String questionIdentifier = question.getIdent();
-            final TypeDescriptor typeDescriptor = getTypeDescriptor(formTypeChecker, questionIdentifier);
+            final TypeDescriptor typeDescriptor = getTypeDescriptor(questionIdentifier);
             final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
             final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, symbolTable,question, stylingMap);
+            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper,question, stylingMap);
             final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
             return widget.getWidgetComponent();
         } catch(FieldNotFoundException e) {
@@ -112,11 +110,11 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         final TypeDescriptor typeless = null;
         final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
         final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue, qlIntepreter, symbolTable);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValue,
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue.getIdent(), variableTableWrapper);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValue.getIdent(), new String(),
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                qlIntepreter);
+                variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
@@ -135,10 +133,11 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
     }
 
     public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable symbolTable,
-                  FormTypeChecker formTypeChecker) {
+                  StaticFields staticFields) {
         this.qlIntepreter = qlIntepreter;
         this.symbolTable = symbolTable;
-        this.formTypeChecker = formTypeChecker;
+        this.staticFields = staticFields;
         this.styleSheet = styleSheet;
+        this.variableTableWrapper = new VariableTableWrapper(symbolTable);
     }
 }

@@ -135,10 +135,14 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        pushIdentifierType(node.getIdent().getText());
+        String variableName = node.getIdent().getText();
+        if (!staticFields.containsField(variableName)) {
+            typeCheckResults.addError("Undefined reference.");
+        }
+        pushIdentifierType(variableName);
     }
 
-    private TypeDescriptor popType() {
+    public TypeDescriptor popType() {
         return typeDescriptors.pop();
     }
 
@@ -175,7 +179,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     }
 
     private void pushIdentifierType(String ident) {
-        final TypeDescriptor typeDescriptor = staticFields.getVariableType(ident);
+        final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(ident);
         if (typeDescriptor == null) {
             addError(ident + " is not declared.");
         }

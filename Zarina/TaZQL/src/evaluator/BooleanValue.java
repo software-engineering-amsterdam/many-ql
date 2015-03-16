@@ -1,17 +1,11 @@
 package evaluator;
 
 public class BooleanValue extends Value<Boolean> {
-	//private final Boolean booleanValue;
 	
 	public BooleanValue(boolean booleanValue) {
 		super(booleanValue);
-		//this.booleanValue = booleanValue;
 	}
-	/*
-	public Boolean getBooleanValue() {
-		return booleanValue;
-	}
-	*/
+
 	public Value and(Value value) {
 		return value.andBoolean(this);
 	}
@@ -40,12 +34,4 @@ public class BooleanValue extends Value<Boolean> {
 	public Value orBoolean(BooleanValue value) {
 		return new BooleanValue(value.getValue() || getValue() );
 	}
-	/*
-	public boolean equals(Object object) {
-		if (object instanceof BooleanValue) {	
-			return getValue().equals(((BooleanValue) object).getValue());
-		}
-		return false;
-	}
-	*/
 }

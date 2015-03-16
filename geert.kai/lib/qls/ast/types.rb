@@ -4,12 +4,21 @@ module QLS
     end
 
     class IntegerType < Type
+      def name
+        "integer"
+      end
     end
 
     class StringType < Type
+      def name
+        "string"
+      end
     end
 
     class BooleanType < Type
+      def name
+        "boolean"
+      end
     end
 
     class Literal
@@ -17,6 +26,10 @@ module QLS
 
       def initialize(value)
         @value = value
+      end
+
+      def to_s
+        @value.to_s
       end
     end
 

@@ -27,18 +27,13 @@ class IStatement:
     def get_dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")
 
-    # set the _order number of the statement, only set once
-    def set_order(self, order_num):
-        raise NotImplementedError("Not implemented by sub class")
-
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # Get the _order of elements in the statement
-    def get_order(self):
-        raise NotImplementedError("Not implemented by sub class")
-
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
+        raise NotImplementedError("Not implemented by sub class")
+
+    def valid_type(self, td):
         raise NotImplementedError("Not implemented by sub class")

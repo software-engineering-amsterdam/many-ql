@@ -102,10 +102,10 @@ public class AstTest {
 
     @Test
     public void testExpressionMultiplication() throws RecognitionException, IOException {
-	String str = "1*1";
+	String str = "2*2";
 	GrammarParser parser = AstTest.getParser(str);
 	int actual = ((IntValue) (parser.expression().result).evaluate(new Context())).getValue();
-	int exspected = 1 * 1;
+	int exspected = 2 * 2;
 	assertEquals(exspected, actual);
     }
 

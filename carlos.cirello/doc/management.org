@@ -5,12 +5,31 @@
   {4} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
   {5} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
   {6} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
+  {7} [[http://www.laputan.org/pub/patterns/fowler/smells.pdf]]
 
 * QualityWithoutAName Cards
   - [X] backlog [3/3]
     - [X] get rid of switch statements
     - [X] magic constants
     - [X] duplicated code
+  - [ ] code smell hunt [3/17] from {7}
+    - [X] comments
+    - [X] long method
+    - [X] duplicated code (again)
+    - [ ] large class
+    - [ ] long parameter list
+    - [ ] divergent change
+    - [ ] shotgun surgery
+    - [ ] feature envy
+    - [ ] data clumps
+    - [ ] case statements
+    - [ ] parallel inheritance hierarchies
+    - [ ] lazy class
+    - [ ] similar subclasses
+    - [ ] temporary field
+    - [ ] middleman
+    - [ ] alternative classes with different interfaces
+    - [ ] duplicated code (againˆ2)
 
 * QL [7/7]
   - [X] Refactor [4/4]

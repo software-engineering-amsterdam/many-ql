@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
@@ -10,7 +7,7 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
-    public class Interpreter : QLVisitor
+    internal class Interpreter : QLVisitor<object>
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 
@@ -30,15 +27,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
             Visit(form);
         }
 
-        public override void Visit(QuestionForm form)
+        public override object Visit(QuestionForm form)
         {
             foreach (var statement in form.Statements)
             {
                 statement.Accept(this);
             }
+            return null;
         }
 
-        public override void Visit(Definition definition)
+        public override object Visit(Definition definition)
         {
             if (!_variables.ContainsKey(definition.Id.Name))
             {
@@ -51,9 +49,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
                 string message = String.Format("A question or definition with the name '{0}' is already declared.", definition.Id.Name);
                 throw new InvalidOperationException(message);
             }
+            return null;
         }
 
-        public override void Visit(Question question)
+        public override object Visit(Question question)
         {
             Value result = new Undefined();
 
@@ -63,9 +62,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
             }
 
             AvailableQuestions.Add(question.Id.Name, result);
+            return null;
         }
 
-        public override void Visit(IfStatement ifStatement)
+        public override object Visit(IfStatement ifStatement)
         {
             Value result = ifStatement.If.Accept(new ExpressionInterpreter(_variables));
 
@@ -86,6 +86,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
                     }
                 }
             }
+            return null;
         }
     }
 }

@@ -1,17 +1,15 @@
 package org.uva.ql.view.widgit;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.JCheckBox;
 
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.BoolValue;
 import org.uva.ql.ast.value.Value;
+import org.uva.ql.view.listener.CheckBoxListener;
 import org.uva.ql.view.listener.WidgetListener;
 
-public class CheckBox extends Widget implements ItemListener {
+public class CheckBox extends Widget {
 
 	private JCheckBox checkBox;
 	private WidgetListener widgetListener;
@@ -21,10 +19,13 @@ public class CheckBox extends Widget implements ItemListener {
 		checkBox = new JCheckBox();
 		this.widgetListener = listener;
 		checkBox.setOpaque(false);
-		if (!isDependent()) {
-			checkBox.addItemListener(this);
-		}
+	}
 
+	@Override
+	public void setIdentifier(String identifier) {
+		super.setIdentifier(identifier);
+		CheckBoxListener checkBoxListener = new CheckBoxListener(this.widgetListener, getIdentifier(), this);
+		checkBox.addItemListener(checkBoxListener);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -40,8 +41,8 @@ public class CheckBox extends Widget implements ItemListener {
 
 	@Override
 	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType()) && isDependent()) {
-			if (type.isBool() && !value.isUndefined()) {
+		if (!type.isEqual(new UndefinedType())) {
+			if (type.isBool() && value.isDefined()) {
 				BoolValue booleanValue = (BoolValue) value;
 				if (booleanValue.value()) {
 					checkBox.setSelected(true);
@@ -51,19 +52,8 @@ public class CheckBox extends Widget implements ItemListener {
 			} else {
 				checkBox.setSelected(false);
 			}
-		} else if (isDependent()) {
+		} else {
 			checkBox.setSelected(false);
-		}
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getSource() == CheckBox.this.checkBox) {
-			if (CheckBox.this.checkBox.isSelected()) {
-				widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
-			} else {
-				widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
-			}
 		}
 	}
 }

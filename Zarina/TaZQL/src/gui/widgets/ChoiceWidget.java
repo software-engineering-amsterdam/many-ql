@@ -4,6 +4,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 import ast.type.Type;
+import evaluator.BooleanValue;
 import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.listeners.ChoiceListener;
@@ -38,16 +39,6 @@ public class ChoiceWidget implements IWidgetComponent {
 		return widgetType;
 	}
 
-	@Override
-	public boolean getBooleanValue() {
-		return widget.isSelected();
-	}
-
-	
-	@Override
-	public void setBooleanValue(boolean value) {
-		this.widget.setSelected(value);
-	}
 
 	@Override
 	public void addDocListener(EvaluateExpression evaluator) {
@@ -59,21 +50,18 @@ public class ChoiceWidget implements IWidgetComponent {
 	public void setEnabled(boolean isEnabled) {
 		// not necessary
 	}
+
 	
 	@Override
-	public void setText(Value value) {
-		widget.setText("");
-	}
-	
-	@Override
-	public String getValue() {
-		assert false: "Not supported in Checkbox, only for textfields.";
-		return null;
+	public Value getValue() {
+		return new BooleanValue(widget.isSelected());
 	}
 
 	@Override
-	public void setValue(String value) {
-		assert false: "Not supported in Checkbox, only for textfields.";
+	public void setValue(Value value) {
+		boolean selected = (Boolean) value.getValue();
+		
+		this.widget.setSelected(selected);
 	}
 	
 	@Override

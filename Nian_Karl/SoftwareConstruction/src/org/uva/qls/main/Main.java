@@ -16,8 +16,6 @@ import org.uva.qls.ast.sheet.Style;
 import org.uva.qls.ast.style.StyleProperty;
 import org.uva.qls.typechecker.TypeChecker;
 
-import com.sun.org.glassfish.gmbal.ManagedAttribute;
-
 public class Main {
 
 	public static void main(String[] args) throws IOException {

@@ -5,12 +5,8 @@ import QL.AST.Expressions.Elements.bool as boolean
 import QL.AST.Expressions.Elements.number as number
 import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
-import QL.AST.Expressions.expression as expression
-import QL.AST.Expressions.sub_expression as ce
-import QL.AST.Expressions.Elements.element as el
-import pyparsing as pp
-
 from QL.AST.Expressions.Operations import *
+
 
 #
 # Types
@@ -44,54 +40,59 @@ def make_text(tokens):
 #
 
 def make_add_min_expression(tokens):
-    if tokens[1] == "+":
-        return add.Add(tokens[0], tokens[2])
-    else:
-        return min.Min(tokens[0], tokens[2])
+    tokens = tokens[0]
+    x = tokens[0]
+    for i in range(1, len(tokens)-1, 2):
+        if tokens[i] == "+":
+            x = add.Add("+", x, tokens[i + 1])
+        else:
+            x = minus.Minus("-", x, tokens[i + 1])
+    return x
 
 
 def make_mul_expression(tokens):
-    if tokens[1] == "*":
-        return multiplication.Multiplication(tokens[0], tokens[2])
-    else:
-        return division.Division(tokens[0], tokens[2])
+    tokens = tokens[0]
+    x = tokens[0]
+    for i in range(1, len(tokens)-1, 2):
+        if tokens[i] == "*":
+            x = multiplication.Multiplication("*", x, tokens[i + 1])
+        else:
+            x = division.Division("/", x, tokens[i + 1])
+    return x
 
 
 # unfortunately, as it is not possible to give the same precedence level in pyparsing
 # it needs to be checked here manually
 def make_compare(tokens):
-    tokens = tokens[0]  # double list for some reason..
-    if tokens[1] == ">":
-        x =  greater.Greater(tokens[0], tokens[2])
-    elif tokens[1] == "<":
-        x = less.Less(tokens[0], tokens[2])
-    elif tokens[1] == ">=":
-        x =  greater_equal.GreaterEqual(tokens[0], tokens[2])
-    elif tokens[1] == "<=":
-        return less_equal.LessEqual(tokens[0], tokens[2])
-    elif tokens[1] == "==":
-        x = equal.Equal(tokens[0], tokens[2])
-    else:
-        raise Exception("make_compare got wrong input")
+    tokens = tokens[0]
+    x = tokens[0]
+    for i in range(1, len(tokens)-1, 2):
+        if tokens[i] == ">":
+            x = greater.Greater(">", x, tokens[i + 1])
+        elif tokens[i] == "<":
+            x = less.Less("<", x, tokens[i + 1])
+        elif tokens[i] == ">=":
+            x = greater_equal.GreaterEqual(">=", x, tokens[i + 1])
+        elif tokens[i] == "<=":
+            return less_equal.LessEqual("<=", x, tokens[i + 1])
+        elif tokens[i] == "==":
+            x = equal.Equal("==", x, tokens[i + 1])
+        else:
+            raise Exception("make_compare got wrong input")
     return x
+
+
+def make_extra(tokens):
+    tokens = tokens[0]
+    x = tokens[0]
+    for i in range(1, len(tokens)-1, 2):
+        if tokens[i] == "and":
+            x = and_op.And("and", x, tokens[i + 1])
+        else:
+            x = or_op.Or("or", x, tokens[i + 1])
+    return x
+
 
 def make_not(tokens):
     tokens = tokens[0]
-    return not_op.Not(tokens[1])
-
-#
-# Final expression
-#
-
-def make_expression(tokens):
-    l = []
-    for x in tokens:
-        if type(x) == pp.ParseResults:
-            l.append(expression.Expression(make_expression(x)))
-        elif isinstance(x, el.Element):
-            l.append(x)
-        else:
-            l.append(ce.SubExpression(x))
-    return l
-
-
+    return not_op.Not("not", tokens[1])

@@ -7,8 +7,8 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.BooleanControl;
 import ql.gui.control.Control;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -47,19 +47,8 @@ public class BoolExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof BooleanValue;
-            this.control.setValue(((BooleanValue)val));
-        }
-        else
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue(((UndefinedValue)val));
-        }
+        this.control.setValue(value);
     }
 }
