@@ -1,4 +1,4 @@
-package ql.gui.input.regular;
+package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;

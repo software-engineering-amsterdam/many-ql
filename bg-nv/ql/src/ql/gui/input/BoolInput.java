@@ -1,28 +1,28 @@
-package ql.gui.input.regular;
+package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
+import ql.gui.control.BooleanControl;
 import ql.gui.control.Control;
-import ql.gui.control.StringControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.StrValue;
+import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class StrInput extends RegularInput<String>
+public class BoolInput extends RegularInput<Boolean>
 {
-    private final StringControl control;
+    private final BooleanControl control;
 
-    public StrInput(String id, StringControl control)
+    public BoolInput(String id, BooleanControl control)
     {
         this(id, control, true, false);
     }
 
-    public StrInput(String id, StringControl control, Boolean visible, Boolean disabled)
+    public BoolInput(String id, BooleanControl control, Boolean visible, Boolean disabled)
     {
         super(id, visible, disabled);
         this.control = control;
@@ -30,17 +30,17 @@ public class StrInput extends RegularInput<String>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public void setDisabled(Boolean disabled)
     {
-        return visitor.visit(this);
+        super.setDisabled(disabled);
+        this.control.setDisabled(disabled);
     }
 
     @Override
-    public Value convertUserInputToValue(String userInput)
+    public void setVisible(Boolean visible)
     {
-        this.resetValidation();
-        userInput = userInput.trim();
-        return new StrValue(userInput);
+        super.setVisible(visible);
+        this.control.setVisible(visible);
     }
 
     @Override
@@ -55,9 +55,22 @@ public class StrInput extends RegularInput<String>
     }
 
     @Override
+    public <V> V accept(ModelVisitor<V> visitor)
+    {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public Value convertUserInputToValue(Boolean userInput)
+    {
+        this.resetValidation();
+        return new BoolValue(userInput);
+    }
+
+    @Override
     public void attachListener(ValueTable valueTable)
     {
-        ChangeListener<String> cl = this.constructChangeListener(valueTable);
+        ChangeListener<Boolean> cl = this.constructChangeListener(valueTable);
         this.control.addListener(cl);
     }
 }

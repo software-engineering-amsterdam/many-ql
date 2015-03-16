@@ -1,4 +1,4 @@
-package ql.gui.input.regular;
+package ql.gui.input;
 
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;

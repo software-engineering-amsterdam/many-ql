@@ -1,32 +1,28 @@
-package ql.gui.input.regular;
+package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
-import ql.gui.control.DecimalControl;
+import ql.gui.control.StringControl;
 import ql.semantics.ValueTable;
-import ql.semantics.errors.Warning;
-import ql.semantics.values.DecValue;
-import ql.semantics.values.UndefValue;
+import ql.semantics.values.StrValue;
 import ql.semantics.values.Value;
-
-import java.math.BigDecimal;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class DecInput extends RegularInput<String>
+public class StrInput extends RegularInput<String>
 {
-    private final DecimalControl control;
+    private final StringControl control;
 
-    public DecInput(String id, DecimalControl control)
+    public StrInput(String id, StringControl control)
     {
         this(id, control, true, false);
     }
 
-    public DecInput(String id, DecimalControl control, Boolean visible, Boolean disabled)
+    public StrInput(String id, StringControl control, Boolean visible, Boolean disabled)
     {
         super(id, visible, disabled);
         this.control = control;
@@ -44,19 +40,7 @@ public class DecInput extends RegularInput<String>
     {
         this.resetValidation();
         userInput = userInput.trim();
-
-        Value value;
-        try
-        {
-            BigDecimal decValue = new BigDecimal(userInput);
-            value = new DecValue(decValue);
-        }
-        catch (NumberFormatException e)
-        {
-            value = new UndefValue();
-            this.addValidationError(new Warning("The entered value is not a decimal number."));
-        }
-        return value;
+        return new StrValue(userInput);
     }
 
     @Override

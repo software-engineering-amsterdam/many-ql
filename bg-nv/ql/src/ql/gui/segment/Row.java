@@ -29,8 +29,8 @@ public class Row extends Segment<VBox>
 
         this.container.getChildren().add(this.label.getTextNode());
         this.container.getChildren().add(this.input.getInputNode());
-//        this.container.setFillWidth(true);
-//        this.container.setPrefWidth(400);
+        this.container.setFillWidth(true);
+        this.container.setPrefWidth(400);
         this.container.setPadding(new Insets(0, 0, 15, 0));
     }
 

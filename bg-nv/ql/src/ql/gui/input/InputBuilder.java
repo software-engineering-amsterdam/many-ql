@@ -3,7 +3,6 @@ package ql.gui.input;
 import ql.ast.type.*;
 import ql.gui.control.CheckBox;
 import ql.gui.control.TextField;
-import ql.gui.input.regular.*;
 
 /**
  * Created by Nik on 28-02-2015
