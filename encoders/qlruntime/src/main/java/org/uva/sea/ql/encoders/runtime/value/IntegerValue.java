@@ -2,13 +2,9 @@ package org.uva.sea.ql.encoders.runtime.value;
 
 public class IntegerValue extends Value {
 
-	private int value;
+	private final int value;
 
 	public IntegerValue(int value) {
-		this.value = value;
-	}
-
-	public void setValue(int value) {
 		this.value = value;
 	}
 
