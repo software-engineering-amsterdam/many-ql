@@ -27,7 +27,6 @@ public abstract class RegularInput<T> extends Input
 
     public abstract Value convertUserInputToValue(T userInput);
 
-    @Override
     public void update(ValueTable valueTable)
     {
         setChanged();
