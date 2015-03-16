@@ -11,30 +11,31 @@ import ql.ast.expression.arithmetic.Multiply;
 import ql.ast.expression.arithmetic.Negation;
 import ql.ast.expression.arithmetic.Positive;
 import ql.ast.expression.arithmetic.Subtract;
+import ql.ast.expression.booleanalgebra.And;
+import ql.ast.expression.booleanalgebra.Not;
+import ql.ast.expression.booleanalgebra.Or;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
-import ql.ast.expression.relational.And;
 import ql.ast.expression.relational.Equal;
-import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Greater;
-import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.GreaterOrEqual;
 import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.LowerOrEqual;
 import ql.ast.expression.relational.NotEqual;
-import ql.ast.expression.relational.Not;
-import ql.ast.expression.relational.Or;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 import ql.value.UndefinedValue;
 
-@SuppressWarnings("rawtypes")
-public class Evaluator extends StatementVisitor<Value> implements ExpressionVisitor<Value> {
+public class Evaluator extends StatementVisitor<Value> implements ExpressionVisitor<Value>, TypeVisitor<Void> {
 	private ValueEnvironment valueEnv;
 	
 	private Evaluator(ValueEnvironment valueEnv) {
 		this.valueEnv = valueEnv;
 		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
 	}
 	
 	public static Value check(Statement tree, ValueEnvironment valueEnvironment) {

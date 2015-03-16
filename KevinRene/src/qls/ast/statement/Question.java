@@ -1,28 +1,40 @@
 package qls.ast.statement;
 
-import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.Widget;
+import qls.ast.visitor.QLSVisitor;
+import qls.ast.widget.DefaultWidget;
 
 public class Question extends QLSStatement {
+	private final Identifier identifier;
+	private Widget widget;
+	
 	public Question(Identifier identifier) {
-		
+		this(identifier, new DefaultWidget());
 	}
 	
-	public Question(Identifier identifier, QLNode undeterminedNode) {
-		
+	public Question(Identifier identifier, Widget widget) {
+		this.identifier = identifier;
+		this.widget = widget;
+	}
+	
+	public Identifier getIdentifier() {
+		return identifier;
+	}
+	
+	public Widget getWidget() {
+		return widget;
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Question";
 	}
 
 }

@@ -65,7 +65,6 @@ public class TestLower extends BaseTest {
 		});
 	}
 
-	@SuppressWarnings("rawtypes")
 	public TestLower(String input, Value expected) {
 		super(input, expected);
 	}

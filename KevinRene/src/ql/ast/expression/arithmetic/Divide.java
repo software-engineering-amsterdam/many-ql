@@ -1,9 +1,9 @@
 package ql.ast.expression.arithmetic;
 
 import ql.ast.Expression;
+import ql.ast.QLType;
 import ql.ast.expression.Binary;
-import ql.ast.expression.QLType;
-import ql.ast.expression.type.QLNumeric;
+import ql.ast.type.QLNumeric;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Divide extends Binary {

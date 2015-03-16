@@ -2,20 +2,32 @@ package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 public class Page extends QLSStatement {
-	public Page(Identifier identifier, QLSBlock block) {
-		
+	private final Identifier identifier;
+	private final QLSBlock statements;
+
+	public Page(Identifier identifier, QLSBlock statements) {
+		this.identifier = identifier;
+		this.statements = statements;
+	}
+	
+	public QLSBlock getStatements() {
+		return statements;
+	}
+	
+	public Identifier getIdentifier() {
+		return identifier;
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
 	@Override
 	public String toString() {
-		return null;
+		return "Page " + getIdentifier().toString();
 	}
 }

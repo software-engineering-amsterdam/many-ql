@@ -42,7 +42,6 @@ public class TestAddition extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestAddition(String input, Value expected) {
     	 super(input, expected); 
      }

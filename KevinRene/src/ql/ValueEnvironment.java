@@ -5,7 +5,6 @@ import java.util.Map;
 
 import ql.ast.expression.Identifier;
 
-@SuppressWarnings("rawtypes")
 public class ValueEnvironment {
 	private Map<String, Value> environment = new HashMap<String, Value>();
 	
