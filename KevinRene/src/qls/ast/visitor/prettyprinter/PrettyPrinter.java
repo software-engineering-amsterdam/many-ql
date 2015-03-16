@@ -32,7 +32,7 @@ import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
-import qls.ast.widget.Spinner;
+import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 import qls.ast.widget.ValueSet;
 
@@ -224,7 +224,7 @@ public class PrettyPrinter extends QLSVisitor<Void> {
 	}
 
 	@Override
-	public Void visit(Spinner spinnerNode) {
+	public Void visit(Spinbox spinnerNode) {
 		return printNode(spinnerNode);
 	}
 

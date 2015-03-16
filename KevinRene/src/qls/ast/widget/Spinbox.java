@@ -3,7 +3,7 @@ package qls.ast.widget;
 import qls.ast.Widget;
 import qls.ast.visitor.QLSVisitor;
 
-public class Spinner extends Widget {
+public class Spinbox extends Widget {
 	@Override
 	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -11,6 +11,6 @@ public class Spinner extends Widget {
 
 	@Override
 	public String toString() {
-		return "Spinner";
+		return "Spinbox";
 	}
 }

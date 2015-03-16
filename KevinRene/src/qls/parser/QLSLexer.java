@@ -30,7 +30,7 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("string", STRING);
 		
 		KEYWORDS.put("checkbox", CHECKBOX);
-		KEYWORDS.put("spinner", SPINNER);
+		KEYWORDS.put("spinbox", SPINBOX);
 		KEYWORDS.put("radio", RADIO);
 		KEYWORDS.put("slider", SLIDER);
 		KEYWORDS.put("text", TEXT);

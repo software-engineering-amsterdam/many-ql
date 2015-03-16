@@ -16,7 +16,7 @@ import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
-import qls.ast.widget.Spinner;
+import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 
 public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
@@ -81,7 +81,7 @@ public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<V
 	}
 	
 	@Override
-	public Void visit(Spinner spinnerNode) {
+	public Void visit(Spinbox spinnerNode) {
 		return null;
 	}
 	

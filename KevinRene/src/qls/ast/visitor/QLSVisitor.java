@@ -23,7 +23,7 @@ import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
 import qls.ast.widget.RadioButton;
 import qls.ast.widget.Slider;
-import qls.ast.widget.Spinner;
+import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 import qls.ast.widget.ValueSet;
 
@@ -74,7 +74,7 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	public abstract T visit(Dropdown dropdownNode);
 	public abstract T visit(RadioButton radioButtonNode);
 	public abstract T visit(TextField textFieldNode);
-	public abstract T visit(Spinner spinnerNode);
+	public abstract T visit(Spinbox spinnerNode);
 	public abstract T visit(Slider sliderNode);
 	public abstract T visit(DefaultWidget defaultWidget);
 

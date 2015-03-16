@@ -24,7 +24,7 @@
 %token <Question> QUESTION 
 %token <Default> DEFAULT 
 
-%token RADIO DROPDOWN SLIDER SPINNER TEXT 
+%token RADIO DROPDOWN SLIDER SPINBOX TEXT 
 %token <Checkbox> CHECKBOX
 %token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
@@ -102,7 +102,7 @@ import qls.ast.widget.*;
 	widget : WIDGET widgetType { $$ = $2; }
 			;
 			
-	widgetType	: SPINNER           { $$ = new Spinner(); }
+	widgetType	: SPINBOX           	  { $$ = new Spinbox(); }
 				| RADIO '(' values ')'    { $$ = new RadioButton($3); }
 				| SLIDER '(' values ')'   { $$ = new Slider($3); }
 				| DROPDOWN '(' values ')' { $$ = new Dropdown($3); }
