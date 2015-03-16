@@ -7,10 +7,14 @@ class Form:
     def __init__(self, ast_obj):
         if not isinstance(ast_obj, ast_form.Form):
             raise e.QException("Input must be an AST!")
-        basic_questions = self.__flatten_ast(ast_obj.get_statements())
-        self.questions = self.__enrich_questions(basic_questions)
         self.ast = ast_obj
-        self.q_conditions = {}
+
+        self.__ast_questions = []
+        self.__q_conditions_dict = {}
+        self.__flatten_ast(self.ast.get_statements())
+        print(self.__q_conditions_dict)
+        # self.questions = []
+        # self.__enrich_questions()
 
     def get_questions(self):
         return self.questions
@@ -18,30 +22,29 @@ class Form:
     def get_ast(self):
         return self.ast
 
-    @staticmethod
-    def __flatten_ast(statements):
-        questions = []
-        for statement in statements:
-            if statement.is_conditional():
-                questions += Form.__flatten_ast(statement.get_c_statements())
-                questions += Form.__flatten_ast(statement.get_e_statements())
-            else:
-                questions.append(statement)
-        return questions
-
-    # def __flatten_ast(statements, conditions=[]):
+    # @staticmethod
+    # def __flatten_ast(statements):
     #     questions = []
     #     for statement in statements:
     #         if statement.is_conditional():
-    #             c_statement_c = conditions
-    #             c_statement_c += statement.get_condition()
-    #             questions += Form.__flatten_ast(statement.get_c_statements(), c_statement_c)
-    #             e_statement_c = conditions
-    #             e_statement_c += statement.get_reverted_condition()
-    #             questions += Form.__flatten_ast(statement.get_e_statements(), e_statement_c)
+    #             questions += Form.__flatten_ast(statement.get_c_statements())
+    #             questions += Form.__flatten_ast(statement.get_e_statements())
     #         else:
     #             questions.append(statement)
-    #         return questions
+    #     return questions
+
+    def __flatten_ast(self, statements, conditions=[]):
+        for statement in statements:
+            if statement.is_conditional():
+                c_statement_c = conditions
+                c_statement_c.append(statement.get_condition())
+                self.__flatten_ast(statement.get_c_statements(), c_statement_c)
+                e_statement_c = conditions
+                e_statement_c.append(statement.get_inverted_condition())
+                self.__flatten_ast(statement.get_e_statements(), e_statement_c)
+            else:
+                self.__ast_questions.append(statement)
+                self.__q_conditions_dict[statement.get_id()] = conditions
 
     @staticmethod
     def __enrich_questions(basic_questions):

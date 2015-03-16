@@ -87,7 +87,7 @@ class IfBlock(statement.IStatement):
     def get_e_statements(self):
         return []
 
-    def get_reverted_condition(self):
-        return not_operation.Not("not", self.condition)
+    def get_inverted_condition(self):
+        return not_operation.Not("not", self._condition)
 
 
