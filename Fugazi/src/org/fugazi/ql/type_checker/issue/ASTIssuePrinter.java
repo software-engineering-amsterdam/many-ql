@@ -12,12 +12,11 @@ public class ASTIssuePrinter {
         this.warnings = _warnings;
     }
 
-
-    public boolean hasErrors() {
+    private boolean hasErrors() {
         return !this.errors.isEmpty();
     }
 
-    public boolean hasWarnings() {
+    private boolean hasWarnings() {
         return !this.warnings.isEmpty();
     }
 
