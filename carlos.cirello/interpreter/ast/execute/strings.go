@@ -12,7 +12,8 @@ func (exec Execute) ConcatNode(n *ast.ConcatNode) string {
 	return left + right
 }
 
-// MathTermNode is the visitor for deepest TermNodes nodes that holds a number.
+// StringTermNode is the visitor for deepest TermNodes nodes that holds a
+// string.
 func (exec Execute) StringTermNode(s *ast.TermNode) string {
 	value := exec.resolveTermNode(s)
 	switch t := value.(type) {
