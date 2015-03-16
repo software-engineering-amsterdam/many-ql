@@ -1,4 +1,4 @@
-package typechecker.errors;
+package gui.errors;
 
 import java.awt.Color;
 import java.awt.Container;
