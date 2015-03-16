@@ -59,7 +59,7 @@ public class Main extends Application {
         KLQParser parser = new KLQParser(tokens);
         ParseTree tree = parser.questionnaire();
 
-        ParseTreeConverter eval = new ParseTreeConverter();
+        ParseTreeConverter eval = new ParseTreeConverter(file);
         QuestionnaireNode ast = (QuestionnaireNode) eval.visit(tree);
 
         TypeChecker tc = new TypeChecker(ast);

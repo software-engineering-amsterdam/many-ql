@@ -27,18 +27,6 @@ public class Location {
         this.endColumn = endColumn;
     }
 
-    public Location(String file, ParserRuleContext context){
-        Token tokenStart = context.getStart();
-        Token tokenEnd = context.getStop();
-        this.file = file;
-        this.offset = tokenStart.getStartIndex();
-        this.length = tokenStart.getStopIndex() - tokenStart.getStartIndex();
-        this.beginLine = tokenStart.getLine();
-        this.beginColumn = tokenStart.getCharPositionInLine();
-        this.endLine = tokenEnd.getLine();
-        this.endColumn = tokenEnd.getCharPositionInLine();
-    }
-
     public String getFile() {
         return file;
     }

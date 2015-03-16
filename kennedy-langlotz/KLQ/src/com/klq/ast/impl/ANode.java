@@ -7,7 +7,7 @@ public abstract class ANode {
     private Location location;
 
     public ANode(){
-        this.location = null;
+        this(null);
     }
 
     public ANode(Location location) {
