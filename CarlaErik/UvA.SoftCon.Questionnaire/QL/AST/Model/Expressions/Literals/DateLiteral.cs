@@ -35,11 +35,6 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         {
         }
 
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
         public override T Accept<T>(IQLVisitor<T> visitor)
         {
             return visitor.Visit(this);

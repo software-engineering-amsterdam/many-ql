@@ -9,7 +9,7 @@ form sample
     integer b "label1"
     string strinput "string input" "test"
 */
-    string name "What is your first name?" surname + "no"
+    string name "What is your first name?"
     string surname "What is your last name?"
     integer age "How old are you?"
     integer a "label" 2+age

@@ -25,11 +25,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             Name = name;
         }
 
-        public override void Accept(IQLSVisitor visitor)
-        {
-            visitor.VisitIdentifier(this);
-        }
-
         public override T Accept<T>(IQLSVisitor<T> visitor)
         {
             return visitor.VisitIdentifier(this);

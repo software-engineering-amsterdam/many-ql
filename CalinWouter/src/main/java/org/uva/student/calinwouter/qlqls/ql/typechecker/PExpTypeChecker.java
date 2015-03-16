@@ -138,7 +138,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         pushIdentifierType(node.getIdent().getText());
     }
 
-    private TypeDescriptor popType() {
+    public TypeDescriptor popType() {
         return typeDescriptors.pop();
     }
 

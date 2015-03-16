@@ -24,7 +24,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new TypeCheckingVisitor();
+            var visitor = new TypeChecker();
 
             // Act
             visitor.Visit(form);
@@ -43,7 +43,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString("string test = \"Piet\" + \"Jansen\"");
 
-            var visitor = new TypeCheckingVisitor();
+            var visitor = new TypeChecker();
 
             // Act
             visitor.Visit(form);
