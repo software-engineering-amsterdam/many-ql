@@ -12,7 +12,9 @@ import pyparsing as pp
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-print(form.pretty_print())
+#print(form.pretty_print())
+
+form.valid_expressions()
 
 # typeChecker = type_checker.TypeChecker(form)
 # typeChecker.is_valid_form()

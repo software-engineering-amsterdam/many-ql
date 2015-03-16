@@ -86,3 +86,11 @@ class Form:
             if v not in checked:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
+
+    def valid_expressions(self):
+        td = self.get_type_dict()
+        for x in self._statements:
+            if not x.valid_type(td):
+                print("x is not valid")
+                return False
+        return True

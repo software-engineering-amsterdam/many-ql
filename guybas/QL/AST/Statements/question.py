@@ -99,6 +99,8 @@ class Question(statement.IStatement):
     def get_parent_condition(self):
         return self.parentCondition
 
+    def valid_type(self, td):
+        return True
 
 
 

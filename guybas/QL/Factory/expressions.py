@@ -5,10 +5,6 @@ import QL.AST.Expressions.Elements.bool as boolean
 import QL.AST.Expressions.Elements.number as number
 import QL.AST.Expressions.Elements.text as text
 import QL.Factory.forms as form
-import QL.AST.Expressions.expression as expression
-import QL.AST.Expressions.sub_expression as ce
-import QL.AST.Expressions.Elements.element as el
-import pyparsing as pp
 from QL.AST.Expressions.Operations import *
 
 
@@ -48,9 +44,9 @@ def make_add_min_expression(tokens):
     x = tokens[0]
     for i in range(1, len(tokens)-1, 2):
         if tokens[i] == "+":
-            x = add.Add(x, tokens[i + 1])
+            x = add.Add("+", x, tokens[i + 1])
         else:
-            x = minus.Minus(x, tokens[i + 1])
+            x = minus.Minus("-", x, tokens[i + 1])
     return x
 
 
@@ -72,15 +68,15 @@ def make_compare(tokens):
     x = tokens[0]
     for i in range(1, len(tokens)-1, 2):
         if tokens[i] == ">":
-            x = greater.Greater(x, tokens[i + 1])
+            x = greater.Greater(">", x, tokens[i + 1])
         elif tokens[i] == "<":
-            x = less.Less(x, tokens[i + 1])
+            x = less.Less("<", x, tokens[i + 1])
         elif tokens[i] == ">=":
             x = greater_equal.GreaterEqual(x, tokens[i + 1])
         elif tokens[i] == "<=":
             return less_equal.LessEqual(x, tokens[i + 1])
         elif tokens[i] == "==":
-            x = equal.Equal(x, tokens[i + 1])
+            x = equal.Equal("==", x, tokens[i + 1])
         else:
             raise Exception("make_compare got wrong input")
     return x
@@ -105,18 +101,7 @@ def make_not(tokens):
 
 
 def make_expression(tokens):
-    return make_expression_sub(tokens)
+    return tokens
 
-
-def make_expression_sub(tokens):
-    l = []
-    for x in tokens:
-        if type(x) == pp.ParseResults:
-            l.append(expression.Expression(make_expression_sub(x)))
-        elif isinstance(x, el.Element):
-            l.append(x)
-        else:
-            l.append(ce.SubExpression(x))
-    return l
 
 

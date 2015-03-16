@@ -42,3 +42,6 @@ class IStatement:
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
         raise NotImplementedError("Not implemented by sub class")
+
+    def valid_type(self, td):
+        raise NotImplementedError("Not implemented by sub class")

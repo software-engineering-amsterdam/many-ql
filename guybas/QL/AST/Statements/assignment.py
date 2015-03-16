@@ -92,4 +92,7 @@ class Assignment(statement.IStatement):
     def get_parent_condition(self):
         return self.parent_condition
 
+    def valid_type(self):
+        return True
+
 

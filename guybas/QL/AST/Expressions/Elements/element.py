@@ -10,3 +10,6 @@ class Element:
 
     def get_dependencies(self):
         raise Exception("Not implemented by sub class")
+
+    def is_valid_expression(self, td):
+        return True
