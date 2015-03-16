@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTypeTable;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFieldsList;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.PFormTypeChecker;
 
 public class QLTypeChecker {
@@ -13,9 +13,9 @@ public class QLTypeChecker {
      */
     public static TypeCheckResults typeCheck(AForm aForm) {
         TypeCheckResults typeCheckResults = new TypeCheckResults();
-        VariableTypeTable variableTypeTable = QLTypeCollector.collectTypes(aForm);
-        PFormTypeChecker formInterpreter = new PFormTypeChecker(variableTypeTable, typeCheckResults);
-        aForm.apply(formInterpreter);
+        StaticFieldsList staticFieldsList = QLStaticAnalyser.collectTypes(aForm);
+        PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFieldsList, typeCheckResults);
+        aForm.apply(formTypeChecker);
         return typeCheckResults;
     }
 

@@ -1,6 +1,5 @@
 package org.uva.ql.test;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +42,6 @@ public class EvaluatorTest {
 	private final StrLiteral str2 = new StrLiteral("World", pos);
 	
 	
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() throws Exception {

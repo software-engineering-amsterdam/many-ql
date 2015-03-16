@@ -11,7 +11,7 @@ namespace QuestionnaireLanguage.GUI.Widgets
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomStackPanel() { Visibility = value ? Visibility.Visible : Visibility.Hidden };
+            return new CustomStackPanel() { Visibility = value ? Visibility.Visible : Visibility.Collapsed };
         }
     }
 }

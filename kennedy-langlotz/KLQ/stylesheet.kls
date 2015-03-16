@@ -27,7 +27,7 @@ page "Expenses"
         font-style: bold
     end
 
-    default set
+    default boolean
         font-size: 15
     end
 end

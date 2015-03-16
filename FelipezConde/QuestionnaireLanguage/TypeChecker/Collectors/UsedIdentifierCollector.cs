@@ -1,7 +1,7 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Expression.Unary;
+using AST.Nodes.Expressions;
+using AST.Nodes.Expressions.Binary;
+using AST.Nodes.Expressions.Unary;
 using AST.Nodes.FormObject;
 using AST.ASTVisitors;
 using System.Collections.Generic;

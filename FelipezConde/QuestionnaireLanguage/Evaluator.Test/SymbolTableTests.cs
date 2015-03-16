@@ -1,4 +1,4 @@
-﻿using AST.Nodes.Expression;
+﻿using AST.Nodes.Expressions;
 using AST.Nodes.Literals;
 using AST.Representation;
 using Evaluator.Storage;
@@ -22,7 +22,7 @@ namespace Evaluator.Test
         [TestMethod]
         public void AddValue_Correct_Test()
         {
-            SymbolTable.AddValue(id, new Bool(true));
+            SymbolTable.AddValue(id, new Bool(true, pos));
 
             Assert.IsNotNull(SymbolTable.GetValue(id));
         }
@@ -31,7 +31,7 @@ namespace Evaluator.Test
         public void UpdateValue_Correct_Test()
         {
             AddValue_Correct_Test();
-            SymbolTable.SetUpdateValue(id, new Bool(true));
+            SymbolTable.SetUpdateValue(id, new Bool(true, pos));
 
             Bool value = (Bool)SymbolTable.GetValue(id).GetValueType();
 

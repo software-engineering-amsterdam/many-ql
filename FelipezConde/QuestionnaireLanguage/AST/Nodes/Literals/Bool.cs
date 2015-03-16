@@ -5,17 +5,16 @@ namespace AST.Nodes.Literals
     public class Bool : Literal
     {
         private readonly bool value;
-        private PositionInText positionInText;
 
-        public Bool(bool parsedValue)
-        {
-            this.value = parsedValue;
-        }
+        //public Bool(bool parsedValue)
+        //{
+        //    this.value = parsedValue;
+        //}
 
         public Bool(bool parsedValue, PositionInText positionInText)
+            : base(positionInText)
         {
             this.value = parsedValue;
-            this.positionInText = positionInText;
         }
 
         public bool GetValue()
@@ -51,7 +50,7 @@ namespace AST.Nodes.Literals
 
         public  override Literal BoolAnd(Bool boolValue)
         {
-            return new Bool(GetValue() && boolValue.value);
+            return new Bool(GetValue() && boolValue.value, GetPosition());
         }
         #endregion
 
@@ -63,7 +62,7 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolOr(Bool boolValue)
         {
-            return new Bool(value || boolValue.value);
+            return new Bool(value || boolValue.value, GetPosition());
         }
         #endregion
 
@@ -75,7 +74,7 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolEqual(Bool boolValue)
         {
-            return new Bool(value == boolValue.value);
+            return new Bool(value == boolValue.value, GetPosition());
         }
         #endregion
 
@@ -87,14 +86,14 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolNotEqual(Bool boolValue)
         {
-            return new Bool(value != boolValue.value);
+            return new Bool(value != boolValue.value, GetPosition());
         }
         #endregion
 
         #region Negate
         public override Bool Negate()
         {
-            return new Bool(!GetValue());
+            return new Bool(!GetValue(), GetPosition());
         }
 
         #endregion
