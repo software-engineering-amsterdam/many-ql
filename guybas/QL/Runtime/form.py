@@ -9,8 +9,14 @@ class Form:
             raise e.QException("Input must be an AST!")
         basic_questions = self.__flatten_ast(ast_obj.get_statements())
         self.questions = self.__enrich_questions(basic_questions)
+        self.ast = ast_obj
+        self.q_conditions = {}
 
-        print(self.questions)
+    def get_questions(self):
+        return self.questions
+
+    def get_ast(self):
+        return self.ast
 
     @staticmethod
     def __flatten_ast(statements):
@@ -22,6 +28,20 @@ class Form:
             else:
                 questions.append(statement)
         return questions
+
+    # def __flatten_ast(statements, conditions=[]):
+    #     questions = []
+    #     for statement in statements:
+    #         if statement.is_conditional():
+    #             c_statement_c = conditions
+    #             c_statement_c += statement.get_condition()
+    #             questions += Form.__flatten_ast(statement.get_c_statements(), c_statement_c)
+    #             e_statement_c = conditions
+    #             e_statement_c += statement.get_reverted_condition()
+    #             questions += Form.__flatten_ast(statement.get_e_statements(), e_statement_c)
+    #         else:
+    #             questions.append(statement)
+    #         return questions
 
     @staticmethod
     def __enrich_questions(basic_questions):
