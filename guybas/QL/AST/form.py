@@ -1,16 +1,12 @@
 # AST format of the Form
+import collections
 
 
 class Form:
     def __init__(self, name, introduction, statements):
-        # initialization variables
         self._name = name
         self._introduction = introduction
-
-        # set the statement _order and the parent _id's
         self._statements = statements
-        self.set_conditions()
-        self.set_question_ordering()
 
     # Pretty print the _form
     def pretty_print(self):
@@ -20,9 +16,9 @@ class Form:
             s += x.pretty_print(1)
         return s
 
-    #########################
-    # getters of the _form   #
-    #########################
+    #
+    # getters of the form
+    #
 
     def get_statements(self):
         return self._statements
@@ -68,16 +64,6 @@ class Form:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
-    # Set the ordering of questions for display
-    def set_question_ordering(self):
-        c = 0
-        for s in self._statements:
-            c = s.set_order(c)
-
-    def set_conditions(self):
-        for s in self._statements:
-            s.set_parent_condition(None)
-
     @staticmethod
     def transitive_dependencies_key(key, values, checked, dependencies):
         for v in dependencies[key]:
@@ -86,3 +72,66 @@ class Form:
             if v not in checked:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
+
+    # TODO : test expression validator
+    def check_expressions(self):
+        td = self.get_type_dict()
+        message = ""
+        for x in self._statements:
+            message += x.valid_type_message(td)
+        return message
+
+    #
+    # Type checker stuff
+    #
+
+    @staticmethod
+    def check_duplicates(l):
+        # get_dependencies for duplicates
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
+        return duplicates
+
+    def check_ids(self):
+        duplicates = Form.check_duplicates(self.get_ids())
+        if duplicates:
+            return "There are duplicate ids: " + str(duplicates)
+        else:
+            return ""
+
+    def check_labels(self):
+        duplicates = Form.check_duplicates(self.get_labels())
+        if duplicates:
+            return "There are duplicate labels: " + str(duplicates)
+        else:
+            return ""
+
+    def check_dependencies(self):
+        message = ""
+        dependencies = self.get_dependencies()
+        for d in dependencies:
+            if d in dependencies[d]:
+                message += str(d) + " is dependent on itself"
+        return message
+
+    def is_valid_form(self):
+        valid = True
+        id_message = self.check_ids()
+        if id_message != "":
+            valid = False
+            print(id_message)
+
+        label_message = self.check_labels()
+        if label_message != "":
+            print(label_message)
+
+        dependency_message = self.check_dependencies()
+        if dependency_message != "":
+            valid = False
+            print(dependency_message)
+
+        expression_message = self.check_expressions()
+        if expression_message != "":
+            valid = False
+            print(expression_message)
+
+        return valid

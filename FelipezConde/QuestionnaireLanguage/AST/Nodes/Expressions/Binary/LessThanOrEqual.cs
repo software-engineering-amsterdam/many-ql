@@ -3,9 +3,9 @@ using AST.Representation;
 
 namespace AST.Nodes.Expressions.Binary
 {
-    public class LessThanOrEqual : Binary
+    public class LessThanOrEqual : BaseBinary
     {
-        public LessThanOrEqual(Expression left, Expression right, PositionInText position)
+        public LessThanOrEqual(BaseExpression left, BaseExpression right, PositionInText position)
             : base(left, right, position)
         { }
 
@@ -14,9 +14,14 @@ namespace AST.Nodes.Expressions.Binary
             return visitor.Visit(this);
         }
 
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override string ToString()
         {
-            return ">=";
+            return "<=";
         }
     }
 }

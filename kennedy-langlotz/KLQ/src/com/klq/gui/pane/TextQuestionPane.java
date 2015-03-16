@@ -2,7 +2,7 @@ package com.klq.gui.pane;
 
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 

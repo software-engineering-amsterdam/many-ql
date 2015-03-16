@@ -3,14 +3,14 @@ package ql.gui.control;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import ql.gui.ModelVisitor;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 10-3-15.
  */
-public class CheckBox extends ControlElement implements BooleanControl
+public class CheckBox extends ControlElement implements BoolControl
 {
     javafx.scene.control.CheckBox checkBox;
 
@@ -23,7 +23,7 @@ public class CheckBox extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         return this.checkBox;
     }
@@ -48,14 +48,14 @@ public class CheckBox extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Void visit(BooleanValue val)
+    public Void visit(BoolValue val)
     {
         this.setSelected(val.getValue());
         return null;
     }
 
     @Override
-    public Void visit(UndefinedValue val)
+    public Void visit(UndefValue val)
     {
         this.setSelected(false);
         return null;

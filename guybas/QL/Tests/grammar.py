@@ -1,4 +1,5 @@
 import unittest
+
 import QL.Grammar.basic_types as basic_types
 import QL.Grammar.grammar as forms
 import QL.Grammar.expression as expressions
@@ -6,7 +7,7 @@ import QL.AST.Expressions.expression_interface as simple_expression
 import QL.AST.Statements.AnswerTypes.bool as b
 import QL.AST.Statements.AnswerTypes.text as t
 import QL.AST.Statements.AnswerTypes.number as n
-import QL.Factory.expressions as efactory
+import QL.Grammar.Factory.expressions as efactory
 
 
 class TestBasicGrammar(unittest.TestCase):

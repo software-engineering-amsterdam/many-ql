@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
@@ -15,6 +15,7 @@ import java.awt.event.ItemListener;
 
 public class RadioWidget implements IWidget {
     private JPanel btnPanelYesNo;
+    private JRadioButton yesBtn, noBtn;
 
     @Override
     public Component getWidgetComponent() {
@@ -23,8 +24,8 @@ public class RadioWidget implements IWidget {
 
     public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
-        JRadioButton yesBtn = new JRadioButton(radio.getYesLbl());
-        JRadioButton noBtn = new JRadioButton(radio.getNoLbl());
+        yesBtn = new JRadioButton(radio.getYesLbl());
+        noBtn = new JRadioButton(radio.getNoLbl());
         btnGroupYesNo.add(yesBtn);
         btnGroupYesNo.add(noBtn);
         btnPanelYesNo = new JPanel();

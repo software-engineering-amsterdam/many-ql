@@ -41,7 +41,7 @@ namespace TypeChecker.Collectors
         }
 
         //Expression
-        public override IList<Id> Visit(Binary node)
+        public override IList<Id> Visit(BaseBinary node)
         {
             return node.Left()
                        .Accept(this)
@@ -126,7 +126,7 @@ namespace TypeChecker.Collectors
             return VisitUnary(node);
         }
 
-        private IList<Id> VisitBinary(Binary node)
+        private IList<Id> VisitBinary(BaseBinary node)
         {
             return node.Left()
                          .Accept(this)
@@ -136,7 +136,7 @@ namespace TypeChecker.Collectors
                         ).ToList();
         }
 
-        private IList<Id> VisitUnary(Unary node)
+        private IList<Id> VisitUnary(BaseUnary node)
         {
             return node.GetChildExpression().Accept(this);
         }

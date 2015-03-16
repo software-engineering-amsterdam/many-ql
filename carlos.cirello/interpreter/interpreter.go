@@ -44,6 +44,6 @@ func (v *interpreter) loop() {
 	redraw := false
 	for {
 		redraw = v.drawLoop(redraw)
-		v.mainLoop(redraw)
+		v.mainLoop()
 	}
 }

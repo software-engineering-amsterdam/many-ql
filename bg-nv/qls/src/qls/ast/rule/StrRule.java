@@ -20,4 +20,9 @@ public abstract class StrRule  extends Rule
     {
         return true;
     }
+
+    public String getValue()
+    {
+        return this.value;
+    }
 }

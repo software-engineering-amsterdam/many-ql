@@ -1,6 +1,5 @@
 package gui.widgets.listeners;
 
-import evaluator.BooleanValue;
 import gui.widgets.IWidgetComponent;
 
 import java.awt.event.ItemEvent;
@@ -18,20 +17,18 @@ public class ChoiceListener extends AListener implements ItemListener   {
 		// TODO Auto-generated method stub
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			update();
-			System.out.println("Selected: " + widget.getBooleanValue());
+			System.out.println("Selected: " + widget.getValue());
 		}
 		else {
 			update();
-			System.out.println("Unselected: " + widget.getBooleanValue());	
+			System.out.println("Unselected: " + widget.getValue());	
 		}
 	}
-
+/*
 	@Override
 	public void update() {
-		boolean valueSelected = widget.getBooleanValue();
-		BooleanValue boolValue = new BooleanValue(valueSelected);
-		evaluator.setValue(widget.getIdWidget().toString(), boolValue);	
+		evaluator.setValue(widget.getIdWidget().toString(), widget.getValue());	
 		evaluator.setValueInGUI();
 	}
-	
+*/	
 }

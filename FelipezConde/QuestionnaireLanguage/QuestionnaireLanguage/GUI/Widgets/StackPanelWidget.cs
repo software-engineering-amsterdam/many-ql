@@ -1,7 +1,7 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class StackPanelWidget : Widget
     {

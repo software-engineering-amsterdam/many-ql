@@ -1,7 +1,7 @@
 package com.klq.typechecker.error;
 
-import com.klq.ast.Location;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Location;
+import com.klq.ast.impl.Type;
 
 /**
  * Created by juriaan on 9-3-15.

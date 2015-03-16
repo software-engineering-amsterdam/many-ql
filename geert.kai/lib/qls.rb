@@ -22,8 +22,8 @@ module QLS
   end
 
   def self.check(ql_ast, qls_ast)
-    ql_question_names = QL::Runner::QuestionVisitor.new(ql_ast).questions.map &:variable_name
-    errors = Checking::QuestionChecker.new(qls_ast).errors(ql_question_names)
+    #ql_question_names = QL::Runner::QuestionVisitor.run(ql_ast).map &:variable_name
+    errors = Checking::QuestionChecker.run(ql_ast, qls_ast)
 
     { errors: errors }
   end

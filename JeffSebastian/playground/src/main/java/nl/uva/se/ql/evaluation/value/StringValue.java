@@ -8,22 +8,35 @@ public class StringValue extends Value<String> {
 
 	@Override
 	public Value add(Value value) {
-		return new StringValue(getValue() + getString(value));
+		return value.addString(this);
 	}
-
+	
+	@Override
+	public Value addString(StringValue value) {
+		String s = value.getValue();
+		return new StringValue(s + getValue());
+	}
+	
 	@Override
 	public Value equal(Value value) {
-		return new BooleanValue(getString(value).equals(getValue()));
+		return value.equalString(this);
+	}
+	
+	@Override
+	public Value equalString(StringValue value) {
+		String s = value.getValue();
+		return new BooleanValue(s.equals(getValue()));
 	}
 
 	@Override
 	public Value notEqual(Value value) {
-		return new BooleanValue(!(getString(value).equals(getValue())));
+		return value.notEqualString(this);
 	}
 	
-	private String getString(Value value) {
-		StringValue strVal = (StringValue) value;
-		return strVal.getValue();
+	@Override
+	public Value notEqualString(StringValue value) {
+		String s = value.getValue();
+		return new BooleanValue(!(s.equals(getValue())));
 	}
 
 }

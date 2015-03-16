@@ -4,15 +4,15 @@ from ..TypeRules import nativeQuestionType
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
-		self.left = leftExpression
-		self.op = op
-		self.right = rightExpression
+		self._left = leftExpression
+		self._op = op
+		self._right = rightExpression
 		self._evaluator = evaluator
 
 	def value(self):
-		leftValue = self.left.value()
-		rightValue = self.right.value()
-		return self._evaluator.evaluateBinaryExpression(self.op, leftValue, rightValue)
+		leftValue = self._left.value()
+		rightValue = self._right.value()
+		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
 
 class UnaryExpression(object):
 	def __init__(self, op, expression, evaluator):
@@ -32,20 +32,19 @@ class AtomicExpression(object):
 		return self._value.value()
 
 class Form(object):
-	def __init__(self, formStatementNode):
-		self.identifier = formStatementNode.identifier
-
+	def __init__(self, identifier):
+		self.identifier = identifier
+		
 class Question(object):
-	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form, valueExpression = None):
-		self.identifier = questionStatementNode.identifier
+	def __init__(self, identifier, text, questionType, conditionalExpressionsTuple, form, valueExpression = None):
+		self.identifier = identifier
 		self.valueExpression = valueExpression
-		self.text = questionStatementNode.text
-		self.type = nativeQuestionType(questionStatementNode.type)
+		self.text = text
+		self.type = nativeQuestionType(questionType)
+		self.form = form
 
 		self.conditionalExpressions = conditionalExpressionsTuple
 		self.constant = self.valueExpression != None
-
-		self.form = form
 
 	def __str__(self):
 		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)

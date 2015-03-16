@@ -19,8 +19,7 @@ public class Substraction extends BinaryExpression {
 
     @Override
     public GenericValue evaluate(Context context) {
-	return new IntValue(((IntValue) super.left.evaluate(context)).getValue()
-		- ((IntValue) super.right.evaluate(context)).getValue());
+	return new IntValue(((IntValue) super.left.evaluate(context)).getValue() - ((IntValue) super.right.evaluate(context)).getValue());
     }
 
     @Override

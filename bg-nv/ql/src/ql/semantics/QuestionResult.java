@@ -7,16 +7,16 @@ import ql.semantics.errors.Messages;
  */
 public class QuestionResult
 {
-    private final QuestionMap table;
+    private final QuestionSet table;
     private final Messages messages;
 
-    public QuestionResult(QuestionMap table, Messages messages)
+    public QuestionResult(QuestionSet table, Messages messages)
     {
         this.table = table;
         this.messages = messages;
     }
 
-    public QuestionMap getQuestionMap()
+    public QuestionSet getQuestionMap()
     {
         return this.table;
     }

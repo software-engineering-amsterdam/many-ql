@@ -16,6 +16,7 @@ import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.util.QLFileReader;
 import nl.uva.bromance.util.QLSFileReader;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,12 +75,17 @@ public class Visualizer {
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
                 } catch (IOException e) {
-                    System.err.println("Couldn't find file, show error or something");
+                    Dialogs.create()
+                            .owner(stage)
+                            .title("Error")
+                            .masthead(null)
+                            .message("Error couldn't open file : "+qlPath)
+                            .showError();
                 }
                 try {
                     qlsAst = QLSFileReader.readFile(qlsPath, qlAst);
                 } catch (IOException e) {
-                    System.err.println("Couldn't find qls file, no biggie.");
+                    System.out.println("Couldn't find qls file, no biggie.");
                 }
                 visualize(0);
             }

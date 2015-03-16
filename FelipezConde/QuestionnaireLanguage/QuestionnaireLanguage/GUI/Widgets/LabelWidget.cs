@@ -1,7 +1,7 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class LabelWidget : Widget
     {

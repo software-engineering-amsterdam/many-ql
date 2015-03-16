@@ -4,8 +4,7 @@ import ql.gui.canvas.Canvas;
 import ql.gui.control.CheckBox;
 import ql.gui.control.Radios;
 import ql.gui.control.TextField;
-import ql.gui.input.expression.*;
-import ql.gui.input.regular.*;
+import ql.gui.input.*;
 import ql.gui.label.Label;
 import ql.gui.segment.Conditional;
 import ql.gui.segment.Row;
@@ -30,11 +29,7 @@ public interface ModelVisitor<T>
     public T visit(IntInput input);
     public T visit(StrInput input);
 
-    public T visit(BoolExprInput input);
-    public T visit(DateExprInput input);
-    public T visit(DecExprInput input);
-    public T visit(IntExprInput input);
-    public T visit(StrExprInput input);
+    public T visit(ExprInput input);
 
     public T visit(TextField control);
     public T visit(CheckBox control);

@@ -70,6 +70,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        SimpleGui.run(ast, new StyledModeler(stylesheet), primaryStage);
+        SimpleGui.run(ast, new StyledModeler(stylesheet, null), primaryStage);
     }
 }

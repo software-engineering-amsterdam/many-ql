@@ -1,27 +1,26 @@
 package com.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.IVisitor;
 import com.klq.ast.impl.stmt.*;
-import com.klq.ast.impl.expr.literal.DateNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.ast.impl.expr.literal.NumberNode;
-import com.klq.ast.impl.expr.literal.StringNode;
-import com.klq.ast.impl.expr.bool.*;
-import com.klq.ast.impl.expr.math.AddNode;
-import com.klq.ast.impl.expr.math.DivideNode;
-import com.klq.ast.impl.expr.math.MultiplyNode;
-import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.typechecker.error.AError;
+import com.klq.typechecker.error.NotUniqueID;
+
+import java.util.List;
 
 /**
  * Created by Juriaan on 28-2-2015.
  */
 public class QuestionMapper implements IStatementVisitor<Void> {
     private QuestionTable table;
+    private List<AError> errors;
 
-    public QuestionMapper(QuestionTable table) {
-        this.table = table;
+    public QuestionMapper(List<AError> errors) {
+        this.errors = errors;
+        this.table = new QuestionTable();
+    }
+
+    public QuestionTable getTable() {
+        return table;
     }
 
     @Override
@@ -34,13 +33,13 @@ public class QuestionMapper implements IStatementVisitor<Void> {
 
     @Override
     public Void visit(QuestionNode node) {
-        table.add(node.getQuestionID(), node);
+        checkDuplicateId(node);
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        table.add(node.getQuestionID(), node);
+        checkDuplicateId(node);
         return null;
     }
 
@@ -50,5 +49,14 @@ public class QuestionMapper implements IStatementVisitor<Void> {
             child.accept(this);
         }
         return null;
+    }
+
+    private void checkDuplicateId(QuestionNode node){
+        if(table.has(node.getID())){
+            errors.add(new NotUniqueID(node.getID(), node.getLocation()));
+        }
+        else{
+            table.add(node.getID(), node);
+        }
     }
 }

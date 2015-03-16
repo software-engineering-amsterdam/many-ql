@@ -1,13 +1,16 @@
 require_relative "string"
 
 class BaseVisitor
-  
   def initialize(base)
     @base = base
-    after_initialize(base)
   end
 
-  def after_initialize(base)
+  def self.run(base, *args)
+    new(base).run(*args)
+  end
+
+  def run()
+    raise "not implemented"
   end
 
   def map_accept(list)

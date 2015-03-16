@@ -4,7 +4,7 @@ import ql.ast.form.Form;
 import ql.ast.type.*;
 import ql.semantics.QuestionCollector;
 import ql.semantics.QuestionResult;
-import ql.semantics.QuestionMap;
+import ql.semantics.QuestionSet;
 import ql.semantics.errors.Messages;
 import qls.ast.Page;
 import qls.ast.rule.*;
@@ -22,19 +22,15 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private final QuestionMap questions;
+    private final QuestionSet questions;
     private final Set<String> refQuestions;
     private final Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
-        QuestionResult result = QuestionCollector.collect(f);
-        if (result.containsErrors())
-        {
-            return result.getMessages();
-        }
+        QuestionSet questions = QuestionCollector.collect(f);
 
-        TypeChecker checker = new TypeChecker(result.getQuestionMap());
+        TypeChecker checker = new TypeChecker(questions);
         if (checker.visit(s))
         {
             checker.allQuestionsReferencedCheck();
@@ -43,7 +39,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         return checker.messages;
     }
 
-    private TypeChecker(QuestionMap questions)
+    private TypeChecker(QuestionSet questions)
     {
         this.questions = questions;
         this.refQuestions = new HashSet<>();
@@ -155,8 +151,9 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (String id : this.questions)
+        for (ql.ast.statement.Question q : this.questions)
         {
+            String id = q.getId();
             if (!(this.refQuestions.contains(id)))
             {
                 this.messages.add(StyleError.questionNotReferenced(id));

@@ -1,7 +1,5 @@
 package ql.semantics;
 
-import ql.ast.AstNode;
-import ql.ast.expression.*;
 import ql.ast.form.Form;
 import ql.ast.form.FormVisitor;
 import ql.ast.statement.*;
@@ -9,356 +7,162 @@ import ql.ast.type.*;
 import ql.semantics.errors.Error;
 import ql.semantics.errors.Messages;
 import ql.semantics.errors.Warning;
+import ql.util.StringHelper;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by bore on 13/02/15.
  */
 
-public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, ExprVisitor<Type>
+public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private final static UndefinedType UndefType = new UndefinedType();
-
-    private QuestionMap questionMap;
-    private Question currentQuestion;
-    private QuestionDependencies questionDependencies;
-    private LabelMap labels;
-    private Messages messages;
+    private final QuestionSet questionSet;
+    private final QuestionDependencies questionDependencies;
+    private final LabelMap labels;
+    private final Messages messages;
 
     public static Messages check(Form f)
     {
-        QuestionResult questionResult = QuestionCollector.collect(f);
+        QuestionSet questions = QuestionCollector.collect(f);
+        QuestionDependencies dependencies = QuestionDependenciesBuilder.build(f);
+        TypeChecker typeChecker = new TypeChecker(questions, dependencies);
+        typeChecker.checkForIdentDuplication();
 
-        if (questionResult.containsErrors())
-        {
-            return questionResult.getMessages();
-        }
+        f.accept(typeChecker);
 
-        QuestionMap questions = questionResult.getQuestionMap();
-        TypeChecker typeChecker = new TypeChecker(questions);
-
-        if (f.accept(typeChecker))
-        {
-            typeChecker.checkForCyclicDependencies();
-            typeChecker.checkForLabelDuplication();
-        }
+        typeChecker.checkForCyclicDependencies();
+        typeChecker.checkForLabelDuplication();
 
         return typeChecker.messages;
     }
 
-    private TypeChecker(QuestionMap table)
+    private TypeChecker(QuestionSet questions, QuestionDependencies dependencies)
     {
-        this.questionMap = table;
-        this.questionDependencies = new QuestionDependencies();
+        this.questionSet = questions;
+        this.questionDependencies = dependencies;
         this.labels = new LabelMap();
         this.messages = new Messages();
     }
 
-    private UndefinedType undefinedType()
+    private void checkForIdentDuplication()
     {
-        return UndefType;
+        Set<List<Question>> identDuplications = this.getDuplicate();
+
+        for (List<Question> qs : identDuplications)
+        {
+            List<String> lines = this.getLineNumbers(qs);
+            String id = qs.get(0).getId();
+            Error error = Error.identifierAlreadyDeclared(id, lines);
+
+            this.messages.add(error);
+        }
     }
 
-    @Override
-    public Boolean visit(Form form)
+    private List<String> getLineNumbers(List<Question> questions)
     {
-        for (Statement statement : form.getBody())
+        List<String> lines = new ArrayList<>();
+        for (Question q : questions)
         {
-            if (!(statement.accept(this)))
+            lines.add(Integer.toString(q.getLineNumber()));
+        }
+        return lines;
+    }
+
+    private Set<List<Question>> getDuplicate()
+    {
+        Map<String, List<Question>> idToQuestion = new HashMap<>();
+        for (Question q : this.questionSet)
+        {
+            if (idToQuestion.containsKey(q.getId()))
             {
-                return false;
+                List<Question> list = idToQuestion.get(q.getId());
+                list.add(q);
+            }
+            else
+            {
+                List<Question> list = new ArrayList<>();
+                list.add(q);
+                idToQuestion.put(q.getId(), list);
             }
         }
 
-        return true;
+        return idToQuestion.values().stream().
+                filter(s -> s.size() > 1).
+                collect(Collectors.toSet());
     }
 
     @Override
-    public Boolean visit(IfCondition condition)
+    public Void visit(Form form)
     {
-        Type condType = condition.getCondition().accept(this);
-
-        if (condType.isUndef())
+        for (Statement statement : form.getBody())
         {
-            return false;
+            statement.accept(this);
         }
 
-        if (!(condType.isBool()))
+        return null;
+    }
+
+    @Override
+    public Void visit(IfCondition condition)
+    {
+        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questionSet);
+        if (condResult.containsErrors())
+        {
+            this.messages.addAll(condResult.getMessages());
+            //return false;
+        }
+
+        if (this.isTypeAllowedInCond(condResult.getType()))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
-            return false;
+            //return false;
         }
 
         for (Statement statement : condition.getBody())
         {
-            if (!(statement.accept(this)))
-            {
-                return false;
-            }
+            statement.accept(this);
         }
 
-        return true;
+        return null;
+    }
+
+    private boolean isTypeAllowedInCond(Type type)
+    {
+        return !type.isBool();
     }
 
     @Override
-    public Boolean visit(Question q)
+    public Void visit(Question q)
     {
-        this.questionDependencies.addQuestion(q.getId());
         this.labels.registerLabel(q);
-
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(CalculatedQuestion q)
+    public Void visit(CalculatedQuestion q)
     {
-        this.questionDependencies.addQuestion(q.getId());
         this.labels.registerLabel(q);
         Type defined = q.getType();
 
-        this.setScopeForExpr(q);
-        Type assigned = q.getCalculation().accept(this);
-        assigned = assigned.promoteTo(defined);
-        this.resetScopeForExpr();
-
-        if (assigned.isUndef())
+        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questionSet);
+        if (typeResult.containsErrors())
         {
-            return false;
+            this.messages.addAll(typeResult.getMessages());
         }
+
+        Type assigned = typeResult.getType().promoteTo(defined);
 
         if (!(defined.equals(assigned)))
         {
-            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(),
-                    assigned.getTitle(), q.getLineNumber()));
-
-            return false;
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
+                    q.getLineNumber()));
         }
 
-        return true;
+        return null;
     }
 
-    @Override
-    public Type visit(Ident n)
-    {
-        if (this.isIdentUndeclared(n))
-        {
-            this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
-            return UndefType;
-        }
-
-        String id = n.getId();
-
-        if (this.isScopeSet())
-        {
-            this.questionDependencies.addDependency(this.currentQuestion.getId(), id);
-        }
-
-        return this.questionMap.getType(id);
-    }
-
-    private boolean isIdentUndeclared(Ident id)
-    {
-        return !(this.questionMap.contains(id.getId()));
-    }
-
-    @Override
-    public Type visit(IntExpr n)
-    {
-        return new IntType();
-    }
-
-    @Override
-    public Type visit(BoolExpr n)
-    {
-        return new BoolType();
-    }
-
-    @Override
-    public Type visit(DecExpr n)
-    {
-        return new DecType();
-    }
-
-    @Override
-    public Type visit(StrExpr n)
-    {
-        return new StrType();
-    }
-
-    @Override
-    public Type visit(Add e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Sub e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Mul e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Div e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Pos e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Neg e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Not e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Gt e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Lt e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(GtEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(LtEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Equ e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(NotEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(And e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Or e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    // 1. Check if the operands are defined
-    // 2. Check if the operands are of the allowed types
-    // 3. Check if the operands are of the same type, e.g. no 1=="string"
-    private Type computeTypeOfBinaryExpr(BinaryExpr e)
-    {
-        Type left = e.getLeft().accept(this);
-        Type right = e.getRight().accept(this);
-
-        if (left.isUndef() || right.isUndef())
-        {
-            return undefinedType();
-        }
-
-        if (!(this.isChildOfAllowedType(e, left)) || !(this.isChildOfAllowedType(e, right)))
-        {
-            return undefinedType();
-        }
-
-        Type leftPromoted = left.promoteTo(right);
-        Type rightPromoted = right.promoteTo(left);
-
-        if (!(this.areChildTypesConsistent(e, leftPromoted, rightPromoted)))
-        {
-            return undefinedType();
-        }
-
-        return e.getReturnType(leftPromoted);
-    }
-
-    // 1. Check if the operand is defined
-    // 2. Check if the operand is of the correct type
-    private Type computeTypeOfUnaryExpr(UnaryExpr e)
-    {
-        Type operand = e.getOperand().accept(this);
-
-        if (operand.isUndef())
-        {
-            return undefinedType();
-        }
-
-        if (!(this.isChildOfAllowedType(e, operand)))
-        {
-            return undefinedType();
-        }
-
-        return e.getReturnType(operand);
-    }
-
-    private boolean isChildOfAllowedType(NaryExpr e, Type childType)
-    {
-        boolean isTypeAllowed = e.isTypeCompatibleWithExpr(childType);
-        if (!(isTypeAllowed))
-        {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
-        }
-
-        return isTypeAllowed;
-    }
-
-    private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
-    {
-        boolean consistent = left.equals(right);
-        if (!(consistent))
-        {
-            this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), left.getTitle(), right.getTitle(), n.getLineNumber()));
-        }
-
-        return consistent;
-    }
-
-    private void setScopeForExpr(CalculatedQuestion q)
-    {
-        this.currentQuestion = q;
-    }
-
-    private void resetScopeForExpr()
-    {
-        this.currentQuestion = null;
-    }
-
-    private boolean isScopeSet()
-    {
-        return this.currentQuestion != null;
-    }
 
     private void checkForCyclicDependencies()
     {

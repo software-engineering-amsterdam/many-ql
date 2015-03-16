@@ -1,9 +1,5 @@
 package qls.gui;
 
-import javafx.scene.layout.GridPane;
-import ql.ast.statement.CalculatedQuestion;
-import ql.ast.statement.IfCondition;
-import ql.ast.statement.Question;
 import ql.gui.GuiElement;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
@@ -12,8 +8,11 @@ import ql.semantics.ConditionalQuestion;
 import ql.semantics.Flat;
 import qls.ast.*;
 import qls.ast.Page;
+import qls.ast.rule.Rules;
 import qls.ast.statement.*;
 import qls.ast.statement.Section;
+import qls.semantics.FormStyle;
+import qls.semantics.RulesToGui;
 
 import java.util.*;
 
@@ -24,13 +23,15 @@ import java.util.*;
 public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Segment>, StatementVisitor<Segment>
 {
     private final Stylesheet stylesheet;
+    private final FormStyle formStyle;
     private Map<String, GuiElement> elems;
     private Flat flat;
 
-    public StyledModeler(Stylesheet stylesheet)
+    public StyledModeler(Stylesheet stylesheet, FormStyle formStyle)
     {
         super();
         this.stylesheet = stylesheet;
+        this.formStyle = formStyle;
     }
 
     @Override
@@ -69,8 +70,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
                 segments.add(segment);
             }
         }
-        //Why does Section require Node?
-        return new ql.gui.segment.Section(new GridPane(), segments, true);
+        return new ql.gui.segment.Section(segments, true);
     }
 
     @Override
@@ -81,7 +81,9 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
         Segment qs = cq.getQuestion().accept(this);
         List<Segment> r = new ArrayList<>();
         r.add(qs);
-        return new Conditional(cq.getCondition(), r);
+        Rules rules = formStyle.getStyleForQuestion(q.getId());
+        RowStyle style = RulesToGui.convert(rules);
+        return new Conditional(cq.getCondition(), r, style);
     }
 
     @Override

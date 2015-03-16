@@ -1,6 +1,5 @@
 package test.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
@@ -96,6 +95,15 @@ public class InvalidConditionTest {
     public void testMultiplyExpression() throws Exception {
         MultiplyNode node = new MultiplyNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
+    }
+
+    @Test
+    public void testNestedExpression() throws Exception {
+        GreaterThanNode gt1 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
+        GreaterThanNode gt2 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), gt1);
+
+        runWrongTest(gt2);
+
     }
 
     private void runCorrectTest(AExpression node){
