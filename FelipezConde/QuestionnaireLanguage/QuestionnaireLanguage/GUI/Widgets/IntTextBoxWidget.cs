@@ -12,7 +12,10 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(new IntHandler()) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsReadOnly };
+            CustomTextBox customTextBox = new CustomTextBox(new IntHandler()) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsReadOnly };
+            customTextBox.eventUpdateValue += UpdateValue;
+
+            return customTextBox;
         }
 
         private string GetControlValue(dynamic value)
