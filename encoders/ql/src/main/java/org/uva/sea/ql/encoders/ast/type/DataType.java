@@ -5,11 +5,7 @@ import org.uva.sea.ql.encoders.visitor.DataTypeVisitor;
 
 public abstract class DataType implements AstNode {
 
-	private static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
-
-	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {
-		throw new IllegalStateException(NOT_SUPPORTED_OPERATION);
-	}
+	public abstract <T> T accept(DataTypeVisitor<T> dataTypeVisitor);
 
 	public abstract String getName();
 
