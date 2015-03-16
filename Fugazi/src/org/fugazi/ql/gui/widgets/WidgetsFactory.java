@@ -5,52 +5,42 @@ import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 
 
-public class WidgetsFactory {
+public class WidgetsFactory implements ITypeVisitor<IWidget> {
 
-    public IWidget getDefaultWidgetForQuestion(Question _question) {
+    private String questionLabel;
+
+    public IWidget getWidgetForQuestion(Question _question) {
         Type type = _question.getType();
-        String label = _question.getLabel();
-
-        if (type.equals(new BoolType())) {
-            return new CheckBox(label);
-        }
-
-        if (type.equals(new StringType())) {
-            return new TextBox(label);
-        }
-
-        if (type.equals(new IntType())) {
-            return new IntegerOnlyTextBox(label);
-        }
-
-        return null;
+        this.questionLabel = _question.getLabel();
+        return type.accept(this);
     }
     
-    public IWidget getDefaultWidgetForQuestion(Question _question, ExpressionValue _value) {
+    public IWidget getWidgetForQuestion(Question _question, ExpressionValue _value) {
         Type type = _question.getType();
-        String label = _question.getLabel();
-        
-        if (type.equals(new BoolType())) {
-            IWidget widget = new CheckBox(label);
-            widget.setValue(_value);
-            widget.setReadOnly(true);
-            return widget;
-        }
+        this.questionLabel = _question.getLabel();
 
-        if (type.equals(new StringType())) {
-            IWidget widget = new TextBox(label);
-            widget.setValue(_value);
-            widget.setReadOnly(true);
-            return widget;
-        }
+        IWidget widget = type.accept(this);
+        widget.setValue(_value);
+        widget.setReadOnly(true);
+        return widget;
+    }
 
-        if (type.equals(new IntType())) {
-            IWidget widget = new IntegerOnlyTextBox(label);
-            widget.setValue(_value);
-            widget.setReadOnly(true);
-            return widget;
-        }
+    /**
+     * TypeVisitor - Type To Widgets
+     */
+    public IWidget visitBoolType(BoolType _boolType) {
+        return new CheckBox(this.questionLabel);
+    }
 
-        return null;
+    public IWidget visitIntType(IntType _intType) {
+        return new IntegerOnlyTextBox(this.questionLabel);
+    }
+
+    public IWidget visitStringType(StringType _stringType) {
+        return new TextBox(this.questionLabel);
+    }
+
+    public IWidget visitUndefinedType(UndefinedType _undefinedType) {
+        throw new AssertionError();
     }
 }
