@@ -5,7 +5,13 @@ questionnaire: 'form' name=NAME '{' statement+ '}' EOF;
 
 statement: question | conditionalBlock;
 
-question: label=STRINGLITERAL name=NAME ':' type=DATATYPE ('=' computed=expression)?;
+question: label=STRINGLITERAL name=NAME ':' type=dataType ('=' computed=expression)?;
+
+dataType:  
+       'boolean' #BooleanType
+     | 'integer' #IntegerType
+     | 'string'  #StringType
+     ;
 
 conditionalBlock: 'if' '(' expression ')' '{' question+ '}';
     

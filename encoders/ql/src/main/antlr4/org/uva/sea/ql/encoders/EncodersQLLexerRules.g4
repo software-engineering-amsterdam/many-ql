@@ -1,7 +1,5 @@
 lexer grammar EncodersQLLexerRules;
 
-DATATYPE      : ( 'boolean' | 'integer' | 'string' );
-
 STRINGLITERAL : '"' (ESCAPE | .)*? '"';
 BOOLEANLITERAL: 'true' | 'false';
 INTEGERLITERAL: [0-9]+;

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.ast.type;
 
+
 public class StringType extends DataType {
 
 	private static final String name = "string";

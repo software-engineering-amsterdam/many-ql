@@ -6,7 +6,7 @@ import java.util.List;
 import org.uva.sea.ql.encoders.ast.statement.Question;
 import org.uva.sea.ql.encoders.ast.statement.Statement;
 
-public class Questionnaire extends AstNode {
+public class Questionnaire extends AstNodeWithLocation {
 
 	private final String name;
 

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.ast.type;
 
+
 public class BooleanType extends DataType {
 
 	private static final String name = "boolean";

@@ -1,6 +1,8 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public abstract class DataType {
+import org.uva.sea.ql.encoders.ast.AstNode;
+
+public abstract class DataType implements AstNode {
 
 	private static final String NOT_SUPPORTED_OPERATION = "Not supported operation";
 

@@ -9,10 +9,12 @@ import org.uva.sea.ql.encoders.EncodersQLBaseVisitor;
 import org.uva.sea.ql.encoders.EncodersQLParser.AddSubContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.AndContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.BooleanLiteralContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.BooleanTypeContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.BracedExpressionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ExpressionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.IntegerLiteralContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.IntegerTypeContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.LtGtLeGeContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.MulDivContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.NameExpressionContext;
@@ -23,6 +25,7 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StringLiteralContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.StringTypeContext;
 import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
@@ -50,8 +53,10 @@ import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.statement.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.statement.Question;
 import org.uva.sea.ql.encoders.ast.statement.Statement;
+import org.uva.sea.ql.encoders.ast.type.BooleanType;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.ast.type.DataTypeTable;
+import org.uva.sea.ql.encoders.ast.type.IntegerType;
+import org.uva.sea.ql.encoders.ast.type.StringType;
 
 public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 
@@ -86,11 +91,7 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.name.getText();
-		DataTypeTable dataTypeTable = new DataTypeTable();
-		DataType dataType = dataTypeTable.get(ctx.type.getText());
-		if (dataType == null) {
-			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
-		}
+		DataType dataType = (DataType) ctx.type.accept(this);
 		String questionLabel = ctx.label.getText();
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
@@ -222,6 +223,21 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 		TextLocation textLocation = getTextLocation(ctx);
 		String value = ctx.value.getText();
 		return new StringLiteral(textLocation, value);
+	}
+
+	@Override
+	public AstNode visitBooleanType(BooleanTypeContext ctx) {
+		return new BooleanType();
+	}
+
+	@Override
+	public AstNode visitIntegerType(IntegerTypeContext ctx) {
+		return new IntegerType();
+	}
+
+	@Override
+	public AstNode visitStringType(StringTypeContext ctx) {
+		return new StringType();
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
