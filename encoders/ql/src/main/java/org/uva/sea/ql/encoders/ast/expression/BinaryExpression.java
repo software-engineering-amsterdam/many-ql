@@ -1,7 +1,7 @@
 package org.uva.sea.ql.encoders.ast.expression;
 
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
+import org.uva.sea.ql.encoders.visitor.ExpressionVisitor;
 
 public class BinaryExpression extends Expression {
 
@@ -31,11 +31,6 @@ public class BinaryExpression extends Expression {
 	}
 
 	@Override
-	public <T> T accept(AstVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-
-	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(leftHand);
@@ -46,4 +41,8 @@ public class BinaryExpression extends Expression {
 		return builder.toString();
 	}
 
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

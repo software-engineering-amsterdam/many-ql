@@ -2,9 +2,6 @@ package org.uva.sea.ql.encoders.runtime;
 
 import java.util.List;
 
-import org.uva.sea.ql.encoders.ast.ConditionalBlock;
-import org.uva.sea.ql.encoders.ast.Question;
-import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
@@ -22,9 +19,9 @@ import org.uva.sea.ql.encoders.runtime.value.StringValue;
 import org.uva.sea.ql.encoders.runtime.value.Value;
 import org.uva.sea.ql.encoders.service.OperatorTable;
 import org.uva.sea.ql.encoders.service.QuestionByName;
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
+import org.uva.sea.ql.encoders.visitor.ExpressionVisitor;
 
-public class ExpressionEvaluator implements AstVisitor<Value> {
+public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
 	private final List<RuntimeQuestion> questions;
 
@@ -83,18 +80,4 @@ public class ExpressionEvaluator implements AstVisitor<Value> {
 		return new StringValue(stringLiteral.getValue());
 	}
 
-	@Override
-	public Value visit(Question question) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public Value visit(Questionnaire questionnaire) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public Value visit(ConditionalBlock conditionalBlock) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
 }

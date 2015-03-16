@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
 /**
  * Represents a question in the {@link Questionnaire}
@@ -55,11 +54,6 @@ public class Question extends Statement {
 	@Override
 	public String toString() {
 		return name.toString();
-	}
-
-	@Override
-	public <T> T accept(AstVisitor<T> visitor) {
-		return visitor.visit(this);
 	}
 
 	@Override

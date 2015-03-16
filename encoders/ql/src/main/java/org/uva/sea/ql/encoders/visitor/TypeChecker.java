@@ -7,9 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.Question;
-import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
@@ -26,7 +24,7 @@ import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 
-public class TypeChecker implements AstVisitor<DataType> {
+public class TypeChecker implements ExpressionVisitor<DataType> {
 
 	private static final String BOOLEAN_CONDITION = "booleanCondition";
 	private static final String DUPLICATE_LABEL = "duplicateLabel";
@@ -156,20 +154,5 @@ public class TypeChecker implements AstVisitor<DataType> {
 	@Override
 	public DataType visit(BooleanLiteral booleanLiteral) {
 		return new BooleanType();
-	}
-
-	@Override
-	public DataType visit(Question question) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public DataType visit(Questionnaire questionnaire) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public DataType visit(ConditionalBlock conditionalBlock) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
 	}
 }

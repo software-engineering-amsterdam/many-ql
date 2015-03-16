@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.uva.sea.ql.encoders.ast.ConditionalBlock;
-import org.uva.sea.ql.encoders.ast.Question;
-import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
@@ -15,9 +12,9 @@ import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.StringLiteral;
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
+import org.uva.sea.ql.encoders.visitor.ExpressionVisitor;
 
-public class RelatedQuestionVisitor implements AstVisitor<Set<String>> {
+public class RelatedQuestionVisitor implements ExpressionVisitor<Set<String>> {
 
 	@Override
 	public Set<String> visit(BracedExpression bracedExpression) {
@@ -64,18 +61,4 @@ public class RelatedQuestionVisitor implements AstVisitor<Set<String>> {
 		return Collections.emptySet();
 	}
 
-	@Override
-	public Set<String> visit(Question question) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public Set<String> visit(Questionnaire questionnaire) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
-
-	@Override
-	public Set<String> visit(ConditionalBlock conditionalBlock) {
-		throw new AssertionError(NOT_SUPPORTED_OPERATION);
-	}
 }

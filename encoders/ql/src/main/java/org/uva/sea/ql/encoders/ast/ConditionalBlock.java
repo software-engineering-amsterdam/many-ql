@@ -3,7 +3,6 @@ package org.uva.sea.ql.encoders.ast;
 import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.expression.Expression;
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
 public class ConditionalBlock extends Statement {
 
@@ -24,10 +23,5 @@ public class ConditionalBlock extends Statement {
 	@Override
 	public List<Question> getQuestions() {
 		return questions;
-	}
-
-	@Override
-	public <T> T accept(AstVisitor<T> visitor) {
-		return visitor.visit(this);
 	}
 }

@@ -3,8 +3,6 @@ package org.uva.sea.ql.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
-
 public class Questionnaire extends AstNode {
 
 	private final String name;
@@ -38,8 +36,4 @@ public class Questionnaire extends AstNode {
 		return name;
 	}
 
-	@Override
-	public <T> T accept(AstVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
 }

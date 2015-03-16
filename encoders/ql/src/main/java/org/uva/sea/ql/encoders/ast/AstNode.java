@@ -1,6 +1,5 @@
 package org.uva.sea.ql.encoders.ast;
 
-import org.uva.sea.ql.encoders.visitor.AstVisitor;
 
 public abstract class AstNode {
 
@@ -14,5 +13,4 @@ public abstract class AstNode {
 		return textLocation;
 	}
 
-	public abstract <T> T accept(AstVisitor<T> visitor);
 }
