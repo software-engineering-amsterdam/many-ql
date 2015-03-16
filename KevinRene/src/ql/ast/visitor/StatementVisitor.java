@@ -61,4 +61,3 @@ public abstract class StatementVisitor<T> {
 		return null;
 	}
 }
-// form hh { ques : boolean { "Whatever" } quest2 : integer { "HAHAHA" } }
