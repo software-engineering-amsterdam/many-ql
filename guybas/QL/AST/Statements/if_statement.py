@@ -88,6 +88,6 @@ class IfBlock(statement.IStatement):
         return []
 
     def get_inverted_condition(self):
-        return not_operation.Not("not", self._condition)
+        return not_operation.Not(self.condition)
 
 
