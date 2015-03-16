@@ -1,4 +1,4 @@
-package ast.treevisitor;
+package astvisitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,21 +10,21 @@ import main.TaZQLParser;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import ast.AST;
-import ast.expression.BinaryExpression;
-import ast.expression.BracketsExpression;
+import ast.expression.Binary;
+import ast.expression.Brackets;
 import ast.expression.Expression;
-import ast.expression.arithmetic.AdditionExpression;
-import ast.expression.arithmetic.DivisionExpression;
-import ast.expression.arithmetic.MultiplicationExpression;
-import ast.expression.arithmetic.SubstractionExpression;
-import ast.expression.comparison.EqualExpression;
-import ast.expression.comparison.GreaterEqualExpression;
-import ast.expression.comparison.GreaterThanExpression;
-import ast.expression.comparison.LessEqualExpression;
-import ast.expression.comparison.LessThanExpression;
-import ast.expression.comparison.NotEqualExpression;
-import ast.expression.logical.AndExpression;
-import ast.expression.logical.OrExpression;
+import ast.expression.arithmetic.Addition;
+import ast.expression.arithmetic.Division;
+import ast.expression.arithmetic.Multiplication;
+import ast.expression.arithmetic.Substraction;
+import ast.expression.comparison.Equal;
+import ast.expression.comparison.GreaterEqual;
+import ast.expression.comparison.GreaterThan;
+import ast.expression.comparison.LessEqual;
+import ast.expression.comparison.LessThan;
+import ast.expression.comparison.NotEqual;
+import ast.expression.logical.And;
+import ast.expression.logical.Or;
 import ast.expression.variables.BooleanVariable;
 import ast.expression.variables.Id;
 import ast.expression.variables.IntegerVariable;
@@ -36,13 +36,13 @@ import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
 import ast.type.ChoiceType;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 import ast.type.TextType;
 import ast.type.Type;
-import ast.unary.MinusExpression;
-import ast.unary.NotExpression;
-import ast.unary.PlusExpression;
-import ast.unary.UnaryExpression;
+import ast.unary.Minus;
+import ast.unary.Not;
+import ast.unary.Plus;
+import ast.unary.Unary;
 
 public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
@@ -111,21 +111,21 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	// EXPRESSIONS
 	
 	@Override 
-	public BracketsExpression visitBracketsExpression(@NotNull TaZQLParser.BracketsExpressionContext ctx) { 
-		return new BracketsExpression((Expression) ctx.expression().accept(this));
+	public Brackets visitBracketsExpression(@NotNull TaZQLParser.BracketsExpressionContext ctx) { 
+		return new Brackets((Expression) ctx.expression().accept(this));
 	}
 	
 	
 	@Override 
-	public BinaryExpression visitAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx) { 
+	public Binary visitAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx) { 
 		if (ctx.op.getText().equals("+")) {
-		return new AdditionExpression( 
+		return new Addition( 
 				(Expression) ctx.expression(0).accept(this), 
 				(Expression) ctx.expression(1).accept(this)); 
 		}
 		
 		if (ctx.op.getText().equals("-")) {
-			return new SubstractionExpression( 
+			return new Substraction( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
@@ -134,15 +134,15 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	}
 	
 	@Override 
-	public BinaryExpression visitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { 
+	public Binary visitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { 
 		if (ctx.op.getText().equals("*")) {
-			return new MultiplicationExpression( 
+			return new Multiplication( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
 			
 		if (ctx.op.getText().equals("/")) {
-			return new DivisionExpression( 
+			return new Division( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
@@ -151,26 +151,26 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	}
 	
 	@Override 
-	public BinaryExpression visitComparissionExpression(@NotNull TaZQLParser.ComparissionExpressionContext ctx) { 
+	public Binary visitComparissionExpression(@NotNull TaZQLParser.ComparissionExpressionContext ctx) { 
 		if (ctx.op.getText().equals(">=")) {
-			return new GreaterEqualExpression( 
+			return new GreaterEqual( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
 			
 		if (ctx.op.getText().equals(">")) {
-			return new GreaterThanExpression( 
+			return new GreaterThan( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
 		if (ctx.op.getText().equals("<=")) {
-			return new LessEqualExpression( 
+			return new LessEqual( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
 			
 		if (ctx.op.getText().equals("<")) {
-			return new LessThanExpression( 
+			return new LessThan( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}	
@@ -178,15 +178,15 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	}
 	
 	@Override 
-	public BinaryExpression visitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { 
+	public Binary visitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { 
 		if (ctx.op.getText().equals("!=")) {
-			return new NotEqualExpression( 
+			return new NotEqual( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}
 			
 		if (ctx.op.getText().equals("==")) {
-			return new EqualExpression( 
+			return new Equal( 
 					(Expression) ctx.expression(0).accept(this), 
 					(Expression) ctx.expression(1).accept(this)); 
 		}	
@@ -194,27 +194,27 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	}
 	
 	
-	@Override public BinaryExpression visitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { 
-		return new AndExpression( 
+	@Override public Binary visitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { 
+		return new And( 
 				(Expression) ctx.expression(0).accept(this), 
 				(Expression) ctx.expression(1).accept(this)); 
 	}
 	
-	@Override public BinaryExpression visitOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx) { 
-		return new OrExpression( 
+	@Override public Binary visitOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx) { 
+		return new Or( 
 				(Expression) ctx.expression(0).accept(this), 
 				(Expression) ctx.expression(1).accept(this)); 
 	}
 	
-	@Override public UnaryExpression visitUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx) { 
+	@Override public Unary visitUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx) { 
 		if (ctx.op.getText().equals("!")) {
-			return new NotExpression((Expression) ctx.expression().accept(this)); 
+			return new Not((Expression) ctx.expression().accept(this)); 
 		}
 		if (ctx.op.getText().equals("+")) {
-			return new PlusExpression( (Expression) ctx.expression().accept(this)); 
+			return new Plus( (Expression) ctx.expression().accept(this)); 
 		}	
 		if (ctx.op.getText().equals("-")) {
-			return new MinusExpression((Expression) ctx.expression().accept(this)); 
+			return new Minus((Expression) ctx.expression().accept(this)); 
 		}	
 		return null; 
 	}
@@ -259,7 +259,7 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
 	@Override public ChoiceType visitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { return new ChoiceType(); }
 	
-	@Override public DigitsType visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { return new DigitsType(); }
+	@Override public IntegerType visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { return new IntegerType(); }
 	
 	@Override public TextType visitStringType(@NotNull TaZQLParser.StringTypeContext ctx) { return new TextType(); }
 	
