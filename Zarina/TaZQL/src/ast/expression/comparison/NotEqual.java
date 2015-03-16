@@ -1,15 +1,15 @@
 package ast.expression.comparison;
 
-import ast.expression.BinaryExpression;
+import ast.expression.Binary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.type.ChoiceType;
 
-// Less than or equal to(<=)
+// != 
 
-public class LessEqualExpression extends BinaryExpression {
-								
-	public LessEqualExpression (Expression leftExp, Expression rightExp) {
+public class NotEqual extends Binary {
+				
+	public NotEqual (Expression leftExp, Expression rightExp) {
 		super(leftExp, rightExp);
 	}
 									
@@ -20,14 +20,11 @@ public class LessEqualExpression extends BinaryExpression {
 	
 	@Override
 	public String toString() {
-		return super.getLeftExpression().toString() + " <= " + super.getRightExpression().toString();
+		return super.getLeftExpression().toString() + " != " + super.getRightExpression().toString();
 	}
 	
 	@Override
-	public ChoiceType getExpressionType() {
+	public ChoiceType getType() {
 		return new ChoiceType();
 	}
 }
-
-
-
