@@ -1,6 +1,11 @@
 package uva.ql.ast.expressions.literals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
@@ -18,8 +23,23 @@ public class BooleanLiteral extends Literal{
 	}
 	
 	@Override
+	public CodeLines getCodeLine() {
+		return this.codeLines;
+	}
+	
+	@Override
 	public BooleanValue evaluate() {
 		return new BooleanValue(this.value);
+	}
+
+	@Override
+	public List<Type> getValueType() {
+		return Arrays.asList(new TypeBoolean());
+	}
+	
+	@Override
+	public List<Type> getSupportedType() {
+		return Arrays.asList(new TypeBoolean());
 	}
 	
 	@Override
@@ -28,12 +48,8 @@ public class BooleanLiteral extends Literal{
 	}
 	
 	@Override
-	public String evaluateType() {
-		return BooleanLiteral.class.getName();
-	}
-	
-	@Override
 	public String toString() {
 		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
+
 }

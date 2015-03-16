@@ -8,9 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Prog;
-import uva.ql.interpreter.gui.GUI;
-import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.TypeCheck;
+import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.parser.QLLexer;
 import uva.ql.parser.QLMainVisitor;
 import uva.ql.parser.QLParser;
@@ -22,11 +20,16 @@ public class Main{
 		ParseTree tree = getParseTree("SupportingFiles/Test.ql");
 		ASTNode ast = getAST(tree);
 		
-		TypeCheck typeCheck = getTypeCheck(ast);
-		Subject subject = new Subject();
+		System.out.println(ast);
 		
-		GUI gui = new GUI(typeCheck.getSymbolTable(), typeCheck.getExpressionTable(), (Prog)ast, subject);
-		gui.rander();
+		TypeCheckVisitor typeCheck = new TypeCheckVisitor();
+		typeCheck.visitProg((Prog)ast);
+		
+		//TypeCheck typeCheck = getTypeCheck(ast);
+		//Subject subject = new Subject();
+		
+		//GUI gui = new GUI(typeCheck.getSymbolTable(), typeCheck.getExpressionTable(), (Prog)ast, subject);
+		//gui.rander();
 	}
 	
 	public static ParseTree getParseTree(String path) throws IOException{
@@ -46,10 +49,6 @@ public class Main{
 		ASTNode ast = visitor.visit(tree);
 		
 		return ast;
-	}
-	
-	public static TypeCheck getTypeCheck(ASTNode ast){
-		return new TypeCheck(ast);
 	}
 	
 }
