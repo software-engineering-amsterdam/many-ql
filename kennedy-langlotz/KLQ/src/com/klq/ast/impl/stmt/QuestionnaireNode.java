@@ -4,12 +4,13 @@ import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Location;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by juriaan on 10-2-15.
  */
 public class QuestionnaireNode extends AStatementNode {
-    private ArrayList<AStatementNode> children;
+    private List<AStatementNode> children;
 
     public QuestionnaireNode(Location location) {
         super(location);
@@ -21,7 +22,7 @@ public class QuestionnaireNode extends AStatementNode {
         this.children = new ArrayList<AStatementNode>();
     }
 
-    public ArrayList<AStatementNode> getChildren() {
+    public List<AStatementNode> getChildren() {
         return children;
     }
 

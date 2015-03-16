@@ -30,7 +30,23 @@ This is a library class. Can you move the methods to somewhere they make more se
 public class InputValidator
 =====> made a matchesInput() method in each Type of QuestionPane.
 
+Isn't this too general? What is allowed as answers for answersets?
+private List<AExpression> answers;
+======> removed the Set type from language.
 
+What does it mean for a ComputedQuestionNode to have a list of children? What do they represent?
+
+Return List<ANode>
+public ArrayList<ANode> getChildren() {
+
+
+Use List here (in Conditional Node)
+ ArrayList<ANode> children
+Here there is the problem that now the children (?) can be anything, including Expression (because AExpression extends ANode).
+Try to design the hierarchy such that the types ensure that you can only build valid trees.
+Same problem with QuestionnaireNode
+
+In QuestionMapper you see problem of not having a separate StatemenVisitor: lot of refused bequest (bogus methods on expression returning null).
 ======================================================================================================================================================================================================
 EVERYTHING ABOVE THIS LINE IS FIXED
 ======================================================================================================================================================================================================
@@ -42,24 +58,8 @@ And they are also not values: public class IdentifierValue extends Value<String>
 In Main this field is never initialize (Main is not instantiated, it seems):
  private Questionnaire questionnaire;
 
-What does it mean for a ComputedQuestionNode to have a list of children? What do they represent?
-
-Use List here (in Conditional Node)
- ArrayList<ANode> children
-Here there is the problem that now the children (?) can be anything, including Expression (because AExpression extends ANode).
-Try to design the hierarchy such that the types ensure that you can only build valid trees.
-Same problem with QuestionnaireNode
-
-Isn't this too general? What is allowed as answers for answersets?
-private List<AExpression> answers;
-
-
-Return List<ANode>
-public ArrayList<ANode> getChildren() {
-
 Tangling in QuestionTable: it should do one thing (maintaining relation between name and question object), but it also checks for undefined names. This can be easily moved elsewhere. Also: again use List<> at declaration sites.
 
-In QuestionMapper you see problem of not having a separate StatemenVisitor: lot of refused bequest (bogus methods on expression returning null).
 
 Also mentioned before: the firstPass and secondPass things *could* be used incorrectly: encode the dependency explicitly by letting the result of one pass be input to the second pass.
 

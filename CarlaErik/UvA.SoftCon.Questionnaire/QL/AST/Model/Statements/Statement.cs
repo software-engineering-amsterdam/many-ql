@@ -13,6 +13,9 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
         protected Statement(TextPosition position)
             : base(position) { }
 
-        internal abstract void AppendQuestions(ICollection<Question> questions);
+        internal virtual void AppendQuestions(ICollection<Question> questions)
+        {
+
+        }
     }
 }
