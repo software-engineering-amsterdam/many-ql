@@ -2,8 +2,8 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwi
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -44,7 +44,7 @@ public class IntboxWidget implements IWidget {
         });
     }
 
-    public IntboxWidget(final QuestionField questionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public IntboxWidget(final StaticQuestionField staticQuestionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.widget = new JTextField((int) Math.log10(Integer.MAX_VALUE - 1) + 1);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -64,9 +64,9 @@ public class IntboxWidget implements IWidget {
 
             public void updateField() {
                 try {
-                    symbolTable.setVariable(questionField.getVariable(), new IntegerValue(Integer.parseInt(widget.getText())));
+                    symbolTable.setVariable(staticQuestionField.getVariable(), new IntegerValue(Integer.parseInt(widget.getText())));
                 } catch(NumberFormatException e) {
-                    symbolTable.setVariable(questionField.getVariable(), new IntegerValue(0));
+                    symbolTable.setVariable(staticQuestionField.getVariable(), new IntegerValue(0));
                 }
                 qlIntepreter.interpret();
             }

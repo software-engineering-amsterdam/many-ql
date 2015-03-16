@@ -16,7 +16,6 @@ class Question(statement.IStatement):
         self._id = qid
         self._label = label
         self._type = qtype
-        self._parent_id = None
         self._order = None
         self.element = None
         self.parentCondition = None

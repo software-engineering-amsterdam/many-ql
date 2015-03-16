@@ -20,14 +20,7 @@ public class Evaluator implements FormVisitor, StatementVisitor {
 		this.values = values;
 	}
 	
-	public static ValueTable evaluate(Form form) {
-		Evaluator evaluator = new Evaluator();
-		form.accept(evaluator);
-		
-		return evaluator.values;
-	}
-	
-	public static ValueTable reEvaluate(Form form, ValueTable values) {
+	public static ValueTable evaluate(Form form, ValueTable values) {
 		Evaluator evaluator = new Evaluator(values);
 		form.accept(evaluator);
 		

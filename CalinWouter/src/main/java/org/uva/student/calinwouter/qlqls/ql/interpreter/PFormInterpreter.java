@@ -19,7 +19,7 @@ public class PFormInterpreter extends AnalysisAdapter {
         }
     }
 
-    public PFormInterpreter(VariableTable variableTable, ResultingFieldsCollection form) {
-        this.stmtInterpreter = new PStmtInterpreter(variableTable, form);
+    public PFormInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable) {
+        this.stmtInterpreter = new PStmtInterpreter(oldVariableTable, newVariableTable);
     }
 }

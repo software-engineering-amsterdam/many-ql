@@ -1,35 +1,33 @@
 package com.klq.ast.impl;
 
-import com.common.ast.Location;
+import com.klq.ast.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-
-import java.util.List;
 
 /**
  * Created by juriaan on 17-2-15.
  */
 public class ComputedQuestionNode extends QuestionNode {
-    private List<AExpression> children;
+    private AExpression computedAnswer;
 
-    public ComputedQuestionNode(String questionID, String questionType, String text, List<AExpression> children, Location location) {
+    public ComputedQuestionNode(String questionID, String questionType, String text, AExpression computedAnswer, Location location) {
         super(questionID, questionType, text, location);
-        this.children = children;
+        this.computedAnswer = computedAnswer;
     }
 
-    public ComputedQuestionNode(String questionID, String questionType, String text, List<AExpression> children) {
+    public ComputedQuestionNode(String questionID, String questionType, String text, AExpression computedAnswer) {
         super(questionID, questionType, text);
-        this.children = children;
+        this.computedAnswer = computedAnswer;
     }
 
-    public List<AExpression> getChildren() {
-        return children;
+    public AExpression getComputedAnswer() {
+        return computedAnswer;
     }
 
     @Override
     public void printSelf() {
         super.printSelf();
-        System.out.printf("Child class: %s", children.getClass());
+        System.out.printf("Child class: %s", computedAnswer.getClass());
         System.out.println();
     }
 
