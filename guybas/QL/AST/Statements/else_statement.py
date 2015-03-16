@@ -43,18 +43,6 @@ class IfElseBlock(if_statement.IfBlock):
             labels += x.label_collection()
         return labels
 
-    # return all the _dependencies in the statement of other _statements
-    def get_dependency_collection(self, dependencies):
-        ids = self.id_collection()
-        for i in ids:
-            if i in dependencies:
-                dependencies[i] = dependencies[i] + self._condition.get_dependencies()
-            else:
-                dependencies[i] = self._condition.get_dependencies()
-        for x in self._statements:
-            dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
-        return dependencies
-
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         d = {}

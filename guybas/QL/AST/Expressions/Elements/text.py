@@ -12,5 +12,5 @@ class Text(e.Element):
     def return_type_string(self, type_dict):
         return constants.TEXT
 
-    def get_dependencies(self):
+    def get_dependency_collection(self):
         return []

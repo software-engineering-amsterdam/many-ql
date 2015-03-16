@@ -29,6 +29,9 @@ print(form.get_type_dict())
 print("statement_dict")
 print(form.get_statement_dict())
 
+print("dependencies")
+print(form.get_dependencies())
+
 # typeChecker = type_checker.TypeChecker(form)
 # typeChecker.is_valid_form()
 
