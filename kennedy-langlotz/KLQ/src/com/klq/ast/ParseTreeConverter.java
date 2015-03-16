@@ -1,9 +1,9 @@
 package com.klq.ast;
 
-import com.klq.ast.impl.ComputedQuestionNode;
-import com.klq.ast.impl.ConditionalNode;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.stmt.ComputedQuestionNode;
+import com.klq.ast.impl.stmt.ConditionalNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;

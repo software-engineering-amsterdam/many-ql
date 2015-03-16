@@ -30,11 +30,6 @@ public abstract class ABinaryExprNode extends AExpression {
         return rightChild;
     }
 
-    @Override
-    public <T> T accept(IVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
-
     //for testing purposes, maybe remove later?
     public void printChildren(){
         System.out.printf("Left child: %s", leftChild.getClass());

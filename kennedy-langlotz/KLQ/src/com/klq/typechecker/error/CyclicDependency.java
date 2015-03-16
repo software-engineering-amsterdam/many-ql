@@ -1,6 +1,6 @@
 package com.klq.typechecker.error;
 
-import com.klq.ast.impl.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionNode;
 
 /**
  * Created by Juriaan on 1-3-2015.

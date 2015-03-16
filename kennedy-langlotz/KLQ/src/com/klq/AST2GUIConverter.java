@@ -2,10 +2,10 @@ package com.klq;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
-import com.klq.ast.impl.ComputedQuestionNode;
-import com.klq.ast.impl.ConditionalNode;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.stmt.ComputedQuestionNode;
+import com.klq.ast.impl.stmt.ConditionalNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
@@ -20,8 +20,6 @@ import com.klq.logic.IKLQItem;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.*;
 import com.klq.ast.impl.expr.value.*;
-
-import java.util.HashMap;
 
 /**
  * Created by juriaan on 17-2-15.

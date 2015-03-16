@@ -1,15 +1,15 @@
-package com.klq.ast.impl;
+package com.klq.ast.impl.stmt;
 
 import com.klq.ast.Location;
 import com.klq.ast.ANode;
-import com.klq.ast.IVisitor;
+import com.klq.ast.IStatementVisitor;
 
 import java.util.ArrayList;
 
 /**
  * Created by Juriaan on 22-2-2015.
  */
-public class ConditionalNode extends ANode {
+public class ConditionalNode extends AStatementNode {
     ANode condition;
     ArrayList<ANode> children;
 
@@ -42,7 +42,7 @@ public class ConditionalNode extends ANode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
