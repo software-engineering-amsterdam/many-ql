@@ -24,11 +24,11 @@ public class ChoiceListener extends AListener implements ItemListener   {
 			System.out.println("Unselected: " + widget.getValue());	
 		}
 	}
-
+/*
 	@Override
 	public void update() {
 		evaluator.setValue(widget.getIdWidget().toString(), widget.getValue());	
 		evaluator.setValueInGUI();
 	}
-	
+*/	
 }
