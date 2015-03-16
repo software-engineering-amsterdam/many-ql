@@ -42,11 +42,12 @@ class IfBlock(statement.IStatement):
     # return all the _dependencies in the statement of other _statements
     def get_dependency_collection(self, dependencies):
         ids = self.id_collection()
+        new_dep = self._condition.get_dependency_collection()
         for i in ids:
             if i in dependencies:
-                dependencies[i] = dependencies[i] + self._condition.get_dependencies()
+                dependencies[i] = dependencies[i] + new_dep
             else:
-                dependencies[i] = self._condition.get_dependencies()
+                dependencies[i] = new_dep
         for x in self._statements:
             dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies

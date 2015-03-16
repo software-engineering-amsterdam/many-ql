@@ -12,10 +12,5 @@ namespace AST.Nodes.Labels
         {
             this.Value = value;
         }
-
-        public T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

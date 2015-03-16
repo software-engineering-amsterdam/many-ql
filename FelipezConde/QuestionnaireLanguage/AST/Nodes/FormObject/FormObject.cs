@@ -1,4 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.ASTVisitors.Interfaces;
+using AST.Nodes.Interfaces;
 using AST.Representation;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace AST.Nodes.FormObject
         public FormObject(PositionInText pos)
             :base(pos)
         { }
+
+        public abstract T Accept<T>(FormObjectVisitor<T> visitor);
 
         public abstract T Accept<T>(ASTVisitors.IVisitor<T> visitor);
     }

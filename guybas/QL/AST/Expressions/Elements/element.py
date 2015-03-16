@@ -8,7 +8,7 @@ class Element:
     def pretty_print(self):
         raise Exception("Not implemented by sub class")
 
-    def get_dependencies(self):
+    def get_dependency_collection(self):
         raise Exception("Not implemented by sub class")
 
     def is_valid_expression(self, td):

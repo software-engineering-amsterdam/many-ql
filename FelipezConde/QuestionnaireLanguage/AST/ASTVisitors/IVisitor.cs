@@ -38,9 +38,5 @@ namespace AST.ASTVisitors
         T Visit(Values.Int node);
         T Visit(Values.String node);
 
-        //Label
-        T Visit(Label.Label node);
-
-        T Visit(Binary.Binary binary);
     }
 }

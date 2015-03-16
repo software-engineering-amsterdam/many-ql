@@ -10,10 +10,6 @@ class BinaryExpression(e.Element):
     def pretty_print(self, level=0):
         return "(" + self._operand1.pretty_print() + self.symbol + self._operand2.pretty_print() + ")"
 
-    # get all variables in the _expression
-    def get_dependencies(self):
-        return [self._operand1.get_dependencies(), self._operand2.get_dependencies()]
-
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
         raise Exception("Not implemented by sub class")
@@ -23,3 +19,9 @@ class BinaryExpression(e.Element):
         if self._operand1.is_valid_expression(td) and  self._operand2.is_valid_expression(td):
             return self._operand1.return_type_string(td) == self._operand2.return_type_string(td)
         return False
+
+    def get_dependency_collection(self):
+        l = []
+        l += (self._operand1.get_dependency_collection())
+        l += (self._operand2.get_dependency_collection())
+        return l

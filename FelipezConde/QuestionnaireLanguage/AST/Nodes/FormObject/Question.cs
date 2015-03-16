@@ -8,14 +8,14 @@ namespace AST.Nodes.FormObject
     public class Question : FormObject, IHasType
     {
         public Label Label {get; private set;}
-        public Expression Computation {get; private set;}
+        public BaseExpression Computation {get; private set;}
         public Id Identifier {get; private set;}
         private Types.Type type;
 
         public Question(Id identifier,
                         Types.Type type,
                         Label label,
-                        Expression computation,
+                        BaseExpression computation,
                         PositionInText positionInText)
             : base(positionInText)
         {
@@ -27,6 +27,10 @@ namespace AST.Nodes.FormObject
 
         public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         { return visitor.Visit(this); }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.FormObjectVisitor<T> visitor)
+        { return visitor.Visit(this); }
+
 
         public Types.Type RetrieveType()
         {

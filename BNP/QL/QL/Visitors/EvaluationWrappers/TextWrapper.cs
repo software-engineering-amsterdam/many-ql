@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using QL.Model;
 using QL.Model.Terminals;
 
-namespace QL.Evaluation
+namespace QL.Visitors
 {
-    public class TextWrapper : TerminalWrapper
+    public class TextWrapper : ITerminalWrapper//TODO change to  struct
     {
         public string Value;
         IResolvableTerminalType _node;
@@ -20,7 +20,11 @@ namespace QL.Evaluation
 
         public TextWrapper(Text a)
         {
-            Value = a.Value;
+            if (a != null)
+            {
+
+                Value = a.Value;
+            }
             _node = (IResolvableTerminalType)a;
         }
         public TextWrapper(IResolvableTerminalType a)
@@ -31,44 +35,37 @@ namespace QL.Evaluation
 
         public static YesnoWrapper operator ==(TextWrapper a, TextWrapper b)
         {
-            if (a.Value != null || b.Value != null)
+            if (ContainsNullValue(a, b))
             {
-                return new YesnoWrapper(a.Value == b.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
+                return new YesnoWrapper(null);
+            };
+            return new YesnoWrapper(a.Value == b.Value);
+            
         }
         public static YesnoWrapper operator !=(TextWrapper a, TextWrapper b)
         {
-            if (a.Value!=null || b.Value!=null)
+            if (ContainsNullValue(a, b))
             {
-                return new YesnoWrapper(a.Value != b.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
+                return new YesnoWrapper(null);
+            };
+            return new YesnoWrapper(a.Value != b.Value);
+            
         }
         public static TextWrapper operator +(TextWrapper a, TextWrapper b)
         {
-            if (a.Value != null || b.Value != null)
+            if (ContainsNullValue(a, b))
             {
-                return new TextWrapper(a.Value + b.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
-
+                return new TextWrapper((string)null);
+            };
+            return new TextWrapper(a.Value + b.Value);
+           
         }
 
         public override int GetHashCode()
         {
             string w = "textwrapper";
 
-            return new { w, Value }.GetHashCode();
+            return 13 * (new { w, Value }.GetHashCode());
         }
         public bool Equals(TextWrapper obj)
         {
@@ -79,6 +76,16 @@ namespace QL.Evaluation
             if (obj is TextWrapper) return Equals(obj as TextWrapper);
             return false;
         }
-
+        protected static bool ContainsNullValue(TextWrapper a, TextWrapper b)
+        {
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

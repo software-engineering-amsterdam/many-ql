@@ -8,10 +8,11 @@ using AST.ASTVisitors;
 using Evaluator.Storage;
 using AST.Nodes.Expressions;
 using Literals = AST.Nodes.Literals;
+using AST.ASTVisitors.Interfaces;
 
 namespace Evaluation
 {
-    public class EvaluationManager : BaseVisitor<Value>
+    public class EvaluationManager : IExpressionVisitor<Value>
     {
         private readonly SymbolTable symbolTable;
         public EvaluationManager(SymbolTable symbolTable)
@@ -20,21 +21,21 @@ namespace Evaluation
         }
 
         #region Operations
-        public Value Evaluate(Expression expression)
+        public Value Evaluate(BaseExpression expression)
         {
             return expression.Accept(this);
         }
         #endregion
         
         #region Comparison
-        public override Value Visit(And node)
+        public Value Visit(And node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.BoolAnd((dynamic)right);
         }
-        public override Value Visit(Or node)
+        public Value Visit(Or node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -42,42 +43,42 @@ namespace Evaluation
             return left.BoolOr((dynamic)right);
 
         }
-        public override Value Visit(Equal node)
+        public  Value Visit(Equal node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.BoolEqual((dynamic)right);
         }
-        public override Value Visit(NotEqual node)
+        public  Value Visit(NotEqual node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.BoolNotEqual((dynamic)right);
         }
-        public override Value Visit(GreaterThan node)
+        public  Value Visit(GreaterThan node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.Greater((dynamic)right);
         }
-        public override Value Visit(GreaterThanOrEqual node)
+        public  Value Visit(GreaterThanOrEqual node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.GreaterEqual((dynamic)right);
         }
-        public override Value Visit(LessThan node)
+        public  Value Visit(LessThan node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
 
             return left.Less((dynamic)right);
         }
-        public override Value Visit(LessThanOrEqual node)
+        public  Value Visit(LessThanOrEqual node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -87,13 +88,13 @@ namespace Evaluation
         #endregion
 
         #region Unary Expressions
-        public override Value Visit(Negate node)
+        public  Value Visit(Negate node)
         {
 
             Value value = node.Accept(this);
             return value.Negate();
         }
-        public override Value Visit(Priority node)
+        public  Value Visit(Priority node)
         {
             return node.GetChildExpression().Accept(this);
         }
@@ -101,7 +102,7 @@ namespace Evaluation
 
         #region Arithmetic
 
-        public override Value Visit(Add node)
+        public  Value Visit(Add node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -109,7 +110,7 @@ namespace Evaluation
             return left.Add((dynamic)right);
         }
 
-        public override Value Visit(Subtract node)
+        public  Value Visit(Subtract node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -117,7 +118,7 @@ namespace Evaluation
             return left.Substract((dynamic)right);
         }
 
-        public override Value Visit(Multiply node)
+        public  Value Visit(Multiply node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -125,7 +126,7 @@ namespace Evaluation
             return left.Multiply((dynamic)right);
         }
 
-        public override Value Visit(Divide node)
+        public  Value Visit(Divide node)
         {
             Value left = node.Left().Accept(this);
             Value right = node.Right().Accept(this);
@@ -137,30 +138,30 @@ namespace Evaluation
         #endregion
 
         #region Values
-        public override Value Visit(Literals.Bool node)
+        public  Value Visit(Literals.Bool node)
         {
             return new Bool(node.GetValue());
         }
 
-        public override Value Visit(Literals.Int node)
+        public  Value Visit(Literals.Int node)
         {
             return new Int(node.GetValue());
         }
 
-        public override Value Visit(Literals.String node)
+        public  Value Visit(Literals.String node)
         {
             return new String(node.GetValue());
         }
         #endregion
 
-        public override Value Visit(Id node)
+        public Value Visit(Id node)
         {
             return symbolTable.GetValue(node);
         }
 
-        public override Value Visit(Label node)
+        public Value visit(Id node)
         {
-            return new String(node.Value);
+            throw new System.NotImplementedException();
         }
     }
 }

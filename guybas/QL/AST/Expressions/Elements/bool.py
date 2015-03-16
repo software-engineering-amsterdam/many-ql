@@ -12,7 +12,7 @@ class Bool(e.Element):
     def pretty_print(self):
         return str(self.bool)
 
-    def get_dependencies(self):
+    def get_dependency_collection(self):
         return []
 
     def as_list(self):
