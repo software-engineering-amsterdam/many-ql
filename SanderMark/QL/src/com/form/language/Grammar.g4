@@ -49,39 +49,39 @@ expression returns [Expression result]
 //	Unary
   |	op=(MINUS | EXCL) x=expression	{
   		switch($op.text){
-			case "MINUS":  	$result = new Negation($x.result, new QLToken($MINUS.line,$MINUS.pos));
-			case "EXCL": 	$result = new Not($x.result,new QLToken($EXCL.line,$EXCL.pos));
+			case "MINUS":  	$result = new Negation($x.result, new QLToken($op.line,$op.pos));
+			case "EXCL": 	$result = new Not($x.result,new QLToken($op.line,$op.pos));
 		}
   	}
 // Multiplication Division
   | l=expression op=(MULT | DIV) r=expression {
   	  	switch($op.text){
-			case "MULT": 	$result = new Multiplication($l.result, $r.result, new QLToken($MULT.line,$MULT.pos));
-			case "DIV": 	$result = new Division($l.result, $r.result, new QLToken($DIV.line,$DIV.pos));
+			case "MULT": 	$result = new Multiplication($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "DIV": 	$result = new Division($l.result, $r.result, new QLToken($op.line,$op.pos));
 		}
 	}
 // Addition Substraction
   | l=expression op=(PLUS | MINUS) r=expression { 
 	  	switch($op.text){
-			case "PLUS":  	$result = new Addition($l.result, $r.result, new QLToken($PLUS.line,$PLUS.pos));
-			case "MINUS": 	$result = new Substraction($l.result, $r.result, new QLToken($MINUS.line,$MINUS.pos));;
+			case "PLUS":  	$result = new Addition($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "MINUS": 	$result = new Substraction($l.result, $r.result, new QLToken($op.line,$op.pos));;
 		}
 	}
 // Comparison
   | l=expression op=(EQ | GT | GTEQ | LT | LTEQ) r=expression {
   		switch($op.text){
-			case "EQ": 		$result = new Equal($l.result, $r.result, new QLToken($EQ.line,$EQ.pos));
-			case "GT": 		$result = new GreaterThan($l.result, $r.result, new QLToken($GT.line,$GT.pos));
-			case "GTEQ": 	$result = new GreaterThanOrEqual($l.result, $r.result, new QLToken($GTEQ.line,$GTEQ.pos));
-			case "LT": 		$result = new LessThan($l.result, $r.result, new QLToken($LT.line,$LT.pos));
-			case "LTEQ": 	$result = new LessThanOrEqual($l.result, $r.result, new QLToken($LTEQ.line,$LTEQ.pos));
+			case "EQ": 		$result = new Equal($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "GT": 		$result = new GreaterThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "GTEQ": 	$result = new GreaterThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "LT": 		$result = new LessThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "LTEQ": 	$result = new LessThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
 		}
 	}
 // Conjunct Disjunct
   |  l=expression op=(AND | OR) r=expression {
   	  	switch($op.text){
-			case "AND": 	$result = new And($l.result, $r.result, new QLToken($AND.line,$AND.pos));
-			case "OR": 		$result = new Or($l.result, $r.result, new QLToken($OR.line,$OR.pos));
+			case "AND": 	$result = new And($l.result, $r.result, new QLToken($op.line,$op.pos));
+			case "OR": 		$result = new Or($l.result, $r.result, new QLToken($op.line,$op.pos));
 		}
 	}
 // Literal
