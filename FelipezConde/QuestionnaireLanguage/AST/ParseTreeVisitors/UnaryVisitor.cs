@@ -1,15 +1,16 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Nodes;
+using AST.Nodes.Interfaces;
 using Grammar;
 
 namespace AST.ParseTreeVisitors
 {
-    public class UnaryVisitor : QLMainBaseVisitor<IExpression>
+    public class UnaryVisitor : QLMainBaseVisitor<Expression>
     {
-        public override IExpression VisitNegateUnary(QLMainParser.NegateUnaryContext context)
+        public override Expression VisitNegateUnary(QLMainParser.NegateUnaryContext context)
         {
             return context.expression().Accept(new ExpressionVisitor());
         }
-        public override IExpression VisitPriorityUnary(QLMainParser.PriorityUnaryContext context)
+        public override Expression VisitPriorityUnary(QLMainParser.PriorityUnaryContext context)
         {
             return context.expression().Accept(new ExpressionVisitor());
         }

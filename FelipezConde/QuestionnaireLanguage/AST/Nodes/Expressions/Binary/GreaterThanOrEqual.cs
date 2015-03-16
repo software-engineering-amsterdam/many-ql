@@ -1,14 +1,13 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Representation;
+﻿using Expressions = AST.Nodes.Interfaces;
 
-namespace AST.Nodes.Expression.Binary
+namespace AST.Nodes.Expressions.Binary
 {
-    public class LessThanOrEqual : Binary, IExpression
+    public class GreaterThanOrEqual : Binary
     {
-        public LessThanOrEqual(IExpression left, IExpression right, PositionInText position)
+        public GreaterThanOrEqual(Expression left, Expression right, Representation.PositionInText position)
             : base(left, right, position)
         { }
-
+        
         public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);

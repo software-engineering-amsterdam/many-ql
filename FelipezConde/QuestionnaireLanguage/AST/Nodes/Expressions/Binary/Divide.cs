@@ -1,11 +1,11 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression.Binary
+namespace AST.Nodes.Expressions.Binary
 {
-    public class Divide : Binary, IExpression
+    public class Divide : Binary
     {
-        public Divide(IExpression left, IExpression right, PositionInText position)
+        public Divide(Expression left, Expression right, PositionInText position)
             : base(left, right, position)
         {}
 

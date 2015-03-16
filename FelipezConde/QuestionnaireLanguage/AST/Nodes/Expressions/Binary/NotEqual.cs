@@ -1,13 +1,13 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression.Binary
+namespace AST.Nodes.Expressions.Binary
 {
-    public class Add : Binary, IExpression
+    public class NotEqual : Binary
     {
-        public Add(IExpression left, IExpression right, PositionInText position)
-            : base(left, right, position) 
-        {}
+        public NotEqual(Expression left, Expression right, PositionInText position)
+            : base(left, right, position)
+        { }
 
         public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
@@ -16,7 +16,7 @@ namespace AST.Nodes.Expression.Binary
 
         public override string ToString()
         {
-            return "+";
+            return "!=";
         }
     }
 }

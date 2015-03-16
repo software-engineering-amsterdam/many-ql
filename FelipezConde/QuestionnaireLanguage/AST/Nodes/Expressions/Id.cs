@@ -1,9 +1,9 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression
+namespace AST.Nodes.Expressions
 {
-    public class Id : ASTNode, IExpression, IHasType
+    public class Id : Expression, IHasType
     {
         public string Name { get; private set; }
         private Types.Type type = new Types.UndefinedType();
@@ -14,7 +14,7 @@ namespace AST.Nodes.Expression
             this.Name = name;
         }
 
-        public T Accept<T>(ASTVisitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

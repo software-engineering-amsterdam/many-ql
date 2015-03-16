@@ -1,11 +1,11 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression.Unary
+namespace AST.Nodes.Expressions.Unary
 {
-    public class Priority : Unary, IExpression
+    public class Priority : Unary
     {
-        public Priority(IExpression child, PositionInText position)
+        public Priority(Expression child, PositionInText position)
             : base(child ,position)
         { }
 
