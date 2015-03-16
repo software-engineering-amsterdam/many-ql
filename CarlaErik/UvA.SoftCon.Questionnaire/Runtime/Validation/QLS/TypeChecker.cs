@@ -11,17 +11,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QLS
     /// <summary>
     /// Checks whether widget assignments are compatible with their question types.
     /// </summary>
-    internal class TypeCheckingVisitor : QLSVisitor
+    internal class TypeChecker : QLSVisitor<object>
     {
 
 
-        public override void VisitQuestionReference(QuestionReference questionRef)
+        public override object VisitQuestionReference(QuestionReference questionRef)
         {
+            return null;
         }
 
-        public override void VisitDefaultStyle(DefaultStyle defaultStyle)
+        public override object VisitDefaultStyle(DefaultStyle defaultStyle)
         {
             //defaultStyle.StyleAttributes.Where(attr => attr )
+            return null;
         }
     }
 }

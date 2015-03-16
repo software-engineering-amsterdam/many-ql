@@ -29,11 +29,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             StyleAttributes = styleAttributes;
         }
 
-        public override void Accept(IQLSVisitor visitor)
-        {
-            visitor.VisitQuestionReference(this);
-        }
-
         public override T Accept<T>(IQLSVisitor<T> visitor)
         {
             return visitor.VisitQuestionReference(this);

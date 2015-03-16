@@ -12,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     /// <summary>
     /// Checks whether literal values are valid within the bounds of their types.
     /// </summary>
-    public class LiteralCheckingVisitor : QLVisitor
+    public class LiteralChecker : QLVisitor<object>
     {
         public ICollection<Literal> InvalidLiterals
         {
@@ -20,25 +20,27 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             private set;
         }
 
-        public LiteralCheckingVisitor()
+        public LiteralChecker()
         {
             InvalidLiterals = new List<Literal>();
         }
 
-        public override void Visit(IntegerLiteral literal)
+        public override object Visit(IntegerLiteral literal)
         {
             if (!literal.IsValid)
             {
                 InvalidLiterals.Add(literal);
             }
+            return null;
         }
 
-        public override void Visit(DateLiteral literal)
+        public override object Visit(DateLiteral literal)
         {
             if (!literal.IsValid)
             {
                 InvalidLiterals.Add(literal);
             }
+            return null;
         }
     }
 }

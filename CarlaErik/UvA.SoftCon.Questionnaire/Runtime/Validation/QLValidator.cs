@@ -19,10 +19,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         internal ValidationReport Validate(QuestionForm form)
         {
-            var variableUsageVisitor = new VariableUsageCheckingVisitor();
-            var duplicateLabelVisitor = new DuplicateLabelCheckingVisitor();
-            var typeCheckingVisitor = new TypeCheckingVisitor();
-            var literalCheckingVisitor = new LiteralCheckingVisitor();
+            var variableUsageVisitor = new VariableUsageChecker();
+            var duplicateLabelVisitor = new DuplicateLabelChecker();
+            var typeCheckingVisitor = new TypeChecker();
+            var literalCheckingVisitor = new LiteralChecker();
 
             variableUsageVisitor.Visit(form);
             duplicateLabelVisitor.Visit(form);
@@ -40,7 +40,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         }
 
 
-        private void AddVariableUsageMessages(VariableUsageCheckingVisitor visitor, ValidationReport report)
+        private void AddVariableUsageMessages(VariableUsageChecker visitor, ValidationReport report)
         {
             foreach (var unusedVariable in visitor.UnusedVariables)
             {
@@ -61,7 +61,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        private void AddDuplicateLabelMessages(DuplicateLabelCheckingVisitor visitor, ValidationReport report)
+        private void AddDuplicateLabelMessages(DuplicateLabelChecker visitor, ValidationReport report)
         {
             foreach (var duplicateLabel in visitor.DuplicateLabels)
             {
@@ -71,7 +71,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        private void AddLiteralCheckingMessages(LiteralCheckingVisitor visitor, ValidationReport report)
+        private void AddLiteralCheckingMessages(LiteralChecker visitor, ValidationReport report)
         {
             foreach (var literal in visitor.InvalidLiterals)
             {
@@ -82,7 +82,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        private void AddTypeCheckingMessages(TypeCheckingVisitor visitor, ValidationReport report)
+        private void AddTypeCheckingMessages(TypeChecker visitor, ValidationReport report)
         {
             foreach (var definition in visitor.InvalidDefinitions)
             {
