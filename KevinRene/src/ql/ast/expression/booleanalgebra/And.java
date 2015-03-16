@@ -9,7 +9,6 @@ import ql.ast.visitor.ExpressionVisitor;
 public class And extends Binary {	
 	public And(Expression left, Expression right) {
 		super(left, right, "&&");
-		compatibleTypes.add(new QLBoolean());
 	}
 	
 	@Override

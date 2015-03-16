@@ -9,7 +9,6 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Not extends Unary {
 	public Not(Expression operand) {
 		super(operand, "!");
-		compatibleTypes.add(new QLBoolean());
 	}
 	
 	@Override

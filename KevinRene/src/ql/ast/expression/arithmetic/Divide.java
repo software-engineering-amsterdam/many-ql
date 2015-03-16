@@ -9,7 +9,6 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Divide extends Binary {
 	public Divide(Expression left, Expression right) {
 		super(left, right, "/");
-		compatibleTypes.add(new QLNumeric());
 	}
 	
 	@Override

@@ -9,7 +9,6 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Add extends Binary {
 	public Add(Expression left, Expression right) {
 		super(left, right, "+");
-		compatibleTypes.add(new QLNumeric());
 	}
 	
 	@Override
