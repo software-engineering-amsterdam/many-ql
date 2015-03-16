@@ -15,7 +15,6 @@ class FontColor(p.Property):
         return "    " * level + "font-color :" + self._color + "\n"
 
 
-# TODO: check if font exists
 class Font(p.Property):
     def __init__(self, font):
         self._font = font

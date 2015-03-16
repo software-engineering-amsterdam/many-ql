@@ -3,10 +3,6 @@
 
 class IStatement:
 
-    # init
-    def __init__(self):
-        raise NotImplementedError("Not implemented by sub class")
-
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         raise NotImplementedError("Not implemented by sub class")
