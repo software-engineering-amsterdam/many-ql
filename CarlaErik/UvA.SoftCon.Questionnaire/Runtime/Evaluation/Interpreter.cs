@@ -25,22 +25,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
             Visit(form);
         }
 
-        public override object Visit(Definition definition)
-        {
-            if (!_variables.ContainsKey(definition.Id.Name))
-            {
-                Value result = definition.Expression.Accept(new ExpressionInterpreter(_variables));
-
-                _variables.Add(definition.Id.Name, result);
-            }
-            else
-            {
-                string message = String.Format("A question or definition with the name '{0}' is already declared.", definition.Id.Name);
-                throw new InvalidOperationException(message);
-            }
-            return null;
-        }
-
         public override object Visit(Question question)
         {
             Value result = new Undefined();

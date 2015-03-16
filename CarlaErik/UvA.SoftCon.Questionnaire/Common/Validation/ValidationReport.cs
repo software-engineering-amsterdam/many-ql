@@ -5,7 +5,7 @@ using System.Text;
 using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
+namespace UvA.SoftCon.Questionnaire.Common.Validation
 {
     public class ValidationReport
     {
@@ -31,19 +31,37 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             }
         }
 
-        internal ValidationReport()
+        public int NrOfMessages
+        {
+            get
+            {
+                return Messages.Count();
+            }
+        }
+
+        public ValidationReport()
         {
             Messages = new List<Message>();
         }
 
-        internal void AddErrorMessage(string message, TextPosition position)
+        public void AddWarning(string message, TextPosition position)
+        {
+            Messages.Add(new Message(Severity.Warning, position, message));
+        }
+
+        public void AddWarning(TextPosition position, string message, params object[] args)
+        {
+            AddWarning(position, String.Format(message, args));
+        }
+
+        public void AddError(TextPosition position, string message)
         {
             Messages.Add(new Message(Severity.Error, position, message));
         }
 
-        internal void AddWarningMessage(string message, TextPosition position)
+        public void AddError(TextPosition position, string message, params object[] args)
         {
-            Messages.Add(new Message(Severity.Warning, position, message));
+            AddError(position, String.Format(message, args));
         }
 
         public override string ToString()

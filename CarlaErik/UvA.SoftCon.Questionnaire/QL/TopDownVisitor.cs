@@ -63,13 +63,6 @@ namespace UvA.SoftCon.Questionnaire.QL
             return default(T);
         }
 
-        public virtual T Visit(Definition definition)
-        {
-            definition.Id.Accept(this);
-            definition.Expression.Accept(this);
-            return default(T);
-        }
-
         public virtual T Visit(IfStatement ifStatement)
         {
             ifStatement.If.Accept(this);
