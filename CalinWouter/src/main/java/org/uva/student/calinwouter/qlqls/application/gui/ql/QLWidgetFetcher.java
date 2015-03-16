@@ -6,20 +6,20 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwi
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.IntboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 
 public class QLWidgetFetcher implements TypeCallback{
     private final QLInterpreter qlIntepreter;
     private final QLGUI qlgui;
-    private final QuestionField questionField;
+    private final StaticQuestionField staticQuestionField;
     private IWidget widget;
     private VariableTable symbolTable;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(questionField, null, embeddedWidget, qlIntepreter, qlgui);
+        widget = new LabelWithWidgetWidget(staticQuestionField, null, embeddedWidget, qlIntepreter, qlgui);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {
@@ -28,27 +28,27 @@ public class QLWidgetFetcher implements TypeCallback{
 
     @Override
     public void usesBoolean() {
-        createLabelWithWidgetWidget(new CheckboxWidget(questionField, qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField, qlIntepreter, symbolTable));
     }
 
     @Override
     public void usesInteger() {
-        createLabelWithWidgetWidget(new IntboxWidget(questionField,qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField,qlIntepreter, symbolTable));
     }
 
     @Override
     public void usesString() {
-        createLabelWithWidgetWidget(new TextboxWidget(questionField, qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField, qlIntepreter, symbolTable));
     }
 
     public IWidget getWidget() {
         return widget;
     }
 
-    public QLWidgetFetcher(QLInterpreter qlIntepreter, QuestionField questionField, QLGUI qlgui, VariableTable symbolTable) {
+    public QLWidgetFetcher(QLInterpreter qlIntepreter, StaticQuestionField staticQuestionField, QLGUI qlgui, VariableTable symbolTable) {
         this.qlIntepreter = qlIntepreter;
         this.qlgui = qlgui;
-        this.questionField = questionField;
+        this.staticQuestionField = staticQuestionField;
         this.symbolTable = symbolTable;
     }
 }

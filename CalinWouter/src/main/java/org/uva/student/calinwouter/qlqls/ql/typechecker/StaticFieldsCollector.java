@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFieldsList;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 
-public class TypeCollector extends AnalysisAdapter {
+public class StaticFieldsCollector extends AnalysisAdapter {
     private final StaticFieldsList staticFieldsList;
     private String currentIdentifier;
 
@@ -66,7 +66,7 @@ public class TypeCollector extends AnalysisAdapter {
         }
     }
 
-    public TypeCollector(StaticFieldsList staticFieldsList) {
+    public StaticFieldsCollector(StaticFieldsList staticFieldsList) {
         this.staticFieldsList = staticFieldsList;
     }
 }

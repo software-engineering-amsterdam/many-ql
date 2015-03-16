@@ -13,7 +13,7 @@ public class QLTypeChecker {
      */
     public static TypeCheckResults typeCheck(AForm aForm) {
         TypeCheckResults typeCheckResults = new TypeCheckResults();
-        StaticFieldsList staticFieldsList = QLStaticAnalyser.collectTypes(aForm);
+        StaticFieldsList staticFieldsList = QLStaticAnalyser.collectStaticFields(aForm);
         PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFieldsList, typeCheckResults);
         aForm.apply(formTypeChecker);
         return typeCheckResults;
