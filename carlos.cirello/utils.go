@@ -17,13 +17,11 @@ func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
-	csvReader := csvinput.New(pipes, inReader)
-	csvReader.Read()
+	csvinput.Read(pipes, inReader)
 }
 
 func writeOutputCsv(pipes *plumbing.Pipes, outWriter io.Writer) {
-	csvWriter := csvoutput.New(pipes, outWriter)
-	csvWriter.Write()
+	csvoutput.Write(pipes, outWriter)
 }
 
 func errorHandler() {

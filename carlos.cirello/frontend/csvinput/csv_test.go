@@ -17,8 +17,7 @@ func TestCsvInputFrontend(t *testing.T) {
 	expectedAnswers := make(chan map[string]string)
 	fakeInterpreter(pipes, expectedAnswers)
 
-	csvinput := New(pipes, strings.NewReader(fakeCsv))
-	go csvinput.Read()
+	go Read(pipes, strings.NewReader(fakeCsv))
 
 	got := <-expectedAnswers
 	rowcount := len(got)
