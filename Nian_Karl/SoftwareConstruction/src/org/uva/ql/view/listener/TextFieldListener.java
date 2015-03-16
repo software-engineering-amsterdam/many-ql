@@ -34,11 +34,10 @@ public class TextFieldListener implements DocumentListener {
 	public void notifyListener(DocumentEvent e) {
 		String s;
 		try {
-			System.out.println("Yoooo. TextfieldListener");
 			s = e.getDocument().getText(0, e.getDocument().getLength());
 			widgetListener.widgetValueChanged(identifier, new StrValue(s));
 		} catch (BadLocationException e1) {
-			System.out.println("Something went terribly wrong.");
+			throw new IndexOutOfBoundsException("Index is out of bound at number textfield listener");
 		}
 	}
 }

@@ -41,5 +41,9 @@ public class BoolLiteral extends Literal {
 	public Type getType(TypeChecker typeChecker) {
 		return new BoolType(getPosition());
 	}
+	
+	public boolean equals(BoolLiteral boolLiteral) {
+		return value.equals(boolLiteral.getValue());
+	}
 
 }

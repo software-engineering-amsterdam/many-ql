@@ -3,7 +3,7 @@ require_relative '../../util/base_visitor'
 module QLS
   module Checker
     class QuestionVisitor < BaseVisitor
-      def questions
+      def run
         visit(@base).flatten
       end
 
@@ -21,12 +21,8 @@ module QLS
     end
 
     class DuplicateQuestionChecker
-      def initialize(base)
-        @base = base
-      end
-
-      def errors
-        duplicates = QuestionVisitor.new(@base).questions.map(&:name).duplicates
+      def self.run(base)
+        duplicates = QuestionVisitor.run(base).map(&:name).duplicates
         duplicates.map { |name| Exception.new("Question #{name} is defined more than once.") }
       end
     end

@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
@@ -7,7 +8,6 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwid
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
@@ -16,9 +16,10 @@ public class QLWidgetFetcher implements TypeCallback{
     private final StaticQuestionField staticQuestionField;
     private IWidget widget;
     private VariableTableWrapper variableTableWrapper;
+    private QLGUI qlgui;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper, qlgui);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {
@@ -44,9 +45,10 @@ public class QLWidgetFetcher implements TypeCallback{
         return widget;
     }
 
-    public QLWidgetFetcher(QLInterpreter qlIntepreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper) {
+    public QLWidgetFetcher(QLInterpreter qlIntepreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper, QLGUI qlgui) {
         this.qlIntepreter = qlIntepreter;
         this.staticQuestionField = staticQuestionField;
         this.variableTableWrapper = variableTableWrapper;
+        this.qlgui = qlgui;
     }
 }

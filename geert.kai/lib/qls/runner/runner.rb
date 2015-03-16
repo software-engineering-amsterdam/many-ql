@@ -2,27 +2,21 @@ require_relative "../../util/base_visitor"
 
 module QLS
   class Runner < QL::Runner
-    def initialize(ql_ast, qls_ast)
-      super(ql_ast)
+    def initialize(ql_base, qls_base)
+      super(ql_base)
 
-      @renderers = RendererVisitor.new(qls_ast, @renderers).styled_renderers
-      StyleVisitor.new(qls_ast, @renderers).styled_renderers
+      @renderers = RendererVisitor.run(qls_base, @renderers)
+      StyleVisitor.run(qls_base)
     end
   end
 
   class RendererVisitor < BaseVisitor
     attr_reader :classes
-    def initialize(base, renderers)
-      @base = base
-      @question_hash = {}
-      renderers.each do |renderer|
-        @question_hash[renderer.question.variable_name] = renderer
-      end
 
+    def run(renderers)
       @classes = []
-    end
-
-    def styled_renderers
+      
+      @question_hash = renderers.map { |renderer| [renderer.question.variable_name,  renderer] }.to_h
       visit(@base).flatten
     end
 
@@ -30,9 +24,7 @@ module QLS
       name = "#{section.class.to_s.snake_case}_#{section.object_id}"
       
       @classes.push(name)
-
       map = map_accept(section.rules)
-      
       @classes.pop
 
       map
@@ -50,12 +42,8 @@ module QLS
   end
 
   class StyleVisitor < BaseVisitor
-    def initialize(base, renderers)
-      @base = base
+    def run
       @classes = []
-    end
-
-    def styled_renderers
       data = visit(@base)
       File.write('temp/stylesheets/style.css', data)
     end
@@ -64,9 +52,7 @@ module QLS
       name = "#{section.class.to_s.snake_case}_#{section.object_id}"
       
       @classes.push(name)
-
       result = map_accept(section.rules)*""
-      
       @classes.pop
 
       result

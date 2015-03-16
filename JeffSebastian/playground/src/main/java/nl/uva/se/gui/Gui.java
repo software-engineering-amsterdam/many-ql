@@ -24,7 +24,7 @@ public class Gui extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		List<Statement> statements = Collections.emptyList();
+		/*List<Statement> statements = Collections.emptyList();
 		Form form = new Form("1", 1, 1, statements); 
 		QuestionPane questionPane = new QuestionPane(form);
 		
@@ -44,7 +44,7 @@ public class Gui extends Application {
 		Scene scene = new Scene(questionPane, 350, 350);
 		primaryStage.setTitle(questionPane.getForm().getId());
 		primaryStage.setScene(scene);
-		primaryStage.show();		
+		primaryStage.show();	*/	
 	}
 
 }
