@@ -5,6 +5,7 @@ using QL;
 using QL.Grammars;
 using QL.Visitors;
 using QL.Model.Terminals;
+using QL.Exceptions.Errors;
 namespace Tests.VisitorTests
 {
     [TestClass]
@@ -14,7 +15,7 @@ namespace Tests.VisitorTests
 
         public void Initialize(string input){
             Handler= new ASTHandler(input);
-            Assert.IsTrue(Handler.BuildAST());
+            Assert.IsTrue(Handler.BuildAST(), "Parsing/lexing error");
 
         }
 
@@ -102,10 +103,66 @@ namespace Tests.VisitorTests
             Assert.IsNotNull(nw);
             nw.Value = 2;
             Assert.IsTrue(Handler.Evaluate());
+            
+            Identifier S1 = new Identifier("S1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
+            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual(nw.Value,S1_value.Value);
 
 
 
         }
+        [TestMethod]
+        public void EvaluationAssignmentOfVariable2()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
+
+                if (Q1==2){
+                   statement S1 (number, (123+(Q1*2))) ""you wrote 2"";
+                    }
+	            else {
+                        statement S2 (number, Q1) ""you didnt write 2"";                    
+                     };
+                
+                }
+            ");
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsTrue(Handler.Evaluate());
+            Identifier i = new Identifier("Q1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
+            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            Assert.IsNotNull(nw);
+            nw.Value = 2;
+            Assert.IsTrue(Handler.Evaluate());
+
+            Identifier S1 = new Identifier("S1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
+            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual(nw.Value * 2 + 123, S1_value.Value);
+
+
+
+        }
+        
+        [TestMethod]
+        public void EvaluationSelfReference()
+        {
+            Initialize(@"form ExampleBlock {
+                   statement S1 (number, S1) ""blah"";
+                  
+                }
+            ");
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsFalse(Handler.Evaluate());
+        }
+
+        
         [TestMethod]
         public void EvaluatedValueComparisson()
         {
@@ -144,8 +201,77 @@ namespace Tests.VisitorTests
             
            
         }
+        public void DivisionByZeroTest()
+        {
+            //we expect that yesno should throw and exception but number and text should add, resp. concat.
+
+            NumberWrapper na = new NumberWrapper(12345);
+            NumberWrapper nb = new NumberWrapper(0);
+            bool exceptionRaised = false;
+            try{
+                var c = na/nb;
+            }
+            catch (Exception e){
+                Assert.IsInstanceOfType(e, typeof(DivisionByZeroError));
+                exceptionRaised = true;  
+            }
+            Assert.IsTrue(exceptionRaised,"No exception has  been raised");
 
 
+        }
+        [TestMethod]
+        public void ReferenceFromAnotherBranch1()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""blah"";
+
+                if (4!=2){
+                   statement S1 (number, S2) ""this is not ok"";
+                    }
+	            else {
+                        statement S2 (number, Q1) """";                    
+                     };
+                
+                }
+            ");
+            Assert.IsFalse(Handler.CheckType() && Handler.Evaluate());
+
+        }
+        [TestMethod]
+        public void ReferenceFromAnotherBranch2()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""blah"";
+
+                if (4!=2){
+                   statement S1 (number, Q1) ""bbbb"";
+                    }
+	            else {
+                        statement S2 (number, S1) ""bbbb"";                    
+                     };
+                
+                }
+            ");
+            Handler.CheckType();
+            Assert.IsFalse(Handler.Evaluate());
+        }
+        [TestMethod]
+        public void EvaluatorReferenceFromUnavaliableBranch()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""blah"";
+
+                if (no){
+                   statement S1 (number,1) ""obviously unavailable"";
+                    };
+                statement S2 (number, S1) ""bbbb"";                    
+
+                }
+            ");
+            Handler.CheckType();
+
+            Assert.IsFalse(Handler.Evaluate());
+        }
 
         //todo create real unit tests like new TextWrapper("def") != new TextWrapper("abc")
        

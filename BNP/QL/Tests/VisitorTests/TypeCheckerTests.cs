@@ -136,6 +136,7 @@ namespace Tests.VisitorTests
             Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
+
         [TestMethod]
         public void TCReferenceToIdentifierPass()
         {
@@ -188,5 +189,19 @@ namespace Tests.VisitorTests
             Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
+        [TestMethod]
+        public void TCCyclicReference()
+        {
+            Initialize(@"form ExampleBlock {
+                   statement S1 (number, S3) ""blah"";
+                   statement S2 (number, S1) ""blah"";
+                   statement S3 (number, S2) ""blah"";
+                  
+
+                }
+            ");
+            Assert.IsFalse(Handler.CheckType());
+        }
+        
     }
 }
