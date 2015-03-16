@@ -22,7 +22,6 @@ public class TestStringLiteral extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestStringLiteral(String input, Value expected) {
     	 super(input, expected);
      }

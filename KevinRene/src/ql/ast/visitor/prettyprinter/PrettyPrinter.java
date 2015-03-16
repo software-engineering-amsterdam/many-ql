@@ -1,17 +1,84 @@
 package ql.ast.visitor.prettyprinter;
 
+import ql.ast.Expression;
 import ql.ast.QLNode;
-import ql.ast.expression.*;
-import ql.ast.expression.arithmetic.*;
-import ql.ast.expression.literal.*;
-import ql.ast.expression.relational.*;
-import ql.ast.expression.type.*;
-import ql.ast.statement.*;
+import ql.ast.QLType;
+import ql.ast.Statement;
+import ql.ast.expression.Binary;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.Unary;
+import ql.ast.expression.arithmetic.Add;
+import ql.ast.expression.arithmetic.Divide;
+import ql.ast.expression.arithmetic.Multiply;
+import ql.ast.expression.arithmetic.Negation;
+import ql.ast.expression.arithmetic.Positive;
+import ql.ast.expression.arithmetic.Subtract;
+import ql.ast.expression.booleanalgebra.And;
+import ql.ast.expression.booleanalgebra.Not;
+import ql.ast.expression.booleanalgebra.Or;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
+import ql.ast.expression.relational.Equal;
+import ql.ast.expression.relational.Greater;
+import ql.ast.expression.relational.GreaterOrEqual;
+import ql.ast.expression.relational.Lower;
+import ql.ast.expression.relational.LowerOrEqual;
+import ql.ast.expression.relational.NotEqual;
+import ql.ast.statement.Block;
+import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.Form;
+import ql.ast.statement.If;
+import ql.ast.statement.IfElse;
+import ql.ast.statement.Question;
+import ql.ast.type.QLBoolean;
+import ql.ast.type.QLError;
+import ql.ast.type.QLFloat;
+import ql.ast.type.QLForm;
+import ql.ast.type.QLInteger;
+import ql.ast.type.QLNumeric;
+import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 
-public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void> {
+public class PrettyPrinter extends StatementVisitor<String> implements ExpressionVisitor<String>, TypeVisitor<String> {
+	public static final String DEFAULT_PREFIX = "└── ";
+	
 	private String prefix = "";
+	private final String prefixSymbol;
+	
+	private PrettyPrinter(String prefixSymbol) {
+		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
+		
+		this.prefixSymbol = prefixSymbol;
+	}
+	
+	/* 
+	 * Expression with custom prefix 
+	 */
+	public static void print(Expression expression, PrintWriter printWriter, String prefixSymbol) {
+		PrettyPrinter printer = new PrettyPrinter(prefixSymbol);
+		printWriter.printString(expression.accept(printer));
+	}
+	
+	/* 
+	 * Statement with custom prefix 
+	 */
+	public static void print(Statement statement, PrintWriter printWriter, String prefixSymbol) {
+		PrettyPrinter printer = new PrettyPrinter(prefixSymbol);
+		printWriter.printString(statement.accept(printer));
+	}
+	
+	/* 
+	 * Statement with custom prefix 
+	 */
+	public static void print(QLType type, PrintWriter printWriter, String prefixSymbol) {
+		PrettyPrinter printer = new PrettyPrinter(prefixSymbol);
+		printWriter.printString(type.accept(printer));
+	}
 	
 	/**
 	 * Indent the prefix to indicate that a printable block
@@ -37,12 +104,12 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	 * 
 	 * @param node - The node to print.
 	 */
-	private void printNode(QLNode node) {
+	private String printNode(QLNode node) {
 		String type = node.getClass().getSimpleName();
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
-		System.out.println(prefix + ("└── ") + nodeString + " : " + type);
+		return prefix + (prefixSymbol) + nodeString + " : " + type + "\n";
 	}
 	
 	/**
@@ -52,12 +119,12 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	 * 
 	 * @param binaryNode - The binary node to print.
 	 */
-	private void printBinaryNode(Binary binaryNode) {
-		printNode(binaryNode);
-		
+	private String printBinaryNode(Binary binaryNode) {
 		indent();
 		ExpressionVisitor.super.visit(binaryNode);
 		unindent();
+		
+		return printNode(binaryNode);
 	}
 	
 	/**
@@ -67,260 +134,241 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	 * 
 	 * @param unaryNode - The unary node to print.
 	 */
-	private void printUnaryNode(Unary unaryNode) {
-		printNode(unaryNode);
-		
+	private String printUnaryNode(Unary unaryNode) {
 		indent();
 		ExpressionVisitor.super.visit(unaryNode);
 		unindent();
+		
+		return printNode(unaryNode);
 	}
 
 	/*********************
 	 == IDENTIFIER NODE ==
 	 *********************/
 	@Override
-	public Void visit(Identifier identNode) {
-		printNode(identNode);
-		
-		return null;
+	public String visit(Identifier identNode) {
+		return printNode(identNode);
 	}
 
 	/****************
 	 == TYPE NODES ==
 	 ****************/
 	@Override
-	public Void visit(QLBoolean booleanNode) {
-		printNode(booleanNode);
-		return null;
+	public String visit(QLBoolean booleanNode) {
+		return printNode(booleanNode);
 	}
 
 	@Override
-	public Void visit(QLFloat floatNode) {
-		printNode(floatNode);
-		return null;
+	public String visit(QLFloat floatNode) {
+		return printNode(floatNode);
 	}
 	
 	@Override
-	public Void visit(QLForm formNode) {
-		printNode(formNode);
-		return null;
+	public String visit(QLForm formNode) {
+		return printNode(formNode);
 	}
 
 	@Override
-	public Void visit(QLInteger intNode) {
-		printNode(intNode);
-		return null;
+	public String visit(QLInteger intNode) {
+		return printNode(intNode);
 	}
 
 	@Override
-	public Void visit(QLNumeric numericNode) {
-		printNode(numericNode);	
-		return null;
+	public String visit(QLNumeric numericNode) {
+		return printNode(numericNode);	
 	}
 
 	@Override
-	public Void visit(QLString stringNode) {
-		printNode(stringNode);
-		return null;
+	public String visit(QLString stringNode) {
+		return printNode(stringNode);
 	}
 	
 	@Override
-	public Void visit(QLError qlError) {	
-		printNode(qlError);
-		return null;
+	public String visit(QLError qlError) {	
+		return printNode(qlError);
 	}
 
 	/*******************
 	 == LITERAL NODES ==
 	 *******************/
 	@Override
-	public Void visit(BooleanLiteral booleanNode) {
-		printNode(booleanNode);
-		
-		return null;
+	public String visit(BooleanLiteral booleanNode) {
+		return printNode(booleanNode);
 	}
 
 	@Override
-	public Void visit(FloatLiteral floatNode) {
-		printNode(floatNode);
-		
-		return null;
+	public String visit(FloatLiteral floatNode) {
+		return printNode(floatNode);
 	}
 
 	@Override
-	public Void visit(IntegerLiteral intNode) {
-		printNode(intNode);
-		return null;
+	public String visit(IntegerLiteral intNode) {
+		return printNode(intNode);
 	}
 
 	@Override
-	public Void visit(StringLiteral stringNode) {
-		printNode(stringNode);	
-		return null;
+	public String visit(StringLiteral stringNode) {
+		return printNode(stringNode);	
 	}
 
 	/******************
 	 == BINARY NODES ==
 	 ******************/
 	@Override
-	public Void visit(Add addNode) {
-		printBinaryNode(addNode);	
-		return null;
+	public String visit(Add addNode) {
+		return printBinaryNode(addNode);	
 	}
 
 	@Override
-	public Void visit(Divide divNode) {
-		printBinaryNode(divNode);	
-		return null;
+	public String visit(Divide divNode) {
+		return printBinaryNode(divNode);	
 	}
 
 	@Override
-	public Void visit(Multiply mulNode) {
-		printBinaryNode(mulNode);
-		return null;
+	public String visit(Multiply mulNode) {
+		return printBinaryNode(mulNode);
 	}
 
 	@Override
-	public Void visit(Subtract subNode) {
-		printBinaryNode(subNode);
-		return null;
+	public String visit(Subtract subNode) {
+		return printBinaryNode(subNode);
 	}
 	
 	@Override
-	public Void visit(And andNode) {
-		printBinaryNode(andNode);
-		return null;
+	public String visit(And andNode) {
+		return printBinaryNode(andNode);
 	}
 
 	@Override
-	public Void visit(Equal eqNode) {
-		printBinaryNode(eqNode);
-		return null;
+	public String visit(Equal eqNode) {
+		return printBinaryNode(eqNode);
 	}
 
 	@Override
-	public Void visit(GreaterOrEqual geqNode) {
-		printBinaryNode(geqNode);
-		return null;
+	public String visit(GreaterOrEqual geqNode) {
+		return printBinaryNode(geqNode);
 	}
 
 	@Override
-	public Void visit(Greater gtNode) {
-		printBinaryNode(gtNode);
-		return null;
+	public String visit(Greater gtNode) {
+		return printBinaryNode(gtNode);
 	}
 
 	@Override
-	public Void visit(LowerOrEqual leqNode) {
-		printBinaryNode(leqNode);
-		return null;
+	public String visit(LowerOrEqual leqNode) {
+		return printBinaryNode(leqNode);
 	}
 
 	@Override
-	public Void visit(Lower ltNode) {
-		printBinaryNode(ltNode);
-		return null;
+	public String visit(Lower ltNode) {
+		return printBinaryNode(ltNode);
 	}
 
 	@Override
-	public Void visit(NotEqual neqNode) {
-		printBinaryNode(neqNode);
-		return null;
+	public String visit(NotEqual neqNode) {
+		return printBinaryNode(neqNode);
 	}
 
 	@Override
-	public Void visit(Or orNode) {
-		printBinaryNode(orNode);
-		return null;
+	public String visit(Or orNode) {
+		return printBinaryNode(orNode);
 	}
 
 	/*****************
 	 == UNARY NODES ==
 	 *****************/
 	@Override
-	public Void visit(Negation negNode) {
-		printUnaryNode(negNode);
-		return null;
+	public String visit(Negation negNode) {
+		return printUnaryNode(negNode);
 	}
 
 	@Override
-	public Void visit(Not notNode) {
-		printUnaryNode(notNode);
-		return null;
+	public String visit(Not notNode) {
+		return printUnaryNode(notNode);
 	}
 
 	@Override
-	public Void visit(Positive posNode) {
-		printUnaryNode(posNode);
-		return null;
+	public String visit(Positive posNode) {
+		return printUnaryNode(posNode);
 	}
 	
 	/*********************
 	 == STATEMENT NODES ==
 	 *********************/
 	@Override
-	public Void visit(Block blockNode) {
-		printNode(blockNode);
+	public String visit(Block blockNode) {
+		StringBuilder blockString = new StringBuilder(printNode(blockNode));
 		
 		indent();
-		super.visit(blockNode);
+		for(Statement statement : blockNode.statements()) {
+			blockString.append(statement.accept(this));
+		}
 		unindent();
 		
-		return null;
+		return blockString.toString();
 	}
 
 	@Override
-	public Void visit(ComputedQuestion compQuestionNode) {
-		printNode(compQuestionNode);
+	public String visit(ComputedQuestion compQuestionNode) {
+		StringBuilder compQuestionString = new StringBuilder(printNode(compQuestionNode));
 		
 		indent();
-		super.visit(compQuestionNode);
+		compQuestionString.append(compQuestionNode.getIdentifier().accept(this));
+		compQuestionString.append(compQuestionNode.getType().accept(this));
+		compQuestionString.append(compQuestionNode.getText().accept(this));
+		compQuestionString.append(compQuestionNode.getExpression().accept(this));
 		unindent();
 		
-		return null;
+		return compQuestionString.toString();
 	}
 
 	@Override
-	public Void visit(Form formNode) {
-		printNode(formNode);
+	public String visit(Form formNode) {
+		StringBuilder formString = new StringBuilder(printNode(formNode));
 		
-		indent();		
-		super.visit(formNode);
+		indent();
+		formString.append(formNode.getIdentifier().accept(this));
+		formString.append(formNode.getBlock().accept(this));
 		unindent();
 		
-		return null;
+		return formString.toString();
 	}
 
 	@Override
-	public Void visit(If ifNode) {
-		printNode(ifNode);
+	public String visit(If ifNode) {
+		StringBuilder ifString = new StringBuilder(printNode(ifNode));
 		
-		indent();		
-		super.visit(ifNode);
+		indent();
+		ifString.append(ifNode.getExpression().accept(this));
+		ifString.append(ifNode.getBlock().accept(this));
 		unindent();
 		
-		return null;
+		return ifString.toString();
 	}
 	
 	@Override
-	public Void visit(IfElse ifElseNode) {
-		printNode(ifElseNode);
+	public String visit(IfElse ifElseNode) {
+		StringBuilder ifElseString = new StringBuilder(printNode(ifElseNode));
 		
-		indent();		
-		super.visit(ifElseNode);
+		indent();
+		ifElseString.append(ifElseNode.getExpression().accept(this));
+		ifElseString.append(ifElseNode.getIfBranch().accept(this));
+		ifElseString.append(ifElseNode.getElseBranch().accept(this));
 		unindent();
 		
-		return null;
+		return ifElseString.toString();
 	}
 
 	@Override
-	public Void visit(Question questionNode) {
-		printNode(questionNode);
+	public String visit(Question questionNode) {
+		StringBuilder questionString = new StringBuilder(printNode(questionNode));
 		
-		indent();		
-		super.visit(questionNode);
+		indent();
+		questionString.append(questionNode.getIdentifier().accept(this));
+		questionString.append(questionNode.getType().accept(this));
+		questionString.append(questionNode.getText().accept(this));
 		unindent();
 		
-		return null;
+		return questionString.toString();
 	}
 }
