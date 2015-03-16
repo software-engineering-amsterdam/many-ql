@@ -138,12 +138,10 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         AbstractQLSWidget currentDeclarationWidget = _styleDeclr.getWidget();
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
-            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel); 
-        } else {
-            // TODO: NEEDS TO CREATE NEW OBJECT HERE
+            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel);
         }
 
-        Style currentDeclarationStyle = _styleDeclr.getStyle();  // TODO: NEEDS TO CREATE NEW OBJECT HERE
+        Style currentDeclarationStyle = _styleDeclr.getStyle();
         
         // if the style is undefined, set the default style of that widget.
         // otherwise set the right style.
