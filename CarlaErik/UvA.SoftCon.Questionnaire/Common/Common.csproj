@@ -54,17 +54,13 @@
     <Compile Include="AST\Model\Node.cs" />
     <Compile Include="AST\Building\ParserRuleContextExtensions.cs" />
     <Compile Include="AST\Model\TextPosition.cs" />
-    <Compile Include="Grammar\SharedTokens.g4.cs">
-      <DependentUpon>SharedTokens.g4</DependentUpon>
-    </Compile>
     <Compile Include="StringEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Message.cs" />
+    <Compile Include="Validation\Severity.cs" />
+    <Compile Include="Validation\ValidationReport.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Antlr4 Include="Grammar\SharedTokens.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>UvA.SoftCon.Questionnaire.Common.Grammar</CustomToolNamespace>
-    </Antlr4>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

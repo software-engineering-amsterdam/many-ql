@@ -3,7 +3,6 @@ package ql.gui.input;
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
 import ql.gui.control.Control;
-import ql.semantics.ValueTable;
 
 /**
  * Created by Nik on 17-2-15.
@@ -41,8 +40,8 @@ public abstract class Input extends GuiElement
     public void setVisible(Boolean visible)
     {
         super.setVisible(visible);
-//        this.inputNode.setVisible(visible);
-//        this.inputNode.setManaged(visible);
+        this.inputNode.setVisible(visible);
+        this.inputNode.setManaged(visible);
 //        this.control.setVisible(visible);
     }
 
@@ -50,8 +49,6 @@ public abstract class Input extends GuiElement
     {
         return id;
     }
-
-    public abstract void update(ValueTable valueTable);
 
     protected abstract VBox createInputNode(Control control);
 //    {

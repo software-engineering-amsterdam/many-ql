@@ -1,37 +1,22 @@
-﻿using AST.Representation;
-
+﻿
 namespace AST.Nodes.Literals
 {
     public class String : Literal
     {
-        private readonly string value;
-        //public String(string value)
-        //{
-        //    this.value = value;
-        //}
+        private string value;
         public String(string value, PositionInText positionInText)
             : base(positionInText)
         {
             this.value = value;
         }
-        public override string ToString()
-        {
-            return "string";
-        }
-
         public string GetValue()
         {
             return value;
         }
-
-        public override object GetValueType()
+        
+        public override string ToString()
         {
-            return this;
-        }
-
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            return "string";
         }
 
         public override Types.Type RetrieveType()
@@ -39,26 +24,9 @@ namespace AST.Nodes.Literals
             return new Types.StringType();
         }
 
-        #region Equal
-        public override Literal Equal(Literal value)
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
         {
-            return value.StringEqual(this);
+            return visitor.Visit(this);
         }
-        public override Literal StringEqual(Literals.String stringValue)
-        {
-            return new Bool(GetValue().Equals(stringValue.GetValue()), GetPosition());
-        }
-        #endregion
-
-        #region NotEqual
-        public override Literal NotEqual(Literal value)
-        {
-            return value.StringNotEqual(this);
-        }
-        public override Literal StringNotEqual(Literals.String stringValue)
-        {
-            return new Bool(!GetValue().Equals(stringValue.GetValue()), GetPosition());
-        }
-        #endregion
     }
 }

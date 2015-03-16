@@ -16,7 +16,7 @@ public abstract class QLNode extends Node<QLNode> implements NodeElement, Visual
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
 
         return Optional.empty();
     }

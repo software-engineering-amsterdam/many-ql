@@ -1,6 +1,7 @@
 package nl.uva.bromance.util;
 
 import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.QLSNode;
 import nl.uva.bromance.listeners.QLSParseTreeListener;
 import nl.uva.bromance.parsers.QLSLexer;
 import nl.uva.bromance.parsers.QLSParser;
@@ -16,7 +17,7 @@ import java.io.IOException;
  */
 public class QLSFileReader {
 
-    public static AST readFile(String qlsPath, AST qlAst) throws IOException {
+    public static AST<QLSNode> readFile(String qlsPath, AST qlAst) throws IOException {
 
         QLSLexer qlsLexer = new QLSLexer(new ANTLRFileStream(qlsPath));
         CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
@@ -26,7 +27,8 @@ public class QLSFileReader {
 
         ParseTreeWalker qlsWalker = new ParseTreeWalker();
         qlsWalker.walk(qlsListener, qlsTree);
-        return qlsListener.getAst();
+        AST<QLSNode> ast = qlsListener.getAst();
+        return ast;
     }
 
 }

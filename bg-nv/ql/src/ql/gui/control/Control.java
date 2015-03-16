@@ -14,7 +14,7 @@ public interface Control extends ValueVisitor
     public void setDisabled(Boolean disabled);
     public void setVisible(Boolean visible);
     public void setValue(Value value);
-    public Node getGuiElement();
+    public Node getControlNode();
 
     public void addListener(ChangeListener listener);
 }

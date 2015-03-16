@@ -4,13 +4,13 @@ using Notifications;
 using System.Collections.Generic;
 using TypeChecker.Notifications.Warnings;
 using TypeChecker.Notifications.Errors;
-using AST.Representation;
+using AST;
 using TypeChecker;
 using AST.Nodes;
 using AST.Nodes.Interfaces;
-using AST.Nodes.FormObject;
+using AST.Nodes.FormObjects;
 using AST.Nodes.Labels;
-using AST.Nodes.Expression;
+using AST.Nodes.Expressions;
 using Types = AST.Types;
 
 namespace TypeChecker.Test

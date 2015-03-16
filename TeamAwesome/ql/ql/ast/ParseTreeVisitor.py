@@ -41,7 +41,8 @@ class ParseTreeVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
-        return ctx.getText() == 'true';
+        lineNumber = ctx.start.line
+        return Boolean(ctx.getText() == 'true', lineNumber);
 
     # Visit a parse tree produced by QLParser#question_type.
     def visitQuestion_type(self, ctx):
@@ -49,15 +50,18 @@ class ParseTreeVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#string.
     def visitString(self, ctx):
-        return ctx.getText()[1:-1]
+        lineNumber = ctx.start.line
+        return String(ctx.getText()[1:-1], lineNumber)
 
     # Visit a parse tree produced by QLParser#integer.
     def visitInteger(self, ctx):
-        return int(ctx.getText())
+        lineNumber = ctx.start.line
+        return Integer(int(ctx.getText()), lineNumber)
 
     # Visit a parse tree produced by QLParser#money.
     def visitMoney(self, ctx):
-        return Money(ctx.getText())
+        lineNumber = ctx.start.line
+        return Money(Decimal(ctx.getText()), lineNumber)
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx):
@@ -66,12 +70,11 @@ class ParseTreeVisitor(QLVisitor):
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):
-        lineNumber = ctx.start.line
-        return Nodes.AtomicExpression(self.visitChildren(ctx), lineNumber)
+        return self.visitChildren(ctx)
 
     # Visit a parse tree produced by QLParser#expr.
     def visitExpr(self, ctx):
-        # no operator in expression (atom)
+        # no operator in expression (atom or expression between brackets)
         if ctx.op == None:
             return self.visitChildren(ctx.left)
 

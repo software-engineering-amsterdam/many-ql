@@ -1,15 +1,14 @@
 ﻿using Expressions = AST.Nodes.Interfaces;
-using AST.Representation;
 
 namespace AST.Nodes.Expressions.Binary
 {
-    public class Or : Binary
+    public class Or : BaseBinary
     {
-        public Or(Expression left, Expression right, PositionInText position)
+        public Or(BaseExpression left, BaseExpression right, PositionInText position)
          : base(left, right, position)
         { }
 
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

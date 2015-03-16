@@ -1,5 +1,7 @@
 package nl.uva.se.ql.evaluation.value;
 
+import java.math.BigDecimal;
+
 public class IntegerValue extends Value<Integer> {
 
 	public IntegerValue(int value) {
@@ -8,77 +10,224 @@ public class IntegerValue extends Value<Integer> {
 
 	@Override
 	public Value add(Value value) {
-		return new IntegerValue(getValue() + getInteger(value));
+		return value.addInteger(this);
+	}
+	
+	@Override
+	public Value addInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() + getValue());
+	}
+
+	@Override
+	public Value addDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() + getValue());
 	}
 
 	@Override
 	public Value div(Value value) {
-		return new IntegerValue(getValue() / getInteger(value));
+		return value.divInteger(this);
+	}
+	
+	@Override
+	public Value divInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() / getValue());
+	}
+
+	@Override
+	public Value divDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() / getValue());
 	}
 
 	@Override
 	public Value mod(Value value) {
-		return new IntegerValue(getValue() % getInteger(value));
+		return value.modInteger(this);
+	}
+	
+	@Override
+	public Value modInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() % getValue());
+	}
+
+	@Override
+	public Value modDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() % getValue());
 	}
 
 	@Override
 	public Value mult(Value value) {
-		return new IntegerValue(getValue() * getInteger(value));
+		return value.multInteger(this);
+	}
+	
+	@Override
+	public Value multInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() * getValue());
+	}
+
+	@Override
+	public Value multDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() * getValue());
 	}
 
 	@Override
 	public Value neg() {
+		return negInteger();
+	}
+	
+	@Override
+	public Value negInteger() {
+		return new IntegerValue(-getValue());
+	}
+
+	@Override
+	public Value negDecimal() {
 		return new IntegerValue(-getValue());
 	}
 
 	@Override
 	public Value pos() {
+		return posInteger();
+	}
+
+	@Override
+	public Value posInteger() {
+		return new IntegerValue(getValue());
+	}
+
+	@Override
+	public Value posDecimal() {
 		return new IntegerValue(getValue());
 	}
 
 	@Override
 	public Value pow(Value value) {
-		return new IntegerValue(getValue() ^ getInteger(value));
+		return value.powInteger(this);
+	}
+	
+	@Override
+	public Value powInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() ^ getValue());
+	}
+
+	@Override
+	public Value powDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() ^ getValue());
 	}
 
 	@Override
 	public Value sub(Value value) {
-		return new IntegerValue(getValue() - getInteger(value));
+		return value.subInteger(this);
+	}
+	
+	@Override
+	public Value subInteger(IntegerValue value) {
+		return new IntegerValue(value.getValue() - getValue());
+	}
+
+	@Override
+	public Value subDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new IntegerValue(d.intValue() - getValue());
 	}
 
 	@Override
 	public Value equal(Value value) {
-		return new BooleanValue(getValue() == getInteger(value));
+		return value.equalInteger(this);
+	}
+	
+	@Override
+	public Value equalInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() == getValue());
+	}
+
+	@Override
+	public Value equalDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() == getValue());
 	}
 
 	@Override
 	public Value greaterOrEqual(Value value) {
-		return new BooleanValue(getValue() >= getInteger(value));
+		return value.greaterOrEqualInteger(this);
+	}
+	
+	@Override
+	public Value greaterOrEqualInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() >= getValue());
 	}
 
 	@Override
-	public Value greaterThen(Value value) {
-		return new BooleanValue(getValue() > getInteger(value));
+	public Value greaterOrEqualDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() >= getValue());
+	}
+
+	@Override
+	public Value greaterThan(Value value) {
+		return value.greaterThanInteger(this);
+	}
+	
+	@Override
+	public Value greaterThanInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() > getValue());
+	}
+
+	@Override
+	public Value greaterThanDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() > getValue());
 	}
 
 	@Override
 	public Value lessOrEqual(Value value) {
-		return new BooleanValue(getValue() <= getInteger(value));
+		return value.lessOrEqualInteger(this);
+	}
+	
+	@Override
+	public Value lessOrEqualInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() <= getValue());
 	}
 
 	@Override
-	public Value lessThen(Value value) {
-		return new BooleanValue(getValue() < getInteger(value));
+	public Value lessOrEqualDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() <= getValue());
+	}
+
+	@Override
+	public Value lessThan(Value value) {
+		return value.lessOrEqualInteger(this);
+	}
+	
+	@Override
+	public Value lessThanInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() < getValue());
+	}
+
+	@Override
+	public Value lessThanDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() < getValue());
 	}
 
 	@Override
 	public Value notEqual(Value value) {
-		return new BooleanValue(getValue() != getInteger(value));
+		return value.notEqualInteger(this);
 	}
 	
-	private Integer getInteger(Value value) {
-		IntegerValue intVal = (IntegerValue) value;
-		return intVal.getValue();
+	@Override
+	public Value notEqualInteger(IntegerValue value) {
+		return new BooleanValue(value.getValue() != getValue());
+	}
+
+	@Override
+	public Value notEqualDecimal(DecimalValue value) {
+		BigDecimal d = value.getValue();
+		return new BooleanValue(d.intValue() != getValue());
 	}
 
 }

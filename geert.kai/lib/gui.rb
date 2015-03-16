@@ -5,7 +5,7 @@ class QuestionairApp < JRubyFX::Application
   def start(stage)
     ql = QL.parse("spec/ql/source_files/long_query.ql")
     qls = QLS.parse("spec/qls/source_files/long_query.qls")
-    
+
     runner = QLS::Runner.new(ql, qls)
 
     questionair_controller = QuestionairController.new(runner)
@@ -49,7 +49,6 @@ class QuestionairController
     @scene.get_stylesheets.clear;
     @scene.get_stylesheets.add("temp/stylesheets/visible_questions.css")
     @scene.get_stylesheets.add("temp/stylesheets/style.css")
-    @scene.get_stylesheets.add("temp/stylesheets/page.css")
   end
 end
 

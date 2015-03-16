@@ -1,7 +1,7 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class StringTextBoxWidget : TextBoxWidget
     {
@@ -10,9 +10,9 @@ namespace QuestionnaireLanguage.GUI.Widgets
             Id = id;
         }
 
-        public override UIElement CreateUIControl(object value)
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(false) { Name = Id, Text = value.ToString(), IsReadOnly = IsComputed };
+            return new CustomTextBox(new StringHandler()) { Name = Id, Text = value.ToString(), IsReadOnly = IsReadOnly };
         }
     }
 }

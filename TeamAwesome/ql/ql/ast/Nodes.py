@@ -1,19 +1,19 @@
+class Questionnaire(object):
+    def __init__(self, statements):
+        self.statements = statements
+
+    def accept(self, visitor):
+        visitor.visitQuestionnaireBegin(self)
+        for statement in self.statements:
+            statement.accept(visitor)
+        return visitor.visitQuestionnaireEnd(self)
+
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
     def accept(self, visitor):
         raise NotImplementedError
-
-class Questionnaire(Node):
-    def __init__(self, statements):
-        super().__init__(0)
-        self.statements = statements
-
-    def accept(self, visitor):
-        for statement in self.statements:
-            statement.accept(visitor)
-        visitor.visitQuestionnaire(self)
 
 class FormStatement(Node):
     def __init__(self, identifier, statements, lineNumber):
@@ -25,9 +25,10 @@ class FormStatement(Node):
         return "formId:%s, line:%d" %(self.identifier, self.lineNumber)
 
     def accept(self, visitor):
+        visitor.visitFormStatementBegin(self)
         for statement in self.statements:
             statement.accept(visitor)
-        visitor.visitFormStatement(self)
+        return visitor.visitFormStatementEnd(self)
 
 class QuestionStatement(Node):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
@@ -42,9 +43,7 @@ class QuestionStatement(Node):
             %(self.identifier, self.lineNumber, self.text, self.type, self.expr)
 
     def accept(self, visitor):
-        if self.expr:
-            self.expr.accept(visitor)
-        visitor.visitQuestionStatement(self)
+        return visitor.visitQuestionStatement(self)
 
 class IfStatement(Node):
     def __init__(self, expr, statements, lineNumber):
@@ -56,21 +55,10 @@ class IfStatement(Node):
         return "ifStatement, line:%d, expr:%s" %(self.lineNumber, self.expr)
 
     def accept(self, visitor):
+        visitor.visitIfStatementBegin(self)
         for statement in self.statements:
             statement.accept(visitor)
-        visitor.visitIfStatement(self)
-
-class AtomicExpression(Node):
-    def __init__(self, atom, lineNumber):
-        super().__init__(lineNumber)
-        self.atom = atom
-        
-    def __str__(self):
-        return str(self.left)
-
-    def accept(self, visitor):
-        self.atom.accept(visitor)
-        visitor.visitAtomicExpression(self)
+        return visitor.visitIfStatementEnd(self)
 
 class UnaryExpression(Node):
     def __init__(self, op, expression, lineNumber):
@@ -82,8 +70,9 @@ class UnaryExpression(Node):
         return "(%s %s)" %(self.op, self.right)
 
     def accept(self, visitor):
+        visitor.visitUnaryExpressionBegin(self)
         self.expression.accept(visitor)
-        visitor.visitUnaryExpression(self)
+        return visitor.visitUnaryExpressionEnd(self)
 
 class BinaryExpression(Node):
     def __init__(self, left, op, right, lineNumber):
@@ -96,6 +85,40 @@ class BinaryExpression(Node):
         return "(%s %s %s)" %(self.left, self.op, self.right)
 
     def accept(self, visitor):
+        visitor.visitBinaryExpressionBegin(self)
         self.left.accept(visitor)
         self.right.accept(visitor)
-        visitor.visitBinaryExpression(self)
+        return visitor.visitBinaryExpressionEnd(self)
+
+
+class AtomBaseType(Node):
+    def __init__(self, value, lineNumber):
+        super().__init__(lineNumber)
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    def __str__(self):
+        return str(self.value)
+
+class Boolean(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitBoolean(self)
+
+class Integer(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitInteger(self)
+
+class String(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitString(self)
+
+class Money(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitMoney(self)
+
+class Identifier(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitIdentifier(self)

@@ -2,7 +2,7 @@
 using Notifications;
 using System.Collections.Generic;
 
-namespace TypeChecker
+namespace TypeChecking
 {
     public static class TypeCheckManager
     {

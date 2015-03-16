@@ -1,4 +1,4 @@
-﻿using Values = AST.Nodes.Literals;
+﻿using Values = Evaluation.Values;
 
 namespace QuestionnaireLanguage.Visitors
 {

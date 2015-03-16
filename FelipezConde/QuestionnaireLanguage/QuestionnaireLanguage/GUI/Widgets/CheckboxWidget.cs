@@ -1,7 +1,7 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class CheckboxWidget : Widget
     {
@@ -12,7 +12,7 @@ namespace QuestionnaireLanguage.GUI.Widgets
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomCheckBox() { Name = Id, IsChecked = value, IsEnabled = !IsComputed };
+            return new CustomCheckBox() { Name = Id, IsChecked = value, IsEnabled = !IsReadOnly };
         }
     }
 }

@@ -50,38 +50,51 @@ expression returns [Expression result]
   |	op=('-' | '!') x=expression	{
   		switch($op.text){
 			case "-":  	$result = new Negation($x.result, new QLToken($op.line,$op.pos));
+						break;
 			case "!": 	$result = new Not($x.result,new QLToken($op.line,$op.pos));
+						break;
 		}
   	}
 // Multiplication Division
   | l=expression op=('*' | '/') r=expression {
   	  	switch($op.text){
 			case "*": 	$result = new Multiplication($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case "/": 	$result = new Division($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 		}
 	}
 // Addition Substraction
   | l=expression op=('+' | '-') r=expression { 
 	  	switch($op.text){
 			case "+":  	$result = new Addition($l.result, $r.result, new QLToken($op.line,$op.pos));
-			case "-": 	$result = new Substraction($l.result, $r.result, new QLToken($op.line,$op.pos));;
+						break;
+			case "-": 	$result = new Substraction($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 		}
 	}
 // Comparison
   | l=expression op=('==' | '>' | '>=' | '<' | '<=' ) r=expression {
   		switch($op.text){
 			case "==": 	$result = new Equal($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case ">": 	$result = new GreaterThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case ">=": 	$result = new GreaterThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case "<": 	$result = new LessThan($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case "<=": 	$result = new LessThanOrEqual($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 		}
 	}
 // Conjunct Disjunct
   |  l=expression op=('&&' | '||') r=expression {
   	  	switch($op.text){
 			case "&&": 	$result = new And($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 			case "||": 	$result = new Or($l.result, $r.result, new QLToken($op.line,$op.pos));
+						break;
 		}
 	}
 // Literal

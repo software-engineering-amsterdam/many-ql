@@ -1,6 +1,7 @@
 package org.uva.ql.view.panel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.uva.ql.ast.expression.Expression;
 
@@ -8,7 +9,7 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 
 	private static final long serialVersionUID = -4507161988032536469L;
 
-	private final ArrayList<Panel> elseBlockPanels;
+	private final List<Panel> elseBlockPanels;
 
 	public IfElseQuestionPanel(ArrayList<Panel> ifBlockPanels, ArrayList<Panel> elseBlockPanels, Expression expr) {
 		super(ifBlockPanels, expr);
@@ -26,7 +27,7 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 		}
 	}
 
-	public ArrayList<Panel> getElseBlockPanels() {
+	public List<Panel> getElseBlockPanels() {
 		return elseBlockPanels;
 	}
 }

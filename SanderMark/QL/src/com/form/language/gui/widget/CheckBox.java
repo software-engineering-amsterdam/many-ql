@@ -11,7 +11,6 @@ import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
 public class CheckBox extends Widget {
-	private static final long serialVersionUID = 1L;
 	private JCheckBox checkbox;
 
 	public CheckBox(Question question, QuestionComponent questionComponent, Context context) {

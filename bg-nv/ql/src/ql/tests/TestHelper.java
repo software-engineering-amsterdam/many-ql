@@ -49,4 +49,21 @@ public class TestHelper
         assertNotNull(e);
         return ExprEvaluator.evaluate(e, valueTable);
     }
+
+    public static void assertMsContainError(Messages ms, String error)
+    {
+        assertTrue(msContainError(ms, error));
+    }
+
+    private static boolean msContainError(Messages ms, String error)
+    {
+        for (Message m : ms)
+        {
+            if (m.getMessage().equals(error))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

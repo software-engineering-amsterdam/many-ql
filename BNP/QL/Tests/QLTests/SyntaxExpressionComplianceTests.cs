@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL;
 using QL.Model;
 
 namespace Tests.QLTests
@@ -131,7 +132,7 @@ namespace Tests.QLTests
                 }
 
             ";
-            AstHandler Handler = new AstHandler(input);
+            ASTHandler Handler = new ASTHandler(input);
 
             Handler.BuildAST();
             Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);

@@ -144,3 +144,20 @@ func NewMoreOrEqualsThanNode(leftTerm, rightTerm Evaluatable,
 		rightTerm, pos)
 	return moreOrEqualsThanNode
 }
+
+//----
+
+// LikeNode is the AST node for More Or Equals Than (>=) comparison.
+type LikeNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewLikeNode factory for LikeNode AST node.
+func NewLikeNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *LikeNode {
+	likeNode := new(LikeNode)
+	likeNode.DoubleTermNode = *NewDoubleTermNode(leftTerm,
+		rightTerm, pos)
+	return likeNode
+}

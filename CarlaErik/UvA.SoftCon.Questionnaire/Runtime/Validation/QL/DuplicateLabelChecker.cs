@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
@@ -11,29 +7,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     /// <summary>
     /// Checks for duplicate labels in questions.
     /// </summary>
-    public class DuplicateLabelChecker : QLVisitor<object>
+    public class DuplicateLabelChecker : ASTChecker
     {
         private readonly ICollection<Question> _questions;
-
-        public ICollection<Question> DuplicateLabels
-        {
-            get ;
-            private set;
-        }
 
         public DuplicateLabelChecker()
         {
             _questions = new List<Question>();
-            DuplicateLabels = new List<Question>();
         }
 
-        public override object Visit(Question node)
+        public override object Visit(Question question)
         {
-            if (LabelExists(node))
+            if (LabelExists(question))
             {
-                DuplicateLabels.Add(node);
+                Report.AddWarning(question.Position, "Question '{0}' has a duplicate label.", question.Position);
             }
-            _questions.Add(node);
+            _questions.Add(question);
             return null;
         }
 

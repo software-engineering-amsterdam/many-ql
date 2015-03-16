@@ -51,14 +51,5 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
                 return new Question(type, id, label, context.GetTextPosition());
             }
         }
-
-        public override Statement VisitDefinition(QLParser.DefinitionContext context)
-        {
-            DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
-            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
-            Expression expression = context.expr().Accept(new ExpressionVisitor());
-
-            return new Definition(dataType, id, expression, context.GetTextPosition());
-        }
     }
 }

@@ -1,10 +1,10 @@
-﻿using AST.Nodes.FormObject;
-using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using QuestionnaireLanguage.GUI.Widgets;
+﻿using AST.Nodes.FormObjects;
+using Evaluation.Values;
+using QuestionnaireLanguage.Presenter;
+using QuestionnaireLanguage.GUI.FormObject.Interface;
+using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
 using System.Windows;
-using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
@@ -16,40 +16,37 @@ namespace QuestionnaireLanguage.GUI.FormObject
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            MainController.AddValue(questionNode.Identifier, questionNode.RetrieveType());
+            MainPresenter.AddValue(questionNode.Identifier, questionNode.RetrieveType());
         }
-        #endregion
-
-        #region Private Methods
         #endregion
 
         #region IFormObject
         public UIElement ProcessFormObject(UIElement form)
         {
-            Widget widget = new TypeToWidgetVisitor(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
-            widget.IsComputed = questionNode.Computation != null ? true : false;
+            Widget widget = new TypeToWidget(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
+            widget.IsReadOnly = questionNode.Computation != null ? true : false;
 
-            Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
+            Widget labelWidget = new LabelWidget();
 
-            Values.Literal widgetValue = ProcessComputation();
+            Value widgetValue = Evaluate();
 
-            MainController.AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
-            MainController.AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
+            MainPresenter.AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
+            MainPresenter.AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
 
             return form;
         }
 
-        public Values.Literal ProcessComputation()
+        public Value Evaluate()
         {
-            Values.Literal result;
+            Value result;
 
             if (questionNode.Computation != null)
             {
-                result = MainController.Evaluate(questionNode.Computation);
+                result = MainPresenter.Evaluate(questionNode.Computation);
             }
             else
             {
-                result = MainController.GetObjectValue(questionNode.Identifier);
+                result = MainPresenter.GetObjectValue(questionNode.Identifier);
             }
 
             return result;

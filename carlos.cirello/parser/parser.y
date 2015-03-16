@@ -62,6 +62,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token BoolOrToken
 %token BoolTrueToken
 %token BoolFalseToken
+%token LikeToken
 
 %%
 
@@ -191,6 +192,10 @@ evaluatable:
 	| term LessOrEqualsThanToken term
 	{
 		$$.evaluatable = ast.NewLessOrEqualsThanNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| term LikeToken term
+	{
+		$$.evaluatable = ast.NewLikeNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| '!' evaluatable
 	{
