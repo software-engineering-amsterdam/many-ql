@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * reference to undefined questions
+ * X reference to undefined questions
  * X duplicate question declarations with different types
  * X conditions that are not of the type boolean
  * X operands of invalid type to operators
- * cyclic dependencies between questions
+ *   cyclic dependencies between questions
  * X duplicate labels (warning)
  */
 public class QLTypeChecker {
@@ -52,7 +52,10 @@ public class QLTypeChecker {
         }
     }
 
-    private void checkInvalidOperands() {
+    /**
+     * Go through the AST to collect the other, undiscovered, type errors.
+     */
+    private void collectTypeCheckErrorsInDepth() {
         PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
         aForm.apply(formTypeChecker);
     }
@@ -61,7 +64,7 @@ public class QLTypeChecker {
         TypeCheckResults typeCheckResults = new TypeCheckResults();
         collectDuplicateQuestionsWithDifferentTypes();
         collectDuplicateLabels();
-        checkInvalidOperands();
+        collectTypeCheckErrorsInDepth();
         return typeCheckResults;
     }
 

@@ -27,7 +27,7 @@ public class QuestionComputed extends QuestionNormal {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "\n\tExpression = " + expression;
+		return getIdentifier().toString();
 	}
 
 }

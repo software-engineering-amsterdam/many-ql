@@ -7,7 +7,7 @@ import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
+import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 import java.util.List;
@@ -17,9 +17,14 @@ import java.util.List;
  */
 public class Conditional extends Segment<Pane> implements Refreshable
 {
-    private Expr condition;
+    private final Expr condition;
 
     public Conditional(Expr condition, List<Segment> subsegments)
+    {
+        this(condition, subsegments, new RowStyle());
+    }
+
+    public Conditional(Expr condition, List<Segment> subsegments, RowStyle style)
     {
         super(new HBox(), subsegments, true);
 
@@ -29,11 +34,7 @@ public class Conditional extends Segment<Pane> implements Refreshable
         }
 
         this.condition = condition;
-    }
-
-    public Expr getCondition()
-    {
-        return this.condition;
+        this.setStyle(style);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class Conditional extends Segment<Pane> implements Refreshable
         Value val = ExprEvaluator.evaluate(condition, valueTable);
         if (!val.isUndefined())
         {
-            visible = ((BooleanValue)val).getValue();
+            visible = ((BoolValue)val).getValue();
         }
         this.setVisible(visible);
     }
@@ -65,5 +66,10 @@ public class Conditional extends Segment<Pane> implements Refreshable
     public Boolean isRefreshPrerequisite()
     {
         return false;
+    }
+
+    private void setStyle(RowStyle style)
+    {
+        //TODO
     }
 }

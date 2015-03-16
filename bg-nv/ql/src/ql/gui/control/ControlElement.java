@@ -14,7 +14,7 @@ public abstract class ControlElement extends GuiElement implements Control
     }
 
     @Override
-    public Void visit(BooleanValue val)
+    public Void visit(BoolValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
@@ -26,25 +26,25 @@ public abstract class ControlElement extends GuiElement implements Control
     }
 
     @Override
-    public Void visit(DecimalValue val)
+    public Void visit(DecValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
 
     @Override
-    public Void visit(IntegerValue val)
+    public Void visit(IntValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
 
     @Override
-    public Void visit(StringValue val)
+    public Void visit(StrValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
 
     @Override
-    public Void visit(UndefinedValue val)
+    public Void visit(UndefValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }

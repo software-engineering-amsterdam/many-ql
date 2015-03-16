@@ -1,6 +1,5 @@
 package com.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.typechecker.error.AError;
 
@@ -11,29 +10,27 @@ import java.util.List;
  * Created by Juriaan on 28-2-2015.
  */
 public class TypeChecker {
-    private ArrayList<AError> errors;
+    private List<AError> errors;
     private QuestionnaireNode ast;
-    private QuestionTable table;
 
     public TypeChecker(QuestionnaireNode ast){
         errors = new ArrayList<AError>();
         this.ast = ast;
-        table = new QuestionTable(errors);
     }
 
-    private void firstPass(){
-        QuestionMapper mapper = new QuestionMapper(table);
+    private QuestionTable firstPass(){
+        QuestionMapper mapper = new QuestionMapper(errors);
         ast.accept(mapper);
+        return mapper.getTable();
     }
 
-    private void secondPass(){
+    private void secondPass(QuestionTable table){
         TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors, table);
         ast.accept(visitor);
     }
 
     public void run(){
-        firstPass();
-        secondPass();
+        secondPass(firstPass());
     }
     //Just a temporary method, this logic should not be in here.
     public void reportErrors(){

@@ -13,6 +13,7 @@ import nl.uva.bromance.ast.QLSNode;
 import nl.uva.bromance.ast.QLSPage;
 import nl.uva.bromance.util.QLFileReader;
 import nl.uva.bromance.util.QLSFileReader;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class Visualizer {
     private AST<QLNode> qlAst;
     private AST<QLSNode> qlsAst;
     private Node focusedNode;
-    private String focusId;
+    private int focusId;
 
     public Visualizer(Stage stage) {
         this.stage = stage;
@@ -40,7 +41,7 @@ public class Visualizer {
         this.focusedNode = node;
     }
 
-    public String getFocusId(){
+    public int getFocusId(){
         return focusId;
     }
 
@@ -74,14 +75,19 @@ public class Visualizer {
                     //TypeChecker tc = new TypeChecker(ast);
                     //tc.runChecks();
                 } catch (IOException e) {
-                    System.err.println("Couldn't find file, show error or something");
+                    Dialogs.create()
+                            .owner(stage)
+                            .title("Error")
+                            .masthead(null)
+                            .message("Error couldn't open file : "+qlPath)
+                            .showError();
                 }
                 try {
                     qlsAst = QLSFileReader.readFile(qlsPath, qlAst);
                 } catch (IOException e) {
-                    System.err.println("Couldn't find qls file, no biggie.");
+                    System.out.println("Couldn't find qls file, no biggie.");
                 }
-                visualize(null);
+                visualize(0);
             }
         });
 
@@ -105,7 +111,7 @@ public class Visualizer {
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
     }
 
-    public void visualize(String focusId) {
+    public void visualize(int focusId) {
         this.focusId = focusId;
         setBaseView();
         System.out.println("Running visualizer!");
@@ -124,7 +130,7 @@ public class Visualizer {
                     Label label = new Label(identifier);
                     label.setOnMouseClicked((event) -> {
                         currentPage = page;
-                        visualize(null);
+                        visualize(0);
                     });
                     if (currentPage == page) {
                         label.getStyleClass().add("active");

@@ -2,10 +2,7 @@ package org.fugazi.ql.type_checker.helper;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.*;
 
 /*
  * Static class for checks used by multiple visitors.
@@ -13,8 +10,10 @@ import org.fugazi.ql.ast.type.Type;
 public class QLTypeCheckerHelper {
 
     public static boolean isDefined(ID idLiteral) {
-        return (idLiteral.getType() != null);
+        return !(idLiteral.getType().equals(new UndefinedType()));
     }
+
+    // TODO put it in expression
 
     public static boolean isExpressionOfTypeBool(Expression expression) {
         return isExpressionOfType(expression, new BoolType());

@@ -1,17 +1,16 @@
 package com.klq.typechecker;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.impl.expr.literal.*;
-import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.bool.*;
+import com.klq.ast.impl.expr.literal.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.stmt.*;
+import com.klq.ast.impl.Type;
 import com.klq.typechecker.error.*;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by juriaan on 2-3-15.
  */
 public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementVisitor<Void> {
-    private ArrayList<AError> errors;
+    private List<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
     private String currentQuestion; //tracks for which question we are currently detecting the cycle
@@ -30,7 +29,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private List<Type> allowedBooleanExprTypes;
     private List<Type> allowedAndOrExprTypes;
 
-    public TypeCheckerVisitor(ArrayList<AError> errors, QuestionTable table) {
+    public TypeCheckerVisitor(List<AError> errors, QuestionTable table) {
         this.errors = errors;
         this.table = table;
         this.cyclicDetector = new CyclicDetector(); //TODO fill this and run it
@@ -69,17 +68,17 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(QuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
+        cyclicDetector.addKey(node.getID());
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
-        currentQuestion = node.getQuestionID();
+        cyclicDetector.addKey(node.getID());
+        currentQuestion = node.getID();
 
         Type childType = (Type) node.getComputedAnswer().accept(this);
-        if(childType != node.getQuestionType()){
+        if(childType != node.getType()){
             errors.add(new TypeMismatch(node, childType));
         }
 
