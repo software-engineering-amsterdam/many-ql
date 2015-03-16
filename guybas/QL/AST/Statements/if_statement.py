@@ -4,9 +4,9 @@ import QL.AST.Statements.statement as statement
 
 class IfBlock(statement.IStatement):
 
-    #################################
-    # override method of statement  #
-    #################################
+    #
+    # override methods of statement
+    #
 
     # init
     def __init__(self, condition, statements):
@@ -65,10 +65,6 @@ class IfBlock(statement.IStatement):
             d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
         return d
 
-    # Get the _order of elements in the statement
-    def get_order(self):
-        return -1
-
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
         d = {}
@@ -80,22 +76,9 @@ class IfBlock(statement.IStatement):
         x = self._condition.is_valid_expression(td)
         return x
 
-    #################################
-    # Getters of the if statement   #
-    #################################
-
-    # TODO: structure below more
-
-    # set the parent _id, only set once
-    def set_parent_condition(self, condition):
-        for s in self._statements:
-            s.set_parent_condition(self._condition)
-
-    def set_element(self, gui):
-        pass
-
-    def get_element(self):
-        return self._element
+    #
+    # Getters of the if statement
+    #
 
     # Getters of if _statements
     def get_c_statements(self):
@@ -103,9 +86,6 @@ class IfBlock(statement.IStatement):
 
     def get_condition(self):
         return self._condition
-
-    def get_str_condition(self):
-        return self._condition.pretty_print()
 
     def get_e_statements(self):
         return []

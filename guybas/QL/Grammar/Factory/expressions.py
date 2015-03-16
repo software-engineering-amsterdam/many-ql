@@ -4,7 +4,7 @@ import QL.AST.Expressions.Elements.variable as variable
 import QL.AST.Expressions.Elements.bool as boolean
 import QL.AST.Expressions.Elements.number as number
 import QL.AST.Expressions.Elements.text as text
-import QL.Factory.forms as form
+import QL.Grammar.Factory.forms as form
 from QL.AST.Expressions.Operations import *
 
 
