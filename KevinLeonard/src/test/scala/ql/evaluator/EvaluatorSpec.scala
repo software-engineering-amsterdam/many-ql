@@ -2,162 +2,248 @@ package ql.evaluator
 
 import org.specs2.mutable.Specification
 import ql.ast._
-import types.VariableName
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.collections.ObservableMap
 
 class EvaluatorSpec extends Specification {
   val evaluators = new Evaluator
-
   import evaluators._
+
+  val EmptyEnvironment: EvalEnvironment = ObservableMap.empty[VariableName, Value]
+  val False: BooleanValue = BooleanValue(false)
+  val True: BooleanValue = BooleanValue(true)
 
   "evaluation of expressions" should {
     "succeed for or expressions" in {
-      eval(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for and expressions" in {
-      eval(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for not expressions" in {
-      eval(Not(BooleanLiteral(BooleanValue(true))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = Not(BooleanLiteral(BooleanValue(true)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for equal expressions on booleans" in {
-      eval(Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for equal expressions on booleans" in {
-      eval(Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for equal expressions on numbers" in {
-      eval(Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for equal expressions on numbers" in {
-      eval(Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for equal expressions on strings" in {
-      eval(Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a"))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for equal expressions on strings" in {
-      eval(Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for notEqual expressions on booleans" in {
-      eval(NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for notEqual expressions on booleans" in {
-      eval(NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for notEqual expressions on numbers" in {
-      eval(NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for notEqual expressions on numbers" in {
-      eval(NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for notEqual expressions on strings" in {
-      eval(NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("a"))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
-
+    
     "succeed for notEqual expressions on strings" in {
-      eval(NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for lessThan expressions" in {
-      eval(LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for lessThan expressions" in {
-      eval(LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for lessThan expressions" in {
-      eval(LessThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = LessThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for lessThanEqual expressions" in {
-      eval(LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for lessThanEqual expressions" in {
-      eval(LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for lessThanEqual expressions" in {
-      eval(LessThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = LessThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for greaterThan expressions" in {
-      eval(GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for greaterThan expressions" in {
-      eval(GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for greaterThan expressions" in {
-      eval(GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))) 
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for greaterThanEqual expressions" in {
-      eval(GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for greaterThanEqual expressions" in {
-      eval(GreaterThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = GreaterThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for greaterThanEqual expressions" in {
-      eval(GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(false))
+      val expression = GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(False)
     }
 
     "succeed for add expressions" in {
-      eval(Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(3))
+      val expression = Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      val result = NumberValue(3)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for sub expressions" in {
-      eval(Sub(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(1))
+      val expression = Sub(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
+      val result = NumberValue(1)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for mul expressions" in {
-      eval(Mul(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(6))
+      val expression = Mul(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3)))
+      val result = NumberValue(6)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for div expressions" in {
-      eval(Div(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(2))
+      val expression = Div(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
+      val result = NumberValue(2)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for variable expressions" in {
-      eval(Variable("test"), ObservableMap.empty[VariableName, Value] += ("test" -> NumberValue(3))) must beEqualTo(NumberValue(3))
+      val expression = Variable("test") 
+      val environment = EmptyEnvironment += ("test" -> NumberValue(3))
+      val result = NumberValue(3)
+      
+      eval(expression, environment) must beEqualTo(result)
     }
 
     "succeed for boolean literals" in {
-      eval(BooleanLiteral(BooleanValue(true)), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = BooleanLiteral(BooleanValue(true))
+
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
 
     "succeed for number literals" in {
-      eval(NumberLiteral(NumberValue(1)), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(1))
+      val expression = NumberLiteral(NumberValue(1))
+      val result = NumberValue(1)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for string literals" in {
-      eval(StringLiteral(StringValue("a")), ObservableMap.empty[VariableName, Value]) must beEqualTo(StringValue("a"))
+      val expression = StringLiteral(StringValue("a"))
+      val result = StringValue("a")
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for nested expressions" in {
-      eval(Mul(NumberLiteral(NumberValue(5)), Add(NumberLiteral(NumberValue(3)), NumberLiteral(NumberValue(2)))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(25))
+      val expression = Mul(NumberLiteral(NumberValue(5)), Add(NumberLiteral(NumberValue(3)), NumberLiteral(NumberValue(2))))
+      val result = NumberValue(25)
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
     "succeed for multiple nested expressions" in {
-      eval(And(Equal(NumberLiteral(NumberValue(7)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), NumberLiteral(NumberValue(2))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))), ObservableMap.empty[VariableName, Value]) must beEqualTo(BooleanValue(true))
+      val expression = And(Equal(NumberLiteral(NumberValue(7)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), NumberLiteral(NumberValue(2))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a"))))
+      
+      eval(expression, EmptyEnvironment) must beEqualTo(True)
     }
   }
 
