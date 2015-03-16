@@ -32,11 +32,12 @@ class AtomicExpression(object):
 		return self._value.value()
 
 class Form(object):
-	def __init__(self, formStatementNode):
-		self.identifier = formStatementNode.identifier
+	def __init__(self, identifier, questions):
+		self.identifier = identifier
+		self.questions = questions
 
 class Question(object):
-	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form, valueExpression = None):
+	def __init__(self, questionStatementNode, conditionalExpressionsTuple, valueExpression = None):
 		self.identifier = questionStatementNode.identifier
 		self.valueExpression = valueExpression
 		self.text = questionStatementNode.text
@@ -44,8 +45,6 @@ class Question(object):
 
 		self.conditionalExpressions = conditionalExpressionsTuple
 		self.constant = self.valueExpression != None
-
-		self.form = form
 
 	def __str__(self):
 		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)

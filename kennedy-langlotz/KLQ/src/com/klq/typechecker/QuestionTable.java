@@ -15,20 +15,13 @@ import java.util.Map;
  */
 public class QuestionTable {
     private Map<String, QuestionNode> table;
-    private List<AError> errors;
 
-    public QuestionTable(List<AError> errors) {
-        this.errors = errors;
+    public QuestionTable() {
         table = new HashMap<String, QuestionNode>();
     }
 
     public void add(String questionId, QuestionNode node){
-        if(table.containsKey(questionId)){
-            errors.add(new NotUniqueID(node.getID(), node.getLocation()));
-        }
-        else{
-            table.put(questionId, node);
-        }
+        table.put(questionId, node);
     }
 
     public QuestionNode get(String questionId){

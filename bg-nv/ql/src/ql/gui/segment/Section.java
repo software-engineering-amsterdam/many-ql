@@ -1,6 +1,7 @@
 package ql.gui.segment;
 
 import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 import ql.gui.ModelVisitor;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
  */
 public class Section extends Segment<Node>
 {
-    public Section(Node container, List<Segment> subsegments, Boolean visible)
+    public Section(List<Segment> subsegments, Boolean visible)
     {
-        super(container, subsegments, visible);
+        super(new GridPane(), subsegments, visible);
     }
 
     @Override
