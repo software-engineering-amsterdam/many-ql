@@ -3,6 +3,7 @@ package com.klq.ast.impl.stmt;
 import com.klq.ast.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.IStatementVisitor;
+import com.klq.ast.impl.expr.AExpression;
 
 import java.util.ArrayList;
 
@@ -10,26 +11,26 @@ import java.util.ArrayList;
  * Created by Juriaan on 22-2-2015.
  */
 public class ConditionalNode extends AStatementNode {
-    ANode condition;
-    ArrayList<ANode> children;
+    AExpression condition;
+    ArrayList<AStatementNode> children;
 
-    public ConditionalNode(ANode condition, ArrayList<ANode> children, Location location) {
+    public ConditionalNode(AExpression condition, ArrayList<AStatementNode> children, Location location) {
         super(location);
         this.condition = condition;
         this.children = children;
     }
 
-    public ConditionalNode(ANode condition, ArrayList<ANode> children) {
+    public ConditionalNode(AExpression condition, ArrayList<AStatementNode> children) {
         super();
         this.condition = condition;
         this.children = children;
     }
 
-    public ANode getCondition() {
+    public AExpression getCondition() {
         return condition;
     }
 
-    public ArrayList<ANode> getChildren() {
+    public ArrayList<AStatementNode> getChildren() {
         return children;
     }
 
