@@ -81,7 +81,6 @@
     <Compile Include="AST\Model\Expressions\Unary\UnaryExpression.cs" />
     <Compile Include="AST\Model\QLNode.cs" />
     <Compile Include="AST\Model\QuestionForm.cs" />
-    <Compile Include="AST\Model\Statements\Definition.cs" />
     <Compile Include="AST\Model\Statements\IfStatement.cs" />
     <Compile Include="AST\Model\Statements\Statement.cs" />
     <Compile Include="AST\Model\Statements\Question.cs" />

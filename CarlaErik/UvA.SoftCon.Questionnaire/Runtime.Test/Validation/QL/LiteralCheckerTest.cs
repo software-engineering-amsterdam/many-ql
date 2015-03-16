@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UvA.SoftCon.Questionnaire.Runtime.Validation.QL;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
-using System.Linq;
+using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.Runtime.Validation.QL;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
 {
     [TestClass]
-    public class LiteralCheckingVisitorTest
+    public class LiteralCheckerTest
     {
         [TestMethod]
         public void TestValidDates()
@@ -25,13 +24,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new LiteralChecker();
+            var checker = new LiteralChecker();
+            var report = new ValidationReport();
 
             // Act
-            visitor.Visit(form);
+            checker.Validate(form, report);
 
             // Assert
-            Assert.AreEqual<int>(0, visitor.InvalidLiterals.Count());
+            Assert.AreEqual<int>(0, report.NrOfErrors + report.NrOfWarnings);
         }
 
         [TestMethod]
@@ -45,13 +45,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new LiteralChecker();
+            var checker = new LiteralChecker();
+            var report = new ValidationReport();
 
             // Act
-            visitor.Visit(form);
+            checker.Validate(form, report);
 
             // Assert
-            Assert.AreEqual<int>(2, visitor.InvalidLiterals.Count());
+            Assert.AreEqual<int>(2, report.NrOfErrors);
         }
 
         [TestMethod]
@@ -64,14 +65,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new LiteralChecker();
+            var checker = new LiteralChecker();
+            var report = new ValidationReport();
 
             // Act
-            visitor.Visit(form);
+            checker.Validate(form, report);
 
             // Assert
-            Assert.AreEqual<int>(1, visitor.InvalidLiterals.Count());
+            Assert.AreEqual<int>(1, report.NrOfErrors);
         }
-    
     }
 }

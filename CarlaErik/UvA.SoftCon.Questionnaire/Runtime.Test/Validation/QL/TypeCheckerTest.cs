@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Text;
+using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.Runtime.Validation.QL;
 
@@ -10,30 +11,27 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
     /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.Runtime.Validation.TypeCheckingVisitor"/> class.
     /// </summary>
     [TestClass]
-    public class TypeCheckingVisitorTest
+    public class TypeCheckerTest
     {
         [TestMethod]
         public void TestNegatedIfStatement()
         {
             // Arrange
             var ql = new StringBuilder();
-            ql.AppendLine("bool isHappy = true");
+            ql.AppendLine("isHappy \"Are you happy?\" bool");
             ql.AppendLine("if(!isHappy)");
             ql.AppendLine("{ }");
 
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
-
-            var visitor = new TypeChecker();
+            var typeChecker = new TypeChecker();
+            var report = new ValidationReport();
 
             // Act
-            visitor.Visit(form);
+            typeChecker.Validate(form, report);
 
             // Assert
-            Assert.AreEqual<int>(0, visitor.InvalidBinaryExpressions.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidDefinitions.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidIfStatements.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidUnaryExpressions.Count());
+            Assert.AreEqual<int>(0, report.NrOfErrors);
         }
 
         [TestMethod]
@@ -41,18 +39,15 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
         {
             // Arrange
             var controller = new QLController();
-            var form = controller.ParseQLString("string test = \"Piet\" + \"Jansen\"");
-
-            var visitor = new TypeChecker();
+            var form = controller.ParseQLString("name = \"What's your name?\" string = \"Piet\" + \"Jansen\"");
+            var typeChecker = new TypeChecker();
+            var report = new ValidationReport();
 
             // Act
-            visitor.Visit(form);
+            typeChecker.Validate(form, report);
 
             // Assert
-            Assert.AreEqual<int>(0, visitor.InvalidBinaryExpressions.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidDefinitions.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidIfStatements.Count());
-            Assert.AreEqual<int>(0, visitor.InvalidUnaryExpressions.Count());
+            Assert.AreEqual<int>(0, report.NrOfErrors);
         }
     }
 }
