@@ -13,7 +13,7 @@ public class QLSParseTreeListener extends QLSBaseListener {
         this.qlAST = qlAST;
     }
 
-    private Stack<Node> nodeStack = new Stack<>();
+    private Stack<QLSNode> nodeStack = new Stack<>();
     private AST qlAST = null;
     private AST qlsAST = null;
     private QLSStylesheet ast = null;

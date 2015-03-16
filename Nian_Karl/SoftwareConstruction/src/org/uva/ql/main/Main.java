@@ -9,7 +9,6 @@ import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.GUIVisitor;
 
 public class Main {
@@ -22,11 +21,11 @@ public class Main {
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
-		TypeChecker typeChecker = new TypeChecker();
-		if (questionnaire.accept(typeChecker)) {
+//		TypeChecker typeChecker = new TypeChecker();
+//		if (questionnaire.accept(typeChecker)) {
 			GUIVisitor guiVisitor = new GUIVisitor();
 			questionnaire.accept(guiVisitor);
-		}
-		typeChecker.printMessages();
+//		}
+//		typeChecker.printMessages();
 	}
 }

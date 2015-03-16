@@ -28,9 +28,7 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 		this.textField = new JTextField();
 		this.widgetListener = listener;
 		textField.setPreferredSize(new Dimension(100, 25));
-		if (!isDependent()) {
-			textField.getDocument().addDocumentListener(this);
-		}
+		textField.getDocument().addDocumentListener(this);
 		textField.setVisible(true);
 	}
 
@@ -41,16 +39,12 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		if (!isDependent()) {
-			notifyListener(e);
-		}
+		notifyListener(e);
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		if (!isDependent()) {
-			notifyListener(e);
-		}
+		notifyListener(e);
 	}
 
 	@Override
@@ -69,7 +63,7 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 
 	@Override
 	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType()) && isDependent()) {
+		if (!type.isEqual(new UndefinedType())) {
 			getWidget().setText(value.toString());
 		}
 	}

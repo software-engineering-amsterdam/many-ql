@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
-import org.uva.student.calinwouter.qlqls.ql.model.StaticFieldsList;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
@@ -12,7 +12,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import java.util.Stack;
 
 public class PExpTypeChecker extends ReversedDepthFirstAdapter {
-    private final StaticFieldsList staticFieldsList;
+    private final StaticFields staticFields;
     private final Stack<TypeDescriptor> typeDescriptors;
     private final TypeCheckResults typeCheckResults;
 
@@ -175,15 +175,15 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     }
 
     private void pushIdentifierType(String ident) {
-        final TypeDescriptor typeDescriptor = staticFieldsList.getVariableType(ident);
+        final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(ident);
         if (typeDescriptor == null) {
             addError(ident + " is not declared.");
         }
         pushType(typeDescriptor);
     }
 
-    public PExpTypeChecker(StaticFieldsList staticFieldsList, TypeCheckResults typeCheckResults) {
-        this.staticFieldsList = staticFieldsList;
+    public PExpTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
+        this.staticFields = staticFields;
         this.typeDescriptors = new Stack<TypeDescriptor>();
         this.typeCheckResults = typeCheckResults;
     }

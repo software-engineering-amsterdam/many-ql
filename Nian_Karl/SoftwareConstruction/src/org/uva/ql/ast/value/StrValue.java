@@ -9,7 +9,7 @@ public class StrValue extends Value {
 	}
 
 	@Override
-	public String getValue() {
+	public String value() {
 		return value;
 	}
 
@@ -25,7 +25,7 @@ public class StrValue extends Value {
 
 	@Override
 	public Value strEqual(StrValue arg) {
-		return new BoolValue(arg.getValue().equals(getValue()));
+		return new BoolValue(arg.value().equals(value()));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class StrValue extends Value {
 
 	@Override
 	public Value strNotEqual(StrValue arg) {
-		return new BoolValue(!arg.getValue().equals(getValue()));
+		return new BoolValue(!arg.value().equals(value()));
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class StrValue extends Value {
 	}
 
 	public Value StrPlus(StrValue arg) {
-		return new StrValue(arg.getValue() + getValue());
+		return new StrValue(arg.value() + value());
 	}
 
 	@Override

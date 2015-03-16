@@ -100,6 +100,8 @@ public abstract class AQuestionPane extends GridPane {
      */
     protected abstract Node createInputControl();
 
+    protected abstract boolean matchesInput(String input);
+
     protected void questionAnswered(String result) {
         if (result == null || result.trim().isEmpty()){
             store.updateAnswer(question.getId(), null);
@@ -155,35 +157,5 @@ public abstract class AQuestionPane extends GridPane {
             );
         }
         return frames;
-    }
-
-    /*
-     * Input Validation for user input
-     */
-    private final String DATE_PATTERN = "\\d?\\d[\\./-]\\d?\\d[\\./-]\\d\\d\\d\\d";
-    private  final String NUMBER_PATTERN = "-?\\d+(\\.\\d+)?";
-
-    public boolean matches(Type questionType, String input){
-        if (input.trim().isEmpty())
-            return true;
-        switch (questionType){
-            case NUMERAL:
-                return matchesNumber(input);
-            case DATE:
-                return matchesDate(input);
-            case STRING:
-                return true;
-        }
-        return false;
-    }
-
-    private boolean matchesDate(String input){
-        if (input.matches(DATE_PATTERN))
-            return true;
-        return false;
-    }
-
-    private boolean matchesNumber(String input){
-        return input.matches(NUMBER_PATTERN);
     }
 }
