@@ -33,20 +33,21 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 	private static final String UNDEFINED_QUESTION = "undefinedQuestion";
 	private static final String MATCHING_DATA_TYPES = "matchingDataTypes";
 
-	private Set<String> questionLabels = new HashSet<>();
+	private final Set<String> questionLabels = new HashSet<>();
 
-	private Set<String> questionNames = new HashSet<String>();
+	private final Set<String> questionNames = new HashSet<String>();
 
-	private List<TypeValidation> validations = new ArrayList<>();
+	private final List<TypeValidation> validations = new ArrayList<>();
 
-	private List<Question> questions = new ArrayList<>();
+	private final Questionnaire questionnaire;
 
 	public TypeChecker(Questionnaire questionnaire) {
-		this.questions = questionnaire.getAllQuestions();
+		this.questionnaire = questionnaire;
 	}
 
 	public List<TypeValidation> checkTypes() {
-		for (Question question : questions) {
+		List<Question> allQuestions = questionnaire.getAllQuestions();
+		for (Question question : allQuestions) {
 			questionNames.add(question.getName());
 			checkForDuplicateLabel(question);
 			checkDataTypes(question);
@@ -89,7 +90,7 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 	public DataType visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
 
-		Question question = getQuestion(name, questions);
+		Question question = getQuestion(name);
 		if (question != null) {
 			if (!questionNames.contains(name)) {
 				String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
@@ -105,8 +106,9 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 		}
 	}
 
-	private Question getQuestion(String name, List<Question> questions) {
-		for (Question question : questions) {
+	private Question getQuestion(String name) {
+		List<Question> allQuestions = questionnaire.getAllQuestions();
+		for (Question question : allQuestions) {
 			if (questionHasName(question, name)) {
 				return question;
 			}
