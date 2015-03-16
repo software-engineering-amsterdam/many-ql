@@ -11,10 +11,9 @@ import scalafx.scene.{Node, Scene}
 
 class FormGUI(label: Label, nodes: List[Node]) extends JFXApp {
 
-  val Width: Int = 600
-  val Height: Int = 450
   val Padding: Int = 10
 
+  // TODO: expand grid if fields become visible
   val grid = new GridPane {
     padding = Insets(Padding)
     for ((node, i) <- nodes.zipWithIndex) {
@@ -24,8 +23,6 @@ class FormGUI(label: Label, nodes: List[Node]) extends JFXApp {
 
   stage = new PrimaryStage {
     title.value = label
-    width = Width
-    height = Height
-    scene = new Scene(grid, Width, Height, Color.LIGHTGRAY)
+    scene = new Scene(grid, Color.LIGHTGRAY)
   }
 }
