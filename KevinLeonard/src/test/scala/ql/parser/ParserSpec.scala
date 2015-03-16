@@ -135,8 +135,10 @@ class ParserSpec extends Specification with ParserMatchers {
     }
 
     "be valid without a not operator" in {
-      parsers.not must succeedOn("true")
-        .withResult(BooleanLiteral(BooleanValue(true)))
+      val notOperation = "true"
+      val result = BooleanLiteral(BooleanValue(true))
+
+      parsers.not must succeedOn(notOperation).withResult(result)
     }
   }
 
@@ -283,11 +285,17 @@ class ParserSpec extends Specification with ParserMatchers {
 
   "negation parser" should {
     "be valid with an unary negation" in {
-      negation must succeedOn("-1").withResult(Negation(NumberLiteral(NumberValue(1))))
+      val expression = "-1"
+      val result = Negation(NumberLiteral(NumberValue(1)))
+
+      negation must succeedOn("-1").withResult(result)
     }
 
     "be valid without an unary negation" in {
-      negation must succeedOn("1").withResult(NumberLiteral(NumberValue(1)))
+      val expression = "1"
+      val result = NumberLiteral(NumberValue(1))
+
+      negation must succeedOn("1").withResult(result)
     }
   }
 
@@ -321,8 +329,10 @@ class ParserSpec extends Specification with ParserMatchers {
     }
 
     "give negation precedence over sum" in {
-      expression must succeedOn("-1 + 3")
-        .withResult(Add(Negation(NumberLiteral(NumberValue(1))), NumberLiteral(NumberValue(3))))
+      val expression = "-1 + 3"
+      val result = Add(Negation(NumberLiteral(NumberValue(1))), NumberLiteral(NumberValue(3)))
+
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "give product precedence over sum" in {
