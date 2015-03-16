@@ -22,7 +22,7 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
 	private final JButton saveData;
 	
-	public GUIRenderer(ValueRepository valueRepository) {
+	private GUIRenderer(ValueRepository valueRepository) {
 		this.panel = new JPanel();
 		this.panel.setLayout(new MigLayout( "wrap 2, hidemode 3")); 
 		this.saveData = new JButton("Save questionnaire");
@@ -30,7 +30,7 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
 	
-	public static JPanel maker(Form form, ValueRepository valueRepository) {
+	public static JPanel make(Form form, ValueRepository valueRepository) {
 		GUIRenderer visitor = new GUIRenderer(valueRepository);
 		form.accept(visitor);
 		return visitor.getPanel();
@@ -54,7 +54,7 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addSaveButton() {
 		saveData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-			   SaveButtonListener save = new SaveButtonListener(valueRepository);
+			   new SaveButtonListener(valueRepository);
 			}
 		});
 		this.panel.add(saveData, "span 2, align center");

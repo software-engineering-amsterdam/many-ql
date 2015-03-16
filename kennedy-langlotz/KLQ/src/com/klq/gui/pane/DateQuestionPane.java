@@ -2,7 +2,6 @@ package com.klq.gui.pane;
 
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.DateValue;
-import com.klq.gui.InputValidator;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import javafx.scene.Node;
@@ -38,8 +37,12 @@ public class DateQuestionPane extends AQuestionPane {
             datePicker.setDisable(true);
         }
         datePicker.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
-                if (InputValidator.matches(question.getType(), newValue))
+                if (matchesInput(newValue)){
+                    datePicker.setStyle("-fx-border-color: cornflowerblue");
                     questionAnswered(newValue);
+                } else {
+                    datePicker.setStyle("-fx-border-color: red");
+                }
         });
 
         question.visibleProperty().addListener((observable, oldValue, newValue) -> {
@@ -49,5 +52,13 @@ public class DateQuestionPane extends AQuestionPane {
 
         container.getChildren().add(datePicker);
         return container;
+    }
+
+    @Override
+    protected boolean matchesInput(String input) {
+        String pattern = "\\d?\\d[\\./-]\\d?\\d[\\./-]\\d\\d\\d\\d";
+        if (input.matches(pattern))
+            return true;
+        return false;
     }
 }

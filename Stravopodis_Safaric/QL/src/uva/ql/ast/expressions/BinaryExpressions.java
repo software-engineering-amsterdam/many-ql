@@ -11,6 +11,7 @@ public abstract class BinaryExpressions extends Expression{
 	public BinaryExpressions(Expression _left, Expression _right, Operator _operator, 
 			CodeLines _codeLines) {
 		super(_codeLines);
+		
 		this.left = _left;
 		this.right = _right;
 		this.operator = _operator;
@@ -27,6 +28,7 @@ public abstract class BinaryExpressions extends Expression{
 	public Operator getOperator(){
 		return this.operator;
 	}
+	
 	@Override
 	public abstract GenericValue<?> evaluate();
 }

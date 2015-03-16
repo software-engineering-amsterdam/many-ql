@@ -30,7 +30,7 @@ class TypeCheckerSpec extends Specification {
     }
 
     "return error and add variable + type to environment, if statement is computed boolean question with invalid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType())))
+      check(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType())))
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
@@ -38,7 +38,7 @@ class TypeCheckerSpec extends Specification {
     }
 
     "return error and add variable + type to environment, if statement is computed number question with invalid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false)))), EmptyEnvironment) must beEqualTo((List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType())))
+      check(Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType())))
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
@@ -46,7 +46,7 @@ class TypeCheckerSpec extends Specification {
     }
 
     "return error and add variable + type to environment, if statement is computed string question with invalid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(new Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType())))
+      check(Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType())))
     }
 
     "return empty environment, if valid boolean condition" in {
@@ -54,11 +54,11 @@ class TypeCheckerSpec extends Specification {
     }
 
     "return error, if invalid boolean condition" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), EmptyEnvironment) must beEqualTo((List(new Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
+      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), EmptyEnvironment) must beEqualTo((List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
     }
 
     "return error, if error in if block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None), EmptyEnvironment) must beEqualTo((List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment))
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment))
     }
 
     "return empty environment, if valid boolean condition (with else block)" in {
@@ -66,15 +66,15 @@ class TypeCheckerSpec extends Specification {
     }
 
     "return error, if invalid boolean condition (with else block)" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo((List(new Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
+      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo((List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
     }
 
     "return error, if error in if block (with else block)" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo(List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo(List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
     }
 
     "return error, if error in else block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))))), EmptyEnvironment) must beEqualTo(List(new Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))))), EmptyEnvironment) must beEqualTo(List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
     }
 
     "add variable + type to environment " in {
@@ -298,6 +298,20 @@ class TypeCheckerSpec extends Specification {
     }
   }
 
+  "negation expressions" should {
+    "type check on -1" in {
+      check(Negation(NumberLiteral(NumberValue())), EmptyEnvironment) must beRight(NumberType())
+    }
+
+    "not type check on strings" in {
+      check(Negation(StringLiteral(StringValue())), EmptyEnvironment) must beLeft
+    }
+
+    "not type check on booleans" in {
+      check(Negation(BooleanLiteral(BooleanValue())), EmptyEnvironment) must beLeft
+    }
+  }
+
   "variable expressions" should {
     "lookup booleans" in {
       val variable = Variable("X")
@@ -325,7 +339,7 @@ class TypeCheckerSpec extends Specification {
     "detect duplicate question declarations" in {
       val question = Question(BooleanType(), Variable("X"), "label", None)
       val environmentWithQuestion = Map("X" -> BooleanType())
-      val errors = List(new Error("Variable X is already defined", Some(NoPosition)))
+      val errors = List(Error("Variable X is already defined", Some(NoPosition)))
 
       check(question, environmentWithQuestion) must beEqualTo((errors, environmentWithQuestion))
     }

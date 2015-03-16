@@ -19,6 +19,7 @@ class Evaluator {
     case Sub(lhs, rhs) => doArithmeticOperation(_ - _, lhs, rhs, env)
     case Mul(lhs, rhs) => doArithmeticOperation(_ * _, lhs, rhs, env)
     case Div(lhs, rhs) => doArithmeticOperation(_ / _, lhs, rhs, env)
+    case Negation(e1) => doArithmeticOperation(-_, e1, env)
     case Variable(name) => env getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
     case BooleanLiteral(v) => v
     case NumberLiteral(v) => v
@@ -52,6 +53,13 @@ class Evaluator {
     (eval(lhs, env), eval(rhs, env)) match {
       case (NumberValue(v1), NumberValue(v2)) => BooleanValue(op(v1, v2))
       case _ => throw new AssertionError("Error in type checker. Relational operator expects two number values.")
+    }
+  }
+
+  def doArithmeticOperation(op: Int => Int, e: Expression, env: EvalEnvironment): NumberValue = {
+    eval(e, env) match {
+      case NumberValue(v) => NumberValue(op(v))
+      case _ => throw new AssertionError("Error in type checker. Arithmetic operator expects a number value.")
     }
   }
 

@@ -1,7 +1,7 @@
 package gui.widgets;
 
 import ast.type.ChoiceType;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 import ast.type.ITypeVisitor;
 import ast.type.TextType;
 import ast.type.Type;
@@ -26,19 +26,19 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
 	@Override
 	public TextFieldWidget visit(TextType type) { 
-		this.valueRepository.putID(id, new StringValue(""));
+		this.valueRepository.putValue(id, new StringValue(""));
 		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
 	}
 
 	@Override
-	public IntegerFieldWidget visit(DigitsType type) {
-		this.valueRepository.putID(id, new IntegerValue(0));
+	public IntegerFieldWidget visit(IntegerType type) {
+		this.valueRepository.putValue(id, new IntegerValue(0));
 		return new IntegerFieldWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
 	public ChoiceWidget visit(ChoiceType type) {
-		this.valueRepository.putID(id, new BooleanValue(false));
+		this.valueRepository.putValue(id, new BooleanValue(false));
 		return new ChoiceWidget(id, this.label, type, this.valueRepository);
 	}
 
