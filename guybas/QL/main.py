@@ -4,10 +4,14 @@ import QL.Tools.type_checker as type_checker
 import QL.config as c
 import QL.Factory.forms as form_factory
 import pyparsing as pp
+import QL.Runtime.form as runtime_form
+
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
 print(form.pretty_print())
+
+runtime_form.Form(form)
 
 # typeChecker = type_checker.TypeChecker(form)
 # typeChecker.is_valid_form()
