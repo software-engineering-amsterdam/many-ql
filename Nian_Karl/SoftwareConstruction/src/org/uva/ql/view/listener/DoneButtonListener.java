@@ -9,11 +9,17 @@ import org.json.simple.JSONObject;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 
-public class ButtonWidgetListener extends WidgetListener implements ActionListener {
+public class DoneButtonListener implements ActionListener {
+
+	private final Evaluator evaluator;
+
+	public DoneButtonListener(Evaluator evaluator) {
+		super();
+		this.evaluator = evaluator;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Evaluator evaluator = getEvaluator();
 		JSONObject json = new JSONObject();
 		for (String key : evaluator.getMap().keySet()) {
 			Value value = evaluator.getValue(key);
@@ -30,4 +36,5 @@ public class ButtonWidgetListener extends WidgetListener implements ActionListen
 		}
 		System.out.println(json);
 	}
+
 }

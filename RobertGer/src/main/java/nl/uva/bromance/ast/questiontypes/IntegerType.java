@@ -35,7 +35,7 @@ public class IntegerType implements QuestionType {
         if (answer != null) {
             tf.setText(answer);
         }
-        if (visualizer.getFocusId() != null && visualizer.getFocusId().equals(id)) {
+        if (visualizer.getFocusId() == q.hashCode()){
             visualizer.setFocusedNode(tf);
         }
 
@@ -45,7 +45,7 @@ public class IntegerType implements QuestionType {
                 tf.setText(oldValue);
             } else {
                 answerMap.put(id, newValue);
-                visualizer.visualize(id);
+                visualizer.visualize(q.hashCode());
             }
         });
         parent.getChildren().add(tf);

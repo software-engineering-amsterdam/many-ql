@@ -61,6 +61,9 @@ public class QLTypeChecker {
 
     private void checkQuestionTypes() {
         List<Question> questions = this.formData.getQuestions();
+        // this.formData.getAllQuestionTypes() cannot be reused since
+        // duplicate keys are simply overwritten there. The place to detect them
+        // is here.
         Map<String, Type> questionTypes = new HashMap<>();
 
         for (Question question : questions) {

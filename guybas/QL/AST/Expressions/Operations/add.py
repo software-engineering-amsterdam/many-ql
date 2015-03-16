@@ -1,14 +1,8 @@
-import QL.AST.Expressions.Elements.element as e
 import QL.Grammar.constants as constants
+import QL.AST.Expressions.Operations.binary_expression as b
 
 
-class Add(e.Element):
-    def __init__(self, operand1, operand2):
-        self._operand1 = operand1
-        self._operand2 = operand2
-
-    def pretty_print(self, level=0):
-        return self._operand1 + " + " + self._operand2
+class Add(b.BinaryExpression):
 
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
