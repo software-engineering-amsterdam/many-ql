@@ -64,15 +64,14 @@ public class GUIBuilder implements IMediator {
     private void addQuestionToForm(UIQuestion _uiQuestion) {
         if (!questionsInForm.contains(_uiQuestion)) {
             questionsInForm.add(_uiQuestion);
-            uiForm.addQuestion(_uiQuestion);
+            _uiQuestion.addToForm(uiForm);
         }
     }
 
     private void removeQuestionFromForm(UIQuestion _uiQuestion) {
         if (questionsInForm.contains(_uiQuestion)) {
             questionsInForm.remove(_uiQuestion);
-            _uiQuestion.resetState();
-            uiForm.removeQuestion(_uiQuestion);
+            _uiQuestion.removeFromForm(uiForm);
         }
     }
 

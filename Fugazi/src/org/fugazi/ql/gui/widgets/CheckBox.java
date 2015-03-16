@@ -2,6 +2,7 @@ package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 
 import javax.swing.*;
 import java.awt.event.ItemListener;
@@ -19,8 +20,13 @@ public class CheckBox implements IWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        return component;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.component);
+    }
+
+    @Override
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.component);
     }
 
     @Override
