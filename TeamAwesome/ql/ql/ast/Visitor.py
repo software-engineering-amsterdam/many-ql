@@ -1,8 +1,14 @@
 class ExpressionVisitor:
-    def visitUnaryExpression(self, node):
+    def visitUnaryExpressionBegin(self, node):
         pass
 
-    def visitBinaryExpression(self, node):
+    def visitUnaryExpressionEnd(self, node):
+        pass
+
+    def visitBinaryExpressionBegin(self, node):
+        pass
+
+    def visitBinaryExpressionEnd(self, node):
         pass
 
     def visitBoolean(self, node):
@@ -22,13 +28,22 @@ class ExpressionVisitor:
     
 
 class StatementVisitor:
-    def visitQuestionnaire(self, questionnaire):
+    def visitQuestionnaireBegin(self, questionnaire):
         pass
 
-    def visitFormStatement(self, node):
+    def visitQuestionnaireEnd(self, questionnaire):
         pass
 
-    def visitIfStatement(self, node):
+    def visitFormStatementBegin(self, node):
+        pass
+
+    def visitFormStatementEnd(self, node):
+        pass
+
+    def visitIfStatementBegin(self, node):
+        pass
+
+    def visitIfStatementEnd(self, node):
         pass
 
     def visitQuestionStatement(self, node):

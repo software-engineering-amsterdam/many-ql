@@ -1,8 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
-import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.ComboWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.RadioWidget;
@@ -11,7 +10,6 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwid
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SpinboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;

@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
@@ -46,7 +47,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     public Component render(StaticQuestionField staticQuestionField) {
         final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper);
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper, this);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
@@ -59,7 +60,8 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
                     identifier,
                     null,
                     valueRepresentingLabelWidget,
-                    variableTableWrapper);
+                    variableTableWrapper,
+                    this);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 

@@ -82,7 +82,9 @@ public class DependencyList {
 	public List<Identifier> getCyclicDependentIdentifiers() {
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 		for (DependencyPair pair : getTransitiveClosure()) {
-			
+			if (pair.isCyclicDependent()) {
+				identifiers.add(pair.getDominant());
+			}
 		}
 		
 		return identifiers;

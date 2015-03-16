@@ -30,9 +30,17 @@ public class Main {
 		if (questionnaire.accept(typeChecker)) {
 			GUIVisitor guiVisitor = new GUIVisitor();
 			questionnaire.accept(guiVisitor);
+<<<<<<< HEAD
+		}
+		typeChecker.printMessages();
+||||||| merged common ancestors
+//		}
+//		typeChecker.printMessages();
+=======
 		}
 		typeChecker.printMessages();
 
+>>>>>>> b0dcee3df62a4a5cfbefc84e2ed8dd6c04bd998e
 	}
 
 }
