@@ -20,8 +20,8 @@ import org.antlr.v4.runtime.Recognizer;
 
 public class QuestionnaireParser {
 
-	public QuestionnaireParsingResult parse(String location) throws IOException {
-		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(location));
+	public QuestionnaireParsingResult parse(String pathname) throws IOException {
+		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(pathname));
 		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(lexer));
 
 		List<SyntaxError> syntaxErrors = new ArrayList<>();
