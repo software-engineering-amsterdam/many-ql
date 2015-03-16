@@ -1,4 +1,4 @@
-package typechecker.errors;
+package gui.errors;
 
 public class TaZQLError {
 	private final String errorMessage;
