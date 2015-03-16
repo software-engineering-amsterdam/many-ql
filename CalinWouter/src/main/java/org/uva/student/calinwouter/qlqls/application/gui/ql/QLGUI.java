@@ -28,7 +28,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
-        for (AbstractStaticFormField f : fieldsList.getStaticFormFields()) {
+        for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
         }
         return panel;
