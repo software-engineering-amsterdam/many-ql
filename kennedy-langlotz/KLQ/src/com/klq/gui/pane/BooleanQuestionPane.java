@@ -2,24 +2,19 @@ package com.klq.gui.pane;
 
 import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.controller.Store;
-import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
-import com.klq.logic.question.Type;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 
 /**
  * Created by Timon on 09.03.2015.
  */
-public class SetQuestionPane extends AQuestionPane {
+public class BooleanQuestionPane extends AQuestionPane {
     private final static int TOGGLE_SPACING = 5;
 
-    public SetQuestionPane(Question question, Store store) {
+    public BooleanQuestionPane(Question question, Store store) {
         super(question, store);
     }
 
@@ -38,13 +33,10 @@ public class SetQuestionPane extends AQuestionPane {
 
     private ToggleGroup createToggleGroup(VBox container){
         ToggleGroup group = new ToggleGroup();
-
-        OptionSet optionSet = question.getOptions();
-        for (int i=0; i< optionSet.size(); i++) {
-            Value answer = optionSet.get(i).evaluate(store.getVariables());
-            RadioButton rb = createRadioButton(answer.toString(), group);
-            container.getChildren().add(rb);
-        }
+        RadioButton yesButton = createRadioButton("Yes", group);
+        RadioButton noButton = createRadioButton("No", group);
+        container.getChildren().add(yesButton);
+        container.getChildren().add(noButton);
 
         return group;
     }

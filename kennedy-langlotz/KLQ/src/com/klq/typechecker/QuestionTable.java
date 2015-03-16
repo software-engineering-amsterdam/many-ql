@@ -1,4 +1,4 @@
-package com.klq.typecheker;
+package com.klq.typechecker;
 
 import com.klq.ast.impl.QuestionNode;
 import com.klq.logic.question.Type;

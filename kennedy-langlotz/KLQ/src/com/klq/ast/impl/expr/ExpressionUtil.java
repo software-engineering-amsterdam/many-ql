@@ -24,7 +24,6 @@ public class ExpressionUtil {
             case NUMERAL:
                 return createNumberFromString(value);
             case STRING:
-            case SET:
                 return new StringValue(value);
         }
         throw new IllegalArgumentException("Type is not a valid type! Type: " + type);

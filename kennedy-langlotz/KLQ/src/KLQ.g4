@@ -8,7 +8,6 @@ TEXT        : 'text' ;
 TYPE        : 'type' ;
 VALUE       : 'value' ;
 
-SET         : 'set' ;
 BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
 STRING      : 'string' ;
@@ -49,7 +48,7 @@ uncondQuestion
           'id'       ':' id=QuestionId      NEWLINE
           'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
-         ('value'    ':' answerOptions      NEWLINE)?
+         ('value'    ':' expr               NEWLINE)?
       End
     ;
 
@@ -65,8 +64,7 @@ QuestionId
     ;
 
 questionType
-    : 'set'
-    | 'boolean'
+    : 'boolean'
     | 'date'
     | 'string'
     | 'numeral'
@@ -95,10 +93,6 @@ expr
     | Date #Date
     | String #String
     | QuestionId #id
-    ;
-
-answerOptions
-    : expr (', ' expr)*
     ;
 
 Int : Digit+

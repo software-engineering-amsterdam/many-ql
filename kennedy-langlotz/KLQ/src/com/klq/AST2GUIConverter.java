@@ -27,11 +27,6 @@ import java.util.HashMap;
  * Created by juriaan on 17-2-15.
  */
 public class AST2GUIConverter implements IVisitor<IKLQItem> {
-    private HashMap<String, IdentifierNode> identifiers;
-
-    public AST2GUIConverter(){
-        this.identifiers = new HashMap<String, IdentifierNode>();
-    }
 
     /*==================================================================================================================
     Statements
@@ -83,7 +78,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        return new Question(id, type, null, text);
+        return new Question(id, type, text);
     }
 
     @Override
@@ -92,11 +87,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        OptionSet options = new OptionSet();
-        for(AExpression child : node.getChildren()){
-            options.add(child);
-        }
-        return new Question(id, type, options, text);
+        return new Question(id, type, text, node.getComputedAnswer());
     }
 
     @Override

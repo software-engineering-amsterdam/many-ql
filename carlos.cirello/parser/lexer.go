@@ -116,7 +116,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = LessThanToken
 	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" ||
 		txt == "+" || txt == "-" || txt == "*" || txt == "/" ||
-		txt == "=" || txt == "!" || txt == "." {
+		txt == "=" || txt == "!" || txt == "." || txt == "%" {
 		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||
 		strings.HasPrefix(txt, doubleQuotedChar) ||
