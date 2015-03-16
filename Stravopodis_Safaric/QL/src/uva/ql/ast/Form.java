@@ -4,7 +4,6 @@ import java.util.List;
 
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.*;
 
 public class Form extends ASTNode{
@@ -29,15 +28,6 @@ public class Form extends ASTNode{
 	
 	public List<Statement> getStatement(){
 		return this.statement;
-	}
-	
-	public CodeLines getCodeLines(){
-		return this.codeLines;
-	}
-	
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
 	}
 	
 	public <T> T accept(StatementVisitorInterface<T> visitor){

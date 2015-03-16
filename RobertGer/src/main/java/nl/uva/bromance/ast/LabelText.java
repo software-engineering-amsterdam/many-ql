@@ -1,14 +1,17 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LabelText extends Node {
+public class LabelText extends QLNode {
     private String text;
     private List<String> variables;
 
@@ -49,17 +52,25 @@ public class LabelText extends Node {
             }
         }
         System.out.print("]} \n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 
         return null;
+    }
+
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

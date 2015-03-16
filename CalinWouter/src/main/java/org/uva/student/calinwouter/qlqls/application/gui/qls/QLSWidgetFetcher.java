@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
@@ -22,52 +23,54 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final Question question;
     private final QLInterpreter qlIntepreter;
-    private final VariableTable symbolTable;
+    private final VariableTableWrapper variableTableWrapper;
     private final StylingSettings stylingSettings;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        return new LabelWithWidgetWidget(question, stylingSettings, embeddedWidget, qlIntepreter);
+        //TODO change this
+        //return new LabelWithWidgetWidget(question.getIdent(), stylingSettings, embeddedWidget, variableTableWrapper);
+        return null;
     }
 
     @Override
     public IWidget createWidget(Checkbox checkbox) {
-        return createLabelWithWidgetWidget(new CheckboxWidget(question, qlIntepreter, symbolTable));
+        return createLabelWithWidgetWidget(new CheckboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
     }
 
     @Override
     public IWidget createWidget(Radio radio) {
-        return createLabelWithWidgetWidget(new RadioWidget(question, qlIntepreter, symbolTable, radio));
+        return createLabelWithWidgetWidget(new RadioWidget(question, qlIntepreter, variableTableWrapper, radio));
     }
 
     @Override
     public IWidget createWidget(Slider slider) {
-        return createLabelWithWidgetWidget(new SliderWidget(question, qlIntepreter, symbolTable, slider));
+        return createLabelWithWidgetWidget(new SliderWidget(question, qlIntepreter, variableTableWrapper, slider));
     }
 
     @Override
     public IWidget createWidget(Spinbox spinbox) {
-        return createLabelWithWidgetWidget(new SpinboxWidget(question, qlIntepreter, symbolTable));
+        return createLabelWithWidgetWidget(new SpinboxWidget(question, qlIntepreter, variableTableWrapper));
     }
 
     @Override
     public IWidget createWidget(Textbox textbox) {
-        return createLabelWithWidgetWidget(new TextboxWidget(question, qlIntepreter, symbolTable));
+        return createLabelWithWidgetWidget(new TextboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
     }
 
     @Override
     public IWidget createWidget(Combo combo) {
-        return createLabelWithWidgetWidget(new ComboWidget(question, qlIntepreter, symbolTable, combo));
+        return createLabelWithWidgetWidget(new ComboWidget(question, qlIntepreter, variableTableWrapper, combo));
     }
 
     @Override
     public IWidget createWidget(Intbox intbox) {
-        return createLabelWithWidgetWidget(new IntboxWidget(question, qlIntepreter, symbolTable));
+        return createLabelWithWidgetWidget(new IntboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
     }
 
-    public QLSWidgetFetcher(QLInterpreter qlIntepreter, VariableTable symbolTable, Question question,
+    public QLSWidgetFetcher(QLInterpreter qlIntepreter, VariableTableWrapper variableTableWrapper, Question question,
                             StylingSettings stylingSettings) {
         this.qlIntepreter = qlIntepreter;
-        this.symbolTable = symbolTable;
+        this.variableTableWrapper = variableTableWrapper;
         this.question = question;
         this.stylingSettings = stylingSettings;
     }

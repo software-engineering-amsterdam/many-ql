@@ -9,42 +9,6 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
 
 namespace UvA.SoftCon.Questionnaire.QLS
 {
-    public interface IQLSVisitor
-    {
-        void VisitStyleSheet(StyleSheet styleSheet);
-
-        void VisitPage(Page page);
-
-        void VisitSection(Section section);
-
-        void VisitQuestionReference(QuestionReference reference);
-
-        void VisitIdentifier(Identifier identifier);
-
-        void VisitDefaultStyle(DefaultStyle defaultStyle);
-
-        void VisitColorStyle(ColorStyle colorStyle);
-
-        void VisitFontName(FontName fontName);
-
-        void VisitFontSize(FontSize fontSize);
-
-        void VisitWidth(Width width);
-
-        void VisitCalendar(Calendar calendar);
-
-        void VisitCheckBox(CheckBox checkBox);
-
-        void VisitDropDown(DropDown dropDown);
-
-        void VisitRadioButtons(RadioButtons radioButtons);
-
-        void VisitSpinBox(SpinBox spinBox);
-
-        void VisitTextBox(TextBox textBox);
-    }
-
-
     public interface IQLSVisitor<T>
     {
         T VisitStyleSheet(StyleSheet styleSheet);

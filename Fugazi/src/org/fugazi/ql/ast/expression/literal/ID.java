@@ -35,5 +35,26 @@ public class ID extends Literal {
     public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitID(this);
     }
+
+    // this is necessary for mapping dependencies
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof ID)) {
+            return false;
+        }
+
+        ID other = (ID) obj;
+        return (
+                this.getName().equals(other.getName())
+                && this.getType().equals(other.getType())
+        );
+    }
+
+    @Override
+    public int hashCode() {
+        return (
+                this.getType().toString().hashCode() * name.hashCode()
+        );
+    }
 }
 

@@ -11,11 +11,11 @@ public class Identifier extends Literal {
 
 	private final String name;
 
-	public Identifier(String name,CodePosition pos) {
+	public Identifier(String name, CodePosition pos) {
 		super(pos);
 		this.name = name;
 	}
-	
+
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -24,7 +24,7 @@ public class Identifier extends Literal {
 	public Value getValue(Evaluator evaluator) {
 		return evaluator.getValue(name);
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
@@ -34,5 +34,11 @@ public class Identifier extends Literal {
 	public Type getType(TypeChecker typeChecker) {
 		return typeChecker.getType(name);
 	}
-	
+
+	@Override
+	public <T extends Value> T getValue() {
+		throw new UnsupportedOperationException(
+				"Can't return value of identifier, use the getValue(evaluator) to get the value.");
+	}
+
 }

@@ -1,7 +1,5 @@
 package com.klq.ast;
 
-import com.common.ast.Location;
-
 /**
  * Created by juriaan on 9-2-15.
  */
@@ -15,8 +13,6 @@ public abstract class ANode {
     public ANode(Location location) {
         this.location = location;
     }
-
-    public abstract <T> T  accept(IVisitor<T> visitor);
 
     public void printSelf() {
     }

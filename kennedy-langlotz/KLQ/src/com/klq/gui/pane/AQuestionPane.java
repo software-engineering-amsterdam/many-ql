@@ -4,6 +4,7 @@ import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
+import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -99,6 +100,8 @@ public abstract class AQuestionPane extends GridPane {
      */
     protected abstract Node createInputControl();
 
+    protected abstract boolean matchesInput(String input);
+
     protected void questionAnswered(String result) {
         if (result == null || result.trim().isEmpty()){
             store.updateAnswer(question.getId(), null);
@@ -155,5 +158,4 @@ public abstract class AQuestionPane extends GridPane {
         }
         return frames;
     }
-
 }

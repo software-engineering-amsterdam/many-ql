@@ -8,6 +8,7 @@ import java.util.List;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.question.*;
+import uva.ql.ast.statements.Question;
 import uva.ql.interpreter.observer.Observer;
 import uva.ql.interpreter.observer.Subject;
 import uva.ql.interpreter.typecheck.table.ExpressionTable;

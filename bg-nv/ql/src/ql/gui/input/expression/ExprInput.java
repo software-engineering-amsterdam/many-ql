@@ -45,4 +45,13 @@ public abstract class ExprInput extends Input implements Refreshable
         return true;
     }
 
+    public abstract void setValue(Value value);
+
+    @Override
+    public void refreshElement(ValueTable valueTable)
+    {
+        Value val = valueTable.getValue(this.getId());
+        this.setValue(val);
+    }
+
 }

@@ -2,34 +2,29 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.LinkedList;
 
 public class PStmtInterpreter extends AnalysisAdapter {
-    private final VariableTable variableTable;
-    private final ResultingFieldsCollection form;
+    private final VariableTable newVariableTable;
     private final PExpInterpreter expInterpreter;
+    private final StaticFields staticFields;
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
-        PTypeInterpreter typeInterpreter = new PTypeInterpreter();
-        node.getType().apply(typeInterpreter);
-        variableTable.setIfNotSet(node.getIdent().getText(), typeInterpreter.popValue().getDefaultValue());
-        form.addFormField(new QuestionField(node.getStr().getText(), node.getIdent().getText()));
+        Value value = staticFields.getTypeOfField(node.getIdent().getText()).getDefaultValue();
+        newVariableTable.setVariable(node.getIdent().getText(), value);
     }
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
-        PTypeInterpreter typeInterpreter = new PTypeInterpreter();
-        node.getExp().apply(expInterpreter);
-        variableTable.setVariable(node.getIdent().getText(), expInterpreter.popValue());
-        node.getType().apply(typeInterpreter);
-        form.addFormField(new ComputedValueField(node.getStr().getText(), node.getIdent().getText()));
+        Value value = staticFields.getTypeOfField(node.getIdent().getText()).getDefaultValue();
+        // Note the subtle difference: setVariable instead of setIfNotSet.
+        newVariableTable.setVariable(node.getIdent().getText(), value);
     }
 
     @Override
@@ -50,19 +45,15 @@ public class PStmtInterpreter extends AnalysisAdapter {
         }
     }
 
-    public PStmtInterpreter createStmtInterpreter() {
-        return new PStmtInterpreter(variableTable, form);
-    }
-
     private void executeStatements(LinkedList<PStmt> stmtList) {
         for (PStmt s : stmtList) {
-            s.apply(createStmtInterpreter());
+            s.apply(this);
         }
     }
 
-    public PStmtInterpreter(VariableTable variableTable, ResultingFieldsCollection form) {
-        this.expInterpreter = new PExpInterpreter(variableTable);
-        this.variableTable = variableTable;
-        this.form = form;
+    public PStmtInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
+        this.expInterpreter = new PExpInterpreter(oldVariableTable, newVariableTable);
+        this.newVariableTable = newVariableTable;
+        this.staticFields = staticFields;
     }
 }
