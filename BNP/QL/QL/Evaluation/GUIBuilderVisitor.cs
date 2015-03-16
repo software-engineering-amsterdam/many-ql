@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Errors;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
+using QL.Exceptions.Warnings;
 using QL.Model;
 using QL.Model.Operators;
-
 using QL.Model.Terminals;
+using QL.Visitors;
 
 namespace QL.Evaluation
 {
-    class TypeCheckerVisitor: IVisitor
+    public class GUIBuilderVisitor: IVisitor
     {
         public readonly IDictionary<Identifier, Type> TypeReference;
 
         public IList<QLException> Exceptions { get; private set; }
 
 
-        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLException> exceptions)
+        public GUIBuilderVisitor(IDictionary<Identifier, Type> typeReference, IList<QLException> exceptions)
         {
             TypeReference = typeReference;
             Exceptions = exceptions;
@@ -55,17 +54,17 @@ namespace QL.Evaluation
 
             if (TypeReference[node.Identifier]!=DetermineType((dynamic)node.Expression)){
                 Exceptions.Add(new TypeCheckerError(String.Format(
-                "Expression inside the statement declared as {0}, but resolves into type {1} instead", 
-                TypeReference[node.Identifier], 
-                DetermineType((dynamic)node.Expression))));
+                    (string)"Expression inside the statement declared as {0}, but resolves into type {1} instead", 
+                    (object)TypeReference[node.Identifier], 
+                    (object)DetermineType((dynamic)node.Expression))));
             }
 
         }
 
         public void Visit(QuestionUnit node)
         {
-            DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
-
+            TypeReference[node.Identifier] = DetermineType((dynamic)node.DataType);
+            return; // nothing to check
         }
 
         public void Visit(Expression node)
@@ -79,7 +78,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
+                Exceptions.Add(new TypeCheckerError(String.Format((string)"Incompatible operands on equality operation:{0} and {1}", (object)DetermineType((dynamic)node.Left), (object)DetermineType((dynamic)node.Right)), node));
             }
         }
 
@@ -150,29 +149,18 @@ namespace QL.Evaluation
 
         public void Visit(PlusOperator node)
         {
-            ICollection<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator +", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on addition operator", node));
             }
-            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
-            {
-                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
-            }           
-            
         }
 
         public void Visit(MinusOperator node)
         {
-            ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator -", node));
+                Exceptions.Add(new TypeCheckerError("Non-number operands on subtraction operator", node));
             }
-            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
-            {
-                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
-            }  
         }
 
         public void Visit(AndOperator node)

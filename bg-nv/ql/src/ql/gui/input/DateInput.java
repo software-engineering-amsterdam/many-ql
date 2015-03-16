@@ -12,14 +12,14 @@ import ql.semantics.values.Value;
 // TODO
 public class DateInput extends RegularInput<String>
 {
-    public DateInput(String id)
+    public DateInput(String id, Control control)
     {
-        this(id, true, false);
+        this(id, control, true, false);
     }
 
-    public DateInput(String id, Boolean visible, Boolean disabled)
+    public DateInput(String id, Control control, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
+        super(id, control, visible, disabled);
     }
 
     @Override

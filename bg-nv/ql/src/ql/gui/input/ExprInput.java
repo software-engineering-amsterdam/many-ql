@@ -6,7 +6,6 @@ import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.gui.control.Control;
-import ql.gui.input.Input;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
 import ql.semantics.values.Value;
@@ -62,7 +61,7 @@ public class ExprInput extends Input implements Refreshable
     protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
-        box.getChildren().add(this.control.getGuiElement());
+        box.getChildren().add(this.control.getControlNode());
         box.setAlignment(Pos.TOP_RIGHT);
         box.setVisible(this.getVisible());
         return box;

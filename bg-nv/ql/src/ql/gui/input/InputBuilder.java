@@ -33,7 +33,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(DateType type)
     {
-        return new DateInput(this.id);
+        return new DateInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override
