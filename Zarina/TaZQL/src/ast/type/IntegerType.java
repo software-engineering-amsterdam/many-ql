@@ -1,8 +1,8 @@
 package ast.type;
 
-public class DigitsType extends Type {
+public class IntegerType extends Type {
 		
-	public DigitsType() {}
+	public IntegerType() {}
 	
 	@Override
 	public String getValue() {

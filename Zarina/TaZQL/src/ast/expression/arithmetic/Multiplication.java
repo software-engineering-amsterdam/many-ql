@@ -1,14 +1,14 @@
 package ast.expression.arithmetic;
 
-import ast.expression.BinaryExpression;
+import ast.expression.Binary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 
 
-public class MultiplicationExpression extends BinaryExpression {
+public class Multiplication extends Binary {
 	
-	public MultiplicationExpression (Expression leftExp, Expression rightExp) {
+	public Multiplication (Expression leftExp, Expression rightExp) {
 		super(leftExp, rightExp);
 	}
 	
@@ -23,7 +23,7 @@ public class MultiplicationExpression extends BinaryExpression {
 	}
 	
 	@Override
-	public DigitsType getExpressionType() {
-		return new DigitsType();
+	public IntegerType getType() {
+		return new IntegerType();
 	}
 }
