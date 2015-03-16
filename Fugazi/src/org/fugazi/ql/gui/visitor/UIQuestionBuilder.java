@@ -4,15 +4,12 @@ import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IStatementVisitor;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
+import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.GUIEvaluator;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.ui_elements.*;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.ITypeVisitor;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
@@ -52,6 +49,10 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>, ITypeV
         IWidget widget = this.widgetsFactory.getDefaultWidgetForQuestion(this.question);
         return new UITextQuestion(
                 this.mediator, this.question, widget);
+    }
+
+    public UIQuestion visitUndefinedType(UndefinedType undefinedType) {
+        return null;
     }
 
     /**

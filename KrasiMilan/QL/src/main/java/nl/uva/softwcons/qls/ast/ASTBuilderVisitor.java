@@ -94,7 +94,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     public Question visitQuestionWithoutWidget(QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
 
-        return new Question(id);
+        return new Question(id, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -102,7 +102,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final Widget widget = (Widget) ctx.widget().accept(this);
 
-        return new Question(id, widget);
+        return new Question(id, widget, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override

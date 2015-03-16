@@ -107,7 +107,7 @@ public class QLSTypeChecker {
         return invalidDefaultWidgetAssignments;
     }
 
-    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor<?> valueTypeDescriptor,
+    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor valueTypeDescriptor,
                                                               final Defaults defaults) {
         final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
         final AbstractWidget widget = (AbstractWidget) defaults.getDefaultStyleSheetSettings().get(valueTypeDescriptor).get("widget");

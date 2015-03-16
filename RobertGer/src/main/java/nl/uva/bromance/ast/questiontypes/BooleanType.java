@@ -2,11 +2,14 @@ package nl.uva.bromance.ast.questiontypes;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.ast.Question;
 import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
+import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Robert on 9-3-2015.
@@ -23,8 +26,30 @@ public class BooleanType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice) {
-        parent.getChildren().add(new CheckBox());
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
+
+        CheckBox cb = new CheckBox();
+        String id = q.getIdentifier().get().getId();
+
+        String answer = answerMap.get(id);
+        if (answer != null) {
+            if (answer.equals("true")){
+                cb.setSelected(true);
+            }
+        }
+        if (visualizer.getFocusId() == q.hashCode()){
+            visualizer.setFocusedNode(cb);
+        }
+
+        cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == true){
+                answerMap.put(id,"true");
+            } else {
+                answerMap.put(id,"false");
+            }
+            visualizer.visualize(q.hashCode());
+        });
+        parent.getChildren().add(cb);
     }
 
 }

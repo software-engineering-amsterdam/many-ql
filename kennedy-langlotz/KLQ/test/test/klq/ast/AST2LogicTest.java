@@ -1,8 +1,8 @@
 package test.klq.ast;
 
 import com.klq.AST2GUIConverter;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import org.junit.Before;

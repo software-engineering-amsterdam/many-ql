@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
     {
         public override QuestionForm VisitForm(QLParser.FormContext context)
         {
-            var statements = new List<IStatement>();
+            var statements = new List<Statement>();
 
             foreach (var child in context.stat())
             {
