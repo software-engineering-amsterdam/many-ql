@@ -7,16 +7,15 @@ import nl.uva.bromance.ast.conditionals.HasIdentifier;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
+import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class Question extends Node implements HasIdentifier {
+public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
     private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
@@ -71,20 +70,20 @@ public class Question extends Node implements HasIdentifier {
             System.out.print("\t");
         }
         System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
         if (isVisible) {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
             parent.getChildren().add(l);
             // Add the actual input field
-            questionType.addQuestionToPane(parent, multipleChoiceOptions);
+            questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
         }
         return Optional.empty();
     }
@@ -138,12 +137,21 @@ public class Question extends Node implements HasIdentifier {
     public void setMultipleChoiceOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
             String customOption = option.getText();
-            multipleChoiceOptions.add(new StringResult(customOption)); // Remove double quotes around string.
+            customOption = customOption.substring(1, customOption.length() - 1); // Remove double quotes around the question.
+            multipleChoiceOptions.add(new StringResult(customOption));
         }
         CustomResult result = new CustomResult(multipleChoiceOptions);
         this.identifier.setResult(result);
         this.identifier.getId();
     }
 
+    //Duplication in all Nodes
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
 }
 

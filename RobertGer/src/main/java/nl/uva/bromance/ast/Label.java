@@ -5,13 +5,14 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Label extends Node implements CanContainConditionals {
+public class Label extends QLNode implements CanContainConditionals {
     private String identifier;
 
     private IfStatement ifStatement;
@@ -34,7 +35,7 @@ public class Label extends Node implements CanContainConditionals {
             System.out.print("\t");
         }
         System.out.print("[Label] { Name : " + this.identifier + " }\n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }
@@ -66,5 +67,13 @@ public class Label extends Node implements CanContainConditionals {
     @Override
     public void setElseStatement(ElseStatement es) {
         elseStatement = es;
+    }
+
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

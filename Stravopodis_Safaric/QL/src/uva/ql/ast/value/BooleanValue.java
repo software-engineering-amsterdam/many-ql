@@ -1,6 +1,7 @@
 package uva.ql.ast.value;
 
-import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.type.TypeBoolean;
+
 
 public class BooleanValue extends GenericValue<Boolean> {
 
@@ -8,14 +9,6 @@ public class BooleanValue extends GenericValue<Boolean> {
 	
 	public BooleanValue(boolean _value){
 		this.value = _value;
-	}
-	
-	public static BooleanValue booleanValueFromExpr(Expression expr){
-		return new BooleanValue((boolean)expr.evaluate().getValue());
-	}
-	
-	public static boolean isBooleanValue(Expression expr){
-		return expr.evaluate().getClass() == BooleanValue.class;
 	}
 	
 	public BooleanValue and(BooleanValue value){
@@ -31,5 +24,16 @@ public class BooleanValue extends GenericValue<Boolean> {
 	}
 
 	@Override
-	public int intValue() {return 0;}
+	public TypeBoolean getValueType() {
+		return new TypeBoolean();
+	}
+
+	@Override
+	public boolean equalsTo(GenericValue<?> value) {
+		if (value == null){
+			return false;
+		}
+		return value.getValue() == this.getValue();
+	}
+
 }

@@ -9,7 +9,7 @@ import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
 
-public class WidgetListener implements IWidgetListener {
+public class WidgetListener implements IWidgetListener{
 
 	private Evaluator evaluator;
 	private TypeChecker typeChecker;

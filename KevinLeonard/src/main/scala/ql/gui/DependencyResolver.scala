@@ -15,10 +15,11 @@ class DependencyResolver {
     case LessThanEqual(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case GreaterThan(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case GreaterThanEqual(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
-    case ql.ast.Add(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Add(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case Sub(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case Mul(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case Div(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Negation(e1) => resolve(e1, ds)
     case Variable(name) => name :: ds
     case _: Literal => ds
   }

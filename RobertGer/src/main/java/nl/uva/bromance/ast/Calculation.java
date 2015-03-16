@@ -4,13 +4,14 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Calculation extends Node implements CanContainConditionals {
+public class Calculation extends QLNode implements CanContainConditionals {
     private String identifier;
 
     private IfStatement ifStatement;
@@ -61,5 +62,14 @@ public class Calculation extends Node implements CanContainConditionals {
     @Override
     public void setElseStatement(ElseStatement es) {
         elseStatement = es;
+    }
+
+    //TODO: Find fix for childType
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

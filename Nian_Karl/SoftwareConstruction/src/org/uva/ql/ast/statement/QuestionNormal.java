@@ -42,6 +42,6 @@ public class QuestionNormal extends Statement {
 	}
 	
 	public String getText() {
-		return label.getValue();
+		return label.toString();
 	}
 }

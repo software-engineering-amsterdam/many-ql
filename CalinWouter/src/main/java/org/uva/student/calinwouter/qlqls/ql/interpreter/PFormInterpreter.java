@@ -3,8 +3,8 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 
 import java.util.LinkedList;
 
@@ -19,7 +19,7 @@ public class PFormInterpreter extends AnalysisAdapter {
         }
     }
 
-    public PFormInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable) {
-        this.stmtInterpreter = new PStmtInterpreter(oldVariableTable, newVariableTable);
+    public PFormInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
+        this.stmtInterpreter = new PStmtInterpreter(oldVariableTable, newVariableTable, staticFields);
     }
 }

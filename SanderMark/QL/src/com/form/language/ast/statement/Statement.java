@@ -1,9 +1,8 @@
 package com.form.language.ast.statement;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.ASTNode;
 import com.form.language.ast.type.Type;
+import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
@@ -13,7 +12,7 @@ public abstract class Statement extends ASTNode {
     public abstract void initMemory(Context context);
     public abstract Type getType(Context context);
 
-    protected Statement(Token tokenInfo) {
+    protected Statement(QLToken tokenInfo) {
 	super(tokenInfo);
     }
 }

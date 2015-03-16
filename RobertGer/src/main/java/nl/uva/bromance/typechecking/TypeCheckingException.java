@@ -1,6 +1,6 @@
 package nl.uva.bromance.typechecking;
 
-import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
 
 public class TypeCheckingException extends Exception {
 
@@ -15,7 +15,7 @@ public class TypeCheckingException extends Exception {
     }
 
     public static class AlreadyDefinedTypeCheckingException extends TypeCheckingException {
-        public AlreadyDefinedTypeCheckingException(Node node, String identifier) {
+        public AlreadyDefinedTypeCheckingException(QLNode node, String identifier) {
             super("TypeChecker Error @ line " + node.getLineNumber() + ":" + node.getClass().getSimpleName() + " " + identifier + " was already defined with a different type.");
         }
 

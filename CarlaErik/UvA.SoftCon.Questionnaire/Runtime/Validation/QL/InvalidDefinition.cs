@@ -23,7 +23,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             private set;
         }
 
-        public IExpression Expression
+        public Expression Expression
         {
             get;
             private set;
@@ -35,7 +35,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             private set;
         }
 
-        public InvalidDefinition(Identifier id, IExpression expression, DataType targetType, DataType expressionType)
+        public InvalidDefinition(Identifier id, Expression expression, DataType targetType, DataType expressionType)
         {
             Id = id;
             Expression = expression;
