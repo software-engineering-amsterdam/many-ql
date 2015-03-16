@@ -60,53 +60,53 @@ public class Main {
         /** ---------------------
          * QLS
          * --------------------- */
-        String inputQLSFile = null;
-
-        if (args.length > 1)
-            inputQLSFile = args[1];
-
-        InputStream qlsInput = System.in;
-
-        if (inputQLFile != null)
-            qlsInput = new FileInputStream(inputQLSFile);
-
-         // Create The AST Builder.
-        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
-
-        // Build the AST.
-        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
-
-        // Get the styles.
-        DefaultStyleHandler defaultStyleDeclaration =
-                new DefaultStyleHandler(formDataStorage, styleSheet);
-        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
-
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
-
-        // Perform QLS type checking.
-        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                styleSheetData, formDataStorage
-        );
-
-        // display warnings and errors and if form is not type-correct, exit
-        printer = new ASTIssuePrinter(
-                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-        );
-        printer.displayWarningsAndErrors();
-
-        if (!isQLSFormTypesCorrect) {
-            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(-1);
-        }
+//        String inputQLSFile = null;
+//
+//        if (args.length > 1)
+//            inputQLSFile = args[1];
+//
+//        InputStream qlsInput = System.in;
+//
+//        if (inputQLFile != null)
+//            qlsInput = new FileInputStream(inputQLSFile);
+//
+//         // Create The AST Builder.
+//        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
+//
+//        // Build the AST.
+//        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+//
+//        // Get the styles.
+//        DefaultStyleHandler defaultStyleDeclaration =
+//                new DefaultStyleHandler(formDataStorage, styleSheet);
+//        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+//
+//        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
+//
+//        // Perform QLS type checking.
+//        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
+//        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
+//                styleSheetData, formDataStorage
+//        );
+//
+//        // display warnings and errors and if form is not type-correct, exit
+//        printer = new ASTIssuePrinter(
+//                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
+//        );
+//        printer.displayWarningsAndErrors();
+//
+//        if (!isQLSFormTypesCorrect) {
+//            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
+//            System.exit(-1);
+//        }
 
         // QL
-//        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
-//        guiBuilder.renderUI();
+        GUIBuilder guiBuilder = new GUIBuilder(form);
+        guiBuilder.renderUI();
 
         // QLS
-        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-        guiBuilder.renderUI();
+//        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+//        GUIBuilder guiBuilder = new GUIBuilder(form);
+//        guiBuilder.renderUI();
     }
 }
