@@ -6,13 +6,13 @@ namespace AST.Nodes.Expressions
     {
         private readonly BaseExpression child;
 
-        protected BaseUnary(BaseExpression child, Representation.PositionInText pos)
+        protected BaseUnary(BaseExpression child, PositionInText pos)
             :base(pos)
         { this.child = child; }
 
         public BaseExpression GetChildExpression()
         { return child; }
 
-        public override abstract T Accept<T>(ASTVisitors.IVisitor<T> visitor);
+        public abstract override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor);
     }
 }
