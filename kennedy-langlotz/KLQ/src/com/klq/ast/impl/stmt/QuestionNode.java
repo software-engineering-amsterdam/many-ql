@@ -1,8 +1,8 @@
 package com.klq.ast.impl.stmt;
 
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.Location;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Location;
+import com.klq.ast.impl.Type;
 
 /**
  * Created by juriaan on 10-2-15.
@@ -41,11 +41,11 @@ public class QuestionNode extends AStatementNode {
         System.out.println();
     }
 
-    public String getQuestionID() {
+    public String getID() {
         return questionID;
     }
 
-    public Type getQuestionType() {
+    public Type getType() {
         return questionType;
     }
 

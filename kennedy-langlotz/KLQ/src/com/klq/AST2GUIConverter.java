@@ -1,18 +1,9 @@
 package com.klq;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IStatementVisitor;
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.bool.*;
-import com.klq.ast.impl.expr.literal.DateNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.ast.impl.expr.literal.NumberNode;
-import com.klq.ast.impl.expr.literal.StringNode;
-import com.klq.ast.impl.expr.math.AddNode;
-import com.klq.ast.impl.expr.math.DivideNode;
-import com.klq.ast.impl.expr.math.MultiplyNode;
-import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.*;
@@ -69,8 +60,8 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(QuestionNode node) {
-        IdentifierValue id = new IdentifierValue(node.getQuestionID());
-        Type type = node.getQuestionType();
+        IdentifierValue id = new IdentifierValue(node.getID());
+        Type type = node.getType();
         Text text = new Text(node.getText());
 
         return new Question(id, type, text);
@@ -78,8 +69,8 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(ComputedQuestionNode node) {
-        IdentifierValue id = new IdentifierValue(node.getQuestionID());
-        Type type = node.getQuestionType();
+        IdentifierValue id = new IdentifierValue(node.getID());
+        Type type = node.getType();
         Text text = new Text(node.getText());
 
         return new Question(id, type, text, node.getComputedAnswer());

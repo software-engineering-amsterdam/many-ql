@@ -10,7 +10,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.ast.impl.stmt.*;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import com.klq.typechecker.error.*;
 
 import java.util.ArrayList;
@@ -68,17 +68,17 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(QuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
+        cyclicDetector.addKey(node.getID());
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
-        currentQuestion = node.getQuestionID();
+        cyclicDetector.addKey(node.getID());
+        currentQuestion = node.getID();
 
         Type childType = (Type) node.getComputedAnswer().accept(this);
-        if(childType != node.getQuestionType()){
+        if(childType != node.getType()){
             errors.add(new TypeMismatch(node, childType));
         }
 

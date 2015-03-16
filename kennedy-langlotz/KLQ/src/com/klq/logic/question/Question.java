@@ -1,7 +1,9 @@
 package com.klq.logic.question;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.IKLQItem;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,6 +12,7 @@ import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Timon on 10.02.2015.
@@ -23,8 +26,8 @@ public class Question implements IKLQItem{
     private final boolean computedQuestion;
     private final AExpression computedExpression;
 
-    private final SimpleBooleanProperty visibleProperty;
-    private final SimpleStringProperty computedProperty;
+    private final BooleanProperty visibleProperty;
+    private final StringProperty computedProperty;
 
     public Question(IdentifierValue id, Type type, Text text) {
         this(id, type, text, null);
@@ -49,7 +52,7 @@ public class Question implements IKLQItem{
         return computedQuestion;
     }
 
-    public IdentifierValue getId() {
+    public IdentifierValue getID() {
         return id;
     }
 
@@ -61,20 +64,47 @@ public class Question implements IKLQItem{
         return text;
     }
 
-    public List<AExpression> getDependencies() {
-        return dependencies;
-    }
-
     public void addDependency(AExpression dependency){
         dependencies.add(dependency);
+    }
+
+    public boolean dependenciesResolved(Map<String, Value> variables) {
+        for (AExpression d : dependencies) {
+            if (!isSatisfied(d, variables)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isSatisfied(AExpression expression, Map<String, Value> variables){
+        Value result = expression.evaluate(variables);
+
+        if (result.isUndefined()) {
+            return false;
+        } else {
+            return (boolean) result.getValue();
+        }
     }
 
     public AExpression getComputedExpression() {
         return computedExpression;
     }
 
+    public void setVisible(boolean visible){
+        this.visibleProperty.set(visible);
+    }
+
+    public boolean isVisible(){
+        return visibleProperty.get();
+    }
+
     public BooleanProperty visibleProperty(){
         return visibleProperty;
+    }
+
+    public void setComputedValue(String value) {
+        computedProperty().set(value);
     }
 
     public StringProperty computedProperty(){

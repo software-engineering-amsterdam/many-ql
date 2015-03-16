@@ -1,8 +1,7 @@
 package com.klq.ast.impl.stmt;
 
 import com.klq.ast.IStatementVisitor;
-import com.klq.ast.Location;
-import com.klq.ast.ANode;
+import com.klq.ast.impl.Location;
 
 import java.util.ArrayList;
 
