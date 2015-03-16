@@ -45,6 +45,7 @@ import ql.ast.type.*;
 import ql.ast.expression.literal.*;
 import ql.ast.expression.arithmetic.*;
 import ql.ast.expression.relational.*;
+import ql.ast.expression.booleanalgebra.*;
 import ql.ast.statement.*;
 
 @SuppressWarnings("all")
