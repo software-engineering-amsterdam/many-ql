@@ -21,10 +21,7 @@ import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.statement.Statement;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.parser.QLBaseVisitor;
 import org.fugazi.ql.parser.QLParser;
 
@@ -42,7 +39,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     private Type getIdentifierType(String _name) {
-        return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
+        return identifiers.containsKey(_name) ? identifiers.get(_name) : new UndefinedType();
     }
     
     private String removeStringQuotes(String _str) {
