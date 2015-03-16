@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.visitor;
+package org.uva.sea.ql.encoders.validation;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
