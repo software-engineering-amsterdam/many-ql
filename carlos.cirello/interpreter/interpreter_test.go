@@ -167,6 +167,35 @@ func TestReservedWords(t *testing.T) {
 	)
 }
 
+func TestModuloOperator(t *testing.T) {
+	form := `
+	form SomeForm {
+		"q1" q1 numeric
+
+		if (q1 % 2 == 0) {
+			"modulo 0" q2 string
+		}
+		if (q1 % 2 != 0) {
+			"modulo not 0" q3 string
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,2`,
+		`q1,q1,2`+"\n"+
+			`q2,modulo 0,`+"\n",
+	)
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,3`,
+		`q1,q1,3`+"\n"+
+			`q3,modulo not 0,`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {
