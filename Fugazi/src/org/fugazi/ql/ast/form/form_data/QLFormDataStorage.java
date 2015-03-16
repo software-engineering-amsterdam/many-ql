@@ -65,12 +65,6 @@ public class QLFormDataStorage {
     }
 
     public HashMap<String, Type> getallQuestionTypes() {
-        List<Question> questions = this.getAllQuestions();
-        HashMap<String, Type> questionTypes = new HashMap<>();
-
-        for (Question question : questions) {
-            questionTypes.put(question.getIdName(), question.getType());
-        }
-        return questionTypes;
+        return this.questionsVisitor.getQuestionTypes();
     }
 }
