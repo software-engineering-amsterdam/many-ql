@@ -42,10 +42,10 @@ ifStatement returns [Statement result]
 assignmentStatement returns [Statement result]
 : ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result,new QLToken($ID.line,$ID.pos));}
 ;
-	
+
 expression returns [Expression result]
 // Parentheses
-  : LBRACE x=expression RBRACE				{ $result = $x.result;}
+  : LBRACE x=expression RBRACE { $result = $x.result;}
 //	Unary
   |	op=(MINUS | EXCL) x=expression	{
   		switch($op.text){
@@ -53,14 +53,14 @@ expression returns [Expression result]
 			case "EXCL": 	$result = new Not($x.result,new QLToken($EXCL.line,$EXCL.pos));
 		}
   	}
- // Multiplication Division
+// Multiplication Division
   | l=expression op=(MULT | DIV) r=expression {
   	  	switch($op.text){
 			case "MULT": 	$result = new Multiplication($l.result, $r.result, new QLToken($MULT.line,$MULT.pos));
 			case "DIV": 	$result = new Division($l.result, $r.result, new QLToken($DIV.line,$DIV.pos));
 		}
 	}
- // Addition Substraction
+// Addition Substraction
   | l=expression op=(PLUS | MINUS) r=expression { 
 	  	switch($op.text){
 			case "PLUS":  	$result = new Addition($l.result, $r.result, new QLToken($PLUS.line,$PLUS.pos));
