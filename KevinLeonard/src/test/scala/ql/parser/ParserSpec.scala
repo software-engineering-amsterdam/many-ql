@@ -101,6 +101,11 @@ class ParserSpec extends Specification with ParserMatchers {
       parsers.not must succeedOn("not true")
         .withResult(Not(BooleanLiteral(BooleanValue(true))))
     }
+
+    "be valid without a not operator" in {
+      parsers.not must succeedOn("true")
+        .withResult(BooleanLiteral(BooleanValue(true)))
+    }
   }
 
   "equality parser" should {
@@ -206,6 +211,16 @@ class ParserSpec extends Specification with ParserMatchers {
     }
   }
 
+  "negation parser" should {
+    "be valid with an unary negation" in {
+      negation must succeedOn("-1").withResult(Negation(NumberLiteral(NumberValue(1))))
+    }
+
+    "be valid without an unary negation" in {
+      negation must succeedOn("1").withResult(NumberLiteral(NumberValue(1)))
+    }
+  }
+
   "expressions" should {
     "be valid with a literal" in {
       expression must succeedOn("true")
@@ -225,6 +240,11 @@ class ParserSpec extends Specification with ParserMatchers {
     "be valid with multiple different operators" in {
       expression must succeedOn("true and true and false or true")
         .withResult(Or(And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true))))
+    }
+
+    "give negation precedence over sum" in {
+      expression must succeedOn("-1 + 3")
+        .withResult(Add(Negation(NumberLiteral(NumberValue(1))), NumberLiteral(NumberValue(3))))
     }
 
     "give product precedence over sum" in {

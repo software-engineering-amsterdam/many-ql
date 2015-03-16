@@ -298,6 +298,20 @@ class TypeCheckerSpec extends Specification {
     }
   }
 
+  "negation expressions" should {
+    "type check on -1" in {
+      check(Negation(NumberLiteral(NumberValue())), EmptyEnvironment) must beRight(NumberType())
+    }
+
+    "not type check on strings" in {
+      check(Negation(StringLiteral(StringValue())), EmptyEnvironment) must beLeft
+    }
+
+    "not type check on booleans" in {
+      check(Negation(BooleanLiteral(BooleanValue())), EmptyEnvironment) must beLeft
+    }
+  }
+
   "variable expressions" should {
     "lookup booleans" in {
       val variable = Variable("X")
