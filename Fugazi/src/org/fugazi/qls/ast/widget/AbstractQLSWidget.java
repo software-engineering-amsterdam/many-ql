@@ -3,7 +3,9 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.IWidget;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.UndefinedStyle;
@@ -61,22 +63,27 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract void applyStyle(Style _style);
 
     @Override
-    public JComponent getJComponent() {
+    public void render(UIForm _canvas) {
         throw new AssertionError();
     }
 
     @Override
-    public ExpressionValue getValue() {
+    public void supress(UIForm _canvas){
         throw new AssertionError();
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public ExpressionValue getWidgetValue() {
         throw new AssertionError();
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
+    public void setWidgetValue(ExpressionValue _value) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void addEventListener(WidgetsEventListener _listener) {
         throw new AssertionError();
     }
     

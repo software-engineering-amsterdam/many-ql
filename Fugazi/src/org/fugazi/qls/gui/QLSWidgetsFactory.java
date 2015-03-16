@@ -18,7 +18,7 @@ public class QLSWidgetsFactory extends WidgetsFactory {
     }
     
     @Override
-    public IWidget getDefaultWidgetForQuestion(Question _question) {
+    public IWidget getWidgetForQuestion(Question _question) {
         String label = _question.getLabel();
         AbstractQLSWidget widget = (AbstractQLSWidget) getQlsWidget(_question.getIdName());
         widget.setLabel(label);
@@ -27,11 +27,11 @@ public class QLSWidgetsFactory extends WidgetsFactory {
     }
 
     @Override
-    public IWidget getDefaultWidgetForQuestion(Question _question, ExpressionValue _value) {
+    public IWidget getWidgetForQuestion(Question _question, ExpressionValue _value) {
         String label = _question.getLabel();
         AbstractQLSWidget widget = (AbstractQLSWidget) getQlsWidget(_question.getIdName());
         widget.setLabel(label);
-        widget.setValue(_value);
+        widget.setWidgetValue(_value);
         widget.setReadOnly(true);
 
         return widget;

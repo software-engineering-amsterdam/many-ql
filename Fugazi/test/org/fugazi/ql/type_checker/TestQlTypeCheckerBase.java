@@ -33,7 +33,6 @@ public abstract class TestQlTypeCheckerBase {
         }
         this.filePath = this.path.concat(this.fileName);
         this.inputFile = new File("").getAbsolutePath().concat(this.filePath);
-        qlChecker = new QLTypeChecker();
         QLASTBuilder QLASTBuilder = null;
 
         // load a form
@@ -43,7 +42,7 @@ public abstract class TestQlTypeCheckerBase {
                 input = new FileInputStream(inputFile);
             // Create The AST Builder.
             QLASTBuilder = new QLASTBuilder(input);
-        } catch     (IOException  ex) {
+        } catch (IOException  ex) {
             ex.printStackTrace();
         }
 
@@ -52,6 +51,7 @@ public abstract class TestQlTypeCheckerBase {
         this.formDataStorage = new QLFormDataStorage(this.form);
 
         // perform type check
-        qlChecker.checkForm(this.form, this.formDataStorage);
+        qlChecker = new QLTypeChecker(this.form, this.formDataStorage);
+        qlChecker.checkForm();
     }
 }
