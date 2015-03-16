@@ -9,7 +9,7 @@ import ql.gui.control.TextField;
  */
 public class InputBuilder implements TypeVisitor<Input>
 {
-    private String id;
+    private final String id;
     private final Boolean VISIBLE = true;
     private final Boolean DISABLED = false;
 

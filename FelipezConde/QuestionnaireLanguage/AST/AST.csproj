@@ -44,18 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASTResult.cs" />
-    <Compile Include="ASTVisitors\Interfaces\FormObjectVisitor.cs" />
-    <Compile Include="ASTVisitors\Interfaces\ExpressionVisitor.cs" />
-    <Compile Include="ASTVisitors\Interfaces\FormVisitor.cs" />
+    <Compile Include="ASTVisitors\Interfaces\IFormObjectVisitor.cs" />
+    <Compile Include="ASTVisitors\Interfaces\IExpressionVisitor.cs" />
+    <Compile Include="ASTVisitors\Interfaces\IFormVisitor.cs" />
     <Compile Include="Nodes\Expressions\Binary.cs" />
     <Compile Include="Nodes\Expressions\Unary.cs" />
-    <Compile Include="Nodes\FormObject\FormObject.cs" />
-    <Compile Include="Nodes\Interfaces\IVisitable.cs" />
+    <Compile Include="Nodes\FormObjects\FormObject.cs" />
     <Compile Include="Nodes\Expressions\Id.cs" />
     <Compile Include="Nodes\ASTNode.cs" />
     <Compile Include="Types\UndefinedType.cs" />
-    <Compile Include="Nodes\Interfaces\IFormObjectContainer.cs" />
-    <Compile Include="Nodes\Interfaces\IHasType.cs" />
+    <Compile Include="Nodes\IFormObjectContainer.cs" />
+    <Compile Include="Nodes\IHasType.cs" />
     <Compile Include="Types\BoolType.cs" />
     <Compile Include="Types\IntType.cs" />
     <Compile Include="Types\Type.cs" />
@@ -86,16 +85,15 @@
     <Compile Include="Nodes\Expressions\Binary\Or.cs" />
     <Compile Include="Nodes\Expressions\Unary\Priority.cs" />
     <Compile Include="Nodes\Form.cs" />
-    <Compile Include="Nodes\FormObject\Conditional.cs" />
-    <Compile Include="Nodes\FormObject\Question.cs" />
+    <Compile Include="Nodes\FormObjects\Conditional.cs" />
+    <Compile Include="Nodes\FormObjects\Question.cs" />
     <Compile Include="Nodes\Literals\Bool.cs" />
     <Compile Include="Nodes\Literals\Int.cs" />
     <Compile Include="Nodes\Literals\String.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Representation\PositionInText.cs" />
+    <Compile Include="PositionInText.cs" />
     <Compile Include="Test\ParserErrorListener.cs" />
     <Compile Include="Test\TestClass.cs" />
-    <Compile Include="ASTVisitors\BaseVisitor.cs" />
     <Compile Include="ASTVisitors\IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 package ql.tests.evaluator;
 
 import ql.semantics.ValueTable;
+import ql.semantics.ValueTableEntry;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
 import ql.tests.TestHelper;
@@ -57,7 +58,7 @@ public class Logical
     public void undefinedNot()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefValue());
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
         UndefValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -66,7 +67,7 @@ public class Logical
     public void undefinedAnd()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefValue());
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
         UndefValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -75,7 +76,7 @@ public class Logical
     public void undefinedOr()
     {
         ValueTable table = new ValueTable();
-        table.storeValue("hasHouse", new UndefValue());
+        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
         UndefValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", table), UndefValue.class);
         assertNotNull(v);
     }

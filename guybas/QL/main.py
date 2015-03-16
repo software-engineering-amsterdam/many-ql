@@ -3,7 +3,7 @@ import pyparsing as pp
 import QL.Grammar.grammar as grammar
 import QL.config as c
 import QL.Grammar.Factory.forms as form_factory
-
+import QL.Runtime.form as runtime_form
 
 #
 # p = grammar.expr.parseString("not 5 + 3 * 2 - 1 == 4")
@@ -15,6 +15,7 @@ form = form_factory.make_form(formAsParseResults)
 # print(form.pretty_print())
 
 form.is_valid_form()
+runtime_form.Form(form)
 
 # typeChecker = type_checker.TypeChecker(form)
 # typeChecker.is_valid_form()

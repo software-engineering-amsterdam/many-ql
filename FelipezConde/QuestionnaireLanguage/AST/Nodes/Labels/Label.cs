@@ -1,5 +1,4 @@
-﻿using AST.Representation;
-
+﻿
 namespace AST.Nodes.Labels
 {
     public class Label : ASTNode

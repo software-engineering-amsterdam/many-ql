@@ -1,9 +1,8 @@
 ﻿using AST.Nodes.Expressions;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
-using AST.Representation;
 
-namespace AST.Nodes.FormObject
+namespace AST.Nodes.FormObjects
 {
     public class Question : FormObject, IHasType
     {
@@ -24,11 +23,7 @@ namespace AST.Nodes.FormObject
             this.Label = label;
             this.Computation = computation;
         }
-
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        { return visitor.Visit(this); }
-
-        public override T Accept<T>(ASTVisitors.Interfaces.FormObjectVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.Interfaces.IFormObjectVisitor<T> visitor)
         { return visitor.Visit(this); }
 
 

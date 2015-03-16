@@ -2,9 +2,8 @@
 
 namespace AST.ASTVisitors.Interfaces
 {
-    public interface FormVisitor<T>
+    public interface IFormVisitor<T>
     {
         T Visit(Form node);
-
     }
 }

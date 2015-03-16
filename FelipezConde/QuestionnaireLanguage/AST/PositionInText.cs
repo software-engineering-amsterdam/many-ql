@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime;
 using System;
 
-namespace AST.Representation
+namespace AST
 {
     public struct PositionInText
     {
