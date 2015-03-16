@@ -2,6 +2,9 @@ package com.klq.typechecker;
 
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.stmt.*;
+import com.klq.typechecker.error.AError;
+
+import java.util.List;
 
 /**
  * Created by Juriaan on 28-2-2015.
@@ -9,8 +12,12 @@ import com.klq.ast.impl.stmt.*;
 public class QuestionMapper implements IStatementVisitor<Void> {
     private QuestionTable table;
 
-    public QuestionMapper(QuestionTable table) {
-        this.table = table;
+    public QuestionMapper(List<AError> errors) {
+        this.table = new QuestionTable(errors);
+    }
+
+    public QuestionTable getTable() {
+        return table;
     }
 
     @Override
@@ -23,13 +30,13 @@ public class QuestionMapper implements IStatementVisitor<Void> {
 
     @Override
     public Void visit(QuestionNode node) {
-        table.add(node.getQuestionID(), node);
+        table.add(node.getID(), node);
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        table.add(node.getQuestionID(), node);
+        table.add(node.getID(), node);
         return null;
     }
 

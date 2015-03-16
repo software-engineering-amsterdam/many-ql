@@ -3,7 +3,7 @@ stylesheet Trouwerij {
   page Gasten {
     
     section Aanwezig {
-      question aanwezig? { 
+      question aanwezig { 
         widget: checkbox 
       }
       question aantal_personen { 
@@ -11,7 +11,7 @@ stylesheet Trouwerij {
       }
     }
     section ZinIn {
-      question zin_in? { 
+      question zin_in { 
         widget: checkbox 
       }
     }
@@ -19,6 +19,12 @@ stylesheet Trouwerij {
       question naam { 
         widget: checkbox 
       }
+    }
+    default boolean {
+  
+      font: "Arial"
+      fontsize: 14
+      widget: spinbox
     }
   }
 }

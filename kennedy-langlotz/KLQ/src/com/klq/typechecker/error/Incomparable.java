@@ -1,7 +1,7 @@
 package com.klq.typechecker.error;
 
 import com.klq.ast.impl.expr.ABinaryExprNode;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 
 /**
  * Created by Juriaan on 1-3-2015.

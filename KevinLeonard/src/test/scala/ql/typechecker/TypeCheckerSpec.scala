@@ -11,304 +11,457 @@ class TypeCheckerSpec extends Specification {
   import checker._
 
   val EmptyEnvironment: TypeEnvironment = Map()
+  val EmptyErrorList: List[Error] = List()
+  val AnyBoolean: BooleanLiteral = BooleanLiteral(BooleanValue())
+  val AnyNumber: NumberLiteral = NumberLiteral(NumberValue())
+  val AnyString: StringLiteral = StringLiteral(StringValue())
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> BooleanType())))
+      val question = Question(BooleanType(), Variable("X"), "label", None)
+      val result = (EmptyErrorList, Map("X" -> BooleanType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(Question(NumberType(), Variable("X"), "label", None), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> NumberType())))
+      val question = Question(NumberType(), Variable("X"), "label", None)
+      val result = (EmptyErrorList, Map("X" -> NumberType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(Question(StringType(), Variable("X"), "label", None), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> StringType())))
+      val question = Question(StringType(), Variable("X"), "label", None)
+      val result = (EmptyErrorList, Map("X" -> StringType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(true)))), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> BooleanType())))
+      val question = Question(BooleanType(), Variable("X"), "label", Some(AnyBoolean))
+      val result = (EmptyErrorList, Map("X" -> BooleanType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error and add variable + type to environment, if statement is computed boolean question with invalid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType())))
+      val question = Question(BooleanType(), Variable("X"), "label", Some(AnyNumber))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> BooleanType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> NumberType())))
+      val question = Question(NumberType(), Variable("X"), "label", Some(AnyNumber))
+      val result = (EmptyErrorList, Map("X" -> NumberType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error and add variable + type to environment, if statement is computed number question with invalid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(BooleanLiteral(BooleanValue(false)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType())))
+      val question = Question(NumberType(), Variable("X"), "label", Some(AnyBoolean))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> NumberType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(StringLiteral(StringValue("")))), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> StringType())))
+      val question = Question(StringType(), Variable("X"), "label", Some(AnyString))
+      val result = (EmptyErrorList, Map("X" -> StringType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error and add variable + type to environment, if statement is computed string question with invalid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType())))
+      val question = Question(StringType(), Variable("X"), "label", Some(AnyNumber))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map("X" -> StringType()))
+
+      check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), None), EmptyEnvironment) must beEqualTo((List[Error](), EmptyEnvironment))
+      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable("X"), "label", None), None)
+      val result = (EmptyErrorList, EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if invalid boolean condition" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), EmptyEnvironment) must beEqualTo((List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
+      val ifBlock = IfStatement(AnyNumber, Question(BooleanType(), Variable("X"), "label", None), None)
+      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in if block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), None), EmptyEnvironment) must beEqualTo((List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment))
+      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable("X"), "label", Some(AnyNumber)), None)
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return empty environment, if valid boolean condition (with else block)" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo((List[Error](), EmptyEnvironment))
+      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None)))
+      val result = (EmptyErrorList, EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if invalid boolean condition (with else block)" in {
-      check(IfStatement(NumberLiteral(NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo((List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment))
+      val ifBlock = IfStatement(AnyNumber, Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None)))
+      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in if block (with else block)" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo(List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable("X"), "label", Some(AnyNumber)), Some(Question(BooleanType(), Variable("X"), "label", None)))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "return error, if error in else block" in {
-      check(IfStatement(BooleanLiteral(BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(NumberLiteral(NumberValue(1)))))), EmptyEnvironment) must beEqualTo(List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(AnyNumber))))
+      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+
+      check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variable + type to environment " in {
-      check(Sequence(List(Question(BooleanType(), Variable("X"), "label", None))), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> BooleanType())))
+      val sequence = Sequence(List(Question(BooleanType(), Variable("X"), "label", None)))
+      val result = (EmptyErrorList, Map("X" -> BooleanType()))
+
+      check(sequence, EmptyEnvironment) must beEqualTo(result)
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), EmptyEnvironment) must beEqualTo((List[Error](), Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
+      val sequence = Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None)))
+      val result = (EmptyErrorList, Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()))
+
+      check(sequence, EmptyEnvironment) must beEqualTo(result)
     }
   }
 
   "expression" should {
     "type check multiple expressions" in {
-      val expression = Not(And(Variable("X"), GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))))
-      val environmentWithQuestion = Map("X" -> BooleanType())
-      check(expression, environmentWithQuestion) must beRight(BooleanType())
+      val expression = Not(And(Variable("X"), GreaterThan(AnyNumber, AnyNumber)))
+      val environment = Map("X" -> BooleanType())
+
+      check(expression, environment) must beRight(BooleanType())
     }
   }
 
   "literals" should {
     "type check on booleans" in {
-      check(BooleanLiteral(BooleanValue(true)), EmptyEnvironment) must beRight(BooleanType())
+      val literal = AnyBoolean
+
+      check(literal, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on numbers" in {
-      check(NumberLiteral(NumberValue(10)), EmptyEnvironment) must beRight(NumberType())
+      val literal = AnyNumber
+
+      check(literal, EmptyEnvironment) must beRight(NumberType())
     }
 
     "type check on strings" in {
-      check(StringLiteral(StringValue("Test")), EmptyEnvironment) must beRight(StringType())
+      val literal = AnyString
+
+      check(literal, EmptyEnvironment) must beRight(StringType())
     }
   }
 
   "or expressions" should {
     "type check on booleans" in {
-      check(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Or(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on booleans and expressions that resolve to booleans" in {
-      check(Or(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Or(Or(AnyBoolean, AnyBoolean), AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on other types" in {
-      check(Or(StringLiteral(StringValue("Test")), NumberLiteral(NumberValue(100))), EmptyEnvironment) must beLeft
+      val expression = Or(AnyString, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "and expressions" should {
     "type check on booleans" in {
-      check(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = And(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on booleans and expressions that resolve to booleans" in {
-      check(And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = And(And(AnyBoolean, AnyBoolean), AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on other types" in {
-      check(And(StringLiteral(StringValue("Test")), NumberLiteral(NumberValue(100))), EmptyEnvironment) must beLeft
+      val expression = And(AnyString, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "not expressions" should {
     "type check on booleans" in {
-      check(Not(BooleanLiteral(BooleanValue(true))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Not(AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on other types" in {
-      check(Not(StringLiteral(StringValue(""))), EmptyEnvironment)  must beLeft
+      val expression = Not(AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "equal expressions" should {
     "type check on booleans" in {
-      check(Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Equal(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on numbers" in {
-      check(Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Equal(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on strings" in {
-      check(Equal(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = Equal(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on two different types" in {
-      check(Equal(StringLiteral(StringValue("")), BooleanLiteral(BooleanValue(true))), EmptyEnvironment) must beLeft
+      val expression = Equal(AnyString, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "not equal expressions" should {
     "type check on booleans" in {
-      check(NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = NotEqual(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on numbers" in {
-      check(NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = NotEqual(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "type check on strings" in {
-      check(NotEqual(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = NotEqual(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on two different types" in {
-      check(NotEqual(StringLiteral(StringValue("")), BooleanLiteral(BooleanValue(true))), EmptyEnvironment) must beLeft
+      val expression = NotEqual(AnyString, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "less than expressions" should {
     "type check on numbers" in {
-      check(LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = LessThan(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on strings" in {
-      check(LessThan(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = LessThan(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(LessThan(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = LessThan(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "less than or equal expressions" should {
     "type check on numbers" in {
-      check(LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = LessThanEqual(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on strings" in {
-      check(LessThanEqual(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = LessThanEqual(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(LessThanEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = LessThanEqual(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "greater than expressions" should {
     "type check on numbers" in {
-      check(GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = GreaterThan(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on strings" in {
-      check(GreaterThan(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = GreaterThan(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(GreaterThan(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = GreaterThan(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "greater than or equal expressions" should {
     "type check on numbers" in {
-      check(GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(BooleanType())
+      val expression = GreaterThanEqual(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(BooleanType())
     }
 
     "not type check on strings" in {
-      check(GreaterThanEqual(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = GreaterThanEqual(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(GreaterThanEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = GreaterThanEqual(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "addition expressions" should {
     "type check on 1 + 1" in {
-      check(Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(NumberType())
+      val expression = Add(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "type check on 2 + 2 + 2" in {
-      check(Add(NumberLiteral(NumberValue(2)), Add(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(2)))), EmptyEnvironment) must beRight(NumberType())
+      val expression = Add(AnyNumber, Add(AnyNumber, AnyNumber))
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "not type check on strings" in {
-      check(Add(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = Add(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Add(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = Add(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "subtraction expressions" should {
     "type check 1 - 1" in {
-      check(Sub(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(NumberType())
+      val expression = Sub(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "not type check on strings" in {
-      check(Sub(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = Sub(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Sub(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = Sub(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "multiplication expressions" should {
     "type check on 1 * 1" in {
-      check(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(NumberType())
+      val expression = Mul(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "not type check on strings" in {
-      check(Mul(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = Mul(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Mul(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = Mul(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "division expressions" should {
     "type check on 1 / 1" in {
-      check(Div(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1))), EmptyEnvironment) must beRight(NumberType())
+      val expression = Div(AnyNumber, AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "not type check on strings" in {
-      check(Div(StringLiteral(StringValue("")), StringLiteral(StringValue(""))), EmptyEnvironment) must beLeft
+      val expression = Div(AnyString, AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Div(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), EmptyEnvironment) must beLeft
+      val expression = Div(AnyBoolean, AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 
   "negation expressions" should {
     "type check on -1" in {
-      check(Negation(NumberLiteral(NumberValue())), EmptyEnvironment) must beRight(NumberType())
+      val expression = Negation(AnyNumber)
+
+      check(expression, EmptyEnvironment) must beRight(NumberType())
     }
 
     "not type check on strings" in {
-      check(Negation(StringLiteral(StringValue())), EmptyEnvironment) must beLeft
+      val expression = Negation(AnyString)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Negation(BooleanLiteral(BooleanValue())), EmptyEnvironment) must beLeft
+      val expression = Negation(AnyBoolean)
+
+      check(expression, EmptyEnvironment) must beLeft
     }
   }
 

@@ -30,6 +30,7 @@ public class DoneButtonListener implements ActionListener {
 			writer = new PrintWriter("form.json");
 			writer.println(json.toJSONString());
 			writer.close();
+			System.out.println("Made JSON file in the root of the project folder.w");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			System.out.println("Couldn't make JSON File.");
