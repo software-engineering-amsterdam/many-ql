@@ -4,15 +4,15 @@ from ..TypeRules import nativeQuestionType
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
-		self.left = leftExpression
-		self.op = op
-		self.right = rightExpression
+		self._left = leftExpression
+		self._op = op
+		self._right = rightExpression
 		self._evaluator = evaluator
 
 	def value(self):
-		leftValue = self.left.value()
-		rightValue = self.right.value()
-		return self._evaluator.evaluateBinaryExpression(self.op, leftValue, rightValue)
+		leftValue = self._left.value()
+		rightValue = self._right.value()
+		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
 
 class UnaryExpression(object):
 	def __init__(self, op, expression, evaluator):
