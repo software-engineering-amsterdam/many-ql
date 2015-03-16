@@ -53,7 +53,7 @@ import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.DataTypeTable;
 
-public class QLInterpreter extends EncodersQLBaseVisitor<AstNode> {
+public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
