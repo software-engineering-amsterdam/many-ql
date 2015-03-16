@@ -205,6 +205,14 @@ class EvaluatorSpec extends Specification {
       eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
+    "succeed for negation expressions" in {
+      eval(Negation(NumberLiteral(NumberValue(1))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(-1))
+    }
+
+    "succeed for nested negation expressions" in {
+      eval(Negation(Negation(NumberLiteral(NumberValue(1)))), ObservableMap.empty[VariableName, Value]) must beEqualTo(NumberValue(1))
+    }
+
     "succeed for variable expressions" in {
       val expression = Variable("test") 
       val environment = EmptyEnvironment += ("test" -> NumberValue(3))
@@ -241,7 +249,7 @@ class EvaluatorSpec extends Specification {
     }
 
     "succeed for multiple nested expressions" in {
-      val expression = And(Equal(NumberLiteral(NumberValue(7)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), NumberLiteral(NumberValue(2))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a"))))
+      val expression = And(Equal(NumberLiteral(NumberValue(1)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), Negation(NumberLiteral(NumberValue(2)))))), Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a"))))
       
       eval(expression, EmptyEnvironment) must beEqualTo(True)
     }

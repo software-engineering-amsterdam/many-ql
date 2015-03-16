@@ -74,11 +74,15 @@ class Parser extends JavaTokenParsers {
       case (x, "-" ~ y) => Sub(x, y)
     }
   })
-  def product: Parser[Expression] = positioned(atom ~ rep("*" ~ atom | "/" ~ atom) ^^ {
+  def product: Parser[Expression] = positioned(negation ~ rep("*" ~ negation | "/" ~ negation) ^^ {
     case l ~ xs => xs.foldLeft(l) {
       case (x, "*" ~ y) => Mul(x, y)
       case (x, "/" ~ y) => Div(x, y)
     }
+  })
+  def negation: Parser[Expression] = positioned(opt("-") ~ atom ^^ {
+    case Some(_) ~ x => Negation(x)
+    case _ ~ x => x
   })
   def atom: Parser[Expression] = positioned(literal | variable | "(" ~> expression <~ ")")
 }

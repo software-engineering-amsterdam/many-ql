@@ -7,10 +7,10 @@
   {6} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
 
 * QualityWithoutAName Cards
-  - [ ] backlog [2/3]
+  - [X] backlog [3/3]
     - [X] get rid of switch statements
     - [X] magic constants
-    - [ ] duplicated code
+    - [X] duplicated code
 
 * QL [7/7]
   - [X] Refactor [4/4]

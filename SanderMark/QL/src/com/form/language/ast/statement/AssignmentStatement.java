@@ -1,9 +1,8 @@
 package com.form.language.ast.statement;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.Type;
+import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
@@ -16,7 +15,7 @@ public class AssignmentStatement extends Statement {
     private Expression expression;
     // TODO handle tokenInfo in constructor and perhaps in some errors?
 
-    public AssignmentStatement(String id, Type type, Expression expression, Token tokenInfo) {
+    public AssignmentStatement(String id, Type type, Expression expression, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.id = id;
 	this.type = type;
@@ -33,8 +32,5 @@ public class AssignmentStatement extends Statement {
     }
 
     @Override
-    public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context context) {
-	// TODO Auto-generated method stub
-
-    }
+    public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context context) {}
 }

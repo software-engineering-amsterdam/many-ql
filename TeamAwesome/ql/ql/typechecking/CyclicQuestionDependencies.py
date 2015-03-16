@@ -26,9 +26,9 @@ class Checker(Checker.StatementChecker):
                 )
 
     def _questionDependencyChains(self, breadcrumbs, node):
+        cycleFound = node in breadcrumbs
+        
         breadcrumbs.append(node)
-
-        cycleFound = node in breadcrumbs[:-1] 
 
         if node.expr is None or cycleFound:
             return [breadcrumbs]

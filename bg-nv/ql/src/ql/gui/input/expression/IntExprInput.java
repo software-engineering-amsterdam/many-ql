@@ -4,7 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.gui.control.IntegerControl;
 import ql.semantics.ValueTable;
 import ql.semantics.values.IntegerValue;
@@ -31,7 +31,7 @@ public class IntExprInput extends ExprInput
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());
