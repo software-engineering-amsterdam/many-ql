@@ -53,18 +53,18 @@ expression returns [Expression result]
 			case "EXCL": 	$result = new Not($x.result,new QLToken($EXCL.line,$EXCL.pos));
 		}
   	}
+ // Multiplication Division
+  | l=expression op=(MULT | DIV) r=expression {
+  	  	switch($op.text){
+			case "MULT": 	$result = new Multiplication($l.result, $r.result, new QLToken($MULT.line,$MULT.pos));
+			case "DIV": 	$result = new Division($l.result, $r.result, new QLToken($DIV.line,$DIV.pos));
+		}
+	}
  // Addition Substraction
   | l=expression op=(PLUS | MINUS) r=expression { 
 	  	switch($op.text){
 			case "PLUS":  	$result = new Addition($l.result, $r.result, new QLToken($PLUS.line,$PLUS.pos));
 			case "MINUS": 	$result = new Substraction($l.result, $r.result, new QLToken($MINUS.line,$MINUS.pos));;
-		}
-	}
-// Multiplication Division
-  | l=expression op=(MULT | DIV) r=expression {
-  	  	switch($op.text){
-			case "MULT": 	$result = new Multiplication($l.result, $r.result, new QLToken($MULT.line,$MULT.pos));
-			case "DIV": 	$result = new Division($l.result, $r.result, new QLToken($DIV.line,$DIV.pos));
 		}
 	}
 // Comparison
