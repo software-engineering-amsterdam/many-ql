@@ -8,7 +8,7 @@ class DuplicateLabelsChecker {
   def check(f: Form): List[Warning] = {
     val labels = getLabels(f.statements)
     labels.groupBy(identity).collect({
-      case (label, equalLabels) if equalLabels.size > 1 => new Warning(s"Label \'$label\' is used ${equalLabels.size} times")
+      case (label, equalLabels) if equalLabels.size > 1 => Warning(s"Label \'$label\' is used ${equalLabels.size} times")
     }).toList
   }
 

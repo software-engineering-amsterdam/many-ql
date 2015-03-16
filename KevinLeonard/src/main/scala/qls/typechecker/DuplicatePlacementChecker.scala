@@ -10,7 +10,7 @@ class DuplicatePlacementChecker {
       case q: Question => q.variable.name
     })
     names.groupBy(identity).collect({
-      case (name, equalNames) if equalNames.size > 1 => new Error(s"Question $name is placed ${equalNames.size} times")
+      case (name, equalNames) if equalNames.size > 1 => Error(s"Question $name is placed ${equalNames.size} times")
     }).toList
   }
 }
