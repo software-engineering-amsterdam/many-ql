@@ -3,16 +3,12 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
 import java.util.LinkedList;
 
 public class PStmtInterpreter extends AnalysisAdapter {
-    private final VariableTable variableTable;
-    private final ResultingFieldsCollection form;
+    private final VariableTable oldVariableTable, newVariableTable;
     private final PExpInterpreter expInterpreter;
 
     @Override
@@ -20,7 +16,6 @@ public class PStmtInterpreter extends AnalysisAdapter {
         PTypeInterpreter typeInterpreter = new PTypeInterpreter();
         node.getType().apply(typeInterpreter);
         variableTable.setIfNotSet(node.getIdent().getText(), typeInterpreter.popValue().getDefaultValue());
-        form.addFormField(new QuestionField(node.getStr().getText(), node.getIdent().getText()));
     }
 
     @Override
@@ -29,7 +24,6 @@ public class PStmtInterpreter extends AnalysisAdapter {
         node.getExp().apply(expInterpreter);
         variableTable.setVariable(node.getIdent().getText(), expInterpreter.popValue());
         node.getType().apply(typeInterpreter);
-        form.addFormField(new ComputedValueField(node.getStr().getText(), node.getIdent().getText()));
     }
 
     @Override
@@ -50,19 +44,15 @@ public class PStmtInterpreter extends AnalysisAdapter {
         }
     }
 
-    public PStmtInterpreter createStmtInterpreter() {
-        return new PStmtInterpreter(variableTable, form);
-    }
-
     private void executeStatements(LinkedList<PStmt> stmtList) {
         for (PStmt s : stmtList) {
-            s.apply(createStmtInterpreter());
+            s.apply(this);
         }
     }
 
-    public PStmtInterpreter(VariableTable variableTable, ResultingFieldsCollection form) {
-        this.expInterpreter = new PExpInterpreter(variableTable);
-        this.variableTable = variableTable;
-        this.form = form;
+    public PStmtInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable) {
+        this.expInterpreter = new PExpInterpreter(oldVariableTable, newVariableTable);
+        this.oldVariableTable = oldVariableTable;
+        this.newVariableTable = newVariableTable;
     }
 }
