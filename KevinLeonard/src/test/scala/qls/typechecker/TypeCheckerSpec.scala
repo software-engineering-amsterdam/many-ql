@@ -7,7 +7,7 @@ import qls.ast._
 
 import scala.util.parsing.input.NoPosition
 
-class TypeCheckerTest extends Specification {
+class TypeCheckerSpec extends Specification {
   val checker = new TypeChecker
   import checker._
 

@@ -20,10 +20,10 @@ import ast.question.Question;
 import ast.question.SimpleQuestion;
 
 public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
-	private final GUIRender gui;
+	private final GUIRenderer gui;
 	private final ValueRepository valueRepository;
 	
-	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
+	public GUIVisitor(GUIRenderer gui, ValueRepository valueRepository) {
 		this.gui = gui;
 		this.valueRepository = valueRepository;
 	} 
@@ -53,9 +53,11 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 
 	@Override
 	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
-		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId().getID(),
-												   new JLabel(simpleQuestion.getQuestionText()), 
-												   this.widget(simpleQuestion));
+		SimpleQuestionUI sq = new SimpleQuestionUI(
+				simpleQuestion.getQuestionId().getID(),
+				new JLabel(simpleQuestion.getQuestionText()), 
+				this.widget(simpleQuestion)
+			);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
 		return sq;
@@ -63,11 +65,13 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 
 	@Override
 	public IQuestionUI visit(ComputationQuestion calQuestion) {
-		ComputedQuestionUI sq = new ComputedQuestionUI(calQuestion.getQuestionId().getID(),
-													new JLabel(calQuestion.getQuestionText()), 
-													this.widget(calQuestion),
-													this.valueRepository,
-													this.sendToUpdater(calQuestion.getExpression()));
+		ComputedQuestionUI sq = new ComputedQuestionUI(
+				calQuestion.getQuestionId().getID(), 
+				new JLabel(calQuestion.getQuestionText()), 
+				this.widget(calQuestion), 
+				this.valueRepository, 
+				this.sendToUpdater(calQuestion.getExpression())
+			);
 		
 		gui.putWidgetRepository(calQuestion.getQuestionId().getID(), sq);
 		sq.updateGUI();
