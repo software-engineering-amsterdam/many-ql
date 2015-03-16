@@ -3,7 +3,7 @@ package nl.uva.sc.encoders.ql.ast;
 import static nl.uva.sc.encoders.ql.ast.QuestionBuilder.aQuestion;
 import static nl.uva.sc.encoders.ql.ast.TextLocationBuilder.aTextLocation;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.statement.Question;
@@ -13,13 +13,13 @@ public class QuestionnaireBuilder {
 
 	private TextLocation textLocation;
 	private String name;
-	private List<Statement> statements;
+	private List<Statement> statements = new ArrayList<>();
 
 	public static QuestionnaireBuilder aQuestionnaire() {
 		QuestionnaireBuilder questionnaireBuilder = new QuestionnaireBuilder();
 		questionnaireBuilder.textLocation = aTextLocation().build();
 		questionnaireBuilder.name = "TaxOfficeExample";
-		questionnaireBuilder.statements = Arrays.asList((Statement) aQuestion().build());
+		questionnaireBuilder.statements.add(aQuestion().build());
 		return questionnaireBuilder;
 	}
 
