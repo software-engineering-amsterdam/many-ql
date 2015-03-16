@@ -10,7 +10,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.ast.impl.stmt.*;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import com.klq.typechecker.error.*;
 
 import java.util.ArrayList;

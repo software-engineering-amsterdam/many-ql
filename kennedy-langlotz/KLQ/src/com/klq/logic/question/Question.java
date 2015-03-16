@@ -1,5 +1,6 @@
 package com.klq.logic.question;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.IdentifierValue;
 import com.klq.ast.impl.expr.value.Value;

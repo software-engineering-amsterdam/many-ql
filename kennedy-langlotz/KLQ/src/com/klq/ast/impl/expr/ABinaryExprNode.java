@@ -1,6 +1,6 @@
 package com.klq.ast.impl.expr;
 
-import com.klq.ast.Location;
+import com.klq.ast.impl.Location;
 
 /**
  * Created by Juriaan on 21-2-2015.

@@ -1,7 +1,7 @@
 package com.klq.typechecker;
 
 import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import com.klq.typechecker.error.AError;
 import com.klq.typechecker.error.NotUniqueID;
 

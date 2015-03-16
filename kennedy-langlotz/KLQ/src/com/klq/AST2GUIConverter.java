@@ -1,6 +1,7 @@
 package com.klq;
 
 import com.klq.ast.IStatementVisitor;
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.logic.IKLQItem;
