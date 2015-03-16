@@ -139,7 +139,6 @@ namespace QL
                 throw new Exception("Not type checked");
             }
 
-            IdentifierTable.Clear(); //because we want to see variables without declaration?
             EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
@@ -148,15 +147,13 @@ namespace QL
             catch (QLError ex)
             {
                 /* Exceptions preventing Evaluator from finishing */
-                ASTHandlerExceptions.Add(ex);
+                ASTHandlerExceptions.Add(ex);                
+
             }
 
             _evaluated = !ASTHandlerExceptions.Any();
             return _evaluated;
             
-            //if evaluation did not went well, references should not be accesible
-            //TODO: separate errors and warnings AGAIN, because warnings should not cause this
-            ReferenceLookupTable.Clear();
         }
 
         public bool EvaluateUI()

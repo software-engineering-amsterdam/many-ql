@@ -136,8 +136,8 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
             NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
-            nw.Value = 2;
-            Assert.IsTrue(Handler.Evaluate());
+            nw.Value = 2; // answer to the question
+            Assert.IsTrue(Handler.Evaluate(),"reevaluation");
 
             Identifier S1 = new Identifier("S1");
             Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
@@ -145,11 +145,72 @@ namespace Tests.VisitorTests
             NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(nw.Value * 2 + 123, S1_value.Value);
-
-
-
         }
-        
+        [TestMethod]
+        public void EvaluationReassignmentOfVariable()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
+
+                if (Q1==2){
+                   statement S1 (number, (123+(Q1*2))) ""you wrote 2"";
+                    }
+	            else {
+                        statement S2 (number, Q1) ""you didnt write 2"";                    
+                     };
+                
+                }
+            ");
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsTrue(Handler.Evaluate());
+            Identifier i = new Identifier("Q1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
+            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            Assert.IsNotNull(nw);
+            nw.Value = 2; // answer to the question
+            Assert.IsTrue(Handler.Evaluate(), "reevaluation");
+            
+            nw.Value = 31; // new answer to the question
+            Assert.IsTrue(Handler.Evaluate(), "reevaluation");
+
+            Identifier S1 = new Identifier("S1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
+            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual(31 * 2 + 123, S1_value.Value);
+        }
+        [TestMethod]
+        public void EvaluationDivisionByZeroReassignment()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
+
+                if (Q1==2){
+                   statement S1 (number, (123+(123/Q1))) ""you wrote 2"";
+                    };
+                }
+            ");
+            Assert.IsTrue(Handler.CheckType());
+            Assert.IsTrue(Handler.Evaluate());
+            Identifier i = new Identifier("Q1");
+            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            
+            nw.Value = 0; // new answer to the question, division by zero
+            Assert.IsFalse(Handler.Evaluate(), "division by zero");
+
+            Assert.IsInstanceOfType(Handler.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
+            nw.Value = 1; // new answer to the question
+            Assert.IsFalse(Handler.Evaluate(), "reevaluation");
+
+            Identifier S1 = new Identifier("S1");
+            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
+            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual(123+(123/1), S1_value.Value);
+        }     
         [TestMethod]
         public void EvaluationSelfReference()
         {
@@ -272,7 +333,37 @@ namespace Tests.VisitorTests
 
             Assert.IsFalse(Handler.Evaluate());
         }
+        [TestMethod]
+        public void EvaluationMemoryBuildup()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
 
+                if (Q1==2){
+                   statement S1 (number, (123+(Q1*2))) ""you wrote 2"";
+                    }
+	            else {
+                        statement S2 (number, Q1) ""you didnt write 2"";                    
+                     };
+                
+                }
+            ");
+            Handler.CheckType();
+            Assert.IsTrue(Handler.Evaluate());
+            int c1 = Handler.IdentifierTable.Count;
+            int c2 = Handler.ReferenceLookupTable.Count;
+
+            for (int i = 0; i < 1000; i++)
+            {
+                Handler.Evaluate();
+            }
+
+
+            Assert.AreEqual(c1, Handler.IdentifierTable.Count);
+
+            Assert.AreEqual(c2, Handler.ReferenceLookupTable.Count);
+
+        }
         //todo create real unit tests like new TextWrapper("def") != new TextWrapper("abc")
        
     }

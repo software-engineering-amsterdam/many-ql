@@ -93,7 +93,7 @@ namespace QL.Visitors
             };
             if (b.Value.Value == 0)
             {
-                throw new EvaluationError("Zero division error");
+                throw new DivisionByZeroError();
             }
             return new NumberWrapper(a.Value.Value / b.Value.Value);
            
