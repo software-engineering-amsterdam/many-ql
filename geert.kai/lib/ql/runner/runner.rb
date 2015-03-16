@@ -4,16 +4,10 @@ require_relative "../../ql/ast/ast"
 
 module QL
   class Runner
-    attr_reader :questions, :renderers
-
-    def initialize(ql_ast)
-      @ql_ast = ql_ast
-      @questions = Checking::QuestionVisitor.new(@ql_ast).questions
-
-      @renderers = @questions.map do |question|
-        QuestionRenderer.new(question)
-      end
-      
+    attr_reader :renderers
+    def initialize(ql_base)
+      @ql_base = ql_base
+      @renderers = RendererVisitor.run(@ql_base)
       @values = {}
 
       calculate_visible_questions
@@ -26,17 +20,18 @@ module QL
     end
 
     def calculate_visible_questions
-      @visible_questions = VisibleQuestionVisitor.new(@ql_ast).questions(@values)
-      File.write('temp/stylesheets/visible_questions.css', @visible_questions)
+      VisibleQuestionVisitor.run(@ql_base, @values)
     end
+  end
 
-    def visible?(question)
-      true#@visible_questions.include?(question)
+  class RendererVisitor < Checking::QuestionVisitor
+    def visit_question(question)
+      QuestionRenderer.new(question)
     end
   end
 
   class Evaluator < BaseVisitor
-    def evaluate(values)
+    def run(values)
       @values = values
       visit @base
     end
@@ -62,15 +57,16 @@ module QL
   end
 
   class VisibleQuestionVisitor < Checking::QuestionVisitor
-    def questions(values)
+    def run(values)
       @values = values
       @visible = true
       
-      super().join
+      data = visit(@base).join
+      File.write('temp/stylesheets/visible_questions.css', data)
     end
 
     def visit_conditional(condition)
-      result = Evaluator.new(condition.expression).evaluate(@values)
+      result = Evaluator.run(condition.expression, @values)
 
       if result.nil?
         @visible = false
@@ -117,11 +113,10 @@ module QL
       widget = widget_builder.widget(controller)
       widget.set_id(@question.variable_name)
 
-
       label = Java::JavafxSceneControl::Label.new(@question.description)
       label.set_id(@question.variable_name)
 
-      (@classes << widget_builder.class_name).each do |klass|
+      (@classes << widget_builder.name).each do |klass|
         widget.get_style_class.add(klass)
         label.get_style_class.add(klass)
       end

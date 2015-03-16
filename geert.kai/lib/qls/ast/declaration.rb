@@ -46,7 +46,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "checkbox"
       end
     end
@@ -61,7 +61,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "spinbox"
       end
     end
@@ -76,7 +76,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "text"
       end
     end
@@ -91,7 +91,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "number_text"
       end
     end
@@ -106,7 +106,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "yes_no_radio"
       end
     end
@@ -121,7 +121,7 @@ module QLS
         widget
       end
 
-      def class_name
+      def name
         "yes_no_dropdown"
       end
     end

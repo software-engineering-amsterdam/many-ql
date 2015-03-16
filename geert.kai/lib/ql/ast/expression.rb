@@ -1,4 +1,5 @@
 require_relative "form"
+
 module QL
   module AST
     class Expression < Node
@@ -20,6 +21,10 @@ module QL
 
       def initialize(value)
         @value = value
+      end
+
+      def to_s
+        @value.to_s
       end
     end
 

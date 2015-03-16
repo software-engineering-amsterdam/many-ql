@@ -13,7 +13,7 @@ module QL
         QLS::AST::NumberText.new.widget(controller)
       end
 
-      def class_name
+      def name
         "integer"
       end
     end
@@ -23,7 +23,7 @@ module QL
         QLS::AST::Text.new.widget(controller)
       end
 
-      def class_name
+      def name
         "string"
       end
     end
@@ -33,7 +33,7 @@ module QL
         QLS::AST::YesNoRadio.new.widget(controller)
       end
       
-      def class_name
+      def name
         "boolean"
       end
     end
