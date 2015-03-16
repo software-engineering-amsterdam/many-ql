@@ -62,7 +62,7 @@
     <Compile Include="ParseTreeVisitors\UnaryVisitor.cs" />
     <Compile Include="Types\StringType.cs" />
     <Compile Include="Types\Visitors\ITypeVisitable.cs" />
-    <Compile Include="Types\Visitors\ITypeVisitor{T}.cs" />
+    <Compile Include="Types\Visitors\ITypeVisitor.cs" />
     <Compile Include="ParseTreeVisitors\FormObjectVisitor.cs" />
     <Compile Include="ParseTreeVisitors\FormVisitor.cs" />
     <Compile Include="ParseTreeVisitors\TypeVisitor.cs" />

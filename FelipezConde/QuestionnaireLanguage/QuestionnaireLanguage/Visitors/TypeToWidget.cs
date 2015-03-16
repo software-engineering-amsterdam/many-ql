@@ -1,13 +1,13 @@
-﻿using QuestionnaireLanguage.GUI.Widgets;
+﻿using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors.Interfaces;
 using Types = AST.Types;
 
 namespace QuestionnaireLanguage.Visitors
 {
-    public class TypeToWidgetVisitor : ITypeToWidgetVisitor
+    public class TypeToWidget : ITypeVisitor<Widget>
     {
         private string id;
-        public TypeToWidgetVisitor(string id)
+        public TypeToWidget(string id)
         {
             this.id = id;
         }
@@ -15,17 +15,17 @@ namespace QuestionnaireLanguage.Visitors
         {
             return Visit((dynamic)value);
         }
-        public StringTextBoxWidget Visit(Types.StringType stringValue)
+        public Widget Visit(Types.StringType stringValue)
         {
             return new StringTextBoxWidget(id);
         }
 
-        public IntegerTextBoxWidget Visit(Types.IntType intValue)
+        public Widget Visit(Types.IntType intValue)
         {
-            return new IntegerTextBoxWidget(id);
+            return new IntTextBoxWidget(id);
         }
 
-        public CheckboxWidget Visit(Types.BoolType boolValue)
+        public Widget Visit(Types.BoolType boolValue)
         {
             return new CheckboxWidget(id);
         }

@@ -1,12 +1,12 @@
 ﻿using AST.Nodes.FormObject;
 using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
+using QuestionnaireLanguage.GUI.FormObject.Interface;
 using QuestionnaireLanguage.Visitors.Interfaces;
 using ASTFormObject = AST.Nodes.FormObject;
 
 namespace QuestionnaireLanguage.Visitors
 {
-    public class FormObjectVisitor : IFormObjectVisitor
+    public class FormObject : IFormObjectVisitor
     {
         public IFormObject VisitFormObject(ASTFormObject.FormObject formObject)
         {

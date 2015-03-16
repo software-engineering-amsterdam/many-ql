@@ -1,7 +1,6 @@
 ﻿using AST;
 using Nodes = AST.Nodes;
 using AST.Nodes.Expressions;
-using AST.Nodes.Literals;
 using AST.Representation;
 using Evaluation;
 using Evaluator.Storage;
@@ -13,53 +12,58 @@ using System.Windows;
 using ASTFormObject = AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
 using Types = AST.Types;
+using Evaluator.Values;
 
-namespace QuestionnaireLanguage.Controller
+namespace QuestionnaireLanguage.Presenter
 {
-    public class MainController
+    public class MainPresenter
     {
         private static ASTResult astTree;
         private static IMainWindow window;
+        private static SymbolTable symbolTable;
 
-        public MainController(IMainWindow mainWindow, ASTResult ast)
+
+        public MainPresenter(IMainWindow mainWindow, ASTResult ast)
         {
             window = mainWindow;
             astTree = ast;
+
+            symbolTable = new SymbolTable();
         }
 
         public static UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
         {
             foreach (ASTFormObject.FormObject node in body)
             {
-                form = new FormObjectVisitor().VisitFormObject(node).ProcessFormObject(form);
+                form = new FormObject().VisitFormObject(node).ProcessFormObject(form);
             }
 
             return form;
         }
 
-        public static Literal GetObjectValue(Id id)
+        public static Value GetObjectValue(Id id)
         {
-            return SymbolTable.GetValue(id);
+            return symbolTable.GetValue(id);
         }
 
-        public static void UpdateValue(string id, Literal value)
+        public static void UpdateValue(string id, Value value)
         {
-            SymbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
+            symbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
 
             window.DeleteElements();
 
-            MainController.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
+            MainPresenter.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
         
-        public static Literal Evaluate(Nodes.Expression expression)
+        public static Value Evaluate(Nodes.Expression expression)
         {
-            return new EvaluationManager().Evaluate(expression);
+            return new EvaluationManager(symbolTable).Evaluate(expression);
         }
 
         public static void AddValue(Id key, Types.Type type)
         {
-            TypeToValueVisitor visitor = new TypeToValueVisitor();
-            SymbolTable.AddValue(key, visitor.VisitValue(type));
+            TypeToValue visitor = new TypeToValue();
+            symbolTable.AddValue(key, visitor.VisitValue(type));
         }
 
         public static UIElement AddChildren(UIElement element, UIElement form)

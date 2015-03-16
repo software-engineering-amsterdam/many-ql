@@ -1,18 +1,18 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class IntegerTextBoxWidget : TextBoxWidget
+    public class IntTextBoxWidget : TextBoxWidget
     {
-        public IntegerTextBoxWidget(string id)
+        public IntTextBoxWidget(string id)
         {
             Id = id;
         }
 
         public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(true) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsComputed };
+            return new CustomTextBox(new IntHandler()) { Name = Id, Text = GetControlValue(value), IsReadOnly = IsReadOnly };
         }
 
         private string GetControlValue(dynamic value)

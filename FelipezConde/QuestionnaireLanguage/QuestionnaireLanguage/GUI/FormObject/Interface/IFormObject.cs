@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Interfaces.FormObject
+namespace QuestionnaireLanguage.GUI.FormObject.Interface
 {
     public interface IFormObject
     {
