@@ -23,7 +23,6 @@ public class BOOL extends Literal {
         return String.valueOf(this.value);
     }
 
-    @Override
     public Type getReturnedType() {
         return new BoolType();
     }

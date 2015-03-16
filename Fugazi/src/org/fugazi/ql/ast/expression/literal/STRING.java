@@ -24,7 +24,6 @@ public class STRING extends Literal {
         return this.value;
     }
 
-    @Override
     public Type getReturnedType() {
         return new StringType();
     }

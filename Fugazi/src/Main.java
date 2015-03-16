@@ -108,5 +108,10 @@ public class Main {
         // QL
         GUIBuilder guiBuilder = new GUIBuilder(form);
         guiBuilder.renderUI();
+
+        // QLS
+//        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+//        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
+//        guiBuilder.renderUI();
     }
 }

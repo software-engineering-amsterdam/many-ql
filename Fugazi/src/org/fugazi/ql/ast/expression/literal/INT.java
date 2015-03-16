@@ -23,7 +23,6 @@ public class INT extends Literal {
         return String.valueOf(this.value);
     }
 
-    @Override
     public Type getReturnedType() {
         return new IntType();
     }

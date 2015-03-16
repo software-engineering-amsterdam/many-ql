@@ -12,5 +12,6 @@ public abstract class Comparison extends Binary {
         super(_leftExpr, _rightExpr);
     }
 
+    public abstract Type getReturnedType();
     public abstract List<Type> getSupportedTypes();
 }

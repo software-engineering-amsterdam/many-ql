@@ -16,7 +16,6 @@ public class Negative extends Unary {
         return "- " + this.getExpr().toString();
     }
 
-    @Override
     public Type getReturnedType() {
         return new IntType();
     }
