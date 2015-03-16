@@ -94,7 +94,7 @@ public class QLString extends QLType {
 
 	@Override
 	public boolean notEqualTo(QLType argument) {
-		return argument.notEqualTo(this);
+		return argument.notEqualToString(this);
 	}
 
 	@Override
@@ -148,13 +148,13 @@ public class QLString extends QLType {
 	}
 
 	@Override
-	public boolean greaterOrEqualThanNumeric(QLNumeric argument) {
+	public boolean greaterOrEqualNumeric(QLNumeric argument) {
 		return false;
 	}
 
 	@Override
 	public boolean equalTo(QLType argument) {
-		return argument.equalTo(this);
+		return argument.equalToString(this);
 	}
 
 	@Override

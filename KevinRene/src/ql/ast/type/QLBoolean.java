@@ -171,7 +171,7 @@ public class QLBoolean extends QLType {
 	}
 
 	@Override
-	public boolean greaterOrEqualThanNumeric(QLNumeric argument) {
+	public boolean greaterOrEqualNumeric(QLNumeric argument) {
 		// TODO Auto-generated method stub
 		return false;
 	}

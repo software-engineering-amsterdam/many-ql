@@ -86,7 +86,7 @@ public abstract class QLType implements QLNode {
 	public abstract boolean greaterThanNumeric(QLNumeric argument);
 	
 	public abstract boolean greaterOrEqual(QLType argument);
-	public abstract boolean greaterOrEqualThanNumeric(QLNumeric argument);
+	public abstract boolean greaterOrEqualNumeric(QLNumeric argument);
 	
 	public abstract boolean equalTo(QLType argument);
 	public abstract boolean equalToBoolean(QLBoolean argument);

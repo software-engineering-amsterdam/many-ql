@@ -362,9 +362,9 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		QLType questionType = compQuestionNode.getType();
 		QLType expressionType = compQuestionNode.getExpression().accept(this);
 		
-		if(!questionType.compatibleWith(expressionType)) {
-			errorEnvironment.addError(new IllegalAssignmentError(compQuestionNode, questionType, expressionType));
-		}
+//		if(!questionType.compatibleWith(expressionType)) {
+//			errorEnvironment.addError(new IllegalAssignmentError(compQuestionNode, questionType, expressionType));
+//		}
 		
 		Identifier questionIdentifier = compQuestionNode.getIdentifier();
 		

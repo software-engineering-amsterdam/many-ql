@@ -24,7 +24,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean add(QLType argument) {
-		return argument.add(this);
+		return argument.addNumeric(this);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean divide(QLType argument) {
-		return argument.divide(this);
+		return argument.divideNumeric(this);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean multiply(QLType argument) {
-		return argument.multiply(this);
+		return argument.multiplyNumeric(this);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean subtract(QLType argument) {
-		return argument.subtract(this);
+		return argument.subtractNumeric(this);
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean lowerOrEqual(QLType argument) {
-		return argument.lowerOrEqual(this);
+		return argument.lowerOrEqualNumeric(this);
 	}
 
 	@Override
@@ -145,11 +145,11 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean greaterOrEqual(QLType argument) {
-		return argument.greaterOrEqual(this);
+		return argument.greaterOrEqualNumeric(this);
 	}
 
 	@Override
-	public boolean greaterOrEqualThanNumeric(QLNumeric argument) {
+	public boolean greaterOrEqualNumeric(QLNumeric argument) {
 		return true;
 	}
 
