@@ -17,20 +17,17 @@ public class IfStatement extends QLNode implements ContainsExpression {
     }
 
     @Override
-    public Expression getExpression() {
-        return expression;
-    }
-
-    @Override
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
 
     @Override
-    public void handleExpressionResult(Result result) {
+    public void handleExpressionResult() {
+        Result result = expression.getResult();
+        //TODO: Should force this in TypeChecking.
         if (result instanceof BooleanResult) {
-            for (Node child : this.getChildren()) {
-                ((QLNode)child).isVisible(((BooleanResult) result).getResult());
+            for (QLNode child : this.getChildren()) {
+                child.isVisible(((BooleanResult) result).getResult());
             }
         }
     }
