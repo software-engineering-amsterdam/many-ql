@@ -15,7 +15,7 @@ namespace TypeChecker
     {
         private readonly Form node;
         private readonly Dictionary<Id, Types.Type> identifierToType;
-        private readonly IList<Expression> topLevelExpressions;
+        private readonly IList<BaseExpression> topLevelExpressions;
 
         public ExpressionChecker(Form node)
         {
@@ -39,7 +39,7 @@ namespace TypeChecker
         {
             List<INotification> notifications = new List<INotification>();
 
-            foreach (Expression expr in topLevelExpressions)
+            foreach (BaseExpression expr in topLevelExpressions)
             {
                 ExpressionTypeCollector collector = new ExpressionTypeCollector(identifierToType);
 
@@ -72,7 +72,7 @@ namespace TypeChecker
 
             return new Types.UndefinedType();
         }
-        private IList<Expression> GetTopLevelExpressions()
+        private IList<BaseExpression> GetTopLevelExpressions()
         {
             return node.Accept(new TopLevelExpressionCollector());
         }

@@ -12,5 +12,5 @@ class Number(e.Element):
     def pretty_print(self):
         return str(self.number)
 
-    def get_dependencies(self):
+    def get_dependency_collection(self):
         return []

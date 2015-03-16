@@ -34,6 +34,22 @@ func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
 	return left != right
 }
 
+// LikeNode is the visitor for "like" comparison operation. This operator
+// compares strings normalizing them first, by stripping surrounding spaces and
+// putting them in lower case letters.
+func (exec Execute) LikeNode(n *ast.LikeNode) bool {
+	lt, ltOk := n.LeftTerm().(*ast.TermNode)
+	rt, rtOk := n.RightTerm().(*ast.TermNode)
+	if ltOk && rtOk {
+		vl := convertToStringAndTrim(exec.resolveTermNode(lt))
+		vr := convertToStringAndTrim(exec.resolveTermNode(rt))
+		return vl == vr
+	}
+
+	left, right := exec.resolveBothExpressions(n.DoubleTermNode)
+	return convertToStringAndTrim(left) == convertToStringAndTrim(right)
+}
+
 // MoreThanNode is the visitor for More Than comparison operation.
 func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
@@ -117,6 +133,9 @@ func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 
 	case *ast.EqualsNode:
 		conditionState = exec.EqualsNode(n.(*ast.EqualsNode))
+
+	case *ast.LikeNode:
+		conditionState = exec.LikeNode(n.(*ast.LikeNode))
 
 	case *ast.MoreThanNode:
 		conditionState = exec.MoreThanNode(n.(*ast.MoreThanNode))

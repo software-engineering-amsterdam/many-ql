@@ -12,11 +12,19 @@ module QL
       def widget(controller)
         QLS::AST::NumberText.new.widget(controller)
       end
+
+      def name
+        "integer"
+      end
     end
 
     class StringType < Type
       def widget(controller)
         QLS::AST::Text.new.widget(controller)
+      end
+
+      def name
+        "string"
       end
     end
 
@@ -24,9 +32,10 @@ module QL
       def widget(controller)
         QLS::AST::YesNoRadio.new.widget(controller)
       end
+      
+      def name
+        "boolean"
+      end
     end
-
-    # class UndefinedType < Type
-    # end
   end
 end

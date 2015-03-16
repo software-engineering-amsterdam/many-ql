@@ -3,94 +3,98 @@ using AST.Nodes.Expressions.Binary;
 using AST.Nodes.Expressions.Unary;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
-using AST.Nodes.Literals;
+using Evaluator.Values;
 using AST.ASTVisitors;
 using Evaluator.Storage;
 using AST.Nodes.Expressions;
+using Literals = AST.Nodes.Literals;
+using AST.ASTVisitors.Interfaces;
 
 namespace Evaluation
 {
-    public class EvaluationManager : BaseVisitor<Literal>
+    public class EvaluationManager : IExpressionVisitor<Value>
     {
-        public EvaluationManager()
+        private readonly SymbolTable symbolTable;
+        public EvaluationManager(SymbolTable symbolTable)
         {
+            this.symbolTable = symbolTable;
         }
 
         #region Operations
-        public Literal Evaluate(Expression expression)
+        public Value Evaluate(BaseExpression expression)
         {
             return expression.Accept(this);
         }
         #endregion
         
         #region Comparison
-        public override Literal Visit(And node)
+        public Value Visit(And node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.BoolAnd((dynamic)right);
         }
-        public override Literal Visit(Or node)
+        public Value Visit(Or node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.BoolOr((dynamic)right);
 
         }
-        public override Literal Visit(Equal node)
+        public  Value Visit(Equal node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.BoolEqual((dynamic)right);
         }
-        public override Literal Visit(NotEqual node)
+        public  Value Visit(NotEqual node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.BoolNotEqual((dynamic)right);
         }
-        public override Literal Visit(GreaterThan node)
+        public  Value Visit(GreaterThan node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Greater((dynamic)right);
         }
-        public override Literal Visit(GreaterThanOrEqual node)
+        public  Value Visit(GreaterThanOrEqual node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.GreaterEqual((dynamic)right);
         }
-        public override Literal Visit(LessThan node)
+        public  Value Visit(LessThan node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Less((dynamic)right);
         }
-        public override Literal Visit(LessThanOrEqual node)
+        public  Value Visit(LessThanOrEqual node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.LessEqual((dynamic)right);
         }
         #endregion
 
         #region Unary Expressions
-        public override Literal Visit(Negate node)
+        public  Value Visit(Negate node)
         {
 
-            Literal value = node.Accept(this);
+            Value value = node.Accept(this);
             return value.Negate();
         }
-        public override Literal Visit(Priority node)
+        public  Value Visit(Priority node)
         {
             return node.GetChildExpression().Accept(this);
         }
@@ -98,34 +102,34 @@ namespace Evaluation
 
         #region Arithmetic
 
-        public override Literal Visit(Add node)
+        public  Value Visit(Add node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Add((dynamic)right);
         }
 
-        public override Literal Visit(Subtract node)
+        public  Value Visit(Subtract node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Substract((dynamic)right);
         }
 
-        public override Literal Visit(Multiply node)
+        public  Value Visit(Multiply node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Multiply((dynamic)right);
         }
 
-        public override Literal Visit(Divide node)
+        public  Value Visit(Divide node)
         {
-            Literal left = node.Left().Accept(this);
-            Literal right = node.Right().Accept(this);
+            Value left = node.Left().Accept(this);
+            Value right = node.Right().Accept(this);
 
             return left.Divide((dynamic)right);
         }
@@ -134,30 +138,30 @@ namespace Evaluation
         #endregion
 
         #region Values
-        public override Literal Visit(Bool node)
+        public  Value Visit(Literals.Bool node)
         {
-            return new Bool(node.GetValue(), node.GetPosition());
+            return new Bool(node.GetValue());
         }
 
-        public override Literal Visit(Int node)
+        public  Value Visit(Literals.Int node)
         {
-            return new Int(node.GetValue(), node.GetPosition());
+            return new Int(node.GetValue());
         }
 
-        public override Literal Visit(String node)
+        public  Value Visit(Literals.String node)
         {
-            return new String(node.GetValue(), node.GetPosition());
+            return new String(node.GetValue());
         }
         #endregion
 
-        public override Literal Visit(Id node)
+        public Value Visit(Id node)
         {
-            return SymbolTable.GetValue(node);
+            return symbolTable.GetValue(node);
         }
 
-        public override Literal Visit(Label node)
+        public Value visit(Id node)
         {
-            return new String(node.Value, node.GetPosition());
+            throw new System.NotImplementedException();
         }
     }
 }

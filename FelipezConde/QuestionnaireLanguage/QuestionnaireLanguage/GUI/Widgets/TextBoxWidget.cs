@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public abstract class TextBoxWidget : Widget
     {

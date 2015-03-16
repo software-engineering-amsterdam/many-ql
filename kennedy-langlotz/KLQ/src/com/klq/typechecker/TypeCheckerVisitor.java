@@ -10,7 +10,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.ast.impl.stmt.*;
-import com.klq.logic.question.Type;
+import com.klq.ast.impl.Type;
 import com.klq.typechecker.error.*;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by juriaan on 2-3-15.
  */
 public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementVisitor<Void> {
-    private ArrayList<AError> errors;
+    private List<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
     private String currentQuestion; //tracks for which question we are currently detecting the cycle
@@ -29,10 +29,10 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private List<Type> allowedBooleanExprTypes;
     private List<Type> allowedAndOrExprTypes;
 
-    public TypeCheckerVisitor(ArrayList<AError> errors, QuestionTable table) {
+    public TypeCheckerVisitor(List<AError> errors, QuestionTable table) {
         this.errors = errors;
         this.table = table;
-        this.cyclicDetector = new CyclicDetector(); //TODO fill this and run it
+        this.cyclicDetector = new CyclicDetector();
         this.currentQuestion = null;
 
         allowedMathExprTypes = new ArrayList<Type>();
@@ -68,17 +68,17 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(QuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
+        cyclicDetector.addKey(node.getID());
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        cyclicDetector.addKey(node.getQuestionID());
-        currentQuestion = node.getQuestionID();
+        cyclicDetector.addKey(node.getID());
+        currentQuestion = node.getID();
 
         Type childType = (Type) node.getComputedAnswer().accept(this);
-        if(childType != node.getQuestionType()){
+        if(childType != node.getType()){
             errors.add(new TypeMismatch(node, childType));
         }
 
@@ -87,10 +87,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(ConditionalNode node) {
-        if(node.getCondition() instanceof ABooleanNode) {
-            node.getCondition().accept(this);
-        }
-        else{
+        if(node.getCondition().accept(this) != Type.BOOLEAN) {
             errors.add(new InvalidCondition(node));
         }
 
@@ -162,42 +159,47 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     ==================================================================================================================*/
     @Override
     public Type visit(GreaterThanNode node) {
-        return visitBinaryNode(node, ">", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, ">", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(GreaterEqualsNode node) {
-        return visitBinaryNode(node, ">=", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, ">=", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(LessThanNode node) {
-        return visitBinaryNode(node, "<", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, "<", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(LessEqualsNode node) {
-        return visitBinaryNode(node, "<=", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, "<=", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(EqualsNode node) {
-        return visitBinaryNode(node, "==", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, "==", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(NotEqualsNode node) {
-        return visitBinaryNode(node, "!=", allowedBooleanExprTypes);
+        return visitBinaryBooleanNode(node, "!=", allowedBooleanExprTypes);
     }
 
     @Override
     public Type visit(AndNode node) {
-        return visitBinaryNode(node, "&&", allowedAndOrExprTypes);
+        return visitBinaryBooleanNode(node, "&&", allowedAndOrExprTypes);
     }
 
     @Override
     public Type visit(OrNode node) {
-        return visitBinaryNode(node, "||", allowedAndOrExprTypes);
+        return visitBinaryBooleanNode(node, "||", allowedAndOrExprTypes);
+    }
+
+    private Type visitBinaryBooleanNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
+        visitBinaryNode(node, operator, allowedTypes);
+        return Type.BOOLEAN;
     }
 
     private Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){

@@ -1,8 +1,8 @@
 ﻿using AST.Nodes.FormObject;
-using AST.Nodes.Literals;
-using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using QuestionnaireLanguage.GUI.Widgets;
+using Evaluator.Values;
+using QuestionnaireLanguage.Presenter;
+using QuestionnaireLanguage.GUI.FormObject.Interface;
+using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
 using System.Windows;
 
@@ -24,12 +24,12 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         public UIElement ProcessFormObject(UIElement form)
         {
-            Literal value = MainController.Evaluate(this.conditionalNode.Condition);
+            Value value = MainPresenter.Evaluate(this.conditionalNode.Condition);
 
             Widget stackPanelWidget = new StackPanelWidget();
             UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
 
-            return MainController.AddChildren(MainController.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            return MainPresenter.AddChildren(MainPresenter.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
 
         #endregion

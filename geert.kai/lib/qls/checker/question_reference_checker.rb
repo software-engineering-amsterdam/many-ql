@@ -1,12 +1,10 @@
 module QLS
   module Checking
     class QuestionReferenceChecker
-      def initialize(qls, ql)
-        @qls_question_names = QLS::Checking::QuestionVisitor.new(qls).questions.map(&:name)
-        @ql_question_names  = QL::Checking::QuestionVisitor.new(ql).questions.map(&:variable_name)
-      end
+      def self.run(qls, ql)
+        @qls_question_names = QLS::Checking::QuestionVisitor.run(qls).map(&:name)
+        @ql_question_names  =  QL::Checking::QuestionVisitor.run(ql ).map(&:variable_name)
 
-      def errors
         (@qls_question_names - @ql_question_names).map do |name|
           Exception.new("#{name} found in QLS, but not in QL.")
         end +

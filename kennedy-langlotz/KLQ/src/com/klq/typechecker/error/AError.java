@@ -1,6 +1,6 @@
 package com.klq.typechecker.error;
 
-import com.klq.ast.Location;
+import com.klq.ast.impl.Location;
 
 /**
  * Created by Juriaan on 1-3-2015.
@@ -19,7 +19,14 @@ public abstract class AError {
     }
 
     public String toString() {
-        return String.format("Error code %d --- %s --- at %s", code, errorMessage, location.getBeginLine());
+        String beginLine;
+        if(location == null){
+            beginLine = "line unknown";
+        }
+        else{
+            beginLine = String.valueOf(location.getBeginLine());
+        }
+        return String.format("Error code %d --- %s --- at %s", code, errorMessage, beginLine);
     }
 
     public Boolean getStopRunning() {

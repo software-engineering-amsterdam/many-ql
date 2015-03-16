@@ -56,17 +56,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Factories\NodeValueFactory.cs" />
-    <Compile Include="GUI\CustomUIElements\CustomControls\CustomDatePicker.cs" />
+    <Compile Include="GUI\CustomUIElements\CustomControls\BoolHandler.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomLabel.cs" />
+    <Compile Include="GUI\CustomUIElements\CustomControls\ObjectHandler.cs" />
+    <Compile Include="GUI\CustomUIElements\CustomControls\IntHandler.cs" />
+    <Compile Include="GUI\CustomUIElements\CustomControls\StringHandler.cs" />
     <Compile Include="GUI\CustomUIElements\CustomPanels\CustomStackPanel.cs" />
-    <Compile Include="GUI\Interfaces\CustomPanel\ICustomStackPanel.cs" />
     <Compile Include="GUI\Widgets\CheckboxWidget.cs" />
-    <Compile Include="GUI\Widgets\DatePickerWidget.cs" />
     <Compile Include="GUI\Widgets\LabelWidget.cs" />
     <Compile Include="GUI\Widgets\StackPanelWidget.cs" />
     <Compile Include="GUI\Widgets\Widget.cs" />
-    <Compile Include="GUI\Widgets\IntegerTextBoxWidget.cs" />
+    <Compile Include="GUI\Widgets\IntTextBoxWidget.cs" />
     <Compile Include="GUI\Widgets\TextBoxWidget.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomCheckBox.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomTextBox.cs" />
@@ -74,19 +74,14 @@
     <Compile Include="GUI\FormObject\ConditionalObject.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\Interfaces\Widgets\IWidget.cs" />
-    <Compile Include="GUI\Interfaces\CustomControl\ICustomControl.cs" />
-    <Compile Include="GUI\Interfaces\FormObject\IFormObject.cs" />
-    <Compile Include="Controller\MainController.cs" />
-    <Compile Include="Contracts\IMainWindow.cs" />
-    <Compile Include="Visitors\FormObjectVisitor.cs" />
+    <Compile Include="GUI\FormObject\Interface\IFormObject.cs" />
+    <Compile Include="Presenter\MainPresenter.cs" />
+    <Compile Include="Model\IMainWindow.cs" />
+    <Compile Include="Visitors\FormObject.cs" />
     <Compile Include="Visitors\Interfaces\IFormObjectVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\ILabelVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\ITypeToValueVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\ITypeToWidgetVisitor.cs" />
-    <Compile Include="Visitors\LabelVisitor.cs" />
-    <Compile Include="Visitors\TypeToValueVisitor.cs" />
-    <Compile Include="Visitors\TypeToWidgetVisitor.cs" />
+    <Compile Include="Visitors\Interfaces\ITypeVisitor.cs" />
+    <Compile Include="Visitors\TypeToValue.cs" />
+    <Compile Include="Visitors\TypeToWidget.cs" />
     <Compile Include="Visitors\ValueVisitor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

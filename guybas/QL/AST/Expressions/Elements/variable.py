@@ -11,5 +11,5 @@ class Variable(e.Element):
     def pretty_print(self):
         return self.name
 
-    def get_dependencies(self):
+    def get_dependency_collection(self):
         return [self.name]

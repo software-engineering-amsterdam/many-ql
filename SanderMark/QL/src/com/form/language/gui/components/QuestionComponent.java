@@ -9,8 +9,10 @@ import javax.swing.JTextField;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.gui.widget.CheckBox;
+import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
+import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
@@ -44,20 +46,21 @@ public class QuestionComponent extends JPanel {
     }
 
     // TODO: Type checker implementation to be added
+    // TODO: casten to specifc widget needed?
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
-		CheckBox checkbox = new CheckBox(question, this, rm);
-	    JCheckBox cb = checkbox.getCheckBox();
+		Widget checkbox = new CheckBox(question, this, rm);
+	    JCheckBox cb = ((CheckBox) checkbox).getCheckBox();
 		cb.setName(question.getId());
 	    add(cb);
 	} else if (question.getType(rm).isStringType()) {
-	    TextField textfield = new TextField(question, this, rm);
-	    JTextField tx = textfield.getTextField();
+		Widget textfield = new TextField(question, this, rm);
+	    JTextField tx = ((TextField) textfield).getTextField();
 	    tx.setName(question.getId());
 	    add(tx);
 	} else {
-	    TextField textfield = new TextField(question, this, rm);
-	    JTextField tx = textfield.getTextField();
+		Widget textfield = new IntegerTextField(question, this, rm);
+	    JTextField tx = ((IntegerTextField) textfield).getTextField();
 	    tx.setName(question.getId());
 	    add(tx);
 	}

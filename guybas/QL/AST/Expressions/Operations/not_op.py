@@ -14,8 +14,8 @@ class Not(e.Element):
         return constants.BOOL
 
     # get all variables in the _expression
-    def get_dependencies(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def get_dependency_collection(self):
+        return self._operand.get_dependency_collection()
 
     def is_valid_expression(self, td):
         return self._operand.is_valid_expression() and self._operand.return_type_string == constants.BOOL

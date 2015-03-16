@@ -10,21 +10,32 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import java.util.LinkedList;
 
 public class PStmtInterpreter extends AnalysisAdapter {
+    private final VariableTable oldVariableTable;
     private final VariableTable newVariableTable;
     private final PExpInterpreter expInterpreter;
     private final StaticFields staticFields;
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
-        Value value = staticFields.getTypeOfField(node.getIdent().getText()).getDefaultValue();
-        newVariableTable.setVariable(node.getIdent().getText(), value);
+        String nodeIdent = node.getIdent().getText();
+        if(oldVariableTable.isSet(nodeIdent))
+            newVariableTable.setVariable(nodeIdent, oldVariableTable.getVariable(nodeIdent));
+        else {
+            Value value = staticFields.getTypeOfField(nodeIdent).getDefaultValue();
+            newVariableTable.setVariable(nodeIdent, value);
+        }
     }
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
-        Value value = staticFields.getTypeOfField(node.getIdent().getText()).getDefaultValue();
-        // Note the subtle difference: setVariable instead of setIfNotSet.
-        newVariableTable.setVariable(node.getIdent().getText(), value);
+        String nodeIdent = node.getIdent().getText();
+        if(oldVariableTable.isSet(nodeIdent)) {
+            node.getExp().apply(expInterpreter);
+            newVariableTable.setVariable(nodeIdent, expInterpreter.popValue());
+        } else {
+            Value value = staticFields.getTypeOfField(node.getIdent().getText()).getDefaultValue();
+            newVariableTable.setVariable(node.getIdent().getText(), value);
+        }
     }
 
     @Override
@@ -53,6 +64,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
 
     public PStmtInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
         this.expInterpreter = new PExpInterpreter(oldVariableTable, newVariableTable);
+        this.oldVariableTable = oldVariableTable;
         this.newVariableTable = newVariableTable;
         this.staticFields = staticFields;
     }

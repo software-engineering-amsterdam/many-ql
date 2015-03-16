@@ -1,20 +1,21 @@
+class Questionnaire(object):
+    def __init__(self, statements):
+        self.statements = statements
+
+    def accept(self, visitor):
+        visitor.visitQuestionnaireBegin(self)
+        for statement in self.statements:
+            statement.accept(visitor)
+        return visitor.visitQuestionnaireEnd(self)
+
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
-class Root(Node):
-    def __init__(self, statements):
-        super().__init__(0)
-        self.statements = statements
+    def accept(self, visitor):
+        raise NotImplementedError
 
-    def getChildren(self):
-        return self.statements
-
-class Statement(Node):
-    def getChildren():
-        raise NotImplementedError()
-
-class FormStatement(Statement):
+class FormStatement(Node):
     def __init__(self, identifier, statements, lineNumber):
         super().__init__(lineNumber)
         self.identifier = identifier
@@ -23,10 +24,13 @@ class FormStatement(Statement):
     def __str__(self):
         return "formId:%s, line:%d" %(self.identifier, self.lineNumber)
 
-    def getChildren(self):
-        return self.statements
+    def accept(self, visitor):
+        visitor.visitFormStatementBegin(self)
+        for statement in self.statements:
+            statement.accept(visitor)
+        return visitor.visitFormStatementEnd(self)
 
-class QuestionStatement(Statement):
+class QuestionStatement(Node):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
         super().__init__(lineNumber)
         self.identifier = identifier
@@ -38,10 +42,10 @@ class QuestionStatement(Statement):
         return "questionId:%s, line:%d, question:%s, type:%s, expr:%s"\
             %(self.identifier, self.lineNumber, self.text, self.type, self.expr)
 
-    def getChildren(self):
-        return []
+    def accept(self, visitor):
+        return visitor.visitQuestionStatement(self)
 
-class IfStatement(Statement):
+class IfStatement(Node):
     def __init__(self, expr, statements, lineNumber):
         super().__init__(lineNumber)
         self.expr = expr
@@ -50,30 +54,27 @@ class IfStatement(Statement):
     def __str__(self):
         return "ifStatement, line:%d, expr:%s" %(self.lineNumber, self.expr)
 
-    def getChildren(self):
-        return self.statements
+    def accept(self, visitor):
+        visitor.visitIfStatementBegin(self)
+        for statement in self.statements:
+            statement.accept(visitor)
+        return visitor.visitIfStatementEnd(self)
 
-class Expression(Node):
-    pass
-
-class AtomicExpression(Expression):
-    def __init__(self, left, lineNumber):
-        super().__init__(lineNumber)
-        self.left = left
-        
-    def __str__(self):
-        return str(self.left)
-
-class UnaryExpression(Expression):
-    def __init__(self, op, right, lineNumber):
+class UnaryExpression(Node):
+    def __init__(self, op, expression, lineNumber):
         super().__init__(lineNumber)
         self.op = op
-        self.right = right
+        self.expression = expression
 
     def __str__(self):
         return "(%s %s)" %(self.op, self.right)
 
-class BinaryExpression(Expression):
+    def accept(self, visitor):
+        visitor.visitUnaryExpressionBegin(self)
+        self.expression.accept(visitor)
+        return visitor.visitUnaryExpressionEnd(self)
+
+class BinaryExpression(Node):
     def __init__(self, left, op, right, lineNumber):
         super().__init__(lineNumber)
         self.left = left
@@ -82,3 +83,42 @@ class BinaryExpression(Expression):
 
     def __str__(self):
         return "(%s %s %s)" %(self.left, self.op, self.right)
+
+    def accept(self, visitor):
+        visitor.visitBinaryExpressionBegin(self)
+        self.left.accept(visitor)
+        self.right.accept(visitor)
+        return visitor.visitBinaryExpressionEnd(self)
+
+
+class AtomBaseType(Node):
+    def __init__(self, value, lineNumber):
+        super().__init__(lineNumber)
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    def __str__(self):
+        return str(self.value)
+
+class Boolean(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitBoolean(self)
+
+class Integer(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitInteger(self)
+
+class String(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitString(self)
+
+class Money(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitMoney(self)
+
+class Identifier(AtomBaseType):
+    def accept(self, visitor):
+        return visitor.visitIdentifier(self)

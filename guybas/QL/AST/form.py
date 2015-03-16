@@ -3,11 +3,8 @@
 
 class Form:
     def __init__(self, name, introduction, statements):
-        # initialization variables
         self._name = name
         self._introduction = introduction
-
-        # set the statement _order and the parent _id's
         self._statements = statements
 
     # Pretty print the _form
@@ -18,9 +15,9 @@ class Form:
             s += x.pretty_print(1)
         return s
 
-    #########################
-    # getters of the _form   #
-    #########################
+    #
+    # getters of the form
+    #
 
     def get_statements(self):
         return self._statements
@@ -43,6 +40,7 @@ class Form:
             labels += s.label_collection()
         return labels
 
+    # TODO: it broke..
     def get_dependencies(self):
         dependencies = {}
         for s in self._statements:

@@ -8,7 +8,7 @@ import QL.AST.Expressions.expression_interface as se
 import QL.AST.Elements.variable as v
 import QL.AST.Expressions.Elements.bool as b
 import QL.AST.form as f
-import QL.Factory.expressions as ef
+import QL.Grammar.Factory.expressions as ef
 import QL.Factory.forms as ff
 import QL.Grammar.grammar as fg
 import QL.AST.Statements.AnswerTypes.bool as ab

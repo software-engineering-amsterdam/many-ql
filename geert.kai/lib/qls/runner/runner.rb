@@ -1,31 +1,70 @@
-require_relative "../util/base_visitor"
+require_relative "../../util/base_visitor"
 
 module QLS
-  class Runner < BaseVisitor
+  class Runner < QL::Runner
+    def initialize(ql_base, qls_base)
+      super(ql_base)
 
-    def visit_stylesheet(stylesheet)
-      map_accept(stylesheet.rules)
+      @renderers = RendererVisitor.run(qls_base, @renderers)
+      StyleVisitor.run(qls_base)
+    end
+  end
+
+  class RendererVisitor < BaseVisitor
+    attr_reader :classes
+
+    def run(renderers)
+      @classes = []
+      
+      @question_hash = renderers.map { |renderer| [renderer.question.variable_name,  renderer] }.to_h
+      visit(@base).flatten
     end
 
-    def visit_page(page)
-      map_accept(page.rules)
-    end
+    def visit_style_group(section)
+      name = "#{section.class.to_s.snake_case}_#{section.object_id}"
+      
+      @classes.push(name)
+      map = map_accept(section.rules)
+      @classes.pop
 
-    def visit_section(section)
-      map_accept(section.rules).flatten.each do |question|
-        @defaults.each do |default|
-          question.add_style(default) if default.type == question.type
-        end
-      end
+      map
     end
 
     def visit_question(question)
-      question
+      renderer = @question_hash[question.name]
+      renderer.classes = @classes.clone
+      renderer
     end
 
     def visit_default(default)
-      @defaults << default
       []
+    end
+  end
+
+  class StyleVisitor < BaseVisitor
+    def run
+      @classes = []
+      data = visit(@base)
+      File.write('temp/stylesheets/style.css', data)
+    end
+
+    def visit_style_group(section)
+      name = "#{section.class.to_s.snake_case}_#{section.object_id}"
+      
+      @classes.push(name)
+      result = map_accept(section.rules)*""
+      @classes.pop
+
+      result
+    end
+
+    def visit_question(question)
+      ""
+    end
+
+    def visit_default(default)
+      ".#{@classes.last}.#{default.type.name} {" +
+      default.declarations.map(&:to_css)*"" + "\n}\n"
     end
   end
 end

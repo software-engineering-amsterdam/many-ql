@@ -7,9 +7,9 @@ namespace AST.Nodes.FormObject
     public class Conditional : FormObject, IFormObjectContainer
     {
         private IList<FormObject> body;
-        public Expression Condition { get; private set; }
+        public BaseExpression Condition { get; private set; }
 
-        public Conditional(Expression condition, IList<FormObject> body, PositionInText positionInText) 
+        public Conditional(BaseExpression condition, IList<FormObject> body, PositionInText positionInText) 
             : base(positionInText)
         {
             this.Condition = condition;
@@ -24,6 +24,11 @@ namespace AST.Nodes.FormObject
         public IList<FormObject> GetBody()
         {
             return this.body;
+        }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.FormObjectVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

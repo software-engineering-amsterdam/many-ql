@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
@@ -9,7 +9,6 @@ import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.staticfieldscollector.PTypeCollector;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
@@ -20,7 +19,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Clean and simple QLS renderer.
@@ -114,7 +112,8 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValue.getIdent(), new String(),
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                variableTableWrapper);
+                variableTableWrapper,
+                this);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 

@@ -13,11 +13,6 @@ namespace AST.Types
             return type.IsString();
         }
 
-        //public override void Accept(Visitors.ITypeVisitor visitor)
-        //{
-        //    visitor.Visit(this);
-        //}
-
         public override T Accept<T>(Visitors.ITypeVisitor<T> visitor)
         {
             return visitor.Visit(this);

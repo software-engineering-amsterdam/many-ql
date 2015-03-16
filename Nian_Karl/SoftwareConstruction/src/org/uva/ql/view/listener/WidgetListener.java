@@ -9,7 +9,7 @@ import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
 
-public class WidgetListener implements IWidgetListener {
+public class WidgetListener {
 
 	private Evaluator evaluator;
 	private TypeChecker typeChecker;
@@ -27,9 +27,7 @@ public class WidgetListener implements IWidgetListener {
 		evaluator.addValue(identifier, value);
 	}
 
-	@Override
 	public void widgetValueChanged(String identifier, Value value) {
-		System.out.println("Identifier: " + identifier);
 		evaluator.addValue(identifier, value);
 		for (IfQuestionPanel pannel : dependentQuestionPanels) {
 			pannel.evaluateAndShow(evaluator, typeChecker);
@@ -38,7 +36,7 @@ public class WidgetListener implements IWidgetListener {
 		for (ExprQuestionComponent pannel : dependentQuestionComponents) {
 			pannel.evaluateAndChange(evaluator, typeChecker);
 		}
-//		printMap();
+		// printMap();
 	};
 
 	public void addDependentQuestionPanel(IfQuestionPanel panel) {
@@ -53,12 +51,4 @@ public class WidgetListener implements IWidgetListener {
 		return evaluator;
 	}
 
-	private void printMap() {
-		System.out.println("=================");
-		for (String s : evaluator.getMap().keySet()) {
-			System.out.println("Key: " + s);
-			System.out.println("Obj: " + evaluator.getMap().get(s));
-		}
-		System.out.println("=================");
-	}
 }
