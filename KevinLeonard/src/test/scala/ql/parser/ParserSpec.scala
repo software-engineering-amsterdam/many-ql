@@ -11,235 +11,349 @@ class ParserSpec extends Specification with ParserMatchers {
 
   "variable parser" should {
     "parse a valid Java identifier" in {
-      variable must succeedOn("var1")
-        .withResult(Variable("var1"))
+      val variableName = "var1"
+      val result = Variable(variableName)
+      
+      variable must succeedOn(variableName).withResult(result)
     }
   }
 
   "form parser" should {
     "ignore single line comments" in {
-      form must succeedOn("form form1 {\n// Single line comment\n}")
-        .withResult(new Form("form1", Sequence(List())))
+      val formWithSingleLineComment = "form form1 {\n// Single line comment\n}"
+      val result = new Form("form1", Sequence(List()))
+      
+      form must succeedOn(formWithSingleLineComment).withResult(result)
     }
 
     "ignore multiline comments" in {
-      form must succeedOn("form form1 {\n/**\n* Multiline comment\n*/}")
-        .withResult(new Form("form1", Sequence(List())))
+      val formWithMultilineComment = "form form1 {\n/**\n* Multiline comment\n*/}"
+      val result = new Form("form1", Sequence(List()))
+      
+      form must succeedOn(formWithMultilineComment).withResult(result)
     }
   }
 
   "question parser" should {
     "parse boolean questions" in {
-      question must succeedOn("question var \"label\"\nanswer boolean")
-        .withResult(Question(BooleanType(), Variable("var"), "label", None))
+      val booleanQuestion = "question var \"label\"\nanswer boolean"
+      val result = Question(BooleanType(), Variable("var"), "label", None)
+      
+      question must succeedOn(booleanQuestion).withResult(result)
     }
 
     "parse number questions" in {
-      question must succeedOn("question var \"label\"\nanswer number")
-        .withResult(Question(NumberType(), Variable("var"), "label", None))
+      val numberQuestion = "question var \"label\"\nanswer number"
+      val result = Question(NumberType(), Variable("var"), "label", None)
+      
+      question must succeedOn(numberQuestion).withResult(Question(NumberType(), Variable("var"), "label", None))
     }
 
     "parse string questions" in {
-      question must succeedOn("question var \"label\"\nanswer string")
-        .withResult(Question(StringType(), Variable("var"), "label", None))
+      val stringQuestion = "question var \"label\"\nanswer string"
+      val result = Question(StringType(), Variable("var"), "label", None)
+      
+      question must succeedOn(stringQuestion).withResult(result)
     }
 
     "parse computed number questions" in {
-      question must succeedOn("question var \"label\"\nanswer number is (fieldA + fieldB)")
-        .withResult(Question(NumberType(), Variable("var"), "label", Some(Add(Variable("fieldA"), Variable("fieldB")))))
+      val computedNumberQuestion = "question var \"label\"\nanswer number is (fieldA + fieldB)"
+      val result = Question(NumberType(), Variable("var"), "label", Some(Add(Variable("fieldA"), Variable("fieldB"))))
+      
+      question must succeedOn(computedNumberQuestion).withResult(result)
     }
 
     "parse computed boolean questions" in {
-      question must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
-        .withResult(Question(BooleanType(), Variable("var"), "label", Some(And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC"))))))
+      val computedBooleanQuestion = "question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)"
+      val result = Question(BooleanType(), Variable("var"), "label", Some(And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC")))))
+      
+      question must succeedOn(computedBooleanQuestion).withResult(result)
     }
 
     "parse computed string questions" in {
-      question must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
-        .withResult(Question(StringType(), Variable("var"), "label", Some(Add(Variable("fieldA"), Variable("fieldB")))))
+      val computedStringQuestion = "question var \"label\"\n    answer string is (fieldA + fieldB)"
+      val result = Question(StringType(), Variable("var"), "label", Some(Add(Variable("fieldA"), Variable("fieldB"))))
+      
+      question must succeedOn(computedStringQuestion).withResult(result)
     }
   }
 
   "if statement parser" should {
     "parse if statements without an else clause" in {
-      ifStatement must succeedOn("if var {}")
-        .withResult(IfStatement(Variable("var"), Sequence(List()), None))
+      val emptyIf = "if var {}"
+      val result = IfStatement(Variable("var"), Sequence(List()), None)
+      
+      ifStatement must succeedOn(emptyIf).withResult(result)
     }
 
     "parse if statements with an else clause" in {
-      ifStatement must succeedOn("if var {} else {}")
-        .withResult(IfStatement(Variable("var"), Sequence(List()), Some(Sequence(List()))))
+      val emptyIfElse = "if var {} else {}"
+      val result = IfStatement(Variable("var"), Sequence(List()), Some(Sequence(List())))
+      
+      ifStatement must succeedOn(emptyIfElse).withResult(result)
     }
   }
 
   "and parser" should {
     "be valid with an and operator" in {
-      and must succeedOn("true and false")
-        .withResult(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))))
+      val andOperation = "true and false"
+      val result = And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      and must succeedOn(andOperation).withResult(result)
     }
 
     "be valid with multiple and operators" in {
-      and must succeedOn("true and false and true")
-        .withResult(And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true))))
+      val andOperation = "true and false and true"
+      val result = And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true)))
+      
+      and must succeedOn(andOperation).withResult(result)
     }
   }
 
   "or parser" should {
     "be valid with an or operator" in {
-      or must succeedOn("true or false")
-        .withResult(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))))
+      val orOperation = "true or false"
+      val result = Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+      
+      or must succeedOn(orOperation).withResult(result)
     }
 
     "be valid with multiple or operators" in {
-      or must succeedOn("true or false or true")
-        .withResult(Or(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true))))
+      val orOperation = "true or false or true"
+      val result = Or(Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true)))
+      
+      or must succeedOn(orOperation).withResult(result)
     }
   }
 
   "not parser" should {
     "be valid with a not operator" in {
-      parsers.not must succeedOn("not true")
-        .withResult(Not(BooleanLiteral(BooleanValue(true))))
+      val notOperation = "not true"
+      val result = Not(BooleanLiteral(BooleanValue(true)))
+      
+      parsers.not must succeedOn(notOperation).withResult(result)
+    }
+
+    "be valid without a not operator" in {
+      val notOperation = "true"
+      val result = BooleanLiteral(BooleanValue(true))
+
+      parsers.not must succeedOn(notOperation).withResult(result)
     }
   }
 
   "equality parser" should {
     "be valid with a == operator on booleans" in {
-      equality must succeedOn("true == true")
-        .withResult(Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))))
+      val equalityOperation = "true == true"
+      val result = Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
 
     "be valid with a == operator on numbers" in {
-      equality must succeedOn("1 == 2")
-        .withResult(Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val equalityOperation = "1 == 2"
+      val result = Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
 
     "be valid with a == operator on strings" in {
-      equality must succeedOn("\"a\" == \"b\"")
-        .withResult(Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))))
+      val equalityOperation = "\"a\" == \"b\""
+      val result = Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
 
     "be valid with a != operator on booleans" in {
-      equality must succeedOn("true != true")
-        .withResult(NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))))
+      val equalityOperation = "true != true"
+      val result = NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
 
     "be valid with a != operator on numbers" in {
-      equality must succeedOn("1 != 2")
-        .withResult(NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val equalityOperation = "1 != 2"
+      val result = NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
 
     "be valid with a != operator on strings" in {
-      equality must succeedOn("\"a\" != \"b\"")
-        .withResult(NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))))
+      val equalityOperation = "\"a\" != \"b\""
+      val result = NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
+      
+      equality must succeedOn(equalityOperation).withResult(result)
     }
   }
 
   "relational parser" should {
     "be valid with a < operator" in {
-      relational must succeedOn("1 < 2")
-        .withResult(LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val relationalOperation = "1 < 2"
+      val result = LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      relational must succeedOn(relationalOperation).withResult(result)
     }
 
     "be valid with a <= operator" in {
-      relational must succeedOn("1 <= 2")
-        .withResult(LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val relationalOperation = "1 <= 2"
+      val result = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      relational must succeedOn(relationalOperation).withResult(result)
     }
 
     "be valid with a > operator" in {
-      relational must succeedOn("1 > 2")
-        .withResult(GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val relationalOperation = "1 > 2"
+      val result = GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      relational must succeedOn(relationalOperation).withResult(result)
     }
 
     "be valid with a >= operator" in {
-      relational must succeedOn("1 >= 2")
-        .withResult(GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val relationalOperation = "1 >= 2"
+      val result = GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      relational must succeedOn(relationalOperation).withResult(result)
     }
   }
 
   "sum parser" should {
     "be valid with an plus operator on numbers" in {
-      sum must succeedOn("1 + 2")
-        .withResult(Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val expression = "1 + 2"
+      val result = Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      sum must succeedOn(expression).withResult(result)
     }
 
     "be valid with an plus operator on strings" in {
-      sum must succeedOn("\"a\" + \"b\"")
-        .withResult(Add(StringLiteral(StringValue("a")), StringLiteral(StringValue("b"))))
+      val expression = "\"a\" + \"b\""
+      val result = Add(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
+      
+      sum must succeedOn(expression).withResult(result)
     }
 
     "be valid with multiple plus operators" in {
-      sum must succeedOn("1 + 2 + 3")
-        .withResult(Add(Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3))))
+      val expression = "1 + 2 + 3"
+      val result = Add(Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3)))
+      
+      sum must succeedOn(expression).withResult(result)
     }
 
     "be valid with an minus operator" in {
-      sum must succeedOn("1 - 2")
-        .withResult(Sub(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val expression = "1 - 2"
+      val result = Sub(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      sum must succeedOn(expression).withResult(result)
     }
 
     "be valid with multiple minus operators" in {
-      sum must succeedOn("1 - 2 - 3")
-        .withResult(Sub(Sub(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3))))
+      val expression = "1 - 2 - 3"
+      val result = Sub(Sub(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3)))
+      
+      sum must succeedOn(expression).withResult(result)
     }
   }
 
   "product parser" should {
     "be valid with an product operator" in {
-      product must succeedOn("1 * 2")
-        .withResult(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val expression = "1 * 2"
+      val result = Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      product must succeedOn(expression).withResult(result)
     }
 
     "be valid with multiple product operators" in {
-      product must succeedOn("1 * 2 * 3")
-        .withResult(Mul(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3))))
+      val expression = "1 * 2 * 3"
+      val result = Mul(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3)))
+      
+      product must succeedOn(expression).withResult(result)
     }
 
     "be valid with an divide operator" in {
-      product must succeedOn("1 / 2")
-        .withResult(Div(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))))
+      val expression = "1 / 2"
+      val result = Div(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
+      
+      product must succeedOn(expression).withResult(result)
     }
 
     "be valid with multiple divide operators" in {
-      product must succeedOn("1 / 2 / 3")
-        .withResult(Div(Div(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3))))
+      val expression = "1 / 2 / 3"
+      val result = Div(Div(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3)))
+      
+      product must succeedOn(expression).withResult(result)
+    }
+  }
+
+  "negation parser" should {
+    "be valid with an unary negation" in {
+      val expression = "-1"
+      val result = Negation(NumberLiteral(NumberValue(1)))
+
+      negation must succeedOn("-1").withResult(result)
+    }
+
+    "be valid without an unary negation" in {
+      val expression = "1"
+      val result = NumberLiteral(NumberValue(1))
+
+      negation must succeedOn("1").withResult(result)
     }
   }
 
   "expressions" should {
     "be valid with a literal" in {
-      expression must succeedOn("true")
-        .withResult(BooleanLiteral(BooleanValue(true)))
+      val expression = "true"
+      val result = BooleanLiteral(BooleanValue(true))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "be valid with a variable" in {
-      expression must succeedOn("var1")
-        .withResult(Variable("var1"))
+      val expression = "var1"
+      val result = Variable(expression)
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "have the correct precedence when using parenthesis" in {
-      expression must succeedOn("true and (false or true)")
-        .withResult(And(BooleanLiteral(BooleanValue(true)), Or(BooleanLiteral(BooleanValue(false)), BooleanLiteral(BooleanValue(true)))))
+      val expression = "true and (false or true)"
+      val result = And(BooleanLiteral(BooleanValue(true)), Or(BooleanLiteral(BooleanValue(false)), BooleanLiteral(BooleanValue(true))))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "be valid with multiple different operators" in {
-      expression must succeedOn("true and true and false or true")
-        .withResult(Or(And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true))))
+      val expression = "true and true and false or true"
+      val result = Or(And(And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true))), BooleanLiteral(BooleanValue(false))), BooleanLiteral(BooleanValue(true)))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
+    }
+
+    "give negation precedence over sum" in {
+      val expression = "-1 + 3"
+      val result = Add(Negation(NumberLiteral(NumberValue(1))), NumberLiteral(NumberValue(3)))
+
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "give product precedence over sum" in {
-      expression must succeedOn("1 * 2 + 3")
-        .withResult(Add(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3))))
+      val expression = "1 * 2 + 3"
+      val result = Add(Mul(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2))), NumberLiteral(NumberValue(3)))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "give product precedence over sum" in {
-      expression must succeedOn("1 + 2 * 3")
-        .withResult(Add(NumberLiteral(NumberValue(1)), Mul(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3)))))
+      val expression = "1 + 2 * 3"
+      val result = Add(NumberLiteral(NumberValue(1)), Mul(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3))))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
 
     "have the correct precedence when using parenthesis" in {
-      expression must succeedOn("1 * (2 - 3)")
-        .withResult(Mul(NumberLiteral(NumberValue(1)), Sub(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3)))))
+      val expression = "1 * (2 - 3)"
+      val result = Mul(NumberLiteral(NumberValue(1)), Sub(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3))))
+      
+      parsers.expression must succeedOn(expression).withResult(result)
     }
   }
 }

@@ -30,24 +30,49 @@ public class IntegerListener extends AListener implements DocumentListener {
 	
 	@Override
 	public void update() {
-		String regex ="[-+]?\\d+(\\.\\d+)?";
-		if(widget.getValue().trim().matches(regex)) {
-			System.out.println("Check of match: " + widget.getValue().trim().matches(regex));
-			Integer value = Integer.valueOf(widget.getValue().trim());
+		if(isInteger()) {
+		
+			int value = Integer.valueOf(widget.getValue().trim());
 			IntegerValue intValue = new IntegerValue(value);
-			System.out.println("Integer: " + value);
+			System.out.println("Integer: " + intValue + " | id " + widget.getIdWidget());
 			
 			evaluator.setValue(widget.getIdWidget().toString(), intValue);
-			 SwingUtilities.invokeLater(new Runnable() {
+			
+			SwingUtilities.invokeLater(new Runnable() {
 		            @Override
 		            public void run() {
 		            	evaluator.setValueInGUI();
 		            }
 			 });
+		      	
+		}
+		else if (isEmptyEntry()) {
+			IntegerValue intValue = new IntegerValue(0);
+			System.out.println("Empty integer: " + intValue + " for " + widget.getIdWidget().toString());
+			
+			evaluator.setValue(widget.getIdWidget().toString(), intValue);
+			
 		}
 		else { 
 			System.out.println("Illegal input: digits only!" + " Probably in: " + widget.getIdWidget().toString());
-			//TODO add some error display
+			//TODO add some error display 
 		}
-	} 
+	}
+	
+	public boolean isInteger() {
+		String regexDigits ="[-+]?\\d+(\\.\\d+)?";
+		String valueToCheck = widget.getValue().trim();
+		
+		boolean checkIfInteger = valueToCheck.matches(regexDigits);
+		System.out.println("Listener. Is integer: " + widget.getValue().trim().matches(regexDigits) + " for " + widget.getIdWidget());
+		
+		return checkIfInteger;
+	}
+	
+	public boolean isEmptyEntry() {
+		String valueToCheck = widget.getValue().trim();
+		boolean emptyEntryCheck = valueToCheck.isEmpty();
+		
+		return emptyEntryCheck;
+	}
 }

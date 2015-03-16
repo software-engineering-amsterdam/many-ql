@@ -1,12 +1,12 @@
 package org.uva.student.calinwouter.qlqls.ql.interfaces;
 
-import org.uva.student.calinwouter.qlqls.ql.model.ComputedValueField;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticComputedValueField;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 
 public interface IQLRenderer<T> {
 
-    public T render(QuestionField questionField);
+    public T render(StaticQuestionField staticQuestionField);
 
-    public T render(ComputedValueField formField);
+    public T render(StaticComputedValueField formField);
 
 }

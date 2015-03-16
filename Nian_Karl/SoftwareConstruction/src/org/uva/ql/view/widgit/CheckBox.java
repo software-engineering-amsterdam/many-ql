@@ -43,7 +43,7 @@ public class CheckBox extends Widget implements ItemListener {
 		if (!type.isEqual(new UndefinedType()) && isDependent()) {
 			if (type.isBool() && !value.isUndefined()) {
 				BoolValue booleanValue = (BoolValue) value;
-				if (booleanValue.getValue()) {
+				if (booleanValue.value()) {
 					checkBox.setSelected(true);
 				} else {
 					checkBox.setSelected(false);

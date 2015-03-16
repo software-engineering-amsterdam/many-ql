@@ -67,3 +67,20 @@ func NewMathDivNode(leftTerm, rightTerm Evaluatable,
 		pos)
 	return mathDivNode
 }
+
+//----
+
+// MathModNode is the AST node for division operation.
+type MathModNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewMathModNode factory for MathModNode AST node.
+func NewMathModNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *MathModNode {
+	mathModNode := new(MathModNode)
+	mathModNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm,
+		pos)
+	return mathModNode
+}

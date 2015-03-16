@@ -2,8 +2,8 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.strin
 
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.QuestionField;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -40,7 +40,7 @@ public class TextboxWidget implements IWidget {
         });
     }
 
-    public TextboxWidget(final QuestionField questionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
+    public TextboxWidget(final StaticQuestionField staticQuestionField, final QLInterpreter qlIntepreter, final VariableTable symbolTable) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -59,7 +59,7 @@ public class TextboxWidget implements IWidget {
             }
 
             public void updateField() {
-                symbolTable.setVariable(questionField.getVariable(), new StringValue(widget.getText()));
+                symbolTable.setVariable(staticQuestionField.getVariable(), new StringValue(widget.getText()));
                 qlIntepreter.interpret();
             }
         });

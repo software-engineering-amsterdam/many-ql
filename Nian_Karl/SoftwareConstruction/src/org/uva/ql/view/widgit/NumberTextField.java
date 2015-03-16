@@ -24,6 +24,7 @@ public class NumberTextField extends BaseTextField {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Integer getValue() {
+		// Lol.
 		return getValue();
 	}
 

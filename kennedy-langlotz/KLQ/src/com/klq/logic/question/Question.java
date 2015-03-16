@@ -1,8 +1,6 @@
 package com.klq.logic.question;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.BooleanNode;
-import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.value.IdentifierValue;
 import com.klq.logic.IKLQItem;
 import javafx.beans.property.BooleanProperty;
@@ -10,7 +8,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,6 @@ import java.util.List;
 public class Question implements IKLQItem{
     private final IdentifierValue id;
     private final Type type;
-    private final OptionSet options;
     private final Text text;
     private final List<AExpression> dependencies;
 
@@ -30,24 +26,23 @@ public class Question implements IKLQItem{
     private final SimpleBooleanProperty visibleProperty;
     private final SimpleStringProperty computedProperty;
 
-    public Question (IdentifierValue id, Type type, OptionSet options, Text text){
+    public Question(IdentifierValue id, Type type, Text text) {
+        this(id, type, text, null);
+    }
+
+    public Question (IdentifierValue id, Type type, Text text, AExpression computedExpression){
         this.id = id;
         this.type = type;
-        this.options = options;
         this.text = text;
         this.dependencies = new ArrayList<>();
-        visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
-        computedProperty = new SimpleStringProperty("");
-
-        if (this.options != null) {
-            if (this.options.size() == 1) {
-                computedQuestion = true;
-                computedExpression = options.get(0);
-                return;
-            }
+        this.visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
+        this.computedProperty = new SimpleStringProperty("");
+        if (computedExpression == null) {
+            computedQuestion = false;
+        } else {
+            computedQuestion = true;
         }
-        computedQuestion = false;
-        computedExpression = null;
+        this.computedExpression = computedExpression;
     }
 
     public boolean isComputedQuestion() {
@@ -60,10 +55,6 @@ public class Question implements IKLQItem{
 
     public Type getType() {
         return type;
-    }
-
-    public OptionSet getOptions() {
-        return options;
     }
 
     public Text getText() {

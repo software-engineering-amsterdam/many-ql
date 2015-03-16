@@ -29,6 +29,7 @@ class TypeChecker {
     case e: Sub => checkArithmeticExpression(e.lhs, e.rhs, env, e.pos)
     case e: Mul => checkArithmeticExpression(e.lhs, e.rhs, env, e.pos)
     case e: Div => checkArithmeticExpression(e.lhs, e.rhs, env, e.pos)
+    case e: Negation => checkArithmeticExpression(e.expression, env, e.pos)
     case v: Variable => checkVariable(v.name, env, v.pos)
     case BooleanLiteral(_) => Right(BooleanType())
     case NumberLiteral(_) => Right(NumberType())
@@ -118,6 +119,14 @@ class TypeChecker {
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
       case _ => Left(new Error("Invalid relational expression", Some(p)))
+    }
+  }
+
+  def checkArithmeticExpression(e: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    check(e, env) match {
+      case Right(NumberType()) => Right(NumberType())
+      case Left(error) => Left(error)
+      case _ => Left(new Error("Invalid negation expression", Some(p)))
     }
   }
 

@@ -1,18 +1,14 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Nodes;
+using AST.Nodes.Interfaces;
 using AST.Representation;
 using System;
 
 namespace AST.Nodes.Literals
 {
-    public abstract class Literal : IHasType, IExpression
+    public abstract class Literal : Expression, IHasType
     {
-        private readonly PositionInText Position;
-        protected Literal() { }
         protected Literal(PositionInText position)
-        {
-            Position = position;
-        }
-        public virtual PositionInText GetPosition(){ return Position; }
+            : base(position) {}
         public abstract object GetValueType();
         public abstract Literal Equal(Literal value);
         public abstract Literal NotEqual(Literal value);
@@ -43,8 +39,8 @@ namespace AST.Nodes.Literals
         public virtual Literal IntegerGreaterEqual(Literals.Int intValue) { throw new NotImplementedException(); }
         public virtual Literal IntegerLess(Literals.Int intValue) { throw new NotImplementedException(); }
         public virtual Literal IntegerLessEqual(Literals.Int intValue) { throw new NotImplementedException(); }
-        public virtual T Accept<T>(ASTVisitors.IVisitor<T> visitor) { return default(T); }
         public bool IsOfType(Types.Type type){ throw new NotImplementedException();}
         public virtual Types.Type RetrieveType(){throw new NotImplementedException();}
+        public abstract override T Accept<T>(ASTVisitors.IVisitor<T> visitor);
     } 
 }

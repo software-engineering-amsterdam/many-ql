@@ -6,14 +6,14 @@ public class Question extends Statement {
 
 	private final String id;
 	private final Type type;
-	private final String question;
+	private final String label;
 	
 	public Question(int lineNumber, int offset, String id, Type type,
-			String question) {
+			String label) {
 		super(lineNumber, offset);
 		this.id = id;
 		this.type = type;
-		this.question = question;
+		this.label = label;
 	}
 
 	public String getId() {
@@ -24,8 +24,8 @@ public class Question extends Statement {
 		return type;
 	}
 
-	public String getQuestion() {
-		return question;
+	public String getLabel() {
+		return label;
 	}
 
 	@Override

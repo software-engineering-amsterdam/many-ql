@@ -2,13 +2,13 @@ package ast.type;
 
 public class UndefinedType extends Type {
 	
-	public String getValue() {
-		return null;
+	public String getName() {
+		return "undefined";
 	}
 	
 	@Override
 	public String toString() {
-		return "undefined";
+		return "undefined"; 
 	}
 	
 	@Override
