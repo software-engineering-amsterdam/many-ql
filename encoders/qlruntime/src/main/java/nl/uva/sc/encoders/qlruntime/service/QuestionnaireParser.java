@@ -11,8 +11,6 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.builder.AstBuilder;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
-import nl.uva.sc.encoders.ql.validation.TypeChecker;
-import nl.uva.sc.encoders.ql.validation.TypeValidation;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -20,15 +18,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-/**
- * Implementation for {@link QuestionnaireParsingService}.
- */
-public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingService {
+public class QuestionnaireParser {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public QuestionnaireParsingResult parse(String location) throws IOException {
 		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(location));
 		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(lexer));
@@ -45,14 +36,10 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 
-		AstBuilder qlInterpreter = new AstBuilder();
-		Questionnaire questionnaire = (Questionnaire) qlInterpreter.visit(parseTree);
+		AstBuilder astBuilder = new AstBuilder();
+		Questionnaire questionnaire = (Questionnaire) astBuilder.visit(parseTree);
 
-		TypeChecker typeChecker = new TypeChecker(questionnaire.getAllQuestions());
-		List<TypeValidation> typeValidations = new ArrayList<>();
-		typeValidations.addAll(typeChecker.checkTypes());
-
-		return new QuestionnaireParsingResult(questionnaire, syntaxErrors, typeValidations);
+		return new QuestionnaireParsingResult(questionnaire, syntaxErrors);
 	}
 
 }

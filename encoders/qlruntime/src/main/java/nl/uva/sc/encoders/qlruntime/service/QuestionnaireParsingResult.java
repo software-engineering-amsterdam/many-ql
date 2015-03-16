@@ -4,7 +4,6 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
-import nl.uva.sc.encoders.ql.validation.TypeValidation;
 
 public class QuestionnaireParsingResult {
 
@@ -12,13 +11,9 @@ public class QuestionnaireParsingResult {
 
 	private final List<SyntaxError> syntaxErrors;
 
-	private final List<TypeValidation> typeValidations;
-
-	public QuestionnaireParsingResult(Questionnaire questionnaire, List<SyntaxError> syntaxErrors,
-			List<TypeValidation> typeValidations) {
+	public QuestionnaireParsingResult(Questionnaire questionnaire, List<SyntaxError> syntaxErrors) {
 		this.questionnaire = questionnaire;
 		this.syntaxErrors = syntaxErrors;
-		this.typeValidations = typeValidations;
 	}
 
 	public Questionnaire getQuestionnaire() {
@@ -29,7 +24,4 @@ public class QuestionnaireParsingResult {
 		return syntaxErrors;
 	}
 
-	public List<TypeValidation> getTypeValidations() {
-		return typeValidations;
-	}
 }

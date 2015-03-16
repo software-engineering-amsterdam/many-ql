@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,12 +22,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
+import nl.uva.sc.encoders.ql.validation.TypeChecker;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.runtime.AstTransformer;
 import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestionnaire;
+import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParser;
 import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingResult;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingService;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingServiceImpl;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
@@ -84,8 +85,6 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					AstTransformer astTransformer = new AstTransformer();
-					QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 					String text = textField.getText();
 					URL resource = getURL(text);
 					File file;
@@ -95,25 +94,14 @@ public class Main extends Application {
 						file = new File(text);
 					}
 
-					QuestionnaireParsingResult questionnaireParsingResult = questionnaireParsingService.parse(file
-							.getAbsolutePath());
-					List<SyntaxError> syntaxErrors = questionnaireParsingResult.getSyntaxErrors();
-					List<TypeValidation> typeValidations = questionnaireParsingResult.getTypeValidations();
-					stackPane.getChildren().clear();
-					Node node;
-					if (!syntaxErrors.isEmpty()) {
-						ValidationsUI validationsUIFactory = new ValidationsUI();
-						node = validationsUIFactory.generateUI(syntaxErrors);
-					} else if (!typeValidations.isEmpty()) {
-						ValidationsUI validationsUIFactory = new ValidationsUI();
-						node = validationsUIFactory.generateUI(typeValidations);
-					} else {
-						Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
-						RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
-						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-						node = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
-					}
-					stackPane.getChildren().add(node);
+					String absolutePath = file.getAbsolutePath();
+					QuestionnaireParser questionnaireParser = new QuestionnaireParser();
+					QuestionnaireParsingResult questionnaireParsingResult = questionnaireParser.parse(absolutePath);
+
+					Node node = determineNodeToShow(questionnaireParsingResult);
+					ObservableList<Node> stackPaneChildren = stackPane.getChildren();
+					stackPaneChildren.clear();
+					stackPaneChildren.add(node);
 
 				} catch (IOException | URISyntaxException e) {
 					ExceptionDialog dialog = new ExceptionDialog(e);
@@ -128,6 +116,26 @@ public class Main extends Application {
 		Scene scene = new Scene(grid, 750, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	private Node determineNodeToShow(QuestionnaireParsingResult questionnaireParsingResult) {
+		List<SyntaxError> syntaxErrors = questionnaireParsingResult.getSyntaxErrors();
+		if (!syntaxErrors.isEmpty()) {
+			ValidationsUI validationsUIFactory = new ValidationsUI();
+			return validationsUIFactory.generateUI(syntaxErrors);
+		}
+
+		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
+		TypeChecker typeChecker = new TypeChecker(questionnaire.getAllQuestions());
+		List<TypeValidation> typeValidations = typeChecker.checkTypes();
+		if (!typeValidations.isEmpty()) {
+			ValidationsUI validationsUIFactory = new ValidationsUI();
+			return validationsUIFactory.generateUI(typeValidations);
+		}
+		AstTransformer astTransformer = new AstTransformer();
+		RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
+		QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
+		return questionnaireUIFactory.generateUI(runtimeQuestionnaire);
 	}
 
 	private URL getURL(String path) {

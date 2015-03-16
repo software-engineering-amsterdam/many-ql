@@ -8,22 +8,19 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingResult;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingService;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingServiceImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class QuestionnaireParsingServiceImplTest {
+public class QuestionnaireParserTest {
 
-	private QuestionnaireParsingService questionnaireParsingService;
+	private QuestionnaireParser questionnaireParsingService;
 
 	private static final String RESOURCE_ROOT = "src/main/resources/ql/";
 
 	@Before
 	public void setUp() throws Exception {
-		questionnaireParsingService = new QuestionnaireParsingServiceImpl();
+		questionnaireParsingService = new QuestionnaireParser();
 	}
 
 	// TODO create better name for test
