@@ -8,8 +8,8 @@ public class CalculatedQuestion extends Question {
 	private final Expression expression;
 
 	public CalculatedQuestion(int lineNumber, int offset, String id, Type type,
-			String question, Expression expression) {
-		super(lineNumber, offset, id, type, question);
+			String label, Expression expression) {
+		super(lineNumber, offset, id, type, label);
 		this.expression = expression;
 	}
 
