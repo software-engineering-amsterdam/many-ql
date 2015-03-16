@@ -181,4 +181,24 @@ public class QLString extends QLType {
 	public boolean andBoolean(QLBoolean argument) {
 		return false;
 	}
+
+	@Override
+	public boolean assign(QLType argument) {
+		return argument.assignString(this);
+	}
+
+	@Override
+	public boolean assignBoolean(QLBoolean argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignNumeric(QLNumeric argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignString(QLString argument) {
+		return true;
+	}
 }

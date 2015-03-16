@@ -203,5 +203,25 @@ public class QLError extends QLType {
 	public boolean andBoolean(QLBoolean argument) {
 		return false;
 	}
+
+	@Override
+	public boolean assign(QLType argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignBoolean(QLBoolean argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignNumeric(QLNumeric argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignString(QLString argument) {
+		return false;
+	}
 	
 }

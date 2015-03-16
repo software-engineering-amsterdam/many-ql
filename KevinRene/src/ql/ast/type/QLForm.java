@@ -179,4 +179,28 @@ public class QLForm extends QLType {
 	public boolean andBoolean(QLBoolean argument) {
 		return false;
 	}
+
+	@Override
+	public boolean assign(QLType argument) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean assignBoolean(QLBoolean argument) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean assignNumeric(QLNumeric argument) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean assignString(QLString argument) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

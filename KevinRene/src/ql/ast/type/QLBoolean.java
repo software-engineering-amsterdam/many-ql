@@ -211,4 +211,24 @@ public class QLBoolean extends QLType {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean assign(QLType argument) {
+		return argument.assignBoolean(this);
+	}
+
+	@Override
+	public boolean assignBoolean(QLBoolean argument) {
+		return true;
+	}
+
+	@Override
+	public boolean assignNumeric(QLNumeric argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignString(QLString argument) {
+		return false;
+	}
 }

@@ -96,6 +96,10 @@ public abstract class QLType implements QLNode {
 	public abstract boolean and(QLType argument);
 	public abstract boolean andBoolean(QLBoolean argument);
 	
+	public abstract boolean assign(QLType argument);
+	public abstract boolean assignBoolean(QLBoolean argument);
+	public abstract boolean assignNumeric(QLNumeric argument);
+	public abstract boolean assignString(QLString argument);
 	
 	public abstract <T> T accept(TypeVisitor<T> visitor);
 	

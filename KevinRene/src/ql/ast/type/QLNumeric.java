@@ -182,4 +182,24 @@ public class QLNumeric extends QLType {
 	public boolean andBoolean(QLBoolean argument) {
 		return false;
 	}
+
+	@Override
+	public boolean assign(QLType argument) {
+		return argument.assignNumeric(this);
+	}
+
+	@Override
+	public boolean assignBoolean(QLBoolean argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignNumeric(QLNumeric argument) {
+		return true;
+	}
+
+	@Override
+	public boolean assignString(QLString argument) {
+		return false;
+	}
 }
