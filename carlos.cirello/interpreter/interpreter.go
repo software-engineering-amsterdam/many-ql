@@ -1,6 +1,5 @@
-/*
-Package interpreter is the runtime which executes the AST created from the compiler.
-*/
+// Package interpreter is the runtime which executes the AST created from the
+// compiler.
 package interpreter
 
 import (
@@ -21,7 +20,7 @@ type interpreter struct {
 }
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
-// channels to communicate with Frontend process
+// channels to communicate with Frontend process.
 func New(q *ast.QuestionaireNode) *plumbing.Pipes {
 	typecheck(q)
 

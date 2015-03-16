@@ -12,11 +12,6 @@ public final class UndefinedValue extends Value {
     }
 
     @Override
-    public Object getValue() {
-        return null;
-    }
-
-    @Override
     public Value add(final Value otherValue) {
         return UNDEFINED;
     }
@@ -141,8 +136,4 @@ public final class UndefinedValue extends Value {
         return UNDEFINED;
     }
 
-    @Override
-    public String toString() {
-        return "";
-    }
 }

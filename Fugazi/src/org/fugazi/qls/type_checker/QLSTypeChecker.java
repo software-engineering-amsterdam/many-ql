@@ -9,6 +9,7 @@ import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
+import org.fugazi.qls.type_checker.issue.ASTQlsNodeIssueType;
 
 import java.util.*;
 
@@ -38,7 +39,7 @@ public class QLSTypeChecker {
         for (QLSQuestion question : qlsQuestions ) {
             if (!qlQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.QLS_ERROR.UNDEFINED, question,
+                        ASTQlsNodeIssueType.QLS_ERROR.UNDEFINED, question,
                         "Attempted to define style for an undefined question "
                                 + question.getIdName() + "."
                 );
@@ -56,7 +57,7 @@ public class QLSTypeChecker {
         for (Question question : qlQuestions ) {
             if (!qlsQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.QLS_ERROR.MISSING_STYLE, question,
+                        ASTQlsNodeIssueType.QLS_ERROR.MISSING_STYLE, question,
                         "QL Question  " + question.getIdName() +
                                 " not placed by QLS sheet and missing style definition."
                 );
@@ -73,7 +74,7 @@ public class QLSTypeChecker {
         for (QLSQuestion question : qlsQuestions) {
             if (qlsQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.QLS_ERROR.DUPLICATE, question,
+                        ASTQlsNodeIssueType.QLS_ERROR.DUPLICATE, question,
                         "QLS Question  " + question.getIdName() +
                                 " already defined (duplicate)."
                 );
@@ -101,7 +102,7 @@ public class QLSTypeChecker {
             // contained in the qlForm, is reported as QLS_ERROR.UNDEFINED
             if (questionType != null && !supportedQuestionTypes.contains(questionType)) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.QLS_ERROR.WRONG_WIDGET_TYPE, question,
+                        ASTQlsNodeIssueType.QLS_ERROR.WRONG_WIDGET_TYPE, question,
                         "Wrong widget " + questionWidget + " for question type "
                             + questionType + "."
                 );

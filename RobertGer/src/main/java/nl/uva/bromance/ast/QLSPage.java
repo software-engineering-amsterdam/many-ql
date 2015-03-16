@@ -1,6 +1,8 @@
 package nl.uva.bromance.ast;
 
-public class QLSPage extends Node {
+import nl.uva.bromance.ast.visitors.NodeVisitor;
+
+public class QLSPage extends QLSNode {
 	private String identifier;
     public QLSPage(int lineNumber, String id) {
         super(lineNumber, QLSPage.class);
@@ -20,8 +22,8 @@ public class QLSPage extends Node {
         for (int j = 0; j < i; j++) {
             System.out.print("\t");
         }
-        System.out.print("[Page] { Name: "+identifier+" }\n");
-        for (Node n : getChildren()) {
+        System.out.print("[Page] { Name: " + identifier + " }\n");
+        for (QLSNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }

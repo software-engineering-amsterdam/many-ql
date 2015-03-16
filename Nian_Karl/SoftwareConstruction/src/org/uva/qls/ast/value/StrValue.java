@@ -1,6 +1,5 @@
 package org.uva.qls.ast.value;
 
-import org.uva.qls.visitor.TypeVisitor;
 
 public class StrValue extends Value {
 

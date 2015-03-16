@@ -9,7 +9,6 @@ import javax.swing.event.ChangeListener;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
 public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {
 	protected JSpinner spinbox;
 	
@@ -30,9 +29,8 @@ public abstract class Spinbox<T extends Value> extends InputWidget<T> implements
 	 * @return The converted value wrapped in the proper
 	 * 		value object.
 	 */
-	public abstract Value convertValue(Value value);
+	public abstract Number convertValue(Value value);
 	
-	@Override
 	/**
 	 * Very nasty hack to allow casting of any number into 
 	 * the one that is actually supported by the spinbox.
@@ -43,8 +41,9 @@ public abstract class Spinbox<T extends Value> extends InputWidget<T> implements
 	 * 
 	 * Right? Please?
 	 */
-	public void setValue(T value) {
-		spinbox.setValue(convertValue(value).getValue());
+	@Override
+	public void setValue(Value value) {
+		spinbox.setValue(convertValue(value));
 	}
 	
 	@Override
@@ -59,6 +58,6 @@ public abstract class Spinbox<T extends Value> extends InputWidget<T> implements
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		handleChange(getValue());
+		handleChange(getValue(), this);
 	}
 }

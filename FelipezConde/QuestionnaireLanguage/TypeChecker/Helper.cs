@@ -1,5 +1,5 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
+using AST.Nodes.Expressions;
 using AST.Nodes.FormObject;
 using Notifications;
 using System.Collections.Generic;
@@ -29,7 +29,5 @@ namespace TypeChecker
 
             return false;
         }
-
-
     }
 }

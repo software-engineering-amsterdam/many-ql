@@ -1,11 +1,10 @@
 package com.form.language.ast.expression.literal;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.Error;
+import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
@@ -13,12 +12,12 @@ public class IdLiteral extends Literal {
     private String name;
     private Type type;
 
-    public IdLiteral(String value, Token tokenInfo) {
+    public IdLiteral(String value, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.name = value;
     }
 
-    public IdLiteral(String name, Type questionType, IdCollection idCollection, Token tokenInfo) {
+    public IdLiteral(String name, Type questionType, IdCollection idCollection, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.name = name;
 	this.type = questionType;
@@ -36,7 +35,8 @@ public class IdLiteral extends Literal {
     public GenericValue evaluate(Context context) {
 	return context.getValue(name);
     }
-
+    
+    @Override
     public Type getType(Context context) {
 	if (this.IsReference()) {
 	    return getTypeFromMemory(context);

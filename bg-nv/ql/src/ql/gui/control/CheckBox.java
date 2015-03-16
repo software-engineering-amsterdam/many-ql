@@ -5,11 +5,12 @@ import javafx.scene.Node;
 import ql.gui.ModelVisitor;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
+import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 10-3-15.
  */
-public class CheckBox extends Control implements BooleanControl
+public class CheckBox extends ControlElement implements BooleanControl
 {
     javafx.scene.control.CheckBox checkBox;
 
@@ -41,21 +42,30 @@ public class CheckBox extends Control implements BooleanControl
     }
 
     @Override
+    public void setValue(Value value)
+    {
+        value.accept(this);
+    }
+
+    @Override
+    public Void visit(BoolValue val)
+    {
+        this.setSelected(val.getValue());
+        return null;
+    }
+
+    @Override
+    public Void visit(UndefValue val)
+    {
+        this.setSelected(false);
+        return null;
+    }
+
+
+    @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
-    }
-
-    @Override
-    public void setValue(UndefValue value)
-    {
-        this.setSelected(false);
-    }
-
-    @Override
-    public void setValue(BoolValue value)
-    {
-        this.setSelected(value.getValue());
     }
 
     @Override

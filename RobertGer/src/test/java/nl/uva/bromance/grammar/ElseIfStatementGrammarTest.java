@@ -141,8 +141,10 @@ public class ElseIfStatementGrammarTest extends GrammarTest {
 
     @Test
     public void QuestionAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         QuestionAsChildSetup();
+
+        assertThat(listener.elseIfStatementCount).isEqualTo(1);
+        assertThat(listener.questionCount).isEqualTo(1);
     }
 
     @Test

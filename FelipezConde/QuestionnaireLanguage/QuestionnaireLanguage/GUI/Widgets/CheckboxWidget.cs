@@ -1,14 +1,5 @@
-﻿using AST.Nodes.Literals;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.Widgets
 {

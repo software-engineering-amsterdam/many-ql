@@ -6,11 +6,6 @@ import java.math.BigInteger;
 public class NumberValue extends Value {
     private final BigDecimal value;
 
-    @Override
-    public Number getValue() {
-        return this.value;
-    }
-
     public NumberValue(int value) {
         this.value = new BigDecimal(value);
     }
@@ -28,7 +23,7 @@ public class NumberValue extends Value {
     }
 
     @Override
-    public BigDecimal asDecimal() {
+    public BigDecimal getNumber() {
         return value;
     }
 
@@ -84,72 +79,47 @@ public class NumberValue extends Value {
 
     @Override
     public Value addNumber(final NumberValue otherValue) {
-        return new NumberValue(this.value.add(otherValue.asDecimal()));
+        return new NumberValue(this.value.add(otherValue.getNumber()));
     }
 
     @Override
     public Value subtractNumber(final NumberValue otherValue) {
-        return new NumberValue(otherValue.asDecimal().subtract(this.value));
+        return new NumberValue(otherValue.getNumber().subtract(this.value));
     }
 
     @Override
     public Value multiplyNumber(final NumberValue otherValue) {
-        return new NumberValue(this.value.multiply(otherValue.asDecimal()));
+        return new NumberValue(this.value.multiply(otherValue.getNumber()));
     }
 
     @Override
     public Value divideNumber(final NumberValue otherValue) {
-        return new NumberValue(otherValue.asDecimal().divide(this.value));
+        return new NumberValue(otherValue.getNumber().divide(this.value));
     }
 
     @Override
     public BooleanValue isEqualNumber(final NumberValue otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) == 0);
+        return new BooleanValue(this.value.compareTo(otherValue.getNumber()) == 0);
     }
 
     @Override
     public BooleanValue isGreaterNumber(final NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) > 0);
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) > 0);
     }
 
     @Override
     public BooleanValue isLowerNumber(final NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) < 0);
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) < 0);
     }
 
     @Override
     public BooleanValue isGreaterOrEqualNumber(final NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) >= 0);
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) >= 0);
     }
 
     @Override
     public BooleanValue isLowerOrEqualNumber(final NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) <= 0);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        NumberValue other = (NumberValue) obj;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) <= 0);
     }
 
 }

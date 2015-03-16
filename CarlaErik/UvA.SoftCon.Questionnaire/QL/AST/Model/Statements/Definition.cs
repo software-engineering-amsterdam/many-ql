@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
 {
-    public class Definition : QLNode, IStatement
+    public class Definition : Statement
     {
         public DataType DataType
         {
@@ -23,13 +23,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             private set;
         }
 
-        public IExpression Expression
+        public Expression Expression
         {
             get;
             private set;
         }
 
-        internal Definition(DataType dataType, Identifier id, IExpression expression, TextPosition position)
+        internal Definition(DataType dataType, Identifier id, Expression expression, TextPosition position)
             : base(position)
         {
             DataType = dataType;
@@ -37,17 +37,12 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             Expression = expression;
         }
 
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
         public override T Accept<T>(IQLVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public void AppendQuestions(ICollection<Question> questions)
+        internal override void AppendQuestions(ICollection<Question> questions)
         {
         }
     }

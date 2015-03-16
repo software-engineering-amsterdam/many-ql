@@ -31,11 +31,19 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForm(QLParser.FormContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#quest}.
+	 * Visit a parse tree produced by the {@code SimpleQuestion}
+	 * labeled alternative in {@link QLParser#quest}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuest(QLParser.QuestContext ctx);
+	T visitSimpleQuestion(QLParser.SimpleQuestionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ComputedQuestion}
+	 * labeled alternative in {@link QLParser#quest}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComputedQuestion(QLParser.ComputedQuestionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CtxExpression}
 	 * labeled alternative in {@link QLParser#stat}.
@@ -65,25 +73,74 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCtxAssign(QLParser.CtxAssignContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AssignExpr}
-	 * labeled alternative in {@link QLParser#assign}.
+	 * Visit a parse tree produced by {@link QLParser#assign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssignExpr(QLParser.AssignExprContext ctx);
+	T visitAssign(QLParser.AssignContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AssignStr}
-	 * labeled alternative in {@link QLParser#assign}.
+	 * Visit a parse tree produced by the {@code LessEqualGreaterEqual}
+	 * labeled alternative in {@link QLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssignStr(QLParser.AssignStrContext ctx);
+	T visitLessEqualGreaterEqual(QLParser.LessEqualGreaterEqualContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expr}.
+	 * Visit a parse tree produced by the {@code Parenthesis}
+	 * labeled alternative in {@link QLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(QLParser.ExprContext ctx);
+	T visitParenthesis(QLParser.ParenthesisContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulDiv(QLParser.MulDivContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddSub(QLParser.AddSubContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LogOr}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogOr(QLParser.LogOrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprLiteral}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprLiteral(QLParser.ExprLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Exponentiation}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExponentiation(QLParser.ExponentiationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EqualNot}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualNot(QLParser.EqualNotContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LogAnd}
+	 * labeled alternative in {@link QLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogAnd(QLParser.LogAndContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
@@ -119,9 +176,31 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCtxIdentifier(QLParser.CtxIdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#primitiveType}.
+	 * Visit a parse tree produced by the {@code BooleanPrimitive}
+	 * labeled alternative in {@link QLParser#primitiveType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrimitiveType(QLParser.PrimitiveTypeContext ctx);
+	T visitBooleanPrimitive(QLParser.BooleanPrimitiveContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MoneyPrimitive}
+	 * labeled alternative in {@link QLParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyPrimitive(QLParser.MoneyPrimitiveContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code StringPrimitive}
+	 * labeled alternative in {@link QLParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringPrimitive(QLParser.StringPrimitiveContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IntPrimitive}
+	 * labeled alternative in {@link QLParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntPrimitive(QLParser.IntPrimitiveContext ctx);
 }

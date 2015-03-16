@@ -17,28 +17,28 @@ type QuestionNode struct {
 	pos        scanner.Position
 }
 
-// NewQuestionNode factor for QuestionNode AST struct
+// NewQuestionNode factor for QuestionNode AST struct.
 func NewQuestionNode(label, identifier string, content Parser,
 	pos scanner.Position) *QuestionNode {
 	return &QuestionNode{label, identifier, content, pos}
 }
 
-// Identifier getter method for identifier property
+// Identifier getter method for identifier property.
 func (q *QuestionNode) Identifier() string {
 	return q.identifier
 }
 
-// Content getter method for content property
+// Content getter method for content property.
 func (q *QuestionNode) Content() Parser {
 	return q.content
 }
 
-// Label getter method for label property
+// Label getter method for label property.
 func (q *QuestionNode) Label() string {
 	return q.label
 }
 
-// Clone Question to be used for transmission between VM and Frontend
+// Clone Question to be used for transmission between Interpreter and Frontend.
 func (q QuestionNode) Clone() QuestionNode {
 	return q
 }
@@ -54,7 +54,7 @@ func (q QuestionNode) Primitive() string {
 	return q.content.Primitive()
 }
 
-// Pos returns the token position of the question in the source file
+// Pos returns the token position of the question in the source file.
 func (q *QuestionNode) Pos() scanner.Position {
 	return q.pos
 }

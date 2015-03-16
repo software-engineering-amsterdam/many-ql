@@ -1,7 +1,5 @@
 package com.form.language.ast.expression.logic;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.UnaryExpression;
 import com.form.language.ast.type.BoolType;
@@ -9,11 +7,12 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
+import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 
 public class Not extends UnaryExpression  {
 
-    public Not(Expression value, Token tokenInfo) {
+    public Not(Expression value, QLToken tokenInfo) {
 	super(value, tokenInfo);
     }
 

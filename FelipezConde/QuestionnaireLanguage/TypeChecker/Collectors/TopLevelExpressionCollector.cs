@@ -1,33 +1,33 @@
 ﻿using AST.Nodes;
 using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
-using AST.Visitors;
+using AST.ASTVisitors;
 using System.Collections.Generic;
 using System.Linq;
 
 
 namespace TypeChecker.Collectors
 {
-    public class TopLevelExpressionCollector : BaseVisitor<IList<IExpression>>
+    public class TopLevelExpressionCollector : BaseVisitor<IList<Expression>>
     {
         //selectmany flattens lists of lists.
-        public override IList<IExpression> Visit(Form node)
+        public override IList<Expression> Visit(Form node)
         {
             return node.GetBody()
                        .SelectMany(x => x.Accept(this))
                        .ToList();
         }
 
-        public override IList<IExpression> Visit(Conditional node)
+        public override IList<Expression> Visit(Conditional node)
         {
-            List<IExpression> expressionsInBody = node.GetBody().SelectMany(x => x.Accept(this)).ToList();
+            List<Expression> expressionsInBody = node.GetBody().SelectMany(x => x.Accept(this)).ToList();
                               expressionsInBody.Add(node.Condition);
 
             return expressionsInBody;
         }
-        public override IList<IExpression> Visit(Question node)
+        public override IList<Expression> Visit(Question node)
         {
-            List<IExpression> idList = new List<IExpression>();
+            List<Expression> idList = new List<Expression>();
 
             if (node.Computation != null)
                 idList.AddRange(node.Computation.Accept(this));

@@ -15,8 +15,6 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
         {
         }
 
-        public abstract void Accept(IQLVisitor visitor);
-
         public abstract T Accept<T>(IQLVisitor<T> visitor);
     }
 }

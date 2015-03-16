@@ -1,9 +1,8 @@
 package com.form.language.ast.statement;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
+import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
@@ -13,7 +12,7 @@ public class Question extends Statement {
     private String questionLabel;
     private Type questionType;
 
-    public Question(String questionLabel, String id, Type questionType, Token tokenInfo) {
+    public Question(String questionLabel, String id, Type questionType, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.questionLabel = questionLabel;
 	this.id = id;

@@ -11,7 +11,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
+import org.uva.ql.ast.statement.QuestionComputed;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
@@ -21,7 +21,8 @@ import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.component.QuestionComponent;
-import org.uva.ql.view.listener.ButtonWidgetListener;
+import org.uva.ql.view.listener.DoneButtonListener;
+import org.uva.ql.view.listener.WidgetListener;
 import org.uva.ql.view.panel.IfElseQuestionPanel;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
@@ -36,17 +37,18 @@ import org.uva.ql.visitor.TypeVisitor;
 
 public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>, QuestionnaireVisitor<Object> {
 
-	private ButtonWidgetListener widgetListener;
+	private final WidgetListener widgetListener;
+	private final DoneButtonListener doneButtonListener;
 
 	public GUIVisitor() {
-		widgetListener = new ButtonWidgetListener();
+		widgetListener = new WidgetListener();
+		doneButtonListener = new DoneButtonListener(widgetListener.getEvaluator());
 	}
 
 	@Override
 	public IfQuestionPanel visit(IfStatement ifStatement) {
 		ArrayList<Panel> questionPanels = (ArrayList<Panel>) ifStatement.getIfBlock().accept(this);
-		Expression expr = ifStatement.getExpr();
-		IfQuestionPanel questionPanel = new IfQuestionPanel(questionPanels, expr);
+		IfQuestionPanel questionPanel = new IfQuestionPanel(questionPanels, ifStatement.getExpr());
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
@@ -54,7 +56,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	@Override
 	public Panel visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
-		widget.setDependent(false);
+		widget.setIdentifier(questionStatement.toString());
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
@@ -62,9 +64,9 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public Panel visit(QuestionCompute questionComputeStatement) {
+	public Panel visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
-		widget.setDependent(true);
+		widget.setIdentifier(questionComputeStatement.toString());
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		Identifier identifier = questionComputeStatement.getIdentifier();
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
@@ -88,7 +90,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		QuestionPanel questionPanel = new QuestionPanel(questionPannels);
 		formView.addWithConstraints(questionPanel);
 		JButton button = new JButton("Done");
-		button.addActionListener(widgetListener);
+		button.addActionListener(doneButtonListener);
 		formView.addWithConstraints(button);
 		formView.setVisible(true);
 		return formView;
@@ -123,7 +125,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		System.out.println("This should not happen.");
 		return null;
 	}
-	
+
 	@Override
 	public IfElseQuestionPanel visit(IfElseStatement ifElseStatement) {
 		ArrayList<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
@@ -133,6 +135,5 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
-
 
 }

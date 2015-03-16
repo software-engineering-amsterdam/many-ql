@@ -10,7 +10,7 @@ public class BoolValue extends Value {
 	}
 
 	@Override
-	public Boolean getValue() {
+	public Boolean value() {
 		return value;
 	}
 
@@ -21,7 +21,7 @@ public class BoolValue extends Value {
 
 	@Override
 	public Value not() {
-		return new BoolValue(!getValue());
+		return new BoolValue(!value());
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class BoolValue extends Value {
 
 	@Override
 	public Value boolAnd(BoolValue arg) {
-		return new BoolValue(arg.getValue() && getValue());
+		return new BoolValue(arg.value() && value());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class BoolValue extends Value {
 
 	@Override
 	public Value boolOr(BoolValue arg) {
-		return new BoolValue(arg.getValue() || getValue());
+		return new BoolValue(arg.value() || value());
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class BoolValue extends Value {
 
 	@Override
 	public Value boolEqual(BoolValue arg) {
-		return new BoolValue(arg.getValue() == getValue());
+		return new BoolValue(arg.value() == value());
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class BoolValue extends Value {
 
 	@Override
 	public Value boolNotEqual(BoolValue arg) {
-		return new BoolValue(arg.getValue() != getValue());
+		return new BoolValue(arg.value() != value());
 	}
 	
 	@Override

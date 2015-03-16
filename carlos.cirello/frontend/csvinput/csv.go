@@ -10,34 +10,31 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
-// Input holds an io.Reader which is used to transfer the responses of the form
-// from a CSV file.
-type Input struct {
+type input struct {
 	receive chan *plumbing.Frontend
 	send    chan *plumbing.Frontend
 	stream  io.Reader
 }
 
 // New takes in a pair of channels for the interpreter, a reader stream and
-// prepare an object to be consumed later.
-func New(pipes *plumbing.Pipes, stream io.Reader) *Input {
-	return &Input{
+// reads the input file content.
+func Read(pipes *plumbing.Pipes, stream io.Reader) {
+	input := &input{
 		receive: pipes.FromInterpreter(),
 		send:    pipes.ToInterpreter(),
 		stream:  stream,
 	}
+	input.read()
 }
 
-// Write reads all questions from current state of the interpreter and writes to
-// Input stream.
-func (i *Input) Read() {
+func (i *input) read() {
 	answers := i.readAnswers()
 	i.handshake()
 	i.sendAnswers(answers)
 	i.handoverAndRedraw()
 }
 
-func (i *Input) readAnswers() (answers map[string]string) {
+func (i *input) readAnswers() (answers map[string]string) {
 	csvReader := csv.NewReader(i.stream)
 	answers = make(map[string]string)
 	for {
@@ -50,14 +47,19 @@ func (i *Input) readAnswers() (answers map[string]string) {
 	return answers
 }
 
-func (i *Input) handshake() {
-	// handshake
+func (i *input) handshake() {
+	i.sendHandshake()
+	i.unlockInterpreter()
+}
+
+func (i *input) sendHandshake() {
 	<-i.receive
 	i.send <- &plumbing.Frontend{
 		Type: plumbing.ReadyT,
 	}
+}
 
-	// skip rendering
+func (i *input) unlockInterpreter() {
 renderingSkipLoop:
 	for {
 		select {
@@ -67,9 +69,10 @@ renderingSkipLoop:
 			}
 		}
 	}
+
 }
 
-func (i *Input) sendAnswers(answers map[string]string) {
+func (i *input) sendAnswers(answers map[string]string) {
 	answerEvent := &plumbing.Frontend{
 		Type:    plumbing.Answers,
 		Answers: answers,
@@ -87,7 +90,7 @@ commLoop:
 	}
 }
 
-func (i *Input) handoverAndRedraw() {
+func (i *input) handoverAndRedraw() {
 	redrawEvent := &plumbing.Frontend{Type: plumbing.Redraw}
 redrawLoop:
 	for {

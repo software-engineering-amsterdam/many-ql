@@ -1,11 +1,6 @@
 ﻿using QuestionnaireLanguage.Visitors.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Values = AST.Nodes.Literals;
 using Types = AST.Types;
+using Values = AST.Nodes.Literals;
 
 namespace QuestionnaireLanguage.Visitors
 {
@@ -17,17 +12,17 @@ namespace QuestionnaireLanguage.Visitors
         }
         public Values.String Visit(Types.StringType type)
         {
-            return new Values.String(string.Empty);
+            return new Values.String(string.Empty, new AST.Representation.PositionInText());
         }
 
         public Values.Int Visit(Types.IntType intValue)
         {
-            return new Values.Int(0);
+            return new Values.Int(0, new AST.Representation.PositionInText());
         }
 
         public Values.Bool Visit(Types.BoolType boolValue)
         {
-            return new Values.Bool(false);
+            return new Values.Bool(false, new AST.Representation.PositionInText());
         }
     }
 }

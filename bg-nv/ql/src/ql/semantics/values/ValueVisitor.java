@@ -10,4 +10,5 @@ public interface ValueVisitor<T>
     public T visit(DecValue val);
     public T visit(IntValue val);
     public T visit(StrValue val);
+    public T visit(UndefValue val);
 }

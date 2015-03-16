@@ -1,8 +1,8 @@
 package ql.ast.expression.literal;
 
+import ql.ast.QLType;
 import ql.ast.expression.Literal;
-import ql.ast.expression.QLType;
-import ql.ast.expression.type.QLFloat;
+import ql.ast.type.QLFloat;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.value.FloatValue;
 

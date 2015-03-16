@@ -1,8 +1,10 @@
 package com.form.language.gui.components;
 
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
@@ -44,17 +46,20 @@ public class QuestionComponent extends JPanel {
     // TODO: Type checker implementation to be added
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
-	    CheckBox checkbox = new CheckBox(question, this, rm);
-	    checkbox.setName(question.getId());
-	    add(checkbox);
+		CheckBox checkbox = new CheckBox(question, this, rm);
+	    JCheckBox cb = checkbox.getCheckBox();
+		cb.setName(question.getId());
+	    add(cb);
 	} else if (question.getType(rm).isStringType()) {
 	    TextField textfield = new TextField(question, this, rm);
-	    textfield.setName(question.getId());
-	    add(textfield);
+	    JTextField tx = textfield.getTextField();
+	    tx.setName(question.getId());
+	    add(tx);
 	} else {
 	    TextField textfield = new TextField(question, this, rm);
-	    textfield.setName(question.getId());
-	    add(textfield);
+	    JTextField tx = textfield.getTextField();
+	    tx.setName(question.getId());
+	    add(tx);
 	}
     }
 

@@ -23,7 +23,7 @@ style taxOfficeExample
 			  font: Arial 
 			  fontsize: 14
 			  background-color: rgb(123,121,222)
-			  widget: spinbox[1,2,3,4]
+			  widget: spinbox[1,2,3,4,1]
 		}        
 	}
 	

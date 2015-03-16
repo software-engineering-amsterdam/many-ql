@@ -1,30 +1,22 @@
 package nl.uva.softwcons.ql.eval.value;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public abstract class Value {
-
-    // TODO discuss my existence
-    public abstract Object getValue();
 
     public boolean inConditionalContext() {
         throw new UnsupportedOperationException();
     }
 
-    public BigInteger asInteger() {
+    public BigDecimal getNumber() {
         throw new UnsupportedOperationException();
     }
 
-    public BigDecimal asDecimal() {
+    public String getString() {
         throw new UnsupportedOperationException();
     }
 
-    public String asString() {
-        throw new UnsupportedOperationException();
-    }
-
-    public Boolean asBoolean() {
+    public Boolean getBoolean() {
         throw new UnsupportedOperationException();
     }
 

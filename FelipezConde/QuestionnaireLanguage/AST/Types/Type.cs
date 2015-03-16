@@ -1,9 +1,4 @@
 ﻿using AST.Types.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST.Types
 {
@@ -30,8 +25,6 @@ namespace AST.Types
         }
 
         public abstract bool IsEqual(Type type);
-
-        public abstract void Accept(ITypeVisitor visitor);
 
         public abstract T Accept<T>(ITypeVisitor<T> visitor);
 

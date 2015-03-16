@@ -2,7 +2,7 @@ package ast
 
 import "text/scanner"
 
-// ScalarQuestion stores the answer of question which type is integer numeric
+// ScalarQuestion stores the answer of question which type is integer numeric.
 type ScalarQuestion struct {
 	primitive string
 	pos       scanner.Position
@@ -10,7 +10,7 @@ type ScalarQuestion struct {
 
 const (
 	// ScalarQuestionType constant used for type comparison internally in
-	// interpreter and frontend
+	// interpreter and frontend.
 	ScalarQuestionType = "scalar"
 
 	// ScalarStringPrimitive is the constant which define "string" question
@@ -24,7 +24,7 @@ const (
 	ScalarBoolPrimitive = "bool"
 )
 
-// NewScalarQuestion factory of ScalarQuestion struct
+// NewScalarQuestion factory of ScalarQuestion struct.
 func NewScalarQuestion(primitive string, pos scanner.Position) *ScalarQuestion {
 	return &ScalarQuestion{
 		primitive: primitive,
@@ -32,18 +32,18 @@ func NewScalarQuestion(primitive string, pos scanner.Position) *ScalarQuestion {
 	}
 }
 
-// Type returns the string which represents the string question types
+// Type returns the string which represents the string question types.
 func (s ScalarQuestion) Type() string {
 	return ScalarQuestionType
 }
 
-// Primitive returns the stored primitive
+// Primitive returns the stored primitive.
 func (s ScalarQuestion) Primitive() string {
 	return s.primitive
 }
 
 // Pos getter method for lexer injected information about filename, line and
-// column position of the node
+// column position of the node.
 func (s ScalarQuestion) Pos() scanner.Position {
 	return s.pos
 }

@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes;
-using AST.Nodes.Interfaces;
-using AST.Representation;
-using Types = AST.Types;
+﻿using AST.Representation;
 
 namespace AST.Nodes.Literals
 {
     public class Bool : Literal
     {
         private readonly bool value;
-        private PositionInText positionInText;
 
-        public Bool(bool parsedValue)
-        {
-            this.value = parsedValue;
-        }
+        //public Bool(bool parsedValue)
+        //{
+        //    this.value = parsedValue;
+        //}
 
         public Bool(bool parsedValue, PositionInText positionInText)
+            : base(positionInText)
         {
             this.value = parsedValue;
-            this.positionInText = positionInText;
         }
 
         public bool GetValue()
@@ -31,7 +22,7 @@ namespace AST.Nodes.Literals
             return value;
         }
 
-        public override string MakeString()
+        public override string ToString()
         {
             return "bool";
         }
@@ -41,15 +32,9 @@ namespace AST.Nodes.Literals
             return this;
         }
 
-        // Visitor Methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override Types.Type RetrieveType()
@@ -65,7 +50,7 @@ namespace AST.Nodes.Literals
 
         public  override Literal BoolAnd(Bool boolValue)
         {
-            return new Bool(GetValue() && boolValue.value);
+            return new Bool(GetValue() && boolValue.value, GetPosition());
         }
         #endregion
 
@@ -77,7 +62,7 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolOr(Bool boolValue)
         {
-            return new Bool(value || boolValue.value);
+            return new Bool(value || boolValue.value, GetPosition());
         }
         #endregion
 
@@ -89,7 +74,7 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolEqual(Bool boolValue)
         {
-            return new Bool(value == boolValue.value);
+            return new Bool(value == boolValue.value, GetPosition());
         }
         #endregion
 
@@ -101,14 +86,14 @@ namespace AST.Nodes.Literals
 
         public override Literal BoolNotEqual(Bool boolValue)
         {
-            return new Bool(value != boolValue.value);
+            return new Bool(value != boolValue.value, GetPosition());
         }
         #endregion
 
         #region Negate
         public override Bool Negate()
         {
-            return new Bool(!GetValue());
+            return new Bool(!GetValue(), GetPosition());
         }
 
         #endregion

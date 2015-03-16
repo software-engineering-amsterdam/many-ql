@@ -65,7 +65,6 @@ public class TestGreater extends BaseTest {
 		});
 	}
 
-	@SuppressWarnings("rawtypes")
 	public TestGreater(String input, Value expected) {
 		super(input, expected);
 	}

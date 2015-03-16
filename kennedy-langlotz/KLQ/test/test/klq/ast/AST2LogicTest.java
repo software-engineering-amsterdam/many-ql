@@ -1,8 +1,8 @@
 package test.klq.ast;
 
 import com.klq.AST2GUIConverter;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import org.junit.Before;
@@ -50,7 +50,7 @@ public class AST2LogicTest {
 /*    @Test
     public void testComputedQuestion() throws Exception {
         AddNode add = new AddNode(new NumberNode(13), new NumberNode(17));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
+        ast.getComputedAnswer().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
 
         fillStore();
 

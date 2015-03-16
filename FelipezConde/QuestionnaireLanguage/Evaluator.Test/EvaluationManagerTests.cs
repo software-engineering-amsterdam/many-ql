@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Evaluation;
-using AST.Representation;
-using AST.Nodes.Literals;
-using AST.Nodes.Expression;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions;
+using AST.Nodes.Expressions.Binary;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Expression.Binary;
+using AST.Nodes.Literals;
+using AST.Representation;
+using Evaluation;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Evaluator.Test
 {
@@ -19,10 +19,10 @@ namespace Evaluator.Test
         [TestMethod]
         public void Evaluate_And_True_Test()
         {
-            IExpression left = new Bool(true);
-            IExpression right = new Bool(true);
+            Expression left = new Bool(true, pos);
+            Expression right = new Bool(true, pos);
 
-            IExpression and = new And(left, right, pos);
+            Expression and = new And(left, right, pos);
 
             Assert.IsTrue(((Bool)evaluator.Evaluate(and)).GetValue());
         }
@@ -30,10 +30,10 @@ namespace Evaluator.Test
         [TestMethod]
         public void Evaluate_And_False_Test()
         {
-            IExpression left = new Bool(true);
-            IExpression right = new Bool(false);
+            Expression left = new Bool(true, pos);
+            Expression right = new Bool(false, pos);
 
-            IExpression and = new And(left, right, pos);
+            Expression and = new And(left, right, pos);
 
             Assert.IsFalse(((Bool)evaluator.Evaluate(and)).GetValue());
         }
@@ -41,10 +41,10 @@ namespace Evaluator.Test
         [TestMethod]
         public void Evaluate_Or_True_Test()
         {
-            IExpression left = new Bool(true);
-            IExpression right = new Bool(false);
+            Expression left = new Bool(true, pos);
+            Expression right = new Bool(false, pos);
 
-            IExpression or = new Or(left, right, pos);
+            Expression or = new Or(left, right, pos);
 
             Assert.IsTrue(((Bool)evaluator.Evaluate(or)).GetValue());
         }
@@ -52,10 +52,10 @@ namespace Evaluator.Test
         [TestMethod]
         public void Evaluate_Or_False_Test()
         {
-            IExpression left = new Bool(false);
-            IExpression right = new Bool(false);
+            Expression left = new Bool(false, pos);
+            Expression right = new Bool(false, pos);
 
-            IExpression or = new Or(left, right, pos);
+            Expression or = new Or(left, right, pos);
 
             Assert.IsFalse(((Bool)evaluator.Evaluate(or)).GetValue());
         }

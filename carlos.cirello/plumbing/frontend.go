@@ -1,8 +1,8 @@
 package plumbing
 
-// Frontend carries the communication between VM and Frontend. The basic
-// structure of question is repeated here, so occasional extensions of AST or
-// Symbol Table internals do not affect internals of Frontend.
+// Frontend carries the communication between Interpreter and Frontend. The
+// basic structure of question is repeated here, so occasional extensions of AST
+// or Symbol Table internals do not affect internals of Frontend.
 type Frontend struct {
 	Type FrontendEventType
 
@@ -16,29 +16,31 @@ type Frontend struct {
 	Answers map[string]string
 }
 
-// FrontendEventType describes the communication protocol between the VM
-// and Frontend goroutines.
+// FrontendEventType describes the communication protocol between the
+// Interpreter and Frontend goroutines.
 type FrontendEventType int
 
 const (
-	// ReadyP VM message to confirm readiness of frontend
+	// ReadyP Interpreter message to confirm readiness of frontend.
 	ReadyP FrontendEventType = iota
-	// ReadyT Frontend confirmation of readiness
+	// ReadyT Frontend confirmation of readiness.
 	ReadyT
-	// DrawQuestion sends to Frontend driver the request for one question
+	// DrawQuestion sends to Frontend driver the request for render one
+	// question.
 	DrawQuestion
-	// UpdateQuestion sends to Frontend ... todo
+	// UpdateQuestion sends to Frontend driver the request to update the
+	// content of an already rendered question.
 	UpdateQuestion
-	// Flush forces Frontend driver to assemble the screen
+	// Flush forces Frontend driver to assemble the screen.
 	Flush
-	// FetchAnswers is the signal from VM to read the current captured
-	// answers from Frontend process
+	// FetchAnswers is the signal from Interpreter to read the current
+	// captured answers from Frontend process.
 	FetchAnswers
-	// Answers is the signal from Frontend to VM with the responses from
-	// user.
+	// Answers is the signal from Frontend to Interpreter with the responses
+	// from user.
 	Answers
-	// Redraw is the signal from Frontend to VM asking to redraw the
-	// content, mainly used to switch between Frontend drivers
+	// Redraw is the signal from Frontend to Interpreter asking to redraw
+	// the content, mainly used to switch between Frontend drivers.
 	Redraw
 )
 
@@ -49,9 +51,9 @@ const (
 type Visibility int
 
 const (
-	// Hidden is meant to force the field to be hidden
+	// Hidden is meant to force the field to be hidden.
 	Hidden Visibility = iota
-	// Visible is meant to force the field to be shown
+	// Visible is meant to force the field to be shown.
 	Visible
 )
 

@@ -51,6 +51,6 @@ public class RadioButton extends InputWidget<BooleanValue> implements ActionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		handleChange(getValue());
+		handleChange(getValue(), this);
 	}
 }

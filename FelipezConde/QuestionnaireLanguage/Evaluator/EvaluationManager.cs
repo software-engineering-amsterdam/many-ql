@@ -1,34 +1,26 @@
-﻿using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Expression.Unary;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions.Binary;
+using AST.Nodes.Expressions.Unary;
 using AST.Nodes.Interfaces;
-using AST.Nodes.Literals;
-using AST.Visitors;
 using AST.Nodes.Labels;
+using AST.Nodes.Literals;
+using AST.ASTVisitors;
 using Evaluator.Storage;
+using AST.Nodes.Expressions;
 
 namespace Evaluation
 {
     public class EvaluationManager : BaseVisitor<Literal>
     {
-        //private SymbolTable symbolTable;
         public EvaluationManager()
         {
-          //  symbolTable = new SymbolTable();
         }
 
         #region Operations
-        public Literal Evaluate(IExpression expression)
+        public Literal Evaluate(Expression expression)
         {
             return expression.Accept(this);
         }
-
-        //public Literal GetValue(Id key)
-        //{
-        //    Literal result = null;
-        //    result = this.symbolTable.GetValue(key);
-        //    return result;
-        //}
         #endregion
         
         #region Comparison
@@ -144,24 +136,19 @@ namespace Evaluation
         #region Values
         public override Literal Visit(Bool node)
         {
-            return new Bool(node.GetValue());
+            return new Bool(node.GetValue(), node.GetPosition());
         }
 
         public override Literal Visit(Int node)
         {
-            return new Int(node.GetValue());
+            return new Int(node.GetValue(), node.GetPosition());
         }
 
         public override Literal Visit(String node)
         {
-            return new String(node.GetValue());
+            return new String(node.GetValue(), node.GetPosition());
         }
         #endregion
-
-        public override Literal Visit(Container node)
-        {
-            return node.Value.Accept(this);
-        }
 
         public override Literal Visit(Id node)
         {
@@ -170,7 +157,7 @@ namespace Evaluation
 
         public override Literal Visit(Label node)
         {
-            return new String(node.Value);
+            return new String(node.Value, node.GetPosition());
         }
     }
 }

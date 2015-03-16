@@ -1,11 +1,6 @@
-﻿using AST.Helpers;
-using AST.Representation;
+﻿using AST.Representation;
 using Notifications;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TypeChecker.Notifications.Errors
 {
@@ -24,7 +19,7 @@ namespace TypeChecker.Notifications.Errors
             {
                 return string.Format("Duplicate identifier \"{0}\" at {1}",
                                       identifierName,
-                                      Position.PrettyPrint(identifierPositions));
+                                      PositionPrinter.PrettyPrint(identifierPositions));
             }
     }
 }

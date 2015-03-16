@@ -17,8 +17,7 @@ func TestCsvInputFrontend(t *testing.T) {
 	buf := new(bytes.Buffer)
 	go fakeInterpreter(pipes)
 
-	csvoutput := New(pipes, buf)
-	csvoutput.Write()
+	Write(pipes, buf)
 
 	if got := buf.String(); got != expectedCsv {
 		t.Error(

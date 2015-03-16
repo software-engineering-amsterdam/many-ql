@@ -1,11 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Representation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Representation;
-using AST.Types;
 
 namespace AST.Nodes.Literals
 {
@@ -13,10 +7,10 @@ namespace AST.Nodes.Literals
     {
         private readonly int value;
 
-        public Int(int value)
-        {
-            this.value = value;
-        }
+        //public Int(int value)
+        //{
+        //    this.value = value;
+        //}
 
         public Int(int value, PositionInText positionInText)
             :base(positionInText)
@@ -34,20 +28,14 @@ namespace AST.Nodes.Literals
             return this;
         }
 
-        public override string MakeString()
+        public override string ToString()
         {
             return "int";
         }
 
-        // Visitor Methods
-        public override T Accept<T>(Visitors.IVisitor<T> visitor)
+        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override Types.Type RetrieveType()
@@ -62,7 +50,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerAdd(Literals.Int intValue)
         {
-            return new Int(intValue.GetValue() + GetValue());
+            return new Int(intValue.GetValue() + GetValue(), GetPosition());
         }
         
         #endregion
@@ -74,7 +62,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerSubstract(Literals.Int intValue)
         {
-            return new Int(intValue.GetValue() - GetValue());
+            return new Int(intValue.GetValue() - GetValue(), GetPosition());
         }
         #endregion
 
@@ -85,7 +73,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerDivide(Literals.Int intValue)
         {
-            return new Int(intValue.GetValue() / GetValue());
+            return new Int(intValue.GetValue() / GetValue(), GetPosition());
         }
         #endregion
 
@@ -96,7 +84,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerMultiply(Literals.Int intValue)
         {
-            return new Int(intValue.GetValue() * GetValue());
+            return new Int(intValue.GetValue() * GetValue(), GetPosition());
         }
         #endregion
 
@@ -107,7 +95,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerEqual(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() == GetValue());
+            return new Bool(intValue.GetValue() == GetValue(), GetPosition());
         }
         #endregion
 
@@ -118,7 +106,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerNotEqual(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() != GetValue());
+            return new Bool(intValue.GetValue() != GetValue(), GetPosition());
         }
         #endregion
         
@@ -129,7 +117,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerGreater(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() > GetValue());
+            return new Bool(intValue.GetValue() > GetValue(), GetPosition());
         }
         #endregion
 
@@ -140,7 +128,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerGreaterEqual(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() >= GetValue());
+            return new Bool(intValue.GetValue() >= GetValue(), GetPosition());
         }
         #endregion
 
@@ -151,7 +139,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerLess(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() < GetValue());
+            return new Bool(intValue.GetValue() < GetValue(), GetPosition());
         }
         #endregion
 
@@ -162,7 +150,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal IntegerLessEqual(Literals.Int intValue)
         {
-            return new Bool(intValue.GetValue() <= GetValue());
+            return new Bool(intValue.GetValue() <= GetValue(), GetPosition());
         }
         #endregion
     }

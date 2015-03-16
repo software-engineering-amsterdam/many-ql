@@ -3,14 +3,14 @@ package ast
 import "text/scanner"
 
 // DoubleTermNode is the base struct for all node types comprising left and
-// right children
+// right children.
 type DoubleTermNode struct {
 	leftTerm  Evaluatable
 	rightTerm Evaluatable
 	pos       scanner.Position
 }
 
-// NewDoubleTermNode factory for DoubleTermNode struct
+// NewDoubleTermNode factory for DoubleTermNode struct.
 func NewDoubleTermNode(leftTerm, rightTerm Evaluatable,
 	pos scanner.Position) *DoubleTermNode {
 	return &DoubleTermNode{
@@ -20,18 +20,18 @@ func NewDoubleTermNode(leftTerm, rightTerm Evaluatable,
 	}
 }
 
-// LeftTerm getter method for left child
+// LeftTerm getter method for left child.
 func (d *DoubleTermNode) LeftTerm() Evaluatable {
 	return d.leftTerm
 }
 
-// RightTerm getter method for right child
+// RightTerm getter method for right child.
 func (d *DoubleTermNode) RightTerm() Evaluatable {
 	return d.rightTerm
 }
 
 // Pos getter method for lexer injected information about filename, line and
-// column position of the node
+// column position of the node.
 func (d *DoubleTermNode) Pos() scanner.Position {
 	return d.pos
 }

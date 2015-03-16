@@ -1,14 +1,8 @@
-﻿using AST.Nodes.Interfaces;
-using AST.Representation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AST.Representation;
 
 namespace AST.Nodes.Labels
 {
-    public class Label : ASTNode, ILabel
+    public class Label : ASTNode
     {
 
         public string Value {get; private set;}
@@ -19,12 +13,7 @@ namespace AST.Nodes.Labels
             this.Value = value;
         }
 
-        public void Accept(Visitors.IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public T Accept<T>(Visitors.IVisitor<T> visitor)
+        public T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

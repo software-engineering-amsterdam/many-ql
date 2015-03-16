@@ -1,5 +1,5 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
+using AST.Nodes.Expressions;
 using AST.Nodes.FormObject;
 using Notifications;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace TypeChecker
             this.usedIdentifiers = GetUsedIdentifiers(); 
         }
 
-        public IEnumerable<INotification> GetDiagnosis()
+        public IEnumerable<INotification> AnalyzeAndReport()
         {
             List<INotification> notifications = new List<INotification>();
 

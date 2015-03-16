@@ -6,13 +6,15 @@ from . import \
 
 from typechecking import Result
 
-def check(qlAst, qlsAst, resultAlg = Result.DefaultResult()):
+def check(qlAst, qlsAst):
     modules = [
         UndefinedQuestions,
         MultiplePlacements,
         UnplacedQuestions,
         IncompatibleWidgets
     ];
+
+    resultAlg = Result.DefaultResultAlg()
 
     checkers = map(
         lambda m: m.Checker(qlAst, qlsAst, resultAlg),
