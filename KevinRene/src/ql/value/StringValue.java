@@ -2,8 +2,18 @@ package ql.value;
 
 import ql.Value;
 
-public class StringValue extends Value {
+public class StringValue implements Value {
 	private final String value;
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 	
 	public StringValue(String value) {
 		this.value = value;

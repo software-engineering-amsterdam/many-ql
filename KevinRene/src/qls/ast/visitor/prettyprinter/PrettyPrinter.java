@@ -327,4 +327,10 @@ public class PrettyPrinter extends QLSVisitor<Void> {
 		
 		return null;
 	}
+
+	@Override
+	public Void visit(qls.ast.expression.literal.StringLiteral stringLiteral) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

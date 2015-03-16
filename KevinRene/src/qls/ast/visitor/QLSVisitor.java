@@ -5,6 +5,7 @@ import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
 import qls.ast.QLSStatement;
+import qls.ast.expression.literal.StringLiteral;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
@@ -38,7 +39,6 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		super.setTypeVisitor(this);
 	}
 	
-	
 	public T visit(Page pageNode) {
 		pageNode.getIdentifier().accept(this);
 		pageNode.getStatements().accept(this);
@@ -69,6 +69,8 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 		stylesheetNode.getPages().accept(this);
 		return null;
 	}
+	
+	public abstract T visit(StringLiteral stringLiteral);
 	
 	public abstract T visit(Checkbox checkboxNode);
 	public abstract T visit(Dropdown dropdownNode);

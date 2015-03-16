@@ -2,10 +2,15 @@ package ql.value;
 
 import ql.Value;
 
-public class UndefinedValue extends Value {
+public class UndefinedValue implements Value {
 	@Override
 	public boolean isUndefined() {
 		return true;
+	}
+	
+	@Override
+	public boolean isNumeric() {
+		return false;
 	}
 
 	@Override

@@ -3,7 +3,9 @@ package qls.ast.visitor.typechecker;
 import ql.TypeEnvironment;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.errorhandling.ErrorEnvironment;
+import ql.value.StringValue;
 import qls.ast.QLSStatement;
+import qls.ast.expression.literal.StringLiteral;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.property.Color;
 import qls.ast.stylerule.property.Font;
@@ -58,6 +60,19 @@ public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<V
 		errors.outputErrors();
 		
 		return errors.hasErrors();
+	}
+	
+	@Override
+	public Void visit(StringLiteral stringLiteral) {
+		// Wrapper function for type checking.
+		stringLiteral.getValue().assignHeight();
+		// Compatible with QL. Will function with only the QL interface.
+		showCompatibility(stringLiteral.getValue());
+		return null;
+	}
+	
+	public void showCompatibility(StringValue qlStringValue) {
+		// It's compatible.
 	}
 	
 	@Override
