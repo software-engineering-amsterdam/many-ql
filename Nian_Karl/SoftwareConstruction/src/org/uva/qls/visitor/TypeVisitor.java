@@ -2,8 +2,8 @@ package org.uva.qls.visitor;
 
 import org.uva.qls.ast.type.BoolType;
 import org.uva.qls.ast.type.ColorType;
-import org.uva.qls.ast.type.IntType;
 import org.uva.qls.ast.type.IdentifierType;
+import org.uva.qls.ast.type.IntType;
 import org.uva.qls.ast.type.StrType;
 
 public interface TypeVisitor<T> {
