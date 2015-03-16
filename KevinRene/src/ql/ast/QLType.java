@@ -6,6 +6,7 @@ import java.util.List;
 import ql.ast.type.QLBoolean;
 import ql.ast.type.QLFloat;
 import ql.ast.type.QLInteger;
+import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 
@@ -23,8 +24,7 @@ public abstract class QLType implements QLNode {
 	 * @return
 	 */	
 	public abstract boolean add(QLType argument);
-	public abstract boolean addInteger(QLInteger argument);
-	public abstract boolean addFloat(QLFloat argument);
+	public abstract boolean addNumeric(QLNumeric argument);
 	public abstract boolean addString(QLString argument);
 	
 	/**
@@ -34,8 +34,7 @@ public abstract class QLType implements QLNode {
 	 * @return
 	 */
 	public abstract boolean divide(QLType argument);
-	public abstract boolean divideInteger(QLInteger argument);
-	public abstract boolean divideFloat(QLFloat argument);
+	public abstract boolean divideNumeric(QLNumeric argument);
 	
 	/**
 	 * Multiplication
@@ -44,8 +43,7 @@ public abstract class QLType implements QLNode {
 	 * @return
 	 */
 	public abstract boolean multiply(QLType argument);
-	public abstract boolean multiplyInteger(QLInteger argument);	
-	public abstract boolean multiplyFloat(QLFloat argument);
+	public abstract boolean multiplyNumeric(QLNumeric argument);
 	
 	/**
 	 * Subtraction
@@ -54,8 +52,7 @@ public abstract class QLType implements QLNode {
 	 * @return
 	 */
 	public abstract boolean subtract(QLType argument);
-	public abstract boolean subtractInteger(QLInteger argument);
-	public abstract boolean subtractFloat(QLFloat argument);
+	public abstract boolean subtractNumeric(QLNumeric argument);
 	
 	/**
 	 * Unary
@@ -76,30 +73,24 @@ public abstract class QLType implements QLNode {
 	
 	public abstract boolean notEqualTo(QLType argument);
 	public abstract boolean notEqualToBoolean(QLBoolean argument);
-	public abstract boolean notEqualToInteger(QLInteger argument);
-	public abstract boolean notEqualToFloat(QLFloat argument);
+	public abstract boolean notEqualToNumeric(QLNumeric argument);
 	public abstract boolean notEqualToString(QLString argument);
 	
 	public abstract boolean lowerThan(QLType argument);
-	public abstract boolean lowerThanInteger(QLInteger argument);
-	public abstract boolean lowerThanFloat(QLFloat argument);
+	public abstract boolean lowerThanNumeric(QLNumeric argument);
 	
 	public abstract boolean lowerOrEqual(QLType argument);
-	public abstract boolean lowerOrEqualInteger(QLInteger argument);
-	public abstract boolean lowerOrEqualFloat(QLFloat argument);
+	public abstract boolean lowerOrEqualNumeric(QLNumeric argument);
 	
 	public abstract boolean greaterThan(QLType argument);
-	public abstract boolean greaterThanInteger(QLInteger argument);
-	public abstract boolean greaterThanFloat(QLFloat argument);
+	public abstract boolean greaterThanNumeric(QLNumeric argument);
 	
 	public abstract boolean greaterOrEqual(QLType argument);
-	public abstract boolean greaterOrEqualThanInteger(QLInteger argument);
-	public abstract boolean greaterOrEqualThanFloat(QLFloat argument);
+	public abstract boolean greaterOrEqualThanNumeric(QLNumeric argument);
 	
 	public abstract boolean equalTo(QLType argument);
 	public abstract boolean equalToBoolean(QLBoolean argument);
-	public abstract boolean equalToInteger(QLInteger argument);
-	public abstract boolean equalToFloat(QLFloat argument);
+	public abstract boolean equalToNumeric(QLNumeric argument);
 	public abstract boolean equalToString(QLString argument);
 	
 	public abstract boolean and(QLType argument);

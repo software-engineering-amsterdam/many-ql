@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.TypeEnvironment;
+import ql.Value;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;
@@ -127,33 +128,73 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 * OPERATORS 
 	 */
 	@Override
-	public QLType visit(Add addNode) {
-		return checkExpression(addNode);
+	public QLType visit(Add add) {
+		QLType lhs = add.getLeft().accept(this);
+		QLType rhs = add.getRight().accept(this);
+		
+		if (!lhs.add(rhs)) {
+			// TODO error
+		}
+		
+		return add.getType();
 	}
 
 	@Override
-	public QLType visit(Divide divNode) {
-		return checkExpression(divNode);
+	public QLType visit(Divide div) {
+		QLType lhs = div.getLeft().accept(this);
+		QLType rhs = div.getRight().accept(this);
+		
+		if (!lhs.divide(rhs)) {
+			// TODO error
+		}
+		
+		return div.getType();
 	}
 
 	@Override
-	public QLType visit(Multiply mulNode) {
-		return checkExpression(mulNode);
+	public QLType visit(Multiply mul) {
+		QLType lhs = mul.getLeft().accept(this);
+		QLType rhs = mul.getRight().accept(this);
+		
+		if (!lhs.multiply(rhs)) {
+			// TODO error
+		}
+		
+		return mul.getType();
 	}
 
 	@Override
-	public QLType visit(Subtract subNode) {
-		return checkExpression(subNode);
+	public QLType visit(Subtract sub) {
+		QLType lhs = sub.getLeft().accept(this);
+		QLType rhs = sub.getRight().accept(this);
+		
+		if (!lhs.subtract(rhs)) {
+			// TODO error
+		}
+		
+		return sub.getType();
 	}
 	
 	@Override
-	public QLType visit(Negation negNode) {
-		return checkExpression(negNode);
+	public QLType visit(Negation neg) {
+		QLType lhs = neg.getExpression().accept(this);
+		
+		if (!lhs.negative()) {
+			// TODO error
+		}
+		
+		return neg.getType();
 	}
 	
 	@Override
-	public QLType visit(Positive posNode) {
-		return checkExpression(posNode);
+	public QLType visit(Positive pos) {
+		QLType lhs = pos.getExpression().accept(this);
+		
+		if (!lhs.positive()) {
+			// TODO error
+		}
+		
+		return pos.getType();
 	}
 	
 	/**
@@ -164,13 +205,27 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 */
 	
 	@Override
-	public QLType visit(Equal eqNode) {
-		return checkExpression(eqNode, eqNode.getLeft().accept(this));
+	public QLType visit(Equal eq) {
+		QLType lhs = eq.getLeft().accept(this);
+		QLType rhs = eq.getRight().accept(this);
+		
+		if (!lhs.equalTo(rhs)) {
+			// TODO error
+		}
+		
+		return eq.getType();
 	}
 	
 	@Override
-	public QLType visit(NotEqual neqNode) {
-		return checkExpression(neqNode, neqNode.getLeft().accept(this));
+	public QLType visit(NotEqual neq) {
+		QLType lhs = neq.getLeft().accept(this);
+		QLType rhs = neq.getRight().accept(this);
+		
+		if (!lhs.notEqualTo(rhs)) {
+			// TODO error
+		}
+		
+		return neq.getType();
 	}
 	
 	/**
@@ -178,39 +233,87 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 */
 
 	@Override
-	public QLType visit(GreaterOrEqual geqNode) {
-		return checkExpression(geqNode);
+	public QLType visit(GreaterOrEqual geq) {
+		QLType lhs = geq.getLeft().accept(this);
+		QLType rhs = geq.getRight().accept(this);
+		
+		if (!lhs.greaterOrEqual(rhs)) {
+			// TODO error
+		}
+		
+		return geq.getType();
 	}
 
 	@Override
-	public QLType visit(Greater gtNode) {
-		return checkExpression(gtNode);
+	public QLType visit(Greater gt) {
+		QLType lhs = gt.getLeft().accept(this);
+		QLType rhs = gt.getRight().accept(this);
+		
+		if (!lhs.greaterThan(rhs)) {
+			// TODO error
+		}
+		
+		return gt.getType();
 	}
 
 	@Override
-	public QLType visit(LowerOrEqual leqNode) {
-		return checkExpression(leqNode);
+	public QLType visit(LowerOrEqual leq) {
+		QLType lhs = leq.getLeft().accept(this);
+		QLType rhs = leq.getRight().accept(this);
+		
+		if (!lhs.lowerOrEqual(rhs)) {
+			// TODO error
+		}
+		
+		return leq.getType();
 	}
 
 	@Override
-	public QLType visit(Lower ltNode) {
-		return checkExpression(ltNode);
+	public QLType visit(Lower lt) {
+		QLType lhs = lt.getLeft().accept(this);
+		QLType rhs = lt.getRight().accept(this);
+		
+		if (!lhs.lowerThan(rhs)) {
+			// TODO error
+		}
+		
+		return lt.getType();
 	}
 
 	
 	@Override
-	public QLType visit(And andNode) {
-		return checkExpression(andNode);	
+	public QLType visit(And and) {
+		QLType lhs = and.getLeft().accept(this);
+		QLType rhs = and.getRight().accept(this);
+		
+		if (!lhs.and(rhs)) {
+			// TODO error
+		}
+		
+		return and.getType();
 	}
 	
 	@Override
-	public QLType visit(Or orNode) {
-		return checkExpression(orNode);
+	public QLType visit(Or or) {
+		QLType lhs = or.getLeft().accept(this);
+		QLType rhs = or.getRight().accept(this);
+		
+		if (!lhs.or(rhs)) {
+			// TODO error
+		}
+		
+		return or.getType();
 	}
 
 	@Override
-	public QLType visit(Not notNode) {
-		return checkExpression(notNode);
+	public QLType visit(Not not) {
+		QLType lhs = not.getExpression().accept(this);
+		
+		if (!lhs.not()) {
+			// TODO error
+		}
+		
+		return not.getType();
 	}
 	
 	/**
@@ -292,7 +395,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		// The expression must have a boolean type
 		QLType ifType = ifNode.getExpression().accept(this);
 		
-		if (!ifType.compatibleWith(new QLBoolean())) {
+		if (!ifType.equals(new QLBoolean())) {
 			errorEnvironment.addError(new TypeError(ifNode, new QLBoolean(), ifType));
 		}		
 			
@@ -304,7 +407,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		// The expression must have a boolean type
 		QLType ifType = ifElseNode.getExpression().accept(this);
 		
-		if (!ifType.compatibleWith(new QLBoolean())) {
+		if (!ifType.equals(new QLBoolean())) {
 			errorEnvironment.addError(new TypeError(ifElseNode, new QLBoolean(), ifType));
 		}		
 
