@@ -1,11 +1,11 @@
-// Package frontend is the set of goroutines which interface with VM and the
-// user. The interface with the user can be either Graphic, Text or Web.
+// Package frontend is the set of goroutines which interface with Interpreter
+// and the user. The interface with the user can be either Graphic, Text or Web.
 package frontend
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 
 // Inputer describes the actions which frontend must implement in order to be
-// compliant with the VM expectations of functionality.
+// compliant with the Interpreter expectations of functionality.
 type Inputer interface {
 	DrawQuestion(identifier, label, typ string, visible plumbing.Visibility)
 	UpdateQuestion(identifier string, value interface{})

@@ -6,13 +6,13 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 )
 
-// ConcatNode is the visitor for addition operation nodes
+// ConcatNode is the visitor for addition operation nodes.
 func (exec Execute) ConcatNode(n *ast.ConcatNode) string {
 	left, right := exec.resolveBothStringNodes(n.DoubleTermNode)
 	return left + right
 }
 
-// MathTermNode is the visitor for deepest TermNodes nodes that holds a number
+// MathTermNode is the visitor for deepest TermNodes nodes that holds a number.
 func (exec Execute) StringTermNode(s *ast.TermNode) string {
 	value := exec.resolveTermNode(s)
 	switch t := value.(type) {

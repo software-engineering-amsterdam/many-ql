@@ -11,34 +11,34 @@ import (
 const eof = 0
 
 const (
-	// FormTokenText - Reserved Word
+	// FormTokenText - Reserved Word.
 	FormTokenText = "form"
-	// IfTokenText - Reserved Word
+	// IfTokenText - Reserved Word.
 	IfTokenText = "if"
-	// ElseTokenText - Reserved Word
+	// ElseTokenText - Reserved Word.
 	ElseTokenText = "else"
-	// ComputedQuestionTokenText - Reserved Word
+	// ComputedQuestionTokenText - Reserved Word.
 	ComputedQuestionTokenText = "computed"
-	// BoolAndTokenText - Reserved Word
+	// BoolAndTokenText - Reserved Word.
 	BoolAndTokenText = "and"
-	// BoolOrTokenText - Reserved Word
+	// BoolOrTokenText - Reserved Word.
 	BoolOrTokenText = "or"
-	// BoolTrueTokenText - Reserved Word
+	// BoolTrueTokenText - Reserved Word.
 	BoolTrueTokenText = "true"
-	// BoolFalseTokenText - Reserved Word
+	// BoolFalseTokenText - Reserved Word.
 	BoolFalseTokenText = "false"
 
-	// LessThanTokenText - Reserved Symbols
+	// LessThanTokenText - Reserved Symbols.
 	LessThanTokenText = `<`
-	// LessOrEqualsThanTokenText - Reserved Symbols
+	// LessOrEqualsThanTokenText - Reserved Symbols.
 	LessOrEqualsThanTokenText = `<=`
-	// MoreThanTokenText - Reserved Symbols
+	// MoreThanTokenText - Reserved Symbols.
 	MoreThanTokenText = `>`
-	// MoreOrEqualsThanTokenText - Reserved Symbols
+	// MoreOrEqualsThanTokenText - Reserved Symbols.
 	MoreOrEqualsThanTokenText = `>=`
-	// EqualsToTokenText - Reserved Symbols
+	// EqualsToTokenText - Reserved Symbols.
 	EqualsToTokenText = `==`
-	// NotEqualsToTokenText - Reserved Symbols
+	// NotEqualsToTokenText - Reserved Symbols.
 	NotEqualsToTokenText = `!=`
 
 	singleQuotedChar  = `'`

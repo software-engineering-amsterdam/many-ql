@@ -1,5 +1,6 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly
-// with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact
+// directly with Interpreter. It is the package gopkg.in/qml.v1. All
+// compilations constraints apply.
 package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
@@ -122,7 +123,7 @@ func (g *Gui) Flush() {
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend
-// process and VM.
+// process and Interpreter.
 func (g *Gui) FetchAnswers() map[string]string {
 	g.mu.Lock()
 	defer g.mu.Unlock()
