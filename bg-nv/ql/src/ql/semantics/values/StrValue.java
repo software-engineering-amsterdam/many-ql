@@ -3,9 +3,9 @@ package ql.semantics.values;
 /**
  * Created by bore on 16/02/15.
  */
-public class StringValue extends Value<String>
+public class StrValue extends Value<String>
 {
-    public StringValue(String value)
+    public StrValue(String value)
     {
         super(value);
     }
@@ -17,9 +17,9 @@ public class StringValue extends Value<String>
     }
 
     @Override
-    public Value addString(StringValue v)
+    public Value addString(StrValue v)
     {
-        return new StringValue(v.getValue() + this.getValue());
+        return new StrValue(v.getValue() + this.getValue());
     }
 
     @Override
@@ -29,9 +29,9 @@ public class StringValue extends Value<String>
     }
 
     @Override
-    public Value equString(StringValue v)
+    public Value equString(StrValue v)
     {
-        return new BooleanValue(v.getValue().equals(this.getValue()));
+        return new BoolValue(v.getValue().equals(this.getValue()));
     }
 
     @Override
@@ -41,10 +41,10 @@ public class StringValue extends Value<String>
     }
 
     @Override
-    public Value notEquString(StringValue v)
+    public Value notEquString(StrValue v)
     {
         boolean r = !(v.getValue().equals(this.getValue()));
-        return new BooleanValue(r);
+        return new BoolValue(r);
     }
 
     @Override
