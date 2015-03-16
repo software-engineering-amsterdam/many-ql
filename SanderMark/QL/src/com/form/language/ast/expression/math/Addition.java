@@ -25,11 +25,7 @@ public class Addition extends BinaryExpression {
     public Type getType(Context context) {
 	Type leftType = left.getType(context);
 	Type rightType = right.getType(context);
-	String  s = "PLUS";
-	switch(s){
-	case "PLUS": System.out.println(1);
-	case "MINUS": System.out.println(1);
-	}
+
 	if (leftType.isIntType() && rightType.isIntType()) {
 	    return new IntType();
 	} else {
