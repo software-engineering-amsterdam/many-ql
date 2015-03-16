@@ -3,9 +3,10 @@ class Questionnaire(object):
         self.statements = statements
 
     def accept(self, visitor):
+        visitor.visitQuestionnaireBegin(self)
         for statement in self.statements:
             statement.accept(visitor)
-        return visitor.visitQuestionnaire(self)
+        return visitor.visitQuestionnaireEnd(self)
 
 class Node(object):
     def __init__(self, lineNumber):
@@ -24,9 +25,10 @@ class FormStatement(Node):
         return "formId:%s, line:%d" %(self.identifier, self.lineNumber)
 
     def accept(self, visitor):
+        visitor.visitFormStatementBegin(self)
         for statement in self.statements:
             statement.accept(visitor)
-        return visitor.visitFormStatement(self)
+        return visitor.visitFormStatementEnd(self)
 
 class QuestionStatement(Node):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
@@ -53,9 +55,10 @@ class IfStatement(Node):
         return "ifStatement, line:%d, expr:%s" %(self.lineNumber, self.expr)
 
     def accept(self, visitor):
+        visitor.visitIfStatementBegin(self)
         for statement in self.statements:
             statement.accept(visitor)
-        return visitor.visitIfStatement(self)
+        return visitor.visitIfStatementEnd(self)
 
 class UnaryExpression(Node):
     def __init__(self, op, expression, lineNumber):
@@ -67,8 +70,9 @@ class UnaryExpression(Node):
         return "(%s %s)" %(self.op, self.right)
 
     def accept(self, visitor):
+        visitor.visitUnaryExpressionBegin(self)
         self.expression.accept(visitor)
-        return visitor.visitUnaryExpression(self)
+        return visitor.visitUnaryExpressionEnd(self)
 
 class BinaryExpression(Node):
     def __init__(self, left, op, right, lineNumber):
@@ -81,9 +85,10 @@ class BinaryExpression(Node):
         return "(%s %s %s)" %(self.left, self.op, self.right)
 
     def accept(self, visitor):
+        visitor.visitBinaryExpressionBegin(self)
         self.left.accept(visitor)
         self.right.accept(visitor)
-        return visitor.visitBinaryExpression(self)
+        return visitor.visitBinaryExpressionEnd(self)
 
 
 class AtomBaseType(Node):
