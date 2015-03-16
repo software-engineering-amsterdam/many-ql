@@ -18,7 +18,7 @@ func (exec Execute) StringTermNode(s *ast.TermNode) string {
 	value := exec.resolveTermNode(s)
 	switch t := value.(type) {
 	default:
-		log.Fatalf(
+		log.Panicf(
 			"%s: variable %s not a string. Got %T",
 			s.Pos(), s.IdentifierReference(), t)
 	case string:
@@ -42,7 +42,7 @@ func (exec Execute) resolveStringNode(n interface{}) string {
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		log.Fatalf(
+		log.Panicf(
 			"%s:runtime error: Unknown type while resolving node %T",
 			pos, t)
 	case *ast.ConcatNode:
