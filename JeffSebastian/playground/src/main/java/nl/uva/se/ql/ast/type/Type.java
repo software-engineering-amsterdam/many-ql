@@ -37,6 +37,8 @@ public abstract class Type {
 		return false;
 	}
 	
+	public abstract <T> T accept(TypeVisitor<T> visitor);
+	
 	@Override
 	public String toString() {
 		return typeName;

@@ -21,4 +21,9 @@ public class DecimalType extends Type {
 		return new IntegerType();
 	}
 	
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
 }
