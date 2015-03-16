@@ -22,7 +22,8 @@ public class SpinboxWidget implements IWidget {
             @Override
             public void stateChanged(ChangeEvent e) {
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }

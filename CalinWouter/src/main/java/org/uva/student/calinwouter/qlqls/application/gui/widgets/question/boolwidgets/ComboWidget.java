@@ -34,9 +34,9 @@ public class ComboWidget implements IWidget {
                     qlIntepreter.interpret(variableTableWrapper.getVariableTable());
                     return;
                 }
-                System.out.println("false");
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(false));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }

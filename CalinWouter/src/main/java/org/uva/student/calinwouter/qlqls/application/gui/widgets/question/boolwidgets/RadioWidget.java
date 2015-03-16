@@ -34,7 +34,6 @@ public class RadioWidget implements IWidget {
         yesBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("true");
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(true));
                 qlIntepreter.interpret(variableTableWrapper.getVariableTable());
             }
@@ -43,9 +42,9 @@ public class RadioWidget implements IWidget {
         noBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("false");
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(false));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }
