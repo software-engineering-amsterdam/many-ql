@@ -17,7 +17,7 @@ class ReferenceCheckerSpec extends Specification {
   "reference checker for sections" should {
     "return multiple errors, if multiple questions are defined in QL program" in {
       val sectionWithMultipleQuestion = Section("section", List(Question(Variable("x"), Text(List())), Question(Variable("x"), Text(List()))))
-      val errorList = List(new Error("Question x is not defined in your QL program", Some(NoPosition)), new Error("Question x is not defined in your QL program", Some(NoPosition)))
+      val errorList = List(Error("Question x is not defined in your QL program", Some(NoPosition)), Error("Question x is not defined in your QL program", Some(NoPosition)))
 
       check(sectionWithMultipleQuestion, EmptyEnvironment) must beEqualTo(errorList)
     }
@@ -33,7 +33,7 @@ class ReferenceCheckerSpec extends Specification {
 
     "return error, if question is not defined in QL program" in {
       val question = Question(Variable("x"), Text(List()))
-      val error = new Error("Question x is not defined in your QL program", Some(NoPosition))
+      val error = Error("Question x is not defined in your QL program", Some(NoPosition))
 
       check(question, EmptyEnvironment) must beSome(error)
     }

@@ -1,11 +1,10 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class StaticFields {
     private final List<AbstractStaticFormField> staticFormFields;
@@ -24,10 +23,10 @@ public class StaticFields {
                 return staticFormField.getTypeDescriptor();
             }
         }
+        throw new RuntimeException(new FieldNotFoundException());
     }
 
     public StaticFields() {
         this.staticFormFields = new LinkedList<AbstractStaticFormField>();
     }
-
 }

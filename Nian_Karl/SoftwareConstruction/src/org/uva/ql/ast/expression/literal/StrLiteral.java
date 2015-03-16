@@ -15,7 +15,11 @@ public class StrLiteral extends Literal {
 		super(pos);
 		this.value = value;
 	}
-		
+	
+	public StrLiteral(String value, CodePosition pos) {
+		super(pos);
+		this.value = new StrValue(value);
+	}	
 
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {

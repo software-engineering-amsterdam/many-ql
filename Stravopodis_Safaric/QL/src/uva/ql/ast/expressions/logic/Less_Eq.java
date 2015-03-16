@@ -1,9 +1,16 @@
 package uva.ql.ast.expressions.logic;
 
+import java.util.Arrays;
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
@@ -15,21 +22,28 @@ public class Less_Eq extends BinaryExpressions{
 	}
 	
 	@Override
+	public CodeLines getCodeLine() {
+		return this.codeLines;
+	}
+	
+	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitLessEqual(this);
 	}
 	
 	@Override
 	public BooleanValue evaluate() {
-		if (!NumberValue.isNumberValue(this.getLeftExpr()) || !NumberValue.isNumberValue(this.getRightExpr()))
-			throw new IllegalArgumentException("Ilegal argument: <= operator requires both operands NumberValue");
-		
-		return NumberValue.numberValueFromExpr(this.getLeftExpr()).lessEqual(NumberValue.numberValueFromExpr(this.getRightExpr()));
+		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).lessEqual(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
 	}
-
+	
 	@Override
-	public String evaluateType() {
-		return Less_Eq.class.getName();
+	public List<Type> getValueType() {
+		return Arrays.asList(new TypeBoolean());
+	}
+	
+	@Override
+	public List<Type> getSupportedType() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
 	}
 	
 	@Override

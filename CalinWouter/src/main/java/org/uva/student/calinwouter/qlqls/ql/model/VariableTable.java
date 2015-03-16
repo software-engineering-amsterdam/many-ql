@@ -23,10 +23,4 @@ public class VariableTable {
     public VariableTable() {
         variableMap = new HashMap<String, Value>();
     }
-
-    public void setIfNotSet(final String text, final Value value) {
-        if (variableMap.get(text) == null) {
-            variableMap.put(text, value);
-        }
-    }
 }

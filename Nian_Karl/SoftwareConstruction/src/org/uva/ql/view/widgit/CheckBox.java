@@ -21,9 +21,7 @@ public class CheckBox extends Widget implements ItemListener {
 		checkBox = new JCheckBox();
 		this.widgetListener = listener;
 		checkBox.setOpaque(false);
-		if (!isDependent()) {
-			checkBox.addItemListener(this);
-		}
+		checkBox.addItemListener(this);
 
 	}
 
@@ -40,7 +38,7 @@ public class CheckBox extends Widget implements ItemListener {
 
 	@Override
 	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType()) && isDependent()) {
+		if (!type.isEqual(new UndefinedType())) {
 			if (type.isBool() && !value.isUndefined()) {
 				BoolValue booleanValue = (BoolValue) value;
 				if (booleanValue.value()) {
@@ -51,7 +49,7 @@ public class CheckBox extends Widget implements ItemListener {
 			} else {
 				checkBox.setSelected(false);
 			}
-		} else if (isDependent()) {
+		} else {
 			checkBox.setSelected(false);
 		}
 	}

@@ -16,7 +16,9 @@ prog	: form EOF ;
 
 form	: 'form' id = Identifier '{' stms+=stat* '}' ;
 
-quest 	: 'question' id = Identifier 'typeof' primitiveType '{' stms+=stat*'}';
+quest	: 'question' primitiveType id = Identifier '(' str = STRING ')' ';'								# SimpleQuestion
+		| 'question' primitiveType id = Identifier '(' str = STRING ')' '{' expression = assign '}'		# ComputedQuestion
+		;	
 
 stat	: expr			# CtxExpression
 		| quest			# CtxQuestion
@@ -24,18 +26,17 @@ stat	: expr			# CtxExpression
 	 	| assign		# CtxAssign
 	 	;
 
-assign		: Identifier ':' exp = expr ';' 	# AssignExpr			
-			| Identifier ':' str = STRING ';' 	# AssignStr; 				
+assign		: Identifier ':' exp = expr ';'	; 	
 
-expr 		: LP x = expr RP
-			| x = expr op = EXP<assoc=right> y = expr 	
-			| x = expr op = (MUL | DIV) y = expr
-			| x = expr op = (ADD | SUB) y = expr
-			| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
-			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
-			| x = expr op = LOG_AND y = expr
-			| x = expr op = LOG_OR y = expr																		
-			| lit = literal																		
+expr 		: LP x = expr RP														# Parenthesis
+			| x = expr op = EXP<assoc=right> y = expr 								# Exponentiation
+			| x = expr op = (MUL | DIV) y = expr									# MulDiv
+			| x = expr op = (ADD | SUB) y = expr									# AddSub
+			| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr	# LessEqualGreaterEqual
+			| x = expr op = (EQUAL | NOT_EQUAL) y = expr							# EqualNot
+			| x = expr op = LOG_AND y = expr										# LogAnd
+			| x = expr op = LOG_OR y = expr											# LogOr					
+			| lit = literal															# ExprLiteral	
 			;
 	
 ifStatement		: 'if' '(' expr ')' '{' stms+=stat* '}';
@@ -52,10 +53,10 @@ BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
-primitiveType	: 'boolean'
-				| 'money'
-				| 'string'
-				| 'integer'
+primitiveType	: 'boolean'		# BooleanPrimitive
+				| 'money'		# MoneyPrimitive
+				| 'string'		# StringPrimitive
+				| 'integer'		# IntPrimitive
 				;
 
 Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
