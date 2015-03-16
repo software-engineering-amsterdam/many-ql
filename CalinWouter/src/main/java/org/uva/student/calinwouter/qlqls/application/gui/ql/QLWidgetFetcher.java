@@ -13,13 +13,12 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
 public class QLWidgetFetcher implements TypeCallback{
     private final QLInterpreter qlIntepreter;
-    private final QLGUI qlgui;
     private final StaticQuestionField staticQuestionField;
     private IWidget widget;
-    private VariableTable symbolTable;
+    private VariableTableWrapper variableTableWrapper;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField, null, embeddedWidget, qlIntepreter, qlgui);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {
@@ -28,27 +27,26 @@ public class QLWidgetFetcher implements TypeCallback{
 
     @Override
     public void usesBoolean() {
-        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField, qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField.getVariable(), qlIntepreter, variableTableWrapper));
     }
 
     @Override
     public void usesInteger() {
-        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField,qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField.getVariable(),qlIntepreter, variableTableWrapper));
     }
 
     @Override
     public void usesString() {
-        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField, qlIntepreter, symbolTable));
+        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField.getVariable(), qlIntepreter, variableTableWrapper));
     }
 
     public IWidget getWidget() {
         return widget;
     }
 
-    public QLWidgetFetcher(QLInterpreter qlIntepreter, StaticQuestionField staticQuestionField, QLGUI qlgui, VariableTable symbolTable) {
+    public QLWidgetFetcher(QLInterpreter qlIntepreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper) {
         this.qlIntepreter = qlIntepreter;
-        this.qlgui = qlgui;
         this.staticQuestionField = staticQuestionField;
-        this.symbolTable = symbolTable;
+        this.variableTableWrapper = variableTableWrapper;
     }
 }

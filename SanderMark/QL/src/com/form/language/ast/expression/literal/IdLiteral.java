@@ -35,7 +35,8 @@ public class IdLiteral extends Literal {
     public GenericValue evaluate(Context context) {
 	return context.getValue(name);
     }
-
+    
+    @Override
     public Type getType(Context context) {
 	if (this.IsReference()) {
 	    return getTypeFromMemory(context);

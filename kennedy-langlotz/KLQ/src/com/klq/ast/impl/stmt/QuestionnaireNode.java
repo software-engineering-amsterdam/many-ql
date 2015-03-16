@@ -1,15 +1,15 @@
-package com.klq.ast.impl;
+package com.klq.ast.impl.stmt;
 
+import com.klq.ast.IStatementVisitor;
 import com.klq.ast.Location;
 import com.klq.ast.ANode;
-import com.klq.ast.IVisitor;
 
 import java.util.ArrayList;
 
 /**
  * Created by juriaan on 10-2-15.
  */
-public class QuestionnaireNode extends ANode {
+public class QuestionnaireNode extends AStatementNode {
     private ArrayList<ANode> children;
 
     public QuestionnaireNode(Location location) {
@@ -27,7 +27,7 @@ public class QuestionnaireNode extends ANode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

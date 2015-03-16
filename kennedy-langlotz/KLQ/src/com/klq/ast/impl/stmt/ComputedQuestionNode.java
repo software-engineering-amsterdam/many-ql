@@ -1,5 +1,6 @@
-package com.klq.ast.impl;
+package com.klq.ast.impl.stmt;
 
+import com.klq.ast.IStatementVisitor;
 import com.klq.ast.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
@@ -32,7 +33,7 @@ public class ComputedQuestionNode extends QuestionNode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

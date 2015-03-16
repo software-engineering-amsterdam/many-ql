@@ -1,13 +1,15 @@
 package test.klq.typechecker;
 
 import com.klq.ast.ANode;
-import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.stmt.ConditionalNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.typechecker.TypeChecker;
 import com.klq.typechecker.error.InvalidCondition;
 import org.junit.Before;

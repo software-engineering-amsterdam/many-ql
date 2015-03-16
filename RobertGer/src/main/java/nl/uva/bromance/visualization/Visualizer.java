@@ -1,5 +1,6 @@
 package nl.uva.bromance.visualization;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
@@ -27,10 +28,20 @@ public class Visualizer {
     private Map<String, String> answerMap;
     private AST<QLNode> qlAst;
     private AST<QLSNode> qlsAst;
+    private Node focusedNode;
+    private String focusId;
 
     public Visualizer(Stage stage) {
         this.stage = stage;
         this.answerMap = new HashMap<>();
+    }
+
+    public void setFocusedNode(Node node) {
+        this.focusedNode = node;
+    }
+
+    public String getFocusId(){
+        return focusId;
     }
 
     public void render() {
@@ -70,7 +81,7 @@ public class Visualizer {
                 } catch (IOException e) {
                     System.err.println("Couldn't find qls file, no biggie.");
                 }
-                visualize();
+                visualize(null);
             }
         });
 
@@ -82,6 +93,7 @@ public class Visualizer {
         SplitPane mainPane = new SplitPane();
         mainPane.setDividerPositions(0.2f);
         mainPane.setMinSize(700, 500);
+        mainPane.getDividers();
 
         pages = new VBox();
         questions = new VBox();
@@ -93,7 +105,8 @@ public class Visualizer {
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
     }
 
-    public void visualize() {
+    public void visualize(String focusId) {
+        this.focusId = focusId;
         setBaseView();
         System.out.println("Running visualizer!");
         Optional<? extends Pane> pagePane = Optional.of(pages);
@@ -111,7 +124,7 @@ public class Visualizer {
                     Label label = new Label(identifier);
                     label.setOnMouseClicked((event) -> {
                         currentPage = page;
-                        visualize();
+                        visualize(null);
                     });
                     if (currentPage == page) {
                         label.getStyleClass().add("active");
@@ -130,7 +143,16 @@ public class Visualizer {
             }
         }
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
+        if (focusedNode != null) {
+            focusedNode.requestFocus();
+            // Fix for the position caret in textfields, had to use instanceof sorry Tijs!
+            if (focusedNode instanceof TextField){
+                TextField tf = (TextField) focusedNode;
+                tf.positionCaret(tf.getLength());
+            }
+        }
     }
 
     private void visualChildren(QLNode node, Optional<? extends Pane> parentPane) {
