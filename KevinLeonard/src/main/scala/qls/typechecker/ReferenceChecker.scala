@@ -16,7 +16,7 @@ class ReferenceChecker {
     val name = q.variable.name
     env get name match {
       case Some(_) => None
-      case None => Some(new Error(s"Question $name is not defined in your QL program", Some(q.pos)))
+      case None => Some(Error(s"Question $name is not defined in your QL program", Some(q.pos)))
     }
   }
 }

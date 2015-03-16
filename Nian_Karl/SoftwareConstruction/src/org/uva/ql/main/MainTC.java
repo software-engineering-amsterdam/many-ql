@@ -67,8 +67,8 @@ public class MainTC {
 		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2, new CodePosition(0,0))));
 		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2, new CodePosition(0,0))));
 		Value a = e.evaluate(new Equal(id1, id2, new CodePosition(0,0)));
-		System.out.println(a.getValue());
-		if ((boolean) a.getValue() == true) {
+		System.out.println(a.value());
+		if ((boolean) a.value() == true) {
 			System.out.println("TURE");
 		} else {
 			System.out.println("FALSE");

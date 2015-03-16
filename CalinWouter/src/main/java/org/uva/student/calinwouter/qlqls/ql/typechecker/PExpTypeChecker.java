@@ -138,7 +138,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         pushIdentifierType(node.getIdent().getText());
     }
 
-    private TypeDescriptor popType() {
+    public TypeDescriptor popType() {
         return typeDescriptors.pop();
     }
 
@@ -175,7 +175,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     }
 
     private void pushIdentifierType(String ident) {
-        final TypeDescriptor typeDescriptor = staticFields.getVariableType(ident);
+        final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(ident);
         if (typeDescriptor == null) {
             addError(ident + " is not declared.");
         }

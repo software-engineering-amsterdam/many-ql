@@ -7,7 +7,7 @@ public abstract class Value {
 	
 	private static final UndefinedValue UNDEFINED = new UndefinedValue(); 
 	
-	public abstract Object getValue();
+	public abstract Object value();
 	public abstract String toString();
 	
 	public boolean isUndefined(){return true;}

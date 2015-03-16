@@ -2,14 +2,14 @@ package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.BaseNode;
 import org.uva.ql.ast.CodePosition;
-import org.uva.ql.visitor.TypeVisitable;
+import org.uva.ql.visitor.TypeVisitor;
 
-public abstract class Type extends BaseNode implements TypeVisitable {
+public abstract class Type extends BaseNode {
 
 	public Type() {
 		super(new CodePosition(0, 0));
 	}
-	
+
 	public Type(CodePosition pos) {
 		super(pos);
 	}
@@ -27,6 +27,8 @@ public abstract class Type extends BaseNode implements TypeVisitable {
 	}
 
 	public abstract boolean isEqual(Type type);
+
+	public abstract <T> T accept(TypeVisitor<T> visitor);
 
 	public boolean isUndefined() {
 		return false;

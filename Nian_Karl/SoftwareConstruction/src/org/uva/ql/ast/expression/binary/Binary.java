@@ -2,9 +2,8 @@ package org.uva.ql.ast.expression.binary;
 
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.visitor.ExpressionVisitable;
 
-public abstract class Binary extends Expression implements ExpressionVisitable{
+public abstract class Binary extends Expression {
 	
 	protected final Expression left;
 	protected final Expression right;

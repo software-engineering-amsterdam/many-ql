@@ -1,9 +1,17 @@
 package uva.ql.ast.expressions.logic;
 
+import java.util.Arrays;
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
+import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
@@ -15,21 +23,28 @@ public class NotEqual extends BinaryExpressions{
 	}
 	
 	@Override
+	public CodeLines getCodeLine() {
+		return this.codeLines;
+	}
+	
+	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitNotEqual(this);
 	}
 	
 	@Override
 	public BooleanValue evaluate() {
-		if (!this.getLeftExpr().evaluate().getValue().getClass().equals(this.getRightExpr().evaluate().getValue().getClass()))
-			throw new IllegalArgumentException("IllegalArgumentException: Both operands of != must be of same time");
-		
 		return new BooleanValue(this.getLeftExpr().evaluate().getValue() != this.getRightExpr().evaluate().getValue());
 	}
 	
 	@Override
-	public String evaluateType() {
-		return NotEqual.class.getName();
+	public List<Type> getValueType() {
+		return Arrays.asList(new TypeBoolean());
+	}
+	
+	@Override
+	public List<Type> getSupportedType() {
+		return Arrays.asList(new TypeBoolean(), new TypeString(), new TypeMoney(), new TypeInteger());
 	}
 	
 	@Override

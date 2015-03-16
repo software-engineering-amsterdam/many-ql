@@ -1,31 +1,31 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.layout.Pane;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckable;
 import nl.uva.bromance.typechecking.TypeCheckingException;
-import nl.uva.bromance.visualization.Visualizable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public abstract class Node implements Visualizable, TypeCheckable {
-    private List<Node> children;
+/**
+ * Created by Robert on 16-3-2015.
+ */
+public class Node<TYPE extends Node> implements TypeCheckable {
+    private List<TYPE> children;
     private final int lineNumber;
-    private final Class<? extends Node> type;
+    private final Class type;
 
-    public Node(int ln, Class<? extends Node> type) {
+    public Node(int ln, Class type) {
         this(ln, type, new ArrayList<>());
     }
 
-    public Node(int ln, Class<? extends Node> type, List<Node> children) {
+    public Node(int ln, Class type, List<TYPE> children) {
         this.lineNumber = ln;
         this.children = children;
         this.type = type;
     }
 
-    public void addChild(Node child) {
+    public void addChild(TYPE child) {
         this.children.add(child);
     }
 
@@ -51,7 +51,7 @@ public abstract class Node implements Visualizable, TypeCheckable {
         return children.size() > 0;
     }
 
-    public List<Node> getChildren() {
+    public List<TYPE> getChildren() {
         return children;
     }
 
@@ -63,14 +63,4 @@ public abstract class Node implements Visualizable, TypeCheckable {
     public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
     }
 
-    @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
-
-        return Optional.empty();
-    }
-
-    @Override
-    public void isVisible(boolean visible) {
-        
-    }
 }

@@ -7,15 +7,14 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
+import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class Form extends Node implements CanContainConditionals {
+public class Form extends QLNode implements CanContainConditionals {
     private String identifier;
 
     private IfStatement ifStatement;
@@ -39,14 +38,14 @@ public class Form extends Node implements CanContainConditionals {
             System.out.print("\t");
         }
         System.out.print("[Form] { Name : " + this.identifier + " }\n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         Label label = new Label(this.identifier);
@@ -111,4 +110,12 @@ public class Form extends Node implements CanContainConditionals {
     public void setElseStatement(ElseStatement es) {
         elseStatement = es;
     }
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
+
 }

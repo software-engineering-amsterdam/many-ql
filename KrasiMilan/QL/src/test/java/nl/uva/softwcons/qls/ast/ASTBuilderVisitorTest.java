@@ -79,32 +79,32 @@ public class ASTBuilderVisitorTest {
         Page page1 = withPages.getPages().get(0);
         Page page2 = withPages.getPages().get(1);
 
-        assertThat(page1.getRegions().get(0)).isExactlyInstanceOf(Question.class);
-        assertThat(page2.getRegions().get(0)).isExactlyInstanceOf(Question.class);
+        assertThat(page1.getSegments().get(0)).isExactlyInstanceOf(Question.class);
+        assertThat(page2.getSegments().get(0)).isExactlyInstanceOf(Question.class);
     }
 
     @Test
     public void testQuestionRegionsCountInPages() {
         Page page1 = withSections.getPages().get(0);
         Page page2 = withSections.getPages().get(1);
-        assertThat(page1.getRegions().size()).isEqualTo(1);
-        assertThat(page2.getRegions().size()).isEqualTo(1);
+        assertThat(page1.getSegments().size()).isEqualTo(1);
+        assertThat(page2.getSegments().size()).isEqualTo(1);
     }
 
     @Test
     public void testSectionsClass() {
         Page page1 = withSections.getPages().get(0);
         Page page2 = withSections.getPages().get(1);
-        assertThat(page1.getRegions().get(0)).isExactlyInstanceOf(Section.class);
-        assertThat(page2.getRegions().get(0)).isExactlyInstanceOf(Section.class);
+        assertThat(page1.getSegments().get(0)).isExactlyInstanceOf(Section.class);
+        assertThat(page2.getSegments().get(0)).isExactlyInstanceOf(Section.class);
     }
 
     @Test
     public void testSectionLabel() {
         Page page1 = withSections.getPages().get(0);
         Page page2 = withSections.getPages().get(1);
-        Section section1 = (Section) page1.getRegions().get(0);
-        Section section2 = (Section) page2.getRegions().get(0);
+        Section section1 = (Section) page1.getSegments().get(0);
+        Section section2 = (Section) page2.getSegments().get(0);
 
         assertThat(section1.getLabel()).isEqualTo("s1");
         assertThat(section2.getLabel()).isEqualTo("s2");
@@ -115,8 +115,8 @@ public class ASTBuilderVisitorTest {
     public void testQuestionsCountInSections() {
         Page page1 = withSections.getPages().get(0);
         Page page2 = withSections.getPages().get(1);
-        Section section1 = (Section) page1.getRegions().get(0);
-        Section section2 = (Section) page2.getRegions().get(0);
+        Section section1 = (Section) page1.getSegments().get(0);
+        Section section2 = (Section) page2.getSegments().get(0);
 
         assertThat(section1.getContent().size()).isEqualTo(1);
         assertThat(section2.getContent().size()).isEqualTo(1);
@@ -127,8 +127,8 @@ public class ASTBuilderVisitorTest {
         Page page1 = mixedQuestionRegion.getPages().get(0);
         Page page2 = mixedQuestionRegion.getPages().get(1);
 
-        assertThat(page1.getRegions().size()).isEqualTo(2);
-        assertThat(page2.getRegions().size()).isEqualTo(1);
+        assertThat(page1.getSegments().size()).isEqualTo(2);
+        assertThat(page2.getSegments().size()).isEqualTo(1);
     }
 
     @Test
@@ -136,15 +136,15 @@ public class ASTBuilderVisitorTest {
         Page page1 = mixedQuestionRegion.getPages().get(0);
         Page page2 = mixedQuestionRegion.getPages().get(1);
 
-        assertThat(page1.getRegions().get(0)).isExactlyInstanceOf(Question.class);
-        assertThat(page1.getRegions().get(1)).isExactlyInstanceOf(Section.class);
-        assertThat(page2.getRegions().get(0)).isExactlyInstanceOf(Section.class);
+        assertThat(page1.getSegments().get(0)).isExactlyInstanceOf(Question.class);
+        assertThat(page1.getSegments().get(1)).isExactlyInstanceOf(Section.class);
+        assertThat(page2.getSegments().get(0)).isExactlyInstanceOf(Section.class);
     }
 
     @Test
     public void testMixedQuestionRegionQuestionId() {
         Page page1 = mixedQuestionRegion.getPages().get(0);
-        Question q = (Question) page1.getRegions().get(0);
+        Question q = (Question) page1.getSegments().get(0);
         assertThat(q.getId().getName()).isEqualTo("q1");
     }
 
@@ -185,20 +185,20 @@ public class ASTBuilderVisitorTest {
 
     @Test
     public void testStyleInSectionClass() {
-        Section section = (Section) withStylesForSection.getPages().get(0).getRegions().get(0);
+        Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
         assertThat(section.getStyles().get(0)).isExactlyInstanceOf(DefaultStyle.class);
     }
 
     @Test
     public void testDefaultStyleSectionQuestionType() {
-        Section section = (Section) withStylesForSection.getPages().get(0).getRegions().get(0);
+        Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
         DefaultStyle defStyle = section.getStyles().get(0);
         assertThat(defStyle.getQuestionType()).isExactlyInstanceOf(BooleanType.class);
     }
 
     @Test
     public void testDefaultStyleSectionWidgetType() {
-        Section section = (Section) withStylesForSection.getPages().get(0).getRegions().get(0);
+        Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
         DefaultStyle defStyle = section.getStyles().get(0);
         Widget widget = defStyle.getWidget();
         assertThat(widget.getWidgetType()).isExactlyInstanceOf(DropdownType.class);
@@ -206,7 +206,7 @@ public class ASTBuilderVisitorTest {
 
     @Test
     public void testWidgetStyleInSectionExistance() {
-        Section section = (Section) withStylesForSection.getPages().get(0).getRegions().get(0);
+        Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
         DefaultStyle defStyle = section.getStyles().get(0);
         Widget widget = defStyle.getWidget();
         assertThat(widget.getWidgetStyle()).isNull();
@@ -215,7 +215,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testStyleVisibleOnlyInSection() {
         Page page1 = withStylesForSection.getPages().get(0);
-        Section section = (Section) page1.getRegions().get(0);
+        Section section = (Section) page1.getSegments().get(0);
 
         assertThat(section.getStyles().size()).isEqualTo(1);
         assertThat(page1.getStyles().size()).isEqualTo(0);
@@ -224,8 +224,8 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testStylesForQuestionsWidgetType() {
         Page page1 = withStylesForQuestions.getPages().get(0);
-        Question q1 = (Question) page1.getRegions().get(0);
-        Question q2 = (Question) page1.getRegions().get(1);
+        Question q1 = (Question) page1.getSegments().get(0);
+        Question q2 = (Question) page1.getSegments().get(1);
 
         assertThat(q1.getWidget().getWidgetType()).isExactlyInstanceOf(RadioButtonType.class);
         assertThat(q2.getWidget().getWidgetType()).isExactlyInstanceOf(DropdownType.class);
@@ -234,8 +234,8 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testStylesForQuestionsStrings() {
         Page page1 = withStylesForQuestions.getPages().get(0);
-        Question q1 = (Question) page1.getRegions().get(0);
-        Question q2 = (Question) page1.getRegions().get(1);
+        Question q1 = (Question) page1.getSegments().get(0);
+        Question q2 = (Question) page1.getSegments().get(1);
 
         RadioButtonType rb = (RadioButtonType) q1.getWidget().getWidgetType();
         DropdownType dd = (DropdownType) q2.getWidget().getWidgetType();

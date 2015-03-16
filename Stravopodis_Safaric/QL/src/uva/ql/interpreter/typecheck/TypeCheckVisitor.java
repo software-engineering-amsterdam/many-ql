@@ -1,6 +1,7 @@
 package uva.ql.interpreter.typecheck;
 
-
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import uva.ql.ast.ASTNode;
@@ -8,7 +9,6 @@ import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
@@ -27,40 +27,57 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
-import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
+import uva.ql.ast.statements.Question;
 import uva.ql.ast.statements.Statement;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
+import uva.ql.ast.type.TypeString;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 import uva.ql.ast.visitor.StatementVisitorInterface;
-import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
-import uva.ql.interpreter.typecheck.table.ExpressionTable;
+import uva.ql.interpreter.typecheck.error.IssueTable;
+import uva.ql.interpreter.typecheck.error.IssueObject;
+import uva.ql.interpreter.typecheck.error.IssueType;
+import uva.ql.interpreter.typecheck.table.LabelTable;
 import uva.ql.interpreter.typecheck.table.SymbolTable;
-import uva.ql.interpreter.typecheck.table.SymbolTableValue;
-import uva.ql.supporting.ExpressionSupporting;
+import uva.ql.interpreter.typecheck.table.WarningTable;
 
 public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
-	private TypeCheck typeCheck;
-	protected SymbolTable symbolTable;
-	protected ExpressionTable expressionTable;
-	
-	public TypeCheckVisitor(TypeCheck _typeCheck, SymbolTable _symbolTable, ExpressionTable _expressionTable){
-		this.typeCheck = _typeCheck;
-		this.symbolTable = _symbolTable;
-		this.expressionTable = _expressionTable;
-	}
+	private final WarningTable warningTable = new WarningTable();
+	private final SymbolTable symbolTable = new SymbolTable();
+	private final LabelTable labelTable = new LabelTable();
+	private final IssueTable issueTable = new IssueTable();
 	
 	@Override
 	public Object visitProg(Prog prog) {
-		this.visitForm(prog.getForm());
+		prog.getForm().accept(this);
+		
+		for (IssueType.ERROR issue : this.issueTable.getTable().keySet()){
+			System.out.println("ERROR: " + issue);
+			for (IssueObject obj : this.issueTable.retrieveValues(issue).retrieveValues()){
+				System.out.println("====== > " + obj.toString());
+			}
+		}
+		
 		return null;
 	}
 
 	@Override
-	public Form visitForm(Form form) {
-		this.symbolTable.putValue(form.getIdentifier().evaluatedValue(), new SymbolTableValue(null, form.getCodeLines()));
+	public Object visitForm(Form form) {
 		this.visitStatements(form.getStatement());
+		
+		return null;
+	}
+	
+	private Object visitStatements(List<Statement> statements){
+		for (Statement statement : statements){
+			statement.accept(this);
+		}
+		
 		return null;
 	}
 
@@ -72,166 +89,277 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Object visitStatement(Statement statement) {
 		statement.accept(this);
+		
 		return null;
 	}
 
-	private Object visitStatements(List<Statement> statements){
-		for (Statement s : statements)
-			s.accept(this);
+
+	@Override
+	public Object visitIfStatement(IfStatement ifStatement) {
+		
+		// Expressions - conditions must be of type TypeBoolean()
+
+		if (ifStatement.getExpression().getValueType().contains(new TypeBoolean())){
+			this.visitBinaryLogical((BinaryExpressions)ifStatement.getExpression());
+		}
+		else {
+			this.issueTable.putValue(IssueType.ERROR.CONDITION_NOT_BOOLEAN, new IssueObject(ifStatement.getCodeLine(), ifStatement.getExpression()));
+		}
+		
+		this.visitStatements(ifStatement.getStatement());
+		
 		return null;
 	}
 	
 	@Override
-	public Object visitQuestion(Question question) {
-		SymbolTableValue value = new SymbolTableValue(question.getType(), question.getCodeLines());
-		
-		this.typeCheck.isDuplicate(question.getIdentifier(), value);
-		this.symbolTable.putValue(question.getIdentifier().evaluatedValue(), value);
-		
-		question.getIdentifier().accept(this);
-		question.getType().accept(this);
-		this.visitStatements(question.getStatement());
+	public Object visitSimpleQuestion(Question question) {
+		this.visitQuestion(question);
 		
 		return null;
 	}
 
 	@Override
-	public Object visitIfStatement(IfStatement ifStatement) {
-		Expression expression = ifStatement.getExpression();
+	public Object visitComputedQuestion(Question question) {
+		this.visitQuestion(question);
+		question.getQuestionExpression().accept(this);
+
+		return null;
+	}
+	
+	private Object visitQuestion(Question question){
+		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
+		String questionLabel = question.getQuestionLabel().evaluate().getValue();
 		
-		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
+		if (TypeCheckHelper.isDuplicateQuestionDifferentType(question, this.symbolTable)){
+			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, new IssueObject(question.getCodeLine(), question));
+		}
 		
-		if (!(binary.evaluate().getValue() instanceof Boolean))
-			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
-											+ expression.getCodeLines().toString());
+		if (TypeCheckHelper.isDuplicateQuestionSameType(question, this.symbolTable)){
+			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_SAME_TYPE, new IssueObject(question.getCodeLine(), question));
+		}
 		
-		this.visitStatements(ifStatement.getStatement());
+		if (TypeCheckHelper.duplicateLabelCheck(question, this.labelTable)){
+			this.warningTable.putValue(IssueType.WARNING.DUPLICATE_QUESTION_LABEL, question.getCodeLine());
+		}
+		
+		this.labelTable.putValue(questionLabel.replaceAll("\\s+",""), question.getCodeLine());
+		this.symbolTable.putValue(questionIdentifier, question.getQuestionType());
 		
 		return null;
 	}
 
 	@Override
 	public Object visitAssign(Assign assign) {
-		
-		this.typeCheck.assignmentWithinScope(assign.getIdentifier());
-		this.typeCheck.referenceUndefinedQuestion(assign.getIdentifier());
-		this.typeCheck.hasDuplicateLabels(assign.getIdentifier(), assign.getExpression());
-		this.expressionTable.putValue(assign.getIdentifier(), assign.getExpression());
-		
-		assign.getExpression().accept(this);
 		assign.getIdentifier().accept(this);
+		assign.getExpression().accept(this);
 		
 		return null;
 	}
 
 	@Override
-	public Expression visitBinaryExpression(BinaryExpressions expression) {
+	public Object visitBinaryExpression(BinaryExpressions expression) {	
+		expression.accept(this);
 		
-		Expression left = (Expression)expression.getLeftExpr().accept(this);
-		Expression right = (Expression)expression.getRightExpr().accept(this);
+		return null;
+	}
+	
+	private Object visitBinaryNumerical(BinaryExpressions binaryExpression){
 		
-		ExpressionSupporting validateExpression = new ExpressionSupporting(this.expressionTable, this.symbolTable, left, right, expression.getOperator() );
-		return validateExpression.expressionValidator();
+		Expression left = binaryExpression.getLeftExpr();
+		Expression right = binaryExpression.getRightExpr();
+		
+		List<Type> supportedTypes = Arrays.asList(new TypeMoney(), new TypeInteger());
+		
+		boolean leftIsNumerical = TypeHelper.expressionOfType(left, supportedTypes);
+		boolean rightIsNumerical = TypeHelper.expressionOfType(right, supportedTypes);
+		
+		// If the leftIsNumerical | rightIsNumerical are false - check if they are Identifiers
+		
+		this.checkIdentifierTypeCompliance(leftIsNumerical, left, supportedTypes);
+		this.checkIdentifierTypeCompliance(rightIsNumerical,right , supportedTypes);
+		
+		left.accept(this);
+		right.accept(this);
+		
+		return null;
+	}
+	
+	private Object visitBinaryLogical(BinaryExpressions binaryExpression){
+
+		Expression left = binaryExpression.getLeftExpr();
+		Expression right = binaryExpression.getRightExpr();
+		
+		List<Type> leftType = this.getExpressionType(left);
+		List<Type> rightType = this.getExpressionType(right);
+		
+		// Checking operator - operand support
+		if (Collections.disjoint(leftType, rightType)){
+			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+		}
+		
+		// Operands must be of the same type
+		if (Collections.disjoint(leftType, rightType)){
+			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+		}
+		
+		left.accept(this);
+		right.accept(this);
+		
+		return null;
+	}
+	
+	private void checkIdentifierTypeCompliance(boolean isOfType, Expression expression, List<Type> supportedTypes){
+		
+		if (!isOfType && !expression.getValueType().containsAll(supportedTypes)){
+				
+			// Check is an expression is of type Identifier() of type TypeString() - sellingPrice integer e.g.
+			
+			if (expression.getValueType().contains(new TypeString())){
+				
+				// Get question type of an Identifier (expression)
+				
+				Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+				
+				if (!TypeHelper.checkTypeConformance(type, supportedTypes)){
+					this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+				}
+			}
+			else {
+				this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+			}
+		
+		}
+	}
+	
+	private List<Type> getExpressionType(Expression expression){
+		
+		// Check is an expression is an Identifier() of TypeString()
+		
+		if (expression.getValueType().contains(new TypeString())){
+			Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+			return Arrays.asList(type);
+		}
+		
+		return expression.getValueType();
 	}
 
 	@Override
-	public Object visitExpression(Expression expression) {
+	public Object visitExpression(Expression expression) {		
 		return expression.accept(this);
 	}
 
 	@Override
 	public Object visitExponentiation(Exponentiation exponentiation) {
-		return this.visitBinaryExpression(exponentiation);
+		return this.visitBinaryNumerical(exponentiation);
 	}
 
 	@Override
 	public Object visitAddition(Addition addition) {
-		return this.visitBinaryExpression(addition);
+		return this.visitBinaryNumerical(addition);
 	}
 
 	@Override
 	public Object visitSubstraction(Substraction substraction) {
-		return this.visitBinaryExpression(substraction);
+		return this.visitBinaryNumerical(substraction);
 	}
 
 	@Override
 	public Object visitMultiplication(Multiplication multipllication) {
-		return this.visitBinaryExpression(multipllication);
+		return this.visitBinaryNumerical(multipllication);
 	}
 
 	@Override
 	public Object visitDivision(Division division) {
-		return this.visitBinaryExpression(division);
+		return this.visitBinaryNumerical(division);
 	}
 
 	@Override
 	public Object visitAnd(And and) {
-		return this.visitBinaryExpression(and);
+		return this.visitBinaryLogical(and);
 	}
 
 	@Override
 	public Object visitOr(Or or) {
-		return this.visitBinaryExpression(or);
+		return this.visitBinaryLogical(or);
 	}
 
 	@Override
 	public Object visitEqual(Equal equal) {
-		return this.visitBinaryExpression(equal);
+		return this.visitBinaryLogical(equal);
 	}
 
 	@Override
 	public Object visitNotEqual(NotEqual notEqual) {
-		return this.visitBinaryExpression(notEqual);
+		return this.visitBinaryLogical(notEqual);
 	}
 
 	@Override
 	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
-		return this.visitBinaryExpression(greaterEqual);
+		return this.visitBinaryLogical(greaterEqual);
 	}
 
 	@Override
 	public Object visitGreater(Greater greater) {
-		return this.visitBinaryExpression(greater);
+		return this.visitBinaryLogical(greater);
 	}
 
 	@Override
 	public Object visitLessEqual(Less_Eq lessEqual) {
-		return this.visitBinaryExpression(lessEqual);
+		return this.visitBinaryLogical(lessEqual);
 	}
 
 	@Override
 	public Object visitLess(Less less) {
-		return this.visitBinaryExpression(less);
+		return this.visitBinaryLogical(less);
 	}
 
 	@Override
-	public Object visitType(Type type) {
-		return null;
-	}
-
-	@Override
-	public Object visitIdentifier(Identifier identifier) {
-		this.typeCheck.referenceUndefinedQuestion(identifier);
+	public Identifier visitIdentifier(Identifier identifier) {
+		
+		if (TypeCheckHelper.referenceToUndefinedQuestion(identifier, this.symbolTable)){
+			this.issueTable.putValue(IssueType.ERROR.REFERENCE_UNDEFINED, new IssueObject(identifier.getCodeLine(), identifier));
+		}
+		
 		return identifier;
 	}
 
 	@Override
-	public Object visitBooleanLiteral(BooleanLiteral booleanLiteral) {
+	public BooleanLiteral visitBooleanLiteral(BooleanLiteral booleanLiteral) {
 		return booleanLiteral;
 	}
 
 	@Override
-	public Object visitMoneyLiteral(MoneyLiteral moneyLiteral) {
+	public MoneyLiteral visitMoneyLiteral(MoneyLiteral moneyLiteral) {
 		return moneyLiteral;
 	}
 
 	@Override
-	public Object visitIntLiteral(IntLiteral intLiteral) {
+	public IntLiteral visitIntLiteral(IntLiteral intLiteral) {
 		return intLiteral;
 	}
 
 	@Override
-	public Object visitStringLiteral(StringLiteral stringLiteral) {
+	public StringLiteral visitStringLiteral(StringLiteral stringLiteral) {
 		return stringLiteral;
+	}
+
+	@Override
+	public TypeBoolean visitTypeBoolean(TypeBoolean booleanType) {
+		return booleanType;
+	}
+
+	@Override
+	public TypeInteger visitTypeInteger(TypeInteger integerType) {
+		return integerType;
+	}
+
+	@Override
+	public TypeMoney visitTypeMoney(TypeMoney moneyType) {
+		return moneyType;
+	}
+
+	@Override
+	public TypeString visitTypeString(TypeString stringType) {
+		return stringType;
 	}
 }

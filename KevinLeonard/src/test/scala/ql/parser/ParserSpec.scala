@@ -21,14 +21,14 @@ class ParserSpec extends Specification with ParserMatchers {
   "form parser" should {
     "ignore single line comments" in {
       val formWithSingleLineComment = "form form1 {\n// Single line comment\n}"
-      val result = new Form("form1", Sequence(List()))
+      val result = Form("form1", Sequence(List()))
       
       form must succeedOn(formWithSingleLineComment).withResult(result)
     }
 
     "ignore multiline comments" in {
       val formWithMultilineComment = "form form1 {\n/**\n* Multiline comment\n*/}"
-      val result = new Form("form1", Sequence(List()))
+      val result = Form("form1", Sequence(List()))
       
       form must succeedOn(formWithMultilineComment).withResult(result)
     }

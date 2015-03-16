@@ -1,20 +1,20 @@
 package nl.uva.bromance.typechecking;
 
-import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
 /**
  * Created by Robert on 3/1/2015.
  */
-public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
+public class NodeAssert extends AbstractAssert<NodeAssert, QLNode> {
 
 
-    public NodeAssert(Node actual) {
+    public NodeAssert(QLNode actual) {
         super(actual, NodeAssert.class);
     }
 
-    public static NodeAssert assertThat(Node actual) {
+    public static NodeAssert assertThat(QLNode actual) {
         return new NodeAssert(actual);
     }
 
@@ -22,7 +22,7 @@ public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
     public NodeAssert hasChildrenOfType(Class<?> expectedClazz) {
         boolean hasChildrenOfClass = false;
 
-        for (Node node : actual.getChildren()) {
+        for (QLNode node : actual.getChildren()) {
             if (node.getClass().equals(expectedClazz))
                 hasChildrenOfClass = true;
             break;
@@ -34,7 +34,7 @@ public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
     public NodeAssert hasExactlyChildrenOfType(int expectedNumberOfChildren, Class<?> clazz) {
         boolean hasChildrenOfClass = false;
         int actualNumberOfChildren = 0;
-        for (Node node : actual.getChildren()) {
+        for (QLNode node : actual.getChildren()) {
             if (node.getClass().equals(clazz))
                 hasChildrenOfClass = true;
             actualNumberOfChildren++;

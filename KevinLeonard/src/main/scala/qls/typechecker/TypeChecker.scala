@@ -13,7 +13,7 @@ class TypeChecker {
     if (q.widget.allowsType(_type)) {
       None
     } else {
-      Some(new Error(s"${q.widget.toString.capitalize} widget not allowed for question $name", Some(q.pos)))
+      Some(Error(s"${q.widget.toString.capitalize} widget not allowed for question $name", Some(q.pos)))
     }
   }
 }

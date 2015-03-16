@@ -44,12 +44,6 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	public Updater sendToUpdater(Expression expression) {
 		return new Updater(expression, gui, valueRepository);
 	}
-	
-	@Override
-	public IQuestionUI visit(Question question) {
-		return null;
-	}
-	
 
 	@Override
 	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
