@@ -9,6 +9,7 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Positive extends Unary {
 	public Positive(Expression operand) {
 		super(operand, "+");
+		compatibleTypes.add(new QLNumeric());
 	}
 	
 	@Override

@@ -12,8 +12,8 @@ public class TypeError extends Error {
 		super(origin, "Expected (" + expectedType + ") got (" + actualType + ").");
 	}
 	
-	public TypeError(QLNode origin, QLType expectedType, List<QLType> actualTypes) {		
-		super(origin, "Expected (" + typesToString(expectedType.getCompatibilities()) 
+	public TypeError(QLNode origin, List<QLType> expectedTypes, List<QLType> actualTypes) {		
+		super(origin, "Expected (" + typesToString(expectedTypes) 
 				+ ") got (" + typesToString(actualTypes) + ").");
 	}
 	

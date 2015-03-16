@@ -9,6 +9,7 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Subtract extends Binary {
 	public Subtract(Expression left, Expression right) {
 		super(left, right, "-");
+		compatibleTypes.add(new QLNumeric());
 	}
 	
 	@Override

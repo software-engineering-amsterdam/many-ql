@@ -96,15 +96,15 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 * @param expression
 	 * @param expectedTypes The QLType the operands should be compatible with
 	 */
-	private QLType checkExpression(Expression expression, QLType expectedTypes) {		
-		List<QLType> actualTypes = expression.getOperands()
+	private QLType checkExpression(Expression expression) {		
+		List<QLType> operandTypes = expression.getOperands()
 				.stream()
 				.map(operand -> operand.accept(this))
 				.collect(Collectors.toList());
 				
 		// Both operands should be compatible with compatibleWith
-		if (!isCompatibleWith(actualTypes, expectedTypes)) {
-			errorEnvironment.addError(new TypeError(expression, expectedTypes, actualTypes));
+		if (!isCompatibleWith(expression, operandTypes)) {
+			errorEnvironment.addError(new TypeError(expression, expression.getCompatibilities(), operandTypes));
 		}
 		
 		return expression.getType();
@@ -116,10 +116,10 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 * @param expr
 	 * @param compatibleWith
 	 */
-	public boolean isCompatibleWith(List<QLType> operandTypes, QLType compatibleWith) {		
+	public boolean isCompatibleWith(Expression expression, List<QLType> operandTypes) {		
 		return operandTypes
 				.stream()
-				.map(type -> type.compatibleWith(compatibleWith))
+				.map(type -> expression.compatibleWith(type))
 				.allMatch(a -> a);
 	}	
 	
@@ -128,32 +128,32 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 */
 	@Override
 	public QLType visit(Add addNode) {
-		return checkExpression(addNode, new QLNumeric());
+		return checkExpression(addNode);
 	}
 
 	@Override
 	public QLType visit(Divide divNode) {
-		return checkExpression(divNode, new QLNumeric());
+		return checkExpression(divNode);
 	}
 
 	@Override
 	public QLType visit(Multiply mulNode) {
-		return checkExpression(mulNode, new QLNumeric());
+		return checkExpression(mulNode);
 	}
 
 	@Override
 	public QLType visit(Subtract subNode) {
-		return checkExpression(subNode, new QLNumeric());
+		return checkExpression(subNode);
 	}
 	
 	@Override
 	public QLType visit(Negation negNode) {
-		return checkExpression(negNode, new QLNumeric());
+		return checkExpression(negNode);
 	}
 	
 	@Override
 	public QLType visit(Positive posNode) {
-		return checkExpression(posNode, new QLNumeric());
+		return checkExpression(posNode);
 	}
 	
 	/**
@@ -179,38 +179,38 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 	@Override
 	public QLType visit(GreaterOrEqual geqNode) {
-		return checkExpression(geqNode, new QLNumeric());
+		return checkExpression(geqNode);
 	}
 
 	@Override
 	public QLType visit(Greater gtNode) {
-		return checkExpression(gtNode, new QLNumeric());
+		return checkExpression(gtNode);
 	}
 
 	@Override
 	public QLType visit(LowerOrEqual leqNode) {
-		return checkExpression(leqNode, new QLNumeric());
+		return checkExpression(leqNode);
 	}
 
 	@Override
 	public QLType visit(Lower ltNode) {
-		return checkExpression(ltNode, new QLNumeric());
+		return checkExpression(ltNode);
 	}
 
 	
 	@Override
 	public QLType visit(And andNode) {
-		return checkExpression(andNode, new QLBoolean());	
+		return checkExpression(andNode);	
 	}
 	
 	@Override
 	public QLType visit(Or orNode) {
-		return checkExpression(orNode, new QLBoolean());
+		return checkExpression(orNode);
 	}
 
 	@Override
 	public QLType visit(Not notNode) {
-		return checkExpression(notNode, new QLBoolean());
+		return checkExpression(notNode);
 	}
 	
 	/**

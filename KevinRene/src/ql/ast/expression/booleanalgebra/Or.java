@@ -9,6 +9,7 @@ import ql.ast.visitor.ExpressionVisitor;
 public class Or extends Binary {
 	public Or(Expression left, Expression right) {
 		super(left, right, "||");
+		compatibleTypes.add(new QLBoolean());
 	}
 	
 	@Override
