@@ -1,10 +1,15 @@
 package org.uva.sea.qls.encoders.ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Section {
 
 	private final String name;
 
-	// private List<Question> questions = new ArrayList<Section>();
+	private List<String> questionNames = new ArrayList<>();
+
+	private List<Section> subSections = new ArrayList<>();
 
 	public Section(String name) {
 		this.name = name;
@@ -14,12 +19,20 @@ public class Section {
 		return name;
 	}
 
-	// public List<Question> getQuestions() {
-	// return questions;
-	// }
+	public List<String> getQuestionNames() {
+		return questionNames;
+	}
 
-	// public void addQuestion(Question question) {
-	// questions.add(question);
-	// }
+	public void addQuestion(String questionName) {
+		questionNames.add(questionName);
+	}
+
+	public List<Section> getSectionNames() {
+		return subSections;
+	}
+
+	public void addSubSection(Section subSection) {
+		subSections.add(subSection);
+	}
 
 }
