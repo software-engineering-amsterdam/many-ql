@@ -8,31 +8,52 @@ public class BooleanValue extends Value<Boolean> {
 
 	@Override
 	public Value and(Value value) {
-		return new BooleanValue(getBool(value) && this.getValue());
+		return value.andBoolean(this);
+	}
+	
+	@Override
+	public Value andBoolean(BooleanValue value) {
+		return new BooleanValue(value.getValue() && getValue());
 	}
 
 	@Override
 	public Value equal(Value value) {
-		return new BooleanValue(getBool(value).equals(this.getValue()));
+		return value.equalBoolean(this);
+	}
+	
+	@Override
+	public Value equalBoolean(BooleanValue value) {
+		return new BooleanValue(value.getValue().equals(getValue()));
 	}
 
 	@Override
 	public Value not() {
-		return new BooleanValue(!(this.getValue()));
+		return notBoolean();
+	}
+	
+	@Override
+	public Value notBoolean() {
+		return new BooleanValue(!(getValue()));
 	}
 
 	@Override
 	public Value notEqual(Value value) {
-		return new BooleanValue(!(getBool(value).equals(this.getValue())));
+		return value.notEqualBoolean(this);
+	}
+	
+	@Override
+	public Value notEqualBoolean(BooleanValue value) {
+		return new BooleanValue(!(value.getValue().equals(getValue())));
 	}
 
 	@Override
 	public Value or(Value value) {
-		return new BooleanValue(getBool(value) || this.getValue());
+		return orBoolean(this);
 	}
 	
-	private Boolean getBool(Value value) {
-		BooleanValue boolVal = (BooleanValue) value;
-		return boolVal.getValue();
+	@Override
+	public Value orBoolean(BooleanValue value) {
+		return new BooleanValue(value.getValue() || getValue());
 	}
+
 }

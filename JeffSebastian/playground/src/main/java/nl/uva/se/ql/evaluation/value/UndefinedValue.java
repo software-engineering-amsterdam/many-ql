@@ -67,7 +67,7 @@ public class UndefinedValue extends Value<Void> {
 	}
 
 	@Override
-	public Value greaterThen(Value value) {
+	public Value greaterThan(Value value) {
 		return new UndefinedValue();
 	}
 
@@ -77,7 +77,7 @@ public class UndefinedValue extends Value<Void> {
 	}
 
 	@Override
-	public Value lessThen(Value value) {
+	public Value lessThan(Value value) {
 		return new UndefinedValue();
 	}
 
