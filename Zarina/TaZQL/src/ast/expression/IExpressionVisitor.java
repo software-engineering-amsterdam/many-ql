@@ -9,7 +9,7 @@ import ast.unary.*;
 
 public interface IExpressionVisitor<T> {
 	
-	public T visit(BracketsExpression expr);
+	public T visit(Brackets expr);
 	
 	public T visit(Multiplication expr);
 	public T visit(Division expr);

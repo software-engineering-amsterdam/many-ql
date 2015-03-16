@@ -28,7 +28,7 @@ public class IfStatement extends Question {
 		return visitor.visit(this);
 	}
 	
-	public ChoiceType getExpressionType() {
+	public ChoiceType getType() {
 		return new ChoiceType();
 	}
 	
