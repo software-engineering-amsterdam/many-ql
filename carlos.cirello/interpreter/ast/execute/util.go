@@ -3,6 +3,7 @@ package execute
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
@@ -110,4 +111,8 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		return t.(*ast.TermNode).BooleanLiteral()
 	}
 	return nil
+}
+
+func convertToStringAndTrim(term interface{}) string {
+	return strings.TrimSpace(strings.ToLower(fmt.Sprintf("%s", term)))
 }

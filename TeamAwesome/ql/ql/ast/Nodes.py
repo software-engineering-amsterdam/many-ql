@@ -59,18 +59,6 @@ class IfStatement(Node):
             statement.accept(visitor)
         return visitor.visitIfStatement(self)
 
-class AtomicExpression(Node):
-    def __init__(self, atom, lineNumber):
-        super().__init__(lineNumber)
-        self.atom = atom
-        
-    def __str__(self):
-        return str(self.left)
-
-    def accept(self, visitor):
-        self.atom.accept(visitor)
-        return visitor.visitAtomicExpression(self)
-
 class UnaryExpression(Node):
     def __init__(self, op, expression, lineNumber):
         super().__init__(lineNumber)
@@ -131,4 +119,3 @@ class Money(AtomBaseType):
 class Identifier(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitIdentifier(self)
-

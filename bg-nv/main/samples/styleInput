@@ -4,6 +4,9 @@ stylesheet sample {
         question married {
             widget radio("Yes", "No")
         }
+        question notMarried {
+            widget radio("Yes", "No")
+        }
         default boolean {
             width: 15
             widget checkbox
