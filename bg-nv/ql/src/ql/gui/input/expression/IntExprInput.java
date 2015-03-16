@@ -47,19 +47,8 @@ public class IntExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof IntegerValue;
-            this.control.setValue((IntegerValue)val);
-        }
-        else
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue((UndefinedValue)val);
-        }
+        this.control.setValue(value);
     }
 }
