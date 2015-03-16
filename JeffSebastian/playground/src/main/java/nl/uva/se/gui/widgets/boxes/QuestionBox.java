@@ -27,39 +27,5 @@ public class QuestionBox extends VBox {
 	
 	public Question getQuestion(){
 		return this.question;
-	}
-
-	/*
-	private ChangeListener<String> addTextBoxListener(
-			final TextQuestion textQuestionBox) {
-		return new ChangeListener<String>() {
-
-			public void changed(ObservableValue<? extends String> observable,
-					String oldValue, String newValue) {
-				System.out.println("TextField oldvalue: " + oldValue
-						+ " newValue: " + newValue);
-				if (!validator.match(textQuestionBox.getQuestion(), oldValue,
-						newValue) && !newValue.equals("")) {
-					textQuestionBox.setText(oldValue);
-					System.out.println("this should only except numbers");
-				}
-			}
-		};
-	}
-
-	private ChangeListener<Boolean> addCheckBoxListener(
-			BooleanQuestion booleanQuestionBox) {
-		return new ChangeListener<Boolean>() {
-
-			public void changed(ObservableValue<? extends Boolean> observable,
-					Boolean oldValue, Boolean newValue) {
-				System.out.println("TextField oldvalue: " + oldValue
-						+ " newValue: " + newValue);
-				if (!validator.match(booleanQuestionBox.getQuestion(),
-						oldValue, newValue)) {
-					System.out.println("No checkbox should be checked.");
-				}
-			}
-		};
-	} */
+	}	
 }

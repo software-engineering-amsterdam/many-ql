@@ -1,18 +1,22 @@
 package nl.uva.se.gui.widgets.questions;
 
+import nl.uva.se.gui.listeners.Listener;
 import nl.uva.se.gui.validators.TextValidator;
 import nl.uva.se.ql.ast.statement.Question;
 import javafx.scene.control.TextField;
 
-public class TextQuestion extends TextField {
+public class TextQuestion extends TextField implements BaseQuestion<String> {
 
 	private final Question question;
 	private final TextValidator validator;
+	private final Listener<String> listener;
 
 	public TextQuestion(Question question) {
 		super();
 		this.question = question;
 		this.validator = new TextValidator();
+		this.listener = new Listener<String>();
+		this.textProperty().addListener(listener.addListener(this, validator));
 	}
 
 	public Question getQuestion() {
@@ -21,5 +25,15 @@ public class TextQuestion extends TextField {
 
 	public TextValidator getValidator() {
 		return this.validator;
+	}
+
+	@Override
+	public void undoChange(String oldValue) {
+		this.setText(oldValue);		
+	}
+
+	@Override
+	public void reset() {
+		this.setText("");		
 	}
 }
