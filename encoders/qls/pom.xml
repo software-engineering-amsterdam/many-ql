@@ -57,7 +57,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<libDirectory>${basedir}/src/main/antlr4/org/uva/sea/ql/encoders</libDirectory>
+					<libDirectory>${basedir}/src/main/antlr4/nl/uva/sc/encoders/qls</libDirectory>
 				</configuration>
 			</plugin>
 
@@ -70,7 +70,7 @@
 						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.uva.sea.ql.encoders.ui.QLUI</mainClass>
+							<mainClass>nl.uva.sc.encoders.qls.ui.QLUI</mainClass>
 						</manifest>
 						<manifestEntries>
 							<mode>development</mode>
