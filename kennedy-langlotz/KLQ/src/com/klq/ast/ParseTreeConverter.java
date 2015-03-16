@@ -47,7 +47,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
 
-        if(ctx.expr() != null){
+        if(ctx.expr() == null){
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         } else {
             AExpression computedAnswer = (AExpression) visit(ctx.expr());
