@@ -20,6 +20,10 @@ public class StringToNumberValueConverter implements ValueConverter<String> {
 
     @Override
     public String fromValue(final Value value) {
+        if (value == UNDEFINED) {
+            return "";
+        }
+
         return value.getNumber().toPlainString();
     }
 

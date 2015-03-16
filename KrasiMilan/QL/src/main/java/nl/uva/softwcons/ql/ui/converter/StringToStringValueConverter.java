@@ -17,6 +17,10 @@ public class StringToStringValueConverter implements ValueConverter<String> {
 
     @Override
     public String fromValue(final Value value) {
+        if (value == UNDEFINED) {
+            return "";
+        }
+
         return value.getString();
     }
 

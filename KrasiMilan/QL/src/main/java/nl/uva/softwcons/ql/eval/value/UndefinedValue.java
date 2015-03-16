@@ -136,8 +136,4 @@ public final class UndefinedValue extends Value {
         return UNDEFINED;
     }
 
-    @Override
-    public String toString() {
-        return "";
-    }
 }
