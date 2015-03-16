@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ast;
+package nl.uva.sc.encoders.qls.ast;
 
 // Duplication?
 
