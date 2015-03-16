@@ -31,31 +31,16 @@ public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(4, errors.size());
+        assertEquals(2, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
-        List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-
         for (ASTNodeIssue error: errors) {
-            receivedTypes.add(error.getErrorType());
+            assertTrue(error.getErrorType().equals(ASTNodeIssueType.ERROR.CYCLIC));
         }
-        // we expect two of each kind
-        int cyclicDeps = 0, wrongAssignment = 0;
-        for (ASTNodeIssueType received : receivedTypes) {
-            if (received.equals(ASTNodeIssueType.ERROR.CYCLIC)) {
-                cyclicDeps++;
-            }  else if (received.equals(ASTNodeIssueType.ERROR.TYPE_MISMATCH)) {
-                wrongAssignment++;
-            }
-        }
-
-        assertEquals(2, cyclicDeps);
-        assertEquals(2, wrongAssignment);
-
     }
 
     @Test

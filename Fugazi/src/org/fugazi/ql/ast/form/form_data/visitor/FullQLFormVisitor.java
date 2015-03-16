@@ -14,6 +14,7 @@ import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
@@ -32,8 +33,10 @@ import java.util.List;
 
 public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
     protected final ASTIssueHandler astIssueHandler;
+    protected final QLFormDataStorage formData;
 
-    public FullQLFormVisitor(){
+    public FullQLFormVisitor(QLFormDataStorage _formData){
+        this.formData = _formData;
         this.astIssueHandler = new ASTIssueHandler();
     }
 

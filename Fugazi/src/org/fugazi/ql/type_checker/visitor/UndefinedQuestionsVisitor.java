@@ -8,11 +8,9 @@ import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 
 public class UndefinedQuestionsVisitor extends FullQLFormVisitor {
-    private final QLFormDataStorage formData;
 
     public UndefinedQuestionsVisitor(QLFormDataStorage _formData) {
-        super();
-        this.formData = _formData;
+        super(_formData);
     }
 
     @Override

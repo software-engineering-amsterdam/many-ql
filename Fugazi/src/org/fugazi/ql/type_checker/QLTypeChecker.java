@@ -32,9 +32,9 @@ public class QLTypeChecker {
         this.form = _form;
         this.formData = _formData;
 
-        this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
+        this.cyclicDependenciesVisitor = new CyclicDependenciesVisitor(this.formData);
         this.undefinedQuestionsVisitor = new UndefinedQuestionsVisitor(this.formData);
-        this.typeMismatchVisitor = new TypeMismatchVisitor();
+        this.typeMismatchVisitor = new TypeMismatchVisitor(this.formData);
 
         this.astIssueHandler = new ASTIssueHandler();
     }
@@ -90,7 +90,7 @@ public class QLTypeChecker {
             Expression expression = ifStatement.getCondition();
 
             // check if condition of type bool
-            boolean conditionIsBool = expression.isExpressionOfTypeBool();
+            boolean conditionIsBool = expression.isExpressionOfTypeBool(this.formData);
             if (!conditionIsBool) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
@@ -108,11 +108,11 @@ public class QLTypeChecker {
             Expression computed = question.getComputedExpression();
 
             // check if assigned types equal
-            boolean typesEqual = (type.equals(computed.getReturnedType()));
+            boolean typesEqual = (type.equals(computed.getReturnedType(this.formData)));
             if (!typesEqual) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,
-                        "Attempted to assign type " + computed.getReturnedType()
+                        "Attempted to assign type " + computed.getReturnedType(this.formData)
                                 + " to variable of type " + type.getClass() + "."
                 );
             }
@@ -183,7 +183,7 @@ public class QLTypeChecker {
         return (this.astIssueHandler.hasErrors()
                 || this.undefinedQuestionsVisitor.hasErrors()
                 || this.typeMismatchVisitor.hasErrors()
-                || this.undefinedQuestionsVisitor.hasErrors());
+                || this.cyclicDependenciesVisitor.hasErrors());
     }
 
     public List<ASTNodeIssue> getErrors() {

@@ -14,6 +14,7 @@ import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.expression.unary.Unary;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -21,8 +22,8 @@ import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import java.util.List;
 
 public class TypeMismatchVisitor extends FullQLFormVisitor {
-    public TypeMismatchVisitor() {
-        super();
+    public TypeMismatchVisitor(QLFormDataStorage _formData) {
+        super(_formData);
     }
 
     /**
@@ -38,8 +39,8 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
-        boolean leftCorrect = left.isExpressionOfTypeBool();
-        boolean rightCorrect = right.isExpressionOfTypeBool();
+        boolean leftCorrect = left.isExpressionOfTypeBool(this.formData);
+        boolean rightCorrect = right.isExpressionOfTypeBool(this.formData);
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -65,7 +66,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
     private Void visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = unary.isExpressionOfTypeBool();
+        boolean exprCorrect = unary.isExpressionOfTypeBool(this.formData);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -89,11 +90,11 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         boolean differentTypes = false;
         boolean unsupportedTypes = false;
 
-        if (!expectedTypes.contains(left.getReturnedType())
-                || !expectedTypes.contains(right.getReturnedType())) {
+        if (!expectedTypes.contains(left.getReturnedType(this.formData))
+                || !expectedTypes.contains(right.getReturnedType(this.formData))) {
             unsupportedTypes = true;
         }
-        if (!left.getReturnedType().equals(right.getReturnedType())) {
+        if (!left.getReturnedType(this.formData).equals(right.getReturnedType(this.formData))) {
             differentTypes = true;
         }
 
@@ -102,13 +103,15 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
                     ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
                     "Side(s) of the binary comparison not of supported type(s): "
                             + expectedTypes.toString() + ". " + "Instead received types: "
-                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
+                            + left.getReturnedType(this.formData) + " and "
+                            + right.getReturnedType(this.formData) + "."
             );
         } else if (differentTypes) {
             this.astIssueHandler.registerNewError(
                     ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
                     "Two sides of the binary comparison expression of different types: "
-                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
+                            + left.getReturnedType(this.formData) + " and "
+                            + right.getReturnedType(this.formData) + "."
             );
         }
 
@@ -175,8 +178,8 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
-        boolean leftCorrect = left.isExpressionOfTypeInt();
-        boolean rightCorrect = right.isExpressionOfTypeInt();
+        boolean leftCorrect = left.isExpressionOfTypeInt(this.formData);
+        boolean rightCorrect = right.isExpressionOfTypeInt(this.formData);
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -204,7 +207,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = unary.isExpressionOfTypeInt();
+        boolean exprCorrect = unary.isExpressionOfTypeInt(this.formData);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -257,7 +260,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
     @Override
     public Void visitINT(INT intLiteral) {
 
-        boolean exprCorrect = intLiteral.isExpressionOfTypeInt();
+        boolean exprCorrect = intLiteral.isExpressionOfTypeInt(this.formData);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -270,7 +273,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
     @Override
     public Void visitSTRING(STRING stringLiteral) {
-        boolean exprCorrect = stringLiteral.isExpressionOfTypeString();
+        boolean exprCorrect = stringLiteral.isExpressionOfTypeString(this.formData);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -283,7 +286,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
     @Override
     public Void visitBOOL(BOOL boolLiteral) {
-        boolean exprCorrect = boolLiteral.isExpressionOfTypeBool();
+        boolean exprCorrect = boolLiteral.isExpressionOfTypeBool(this.formData);
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
