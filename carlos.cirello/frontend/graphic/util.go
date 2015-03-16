@@ -13,7 +13,7 @@ func startQMLengine(appName string) qml.Object {
 	cradleQML := renderCradle(appName)
 	cradle, err := engine.LoadString("cradle.qml", cradleQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing cradle.qml:", err)
+		log.Panic("Fatal error while parsing cradle.qml:", err)
 	}
 	return cradle
 }
@@ -32,7 +32,7 @@ func renderAndInsertAt(newQuestionQML string, rows qml.Object) qml.Object {
 	engine := qml.NewEngine()
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+		log.Panic("Fatal error while parsing newQuestion.qml:", err,
 			"Got:", newQuestionQML)
 	}
 
