@@ -8,7 +8,6 @@ import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
 import org.uva.student.calinwouter.qlqls.ql.model.*;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import javax.swing.*;
@@ -17,8 +16,9 @@ import java.awt.*;
 public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     private final QLInterpreter qlIntepreter;
-    private final StaticFieldsList fieldsList;
+    private final StaticFields fieldsList;
     private final VariableTable variableTable;
+    private final VariableTableWrapper variableTableWrapper;
 
     @Override
     protected String getFrameTitle() {
@@ -28,7 +28,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
-        for (AbstractStaticFormField f : fieldsList.getFields()) {
+        for (AbstractStaticFormField f : fieldsList.getStaticFormFields()) {
             panel.add(render(f));
         }
         return panel;
@@ -45,27 +45,28 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     @Override
     public Component render(StaticQuestionField staticQuestionField) {
-        final String questionIdentifier = staticQuestionField.getVariable();
         final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, this, variableTable);
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
 
     @Override
     public Component render(StaticComputedValueField staticComputedValueField) {
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(staticComputedValueField, qlIntepreter, variableTable);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(staticComputedValueField,
+        final String identifier = staticComputedValueField.getVariable();
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(identifier, variableTableWrapper);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(staticComputedValueField.getLabel(),
+                    identifier,
                     null,
                     valueRepresentingLabelWidget,
-                    qlIntepreter,
-                    this);
+                    variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
-    public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFieldsList fieldsList) {
+    public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFields fieldsList) {
         this.qlIntepreter = qlIntepreter;
         this.variableTable = variableTable;
         this.fieldsList = fieldsList;
+        variableTableWrapper = new VariableTableWrapper(variableTable);
     }
 }

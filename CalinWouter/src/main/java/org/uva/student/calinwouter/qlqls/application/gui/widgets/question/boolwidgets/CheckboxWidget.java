@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
@@ -21,14 +22,14 @@ public class CheckboxWidget implements IWidget {
         return checkbox;
     }
 
-    public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTable variableTable) {
+    public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
         this.checkbox = new JCheckBox();
 
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                variableTable.setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
-                qlIntepreter.interpret(variableTable);
+                variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
+                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
             }
         });
     }

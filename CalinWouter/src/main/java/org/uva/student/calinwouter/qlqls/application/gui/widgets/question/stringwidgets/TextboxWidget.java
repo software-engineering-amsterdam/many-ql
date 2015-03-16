@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
@@ -13,7 +14,7 @@ import java.awt.*;
 public class TextboxWidget implements IWidget {
     private JTextField widget;
 
-    public TextboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTable variableTable) {
+    public TextboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
         this.widget = new JTextField(20);
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -32,8 +33,8 @@ public class TextboxWidget implements IWidget {
             }
 
             public void updateField() {
-                variableTable.setVariable(questionIdentifier, new StringValue(widget.getText()));
-                qlIntepreter.interpret(variableTable);
+                variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new StringValue(widget.getText()));
+                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
             }
         });
     }

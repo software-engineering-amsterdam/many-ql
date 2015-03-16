@@ -36,7 +36,7 @@ public class Main {
 
     private static void executeQl(String ql) {
         try {
-            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
             QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
         } catch (Exception e){
             e.printStackTrace();
