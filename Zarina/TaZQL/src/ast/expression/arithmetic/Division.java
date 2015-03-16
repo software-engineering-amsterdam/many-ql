@@ -1,13 +1,13 @@
 package ast.expression.arithmetic;
 
-import ast.expression.BinaryExpression;
+import ast.expression.Binary;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 
-public class DivisionExpression extends BinaryExpression {
+public class Division extends Binary {
 		
-	public DivisionExpression (Expression leftExp, Expression rightExp) {
+	public Division (Expression leftExp, Expression rightExp) {
 		super( leftExp, rightExp);
 	}
 			
@@ -22,8 +22,8 @@ public class DivisionExpression extends BinaryExpression {
 	}
 
 	@Override
-	public DigitsType getExpressionType() {
-		return new DigitsType();
+	public IntegerType getType() {
+		return new IntegerType();
 	}
 }
 
