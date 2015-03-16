@@ -24,7 +24,7 @@ public class QuestionnaireParser {
 		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(location));
 		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(lexer));
 
-		List<SyntaxError> syntaxErrors = new ArrayList<SyntaxError>();
+		List<SyntaxError> syntaxErrors = new ArrayList<>();
 
 		parser.addErrorListener(new BaseErrorListener() {
 			@Override
