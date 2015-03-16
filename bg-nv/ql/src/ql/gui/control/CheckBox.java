@@ -10,7 +10,7 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 10-3-15.
  */
-public class CheckBox extends ControlElement implements BooleanControl
+public class CheckBox extends ControlElement implements BoolControl
 {
     javafx.scene.control.CheckBox checkBox;
 
@@ -23,7 +23,7 @@ public class CheckBox extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         return this.checkBox;
     }

@@ -8,7 +8,7 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 16-3-15.
  */
-public class Dropdown extends ControlElement implements BooleanControl
+public class Dropdown extends ControlElement implements BoolControl
 {
     public Dropdown(Boolean visible, Boolean disabled)
     {
@@ -28,7 +28,7 @@ public class Dropdown extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         return null;
     }

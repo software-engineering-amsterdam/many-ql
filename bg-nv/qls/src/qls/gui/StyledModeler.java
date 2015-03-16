@@ -1,9 +1,5 @@
 package qls.gui;
 
-import javafx.scene.layout.GridPane;
-import ql.ast.statement.CalculatedQuestion;
-import ql.ast.statement.IfCondition;
-import ql.ast.statement.Question;
 import ql.gui.GuiElement;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
@@ -12,7 +8,6 @@ import ql.semantics.ConditionalQuestion;
 import ql.semantics.Flat;
 import qls.ast.*;
 import qls.ast.Page;
-import qls.ast.rule.Rule;
 import qls.ast.rule.Rules;
 import qls.ast.statement.*;
 import qls.ast.statement.Section;

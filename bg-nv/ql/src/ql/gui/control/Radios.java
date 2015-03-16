@@ -13,7 +13,7 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 10-3-15.
  */
-public class Radios extends ControlElement implements BooleanControl
+public class Radios extends ControlElement implements BoolControl
 {
     private final ToggleGroup group;
     private final RadioButton trueRadio;
@@ -101,7 +101,7 @@ public class Radios extends ControlElement implements BooleanControl
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         HBox container = new HBox();
         container.getChildren().addAll(this.trueRadio, this.falseRadio);

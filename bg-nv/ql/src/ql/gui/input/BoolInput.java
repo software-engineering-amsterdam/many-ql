@@ -1,12 +1,7 @@
 package ql.gui.input;
 
-import javafx.beans.value.ChangeListener;
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
-import ql.gui.control.BooleanControl;
-import ql.gui.control.Control;
-import ql.semantics.ValueTable;
+import ql.gui.control.BoolControl;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
@@ -15,43 +10,14 @@ import ql.semantics.values.Value;
  */
 public class BoolInput extends RegularInput<Boolean>
 {
-    private final BooleanControl control;
-
-    public BoolInput(String id, BooleanControl control)
+    public BoolInput(String id, BoolControl control)
     {
         this(id, control, true, false);
     }
 
-    public BoolInput(String id, BooleanControl control, Boolean visible, Boolean disabled)
+    public BoolInput(String id, BoolControl control, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
-        this.control = control;
-        this.inputNode = this.createInputNode(control);
-    }
-
-    @Override
-    public void setDisabled(Boolean disabled)
-    {
-        super.setDisabled(disabled);
-        this.control.setDisabled(disabled);
-    }
-
-    @Override
-    public void setVisible(Boolean visible)
-    {
-        super.setVisible(visible);
-        this.control.setVisible(visible);
-    }
-
-    @Override
-    protected VBox createInputNode(Control control)
-    {
-        VBox box = new VBox();
-        box.getChildren().add(this.control.getGuiElement());
-        box.getChildren().add(this.getErrorField());
-        box.setAlignment(Pos.TOP_RIGHT);
-        box.setVisible(this.getVisible());
-        return box;
+        super(id, control, visible, disabled);
     }
 
     @Override
@@ -65,12 +31,5 @@ public class BoolInput extends RegularInput<Boolean>
     {
         this.resetValidation();
         return new BoolValue(userInput);
-    }
-
-    @Override
-    public void attachListener(ValueTable valueTable)
-    {
-        ChangeListener<Boolean> cl = this.constructChangeListener(valueTable);
-        this.control.addListener(cl);
     }
 }
