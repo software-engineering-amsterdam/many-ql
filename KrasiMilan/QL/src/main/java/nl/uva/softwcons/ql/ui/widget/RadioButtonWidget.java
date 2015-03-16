@@ -6,7 +6,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
-import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
+import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class RadioButtonWidget extends Widget {
 

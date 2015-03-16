@@ -3,7 +3,7 @@ package nl.uva.softwcons.ql.ui.widget;
 import javafx.scene.control.TextField;
 import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
-import nl.uva.softwcons.ql.ui.conveter.ValueConverter;
+import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class TextFieldWidget extends Widget {
     private TextField textField;

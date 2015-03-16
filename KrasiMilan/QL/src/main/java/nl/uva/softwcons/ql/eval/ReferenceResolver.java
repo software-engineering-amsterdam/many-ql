@@ -15,11 +15,11 @@ import nl.uva.softwcons.ql.validation.VariableExctractor;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-public class ReferencesResolver implements FormVisitor<Void>, StatementVisitor<Void> {
+public class ReferenceResolver implements FormVisitor<Void>, StatementVisitor<Void> {
     private final Multimap<Identifier, ComputedQuestion> questionReferences;
     private final Multimap<Identifier, Conditional> conditionalReferences;
 
-    public ReferencesResolver(final Form form) {
+    public ReferenceResolver(final Form form) {
         this.questionReferences = ArrayListMultimap.create();
         this.conditionalReferences = ArrayListMultimap.create();
 

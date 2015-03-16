@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.ui.conveter;
+package nl.uva.softwcons.ql.ui.converter;
 
 import nl.uva.softwcons.ql.eval.value.Value;
 
