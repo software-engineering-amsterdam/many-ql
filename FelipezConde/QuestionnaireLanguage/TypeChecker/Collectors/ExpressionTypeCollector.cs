@@ -1,6 +1,6 @@
-﻿using AST.Nodes.Expression;
-using AST.Nodes.Expression.Binary;
-using AST.Nodes.Expression.Unary;
+﻿using AST.Nodes.Expressions;
+using AST.Nodes.Expressions.Binary;
+using AST.Nodes.Expressions.Unary;
 using AST.ASTVisitors;
 using Notifications;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace TypeChecker.Collectors
 
         #endregion
         #region Binary
-        public override Types.Type Visit(AST.Nodes.Expression.Binary.And node)
+        public override Types.Type Visit(AST.Nodes.Expressions.Binary.And node)
         {
             return VisitBinaryExpectedType(node, new Types.BoolType());
         }

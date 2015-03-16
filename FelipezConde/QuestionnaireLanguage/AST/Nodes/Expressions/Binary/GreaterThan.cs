@@ -1,21 +1,23 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression.Binary
+namespace AST.Nodes.Expressions.Binary
 {
-    public class Subtract : Binary, IExpression
+    public class GreaterThan : Binary
     {
-        public Subtract(IExpression left, IExpression right, PositionInText position)
+        
+        public GreaterThan(Expression left, Expression right, PositionInText position)
             : base(left, right, position)
-        { }
+        {}
 
         public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
         {
-           return visitor.Visit(this);
+            return visitor.Visit(this);
         }
+
         public override string ToString()
         {
-            return "-";
+            return ">";
         }
     }
 }

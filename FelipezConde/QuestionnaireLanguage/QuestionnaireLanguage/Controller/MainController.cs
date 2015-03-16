@@ -1,5 +1,6 @@
 ﻿using AST;
-using AST.Nodes.Expression;
+using Nodes = AST.Nodes;
+using AST.Nodes.Expressions;
 using AST.Nodes.Literals;
 using AST.Representation;
 using Evaluation;
@@ -18,15 +19,12 @@ namespace QuestionnaireLanguage.Controller
     public class MainController
     {
         private static ASTResult astTree;
-        //private static SymbolTable symbolTable;
         private static IMainWindow window;
 
         public MainController(IMainWindow mainWindow, ASTResult ast)
         {
             window = mainWindow;
             astTree = ast;
-
-            //symbolTable = new SymbolTable();
         }
 
         public static UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
@@ -53,7 +51,7 @@ namespace QuestionnaireLanguage.Controller
             MainController.ProcessBody(astTree.Ast.GetBody(), window.GetRootElement());
         }
         
-        public static Literal Evaluate(IExpression expression)
+        public static Literal Evaluate(Nodes.Expression expression)
         {
             return new EvaluationManager().Evaluate(expression);
         }

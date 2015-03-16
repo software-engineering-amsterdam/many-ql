@@ -15,8 +15,8 @@ namespace QuestionnaireLanguage
         {
             InitializeComponent();
 
-            //string path =  @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
-            string path =  @"C:\Users\Jonatan\Desktop\Software Construction\QL Assignment\many-ql\FelipezConde\testsamples\";
+            string path = @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
+            //string path =  @"C:\Users\Jonatan\Desktop\Software Construction\QL Assignment\many-ql\FelipezConde\testsamples\";
             string fileName = "test9.txt";
 
             TestClass test = new TestClass();

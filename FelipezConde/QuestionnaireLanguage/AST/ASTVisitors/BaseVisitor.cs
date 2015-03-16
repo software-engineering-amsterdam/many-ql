@@ -19,77 +19,77 @@ namespace AST.ASTVisitors
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.And node)
+        public virtual T Visit(Nodes.Expressions.Binary.And node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Or node)
+        public virtual T Visit(Nodes.Expressions.Binary.Or node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Equal node)
+        public virtual T Visit(Nodes.Expressions.Binary.Equal node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.NotEqual node)
+        public virtual T Visit(Nodes.Expressions.Binary.NotEqual node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.GreaterThan greaterThan)
+        public virtual T Visit(Nodes.Expressions.Binary.GreaterThan greaterThan)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.GreaterThanOrEqual greaterThanOrEqual)
+        public virtual T Visit(Nodes.Expressions.Binary.GreaterThanOrEqual greaterThanOrEqual)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.LessThan lessThan)
+        public virtual T Visit(Nodes.Expressions.Binary.LessThan lessThan)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.LessThanOrEqual lessThanOrEqual)
+        public virtual T Visit(Nodes.Expressions.Binary.LessThanOrEqual lessThanOrEqual)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Add add)
+        public virtual T Visit(Nodes.Expressions.Binary.Add add)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Subtract subtract)
+        public virtual T Visit(Nodes.Expressions.Binary.Subtract subtract)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Multiply multiply)
+        public virtual T Visit(Nodes.Expressions.Binary.Multiply multiply)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Divide divide)
+        public virtual T Visit(Nodes.Expressions.Binary.Divide divide)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Unary.Negate node)
+        public virtual T Visit(Nodes.Expressions.Unary.Negate node)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Unary.Priority priority)
+        public virtual T Visit(Nodes.Expressions.Unary.Priority priority)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Id node)
+        public virtual T Visit(Nodes.Expressions.Id node)
         {
             throw new NotImplementedException();
         }
@@ -114,7 +114,7 @@ namespace AST.ASTVisitors
             throw new NotImplementedException();
         }
 
-        public virtual T Visit(Nodes.Expression.Binary.Binary node) 
+        public virtual T Visit(Nodes.Expressions.Binary.Binary node) 
         {
             throw new NotImplementedException();
         }

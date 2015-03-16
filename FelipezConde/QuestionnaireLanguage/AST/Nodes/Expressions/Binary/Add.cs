@@ -1,13 +1,12 @@
 ﻿using AST.Nodes.Interfaces;
 using AST.Representation;
 
-namespace AST.Nodes.Expression.Binary
+namespace AST.Nodes.Expressions.Binary
 {
-    public class GreaterThan : Binary, IExpression
+    public class Add : Binary
     {
-        
-        public GreaterThan(IExpression left, IExpression right, PositionInText position)
-            : base(left, right, position)
+        public Add(Expression left, Expression right, PositionInText position)
+            : base(left, right, position) 
         {}
 
         public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
@@ -17,7 +16,7 @@ namespace AST.Nodes.Expression.Binary
 
         public override string ToString()
         {
-            return ">";
+            return "+";
         }
     }
 }
