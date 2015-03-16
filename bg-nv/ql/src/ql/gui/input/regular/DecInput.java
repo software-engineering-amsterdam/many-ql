@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.gui.control.DecimalControl;
 import ql.semantics.ValueTable;
 import ql.semantics.errors.Warning;
@@ -60,7 +60,7 @@ public class DecInput extends RegularInput<String>
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());
