@@ -12,10 +12,10 @@
     - [X] get rid of switch statements
     - [X] magic constants
     - [X] duplicated code
-  - [ ] code smell hunt [0/16] from {7}
-    - [ ] comments
-    - [ ] duplicated code (again)
-    - [ ] long method
+  - [ ] code smell hunt [3/17] from {7}
+    - [X] comments
+    - [X] long method
+    - [X] duplicated code (again)
     - [ ] large class
     - [ ] long parameter list
     - [ ] divergent change
@@ -29,6 +29,7 @@
     - [ ] temporary field
     - [ ] middleman
     - [ ] alternative classes with different interfaces
+    - [ ] duplicated code (againˆ2)
 
 * QL [7/7]
   - [X] Refactor [4/4]

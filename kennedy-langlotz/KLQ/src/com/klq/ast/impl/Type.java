@@ -1,4 +1,4 @@
-package com.klq.logic.question;
+package com.klq.ast.impl;
 
 import com.klq.logic.IKLQItem;
 

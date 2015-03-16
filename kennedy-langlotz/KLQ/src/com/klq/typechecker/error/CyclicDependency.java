@@ -7,6 +7,6 @@ import com.klq.ast.impl.stmt.QuestionNode;
  */
 public class CyclicDependency extends AError{
     public CyclicDependency(QuestionNode node) {
-        super(7, true, String.format("There is a cyclic dependency at the following question: %s", node.getQuestionID()), node.getLocation());
+        super(7, true, String.format("There is a cyclic dependency at the following question: %s", node.getID()), node.getLocation());
     }
 }

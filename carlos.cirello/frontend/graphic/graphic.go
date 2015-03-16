@@ -98,14 +98,12 @@ func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	for _, v := range g.drawStack {
+	allRender := append(g.drawStack, g.renderStack...)
+	for _, v := range allRender {
 		g.renderplumbing <- v
 	}
-	g.drawStack = []render{}
 
-	for _, v := range g.renderStack {
-		g.renderplumbing <- v
-	}
+	g.drawStack = []render{}
 	g.renderStack = []render{}
 
 	for k, v := range g.sweepStack {

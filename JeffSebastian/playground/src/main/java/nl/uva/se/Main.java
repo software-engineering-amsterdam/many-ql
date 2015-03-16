@@ -5,7 +5,8 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.uva.se.gui.elements.QuestionPane;
+import nl.uva.se.gui.builders.GuiBuilder;
+import nl.uva.se.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.evaluation.ValueTable;
 import nl.uva.se.ql.interpretation.Interpreter;
@@ -14,7 +15,6 @@ import nl.uva.se.ql.interpretation.error.ErrorList;
 import nl.uva.se.ql.parser.QLLexer;
 import nl.uva.se.ql.parser.QLParser;
 import nl.uva.se.ql.parser.QLVisitorImpl;
-import nl.uva.se.visitor.GuiVisitor;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -46,9 +46,9 @@ public class Main extends Application{
 			errors = result.getErrorList();
 			
 			if (!result.getErrorList().hasErrors()) {
-				GuiVisitor guiVisitor = new GuiVisitor(result.getResult());
-				guiVisitor.visit(ast);
-				this.questionPane = guiVisitor.getQuestionPane();			
+				GuiBuilder guiBuilder = new GuiBuilder(result.getResult());
+				guiBuilder.visit(ast);
+				this.questionPane = guiBuilder.getQuestionPane();			
 			}
 			
 		} catch (IOException e) {

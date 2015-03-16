@@ -1,4 +1,4 @@
-package com.klq.ast;
+package com.klq.ast.impl;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -25,18 +25,6 @@ public class Location {
         this.beginColumn = beginColumn;
         this.endLine = endLine;
         this.endColumn = endColumn;
-    }
-
-    public Location(String file, ParserRuleContext context){
-        Token tokenStart = context.getStart();
-        Token tokenEnd = context.getStop();
-        this.file = file;
-        this.offset = tokenStart.getStartIndex();
-        this.length = tokenStart.getStopIndex() - tokenStart.getStartIndex();
-        this.beginLine = tokenStart.getLine();
-        this.beginColumn = tokenStart.getCharPositionInLine();
-        this.endLine = tokenEnd.getLine();
-        this.endColumn = tokenEnd.getCharPositionInLine();
     }
 
     public String getFile() {

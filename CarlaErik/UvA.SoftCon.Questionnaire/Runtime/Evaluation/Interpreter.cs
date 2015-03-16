@@ -19,21 +19,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public void Interpretet(QuestionForm form, IDictionary<string, Value> answers)
         {
-            if (answers == null) { throw new ArgumentNullException("answers"); }
-
             _variables = answers;
             AvailableQuestions = new Dictionary<string, Value>();
 
             Visit(form);
-        }
-
-        public override object Visit(QuestionForm form)
-        {
-            foreach (var statement in form.Statements)
-            {
-                statement.Accept(this);
-            }
-            return null;
         }
 
         public override object Visit(Definition definition)

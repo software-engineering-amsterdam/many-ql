@@ -122,7 +122,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public Widget visit(UndefinedType undefiendType) {
-		System.out.println("This should not happen.");
 		return null;
 	}
 

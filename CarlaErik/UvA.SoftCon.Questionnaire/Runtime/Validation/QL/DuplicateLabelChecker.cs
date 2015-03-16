@@ -27,13 +27,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             DuplicateLabels = new List<Question>();
         }
 
-        public override object Visit(Question node)
+        public override object Visit(Question question)
         {
-            if (LabelExists(node))
+            if (LabelExists(question))
             {
-                DuplicateLabels.Add(node);
+                DuplicateLabels.Add(question);
             }
-            _questions.Add(node);
+            _questions.Add(question);
             return null;
         }
 

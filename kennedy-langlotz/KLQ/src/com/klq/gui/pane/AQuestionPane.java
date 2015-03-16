@@ -4,7 +4,6 @@ import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
-import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -83,7 +82,7 @@ public abstract class AQuestionPane extends GridPane {
     }
 
     private Label createQuestionLabel() {
-        String text = question.getText().toString();
+        String text = question.getText();
         Label result = new Label(text);
         Font font = new Font("Arial Bold", 14);
         result.setFont(font);
@@ -104,10 +103,10 @@ public abstract class AQuestionPane extends GridPane {
 
     protected void questionAnswered(String result) {
         if (result == null || result.trim().isEmpty()){
-            store.updateAnswer(question.getId(), null);
+            store.updateAnswer(question.getID(), null);
         } else {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-            store.updateAnswer(question.getId(), expr);
+            store.updateAnswer(question.getID(), expr);
         }
     }
 
