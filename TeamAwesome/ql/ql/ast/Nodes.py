@@ -41,8 +41,6 @@ class QuestionStatement(Node):
             %(self.identifier, self.lineNumber, self.text, self.type, self.expr)
 
     def accept(self, visitor):
-        if self.expr:
-            self.expr.accept(visitor)
         return visitor.visitQuestionStatement(self)
 
 class IfStatement(Node):
