@@ -62,7 +62,7 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
     public IKLQItem visit(QuestionNode node) {
         IdentifierValue id = new IdentifierValue(node.getID());
         Type type = node.getType();
-        Text text = new Text(node.getText());
+        String text = new String(node.getText());
 
         return new Question(id, type, text);
     }
@@ -71,7 +71,7 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
     public IKLQItem visit(ComputedQuestionNode node) {
         IdentifierValue id = new IdentifierValue(node.getID());
         Type type = node.getType();
-        Text text = new Text(node.getText());
+        String text = new String(node.getText());
 
         return new Question(id, type, text, node.getComputedAnswer());
     }
