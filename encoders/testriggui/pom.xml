@@ -18,7 +18,7 @@
 
 	<dependencies>
         <dependency>
-		    <groupId>nl.uva.sc.encoders.qls</groupId>
+		    <groupId>nl.uva.sc.encoders</groupId>
 		    <artifactId>ql</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
         </dependency>
