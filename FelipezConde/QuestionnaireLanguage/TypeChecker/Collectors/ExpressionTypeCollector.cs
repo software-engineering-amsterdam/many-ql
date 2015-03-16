@@ -6,10 +6,11 @@ using Notifications;
 using System.Collections.Generic;
 using TypeChecker.Notifications.Errors;
 using Types = AST.Types;
+using AST.ASTVisitors.Interfaces;
 
 namespace TypeChecker.Collectors
 {
-    public class ExpressionTypeCollector : BaseVisitor<Types.Type>
+    public class ExpressionTypeCollector : IExpressionVisitor<Types.Type>
     {
         private readonly Dictionary<Id, Types.Type> idToType;
         private List<INotification> collectedNotifications = new List<INotification>();
@@ -33,7 +34,7 @@ namespace TypeChecker.Collectors
 
         #endregion
         #region Binary
-        public override Types.Type Visit(AST.Nodes.Expressions.Binary.And node)
+        public override Types.Type Visit(And node)
         {
             return VisitBinaryExpectedType(node, new Types.BoolType());
         }
@@ -105,7 +106,7 @@ namespace TypeChecker.Collectors
         }
         #endregion
 
-        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedType)
+        private Types.Type VisitBinaryExpectedType(BaseBinary node, Types.Type expectedType)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
@@ -117,7 +118,7 @@ namespace TypeChecker.Collectors
 
             return expectedType;
         }
-        private Types.Type VisitBinary(Binary node)
+        private Types.Type VisitBinary(BaseBinary node)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
@@ -129,11 +130,11 @@ namespace TypeChecker.Collectors
 
             return left;
         }
-        private Types.Type VisitUnary(Unary node)
+        private Types.Type VisitUnary(BaseUnary node)
         {
             return node.GetChildExpression().Accept(this);
         }
-        private Types.Type VisitUnaryExpectedType(Unary node, Types.Type expectedType)
+        private Types.Type VisitUnaryExpectedType(BaseUnary node, Types.Type expectedType)
         {
             Types.Type childType = node.GetChildExpression().Accept(this);
 

@@ -3,9 +3,9 @@ using AST.Representation;
 
 namespace AST.Nodes.Expressions.Binary
 {
-    public class Divide : Binary
+    public class Divide : BaseBinary
     {
-        public Divide(Expression left, Expression right, PositionInText position)
+        public Divide(BaseExpression left, BaseExpression right, PositionInText position)
             : base(left, right, position)
         {}
 
@@ -13,10 +13,16 @@ namespace AST.Nodes.Expressions.Binary
         {
            return visitor.Visit(this);
         }
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override string ToString()
         {
             return "/";
         }
+
+
     }
 }

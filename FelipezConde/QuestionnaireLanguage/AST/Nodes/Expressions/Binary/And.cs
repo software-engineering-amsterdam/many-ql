@@ -3,9 +3,9 @@ using AST.Representation;
 
 namespace AST.Nodes.Expressions.Binary
 {
-    public class And : Binary
+    public class And : BaseBinary
     {
-        public And(Expression left, Expression right, PositionInText position)
+        public And(BaseExpression left, BaseExpression right, PositionInText position)
             : base(left, right, position)
         {}
 
@@ -17,6 +17,11 @@ namespace AST.Nodes.Expressions.Binary
         public override string ToString()
         {
             return "&&";
+        }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

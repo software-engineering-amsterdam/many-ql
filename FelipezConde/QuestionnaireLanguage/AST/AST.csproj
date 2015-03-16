@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASTResult.cs" />
-    <Compile Include="Nodes\Expressions\Binary\Binary.cs" />
-    <Compile Include="Nodes\Expressions\Unary\Unary.cs" />
+    <Compile Include="ASTVisitors\Interfaces\FormObjectVisitor.cs" />
+    <Compile Include="ASTVisitors\Interfaces\ExpressionVisitor.cs" />
+    <Compile Include="ASTVisitors\Interfaces\FormVisitor.cs" />
+    <Compile Include="Nodes\Expressions\Binary.cs" />
+    <Compile Include="Nodes\Expressions\Unary.cs" />
     <Compile Include="Nodes\FormObject\FormObject.cs" />
     <Compile Include="Nodes\Interfaces\IVisitable.cs" />
     <Compile Include="Nodes\Expressions\Id.cs" />
@@ -77,7 +80,7 @@
     <Compile Include="Nodes\Expressions\Binary\LessThanOrEqual.cs" />
     <Compile Include="Nodes\Expressions\Binary\And.cs" />
     <Compile Include="Nodes\Expressions\Binary\Equal.cs" />
-    <Compile Include="Nodes\Expression.cs" />
+    <Compile Include="Nodes\BaseExpression.cs" />
     <Compile Include="Nodes\Expressions\Binary\NotEqual.cs" />
     <Compile Include="Nodes\Expressions\Unary\Negate.cs" />
     <Compile Include="Nodes\Expressions\Binary\Or.cs" />

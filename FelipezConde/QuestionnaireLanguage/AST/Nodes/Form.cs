@@ -22,6 +22,10 @@ namespace AST.Nodes
         {
             return visitor.Visit(this);
         }
+        public T Accept<T>(ASTVisitors.Interfaces.FormVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
 
 
     }

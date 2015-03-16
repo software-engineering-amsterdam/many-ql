@@ -29,5 +29,10 @@ namespace AST.Nodes.Literals
         {
             return new Types.StringType();
         }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -3,9 +3,9 @@ using AST.Representation;
 
 namespace AST.Nodes.Expressions.Binary
 {
-    public class Subtract : Binary
+    public class Subtract : BaseBinary
     {
-        public Subtract(Expression left, Expression right, PositionInText position)
+        public Subtract(BaseExpression left, BaseExpression right, PositionInText position)
             : base(left, right, position)
         { }
 
@@ -16,6 +16,11 @@ namespace AST.Nodes.Expressions.Binary
         public override string ToString()
         {
             return "-";
+        }
+
+        public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
