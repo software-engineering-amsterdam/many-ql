@@ -13,6 +13,15 @@ public class BoolValue extends Value {
 	public Boolean value() {
 		return value;
 	}
+	
+	public boolean equals(BoolValue boolValue) {
+		return value.equals(boolValue.value());
+	}
+	
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
 
 	@Override
 	public String toString() {
@@ -64,8 +73,4 @@ public class BoolValue extends Value {
 		return new BoolValue(arg.value() != value());
 	}
 	
-	@Override
-	public boolean isUndefined() {
-		return false;
-	}
 }

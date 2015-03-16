@@ -12,6 +12,10 @@ public class StrValue extends Value {
 	public String value() {
 		return value;
 	}
+	
+	public boolean equals(StrValue strValue) {
+		return value.equals(strValue.value());
+	}
 
 	@Override
 	public String toString() {
@@ -46,13 +50,10 @@ public class StrValue extends Value {
 	public Value StrPlus(StrValue arg) {
 		return new StrValue(arg.value() + value());
 	}
-
+	
 	@Override
-	public boolean isUndefined() {
-		if (value.equals("") || value == null) {
-			return true;
-		}
-		return false;
+	public boolean isDefined() {
+		return true;
 	}
 
 }
