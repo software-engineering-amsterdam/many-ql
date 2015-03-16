@@ -1,8 +1,8 @@
-import QL.AST.Expressions.Elements.element as e
+import QL.AST.Expressions.Primitives.primitive as e
 import QL.Grammar.constants as constants
 
 
-class Not(e.Element):
+class Not(e.Primitive):
     def __init__(self, operand):
         self._operand = operand
 

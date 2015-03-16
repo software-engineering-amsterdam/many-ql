@@ -1,7 +1,7 @@
-import QL.AST.Expressions.Elements.element as e
+import QL.AST.Expressions.Primitives.primitive as e
 
 
-class BinaryExpression(e.Element):
+class BinaryExpression(e.Primitive):
     def __init__(self, symbol, operand1, operand2):
         self._operand1 = operand1
         self._operand2 = operand2
@@ -22,7 +22,7 @@ class BinaryExpression(e.Element):
             message += self._operand1.pretty_print() + " is not the same type as " + self._operand2.pretty_print() + "\n"
         elif self._operand1.return_type_string(td) != self.return_type_string(td):
             message += "the operands " + self._operand1.pretty_print() + \
-                       " and "  + self._operand2.pretty_print() + " are not of the correct type\n"
+                       " and " + self._operand2.pretty_print() + " are not of the correct type\n"
         return message
 
     def get_dependency_collection(self):

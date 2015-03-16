@@ -1,8 +1,8 @@
-import QL.AST.Expressions.Elements.element as e
+import QL.AST.Expressions.Primitives.primitive as e
 import QL.Grammar.constants as constants
 
 
-class Bool(e.Element):
+class Bool(e.Primitive):
     def __init__(self, pbool):
         self.bool = pbool
 
@@ -10,10 +10,8 @@ class Bool(e.Element):
         return constants.BOOL
 
     def pretty_print(self):
-        return str(self.bool)
+        return str(self.bool)  # since the actual type is a real bool
 
+    # booleans are not dependencies
     def get_dependency_collection(self):
         return []
-
-    def as_list(self):
-        return [self.bool]

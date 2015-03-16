@@ -1,4 +1,4 @@
-# Factory for creating Expression elements out of parsed tokens
+# Factory for creating Form elements out of parsed subtrees
 
 import QL.AST.Statements.question as question
 import QL.AST.Statements.if_statement as if_statement

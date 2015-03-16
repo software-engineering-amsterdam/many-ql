@@ -1,7 +1,7 @@
-import QL.AST.Expressions.Elements.element as e
+import QL.AST.Expressions.Primitives.primitive as e
 
 
-class Variable(e.Element):
+class Variable(e.Primitive):
     def __init__(self, name):
         self.name = name
 
@@ -11,5 +11,6 @@ class Variable(e.Element):
     def pretty_print(self):
         return self.name
 
+    # The dependency of the calling object is this variable
     def get_dependency_collection(self):
         return [self.name]
