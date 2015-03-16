@@ -10,16 +10,16 @@ question: label=STRINGLITERAL name=NAME ':' type=DATATYPE ('=' computed=expressi
 conditionalBlock: 'if' '(' expression ')' '{' question+ '}';
     
 expression:
-    '(' expr=expression ')'                                         #BracedExpression
-    |                      operator=NOT expr=expression             #Not
-    | leftHand=expression  operator=MULDIV rightHand=expression     #MulDiv
-    | leftHand=expression  operator=ADDSUB rightHand=expression     #AddSub
-    | leftHand=expression  operator=AND rightHand=expression        #And
-    | leftHand=expression  operator=OR rightHand=expression         #Or
-    | leftHand=expression  operator=LTGTLEGE rightHand=expression   #LtGtLeGe
-    | leftHand=expression  operator=NEEQ rightHand=expression       #NeEq
-    | name=NAME                                                     #NameExpression
-    | value=STRINGLITERAL                                           #StringLiteral
-    | value=BOOLEANLITERAL                                          #BooleanLiteral
-    | value=INTEGERLITERAL                                          #IntegerLiteral
+     '(' expr=expression ')'                                                    #BracedExpression
+    |                      operator='!'                 expr=expression         #Not
+    | leftHand=expression  operator=('*'|'/')           rightHand=expression    #MulDiv
+    | leftHand=expression  operator=('+'|'-')           rightHand=expression    #AddSub
+    | leftHand=expression  operator='&&'                rightHand=expression    #And
+    | leftHand=expression  operator='||'                rightHand=expression    #Or
+    | leftHand=expression  operator=('<'|'>'|'<='|'>=') rightHand=expression    #LtGtLeGe
+    | leftHand=expression  operator=('!='|'==')         rightHand=expression    #NeEq
+    | name=NAME                                                                 #NameExpression
+    | value=STRINGLITERAL                                                       #StringLiteral
+    | value=BOOLEANLITERAL                                                      #BooleanLiteral
+    | value=INTEGERLITERAL                                                      #IntegerLiteral
     ;
