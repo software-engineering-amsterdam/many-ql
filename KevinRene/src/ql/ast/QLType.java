@@ -13,9 +13,7 @@ public abstract class QLType implements QLNode {
 	}
 	
 	public boolean compatibleWith(QLType type) {
-		return compatibleTypes.stream()
-				.map(compatibleType -> compatibleType.equals(type))
-				.reduce(false, (x, y) -> x || y);
+		return compatibleTypes.contains(type);
 	}
 	
 	/**
@@ -28,12 +26,14 @@ public abstract class QLType implements QLNode {
 	public abstract <T> T accept(TypeVisitor<T> visitor);
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		return this.getClass().getSimpleName().hashCode();
 	}
 	
 	@Override
-	public abstract boolean equals(Object comparisonObject);
+	public final boolean equals(Object comparisonObject) {
+		return comparisonObject.hashCode() == hashCode();
+	}
 	
 	@Override
 	public String toString() {

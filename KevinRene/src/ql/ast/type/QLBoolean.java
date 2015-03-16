@@ -12,9 +12,4 @@ public class QLBoolean extends QLType {
 	public <T> T accept(TypeVisitor<T> visitor) {	
 		return visitor.visit(this);
 	}
-
-	@Override
-	public boolean equals(Object comparisonObject) {
-		return comparisonObject instanceof QLBoolean;
-	}
 }

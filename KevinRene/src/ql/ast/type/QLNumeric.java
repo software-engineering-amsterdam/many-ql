@@ -9,12 +9,13 @@ public class QLNumeric extends QLType {
 	}
 	
 	@Override
-	public <T> T accept(TypeVisitor<T> visitor) {		
-		return visitor.visit(this);
+	public boolean compatibleWith(QLType type) {
+		return compatibleTypes.contains(type) 
+				|| type instanceof QLNumeric;
 	}
 	
 	@Override
-	public boolean equals(Object comparisonObject) {
-		return comparisonObject instanceof QLNumeric;
+	public <T> T accept(TypeVisitor<T> visitor) {		
+		return visitor.visit(this);
 	}
 }

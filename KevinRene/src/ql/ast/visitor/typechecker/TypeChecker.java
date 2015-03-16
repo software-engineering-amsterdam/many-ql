@@ -93,21 +93,21 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 * Checks whether the given expression passes the type checker. 
 	 * If the types are not compatible with the given compatibleWith type
 	 * then an error is added to the errors list.
-	 * @param expr
+	 * @param expression
 	 * @param expectedTypes The QLType the operands should be compatible with
 	 */
-	private QLType checkExpression(Expression expr, QLType expectedTypes) {		
-		List<QLType> actualTypes = expr.getOperands()
+	private QLType checkExpression(Expression expression, QLType expectedTypes) {		
+		List<QLType> actualTypes = expression.getOperands()
 				.stream()
 				.map(operand -> operand.accept(this))
 				.collect(Collectors.toList());
 				
 		// Both operands should be compatible with compatibleWith
 		if (!isCompatibleWith(actualTypes, expectedTypes)) {
-			errorEnvironment.addError(new TypeError(expr, expectedTypes, actualTypes));
+			errorEnvironment.addError(new TypeError(expression, expectedTypes, actualTypes));
 		}
 		
-		return expr.getType();
+		return expression.getType();
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	public boolean isCompatibleWith(List<QLType> operandTypes, QLType compatibleWith) {		
 		return operandTypes
 				.stream()
-				.map(n -> n.compatibleWith(compatibleWith))
+				.map(type -> type.compatibleWith(compatibleWith))
 				.allMatch(a -> a);
 	}	
 	
