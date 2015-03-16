@@ -44,7 +44,6 @@ module QL
 
         return nil if lhs_type.nil? || rhs_type.nil?
 
-
         check_expression_type(expression, lhs_type)
         check_expression_type(expression, rhs_type)
 
