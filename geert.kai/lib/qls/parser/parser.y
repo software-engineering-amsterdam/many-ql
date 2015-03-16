@@ -64,30 +64,21 @@ rule
 
  
   declaration
-    : property ':' value { PropertyDeclaration.new(val[0], val[1]) }
+    : 'widget:' 'checkbox'  { result = Checkbox.new }
+    | 'widget:' 'spinbox' { result = Spinbox.new }
+    | 'widget:' 'radio' { result = YesNoRadio.new }
+    | 'widget:' 'dropdown' { result = YesNoDropdown.new }
+    | 'widget:' 'text' { result = Text.new }
+    | 'fontsize:' integer { result = FontSizeProperty.new(val[1]) }
+    | 'font:' string { result = FontProperty.new(val[1]) }
+    | 'color:' color { result = FontColorProperty.new(val[1]) }
     ;
 
-  property
-    : variable_name
-
-  value
-    : integer
-    | string
-    | color
-    | widget
-    ;
 
   color
     : COLOR
     ;
 
-  widget
-    : 'checkbox' { result = Checkbox.new }
-    | 'spinbox'  { result = Spinbox.new }
-    | 'radio'    { result = YesNoRadio.new }
-    | 'dropdown' { result = YesNoDropdown.new }
-    | 'text'     { result = Text.new }
-    ;
 
   variable_name
     : VARIABLE_NAME 

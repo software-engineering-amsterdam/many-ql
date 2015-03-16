@@ -26,8 +26,8 @@ module QLS
       end
 
       def errors
-        names = QuestionVisitor.new(@base).questions.map(&:name)
-        names.duplicates.map { |name| Exception.new("Question #{name} is defined more than once.") }
+        duplicates = QuestionVisitor.new(@base).questions.map(&:name).duplicates
+        duplicates.map { |name| Exception.new("Question #{name} is defined more than once.") }
       end
     end
   end

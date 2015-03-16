@@ -1,19 +1,39 @@
 module QLS
   module AST
     class PropertyDeclaration
-      attr_reader :property, :value
+      attr_reader :value
       
-      def initialize(property, value)
-        @property = property
+      def initialize(value)
         @value = value
       end
 
-      def accept(visitor)
-        self.accept(visitor)
+      def to_css
+        "\n\t#{property}: #{value}"
+      end
+    end
+
+    class FontSizeProperty < PropertyDeclaration
+      def to_css
+        "\n\t-fx-font-size: #{value.to_s}px;"
+      end
+    end
+
+    class FontColorProperty < PropertyDeclaration
+      def to_css
+        "\n\t-fx-color: #{value.to_s};"
+      end
+    end
+
+    class FontProperty < PropertyDeclaration
+      def to_css
+        "\n\t-fx-font-family: \"#{value.to_s}\";"
       end
     end
 
     class Widget
+      def to_css
+        ""
+      end
     end
 
     class Checkbox < Widget
@@ -22,7 +42,12 @@ module QLS
         widget.selected_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value)
         end
+        
         widget
+      end
+
+      def class_name
+        "checkbox"
       end
     end
 
@@ -32,7 +57,12 @@ module QLS
         widget.selected_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value.to_i)
         end
+        
         widget
+      end
+
+      def class_name
+        "spinbox"
       end
     end
 
@@ -42,7 +72,12 @@ module QLS
         widget.text_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value)
         end
+        
         widget
+      end
+
+      def class_name
+        "text"
       end
     end
 
@@ -52,7 +87,12 @@ module QLS
         widget.text_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value.to_i)
         end
+        
         widget
+      end
+
+      def class_name
+        "number_text"
       end
     end
 
@@ -62,7 +102,12 @@ module QLS
         widget.selected_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value)
         end
+        
         widget
+      end
+
+      def class_name
+        "yes_no_radio"
       end
     end
 
@@ -72,7 +117,12 @@ module QLS
         widget.selected_property.add_change_listener do |observable, old_value, new_value|
           controller.update_variable(observable.bean.id, new_value)
         end
+        
         widget
+      end
+
+      def class_name
+        "yes_no_dropdown"
       end
     end
   end

@@ -24,10 +24,9 @@ const BoolQuestionType = "bool"
 // From takes the input from Frontend and stores locally - String.
 func (s *BoolQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
+	s.value = false
 	if val == 1 || str == AnswerYes || strings.ToLower(str) == AnswerYes {
 		s.value = true
-	} else {
-		s.value = false
 	}
 	return err
 }

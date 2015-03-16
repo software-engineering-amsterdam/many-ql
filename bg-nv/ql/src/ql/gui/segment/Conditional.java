@@ -7,7 +7,7 @@ import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
+import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class Conditional extends Segment<Pane> implements Refreshable
         Value val = ExprEvaluator.evaluate(condition, valueTable);
         if (!val.isUndefined())
         {
-            visible = ((BooleanValue)val).getValue();
+            visible = ((BoolValue)val).getValue();
         }
         this.setVisible(visible);
     }

@@ -7,9 +7,9 @@ import java.math.RoundingMode;
 /**
  * Created by bore on 16/02/15.
  */
-public class DecimalValue extends Value<BigDecimal>
+public class DecValue extends Value<BigDecimal>
 {
-    public DecimalValue(BigDecimal value)
+    public DecValue(BigDecimal value)
     {
         super(value);
     }
@@ -20,9 +20,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value addDecimal(DecimalValue value)
+    public Value addDecimal(DecValue value)
     {
-        return new DecimalValue(value.getValue().add(this.getValue()));
+        return new DecValue(value.getValue().add(this.getValue()));
     }
 
     @Override
@@ -32,9 +32,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value subDecimal(DecimalValue v)
+    public Value subDecimal(DecValue v)
     {
-        return new DecimalValue(v.getValue().subtract(this.getValue()));
+        return new DecValue(v.getValue().subtract(this.getValue()));
     }
 
     @Override
@@ -44,9 +44,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value mulDecimal(DecimalValue v)
+    public Value mulDecimal(DecValue v)
     {
-        return new DecimalValue(v.getValue().multiply(this.getValue()));
+        return new DecValue(v.getValue().multiply(this.getValue()));
     }
 
     @Override
@@ -56,9 +56,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value divDecimal(DecimalValue v)
+    public Value divDecimal(DecValue v)
     {
-        return new DecimalValue(v.getValue().divide(this.getValue(), new MathContext(6, RoundingMode.FLOOR)));
+        return new DecValue(v.getValue().divide(this.getValue(), new MathContext(6, RoundingMode.FLOOR)));
     }
 
     @Override
@@ -68,9 +68,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value gtDecimal(DecimalValue v)
+    public Value gtDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) > 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) > 0);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value ltDecimal(DecimalValue v)
+    public Value ltDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) < 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) < 0);
     }
 
     @Override
@@ -92,9 +92,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value gtEquDecimal(DecimalValue v)
+    public Value gtEquDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) >= 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) >= 0);
     }
 
     @Override
@@ -104,9 +104,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value ltEquDecimal(DecimalValue v)
+    public Value ltEquDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) <= 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) <= 0);
     }
 
     @Override
@@ -116,9 +116,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value equDecimal(DecimalValue v)
+    public Value equDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) == 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) == 0);
     }
 
     @Override
@@ -128,9 +128,9 @@ public class DecimalValue extends Value<BigDecimal>
     }
 
     @Override
-    public Value notEquDecimal(DecimalValue v)
+    public Value notEquDecimal(DecValue v)
     {
-        return new BooleanValue(v.getValue().compareTo(this.getValue()) != 0);
+        return new BoolValue(v.getValue().compareTo(this.getValue()) != 0);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class DecimalValue extends Value<BigDecimal>
     @Override
     public Value negDecimal()
     {
-        return new DecimalValue(this.getValue().negate());
+        return new DecValue(this.getValue().negate());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class DecimalValue extends Value<BigDecimal>
     @Override
     public Value posDecimal()
     {
-        return new DecimalValue(this.getValue());
+        return new DecValue(this.getValue());
     }
 
     public <T> T accept (ValueVisitor<T> visitor)
