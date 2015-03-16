@@ -20,4 +20,9 @@ public abstract class ColorRule extends Rule
     {
         return true;
     }
+
+    public ColorValue getValue()
+    {
+        return this.value;
+    }
 }

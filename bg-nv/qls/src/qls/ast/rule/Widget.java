@@ -39,4 +39,9 @@ public class Widget extends Rule
     {
         return visitor.visit(this);
     }
+
+    public WidgetValue getValue()
+    {
+        return this.value;
+    }
 }

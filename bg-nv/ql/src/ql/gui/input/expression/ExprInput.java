@@ -34,12 +34,6 @@ public abstract class ExprInput extends Input implements Refreshable
     }
 
     @Override
-    public void update(ValueTable valueTable)
-    {
-        // empty implementation, the this element should never be updated
-    }
-
-    @Override
     public Boolean isRefreshPrerequisite()
     {
         return true;
