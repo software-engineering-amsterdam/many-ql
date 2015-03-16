@@ -23,6 +23,6 @@ public abstract class QLNode extends Node<QLNode> implements NodeElement, Visual
 
     @Override
     public void isVisible(boolean visible) {
-        
+
     }
 }
