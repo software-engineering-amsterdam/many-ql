@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.BracedExpression;
@@ -40,8 +41,8 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 
 	private List<Question> questions = new ArrayList<>();
 
-	public TypeChecker(List<Question> questions) {
-		this.questions = questions;
+	public TypeChecker(Questionnaire questionnaire) {
+		this.questions = questionnaire.getAllQuestions();
 	}
 
 	public List<TypeValidation> checkTypes() {

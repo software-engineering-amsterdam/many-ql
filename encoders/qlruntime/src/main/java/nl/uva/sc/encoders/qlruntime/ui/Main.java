@@ -126,7 +126,7 @@ public class Main extends Application {
 		}
 
 		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
-		TypeChecker typeChecker = new TypeChecker(questionnaire.getAllQuestions());
+		TypeChecker typeChecker = new TypeChecker(questionnaire);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
 			ValidationsUI validationsUIFactory = new ValidationsUI();
