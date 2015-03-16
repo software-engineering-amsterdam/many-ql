@@ -2,8 +2,8 @@ package com.klq.typechecker;
 
 import com.klq.ast.impl.QuestionNode;
 import com.klq.logic.question.Type;
-import com.common.typechecker.error.AError;
-import com.common.typechecker.error.NotUniqueID;
+import com.klq.typechecker.error.AError;
+import com.klq.typechecker.error.NotUniqueID;
 
 import java.util.ArrayList;
 import java.util.HashMap;

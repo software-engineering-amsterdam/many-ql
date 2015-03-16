@@ -3,7 +3,7 @@ package ql.gui.input.expression;
 import javafx.scene.layout.VBox;
 import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.semantics.ValueTable;
 
 /**
@@ -35,7 +35,7 @@ public class DateExprInput extends ExprInput
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         return null;
     }

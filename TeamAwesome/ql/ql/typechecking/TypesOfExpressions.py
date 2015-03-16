@@ -10,8 +10,8 @@ from ..ast import Nodes
 
 
 class Checker(Checker.FullChecker):
-    def __init__(self, ast, resultADT):
-        super().__init__(ast, resultADT)
+    def __init__(self, ast, resultAlg):
+        super().__init__(ast, resultAlg)
         self._operatorTable = TypeRules.OperatorTable()
 
 
@@ -50,7 +50,8 @@ class Checker(Checker.FullChecker):
         )
 
         if typeOfExpression is None:
-            self._result = self._result.withError(
+            self._result = self._resultAlg.withError(
+                self._result,
                 Message.Error(
                     'undeclared identifier '+node,
                     node
@@ -89,7 +90,8 @@ class Checker(Checker.FullChecker):
             )
 
         if typeOfExpression is None:
-            self._result = self._result.withError(
+            self._result = self._resultAlg.withError(
+                self._result,
                 Message.Error(
                     'invalid operands to unary operator `'+node.op\
                    +'`: '+str(node.right),
@@ -117,7 +119,8 @@ class Checker(Checker.FullChecker):
             )
 
         if typeOfExpression is None: 
-            self._result = self._result.withError(
+            self._result = self._resultAlg.withError(
+                self._result,
                 Message.Error(
                     'invalid operands to binary operator `'+node.op\
                    +'`: ('+str(node.left)+','+str(node.right)+')',
@@ -134,7 +137,8 @@ class Checker(Checker.FullChecker):
             effectiveTypes(exprType)
         ))
         if not allowedEffectiveTypeExists:
-            self._result = self._result.withError(
+            self._result = self._resultAlg.withError(
+                self._result,
                 Message.Error(
                     'got an expression of type `'+str(exprType)\
                    +'` which is not castable to any of the '\

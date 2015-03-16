@@ -2,7 +2,7 @@ package ql.gui.input;
 
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.semantics.ValueTable;
 
 /**
@@ -53,7 +53,7 @@ public abstract class Input extends GuiElement
 
     public abstract void update(ValueTable valueTable);
 
-    protected abstract VBox createInputNode(ControlType control);
+    protected abstract VBox createInputNode(Control control);
 //    {
 //        VBox box = new VBox();
 //        box.getChildren().add(control.getControl());

@@ -18,7 +18,7 @@ public class Interpreter {
 		
 		if (!errorList.hasErrors()) {
 			SymbolTable symbolTable = result.getResult();
-			ValueTable valueTable = Evaluator.evaluate(form);
+			ValueTable valueTable = Evaluator.evaluate(form, new ValueTable());
 			
 			// TODO: Remove this!
 			result.getErrorList().printAll();

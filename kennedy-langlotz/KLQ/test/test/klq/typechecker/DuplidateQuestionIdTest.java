@@ -4,7 +4,7 @@ import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.typechecker.TypeChecker;
-import com.common.typechecker.error.NotUniqueID;
+import com.klq.typechecker.error.NotUniqueID;
 import org.junit.Before;
 import org.junit.Test;
 
