@@ -12,7 +12,8 @@ class Checker(Checker.StatementChecker):
         dependencyChains = self._questionDependencyChains([], node)
         for chain in dependencyChains:
             if chain[-1] in chain[:-1]:
-                self._result = self._result.withError(
+                self._result = self._resultAlg.withError(
+                    self._result,
                     Message.Error(
                         'there is a question dependency cycle: '\
                        +' <- '.join([q.identifier for q in chain])\

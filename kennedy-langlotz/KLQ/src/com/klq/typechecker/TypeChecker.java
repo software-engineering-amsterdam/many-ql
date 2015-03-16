@@ -1,7 +1,7 @@
 package com.klq.typechecker;
 
 import com.klq.ast.ANode;
-import com.common.typechecker.error.AError;
+import com.klq.typechecker.error.AError;
 
 import java.util.ArrayList;
 import java.util.List;

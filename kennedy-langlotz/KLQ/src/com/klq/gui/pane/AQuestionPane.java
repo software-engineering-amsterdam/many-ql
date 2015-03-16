@@ -4,6 +4,7 @@ import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
+import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -156,4 +157,33 @@ public abstract class AQuestionPane extends GridPane {
         return frames;
     }
 
+    /*
+     * Input Validation for user input
+     */
+    private final String DATE_PATTERN = "\\d?\\d[\\./-]\\d?\\d[\\./-]\\d\\d\\d\\d";
+    private  final String NUMBER_PATTERN = "-?\\d+(\\.\\d+)?";
+
+    public boolean matches(Type questionType, String input){
+        if (input.trim().isEmpty())
+            return true;
+        switch (questionType){
+            case NUMERAL:
+                return matchesNumber(input);
+            case DATE:
+                return matchesDate(input);
+            case STRING:
+                return true;
+        }
+        return false;
+    }
+
+    private boolean matchesDate(String input){
+        if (input.matches(DATE_PATTERN))
+            return true;
+        return false;
+    }
+
+    private boolean matchesNumber(String input){
+        return input.matches(NUMBER_PATTERN);
+    }
 }

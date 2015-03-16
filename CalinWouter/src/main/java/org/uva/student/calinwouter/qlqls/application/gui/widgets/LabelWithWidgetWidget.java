@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.model.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import javax.swing.*;
@@ -61,7 +61,7 @@ public class LabelWithWidgetWidget implements IWidget {
         });
     }
 
-    public LabelWithWidgetWidget(final AbstractFormField formField, StylingSettings stylingSettings, IWidget widget,
+    public LabelWithWidgetWidget(final AbstractStaticFormField formField, StylingSettings stylingSettings, IWidget widget,
                                  final QLInterpreter qlIntepreter, final QLGUI qlgui) {
         final Label fieldLabel = new Label(formField.getLabel());
         labelWithWidgetWidget = new JPanel();
