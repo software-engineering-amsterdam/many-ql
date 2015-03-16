@@ -4,6 +4,7 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
@@ -56,8 +57,13 @@ public class QLSTextBox extends AbstractQLSWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        return this.component;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.component);
+    }
+
+    @Override
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.component);
     }
 
     @Override

@@ -21,6 +21,15 @@ public abstract class UIQuestion extends Colleague {
     
     public abstract void resetState();
 
+    public void addToForm(UIForm _form) {
+        this.widget.render(_form);
+    }
+
+    public void removeFromForm(UIForm _form) {
+        this.widget.supress(_form);
+        this.resetState();
+    }
+
     @Override
     public String getId() {
         return question.getIdName();

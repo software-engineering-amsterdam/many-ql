@@ -8,7 +8,6 @@ import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.type_checker.helper.QLTypeCheckerHelper;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
@@ -91,7 +90,7 @@ public class QLTypeChecker {
             Expression expression = ifStatement.getCondition();
 
             // check if condition of type bool
-            boolean conditionIsBool = QLTypeCheckerHelper.isExpressionOfTypeBool(expression);
+            boolean conditionIsBool = expression.isExpressionOfTypeBool();
             if (!conditionIsBool) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
@@ -109,7 +108,7 @@ public class QLTypeChecker {
             Expression computed = question.getComputedExpression();
 
             // check if assigned types equal
-            boolean typesEqual = QLTypeCheckerHelper.areTypesEqual(type, computed.getReturnedType());
+            boolean typesEqual = (type.equals(computed.getReturnedType()));
             if (!typesEqual) {
                 this.astIssueHandler.registerNewError(
                         ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,

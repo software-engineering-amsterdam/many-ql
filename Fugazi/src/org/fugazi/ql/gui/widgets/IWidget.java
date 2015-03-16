@@ -1,13 +1,14 @@
 package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 
-import javax.swing.JComponent;
 import java.util.EventListener;
 
 public interface IWidget {
-    
-    public JComponent getJComponent();
+
+    public void render(UIForm _canvas);
+    public void supress(UIForm _canvas);
 
     public ExpressionValue getValue();
     public void setValue(ExpressionValue _value);

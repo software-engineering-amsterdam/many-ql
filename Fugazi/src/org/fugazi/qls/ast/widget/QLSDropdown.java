@@ -6,6 +6,7 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -19,15 +20,19 @@ public class QLSDropdown extends AbstractQLSWidget {
     private final String yesLabel;
     private final String noLabel;
 
+    private final JComboBox component;
+
     public QLSDropdown(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
+        this.component = new JComboBox();
     }
 
     public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
         this.label = _label;
+        this.component = new JComboBox();
     }
 
     public String getYesLabel() {
@@ -49,9 +54,13 @@ public class QLSDropdown extends AbstractQLSWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        // todo
-        return null;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.component);
+    }
+
+    @Override
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.component);
     }
 
     @Override
