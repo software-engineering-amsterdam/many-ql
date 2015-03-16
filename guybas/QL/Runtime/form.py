@@ -51,7 +51,9 @@ class Form:
         return questions
 
     def __combine_expressions(self):
-        expr = self.__q_conditions_dict[0]
-        for x in range(1, len(self.__q_conditions_dict), 2):
-            expr = and_op.And("and", expr, self.__q_conditions_dict[x])
-        return expr
+        for q_id in self.__q_conditions_dict:
+            conditions_list = self.__q_conditions_dict[q_id]
+            expr = conditions_list[0]
+            for x in range(1, len(conditions_list), 2):
+                expr = and_op.And("and", expr, conditions_list[x])
+            self.__q_conditions_dict[q_id] = expr
