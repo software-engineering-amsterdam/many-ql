@@ -1,7 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
@@ -57,7 +56,7 @@ public class Question extends Statement {
 	}
 
 	@Override
-	public List<Question> getQuestions() {
-		return Collections.singletonList(this);
+	public void collectQuestions(Collection<Question> questions) {
+		questions.add(this);
 	}
 }

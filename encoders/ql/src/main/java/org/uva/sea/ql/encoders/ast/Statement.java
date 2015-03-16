@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
-import java.util.List;
+import java.util.Collection;
 
 public abstract class Statement extends AstNode {
 
@@ -8,6 +8,6 @@ public abstract class Statement extends AstNode {
 		super(textLocation);
 	}
 
-	public abstract List<Question> getQuestions();
+	public abstract void collectQuestions(Collection<Question> questions);
 
 }

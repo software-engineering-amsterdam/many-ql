@@ -15,16 +15,16 @@ public class Questionnaire extends AstNode {
 		this.statements = statements;
 	}
 
-	public List<Question> getQuestions() {
+	public List<Question> getAllQuestions() {
 		List<Question> questions = new ArrayList<>();
 		for (Statement statement : statements) {
-			questions.addAll(statement.getQuestions());
+			statement.collectQuestions(questions);
 		}
 		return questions;
 	}
 
 	public Question getQuestion(String name) {
-		for (Question question : getQuestions()) {
+		for (Question question : getAllQuestions()) {
 			if (question.getName().equals(name)) {
 				return question;
 			}

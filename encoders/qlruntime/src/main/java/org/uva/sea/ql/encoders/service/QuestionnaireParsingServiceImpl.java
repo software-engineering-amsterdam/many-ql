@@ -47,7 +47,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		QLInterpreter qlInterpreter = new QLInterpreter();
 		Questionnaire questionnaire = (Questionnaire) qlInterpreter.visit(parseTree);
 
-		TypeChecker typeChecker = new TypeChecker(questionnaire.getQuestions());
+		TypeChecker typeChecker = new TypeChecker(questionnaire.getAllQuestions());
 		List<TypeValidation> typeValidations = new ArrayList<>();
 		typeValidations.addAll(typeChecker.checkTypes());
 

@@ -14,7 +14,7 @@ import org.uva.sea.ql.encoders.runtime.value.Value;
 public class AstTransformer {
 
 	public RuntimeQuestionnaire transform(Questionnaire questionnaire) {
-		List<Question> questions = questionnaire.getQuestions();
+		List<Question> questions = questionnaire.getAllQuestions();
 
 		List<RuntimeQuestion> uiQuestions = createUIQuestions(questions);
 		String name = questionnaire.getName();
