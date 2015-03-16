@@ -3,9 +3,9 @@ package ql.semantics.values;
 /**
  * Created by bore on 16/02/15.
  */
-public class IntegerValue extends Value<Integer>
+public class IntValue extends Value<Integer>
 {
-    public IntegerValue(Integer value)
+    public IntValue(Integer value)
     {
         super(value);
     }
@@ -16,9 +16,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value addInteger(IntegerValue value)
+    public Value addInteger(IntValue value)
     {
-        return new IntegerValue(this.getValue() + value.getValue());
+        return new IntValue(this.getValue() + value.getValue());
     }
 
     @Override
@@ -28,9 +28,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value subInteger(IntegerValue v)
+    public Value subInteger(IntValue v)
     {
-        return new IntegerValue(v.getValue() - this.getValue());
+        return new IntValue(v.getValue() - this.getValue());
     }
 
     @Override
@@ -40,9 +40,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value mulInteger(IntegerValue v)
+    public Value mulInteger(IntValue v)
     {
-        return new IntegerValue(this.getValue() * v.getValue());
+        return new IntValue(this.getValue() * v.getValue());
     }
 
     @Override
@@ -52,9 +52,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value divInteger(IntegerValue v)
+    public Value divInteger(IntValue v)
     {
-        return new IntegerValue(v.getValue() / this.getValue());
+        return new IntValue(v.getValue() / this.getValue());
     }
 
     @Override
@@ -64,9 +64,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value gtInteger(IntegerValue v)
+    public Value gtInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() > this.getValue());
+        return new BoolValue(v.getValue() > this.getValue());
     }
 
     @Override
@@ -76,9 +76,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value ltInteger(IntegerValue v)
+    public Value ltInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() < this.getValue());
+        return new BoolValue(v.getValue() < this.getValue());
     }
 
     @Override
@@ -88,9 +88,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value gtEquInteger(IntegerValue v)
+    public Value gtEquInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() >= this.getValue());
+        return new BoolValue(v.getValue() >= this.getValue());
     }
 
     @Override
@@ -100,9 +100,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value ltEquInteger(IntegerValue v)
+    public Value ltEquInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() <= this.getValue());
+        return new BoolValue(v.getValue() <= this.getValue());
     }
 
     @Override
@@ -112,9 +112,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value equInteger(IntegerValue v)
+    public Value equInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() == this.getValue());
+        return new BoolValue(v.getValue() == this.getValue());
     }
 
     @Override
@@ -124,9 +124,9 @@ public class IntegerValue extends Value<Integer>
     }
 
     @Override
-    public Value notEquInteger(IntegerValue v)
+    public Value notEquInteger(IntValue v)
     {
-        return new BooleanValue(v.getValue() != this.getValue());
+        return new BoolValue(v.getValue() != this.getValue());
     }
 
     @Override
@@ -138,7 +138,7 @@ public class IntegerValue extends Value<Integer>
     @Override
     public Value negInteger()
     {
-        return new IntegerValue(this.getValue() * -1);
+        return new IntValue(this.getValue() * -1);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class IntegerValue extends Value<Integer>
     @Override
     public Value posInteger()
     {
-        return new IntegerValue(this.getValue());
+        return new IntValue(this.getValue());
     }
 
     public <T> T accept (ValueVisitor<T> visitor)

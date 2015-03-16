@@ -5,5 +5,4 @@ package ql.gui.control;
  */
 public interface BooleanControl extends Control
 {
-
 }

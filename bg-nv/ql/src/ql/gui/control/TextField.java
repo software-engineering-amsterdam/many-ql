@@ -51,7 +51,6 @@ public class TextField extends ControlElement implements BooleanControl, Integer
         return visitor.visit(this);
     }
 
-
     @Override
     public void addListener(ChangeListener listener)
     {
@@ -64,28 +63,28 @@ public class TextField extends ControlElement implements BooleanControl, Integer
     }
 
     @Override
-    public Void visit(DecimalValue val)
+    public Void visit(DecValue val)
     {
         this.setText(val.getValue().toString());
         return null;
     }
 
     @Override
-    public Void visit(IntegerValue val)
+    public Void visit(IntValue val)
     {
         this.setText(val.getValue().toString());
         return null;
     }
 
     @Override
-    public Void visit(StringValue val)
+    public Void visit(StrValue val)
     {
         this.setText(val.getValue());
         return null;
     }
 
     @Override
-    public Void visit(UndefinedValue val)
+    public Void visit(UndefValue val)
     {
         this.setText("");
         return null;

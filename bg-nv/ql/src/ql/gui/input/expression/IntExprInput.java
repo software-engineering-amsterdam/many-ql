@@ -7,8 +7,8 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
 import ql.gui.control.IntegerControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.IntegerValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.IntValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
