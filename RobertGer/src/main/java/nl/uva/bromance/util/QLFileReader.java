@@ -38,7 +38,7 @@ public class QLFileReader {
         AST<QLNode> qlAst = listener.getAst();
 
         //TODO:Evaluator and Handler need to be executed in this order. Maybe we want to force that.
-        new ExpressionEvaluator().evaluate(qlAst.getRoot());
+        new ExpressionEvaluator(null).evaluate(qlAst.getRoot());
         new ConditionalHandler().handle(qlAst.getRoot());
 
         return qlAst;

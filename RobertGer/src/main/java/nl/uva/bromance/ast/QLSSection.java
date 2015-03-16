@@ -2,6 +2,7 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public class QLSSection extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         javafx.scene.control.Label label = new javafx.scene.control.Label(this.identifier);
         label.getStyleClass().add("formHeader");

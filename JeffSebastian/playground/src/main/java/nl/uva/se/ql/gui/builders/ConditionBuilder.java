@@ -12,10 +12,7 @@ public class ConditionBuilder implements StatementVisitor{
 	private final ConditionBox conditionBox;
 	
 	public ConditionBuilder(Condition condition){			
-		this.conditionBox = new ConditionBox(condition);
-		System.out.println(condition.getExpression().getLineNumber());
-		System.out.println(condition.getExpression().getOffset());
-		System.out.println(condition.getExpression());
+		this.conditionBox = new ConditionBox(condition);	
 		visit(condition);
 	}
 

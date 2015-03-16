@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.UndefinedValue;
 import nl.uva.se.ql.evaluation.value.Value;
 

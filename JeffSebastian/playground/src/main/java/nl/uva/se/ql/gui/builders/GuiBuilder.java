@@ -6,20 +6,16 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
-import nl.uva.se.ql.evaluation.ExpressionEvaluator;
 import nl.uva.se.ql.evaluation.ValueTable;
-import nl.uva.se.ql.evaluation.value.Value;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 
 public class GuiBuilder implements StatementVisitor, FormVisitor {
 	
-	private QuestionPane questionPane;
-		
+	private QuestionPane questionPane;		
 	private ValueTable values;
 	
 	public GuiBuilder(ValueTable values) {
-		this.values = values;
-		System.out.println("the valuetable"+values);
+		this.values = values;		
 	}
 	
 	public void visit(Question question) {
@@ -33,8 +29,7 @@ public class GuiBuilder implements StatementVisitor, FormVisitor {
 	
 	public void visit(Condition condition) {
 		ConditionBuilder conditionVisitor = new ConditionBuilder(condition);
-		questionPane.addConditionBox(conditionVisitor.getConditionBox());	
-		System.out.println("the condition: " + condition.getStatements());
+		questionPane.addConditionBox(conditionVisitor.getConditionBox());			
 	}
 
 	public void visit(Form form) {

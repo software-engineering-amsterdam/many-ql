@@ -42,7 +42,7 @@ public class Form extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         Label label = new Label(this.identifier);
