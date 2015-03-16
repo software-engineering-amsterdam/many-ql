@@ -1,15 +1,16 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Identifier;
-import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import org.antlr.v4.runtime.Token;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Expression extends Node {
+public class Expression extends QLNode {
     private String text;
     private Optional<Operator> operator = Optional.empty();
     private Optional<Terminal> terminal = Optional.empty();
@@ -31,7 +32,7 @@ public class Expression extends Node {
             System.out.print("\t");
         }
         System.out.print("[Expression] " + text + " \n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }
@@ -109,5 +110,13 @@ public class Expression extends Node {
 
     public void setTerminal(Terminal terminal) {
         this.terminal = Optional.of(terminal);
+    }
+
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

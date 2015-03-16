@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-public class QLSSection extends Node {
+public class QLSSection extends QLSNode {
 	private String identifier;
     public QLSSection(int lineNumber, String id) {
         super(lineNumber, QLSSection.class);
@@ -21,7 +21,7 @@ public class QLSSection extends Node {
         javafx.scene.control.Label label = new javafx.scene.control.Label(this.identifier);
         label.getStyleClass().add("formHeader");
         newParent.get().getChildren().add(label);
-        for (Node child: this.getChildren()) {
+        for (QLSNode child: this.getChildren()) {
             child.visualize(newParent.get());
         }
         // Commented out for future usage when generating CSS
@@ -37,7 +37,7 @@ public class QLSSection extends Node {
             System.out.print("\t");
         }
         System.out.print("[Section] { Name: "+identifier+" }\n");
-        for (Node n : getChildren()) {
+        for (QLSNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }
