@@ -24,11 +24,11 @@ public abstract class Error {
 		WriterCache writerCache = new WriterCache();
 		
 		if(origin instanceof Expression) {
-			PrettyPrinter.print((Expression) origin, writerCache, "   -> ");
+			PrettyPrinter.print((Expression) origin, writerCache, PrettyPrinter.DEFAULT_PREFIX);
 		} else if(origin instanceof Statement) {
-			PrettyPrinter.print((Statement) origin, writerCache, "   -> ");
+			PrettyPrinter.print((Statement) origin, writerCache, PrettyPrinter.DEFAULT_PREFIX);
 		} else {
-			PrettyPrinter.print((QLType) origin, writerCache, "   -> ");
+			PrettyPrinter.print((QLType) origin, writerCache, PrettyPrinter.DEFAULT_PREFIX);
 		}
 		
 		return writerCache.getCachedString();
@@ -37,7 +37,8 @@ public abstract class Error {
 	@Override
 	public String toString() {
 		return "[" + this.getClass().getSimpleName() + "]: " + errorMessage + "\n"
-				+ "-- Error Source Node -- \n" + getErrorSourceString();
+				+ "-- Error Source Node -- \n" 
+				+ getErrorSourceString();
 	}
 }
 	
