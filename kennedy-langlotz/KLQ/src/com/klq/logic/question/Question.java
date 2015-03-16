@@ -20,7 +20,7 @@ import java.util.Map;
 public class Question implements IKLQItem{
     private final IdentifierValue id;
     private final Type type;
-    private final Text text;
+    private final String text;
     private final List<AExpression> dependencies;
 
     private final boolean computedQuestion;
@@ -29,11 +29,11 @@ public class Question implements IKLQItem{
     private final BooleanProperty visibleProperty;
     private final StringProperty computedProperty;
 
-    public Question(IdentifierValue id, Type type, Text text) {
+    public Question(IdentifierValue id, Type type, String text) {
         this(id, type, text, null);
     }
 
-    public Question (IdentifierValue id, Type type, Text text, AExpression computedExpression){
+    public Question (IdentifierValue id, Type type, String text, AExpression computedExpression){
         this.id = id;
         this.type = type;
         this.text = text;
@@ -60,7 +60,7 @@ public class Question implements IKLQItem{
         return type;
     }
 
-    public Text getText() {
+    public String getText() {
         return text;
     }
 
