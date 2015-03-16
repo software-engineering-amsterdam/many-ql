@@ -29,7 +29,8 @@ public class SliderWidget implements IWidget {
             @Override
             public void stateChanged(ChangeEvent e) {
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVaribaleTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVaribaleTable);
             }
         });
     }

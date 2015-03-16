@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new VariableUsageCheckingVisitor();
+            var visitor = new VariableUsageChecker();
 
             // Act
             visitor.Visit(form);
@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new VariableUsageCheckingVisitor();
+            var visitor = new VariableUsageChecker();
 
             // Act
             visitor.Visit(form);
@@ -66,7 +66,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation.QL
             var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
-            var visitor = new VariableUsageCheckingVisitor();
+            var visitor = new VariableUsageChecker();
 
             // Act
             visitor.Visit(form);

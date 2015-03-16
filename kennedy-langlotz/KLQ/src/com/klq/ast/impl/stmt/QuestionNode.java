@@ -1,14 +1,13 @@
-package com.klq.ast.impl;
+package com.klq.ast.impl.stmt;
 
+import com.klq.ast.IStatementVisitor;
 import com.klq.ast.Location;
-import com.klq.ast.ANode;
-import com.klq.ast.IVisitor;
 import com.klq.logic.question.Type;
 
 /**
  * Created by juriaan on 10-2-15.
  */
-public class QuestionNode extends ANode {
+public class QuestionNode extends AStatementNode {
 
     private String questionID;
     private Type questionType;
@@ -29,7 +28,7 @@ public class QuestionNode extends ANode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

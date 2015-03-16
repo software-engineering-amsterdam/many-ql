@@ -29,7 +29,8 @@ public class CheckboxWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }

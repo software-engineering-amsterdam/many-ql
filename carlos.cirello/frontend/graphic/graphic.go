@@ -202,14 +202,17 @@ func (g *Gui) updateQuestion(fieldName string, content interface{}) {
 
 		fieldPtr := question.ObjectByName(fieldName)
 
-		if fieldPtr.Bool("activeFocus") {
-			// Don't let regular update loop to overwrite current
-			// user edit in the focused field.
-			return
-		}
-
-		g.updateCallbacks[fieldName](content.(string))
+		g.updateIfUnfocused(fieldPtr, fieldName, content.(string))
 	}
+}
+
+func (g *Gui) updateIfUnfocused(fieldPtr qml.Object, fieldName,
+	content string) {
+	if fieldPtr.Bool("activeFocus") {
+		return
+	}
+
+	g.updateCallbacks[fieldName](content)
 }
 
 func (g *Gui) hideQuestion(fieldName string) {

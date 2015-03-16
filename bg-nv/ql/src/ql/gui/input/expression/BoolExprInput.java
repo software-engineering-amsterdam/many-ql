@@ -47,19 +47,8 @@ public class BoolExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof BooleanValue;
-            this.control.setValue(((BooleanValue)val));
-        }
-        else
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue(((UndefinedValue)val));
-        }
+        this.control.setValue(value);
     }
 }

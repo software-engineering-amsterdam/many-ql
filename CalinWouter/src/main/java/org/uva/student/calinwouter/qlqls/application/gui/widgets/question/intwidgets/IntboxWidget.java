@@ -40,7 +40,8 @@ public class IntboxWidget implements IWidget {
                 } catch(NumberFormatException e) {
                     variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new IntegerValue(0));
                 }
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }

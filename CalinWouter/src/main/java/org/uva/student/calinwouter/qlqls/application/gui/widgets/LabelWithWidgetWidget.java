@@ -39,11 +39,11 @@ public class LabelWithWidgetWidget implements IWidget {
 
         variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
-            //TODO this needs to be changed
             public void onStateChanged() {
-                //if(variableTableWrapper.getVariableTable().getVariable(identifier))
-                //labelWithWidgetWidget.setVisible(true);
-                //labelWithWidgetWidget.setVisible(false);
+                if(variableTableWrapper.getVariableTable().isSet(identifier))
+                    labelWithWidgetWidget.setVisible(true);
+                else
+                    labelWithWidgetWidget.setVisible(false);
                 fieldLabel.invalidate();
                 labelWithWidgetWidget.revalidate();
             }

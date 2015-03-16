@@ -12,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     /// <summary>
     /// Checks if variables or questions are defined, not redeclared and used.
     /// </summary>
-    public class VariableUsageCheckingVisitor : QLVisitor
+    public class VariableUsageChecker : QLVisitor<object>
     {
         protected class IdentifierUsageCount
         {
@@ -72,14 +72,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             private set;
         }
 
-        public VariableUsageCheckingVisitor()
+        public VariableUsageChecker()
         {
             DeclaredVariables = new Dictionary<string, IdentifierUsageCount>();
             UndeclaredVariables = new List<Identifier>();
             RedeclaredVariables = new List<Identifier>();
         }
 
-        public VariableUsageCheckingVisitor(VariableUsageCheckingVisitor parentVisitor)
+        public VariableUsageChecker(VariableUsageChecker parentVisitor)
             : this()
         {
             // Call ToList so we got a new instance
@@ -89,7 +89,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             }
         }
 
-        public override void Visit(Question question)
+        public override object Visit(Question question)
         {
             if (question.Expression != null)
             {
@@ -104,9 +104,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             {
                 RedeclaredVariables.Add(question.Id);
             }
+            return null;
         }
 
-        public override void Visit(Definition definition)
+        public override object Visit(Definition definition)
         {
             definition.Expression.Accept(this);
 
@@ -118,9 +119,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             {
                 RedeclaredVariables.Add(definition.Id);
             }
+            return null;
         }
 
-        public override void Visit(Identifier identifier)
+        public override object Visit(Identifier identifier)
         {
             if (DeclaredVariables.ContainsKey(identifier.Name))
             {
@@ -130,20 +132,21 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             {
                 UndeclaredVariables.Add(identifier);
             }
+            return null;
         }
 
-        public override void Visit(IfStatement ifStatement)
+        public override object Visit(IfStatement ifStatement)
         {
             ifStatement.If.Accept(this);
 
-            var thenVisitor = new VariableUsageCheckingVisitor(this);
+            var thenVisitor = new VariableUsageChecker(this);
 
             foreach (var statement in ifStatement.Then)
             {
                 statement.Accept(thenVisitor);
             }
 
-            var elseVisitor = new VariableUsageCheckingVisitor(this);
+            var elseVisitor = new VariableUsageChecker(this);
 
             foreach (var statement in ifStatement.Else)
             {
@@ -152,9 +155,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
 
             CopyMessages(thenVisitor);
             CopyMessages(elseVisitor);
+            return null;
         }
 
-        private void CopyMessages(VariableUsageCheckingVisitor visitor)
+        private void CopyMessages(VariableUsageChecker visitor)
         {
             foreach (var undeclaredVariable in visitor.UndeclaredVariables)
             {

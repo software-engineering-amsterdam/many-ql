@@ -11,13 +11,8 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
 {
     public class Add : BinaryExpression
     {
-        internal Add(Operation operation, IExpression left, IExpression right, TextPosition position)
+        internal Add(Operation operation, Expression left, Expression right, TextPosition position)
             : base(operation, left, right, position) {}
-
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
 
         public override T Accept<T>(IQLVisitor<T> visitor)
         {

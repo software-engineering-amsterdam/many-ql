@@ -1,6 +1,7 @@
 package com.klq.typechecker;
 
 import com.klq.ast.ANode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.typechecker.error.AError;
 
 import java.util.ArrayList;
@@ -11,10 +12,10 @@ import java.util.List;
  */
 public class TypeChecker {
     private ArrayList<AError> errors;
-    private ANode ast;
+    private QuestionnaireNode ast;
     private QuestionTable table;
 
-    public TypeChecker(ANode ast){
+    public TypeChecker(QuestionnaireNode ast){
         errors = new ArrayList<AError>();
         this.ast = ast;
         table = new QuestionTable(errors);
