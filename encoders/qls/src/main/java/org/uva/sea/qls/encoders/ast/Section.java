@@ -3,7 +3,7 @@ package org.uva.sea.qls.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Section {
+public class Section extends AstNode {
 
 	private final String name;
 
@@ -11,7 +11,8 @@ public class Section {
 
 	private List<Section> subSections = new ArrayList<>();
 
-	public Section(String name) {
+	public Section(TextLocation textLocation, String name) {
+		super(textLocation);
 		this.name = name;
 	}
 

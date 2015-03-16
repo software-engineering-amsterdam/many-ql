@@ -3,13 +3,14 @@ package org.uva.sea.qls.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Page {
+public class Page extends AstNode {
 
 	private final String name;
 
 	private List<Section> sections = new ArrayList<Section>();
 
-	public Page(String name) {
+	public Page(TextLocation textLocation, String name) {
+		super(textLocation);
 		this.name = name;
 	}
 
