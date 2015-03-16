@@ -1,7 +1,13 @@
 package uva.ql.ast.expressions.math;
 
+import java.util.Arrays;
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.*;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
@@ -12,23 +18,30 @@ public class Substraction extends BinaryExpressions{
 	}
 	
 	@Override
+	public CodeLines getCodeLine() {
+		return this.codeLines;
+	}
+	
+	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitSubstraction(this);
 	}
 	
 	@Override
 	public NumberValue evaluate() {
-		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr()))
-			throw new IllegalArgumentException("Operands Not Of The Same Type. Substraction requires numbers.");
-			
-		return NumberValue.numberValueFromExpr(getLeftExpr()).substraction(NumberValue.numberValueFromExpr(getRightExpr()));
-	}
-
-	@Override
-	public String evaluateType() {
-		return Substraction.class.getName();
+		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).substraction(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
 	}
 	
+	@Override
+	public List<Type> getValueType() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public List<Type> getSupportedType() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+
 	@Override
 	public String toString(){
 		return "Substraction(" + this.getLeftExpr() + "," + this.getRightExpr() + ")";

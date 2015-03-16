@@ -1,23 +1,30 @@
 package uva.ql.ast.expressions.literals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.StringValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Identifier extends Literal{
+	
 	private String identifier;
+	
+	public Identifier(){
+		super(null);
+	}
 	
 	public Identifier(String _identifier, CodeLines _codeLines){
 		super(_codeLines);
 		this.identifier = _identifier;
 	}
 	
-	public String evaluatedValue(){
-		return this.evaluate().getValue();
-	}
-	
-	public static Identifier getNullIdentifier(String _identifier){
-		return new Identifier(_identifier, null);
+	@Override
+	public CodeLines getCodeLine() {
+		return this.codeLines;
 	}
 	
 	@Override
@@ -26,13 +33,18 @@ public class Identifier extends Literal{
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
-		return visitor.visitIdentifier(this);
+	public List<Type> getValueType() {
+		return Arrays.asList(new TypeString());
 	}
 	
 	@Override
-	public String evaluateType() {
-		return Identifier.class.getName();
+	public List<Type> getSupportedType() {
+		return Arrays.asList(new TypeString());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+		return visitor.visitIdentifier(this);
 	}
 	
 	@Override

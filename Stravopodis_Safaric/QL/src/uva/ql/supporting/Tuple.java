@@ -1,12 +1,21 @@
 package uva.ql.supporting;
 
 public class Tuple <T,K>{
-	public T x;
-	public K y;
+	
+	private T x;
+	private K y;
 	
 	public Tuple(T _x, K _y){
 		this.x = _x;
 		this.y = _y;
+	}
+	
+	public T getX(){
+		return this.x;
+	}
+	
+	public K getY(){
+		return this.y;
 	}
 	
 	public Tuple<T,K> getTuple(){
