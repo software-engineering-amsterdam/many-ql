@@ -2,10 +2,12 @@ package ql.value;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
-public class FloatValue extends Value<Float> {
-	public FloatValue(float value) {
-		super(value);
+public class FloatValue extends Value {
+	
+	private final Float value;
+	
+	public FloatValue(Float value) {
+		this.value = value;
 	}
 	
 	@Override
@@ -15,67 +17,67 @@ public class FloatValue extends Value<Float> {
 
 	@Override
 	public Value add(Value argument) {
-		return argument.addFloat(getValue());
+		return argument.addFloat(this);
 	}
 
 	@Override
-	public Value addInteger(int argument) {
-		return new FloatValue(argument + getValue());
+	public Value addInteger(IntegerValue argument) {
+		return new FloatValue(argument.getValue() + getValue());
 	}
 
 	@Override
-	public Value addFloat(float argument) {
-		return new FloatValue(argument + getValue());
+	public Value addFloat(FloatValue argument) {
+		return new FloatValue(argument.getValue() + getValue());
 	}
 
 	@Override
-	public Value addString(String argument) {
-		return new StringValue(argument + getValue());
+	public Value addString(StringValue argument) {
+		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
 	public Value divide(Value argument) {
-		return argument.divideFloat(getValue());
+		return argument.divideFloat(this);
 	}
 
 	@Override
-	public Value divideInteger(int argument) {
-		return new FloatValue(argument / getValue());
+	public Value divideInteger(IntegerValue argument) {
+		return new FloatValue(argument.getValue() / getValue());
 	}
 
 	@Override
-	public Value divideFloat(float argument) {
-		return new FloatValue(argument / getValue());
+	public Value divideFloat(FloatValue argument) {
+		return new FloatValue(argument.getValue() / getValue());
 	}
 
 	@Override
 	public Value multiply(Value argument) {
-		return argument.multiplyFloat(getValue());
+		return argument.multiplyFloat(this);
 	}
 
 	@Override
-	public Value multiplyInteger(int argument) {
-		return new FloatValue(argument * getValue());
+	public Value multiplyInteger(IntegerValue argument) {
+		return new FloatValue(argument.getValue() * getValue());
 	}
 
 	@Override
-	public Value multiplyFloat(float argument) {
-		return new FloatValue(argument * getValue());
+	public Value multiplyFloat(FloatValue argument) {
+		return new FloatValue(argument.getValue() * getValue());
 	}
 
 	@Override
 	public Value subtract(Value argument) {
-		return argument.subtractFloat(getValue());
+		return argument.subtractFloat(this);
 	}
 
 	@Override
-	public Value subtractInteger(int argument) {
-		return new FloatValue(argument - getValue());
+	public Value subtractInteger(IntegerValue argument) {
+		return new FloatValue(argument.getValue() - getValue());
 	}
 
 	@Override
-	public Value subtractFloat(float argument) {
-		return new FloatValue(argument - getValue());
+	public Value subtractFloat(FloatValue argument) {
+		return new FloatValue(argument.getValue() - getValue());
 	}
 
 	@Override
@@ -99,117 +101,117 @@ public class FloatValue extends Value<Float> {
 	}
 
 	@Override
-	public Value orBoolean(boolean argument) {
+	public Value orBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value notEqualTo(Value argument) {
-		return argument.notEqualToFloat(getValue());
+		return argument.notEqualToFloat(this);
 	}
 
 	@Override
-	public Value notEqualToBoolean(boolean argument) {
+	public Value notEqualToBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value notEqualToInteger(int argument) {
-		return new BooleanValue(argument != getValue());
+	public Value notEqualToInteger(IntegerValue argument) {
+		return new BooleanValue((float)argument.getValue() != getValue());
 	}
 
 	@Override
-	public Value notEqualToFloat(float argument) {
-		return new BooleanValue(argument != getValue());
+	public Value notEqualToFloat(FloatValue argument) {
+		return new BooleanValue(!argument.getValue().equals(getValue()));
 	}
 
 	@Override
-	public Value notEqualToString(String argument) {
+	public Value notEqualToString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value lowerThan(Value argument) {
-		return argument.lowerThanFloat(getValue());
+		return argument.lowerThanFloat(this);
 	}
 
 	@Override
-	public Value lowerThanInteger(int argument) {
-		return new BooleanValue(argument < getValue());
+	public Value lowerThanInteger(IntegerValue argument) {
+		return new BooleanValue(argument.getValue() < getValue());
 	}
 
 	@Override
-	public Value lowerThanFloat(float argument) {
-		return new BooleanValue(argument < getValue());
+	public Value lowerThanFloat(FloatValue argument) {
+		return new BooleanValue(argument.getValue() < getValue());
 	}
 
 	@Override
 	public Value lowerOrEqual(Value argument) {
-		return argument.lowerOrEqualFloat(getValue());
+		return argument.lowerOrEqualFloat(this);
 	}
 
 	@Override
-	public Value lowerOrEqualInteger(int argument) {
-		return new BooleanValue(argument <= getValue());
+	public Value lowerOrEqualInteger(IntegerValue argument) {
+		return new BooleanValue(argument.getValue() <= getValue());
 	}
 
 	@Override
-	public Value lowerOrEqualFloat(float argument) {
-		return new BooleanValue(argument <= getValue());
+	public Value lowerOrEqualFloat(FloatValue argument) {
+		return new BooleanValue(argument.getValue() <= getValue());
 	}
 
 	@Override
 	public Value greaterThan(Value argument) {
-		return argument.greaterThanFloat(getValue());
+		return argument.greaterThanFloat(this);
 	}
 
 	@Override
-	public Value greaterThanInteger(int argument) {
-		return new BooleanValue(argument > getValue());
+	public Value greaterThanInteger(IntegerValue argument) {
+		return new BooleanValue(argument.getValue() > getValue());
 	}
 
 	@Override
-	public Value greaterThanFloat(float argument) {
-		return new BooleanValue(argument > getValue());
+	public Value greaterThanFloat(FloatValue argument) {
+		return new BooleanValue(argument.getValue() > getValue());
 	}
 
 	@Override
 	public Value greaterOrEqual(Value argument) {
-		return argument.greaterOrEqualThanFloat(getValue());
+		return argument.greaterOrEqualThanFloat(this);
 	}
 
 	@Override
-	public Value greaterOrEqualThanInteger(int argument) {
-		return new BooleanValue(argument >= getValue());
+	public Value greaterOrEqualThanInteger(IntegerValue argument) {
+		return new BooleanValue(argument.getValue() >= getValue());
 	}
 
 	@Override
-	public Value greaterOrEqualThanFloat(float argument) {
-		return new BooleanValue(argument >= getValue());
+	public Value greaterOrEqualThanFloat(FloatValue argument) {
+		return new BooleanValue(argument.getValue() >= getValue());
 	}
 
 	@Override
 	public Value equalTo(Value argument) {
-		return argument.equalToFloat(getValue());
+		return argument.equalToFloat(this);
 	}
 
 	@Override
-	public Value equalToBoolean(boolean argument) {
+	public Value equalToBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value equalToInteger(int argument) {
-		return new BooleanValue(argument == getValue());
+	public Value equalToInteger(IntegerValue argument) {
+		return new BooleanValue((float)argument.getValue() == getValue());
 	}
 
 	@Override
-	public Value equalToFloat(float argument) {
-		return new BooleanValue(argument == getValue());
+	public Value equalToFloat(FloatValue argument) {
+		return new BooleanValue(argument.getValue().equals(getValue()));
 	}
 
 	@Override
-	public Value equalToString(String argument) {
+	public Value equalToString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -219,7 +221,30 @@ public class FloatValue extends Value<Float> {
 	}
 
 	@Override
-	public Value andBoolean(boolean argument) {
+	public Value andBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
+	}
+	
+	public Float getValue() {
+		return value;
+	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof FloatValue) {
+			return getValue().equals(((FloatValue) obj).getValue());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return getValue().toString();
 	}
 }

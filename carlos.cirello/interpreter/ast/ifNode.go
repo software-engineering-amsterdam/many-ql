@@ -10,23 +10,23 @@ type IfNode struct {
 	pos        scanner.Position
 }
 
-// NewIfNode factory for IfNode AST struct
+// NewIfNode factory for IfNode AST struct.
 func NewIfNode(conditions Evaluatable, stack []*ActionNode, elseNode *IfNode,
 	pos scanner.Position) *IfNode {
 	return &IfNode{conditions, stack, elseNode, pos}
 }
 
-// Conditions getter method conditions property
+// Conditions getter method conditions property.
 func (i *IfNode) Conditions() Evaluatable {
 	return i.conditions
 }
 
-// Stack getter method stack property
+// Stack getter method stack property.
 func (i *IfNode) Stack() []*ActionNode {
 	return i.stack
 }
 
-// ElseNode getter method elseNode property
+// ElseNode getter method elseNode property.
 func (i *IfNode) ElseNode() *IfNode {
 	return i.elseNode
 }

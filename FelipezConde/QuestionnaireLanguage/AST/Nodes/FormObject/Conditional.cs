@@ -7,9 +7,9 @@ namespace AST.Nodes.FormObject
     public class Conditional : FormObject, IFormObjectContainer
     {
         private IList<FormObject> body;
-        public IExpression Condition { get; private set; }
+        public Expression Condition { get; private set; }
 
-        public Conditional(IExpression condition, IList<FormObject> body, PositionInText positionInText) 
+        public Conditional(Expression condition, IList<FormObject> body, PositionInText positionInText) 
             : base(positionInText)
         {
             this.Condition = condition;

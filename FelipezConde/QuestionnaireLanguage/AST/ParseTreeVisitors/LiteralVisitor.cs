@@ -8,19 +8,20 @@ namespace AST.ParseTreeVisitors
         public override Literal VisitTrueBool(QLMainParser.TrueBoolContext context)
         {
             string show = context.TRUE().GetText();
-            return new Values.Bool(true);
+            return new Values.Bool(true, new Representation.PositionInText(context));
         }
 
         public override Literal VisitFalseBool(QLMainParser.FalseBoolContext context)
         {
-            return new Values.Bool(false);
+            return new Values.Bool(false, new Representation.PositionInText(context));
         }
 
         public override Literal VisitStringValue(QLMainParser.StringValueContext context)
         {
             string stringValue = context.@string().STRINGLITERAL().GetText();
 
-            return new Values.String(stringValue.Substring(1, stringValue.Length-2)
+            return new Values.String(stringValue.Substring(1, stringValue.Length-2),
+                                     new Representation.PositionInText(context)
                                      ); 
         }
 
@@ -28,7 +29,7 @@ namespace AST.ParseTreeVisitors
         {
             string intValue = context.@int().INTLITERAL().GetText();
 
-            return new Values.Int(int.Parse(intValue));
+            return new Values.Int(int.Parse(intValue), new Representation.PositionInText(context));
         }
     }
 }

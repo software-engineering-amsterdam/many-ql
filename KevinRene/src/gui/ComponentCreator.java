@@ -1,18 +1,15 @@
 package gui;
 
-import gui.widget.Label;
-import gui.widget.composite.ComputedQuestionPanel;
-import gui.widget.composite.FormComposite;
-import gui.widget.composite.IfComposite;
-import gui.widget.composite.Panel;
-import gui.widget.composite.QuestionPanel;
+import gui.content.UIComputedQuestion;
+import gui.content.UIConditional;
+import gui.content.UIQuestion;
+import gui.structure.Label;
+import gui.structure.Section;
+import gui.widget.InputWidget;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
 import gui.widget.input.spinbox.FloatSpinbox;
 import gui.widget.input.spinbox.IntegerSpinbox;
-
-import javax.swing.JFrame;
-
 import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.Statement;
@@ -21,82 +18,81 @@ import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
 import ql.ast.expression.literal.StringLiteral;
-import ql.ast.expression.type.QLBoolean;
-import ql.ast.expression.type.QLFloat;
-import ql.ast.expression.type.QLInteger;
-import ql.ast.expression.type.QLString;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.Form;
 import ql.ast.statement.If;
 import ql.ast.statement.IfElse;
 import ql.ast.statement.Question;
+import ql.ast.type.QLBoolean;
+import ql.ast.type.QLFloat;
+import ql.ast.type.QLInteger;
+import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import ql.ast.visitor.TypeVisitor;
 
-public class ComponentCreator extends StatementVisitor<Widget> implements ExpressionVisitor<Widget> {	
-	private JFrame frame;
+public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent>, TypeVisitor<UIComponent> {	
 	private ValueEnvironment valueEnvironment;
 
-	private ComponentCreator(JFrame frame, ValueEnvironment valueEnvironment) {
-		this.frame = frame;
+	private ComponentCreator(ValueEnvironment valueEnvironment) {
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static Widget check(Expression tree, JFrame frame, ValueEnvironment valueEnvironment) {		
-		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+	public static UIComponent check(Expression tree, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
 	
-	public static Widget check(Statement tree, JFrame frame, ValueEnvironment valueEnvironment) {		
-		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+	public static UIComponent check(Statement tree, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
 	
 	@Override
-	public Widget visit(Identifier identifier) {
-		return new Panel();
+	public UIComponent visit(Identifier identifier) {
+		return new Section();
 	}
 	
 	@Override
-	public Widget visit(QLBoolean booleanNode) {
+	public UIComponent visit(QLBoolean booleanNode) {
 		return new RadioButton();
 	}
 	
 	@Override
-	public Widget visit(QLFloat floatNode) {
+	public UIComponent visit(QLFloat floatNode) {
 		return new FloatSpinbox();
 	}
 	
 	@Override
-	public Widget visit(QLInteger integerNode) {
+	public UIComponent visit(QLInteger integerNode) {
 		return new IntegerSpinbox();
 	}
 	
 	@Override
-	public Widget visit(QLString integerNode) {
+	public UIComponent visit(QLString integerNode) {
 		return new TextField();
 	}
 	
 	@Override
-	public Widget visit(BooleanLiteral booleanLiteral) {
+	public UIComponent visit(BooleanLiteral booleanLiteral) {
 		return new RadioButton(booleanLiteral.getValue());
 	}
 	
 	@Override
-	public Widget visit(FloatLiteral floatLiteral) {
+	public UIComponent visit(FloatLiteral floatLiteral) {
 		return new FloatSpinbox(floatLiteral.getValue());
 	}
 	
 	@Override
-	public Widget visit(IntegerLiteral integerLiteral) {
+	public UIComponent visit(IntegerLiteral integerLiteral) {
 		return new IntegerSpinbox(integerLiteral.getValue());
 	}
 	
 	@Override
-	public Widget visit(StringLiteral stringNode) {
+	public UIComponent visit(StringLiteral stringNode) {
 		return new Label(stringNode.getValue());
 	}
 	
@@ -104,9 +100,9 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 	 * Statements
 	 */	
 	@Override
-	public Widget visit(Block blockNode) {
-		Panel widgetPanel = new Panel();
-		Widget statementWidget;
+	public UIComponent visit(Block blockNode) {
+		Section widgetPanel = new Section();
+		UIComponent statementWidget;
 		
 		for(Statement statement : blockNode.statements()) {
 			statementWidget = statement.accept(this);			
@@ -117,36 +113,40 @@ public class ComponentCreator extends StatementVisitor<Widget> implements Expres
 	}
 	
 	@Override
-	public Widget visit(ComputedQuestion compQuestionNode) {
-    	Widget questionText = compQuestionNode.getText().accept(this);
-    	Widget questionWidget = compQuestionNode.getType().accept(this);
+	public UIComponent visit(ComputedQuestion compQuestionNode) {
+    	UIComponent questionText = compQuestionNode.getText().accept(this);
+    	InputWidget<?> questionWidget = (InputWidget<?>) compQuestionNode.getType().accept(this);
     	
-    	return new ComputedQuestionPanel(compQuestionNode.getIdentifier(), questionText, 
+    	return new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText, 
     			questionWidget, compQuestionNode.getExpression(), valueEnvironment);
 	}
+	
 	@Override
-	public Widget visit(Question questionNode) {
-		Widget questionText = questionNode.getText().accept(this);
-    	Widget questionWidget = questionNode.getType().accept(this);
+	public UIComponent visit(Question questionNode) {
+		UIComponent questionText = questionNode.getText().accept(this);
+    	UIComponent questionWidget = questionNode.getType().accept(this);
     	
-    	return new QuestionPanel(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
+    	return new UIQuestion(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
 	}
 	
 	@Override
-	public Widget visit(Form formNode) {
-		return new FormComposite(frame, formNode.getBlock().accept(this));
+	public UIComponent visit(Form formNode) {
+		Section formSection = new Section();
+		formSection.addComponent(formNode.getBlock().accept(this));
+		
+		return formSection;
 	}
 	
 	@Override
-	public Widget visit(If ifNode) {
-		return new IfComposite(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
+	public UIComponent visit(If ifNode) {
+		return new UIConditional(ifNode.getExpression(), valueEnvironment, (Section) ifNode.getBlock().accept(this));
 	}
 
 	@Override
-	public Widget visit(IfElse ifElseNode) {		
-		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
-		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
+	public UIComponent visit(IfElse ifElseNode) {		
+		Section elsePanel = (Section) ifElseNode.getElseBranch().accept(this);
+		Section ifPanel = (Section) ifElseNode.getIfBranch().accept(this);
 		
-		return new IfComposite(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
+		return new UIConditional(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
 	}
 }

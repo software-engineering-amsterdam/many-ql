@@ -77,8 +77,10 @@ public class FormGrammarTest extends GrammarTest {
     //Test all grammar types as children (by testing all possible types for all possible children we are by extension testing all possible types for all possible parents)
     @Test
     public void CalculationAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         CalculationAsChildSetup();
+
+        assertThat(listener.formCount).isEqualTo(1);
+        assertThat(listener.calculationCount).isEqualTo(1);
     }
 
     @Test
@@ -95,8 +97,10 @@ public class FormGrammarTest extends GrammarTest {
 
     @Test
     public void IfStatementAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         IfStatementAsChildSetup();
+
+        assertThat(listener.formCount).isEqualTo(1);
+        assertThat(listener.ifStatementCount).isEqualTo(1);
     }
 
     @Test
@@ -119,14 +123,18 @@ public class FormGrammarTest extends GrammarTest {
 
     @Test
     public void LabelAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         LabelAsChildSetup();
+
+        assertThat(listener.formCount).isEqualTo(1);
+        assertThat(listener.labelCount).isEqualTo(1);
     }
 
     @Test
     public void QuestionAsChild() throws IOException {
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         QuestionAsChildSetup();
+
+        assertThat(listener.formCount).isEqualTo(1);
+        assertThat(listener.questionCount).isEqualTo(1);
     }
 
     @Test

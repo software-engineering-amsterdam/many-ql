@@ -19,6 +19,10 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
+import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
+import uva.ql.ast.type.TypeString;
 
 public interface ExpressionVisitorInterface<T>{
 	
@@ -38,11 +42,14 @@ public interface ExpressionVisitorInterface<T>{
 	public T visitLessEqual(Less_Eq lessEqual);
 	public T visitLess(Less less);
 	
-	public T visitType(Type type);
-	
 	public T visitIdentifier(Identifier identifier);
 	public T visitBooleanLiteral(BooleanLiteral booleanLiteral);
 	public T visitMoneyLiteral(MoneyLiteral moneyLiteral);
 	public T visitIntLiteral(IntLiteral intLiteral);
 	public T visitStringLiteral(StringLiteral stringLiteral);
+	
+	public T visitTypeBoolean(TypeBoolean booleanType);
+	public T visitTypeInteger(TypeInteger integerType);
+	public T visitTypeMoney(TypeMoney moneyType);
+	public T visitTypeString(TypeString stringType);
 }

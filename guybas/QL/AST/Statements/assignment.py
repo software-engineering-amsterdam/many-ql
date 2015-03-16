@@ -12,16 +12,16 @@ class Assignment(statement.IStatement):
         self.id = qid
         self.type = qtype
         self.expression = expression
-        self.parent_id = None
         self.order = None
         self.element = None
+        self.parent_condition = None
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment _id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment number: "+ str(self.order) + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + (self.expression).pretty_print() + "\n"
+        s += "   " * (level + 1) + "Assignment number: " + str(self.order) + "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + self.expression.pretty_print() + "\n"
         s += "   " * (level + 1) + "Assignment _type: " + str(self.type)
         s += "\n"
         return s
@@ -91,5 +91,8 @@ class Assignment(statement.IStatement):
 
     def get_parent_condition(self):
         return self.parent_condition
+
+    def valid_type(self):
+        return True
 
 

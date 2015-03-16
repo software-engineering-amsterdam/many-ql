@@ -15,7 +15,7 @@ import java.util.Stack;
 //TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLParseTreeListener extends QLBaseListener {
 
-    private Stack<Node> nodeStack = new Stack<>();
+    private Stack<QLNode> nodeStack = new Stack<>();
     private AST ast = null;
 
     public AST getAst() {
@@ -72,7 +72,7 @@ public class QLParseTreeListener extends QLBaseListener {
         // TODO: Maybe make this prettier somehow?
         Question peek = (Question) nodeStack.peek();
         peek.setQuestionType("custom");
-        peek.setCustomQuestionOptions(ctx.STRING());
+        peek.setMultipleChoiceOptions(ctx.STRING());
     }
 
     @Override
@@ -151,7 +151,7 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
         IfStatement ifs = (IfStatement) nodeStack.pop();
-        Node peek = nodeStack.peek();
+        QLNode peek = nodeStack.peek();
         peek.addChild(ifs);
         if (peek instanceof CanContainConditionals) {
             ((CanContainConditionals) peek).setIfStatement(ifs);
@@ -161,7 +161,7 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitElseStatement(QLParser.ElseStatementContext ctx) {
         ElseStatement est = (ElseStatement) nodeStack.pop();
-        Node peek = nodeStack.peek();
+        QLNode peek = nodeStack.peek();
         peek.addChild(est);
         if (peek instanceof CanContainConditionals) {
             ((CanContainConditionals) peek).setElseStatement(est);
@@ -171,7 +171,7 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitElseIfStatement(QLParser.ElseIfStatementContext ctx) {
         ElseIfStatement eis = (ElseIfStatement) nodeStack.pop();
-        Node peek = nodeStack.peek();
+        QLNode peek = nodeStack.peek();
         peek.addChild(eis);
         if (peek instanceof CanContainConditionals) {
             ((CanContainConditionals) peek).setElseIfStatement(eis);
@@ -187,7 +187,7 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitExpression(QLParser.ExpressionContext ctx) {
         Expression e = (Expression) nodeStack.pop();
-        Node peek = nodeStack.peek();
+        QLNode peek = nodeStack.peek();
         if (peek instanceof ContainsExpression) {
             ((ContainsExpression) peek).setExpression(e);
         }

@@ -1,9 +1,9 @@
 package ql.ast.expression.relational;
 
 import ql.ast.Expression;
+import ql.ast.QLType;
 import ql.ast.expression.Binary;
-import ql.ast.expression.QLType;
-import ql.ast.expression.type.QLBoolean;
+import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Lower extends Binary {

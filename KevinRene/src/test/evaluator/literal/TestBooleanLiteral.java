@@ -22,7 +22,6 @@ public class TestBooleanLiteral extends BaseTest {
 		);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public TestBooleanLiteral(String input, Value expected) {
 		super(input, expected);
 	}

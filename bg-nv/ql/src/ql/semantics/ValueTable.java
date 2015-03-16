@@ -1,6 +1,6 @@
 package ql.semantics;
 
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class ValueTable
         // then the Evaluator is not traversing the whole ql.ast. Returning an Undefined value will only mask the problem.
         // May be an assert will be better in this case?
 
-        return new UndefinedValue();
+        return new UndefValue();
     }
 
     public void storeValue(String key, Value val)

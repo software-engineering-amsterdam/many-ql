@@ -1,10 +1,12 @@
 package test.klq.typechecker;
 
-import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.literal.StringNode;
-import com.klq.typecheker.TypeChecker;
-import com.common.typechecker.error.NotUniqueID;
+import com.klq.ast.impl.stmt.ComputedQuestionNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
+import com.klq.typechecker.TypeChecker;
+import com.klq.typechecker.error.NotUniqueID;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +43,7 @@ public class DuplidateQuestionIdTest {
 
         List<AExpression> list = new ArrayList<AExpression>();
         list.add(new StringNode("test"));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", list));
+        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", null));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());

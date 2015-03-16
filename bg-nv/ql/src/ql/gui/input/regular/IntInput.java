@@ -4,12 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.gui.control.IntegerControl;
 import ql.semantics.ValueTable;
 import ql.semantics.errors.Warning;
-import ql.semantics.values.IntegerValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.IntValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -46,11 +46,11 @@ public class IntInput extends RegularInput<String>
         try
         {
             Integer intValue = Integer.parseInt(userInput);
-            value = new IntegerValue(intValue);
+            value = new IntValue(intValue);
         }
         catch (NumberFormatException e)
         {
-            value = new UndefinedValue();
+            value = new UndefValue();
             this.addValidationError(new Warning("The entered value is not an integer number."));
         }
 
@@ -58,7 +58,7 @@ public class IntInput extends RegularInput<String>
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());

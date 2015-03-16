@@ -5,7 +5,7 @@ public class ChoiceType extends Type {
 	public ChoiceType() {}
 	
 	@Override
-	public String getValue() {
+	public String getName() {
 		return "choice";
 	}
 			

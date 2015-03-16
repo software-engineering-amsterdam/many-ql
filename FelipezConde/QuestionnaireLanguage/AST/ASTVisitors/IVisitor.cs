@@ -1,56 +1,46 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expression;
+using AST.Nodes.Expressions;
 using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
-using Binary = AST.Nodes.Expression.Binary;
+using Binary = AST.Nodes.Expressions.Binary;
 using Label = AST.Nodes.Labels;
-using Unary = AST.Nodes.Expression.Unary;
+using Unary = AST.Nodes.Expressions.Unary;
 using Values = AST.Nodes.Literals;
 
-namespace AST.Visitors
+namespace AST.ASTVisitors
 {
-    public interface IVisitor
+    public interface IVisitor<T>
     {
-        void Visit(Form node);
-        void Visit(Conditional conditional);
-        void Visit(Question question);
-        void Visit(IASTNode node);
+        T Visit(Form node);
+        T Visit(Question question);
+        T Visit(Conditional conditional);
 
+        T Visit(Binary.And node);
+        T Visit(Binary.Or node);
+        T Visit(Binary.Equal node);
+        T Visit(Binary.NotEqual node);
+        T Visit(Binary.GreaterThan greaterThan);
+        T Visit(Binary.GreaterThanOrEqual greaterThanOrEqual);
+        T Visit(Binary.LessThan lessThan);
+        T Visit(Binary.LessThanOrEqual lessThanOrEqual);
+        T Visit(Binary.Add add);
+        T Visit(Binary.Subtract subtract);
+        T Visit(Binary.Multiply multiply);
+        T Visit(Binary.Divide divide);
 
-        void Visit(Binary.And node);
-        void Visit(Binary.Or node);
-        void Visit(Binary.Equal node);
-        void Visit(Binary.NotEqual node);
-        void Visit(Binary.GreaterThan greaterThan);
+        T Visit(Unary.Negate node);
+        T Visit(Unary.Priority priority);
 
-
-        void Visit(Unary.Negate node);
-        void Visit(Unary.Priority priority);
-
-        
-        void Visit(Container node);
-        void Visit(Id node);
-
+        T Visit(Id node);
 
         //Values
-        void Visit(Values.Bool node);
-        void Visit(Values.Int node);
-        void Visit(Values.String node);
-
+        T Visit(Values.Bool node);
+        T Visit(Values.Int node);
+        T Visit(Values.String node);
 
         //Label
-        void Visit(Label.Label node);
-        void Visit(Binary.GreaterThanOrEqual greaterThanOrEqual);
-        void Visit(Binary.LessThan lessThan);
-        void Visit(Binary.LessThanOrEqual lessThanOrEqual);
-        void Visit(Binary.Add add);
-        void Visit(Binary.Divide divide);
-        void Visit(Binary.Multiply multiply);
-        void Visit(Binary.Subtract subtract);
-        void Visit(Nodes.Interfaces.IBinary binaryExpression);
-        void Visit(Nodes.Interfaces.IUnary unaryExpression);
+        T Visit(Label.Label node);
 
-
-        void Visit(Values.Undefined undefined);
+        T Visit(Binary.Binary binary);
     }
 }

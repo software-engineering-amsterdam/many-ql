@@ -2,8 +2,7 @@ package nl.uva.bromance;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import nl.uva.bromance.visualization.Visualizer;
 
 public class App extends Application {
     public static void main(String[] args) {
@@ -12,12 +11,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        try {
-            new Runner().run(primaryStage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+            Visualizer vis = new Visualizer(primaryStage);
+            vis.setBaseView();
+            vis.render();
     }
 }

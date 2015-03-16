@@ -10,5 +10,10 @@ public class UndefinedType extends Type {
 	public boolean isUndefined() {
 		return true;
 	}
+	
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 
 }

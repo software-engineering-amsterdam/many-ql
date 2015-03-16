@@ -2,30 +2,31 @@ package ql.value;
 
 import ql.Value;
 
-@SuppressWarnings("rawtypes")
-public class StringValue extends Value<String> {
+public class StringValue extends Value {
+	private final String value;
+	
 	public StringValue(String value) {
-		super(value);
+		this.value = value;
 	}
 
 	@Override
 	public Value add(Value argument) {
-		return argument.addString(getValue());
+		return argument.addString(this);
 	}
 
 	@Override
-	public Value addInteger(int argument) {
-		return new StringValue(argument + getValue());
+	public Value addInteger(IntegerValue argument) {
+		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
-	public Value addFloat(float argument) {
-		return new StringValue(argument + getValue());
+	public Value addFloat(FloatValue argument) {
+		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
-	public Value addString(String argument) {
-		return new StringValue(argument + getValue());
+	public Value addString(StringValue argument) {
+		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
@@ -34,12 +35,12 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value divideInteger(int argument) {
+	public Value divideInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value divideFloat(float argument) {
+	public Value divideFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -49,12 +50,12 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value multiplyInteger(int argument) {
+	public Value multiplyInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value multiplyFloat(float argument) {
+	public Value multiplyFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -64,18 +65,18 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value subtractInteger(int argument) {
+	public Value subtractInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value subtractFloat(float argument) {
+	public Value subtractFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value not() {
-		throw new UnsupportedOperationException("Cannot negate a String.");
+		throw new UnsupportedOperationException("Cannot negate a StringValue.");
 	}
 
 	@Override
@@ -94,33 +95,33 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value orBoolean(boolean argument) {
+	public Value orBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value notEqualTo(Value argument) {
-		return argument.notEqualToString(getValue());
+		return argument.notEqualToString(this);
 	}
 
 	@Override
-	public Value notEqualToBoolean(boolean argument) {
+	public Value notEqualToBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value notEqualToInteger(int argument) {
+	public Value notEqualToInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value notEqualToFloat(float argument) {
+	public Value notEqualToFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value notEqualToString(String argument) {
-		return new BooleanValue(!argument.equals(getValue()));
+	public Value notEqualToString(StringValue argument) {
+		return new BooleanValue(!argument.equals(this));
 	}
 
 	@Override
@@ -129,12 +130,12 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value lowerThanInteger(int argument) {
+	public Value lowerThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value lowerThanFloat(float argument) {
+	public Value lowerThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -144,12 +145,12 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value lowerOrEqualInteger(int argument) {
+	public Value lowerOrEqualInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value lowerOrEqualFloat(float argument) {
+	public Value lowerOrEqualFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -159,12 +160,12 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value greaterThanInteger(int argument) {
+	public Value greaterThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value greaterThanFloat(float argument) {
+	public Value greaterThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -174,38 +175,38 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value greaterOrEqualThanInteger(int argument) {
+	public Value greaterOrEqualThanInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value greaterOrEqualThanFloat(float argument) {
+	public Value greaterOrEqualThanFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value equalTo(Value argument) {
-		return argument.equalToString(getValue());
+		return argument.equalToString(this);
 	}
 
 	@Override
-	public Value equalToBoolean(boolean argument) {
+	public Value equalToBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value equalToInteger(int argument) {
+	public Value equalToInteger(IntegerValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value equalToFloat(float argument) {
+	public Value equalToFloat(FloatValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Value equalToString(String argument) {
-		return new BooleanValue(argument.equals(getValue()));
+	public Value equalToString(StringValue argument) {
+		return new BooleanValue(argument.equals(this));
 	}
 
 	@Override
@@ -214,7 +215,30 @@ public class StringValue extends Value<String> {
 	}
 
 	@Override
-	public Value andBoolean(boolean argument) {
+	public Value andBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
+	}
+	
+	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof StringValue) {
+			return getValue().equals(((StringValue) obj).getValue());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "\"" + getValue().toString() + "\"";
 	}
 }

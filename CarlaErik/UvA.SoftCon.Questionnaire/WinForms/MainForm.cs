@@ -44,7 +44,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             var runtimeController = new RuntimeController();
 
-            foreach (var astQuestion in QuestionForm.AllQuestions)
+            foreach (var astQuestion in QuestionForm.GetAllQuestions())
             {
                 QuestionControl uiQuestion = CreateQuestionWidget(astQuestion);
 

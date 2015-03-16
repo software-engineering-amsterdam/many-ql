@@ -80,6 +80,6 @@ public class TextField extends InputWidget<StringValue> implements CaretListener
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		handleChange(getValue());
+		handleChange(getValue(), this);
 	}
 }

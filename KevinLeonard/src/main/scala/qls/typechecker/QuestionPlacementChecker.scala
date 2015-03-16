@@ -14,7 +14,7 @@ class QuestionPlacementChecker {
     val notPlacedQuestion = qlVariables -- qlsVariables
 
     if (notPlacedQuestion.nonEmpty) {
-      Some(new Error(s"The question(s) ${notPlacedQuestion.mkString(", ")} are not placed"))
+      Some(Error(s"The question(s) ${notPlacedQuestion.mkString(", ")} are not placed"))
     } else {
       None
     }

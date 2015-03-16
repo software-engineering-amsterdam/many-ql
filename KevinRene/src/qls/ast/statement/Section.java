@@ -2,21 +2,32 @@ package qls.ast.statement;
 
 import ql.ast.expression.literal.StringLiteral;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSStatementVisitor;
+import qls.ast.visitor.QLSVisitor;
 
 public class Section extends QLSStatement {
-	public Section(StringLiteral header, QLSBlock block) {
-		
+	private final StringLiteral header;
+	private final QLSBlock statements;
+	
+	public Section(StringLiteral header, QLSBlock statements) {
+		this.header = header;
+		this.statements = statements;
+	}
+	
+	public StringLiteral getHeader() {
+		return header;
+	}
+	
+	public QLSBlock getStatements() {
+		return statements;
 	}
 	
 	@Override
-	public <T> T accept(QLSStatementVisitor<T> visitor) {
+	public <T> T accept(QLSVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Section " + getHeader().toString();
 	}
 }

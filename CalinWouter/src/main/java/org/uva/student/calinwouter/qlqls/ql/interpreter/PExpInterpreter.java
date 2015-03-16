@@ -11,7 +11,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import java.util.Stack;
 
 public class PExpInterpreter extends AnalysisAdapter {
-    private VariableTable variableTable;
+    private VariableTable oldVariableTable, newVariableTable;
     private final Stack<Value> valueStack;
 
     @Override
@@ -101,7 +101,10 @@ public class PExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        Value value = (variableTable.getVariable(node.getIdent().getText()));
+        Value value = oldVariableTable.getVariable(node.getIdent().getText());
+        if (newVariableTable.isSet(node.getIdent().getText())) {
+            value = newVariableTable.getVariable(node.getIdent().getText());
+        }
         if (value == null) {
             throw new VariableNotSetException(node.getIdent().getText());
         }
@@ -121,9 +124,10 @@ public class PExpInterpreter extends AnalysisAdapter {
         return popValue();
     }
 
-    public PExpInterpreter(VariableTable variableTable) {
+    public PExpInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable) {
         super();
-        this.variableTable = variableTable;
+        this.oldVariableTable = oldVariableTable;
+        this.newVariableTable = newVariableTable;
         this.valueStack = new Stack<Value>();
     }
 }

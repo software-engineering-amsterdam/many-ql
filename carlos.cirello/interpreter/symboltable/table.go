@@ -8,7 +8,7 @@ import (
 )
 
 // SymbolTable is the typechecker specific symbol table which detects duplicated
-// identifiers and labels
+// identifiers and labels.
 type SymbolTable struct {
 	symbols map[string]interface{}
 	labels  map[string][]string
@@ -18,7 +18,7 @@ type SymbolTable struct {
 	warn       []error
 }
 
-// New is the constructor for SymbolTable
+// New is the constructor for SymbolTable.
 func New() *SymbolTable {
 	table := &SymbolTable{
 		symbols: make(map[string]interface{}),
@@ -34,17 +34,17 @@ func (s *SymbolTable) SetWatchError(v bool) {
 	s.watchError = v
 }
 
-// Err returns all found errors during symbolTable operation
+// Err returns all found errors during symbolTable operation.
 func (s SymbolTable) Err() []error {
 	return s.err
 }
 
-// Warn returns all found warnings during symbolTable operation
+// Warn returns all found warnings during symbolTable operation.
 func (s SymbolTable) Warn() []error {
 	return s.warn
 }
 
-// ShowWarn iterates through all warnings and prints them
+// ShowWarn iterates through all warnings and prints them.
 func (s *SymbolTable) ShowWarn() bool {
 	if warn := s.Warn(); warn != nil {
 		for _, e := range warn {
@@ -55,7 +55,7 @@ func (s *SymbolTable) ShowWarn() bool {
 	return false
 }
 
-// PanicErr iterates through all errors, prints them and panic in the end
+// PanicErr iterates through all errors, prints them and panic in the end.
 func (s *SymbolTable) PanicErr() {
 	if err := s.Err(); err != nil {
 		for _, e := range err {
@@ -65,7 +65,7 @@ func (s *SymbolTable) PanicErr() {
 	}
 }
 
-// Read looks for identifier in symboltable and returns its content
+// Read looks for identifier in symboltable and returns its content.
 func (s *SymbolTable) Read(identifier string) interface{} {
 	question, ok := s.symbolExistP(identifier)
 	if !ok {
@@ -77,7 +77,7 @@ func (s *SymbolTable) Read(identifier string) interface{} {
 	return question
 }
 
-// Create looks for identifier in symboltable and creates a pointer if missing
+// Create looks for identifier in symboltable and creates a pointer if missing.
 func (s *SymbolTable) Create(q *ast.QuestionNode) {
 	identifier := q.Identifier()
 	label := q.Label()
@@ -108,7 +108,7 @@ func (s *SymbolTable) Create(q *ast.QuestionNode) {
 	s.detectRepeatedLabel(identifier, label)
 }
 
-// Update looks for identifier in symboltable and updates a pointer if existing
+// Update looks for identifier in symboltable and updates a pointer if existing.
 func (s *SymbolTable) Update(identifier string, content interface{}) {
 	_, ok := s.symbolExistP(identifier)
 	if ok {

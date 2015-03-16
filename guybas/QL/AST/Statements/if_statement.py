@@ -13,7 +13,6 @@ class IfBlock(statement.IStatement):
         self._condition = condition
         self._statements = statements
         self._element = None
-        self._parent_id = None
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
@@ -77,6 +76,9 @@ class IfBlock(statement.IStatement):
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
+    def valid_type(self, td):
+        x = self._condition.is_valid_expression(td)
+        return x
 
     #################################
     # Getters of the if statement   #
