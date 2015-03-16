@@ -19,6 +19,7 @@ class DependencyResolver {
     case Sub(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case Mul(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
     case Div(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Negation(e1) => resolve(e1, ds)
     case Variable(name) => name :: ds
     case _: Literal => ds
   }
