@@ -24,10 +24,10 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeChecker;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
+import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
+import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.qlruntime.runtime.AstTransformer;
 import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestionnaire;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParser;
-import nl.uva.sc.encoders.qlruntime.service.QuestionnaireParsingResult;
 
 import org.controlsfx.dialog.ExceptionDialog;
 

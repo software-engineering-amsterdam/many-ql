@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.service;
+package nl.uva.sc.encoders.qlruntime.parser;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -8,6 +8,8 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
+import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
+import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
 
 import org.junit.Before;
 import org.junit.Test;
