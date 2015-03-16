@@ -39,8 +39,8 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
-        boolean leftCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(left);
-        boolean rightCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(right);
+        boolean leftCorrect = left.isExpressionOfTypeBool();
+        boolean rightCorrect = right.isExpressionOfTypeBool();
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -66,7 +66,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
     private Void visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(unary);
+        boolean exprCorrect = unary.isExpressionOfTypeBool();
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -176,8 +176,8 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
-        boolean leftCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(left);
-        boolean rightCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(right);
+        boolean leftCorrect = left.isExpressionOfTypeInt();
+        boolean rightCorrect = right.isExpressionOfTypeInt();
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
@@ -205,7 +205,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(unary);
+        boolean exprCorrect = unary.isExpressionOfTypeInt();
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -258,7 +258,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
     @Override
     public Void visitINT(INT intLiteral) {
 
-        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeInt(intLiteral);
+        boolean exprCorrect = intLiteral.isExpressionOfTypeInt();
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -271,7 +271,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
     @Override
     public Void visitSTRING(STRING stringLiteral) {
-        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeString(stringLiteral);
+        boolean exprCorrect = stringLiteral.isExpressionOfTypeString();
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
@@ -284,7 +284,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
     @Override
     public Void visitBOOL(BOOL boolLiteral) {
-        boolean exprCorrect = QLTypeCheckerHelper.isExpressionOfTypeBool(boolLiteral);
+        boolean exprCorrect = boolLiteral.isExpressionOfTypeBool();
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
