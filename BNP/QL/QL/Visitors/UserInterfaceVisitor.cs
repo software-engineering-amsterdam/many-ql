@@ -54,7 +54,7 @@ namespace QL.Visitors
         public void Visit(Model.ControlUnit node)
         {
             System.Diagnostics.Contracts.Contract.Assert(((ReferenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
-            if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool())
+            if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool()) //TODO if result is null Wrapped, do not do true nor false block
             {
                 node.ConditionTrueBlock.Accept(this);
             }

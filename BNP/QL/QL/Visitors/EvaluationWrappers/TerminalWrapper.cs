@@ -6,17 +6,8 @@ using System.Threading.Tasks;
 
 namespace QL.Visitors
 {
-    public abstract class TerminalWrapper
+    public abstract class TerminalWrapper//TODO change to  struct
     {
-        //public  static    YesnoWrapper operator !=(TerminalWrapper a, TerminalWrapper b);
-       
-        //public  static  YesnoWrapper operator ==(TerminalWrapper a, TerminalWrapper b);
-       
-        //public static TerminalWrapper operator +(TerminalWrapper a, TerminalWrapper b);
-        //public static TerminalWrapper operator -(TerminalWrapper a, TerminalWrapper b);
-        //public static TerminalWrapper operator *(TerminalWrapper a, TerminalWrapper b);
-        //public static TerminalWrapper operator /(TerminalWrapper a, TerminalWrapper b);
-        
         
     }
 

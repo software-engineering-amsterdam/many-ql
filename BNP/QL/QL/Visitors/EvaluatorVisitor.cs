@@ -71,7 +71,7 @@ namespace QL.Visitors
             //if expression is literal
             Contract.Assert(node.Child != null, "Expression should have one and only one child");
             Identifier i = node.Child as Identifier;
-            if (i != null)
+            if (i != null) //TODO refactor
             {
 
                 if (IdentifierLookupTable.ContainsKey(i))
@@ -90,7 +90,7 @@ namespace QL.Visitors
                     throw new QLError("Usage of variable before declaration");
                 }
             }
-            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Child))
+            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Child))//this should recursively get the final result
             {
                 ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Child];
 

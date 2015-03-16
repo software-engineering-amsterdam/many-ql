@@ -139,8 +139,8 @@ namespace Tests.VisitorTests
             TextWrapper tb = new TextWrapper("ble");
 
 
-            Assert.AreEqual((na + nb).Value, 24690);
-            Assert.AreEqual((ta + tb).Value, "blable");
+            Assert.AreEqual(24690, (na + nb).Value);
+            Assert.AreEqual("blable", (ta + tb).Value);
             
            
         }

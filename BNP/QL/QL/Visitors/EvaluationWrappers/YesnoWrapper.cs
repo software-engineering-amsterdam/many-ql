@@ -8,7 +8,7 @@ using QL.Model.Terminals;
 
 namespace QL.Visitors
 {
-    public class YesnoWrapper:TerminalWrapper
+    public class YesnoWrapper:TerminalWrapper //TODO change to  struct
     {
         
         public bool? Value;
@@ -19,80 +19,71 @@ namespace QL.Visitors
      
         public YesnoWrapper(Yesno a)
         {
-            Value = a.Value;
+            if (a != null)
+            {
+
+                Value = a.Value;
+            }
             _node = (IResolvableTerminalType) a;
 
 
         }
         public YesnoWrapper(bool a)
         {
+
             Value = a;
         }
 
-        public bool ToBool()
+        public bool ToBool()//TODO change to (bool)
         {
             return Value.Value ? true : false;
         }
     
-
+        
         public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
         {
-            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
+            if (ContainsNullValue(a, b))
             {
-                return new YesnoWrapper(false);
-            }
-            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
-            {
-                return new YesnoWrapper(true);
+                return new YesnoWrapper(null);
             }
             else
             {
-                return new YesnoWrapper(a.Value == b.Value);
+
+                return new YesnoWrapper(a.Value==b.Value);
             }
         }
         public static YesnoWrapper operator !=(YesnoWrapper a, YesnoWrapper b)
         {
-            if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
-            {
-                return new YesnoWrapper(true);
-            }
-            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
-            {
-                return new YesnoWrapper(false);
-            }
-            else
-            {
-                return new YesnoWrapper(a.Value != b.Value);
-            }
+            if (ContainsNullValue(a, b)){ 
+                return new YesnoWrapper(null); 
+            };
+            
+            return new YesnoWrapper(a.Value.Value != b.Value.Value);
         }
 
         
         public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
         {
-            if (a.Value.HasValue || b.Value.HasValue)
+            if (ContainsNullValue(a, b))
             {
-                return new YesnoWrapper(a.Value.Value & b.Value.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
+                return new YesnoWrapper(null);
+            };
+
+            return new YesnoWrapper(a.Value.Value & b.Value.Value);
+          
         }
-        public static YesnoWrapper operator |(YesnoWrapper a, YesnoWrapper b)
-        {
-            if (a.Value.HasValue || b.Value.HasValue)
+        public static YesnoWrapper operator | (YesnoWrapper a, YesnoWrapper b)        {
+            if (ContainsNullValue(a, b))
             {
-                return new YesnoWrapper(a.Value.Value | b.Value.Value);
-            }
-            else
-            {
-                throw new NotImplementedException("implement cannot compare null with smth exception");
-            }
+                return new YesnoWrapper(null);
+            };
+            
+            return new YesnoWrapper(a.Value.Value | b.Value.Value);
         }
         public override int GetHashCode()
         {
             string w="yesnowrapper";
-            return new { w, Value }.GetHashCode();
+            return 13 * (new { w, Value }.GetHashCode()); //have you heard about those magic numbers?
         }
 
         public bool Equals(YesnoWrapper obj)
@@ -103,6 +94,17 @@ namespace QL.Visitors
         {
             if (obj is YesnoWrapper) return Equals(obj as YesnoWrapper);
             return false;
+        }
+        protected static bool ContainsNullValue(YesnoWrapper a, YesnoWrapper b)
+        {
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
