@@ -115,7 +115,6 @@ public class Visualizer {
     public void visualize(int focusId) {
         this.focusId = focusId;
         setBaseView();
-        System.out.println("Running visualizer!");
 
         //TODO:Think if something explicit, to know when it was a refresh.
         new ExpressionEvaluator().evaluate(qlAst.getRoot());
