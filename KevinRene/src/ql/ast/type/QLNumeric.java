@@ -34,7 +34,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public boolean addString(QLString argument) {
-		return true;
+		return false;
 	}
 
 	@Override

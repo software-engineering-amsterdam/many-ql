@@ -1,10 +1,6 @@
 package ql.ast.visitor.typechecker;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import ql.TypeEnvironment;
-import ql.Value;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;
@@ -70,6 +66,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 				
 		tree.accept(typeChecker);
+		typeChecker.getErrorEnvironment().outputErrors();
 
 		return typeChecker.getErrorEnvironment();
 	}	

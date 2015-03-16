@@ -24,13 +24,11 @@ public class QLBoolean extends QLType {
 
 	@Override
 	public boolean add(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean addNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -51,165 +49,138 @@ public class QLBoolean extends QLType {
 
 	@Override
 	public boolean multiply(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean multiplyNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean subtract(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean subtractNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean not() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean positive() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean negative() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean or(QLType rightValue) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean or(QLType argument) {
+		return argument.orBoolean(this);
 	}
 
 	@Override
 	public boolean orBoolean(QLBoolean argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean notEqualTo(QLType argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return argument.notEqualToBoolean(this);
 	}
 
 	@Override
 	public boolean notEqualToBoolean(QLBoolean argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean notEqualToNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean notEqualToString(QLString argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean lowerThan(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean lowerThanNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean lowerOrEqual(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean lowerOrEqualNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
 	public boolean greaterThan(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean greaterThanNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean greaterOrEqual(QLType argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean greaterOrEqualNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equalTo(QLType argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return argument.equalToBoolean(this);
 	}
 
 	@Override
 	public boolean equalToBoolean(QLBoolean argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean equalToNumeric(QLNumeric argument) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equalToString(QLString argument) {
-		// TODO Auto-generated method stub
 		return false; 
 	}
 
 	@Override
 	public boolean and(QLType argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return argument.andBoolean(this);
 	}
 
 	@Override
 	public boolean andBoolean(QLBoolean argument) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

@@ -24,17 +24,17 @@ public class QLString extends QLType {
 
 	@Override
 	public boolean add(QLType argument) {
-		return argument.addString(this);
+		return false;
 	}
 
 	@Override
 	public boolean addNumeric(QLNumeric argument) {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean addString(QLString argument) {
-		return true;
+		return false;
 	}
 
 	@Override

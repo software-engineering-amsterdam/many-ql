@@ -22,12 +22,12 @@ public class TestTypeRegister {
 		register.store(myIdentifier, myString.getType());
 		
 		assertEquals("Should return my previously bound type instance.", 
-			register.resolve(myIdentifier).toString(), "QLString");
+			register.resolve(myIdentifier).toString(), "string");
 		
 		myString = new StringLiteral("Other value");
 		register.store(myIdentifier, myString.getType());
 		
-		assertEquals("Should return the newly bound type instance.", "QLString",
+		assertEquals("Should return the newly bound type instance.", "string",
 				register.resolve(myIdentifier).toString());
 	}
 	
@@ -52,7 +52,7 @@ public class TestTypeRegister {
 		
 		register.store(question.getIdentifier(), question.getType());
 		
-		assertEquals("Should return the QLFLoat type", "QLFloat",
+		assertEquals("Should return the QLFLoat type", "float",
 				register.resolve(question.getIdentifier()).toString());
 	}
 	@Test
@@ -72,9 +72,9 @@ public class TestTypeRegister {
 		register.store(question.getIdentifier(), question.getType());
 		register.store(question2.getIdentifier(), question2.getType());
 
-		assertEquals("Should return the QLFLoat type", "QLFloat",
+		assertEquals("Should return the QLFLoat type", "float",
 				register.resolve(question.getIdentifier()).toString());
-		assertEquals("Should return the QLFLoat type", "QLFloat",
+		assertEquals("Should return the QLFLoat type", "float",
 				register.resolve(question2.getIdentifier()).toString());
 	}
 }
