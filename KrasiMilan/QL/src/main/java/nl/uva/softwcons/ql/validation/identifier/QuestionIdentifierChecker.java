@@ -14,7 +14,6 @@ import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.identifier.error.DuplicateQuestionIdentifier;
-import nl.uva.softwcons.ql.validation.labels.error.DuplicateLabel;
 
 public class QuestionIdentifierChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     private final Set<Identifier> identifiers;
@@ -55,12 +54,12 @@ public class QuestionIdentifierChecker implements FormVisitor<Void>, StatementVi
     }
 
     /**
-     * Registers the given question's label for the current environment or adds
-     * a {@link DuplicateLabel} error to the current errors list in case the
-     * variable has already been defined.
+     * Registers the given question's identifier for the current environment or
+     * adds a {@link DuplicateQuestionIdentifier} error to the current errors
+     * list in case the variable has already been defined.
      * 
      * @param question
-     *            The question whose label should be defined in the current
+     *            The question whose identifier should be defined in the current
      *            environment
      */
     private void validateQuestionIdentifier(final Question question) {
