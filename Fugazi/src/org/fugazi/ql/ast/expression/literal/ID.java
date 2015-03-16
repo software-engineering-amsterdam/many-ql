@@ -1,6 +1,7 @@
 package org.fugazi.ql.ast.expression.literal;
 
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.type.UndefinedType;
 //import org.fugazi.ql.ast.type.UndefinedType;
@@ -24,8 +25,8 @@ public class ID extends Literal {
         return this.name;
     }
 
-    public Type getReturnedType() {
-        return new UndefinedType();
+    public Type getReturnedType(QLFormDataStorage _formData) {
+        return _formData.getIdType(this);
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

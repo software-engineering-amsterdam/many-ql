@@ -42,7 +42,7 @@ public abstract class TestQlTypeCheckerBase {
                 input = new FileInputStream(inputFile);
             // Create The AST Builder.
             QLASTBuilder = new QLASTBuilder(input);
-        } catch     (IOException  ex) {
+        } catch (IOException  ex) {
             ex.printStackTrace();
         }
 
