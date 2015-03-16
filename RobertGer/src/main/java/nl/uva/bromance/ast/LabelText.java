@@ -1,6 +1,7 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
@@ -59,7 +60,7 @@ public class LabelText extends QLNode {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 

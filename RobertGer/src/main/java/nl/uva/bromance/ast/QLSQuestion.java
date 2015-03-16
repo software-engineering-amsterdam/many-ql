@@ -1,6 +1,7 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         return this.questionNode.visualize(parent, answerMap, visualizer);
     }
 

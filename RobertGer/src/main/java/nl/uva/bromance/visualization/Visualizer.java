@@ -29,7 +29,7 @@ public class Visualizer {
     private Scene scene;
     private VBox rootBox, pages, questions;
     private QLSPage currentPage;
-    private Map<String, String> answerMap;
+    private Map<String, Result> answerMap;
     private AST<QLNode> qlAst;
     private AST<QLSNode> qlsAst;
     private Node focusedNode;
@@ -75,18 +75,14 @@ public class Visualizer {
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
                 } catch (IOException e) {
-                    Dialogs.create()
-                            .owner(stage)
-                            .title("Error")
-                            .masthead(null)
-                            .message("Error couldn't open file : "+qlPath)
-                            .showError();
+                    System.err.println("Couldnt load QL file :"+qlPath);
                 }
                 try {
                     qlsAst = QLSFileReader.readFile(qlsPath, qlAst);
                 } catch (IOException e) {
                     System.out.println("Couldn't find qls file, no biggie.");
                 }
+                answerMap = new HashMap<>();
                 visualize(0);
             }
         });
@@ -117,7 +113,7 @@ public class Visualizer {
         setBaseView();
 
         //TODO:Think if something explicit, to know when it was a refresh.
-        new ExpressionEvaluator().evaluate(qlAst.getRoot());
+        new ExpressionEvaluator(answerMap).evaluate(qlAst.getRoot());
         new ConditionalHandler().handle(qlAst.getRoot());
 
         Optional<? extends Pane> pagePane = Optional.of(pages);

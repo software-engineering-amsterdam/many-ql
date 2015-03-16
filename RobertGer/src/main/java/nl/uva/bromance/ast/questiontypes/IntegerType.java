@@ -3,6 +3,7 @@ package nl.uva.bromance.ast.questiontypes;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
+import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
@@ -27,13 +28,12 @@ public class IntegerType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
         TextField tf = new TextField();
         String id = q.getIdentifier().get().getId();
-
-        String answer = answerMap.get(id);
+        IntResult answer = (IntResult) answerMap.get(id);
         if (answer != null) {
-            tf.setText(answer);
+            tf.setText(Integer.toString(answer.getResult()));
         }
         if (visualizer.getFocusId() == q.hashCode()){
             visualizer.setFocusedNode(tf);
@@ -44,7 +44,7 @@ public class IntegerType implements QuestionType {
             if (!newValue.matches("[0-9]*")) {
                 tf.setText(oldValue);
             } else {
-                answerMap.put(id, newValue);
+                answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
                 visualizer.visualize(q.hashCode());
             }
         });
