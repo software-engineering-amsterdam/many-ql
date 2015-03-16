@@ -82,7 +82,7 @@ public abstract class AQuestionPane extends GridPane {
     }
 
     private Label createQuestionLabel() {
-        String text = question.getText().toString();
+        String text = question.getText();
         Label result = new Label(text);
         Font font = new Font("Arial Bold", 14);
         result.setFont(font);
