@@ -7,20 +7,21 @@ import typechecker.elements.QuestionChecker;
 import typechecker.errors.ErrorCollector;
 import typechecker.errors.TaZQLError;
 import typechecker.errors.TaZQLWarning;
-import ast.expression.BinaryExpression;
-import ast.expression.BracketsExpression;
-import ast.expression.arithmetic.AdditionExpression;
-import ast.expression.arithmetic.DivisionExpression;
-import ast.expression.arithmetic.MultiplicationExpression;
-import ast.expression.arithmetic.SubstractionExpression;
-import ast.expression.comparison.EqualExpression;
-import ast.expression.comparison.GreaterEqualExpression;
-import ast.expression.comparison.GreaterThanExpression;
-import ast.expression.comparison.LessEqualExpression;
-import ast.expression.comparison.LessThanExpression;
-import ast.expression.comparison.NotEqualExpression;
-import ast.expression.logical.AndExpression;
-import ast.expression.logical.OrExpression;
+import ast.expression.Binary;
+import ast.expression.Brackets;
+import ast.expression.IExpressionVisitor;
+import ast.expression.arithmetic.Addition;
+import ast.expression.arithmetic.Division;
+import ast.expression.arithmetic.Multiplication;
+import ast.expression.arithmetic.Substraction;
+import ast.expression.comparison.Equal;
+import ast.expression.comparison.GreaterEqual;
+import ast.expression.comparison.GreaterThan;
+import ast.expression.comparison.LessEqual;
+import ast.expression.comparison.LessThan;
+import ast.expression.comparison.NotEqual;
+import ast.expression.logical.And;
+import ast.expression.logical.Or;
 import ast.expression.variables.BooleanVariable;
 import ast.expression.variables.Id;
 import ast.expression.variables.IntegerVariable;
@@ -28,18 +29,20 @@ import ast.expression.variables.StringVariable;
 import ast.form.Form;
 import ast.form.IFormVisitor;
 import ast.question.ComputationQuestion;
+import ast.question.IQuestionVisitor;
 import ast.question.IfElseStatement;
 import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
 import ast.type.ChoiceType;
-import ast.type.DigitsType;
+import ast.type.ITypeVisitor;
+import ast.type.IntegerType;
 import ast.type.TextType;
 import ast.type.UndefinedType;
-import ast.unary.MinusExpression;
-import ast.unary.NotExpression;
-import ast.unary.PlusExpression;
-import ast.unary.UnaryExpression;
+import ast.unary.Minus;
+import ast.unary.Not;
+import ast.unary.Plus;
+import ast.unary.Unary;
 
 /*
 The type checker detects:
@@ -50,7 +53,7 @@ The type checker detects:
       cyclic dependencies between questions
     + duplicate labels (warning)
  */
-public class TypeCheckerVisitor implements IFormVisitor<Void> {
+public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<Void>, IExpressionVisitor<Void> , ITypeVisitor<Void> {
 	private final ErrorCollector errorCollector;
 	private final TypeRepository typeRepository;
 	
@@ -82,7 +85,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	}
 	
 	
-	public Void checkExpression(BinaryExpression expression) {
+	public Void checkExpression(Binary expression) {
 		expression.getLeftExpression().accept(this);
 		expression.getRightExpression().accept(this);
 		
@@ -93,19 +96,19 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 																		 this.typeRepository,
 																		 expression.getRightExpression());
 
-		expressionCheckerLeft.checkType(expression.getExpressionType());
-		expressionCheckerRight.checkType(expression.getExpressionType());
+		expressionCheckerLeft.checkType(expression.getType());
+		expressionCheckerRight.checkType(expression.getType());
 		return null;
 	}
 	
-	public Void checkUnaryExpression(UnaryExpression expression) {
+	public Void checkUnaryExpression(Unary expression) {
 		expression.getUnaryExpression().accept(this);
 		
 		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
 																		this.typeRepository,
 																		expression.getUnaryExpression());
 		
-		expressionChecker.checkType(expression.getExpressionType());
+		expressionChecker.checkType(expression.getType());
 		return null;
 	}
 	
@@ -116,11 +119,6 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	public Void visit(Form form) {
 		for(Question q : form.getQuestionText())
 			q.accept(this);
-		return null;
-	}
-
-	@Override
-	public Void visit(Question question) {
 		return null;
 	}
 	
@@ -187,82 +185,83 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	}
 
 	@Override
-	public Void visit(BracketsExpression expr) {
+	public Void visit(Brackets expr) {
+		//return this.checkExpression(expr);
+		return null;
+	}
+
+	@Override
+	public Void visit(Multiplication expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(Division expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(Addition expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(Substraction expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(Equal expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(NotEqual expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(LessThan expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(GreaterThan expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(LessEqual expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(GreaterEqual expr) {
+		return this.checkExpression(expr);
+	}
+
+	@Override
+	public Void visit(Not expr) {
 		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
-	public Void visit(MultiplicationExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(DivisionExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(AdditionExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(SubstractionExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(EqualExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(NotEqualExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(LessThanExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(GreaterThanExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(LessEqualExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(GreaterEqualExpression expr) {
-		return this.checkExpression(expr);
-	}
-
-	@Override
-	public Void visit(NotExpression expr) {
+	public Void visit(Plus expr) {
 		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
-	public Void visit(PlusExpression expr) {
+	public Void visit(Minus expr) {
 		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
-	public Void visit(MinusExpression expr) {
-		return this.checkUnaryExpression(expr);
-	}
-
-	@Override
-	public Void visit(AndExpression expr) {
+	public Void visit(And expr) {
 		return this.checkExpression(expr);
 	}
 
 	@Override
-	public Void visit(OrExpression expr) {
+	public Void visit(Or expr) {
 		return this.checkExpression(expr);
 	}
 
@@ -292,7 +291,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	}
 
 	@Override
-	public Void visit(DigitsType type) {
+	public Void visit(IntegerType type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
