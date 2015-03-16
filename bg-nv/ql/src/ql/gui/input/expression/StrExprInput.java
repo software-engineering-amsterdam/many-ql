@@ -7,8 +7,8 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.ControlType;
 import ql.gui.control.StringControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.StringValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.StrValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -53,13 +53,13 @@ public class StrExprInput extends ExprInput
 
         if (!val.isUndefined())
         {
-            assert val instanceof StringValue;
-            this.control.setValue((StringValue)val);
+            assert val instanceof StrValue;
+            this.control.setValue((StrValue)val);
         }
         else
         {
-            assert val instanceof UndefinedValue;
-            this.control.setValue((UndefinedValue)val);
+            assert val instanceof UndefValue;
+            this.control.setValue((UndefValue)val);
         }
     }
 }

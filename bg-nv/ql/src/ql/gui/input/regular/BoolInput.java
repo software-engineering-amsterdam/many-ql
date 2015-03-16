@@ -7,7 +7,7 @@ import ql.gui.ModelVisitor;
 import ql.gui.control.BooleanControl;
 import ql.gui.control.ControlType;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
+import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 /**
@@ -64,7 +64,7 @@ public class BoolInput extends RegularInput<Boolean>
     public Value convertUserInputToValue(Boolean userInput)
     {
         this.resetValidation();
-        return new BooleanValue(userInput);
+        return new BoolValue(userInput);
     }
 
     @Override

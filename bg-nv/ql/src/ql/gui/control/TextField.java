@@ -46,25 +46,25 @@ public class TextField extends Control implements IntegerControl, DecimalControl
     }
 
     @Override
-    public void setValue(UndefinedValue value)
+    public void setValue(UndefValue value)
     {
         this.setText("");
     }
 
     @Override
-    public void setValue(StringValue value)
+    public void setValue(StrValue value)
     {
         this.setText(value.getValue());
     }
 
     @Override
-    public void setValue(DecimalValue value)
+    public void setValue(DecValue value)
     {
         this.setText(value.getValue().toString());
     }
 
     @Override
-    public void setValue(IntegerValue value)
+    public void setValue(IntValue value)
     {
         this.setText(value.getValue().toString());
     }

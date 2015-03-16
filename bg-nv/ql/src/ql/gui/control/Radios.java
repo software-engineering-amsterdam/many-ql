@@ -4,8 +4,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
-import ql.semantics.values.BooleanValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.UndefValue;
 
 /**
  * Created by Nik on 10-3-15.
@@ -45,14 +45,14 @@ public class Radios extends Control implements BooleanControl
     }
 
     @Override
-    public void setValue(UndefinedValue value)
+    public void setValue(UndefValue value)
     {
         this.trueRadio.setSelected(false);
         this.falseRadio.setSelected(false);
     }
 
     @Override
-    public void setValue(BooleanValue value)
+    public void setValue(BoolValue value)
     {
         this.trueRadio.setSelected(value.getValue());
         this.falseRadio.setSelected(!value.getValue());
