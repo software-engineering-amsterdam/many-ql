@@ -15,8 +15,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
+import org.uva.sea.ql.encoders.ast.statement.Question;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;

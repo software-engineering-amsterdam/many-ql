@@ -3,6 +3,9 @@ package org.uva.sea.ql.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.encoders.ast.statement.Question;
+import org.uva.sea.ql.encoders.ast.statement.Statement;
+
 public class Questionnaire extends AstNode {
 
 	private final String name;

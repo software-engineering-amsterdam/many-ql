@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.literal.BooleanLiteral;
 import org.uva.sea.ql.encoders.ast.expression.literal.IntegerLiteral;
 import org.uva.sea.ql.encoders.ast.operator.AndOperator;
+import org.uva.sea.ql.encoders.ast.statement.Question;
 import org.uva.sea.ql.encoders.validation.TypeChecker;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 import org.uva.sea.ql.encoders.validation.Validation;

@@ -3,7 +3,7 @@ package org.uva.sea.ql.encoders.runtime.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.statement.Question;
 import org.uva.sea.ql.encoders.runtime.value.Value;
 
 public class RuntimeQuestion {

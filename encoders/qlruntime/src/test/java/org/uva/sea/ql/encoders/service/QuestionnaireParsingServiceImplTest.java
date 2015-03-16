@@ -7,10 +7,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
+import org.uva.sea.ql.encoders.ast.statement.Question;
 
 public class QuestionnaireParsingServiceImplTest {
 

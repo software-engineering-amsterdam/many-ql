@@ -1,7 +1,9 @@
-package org.uva.sea.ql.encoders.ast;
+package org.uva.sea.ql.encoders.ast.statement;
 
 import java.util.Collection;
 
+import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
 
