@@ -1,11 +1,12 @@
 package nl.uva.bromance.ast.conditionals;
 
-import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
-public class ElseIfStatement extends Node implements ContainsExpression {
+public class ElseIfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
     public ElseIfStatement(int lineNumber) {
@@ -26,4 +27,12 @@ public class ElseIfStatement extends Node implements ContainsExpression {
     public void handleExpressionResult(Result result) {
 
     }
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
+
 }

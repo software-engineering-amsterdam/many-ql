@@ -7,7 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nl.uva.bromance.ast.AST;
-import nl.uva.bromance.ast.Node;
+import nl.uva.bromance.ast.QLNode;
+import nl.uva.bromance.ast.QLSNode;
 import nl.uva.bromance.ast.QLSPage;
 import nl.uva.bromance.util.QLFileReader;
 import nl.uva.bromance.util.QLSFileReader;
@@ -48,8 +49,8 @@ public class Visualizer {
                 String qlPath = file.getAbsolutePath();
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
-                AST qlAst = null;
-                AST qlsAst = null;
+                AST<QLNode> qlAst = null;
+                AST<QLSNode> qlsAst = null;
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
                     // TODO: Re enable evaluator and typechecker
@@ -91,14 +92,14 @@ public class Visualizer {
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
     }
 
-    public void visualize(Node ast, Node qlsAST) {
+    public void visualize(QLNode ast, QLSNode qlsAST) {
         setBaseView();
 
         Optional<? extends Pane> pagePane = Optional.of(pages);
         Optional<? extends Pane> questionPane = Optional.of(questions);
 
         if (qlsAST != null) {
-            for (Node n : qlsAST.getChildren()) {
+            for (QLSNode n : qlsAST.getChildren()) {
                 if (n instanceof QLSPage) {
                     QLSPage page = (QLSPage) n;
                     if (currentPage == null) {
@@ -113,7 +114,7 @@ public class Visualizer {
                     });
                     if (currentPage == page) {
                         label.getStyleClass().add("active");
-                        for (Node child : currentPage.getChildren()) {
+                        for (QLSNode child : currentPage.getChildren()) {
                             child.visualize(questionPane.get());
                         }
                     }
@@ -130,8 +131,8 @@ public class Visualizer {
         stage.show();
     }
 
-    private void visualChildren(Node node, Optional<? extends Pane> parentPane) {
-        for (Node child : node.getChildren()) {
+    private void visualChildren(QLNode node, Optional<? extends Pane> parentPane) {
+        for (QLNode child : node.getChildren()) {
             if (child.hasChildren()) {
                 Optional<? extends Pane> newParent = child.visualize(parentPane.get());
                 if (newParent.isPresent()) {

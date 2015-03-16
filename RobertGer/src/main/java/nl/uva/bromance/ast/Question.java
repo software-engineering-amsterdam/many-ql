@@ -7,6 +7,7 @@ import nl.uva.bromance.ast.conditionals.HasIdentifier;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Question extends Node implements HasIdentifier {
+public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
     private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
@@ -71,7 +72,7 @@ public class Question extends Node implements HasIdentifier {
             System.out.print("\t");
         }
         System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
@@ -145,5 +146,13 @@ public class Question extends Node implements HasIdentifier {
         this.identifier.getId();
     }
 
+    //Duplication in all Nodes
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
 }
 
