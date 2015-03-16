@@ -1,4 +1,5 @@
 # AST format of the Form
+import collections
 
 
 class Form:
@@ -40,7 +41,6 @@ class Form:
             labels += s.label_collection()
         return labels
 
-    # TODO: it broke..
     def get_dependencies(self):
         dependencies = {}
         for s in self._statements:
@@ -73,10 +73,65 @@ class Form:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
 
-    def valid_expressions(self):
+    # TODO : test expression validator
+    def check_expressions(self):
         td = self.get_type_dict()
+        message = ""
         for x in self._statements:
-            if not x.valid_type(td):
-                print("x is not valid")
-                return False
-        return True
+            message += x.valid_type_message(td)
+        return message
+
+    #
+    # Type checker stuff
+    #
+
+    @staticmethod
+    def check_duplicates(l):
+        # get_dependencies for duplicates
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
+        return duplicates
+
+    def check_ids(self):
+        duplicates = Form.check_duplicates(self.get_ids())
+        if duplicates:
+            return "There are duplicate ids: " + str(duplicates)
+        else:
+            return ""
+
+    def check_labels(self):
+        duplicates = Form.check_duplicates(self.get_labels())
+        if duplicates:
+            return "There are duplicate labels: " + str(duplicates)
+        else:
+            return ""
+
+    def check_dependencies(self):
+        message = ""
+        dependencies = self.get_dependencies()
+        for d in dependencies:
+            if d in dependencies[d]:
+                message += str(d) + " is dependent on itself"
+        return message
+
+    def is_valid_form(self):
+        valid = True
+        id_message = self.check_ids()
+        if id_message != "":
+            valid = False
+            print(id_message)
+
+        label_message = self.check_labels()
+        if label_message != "":
+            print(label_message)
+
+        dependency_message = self.check_dependencies()
+        if dependency_message != "":
+            valid = False
+            print(dependency_message)
+
+        expression_message = self.check_expressions()
+        if expression_message != "":
+            valid = False
+            print(expression_message)
+
+        return valid

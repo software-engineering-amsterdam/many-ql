@@ -12,25 +12,9 @@ import QL.Grammar.Factory.forms as form_factory
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-#print(form.pretty_print())
+# print(form.pretty_print())
 
-print("valid expressions:")
-print(form.valid_expressions())
-
-print("ids")
-print(form.get_ids())
-
-print("labels")
-print(form.get_labels())
-
-print("type_dict")
-print(form.get_type_dict())
-
-print("statement_dict")
-print(form.get_statement_dict())
-
-print("dependencies")
-print(form.get_dependencies())
+form.is_valid_form()
 
 # typeChecker = type_checker.TypeChecker(form)
 # typeChecker.is_valid_form()

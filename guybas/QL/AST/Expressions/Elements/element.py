@@ -11,5 +11,5 @@ class Element:
     def get_dependency_collection(self):
         raise Exception("Not implemented by sub class")
 
-    def is_valid_expression(self, td):
-        return True
+    def is_valid_expression_message(self, td):
+        return ""

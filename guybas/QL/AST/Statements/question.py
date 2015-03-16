@@ -19,7 +19,7 @@ class Question(statement.IStatement):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self._id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self._label + "\n"
-        s += "   " * (level + 1) + "Question type: " + str(self._type.pretty_print())
+        s += "   " * (level + 1) + "Question type: " + self._type
         s += "\n"
         return s
 
@@ -42,7 +42,7 @@ class Question(statement.IStatement):
 
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
-        return {self._id: self._type.pretty_print()}
+        return {self._id: self._type}
 
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
@@ -61,8 +61,9 @@ class Question(statement.IStatement):
     def get_id(self):
         return self._id
 
-    def valid_type(self, td):
-        return True
+    # returns a message with errors if the expression is wrongly typed, here empty thus
+    def valid_type_message(self, td):
+        return ""
 
 
 

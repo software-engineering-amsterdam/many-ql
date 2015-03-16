@@ -69,3 +69,11 @@ class IfElseBlock(if_statement.IfBlock):
     def get_e_statements(self):
         return self.else_statements
 
+    def valid_type_message(self, td):
+        message = self._condition.is_valid_expression_message(td)
+        for x in self._statements:
+            message += x.valid_type_message(td)
+        for x in self.else_statements:
+            message += x.valid_type_message(td)
+        return message
+

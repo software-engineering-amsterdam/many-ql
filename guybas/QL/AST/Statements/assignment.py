@@ -66,7 +66,7 @@ class Assignment(statement.IStatement):
     def get_label(self):
         return self.expression.pretty_print()
 
-    def valid_type(self):
+    def valid_type_message(self):
         return True
 
 

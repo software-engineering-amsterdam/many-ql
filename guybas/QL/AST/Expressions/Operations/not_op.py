@@ -17,5 +17,5 @@ class Not(e.Element):
     def get_dependency_collection(self):
         return self._operand.get_dependency_collection()
 
-    def is_valid_expression(self, td):
-        return self._operand.is_valid_expression() and self._operand.return_type_string == constants.BOOL
+    def is_valid_expression_message(self, td):
+        return self._operand.is_valid_expression_message() and self._operand.return_type_string == constants.BOOL

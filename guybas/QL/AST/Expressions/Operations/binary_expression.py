@@ -14,11 +14,16 @@ class BinaryExpression(e.Element):
     def return_type_string(self, type_dict):
         raise Exception("Not implemented by sub class")
 
-    def is_valid_expression(self, td):
-        # print(self._operand1.pretty_print() + " " + self._operand2.pretty_print())
-        if self._operand1.is_valid_expression(td) and  self._operand2.is_valid_expression(td):
-            return self._operand1.return_type_string(td) == self._operand2.return_type_string(td)
-        return False
+    def is_valid_expression_message(self, td):
+        message = ""
+        message += self._operand1.is_valid_expression_message(td)
+        message += self._operand2.is_valid_expression_message(td)
+        if self._operand1.return_type_string(td) != self._operand2.return_type_string(td):
+            message += self._operand1.pretty_print() + " is not the same type as " + self._operand2.pretty_print() + "\n"
+        elif self._operand1.return_type_string(td) != self.return_type_string(td):
+            message += "the operands " + self._operand1.pretty_print() + \
+                       " and "  + self._operand2.pretty_print() + " are not of the correct type\n"
+        return message
 
     def get_dependency_collection(self):
         l = []

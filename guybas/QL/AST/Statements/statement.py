@@ -31,5 +31,5 @@ class IStatement:
     def get_statement_dict(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def valid_type(self, td):
+    def valid_type_message(self, td):
         raise NotImplementedError("Not implemented by sub class")
