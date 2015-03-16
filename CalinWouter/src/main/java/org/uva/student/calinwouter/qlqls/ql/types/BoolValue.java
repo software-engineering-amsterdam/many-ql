@@ -20,6 +20,11 @@ public class BoolValue extends Value {
         public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
             return allowTypeChecker.allowsStringValue();
         }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof BoolValue;
+        }
     };
 
     @Override
