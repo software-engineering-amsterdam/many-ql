@@ -23,7 +23,6 @@ import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestionnaire;
 import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
-import nl.uva.sc.encoders.qlruntime.service.QuestionByName;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlWrapper;
 
@@ -83,9 +82,8 @@ public class QuestionnaireUI {
 			final Expression condition) {
 		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 		Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
-		QuestionByName questionByName = new QuestionByName();
 		for (String relatedQuestionName : relatedQuestionNames) {
-			RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 			relatedQuestion.addPropertyChangeListener(new PropertyChangeListener() {
 
 				@Override
@@ -108,10 +106,9 @@ public class QuestionnaireUI {
 			final ControlWrapper controlWrapper, final Expression computed) {
 		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 		Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
-		QuestionByName questionByName = new QuestionByName();
 		runtimeQuestion.addPropertyChangeListener(controlWrapper);
 		for (String relatedQuestionName : relatedQuestionNames) {
-			RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 			relatedQuestion.addPropertyChangeListener(new PropertyChangeListener() {
 
 				@Override

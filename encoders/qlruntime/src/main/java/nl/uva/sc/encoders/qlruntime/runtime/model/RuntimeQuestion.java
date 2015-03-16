@@ -2,6 +2,7 @@ package nl.uva.sc.encoders.qlruntime.runtime.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
@@ -47,4 +48,17 @@ public class RuntimeQuestion {
 		return question;
 	}
 
+	public static RuntimeQuestion getRuntimeQuestion(String name, List<RuntimeQuestion> runtimeQuestions) {
+		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
+			Question question = runtimeQuestion.getQuestion();
+			if (questionHasName(question, name)) {
+				return runtimeQuestion;
+			}
+		}
+		return null;
+	}
+
+	private static boolean questionHasName(Question question, String name) {
+		return name.equals(question.getName());
+	}
 }

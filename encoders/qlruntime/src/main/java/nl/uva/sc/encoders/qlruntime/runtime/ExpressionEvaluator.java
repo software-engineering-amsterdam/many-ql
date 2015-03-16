@@ -18,7 +18,6 @@ import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.runtime.value.IntegerValue;
 import nl.uva.sc.encoders.qlruntime.runtime.value.StringValue;
 import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
-import nl.uva.sc.encoders.qlruntime.service.QuestionByName;
 
 public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
@@ -56,8 +55,7 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 	@Override
 	public Value visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
-		QuestionByName questionByName = new QuestionByName();
-		RuntimeQuestion runtimeQuestion = questionByName.getRuntimeQuestion(name, questions);
+		RuntimeQuestion runtimeQuestion = RuntimeQuestion.getRuntimeQuestion(name, questions);
 		return runtimeQuestion.getValue();
 	}
 
