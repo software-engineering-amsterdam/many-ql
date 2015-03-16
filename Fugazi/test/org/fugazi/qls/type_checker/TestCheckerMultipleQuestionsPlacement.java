@@ -2,6 +2,7 @@ package org.fugazi.qls.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.qls.type_checker.issue.ASTQlsNodeIssueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class TestCheckerMultipleQuestionsPlacement extends TestQlsTypeCheckerBas
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.QLS_ERROR.DUPLICATE;
+        ASTNodeIssueType expectedType = ASTQlsNodeIssueType.QLS_ERROR.DUPLICATE;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue error: errors) {

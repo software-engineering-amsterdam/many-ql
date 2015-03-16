@@ -41,7 +41,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         identifiers.put(_name, _type);
     }
 
-    private Type getIdentifier(String _name) {
+    private Type getIdentifierType(String _name) {
         return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
     }
     
@@ -323,7 +323,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         String name = ctx.ID().getText();
-        Type type = this.getIdentifier(name);
+        Type type = this.getIdentifierType(name);
         ID identifier = new ID(name, type);
         identifier.setLineNumber(this.getLineNumber(ctx));
         return identifier;

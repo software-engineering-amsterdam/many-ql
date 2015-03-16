@@ -3,6 +3,7 @@ package org.fugazi.qls.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.qls.type_checker.issue.ASTQlsNodeIssueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class TestCheckerUnplacedQuestions extends TestQlsTypeCheckerBase {
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.QLS_ERROR.MISSING_STYLE;
+        ASTNodeIssueType expectedType = ASTQlsNodeIssueType.QLS_ERROR.MISSING_STYLE;
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue error: errors) {
