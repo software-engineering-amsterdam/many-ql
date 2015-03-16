@@ -38,7 +38,7 @@ public class AST2LogicTest {
 
         ArrayList<String> storeTextList = new ArrayList<String>();
         for(Question question : store.getOrderedQuestions()){
-            storeTextList.add(question.getText().toString());
+            storeTextList.add(question.getText());
         }
 
         ArrayList<String> textList = new ArrayList<String>();

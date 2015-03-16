@@ -9,7 +9,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
   val parsers = new Parser
   import parsers._
-  
+
   "variable parser" should {
     "parse a valid Java identifier" in {
       variable must succeedOn("var1")
@@ -62,7 +62,7 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(FontColor(HexadecimalColor("00ff00")))
     }
   }
-  
+
   "widget style" should {
     "parse style block" in {
       widgetStyle must succeedOn("{" +
@@ -74,7 +74,7 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
     }
   }
-  
+
   "widget parser" should {
     "parse spinbox" in {
       question must succeedOn("var1 spinbox")
@@ -213,7 +213,7 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(Style("PartyForm",List(DefaultWidget(BooleanType(), Slider(List())), Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
     }
   }
-  
+
   "defaultWidget parser" should {
     "parse default number spinbox with style" in {
       defaultWidget must succeedOn("default number spinbox {" +
@@ -225,6 +225,6 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(DefaultWidget(NumberType(),SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
   }
-  
-  
+
+
 }

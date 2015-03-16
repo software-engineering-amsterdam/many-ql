@@ -1,6 +1,8 @@
 package org.uva.ql.view.listener;
 
 import java.awt.Color;
+import java.rmi.UnexpectedException;
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +30,6 @@ public class NumberTextFieldListener implements DocumentListener {
 	}
 
 	public void notifyListener(DocumentEvent e) {
-		System.out.println("Yooooo numer textfield");
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
@@ -41,9 +42,9 @@ public class NumberTextFieldListener implements DocumentListener {
 				textField.setForegroundColor(Color.red);
 			}
 		} catch (BadLocationException e1) {
-			System.out.println("Something went terribly wrong.");
+			throw new IndexOutOfBoundsException("Index is out of bound at number textfield listener");
 		} catch (NumberFormatException e2) {
-			System.out.println("apparently an exception.");
+			throw new NumberFormatException("Failed to parse the String to Integer in number textfield listener");
 		}
 	}
 

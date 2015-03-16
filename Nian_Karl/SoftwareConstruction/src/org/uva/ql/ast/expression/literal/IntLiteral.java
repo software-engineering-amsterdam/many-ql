@@ -42,5 +42,9 @@ public class IntLiteral extends Literal {
 	public Type getType(TypeChecker typeChecker) {
 		return new IntType(getPosition());
 	}
+	
+	public boolean equals(IntLiteral intLiteral) {
+		return value.equals(intLiteral.getValue());
+	}
 
 }

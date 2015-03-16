@@ -8,12 +8,13 @@ class TypeChecker {
 
   def check(q: Question, env: TypeEnvironment): Option[Error] = {
     val name = q.variable.name
+    val widget = q.widget
     val _type = env getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
 
-    if (q.widget.allowsType(_type)) {
+    if (widget.allowsType(_type)) {
       None
     } else {
-      Some(Error(s"${q.widget.toString.capitalize} widget not allowed for question $name", Some(q.pos)))
+      Some(Error(s"${widget.toString.capitalize} widget not allowed for question $name", Some(q.pos)))
     }
   }
 }

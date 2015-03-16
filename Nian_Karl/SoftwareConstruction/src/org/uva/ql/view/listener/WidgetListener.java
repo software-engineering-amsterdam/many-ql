@@ -28,7 +28,6 @@ public class WidgetListener {
 	}
 
 	public void widgetValueChanged(String identifier, Value value) {
-		System.out.println("Identifier: " + identifier);
 		evaluator.addValue(identifier, value);
 		for (IfQuestionPanel pannel : dependentQuestionPanels) {
 			pannel.evaluateAndShow(evaluator, typeChecker);

@@ -40,5 +40,9 @@ public class Identifier extends Literal {
 		throw new UnsupportedOperationException(
 				"Can't return value of identifier, use the getValue(evaluator) to get the value.");
 	}
+	
+	public boolean equals(Identifier id) {
+		return name.equals(id.toString());
+	}
 
 }

@@ -1,6 +1,8 @@
 package test.klq.typechecker;
 
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.bool.GreaterThanNode;
+import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.stmt.ComputedQuestionNode;
 import com.klq.ast.impl.stmt.QuestionNode;
@@ -10,6 +12,7 @@ import com.klq.typechecker.error.NotUniqueID;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Juriaan on 28-2-2015.
  */
-public class DuplidateQuestionIdTest {
+public class DuplicateQuestionIdTest {
     private QuestionnaireNode ast;
     @Before
     public void setUp() throws Exception {
@@ -43,7 +46,8 @@ public class DuplidateQuestionIdTest {
 
         List<AExpression> list = new ArrayList<AExpression>();
         list.add(new StringNode("test"));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", null));
+        AExpression cond = new StringNode("test");
+        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", cond));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());

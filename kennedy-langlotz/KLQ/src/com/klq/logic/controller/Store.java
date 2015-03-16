@@ -1,10 +1,11 @@
 package com.klq.logic.controller;
 
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
+import com.klq.ast.impl.expr.value.Value;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.question.Question;
-import com.klq.ast.impl.expr.value.*;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -34,10 +35,10 @@ public class Store implements IKLQItem {
     }
 
     public void add(Question question) {
-        order.add(question.getId());
-        store.put(question.getId(), question);
+        order.add(question.getID());
+        store.put(question.getID(), question);
 
-        IdentifierValue id = question.getId();
+        IdentifierValue id = question.getID();
 
         if (!question.isComputedQuestion()) {
             variables.put(id.getValue(), new UndefinedValue());
@@ -47,7 +48,7 @@ public class Store implements IKLQItem {
     }
 
     public List<Question> getOrderedQuestions() {
-        List<Question> result = new ArrayList<Question>();
+        List<Question> result = new ArrayList<>();
         for (IdentifierValue id : order) {
             result.add(store.get(id));
         }
@@ -58,30 +59,12 @@ public class Store implements IKLQItem {
         return variables;
     }
 
-    public boolean dependenciesResolved(IdentifierValue questionId){
+    public boolean dependenciesResolved(IdentifierValue questionId) {
         Question question = store.get(questionId);
         if (question == null) {
             assert false;
         }
-
-        List<AExpression> dependencies = question.getDependencies();
-        for (AExpression d : dependencies) {
-            if (!isSatisfied(d)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isSatisfied(AExpression expression){
-        Value result = expression.evaluate(variables);
-
-        if (result.isUndefined()) {
-            return false;
-        } else {
-            return (boolean) result.getValue();
-        }
-
+        return question.dependenciesResolved(variables);
     }
 
     public void updateAnswer(IdentifierValue questionId, Value answer) {
@@ -100,9 +83,9 @@ public class Store implements IKLQItem {
     public void updateQuestionVisibilities(){
         for (IdentifierValue id : store.keySet()){
             boolean visible = dependenciesResolved(id);
-            BooleanProperty property = store.get(id).visibleProperty();
-            if (property.get() != visible) {
-                property.setValue(visible);
+            Question q = store.get(id);
+            if (q.isVisible() != visible) {
+                q.setVisible(visible);
             }
         }
     }
@@ -112,7 +95,7 @@ public class Store implements IKLQItem {
             if (q.isComputedQuestion()){
                 AExpression computedExpression = q.getComputedExpression();
                 Value result = computedExpression.evaluate(variables);
-                q.computedProperty().setValue(result.toString());
+                q.setComputedValue(result.toString());
             }
         }
     }
@@ -123,7 +106,7 @@ public class Store implements IKLQItem {
         for (Question q : store.values()){
             if (!q.isComputedQuestion()){
                 total++;
-                Value v = variables.get(q.getId().getValue());
+                Value v = variables.get(q.getID().getValue());
                 if (!v.equals(new UndefinedValue())){
                     answered++;
                 }

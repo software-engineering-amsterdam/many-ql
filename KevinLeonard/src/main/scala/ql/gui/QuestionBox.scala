@@ -1,8 +1,8 @@
 package ql.gui
 
-import ql.ast._
+import ql.ast.{Question, Expression, Value, BooleanValue, NumberValue, StringValue}
 import ql.evaluator.Evaluator
-import types.{EvalEnvironment, Dependencies, VariableName}
+import types.{Dependencies, EvalEnvironment, VariableName}
 
 import scala.collection.immutable.StringOps
 import scala.util.Try

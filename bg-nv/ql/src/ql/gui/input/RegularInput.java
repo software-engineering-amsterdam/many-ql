@@ -1,4 +1,4 @@
-package ql.gui.input.regular;
+package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
@@ -27,7 +27,6 @@ public abstract class RegularInput<T> extends Input
 
     public abstract Value convertUserInputToValue(T userInput);
 
-    @Override
     public void update(ValueTable valueTable)
     {
         setChanged();

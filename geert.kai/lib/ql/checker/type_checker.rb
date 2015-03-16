@@ -4,11 +4,8 @@ require_relative "../ast/ast"
 module QL
   module Checking
     class TypeChecker < BaseVisitor
-      def after_initialize(base)
+      def run
         @types = {}
-      end
-
-      def errors
         @errors = []
         visit @base 
         @errors
@@ -35,7 +32,7 @@ module QL
       end
 
       def valid_conditional_type?(type)
-        type == AST::BooleanType.new || type.nil?
+        type == QL::AST::BooleanType.new || type.nil?
       end
 
       def visit_binary_expression(expression)

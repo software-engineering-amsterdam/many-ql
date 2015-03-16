@@ -9,8 +9,7 @@ import ql.gui.canvas.Canvas;
 import ql.gui.control.CheckBox;
 import ql.gui.control.Radios;
 import ql.gui.control.TextField;
-import ql.gui.input.expression.*;
-import ql.gui.input.regular.*;
+import ql.gui.input.*;
 import ql.gui.label.Label;
 import ql.gui.segment.Conditional;
 import ql.gui.segment.Page;
@@ -126,31 +125,7 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(BoolExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(DateExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(DecExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(IntExprInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(StrExprInput input)
+    public Void visit(ExprInput input)
     {
         return handleInputVisit(input);
     }

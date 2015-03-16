@@ -4,7 +4,8 @@ from .Table import *
 from .EvaluatorTypes import *
 
 from ..ast import AST, Nodes
-from ..ast.Visitor import Visitor as ASTVisitor
+from ..ast.Visitor import ExpressionVisitor as ASTExpressionVisitor
+from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
@@ -15,6 +16,7 @@ class Evaluator(object):
         self._questionTable = QuestionTable()
         self._questionValueTable = QuestionValueTable()
         self._operatorTable = OperatorTable()
+        self._forms = []
 
     def evaluateBinaryExpression(self, operator, leftValue, rightValue):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
@@ -60,20 +62,18 @@ class Evaluator(object):
 
 
 
-class Visitor(ASTVisitor):
+class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
-        self._currentForm = None
+        self._currentQuestions = []
         self._conditionalStatements = ExpressionsList()
 
-    def _visitRoot(self, node):
-        super()._visitRoot(node)
+    def visitQuestionnaire(self, node):
         return self._evaluator
 
-    def _visitFormStatement(self, node):
-        self._currentForm = Form(node)
-        for n in node.getChildren():
-            child = self.visit(n)
+    def visitFormStatement(self, node):
+        form = Form(node.identifier, self._currentQuestions)
+        self._currentQuestions = []
 
     def _visitQuestionStatement(self, node):
         expr = self.visit(node.expr) if node.expr != None else None

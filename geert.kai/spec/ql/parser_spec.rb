@@ -1,12 +1,8 @@
 require_relative "spec_helper"
 
-def source(file_name)
-  "spec/ql/source_files/#{file_name}.ql"
-end
-
 describe "Parsing" do
   it "parses a one query form" do
-    form = QL.parse( source("one_query") )
+    form = QL.parse( "spec/ql/source_files/one_query.ql" )
     expect(form.name).to eq "Naam"
     expect(form.statements.size).to eq 1
 
@@ -19,7 +15,7 @@ end
 
 describe "Expression" do
   it "parses a simple expression" do
-    form = QL.parse( source("expression_query") )
+    form = QL.parse( "spec/ql/source_files/expression_query.ql" )
     
     expression = form.statements[1].expression
     expect(expression.lhs.value).to eq 10

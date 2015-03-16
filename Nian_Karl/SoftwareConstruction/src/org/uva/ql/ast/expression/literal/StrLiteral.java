@@ -41,5 +41,9 @@ public class StrLiteral extends Literal {
 	public Type getType(TypeChecker typeChecker) {
 		return new StrType(getPosition());
 	}
+	
+	public boolean equals(StrLiteral strLiteral) {
+		return value.equals(strLiteral.getValue());
+	}
 
 }
