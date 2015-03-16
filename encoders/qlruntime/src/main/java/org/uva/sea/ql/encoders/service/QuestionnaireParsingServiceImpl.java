@@ -14,10 +14,10 @@ import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.ast.builder.AstBuilder;
 import org.uva.sea.ql.encoders.validation.SyntaxError;
 import org.uva.sea.ql.encoders.validation.TypeChecker;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
-import org.uva.sea.ql.encoders.visitor.AstBuilder;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.

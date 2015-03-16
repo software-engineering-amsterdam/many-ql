@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.visitor;
+package org.uva.sea.ql.encoders.ast.builder;
 
 import java.util.ArrayList;
 import java.util.List;
