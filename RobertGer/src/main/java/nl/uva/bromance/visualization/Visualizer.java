@@ -15,6 +15,8 @@ import nl.uva.bromance.util.QLSFileReader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Visualizer {
@@ -22,9 +24,13 @@ public class Visualizer {
     private Scene scene;
     private VBox rootBox, pages, questions;
     private QLSPage currentPage;
+    private Map<String, String> answerMap;
+    private AST<QLNode> qlAst;
+    private AST<QLSNode> qlsAst;
 
     public Visualizer(Stage stage) {
         this.stage = stage;
+        this.answerMap = new HashMap<>();
     }
 
     public void render() {
@@ -49,12 +55,11 @@ public class Visualizer {
                 String qlPath = file.getAbsolutePath();
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
-                AST<QLNode> qlAst = null;
-                AST<QLSNode> qlsAst = null;
+                qlAst = null;
+                qlsAst = null;
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
                     // TODO: Re enable evaluator and typechecker
-                    //ExpressionEvaluator ee = new ExpressionEvaluator(ast);
                     //TypeChecker tc = new TypeChecker(ast);
                     //tc.runChecks();
                 } catch (IOException e) {
@@ -65,11 +70,7 @@ public class Visualizer {
                 } catch (IOException e) {
                     System.err.println("Couldn't find qls file, no biggie.");
                 }
-                if (qlsAst != null) {
-                    visualize(qlAst.getRoot(), qlsAst.getRoot());
-                } else {
-                    visualize(qlAst.getRoot(), null);
-                }
+                visualize();
             }
         });
 
@@ -92,14 +93,14 @@ public class Visualizer {
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
     }
 
-    public void visualize(QLNode ast, QLSNode qlsAST) {
+    public void visualize() {
         setBaseView();
-
+        System.out.println("Running visualizer!");
         Optional<? extends Pane> pagePane = Optional.of(pages);
         Optional<? extends Pane> questionPane = Optional.of(questions);
-
-        if (qlsAST != null) {
-            for (QLSNode n : qlsAST.getChildren()) {
+        //ExpressionEvaluator ee = new ExpressionEvaluator(qlAst);
+        if (qlsAst != null) {
+            for (QLSNode n : qlsAst.getRoot().getChildren()) {
                 if (n instanceof QLSPage) {
                     QLSPage page = (QLSPage) n;
                     if (currentPage == null) {
@@ -110,21 +111,22 @@ public class Visualizer {
                     Label label = new Label(identifier);
                     label.setOnMouseClicked((event) -> {
                         currentPage = page;
-                        visualize(ast, qlsAST);
+                        visualize();
                     });
                     if (currentPage == page) {
                         label.getStyleClass().add("active");
                         for (QLSNode child : currentPage.getChildren()) {
-                            child.visualize(questionPane.get());
+                            child.visualize(questionPane.get(), answerMap, this);
                         }
                     }
                     label.getStyleClass().add("pageLabel");
                     pagePane.get().getChildren().add(label);
                 }
             }
+            // Non-QLS Implementation
         } else {
-            if (ast.hasChildren()) {
-                visualChildren(ast, questionPane);
+            if (qlAst.getRoot().hasChildren()) {
+                visualChildren(qlAst.getRoot(), questionPane);
             }
         }
         stage.setScene(scene);
@@ -134,14 +136,14 @@ public class Visualizer {
     private void visualChildren(QLNode node, Optional<? extends Pane> parentPane) {
         for (QLNode child : node.getChildren()) {
             if (child.hasChildren()) {
-                Optional<? extends Pane> newParent = child.visualize(parentPane.get());
+                Optional<? extends Pane> newParent = child.visualize(parentPane.get(), answerMap, this);
                 if (newParent.isPresent()) {
                     visualChildren(child, newParent);
                 } else {
                     visualChildren(child, parentPane);
                 }
             } else {
-                child.visualize(parentPane.get());
+                child.visualize(parentPane.get(), answerMap, this);
             }
         }
     }

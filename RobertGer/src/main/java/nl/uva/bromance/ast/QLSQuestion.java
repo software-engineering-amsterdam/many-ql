@@ -1,9 +1,10 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class QLSQuestion extends QLSNode {
@@ -31,8 +32,8 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent) {
-        return this.questionNode.visualize(parent);
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+        return this.questionNode.visualize(parent, answerMap, visualizer);
     }
 
     @Override

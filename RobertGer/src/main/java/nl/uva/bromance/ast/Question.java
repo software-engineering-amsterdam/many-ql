@@ -10,12 +10,10 @@ import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
+import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
@@ -79,13 +77,13 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
         if (isVisible) {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
             parent.getChildren().add(l);
             // Add the actual input field
-            questionType.addQuestionToPane(parent, multipleChoiceOptions);
+            questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
         }
         return Optional.empty();
     }
