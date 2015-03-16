@@ -42,6 +42,6 @@ public class Slider extends ControlElement implements IntControl, DecControl
     @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
-        return null;
+        return visitor.visit(this);
     }
 }

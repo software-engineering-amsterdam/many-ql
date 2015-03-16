@@ -1,6 +1,7 @@
 package ql.gui;
 
 import ql.semantics.ValueTable;
+import ql.semantics.ValueTableEntry;
 import ql.semantics.values.Value;
 
 import java.util.HashSet;
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
  */
 public class Refresher implements Observer
 {
-    private Set<Refreshable> items;
+    private final Set<Refreshable> items;
+    private final ValueTable valueTable;
 
-    public Refresher()
+    public Refresher(ValueTable valueTable)
     {
+        this.valueTable = valueTable;
         this.items = new HashSet<>();
     }
 
@@ -26,17 +29,25 @@ public class Refresher implements Observer
         this.items.add(item);
     }
 
+    public void refresh()
+    {
+        for (Refreshable r : this.items)
+        {
+            r.refreshElement(this.valueTable);
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg)
     {
-        ValueTable valueTable = (ValueTable) arg;
+        valueTable.storeEntry((ValueTableEntry) arg);
 
-        this.evaluatePrerequisites(this.getPrerequisites(), valueTable);
-        this.evaluate(this.getNonPrerequisites(), valueTable);
+        this.evaluatePrerequisites(this.getPrerequisites(), this.valueTable);
+        this.evaluate(this.getNonPrerequisites(), this.valueTable);
 
         for (Refreshable r : this.items)
         {
-            r.refreshElement(valueTable);
+            r.refreshElement(this.valueTable);
         }
     }
 

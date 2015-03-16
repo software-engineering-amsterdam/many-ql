@@ -13,6 +13,11 @@ public abstract class ControlElement extends GuiElement
 
     }
 
+    protected void sendNotification(Value val) {
+        setChanged();
+        notifyObservers(val);
+    }
+
     // the default visit methods - children implement the Control interface, which enforces them
     public Void visit(BoolValue val)
     {

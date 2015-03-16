@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import ql.gui.control.Control;
-import ql.semantics.ValueTable;
+import ql.semantics.ValueTableEntry;
 import ql.semantics.errors.Message;
 import ql.semantics.values.Value;
 
@@ -16,13 +16,11 @@ import ql.semantics.values.Value;
 public abstract class RegularInput<T> extends Input
 {
     private final Text errorField;
-    private final Control control;
-
     public RegularInput(String id, Control control, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
+        super(id, control, visible, disabled);
 
-        this.control = control;
+        this.control.addListener(this.constructChangeListener());
 
         this.errorField = new Text(null);
         this.errorField.setFill(Color.FIREBRICK);
@@ -57,19 +55,11 @@ public abstract class RegularInput<T> extends Input
         return box;
     }
 
-    public abstract Value convertUserInputToValue(T userInput);
-
-    public void update(ValueTable valueTable)
+    protected void addValidationError(Message validationError)
     {
-        setChanged();
-        notifyObservers(valueTable);
-    }
-
-    public void processUserInput(T userInput, ValueTable valueTable)
-    {
-        Value val = this.convertUserInputToValue(userInput);
-        valueTable.storeValue(this.getId(), val);
-        this.update(valueTable);
+        this.errorField.setText(validationError.getMessage());
+        this.errorField.setVisible(true);
+        this.errorField.setManaged(true);
     }
 
     protected void resetValidation()
@@ -79,21 +69,16 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setManaged(false);
     }
 
-    protected void addValidationError(Message validationError)
-    {
-        this.errorField.setText(validationError.getMessage());
-        this.errorField.setVisible(true);
-        this.errorField.setManaged(true);
+    private ChangeListener<T> constructChangeListener() {
+        return (observable, oldValue, newValue) -> update(newValue);
     }
 
-    public void attachListener(ValueTable valueTable)
+    private void update(T userInput)
     {
-        ChangeListener<T> cl = this.constructChangeListener(valueTable);
-        this.control.addListener(cl);
+        Value val = this.convertUserInputToValue(userInput);
+        this.setChanged();
+        this.notifyObservers(new ValueTableEntry(this.getId(), val));
     }
 
-    protected ChangeListener<T> constructChangeListener(ValueTable valueTable)
-    {
-        return (observable, oldValue, newValue) -> this.processUserInput(newValue, valueTable);
-    }
+    protected abstract Value convertUserInputToValue(T userInput);
 }
