@@ -1,18 +1,15 @@
-from patterns.Visitor import Visitor as GenericVisitor
-
-
-class ExpressionVisitor(GenericVisitor):
-    def _visitAtomicExpression(self, node):
+class ExpressionVisitor:
+    def visitAtomicExpression(self, node):
         self.visit(node.left)
 
-    def _visitUnaryExpression(self, node):
+    def visitUnaryExpression(self, node):
         self.visit(node.right)
 
-    def _visitBinaryExpression(self, node):
+    def visitBinaryExpression(self, node):
         self.visit(node.left)
         self.visit(node.right)
 
-    def _visitIdentifier(self, node):
+    def visitAtom(self, node):
         pass
 
     def _visitStr(self, node):
