@@ -54,7 +54,7 @@ func (exec Execute) resolveMathNode(n interface{}) float32 {
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		log.Fatalf(
+		log.Panicf(
 			"%s:runtime error: Unknown type while resolving node %T",
 			pos, t)
 	case *ast.MathAddNode:
@@ -79,7 +79,7 @@ func (exec *Execute) resolveNumeric(n *ast.TermNode) float32 {
 	switch t := node.(type) {
 	default:
 		pos := n.Pos()
-		log.Fatalf(
+		log.Panicf(
 			"%s:runtime error: Type impossible to execute comparison. got: %T",
 			pos, t)
 	case int:
