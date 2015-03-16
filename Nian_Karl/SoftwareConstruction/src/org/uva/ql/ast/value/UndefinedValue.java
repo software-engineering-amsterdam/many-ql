@@ -7,7 +7,7 @@ public class UndefinedValue extends Value {
 	}
 
 	@Override
-	public UndefinedValue getValue() {
+	public UndefinedValue value() {
 		return this;
 	}
 

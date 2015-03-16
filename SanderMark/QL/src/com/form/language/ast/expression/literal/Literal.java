@@ -1,8 +1,7 @@
 package com.form.language.ast.expression.literal;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.expression.Expression;
+import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
@@ -10,7 +9,7 @@ import com.form.language.memory.IdCollection;
 public abstract class Literal extends Expression {
 
 
-    public Literal(Token tokenInfo) {
+    public Literal(QLToken tokenInfo) {
 	super(tokenInfo);
     }
 

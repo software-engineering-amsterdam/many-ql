@@ -21,14 +21,14 @@ class QuestionPlacementCheckerSpec extends Specification {
 
     "return Some with one error, if one question isn't placed" in {
       val environmentWithQuestion = Map("x" -> BooleanType())
-      val error = new Error(s"The question(s) x are not placed")
+      val error = Error(s"The question(s) x are not placed")
 
       check(EmptySection, environmentWithQuestion) should beSome(error)
     }
 
     "return Some with one error, if multiple questions aren't placed" in {
       val environmentWithMultipleQuestions = Map("x" -> BooleanType(), "y" -> BooleanType())
-      val error = new Error(s"The question(s) x, y are not placed")
+      val error = Error(s"The question(s) x, y are not placed")
 
       check(EmptySection, environmentWithMultipleQuestions) should beSome(error)
     }

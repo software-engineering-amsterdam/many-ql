@@ -7,7 +7,7 @@ import qls.ast._
 
 import scala.util.parsing.input.NoPosition
 
-class TypeCheckerTest extends Specification {
+class TypeCheckerSpec extends Specification {
   val checker = new TypeChecker
   import checker._
 
@@ -22,7 +22,7 @@ class TypeCheckerTest extends Specification {
     "return error if spin box widget is used for a non number question" in {
       val question = Question(Variable("x"), SpinBox(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
-      val error = new Error("Spin box widget not allowed for question x", Some(NoPosition))
+      val error = Error("Spin box widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -37,7 +37,7 @@ class TypeCheckerTest extends Specification {
     "return error if slider widget is used for a non number question" in {
       val question = Question(Variable("x"), Slider(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
-      val error = new Error("Slider widget not allowed for question x", Some(NoPosition))
+      val error = Error("Slider widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -59,7 +59,7 @@ class TypeCheckerTest extends Specification {
     "return error if text widget is used for a non number/text question" in {
       val question = Question(Variable("x"), Text(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
-      val error = new Error("Text widget not allowed for question x", Some(NoPosition))
+      val error = Error("Text widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -74,7 +74,7 @@ class TypeCheckerTest extends Specification {
     "return error if text block widget is used for a non string question" in {
       val question = Question(Variable("x"), TextBlock(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
-      val error = new Error("Text block widget not allowed for question x", Some(NoPosition))
+      val error = Error("Text block widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -89,7 +89,7 @@ class TypeCheckerTest extends Specification {
     "return error if radio widget is used for a non boolean question" in {
       val question = Question(Variable("x"), Radio(List()))
       val environmentWithQuestion = Map("x" -> NumberType())
-      val error = new Error("Radio widget not allowed for question x", Some(NoPosition))
+      val error = Error("Radio widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -104,7 +104,7 @@ class TypeCheckerTest extends Specification {
     "return error if check box widget is used for a non boolean question" in {
       val question = Question(Variable("x"), CheckBox(List()))
       val environmentWithQuestion = Map("x" -> NumberType())
-      val error = new Error("Check box widget not allowed for question x", Some(NoPosition))
+      val error = Error("Check box widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }
@@ -119,7 +119,7 @@ class TypeCheckerTest extends Specification {
     "return error if drop down widget is used for a non boolean question" in {
       val question = Question(Variable("x"), DropDown(List()))
       val environmentWithQuestion = Map("x" -> NumberType())
-      val error = new Error("Drop down widget not allowed for question x", Some(NoPosition))
+      val error = Error("Drop down widget not allowed for question x", Some(NoPosition))
 
       check(question, environmentWithQuestion) must beSome(error)
     }

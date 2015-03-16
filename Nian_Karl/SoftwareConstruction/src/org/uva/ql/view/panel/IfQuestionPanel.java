@@ -29,7 +29,7 @@ public class IfQuestionPanel extends QuestionPanel {
 		Value value = evaluator.evaluate(expr);
 		Type type = expr.getType(typeChecker);
 		if (type.isEqual(new BoolType()) && !value.isUndefined()) {
-			if ((boolean) value.getValue()) {
+			if ((boolean) value.value()) {
 				toggleIfBlock(true);
 			} else {
 				toggleIfBlock(false);

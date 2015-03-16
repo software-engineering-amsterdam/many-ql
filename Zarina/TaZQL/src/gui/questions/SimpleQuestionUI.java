@@ -1,7 +1,7 @@
 package gui.questions;
 
 import evaluator.Value;
-import gui.GUIRender;
+import gui.GUIRenderer;
 import gui.MainFrame;
 import gui.widgets.IWidgetComponent;
 
@@ -35,15 +35,15 @@ public class SimpleQuestionUI implements IQuestionUI {
 	
 	@Override
 	public void setValue(Value value) {
-		this.value = value;
+	//	this.value = value;
 		this.wc.setText(value);
 		this.wc.setVisible(true);
 	}
-	
+	/*
 	public Value getValue(){
 		return this.value;
 	}
-
+*/
 	@Override
 	public void setVisibilityValue(Value value) {
 		boolean visibility = Boolean.parseBoolean(value.toString());

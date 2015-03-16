@@ -23,21 +23,19 @@ public class NumberTextField extends BaseTextField {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Integer getValue() {
-		// Lol.
-		return getValue();
+	public String getValue() {
+		return textField.getText();
 	}
 
 	public void notifyListener(DocumentEvent e) {
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
-			if (input.equals("") || input == null) {
+			if (input.length() == 0) {
 				widgetListener.widgetValueChanged(getIdentifier(), new UndefinedValue());
 			} else if (m.matches()) {
 				textField.setForeground(Color.black);
-				int i = Integer.parseInt(input);
-				widgetListener.widgetValueChanged(getIdentifier(), new IntValue(i));
+				widgetListener.widgetValueChanged(getIdentifier(), new IntValue(Integer.parseInt(input)));
 			} else {
 				textField.setForeground(Color.red);
 			}
