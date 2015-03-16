@@ -1,11 +1,11 @@
-package nl.uva.se.gui.builders;
+package nl.uva.se.ql.gui.builders;
 
-import nl.uva.se.gui.widgets.boxes.ConditionBox;
-import nl.uva.se.gui.widgets.boxes.QuestionBox;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
+import nl.uva.se.ql.gui.widgets.boxes.QuestionBox;
 
 public class ConditionBuilder implements StatementVisitor{
 		

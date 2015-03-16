@@ -1,4 +1,4 @@
-package nl.uva.se.gui.widgets.questions;
+package nl.uva.se.ql.gui.widgets.questions;
 
 import javafx.scene.control.Label;
 import nl.uva.se.ql.ast.statement.Question;

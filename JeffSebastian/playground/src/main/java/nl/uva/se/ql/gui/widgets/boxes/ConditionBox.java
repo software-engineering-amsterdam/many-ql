@@ -1,4 +1,4 @@
-package nl.uva.se.gui.widgets.boxes;
+package nl.uva.se.ql.gui.widgets.boxes;
 
 import javafx.scene.layout.VBox;
 import nl.uva.se.ql.ast.statement.Condition;

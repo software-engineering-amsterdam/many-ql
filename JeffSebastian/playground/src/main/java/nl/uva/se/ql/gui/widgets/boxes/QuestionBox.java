@@ -1,10 +1,10 @@
-package nl.uva.se.gui.widgets.boxes;
+package nl.uva.se.ql.gui.widgets.boxes;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import nl.uva.se.gui.builders.QuestionBuilder;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.gui.builders.QuestionBuilder;
 
 public class QuestionBox extends VBox {
 	

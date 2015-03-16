@@ -1,4 +1,4 @@
-package nl.uva.se.gui;
+package nl.uva.se.ql.gui;
 
 //TODO REMOVE THIS CLASS BEFORE HANDING IN!
 import java.util.Collections;
@@ -7,15 +7,15 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.uva.se.gui.widgets.boxes.ConditionBox;
-import nl.uva.se.gui.widgets.boxes.QuestionBox;
-import nl.uva.se.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.Statement;
 import nl.uva.se.ql.ast.type.BooleanType;
 import nl.uva.se.ql.ast.type.DecimalType;
+import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
+import nl.uva.se.ql.gui.widgets.boxes.QuestionBox;
+import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 public class Gui extends Application {
 
 	public static void main(String[] args) {

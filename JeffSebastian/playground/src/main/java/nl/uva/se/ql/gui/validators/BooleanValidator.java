@@ -1,4 +1,4 @@
-package nl.uva.se.gui.validators;
+package nl.uva.se.ql.gui.validators;
 
 public class BooleanValidator extends Validator<Boolean>{
 

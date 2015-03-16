@@ -1,4 +1,4 @@
-package nl.uva.se.gui.validators;
+package nl.uva.se.ql.gui.validators;
 
 import nl.uva.se.ql.ast.expression.Expression;
 import nl.uva.se.ql.evaluation.ExpressionEvaluator;

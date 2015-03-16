@@ -1,9 +1,9 @@
-package nl.uva.se.gui.listeners;
+package nl.uva.se.ql.gui.listeners;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import nl.uva.se.gui.validators.Validator;
-import nl.uva.se.gui.widgets.questions.BaseQuestion;
+import nl.uva.se.ql.gui.validators.Validator;
+import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 
 public class Listener<T> {
 	

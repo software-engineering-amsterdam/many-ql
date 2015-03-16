@@ -1,8 +1,8 @@
-package nl.uva.se.gui.widgets.questions;
+package nl.uva.se.ql.gui.widgets.questions;
 
-import nl.uva.se.gui.listeners.Listener;
-import nl.uva.se.gui.validators.TextValidator;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.gui.listeners.Listener;
+import nl.uva.se.ql.gui.validators.TextValidator;
 import javafx.scene.control.TextField;
 
 public class TextQuestion extends TextField implements BaseQuestion<String> {

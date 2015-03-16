@@ -1,4 +1,4 @@
-package nl.uva.se.gui.builders;
+package nl.uva.se.ql.gui.builders;
 
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.type.BooleanType;
@@ -7,8 +7,8 @@ import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
+import nl.uva.se.ql.gui.widgets.questions.*;
 import javafx.scene.Node;
-import nl.uva.se.gui.widgets.questions.*;
 
 public class QuestionBuilder implements TypeVisitor<Node> {
 
