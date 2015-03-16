@@ -7,13 +7,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
-import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.runtime.model.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
 import org.uva.sea.ql.encoders.runtime.value.IntegerValue;
 import org.uva.sea.ql.encoders.runtime.value.StringValue;
+import org.uva.sea.ql.encoders.visitor.DataTypeVisitor;
 
 public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> {
 

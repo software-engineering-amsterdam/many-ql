@@ -1,5 +1,7 @@
 package org.uva.sea.ql.encoders.ast.type;
 
+import org.uva.sea.ql.encoders.visitor.DataTypeVisitor;
+
 
 public class StringType extends DataType {
 

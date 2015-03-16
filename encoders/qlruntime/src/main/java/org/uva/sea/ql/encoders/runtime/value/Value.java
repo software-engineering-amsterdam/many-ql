@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.runtime.value;
 
-import org.uva.sea.ql.encoders.ast.type.DataTypeVisitor;
+import org.uva.sea.ql.encoders.visitor.DataTypeVisitor;
 
 public abstract class Value {
 

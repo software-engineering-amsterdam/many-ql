@@ -1,6 +1,7 @@
 package org.uva.sea.ql.encoders.ast.type;
 
 import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.visitor.DataTypeVisitor;
 
 public abstract class DataType implements AstNode {
 
