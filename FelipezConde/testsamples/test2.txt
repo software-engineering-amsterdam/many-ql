@@ -1,8 +1,14 @@
 form {
 
-	question works money
+	question q1 bool
  	label : "Have you worked in the previous year?"
 
-	question w string
+	question q2 string
  	label : "string!!"
+
+	enable when (q1 == True)
+        {
+                question eq1 string 
+		label : "What is the name of the firm you worked for?"
+        }
 }

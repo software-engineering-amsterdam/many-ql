@@ -1,4 +1,5 @@
-﻿using QuestionnaireLanguage.Presenter;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.Presenter;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,6 +8,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
     public class CustomCheckBox : CheckBox
     {
         private BoolHandler inputHandler = new BoolHandler();
+        public EventUpdateValue eventUpdateValue;
 
         #region Constructors
         public CustomCheckBox()
@@ -18,8 +20,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            MainPresenter.UpdateValue(((CustomCheckBox)sender).Name,
-                                        inputHandler.GetValue(sender));
+            eventUpdateValue(((CustomCheckBox)sender).Name, inputHandler.GetValue(sender));
         }
 
         #endregion
