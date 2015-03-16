@@ -17,7 +17,8 @@ public class Listener<T> {
 					System.out.println("this is accepted input ");
 				}else{
 					System.out.println("this should undo changes");
-					//question.undoChange(oldValue);
+					System.out.println("oldvalue: " + oldValue + " newValue: " + newValue);
+					question.undoChange(newValue, oldValue);
 				}
 			}
 		};

@@ -6,6 +6,6 @@ import nl.uva.se.ql.gui.validators.Validator;
 public interface BaseQuestion<T> {
 	public Question getQuestion();
 	public Validator<T> getValidator();
-	public void undoChange(T oldValue);
+	public T undoChange(T newValue, T oldValue);
 	public void reset();
 }

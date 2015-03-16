@@ -9,7 +9,7 @@ public class BooleanQuestion extends CheckBox implements BaseQuestion<Boolean>{
 
 	private final Question question;
 	private final BooleanValidator validator;
-	private final Listener<Boolean> listener;
+	private final Listener<Boolean> listener;	
 
 	public BooleanQuestion(Question question) {
 		super();
@@ -26,13 +26,13 @@ public class BooleanQuestion extends CheckBox implements BaseQuestion<Boolean>{
 	public BooleanValidator getValidator() {
 		return this.validator;
 	}
-
-	public void undoChange(Boolean oldValue) {
-		//TODO: FIX BUG THAT LOCKS THE CHECKBOX
-		//this.setSelected(oldValue);		
-	}
 	
 	public void reset() {
 		this.setSelected(false);		
+	}
+
+	@Override
+	public Boolean undoChange(Boolean newValue, Boolean oldValue) {
+		return newValue;		
 	}
 }
