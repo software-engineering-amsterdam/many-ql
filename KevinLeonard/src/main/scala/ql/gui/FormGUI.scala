@@ -15,19 +15,17 @@ class FormGUI(label: Label, nodes: List[Node]) extends JFXApp {
   val Height: Int = 450
   val Padding: Int = 10
 
+  val grid = new GridPane {
+    padding = Insets(Padding)
+    for ((node, i) <- nodes.zipWithIndex) {
+      add(node, 1, i + 1)
+    }
+  }
+
   stage = new PrimaryStage {
     title.value = label
     width = Width
     height = Height
+    scene = new Scene(grid, Width, Height, Color.LIGHTGRAY)
   }
-
-  val grid = new GridPane
-  grid.padding = Insets(Padding)
-  for ((node, index) <- nodes.zipWithIndex) {
-    grid.add(node, 1, index + 1)
-  }
-
-  val scene = new Scene(grid, Width, Height)
-  scene.fill = Color.LIGHTGRAY
-  stage.setScene(scene)
 }
