@@ -1,7 +1,7 @@
 ﻿using System;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions.Errors
 {
     public class LexerError : QLError
     {

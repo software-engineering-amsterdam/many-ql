@@ -2,9 +2,11 @@ using System;
 using System.Runtime.Serialization;
 using QL.Model;
 
-namespace QL.Errors
+namespace QL.Exceptions
 {
     public class QLException : Exception
+        /* Base class for all QL related exceptions
+         */
     {
         public SourceLocation SourceLocation { get; protected set; }
 
@@ -31,6 +33,11 @@ namespace QL.Errors
         public QLException(string message, ElementBase source) : base(message)
         {
             SourceLocation = source.SourceLocation;
+        }
+
+        public QLException(string message, SourceLocation source) : base(message)
+        {
+            SourceLocation = source;
         }
 
         public QLException(string message, Exception inner) : base(message, inner)
