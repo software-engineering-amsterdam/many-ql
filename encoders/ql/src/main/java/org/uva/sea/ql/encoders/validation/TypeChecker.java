@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.visitor;
+package org.uva.sea.ql.encoders.validation;
 
 import static org.uva.sea.ql.encoders.message.Messages.getString;
 
@@ -22,7 +22,7 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.IntegerType;
 import org.uva.sea.ql.encoders.ast.type.StringType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
-import org.uva.sea.ql.encoders.validation.TypeValidation;
+import org.uva.sea.ql.encoders.visitor.ExpressionVisitor;
 
 public class TypeChecker implements ExpressionVisitor<DataType> {
 
