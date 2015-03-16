@@ -16,8 +16,7 @@ class Evaluator(object):
         self._questionTable = QuestionTable()
         self._questionValueTable = QuestionValueTable()
         self._operatorTable = OperatorTable()
-        self._forms = []
-
+    
     def evaluateBinaryExpression(self, operator, leftValue, rightValue):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
         if pythonOp:
@@ -65,16 +64,15 @@ class Evaluator(object):
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
-        self._currentQuestions = []
+        self._currentForm = None
         self._conditionalStatements = ExpressionsList()
 
-    def visitQuestionnaire(self, node):
+    def visitQuestionnaireEnd(self, node):
         return self._evaluator
 
-    def visitFormStatement(self, node):
-        form = Form(node.identifier, self._currentQuestions)
-        self._currentQuestions = []
-        return form
+    def visitFormStatementBegin(self, node):
+        form = Form(node.identifier)
+        self._currentForm = form
 
     def visitQuestionStatement(self, node):
         if node.expr:
@@ -93,38 +91,28 @@ class Visitor(ASTStatementVisitor):
 
         return question
 
-    def _visitIfStatement(self, node):
+    def visitIfStatementBegin(self, node):
         expressionVisitor = ExpressionVisitor(self._evaluator)
         expression = node.expr.accept(expressionVisitor)
         
         self._conditionalStatements.append(expression)
-        self._conditionalStatements.pop()
-
-    def _visitAtomicExpression(self, node):
-        return AtomicExpression(self.visit(node.left))
-
-    def _visitUnaryExpression(self, node):
-        expr = self.visit(node.right)
-        return UnaryExpression(node.op, expr, self._evaluator)
-
-    def _visitBinaryExpression(self, node):
-        leftExpr = self.visit(node.left)
-        rightExpr = self.visit(node.right)
-        return BinaryExpression(leftExpr, node.op, rightExpr, self._evaluator)
+        
+    def visitIfStatementEnd(self, node):
+        return self._conditionalStatements.pop()
 
 class ExpressionVisitor(ASTExpressionVisitor):
     def __init__(self, evaluator):
         self._evaluator = evaluator
         self._expressionStack = []
 
-    def visitUnaryExpression(self, node):
+    def visitUnaryExpressionEnd(self, node):
         expr = self._expressionStack.pop()
         
         unaryExpression = UnaryExpression(node.op, expr, self._evaluator)
         self._expressionStack.append(unaryExpression)
         return unaryExpression
 
-    def visitBinaryExpression(self, node):
+    def visitBinaryExpressionEnd(self, node):
         right = self._expressionStack.pop()
         left = self._expressionStack.pop()
         
