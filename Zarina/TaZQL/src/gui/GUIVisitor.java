@@ -20,10 +20,10 @@ import ast.question.Question;
 import ast.question.SimpleQuestion;
 
 public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
-	private final GUIRender gui;
+	private final GUIRenderer gui;
 	private final ValueRepository valueRepository;
 	
-	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
+	public GUIVisitor(GUIRenderer gui, ValueRepository valueRepository) {
 		this.gui = gui;
 		this.valueRepository = valueRepository;
 	} 
