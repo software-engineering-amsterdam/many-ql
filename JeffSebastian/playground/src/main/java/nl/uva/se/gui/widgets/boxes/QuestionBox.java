@@ -1,4 +1,4 @@
-package nl.uva.se.gui.elements;
+package nl.uva.se.gui.widgets.boxes;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -6,12 +6,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import nl.uva.se.gui.Validator;
+import nl.uva.se.gui.validators.Validator;
+import nl.uva.se.gui.widgets.questions.BooleanQuestion;
+import nl.uva.se.gui.widgets.questions.TextQuestion;
 import nl.uva.se.ql.ast.statement.Question;
 
 public class QuestionBox extends VBox {
-
-	private Validator validator = new Validator();
+	
 	private final Question question;
 
 	public QuestionBox(Question question) {
@@ -20,19 +21,19 @@ public class QuestionBox extends VBox {
 	}
 
 	public void addQuestion(Question question) {
-		Text title = new Text(question.getLabel());
+		//TODO: Use a Visitor 
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		this.getChildren().add(title);
 
 		if (question.getType().getTypeName().equals("boolean")) {
-			BooleanQuestionBox booleanQuestionBox = new BooleanQuestionBox(
+			BooleanQuestion booleanQuestionBox = new BooleanQuestion(
 					question);
 			booleanQuestionBox.selectedProperty().addListener(
 					addCheckBoxListener(booleanQuestionBox));
 
 			this.getChildren().add(booleanQuestionBox);
 		} else {
-			TextQuestionBox textQuestionBox = new TextQuestionBox(question);
+			TextQuestion textQuestionBox = new TextQuestion(question);
 			textQuestionBox.textProperty().addListener(
 					addTextBoxListener(textQuestionBox));
 
@@ -45,7 +46,7 @@ public class QuestionBox extends VBox {
 	}
 
 	private ChangeListener<String> addTextBoxListener(
-			final TextQuestionBox textQuestionBox) {
+			final TextQuestion textQuestionBox) {
 		return new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable,
@@ -62,7 +63,7 @@ public class QuestionBox extends VBox {
 	}
 
 	private ChangeListener<Boolean> addCheckBoxListener(
-			BooleanQuestionBox booleanQuestionBox) {
+			BooleanQuestion booleanQuestionBox) {
 		return new ChangeListener<Boolean>() {
 
 			public void changed(ObservableValue<? extends Boolean> observable,
