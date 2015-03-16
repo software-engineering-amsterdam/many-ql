@@ -1,13 +1,12 @@
 package com.form.language.ast.expression;
 
-import org.antlr.v4.runtime.Token;
-
+import com.form.language.error.QLToken;
 import com.form.language.memory.IdCollection;
 
 public abstract class UnaryExpression extends Expression {
     protected Expression value;
 
-    protected UnaryExpression(Expression value, Token tokenInfo) {
+    protected UnaryExpression(Expression value, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.value = value;
     }

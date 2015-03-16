@@ -1,6 +1,6 @@
 package nl.uva.bromance.ast;
 
-public class QLSStylesheet extends Node {
+public class QLSStylesheet extends QLSNode {
 
     public QLSStylesheet(int lineNumber) {
         super(lineNumber, QLSStylesheet.class);
@@ -12,7 +12,7 @@ public class QLSStylesheet extends Node {
             System.out.print("\t");
         }
         System.out.print("[Stylesheet] { }\n");
-        for (Node n : getChildren()) {
+        for (QLSNode n : this.getChildren()) {
             n.printDebug(i + 1);
         }
     }

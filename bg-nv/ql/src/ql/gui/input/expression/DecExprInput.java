@@ -4,11 +4,11 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.gui.control.DecimalControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.DecimalValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.DecValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -31,7 +31,7 @@ public class DecExprInput extends ExprInput
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());
@@ -47,19 +47,8 @@ public class DecExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof DecimalValue;
-            this.control.setValue((DecimalValue)val);
-        }
-        else 
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue((UndefinedValue)val);
-        }
+        this.control.setValue(value);
     }
 }

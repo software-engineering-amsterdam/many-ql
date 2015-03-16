@@ -29,7 +29,7 @@ public class Section extends PageSegment implements ASTNode {
     }
 
     @Override
-    public <T> T visit(final SegmentVisitor<T> visitor) {
+    public <T> T accept(final SegmentVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

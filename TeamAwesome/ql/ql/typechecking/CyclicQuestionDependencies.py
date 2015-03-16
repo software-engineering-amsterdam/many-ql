@@ -12,7 +12,8 @@ class Checker(Checker.StatementChecker):
         dependencyChains = self._questionDependencyChains([], node)
         for chain in dependencyChains:
             if chain[-1] in chain[:-1]:
-                self._result = self._result.withError(
+                self._result = self._resultAlg.withError(
+                    self._result,
                     Message.Error(
                         'there is a question dependency cycle: '\
                        +' <- '.join([q.identifier for q in chain])\
@@ -25,9 +26,9 @@ class Checker(Checker.StatementChecker):
                 )
 
     def _questionDependencyChains(self, breadcrumbs, node):
+        cycleFound = node in breadcrumbs
+        
         breadcrumbs.append(node)
-
-        cycleFound = node in breadcrumbs[:-1] 
 
         if node.expr is None or cycleFound:
             return [breadcrumbs]

@@ -28,11 +28,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
             FalseLabel = falseLabel;
         }
 
-        public override void Accept(IQLSVisitor visitor)
-        {
-            visitor.VisitDropDown(this);
-        }
-
         public override T Accept<T>(IQLSVisitor<T> visitor)
         {
             return visitor.VisitDropDown(this);

@@ -1,27 +1,27 @@
 package evaluator;
 
-import ast.expression.BracketsExpression;
+import ast.expression.Brackets;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
-import ast.expression.arithmetic.AdditionExpression;
-import ast.expression.arithmetic.DivisionExpression;
-import ast.expression.arithmetic.MultiplicationExpression;
-import ast.expression.arithmetic.SubstractionExpression;
-import ast.expression.comparison.EqualExpression;
-import ast.expression.comparison.GreaterEqualExpression;
-import ast.expression.comparison.GreaterThanExpression;
-import ast.expression.comparison.LessEqualExpression;
-import ast.expression.comparison.LessThanExpression;
-import ast.expression.comparison.NotEqualExpression;
-import ast.expression.logical.AndExpression;
-import ast.expression.logical.OrExpression;
+import ast.expression.arithmetic.Addition;
+import ast.expression.arithmetic.Division;
+import ast.expression.arithmetic.Multiplication;
+import ast.expression.arithmetic.Substraction;
+import ast.expression.comparison.Equal;
+import ast.expression.comparison.GreaterEqual;
+import ast.expression.comparison.GreaterThan;
+import ast.expression.comparison.LessEqual;
+import ast.expression.comparison.LessThan;
+import ast.expression.comparison.NotEqual;
+import ast.expression.logical.And;
+import ast.expression.logical.Or;
 import ast.expression.variables.BooleanVariable;
 import ast.expression.variables.Id;
 import ast.expression.variables.IntegerVariable;
 import ast.expression.variables.StringVariable;
-import ast.unary.MinusExpression;
-import ast.unary.NotExpression;
-import ast.unary.PlusExpression;
+import ast.unary.Minus;
+import ast.unary.Not;
+import ast.unary.Plus;
 
 public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 
@@ -32,7 +32,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 	
 	@Override
-	public Value visit(MultiplicationExpression expr) {
+	public Value visit(Multiplication expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -40,7 +40,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(DivisionExpression expr) {
+	public Value visit(Division expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -48,7 +48,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(AdditionExpression expr) {
+	public Value visit(Addition expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -56,7 +56,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(SubstractionExpression expr) {
+	public Value visit(Substraction expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -64,7 +64,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(EqualExpression expr) {
+	public Value visit(Equal expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -72,7 +72,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(NotEqualExpression expr) {
+	public Value visit(NotEqual expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -80,7 +80,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(LessThanExpression expr) {
+	public Value visit(LessThan expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -88,7 +88,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(GreaterThanExpression expr) {
+	public Value visit(GreaterThan expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -96,7 +96,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(LessEqualExpression expr) {
+	public Value visit(LessEqual expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -104,7 +104,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(GreaterEqualExpression expr) {
+	public Value visit(GreaterEqual expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -112,14 +112,14 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(NotExpression expr) {
+	public Value visit(Not expr) {
 		Value value = expr.getUnaryExpression().accept(this);
 		
 		return value.not();
 	}
 
 	@Override
-	public Value visit(PlusExpression expr) {
+	public Value visit(Plus expr) {
 		Value value = expr.getUnaryExpression().accept(this);
 		
 		return value.plus();
@@ -127,7 +127,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(MinusExpression expr) {
+	public Value visit(Minus expr) {
 		Value value = expr.getUnaryExpression().accept(this);
 		
 		return value.minus();
@@ -135,7 +135,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(AndExpression expr) {
+	public Value visit(And expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -143,7 +143,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(OrExpression expr) {
+	public Value visit(Or expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
 		
@@ -151,8 +151,8 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(BracketsExpression expr) {
-		return expr.getUnaryExpression().accept(this);
+	public Value visit(Brackets expr) {
+		return expr.getBracketsExpression().accept(this);
 	}
 	
 	@Override

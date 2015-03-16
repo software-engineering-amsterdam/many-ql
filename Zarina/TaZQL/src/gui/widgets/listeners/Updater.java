@@ -1,7 +1,7 @@
 package gui.widgets.listeners;
 
 import evaluator.ValueRepository;
-import gui.GUIRender;
+import gui.GUIRenderer;
 import gui.questions.IQuestionUI;
 import gui.questions.SimpleQuestionUI;
 
@@ -10,12 +10,12 @@ import java.util.Set;
 import ast.expression.Expression;
 
 public class Updater {
-	private final GUIRender render;
+	private final GUIRenderer render;
 	private final ValueRepository valueRepository;
 	private final Expression expression;
 	private EvaluateExpression evaluator = null;
 
-	public Updater(Expression expression, GUIRender render, ValueRepository valueRepository) {
+	public Updater(Expression expression, GUIRenderer render, ValueRepository valueRepository) {
 		this.valueRepository = valueRepository;
 		this.render = render;
 		this.expression = expression;

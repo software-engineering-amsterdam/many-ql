@@ -1,12 +1,10 @@
 package com.form.language.error;
 
-import org.antlr.v4.runtime.Token;
-
 public class Error {
-    private Token offendingToken;
+    private QLToken offendingToken;
     private String message;
 
-    public Error(Token offendingToken, String message) {
+    public Error(QLToken offendingToken, String message) {
 	this.offendingToken = offendingToken;
 	this.message = message;
     }

@@ -24,25 +24,25 @@ public class ExprEvaluator implements ExprVisitor<Value>
     @Override
     public Value visit(BoolExpr e)
     {
-        return new BooleanValue(e.getValue());
+        return new BoolValue(e.getValue());
     }
 
     @Override
     public Value visit(IntExpr e)
     {
-        return new IntegerValue(e.getValue());
+        return new IntValue(e.getValue());
     }
 
     @Override
     public Value visit(DecExpr e)
     {
-        return new DecimalValue(e.getValue());
+        return new DecValue(e.getValue());
     }
 
     @Override
     public Value visit(StrExpr e)
     {
-        return new StringValue(e.getValue());
+        return new StrValue(e.getValue());
     }
 
     @Override

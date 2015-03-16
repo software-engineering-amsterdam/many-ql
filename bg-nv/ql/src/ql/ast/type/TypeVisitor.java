@@ -10,5 +10,5 @@ public interface TypeVisitor<T>
     public T visit(DecType type);
     public T visit(IntType type);
     public T visit(StrType type);
-    public T visit(UndefinedType type);
+    public T visit(UndefType type);
 }

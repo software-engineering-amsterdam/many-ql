@@ -1,7 +1,6 @@
 package com.klq.ast.impl.expr;
 
-import com.common.ast.Location;
-import com.klq.ast.IVisitor;
+import com.klq.ast.Location;
 
 /**
  * Created by Juriaan on 21-2-2015.
@@ -28,11 +27,6 @@ public abstract class ABinaryExprNode extends AExpression {
 
     public AExpression getRightChild() {
         return rightChild;
-    }
-
-    @Override
-    public <T> T accept(IVisitor<T> visitor) {
-        return visitor.visit(this);
     }
 
     //for testing purposes, maybe remove later?

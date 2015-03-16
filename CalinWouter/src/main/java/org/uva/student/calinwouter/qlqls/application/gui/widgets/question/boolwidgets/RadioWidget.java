@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
@@ -20,7 +21,7 @@ public class RadioWidget implements IWidget {
         return btnPanelYesNo;
     }
 
-    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTable symbolTable, Radio radio) {
+    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
         JRadioButton yesBtn = new JRadioButton(radio.getYesLbl());
         JRadioButton noBtn = new JRadioButton(radio.getNoLbl());
@@ -33,18 +34,17 @@ public class RadioWidget implements IWidget {
         yesBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("true");
-                symbolTable.setVariable(question.getIdent(), new BoolValue(true));
-                qlIntepreter.interpret();
+                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(true));
+                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
             }
         });
 
         noBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("false");
-                symbolTable.setVariable(question.getIdent(), new BoolValue(false));
-                qlIntepreter.interpret();
+                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(false));
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }

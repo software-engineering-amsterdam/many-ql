@@ -4,11 +4,11 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.gui.control.IntegerControl;
 import ql.semantics.ValueTable;
-import ql.semantics.values.IntegerValue;
-import ql.semantics.values.UndefinedValue;
+import ql.semantics.values.IntValue;
+import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 /**
@@ -31,7 +31,7 @@ public class IntExprInput extends ExprInput
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());
@@ -47,19 +47,8 @@ public class IntExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof IntegerValue;
-            this.control.setValue((IntegerValue)val);
-        }
-        else
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue((UndefinedValue)val);
-        }
+        this.control.setValue(value);
     }
 }

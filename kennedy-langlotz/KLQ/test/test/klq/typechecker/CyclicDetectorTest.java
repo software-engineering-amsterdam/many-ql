@@ -1,6 +1,6 @@
 package test.klq.typechecker;
 
-import com.klq.typecheker.CyclicDetector;
+import com.klq.typechecker.CyclicDetector;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

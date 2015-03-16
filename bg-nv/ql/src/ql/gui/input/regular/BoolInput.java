@@ -5,9 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
 import ql.gui.control.BooleanControl;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.semantics.ValueTable;
-import ql.semantics.values.BooleanValue;
+import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 /**
@@ -44,7 +44,7 @@ public class BoolInput extends RegularInput<Boolean>
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
         box.getChildren().add(this.control.getGuiElement());
@@ -64,7 +64,7 @@ public class BoolInput extends RegularInput<Boolean>
     public Value convertUserInputToValue(Boolean userInput)
     {
         this.resetValidation();
-        return new BooleanValue(userInput);
+        return new BoolValue(userInput);
     }
 
     @Override

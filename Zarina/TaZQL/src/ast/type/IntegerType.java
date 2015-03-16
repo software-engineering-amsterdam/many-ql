@@ -5,7 +5,7 @@ public class IntegerType extends Type {
 	public IntegerType() {}
 	
 	@Override
-	public String getValue() {
+	public String getName() {
 		return "digits";
 	}
 			

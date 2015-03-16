@@ -9,9 +9,7 @@ module QLS
       end
 
       def accept(visitor)
-        rules.map do |rule|
-          rule.accept(visitor)
-        end
+        visitor.visit(self)
       end
     end
 

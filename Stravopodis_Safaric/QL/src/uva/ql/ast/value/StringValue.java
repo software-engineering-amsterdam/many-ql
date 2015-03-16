@@ -1,20 +1,31 @@
 package uva.ql.ast.value;
 
+import uva.ql.ast.type.TypeString;
+
 public class StringValue extends GenericValue<String> {
 
 	private String value;
 	
 	public StringValue(String _value){
-		this.value = _value;
-		
+		this.value = _value;	
 	}
 	
 	@Override
 	public String getValue() {
 		return this.value;
 	}
+
+	@Override
+	public TypeString getValueType() {
+		return new TypeString();
+	}
 	
 	@Override
-	public int intValue() {return 0;}
+	public boolean equalsTo(GenericValue<?> value) {
+		if (value == null){
+			return false;
+		}
+		return value.getValue() == this.getValue();
+	}
 	
 }

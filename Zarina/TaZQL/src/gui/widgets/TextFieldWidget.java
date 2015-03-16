@@ -1,14 +1,14 @@
 package gui.widgets;
 
-import evaluator.Value;
-import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
-import gui.widgets.listeners.TextListener;
-
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import ast.type.Type;
+import evaluator.StringValue;
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.TextListener;
 
 
 public class TextFieldWidget implements IWidgetComponent {
@@ -39,18 +39,14 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public String getValue() {
-		return widget.getText();
+	public Value getValue() {
+		return new StringValue(widget.getText());
 	}
 	
 	@Override
-	public void setValue(String value) {
-		value = valueRepository.getValue(id).toString(); 
-	}
-	
-	@Override
-	public void setText(Value value) {
-		widget.setText("" + value.toString());	
+	public void setValue(Value value) {
+		value = valueRepository.getValue(id); 
+		widget.setText("" + value.toString());
 	}
 	
 	@Override
@@ -63,16 +59,6 @@ public class TextFieldWidget implements IWidgetComponent {
 		widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
 	}
 
-	@Override
-	public boolean getBooleanValue() {
-		assert false: "Can't be used in TextField.";
-		return false;
-	}
-
-	@Override
-	public void setBooleanValue(boolean value) {
-		assert false: "Can't be used for text widget, only for checkbox widget.";
-	}
 
 	@Override
 	public void setVisible(boolean visibility) {

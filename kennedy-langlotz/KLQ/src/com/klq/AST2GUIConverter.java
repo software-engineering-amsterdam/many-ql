@@ -1,11 +1,8 @@
 package com.klq;
 
 import com.klq.ast.ANode;
-import com.klq.ast.IVisitor;
-import com.klq.ast.impl.ComputedQuestionNode;
-import com.klq.ast.impl.ConditionalNode;
-import com.klq.ast.impl.QuestionNode;
-import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.IStatementVisitor;
+import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
@@ -21,17 +18,10 @@ import com.klq.logic.controller.Store;
 import com.klq.logic.question.*;
 import com.klq.ast.impl.expr.value.*;
 
-import java.util.HashMap;
-
 /**
  * Created by juriaan on 17-2-15.
  */
-public class AST2GUIConverter implements IVisitor<IKLQItem> {
-    private HashMap<String, IdentifierNode> identifiers;
-
-    public AST2GUIConverter(){
-        this.identifiers = new HashMap<String, IdentifierNode>();
-    }
+public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     /*==================================================================================================================
     Statements
@@ -39,7 +29,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
     @Override
     public IKLQItem visit(QuestionnaireNode node) {
         Store store = new Store();
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 Question question = (Question) child.accept(this);
                 store.add(question);
@@ -60,7 +50,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         QuestionList questionList = new QuestionList();
 
         //todo refactor
-        for(ANode child : node.getChildren()){
+        for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 Question question = (Question) child.accept(this);
                 question.addDependency(expr);
@@ -83,7 +73,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        return new Question(id, type, null, text);
+        return new Question(id, type, text);
     }
 
     @Override
@@ -92,96 +82,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        OptionSet options = new OptionSet();
-        for(AExpression child : node.getChildren()){
-            options.add(child);
-        }
-        return new Question(id, type, options, text);
-    }
-
-    @Override
-    public IKLQItem visit(ANode node) {
-        return visit(node);
-    }
-
-    @Override
-    public IKLQItem visit(StringNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(NumberNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(DateNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(IdentifierNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(MultiplyNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(DivideNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(AddNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(SubtractNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(GreaterThanNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(GreaterEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(LessThanNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(LessEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(EqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(NotEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(AndNode node) {
-        return null;
-    }
-
-    @Override
-    public IKLQItem visit(OrNode node) {
-        return null;
+        return new Question(id, type, text, node.getComputedAnswer());
     }
 
     /*
