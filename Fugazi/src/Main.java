@@ -100,13 +100,13 @@ public class Main {
             System.exit(-1);
         }
 
-        // todo: temporary to test QLS.
-//        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-//        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-//        guiBuilder.renderUI();
-        
         // QL
-        GUIBuilder guiBuilder = new GUIBuilder(form);
+//        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+//        guiBuilder.renderUI();
+
+        // QLS
+        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
         guiBuilder.renderUI();
     }
 }

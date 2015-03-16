@@ -2,6 +2,7 @@ package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -28,9 +29,15 @@ public class TextBox implements IWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        return this.panel;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.panel);
     }
+
+    @Override
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.panel);
+    }
+
 
     @Override
     public void addEventListener(EventListener _listener) {

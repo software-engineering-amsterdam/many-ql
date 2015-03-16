@@ -5,6 +5,7 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -37,8 +38,13 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        return spinbox;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.spinbox);
+    }
+
+    @Override
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.spinbox);
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
@@ -29,7 +30,12 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
+    public void render(UIForm _canvas) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void supress(UIForm _canvas){
         throw new AssertionError();
     }
 
