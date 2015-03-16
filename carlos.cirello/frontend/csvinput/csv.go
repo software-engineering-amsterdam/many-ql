@@ -48,13 +48,18 @@ func (i *input) readAnswers() (answers map[string]string) {
 }
 
 func (i *input) handshake() {
-	// handshake
+	i.sendHandshake()
+	i.unlockInterpreter()
+}
+
+func (i *input) sendHandshake() {
 	<-i.receive
 	i.send <- &plumbing.Frontend{
 		Type: plumbing.ReadyT,
 	}
+}
 
-	// skip rendering
+func (i *input) unlockInterpreter() {
 renderingSkipLoop:
 	for {
 		select {
@@ -64,6 +69,7 @@ renderingSkipLoop:
 			}
 		}
 	}
+
 }
 
 func (i *input) sendAnswers(answers map[string]string) {
