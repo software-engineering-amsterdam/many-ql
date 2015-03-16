@@ -31,6 +31,12 @@ func (exec Execute) MathDivNode(n *ast.MathDivNode) float32 {
 	return left / right
 }
 
+// MathModNode is the visitor for divistion operation nodes.
+func (exec Execute) MathModNode(n *ast.MathModNode) float32 {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	return float32(int(left) % int(right))
+}
+
 // MathTermNode is the visitor for deepest TermNodes nodes that holds a number.
 func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 	value := exec.resolveTermNode(s)

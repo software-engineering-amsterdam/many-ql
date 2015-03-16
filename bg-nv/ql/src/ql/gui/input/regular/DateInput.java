@@ -2,7 +2,7 @@ package ql.gui.input.regular;
 
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
-import ql.gui.control.ControlType;
+import ql.gui.control.Control;
 import ql.semantics.ValueTable;
 import ql.semantics.values.Value;
 
@@ -23,7 +23,7 @@ public class DateInput extends RegularInput<String>
     }
 
     @Override
-    protected VBox createInputNode(ControlType control)
+    protected VBox createInputNode(Control control)
     {
         return null;
     }

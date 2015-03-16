@@ -5,10 +5,10 @@ namespace AST.Nodes.Literals
     public class String : Literal
     {
         private readonly string value;
-        public String(string value)
-        {
-            this.value = value;
-        }
+        //public String(string value)
+        //{
+        //    this.value = value;
+        //}
         public String(string value, PositionInText positionInText)
             : base(positionInText)
         {
@@ -46,7 +46,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal StringEqual(Literals.String stringValue)
         {
-            return new Bool(GetValue().Equals(stringValue.GetValue()));
+            return new Bool(GetValue().Equals(stringValue.GetValue()), GetPosition());
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace AST.Nodes.Literals
         }
         public override Literal StringNotEqual(Literals.String stringValue)
         {
-            return new Bool(!GetValue().Equals(stringValue.GetValue()));
+            return new Bool(!GetValue().Equals(stringValue.GetValue()), GetPosition());
         }
         #endregion
     }

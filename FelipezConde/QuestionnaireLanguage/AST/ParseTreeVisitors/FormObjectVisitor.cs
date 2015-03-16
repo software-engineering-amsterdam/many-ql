@@ -1,4 +1,5 @@
-﻿using AST.Nodes.Expression;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions;
 using AST.Nodes.FormObject;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
@@ -16,20 +17,18 @@ namespace AST.ParseTreeVisitors
             string identifier = context.id().GetText();
             PositionInText IdPosition = new PositionInText(context.id());
             PositionInText position = new PositionInText(context);
-
+            
             Types.Type typeName = context.type().Accept(new TypeVisitor());
 
-            QLMainParser.LabelContext labelContext = context.label();
-            Label label = new Label(labelContext.STRINGLITERAL().GetText(), new PositionInText(labelContext));
-            IExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
+            Expression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
 
-            return new Question(new Id(identifier,IdPosition), typeName, label, computation,
+            return new Question(new Id(identifier,IdPosition), typeName, MakeLabel(context.label()), computation,
                                 position);
         }
 
         public override FormObject VisitConditional(QLMainParser.ConditionalContext context)
         {
-            IExpression condition = context.expression().Accept(new ExpressionVisitor());
+            Expression condition = context.expression().Accept(new ExpressionVisitor());
 
             List<FormObject> body = context.formSection()
                                          .formObject()
@@ -38,6 +37,12 @@ namespace AST.ParseTreeVisitors
 
             return new Conditional(condition, body, new PositionInText(context));
 
+        }
+
+        private Label MakeLabel(QLMainParser.LabelContext context)
+        {
+            string labelText = context.STRINGLITERAL().GetText();
+            return new Label(labelText.Substring(1, labelText.Length - 2), new PositionInText(context));
         }
     }
 }

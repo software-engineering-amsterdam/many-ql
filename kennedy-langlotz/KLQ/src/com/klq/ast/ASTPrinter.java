@@ -44,9 +44,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Computed Question Node");
         node.printSelf();
         printLine();
-        for(ANode child : node.getChildren()){
-            child.accept(this);
-        }
+        node.getComputedAnswer().accept(this);
         return null;
     }
 

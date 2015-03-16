@@ -1,13 +1,19 @@
 package ql.gui.control;
 
-import ql.gui.GuiElement;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Node;
+import ql.semantics.values.Value;
+import ql.semantics.values.ValueVisitor;
 
 /**
  * Created by Nik on 10-3-15.
  */
-public abstract class Control extends GuiElement
+public interface Control extends ValueVisitor
 {
-    public Control(Boolean visible, Boolean disabled)
-    {
-    }
+    public void setDisabled(Boolean disabled);
+    public void setVisible(Boolean visible);
+    public void setValue(Value value);
+    public Node getGuiElement();
+
+    public void addListener(ChangeListener listener);
 }

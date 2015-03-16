@@ -3,19 +3,19 @@ package org.uva.student.calinwouter.qlqls.ql;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.PFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.model.ResultingFieldsCollection;
 
 public class QLInterpreter {
+    private final AForm aForm;
 
-    /**
-     * Interpret the provided form using the provided variable table.
-     * @return the collected fields.
-     */
-    public ResultingFieldsCollection interpret(AForm aForm, VariableTable variableTable) {
-        ResultingFieldsCollection form = new ResultingFieldsCollection();
-        PFormInterpreter formInterpreter = new PFormInterpreter(variableTable, form);
+    public VariableTable interpret(VariableTable oldVariableTable) {
+        VariableTable newVariableTable = new VariableTable();
+        PFormInterpreter formInterpreter = new PFormInterpreter(oldVariableTable, newVariableTable);
         aForm.apply(formInterpreter);
-        return form;
+        return newVariableTable;
+    }
+
+    public QLInterpreter(AForm aForm) {
+        this.aForm = aForm;
     }
 
 }

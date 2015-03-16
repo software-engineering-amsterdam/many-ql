@@ -2,8 +2,8 @@ from typechecking import Message
 from . import Checker
 
 class Checker(Checker.StatementChecker):
-    def __init__(self, ast, resultADT):
-        super().__init__(ast, resultADT)
+    def __init__(self, ast, resultAlg):
+        super().__init__(ast, resultAlg)
         self._labels = {}
 
     def _visitRoot(self, node):
@@ -12,7 +12,8 @@ class Checker(Checker.StatementChecker):
         for text, lines in self._labels.items():
             if len(lines) > 1:
                 for l in lines:
-                    self._result = self._result.withWarning(
+                    self._result = self._resultAlg.withWarning(
+                        self._result,
                         Message.Warning(
                             'duplicate question label `'+text+'`',
                             l

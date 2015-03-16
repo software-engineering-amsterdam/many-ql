@@ -30,11 +30,14 @@ class Checker(Checker.StatementChecker):
         if widgetType is not None and \
             not _isCompatible(questionType, widgetType):
 
-            self._result = self._result.withError(Message.Error(
-                'widget type `'+widgetType+'` is not compatible '\
-               +'question type `'+questionType+'`',
-               node
-            ))
+            self._result = self._resultAlg.withError(
+                self._result,
+                Message.Error(
+                    'widget type `'+widgetType+'` is not compatible '\
+                   +'question type `'+questionType+'`',
+                   node
+                )
+            )
 
 
 

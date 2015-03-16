@@ -4,33 +4,33 @@ import ast.expression.variables.Id;
 import ast.type.Type;
 
 public class SimpleQuestion extends Question {
-	private final Id questionID;
-	private final String questionText;
-	private final Type questionType;
+	private final Id ID;
+	private final String TEXT;
+	private final Type TYPE;
 	
 	
 	public SimpleQuestion (Id questionID, String questionText, Type questionType) {
-		this.questionID = questionID;
-		this.questionText = questionText;
-		this.questionType = questionType;
+		this.ID = questionID;
+		this.TEXT = questionText;
+		this.TYPE = questionType;
 	}	
 	
 	public Id getQuestionId(){
-		return questionID;
+		return ID;
 	}
 	
 	public String getQuestionText(){
-		return questionText;
+		return TEXT;
 	}
 	
 	public Type getQuestionType(){
-		return questionType;
+		return TYPE;
 	}
 	
 
 	@Override
 	public String toString() {
-		return this.questionID.toString() + " \"" + this.questionText + "\" " + this.questionType.toString() ;
+		return this.ID.toString() + " \"" + this.TEXT + "\" " + this.TYPE.toString() ;
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-﻿using AST.Nodes.Expression;
+﻿using AST.Nodes.Expressions;
 using AST.Nodes.Interfaces;
 using AST.Nodes.Labels;
 using AST.Representation;
@@ -8,14 +8,14 @@ namespace AST.Nodes.FormObject
     public class Question : FormObject, IHasType
     {
         public Label Label {get; private set;}
-        public IExpression Computation {get; private set;}
+        public Expression Computation {get; private set;}
         public Id Identifier {get; private set;}
         private Types.Type type;
 
         public Question(Id identifier,
                         Types.Type type,
                         Label label,
-                        IExpression computation,
+                        Expression computation,
                         PositionInText positionInText)
             : base(positionInText)
         {

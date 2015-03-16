@@ -1,6 +1,6 @@
 package com.klq.ast.impl;
 
-import com.common.ast.Location;
+import com.klq.ast.Location;
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 import com.klq.logic.question.Type;
