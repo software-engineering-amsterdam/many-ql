@@ -1,6 +1,6 @@
-package nl.uva.se.visitor;
+package nl.uva.se.gui.widgets;
 
-import nl.uva.se.gui.elements.QuestionPane;
+import nl.uva.se.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.form.FormVisitor;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
@@ -11,14 +11,15 @@ import nl.uva.se.ql.evaluation.ExpressionEvaluator;
 import nl.uva.se.ql.evaluation.ValueTable;
 import nl.uva.se.ql.evaluation.value.Value;
 
-public class GuiVisitor implements StatementVisitor, FormVisitor {
+public class GuiBuilder implements StatementVisitor, FormVisitor {
 	
 	private QuestionPane questionPane;
 		
 	private ValueTable values;
 	
-	public GuiVisitor(ValueTable values) {
+	public GuiBuilder(ValueTable values) {
 		this.values = values;
+		System.out.println("the valuetable"+values);
 	}
 	
 	public void visit(Question question) {
@@ -31,20 +32,13 @@ public class GuiVisitor implements StatementVisitor, FormVisitor {
 	}
 	
 	public void visit(Condition condition) {
-		ConditionVisitor conditionVisitor = new ConditionVisitor(condition);
-		questionPane.addConditionBox(conditionVisitor.getConditionBox());
-		//TODO CLEAN THIS UP
-		/*Value<Boolean> value = ExpressionEvaluator.evaluate(condition.getExpression(), values);
-		
-		if (!value.isUndefined() && value.getValue()) {
-			isFromCondition = true;
-			condition.visitChildren(this);
-		}
-		isFromCondition = false;*/
+		ConditionBuilder conditionVisitor = new ConditionBuilder(condition);
+		questionPane.addConditionBox(conditionVisitor.getConditionBox());	
+		System.out.println("the condition: " + condition.getStatements());
 	}
 
 	public void visit(Form form) {
-		questionPane = new QuestionPane(form);
+		questionPane = new QuestionPane(form, values);
 		form.visitChildren(this);
 	}
 	

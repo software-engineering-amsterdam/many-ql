@@ -29,17 +29,23 @@ public class IntegerType implements QuestionType {
     @Override
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
         TextField tf = new TextField();
-        String answer = answerMap.get(q.getIdentifier().get().getId());
+        String id = q.getIdentifier().get().getId();
+
+        String answer = answerMap.get(id);
         if (answer != null) {
             tf.setText(answer);
         }
+        if (visualizer.getFocusId() != null && visualizer.getFocusId().equals(id)) {
+            visualizer.setFocusedNode(tf);
+        }
+
         // Disable any input other than numbers
         tf.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*")) {
                 tf.setText(oldValue);
             } else {
-                answerMap.put(q.getIdentifier().get().getId(), newValue);
-                visualizer.visualize();
+                answerMap.put(id, newValue);
+                visualizer.visualize(id);
             }
         });
         parent.getChildren().add(tf);

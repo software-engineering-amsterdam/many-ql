@@ -47,19 +47,8 @@ public class DecExprInput extends ExprInput
     }
 
     @Override
-    public void refreshElement(ValueTable valueTable)
+    public void setValue(Value value)
     {
-        Value val = valueTable.getValue(this.getId());
-
-        if (!val.isUndefined())
-        {
-            assert val instanceof DecimalValue;
-            this.control.setValue((DecimalValue)val);
-        }
-        else 
-        {
-            assert val instanceof UndefinedValue;
-            this.control.setValue((UndefinedValue)val);
-        }
+        this.control.setValue(value);
     }
 }

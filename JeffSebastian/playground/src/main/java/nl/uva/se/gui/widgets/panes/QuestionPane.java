@@ -1,4 +1,4 @@
-package nl.uva.se.gui.elements;
+package nl.uva.se.gui.widgets.panes;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,20 +8,25 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import nl.uva.se.gui.widgets.boxes.ConditionBox;
+import nl.uva.se.gui.widgets.boxes.QuestionBox;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.evaluation.ValueTable;
 
 public class QuestionPane extends BorderPane {
 
 	private VBox vbox;
 	public final Form form;
+	private ValueTable values;
 
-	public QuestionPane(Form form) {
+	public QuestionPane(Form form, ValueTable values) {
 		this.form = form;
 		vbox = new VBox();
 		this.setBottom(addHBox());
 		this.setLeft(vbox);
+		this.values = values;
 	}
 
 	private HBox addHBox() {

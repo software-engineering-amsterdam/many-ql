@@ -1,18 +1,21 @@
-package nl.uva.se.visitor;
+package nl.uva.se.gui.widgets;
 
-import nl.uva.se.gui.elements.ConditionBox;
-import nl.uva.se.gui.elements.QuestionBox;
+import nl.uva.se.gui.widgets.boxes.ConditionBox;
+import nl.uva.se.gui.widgets.boxes.QuestionBox;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
 
-public class ConditionVisitor implements StatementVisitor{
+public class ConditionBuilder implements StatementVisitor{
 		
 	private final ConditionBox conditionBox;
 	
-	public ConditionVisitor(Condition condition){			
+	public ConditionBuilder(Condition condition){			
 		this.conditionBox = new ConditionBox(condition);
+		System.out.println(condition.getExpression().getLineNumber());
+		System.out.println(condition.getExpression().getOffset());
+		System.out.println(condition.getExpression());
 		visit(condition);
 	}
 

@@ -12,14 +12,9 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
 {
     public class Increment : UnaryExpression
     {
-        internal Increment(Operation operation, IExpression operand, TextPosition position)
+        internal Increment(Operation operation, Expression operand, TextPosition position)
             :base(operation, operand, position)
         {
-        }
-
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override T Accept<T>(IQLVisitor<T> visitor)

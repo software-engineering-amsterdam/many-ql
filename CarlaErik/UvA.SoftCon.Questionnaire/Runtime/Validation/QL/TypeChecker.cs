@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     /// <summary>
     /// Checks if expressions are valid to their operators and variables.
     /// </summary>
-    public class TypeCheckingVisitor : QLVisitor
+    public class TypeChecker : QLVisitor<object>
     {
         private IDictionary<string, DataType> _symbolTable = new Dictionary<string, DataType>();
 
@@ -54,7 +54,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             private set;
         }
 
-        public TypeCheckingVisitor()
+        public TypeChecker()
         {
             InvalidDefinitions = new List<InvalidDefinition>();
             InvalidIfStatements = new List<IfStatement>();
@@ -62,7 +62,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             InvalidBinaryExpressions = new List<InvalidBinaryExpression>();
         }
 
-        public override void Visit(Definition definition)
+        public override object Visit(Definition definition)
         {
             DataType expressionType = definition.Expression.GetType(_symbolTable);
 
@@ -78,9 +78,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             definition.Expression.Accept(this);
 
             _symbolTable.Add(definition.Id.Name, definition.DataType);
+            return null;
         }
 
-        public override void Visit(Question question)
+        public override object Visit(Question question)
         {
             DataType questionType = question.DataType;
 
@@ -98,9 +99,10 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             }
 
             _symbolTable.Add(question.Id.Name, question.DataType);
+            return null;
         }
 
-        public override void Visit(IfStatement ifStatement)
+        public override object Visit(IfStatement ifStatement)
         {
             // Validate that the condition of the if statement is of type boolean
             DataType expressionType = ifStatement.If.GetType(_symbolTable);
@@ -122,90 +124,105 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             {
                 statement.Accept(this);
             }
+            return null;
         }
 
-        public override void Visit(Add add)
+        public override object Visit(Add add)
         {
             base.Visit(add);
             ValidateBinaryExpression(add);
+            return null;
         }
 
-        public override void Visit(And and)
+        public override object Visit(And and)
         {
             base.Visit(and);
             ValidateBinaryExpression(and);
+            return null;
         }
 
-        public override void Visit(Divide divide)
+        public override object Visit(Divide divide)
         {
             base.Visit(divide);
             ValidateBinaryExpression(divide);
+            return null;
         }
 
-        public override void Visit(EqualTo equalTo)
+        public override object Visit(EqualTo equalTo)
         {
             base.Visit(equalTo);
             ValidateBinaryExpression(equalTo);
+            return null;
         }
 
-        public override void Visit(GreaterThan greaterThan)
+        public override object Visit(GreaterThan greaterThan)
         {
             base.Visit(greaterThan);
             ValidateBinaryExpression(greaterThan);
+            return null;
         }
 
-        public override void Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
+        public override object Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
         {
             base.Visit(greaterThanOrEqualTo);
             ValidateBinaryExpression(greaterThanOrEqualTo);
+            return null;
         }
 
-        public override void Visit(Increment increment)
+        public override object Visit(Increment increment)
         {
             base.Visit(increment);
             ValidateUnaryExpression(increment);
+            return null;
         }
 
-        public override void Visit(LessThan lessThan)
+        public override object Visit(LessThan lessThan)
         {
             base.Visit(lessThan);
             ValidateBinaryExpression(lessThan);
+            return null;
         }
 
-        public override void Visit(LessThanOrEqualTo lessThanOrEqualTo)
+        public override object Visit(LessThanOrEqualTo lessThanOrEqualTo)
         {
             base.Visit(lessThanOrEqualTo);
             ValidateBinaryExpression(lessThanOrEqualTo);
+            return null;
         }
 
-        public override void Visit(Multiply multiply)
+        public override object Visit(Multiply multiply)
         {
             base.Visit(multiply);
             ValidateBinaryExpression(multiply);
+            return null;
         }
 
-        public override void Visit(Negation negation)
+        public override object Visit(Negation negation)
         {
             base.Visit(negation);
             ValidateUnaryExpression(negation);
+            return null;
         }
 
-        public override void Visit(NotEqualTo notEqualTo)
+        public override object Visit(NotEqualTo notEqualTo)
         {
             base.Visit(notEqualTo);
             ValidateBinaryExpression(notEqualTo);
+            return null;
         }
 
-        public override void Visit(Or or)
+        public override object Visit(Or or)
         {
             base.Visit(or);
             ValidateBinaryExpression(or);
+            return null;
         }
 
-        public override void Visit(Substract substract)
+        public override object Visit(Substract substract)
         {
             base.Visit(substract);
             ValidateBinaryExpression(substract);
+            return null;
         }
 
         private void ValidateUnaryExpression(UnaryExpression expression)

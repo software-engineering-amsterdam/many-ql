@@ -12,33 +12,33 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
     /// <summary>
     /// Represents a visitor for the <c>expr</c> parser rule.
     /// </summary>
-    internal class ExpressionVisitor : QLBaseVisitor<IExpression>
+    internal class ExpressionVisitor : QLBaseVisitor<Expression>
     {
-        public override IExpression VisitPrecedenceOverride(QLParser.PrecedenceOverrideContext context)
+        public override Expression VisitPrecedenceOverride(QLParser.PrecedenceOverrideContext context)
         {
             return context.expr().Accept(this);
         }
 
-        public override IExpression VisitIncrement(QLParser.IncrementContext context)
+        public override Expression VisitIncrement(QLParser.IncrementContext context)
         {
-            IExpression operand = context.expr().Accept(this);
+            Expression operand = context.expr().Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new Increment(operation, operand, context.GetTextPosition());
         }
 
-        public override IExpression VisitNegation(QLParser.NegationContext context)
+        public override Expression VisitNegation(QLParser.NegationContext context)
         {
-            IExpression operand = context.expr().Accept(this);
+            Expression operand = context.expr().Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(0).GetText());
 
             return new Negation(operation, operand, context.GetTextPosition());
         }
 
-        public override IExpression VisitMultiplyDivide(QLParser.MultiplyDivideContext context)
+        public override Expression VisitMultiplyDivide(QLParser.MultiplyDivideContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             switch (operation)
@@ -52,11 +52,10 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             }
         }
 
-
-        public override IExpression VisitAddSubstract(QLParser.AddSubstractContext context)
+        public override Expression VisitAddSubstract(QLParser.AddSubstractContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             switch (operation)
@@ -70,10 +69,10 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             }
         }
 
-        public override IExpression VisitRelational(QLParser.RelationalContext context)
+        public override Expression VisitRelational(QLParser.RelationalContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             switch (operation)
@@ -91,10 +90,10 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             }
         }
 
-        public override IExpression VisitEquality(QLParser.EqualityContext context)
+        public override Expression VisitEquality(QLParser.EqualityContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             switch (operation)
@@ -108,40 +107,40 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             }
         }
 
-        public override IExpression VisitAnd(QLParser.AndContext context)
+        public override Expression VisitAnd(QLParser.AndContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new And(operation, left, right, context.GetTextPosition());
         }
 
-        public override IExpression VisitOr(QLParser.OrContext context)
+        public override Expression VisitOr(QLParser.OrContext context)
         {
-            IExpression left = context.expr(0).Accept(this);
-            IExpression right = context.expr(1).Accept(this);
+            Expression left = context.expr(0).Accept(this);
+            Expression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new Or(operation, left, right, context.GetTextPosition());
         }
 
-        public override IExpression VisitIdentifier(QLParser.IdentifierContext context)
+        public override Expression VisitIdentifier(QLParser.IdentifierContext context)
         {
             return new Identifier(context.ID().GetText(), context.GetTextPosition());
         }
 
-        public override IExpression VisitBooleanLiteral(QLParser.BooleanLiteralContext context)
+        public override Expression VisitBooleanLiteral(QLParser.BooleanLiteralContext context)
         {
             return new BooleanLiteral(context.BOOL().GetText(), context.GetTextPosition());
         }
 
-        public override IExpression VisitIntegerLiteral(QLParser.IntegerLiteralContext context)
+        public override Expression VisitIntegerLiteral(QLParser.IntegerLiteralContext context)
         {
             return new IntegerLiteral(context.INT().GetText(), context.GetTextPosition());
         }
 
-        public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
+        public override Expression VisitStringLiteral(QLParser.StringLiteralContext context)
         {
             string value = context.STRING().GetText();
 
@@ -151,7 +150,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             return new StringLiteral(value, context.GetTextPosition());
         }
 
-        public override IExpression VisitDateLiteral(QLParser.DateLiteralContext context)
+        public override Expression VisitDateLiteral(QLParser.DateLiteralContext context)
         {
             string date = context.DATE().GetText().Replace("[", "").Replace("]", "");
 

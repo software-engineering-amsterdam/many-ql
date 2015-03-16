@@ -34,7 +34,8 @@ public class TextboxWidget implements IWidget {
 
             public void updateField() {
                 variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new StringValue(widget.getText()));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }
