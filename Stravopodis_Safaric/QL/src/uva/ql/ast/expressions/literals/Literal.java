@@ -9,7 +9,7 @@ public abstract class Literal extends Expression{
 	public Literal(CodeLines codeLines) {
 		super(codeLines);
 	}
-
+	
 	@Override
 	public abstract String toString();
 	public abstract GenericValue<?> evaluate();

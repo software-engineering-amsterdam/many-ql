@@ -8,7 +8,7 @@ import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Question;
 import uva.ql.ast.statements.Statement;
 
-public interface StatementVisitorInterface<T> {
+public interface StatementVisitor<T> {
 	
 	public T visitProg(Prog prog);
 	public T visitForm(Form form);

@@ -1,18 +1,19 @@
 from typechecking import Message
-from . import Checker
 
-class Checker(Checker.StatementChecker):
-    def __init__(self, ast, resultAlg):
-        super().__init__(ast, resultAlg)
+from .AbstractBase import AbstractBase
+
+
+
+class Checker(AbstractBase):
+    def __init__(self, resultAlgebra):
+        super().__init__(resultAlgebra)
         self._labels = {}
 
-    def _visitRoot(self, node):
-        super()._visitRoot(node)
-
+    def visitQuestionnaireEnd(self, questionnaire):
         for text, lines in self._labels.items():
             if len(lines) > 1:
                 for l in lines:
-                    self._result = self._resultAlg.withWarning(
+                    self._result = self._resultAlgebra.withWarning(
                         self._result,
                         Message.Warning(
                             'duplicate question label `'+text+'`',
@@ -20,10 +21,9 @@ class Checker(Checker.StatementChecker):
                         )
                     )
 
-        return self._result
+        return super().visitQuestionnaireEnd(questionnaire)
 
-
-    def _visitQuestionStatement(self, node):
+    def visitQuestionStatement(self, node):
         if node.text not in self._labels:
             self._labels[node.text] = []
         self._labels[node.text].append(node.lineNumber)

@@ -36,8 +36,9 @@ import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.type.TypeInteger;
 import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.type.TypeString;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
-import uva.ql.ast.visitor.StatementVisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitor;
+import uva.ql.ast.visitor.StatementVisitor;
+import uva.ql.ast.visitor.TypeVisitor;
 import uva.ql.interpreter.typecheck.error.IssueTable;
 import uva.ql.interpreter.typecheck.error.IssueObject;
 import uva.ql.interpreter.typecheck.error.IssueType;
@@ -45,29 +46,32 @@ import uva.ql.interpreter.typecheck.table.LabelTable;
 import uva.ql.interpreter.typecheck.table.SymbolTable;
 import uva.ql.interpreter.typecheck.table.WarningTable;
 
-public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
+// Void to the statements
+
+public class TypeCheckVisitor implements ExpressionVisitor<Expression>, StatementVisitor<Void>, TypeVisitor<Type>{
 
 	private final WarningTable warningTable = new WarningTable();
 	private final SymbolTable symbolTable = new SymbolTable();
 	private final LabelTable labelTable = new LabelTable();
 	private final IssueTable issueTable = new IssueTable();
 	
+	public boolean hasErrors(){
+		return !this.issueTable.hasIssues();
+	}
+	
+	public boolean hasWarnings(){
+		return this.warningTable.getTable().keySet().size() != 0;
+	}
+	
 	@Override
-	public Object visitProg(Prog prog) {
+	public Void visitProg(Prog prog) {
 		prog.getForm().accept(this);
-		
-		for (IssueType.ERROR issue : this.issueTable.getTable().keySet()){
-			System.out.println("ERROR: " + issue);
-			for (IssueObject obj : this.issueTable.retrieveValues(issue).retrieveValues()){
-				System.out.println("====== > " + obj.toString());
-			}
-		}
 		
 		return null;
 	}
 
 	@Override
-	public Object visitForm(Form form) {
+	public Void visitForm(Form form) {
 		this.visitStatements(form.getStatement());
 		
 		return null;
@@ -82,12 +86,12 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitASTNode(ASTNode node) {
+	public Void visitASTNode(ASTNode node) {
 		return null;
 	}
 
 	@Override
-	public Object visitStatement(Statement statement) {
+	public Void visitStatement(Statement statement) {
 		statement.accept(this);
 		
 		return null;
@@ -95,11 +99,9 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 
 
 	@Override
-	public Object visitIfStatement(IfStatement ifStatement) {
+	public Void visitIfStatement(IfStatement ifStatement) {
 		
-		// Expressions - conditions must be of type TypeBoolean()
-
-		if (ifStatement.getExpression().getValueType().contains(new TypeBoolean())){
+		if (ifStatement.hasBooleanCondition()){			
 			this.visitBinaryLogical((BinaryExpressions)ifStatement.getExpression());
 		}
 		else {
@@ -112,14 +114,14 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 	
 	@Override
-	public Object visitSimpleQuestion(Question question) {
+	public Void visitSimpleQuestion(Question question) {
 		this.visitQuestion(question);
 		
 		return null;
 	}
 
 	@Override
-	public Object visitComputedQuestion(Question question) {
+	public Void visitComputedQuestion(Question question) {
 		this.visitQuestion(question);
 		question.getQuestionExpression().accept(this);
 
@@ -149,7 +151,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitAssign(Assign assign) {
+	public Void visitAssign(Assign assign) {
 		assign.getIdentifier().accept(this);
 		assign.getExpression().accept(this);
 		
@@ -157,13 +159,13 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitBinaryExpression(BinaryExpressions expression) {	
+	public Expression visitBinaryExpression(BinaryExpressions expression) {	
 		expression.accept(this);
 		
 		return null;
 	}
 	
-	private Object visitBinaryNumerical(BinaryExpressions binaryExpression){
+	private Expression visitBinaryNumerical(BinaryExpressions binaryExpression){
 		
 		Expression left = binaryExpression.getLeftExpr();
 		Expression right = binaryExpression.getRightExpr();
@@ -184,7 +186,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		return null;
 	}
 	
-	private Object visitBinaryLogical(BinaryExpressions binaryExpression){
+	private Expression visitBinaryLogical(BinaryExpressions binaryExpression){
 
 		Expression left = binaryExpression.getLeftExpr();
 		Expression right = binaryExpression.getRightExpr();
@@ -210,11 +212,11 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	
 	private void checkIdentifierTypeCompliance(boolean isOfType, Expression expression, List<Type> supportedTypes){
 		
-		if (!isOfType && !expression.getValueType().containsAll(supportedTypes)){
+		if (!isOfType && !expression.possibleReturnTypes().containsAll(supportedTypes)){
 				
 			// Check is an expression is of type Identifier() of type TypeString() - sellingPrice integer e.g.
 			
-			if (expression.getValueType().contains(new TypeString())){
+			if (expression.possibleReturnTypes().contains(new TypeString())){
 				
 				// Get question type of an Identifier (expression)
 				
@@ -235,81 +237,81 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		
 		// Check is an expression is an Identifier() of TypeString()
 		
-		if (expression.getValueType().contains(new TypeString())){
+		if (expression.possibleReturnTypes().contains(new TypeString())){
 			Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
 			return Arrays.asList(type);
 		}
 		
-		return expression.getValueType();
+		return expression.possibleReturnTypes();
 	}
 
 	@Override
-	public Object visitExpression(Expression expression) {		
+	public Expression visitExpression(Expression expression) {		
 		return expression.accept(this);
 	}
 
 	@Override
-	public Object visitExponentiation(Exponentiation exponentiation) {
+	public Expression visitExponentiation(Exponentiation exponentiation) {
 		return this.visitBinaryNumerical(exponentiation);
 	}
 
 	@Override
-	public Object visitAddition(Addition addition) {
+	public Expression visitAddition(Addition addition) {
 		return this.visitBinaryNumerical(addition);
 	}
 
 	@Override
-	public Object visitSubstraction(Substraction substraction) {
+	public Expression visitSubstraction(Substraction substraction) {
 		return this.visitBinaryNumerical(substraction);
 	}
 
 	@Override
-	public Object visitMultiplication(Multiplication multipllication) {
+	public Expression visitMultiplication(Multiplication multipllication) {
 		return this.visitBinaryNumerical(multipllication);
 	}
 
 	@Override
-	public Object visitDivision(Division division) {
+	public Expression visitDivision(Division division) {
 		return this.visitBinaryNumerical(division);
 	}
 
 	@Override
-	public Object visitAnd(And and) {
+	public Expression visitAnd(And and) {
 		return this.visitBinaryLogical(and);
 	}
 
 	@Override
-	public Object visitOr(Or or) {
+	public Expression visitOr(Or or) {
 		return this.visitBinaryLogical(or);
 	}
 
 	@Override
-	public Object visitEqual(Equal equal) {
+	public Expression visitEqual(Equal equal) {
 		return this.visitBinaryLogical(equal);
 	}
 
 	@Override
-	public Object visitNotEqual(NotEqual notEqual) {
+	public Expression visitNotEqual(NotEqual notEqual) {
 		return this.visitBinaryLogical(notEqual);
 	}
 
 	@Override
-	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
+	public Expression visitGreaterEqual(Greater_Eq greaterEqual) {
 		return this.visitBinaryLogical(greaterEqual);
 	}
 
 	@Override
-	public Object visitGreater(Greater greater) {
+	public Expression visitGreater(Greater greater) {
 		return this.visitBinaryLogical(greater);
 	}
 
 	@Override
-	public Object visitLessEqual(Less_Eq lessEqual) {
+	public Expression visitLessEqual(Less_Eq lessEqual) {
 		return this.visitBinaryLogical(lessEqual);
 	}
 
 	@Override
-	public Object visitLess(Less less) {
+	public Expression visitLess(Less less) {
 		return this.visitBinaryLogical(less);
 	}
 

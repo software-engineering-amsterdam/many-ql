@@ -1,6 +1,5 @@
 package com.form.language.memory;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;

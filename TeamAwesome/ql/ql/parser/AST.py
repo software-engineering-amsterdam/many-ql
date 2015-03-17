@@ -1,9 +1,14 @@
-# Generated from java-escape by ANTLR 4.5
+from decimal import Decimal
+
 from antlr4 import *
 from .QLVisitor import QLVisitor
 from .QLParser import QLParser
 from .QLLexer import QLLexer
+
 from ..ast import Nodes
+from ..core import QLTypes
+
+
 
 def create(inputQLFile):
     inputStream = FileStream(inputQLFile)
@@ -33,7 +38,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitQuestion_statement(self, ctx):
         identifier = self.visit(ctx.name)
         text = ctx.text.getText()[1:-1]
-        question_type = ctx.qtype.getText()
+        question_type = _nativeQuestionType(ctx.qtype.getText())
         
         expr = self.visit(ctx.expression) if ctx.expression != None else None
 
@@ -94,3 +99,12 @@ class ParseTreeVisitor(QLVisitor):
         left = self.visit(ctx.left)
 
         return Nodes.BinaryExpression(left, op, right, lineNumber)
+
+
+def _nativeQuestionType(questionType):
+    return {
+        'boolean' : QLTypes.QLBoolean,
+        'string' : QLTypes.QLString,
+        'integer' : QLTypes.QLInteger,
+        'money' : QLTypes.QLMoney
+    }[questionType]
