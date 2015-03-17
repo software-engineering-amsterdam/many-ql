@@ -11,7 +11,7 @@ if ((hummus == True)) {
 
     Question grade (number) : How would you grade it?
 
-    if (grade < 6) {
+    if (grade < 6 < 10 and True) {
         Question con (bool) : This is quite contradicting isn't it?
 
     }

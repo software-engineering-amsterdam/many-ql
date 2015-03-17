@@ -62,8 +62,8 @@ expr = pp.infixNotation(value,
          [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
           (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
           (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
-          (comp_op, 2, pp.opAssoc.RIGHT, expression_factory.make_compare),
-          (extra_op, 2, pp.opAssoc.LEFT)]
+          (comp_op, 2, pp.opAssoc.LEFT, expression_factory.make_compare2),
+          (extra_op, 2, pp.opAssoc.LEFT, expression_factory.make_extra)]
     )
 
 

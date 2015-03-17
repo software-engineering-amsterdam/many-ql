@@ -13,7 +13,7 @@ import QL.GUI.gui as g
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-# print(form.pretty_print())
+#print(form.pretty_print())
 
 form.is_valid_form()
 
@@ -21,7 +21,7 @@ form.is_valid_form()
 # typeChecker.is_valid_form()
 
 
-enriched_form = runtime_form.Form(form)
-gui = g.GUI(enriched_form)
-gui.generate_gui()
-gui.show()
+# enriched_form = runtime_form.Form(form)
+# gui = g.GUI(enriched_form)
+# gui.generate_gui()
+# gui.show()

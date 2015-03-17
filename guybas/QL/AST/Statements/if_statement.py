@@ -2,7 +2,7 @@
 import QL.AST.Statements.statement as statement
 import QL.AST.Expressions.Operations.not_op as not_operation
 import QL.Grammar.constants as constants
-
+import pyparsing as pp
 class IfBlock(statement.IStatement):
 
     #
@@ -12,7 +12,10 @@ class IfBlock(statement.IStatement):
     # init
     def __init__(self, condition, statements):
         # not private as they are needed in IfElseBlock
-        self.condition = condition
+        if type(condition) == pp.ParseResults:
+            self.condition = condition[0]
+        else:
+            self.condition = condition
         self.statements = statements
 
     # pretty print ast, with level giving the indentation
