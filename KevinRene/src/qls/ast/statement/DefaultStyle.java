@@ -2,14 +2,14 @@ package qls.ast.statement;
 
 import ql.ast.QLType;
 import qls.ast.QLSStatement;
-import qls.ast.statement.styling.StyleRuleSet;
+import qls.ast.statement.styling.StyleProperties;
 import qls.ast.visitor.StatementVisitor;
 
 public class DefaultStyle extends QLSStatement {	
 	private final QLType type;
-	private final StyleRuleSet ruleSet;
+	private final StyleProperties ruleSet;
 	
-	public DefaultStyle (QLType type, StyleRuleSet ruleSet) {
+	public DefaultStyle (QLType type, StyleProperties ruleSet) {
 		this.type = type;
 		this.ruleSet = ruleSet;
 	}
@@ -18,7 +18,7 @@ public class DefaultStyle extends QLSStatement {
 		return type;
 	}
 	
-	public StyleRuleSet getStyleRuleSet() {
+	public StyleProperties getStyleRuleSet() {
 		return ruleSet;
 	}
 	

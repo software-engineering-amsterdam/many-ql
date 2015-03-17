@@ -1,6 +1,7 @@
 package qls.ast.visitor.typechecker;
 
 import ql.TypeEnvironment;
+import ql.ast.QLType;
 import ql.ast.visitor.TypeVisitor;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.QLSStatement;
@@ -13,7 +14,6 @@ import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.StyleRule;
 import qls.ast.statement.styling.property.Color;
 import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
@@ -28,8 +28,9 @@ import qls.ast.statement.widget.type.Spinbox;
 import qls.ast.statement.widget.type.TextField;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
+import qls.errorhandling.error.IllegalPropertyValueError;
 
-public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
+public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<Void> {
 	private ErrorEnvironment errorEnvironment;
 	private TypeEnvironment typeEnvironment;	
 	
@@ -59,49 +60,57 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	@Override
 	public Void visit(Page pageNode) {
+		super.visit(pageNode);
 		return null;
 	}
 	
 	@Override
 	public Void visit(QLSBlock blockNode) {
+		super.visit(blockNode);
 		return null;
 	}
 	
 	@Override
 	public Void visit(Question questionNode) {
+		super.visit(questionNode);
 		return null;
 	}
 	
 	@Override
 	public Void visit(Section sectionNode) {
+		super.visit(sectionNode);
 		return null;
 	}
 	
 	@Override
 	public Void visit(Stylesheet stylesheetNode) {
+		super.visit(stylesheetNode);
 		return null;
 	}
 	
 	@Override
-	public Void visit(BooleanLiteral stringLiteral) {
-		return null;
+	public QLType visit(BooleanLiteral booleanLiteral) {
+		return booleanLiteral.getType();
 	}
 
 	@Override
-	public Void visit(FloatLiteral stringLiteral) {
-		return null;
+	public QLType visit(FloatLiteral floatLiteral) {
+		return floatLiteral.getType();
 	}
 
 	@Override
-	public Void visit(IntegerLiteral stringLiteral) {
-		return null;
+	public QLType visit(IntegerLiteral integerLiteral) {
+		return integerLiteral.getType();
 	}
 	
 	@Override
-	public Void visit(StringLiteral stringLiteral) {
-		return null;
+	public QLType visit(StringLiteral stringLiteral) {
+		return stringLiteral.getType();
 	}
 	
+	/*****************
+	 * WIDGET TYPES **
+	 *****************/
 	@Override
 	public Void visit(Checkbox checkboxNode) {
 		return null;
@@ -136,34 +145,62 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	public Void visit(Slider sliderNode) {
 		return null;
 	}
-	
-	@Override
-	public Void visit(StyleRule styleRuleNode) {
-		return null;
-	}
 
+	/*********************
+	 * STYLE PROPERTIES **
+	 *********************/
 	@Override
 	public Void visit(Color color) {
+		QLType valueType = color.getValue().accept(this);
+		
+		if(!color.isCompatibleWith(valueType)) {
+			errorEnvironment.addError(new IllegalPropertyValueError(color, valueType));
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(Width width) {
+		QLType valueType = width.getValue().accept(this);
+
+		if(!width.isCompatibleWith(valueType)) {
+			errorEnvironment.addError(new IllegalPropertyValueError(width, valueType));
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(Height height) {
+		QLType valueType = height.getValue().accept(this);
+		
+		if(!height.isCompatibleWith(valueType)) {
+			errorEnvironment.addError(new IllegalPropertyValueError(height, valueType));
+		}
+
 		return null;
 	}
 
 	@Override
 	public Void visit(Font font) {
+		QLType valueType = font.getValue().accept(this);
+		
+		if(!font.isCompatibleWith(valueType)) {
+			errorEnvironment.addError(new IllegalPropertyValueError(font, valueType));
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(FontSize fontSize) {
+		QLType valueType = fontSize.getValue().accept(this);
+		
+		if(!fontSize.isCompatibleWith(valueType)) {
+			errorEnvironment.addError(new IllegalPropertyValueError(fontSize, valueType));
+		}
+
 		return null;
-	}	
+	}
 }

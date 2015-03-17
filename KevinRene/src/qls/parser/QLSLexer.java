@@ -149,7 +149,7 @@ public class QLSLexer implements QLSTokens {
 			    	
 			    	nextChar();
 			    	
-			    	while(Character.isDigit(c)) {
+			    	while(Character.isDigit(c) || Character.isLetter(c)) {
 			    		sb.append((char) c);
 			    		nextChar();
 			    	}
@@ -158,8 +158,11 @@ public class QLSLexer implements QLSTokens {
 			    	if(sb.length() != 8) {
 			    		throw new RuntimeException("Only hexadecimals of 6 numbers allowed: " + sb.toString() + ".");
 			    	}
-			    	
-			    	yylval = new IntegerLiteral(Integer.decode(sb.toString()));
+			    	try {
+			    		yylval = new IntegerLiteral(Integer.decode(sb.toString()));
+			    	} catch(NumberFormatException exception) {
+			    		throw new NumberFormatException("Hexadecimal is illegal: " + sb.toString());
+			    	}
 			    	
 			    	return token = INTEGERLITERAL;
 			    }

@@ -1,6 +1,7 @@
 package qls.ast.visitor.prettyprinter;
 
 import ql.ast.QLNode;
+import ql.ast.QLType;
 import ql.ast.expression.Identifier;
 import ql.ast.type.QLBoolean;
 import ql.ast.type.QLError;
@@ -10,7 +11,9 @@ import ql.ast.type.QLInteger;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
+import ql.ast.visitor.prettyprinter.PrintWriter;
 import qls.ast.QLSStatement;
+import qls.ast.expression.Literal;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
@@ -22,8 +25,8 @@ import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.StyleRule;
-import qls.ast.statement.styling.StyleRuleSet;
+import qls.ast.statement.styling.Property;
+import qls.ast.statement.styling.StyleProperties;
 import qls.ast.statement.styling.property.Color;
 import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
@@ -41,17 +44,36 @@ import qls.ast.statement.widget.type.ValueSet;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 
-public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
+public class PrettyPrinter extends StatementVisitor<String> implements ExpressionVisitor<String>, TypeVisitor<String> {
+	/* 
+	 * Expression with custom prefix 
+	 */
+	public static void print(Literal<?> literal, PrintWriter printWriter) {
+		PrettyPrinter printer = new PrettyPrinter();
+		printWriter.printString(literal.accept(printer));
+	}
+	
+	/* 
+	 * Statement with custom prefix 
+	 */
+	public static void print(QLSStatement statement, PrintWriter printWriter) {
+		PrettyPrinter printer = new PrettyPrinter();
+		printWriter.printString(statement.accept(printer));
+	}
+	
+	/* 
+	 * Statement with custom prefix 
+	 */
+	public static void print(QLType type, PrintWriter printWriter) {
+		PrettyPrinter printer = new PrettyPrinter();
+		printWriter.printString(type.accept(printer));
+	}
+	
 	private String prefix = "";
 	
 	private PrettyPrinter() {
 		super.setExpressionVisitor(this);
 		super.setTypeVisitor(this);
-	}
-	
-	public static void print(QLSStatement statement) {
-		PrettyPrinter printer = new PrettyPrinter();
-		statement.accept(printer);
 	}
 	
 	/**
@@ -63,6 +85,21 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 	
 	/**
+	 * Print a node in the console. The node its toString
+	 * method will be printed first, followed the the type
+	 * of the node, separated by a colon.
+	 * 
+	 * @param node - The node to print.
+	 */
+	private String printNode(QLNode node) {
+		String type = node.getClass().getSimpleName();
+		// Strip the string until only the name of the node is left.
+		String nodeString = node.toString().split("\\(")[0];
+		
+		return prefix + ("└── ") + nodeString + " : " + type + "\n";
+	}
+	
+	/**
 	 * Unindent the prefix. This happens when a block of
 	 * printable nodes has been printed and the function
 	 * exits. 
@@ -71,297 +108,279 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
 	}
 	
-	/**
-	 * Print a node in the console. The node its toString
-	 * method will be printed first, followed the the type
-	 * of the node, separated by a colon.
-	 * 
-	 * @param node - The node to print.
-	 */
-	private Void printNode(QLNode node) {
-		String type = node.getClass().getSimpleName();
-		// Strip the string until only the name of the node is left.
-		String nodeString = node.toString().split("\\(")[0];
-		
-		System.out.println(prefix + ("└── ") + nodeString + " : " + type);
-		
-		return null;
-	}
 	
-	
-	/*********************
-	 == IDENTIFIER NODE ==
-	 *********************/
 	@Override
-	public Void visit(Identifier identNode) {
-		return printNode(identNode);
-	}
-
-	/****************
-	 == TYPE NODES ==
-	 ****************/
-	@Override
-	public Void visit(QLBoolean booleanNode) {
+	public String visit(BooleanLiteral booleanNode) {
 		return printNode(booleanNode);
 	}
 
 	@Override
-	public Void visit(QLFloat floatNode) {
-		return printNode(floatNode);
-	}
-	
-	@Override
-	public Void visit(QLForm formNode) {
-		return printNode(formNode);
-	}
-
-	@Override
-	public Void visit(QLInteger intNode) {
-		return printNode(intNode);
-	}
-
-	@Override
-	public Void visit(QLNumeric numericNode) {
-		return printNode(numericNode);	
-	}
-
-	@Override
-	public Void visit(QLString stringNode) {
-		return printNode(stringNode);
-	}
-	
-	@Override
-	public Void visit(QLError qlError) {	
-		return printNode(qlError);
-	}
-
-	/*******************
-	 == LITERAL NODES ==
-	 *******************/
-	@Override
-	public Void visit(BooleanLiteral booleanNode) {
-		return printNode(booleanNode);
-	}
-
-	@Override
-	public Void visit(FloatLiteral floatNode) {
-		return printNode(floatNode);
-	}
-
-	@Override
-	public Void visit(IntegerLiteral intNode) {
-		return printNode(intNode);
-	}
-
-	@Override
-	public Void visit(StringLiteral stringNode) {
-		return printNode(stringNode);	
-	}
-	
-	@Override
-	public Void visit(Stylesheet stylesheetNode) {
-		printNode(stylesheetNode);
-		
-		indent();
-		super.visit(stylesheetNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(DefaultWidget defaultNode) {
-		printNode(defaultNode);
-		
-		indent();
-		super.visit(defaultNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(QLSBlock blockNode) {
-		printNode(blockNode);
-		
-		indent();
-		super.visit(blockNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(Question questionNode) {
-		printNode(questionNode);
-		
-		indent();
-		super.visit(questionNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(DefaultStyle defaultNode) {
-		printNode(defaultNode);
-		
-		indent();
-		super.visit(defaultNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(Widget widgetNode) {
-		printNode(widgetNode);
-		
-		indent();
-		super.visit(widgetNode);
-		unindent();
-		
-		return null;
-	}
-
-	@Override
-	public Void visit(Section sectionNode) {
-		printNode(sectionNode);
-		
-		indent();
-		super.visit(sectionNode);
-		unindent();
-		
-		return null;
-	}
-	
-	@Override
-	public Void visit(Checkbox checkboxNode) {
+	public String visit(Checkbox checkboxNode) {
 		return printNode(checkboxNode);
 	}
 
 	@Override
-	public Void visit(Default defaultType) {
-		return printNode(defaultType);
+	public String visit(Color color) {
+		StringBuilder colorString = new StringBuilder(printNode(color));
+		
+		indent();
+		colorString.append(color.getValue().accept(this));
+		unindent();
+		
+		return colorString.toString();
 	}
 	
 	@Override
-	public Void visit(Dropdown dropdownNode) {
-		return printNode(dropdownNode);
+	public String visit(Default defaultType) {
+		return printNode(defaultType);
 	}
 
 	@Override
-	public Void visit(RadioButton radioButtonNode) {
+	public String visit(DefaultStyle defaultNode) {
+		StringBuilder defaultStyleString = new StringBuilder(printNode(defaultNode));
+		
+		indent();
+		defaultStyleString.append(defaultNode.getType().accept(this));
+		defaultStyleString.append(defaultNode.getStyleRuleSet().accept(this));
+		unindent();
+		
+		return defaultStyleString.toString();
+	}
+
+	@Override
+	public String visit(DefaultWidget defaultNode) {
+		StringBuilder defaultWidgetString = new StringBuilder(printNode(defaultNode));
+		
+		indent();
+		defaultWidgetString.append(defaultNode.getType().accept(this));
+		defaultWidgetString.append(defaultNode.getWidget().accept(this));
+		unindent();
+		
+		return defaultWidgetString.toString();
+	}
+
+	@Override
+	public String visit(Dropdown dropdownNode) {
+		return printNode(dropdownNode);
+	}
+	
+	@Override
+	public String visit(FloatLiteral floatNode) {
+		return printNode(floatNode);
+	}
+
+	@Override
+	public String visit(Font font) {
+		StringBuilder fontString = new StringBuilder(printNode(font));
+		
+		indent();
+		fontString.append(font.getValue().accept(this));
+		unindent();
+		
+		return fontString.toString();
+	}
+
+	@Override
+	public String visit(FontSize fontSize) {
+		StringBuilder fontSizeString = new StringBuilder(printNode(fontSize));
+		
+		indent();
+		fontSizeString.append(fontSize.getValue().accept(this));
+		unindent();
+		
+		return fontSizeString.toString();
+	}
+
+	@Override
+	public String visit(Height height) {
+		StringBuilder heightString = new StringBuilder(printNode(height));
+		
+		indent();
+		heightString.append(height.getValue().accept(this));
+		unindent();
+		
+		return heightString.toString();
+	}
+
+	@Override
+	public String visit(Identifier identNode) {
+		return printNode(identNode);
+	}
+	
+	@Override
+	public String visit(IntegerLiteral intNode) {
+		return printNode(intNode);
+	}
+	
+	@Override
+	public String visit(Page pageNode) {
+		StringBuilder pageString = new StringBuilder(printNode(pageNode));
+		
+		indent();
+		pageString.append(pageNode.getIdentifier().accept(this));
+		pageString.append(pageNode.getStatements().accept(this));
+		unindent();
+		
+		return pageString.toString();
+	}
+	
+	@Override
+	public String visit(QLBoolean booleanNode) {
+		return printNode(booleanNode);
+	}
+	
+	@Override
+	public String visit(QLError qlError) {	
+		return printNode(qlError);
+	}
+	
+	@Override
+	public String visit(QLFloat floatNode) {
+		return printNode(floatNode);
+	}
+
+	@Override
+	public String visit(QLForm formNode) {
+		return printNode(formNode);
+	}
+
+	@Override
+	public String visit(QLInteger intNode) {
+		return printNode(intNode);
+	}
+
+	@Override
+	public String visit(QLNumeric numericNode) {
+		return printNode(numericNode);	
+	}
+	
+	@Override
+	public String visit(QLSBlock blockNode) {
+		StringBuilder blockString = new StringBuilder(printNode(blockNode));
+		
+		indent();
+		for(QLSStatement statement : blockNode.getStatements()) {
+			blockString.append(statement.accept(this));
+		}
+		unindent();
+		
+		return blockString.toString();
+	}
+
+	@Override
+	public String visit(QLString stringNode) {
+		return printNode(stringNode);
+	}
+	
+	@Override
+	public String visit(Question questionNode) {
+		StringBuilder questionString = new StringBuilder(printNode(questionNode));
+		
+		indent();
+		questionString.append(questionNode.getIdentifier().accept(this));
+		questionString.append(questionNode.getWidget().accept(this));
+		unindent();
+		
+		return questionString.toString();
+	}
+
+	@Override
+	public String visit(RadioButton radioButtonNode) {
 		return printNode(radioButtonNode);
 	}
 
 	@Override
-	public Void visit(TextField textFieldNode) {
-		return printNode(textFieldNode);
+	public String visit(Section sectionNode) {
+		StringBuilder sectionString = new StringBuilder(printNode(sectionNode));
+		
+		indent();
+		sectionString.append(sectionNode.getHeader().accept(this));
+		sectionString.append(sectionNode.getStatements().accept(this));
+		unindent();
+		
+		return sectionString.toString();
 	}
 
 	@Override
-	public Void visit(Spinbox spinnerNode) {
-		return printNode(spinnerNode);
-	}
-
-	@Override
-	public Void visit(Slider sliderNode) {
+	public String visit(Slider sliderNode) {
 		return printNode(sliderNode);
 	}
 
 	@Override
-	public Void visit(StyleRule styleRuleNode) {
-		return printNode(styleRuleNode);
+	public String visit(Spinbox spinnerNode) {
+		return printNode(spinnerNode);
 	}
 
 	@Override
-	public Void visit(StyleRuleSet styleRuleSetNode) {
-		printNode(styleRuleSetNode);
-		
-		indent();
-		super.visit(styleRuleSetNode);
-		unindent();
-		
-		return null;
+	public String visit(StringLiteral stringNode) {
+		return printNode(stringNode);	
 	}
 
 	@Override
-	public Void visit(ValueSet valueSetNode) {
-		printNode(valueSetNode);
+	public String visit(StyleProperties styleNode) {
+		StringBuilder styleString = new StringBuilder(printNode(styleNode));
 		
 		indent();
-		super.visit(valueSetNode);
+		for(Property property : styleNode.getProperties()) {
+			styleString.append(property.accept(this));
+		}
 		unindent();
 		
-		return null;
+		return styleString.toString();
 	}
 	
+	
+
 	@Override
-	public Void visit(Page pageNode) {
-		printNode(pageNode);
+	public String visit(Stylesheet stylesheetNode) {
+		StringBuilder stylesheetString = new StringBuilder(printNode(stylesheetNode));
 		
 		indent();
-		super.visit(pageNode);
+		stylesheetString.append(stylesheetNode.getIdentifier().accept(this));
+		stylesheetString.append(stylesheetNode.getPages().accept(this));
 		unindent();
 		
-		return null;
+		return stylesheetString.toString();
 	}
 
 	@Override
-	public Void visit(Color color) {
-		printNode(color);
-		
-		indent();
-		color.getValue().accept(this);
-		unindent();
-		
-		return null;
+	public String visit(TextField textFieldNode) {
+		return printNode(textFieldNode);
 	}
 
 	@Override
-	public Void visit(Width width) {
-		printNode(width);
-
+	public String visit(ValueSet valueSetNode) {
+		StringBuilder valueSetString = new StringBuilder(printNode(valueSetNode));
 		
 		indent();
-		width.getValue().accept(this);
+		for(Literal<?> value : valueSetNode.values()) {
+			valueSetString.append(value.accept(this));
+		}
 		unindent();
 		
-		return null;
+		return valueSetString.toString();
 	}
 
 	@Override
-	public Void visit(Height height) {
-		printNode(height);
-
+	public String visit(Widget widgetNode) {
+		StringBuilder widgetString = new StringBuilder(printNode(widgetNode));
 		
 		indent();
-		height.getValue().accept(this);
+		widgetString.append(widgetNode.getStyleRules().accept(this));
+		widgetString.append(widgetNode.getWidgetType().accept(this));
 		unindent();
 		
-		return null;
+		return widgetString.toString();
 	}
 
 	@Override
-	public Void visit(Font font) {
-		printNode(font);
+	public String visit(Width width) {
+		StringBuilder widthString = new StringBuilder(printNode(width));
 		
 		indent();
-		font.getValue().accept(this);
+		widthString.append(width.getValue().accept(this));
 		unindent();
 		
-		return null;
-	}
-
-	@Override
-	public Void visit(FontSize fontSize) {
-		printNode(fontSize);
-		
-		indent();
-		fontSize.getValue().accept(this);
-		unindent();
-		
-		return null;
+		return widthString.toString();
 	}
 }

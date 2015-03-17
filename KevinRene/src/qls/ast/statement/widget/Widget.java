@@ -1,24 +1,24 @@
 package qls.ast.statement.widget;
 
 import qls.ast.QLSStatement;
-import qls.ast.statement.styling.StyleRuleSet;
+import qls.ast.statement.styling.StyleProperties;
 import qls.ast.visitor.StatementVisitor;
 
 public class Widget extends QLSStatement {
-	private final StyleRuleSet styleRules;
+	private final StyleProperties styleRules;
 	private final WidgetType widgetType;
 	
 	public Widget(WidgetType widgetType) {
-		this.styleRules = new StyleRuleSet();
+		this.styleRules = new StyleProperties();
 		this.widgetType = widgetType;
 	}
 	
-	public Widget(StyleRuleSet styleRules, WidgetType widgetType) {
+	public Widget(StyleProperties styleRules, WidgetType widgetType) {
 		this.styleRules = styleRules;
 		this.widgetType = widgetType;
 	}
 	
-	public StyleRuleSet getStyleRules() {
+	public StyleProperties getStyleRules() {
 		return styleRules;
 	}
 	

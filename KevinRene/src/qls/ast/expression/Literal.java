@@ -10,9 +10,7 @@ public abstract class Literal<U extends Value> extends ql.ast.expression.Literal
 	}
 
 	@Override
-	public QLType getType() {
-		return null;
-	}
+	public abstract QLType getType();
 	
 	@Override
 	public <T> T accept(ql.ast.visitor.ExpressionVisitor<T> visitor) {

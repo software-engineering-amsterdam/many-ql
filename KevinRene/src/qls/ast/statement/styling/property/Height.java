@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import ql.ast.type.QLInteger;
 import qls.ast.expression.Literal;
-import qls.ast.statement.styling.StyleRule;
+import qls.ast.statement.styling.Property;
 import qls.ast.visitor.StatementVisitor;
 
-public class Height extends StyleRule {
+public class Height extends Property {
 	public Height(Literal<?> value) {
 		super(Arrays.asList(new QLInteger()), value);
 	}

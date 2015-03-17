@@ -20,7 +20,7 @@ public abstract class Error {
 		return origin;
 	}
 	
-	private String getErrorSourceString() {
+	protected String getErrorSourceString() {
 		WriterCache writerCache = new WriterCache();
 		
 		if(origin instanceof Expression) {

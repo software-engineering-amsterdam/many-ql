@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import ql.ast.type.QLString;
 import qls.ast.expression.Literal;
-import qls.ast.statement.styling.StyleRule;
+import qls.ast.statement.styling.Property;
 import qls.ast.visitor.StatementVisitor;
 
-public class Font extends StyleRule {
+public class Font extends Property {
 	public Font(Literal<?> value) {
 		super(Arrays.asList(new QLString()), value);
 	}

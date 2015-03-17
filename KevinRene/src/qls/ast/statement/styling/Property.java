@@ -6,11 +6,11 @@ import ql.ast.QLType;
 import qls.ast.expression.Literal;
 import qls.ast.QLSStatement;
 
-public abstract class StyleRule extends QLSStatement {
-	protected final List<QLType> compatibleTypes;
+public abstract class Property extends QLSStatement {
+	private final List<QLType> compatibleTypes;
 	private final Literal<?> value;
 	
-	public StyleRule(List<QLType> compatibleTypes, Literal<?> value) {
+	public Property(List<QLType> compatibleTypes, Literal<?> value) {
 		this.compatibleTypes = compatibleTypes;
 		this.value = value;
 	}
@@ -19,11 +19,12 @@ public abstract class StyleRule extends QLSStatement {
 		return this.value;
 	}
 	
+	public boolean isCompatibleWith(QLType type) {
+		return compatibleTypes.contains(type);
+	}
+
+	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + "(" + value.toString() + ")";
-	}
-	
-	public boolean compatibleWith(QLType type) {
-		return this.compatibleTypes.contains(type.getClass());
 	}
 }

@@ -10,8 +10,8 @@ import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.StyleRule;
-import qls.ast.statement.styling.StyleRuleSet;
+import qls.ast.statement.styling.Property;
+import qls.ast.statement.styling.StyleProperties;
 import qls.ast.statement.styling.property.Color;
 import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
@@ -81,9 +81,8 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 	public abstract T visit(Spinbox spinnerNode);
 	public abstract T visit(Slider sliderNode);
 
-	public abstract T visit(StyleRule styleRuleNode);
-	public T visit(StyleRuleSet styleRuleSetNode) {
-		for(StyleRule rule : styleRuleSetNode.rules()) {
+	public T visit(StyleProperties styleNode) {
+		for(Property rule : styleNode.getProperties()) {
 			rule.accept(this);
 		}
 		return null;
@@ -115,9 +114,27 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 	}
 
 
-	public abstract T visit(Color color);
-	public abstract T visit(Width width);
-	public abstract T visit(Height height);
-	public abstract T visit(Font font);
-	public abstract T visit(FontSize fontSize);
+	public T visit(Color color) {
+		color.getValue().accept(expressionVisitor);
+		return null;
+	}
+	
+	public T visit(Width width) {
+		width.getValue().accept(expressionVisitor);
+		return null;
+	}
+	
+	public T visit(Height height) {
+		height.getValue().accept(expressionVisitor);
+		return null;
+	}
+	
+	public T visit(Font font) {
+		font.getValue().accept(expressionVisitor);
+		return null;
+	}
+	public T visit(FontSize fontSize) {
+		fontSize.getValue().accept(expressionVisitor);
+		return null;
+	}
 }
