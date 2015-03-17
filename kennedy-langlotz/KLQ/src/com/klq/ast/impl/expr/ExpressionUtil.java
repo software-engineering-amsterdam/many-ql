@@ -1,7 +1,7 @@
 package com.klq.ast.impl.expr;
 
 import com.klq.ast.impl.Type;
-import com.klq.ast.impl.expr.value.*;
+import com.klq.ast.impl.value.*;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -26,7 +26,8 @@ public class ExpressionUtil {
                 return createDateFromString(value);
             case NUMERAL:
                 return createNumberFromString(value);
-            case STRING:                return new StringValue(value);
+            case STRING:
+                return new StringValue(value);
         }
         throw new IllegalArgumentException("Type is not a valid type! Type: " + type);
     }

@@ -3,7 +3,8 @@ package com.klq.ast.impl.expr;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.Location;
 import com.klq.ast.impl.ANode;
-import com.klq.ast.impl.expr.value.Value;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.value.Value;
 
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public abstract class AExpression extends ANode {
 
     public abstract <T> T  accept(IExpressionVisitor<T> visitor);
 
-    public abstract Value evaluate(Map<String, Value> variableTable);
+    public abstract Value evaluate(Map<IdentifierNode, Value> variableTable);
 
     public boolean anyUndefined(Value leftChild, Value rightChild){
         return leftChild.isUndefined() || rightChild.isUndefined();

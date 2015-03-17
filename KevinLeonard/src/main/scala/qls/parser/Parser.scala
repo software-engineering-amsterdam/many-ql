@@ -64,8 +64,8 @@ class Parser extends JavaTokenParsers {
   def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
 
   def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
-    case Some(properties) => println(properties); properties
-    case None => println("NONE"); List()
+    case Some(properties) => properties
+    case None => List()
   }
 
   def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }

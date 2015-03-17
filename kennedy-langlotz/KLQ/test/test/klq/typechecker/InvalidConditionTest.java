@@ -1,6 +1,7 @@
 package test.klq.typechecker;
 
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
@@ -33,8 +34,8 @@ public class InvalidConditionTest {
     @Before
     public void setUp() throws Exception {
         ast = new QuestionnaireNode();
-        children = new ArrayList<AStatementNode>();
-        children.add(new QuestionNode("question1", "string", "This is a test question"));
+        children = new ArrayList<>();
+        children.add(new QuestionNode(new IdentifierNode("question1"), "string", "This is a test question"));
     }
 
     @Test

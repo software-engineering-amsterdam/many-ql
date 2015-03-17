@@ -1,13 +1,13 @@
 package uva.sc.qls.logic;
 
-import uva.sc.qls.ast.INode;
-import uva.sc.qls.ast.INodeVisitor;
+import uva.sc.qls.ast.IQLSNode;
+import uva.sc.qls.ast.IQLSNodeVisitor;
 
-public class Section implements INode{
+public class Section implements IQLSNode {
 
-	String str;
-	SectionBody sectionBody;
-	
+	String		str;
+	SectionBody	sectionBody;
+
 	public Section(String str, SectionBody sectionBody) {
 		this.str = str;
 		this.sectionBody = sectionBody;
@@ -17,13 +17,13 @@ public class Section implements INode{
 		return sectionBody;
 	}
 
-	public <T> T accept(INodeVisitor<T> visitor) {
+	public <T> T accept(IQLSNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
+
 	public String toString() {
 		String result = "[Section]: " + str + "\n\t";
-		result += sectionBody.toString(); 
+		result += sectionBody.toString();
 		return result;
 	}
 

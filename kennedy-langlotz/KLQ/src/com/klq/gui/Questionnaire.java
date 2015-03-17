@@ -1,6 +1,6 @@
 package com.klq.gui;
 
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class Questionnaire extends AnchorPane {
     private final List<QuestionPage> questionPages;
-    private final Store store;
+    private final Controller controller;
     private final ScrollPane currentPagePane;
     private final Button nextButton;
     private final Button backButton;
@@ -36,9 +36,9 @@ public class Questionnaire extends AnchorPane {
     private final StringProperty statusProperty;
     private final Label statusLabel;
 
-    public Questionnaire(Store store) {
+    public Questionnaire(Controller controller) {
         super();
-        this.store = store;
+        this.controller = controller;
         this.questionPages = new ArrayList<>();
         this.backButton = createBackButton();
         this.nextButton = createNextButton();
@@ -80,7 +80,7 @@ public class Questionnaire extends AnchorPane {
     }
 
     public void addQuestionPage(QuestionPage page){
-        this.store.updateQuestionVisibilities();
+        this.controller.updateQuestionVisibilities();
         this.questionPages.add(page);
         if (this.currentPagePane.getContent() == null) {
             this.currentPagePane.setContent(page);
@@ -91,7 +91,7 @@ public class Questionnaire extends AnchorPane {
 
     private ProgressBar createProgressBar(){
         ProgressBar progressBar = new ProgressBar(0);
-        progressBar.progressProperty().bind(store.progressProperty());
+        progressBar.progressProperty().bind(controller.progressProperty());
         progressBar.prefWidthProperty().bind(this.widthProperty());
         progressBar.progressProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -134,7 +134,7 @@ public class Questionnaire extends AnchorPane {
                         backButton.setDisable(false);
                     return;
                 }
-                if (store.progressProperty().get() < 1) {
+                if (controller.progressProperty().get() < 1) {
                     statusProperty.set("You need to complete all questions!");
                     return;
                 }
@@ -153,7 +153,7 @@ public class Questionnaire extends AnchorPane {
     }
 
     private void exportResults(){
-        if (store.exportResults(System.getProperty("user.dir") + File.separator + "out"))
+        if (controller.exportResults(System.getProperty("user.dir") + File.separator + "out"))
             System.exit(0);
         else {
             statusProperty.set("Could not export file to user.dir!");
