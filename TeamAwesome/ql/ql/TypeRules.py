@@ -1,5 +1,5 @@
-from .CustomTypes import *
 import operator
+from .QLTypes import *
 
 class OperatorTable:
     def __init__(self):
@@ -57,10 +57,10 @@ class OperatorTable:
     def _createRules(self):
         rules = {}
         rules.update(self._numericalUnaryOperatorRules())
-        rules.update(self._booleanUnaryOperatorRules())
-        rules.update(self._numericalBinaryOperatorRules())
-        rules.update(self._stringBinaryOperatorRules())
-        rules.update(self._booleanBinaryOperatorRules())
+        #rules.update(self._booleanUnaryOperatorRules())
+        #rules.update(self._numericalBinaryOperatorRules())
+        #rules.update(self._stringBinaryOperatorRules())
+        #rules.update(self._booleanBinaryOperatorRules())
         return rules
 
     def _numericalUnaryOperatorRules(self):
@@ -69,8 +69,8 @@ class OperatorTable:
             pyOp = self._getUnaryPythonOperator(op)
 
             rules.update({
-                (op, int) : (int, lambda r, pyOp = pyOp : pyOp(r)),
-                (op, Money) : (Money, lambda r, pyOp = pyOp : Money(pyOp(r)))
+                (op, QLInteger) : (QLInteger, lambda r, pyOp = pyOp : QLInteger(pyOp(r.value))),
+                (op, QLMoney) : (QLMoney, lambda r, pyOp = pyOp : QLMoney(pyOp(r.value)))
             })
         return rules
 

@@ -24,7 +24,7 @@ public class BooleanNode extends AExpression{
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
+    public Value evaluate(Map<IdentifierNode, Value> variables) {
         return new BooleanValue(value);
     }
 

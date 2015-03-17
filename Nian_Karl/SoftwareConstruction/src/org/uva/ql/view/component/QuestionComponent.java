@@ -25,7 +25,7 @@ public class QuestionComponent extends Panel{
 		this.question = question;
 		this.label = new Label(question.getText());
 		this.widget = widget;
-		widget.setIdentifier(question.getIdentifier().toString());
+		widget.setIdentifier(question.getIdentifier());
 		setBackground(Color.red);
 
 		// Making GridBagConstraints for label

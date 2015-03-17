@@ -1,14 +1,15 @@
 package com.klq.controller;
 
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;
 import com.klq.gui.control.ARenderedQuestion;
 import com.klq.gui.control.ComputedRenderedQuestion;
-import com.sun.istack.internal.NotNull;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,14 +22,14 @@ import java.util.*;
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Store implements IKLQItem {
-    private final List<String> order;
-    private final Map<String, ARenderedQuestion> questionStore;
-    private final Map<String, Value> variables;
+public class Controller implements IKLQItem {
+    private final List<IdentifierNode> order;
+    private final Map<IdentifierNode, ARenderedQuestion> questionStore;
+    private final Map<IdentifierNode, Value> variables;
 
     private final DoubleProperty progressProperty;
 
-    public Store() {
+    public Controller() {
         order = new ArrayList<>();
         questionStore = new HashMap<>();
         variables = new HashMap<>();
@@ -43,25 +44,25 @@ public class Store implements IKLQItem {
 
     public List<ARenderedQuestion> getOrderedQuestions() {
         List<ARenderedQuestion> result = new ArrayList<>();
-        for (String id : order) {
+        for (IdentifierNode id : order) {
             result.add(questionStore.get(id));
         }
         return result;
     }
 
-    public Map<String, Value> getVariables() {
+    public Map<IdentifierNode, Value> getVariables() {
         return variables;
     }
 
 
-    public boolean dependenciesResolved(String questionId) {
+    public boolean dependenciesResolved(IdentifierNode questionId) {
         assert questionStore.containsKey(questionId): "All questions should be in the question store.";
         ARenderedQuestion question = questionStore.get(questionId);
 
         return question.dependenciesResolved(variables);
     }
 
-    public void updateAnswer(String questionId, @NotNull Value answer) {
+    public void updateAnswer(IdentifierNode questionId, @NotNull Value answer) {
         assert(variables.containsKey(questionId));
         variables.put(questionId, answer);
 
@@ -71,7 +72,7 @@ public class Store implements IKLQItem {
     }
 
     public void updateQuestionVisibilities(){
-        for (String id : questionStore.keySet()){
+        for (IdentifierNode id : questionStore.keySet()){
             boolean visible = dependenciesResolved(id);
             ARenderedQuestion q = questionStore.get(id);
             if (q.isVisible() != visible) {
@@ -121,7 +122,7 @@ public class Store implements IKLQItem {
             PrintWriter writer = new PrintWriter(file, encoding);
             writer.write(String.format("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>%n"));
             writer.write(String.format("<questionnaire>%n"));
-            for (String id : order) {
+            for (IdentifierNode id : order) {
                 Value assignedValue = variables.get(id);
                 String varString = assignedValue.toString();
                 String xmlTag = String.format("\t<%s>%n" + "\t\t%s%n" + "\t</%s>%n",

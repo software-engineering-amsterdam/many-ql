@@ -11,12 +11,15 @@ public abstract class ABinaryExprNode extends AExpression {
 
     public ABinaryExprNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(location);
-        this.leftChild = leftChild;
-        this.rightChild = rightChild;
+        init(leftChild, rightChild);
     }
 
     public ABinaryExprNode(AExpression leftChild, AExpression rightChild) {
         super();
+        init(leftChild, rightChild);
+    }
+
+    private void init(AExpression leftChild, AExpression rightChild) {
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }

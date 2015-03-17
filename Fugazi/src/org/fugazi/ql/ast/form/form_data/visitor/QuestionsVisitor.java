@@ -14,7 +14,6 @@ public class QuestionsVisitor extends StatementsVisitor {
         super(_form);
         this.questions = new ArrayList<>();
         this.questionTypes = new HashMap<>();
-
     }
 
     /**

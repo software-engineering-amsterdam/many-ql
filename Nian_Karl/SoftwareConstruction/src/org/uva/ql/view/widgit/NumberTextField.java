@@ -1,6 +1,6 @@
 package org.uva.ql.view.widgit;
 
-import org.uva.ql.ast.value.Value;
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.view.listener.NumberTextFieldListener;
 import org.uva.ql.view.listener.WidgetListener;
 
@@ -21,7 +21,7 @@ public class NumberTextField extends BaseTextField {
 	}
 
 	@Override
-	public void setIdentifier(String identifier) {
+	public void setIdentifier(Identifier identifier) {
 		super.setIdentifier(identifier);
 		NumberTextFieldListener textFieldListener = new NumberTextFieldListener(widgetListener, getIdentifier(), this);
 		textField.getDocument().addDocumentListener(textFieldListener);

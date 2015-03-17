@@ -23,7 +23,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private List<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
-    private String currentQuestion; //tracks for which question we are currently detecting the cycle
+    private IdentifierNode currentQuestion; //tracks for which question we are currently detecting the cycle
 
     private List<Type> allowedMathExprTypes;
     private List<Type> allowedBooleanExprTypes;
@@ -59,7 +59,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
         cyclicDetector.calculateFullDependencies();
         if(cyclicDetector.hasCycles()){
-            for(String cyclicId : cyclicDetector.getCyclicIds()){
+            for(IdentifierNode cyclicId : cyclicDetector.getCyclicIds()){
                 errors.add(new CyclicDependency(table.get(cyclicId)));
             }
         }
@@ -87,10 +87,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(ConditionalNode node) {
-        if(node.getCondition() instanceof ABooleanNode) {
-            node.getCondition().accept(this);
-        }
-        else{
+        if(node.getCondition().accept(this) != Type.BOOLEAN) {
             errors.add(new InvalidCondition(node));
         }
 
@@ -125,9 +122,9 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Type visit(IdentifierNode node) {
-        if(table.has(node.getIdentifier())){
-            cyclicDetector.addDependency(currentQuestion, node.getIdentifier());
-            return table.getQuestionType(node.getIdentifier());
+        if(table.has(node)){
+            cyclicDetector.addDependency(currentQuestion, node);
+            return table.getQuestionType(node);
         }
         else {
             errors.add(new QuestionIDReference(node));
@@ -192,6 +189,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     public Type visit(OrNode node) {
         return visitBinaryBooleanNode(node, "||", allowedAndOrExprTypes);
     }
+
     private Type visitBinaryBooleanNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
         visitBinaryNode(node, operator, allowedTypes);
         return Type.BOOLEAN;

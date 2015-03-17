@@ -9,7 +9,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
     public class CustomTextBox : TextBox
     {
         private ObjectHandler inputHandler;
-        public EventUpdateValue eventUpdateValue;
+        public EventUpdateValue EventUpdateValue { get; set; }
 
         #region Constructors
         public CustomTextBox(ObjectHandler inputValidation)
@@ -33,7 +33,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         {
             if (inputHandler.IsValid((sender as CustomTextBox).Text))
             {
-                eventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
+                EventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
 
                 this.BorderBrush = Brushes.Black;
             }

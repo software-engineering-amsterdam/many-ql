@@ -1,7 +1,7 @@
 package com.klq.gui;
 
 import com.klq.gui.control.ARenderedQuestion;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -14,13 +14,13 @@ import java.util.List;
  * Created by Timon on 10.02.2015.
  */
 public class QuestionPage extends ScrollPane {
-    private final Store store;
+    private final Controller controller;
     private final VBox vbox;
     //private final StyleMap style;
 
-    public QuestionPage(Store store/*, StyleMap style*/){
+    public QuestionPage(Controller controller/*, StyleMap style*/){
         super();
-        this.store = store;
+        this.controller = controller;
         this.vbox = new VBox(10);
         //this.style = style;
         init();
