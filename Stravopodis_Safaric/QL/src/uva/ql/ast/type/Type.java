@@ -2,11 +2,13 @@ package uva.ql.ast.type;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.visitor.TypeVisitor;
 
 public abstract class Type extends ASTNode{
 	
-	public abstract <T> T accept(ExpressionVisitorInterface<T> visitor);
+	public abstract <T> T accept(TypeVisitor<T> visitor); 
+	public abstract GenericValue<?> initialTypeValue();
 	
 	public Type(){
 		super();

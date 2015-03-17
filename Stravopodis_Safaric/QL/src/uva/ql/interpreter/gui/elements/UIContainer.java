@@ -6,26 +6,32 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import uva.ql.supporting.Tuple;
-
 public class UIContainer extends JPanel{
 
 	static final long serialVersionUID = 42L; 
-	private Tuple<Integer, Integer> containerSize;
+	private Size containerSize;
 
-	public UIContainer( Tuple<Integer, Integer> _containerSize){
+	public UIContainer(Size _containerSize){
 		this.containerSize = _containerSize;
-		
-		this.setSize(_containerSize.x, _containerSize.y);
+		this.setContainer();
+	}
+	
+	private void setContainer(){
+		this.setSize(this.containerSize.getWidth(), this.containerSize.getHeight());
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 	}
 	
-	public Tuple<Integer, Integer> getContainerSize(){
+	public Size getContainerSize(){
 		return this.containerSize;
 	}
 	
-	public void addComponent(Object obj){
-		this.add((Component) obj);
+	public Component getChildComponent(){
+		for (Component component : this.getComponents()){
+			if (!component.getClass().equals(UILabel.class)){
+				return component;
+			}
+		}
+		return null;
 	}
 	
 	public void addComponents(List<Object> objects){
@@ -33,4 +39,9 @@ public class UIContainer extends JPanel{
 			this.addComponent(obj);
 		}
 	}
+	
+	private void addComponent(Object obj){
+		this.add((Component) obj);
+	}
+	
 }

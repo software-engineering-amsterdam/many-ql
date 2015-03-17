@@ -2,17 +2,21 @@ package uva.ql.ast.expressions.literals;
 
 import java.util.Arrays;
 import java.util.List;
-
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeInteger;
 import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class IntLiteral extends Literal{
 	
 	private Integer value;
+	
+	public IntLiteral(Integer _value){
+		super(new CodeLines(0,0));	// Set an initial value
+		this.value = _value;
+	}
 	
 	public IntLiteral(CodeLines _codeLines){
 		super(_codeLines);
@@ -34,7 +38,7 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public List<Type> getValueType() {
+	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
 	}
 	
@@ -44,7 +48,7 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitIntLiteral(this);
 	}
 	
