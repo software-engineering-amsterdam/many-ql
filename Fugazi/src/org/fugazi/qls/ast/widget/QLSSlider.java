@@ -18,9 +18,9 @@ import java.util.List;
 
 public class QLSSlider extends AbstractQLSWidget {
 
-    static final int MIN = -1000;
-    static final int MAX = 1000;
-    static final int STEP = 1;
+    private static final int MIN = -1000;
+    private static final int MAX = 1000;
+    private static final int STEP = 1;
 
     private IntValue value;
 
