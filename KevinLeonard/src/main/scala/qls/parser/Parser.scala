@@ -16,8 +16,8 @@ class Parser extends JavaTokenParsers {
   override val whiteSpace = qlParsers.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
 
-  def style: Parser[Style] = "style" ~> ident ~ stylesheetElements ^^ {
-    case label ~ sss => Style(label, sss)
+  def style: Parser[StyleSheet] = "style" ~> ident ~ stylesheetElements ^^ {
+    case label ~ sss => StyleSheet(label, sss)
   }
 
   def stylesheetElements: Parser[List[StyleSheetElement]] = "{" ~> rep(page | defaultWidget) <~ "}"
@@ -26,7 +26,7 @@ class Parser extends JavaTokenParsers {
     case v ~ ps => Page(v, ps)
   }
 
-  def pageElements: Parser[List[PageElement]] = "{" ~> rep(section) <~ "}"
+  def pageElements: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
 
   def section: Parser[Section] = "section" ~> stringLiteral ~ sectionElements ^^ {
     case t ~ ss => Section(t.substring(1, t.length - 1).replace("\\", ""), ss)
@@ -35,10 +35,9 @@ class Parser extends JavaTokenParsers {
   def sectionElements: Parser[List[SectionElement]] = "{" ~> rep(question | section) <~ "}"
 
   // question widget parsers
-  // TODO: add positioned parser
-  def question: Parser[Question] = variable ~ widget ^^ {
+  def question: Parser[Question] = positioned(variable ~ widget ^^ {
     case v ~ w => Question(v, w)
-  }
+  })
 
   // TODO: Move question type to QL
   def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
