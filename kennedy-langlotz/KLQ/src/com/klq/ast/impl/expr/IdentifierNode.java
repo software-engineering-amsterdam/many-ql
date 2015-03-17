@@ -3,8 +3,7 @@ package com.klq.ast.impl.expr;
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.value.Value;
-
-import java.util.Map;
+import com.klq.controller.VariableTable;
 
 /**
  * Created by juriaan on 23-2-15.
@@ -31,8 +30,8 @@ public class IdentifierNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierNode, Value> variables) {
-        return variables.get(this);
+    public Value evaluate(VariableTable variableTable) {
+        return variableTable.get(this);
     }
 
     @Override

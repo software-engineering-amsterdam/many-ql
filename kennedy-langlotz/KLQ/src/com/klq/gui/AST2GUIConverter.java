@@ -41,7 +41,6 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
         AExpression expr = node.getCondition();
         QuestionList questionList = new QuestionList();
 
-        //todo refactor
         for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 ARenderedQuestion question = (ARenderedQuestion) child.accept(this);
