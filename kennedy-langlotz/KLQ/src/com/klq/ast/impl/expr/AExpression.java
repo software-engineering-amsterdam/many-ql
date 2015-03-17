@@ -22,7 +22,7 @@ public abstract class AExpression extends ANode {
 
     public abstract <T> T  accept(IExpressionVisitor<T> visitor);
 
-    public abstract Value evaluate(Map<String, Value> variableTable);
+    public abstract Value evaluate(Map<IdentifierNode, Value> variableTable);
 
     public boolean anyUndefined(Value leftChild, Value rightChild){
         return leftChild.isUndefined() || rightChild.isUndefined();

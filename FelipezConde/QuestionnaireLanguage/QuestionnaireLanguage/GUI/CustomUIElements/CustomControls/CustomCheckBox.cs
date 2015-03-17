@@ -8,7 +8,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
     public class CustomCheckBox : CheckBox
     {
         private BoolHandler inputHandler = new BoolHandler();
-        public EventUpdateValue eventUpdateValue;
+        public EventUpdateValue EventUpdateValue { get; set; }
 
         #region Constructors
         public CustomCheckBox()
@@ -20,7 +20,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            eventUpdateValue(((CustomCheckBox)sender).Name, inputHandler.GetValue(sender));
+            EventUpdateValue(((CustomCheckBox)sender).Name, inputHandler.GetValue(sender));
         }
 
         #endregion

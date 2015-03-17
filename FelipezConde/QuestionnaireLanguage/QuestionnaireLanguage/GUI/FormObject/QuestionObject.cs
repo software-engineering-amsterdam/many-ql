@@ -5,6 +5,9 @@ using QuestionnaireLanguage.Visitors;
 using System.Windows;
 using Evaluation.Values;
 using Evaluation;
+using QuestionnaireLanguage.Events;
+using AST.Types;
+using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
@@ -24,17 +27,15 @@ namespace QuestionnaireLanguage.GUI.FormObject
         #region IFormObject
         public override UIElement ProcessFormObject(UIElement form)
         {
-            Widget widget = new TypeToWidget(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
-            widget.EventUpdateValue += UpdateValue;
-
-            widget.IsReadOnly = questionNode.Computation != null ? true : false;
-
-            Widget labelWidget = new LabelWidget();
+            Label questionLabel = new Label() { Content = questionNode.Label.Value };
+            AddChild(questionLabel, form);
 
             Value widgetValue = Evaluate();
+            
+            ValueToUIElement valueToUIElement = new ValueToUIElement(questionNode.Identifier.Name, questionNode.Computation != null);
+            valueToUIElement.EventUpdateValue += UpdateValue;
 
-            AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
-            AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
+            AddChild(widgetValue.Accept(valueToUIElement), form);
 
             return form;
         }
@@ -59,13 +60,13 @@ namespace QuestionnaireLanguage.GUI.FormObject
 
         private void UpdateValue(string id, Value value)
         {
-            //TODO: IMPLEMENT EVENTHANDLER
+            EventUpdateValue(id, value);
         }
 
         public override SymbolTable Register(SymbolTable symbolTable)
         {
             TypeToValue visitor = new TypeToValue();
-            symbolTable.AddValue(questionNode.Identifier, visitor.VisitValue(questionNode.RetrieveType()));
+            symbolTable.AddValue(questionNode.Identifier, questionNode.RetrieveType().Accept(new TypeToValue()));
 
             this.symbolTable = symbolTable;
             

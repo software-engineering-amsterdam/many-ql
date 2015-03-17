@@ -10,7 +10,6 @@ import javax.swing.event.DocumentListener;
 
 public class TextBox implements IWidget {
 
-    private StringValue value;
     private JTextField input;
     private JPanel panel;
 
@@ -52,18 +51,17 @@ public class TextBox implements IWidget {
 
     @Override
     public StringValue getWidgetValue() {
-        this.value = new StringValue(this.input.getText());
-        return this.value;
+        return new StringValue(this.input.getText());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (StringValue) _value;
-        this.input.setText(this.value.getValue());
+        StringValue value = (StringValue) _value;
+        this.input.setText(value.getValue());
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.input.setEnabled(false);
+        this.input.setEditable(false);
     }
 }

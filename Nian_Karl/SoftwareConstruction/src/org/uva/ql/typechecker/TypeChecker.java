@@ -264,12 +264,16 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(QuestionComputed question) {
 		questioncomputedList.add(question.getIdentifier());
-		boolean result1 = checkDeclaration(question);
-		boolean result2 = checkLabel(question);
+		boolean isValidDeclaration = checkDeclaration(question);
+		boolean isValidLabel = checkLabel(question);
+		
+		// Start visiting expression part
 		isVisitingQuestionExpression = true;
-		boolean result3 = question.getExpression().accept(this);
+		boolean isValidExpression = question.getExpression().accept(this);
+		// Complete visiting expression part 
 		isVisitingQuestionExpression = false;
-		return result1 && result2 && result3;
+		
+		return isValidDeclaration && isValidLabel && isValidExpression;
 	}
 
 	@Override

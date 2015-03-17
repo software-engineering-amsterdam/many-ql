@@ -3,7 +3,6 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolw
 import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
@@ -31,8 +30,9 @@ public class CheckboxWidget implements IWidget {
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
-                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable variableTable = variableTableWrapper.getVariableTable();
+                variableTable.setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTable);
                 variableTableWrapper.setVariableTable(newVariableTable);
             }
         });

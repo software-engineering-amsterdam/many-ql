@@ -17,7 +17,6 @@ import org.uva.ql.view.panel.Panel;
 
 public class FormFrame extends JFrame {
 
-	private String identifier;
 	private static final long serialVersionUID = 1L;
 	private List<IfQuestionPanel> dependentQuestionPanels;
 	private List<ExprQuestionComponent> dependentQuestionComponents;
@@ -31,27 +30,20 @@ public class FormFrame extends JFrame {
 		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
 	}
 
-	public String getIdentifier() {
-		return identifier;
-	}
-
 	private void addWithConstraints(Component component) {
 		add(component, "wrap,push");
 	}
 
 	public void addQuestionPanel(Panel panel) {
-		System.out.println("Adding  Panel");
 		addWithConstraints(panel);
 	}
 
 	public void addIfQuestionPanel(IfQuestionPanel panel) {
-		System.out.println("Adding if question");
 		addWithConstraints(panel);
 		dependentQuestionPanels.add(panel);
 	}
 
 	public void addExprQuestionPanel(ExprQuestionComponent panel) {
-		System.out.println("Adding Exprssion Question");
 		addWithConstraints(panel);
 		dependentQuestionComponents.add(panel);
 	}

@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from .EvaluatorTypes import Form, Question
-from ..CustomTypes import *
 from ..ast import Nodes
 
 class QuestionValueTable(object):
