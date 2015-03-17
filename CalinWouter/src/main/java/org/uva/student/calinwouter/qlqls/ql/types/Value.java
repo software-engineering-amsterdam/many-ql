@@ -1,100 +1,80 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.exceptions.CastException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedArithmeticOperationException;
 
-/**
- * Value with basic operators. Implementations should support value=null for the typechecker, which basically
- * throws an error in case of an exception or returns the Value with value=null.
- *
- * @param <T> the type of the value stored internally.
- */
-public abstract class Value<T> {
-    private final T value;
-    private TypeDescriptor<?> typeDescriptor;
+public abstract class Value {
+    private final Object value;
 
-    public Value<?> and(Value<?> value) {
-        throw new CastException("and", getTypeModelClass(), value.getTypeModelClass());
+    public Value and(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> or(Value<?> value) {
-        throw new CastException("or", getTypeModelClass(), value.getTypeModelClass());
+    public Value or(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> add(Value<?> value) {
-        throw new CastException("add", getTypeModelClass(), value.getTypeModelClass());
+    public Value add(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> sub(Value<?> value) {
-        throw new CastException("sub", getTypeModelClass(), value.getTypeModelClass());
+    public Value sub(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> mul(Value<?> value) {
-        throw new CastException("mul", getTypeModelClass(), value.getTypeModelClass());
+    public Value mul(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> div(Value<?> value) {
-        throw new CastException("div", getTypeModelClass(), value.getTypeModelClass());
+    public Value div(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> mod(Value<?> value) {
-        throw new CastException("mod", getTypeModelClass(), value.getTypeModelClass());
+    public Value mod(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> not() {
-        throw new CastException("not", getTypeModelClass());
+    public Value not() {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> eq(Value<?> value) {
-        if (getValue() == null)
-            return new BoolValue(null);
-        return new BoolValue(getValue().equals(value.getValue()));
+    public Value eq(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> neq(Value<?> value) {
-        if (getValue() == null)
-            return new BoolValue(null);
-        return new BoolValue(!getValue().equals(value.getValue()));
+    public Value neq(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> lt(Value<?> value) {
-        throw new CastException("lt", getTypeModelClass(), value.getTypeModelClass());
+    public Value lt(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> gt(Value<?> value) {
-        throw new CastException("gt", getTypeModelClass(), value.getTypeModelClass());
+    public Value gt(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> lte(Value<?> value) {
-        throw new CastException("lte", getTypeModelClass(), value.getTypeModelClass());
+    public Value lte(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public Value<?> gte(Value<?> value) {
-        throw new CastException("gte", getTypeModelClass(), value.getTypeModelClass());
+    public Value gte(Value value) {
+        throw new UnsupportedArithmeticOperationException();
     }
 
-    public abstract Class<T> getTypeModelClass();
-
-    public abstract void apply(TypeCallback typeCallback);
-
-    public T getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public Value(T value) {
+    public Value(Object value) {
+        assert(value != null);
         this.value = value;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Value && ((Value) obj).getValue().equals(getValue());
-    }
+    public abstract void apply(TypeCallback typeCallback);
 
     @Override
     public String toString() {
         return "" + getValue();
     }
-
-    public abstract TypeDescriptor<?> getTypeDescriptor();
 }

@@ -5,6 +5,7 @@ package com.klq.ast.impl.expr.value;
  * Created by Timon on 03.03.2015.
  */
 public abstract class Value<T> {
+    //TODO move value packages out of expression package
     private final T value;
 
     public Value(T value){

@@ -13,5 +13,4 @@ public class Width extends Style {
     public int getWidth() {
         return width;
     }
-
 }

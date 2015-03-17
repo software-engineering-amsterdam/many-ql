@@ -1,143 +1,208 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using QL.Errors;
-using QL.Evaluation;
-using QL.Model.Terminals;
-using System;
+using Antlr4.Runtime;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
+using QL.Exceptions.Warnings;
+using QL.Visitors;
 using QL.Grammars;
 using QL.Infrastructure;
-using Antlr4.Runtime;
-using System.IO;
+using QL.Model;
+using QL.Model.Terminals;
+using QL.Visitors.UIWrappers;
 
-namespace QL.Model
+namespace QL
 {
-    public class AstHandler
+    /// <summary>
+    /// This is the god class.
+    ///  After putting source as into the constructor, this class accumulates all the information
+    ///  made by evaluator, type checker ...
+    ///  Is this good, bad? 
+    /// </summary>
+    public sealed class ASTHandler
     {
+        private readonly string _input;
+        private readonly Stream _inputStream;
+
+        /// <summary>
+        /// The main form (i.e. entry point) in the AST
+        /// </summary>
         public Form RootNode { get; private set; }
 
-        public IList<Exception> AstBuilderExceptions { get; private set; }
-
-
-        public IList<QLError> TypeCheckerErrors { get; private set; }        // TODO | maybe merge warnings & errors
-        public IList<QLWarning> TypeCheckerWarnings { get; private set; }    // TODO | after UI has completed
-        public IList<QLError> EvaluationErrors { get; private set; }
-        public IList<QLWarning> EvaluationWarnings { get; private set; }
-        
+        /// <summary>
+        /// A collection of all errors and warnings occurring during all stages of interpreting input grammar
+        /// </summary>
+        public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
+       
+        /// <summary>
+        /// Maps defined identifiers to the datatype of the value they contain
+        /// </summary>
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
-        public IDictionary<ITypeResolvable, IResolvableTerminalType> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        /// <summary>
+        /// 
+        /// </summary>
+        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
+        public IList<IRenderable> ElementsToDisplay;
 
-        string Input;
-        Stream InputStream;
+        bool _astBuilt;
+        bool _typeChecked;
+        bool _evaluated;
+        bool _uiEvaluated;
 
-        bool AstBuilt;
-        bool TypeChecked;
-        bool Evaluated;
-        
-
-
-
-
-        
-        public AstHandler(string input)        {
-            
-            TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
-            AstBuilt = TypeChecked = Evaluated = false;
-            Input = input;
-
-        }
-        public AstHandler(Stream input)
+        private ASTHandler()
         {
-
-            TypeReference = new SortedDictionary<Identifier, Type>();
-            ReferenceLookupTable = null;
-            AstBuilt = TypeChecked = Evaluated = false;
-            InputStream = input;
-
+            ASTHandlerExceptions = new ObservableCollection<QLException>();
+            TypeReference = new Dictionary<Identifier, Type>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
+            IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
+            ElementsToDisplay = new List<IRenderable>();
+            _astBuilt = _typeChecked = _evaluated = _uiEvaluated = false;
         }
 
-        
+        public ASTHandler(string input) : this()
+        {
+            _input = input;
+        }
+
+        public ASTHandler(Stream input) : this()
+        {
+            _inputStream = input;
+        }
 
         public bool BuildAST()
         {
+            ASTHandlerExceptions.Clear();
 
-            AstBuilderExceptions = new List<Exception>();
             AntlrInputStream inputStream;
-            if (Input!=null){
-                inputStream = new AntlrInputStream(Input);
-                }
-            else if (InputStream!=null){
-                inputStream = new AntlrInputStream(InputStream);
-                }
-            else{
-                throw new Exception("no input");
+            if (_input != null)
+            {
+                inputStream = new AntlrInputStream(_input);
+            }
+            else if (_inputStream != null)
+            {
+                inputStream = new AntlrInputStream(_inputStream);
+            }
+            else
+            {
+                throw new Exception("No proper input provided for building an AST");
             }
 
             QLLexer lexer = new QLLexer(inputStream);
-            lexer.AddErrorListener(new LexerErrorHandler(AstBuilderExceptions));
+            lexer.AddErrorListener(new LexerErrorHandler(ASTHandlerExceptions));
+
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
-            parser.AddErrorListener(new ParserErrorHandler(AstBuilderExceptions));
-            QLListener listener = new QLListener(AstBuilderExceptions);
+            parser.AddErrorListener(new ParserErrorHandler(ASTHandlerExceptions));
+            
+            QLListener listener = new QLListener(ASTHandlerExceptions);
             parser.AddParseListener(listener);
-            parser.formBlock();            // parses the input as a formBlock(cos it's on the top)
-            RootNode = listener.GetAstRootNode();            
-            AstBuilt=!AstBuilderExceptions.Any();
-            return AstBuilt;
+            
+            // commence parsing the input as a formBlock since it's supposed to be the entry point of the input file
+            parser.formBlock();
+            RootNode = listener.GetAstRootNode();
+            
+            _astBuilt = !ASTHandlerExceptions.Any();
+            return _astBuilt;
         }
 
 
         public bool CheckType()
         {
-            if (!AstBuilt)
+            if (!_astBuilt)
             {
-                throw new Exception("Ast is not built");
+                throw new QLException("Ast is not built");
+            }
+            else
+            {
+                ASTHandlerExceptions.Clear();
             }
 
-            TypeCheckerErrors = new List<QLError>();
-            TypeCheckerWarnings = new List<QLWarning>();
-            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, TypeCheckerErrors, TypeCheckerWarnings);
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
             try
             {
                 RootNode.Accept(typeChecker);
             }
             catch (QLError ex)
             {
-                /*
-                These exceptions are caught because of something, 
-                 * not directly related with type checking,
-                 * is preventing from finishing the type checking.
-                */
-                TypeCheckerErrors.Add(ex);
+                /* Exceptions preventing TypeChecker from finishing */
+                ASTHandlerExceptions.Add(ex);
             }
 
-            TypeChecked =  !TypeCheckerErrors.Any();
-            return TypeChecked;
+            _typeChecked = !ASTHandlerExceptions.Any();
+            return _typeChecked;
         }
 
         public bool Evaluate()
         {
-            if (!TypeChecked)
+            if (!_typeChecked)
             {
                 throw new Exception("Not type checked");
             }
-
-            EvaluationErrors = new List<QLError>();
-            EvaluationWarnings = new List<QLWarning>();
-
-            EvaluatorVisitor evaluator = new EvaluatorVisitor(EvaluationErrors, EvaluationWarnings);
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
+            EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
-                RootNode.Accept(evaluator);
-                ReferenceLookupTable = evaluator.GetValuesIfNoErrors();
+                RootNode.AcceptBottomUp(evaluator);
             }
             catch (QLError ex)
             {
-                EvaluationErrors.Add(ex);
+                /* Exceptions preventing Evaluator from finishing */
+                ASTHandlerExceptions.Add(ex);                
+
             }
 
-            Evaluated= !EvaluationErrors.Any();
-            return Evaluated;
+            _evaluated = !ASTHandlerExceptions.Any();
+            return _evaluated;
+            
+        }
+
+        public bool EvaluateUI()
+        {
+            if (!_evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
+            UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
+            try
+            {
+               RootNode.AcceptSingle(visitor);
+            }
+            catch (QLError ex)
+            {
+                ASTHandlerExceptions.Add(ex);
+            }
+            _uiEvaluated = !ASTHandlerExceptions.Any();
+            if (!_uiEvaluated) {
+                ElementsToDisplay.Clear();
+                }
+            return _uiEvaluated;
+
+        }
+        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        {
+            //convenience method for getting the Terminal wrapper based on identifier name. 
+            return GetWrappedValue(new Identifier(IdentifierName));
+        }
+        public ITerminalWrapper GetWrappedValue(Identifier i)
+        {
+            //convenience method for getting the Terminal wrapper based on Identifier node. 
+            if (!_evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+
+            return ReferenceLookupTable[IdentifierTable[i]];
         }
     }
 }

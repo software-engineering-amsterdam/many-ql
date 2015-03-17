@@ -1,0 +1,21 @@
+form {
+
+	question works bool
+ 	label : "Have you worked in the previous year?"
+    
+	enable when (works) {
+		
+		question firmName string 
+		label : "What is the name of the firm you worked for?"
+		
+		question salary int 
+		label : "How much did you earn (yearly)?"
+	}
+	
+	question bank int 
+ 	label : "How much money is on your bank account?"
+	
+	question totalTaxes int
+	label    : "You have to pay:"
+  	computed : (salary + bank) / 6
+}

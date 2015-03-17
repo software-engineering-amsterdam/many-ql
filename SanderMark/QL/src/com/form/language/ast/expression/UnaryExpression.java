@@ -1,31 +1,18 @@
 package com.form.language.ast.expression;
 
-import org.antlr.v4.runtime.Token;
+import com.form.language.error.QLToken;
+import com.form.language.memory.IdCollection;
 
-import com.form.language.ast.type.ErrorType;
-import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+public abstract class UnaryExpression extends Expression {
+    protected Expression value;
 
-public abstract class UnaryExpression implements Expression{
-	public Token tokenInfo;
-	public Expression value;
-	public UnaryExpression(Expression value, Token tokenInfo) {
-		this.value = value;
-		this.tokenInfo = tokenInfo;
-	}
-	
-	@Override
-	public Boolean isCorrectlyTyped(Context mem) {
-		return !this.getType(mem).equals(new ErrorType());
-	}
-	
-	@Override
-	public String showTokenInfo(){
-		return "line: " + tokenInfo.getLine();
-	}
-	
-	@Override
-	public void collectIds(IdCollector idCollector) {
-		value.collectIds(idCollector);
-	}	
+    protected UnaryExpression(Expression value, QLToken tokenInfo) {
+	super(tokenInfo);
+	this.value = value;
+    }
+
+    @Override
+    public void collectIds(IdCollection idCollection) {
+	value.collectIds(idCollection);
+    }
 }

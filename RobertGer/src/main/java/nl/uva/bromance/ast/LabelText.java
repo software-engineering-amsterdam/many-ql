@@ -1,25 +1,23 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LabelText extends Node {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Label.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class));
+public class LabelText extends QLNode {
     private String text;
     private List<String> variables;
 
     public LabelText(int lineNumber, String text) {
         super(lineNumber, LabelText.class);
-        this.setAcceptedParents(parentsAllowed);
         if (text != null) {
             this.text = text.substring(1, text.length() - 1); // Remove double brackets around text;
             variables = extractVariablesFromText(text);
@@ -55,17 +53,25 @@ public class LabelText extends Node {
             }
         }
         System.out.print("]} \n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 
         return null;
+    }
+
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

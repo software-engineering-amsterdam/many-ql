@@ -2,14 +2,14 @@ package qls.parser
 
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
-import ql.ast.{NumberType, Variable}
+import ql.ast.{BooleanType, NumberType, Variable}
 import qls.ast._
 
 class ParserSpec extends Specification with ParserMatchers {
 
   val parsers = new Parser
   import parsers._
-  
+
   "variable parser" should {
     "parse a valid Java identifier" in {
       variable must succeedOn("var1")
@@ -62,7 +62,7 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(FontColor(HexadecimalColor("00ff00")))
     }
   }
-  
+
   "widget style" should {
     "parse style block" in {
       widgetStyle must succeedOn("{" +
@@ -74,31 +74,31 @@ class ParserSpec extends Specification with ParserMatchers {
         .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
     }
   }
-  
+
   "widget parser" should {
     "parse spinbox" in {
       question must succeedOn("var1 spinbox")
-        .withResult(Question(Variable("var1"), SpinBox(None)))
+        .withResult(Question(Variable("var1"), SpinBox(List())))
     }
     "parse slider" in {
       question must succeedOn("var1 slider")
-        .withResult(Question(Variable("var1"), Slider(None)))
+        .withResult(Question(Variable("var1"), Slider(List())))
     }
     "parse text" in {
       question must succeedOn("var1 text")
-        .withResult(Question(Variable("var1"), Text(None)))
+        .withResult(Question(Variable("var1"), Text(List())))
     }
     "parse textBlock" in {
       question must succeedOn("var1 textBlock")
-        .withResult(Question(Variable("var1"), TextBlock(None)))
+        .withResult(Question(Variable("var1"), TextBlock(List())))
     }
     "parse radio" in {
       question must succeedOn("var1 radio")
-        .withResult(Question(Variable("var1"), Radio(None)))
+        .withResult(Question(Variable("var1"), Radio(List())))
     }
     "parse dropdown" in {
       question must succeedOn("var1 dropdown")
-        .withResult(Question(Variable("var1"), DropDown(None)))
+        .withResult(Question(Variable("var1"), DropDown(List())))
     }
     "parse spinbox with style" in {
       question must succeedOn("var1 spinbox {" +
@@ -107,7 +107,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),SpinBox(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse slider with style" in {
       question must succeedOn("var1 slider {" +
@@ -116,7 +116,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),Slider(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse text with style" in {
       question must succeedOn("var1 text {" +
@@ -125,7 +125,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),Text(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),Text(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse textBlock with style" in {
       question must succeedOn("var1 textBlock {" +
@@ -134,7 +134,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),TextBlock(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),TextBlock(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse radio with style" in {
       question must succeedOn("var1 radio {" +
@@ -143,7 +143,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),Radio(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),Radio(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse dropdown with style" in {
       question must succeedOn("var1 dropdown {" +
@@ -152,15 +152,15 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(Question(Variable("var1"),DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse question sequence" in {
-      questions must succeedOn("{" +
+      sectionElements must succeedOn("{" +
         "var1 dropdown" +
         "var2 dropdown" +
       "}"
       )
-        .withResult(List(Question(Variable("var1"),DropDown(None)), Question(Variable("var2"),DropDown(None))))
+        .withResult(List(Question(Variable("var1"),DropDown(List())), Question(Variable("var2"),DropDown(List()))))
     }
   }
 
@@ -180,7 +180,16 @@ class ParserSpec extends Specification with ParserMatchers {
             "color: #99FF66" +
           "}" +
         "}")
-        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))), Question(Variable("var2"),Slider(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))), None))
+        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))),Question(Variable("var2"),Slider(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))
+    }
+    "parse section in section" in {
+      parsers.section must succeedOn("section \"section1\" {" +
+        "var1 slider" +
+        "section \"section2\" {" +
+          "var2 dropdown" +
+        "}" +
+      "}")
+        .withResult(Section("section1",List(Question(Variable("var1"),Slider(List())), Section("section2",List(Question(Variable("var2"),DropDown(List())))))))
     }
   }
 
@@ -190,20 +199,21 @@ class ParserSpec extends Specification with ParserMatchers {
           "section \"section1\" {}" +
           "section \"section2\" {}" +
         "}")
-        .withResult(Page(Variable("page1"),List(Section("section1",List(), None),Section("section2",List(), None)), None))
+        .withResult(Page(Variable("page1"),List(Section("section1",List()),Section("section2",List()))))
     }
   }
 
   "style parser" should {
     "parse style" in {
       style must succeedOn("style PartyForm {" +
+          "default boolean slider" +
           "page page1 {}" +
           "page page2 {}" +
         "}")
-        .withResult(Style("PartyForm",List(Page(Variable("page1"),List(), None), Page(Variable("page2"),List(), None)),None))
+        .withResult(Style("PartyForm",List(DefaultWidget(BooleanType(), Slider(List())), Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
     }
   }
-  
+
   "defaultWidget parser" should {
     "parse default number spinbox with style" in {
       defaultWidget must succeedOn("default number spinbox {" +
@@ -212,9 +222,9 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(DefaultWidget(NumberType(),SpinBox(Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))))))
+        .withResult(DefaultWidget(NumberType(),SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
   }
-  
-  
+
+
 }

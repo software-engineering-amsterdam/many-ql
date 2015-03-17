@@ -48,15 +48,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Errors\DivisionByZeroError.cs" />
-    <Compile Include="Errors\QLException.cs" />
-    <Compile Include="Errors\QLWarning.cs" />
-    <Compile Include="Evaluation\EvaluatorVisitor.cs" />
-    <Compile Include="Evaluation\IVisitor.cs" />
-    <Compile Include="Evaluation\TypeCheckerVisitor.cs" />
-    <Compile Include="Errors\QLError.cs" />
-    <Compile Include="Errors\RedeclaredVariableWarning.cs" />
-    <Compile Include="Errors\TypeError.cs" />
+    <Compile Include="Exceptions\Errors\EvaluationError.cs" />
+    <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
+    <Compile Include="Exceptions\Errors\LexerError.cs" />
+    <Compile Include="Exceptions\Errors\ParserError.cs" />
+    <Compile Include="Exceptions\QLException.cs" />
+    <Compile Include="Exceptions\Warnings\QLWarning.cs" />
+    <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="Visitors\EvaluatorVisitor.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\ITerminalWrapper.cs" />
+    <Compile Include="Evaluation\GUIBuilderVisitor.cs" />
+    <Compile Include="Visitors\IVisitor.cs" />
+    <Compile Include="Visitors\TypeCheckerVisitor.cs" />
+    <Compile Include="Exceptions\Errors\QLError.cs" />
+    <Compile Include="Exceptions\Warnings\RedeclaredVariableWarning.cs" />
+    <Compile Include="Exceptions\Errors\TypeCheckerError.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\NumberWrapper.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\YesnoWrapper.cs" />
+    <Compile Include="Visitors\EvaluationWrappers\TextWrapper.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
@@ -79,6 +89,7 @@
     <Compile Include="Model\ITraversable.cs" />
     <Compile Include="Model\ITypeResolvableDirectly.cs" />
     <Compile Include="Model\ITypeResolvableByChildren.cs" />
+    <Compile Include="Model\IBottomUpVisitable.cs" />
     <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
     <Compile Include="Model\Operators\DivisionOperator.cs" />
@@ -117,10 +128,16 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Exceptions\Warnings\TypeCheckerWarning.cs" />
+    <Compile Include="Visitors\UIWrappers\IRenderable.cs" />
+    <Compile Include="Visitors\UIWrappers\QuestionWrapper.cs" />
+    <Compile Include="Visitors\UIWrappers\StatementWrapper.cs" />
+    <Compile Include="Visitors\UserInterfaceVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="AST Diagram.cd" />
+    <None Include="Class diagrams\Error diagram.cd" />
+    <None Include="Class diagrams\AST Diagram.cd" />
     <None Include="Definitions\CodeFile1.ql" />
     <None Include="Definitions\Ideas v1.ql" />
     <None Include="Definitions\Ideas v2.ql" />

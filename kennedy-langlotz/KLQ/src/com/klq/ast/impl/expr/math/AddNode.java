@@ -1,8 +1,7 @@
 package com.klq.ast.impl.expr.math;
 
-import com.common.Location;
-import com.klq.ast.IVisitor;
-import com.klq.ast.impl.expr.ABinaryExprNode;
+import com.klq.ast.IExpressionVisitor;
+import com.klq.ast.impl.Location;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.NumberValue;
 import com.klq.ast.impl.expr.value.UndefinedValue;
@@ -25,7 +24,7 @@ public class AddNode extends AMathNode {
     }
 
     @Override
-    public <T> T accept(IVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

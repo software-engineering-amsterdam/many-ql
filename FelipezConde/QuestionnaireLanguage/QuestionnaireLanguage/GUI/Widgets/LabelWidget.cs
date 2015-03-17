@@ -1,25 +1,18 @@
-﻿using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using AST.Nodes.Labels;
+﻿using QuestionnaireLanguage.Events;
 using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
+using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class LabelWidget : Widget
     {
-        private Label node;
-        public LabelWidget(Label node)
+        public override EventUpdateValue EventUpdateValue { get; set; }
+        public LabelWidget()
         {
-            this.node = node;
         }
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomLabel() { Content = node.Value };
+            return new CustomLabel() { Content = value, };
         }
     }
 }

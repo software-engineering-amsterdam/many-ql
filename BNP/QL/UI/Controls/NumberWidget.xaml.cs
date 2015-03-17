@@ -12,17 +12,34 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QL.UI.Interfaces;
 
 namespace QL.UI.Controls
 {
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class NumberWidget : UserControl
+    public partial class NumberWidget : IWidget
     {
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(NumberWidget));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(NumberWidget));
+
+        public object Value
+        {
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        public object Text
+        {
+            get { return GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
         public NumberWidget()
         {
             InitializeComponent();
+            DataContext = this;
         }
     }
 }

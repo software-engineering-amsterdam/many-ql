@@ -1,31 +1,34 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.qls.model.IRenderable;
+import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Clean and simple QLS renderer.
  */
-public class QLSGUI extends AbstractSwingGUI implements IRenderable<Component> {
+public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
     private final StyleSheet styleSheet;
-    private final HeadlessFormInterpreter headlessFormInterpreter;
-    private final FormTypeChecker formTypeChecker;
+    private final QLInterpreter qlIntepreter;
+    private final VariableTable variableTable;
+    private final StaticFields staticFields;
+    private final VariableTableWrapper variableTableWrapper;
 
     /**
      * In case of a question, render the field by checking its type, fetching its styling settings,
@@ -71,13 +74,9 @@ public class QLSGUI extends AbstractSwingGUI implements IRenderable<Component> {
      * exception when the field cannot be found, which should not happen, because the program should crash
      * before the QLSGUI takes place in case a field is not in both QL and QLS.
      */
-    private TypeDescriptor getTypeDescriptor(FormTypeChecker formTypeChecker, String ident) {
-        for (Map.Entry<String, TypeDescriptor<?>> fieldToTypeMap : formTypeChecker.getFields()) {
-            if (fieldToTypeMap.getKey().equals(ident)) {
-                return fieldToTypeMap.getValue();
-            }
-        }
-        throw new RuntimeException(new FieldNotFoundException());
+    // TODO maybe this method could be part of the typeChecker
+    private TypeDescriptor getTypeDescriptor(String ident) {
+        return staticFields.getTypeOfField(ident);
     }
 
     /**
@@ -89,10 +88,10 @@ public class QLSGUI extends AbstractSwingGUI implements IRenderable<Component> {
     public Component render(Question question) {
         try {
             final String questionIdentifier = question.getIdent();
-            final TypeDescriptor typeDescriptor = getTypeDescriptor(formTypeChecker, questionIdentifier);
+            final TypeDescriptor typeDescriptor = getTypeDescriptor(questionIdentifier);
             final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
             final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(headlessFormInterpreter,question, stylingMap);
+            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper,question, stylingMap, staticFields);
             final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
             return widget.getWidgetComponent();
         } catch(FieldNotFoundException e) {
@@ -109,11 +108,13 @@ public class QLSGUI extends AbstractSwingGUI implements IRenderable<Component> {
         final TypeDescriptor typeless = null;
         final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
         final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue, headlessFormInterpreter);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValue,
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue.getIdent(), variableTableWrapper);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(
+                staticFields.getLabelForField(computedValue.getIdent()),
+                computedValue.getIdent(),
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                headlessFormInterpreter);
+                variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
@@ -131,10 +132,12 @@ public class QLSGUI extends AbstractSwingGUI implements IRenderable<Component> {
         return styleSheet.getStyleSheetName();
     }
 
-    public QLSGUI(StyleSheet styleSheet, HeadlessFormInterpreter headlessFormInterpreter,
-                  FormTypeChecker formTypeChecker) {
-        this.headlessFormInterpreter = headlessFormInterpreter;
-        this.formTypeChecker = formTypeChecker;
+    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable variableTable,
+                  StaticFields staticFields) {
+        this.qlIntepreter = qlIntepreter;
+        this.variableTable = variableTable;
+        this.staticFields = staticFields;
         this.styleSheet = styleSheet;
+        this.variableTableWrapper = new VariableTableWrapper(variableTable);
     }
 }

@@ -1,7 +1,9 @@
 package edu.parser.QLS.nodes;
 
+import edu.nodes.styles.Style;
 import edu.parser.QLS.QLSVisitor;
-import edu.parser.QLS.nodes.statement.Statement;
+import edu.parser.QLS.nodes.statement.Default;
+import edu.parser.QLS.nodes.statement.QLSQuestion;
 
 import java.util.List;
 
@@ -10,19 +12,25 @@ import java.util.List;
  */
 public class Section implements AbstractNode {
     private final String title;
-    private final List<Statement> statements;
+    private final List<QLSQuestion> questions;
+    private final List<Default> defaultStatements;
 
-    public Section(String title, List<Statement> statements) {
+    public Section(String title, List<QLSQuestion> questions, List<Default> defaultStatements) {
         this.title = title;
-        this.statements = statements;
+        this.questions = questions;
+        this.defaultStatements = defaultStatements;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public List<Statement> getStatements() {
-        return statements;
+    public List<QLSQuestion> getQuestions() {
+        return questions;
+    }
+
+    public List<Default> getDefaultStatements() {
+        return defaultStatements;
     }
 
     @Override

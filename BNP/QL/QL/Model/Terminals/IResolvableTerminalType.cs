@@ -10,5 +10,7 @@ namespace QL.Model.Terminals
     /// A marker interface indicating the terminal can be used as a type indicator
     /// </summary>
     public interface IResolvableTerminalType : ITerminalType, ITypeResolvableDirectly
-    { }
+    {
+       
+    }
 }

@@ -55,25 +55,27 @@
     <Compile Include="Evaluation\Types\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeController.cs" />
-    <Compile Include="Validation\DuplicateLabelCheckingVisitor.cs" />
-    <Compile Include="Validation\ErrorReporting\Message.cs" />
-    <Compile Include="Validation\ErrorReporting\ErrorReport.cs" />
-    <Compile Include="Validation\ErrorReporting\Severity.cs" />
-    <Compile Include="Validation\InvalidDefinition.cs" />
-    <Compile Include="Validation\InvalidBinaryExpression.cs" />
-    <Compile Include="Validation\InvalidUnaryExpression.cs" />
-    <Compile Include="Validation\LiteralCheckingVisitor.cs" />
-    <Compile Include="Validation\TypeCheckingVisitor.cs" />
-    <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
+    <Compile Include="Validation\QLS\QuestionReferencingChecker.cs" />
+    <Compile Include="Validation\QLS\StyleAttributeChecker.cs" />
+    <Compile Include="Validation\QLS\TypeChecker.cs" />
+    <Compile Include="Validation\QL\DuplicateLabelChecker.cs" />
+    <Compile Include="Validation\QL\DuplicateQuestionChecker.cs" />
+    <Compile Include="Validation\QL\ASTChecker.cs" />
+    <Compile Include="Validation\QL\LiteralChecker.cs" />
+    <Compile Include="Validation\QL\TypeChecker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QLS\QLS.csproj">
+      <Project>{affaeebf-af97-4c93-b471-f892de2e1325}</Project>
+      <Name>QLS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QL\QL.csproj">
       <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
       <Name>QL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
-      <Name>Utilities</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -7,12 +7,11 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.ExpressionVisitor;
 
 public class NumberLiteral extends Expression {
-    private BigDecimal value;
-    private LineInfo lineInfo;
+    private final BigDecimal value;
 
-    public NumberLiteral(double value, LineInfo lineInfo) {
+    public NumberLiteral(final double value, final LineInfo lineInfo) {
+        super(lineInfo);
         this.value = new BigDecimal(value);
-        this.lineInfo = lineInfo;
     }
 
     public BigDecimal getValue() {
@@ -20,13 +19,8 @@ public class NumberLiteral extends Expression {
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <T> T accept(final ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    @Override
-    public LineInfo getLineInfo() {
-        return this.lineInfo;
     }
 
 }

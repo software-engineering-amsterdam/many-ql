@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Utilities.AST;
+using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
 {
@@ -25,11 +26,6 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
 
         internal IntegerLiteral(string value, TextPosition position)
             : base(value, position) { }
-
-        public override void Accept(IQLVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
 
         public override T Accept<T>(IQLVisitor<T> visitor)
         {

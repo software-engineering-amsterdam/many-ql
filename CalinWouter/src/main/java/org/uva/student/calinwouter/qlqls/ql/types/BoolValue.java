@@ -1,11 +1,11 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.IAllowTypeChecker;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.IAllowTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
-public class BoolValue extends Value<Boolean> {
-    public static final TypeDescriptor<BoolValue> BOOL_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<BoolValue>() {
+public class BoolValue extends Value {
+    public static final TypeDescriptor BOOL_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor() {
         @Override
         public void callTypeMethod(final TypeCallback typeCallback) {
             typeCallback.usesBoolean();
@@ -17,41 +17,29 @@ public class BoolValue extends Value<Boolean> {
         }
 
         @Override
-        public boolean isAllowed(final IAllowTypeChecker allowable) {
-            return allowable.allowsBooleanValue();
+        public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
+            return allowTypeChecker.allowsStringValue();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof BoolValue;
         }
     };
 
     @Override
-    public Value<?> or(Value<?> value) {
-        if (value.getTypeModelClass() == Boolean.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() || (Boolean) value.getValue());
-        }
-        return super.or(value);
+    public Value or(Value value) {
+        return new BoolValue((Boolean) getValue() || (Boolean) value.getValue());
     }
 
     @Override
-    public Value<?> and(Value<?> value) {
-        if (value.getTypeModelClass() == Boolean.class) {
-            if (getValue() == null)
-                return new BoolValue(null);
-            return new BoolValue(getValue() && (Boolean) value.getValue());
-        }
-        return super.and(value);
+    public Value and(Value value) {
+        return new BoolValue((Boolean) getValue() && (Boolean) value.getValue());
     }
 
     @Override
-    public Value<?> not() {
-        if (getValue() == null)
-            return new BoolValue(null);
-        return new BoolValue(!getValue());
-    }
-
-    @Override
-    public Class<Boolean> getTypeModelClass() {
-        return Boolean.class;
+    public Value not() {
+        return new BoolValue(!(Boolean) getValue());
     }
 
     @Override
@@ -59,12 +47,20 @@ public class BoolValue extends Value<Boolean> {
         typeCallback.usesBoolean();
     }
 
-    public BoolValue(Boolean value) {
-        super(value);
+    @Override
+    public Value eq(Value value) {
+        return new BoolValue(value.getValue().equals(getValue()));
     }
 
-    @Override
-    public TypeDescriptor<?> getTypeDescriptor() {
-        return BOOL_VALUE_TYPE_DESCRIPTOR;
+    public Value neq(Value value) {
+        return new BoolValue(!value.getValue().equals(getValue()));
+    }
+
+    public boolean isTrue() {
+        return (Boolean) getValue();
+    }
+
+    public BoolValue(Boolean value) {
+        super(value);
     }
 }

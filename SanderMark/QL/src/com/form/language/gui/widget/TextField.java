@@ -5,31 +5,50 @@ import java.awt.Dimension;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
 
 import com.form.language.ast.statement.Question;
+import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
-public class TextField extends JTextField {
+public class TextField extends Widget { 
+	private JTextField textfield;
 	
-	private static final long serialVersionUID = 1L;
-
-	public TextField(Question question,QuestionComponent questionComponent, Context context) {
-		setPreferredSize(new Dimension(100, 25));
-		getDocument().addDocumentListener((DocumentListener) this);
-		setVisible(true);
+	public TextField(Question question, QuestionComponent questionComponent, Context context) {
+		super(question,context);
+		this.textfield = new JTextField();		
+		this.textfield.setMaximumSize(new Dimension(200, 20));
+		
+		TextFieldListener textfieldListener = new TextFieldListener();
+		this.textfield.getDocument().addDocumentListener(textfieldListener);
 	}
 	
-	//TODO ADD HANDELER
-	public void notifyListener(DocumentEvent e) {
-		String s;
-		try {
-			s = e.getDocument().getText(0, e.getDocument().getLength());
-			//If condition == true then show QUESTION
-			//widgetListener.widgetValueChanged(getIdentifier(), new StringValue(s));
-		} catch (BadLocationException e1) {
-			System.out.println("Something went terribly wrong.");
+	// TODO: quick fix can be done better
+		public JTextField getTextField()
+		{
+			return this.textfield;
+		}
+
+	// TODO ADD HANDELER
+	private class TextFieldListener implements DocumentListener {
+		public void actionPerformed(DocumentEvent e) {
+			setContextString(new StringValue(TextField.this.textfield.getText()));
+			checkDependencyVisibility();
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			actionPerformed(e);			
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			actionPerformed(e);			
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			actionPerformed(e);			
 		}
 	}
 }

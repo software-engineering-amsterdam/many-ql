@@ -1,6 +1,6 @@
 all:
 	go generate ./...
-	go build ./cmd/...
+	go build -o ql
 	echo "Build successful"
 	./ql -h || echo
 
@@ -11,11 +11,9 @@ test:
 coverage:
 	bash ./coverage.sh
 
-autotest:
-	./autotest.sh '.' 'clear; make test; go run ql.go'
-
 todos:
-	grep -RHin "// todo" *
+	grep -RHin "// todo" * | grep -iv "grep -RHIn"
+	grep -RHin "//todo" * | grep -iv "grep -RHIn"
 
 doc: .FORCE
 	godoc -http=:8080 &

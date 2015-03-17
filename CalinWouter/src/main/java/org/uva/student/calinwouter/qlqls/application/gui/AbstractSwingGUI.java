@@ -1,5 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui;
 
+import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,10 +9,12 @@ import java.awt.*;
  * This abstract GUI renderer makes no assumption about the behaviour of the implemented GUI,
  * except that the rendering takes place on a JFrame and uses Swing.
  */
-public abstract class AbstractSwingGUI {
+public abstract class AbstractSwingGUI{
     private static final Integer
             DEFAULT_WINDOW_WIDTH  = 800,
             DEFAULT_WINDOW_HEIGHT = 600;
+
+    protected JFrame frame;
 
     protected Integer getDefaultWidth() {
         return DEFAULT_WINDOW_WIDTH;
@@ -24,7 +28,7 @@ public abstract class AbstractSwingGUI {
      * Render a form embedded with the provided component.
      */
     public void render() {
-        final JFrame frame = new JFrame(getFrameTitle());
+        frame = new JFrame(getFrameTitle());
         final Dimension windowDimension = new Dimension(getDefaultWidth(), getDefaultHeight());
         final Container contentPane = frame.getContentPane();
         frame.setPreferredSize(windowDimension);
@@ -37,4 +41,8 @@ public abstract class AbstractSwingGUI {
     protected abstract String getFrameTitle();
 
     protected abstract Component renderFrameContent();
+
+    public void repaintFrame() {
+        frame.repaint();
+    }
 }

@@ -1,53 +1,74 @@
 package nl.uva.softwcons.ql.eval.value;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public abstract class Value {
 
-    public abstract Object getValue();
-
-    public Value add(Value otherValue) {
+    public boolean inConditionalContext() {
         throw new UnsupportedOperationException();
     }
 
-    public Value subtract(Value otherValue) {
+    public BigDecimal getNumber() {
         throw new UnsupportedOperationException();
     }
 
-    public Value multiply(Value otherValue) {
+    public String getString() {
         throw new UnsupportedOperationException();
     }
 
-    public Value divide(Value otherValue) {
+    public Boolean getBoolean() {
         throw new UnsupportedOperationException();
     }
 
-    public Value isEqual(Value otherValue) {
+    public Value add(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value isGreater(Value otherValue) {
+    public Value subtract(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value isLower(Value otherValue) {
+    public Value multiply(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value isGreaterOrEqual(Value otherValue) {
+    public Value divide(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value isLowerOrEqual(Value otherValue) {
+    public Value isEqual(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value and(Value otherValue) {
+    public Value isEqualBoolean(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public Value or(Value otherValue) {
+    public Value isEqualString(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value isGreater(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value isLower(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value isGreaterOrEqual(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value isLowerOrEqual(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value and(final Value otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Value or(final Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
@@ -55,65 +76,47 @@ public abstract class Value {
         throw new UnsupportedOperationException();
     }
 
-    public BigInteger asInteger() {
+    public Value addNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    public BigDecimal asDecimal() {
+    public Value subtractNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    public String asString() {
+    public Value multiplyNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    public Boolean asBoolean() {
+    public Value divideNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    public abstract Value getValueFromString(String string);
-
-    protected Value addNumber(NumberValue value) {
+    public Value isGreaterNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value subtractNumber(NumberValue value) {
+    public Value isGreaterOrEqualNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value multiplyNumber(NumberValue value) {
+    public Value isLowerNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value divideNumber(NumberValue value) {
+    public Value isLowerOrEqualNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value isGreaterNumber(NumberValue value) {
+    public Value isEqualNumber(final NumberValue value) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value isGreaterOrEqualNumber(NumberValue value) {
+    public Value andBoolean(final BooleanValue otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    protected Value isLowerNumber(NumberValue value) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected Value isLowerOrEqualNumber(NumberValue value) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected Value isEqualNumber(NumberValue value) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected Value andBoolean(BooleanValue otherValue) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected Value orBoolean(BooleanValue otherValue) {
+    public Value orBoolean(final BooleanValue otherValue) {
         throw new UnsupportedOperationException();
     }
 

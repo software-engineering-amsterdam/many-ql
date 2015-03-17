@@ -2,6 +2,7 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
+import ql.gui.widgets.{NumberQuestionWidget, BooleanQuestionWidget, StringQuestionWidget}
 import types.EvalEnvironment
 
 import scalafx.collections.ObservableMap
@@ -32,9 +33,9 @@ class FormBuilder(env: EvalEnvironment = ObservableMap.empty) {
 
   def buildQuestion(q: Question, visibilityExpressions: List[Expression]): VBox = {
     q._type match {
-      case BooleanType() => new BooleanQuestionBox(q, visibilityExpressions, env)
-      case NumberType() => new NumberQuestionBox(q, visibilityExpressions, env)
-      case StringType() => new StringQuestionBox(q, visibilityExpressions, env)
+      case BooleanType() => new BooleanQuestionWidget(q, visibilityExpressions, env)
+      case NumberType() => new NumberQuestionWidget(q, visibilityExpressions, env)
+      case StringType() => new StringQuestionWidget(q, visibilityExpressions, env)
     }
   }
 }

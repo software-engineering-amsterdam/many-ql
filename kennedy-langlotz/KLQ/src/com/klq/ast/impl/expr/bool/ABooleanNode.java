@@ -1,7 +1,6 @@
 package com.klq.ast.impl.expr.bool;
 
-import com.common.Location;
-import com.klq.ast.ANode;
+import com.klq.ast.impl.Location;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
 

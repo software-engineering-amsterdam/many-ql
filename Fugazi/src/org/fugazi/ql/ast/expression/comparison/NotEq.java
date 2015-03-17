@@ -2,6 +2,7 @@ package org.fugazi.ql.ast.expression.comparison;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
@@ -11,20 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotEq extends Comparison {
+    
     public NotEq(Expression _left, Expression _right) {
         super(_left, _right);
-    }
-    public NotEq(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
     }
 
     @Override
     public String toString() {
-        return this.left.toString() + " != " + this.right.toString();
+        return this.getLeft().toString() + " != " + this.getRight().toString();
     }
 
     @Override
-    public Type getReturnedType() {
+    public Type getReturnedType(QLFormDataStorage _formData) {
         return new BoolType();
     }
 

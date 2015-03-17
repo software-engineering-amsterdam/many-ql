@@ -1,33 +1,20 @@
-﻿using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.Presenter;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
-    public class CustomTextBox : TextBox, ICustomControl
+    public class CustomTextBox : TextBox
     {
-        private bool isNumeric;
-        private static IList<string> listConditionalId;
-
-        public IList<string> ListConditionalId
-        {
-            get { return listConditionalId; }
-            private set { listConditionalId = value; }
-
-        }
+        private ObjectHandler inputHandler;
+        public EventUpdateValue eventUpdateValue;
 
         #region Constructors
-        public CustomTextBox(bool isNumeric)
+        public CustomTextBox(ObjectHandler inputValidation)
         {
-            this.isNumeric = isNumeric;
+            this.inputHandler = inputValidation;
             AddEvents();
         }
 
@@ -36,37 +23,26 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Private Methods
         private void AddEvents()
         {
-            if (isNumeric)
-            {
-                this.PreviewTextInput += new TextCompositionEventHandler(Validate_Numeric);
-            }
-
+            this.PreviewTextInput += new TextCompositionEventHandler(inputHandler.CheckValidCharacter);
             this.LostKeyboardFocus += Lost_Focus;
         }
-
         #endregion
 
         #region Events
-        private void Validate_Numeric(object sender, TextCompositionEventArgs e)
-        {
-            int result;
-            if (!int.TryParse(e.Text, out result))
-            {
-                e.Handled = true;
-            }
-        }
         private void Lost_Focus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Processor.UpdateChanges();
+            if (inputHandler.IsValid((sender as CustomTextBox).Text))
+            {
+                eventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
+
+                this.BorderBrush = Brushes.Black;
+            }
+            else
+            {
+                this.BorderBrush = Brushes.Red;
+            }
         }
 
-        #endregion
-
-        #region ICustomControl
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
-        }
         #endregion
     }
 }

@@ -33,7 +33,6 @@ public class QuestionRetriever extends QLVisitorImpl {
         if (ifStatement.getElseClause().isPresent()) {
             visit(ifStatement.getElseClause().get());
         }
-        ifStatement.getExpression().accept(this);
         visitStatements(ifStatement.getStatements());
         return ifStatement;
     }
@@ -46,7 +45,7 @@ public class QuestionRetriever extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        allQuestions.add(cloneQuestion(question));
+        allQuestions.add(question);
         return question;
     }
 }

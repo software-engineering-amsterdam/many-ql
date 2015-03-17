@@ -23,7 +23,6 @@ public class TestNot extends BaseTest {
 		});
 	}
 
-	@SuppressWarnings("rawtypes")
 	public TestNot(String input, Value expected) {
 		super(input, expected);
 	}

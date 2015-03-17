@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.Runtime.Validation;
-using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;
+using UvA.SoftCon.Questionnaire.Runtime.Validation.QL;
 
 namespace UvA.SoftCon.Questionnaire.Runtime
 {
     public class RuntimeController
     {
-        public ErrorReport Validate(QuestionForm form)
+        public ValidationReport Validate(QuestionForm form)
         {
             if (form == null) { throw new ArgumentNullException("form"); }
 
-            var variableUsageVisitor = new VariableUsageCheckingVisitor();
-            var duplicateLabelVisitor = new DuplicateLabelCheckingVisitor();
-            var typeCheckingVisitor = new TypeCheckingVisitor();
-            var literalCheckingVisitor = new LiteralCheckingVisitor();
+            var validators = new List<ASTChecker> 
+            {
+                new DuplicateLabelChecker(),
+                new DuplicateQuestionChecker(),
+                new TypeChecker(),
+                new LiteralChecker(),
+            };
 
-            variableUsageVisitor.Visit(form);
-            duplicateLabelVisitor.Visit(form);
-            typeCheckingVisitor.Visit(form);
-            literalCheckingVisitor.Visit(form);
+            var report = new ValidationReport();
 
-            var errorReport = new ErrorReport();
+            foreach (var validator in validators)
+            {
+                validator.Validate(form, report);
+            }
 
-            errorReport.AddVariableUsageMessages(variableUsageVisitor);
-            errorReport.AddDuplicateLabelMessages(duplicateLabelVisitor);
-            errorReport.AddTypeCheckingMessages(typeCheckingVisitor);
-            errorReport.AddLiteralCheckingMessages(literalCheckingVisitor);
-
-            return errorReport;
+            return report;
         }
 
         public IDictionary<string, Value> Interpretet(QuestionForm form, IDictionary<string, Value> context)

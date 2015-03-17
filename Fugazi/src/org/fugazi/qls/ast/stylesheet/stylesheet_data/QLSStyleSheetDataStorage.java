@@ -1,7 +1,7 @@
 package org.fugazi.qls.ast.stylesheet.stylesheet_data;
 
 
-import org.fugazi.ql.ast.statement.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.QuestionsVisitor;
 
@@ -23,7 +23,7 @@ public class QLSStyleSheetDataStorage {
      * =====================
      */
 
-    public List<org.fugazi.qls.ast.question.Question> getQuestions() {
+    public List<QLSQuestion> getQuestions() {
         return this.questionsVisitor.getQuestions();
     }
 }

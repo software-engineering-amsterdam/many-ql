@@ -1,39 +1,20 @@
-﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanels;
 using System.Windows;
-using System.Windows.Controls;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class StackPanelWidget : Widget
     {
-        private static int conditionalCount;
-        private bool visible;
+        public override EventUpdateValue EventUpdateValue { get; set; }
 
-        public static int ConditionalCount
+        public StackPanelWidget()
         {
-            get { return conditionalCount; }
-            private set { conditionalCount = value; }
         }
 
-        public StackPanelWidget(bool visible)
+        public override UIElement CreateUIControl(dynamic value)
         {
-            Id = ConfigurationSettings.AppSettings["stackPanelId"].ToString() + conditionalCount.ToString();
-            conditionalCount++;
-            this.visible = visible;
-
-        }
-
-        public override UIElement CreateUIControl()
-        {
-            return new CustomStackPanel() { Name = Id, 
-                                            Visibility = this.visible ? Visibility.Visible : Visibility.Hidden};
+            return new CustomStackPanel() { Visibility = value ? Visibility.Visible : Visibility.Collapsed };
         }
     }
 }

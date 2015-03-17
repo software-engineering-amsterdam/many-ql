@@ -7,11 +7,9 @@ import java.util.List;
 public class IfStatement extends Statement {
 
     private final Expression condition;
-    
     private final List<Statement> body;
 
-    public IfStatement(Expression _condition, List<Statement> _body, int _lineNum) {
-        super(_lineNum);
+    public IfStatement(Expression _condition, List<Statement> _body) {
         this.condition = _condition;
         this.body = _body;
     }

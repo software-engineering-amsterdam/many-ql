@@ -1,24 +1,15 @@
-﻿using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireLanguage.Events;
 using System.Windows;
-using System.Windows.Controls;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public abstract class Widget : IWidget
+    public abstract class Widget
     {
-        private string _id;
+        public abstract EventUpdateValue EventUpdateValue { get; set; }
+        public virtual string Id { get; set; }
 
-        public string Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public virtual bool IsReadOnly { get; set; }
 
-        public abstract UIElement CreateUIControl();
+        public abstract UIElement CreateUIControl(dynamic value);
     }
 }

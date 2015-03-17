@@ -1,62 +1,47 @@
-﻿using AST.Nodes.FormObject;
-using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.CustomUIElements.CustomPanel;
+﻿using AST.Nodes.FormObjects;
+using Evaluation.Values;
+using QuestionnaireLanguage.Presenter;
 using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using QuestionnaireLanguage.GUI.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QuestionnaireLanguage.Visitors;
 using System.Windows;
-using System.Windows.Controls;
+using Evaluation;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class ConditionalObject : ObjectBase, IFormObject
+    public class ConditionalObject : FormObject
     {
         private Conditional conditionalNode;
+        private SymbolTable symbolTable;
 
         #region Constructors
         public ConditionalObject(Conditional node)
         {
             this.conditionalNode = node;
+            symbolTable = new SymbolTable();
         }
 
         #endregion
 
         #region IFormElement
 
-        public UIElement ProcessFormObject(UIElement form)
+        public override UIElement ProcessFormObject(UIElement form)
         {
-            Processor.Evaluate(this.conditionalNode.Condition);
+            Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
 
-            Widget stackPanelWidget = new StackPanelWidget(false);
-            UIElement customStackPanel = stackPanelWidget.CreateUIControl();
-            
-            //stackPanelWidget.Id to identify this conditional
+            Widget stackPanelWidget = new StackPanelWidget();
+            UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
 
-            //Evaluate the expression
-            //customStackPanel.Visibility = Visibility.Hidden;
-
-            /*
-             *
-             * Verify the conditional expression to set visibility
-             * 
-             * Get Id of elements from the expression (if exist).
-             * Find elements in the form and assign stack
-             */
-            
-            return AddChildren(Processor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            return AddChildren(new BodyProcessor().ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
 
         #endregion
 
-        #region Private Methods
 
-        #endregion
+        public override SymbolTable Register(SymbolTable symbolTable)
+        {
+            this.symbolTable = symbolTable;
+
+            return symbolTable;
+        }
     }
 }

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Utilities.AST;
+using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
 {
-    public abstract class UnaryExpression : QLNode, IExpression
+    public abstract class UnaryExpression : Expression
     {
         public Operation Operation
         {
@@ -16,26 +17,24 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
             private set;
         }
 
-        public IExpression Operand
+        public Expression Operand
         {
             get;
             private set;
         }
 
-        public IExpression Right
+        public Expression Right
         {
             get;
             private set;
         }
 
-        internal UnaryExpression(Operation operation, IExpression operand, TextPosition position)
+        internal UnaryExpression(Operation operation, Expression operand, TextPosition position)
             : base(position)
         {
             Operation = operation;
             Operand = operand;
         }
-
-        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
         public abstract bool OperandTypeIsValid(DataType operandType);
     }

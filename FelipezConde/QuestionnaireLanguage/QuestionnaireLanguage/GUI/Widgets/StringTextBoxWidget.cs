@@ -1,33 +1,21 @@
 ﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Values = AST.Nodes.Values;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public class StringTextBoxWidget : TextBoxWidget
     {
-        public StringTextBoxWidget()
-        {
-
-        }
-
-        public StringTextBoxWidget(string id, Values.String node)
+        public StringTextBoxWidget(string id)
         {
             Id = id;
         }
 
-        public override UIElement CreateUIControl()
+        public override UIElement CreateUIControl(dynamic value)
         {
-            return new CustomTextBox(false) { Name = Id };
+            CustomTextBox customTextBox = new CustomTextBox(new StringHandler()) { Name = Id, Text = value.ToString(), IsReadOnly = IsReadOnly };
+            customTextBox.eventUpdateValue += UpdateValue;
+
+            return customTextBox;
         }
     }
 }

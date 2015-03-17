@@ -1,0 +1,30 @@
+
+stylesheet Trouwerij {
+  page Gasten {
+    
+    section Aanwezig {
+      question aanwezig { 
+        widget: checkbox 
+      }
+      question aantal_personen { 
+        widget: checkbox 
+      }
+    }
+    section ZinIn {
+      question zin_in { 
+        widget: checkbox 
+      }
+    }
+    section Gegevens {
+      question naam { 
+        widget: checkbox 
+      }
+    }
+    default boolean {
+  
+      font: "Arial"
+      fontsize: 14
+      widget: spinbox
+    }
+  }
+}

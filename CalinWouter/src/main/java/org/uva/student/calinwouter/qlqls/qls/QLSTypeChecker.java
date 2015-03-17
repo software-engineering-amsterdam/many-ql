@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
@@ -107,7 +107,7 @@ public class QLSTypeChecker {
         return invalidDefaultWidgetAssignments;
     }
 
-    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor<?> valueTypeDescriptor,
+    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor valueTypeDescriptor,
                                                               final Defaults defaults) {
         final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
         final AbstractWidget widget = (AbstractWidget) defaults.getDefaultStyleSheetSettings().get(valueTypeDescriptor).get("widget");

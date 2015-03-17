@@ -8,8 +8,8 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.statement.Statement;
 
 public class Form implements ASTNode {
-    private Identifier name;
-    private List<Statement> statements;
+    private final Identifier name;
+    private final List<Statement> statements;
 
     public Form(final Identifier name, final List<Statement> statements) {
         this.name = name;
@@ -24,7 +24,7 @@ public class Form implements ASTNode {
         return statements;
     }
 
-    public <T> T accept(FormVisitor<T> visitor) {
+    public <T> T accept(final FormVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

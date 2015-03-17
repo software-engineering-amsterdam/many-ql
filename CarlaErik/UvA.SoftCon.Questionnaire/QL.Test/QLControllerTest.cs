@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
@@ -50,28 +51,6 @@ namespace UvA.SoftCon.Questionnaire.QL.Test
         }
 
         [TestMethod]
-        public void TestParseDeclarationDefinition()
-        {
-            // Arrange
-            var controller = new QLController();
-            string ql = "string surname = \"De Vries\"";
-
-            // Act
-            var form = controller.ParseQLString(ql);
-
-            // Assert
-            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
-            Assert.AreEqual<int>(1, form.Statements.Count());
-            var declaration = form.Statements.First() as Definition;
-
-            Assert.AreEqual<DataType>(DataType.String, declaration.DataType);
-            Assert.AreEqual<string>("surname", declaration.Id.Name);
-            Assert.IsInstanceOfType(declaration.Expression, typeof(StringLiteral));
-            var initialization = declaration.Expression as StringLiteral;
-            Assert.AreEqual<string>("De Vries", initialization.GetValue());
-        }
-
-        [TestMethod]
         public void TestParseIfStatement()
         {
             // Arrange
@@ -107,25 +86,6 @@ namespace UvA.SoftCon.Questionnaire.QL.Test
             var ifStatement = form.Statements.First() as IfStatement;
             Assert.AreEqual<int>(1, ifStatement.Then.Count());
             Assert.AreEqual<int>(1, ifStatement.Else.Count());
-        }
-
-        [TestMethod]
-        public void TestParseDate()
-        {
-            // Arrange
-            var controller = new QLController();
-            string ql = "date dateOfBirth = [01-9-2015]";
-
-            // Act
-            var form = controller.ParseQLString(ql);
-
-            // Assert
-            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
-            Assert.AreEqual<int>(1, form.Statements.Count());
-            var assignment = form.Statements.First() as Definition;
-            Assert.IsInstanceOfType(assignment.Expression, typeof(DateLiteral));
-            var dateLiteral = assignment.Expression as DateLiteral;
-            Assert.AreEqual<DateTime>(new DateTime(2015, 9, 1), dateLiteral.GetValue());
         }
     }
 }

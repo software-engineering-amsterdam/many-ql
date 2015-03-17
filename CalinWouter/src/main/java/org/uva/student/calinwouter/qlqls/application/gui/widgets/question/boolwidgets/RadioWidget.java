@@ -1,7 +1,10 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Radio;
@@ -13,16 +16,23 @@ import java.awt.event.ItemListener;
 
 public class RadioWidget implements IWidget {
     private JPanel btnPanelYesNo;
+    private JRadioButton yesBtn, noBtn;
 
     @Override
     public Component getWidgetComponent() {
         return btnPanelYesNo;
     }
 
-    public RadioWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter, Radio radio) {
+    @Override
+    public void resetValue() {
+        yesBtn.setSelected(false);
+        noBtn.setSelected(false);
+    }
+
+    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
-        JRadioButton yesBtn = new JRadioButton(radio.getYesLbl());
-        JRadioButton noBtn = new JRadioButton(radio.getNoLbl());
+        yesBtn = new JRadioButton(radio.getYesLbl());
+        noBtn = new JRadioButton(radio.getNoLbl());
         btnGroupYesNo.add(yesBtn);
         btnGroupYesNo.add(noBtn);
         btnPanelYesNo = new JPanel();
@@ -32,19 +42,20 @@ public class RadioWidget implements IWidget {
         yesBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("true");
-                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(true));
-                headlessFormInterpreter.interpret();
+                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(true));
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
 
         noBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println("false");
-                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(false));
-                headlessFormInterpreter.interpret();
+                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(false));
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
+
     }
 }

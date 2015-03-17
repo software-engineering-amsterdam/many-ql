@@ -4,13 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class NumberValue extends Value {
-
     private final BigDecimal value;
-
-    @Override
-    public Number getValue() {
-        return this.value;
-    }
 
     public NumberValue(int value) {
         this.value = new BigDecimal(value);
@@ -20,16 +14,16 @@ public class NumberValue extends Value {
         this.value = new BigDecimal(value);
     }
 
-    public NumberValue(BigDecimal value) {
+    public NumberValue(final BigDecimal value) {
         this.value = value;
     }
 
-    public NumberValue(BigInteger value) {
+    public NumberValue(final BigInteger value) {
         this.value = new BigDecimal(value);
     }
 
     @Override
-    public BigDecimal asDecimal() {
+    public BigDecimal getNumber() {
         return value;
     }
 
@@ -39,123 +33,93 @@ public class NumberValue extends Value {
     }
 
     @Override
-    public Value add(Value otherValue) {
+    public Value add(final Value otherValue) {
         return otherValue.addNumber(this);
     }
 
     @Override
-    public Value subtract(Value otherValue) {
+    public Value subtract(final Value otherValue) {
         return otherValue.subtractNumber(this);
     }
 
     @Override
-    public Value multiply(Value otherValue) {
+    public Value multiply(final Value otherValue) {
         return otherValue.multiplyNumber(this);
     }
 
     @Override
-    public Value divide(Value otherValue) {
+    public Value divide(final Value otherValue) {
         return otherValue.divideNumber(this);
     }
 
     @Override
-    public Value isEqual(Value otherValue) {
+    public Value isEqual(final Value otherValue) {
         return otherValue.isEqualNumber(this);
     }
 
     @Override
-    public Value isGreater(Value otherValue) {
+    public Value isGreater(final Value otherValue) {
         return otherValue.isGreaterNumber(this);
     }
 
     @Override
-    public Value isLower(Value otherValue) {
+    public Value isLower(final Value otherValue) {
         return otherValue.isLowerNumber(this);
     }
 
     @Override
-    public Value isGreaterOrEqual(Value otherValue) {
+    public Value isGreaterOrEqual(final Value otherValue) {
         return otherValue.isGreaterOrEqualNumber(this);
     }
 
     @Override
-    public Value isLowerOrEqual(Value otherValue) {
+    public Value isLowerOrEqual(final Value otherValue) {
         return otherValue.isLowerNumber(this);
     }
 
     @Override
-    public Value getValueFromString(String string) {
-        return new NumberValue(new BigDecimal(string));
+    public Value addNumber(final NumberValue otherValue) {
+        return new NumberValue(this.value.add(otherValue.getNumber()));
     }
 
     @Override
-    protected Value addNumber(NumberValue otherValue) {
-        return new NumberValue(this.value.add(otherValue.asDecimal()));
+    public Value subtractNumber(final NumberValue otherValue) {
+        return new NumberValue(otherValue.getNumber().subtract(this.value));
     }
 
     @Override
-    protected Value subtractNumber(NumberValue otherValue) {
-        return new NumberValue(otherValue.asDecimal().subtract(this.value));
+    public Value multiplyNumber(final NumberValue otherValue) {
+        return new NumberValue(this.value.multiply(otherValue.getNumber()));
     }
 
     @Override
-    protected Value multiplyNumber(NumberValue otherValue) {
-        return new NumberValue(this.value.multiply(otherValue.asDecimal()));
+    public Value divideNumber(final NumberValue otherValue) {
+        return new NumberValue(otherValue.getNumber().divide(this.value));
     }
 
     @Override
-    protected Value divideNumber(NumberValue otherValue) {
-        return new NumberValue(otherValue.asDecimal().divide(this.value));
+    public BooleanValue isEqualNumber(final NumberValue otherValue) {
+        return new BooleanValue(this.value.compareTo(otherValue.getNumber()) == 0);
     }
 
     @Override
-    protected BooleanValue isEqualNumber(NumberValue otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) == 0);
+    public BooleanValue isGreaterNumber(final NumberValue otherValue) {
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) > 0);
     }
 
     @Override
-    protected BooleanValue isGreaterNumber(NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) > 0);
+    public BooleanValue isLowerNumber(final NumberValue otherValue) {
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) < 0);
     }
 
     @Override
-    protected BooleanValue isLowerNumber(NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) < 0);
+    public BooleanValue isGreaterOrEqualNumber(final NumberValue otherValue) {
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) >= 0);
     }
 
     @Override
-    protected BooleanValue isGreaterOrEqualNumber(NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) >= 0);
-    }
-
-    @Override
-    protected BooleanValue isLowerOrEqualNumber(NumberValue otherValue) {
-        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) <= 0);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        NumberValue other = (NumberValue) obj;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+    public BooleanValue isLowerOrEqualNumber(final NumberValue otherValue) {
+        return new BooleanValue(otherValue.getNumber().compareTo(this.value) <= 0);
     }
 
 }

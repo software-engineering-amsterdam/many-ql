@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
-import org.uva.ql.ast.value.BoolValue;
+import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
+import org.uva.ql.typechecker.TypeChecker;
 
 public class IfQuestionPanel extends QuestionPanel {
 
@@ -24,10 +25,11 @@ public class IfQuestionPanel extends QuestionPanel {
 		return expr;
 	}
 
-	public void evaluateAndShow(Evaluator evaluator) {
-		if (evaluateExpressions(evaluator).getType().isEqual(new BoolType())) {
-			BoolValue value = (BoolValue) evaluateExpressions(evaluator);
-			if (value.getValue()) {
+	public void evaluateAndShow(Evaluator evaluator, TypeChecker typeChecker) {
+		Value value = evaluator.evaluate(expr);
+		Type type = expr.getType(typeChecker);
+		if (type.isEqual(new BoolType()) && value.isDefined()) {
+			if ((boolean) value.value()) {
 				toggleIfBlock(true);
 			} else {
 				toggleIfBlock(false);
@@ -35,10 +37,6 @@ public class IfQuestionPanel extends QuestionPanel {
 		} else {
 			toggleIfBlock(false);
 		}
-	}
-
-	public Value evaluateExpressions(Evaluator evaluator) {
-		return evaluator.evaluate(expr);
 	}
 
 	public void toggleIfBlock(boolean show) {

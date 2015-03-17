@@ -1,49 +1,75 @@
-﻿using AST.Nodes.FormObject;
-using ASTIFormObject = AST.Nodes.Interfaces;
-using QuestionnaireLanguage.GUI.Factories.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using AST.Resources;
+﻿using AST.Nodes.FormObjects;
+using QuestionnaireLanguage.Presenter;
+using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
-using QuestionnaireLanguage.GUI.Widgets;
-using QuestionnaireLanguage.Controller;
+using System.Windows;
+using Evaluation.Values;
+using Evaluation;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class QuestionObject : ObjectBase, IFormObject
+    public class QuestionObject : FormObject
     {
         private Question questionNode;
+        private SymbolTable symbolTable;
 
         #region Constructors
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            Processor.AddValue(questionNode.Identifier, questionNode.Value);
+            symbolTable = new SymbolTable();
         }
-        #endregion
-
-        #region Private Methods
         #endregion
 
         #region IFormObject
-        public UIElement ProcessFormObject(UIElement form)
+        public override UIElement ProcessFormObject(UIElement form)
         {
-            Widget widget = new WidgetVisitor(questionNode.Identifier).VisitValue(questionNode.Value);
-            Widget labelWidget = new LabelVisitor().VisitValue(questionNode.Label);
+            Widget widget = new TypeToWidget(questionNode.Identifier.Name).VisitValue(questionNode.RetrieveType());
+            widget.EventUpdateValue += UpdateValue;
 
-            AddChildren(labelWidget.CreateUIControl(), form);
-            AddChildren(widget.CreateUIControl(), form);
+            widget.IsReadOnly = questionNode.Computation != null ? true : false;
+
+            Widget labelWidget = new LabelWidget();
+
+            Value widgetValue = Evaluate();
+
+            AddChildren(labelWidget.CreateUIControl(questionNode.Label.Value), form);
+            AddChildren(widget.CreateUIControl(ValueVisitor.Visit((dynamic)widgetValue)), form);
 
             return form;
         }
+
+        public Value Evaluate()
+        {
+            Value result;
+
+            if (questionNode.Computation != null)
+            {
+                result = new Evaluator(symbolTable).Evaluate(questionNode.Computation);
+            }
+            else
+            {
+                result = symbolTable.GetValue(questionNode.Identifier);
+            }
+
+            return result;
+        }
+
         #endregion
+
+        private void UpdateValue(string id, Value value)
+        {
+            //TODO: IMPLEMENT EVENTHANDLER
+        }
+
+        public override SymbolTable Register(SymbolTable symbolTable)
+        {
+            TypeToValue visitor = new TypeToValue();
+            symbolTable.AddValue(questionNode.Identifier, visitor.VisitValue(questionNode.RetrieveType()));
+
+            this.symbolTable = symbolTable;
+            
+            return symbolTable;
+        }
     }
 }

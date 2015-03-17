@@ -22,7 +22,6 @@ public class TestFloatLiteral extends BaseTest {
     	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestFloatLiteral(String input, Value expected) {
     	 super(input, expected);
      }

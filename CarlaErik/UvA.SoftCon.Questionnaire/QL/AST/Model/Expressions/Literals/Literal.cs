@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Utilities.AST;
+using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
 {
-    public abstract class Literal : QLNode, IExpression
+    public abstract class Literal : Expression
     {
         public string Value
         {
@@ -23,8 +24,6 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals
         {
             Value = value;
         }
-
-        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
         public override string ToString()
         {

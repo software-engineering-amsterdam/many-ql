@@ -1,8 +1,10 @@
 form SomeForm {
-	"3 - Are you happy today?" questionThree bool
+	"q1" q1 bool
 
-	if (questionThree == true) {
-		"4 - Why are you happy today?" questionFour string
-		"5 - Grade your happiness?"    questionFive numeric
+	if (q1 == true) {
+		"q2" q2 string
+	}
+	if (q1) {
+		"q3" q3 string
 	}
 }

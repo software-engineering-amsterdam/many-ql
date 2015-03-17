@@ -1,8 +1,5 @@
 package org.uva.ql.ast.value;
 
-import org.uva.ql.ast.type.StrType;
-import org.uva.ql.ast.type.Type;
-
 public class StrValue extends Value {
 
 	private final String value;
@@ -12,8 +9,18 @@ public class StrValue extends Value {
 	}
 
 	@Override
-	public String getValue() {
+	public String value() {
 		return value;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof StrValue){
+			return value.equals(((StrValue) obj).value());
+			
+		} else {
+			throw new UnsupportedOperationException("StrValue is only compariable with another StrValue.");
+		}
 	}
 
 	@Override
@@ -28,7 +35,7 @@ public class StrValue extends Value {
 
 	@Override
 	public Value strEqual(StrValue arg) {
-		return new BoolValue(arg.getValue().equals(getValue()));
+		return new BoolValue(arg.value().equals(value()));
 	}
 
 	@Override
@@ -38,20 +45,21 @@ public class StrValue extends Value {
 
 	@Override
 	public Value strNotEqual(StrValue arg) {
-		return new BoolValue(!arg.getValue().equals(getValue()));
+		return new BoolValue(!arg.value().equals(value()));
 	}
 
 	@Override
 	public Value plus(Value arg) {
 		return arg.StrPlus(this);
 	}
-	
+
 	public Value StrPlus(StrValue arg) {
-		return new StrValue(arg.getValue() + getValue());
+		return new StrValue(arg.value() + value());
 	}
 	
 	@Override
-	public Type getType() {
-		return new StrType();
+	public boolean isDefined() {
+		return true;
 	}
+
 }

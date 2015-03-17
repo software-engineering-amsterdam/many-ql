@@ -36,9 +36,6 @@ namespace QL.Model.Terminals
 
             return Value.Value ? "yes" : "no";
         }
-        public static bool operator ==(Yesno a, Yesno b) { return a.Value == b.Value; }
-        public static bool operator !=(Yesno a, Yesno b) { return a.Value != b.Value; }
-
        
 
     }

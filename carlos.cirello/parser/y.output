@@ -1,0 +1,844 @@
+
+state 0
+	$accept: .top $end 
+
+	FormToken  shift 3
+	.  error
+
+	top  goto 1
+	questionaire  goto 2
+
+state 1
+	$accept:  top.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	top:  questionaire.    (1)
+
+	.  reduce 1 (src line 69)
+
+
+state 3
+	questionaire:  FormToken.TextToken '{' stack '}' 
+
+	TextToken  shift 4
+	.  error
+
+
+state 4
+	questionaire:  FormToken TextToken.'{' stack '}' 
+
+	'{'  shift 5
+	.  error
+
+
+state 5
+	questionaire:  FormToken TextToken '{'.stack '}' 
+	stack: .    (3)
+
+	.  reduce 3 (src line 83)
+
+	stack  goto 6
+
+state 6
+	questionaire:  FormToken TextToken '{' stack.'}' 
+	stack:  stack.question 
+	stack:  stack.ifBlock 
+
+	IfToken  shift 11
+	QuotedStringToken  shift 10
+	'}'  shift 7
+	.  error
+
+	question  goto 8
+	ifBlock  goto 9
+
+state 7
+	questionaire:  FormToken TextToken '{' stack '}'.    (2)
+
+	.  reduce 2 (src line 76)
+
+
+state 8
+	stack:  stack question.    (4)
+
+	.  reduce 4 (src line 84)
+
+
+state 9
+	stack:  stack ifBlock.    (5)
+
+	.  reduce 5 (src line 92)
+
+
+state 10
+	question:  QuotedStringToken.TextToken questionType 
+
+	TextToken  shift 12
+	.  error
+
+
+state 11
+	ifBlock:  IfToken.'(' andOrBlock ')' '{' stack '}' 
+	ifBlock:  IfToken.'(' andOrBlock ')' '{' stack '}' ElseToken ifBlock 
+	ifBlock:  IfToken.'(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}' 
+
+	'('  shift 13
+	.  error
+
+
+state 12
+	question:  QuotedStringToken TextToken.questionType 
+
+	TextToken  shift 15
+	ComputedQuestionToken  shift 16
+	.  error
+
+	questionType  goto 14
+
+state 13
+	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' 
+	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' ElseToken ifBlock 
+	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' ElseToken '{' stack '}' 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	'!'  shift 20
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 19
+	andOrBlock  goto 17
+	evaluatable  goto 18
+	value  goto 22
+
+state 14
+	question:  QuotedStringToken TextToken questionType.    (6)
+
+	.  reduce 6 (src line 102)
+
+
+state 15
+	questionType:  TextToken.    (7)
+
+	.  reduce 7 (src line 110)
+
+
+state 16
+	questionType:  ComputedQuestionToken.'=' term 
+
+	'='  shift 28
+	.  error
+
+
+state 17
+	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' 
+	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken ifBlock 
+	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken '{' stack '}' 
+
+	')'  shift 29
+	.  error
+
+
+state 18
+	andOrBlock:  evaluatable.BoolAndToken evaluatable 
+	andOrBlock:  evaluatable.BoolOrToken evaluatable 
+	andOrBlock:  evaluatable.    (14)
+
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
+	.  reduce 14 (src line 168)
+
+
+state 19
+	evaluatable:  term.EqualsToToken term 
+	evaluatable:  term.NotEqualsToToken term 
+	evaluatable:  term.MoreThanToken term 
+	evaluatable:  term.LessThanToken term 
+	evaluatable:  term.MoreOrEqualsThanToken term 
+	evaluatable:  term.LessOrEqualsThanToken term 
+	evaluatable:  term.LikeToken term 
+	evaluatable:  term.    (23)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	LessThanToken  shift 35
+	LessOrEqualsThanToken  shift 37
+	MoreThanToken  shift 34
+	MoreOrEqualsThanToken  shift 36
+	EqualsToToken  shift 32
+	NotEqualsToToken  shift 33
+	LikeToken  shift 38
+	.  reduce 23 (src line 204)
+
+
+state 20
+	evaluatable:  '!'.evaluatable 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	'!'  shift 20
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 19
+	evaluatable  goto 45
+	value  goto 22
+
+state 21
+	term:  '('.andOrBlock ')' 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	'!'  shift 20
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 19
+	andOrBlock  goto 46
+	evaluatable  goto 18
+	value  goto 22
+
+state 22
+	term:  value.    (31)
+
+	.  reduce 31 (src line 236)
+
+
+state 23
+	value:  NumericToken.    (32)
+
+	.  reduce 32 (src line 243)
+
+
+state 24
+	value:  TextToken.    (33)
+
+	.  reduce 33 (src line 258)
+
+
+state 25
+	value:  QuotedStringToken.    (34)
+
+	.  reduce 34 (src line 270)
+
+
+state 26
+	value:  BoolTrueToken.    (35)
+
+	.  reduce 35 (src line 282)
+
+
+state 27
+	value:  BoolFalseToken.    (36)
+
+	.  reduce 36 (src line 294)
+
+
+state 28
+	questionType:  ComputedQuestionToken '='.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 47
+	value  goto 22
+
+state 29
+	ifBlock:  IfToken '(' andOrBlock ')'.'{' stack '}' 
+	ifBlock:  IfToken '(' andOrBlock ')'.'{' stack '}' ElseToken ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')'.'{' stack '}' ElseToken '{' stack '}' 
+
+	'{'  shift 48
+	.  error
+
+
+state 30
+	andOrBlock:  evaluatable BoolAndToken.evaluatable 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	'!'  shift 20
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 19
+	evaluatable  goto 49
+	value  goto 22
+
+state 31
+	andOrBlock:  evaluatable BoolOrToken.evaluatable 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	'!'  shift 20
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 19
+	evaluatable  goto 50
+	value  goto 22
+
+state 32
+	evaluatable:  term EqualsToToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 51
+	value  goto 22
+
+state 33
+	evaluatable:  term NotEqualsToToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 52
+	value  goto 22
+
+state 34
+	evaluatable:  term MoreThanToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 53
+	value  goto 22
+
+state 35
+	evaluatable:  term LessThanToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 54
+	value  goto 22
+
+state 36
+	evaluatable:  term MoreOrEqualsThanToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 55
+	value  goto 22
+
+state 37
+	evaluatable:  term LessOrEqualsThanToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 56
+	value  goto 22
+
+state 38
+	evaluatable:  term LikeToken.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 57
+	value  goto 22
+
+state 39
+	term:  term '+'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 58
+	value  goto 22
+
+state 40
+	term:  term '-'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 59
+	value  goto 22
+
+state 41
+	term:  term '*'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 60
+	value  goto 22
+
+state 42
+	term:  term '/'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 61
+	value  goto 22
+
+state 43
+	term:  term '%'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 62
+	value  goto 22
+
+state 44
+	term:  term '.'.term 
+
+	QuotedStringToken  shift 25
+	TextToken  shift 24
+	'('  shift 21
+	NumericToken  shift 23
+	BoolTrueToken  shift 26
+	BoolFalseToken  shift 27
+	.  error
+
+	term  goto 63
+	value  goto 22
+
+state 45
+	evaluatable:  '!' evaluatable.    (22)
+
+	.  reduce 22 (src line 200)
+
+
+state 46
+	term:  '(' andOrBlock.')' 
+
+	')'  shift 64
+	.  error
+
+
+state 47
+	questionType:  ComputedQuestionToken '=' term.    (8)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 8 (src line 115)
+
+
+state 48
+	ifBlock:  IfToken '(' andOrBlock ')' '{'.stack '}' 
+	ifBlock:  IfToken '(' andOrBlock ')' '{'.stack '}' ElseToken ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{'.stack '}' ElseToken '{' stack '}' 
+	stack: .    (3)
+
+	.  reduce 3 (src line 83)
+
+	stack  goto 65
+
+state 49
+	andOrBlock:  evaluatable BoolAndToken evaluatable.    (12)
+
+	.  reduce 12 (src line 159)
+
+
+state 50
+	andOrBlock:  evaluatable BoolOrToken evaluatable.    (13)
+
+	.  reduce 13 (src line 164)
+
+
+state 51
+	evaluatable:  term EqualsToToken term.    (15)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 15 (src line 171)
+
+
+state 52
+	evaluatable:  term NotEqualsToToken term.    (16)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 16 (src line 176)
+
+
+state 53
+	evaluatable:  term MoreThanToken term.    (17)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 17 (src line 180)
+
+
+state 54
+	evaluatable:  term LessThanToken term.    (18)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 18 (src line 184)
+
+
+state 55
+	evaluatable:  term MoreOrEqualsThanToken term.    (19)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 19 (src line 188)
+
+
+state 56
+	evaluatable:  term LessOrEqualsThanToken term.    (20)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 20 (src line 192)
+
+
+state 57
+	evaluatable:  term LikeToken term.    (21)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'+'  shift 39
+	'-'  shift 40
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 21 (src line 196)
+
+
+state 58
+	term:  term.'+' term 
+	term:  term '+' term.    (24)
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 24 (src line 207)
+
+
+state 59
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term '-' term.    (25)
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'*'  shift 41
+	'/'  shift 42
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 25 (src line 212)
+
+
+state 60
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term '*' term.    (26)
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 26 (src line 216)
+
+
+state 61
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term '/' term.    (27)
+	term:  term.'%' term 
+	term:  term.'.' term 
+
+	'.'  shift 44
+	'%'  shift 43
+	.  reduce 27 (src line 220)
+
+
+state 62
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term '%' term.    (28)
+	term:  term.'.' term 
+
+	.  reduce 28 (src line 224)
+
+
+state 63
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term.'%' term 
+	term:  term.'.' term 
+	term:  term '.' term.    (29)
+
+	.  reduce 29 (src line 228)
+
+
+state 64
+	term:  '(' andOrBlock ')'.    (30)
+
+	.  reduce 30 (src line 232)
+
+
+state 65
+	stack:  stack.question 
+	stack:  stack.ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack.'}' 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack.'}' ElseToken ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack.'}' ElseToken '{' stack '}' 
+
+	IfToken  shift 11
+	QuotedStringToken  shift 10
+	'}'  shift 66
+	.  error
+
+	question  goto 8
+	ifBlock  goto 9
+
+state 66
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}'.    (9)
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}'.ElseToken ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}'.ElseToken '{' stack '}' 
+
+	ElseToken  shift 67
+	.  reduce 9 (src line 121)
+
+
+state 67
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken.ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken.'{' stack '}' 
+
+	IfToken  shift 11
+	'{'  shift 69
+	.  error
+
+	ifBlock  goto 68
+
+state 68
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken ifBlock.    (10)
+
+	.  reduce 10 (src line 131)
+
+
+state 69
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{'.stack '}' 
+	stack: .    (3)
+
+	.  reduce 3 (src line 83)
+
+	stack  goto 70
+
+state 70
+	stack:  stack.question 
+	stack:  stack.ifBlock 
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack.'}' 
+
+	IfToken  shift 11
+	QuotedStringToken  shift 10
+	'}'  shift 71
+	.  error
+
+	question  goto 8
+	ifBlock  goto 9
+
+state 71
+	ifBlock:  IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}'.    (11)
+
+	.  reduce 11 (src line 141)
+
+
+40 terminals, 11 nonterminals
+37 grammar rules, 72/2000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+60 working sets used
+memory: parser 53/30000
+21 extra closures
+217 shift entries, 1 exceptions
+31 goto entries
+27 entries saved by goto default
+Optimizer space used: output 99/30000
+99 table entries, 5 zero
+maximum spread: 40, maximum offset: 69

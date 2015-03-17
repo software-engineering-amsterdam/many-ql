@@ -1,7 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -13,14 +15,15 @@ import java.awt.*;
 public class SpinboxWidget implements IWidget {
     private JSpinner spinner;
 
-    public SpinboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public SpinboxWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
         spinner = new JSpinner(new SpinnerNumberModel());
 
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                headlessFormInterpreter.setField(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
-                headlessFormInterpreter.interpret();
+                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
     }
@@ -28,5 +31,10 @@ public class SpinboxWidget implements IWidget {
     @Override
     public Component getWidgetComponent() {
         return spinner;
+    }
+
+    @Override
+    public void resetValue() {
+        spinner.setValue(0);
     }
 }

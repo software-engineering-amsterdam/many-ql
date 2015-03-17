@@ -35,15 +35,14 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		spinbox.setValue(integerValue.getValue());
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Value convertValue(Value value) {
+	public Number convertValue(Value value) {
 		if(!value.isNumeric()) {
 			throw new TypeMismatchException();
 		}
 		
 		// Fuck me running. Don't look here. Forcing any number into an integer.
-		return new IntegerValue(Math.round((float) value.getValue()));
+		return Math.round(Float.parseFloat(value.toString()));
 	}
 	
 	@Override

@@ -4,44 +4,42 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.widgets.IntegerOnlyTextBox;
-
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import org.fugazi.ql.gui.widgets.IWidget;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 
 public class UINumQuestion extends UIQuestion {
 
-    private Integer value;
+    private IntValue value;
 
-    public UINumQuestion(IMediator _med, Question _question) {
-        super(_med, _question);
-        this.value = 0; // default
+    public UINumQuestion(IMediator _med, Question _question, IWidget _widget) {
+        super(_med, _question, _widget);
 
-        this.widget = new IntegerOnlyTextBox(_question.getLabel());
-
-        this.widget.addEventListener(new DocumentListener() {
-            
-            public void insertUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
+        this.widget.addEventListener(
+            new WidgetsEventListener() {
+                public void stateChanged() {
+                    setState(widget.getWidgetValue());
+                }
             }
-            public void removeUpdate(DocumentEvent e) {}
-            public void changedUpdate(DocumentEvent e) {}
-        });
+        );
+
+        this.resetState();
     }
 
-    public void setState(String _value) {
-
-        if (_value.equals("")) {
-            this.value = 0;
-        } else {
-            this.value = Integer.parseInt(_value);
-        }
-
+    @Override
+    public void setState(ExpressionValue _value) {
+        this.value = (IntValue) _value;
         this.sendToMediator();
     }
 
     @Override
     public ExpressionValue getState() {
-        return new IntValue(value);
+        return this.value;
+    }
+
+    @Override
+    public void resetState() {
+        IntValue zeroValue = new IntValue(0);
+        this.setState(zeroValue);
+        this.widget.setWidgetValue(zeroValue);
     }
 }

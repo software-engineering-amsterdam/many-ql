@@ -1,16 +1,21 @@
 package edu;
 
-import edu.exceptions.CloneException;
 import edu.exceptions.ParseException;
 import edu.gui.Observer;
 import edu.gui.Renderer;
 import edu.gui.components.CheckBox;
+import edu.gui.components.NumberBox;
 import edu.gui.components.TextBox;
 import edu.parser.AntlrParser;
-import edu.parser.QL.*;
+import edu.parser.QL.ParseTreeVisitor;
+import edu.parser.QL.QLAntlrParser;
+import edu.parser.QL.QuestionRetriever;
+import edu.parser.QL.evaluator.Evaluator;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.QL.nodes.expression.QLIdentifier;
 import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.type.Text;
+import edu.parser.QL.typechecker.TypeChecker;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.parser.QLS.nodes.Stylesheet;
 
@@ -23,7 +28,6 @@ import java.util.stream.Collectors;
  * Created by Steven Kok on 24/02/2015.
  */
 public class Main implements Observer {
-
     public static final String PATH_TO_QL_INPUT_FILES = "src/test/resources/antlr/input/QL/";
     public static final String PATH_TO_QLS_INPUT_FILES = "src/test/resources/antlr/input/QLS/";
 
@@ -35,7 +39,6 @@ public class Main implements Observer {
     private final Renderer renderer;
     private final Form form;
     private final Stylesheet stylesheet;
-    private List<Question> updatedQuestions;
     private List<Question> evaluatedQuestions;
 
     public Main() {
@@ -48,25 +51,29 @@ public class Main implements Observer {
         form = parseQL();
         typeChecker.visit(form);
         stylesheet = parseQLS();
-        updatedQuestions = new ArrayList<>();
         evaluatedQuestions = new ArrayList<>();
     }
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.execute();
-
+        main.start();
     }
 
-    public void execute() {
+    public void start() {
         evaluateForm();
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
         renderer.render(evaluatedQuestions, stylesheet);
     }
 
+    public void reRender() {
+        evaluateForm();
+        qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
+        renderer.reRender(evaluatedQuestions, stylesheet);
+    }
+
     private void evaluateForm() {
         evaluatedQuestions.clear();
-        evaluatedQuestions = evaluator.evaluate(form, updatedQuestions);
+        evaluatedQuestions = evaluator.evaluate(form);
     }
 
     private Stylesheet parseQLS() {
@@ -92,36 +99,33 @@ public class Main implements Observer {
 
     @Override
     public void update(TextBox textBox) {
-        int i = 0;
+        Question question = getEvaluatedQuestion(textBox.getIdentifier());
+        question.setValue(new Text(textBox.getText()));
+        reRender();
     }
 
     @Override
     public void update(CheckBox checkBox) {
-
         Question question = getEvaluatedQuestion(checkBox.getIdentifier());
-        Question clonedQuestion = cloneQuestionAndSetState(checkBox, question);
-        updatedQuestions.add(clonedQuestion);
-
-        execute();
-
+        question.setState(checkBox.isSelected());
+        reRender();
     }
 
-    private Question cloneQuestionAndSetState(CheckBox checkBox, Question question) {
-        try {
-            return question.clone(checkBox.isEnabled());
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
+    @Override
+    public void update(NumberBox numberBox) {
+        Question question = getEvaluatedQuestion(numberBox.getIdentifier());
+        question.setValue(new Text(numberBox.getText()));
+        reRender();
     }
 
-    public Question getEvaluatedQuestion(Identifier identifier) {
+    public Question getEvaluatedQuestion(QLIdentifier QLIdentifier) {
         List<Question> question = evaluatedQuestions.stream()
-                .filter(q -> q.getIdentifier().equals(identifier))
+                .filter(q -> q.getQLIdentifier().equals(QLIdentifier))
                 .collect(Collectors.toList());
         if (question.isEmpty()) {
-            throw new IllegalArgumentException("cannot find question with identifier: " + identifier);
+            throw new IllegalArgumentException("cannot find question with identifier: " + QLIdentifier);
         } else if (question.size() > 1) {
-            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + identifier);
+            throw new IllegalArgumentException("UpdatedQuestions has duplicate items for identifier: " + QLIdentifier);
         } else {
             return question.get(0);
         }

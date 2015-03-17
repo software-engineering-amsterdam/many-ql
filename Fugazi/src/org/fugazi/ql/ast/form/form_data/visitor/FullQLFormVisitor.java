@@ -14,14 +14,12 @@ import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.statement.Statement;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
-import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 
@@ -35,8 +33,10 @@ import java.util.List;
 
 public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
     protected final ASTIssueHandler astIssueHandler;
+    protected final QLFormDataStorage formData;
 
-    public FullQLFormVisitor(){
+    public FullQLFormVisitor(QLFormDataStorage _formData){
+        this.formData = _formData;
         this.astIssueHandler = new ASTIssueHandler();
     }
 
@@ -206,11 +206,24 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
      */
 
     @Override
-    public Void visitBoolType(BoolType boolType){return null;}
+    public Void visitBoolType(BoolType boolType) {
+        return null;
+    }
+    
     @Override
-    public Void visitIntType(IntType intType){return null;}
+    public Void visitIntType(IntType intType) {
+        return null;
+    }
+    
     @Override
-    public Void visitStringType(StringType moneyType){return null;}
+    public Void visitStringType(StringType stringType) {
+        return null;
+    }
+
+    @Override
+    public Void visitUndefinedType(UndefinedType undefinedType) {
+        return null;
+    }
 
     /**
      * =======================
@@ -218,16 +231,23 @@ public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
      * =======================
      */
 
-    /*
-    Placeholders for erros handling. Every implementing class will need it.
-     */ //TODO is this a safe assumption?
-
     public List<ASTNodeIssue> getErrors() {
         return this.astIssueHandler.getErrors();
     }
+    
     public List<ASTNodeIssue> getWarnings() {
         return this.astIssueHandler.getWarnings();
     }
-    public boolean hasErrors() {return this.astIssueHandler.hasErrors();}
-    public boolean hasWarnings() {return this.astIssueHandler.hasWarnings();}
+    
+    public boolean hasErrors() {
+        return this.astIssueHandler.hasErrors();
+    }
+    
+    public boolean hasWarnings() {
+        return this.astIssueHandler.hasWarnings();
+    }
+    
+    public void clearErrorsAndWarnings() { 
+        this.astIssueHandler.clearErrorsAndWarnings(); 
+    }
 }

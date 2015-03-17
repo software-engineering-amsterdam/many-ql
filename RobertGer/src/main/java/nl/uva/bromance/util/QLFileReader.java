@@ -1,6 +1,9 @@
 package nl.uva.bromance.util;
 
 import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.QLNode;
+import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
+import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -17,7 +20,7 @@ import java.io.IOException;
  */
 public class QLFileReader {
 
-    public static AST readFile(String qlPath) throws IOException {
+    public static AST<QLNode> readFile(String qlPath) throws IOException {
 
         QLLexer lexer = new QLLexer(new ANTLRFileStream(qlPath));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -32,7 +35,13 @@ public class QLFileReader {
 
         walker.walk(listener, tree);
 
-        return listener.getAst();
+        AST<QLNode> qlAst = listener.getAst();
+
+        //TODO:Evaluator and Handler need to be executed in this order. Maybe we want to force that.
+        new ExpressionEvaluator(null).evaluate(qlAst.getRoot());
+        new ConditionalHandler().handle(qlAst.getRoot());
+
+        return qlAst;
     }
 
 }

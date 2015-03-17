@@ -92,9 +92,17 @@ public class TypeCheckQLS {
 		for (String key : this.typeCheckQL.getSymbolTable().getTable().keySet()){
 			
 			if (!this.table.keyExists(new Identifier(key, null))){
-				Tuple<Integer, Integer> locs = this.typeCheckQL.getSymbolTable().retrieveValue(key).getSourceCodeLines().getLOCTuple();
 				
-				this.setValuesToErrorTable("Question of QL not defined: " + key, new CodeLines(locs.x, locs.y));
+				try{
+					this.typeCheckQL.getSymbolTable().retrieveValue(key).getPrimitiveType();
+					
+					Tuple<Integer, Integer> locs = this.typeCheckQL.getSymbolTable().retrieveValue(key).getSourceCodeLines().getLOCTuple();
+					
+					this.setValuesToErrorTable("Question of QL not defined: " + key, new CodeLines(locs.x, locs.y));
+				}
+				catch (Exception ex){
+					System.out.println("Primitive type for: " + key + " could not be found");
+				}
 			}
 		}
 		

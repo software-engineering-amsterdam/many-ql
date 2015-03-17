@@ -31,7 +31,6 @@ public class TestPositive extends BaseTest {
      	 });
      }
 
-     @SuppressWarnings("rawtypes")
      public TestPositive(String input, Value expected) {
     	 super(input, expected); 
      }

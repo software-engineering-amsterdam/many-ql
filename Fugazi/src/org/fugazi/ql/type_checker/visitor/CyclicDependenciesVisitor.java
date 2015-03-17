@@ -2,9 +2,10 @@ package org.fugazi.ql.type_checker.visitor;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
-import org.fugazi.ql.type_checker.dependency.DependencyList;
+import org.fugazi.ql.type_checker.dependency.DependencyManager;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 import java.util.ArrayList;
@@ -13,11 +14,12 @@ import java.util.List;
 public class CyclicDependenciesVisitor extends FullQLFormVisitor {
 
     // used to detect circular dependencies
-    private final DependencyList questionDependencies;
+    private final DependencyManager questionDependencies;
     private ID assignableIdLiteral;
 
-    public CyclicDependenciesVisitor(){
-        this.questionDependencies = new DependencyList();
+    public CyclicDependenciesVisitor(QLFormDataStorage _formData){
+        super(_formData);
+        this.questionDependencies = new DependencyManager();
     }
 
     /**

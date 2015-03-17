@@ -1,6 +1,6 @@
 package nl.uva.softwcons.ql.eval;
 
-import static helper.TestHelper.DUMMY_LINE_INFO;
+import static nl.uva.softwcons.helper.TestHelper.DUMMY_LINE_INFO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
@@ -17,8 +17,6 @@ import nl.uva.softwcons.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ql.ast.expression.unary.logical.Not;
-import nl.uva.softwcons.ql.eval.ExpressionEvaluator;
-import nl.uva.softwcons.ql.eval.FormAnswers;
 import nl.uva.softwcons.ql.eval.value.BooleanValue;
 import nl.uva.softwcons.ql.eval.value.NumberValue;
 import nl.uva.softwcons.ql.eval.value.UndefinedValue;
@@ -44,7 +42,7 @@ public class ExpressionEvaluatorTest {
         final Addition exprInt = new Addition(INT_1, INT_2, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprInt, null)).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprInt, null).asDecimal()).isEqualTo("3");
+        assertThat(ExpressionEvaluator.evaluate(exprInt, null).getNumber()).isEqualTo("3");
     }
 
     @Test
@@ -52,7 +50,7 @@ public class ExpressionEvaluatorTest {
         final Addition exprDec = new Addition(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprDec, null)).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprDec, null).asDecimal()).isEqualTo("4.0");
+        assertThat(ExpressionEvaluator.evaluate(exprDec, null).getNumber()).isEqualTo("4.0");
     }
 
     @Test
@@ -60,74 +58,91 @@ public class ExpressionEvaluatorTest {
         final Addition exprMixed = new Addition(DEC_2_5, INT_2, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprMixed, null)).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprMixed, null).asDecimal()).isEqualTo("4.5");
+        assertThat(ExpressionEvaluator.evaluate(exprMixed, null).getNumber()).isEqualTo("4.5");
     }
 
     @Test
-    public void testVisitSubtraction() {
-        Subtraction exprInt = new Subtraction(INT_1, INT_2, DUMMY_LINE_INFO);
-        Subtraction exprDec = new Subtraction(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
-        Subtraction exprMixed = new Subtraction(INT_1, DEC_1_5, DUMMY_LINE_INFO);
-        Subtraction exprMixed2 = new Subtraction(DEC_1_5, INT_1, DUMMY_LINE_INFO);
+    public void testIntegerSubtraction() {
+        final Subtraction exprInt = new Subtraction(INT_1, INT_2, DUMMY_LINE_INFO);
 
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getValue()).isEqualTo(
-                BigDecimal.valueOf(-1));
+        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getNumber()).isEqualTo("-1");
         assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
 
-        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getValue()).isEqualTo(
-                BigDecimal.valueOf(-0.5));
+    }
+
+    @Test
+    public void testDecimalSubtraction() {
+        final Subtraction exprDec = new Subtraction(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
+
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getNumber()).isEqualTo("-1.0");
+    }
+
+    @Test
+    public void testMixedSubtraction() {
+        final Subtraction exprMixed = new Subtraction(INT_1, DEC_1_5, DUMMY_LINE_INFO);
+        final Subtraction exprMixed2 = new Subtraction(DEC_1_5, INT_1, DUMMY_LINE_INFO);
+
         assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getNumber()).isEqualTo("-0.5");
 
-        assertThat(ExpressionEvaluator.evaluate(exprMixed2, new FormAnswers()).getValue()).isEqualTo(
-                BigDecimal.valueOf(0.5));
         assertThat(ExpressionEvaluator.evaluate(exprMixed2, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprMixed2, new FormAnswers()).getNumber()).isEqualTo("0.5");
 
-        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
-        assertThat(
-                ((BigDecimal) ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue())
-                        .compareTo(new BigDecimal(-1))).isEqualTo(0);
     }
 
     @Test
-    public void testVisitMultiplication() {
-        Multiplication exprInt = new Multiplication(INT_1, INT_2, DUMMY_LINE_INFO);
+    public void testIntegerMultiplication() {
+        final Multiplication exprInt = new Multiplication(INT_1, INT_2, DUMMY_LINE_INFO);
 
-        Multiplication exprDec = new Multiplication(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
-
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getValue())
-                .isEqualTo(BigDecimal.valueOf(2));
         assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getNumber()).isEqualTo("2");
 
-        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
-        assertThat(
-                ((BigDecimal) ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue())
-                        .compareTo(new BigDecimal(1.5 * 2.5))).isEqualTo(0);
     }
 
     @Test
-    public void testVisitDivision() {
-
-        Division exprInt = new Division(INT_1, INT_2, DUMMY_LINE_INFO);
-        Division exprDec = new Division(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
-
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getValue()).isEqualTo(
-                BigDecimal.valueOf(0.5));
+    public void testDecimalMultiplication() {
+        final Multiplication exprDec = new Multiplication(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
-        BigDecimal result = new BigDecimal(1.5).divide(new BigDecimal(2.5));
-        assertThat(((BigDecimal) ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue()).compareTo(result))
-                .isEqualTo(0);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getNumber()).isEqualTo("3.75");
+    }
 
-        Division exprMixedFromInt = new Division(new NumberLiteral(3, DUMMY_LINE_INFO), DEC_1_5, DUMMY_LINE_INFO);
-        assertThat(ExpressionEvaluator.evaluate(exprMixedFromInt, new FormAnswers())).isExactlyInstanceOf(
-                NumberValue.class);
+    @Test
+    public void testMixedMultiplication() {
+        final Multiplication exprDec = new Multiplication(INT_1, DEC_2_5, DUMMY_LINE_INFO);
+        final Multiplication exprDec2 = new Multiplication(DEC_2_5, INT_1, DUMMY_LINE_INFO);
 
-        BigDecimal result2 = new BigDecimal(3.0).divide(new BigDecimal(1.5));
-        assertThat(
-                ((BigDecimal) ExpressionEvaluator.evaluate(exprMixedFromInt, new FormAnswers()).getValue())
-                        .compareTo(result2)).isEqualTo(0);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getNumber()).isEqualTo("2.5");
 
+        assertThat(ExpressionEvaluator.evaluate(exprDec2, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprDec2, new FormAnswers()).getNumber()).isEqualTo("2.5");
+    }
+
+    @Test
+    public void testIntegerDivision() {
+        final Division exprInt = new Division(INT_1, INT_2, DUMMY_LINE_INFO);
+
+        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getNumber()).isEqualTo("0.5");
+    }
+
+    @Test
+    public void testDecimalDivision() {
+        final Division exprDec = new Division(DEC_1_5, DEC_2_5, DUMMY_LINE_INFO);
+        final BigDecimal expected = new BigDecimal(1.5).divide(new BigDecimal(2.5));
+
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getNumber()).isEqualByComparingTo(expected);
+    }
+
+    @Test
+    public void testMixedDivision() {
+        final Division exprMixed = new Division(new NumberLiteral(3, DUMMY_LINE_INFO), DEC_1_5, DUMMY_LINE_INFO);
+
+        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers())).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getNumber()).isEqualTo("2");
     }
 
     @Test
@@ -138,19 +153,13 @@ public class ExpressionEvaluatorTest {
         GreaterOrEqual exprMixed = new GreaterOrEqual(DEC_2_5, INT_2, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers())).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getValue()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprInt, new FormAnswers()).getBoolean()).isEqualTo(false);
 
         assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers())).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getBoolean()).isEqualTo(true);
 
         assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers())).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprMixed, new FormAnswers()).getBoolean()).isEqualTo(true);
     }
 
     @Test
@@ -161,21 +170,15 @@ public class ExpressionEvaluatorTest {
 
         assertThat(ExpressionEvaluator.evaluate(exprAndFalse, new FormAnswers())).isExactlyInstanceOf(
                 BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndFalse, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndFalse, new FormAnswers()).getValue()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprAndFalse, new FormAnswers()).getBoolean()).isEqualTo(false);
 
         assertThat(ExpressionEvaluator.evaluate(exprAndTrue, new FormAnswers()))
                 .isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndTrue, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndTrue, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprAndTrue, new FormAnswers()).getBoolean()).isEqualTo(true);
 
         assertThat(ExpressionEvaluator.evaluate(exprAndFalse2, new FormAnswers())).isExactlyInstanceOf(
                 BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndFalse2, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprAndFalse2, new FormAnswers()).getValue()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprAndFalse2, new FormAnswers()).getBoolean()).isEqualTo(false);
     }
 
     @Test
@@ -185,21 +188,15 @@ public class ExpressionEvaluatorTest {
         Or exprOrFalse = new Or(FALSE, FALSE, DUMMY_LINE_INFO);
 
         assertThat(ExpressionEvaluator.evaluate(exprOrTrue, new FormAnswers())).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrTrue, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrTrue, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprOrTrue, new FormAnswers()).getBoolean()).isEqualTo(true);
 
         assertThat(ExpressionEvaluator.evaluate(exprOrTrue2, new FormAnswers()))
                 .isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrTrue2, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrTrue2, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprOrTrue2, new FormAnswers()).getBoolean()).isEqualTo(true);
 
         assertThat(ExpressionEvaluator.evaluate(exprOrFalse, new FormAnswers()))
                 .isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrFalse, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprOrFalse, new FormAnswers()).getValue()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprOrFalse, new FormAnswers()).getBoolean()).isEqualTo(false);
     }
 
     @Test
@@ -209,15 +206,11 @@ public class ExpressionEvaluatorTest {
 
         assertThat(ExpressionEvaluator.evaluate(exprNotTrue, new FormAnswers()))
                 .isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprNotTrue, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprNotTrue, new FormAnswers()).getValue()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprNotTrue, new FormAnswers()).getBoolean()).isEqualTo(true);
 
         assertThat(ExpressionEvaluator.evaluate(exprNotFalse, new FormAnswers())).isExactlyInstanceOf(
                 BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprNotFalse, new FormAnswers()).getValue()).isExactlyInstanceOf(
-                Boolean.class);
-        assertThat(ExpressionEvaluator.evaluate(exprNotFalse, new FormAnswers()).getValue()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprNotFalse, new FormAnswers()).getBoolean()).isEqualTo(false);
     }
 
     @Test
@@ -231,7 +224,7 @@ public class ExpressionEvaluatorTest {
         answers.setValue(id2, new NumberValue(2));
 
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asDecimal()).isEqualTo("3");
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).getNumber()).isEqualTo("3");
     }
 
     @Test
@@ -290,7 +283,7 @@ public class ExpressionEvaluatorTest {
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
         answers.setValue(id2, new NumberValue(1));
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(NumberValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asDecimal()).isEqualTo("1");
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).getNumber()).isEqualTo("1");
 
     }
 
@@ -306,7 +299,7 @@ public class ExpressionEvaluatorTest {
 
         answers.setValue(id1, new BooleanValue(true));
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).getBoolean()).isEqualTo(true);
 
     }
 
@@ -323,7 +316,7 @@ public class ExpressionEvaluatorTest {
         answers.setValue(id2, new BooleanValue(false));
 
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(false);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).getBoolean()).isEqualTo(false);
     }
 
     @Test
@@ -337,7 +330,7 @@ public class ExpressionEvaluatorTest {
         answers.setValue(id1, new BooleanValue(false));
 
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
-        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(true);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).getBoolean()).isEqualTo(true);
     }
 
     @Test(expected = UnsupportedOperationException.class)

@@ -5,7 +5,6 @@ import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
@@ -24,10 +23,14 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
-import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
+import uva.ql.ast.statements.Question;
 import uva.ql.ast.statements.Statement;
+import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeInteger;
+import uva.ql.ast.type.TypeMoney;
+import uva.ql.ast.type.TypeString;
 
 public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisitorInterface<T>{
 
@@ -57,18 +60,18 @@ public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisit
 	}
 
 	@Override
-	public T visitQuestion(Question question) {
-
-		for (Statement statement : question.getStatement()){
-			statement.accept(this);
-		}
-		
-		question.getType().accept(this);
-		question.getIdentifier().accept(this);
+	public T visitSimpleQuestion(Question question) {
+		question.getQuestionType().accept(this);
 		
 		return null;
 	}
 
+	@Override
+	public T visitComputedQuestion(Question question) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public T visitIfStatement(IfStatement ifStatement) {
 		
@@ -224,9 +227,22 @@ public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisit
 	}
 
 	@Override
-	public T visitType(Type type) {
+	public T visitTypeBoolean(TypeBoolean booleanType) {
 		return null;
 	}
 
-	
+	@Override
+	public T visitTypeInteger(TypeInteger integerType) {
+		return null;
+	}
+
+	@Override
+	public T visitTypeMoney(TypeMoney moneyType) {
+		return null;
+	}
+
+	@Override
+	public T visitTypeString(TypeString stringType) {
+		return null;
+	}
 }

@@ -1,21 +1,47 @@
 * Relevant Content
-  {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]]
+  {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]] [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
   {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
   {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
-  {4} Initial Architecture Diagram [[architecture.png]]
-  {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
-  {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
-  {7} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
-  {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
+  {4} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
+  {5} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
+  {6} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
+  {7} [[http://www.laputan.org/pub/patterns/fowler/smells.pdf]]
 
-* QL [6/7]
-  - [ ] Refactor [0/2]
-    - [ ] Refactor Bool nodes into Visitor
-    - [ ] Refactor Math nodes into Visitor
-  - [X] Basic Architecture {4}
-  - [X] Interpreter wise error handling
-    - [X] Pretty and informing error message
-  - [X] Resolve the Visitor debate. {7}
+* QualityWithoutAName Cards
+  - [X] backlog [3/3]
+    - [X] get rid of switch statements
+    - [X] magic constants
+    - [X] duplicated code
+  - [ ] code smell hunt [3/17] from {7}
+    - [X] comments
+    - [X] long method
+    - [X] duplicated code (again)
+    - [ ] large class
+    - [ ] long parameter list
+    - [ ] divergent change
+    - [ ] shotgun surgery
+    - [ ] feature envy
+    - [ ] data clumps
+    - [ ] case statements
+    - [ ] parallel inheritance hierarchies
+    - [ ] lazy class
+    - [ ] similar subclasses
+    - [ ] temporary field
+    - [ ] middleman
+    - [ ] alternative classes with different interfaces
+    - [ ] duplicated code (againˆ2)
+
+* QL [7/7]
+  - [X] Refactor [4/4]
+    - [X] Expand tests
+    - [X] Extract question typing from AST
+      - [X] Update grammar and runtime
+      - [X] Handle invalid question types - error messages
+    - [X] Extract plumbing
+    - [X] String concatenation
+  - [X] Basic Architecture
+  - [X] Interpreter wise error handling - Pretty and informing error message
+  - [X] Resolve the Visitor debate. {6}
   - [X] Compiler [2/2] {1}
     - [X] Write grammar [8/8]
       - [X] form parsing :MUST:
@@ -80,17 +106,3 @@
     - [X] The internal structure of a DSL program is represented using abstract syntax trees.
     - [X] QL programs are executed as GUI programs, not command-line dialogues.
     - [X] QL programs are executed by interpretation, not code generation.
-
-* QLS
-  - [ ] Basic Architecture
-  ** Functionalities [0/6]
-    - [ ] Type Checker: no references to questions that are not in the QL program
-    - [ ] Type Checker: all questions of the QL program are placed by the QLS program.
-    - [ ] Type Checker: (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
-    - [ ] Type Checker: you cannot place a single question multiple times.
-    - [ ] Type Checker: The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions appear (page/secion), what font-styles etc. are used, and what widget types are used.
-    - [ ] Type Checker: As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
-
-  ** Requirements on the implementation [0/2]
-    - [ ] You could say QLS defines an "aspect" of questionnaires, i.e. its appearance. The challenge is to implement QLS without (invasively) changing the code pertaining to QL, and without duplicating or reimplementing the QL code. (Copying and/or duplicating is not allowed, but some changes might be needed at certain join points...).
-    - [ ] The QL code, and especially, the QL ASTs should be oblivious to the QLS code. Think about how you can achieve that.

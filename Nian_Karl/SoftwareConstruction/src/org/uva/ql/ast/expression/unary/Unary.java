@@ -1,7 +1,7 @@
 package org.uva.ql.ast.expression.unary;
 
+import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.utility.CodePosition;
 
 public abstract class Unary extends Expression {
 

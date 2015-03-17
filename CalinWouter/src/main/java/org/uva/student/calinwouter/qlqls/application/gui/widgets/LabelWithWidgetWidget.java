@@ -1,9 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
-import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import javax.swing.*;
@@ -14,36 +14,50 @@ import java.awt.*;
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
+    private IWidget widget;
 
     @Override
     public Component getWidgetComponent() {
         return labelWithWidgetWidget;
     }
 
-    public LabelWithWidgetWidget(final AbstractFormField model, StylingSettings stylingSettings, IWidget widget,
-                                 final HeadlessFormInterpreter headlessFormInterpreter) {
-        final Label fieldLabel = new Label();
+    @Override
+    public void resetValue() {
+        widget.resetValue();
+    }
+
+    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper) {
+        this.widget = widget;
+        final Label fieldLabel = new Label(label);
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
-        System.out.println(widget.getClass());
         labelWithWidgetWidget.add(widget.getWidgetComponent());
 
-        System.out.println(stylingSettings.getFont() +","+ 0 +","+ stylingSettings.getFontSize());
+        if(stylingSettings != null) {
+            System.out.println(stylingSettings.getFont() + "," + 0 + "," + stylingSettings.getFontSize());
 
-        fieldLabel.setFont(new Font(stylingSettings.getFont(), 0, stylingSettings.getFontSize()));
-        fieldLabel.setForeground(new Color(stylingSettings.getColor()));
-        widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+            fieldLabel.setFont(new Font(stylingSettings.getFont(), 0, stylingSettings.getFontSize()));
+            fieldLabel.setForeground(new Color(stylingSettings.getColor()));
+            widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
+        }
+
+        if(variableTableWrapper.getVariableTable().isSet(identifier)) {
+            labelWithWidgetWidget.setVisible(true);
+        }
+        else {
+            labelWithWidgetWidget.setVisible(false);
+        }
+
+        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                try {
-                    fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getIdent()));
+                if(variableTableWrapper.getVariableTable().isSet(identifier)) {
                     labelWithWidgetWidget.setVisible(true);
-                } catch (LabelNotAvailableException e) {
-                    fieldLabel.setText("-");
-                    labelWithWidgetWidget.setVisible(false);
                 }
-                fieldLabel.invalidate();
+                else {
+                    labelWithWidgetWidget.setVisible(false);
+                    LabelWithWidgetWidget.this.resetValue();
+                }
                 labelWithWidgetWidget.revalidate();
             }
         });

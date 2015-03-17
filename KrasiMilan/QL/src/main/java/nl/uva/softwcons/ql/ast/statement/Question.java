@@ -6,9 +6,9 @@ import nl.uva.softwcons.ql.ast.type.Type;
 
 public class Question extends Statement {
 
-    private Identifier id;
-    private String label;
-    private Type type;
+    private final Identifier id;
+    private final String label;
+    private final Type type;
 
     public Question(final Identifier id, final String label, final Type type) {
         this.id = id;
@@ -29,7 +29,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(final StatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

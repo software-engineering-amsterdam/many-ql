@@ -1,29 +1,48 @@
 package org.uva.qls.ast.literal;
 
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.type.StrType;
+import org.uva.qls.ast.type.Type;
+import org.uva.qls.ast.value.StrValue;
+import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitor;
-import org.uva.utility.CodePosition;
 
 public class StrLiteral extends Literal {
 
-	private final String text;
-	
-	public StrLiteral(String text, CodePosition position) {
-		super(position);
-		this.text = text;
+	private final StrValue value;
+
+	public StrLiteral(StrValue value, CodePosition pos) {
+		super(pos);
+		this.value = value;
 	}
-	
-	public String getValue() {
-		return text; 
+
+	public StrLiteral(String string, CodePosition pos) {
+		super(pos);
+		this.value = new StrValue(string);
 	}
 
 	@Override
 	public <T> T accept(LiteralVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
+
+	@Override
+	public Value getValue() {
+		return value;
+	}
+
+	@Override
+	public Type getType() {
+		return new StrType(this.getPosition());
+	}
+
 	@Override
 	public String toString() {
-		return super.toString();
+		return super.toString() + "<\"" + value.toString() + "\">";
+	}
+
+	public String getStringValue() {
+		return value.value();
 	}
 
 }

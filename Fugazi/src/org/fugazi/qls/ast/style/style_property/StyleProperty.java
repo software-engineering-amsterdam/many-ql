@@ -8,11 +8,6 @@ public abstract class StyleProperty<T> extends AbstractASTNode {
     protected final String name;
     protected final T value;
 
-    public StyleProperty(int _lineNum, String _name, T _value) {
-        this.name = _name;
-        this.value = _value;
-    }
-
     public StyleProperty(String _name, T _value) {
         this.name = _name;
         this.value = _value;
@@ -27,4 +22,18 @@ public abstract class StyleProperty<T> extends AbstractASTNode {
     }
 
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
+            return false;
+        }
+
+        if (!(o instanceof StyleProperty)) {
+            return false;
+        }
+
+        StyleProperty other = (StyleProperty) o;
+        return this.name == other.name;
+    }
 }

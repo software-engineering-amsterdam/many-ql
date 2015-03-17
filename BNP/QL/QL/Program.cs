@@ -8,11 +8,12 @@ using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using QL.Errors;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
-using QL.Evaluation;
+using QL.Visitors;
 
 
 namespace QL
@@ -28,11 +29,11 @@ namespace QL
 
                 Stream inputStream = Console.OpenStandardInput();
 
-                AstHandler ast = new AstHandler(inputStream);
+                ASTHandler ast = new ASTHandler(inputStream);
 
                 if (ast.BuildAST())
                 {
-                    foreach (Exception e in ast.AstBuilderExceptions)
+                    foreach (QLException e in ast.ASTHandlerExceptions)
                         {
                             Console.WriteLine(e.ToString());
                         }
@@ -40,9 +41,9 @@ namespace QL
 
                 ast.CheckType();
 
-                if (ast.TypeCheckerErrors.Any())
+                if (ast.ASTHandlerExceptions.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerErrors)
+                    foreach (QLError e in ast.ASTHandlerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }
@@ -51,9 +52,9 @@ namespace QL
 
                 ast.Evaluate();
 
-                if (ast.EvaluationErrors.Any())
+                if (ast.ASTHandlerExceptions.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerErrors)
+                    foreach (QLError e in ast.ASTHandlerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }

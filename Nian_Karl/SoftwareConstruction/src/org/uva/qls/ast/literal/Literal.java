@@ -1,16 +1,20 @@
 package org.uva.qls.ast.literal;
 
-import org.uva.qls.ast.QLSNode;
+import org.uva.qls.ast.BaseNode;
+import org.uva.qls.ast.CodePosition;
+import org.uva.qls.ast.type.Type;
+import org.uva.qls.ast.value.Value;
 import org.uva.qls.visitor.LiteralVisitable;
-import org.uva.utility.CodePosition;
 
-public abstract class Literal implements QLSNode, LiteralVisitable {
-
-	private CodePosition position;
+public abstract class Literal extends BaseNode implements LiteralVisitable{
 	
-	public Literal(CodePosition position) {
-		this.position = position;
+	public Literal(CodePosition pos) {
+		super(pos);
 	}
 	
-	public 
+	public abstract Value getValue();
+	public abstract Type getType();
+	public String toString() {
+		return "Literal";
+	}
 }

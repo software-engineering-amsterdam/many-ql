@@ -1,13 +1,19 @@
 import QLS.Grammar.qls as q
 import QLS.Validators.type_checker as t
-import QL.Grammar.basic_types as b
-import QL.Grammar.form as f
+import QL.Grammar.grammar as b
+import QL.Grammar.grammar as f1
 import QLS.Factory.qls as ql
+import QLS.GUI.gui as g
+import QL.Grammar.Factory.forms as f2
 qls = ql.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
 print(qls.pretty_print())
 
-formAsParseResults = f.FormFormat.form.ignore(b.BasicTypes.comment).parseFile("example.ql")
-f = f.forms.FormFactory.make_form(formAsParseResults)
+print(qls.get_property_dict())
+formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
+f = f2.make_form(formAsParseResults)
 checker = t.TypeChecker(f, qls)
 
-# TODO: all imports in init
+print(f)
+pages = [1,2,3]
+gui = g.GUI.draw_pages(pages)
+

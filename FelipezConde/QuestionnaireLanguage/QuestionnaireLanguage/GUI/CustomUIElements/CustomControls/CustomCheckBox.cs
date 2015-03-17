@@ -1,50 +1,26 @@
-﻿using AST.Nodes.Values;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.Presenter;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
-    public class CustomCheckBox : CheckBox, ICustomControl
+    public class CustomCheckBox : CheckBox
     {
-        private IList<string> listConditionalId;
-        public IList<string> ListConditionalId
-        {
-            get { return this.listConditionalId; }
-            private set { this.listConditionalId = value; }
-
-        }
+        private BoolHandler inputHandler = new BoolHandler();
+        public EventUpdateValue eventUpdateValue;
 
         #region Constructors
         public CustomCheckBox()
-        {
-            AddEvents();
-        }
-        #endregion
-
-        #region ICustomControl
-        public void AddConditionalPanelId(string id)
-        {
-            ListConditionalId.Add(id);
-        }
-        #endregion
-
-        #region Private Methods
-        private void AddEvents()
         {
             this.Click += CustomCheckBox_Click;
         }
         #endregion
 
-        #region Conditional Events
+        #region Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement event
+            eventUpdateValue(((CustomCheckBox)sender).Name, inputHandler.GetValue(sender));
         }
 
         #endregion

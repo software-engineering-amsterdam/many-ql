@@ -8,17 +8,18 @@ import edu.nodes.QuestionType;
  */
 public enum QuestionTypeGui {
     STRING(edu.gui.components.TextBox.class, QuestionType.STRING),
-    BOOLEAN(edu.gui.components.CheckBox.class, QuestionType.BOOLEAN);
+    BOOLEAN(edu.gui.components.CheckBox.class, QuestionType.BOOLEAN),
+    INTEGER(edu.gui.components.NumberBox.class, QuestionType.INTEGER);
 
-    private final Class component;
+    private final Class<? extends Subject> component;
     private final QuestionType questionType;
 
-    private <T> QuestionTypeGui(Class<T> component, QuestionType questionType) {
+    private <T extends Subject> QuestionTypeGui(Class<T> component, QuestionType questionType) {
         this.component = component;
         this.questionType = questionType;
     }
 
-    public static Class<Subject> getComponent(QuestionType questionType) throws IllegalAccessException, InstantiationException {
+    public static Class<? extends Subject> getComponent(QuestionType questionType) throws IllegalAccessException, InstantiationException {
         for (QuestionTypeGui questionTypeGui : values()) {
             if (questionTypeGui.getQuestionType().equals(questionType)) {
                 return questionTypeGui.component;

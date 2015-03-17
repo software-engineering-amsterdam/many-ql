@@ -5,12 +5,11 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.ExpressionVisitor;
 
 public class BooleanLiteral extends Expression {
-    private boolean value;
-    private LineInfo lineInfo;
+    private final boolean value;
 
-    public BooleanLiteral(boolean value, LineInfo lineInfo) {
+    public BooleanLiteral(final boolean value, final LineInfo lineInfo) {
+        super(lineInfo);
         this.value = value;
-        this.lineInfo = lineInfo;
     }
 
     public boolean getValue() {
@@ -18,13 +17,8 @@ public class BooleanLiteral extends Expression {
     }
 
     @Override
-    public <T> T accept(ExpressionVisitor<T> visitor) {
+    public <T> T accept(final ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    @Override
-    public LineInfo getLineInfo() {
-        return this.lineInfo;
     }
 
 }

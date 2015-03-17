@@ -46,7 +46,6 @@ public enum QuestionType implements AbstractNode, edu.parser.QL.nodes.AbstractNo
         return visitor.visit(this);
     }
 
-    @Override
     public edu.parser.QL.nodes.AbstractNode accept(QLVisitor visitor) {
         return visitor.visit(this);
     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
@@ -43,33 +44,14 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             var runtimeController = new RuntimeController();
 
-            foreach (var astQuestion in QuestionForm.AllQuestions)
+            foreach (var astQuestion in QuestionForm.GetAllQuestions())
             {
-                QuestionControl uiQuestion;
-
-                switch (astQuestion.DataType)
-                {
-                    case DataType.Boolean:
-                        uiQuestion = new RadioControl(astQuestion);
-                        break;
-                    case DataType.Integer:
-                        uiQuestion = new SpinBoxControl(astQuestion);
-                        break;
-                    case DataType.String:
-                        uiQuestion = new TextBoxControl(astQuestion);
-                        break;
-                    case DataType.Date:
-                        uiQuestion = new CalendarControl(astQuestion);
-                        break;
-                    default:
-                        throw new NotSupportedException();
-                }
+                QuestionControl uiQuestion = CreateQuestionWidget(astQuestion);
 
                 if (!astQuestion.IsComputed)
                 {
                     uiQuestion.QuestionAnswered += uiQuestion_QuestionAnswered;
                 }
-                uiQuestion.Visible = false;
 
                 QuestionFlowLayout.Controls.Add(uiQuestion);
                 Output.WriteLine("Question added: {0}, \"{1}\"", astQuestion.Id.Name, astQuestion.Label);
@@ -144,7 +126,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
                 
-
                 var qlController = new QLController();
                 var runtimeController = new RuntimeController();
 
@@ -152,7 +133,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 var report = runtimeController.Validate(form);
 
-                OutputTextBox.AppendText(report.GetReport());
+                OutputTextBox.AppendText(report.ToString());
 
                 if (report.NrOfErrors > 0)
                 {
@@ -175,5 +156,32 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         }
 
         #endregion
+
+        private QuestionControl CreateQuestionWidget(Question question)
+        {
+            QuestionControl questionWidget;
+
+            switch (question.DataType)
+            {
+                case DataType.Boolean:
+                    questionWidget = new RadioControl(question);
+                    break;
+                case DataType.Integer:
+                    questionWidget = new SpinBoxControl(question);
+                    break;
+                case DataType.String:
+                    questionWidget = new TextBoxControl(question);
+                    break;
+                case DataType.Date:
+                    questionWidget = new CalendarControl(question);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            questionWidget.Visible = false;
+
+            return questionWidget;
+        }
     }
 }

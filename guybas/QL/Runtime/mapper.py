@@ -1,4 +1,4 @@
-import QL.CoreTools.exceptions as exceptions
+import QL.Tools.exceptions as exceptions
 
 
 class Mapper:
@@ -8,18 +8,14 @@ class Mapper:
         self.inputObj = {}
 
     def update(self, question, answer):
-        qid = question.get_id()
+        qid = question.ast.get_id()
         self.answers[qid] = answer
 
     def get_answers(self):
         return self.answers
 
     def get_answer_by_id(self, qid):
-        if qid in self.answers.keys():
-            return self.answers[qid]
-        raise exceptions.QException("Answer _id " + qid + " does not exist.")
+        return self.answers[qid]
 
-    def id_exists(self, qid):
-        if qid in self.answers.keys():
-            return True
-        return False
+    def exists(self, qid):
+        return qid in self.answers

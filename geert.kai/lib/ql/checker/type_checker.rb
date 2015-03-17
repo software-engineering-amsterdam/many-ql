@@ -4,11 +4,8 @@ require_relative "../ast/ast"
 module QL
   module Checking
     class TypeChecker < BaseVisitor
-      def after_initialize(base)
+      def run
         @types = {}
-      end
-
-      def errors
         @errors = []
         visit @base 
         @errors
@@ -35,15 +32,14 @@ module QL
       end
 
       def valid_conditional_type?(type)
-        type == AST::BooleanType.new || type == AST::UndefinedType.new
+        type == QL::AST::BooleanType.new || type.nil?
       end
 
       def visit_binary_expression(expression)
         lhs_type = expression.lhs.accept(self)
         rhs_type = expression.rhs.accept(self)
 
-        return AST::UndefinedType.new if lhs_type == AST::UndefinedType.new || rhs_type == AST::UndefinedType.new
-
+        return nil if lhs_type.nil? || rhs_type.nil?
 
         check_expression_type(expression, lhs_type)
         check_expression_type(expression, rhs_type)
@@ -58,12 +54,9 @@ module QL
       end
 
       def visit_variable(variable)
-        if @types[variable.name]
-          @types[variable.name]
-        else
-          @errors << Exception.new("Variable #{variable.name} not defined.")
-          AST::UndefinedType.new
-        end
+        @errors << Exception.new("Variable #{variable.name} not defined.") if @types[variable.name].nil?
+
+        @types[variable.name]
       end
 
       def visit_literal(literal)

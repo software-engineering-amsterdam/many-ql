@@ -28,24 +28,12 @@ grammar QLMain;
 
 ;label : 'label' ':' STRINGLITERAL
 
-;computed : 'computed' ':' computation
+;computed : 'computed' ':' expression
 
-;computation : id            #ComputationId
-             | value         #ComputationValue
-             | expression    #ComputationExpression
-             
-/* Expression */
-/*
-expression : id
-           | value
-           | associative
-           | nonAssociative
- I think this makes it easier, but we would have to label everything. computation would just become an expression though...
-*/
-
-
-;expression      : associative
-                 | nonAssociative
+;expression      : id              #ExpressionId
+                 | value           #ExpressionValue
+                 | associative     #ExpressionAssociative
+                 | nonAssociative  #ExpressionNonAssociative
                  ;
 
 associative     : associative op= AND associative #AND
@@ -74,9 +62,6 @@ nonAssociative  : associative EQ associative      #EQ
                 | id                              #NonAssociativeId
                 ;
 
-
-
-
 /*Token Names*/
 GT   : '>';
 LT   : '<';
@@ -97,18 +82,13 @@ TRUE  : 'True';
 FALSE : 'False';
 
 BOOL   : 'bool';
-STRING : 'string'; 
-DATE   : 'date';
+STRING : 'string';
 INT    : 'int';
 
 /*Lexer rules*/
 INTLITERAL     : '-'?[0-9]+;
 
-YEAR  : [0-9]+;
-MONTH : [0-9][0-9];
-DAY   : [0-9][0-9];
-
-ALPHANUMERIC : [a-zA-Z0-9]+;
+ALPHANUMERIC  : [a-zA-Z0-9]+;
 STRINGLITERAL : '"' .*? '"';
 
 /* White Space & Comments */

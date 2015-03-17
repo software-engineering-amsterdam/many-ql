@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes.FormObject;
-using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Factories.FormObjects;
-using ASTIFormObject = AST.Nodes.Interfaces;
+﻿using Evaluation.Values;
+using FormObjects = QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors.Interfaces;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
+using ASTFormObject = AST.Nodes.FormObjects;
 
 namespace QuestionnaireLanguage.Visitors
 {
     public class FormObjectVisitor : IFormObjectVisitor
     {
-        public IFormObject VisitFormObject(ASTIFormObject.IFormObject formObject)
+        public FormObjects.FormObject VisitFormObject(ASTFormObject.FormObject formObject)
         {
             return Visit((dynamic) formObject);
         }
-        public ConditionalObject Visit(Conditional conditional)
+        public FormObjects.ConditionalObject Visit(ASTFormObject.Conditional node)
         {
-            return FormObjectFactory.GetFormObject(conditional);
+            return new FormObjects.ConditionalObject(node);
         }
-        public QuestionObject Visit(Question question)
+        public FormObjects.QuestionObject Visit(ASTFormObject.Question node)
         {
-            return FormObjectFactory.GetFormObject(question);
+            return new FormObjects.QuestionObject(node);
         }
     }
 }

@@ -25,9 +25,12 @@ class Checker(Checker.StatementChecker):
 
         for identifier in self._qlQuestionIdentifiers:
             if identifier not in self._questionIdentifiers:
-                self._result = self._result.withError(Message.Error(
-                    "question `"+identifier+"` not placed by stylesheet"
-                ))
+                self._result = self._resultAlg.withError(
+                    self._result,
+                    Message.Error(
+                        "question `"+identifier+"` not placed by stylesheet"
+                    )
+                )
 
         return self._result
 

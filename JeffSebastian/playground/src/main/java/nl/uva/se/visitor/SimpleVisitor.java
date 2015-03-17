@@ -1,31 +1,34 @@
 package nl.uva.se.visitor;
 
-import nl.uva.se.ast.expression.arithmetical.Addition;
-import nl.uva.se.ast.expression.arithmetical.Divide;
-import nl.uva.se.ast.expression.arithmetical.Modulo;
-import nl.uva.se.ast.expression.arithmetical.Multiply;
-import nl.uva.se.ast.expression.arithmetical.Negative;
-import nl.uva.se.ast.expression.arithmetical.Positive;
-import nl.uva.se.ast.expression.arithmetical.Power;
-import nl.uva.se.ast.expression.arithmetical.Substraction;
-import nl.uva.se.ast.expression.literal.BooleanLiteral;
-import nl.uva.se.ast.expression.literal.DecimalLiteral;
-import nl.uva.se.ast.expression.literal.IntegerLiteral;
-import nl.uva.se.ast.expression.literal.StringLiteral;
-import nl.uva.se.ast.expression.logical.And;
-import nl.uva.se.ast.expression.logical.Equal;
-import nl.uva.se.ast.expression.logical.GreaterOrEqual;
-import nl.uva.se.ast.expression.logical.GreaterThen;
-import nl.uva.se.ast.expression.logical.LessOrEqual;
-import nl.uva.se.ast.expression.logical.LessThen;
-import nl.uva.se.ast.expression.logical.Not;
-import nl.uva.se.ast.expression.logical.NotEqual;
-import nl.uva.se.ast.expression.logical.Or;
-import nl.uva.se.ast.expression.variable.Reference;
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.statement.CalculatedQuestion;
-import nl.uva.se.ast.statement.Condition;
-import nl.uva.se.ast.statement.Question;
+import nl.uva.se.ql.ast.expression.ExpressionVisitor;
+import nl.uva.se.ql.ast.expression.arithmetical.Addition;
+import nl.uva.se.ql.ast.expression.arithmetical.Divide;
+import nl.uva.se.ql.ast.expression.arithmetical.Modulo;
+import nl.uva.se.ql.ast.expression.arithmetical.Multiply;
+import nl.uva.se.ql.ast.expression.arithmetical.Negative;
+import nl.uva.se.ql.ast.expression.arithmetical.Positive;
+import nl.uva.se.ql.ast.expression.arithmetical.Power;
+import nl.uva.se.ql.ast.expression.arithmetical.Substraction;
+import nl.uva.se.ql.ast.expression.literal.BooleanLiteral;
+import nl.uva.se.ql.ast.expression.literal.DecimalLiteral;
+import nl.uva.se.ql.ast.expression.literal.IntegerLiteral;
+import nl.uva.se.ql.ast.expression.literal.StringLiteral;
+import nl.uva.se.ql.ast.expression.logical.And;
+import nl.uva.se.ql.ast.expression.logical.Equal;
+import nl.uva.se.ql.ast.expression.logical.GreaterOrEqual;
+import nl.uva.se.ql.ast.expression.logical.GreaterThen;
+import nl.uva.se.ql.ast.expression.logical.LessOrEqual;
+import nl.uva.se.ql.ast.expression.logical.LessThen;
+import nl.uva.se.ql.ast.expression.logical.Not;
+import nl.uva.se.ql.ast.expression.logical.NotEqual;
+import nl.uva.se.ql.ast.expression.logical.Or;
+import nl.uva.se.ql.ast.expression.variable.Reference;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.ast.form.FormVisitor;
+import nl.uva.se.ql.ast.statement.CalculatedQuestion;
+import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.ast.statement.StatementVisitor;
 
 public class SimpleVisitor implements FormVisitor, StatementVisitor, ExpressionVisitor<Void> {
 
@@ -37,12 +40,12 @@ public class SimpleVisitor implements FormVisitor, StatementVisitor, ExpressionV
 
 	@Override
 	public void visit(Question question) {
-		System.out.println(question.getQuestion());
+		System.out.println(question.getLabel());
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		System.out.println(calculatedQuestion.getQuestion());
+		System.out.println(calculatedQuestion.getLabel());
 		calculatedQuestion.getExpression().accept(this);
 	}
 

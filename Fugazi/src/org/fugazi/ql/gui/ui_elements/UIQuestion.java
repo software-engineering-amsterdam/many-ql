@@ -11,12 +11,25 @@ public abstract class UIQuestion extends Colleague {
     protected IWidget widget;
     protected final Question question;
 
-    UIQuestion(IMediator _med, Question _question) {
+    UIQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med);
         this.question = _question;
+        this.widget = _widget;
     }
 
+    public abstract void setState(ExpressionValue _value);
     public abstract ExpressionValue getState();
+
+    public abstract void resetState();
+
+    public void addToForm(UIForm _form) {
+        this.widget.render(_form);
+    }
+
+    public void removeFromForm(UIForm _form) {
+        this.widget.supress(_form);
+        this.resetState();
+    }
 
     @Override
     public String getId() {

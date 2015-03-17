@@ -1,16 +1,17 @@
-﻿using QuestionnaireLanguage.GUI.CustomUIElements.CustomControls;
-using QuestionnaireLanguage.GUI.Interfaces.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Evaluation.Values;
+using QuestionnaireLanguage.Events;
 using System.Windows;
 
-namespace QuestionnaireLanguage.GUI.Widgets
+namespace QuestionnaireLanguage.GUI.FormObject
 {
     public abstract class TextBoxWidget : Widget
     {
-        public override abstract UIElement CreateUIControl();
+        public override EventUpdateValue EventUpdateValue { get; set; }
+        public override abstract UIElement CreateUIControl(dynamic value);
+
+        public virtual void UpdateValue(string id, Value value)
+        {
+            EventUpdateValue(id, value);
+        }
     }
 }

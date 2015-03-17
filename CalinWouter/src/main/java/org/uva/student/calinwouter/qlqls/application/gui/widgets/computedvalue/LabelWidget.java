@@ -1,9 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +14,17 @@ public class LabelWidget implements IWidget {
     private JLabel valueLabel;
 
 
-    public LabelWidget(final ComputedValue computedValue, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public LabelWidget(final String questionIdentifier , final VariableTableWrapper variableTableWrapper) {
         valueLabel = new JLabel();
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+
+        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                try {
-                    valueLabel.setText(headlessFormInterpreter
-                            .getField(computedValue.getIdent()).getValue().toString());
-                } catch (NullPointerException e) {
+                if(variableTableWrapper.getVariableTable().isSet(questionIdentifier)) {
+                    valueLabel.setText(variableTableWrapper.getVariableTable().getVariable(questionIdentifier).getValue().toString());
+                }else
                     valueLabel.setText("-");
-                }
+                valueLabel.revalidate();
             }
         });
     }
@@ -34,4 +33,10 @@ public class LabelWidget implements IWidget {
     public Component getWidgetComponent() {
         return valueLabel;
     }
+
+    @Override
+    public void resetValue() {
+        valueLabel.setText("");
+    }
+
 }

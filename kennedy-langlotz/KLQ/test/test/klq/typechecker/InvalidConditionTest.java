@@ -1,15 +1,18 @@
 package test.klq.typechecker;
 
-import com.klq.ast.ANode;
-import com.klq.ast.impl.*;
+import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
-import com.klq.typecheker.TypeChecker;
-import com.klq.typecheker.error.InvalidCondition;
+import com.klq.ast.impl.stmt.AStatementNode;
+import com.klq.ast.impl.stmt.ConditionalNode;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.ast.impl.stmt.QuestionnaireNode;
+import com.klq.typechecker.TypeChecker;
+import com.klq.typechecker.error.InvalidCondition;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,12 +28,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class InvalidConditionTest {
     private QuestionnaireNode ast;
-    private ArrayList<ANode> children;
+    private ArrayList<AStatementNode> children;
 
     @Before
     public void setUp() throws Exception {
         ast = new QuestionnaireNode();
-        children = new ArrayList<ANode>();
+        children = new ArrayList<AStatementNode>();
         children.add(new QuestionNode("question1", "string", "This is a test question"));
     }
 
@@ -94,7 +97,7 @@ public class InvalidConditionTest {
         runWrongTest(node);
     }
 
-    private void runCorrectTest(ANode node){
+    private void runCorrectTest(AExpression node){
         ast.getChildren().add(new ConditionalNode(node, children));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();
@@ -102,7 +105,7 @@ public class InvalidConditionTest {
         assertEquals(0, tc.getErrors().size());
     }
 
-    private void runWrongTest(ANode node){
+    private void runWrongTest(AExpression node){
         ast.getChildren().add(new ConditionalNode(node, children));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();

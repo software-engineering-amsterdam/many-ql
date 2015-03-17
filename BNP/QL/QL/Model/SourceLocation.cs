@@ -29,7 +29,7 @@ namespace QL.Model
 
         public static SourceLocation CreateFor(ParserRuleContext context)
         {
-            return new SourceLocation(context.Start.Line, context.Start.Column, context.Start.Text);
+            return new SourceLocation(context.Start.Line, context.Start.Column + 1, context.Start.Text);
         }
     }
 }

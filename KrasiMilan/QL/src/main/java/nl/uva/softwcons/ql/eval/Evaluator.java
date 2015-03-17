@@ -15,19 +15,22 @@ import com.google.common.collect.Multimap;
 
 public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void> {
     private final FormAnswers answers;
-    private final ReferencesResolver referencesResolver;
-
+    private final ReferenceResolver referencesResolver;
     private final Multimap<Computable, ValueChangeListener<Value>> changeListeners = ArrayListMultimap.create();
 
     public Evaluator(final Form form) {
         this.answers = new FormAnswers();
-        this.referencesResolver = new ReferencesResolver(form);
+        this.referencesResolver = new ReferenceResolver(form);
 
         form.accept(this);
     }
 
     public Value getValue(final Identifier variable) {
         return this.answers.getValue(variable);
+    }
+
+    public Value getValue(final Conditional conditional) {
+        return ExpressionEvaluator.evaluate(conditional.getExpression(), answers);
     }
 
     public void updateValue(final Identifier variable, final Value value) {
@@ -62,20 +65,18 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void> {
 
     @Override
     public Void visit(final Conditional conditional) {
-        final Value resultValue = ExpressionEvaluator.evaluate(conditional.getExpression(), answers);
-        notifyListeners(conditional, resultValue);
+        notifyListeners(conditional, getValue(conditional));
 
         return null;
     }
 
     private void reevaluateIdentifierReferences(final Identifier variableName) {
-        // TODO discuss sequence of calls here
-        this.referencesResolver.getReferencedConditionals(variableName).forEach(c -> c.accept(this));
-
         this.referencesResolver.getReferencedQuestions(variableName).forEach(q -> {
             q.accept(this);
             this.reevaluateIdentifierReferences(q.getId());
         });
+
+        this.referencesResolver.getReferencedConditionals(variableName).forEach(c -> c.accept(this));
     }
 
     private void notifyListeners(final Computable computable, final Value newValue) {

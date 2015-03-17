@@ -1,9 +1,12 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
-import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.QLStaticAnalyser;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
@@ -31,14 +34,25 @@ public class Main {
         }
     }
 
+    private static void executeQl(String ql) {
+        try {
+            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
+            QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
+            QLGUI qui = new QLGUI(qlIntepreter, qlIntepreter.interpret( new VariableTable()), staticFields);
+            qui.render();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private static void executeQlQls(String ql, String qls) {
         try {
-            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
+            QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
-            headlessFormInterpreter.interpret();
-            new QLSGUI(styleSheet, headlessFormInterpreter, formTypeChecker).render();
-
+            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.interpret(new VariableTable()), staticFields).render();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,6 +67,7 @@ public class Main {
         String ql = readFile(currentLocation + "../../src/main/resources/ql.txt");
         String qls = readFile(currentLocation + "../../src/main/resources/qls.txt");
         executeQlQls(ql, qls);
+        executeQl(ql);
     }
 
 }

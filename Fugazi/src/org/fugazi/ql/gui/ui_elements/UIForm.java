@@ -1,7 +1,5 @@
 package org.fugazi.ql.gui.ui_elements;
 
-import org.fugazi.ql.gui.widgets.IWidget;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +18,7 @@ public class UIForm {
         this.formFrame.setSize(winWidth, winHeight);
         this.formFrame.setLocationRelativeTo(null);
         this.formFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.formFrame.setResizable(false);
 
         GridLayout layout = new GridLayout(0, 1);
         this.panel.setLayout(layout);
@@ -29,16 +28,14 @@ public class UIForm {
     public void showForm() {
         this.formFrame.setVisible(true);
     }
-    
-    public void addQuestion(UIQuestion _quest) {
-        IWidget widget = _quest.getWidget();
-        this.panel.add(widget.getJComponent());
+
+    public void addWidget(JComponent _component) {
+        this.panel.add(_component);
         this.formFrame.revalidate();
     }
-    
-    public void removeQuestion(UIQuestion _quest) {
-        IWidget widget = _quest.getWidget();
-        this.panel.remove(widget.getJComponent());
+
+    public void removeWidget(JComponent _component) {
+        this.panel.remove(_component);
         this.formFrame.revalidate();
     }
 }

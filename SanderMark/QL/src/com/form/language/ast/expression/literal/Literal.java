@@ -1,26 +1,25 @@
 package com.form.language.ast.expression.literal;
 
-import org.antlr.v4.runtime.Token;
-
 import com.form.language.ast.expression.Expression;
+import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
-//TODO: this is weird, it doesnt inherit unary or binary yet is not in the same level
-public abstract class Literal implements Expression {
+import com.form.language.memory.IdCollection;
 
-	public Token tokenInfo;
-	public Literal(Token tokenInfo){
-		this.tokenInfo = tokenInfo;
-	}
-	@Override
-	public Boolean isCorrectlyTyped(Context context) {
-		return true;
-	}
-	
-	public String showTokenInfo(){
-		return "line: " + tokenInfo.getLine() + ", column:" + tokenInfo.getCharPositionInLine();
-	}
-	
-	@Override
-	public void collectIds(IdCollector idCollector)	{}
+//TODO: this is weird, it doesnt inherit unary or binary yet is not in the same level
+public abstract class Literal extends Expression {
+
+
+    public Literal(QLToken tokenInfo) {
+	super(tokenInfo);
+    }
+
+    @Override
+    public Boolean isCorrectlyTyped(Context context) {
+	return true;
+    }
+
+    @Override
+    public void collectIds(IdCollection idCollection) {
+    }
+
 }

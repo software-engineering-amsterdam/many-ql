@@ -2,21 +2,17 @@ package org.fugazi.ql.ast.expression.logical;
 
 import org.fugazi.ql.ast.expression.Binary;
 import org.fugazi.ql.ast.expression.Expression;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
+import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.Type;
 
 public abstract class Logical extends Binary {
 
     public Logical(Expression _left, Expression _right) {
         super(_left, _right);
     }
-    public Logical(Expression _left, Expression _right, int _lineNum) {
-        super(_left, _right, _lineNum);
-    }
 
-    public Expression getLeft() {
-        return this.left;
-    }
-
-    public Expression getRight() {
-        return this.right;
+    public Type getReturnedType(QLFormDataStorage _formData) {
+        return new BoolType();
     }
 }

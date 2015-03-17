@@ -1,20 +1,17 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class QLSSection extends Node {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(QLSPage.class));
+public class QLSSection extends QLSNode {
 	private String identifier;
     public QLSSection(int lineNumber, String id) {
         super(lineNumber, QLSSection.class);
-        super.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id.substring(1, id.length() - 1).toLowerCase();
         } else {
@@ -22,13 +19,13 @@ public class QLSSection extends Node {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         javafx.scene.control.Label label = new javafx.scene.control.Label(this.identifier);
         label.getStyleClass().add("formHeader");
         newParent.get().getChildren().add(label);
-        for (Node child: this.getChildren()) {
-            child.visualize(newParent.get());
+        for (QLSNode child: this.getChildren()) {
+            child.visualize(newParent.get(),answerMap, visualizer);
         }
         // Commented out for future usage when generating CSS
         //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
@@ -43,7 +40,7 @@ public class QLSSection extends Node {
             System.out.print("\t");
         }
         System.out.print("[Section] { Name: "+identifier+" }\n");
-        for (Node n : getChildren()) {
+        for (QLSNode n : getChildren()) {
             n.printDebug(i + 1);
         }
     }

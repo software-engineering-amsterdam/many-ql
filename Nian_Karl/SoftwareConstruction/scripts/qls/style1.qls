@@ -20,10 +20,10 @@ style taxOfficeExample
 	
 			default Int {
 			  width: 400
-			  font: arial 
+			  font: Arial 
 			  fontsize: 14
-			  color: rgb(123,121,222)
-			  widget: spinbox[1,2,3,4]
+			  background-color: rgb(123,121,222)
+			  widget: spinbox[1,2,3,4,1]
 		}        
 	}
 	

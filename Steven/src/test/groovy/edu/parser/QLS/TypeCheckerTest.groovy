@@ -3,7 +3,6 @@ package edu.parser.QLS
 import edu.Main
 import edu.Widgets
 import edu.exceptions.TypeCheckException
-import edu.nodes.QuestionType
 import edu.nodes.styles.Style
 import edu.nodes.styles.Widget
 import edu.nodes.styles.Width
@@ -11,11 +10,11 @@ import edu.parser.AntlrParser
 import edu.parser.QL.QLAntlrParser
 import edu.parser.QL.QuestionRetriever
 import edu.parser.QL.nodes.Form
-import edu.parser.QL.nodes.expression.Identifier
-import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
+import edu.parser.QLS.nodes.QLSIdentifier
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
+import edu.parser.QuestionBuilder
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -37,10 +36,10 @@ class TypeCheckerTest extends Specification {
     def "should throw exception when stylesheet question is not contained in form questions"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
 
         def identifier = "abcdefgh"
-        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new QLSIdentifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(questions)
@@ -55,9 +54,9 @@ class TypeCheckerTest extends Specification {
         List<Question> questions = new ArrayList<>()
 
         def identifier = "identifier"
-        questions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new QuestionBuilder().isEnabled(true).identifier(identifier).build())
 
-        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new QLSIdentifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(questions)
@@ -69,12 +68,12 @@ class TypeCheckerTest extends Specification {
     def "Should throw typeCheckException when widget type is not compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
         styles.add(new Widget(Widgets.TEXT))
-        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new QLSIdentifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)
@@ -87,13 +86,13 @@ class TypeCheckerTest extends Specification {
     def "Should not throw typeCheckException when widget type is compatible"() {
         setup:
         List<Question> questions = new ArrayList<>()
-        questions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        questions.add(new QuestionBuilder().isEnabled(true).build())
         typeChecker.allQuestions.addAll(questions);
 
         def styles = new ArrayList<Style>()
         styles.add(new Width(40))
         styles.add(new Widget(Widgets.CHECKBOX))
-        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new QLSIdentifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)
@@ -113,7 +112,7 @@ class TypeCheckerTest extends Specification {
         typeChecker.start(questions, stylesheet)
 
         then:
-        Assert.assertEquals(4, typeChecker.stylesheetQuestions.size())
+        Assert.assertEquals(3, typeChecker.stylesheetQuestions.size())
     }
 
     def "should throw exception for duplicate questions"() {

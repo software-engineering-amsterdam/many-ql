@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Utilities;
-using UvA.SoftCon.Questionnaire.Utilities.AST;
+using UvA.SoftCon.Questionnaire.Common;
+using UvA.SoftCon.Questionnaire.Common.AST;
+using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
 {
-    public abstract class BinaryExpression : QLNode, IExpression
+    public abstract class BinaryExpression : Expression
     {
         public Operation Operation
         {
@@ -17,27 +18,25 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
             private set;
         }
 
-        public IExpression Left
+        public Expression Left
         {
             get;
             private set;
         }
 
-        public IExpression Right
+        public Expression Right
         {
             get;
             private set;
         }
 
-        protected BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
+        protected BinaryExpression(Operation operation, Expression left, Expression right, TextPosition position)
             : base(position)
         {
             Operation = operation;
             Left = left;
             Right = right;
         }
-
-        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
         public abstract bool OperandTypesAreValid(DataType leftType, DataType rightType);
 

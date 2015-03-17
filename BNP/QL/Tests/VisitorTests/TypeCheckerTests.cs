@@ -10,11 +10,11 @@ namespace Tests.VisitorTests
     public class TypeCheckerTests
     {
 
-        protected AstHandler Handler;
+        protected ASTHandler Handler;
 
         public void Initialize(string input)
         {
-            Handler = new AstHandler(input);
+            Handler = new ASTHandler(input);
             Assert.IsTrue(Handler.BuildAST());
 
         }
@@ -33,7 +33,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Handler.CheckType());
-            Assert.AreEqual(0,Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0,Handler.ASTHandlerExceptions.Count);
 
         }
 
@@ -50,7 +50,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
         }
         [TestMethod]
         public void TypeCheckerCollectException2()
@@ -65,7 +65,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(3, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Tests.VisitorTests
             ");
 
             Assert.IsTrue(Handler.CheckType());
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -100,7 +100,32 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Handler.CheckType());
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
+
+        }
+        [TestMethod]
+        public void TCMemoryBuildup()
+        {
+            Initialize(@"form ExampleBlock {
+                statement Smthing (yesno, (3==4)) ""well"";
+                if ((3+(4+(5+6))) ==12){}
+	            else {
+                     if (Smthing==(4==2))
+                        {}
+                     else {};
+                     };
+                }
+            ");
+            Handler.CheckType();
+            int c= Handler.TypeReference.Count;
+
+            for (int i = 0; i < 1000; i++)
+            {
+                Handler.CheckType();
+            }
+            
+
+            Assert.AreEqual(c, Handler.TypeReference.Count);
 
         }
 
@@ -117,7 +142,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.CheckType());
 
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
 
@@ -133,9 +158,10 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Handler.CheckType());
 
 
-            Assert.AreEqual(3, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
+
         [TestMethod]
         public void TCReferenceToIdentifierPass()
         {
@@ -153,7 +179,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Handler.CheckType());
 
 
-            Assert.AreEqual(0, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -169,7 +195,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Handler.CheckType());
 
 
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -185,8 +211,22 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Handler.CheckType());
-            Assert.AreEqual(1, Handler.TypeCheckerErrors.Count);
+            Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
+        [TestMethod]
+        public void TCCyclicReference()
+        {
+            Initialize(@"form ExampleBlock {
+                   statement S1 (number, S3) ""blah"";
+                   statement S2 (number, S1) ""blah"";
+                   statement S3 (number, S2) ""blah"";
+                  
+
+                }
+            ");
+            Assert.IsFalse(Handler.CheckType());
+        }
+        
     }
 }

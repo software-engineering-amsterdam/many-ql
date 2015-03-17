@@ -1,43 +1,49 @@
 package gui.widgets.listeners;
 
-import evaluator.Value;
 import evaluator.ValueRepository;
-import gui.GUIRender;
+import gui.GUIRenderer;
 import gui.questions.IQuestionUI;
+import gui.questions.SimpleQuestionUI;
 
 import java.util.Set;
 
 import ast.expression.Expression;
 
 public class Updater {
-	private final GUIRender render;
+	private final GUIRenderer render;
 	private final ValueRepository valueRepository;
 	private final Expression expression;
-	private EvaluateExpression evaluator;
+	private EvaluateExpression evaluator = null;
 
-	public Updater(Expression expression, GUIRender render, ValueRepository valueRepository) {
+	public Updater(Expression expression, GUIRenderer render, ValueRepository valueRepository) {
 		this.valueRepository = valueRepository;
 		this.render = render;
 		this.expression = expression;
-		this.evaluator = new EvaluateExpression(valueRepository);
 	}
 	
-	public void updateGUI(IQuestionUI q){
-		//Value evaluateValue = this.evaluator.evaluate(expression); // get this expression from somewhere
-		//todo
-		//this.widgetsRepository.updateAllWidgets();
+	public void updateGUI(IQuestionUI questionValueSetter) {
+		this.evaluator = prepareEvaluator(questionValueSetter);
 		
-		//q.setValue(evaluateValue);
-		Set<String> keys = valueRepository.getIDkeys();
-		for ( String key : keys) {
-		   System.out.println( key );
+		Set<String> idKeys = valueRepository.getIDkeys();
+		for ( String key : idKeys) {
+		   System.out.println( "Key: " + key );
+		   if (!this.render.containsSimpleQuestionUI(key)) {
+			  continue;
+		   }
+		   
+		   SimpleQuestionUI simp = this.render.getIDSimpleQuestionUI(key);
+		   simp.getWc().addDocListener(evaluator);
+		}	
+	}
+
+	public EvaluateExpression getEvaluator() {
+		return this.evaluator;
+	}
+	
+	public EvaluateExpression prepareEvaluator(IQuestionUI questionValueSetter) {
+		if(evaluator != null) {
+			return this.evaluator;
 		}
-		
+		return this.evaluator =  new EvaluateExpression(valueRepository, expression, questionValueSetter);
 	}
-	
-	public Value updatedValue(){
-		Value evaluateValue = this.evaluator.evaluate(expression); 
-		return evaluateValue;
-	}
-	
 }

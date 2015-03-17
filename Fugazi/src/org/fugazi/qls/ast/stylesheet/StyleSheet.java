@@ -11,12 +11,6 @@ public class StyleSheet extends AbstractASTNode {
     private final String name;
     private final List<Page> pages;
 
-    public StyleSheet(int _lineNum, String _name, List<Page> _pages) {
-        super(_lineNum);
-        this.name = _name;
-        this.pages = _pages;
-    }
-
     public StyleSheet(String _name, List<Page> _pages) {
         this.name = _name;
         this.pages = _pages;

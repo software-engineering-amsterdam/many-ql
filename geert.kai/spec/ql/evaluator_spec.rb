@@ -9,7 +9,7 @@ describe "Runner" do
     @form = Form.new("Test form", [@question, @conditional])
   end
 
-  it "gives the first question at the beginning" do
+  xit "gives the first question at the beginning" do
     runner = Runner.new(@form)
     expect( runner.questions ).to eq [@question, @second_question]
 
@@ -29,17 +29,17 @@ describe "Evaluator" do
   end
 
   it "evaluates a true expression" do
-    result = Evaluator.new(@expression).evaluate({"naam" => "Geert"})
+    result = Evaluator.run(@expression, {"naam" => "Geert"})
     expect(result).to eq true
   end
 
   it "evaluates a false expression" do
-    result = Evaluator.new(@expression).evaluate({"naam" => "Kai"})
+    result = Evaluator.run(@expression, {"naam" => "Kai"})
     expect(result).to eq false
   end
 
   it "evaluates an undefined expression" do
-    result = Evaluator.new(@expression).evaluate({})
-    expect(result).to eq :undefined
+    result = Evaluator.run(@expression, {})
+    expect(result).to eq nil
   end
 end

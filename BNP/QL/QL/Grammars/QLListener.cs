@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using QL;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
 using QL.Model;
 using System.Diagnostics;
 using QL.Model.Terminals;
@@ -19,7 +21,7 @@ namespace QL.Grammars
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
-        private IList<Exception> AstBuilderExceptions;
+        private IList<QLException> AstBuilderExceptions;
 
 
         public QLListener()
@@ -27,7 +29,7 @@ namespace QL.Grammars
             _childrenStack = new Stack<Stack<ElementBase>>();
         }
 
-        public QLListener(IList<Exception> AstBuilderExceptions)
+        public QLListener(IList<QLException> AstBuilderExceptions)
         {
             this.AstBuilderExceptions = AstBuilderExceptions;
             _childrenStack = new Stack<Stack<ElementBase>>();
@@ -43,19 +45,12 @@ namespace QL.Grammars
         {
             get { return _astRootNode != null; }
         }
-
         
-
         public Form GetAstRootNode()
         {
-            if (AstExists) { 
-            return _astRootNode;
-            }
-            else
-            {
-                return null;
-            }
+            return AstExists ? _astRootNode : null;
         }
+
         private IList<ElementBase> GetChildren()
         {
             Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
@@ -94,18 +89,22 @@ namespace QL.Grammars
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
             InitializeNewLevel();
-            
+
         }
         public override void ExitFormBlock(QLParser.FormBlockContext context)
-        {                       
+        {
             IList<ElementBase> children = GetChildren();
 
-            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
+            if (children.Count() != 1)
+            {
+                AstBuilderExceptions.Add(new ParserError("initial form block should have only one child", SourceLocation.CreateFor(context)));
+                return;
+            }
             
             Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            Block bodyBlock = (Block) children[0];
+            Block bodyBlock = (Block)children[0];
             Form form = new Form(formBlockId, bodyBlock);
-            form.SourceLocation = SourceLocation.CreateFor(context);           
+            form.SourceLocation = SourceLocation.CreateFor(context);
             AppendToAST(form);
         }
 
@@ -134,9 +133,9 @@ namespace QL.Grammars
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             IResolvableTerminalType dataType = GetTypeInstance(context.type());
-            
+
             string unitText = context.TEXT().GetText();
-            
+
             QuestionUnit question = new QuestionUnit();
 
             question.Identifier = identifier;
@@ -146,10 +145,10 @@ namespace QL.Grammars
 
             AppendToAST(question);
         }
-        
+
         public override void EnterStatementUnit(QLParser.StatementUnitContext context)
         {
-            InitializeNewLevel();            
+            InitializeNewLevel();
         }
 
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
@@ -180,13 +179,13 @@ namespace QL.Grammars
 
             if (context as QLParser.TextContext != null) return new Text();
 
-            Debug.Assert(false, "No appropriate subtype for the type has been evaluated");
+            AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
             return null; // formality
         }
 
         public override void EnterControlUnit(QLParser.ControlUnitContext context)
         {
-            InitializeNewLevel();       
+            InitializeNewLevel();
         }
 
         public override void ExitControlUnit(QLParser.ControlUnitContext context)
@@ -208,7 +207,7 @@ namespace QL.Grammars
             controlUnit.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(controlUnit);
-        } 
+        }
 
         public override void EnterLiteral(QLParser.LiteralContext context)
         {
@@ -234,7 +233,7 @@ namespace QL.Grammars
             T literal = new T();
             literal.SetValue(node.GetText());
             literal.SourceLocation = SourceLocation.CreateFor(context);
-            
+
             AppendToAST(literal);
         }
 
@@ -246,14 +245,14 @@ namespace QL.Grammars
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
             IList<ElementBase> children = GetChildren();
-            
+
             Expression expression = new Expression();
             expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
-            
+
             if (children.Count() == 1)
             {
                 expression.HandleChildren(children[0]);
-            } 
+            }
             else if (children.Count() == 2 && context.children.Count() == 5)
             {
                 QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
@@ -302,5 +301,5 @@ namespace QL.Grammars
         #endregion
     }
 
-    
+
 }

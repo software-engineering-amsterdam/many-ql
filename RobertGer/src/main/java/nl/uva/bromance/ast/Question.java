@@ -1,37 +1,35 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.HasIdentifier;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
+import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class Question extends Node implements HasIdentifier {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
-    private List<String> customQuestionOptions = new ArrayList<>();
+public class Question extends QLNode implements HasIdentifier {
+    private List<StringResult> multipleChoiceOptions = new ArrayList<>();
     private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
 
     private Identifier identifier;
     private String questionString;
     private QuestionType questionType;
     private Range questionRange;
+    private boolean isVisible = true;
 
+    //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber, Question.class);
         this.identifier = identifier;
-        this.setAcceptedParents(parentsAllowed);
     }
 
     public Optional<Identifier> getIdentifier() {
@@ -55,6 +53,7 @@ public class Question extends Node implements HasIdentifier {
         for (QuestionType type : questionTypes) {
             if (qt.equals(type.getTypeString())) {
                 this.questionType = type;
+                this.identifier.setResult(type.getCorrespondingResultType());
                 break;
             }
         }
@@ -73,64 +72,27 @@ public class Question extends Node implements HasIdentifier {
             System.out.print("\t");
         }
         System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
-        for (Node n : getChildren()) {
+        for (QLNode n : getChildren()) {
             n.printDebug(i + 1);
         }
 
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent) {
-        Label l = new Label(questionString);
-        l.getStyleClass().add("prettyLabel");
-        parent.getChildren().add(l);
-        if (isQuestionTypeInteger()) {
-            TextField tf = new TextField();
-            // Disable any input other than numbers
-            tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue.matches("[0-9]*")) {
-                    tf.setText(oldValue);
-                }
-            });
-            parent.getChildren().add(tf);
-        } else if (isQuestionTypeString()) {
-            parent.getChildren().add(new TextField());
-        } else if (isQuestionTypeBoolean()) {
-            parent.getChildren().add(new CheckBox());
-        } else if (isQuestionTypeCustom()) {
-            ToggleGroup group = new ToggleGroup();
-            for (String option : customQuestionOptions) {
-                RadioButton radioButton = new RadioButton(option);
-                radioButton.setToggleGroup(group);
-                parent.getChildren().add(radioButton);
-            }
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+        if (isVisible) {
+            Label l = new Label(questionString);
+            l.getStyleClass().add("prettyLabel");
+            parent.getChildren().add(l);
+            // Add the actual input field
+            questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
         }
         return Optional.empty();
     }
 
-
-    //TODO: Think of something to maybe fix this god awful mess of if's
     @Override
-    public void typeCheck() throws TypeCheckingException {
-        if (getQuestionString() == null) {
-            throw new TypeCheckingException("Question Error: No question asked");
-        }
-        if ((isQuestionTypeBoolean() || isQuestionTypeString()) && getQuestionRange().isPresent()) {
-            throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
-        }
-    }
-
-    @Override
-    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
-        if (getIdentifier().isPresent()) {
-            if (referenceMap.get(getIdentifier().get().getId()) != null) {
-                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get().getId());
-            } else {
-                referenceMap.put(getIdentifier().get().getId(), this);
-            }
-        } else {
-            throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
-        }
+    public void isVisible(boolean visible) {
+        this.isVisible = visible;
     }
 
     //TODO: Not digging the use of instanceof, already better then the strings however.
@@ -142,21 +104,24 @@ public class Question extends Node implements HasIdentifier {
         return questionType instanceof StringType;
     }
 
-    public boolean isQuestionTypeInteger() {
-        return questionType instanceof IntegerType;
-    }
-
-
-    public boolean isQuestionTypeCustom() {
-        return questionType instanceof CustomType;
-    }
-
-    public void setCustomQuestionOptions(List<TerminalNode> options) {
+    public void setMultipleChoiceOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
             String customOption = option.getText();
-            customQuestionOptions.add(customOption.substring(1, customOption.length() - 1)); // Remove double quotes around string.
+            customOption = customOption.substring(1, customOption.length() - 1); // Remove double quotes around the question.
+            multipleChoiceOptions.add(new StringResult(customOption));
         }
+        CustomResult result = new CustomResult(multipleChoiceOptions);
+        this.identifier.setResult(result);
+        this.identifier.getId();
     }
 
+    //Duplication in all Nodes
+    @Override
+    public void accept(NodeVisitor visitor) {
+        visitor.visit(this);
+        for(QLNode child: this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
 }
 

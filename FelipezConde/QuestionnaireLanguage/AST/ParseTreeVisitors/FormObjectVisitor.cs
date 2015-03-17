@@ -1,44 +1,47 @@
-﻿using AST.Nodes.FormObject;
+﻿using AST.Nodes;
+using AST.Nodes.Expressions;
+using AST.Nodes.FormObjects;
 using AST.Nodes.Interfaces;
+using AST.Nodes.Labels;
 using Grammar;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AST.Representation;
-using AST.Helpers;
-using Values = AST.Nodes.Values;
-using AST.Nodes.Values;
 
 namespace AST.ParseTreeVisitors
 {
-    public class FormObjectVisitor : QLMainBaseVisitor<IFormObject>
+    public class FormObjectVisitor : QLMainBaseVisitor<FormObject>
     {
-        public override IFormObject VisitQuestion(QLMainParser.QuestionContext context)
+        public override FormObject VisitQuestion(QLMainParser.QuestionContext context)
         {
-
             string identifier = context.id().GetText();
-            Value typeName = context.type().Accept(new TypeVisitor());
+            PositionInText IdPosition = new PositionInText(context.id());
+            PositionInText position = new PositionInText(context);
+            
+            Types.Type typeName = context.type().Accept(new TypeVisitor());
 
-            ILabel label = context.label().Accept(new LabelVisitor());
-            IComputation computation = context.computed() != null ? context.computed().computation().Accept(new ComputationVisitor()) : null;
+            BaseExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
 
-            return new Question(identifier, typeName, label, computation,
-                                Position.PositionFormParserRuleContext(context));
+            return new Question(new Id(identifier,IdPosition), typeName, MakeLabel(context.label()), computation,
+                                position);
         }
 
-        public override IFormObject VisitConditional(QLMainParser.ConditionalContext context)
+        public override FormObject VisitConditional(QLMainParser.ConditionalContext context)
         {
-            IExpression condition = context.expression().Accept(new ExpressionVisitor());
+            BaseExpression condition = context.expression().Accept(new ExpressionVisitor());
 
-            List<IFormObject> body = context.formSection()
+            List<FormObject> body = context.formSection()
                                          .formObject()
                                          .Select(child => child.Accept(new FormObjectVisitor()))
                                          .ToList();
 
-            return new Conditional(condition, body, context.formSection().GetText(),
-                                   Position.PositionFormParserRuleContext(context));
+            return new Conditional(condition, body, new PositionInText(context));
 
+        }
+
+        private Label MakeLabel(QLMainParser.LabelContext context)
+        {
+            string labelText = context.STRINGLITERAL().GetText();
+            return new Label(labelText.Substring(1, labelText.Length - 2), new PositionInText(context));
         }
     }
 }

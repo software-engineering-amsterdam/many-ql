@@ -3,27 +3,37 @@ package com.form.language.ast.type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.StringValue;
 
-public class StringType extends Type {
+public final class StringType extends Type {
 
-	@Override
-	public Type getType() {
-		return this;
-	}
+    @Override
+    public Type getType() {
+	return this;
+    }
 
-	@Override
-	public Boolean isStringType(){
-		return true;
-	}
-	
-	@Override
-	public String toString(){
-		return "String";
-	}
+    @Override
+    public boolean isStringType() {
+	return true;
+    }
 
-	@Override
-	public GenericValue<?> defaultValue() {
-		// TODO Auto-generated method stub
-		return new StringValue("");
-	}
+    @Override
+    public String toString() {
+	return "String";
+    }
 
+    @Override
+    public GenericValue defaultValue() {
+	return new StringValue("");
+    }
+
+    @Override
+    //This makes sense because there are no fields. Alternative is making this class a Singleton, but that does make the code less readable
+    public boolean equals(Object o) {
+	return (o instanceof StringType);
+    }
+
+    @Override
+    public int hashCode() {
+	return 0;
+    }
+    
 }

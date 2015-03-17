@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;
@@ -55,6 +55,8 @@ public class StylingSettings {
      */
     private Map<String, Object> createMapBackedByDefaults(TypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
         DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
+
+        // When no typeDescriptor is set, it is not attached to a type, thus do not set the default widget.
         if (typeDescriptor != null) {
             typeDescriptor.callTypeMethod(defaultStylingSettingsCreator);
         }

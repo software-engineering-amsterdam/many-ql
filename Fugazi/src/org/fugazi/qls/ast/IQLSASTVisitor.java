@@ -1,6 +1,6 @@
 package org.fugazi.qls.ast;
 
-import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
@@ -17,7 +17,7 @@ public interface IQLSASTVisitor<T> {
 
     public T visitPage(Page _page);
     public T visitSection(Section _section);
-    public T visitQuestion(Question _section);
+    public T visitQuestion(QLSQuestion _section);
 
     public T visitDefaultStyleDeclr(DefaultStyleDeclaration _styleDeclr);
 
@@ -26,11 +26,11 @@ public interface IQLSASTVisitor<T> {
     public T visitFontSizeProperty(FontSize _fontSize);
     public T visitWidthProperty(Width _width);
 
-    public T visitNullWidget(UndefinedWidget _widget);
-    public T visitCheckBox(CheckBox _widget);
-    public T visitTextBox(TextBox _widget);
-    public T visitSpinBox(SpinBox _widget);
-    public T visitDropDown(Dropdown _widget);
-    public T visitRadioBtn(RadioBtn _widget);
-    public T visitSlider(Slider _widget);
+    public T visitUndefinedWidget(QLSUndefinedWidget _widget);
+    public T visitCheckBox(QLSCheckBox _widget);
+    public T visitTextBox(QLSTextBox _widget);
+    public T visitSpinBox(QLSSpinBox _widget);
+    public T visitDropDown(QLSDropdown _widget);
+    public T visitRadioBtn(QLSRadioBtn _widget);
+    public T visitSlider(QLSSlider _widget);
 }

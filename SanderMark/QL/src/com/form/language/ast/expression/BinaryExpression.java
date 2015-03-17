@@ -1,33 +1,21 @@
 package com.form.language.ast.expression;
 
-import org.antlr.v4.runtime.Token;
+import com.form.language.error.QLToken;
+import com.form.language.memory.IdCollection;
 
-import com.form.language.ast.type.ErrorType;
-import com.form.language.memory.Context;
-import com.form.language.memory.IdCollector;
+public abstract class BinaryExpression extends Expression {
+    protected Expression left;
+    protected Expression right;
 
-public abstract class BinaryExpression implements Expression {
-	public Token tokenInfo;
-	public Expression left;
-	public Expression right;
-	public BinaryExpression(Expression left, Expression right, Token tokenInfo) {
-		this.left = left;
-		this.right = right;
-		this.tokenInfo = tokenInfo;
-	}
-	@Override
-	public Boolean isCorrectlyTyped(Context context) {
-		return !this.getType(context).equals(new ErrorType());
-	}
-	
-	@Override
-	public String showTokenInfo(){
-		return "line: " + tokenInfo.getLine();
-	}	
-	
-	@Override
-	public void collectIds(IdCollector idCollector) {
-		left.collectIds(idCollector);
-		right.collectIds(idCollector);
-	}
+    protected BinaryExpression(Expression left, Expression right, QLToken tokenInfo) {
+	super(tokenInfo);
+	this.left = left;
+	this.right = right;
+    }
+
+    @Override
+    public void collectIds(IdCollection idCollection) {
+	left.collectIds(idCollection);
+	right.collectIds(idCollection);
+    }
 }

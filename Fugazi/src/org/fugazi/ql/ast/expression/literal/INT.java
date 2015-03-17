@@ -1,6 +1,7 @@
 package org.fugazi.ql.ast.expression.literal;
 
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 
@@ -10,11 +11,6 @@ public class INT extends Literal {
 
     public INT(int _value) {
         super();
-
-        this.value = _value;
-    }
-    public INT(int _value, int _lineNum) {
-        super(_lineNum);
 
         this.value = _value;
     }
@@ -28,8 +24,7 @@ public class INT extends Literal {
         return String.valueOf(this.value);
     }
 
-    @Override
-    public Type getReturnedType() {
+    public Type getReturnedType(QLFormDataStorage _formData) {
         return new IntType();
     }
 

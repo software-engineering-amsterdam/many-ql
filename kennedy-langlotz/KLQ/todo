@@ -1,4 +1,79 @@
-- Type checking
+Separate QLS in its own project to avoid accidental dependencies of QL on QLS (if you're doing QLS).
 
-The type checker detects:
-    cyclic dependencies between questions (Ask how)
+This dependency is the wrong way round:
+ IExpressionVisitor<T> extends IVisitor
+
+IVisitor should be composed of IExpressionVisitor/IStatementVisitor etc. Now you're not adding anything, and still inheriting the statement and form stuff. Same of IStatementVisitor
+
+Why is this in ANode?
+public void printSelf() {
+
+    }
+
+//This is still questionable
+In QuestionPage: why have the types themselves decide how to render themselves?
+ switch (question.getType()){}
+
+I have trouble understanding the package com.klq.logic.question
+It seems it's wrapping AST stuff, but what is the added value? There's no JavaFx widgets either.
+Is this an unneeded level of indirection.
+=====> The added value is making the hierarchy flatter. E.g., a question with a condition that has another condition above doesn't know about the upper condition.)
+
+Typo: typecheker.
+
+Why is the questionType a String? Can't you just create Type objects in the ANTLR visitor/listener?
+ String questionType,
+ 
+This constructor should call the other one: the initialization logic is now duplicated.
+  public Location(ParserRuleContext context, String inputFile){
+  
+I like the design of the Store class, with one exception: the reference to the JavaFX stuff. Can you eliminate that dependency? The store should not have to know about the GUI.
+=====> Only the progressProperty is from JFX anymore.
+
+This is a library class. Can you move the methods to somewhere they make more sense?
+public class InputValidator
+=====> made a matchesInput() method in each Type of QuestionPane.
+
+Isn't this too general? What is allowed as answers for answersets?
+private List<AExpression> answers;
+======> removed the Set type from language.
+
+What does it mean for a ComputedQuestionNode to have a list of children? What do they represent?
+
+Return List<ANode>
+public ArrayList<ANode> getChildren() {
+
+
+Use List here (in Conditional Node)
+ ArrayList<ANode> children
+Here there is the problem that now the children (?) can be anything, including Expression (because AExpression extends ANode).
+Try to design the hierarchy such that the types ensure that you can only build valid trees.
+Same problem with QuestionnaireNode
+
+In QuestionMapper you see problem of not having a separate StatemenVisitor: lot of refused bequest (bogus methods on expression returning null).
+
+Also mentioned before: the firstPass and secondPass things *could* be used incorrectly: encode the dependency explicitly by letting the result of one pass be input to the second pass.
+
+Tangling in QuestionTable: it should do one thing (maintaining relation between name and question object), but it also checks for undefined names. This can be easily moved elsewhere. Also: again use List<> at declaration sites.
+
+This is not so good: you use the accidental AST class types to check for QL types. Even though this could work, now it doesn't, since the BooleanNode is not an instance of ABooleanNode.
+ if(node.getCondition() instanceof ABooleanNode) {
+You can refactor by allowing you to ask an expression what is its type (possibly given certain argument types).
+In this particular case, you should check what is returned from: node.getCondition().accept(this);
+
+In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
+the case that null is returned is missed. Although you get away with it, it's a very fine line. ===> add undefined type and return this
+======================================================================================================================================================================================================
+EVERYTHING ABOVE THIS LINE IS FIXED
+======================================================================================================================================================================================================
+
+Identifiers are not literals, so they in the wrong package.
+And they are also not values: public class IdentifierValue extends Value<String> {
+(They are *bound* to values in the environment (e.g. Map<String,Value>). ===> Replace identifiervalue with identifiernode
+
+In Main this field is never initialize (Main is not instantiated, it seems):
+ private Questionnaire questionnaire;
+
+These expression depend on singletonness of types: childType != node.getQuestionType() ====> is okay because we use enum???
+
+Avoid extending stdlib base classes (like JavaFX): you're not extending the framework, and probably you don't support the full contract of the base class. Better to encapsulate instead of extend.

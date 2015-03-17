@@ -1,11 +1,7 @@
 package com.klq.gui;
 
-import com.klq.gui.pane.AQuestionPane;
-import com.klq.gui.pane.DateQuestionPane;
-import com.klq.gui.pane.SetQuestionPane;
-import com.klq.gui.pane.TextQuestionPane;
-import com.klq.logic.controller.Store;
-import com.klq.logic.question.Question;
+import com.klq.gui.control.ARenderedQuestion;
+import com.klq.controller.Store;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -20,13 +16,20 @@ import java.util.List;
 public class QuestionPage extends ScrollPane {
     private final Store store;
     private final VBox vbox;
+    //private final StyleMap style;
 
-    public QuestionPage(Store store){
+    public QuestionPage(Store store/*, StyleMap style*/){
         super();
         this.store = store;
         this.vbox = new VBox(10);
+        //this.style = style;
         init();
     }
+
+    /*
+    public QuestionPage(Store store){
+        this(store, null);
+    }*/
 
     private void init(){
         this.vbox.setPadding(new Insets(5));
@@ -39,24 +42,19 @@ public class QuestionPage extends ScrollPane {
         this.setBorder(Border.EMPTY);
     }
 
-    public void addQuestions(List<Question> questions){
-        for (Question question : questions) {
-            AQuestionPane newPane = createQuestionPane(question);
-            vbox.getChildren().add(newPane);
+    public void addQuestions(List<ARenderedQuestion> questions){
+        for (ARenderedQuestion question : questions) {
+            vbox.getChildren().add(question.getControl());
         }
     }
 
-    private AQuestionPane createQuestionPane(Question question){
-        switch (question.getType()){
-            case SET:
-            case BOOLEAN:
-                return new SetQuestionPane(question, store);
-            case NUMERAL:
-            case STRING:
-                return new TextQuestionPane(question, store);
-            case DATE:
-                return new DateQuestionPane(question, store);
-        }
-        throw new IllegalArgumentException("Unknown question type: " + question.getType());
+    private ARenderedQuestion createQuestionPane(ARenderedQuestion question){
+        //TODO let styling happen in ARenderedQuestionPane, need to do that for widgets anyway
+        /*
+        if(style != null && style.contains(question.getId().toString())){
+            AStyle questionStyle = style.getStyle(question.getId().toString());
+            questionPane.setStyle(questionStyle.toCSS());
+        }*/
+        return null;
     }
 }

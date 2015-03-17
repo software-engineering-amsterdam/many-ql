@@ -1,14 +1,14 @@
 package gui.widgets;
 
-import evaluator.Value;
-import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
-import gui.widgets.listeners.TextListener;
-
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import ast.type.Type;
+import evaluator.StringValue;
+import evaluator.Value;
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
+import gui.widgets.listeners.TextListener;
 
 
 public class TextFieldWidget implements IWidgetComponent {
@@ -39,56 +39,29 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener() { //EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new TextListener(this, valueRepository));
+	public Value getValue() {
+		return new StringValue(widget.getText());
 	}
-
+	
 	@Override
-	public String getStringValue() {
-		return widget.getText();
+	public void setValue(Value value) {
+		value = valueRepository.getValue(id); 
+		widget.setText("" + value.toString());
 	}
-
-	@Override
-	public boolean getBooleanValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		value = widget.getText();
-		
-	}
-
-	@Override
-	public void setChoiceValue(boolean value) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
-		
+		this.widget.setEnabled(isEnabled);	
 	}
+	
+	@Override
+	public void addDocListener(EvaluateExpression evaluator) {
+		widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
+	}
+
 
 	@Override
-	public int getIntegerValue() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setVisible(boolean visibility) {
+		widget.setVisible(visibility);
 	}
-
-	@Override
-	public void setIntegerValue(int value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setText(Value value) {
-		widget.setText("" +value);
-		
-	}
-
 }

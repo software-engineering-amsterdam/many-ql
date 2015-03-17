@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QL.Exceptions.Errors.DivisionByZeroError" Collapsed="true">
+    <Position X="13.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\DivisionByZeroError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Errors.EvaluationError" Collapsed="true">
+    <Position X="17.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\EvaluationError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Errors.LexerError" Collapsed="true">
+    <Position X="20" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\LexerError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Errors.ParserError" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\ParserError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Errors.QLError" Collapsed="true">
+    <Position X="17.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\Errors\QLError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Errors.TypeCheckerError" Collapsed="true">
+    <Position X="22.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Errors\TypeCheckerError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.EvaluationWarning" Collapsed="true">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\EvaluationWarning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.QLWarning" Collapsed="true">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\QLWarning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.RedeclaredVariableWarning" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\RedeclaredVariableWarning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.Warnings.TypeCheckerWarning" Collapsed="true">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Exceptions\Warnings\TypeCheckerWarning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Exceptions.QLException" Collapsed="true">
+    <Position X="14.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAwAAAA=</HashCode>
+      <FileName>Exceptions\QLException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

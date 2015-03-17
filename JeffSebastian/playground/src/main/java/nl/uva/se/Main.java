@@ -5,15 +5,16 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.uva.se.ast.form.Form;
-import nl.uva.se.evaluation.ValueTable;
-import nl.uva.se.gui.elements.QuestionPane;
-import nl.uva.se.interpretation.Interpreter;
-import nl.uva.se.interpretation.Result;
-import nl.uva.se.parser.QLLexer;
-import nl.uva.se.parser.QLParser;
-import nl.uva.se.parser.QLVisitorImpl;
-import nl.uva.se.visitor.GuiVisitor;
+import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.evaluation.ValueTable;
+import nl.uva.se.ql.gui.builders.GuiBuilder;
+import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
+import nl.uva.se.ql.interpretation.Interpreter;
+import nl.uva.se.ql.interpretation.Result;
+import nl.uva.se.ql.interpretation.error.ErrorList;
+import nl.uva.se.ql.parser.QLLexer;
+import nl.uva.se.ql.parser.QLParser;
+import nl.uva.se.ql.parser.QLVisitorImpl;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,6 +24,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Main extends Application{
 	
 	private QuestionPane questionPane;
+	
+	private ErrorList errors;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -40,11 +43,13 @@ public class Main extends Application{
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Form ast = (Form) visitor.visit(tree);
 			Result<ValueTable> result = Interpreter.interpret(ast);
+			errors = result.getErrorList();
 			
-			GuiVisitor guiVisitor = new GuiVisitor(result.getResult());
-			guiVisitor.visit(ast);
-			this.questionPane = guiVisitor.getQuestionPane();			
-			
+			if (!result.getErrorList().hasErrors()) {
+				GuiBuilder guiBuilder = new GuiBuilder(result.getResult());
+				guiBuilder.visit(ast);
+				this.questionPane = guiBuilder.getQuestionPane();			
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,9 +58,11 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Scene scene = new Scene(questionPane, 350, 350);
-		primaryStage.setTitle(questionPane.getForm().getId());
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		if (!errors.hasErrors()) {
+			Scene scene = new Scene(questionPane, 350, 350);
+			primaryStage.setTitle(questionPane.getForm().getId());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
 	}
 }
