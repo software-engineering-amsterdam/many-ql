@@ -1,26 +1,28 @@
 package com.klq.typechecker;
 
+import com.klq.ast.impl.expr.literal.IdentifierNode;
+
 import java.util.*;
 
 /**
  * Created by juriaan on 2-3-15.
  */
 public class CyclicDetector {
-    private Map<String, Set<String>> dependencies;
-    private Map<String, Set<String>> fullDependencies;
+    private Map<IdentifierNode, Set<IdentifierNode>> dependencies;
+    private Map<IdentifierNode, Set<IdentifierNode>> fullDependencies;
 
     public CyclicDetector() {
-        this.dependencies = new HashMap<String, Set<String>>();
-        this.fullDependencies = new HashMap<String, Set<String>>();
+        this.dependencies = new HashMap<>();
+        this.fullDependencies = new HashMap<>();
     }
 
-    public void addKey(String key){
+    public void addKey(IdentifierNode key){
         if(!dependencies.containsKey(key)) {
-            dependencies.put(key, new HashSet<String>());
+            dependencies.put(key, new HashSet<>());
         }
     }
 
-    public void addDependency(String key, String dependency){
+    public void addDependency(IdentifierNode key, IdentifierNode dependency){
         if(dependencies.containsKey(key)){
             dependencies.get(key).add(dependency);
         }
@@ -28,7 +30,7 @@ public class CyclicDetector {
 
     public boolean hasCycles(){
 
-        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+        for(Map.Entry<IdentifierNode, Set<IdentifierNode>> entry : fullDependencies.entrySet()){
              if( entry.getValue().contains(entry.getKey())){
                  return true;
              }
@@ -37,16 +39,16 @@ public class CyclicDetector {
     }
 
     public void calculateFullDependencies(){
-        fullDependencies = new HashMap<String, Set<String>>();
+        fullDependencies = new HashMap<>();
 
-        for(Map.Entry<String, Set<String>> entry : dependencies.entrySet()){
-            fullDependencies.put(entry.getKey(), findDependencies(entry.getValue(), new ArrayList<String>()));
+        for(Map.Entry<IdentifierNode, Set<IdentifierNode>> entry : dependencies.entrySet()){
+            fullDependencies.put(entry.getKey(), findDependencies(entry.getValue(), new ArrayList<>()));
         }
     }
 
-    public List<String> getCyclicIds(){
-        List<String> list = new ArrayList<String>();
-        for(Map.Entry<String, Set<String>> entry : fullDependencies.entrySet()){
+    public List<IdentifierNode> getCyclicIds(){
+        List<IdentifierNode> list = new ArrayList<>();
+        for(Map.Entry<IdentifierNode, Set<IdentifierNode>> entry : fullDependencies.entrySet()){
             if( entry.getValue().contains(entry.getKey())){
                 list.add(entry.getKey());
             }
@@ -54,11 +56,11 @@ public class CyclicDetector {
         return list;
     }
 
-    private Set<String> findDependencies(Set<String> set, List<String> visited){
-        Set<String> newSet = new HashSet<>();
+    private Set<IdentifierNode> findDependencies(Set<IdentifierNode> set, List<IdentifierNode> visited){
+        Set<IdentifierNode> newSet = new HashSet<>();
         newSet.addAll(set);
 
-        for(String item : set){
+        for(IdentifierNode item : set){
             if(!visited.contains(item)) {
                 visited.add(item);
                 newSet.addAll(findDependencies(dependencies.get(item), visited));

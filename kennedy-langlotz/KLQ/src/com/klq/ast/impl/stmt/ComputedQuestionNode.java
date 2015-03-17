@@ -3,6 +3,7 @@ package com.klq.ast.impl.stmt;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Location;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
 
 /**
  * Created by juriaan on 17-2-15.
@@ -10,12 +11,12 @@ import com.klq.ast.impl.expr.AExpression;
 public class ComputedQuestionNode extends QuestionNode {
     private AExpression computedAnswer;
 
-    public ComputedQuestionNode(String questionID, String questionType, String text, AExpression computedAnswer, Location location) {
+    public ComputedQuestionNode(IdentifierNode questionID, String questionType, String text, AExpression computedAnswer, Location location) {
         super(questionID, questionType, text, location);
         this.computedAnswer = computedAnswer;
     }
 
-    public ComputedQuestionNode(String questionID, String questionType, String text, AExpression computedAnswer) {
+    public ComputedQuestionNode(IdentifierNode questionID, String questionType, String text, AExpression computedAnswer) {
         super(questionID, questionType, text);
         this.computedAnswer = computedAnswer;
     }

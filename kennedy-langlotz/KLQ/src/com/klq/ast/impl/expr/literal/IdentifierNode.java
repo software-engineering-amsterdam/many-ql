@@ -32,7 +32,21 @@ public class IdentifierNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
+    public Value evaluate(Map<IdentifierNode, Value> variables) {
         return variables.get(this.identifier);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof IdentifierNode){
+            String objId = ((IdentifierNode)obj).identifier;
+            this.identifier.equals(objId);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier.hashCode();
     }
 }
