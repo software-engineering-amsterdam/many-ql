@@ -1,19 +1,20 @@
-﻿using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.Factories;
-using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.Presenter;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
-    public class CustomTextBox : TextBox, ICustomControl
+    public class CustomTextBox : TextBox
     {
-        private bool isNumeric;
+        private ObjectHandler inputHandler;
+        public EventUpdateValue EventUpdateValue { get; set; }
 
         #region Constructors
-        public CustomTextBox(bool isNumeric)
+        public CustomTextBox(ObjectHandler inputValidation)
         {
-            this.isNumeric = isNumeric;
+            this.inputHandler = inputValidation;
             AddEvents();
         }
 
@@ -22,39 +23,23 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         #region Private Methods
         private void AddEvents()
         {
-            if (isNumeric)
-            {
-                this.PreviewTextInput += new TextCompositionEventHandler(Validate_Numeric);
-            }
-
+            this.PreviewTextInput += new TextCompositionEventHandler(inputHandler.CheckValidCharacter);
             this.LostKeyboardFocus += Lost_Focus;
         }
-
         #endregion
 
         #region Events
-        private void Validate_Numeric(object sender, TextCompositionEventArgs e)
-        {
-            int result;
-            if (!int.TryParse(e.Text, out result))
-            {
-                e.Handled = true;
-            }
-        }
         private void Lost_Focus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (isNumeric)
+            if (inputHandler.IsValid((sender as CustomTextBox).Text))
             {
-                int outValue = 0;
-                int.TryParse(((CustomTextBox)sender).Text, out outValue);
+                EventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
 
-                MainController.UpdateValue(((CustomTextBox)sender).Name,
-                                   NodeValueFactory.GetNodeValue(outValue));
+                this.BorderBrush = Brushes.Black;
             }
             else
             {
-                MainController.UpdateValue(((CustomTextBox)sender).Name,
-                                   NodeValueFactory.GetNodeValue(((CustomTextBox)sender).Text));
+                this.BorderBrush = Brushes.Red;
             }
         }
 

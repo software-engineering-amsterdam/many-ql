@@ -8,7 +8,7 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 10-3-15.
  */
-public class TextField extends ControlElement implements BooleanControl, IntegerControl, DecimalControl, StringControl
+public class TextField extends ControlElement implements IntControl, DecControl, StrControl
 {
     private final javafx.scene.control.TextInputControl textField;
 
@@ -40,7 +40,7 @@ public class TextField extends ControlElement implements BooleanControl, Integer
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         return this.textField;
     }

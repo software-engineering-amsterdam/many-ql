@@ -1,5 +1,9 @@
 package ql.semantics.errors;
 
+import ql.util.StringHelper;
+
+import java.util.Collection;
+
 /**
  * Created by bore on 20/02/15.
  */
@@ -46,10 +50,11 @@ public class Error extends Message
                 line, id, defined, evaluated));
     }
 
-    public static Error identifierAlreadyDeclared(String id, int line1, int line2)
+    public static Error identifierAlreadyDeclared(String id, Collection<String> lines)
     {
-        return new Error(String.format("Error (Line %d): identifier \"%s\" is already declared twice on lines %d and %d",
-                line1, id, line1, line2));
+        String lineString = StringHelper.printStrValueList(lines);
+        return new Error(String.format("Error : multiple declarations of identifier \"%s\" on lines: %s",
+                id, lineString));
     }
 
     public static Error identifierDeclaredOfDiffType(String id, int line1, int line2)

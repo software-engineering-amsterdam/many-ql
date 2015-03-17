@@ -1,16 +1,15 @@
 package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-
-import javax.swing.JComponent;
-import java.util.EventListener;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 
 public interface IWidget {
-    
-    public JComponent getJComponent();
 
-    public ExpressionValue getValue();
-    public void setValue(ExpressionValue _value);
+    public void render(UIForm _canvas);
+    public void supress(UIForm _canvas);
+
+    public ExpressionValue getWidgetValue();
+    public void setWidgetValue(ExpressionValue _value);
     public void setReadOnly(boolean _isReadonly);
-    public void addEventListener(EventListener _listener);
+    public void addEventListener(WidgetsEventListener _listener);
 }

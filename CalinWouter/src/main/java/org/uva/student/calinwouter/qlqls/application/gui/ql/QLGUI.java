@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
@@ -17,7 +18,6 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     private final QLInterpreter qlIntepreter;
     private final StaticFields fieldsList;
-    private final VariableTable variableTable;
     private final VariableTableWrapper variableTableWrapper;
 
     @Override
@@ -28,6 +28,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
         }
@@ -63,9 +64,8 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
-    public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFields fieldsList) {
-        this.qlIntepreter = qlIntepreter;
-        this.variableTable = variableTable;
+    public QLGUI( QLInterpreter qlInterpreter, VariableTable variableTable, StaticFields fieldsList) {
+        this.qlIntepreter = qlInterpreter;
         this.fieldsList = fieldsList;
         variableTableWrapper = new VariableTableWrapper(variableTable);
     }

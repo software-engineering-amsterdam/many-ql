@@ -9,15 +9,14 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
-    return Visitor().visit(ast.root)
+    return Visitor().visitQuestionnaireEnd(ast.root)
 
 class Evaluator(object):
     def __init__(self):
         self._questionTable = QuestionTable()
         self._questionValueTable = QuestionValueTable()
         self._operatorTable = OperatorTable()
-        self._forms = []
-
+    
     def evaluateBinaryExpression(self, operator, leftValue, rightValue):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
         if pythonOp:
@@ -61,55 +60,82 @@ class Evaluator(object):
         return questions
 
 
-
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
-        self._currentQuestions = []
+        self._currentForm = None
         self._conditionalStatements = ExpressionsList()
 
-    def visitQuestionnaire(self, node):
+    def visitQuestionnaireEnd(self, node):
         return self._evaluator
 
-    def visitFormStatement(self, node):
-        form = Form(node.identifier, self._currentQuestions)
-        self._currentQuestions = []
+    def visitFormStatementBegin(self, node):
+        form = Form(node.identifier)
+        self._currentForm = form
 
-    def _visitQuestionStatement(self, node):
-        expr = self.visit(node.expr) if node.expr != None else None
-        question = Question(node, self._conditionalStatements.copy(), self._currentForm, valueExpression = expr)
+    def visitQuestionStatement(self, node):
+        if node.expr:
+            expressionVisitor = ExpressionVisitor(self._evaluator)
+            expression = node.expr.accept(expressionVisitor)
+        else:
+            expression = None
+
+        question = Question(node.identifier,
+                            node.text,
+                            node.type,
+                            self._conditionalStatements.copy(),
+                            expression)
+
         self._evaluator.addQuestion(question)
+        
+        return question
 
-    def _visitIfStatement(self, node):
-        expr = self.visit(node.expr)
-        self._conditionalStatements.append(expr)
-        for n in node.getChildren():
-            self.visit(n)
-        self._conditionalStatements.pop()
+    def visitIfStatementBegin(self, node):
+        expressionVisitor = ExpressionVisitor(self._evaluator)
+        expression = node.expr.accept(expressionVisitor)
+        
+        self._conditionalStatements.append(expression)
+        
+    def visitIfStatementEnd(self, node):
+        return self._conditionalStatements.pop()
 
-    def _visitAtomicExpression(self, node):
-        return AtomicExpression(self.visit(node.left))
+class ExpressionVisitor(ASTExpressionVisitor):
+    def __init__(self, evaluator):
+        self._evaluator = evaluator
+        self._expressionStack = []
 
-    def _visitUnaryExpression(self, node):
-        expr = self.visit(node.right)
-        return UnaryExpression(node.op, expr, self._evaluator)
+    def visitUnaryExpressionEnd(self, node):
+        expr = self._expressionStack.pop()
+        
+        unaryExpression = UnaryExpression(node.op, expr, self._evaluator)
+        self._expressionStack.append(unaryExpression)
+        return unaryExpression
 
-    def _visitBinaryExpression(self, node):
-        leftExpr = self.visit(node.left)
-        rightExpr = self.visit(node.right)
-        return BinaryExpression(leftExpr, node.op, rightExpr, self._evaluator)
+    def visitBinaryExpressionEnd(self, node):
+        right = self._expressionStack.pop()
+        left = self._expressionStack.pop()
+        
+        binaryExpression = BinaryExpression(left, op, right, self._evaluator)
+        self._expressionStack.append(binaryExpression)
+        return binaryExpression
 
-    def _visitIdentifier(self, node):
-        return Identifier(node, self._evaluator)
+    def visitBoolean(self, node):
+        self._expressionStack.append(node.value)
+        return node.value
 
-    def _visitStr(self, node):
-        return String(node)
+    def visitInteger(self, node):
+        self._expressionStack.append(node.value)
+        return node.value
 
-    def _visitMoney(self, node):
-        return Money(node)
+    def visitString(self, node):
+        self._expressionStack.append(node.value)
+        return node.value
 
-    def _visitInt(self, node):
-        return Integer(node)
+    def visitMoney(self, node):
+        self._expressionStack.append(node.value)
+        return node.value
 
-    def _visitBool(self, node):
-        return Boolean(node)
+    def visitIdentifier(self, node):
+        identifier = EvalIdentifier(node.value, self._evaluator)
+        self._expressionStack.append(identifier)
+        return identifier

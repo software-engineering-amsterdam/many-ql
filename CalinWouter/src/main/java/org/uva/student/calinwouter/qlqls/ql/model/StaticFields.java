@@ -23,6 +23,15 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
         throw new RuntimeException(new FieldNotFoundException());
     }
 
+    public String getLabelForField(String ident) {
+        for(AbstractStaticFormField field: staticFormFields){
+            if(field.getVariable().equals(ident)){
+                return field.getLabel();
+            }
+        }
+        return null;
+    }
+
     public StaticFields() {
         this.staticFormFields = new LinkedList<AbstractStaticFormField>();
     }

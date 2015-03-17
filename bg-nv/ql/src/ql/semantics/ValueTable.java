@@ -1,6 +1,5 @@
 package ql.semantics;
 
-import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 import java.util.HashMap;
@@ -24,22 +23,11 @@ public class ValueTable
         {
             return values.get(key);
         }
-        // TODO: check if this is ok
-        // Boryana: in the Evaluator class (where the ValueTable is constructed) the visit(Question q) method
-        // adds a question and passes an undefined value. If your value table does not contain the id,
-        // then the Evaluator is not traversing the whole ql.ast. Returning an Undefined value will only mask the problem.
-        // May be an assert will be better in this case?
-
-        return new UndefValue();
+        throw new IllegalArgumentException("The question with id \"" + key + "\" is not present in the value table.");
     }
 
-    public void storeValue(String key, Value val)
+    public void storeEntry(ValueTableEntry entry)
     {
-        values.put(key, val);
-    }
-
-    public Boolean valueExists(String key)
-    {
-        return values.containsKey(key);
+        this.values.put(entry.getKey(), entry.getValue());
     }
 }

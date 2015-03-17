@@ -1,13 +1,11 @@
 # AST format of the Form
+import collections
 
 
 class Form:
     def __init__(self, name, introduction, statements):
-        # initialization variables
         self._name = name
         self._introduction = introduction
-
-        # set the statement _order and the parent _id's
         self._statements = statements
 
     # Pretty print the _form
@@ -18,9 +16,9 @@ class Form:
             s += x.pretty_print(1)
         return s
 
-    #########################
-    # getters of the _form   #
-    #########################
+    #
+    # getters of the form
+    #
 
     def get_statements(self):
         return self._statements
@@ -75,10 +73,74 @@ class Form:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
 
-    def valid_expressions(self):
+    # TODO : test expression validator
+    def check_expressions(self):
         td = self.get_type_dict()
+        message = []
         for x in self._statements:
-            if not x.valid_type(td):
-                print("x is not valid")
-                return False
-        return True
+            message.extend(x.valid_type_message(td))
+        return message
+
+    #
+    # Type checker stuff
+    #
+
+    @staticmethod
+    def check_duplicates(l):
+        # get_dependencies for duplicates
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
+        return duplicates
+
+    def check_ids(self):
+        duplicates = Form.check_duplicates(self.get_ids())
+        if duplicates:
+            return "There are duplicate ids: " + str(duplicates)
+        else:
+            return ""
+
+    def check_labels(self):
+        duplicates = Form.check_duplicates(self.get_labels())
+        if duplicates:
+            return "There are duplicate labels: " + str(duplicates)
+        else:
+            return ""
+
+    def check_dependencies(self):
+        message = ""
+        dependencies = self.get_dependencies()
+        for d in dependencies:
+            if d in dependencies[d]:
+                message += str(d) + " is dependent on itself"
+        return message
+
+    def is_valid_form(self):
+        valid = True
+        id_message = self.check_ids()
+        if id_message:
+            valid = False
+            print(id_message)
+
+        label_message = self.check_labels()
+        if label_message:
+            print(label_message)
+
+        dependency_message = self.check_dependencies()
+        if dependency_message:
+            valid = False
+            print(dependency_message)
+
+        expression_message = self.check_expressions()
+        if expression_message:
+            valid = False
+            print(expression_message)
+
+        return valid
+
+    def eval_expressions(self, type_map):
+        for x in self._statements:
+            if x.is_conditional():
+                print(x.get_condition().pretty_print())
+                print(x.evaluate_condition(type_map))
+                print("----------")
+
+

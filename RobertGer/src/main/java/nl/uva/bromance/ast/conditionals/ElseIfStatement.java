@@ -13,19 +13,21 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
         super(lineNumber, ElseIfStatement.class);
     }
 
-    @Override
-    public Expression getExpression() {
-        return expression;
-    }
 
     @Override
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
 
+    //TODO: This is duplication. It is also present in IfStatement
     @Override
-    public void handleExpressionResult(Result result) {
-
+    public void handleExpressionResult() {
+        Result result = expression.getResult();
+        if (result instanceof BooleanResult) {
+            for (QLNode child : this.getChildren()) {
+                child.isVisible(((BooleanResult) result).getResult());
+            }
+        }
     }
     @Override
     public void accept(NodeVisitor visitor) {

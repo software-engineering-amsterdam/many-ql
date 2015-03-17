@@ -3,15 +3,17 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.IWidget;
+import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
+import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
+import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidget {
@@ -21,12 +23,20 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    protected String label = "";
-    protected Style style = new UndefinedStyle();
+    protected String label;
+    protected Style style;
+    protected IWidgetType type;
 
     public AbstractQLSWidget() {
+        this.label = "";
+        this.style  = new UndefinedStyle();
+        this.type   = new UndefinedWidgetType();
     }
-    
+
+    public IWidgetType getType() {
+        return this.type;
+    }
+
     public Font getDefaultFont() {
         return new Font(DEFAULT_FONT);
     }
@@ -61,22 +71,27 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract void applyStyle(Style _style);
 
     @Override
-    public JComponent getJComponent() {
+    public void render(UIForm _canvas) {
         throw new AssertionError();
     }
 
     @Override
-    public ExpressionValue getValue() {
+    public void supress(UIForm _canvas){
         throw new AssertionError();
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
+    public ExpressionValue getWidgetValue() {
         throw new AssertionError();
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
+    public void setWidgetValue(ExpressionValue _value) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void addEventListener(WidgetsEventListener _listener) {
         throw new AssertionError();
     }
     

@@ -42,15 +42,15 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             return visitor.Visit(this);
         }
 
-        internal override void AppendQuestions(ICollection<Question> questions)
+        internal override void CollectQuestions(ICollection<Question> questions)
         {
             foreach (var statement in Then)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
             foreach (var statement in Else)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
         }
     }

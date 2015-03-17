@@ -3,21 +3,20 @@ import QL.AST.Statements.if_statement as if_statement
 
 class IfElseBlock(if_statement.IfBlock):
 
-    #################################
-    # override method of statement  #
-    #################################
+    #
+    # override methods of statement
+    #
 
     # init
     def __init__(self, condition, statements, else_statements):
-        self._condition = condition
-        self._statements = statements
+        self.condition = condition
+        self.statements = statements
         self.else_statements = else_statements
-        self._element = None
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self._condition.pretty_print(0) + ")"
-        for x in self._statements:
+        s = "\n" + "   " * level + "If " + self.condition.pretty_print(0)
+        for x in self.statements:
             s += "   " * level + x.pretty_print(level+1)
 
         s += "   " * level + "else"
@@ -28,7 +27,7 @@ class IfElseBlock(if_statement.IfBlock):
     # return all ids in the statement
     def id_collection(self):
         ids = []
-        for x in self._statements:
+        for x in self.statements:
             ids += x.id_collection()
         for x in self.else_statements:
             ids += x.id_collection()
@@ -37,37 +36,16 @@ class IfElseBlock(if_statement.IfBlock):
     # return all labels in the statement
     def label_collection(self):
         labels = []
-        for x in self._statements:
+        for x in self.statements:
             labels += x.label_collection()
         for x in self.else_statements:
             labels += x.label_collection()
         return labels
 
-    # return all the _dependencies in the statement of other _statements
-    def get_dependency_collection(self, dependencies):
-        ids = self.id_collection()
-        for i in ids:
-            if i in dependencies:
-                dependencies[i] = dependencies[i] + self._condition.get_dependencies()
-            else:
-                dependencies[i] = self._condition.get_dependencies()
-        for x in self._statements:
-            dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
-        return dependencies
-
-    # set the _order number of the statement, only set once
-    def set_order(self, order_num):
-        c = order_num
-        for s in self._statements:
-            c = s.set_order(c)
-        for s in self.else_statements:
-            c = s.set_order(c)
-        return c
-
     # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         d = {}
-        for s in self._statements:
+        for s in self.statements:
             d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
         for s in self.else_statements:
             d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
@@ -76,26 +54,25 @@ class IfElseBlock(if_statement.IfBlock):
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
         d = {}
-        for s in self._statements:
+        for s in self.statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         for s in self.else_statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
 
         return d
 
-    ##############################
-    # Method of else statement   #
-    ##############################
-
-    # TODO: change structure below
-
-    # Override
-    def set_parent_condition(self, condition):
-        for s in self._statements:
-            s.set_parent_condition(self._condition)
-        for s in self.else_statements:
-            pass # s.set_parent_condition(self._condition.add_not())
+    #
+    # Method of else statement
+    #
 
     def get_e_statements(self):
         return self.else_statements
+
+    def valid_type_message(self, td):
+        message = self.condition.is_valid_expression_message(td)
+        for x in self.statements:
+            message += x.valid_type_message(td)
+        for x in self.else_statements:
+            message += x.valid_type_message(td)
+        return message
 

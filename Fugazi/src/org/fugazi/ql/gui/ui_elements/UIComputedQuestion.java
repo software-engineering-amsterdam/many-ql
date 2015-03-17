@@ -19,7 +19,12 @@ public class UIComputedQuestion extends UIQuestion {
         super(_med, _question, _widget);
         this.value = _value;
     }
-    
+
+    @Override
+    public void setState(ExpressionValue _value) {
+        this.value = _value;
+    }
+
     @Override
     public ExpressionValue getState() {
         return this.value;
@@ -31,6 +36,6 @@ public class UIComputedQuestion extends UIQuestion {
     }
     
     public void setComputedValue(ExpressionValue _value) {
-        this.widget.setValue(_value);
+        this.widget.setWidgetValue(_value);
     }
 }

@@ -15,7 +15,7 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
-import com.klq.ast.impl.expr.value.DateValue;
+import com.klq.ast.impl.value.DateValue;
 import com.klq.parser.KLQBaseVisitor;
 import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -51,12 +51,13 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     @Override
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
+        IdentifierNode id = new IdentifierNode(ctx.id.getText());
 
         if(ctx.expr() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            questionNode = new QuestionNode(id, ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         } else {
             AExpression computedAnswer = (AExpression) visit(ctx.expr());
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
+            questionNode = new ComputedQuestionNode(id, ctx.type.getText(), stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
         }
         return questionNode;
     }
@@ -82,7 +83,6 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
 
         DateValue date = (DateValue) ExpressionUtil.createTerminalFromString(Type.DATE, dateString);
 
-        //TODO discuss with Timon localdate vs date and refactor
         DateNode dateNode = new DateNode(date.getValue(), formatLocation(ctx));
         return dateNode;
     }

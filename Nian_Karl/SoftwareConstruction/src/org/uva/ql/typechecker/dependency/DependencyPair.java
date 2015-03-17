@@ -23,8 +23,8 @@ public class DependencyPair {
 		return dependent;
 	}
 	
-	public boolean isCyclic() {
-		return dominant.toString().equals(dependent.toString());
+	public boolean isCyclicDependent() {
+		return dominant.equals(dependent);
 	}
 	
 	public void print() {

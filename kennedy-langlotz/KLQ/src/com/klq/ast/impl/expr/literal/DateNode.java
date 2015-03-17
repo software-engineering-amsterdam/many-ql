@@ -3,8 +3,8 @@ package com.klq.ast.impl.expr.literal;
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.DateValue;
-import com.klq.ast.impl.expr.value.Value;
+import com.klq.ast.impl.value.DateValue;
+import com.klq.ast.impl.value.Value;
 
 import java.util.Date;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class DateNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
+    public Value evaluate(Map<IdentifierNode, Value> variables) {
         return new DateValue(date);
     }
 }

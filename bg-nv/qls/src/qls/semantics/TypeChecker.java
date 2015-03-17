@@ -3,8 +3,7 @@ package qls.semantics;
 import ql.ast.form.Form;
 import ql.ast.type.*;
 import ql.semantics.QuestionCollector;
-import ql.semantics.QuestionResult;
-import ql.semantics.QuestionMap;
+import ql.semantics.Questions;
 import ql.semantics.errors.Messages;
 import qls.ast.Page;
 import qls.ast.rule.*;
@@ -22,19 +21,15 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private final QuestionMap questions;
+    private final Questions questions;
     private final Set<String> refQuestions;
     private final Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
-        QuestionResult result = QuestionCollector.collect(f);
-        if (result.containsErrors())
-        {
-            return result.getMessages();
-        }
+        Questions questions = QuestionCollector.collect(f);
 
-        TypeChecker checker = new TypeChecker(result.getQuestionMap());
+        TypeChecker checker = new TypeChecker(questions);
         if (checker.visit(s))
         {
             checker.allQuestionsReferencedCheck();
@@ -43,7 +38,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         return checker.messages;
     }
 
-    private TypeChecker(QuestionMap questions)
+    private TypeChecker(Questions questions)
     {
         this.questions = questions;
         this.refQuestions = new HashSet<>();

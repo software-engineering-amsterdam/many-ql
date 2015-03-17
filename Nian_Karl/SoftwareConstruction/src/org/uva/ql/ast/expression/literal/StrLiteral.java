@@ -46,4 +46,14 @@ public class StrLiteral extends Literal {
 		return value.equals(strLiteral.getValue());
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof StrLiteral){
+			return value.equals(((StrLiteral) obj).getValue());
+			
+		} else {
+			throw new UnsupportedOperationException("StrLiteral is only compariable with another StrLiteral.");
+		}
+	}
+	
 }

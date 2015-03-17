@@ -1,6 +1,8 @@
 package org.fugazi.ql.ast.form.form_data;
 
+import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.form.form_data.visitor.IdTypeVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
@@ -8,6 +10,7 @@ import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 import org.fugazi.ql.ast.type.Type;
+import org.fugazi.ql.ast.type.UndefinedType;
 
 import java.util.*;
 
@@ -17,6 +20,7 @@ public class QLFormDataStorage {
     private final QuestionsVisitor questionsVisitor;
     private final ComputedQuestionsVisitor computedQuestionsVisitor;
     private final IfStatementsVisitor ifStatementsVisitor;
+    private final IdTypeVisitor idTypeVisitor;
 
     public QLFormDataStorage(Form _form) {
         this.form = _form;
@@ -24,6 +28,7 @@ public class QLFormDataStorage {
         this.questionsVisitor = new QuestionsVisitor(this.form);
         this.computedQuestionsVisitor = new ComputedQuestionsVisitor(this.form);
         this.ifStatementsVisitor = new IfStatementsVisitor(this.form);
+        this.idTypeVisitor = new IdTypeVisitor(this.form);
     }
 
     /**
@@ -65,12 +70,24 @@ public class QLFormDataStorage {
     }
 
     public HashMap<String, Type> getallQuestionTypes() {
-        List<Question> questions = this.getAllQuestions();
-        HashMap<String, Type> questionTypes = new HashMap<>();
-
-        for (Question question : questions) {
-            questionTypes.put(question.getIdName(), question.getType());
-        }
+        HashMap<String, Type> questionTypes = this.questionsVisitor.getQuestionTypes();
+        HashMap<String, Type> computedQuestionTypes = this.computedQuestionsVisitor.getComputedQuestionTypes();
+        questionTypes.putAll(computedQuestionTypes);
         return questionTypes;
+    }
+
+    public HashMap<String, Type> getIdTypes() {
+        return this.idTypeVisitor.getIdTypes();
+    }
+
+    public Type getIdType(ID _id) {
+        String idName = _id.getName();
+        HashMap<String, Type> idTypes = this.getIdTypes();
+
+        Type idType = idTypes.get(idName);
+        if (idType == null) {
+            idType = new UndefinedType();
+        }
+        return idType;
     }
 }

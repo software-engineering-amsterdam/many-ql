@@ -1,6 +1,7 @@
 package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.visualization.Visualizable;
 import nl.uva.bromance.visualization.Visualizer;
 
@@ -16,7 +17,7 @@ public class QLSNode extends Node<QLSNode> implements Visualizable {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         return null;
     }
 

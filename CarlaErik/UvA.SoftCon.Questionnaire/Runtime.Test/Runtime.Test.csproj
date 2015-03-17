@@ -61,9 +61,8 @@
     <Compile Include="Evaluation\Types\StringValueTest.cs" />
     <Compile Include="Evaluation\Types\DateValueTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\QL\LiteralCheckingVisitorTest.cs" />
-    <Compile Include="Validation\QL\TypeCheckingVisitorTest.cs" />
-    <Compile Include="Validation\QL\VariableUsageCheckingVisitorTest.cs" />
+    <Compile Include="Validation\QL\LiteralCheckerTest.cs" />
+    <Compile Include="Validation\QL\TypeCheckerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QL\QL.csproj">

@@ -1,6 +1,5 @@
-from ..CustomTypes import Money as CustomMoney
-from ..CustomTypes import Identifier as CustomIdentifier
 from ..TypeRules import nativeQuestionType
+from ..QLTypes import *
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
@@ -32,16 +31,16 @@ class AtomicExpression(object):
 		return self._value.value()
 
 class Form(object):
-	def __init__(self, identifier, questions):
+	def __init__(self, identifier):
 		self.identifier = identifier
-		self.questions = questions
-
+		
 class Question(object):
-	def __init__(self, questionStatementNode, conditionalExpressionsTuple, valueExpression = None):
-		self.identifier = questionStatementNode.identifier
+	def __init__(self, identifier, text, questionType, conditionalExpressionsTuple, form, valueExpression = None):
+		self.identifier = identifier
 		self.valueExpression = valueExpression
-		self.text = questionStatementNode.text
-		self.type = nativeQuestionType(questionStatementNode.type)
+		self.text = text
+		self.type = nativeQuestionType(questionType)
+		self.form = form
 
 		self.conditionalExpressions = conditionalExpressionsTuple
 		self.constant = self.valueExpression != None
@@ -53,39 +52,10 @@ class Question(object):
 		return self.conditionalExpressions.value()
 
 
-class EvaluatorBaseType(object):
-	def __init__(self, value, evaluator = None):
+class EvalIdentifier(object):
+	def __init__(self, value, evaluator):
 		self._value = value
 		self._evaluator = evaluator
-
-	def __str__(self):
-		return str(self.value())
-
-	def value(self):
-		return self._value
-
-	def getType(self):
-		raise NotImplementedError()
-
-class Boolean(EvaluatorBaseType):
-	def getType(self):
-		return bool
-
-class Integer(EvaluatorBaseType):
-	def getType(self):
-		return int
-
-class String(EvaluatorBaseType):
-	def getType(self):
-		return str
-
-class Money(EvaluatorBaseType):
-	def getType(self):
-		return CustomMoney
-
-class Identifier(EvaluatorBaseType):
-	def getType(self):
-		return CustomIdentifier
 
 	def value(self):
 		return self._evaluator.getValue(self._value)

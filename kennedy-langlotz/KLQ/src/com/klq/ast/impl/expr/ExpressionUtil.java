@@ -1,7 +1,7 @@
 package com.klq.ast.impl.expr;
 
 import com.klq.ast.impl.Type;
-import com.klq.ast.impl.expr.value.*;
+import com.klq.ast.impl.value.*;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -16,6 +16,9 @@ public class ExpressionUtil {
     private final static DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Value createTerminalFromString(Type type, String value){
+        if (value.trim().isEmpty()){
+            return new UndefinedValue();
+        }
         switch (type){
             case BOOLEAN:
                 return createBooleanFromString(value);

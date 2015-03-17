@@ -3,10 +3,6 @@
 
 class IStatement:
 
-    # init
-    def __init__(self):
-        raise NotImplementedError("Not implemented by sub class")
-
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         raise NotImplementedError("Not implemented by sub class")
@@ -35,5 +31,6 @@ class IStatement:
     def get_statement_dict(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def valid_type(self, td):
+    # return the error message of type checking, empty if correct
+    def valid_type_message(self, td):
         raise NotImplementedError("Not implemented by sub class")

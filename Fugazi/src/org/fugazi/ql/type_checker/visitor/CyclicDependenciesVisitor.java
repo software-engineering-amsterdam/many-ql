@@ -2,6 +2,7 @@ package org.fugazi.ql.type_checker.visitor;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.type_checker.dependency.DependencyManager;
@@ -16,7 +17,8 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
     private final DependencyManager questionDependencies;
     private ID assignableIdLiteral;
 
-    public CyclicDependenciesVisitor(){
+    public CyclicDependenciesVisitor(QLFormDataStorage _formData){
+        super(_formData);
         this.questionDependencies = new DependencyManager();
     }
 

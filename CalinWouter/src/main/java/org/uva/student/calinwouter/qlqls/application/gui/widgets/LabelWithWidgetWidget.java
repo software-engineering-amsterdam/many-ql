@@ -1,32 +1,35 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.ql.VariableTableWrapper;
-import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
+import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Name may be confusing. This widget is basically a (Label + Widget) Widget.
+ * This widget is basically a (Label + Widget) Widget.
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
+    private IWidget widget;
 
     @Override
     public Component getWidgetComponent() {
         return labelWithWidgetWidget;
     }
 
-    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, IWidget widget, final VariableTableWrapper variableTableWrapper) {
+    @Override
+    public void resetValue() {
+        widget.resetValue();
+    }
+
+    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper) {
+        this.widget = widget;
         final Label fieldLabel = new Label(label);
         labelWithWidgetWidget = new JPanel();
+        labelWithWidgetWidget.setAlignmentX(Component.LEFT_ALIGNMENT);
         labelWithWidgetWidget.add(fieldLabel);
-        //System.out.println(widget.getClass());
         labelWithWidgetWidget.add(widget.getWidgetComponent());
 
         if(stylingSettings != null) {
@@ -37,14 +40,20 @@ public class LabelWithWidgetWidget implements IWidget {
             widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
         }
 
+        if(variableTableWrapper.getVariableTable().isSet(identifier))
+            labelWithWidgetWidget.setVisible(true);
+        else
+            labelWithWidgetWidget.setVisible(false);
+
         variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 if(variableTableWrapper.getVariableTable().isSet(identifier))
                     labelWithWidgetWidget.setVisible(true);
-                else
+                else {
                     labelWithWidgetWidget.setVisible(false);
-                fieldLabel.invalidate();
+                    LabelWithWidgetWidget.this.resetValue();
+                }
                 labelWithWidgetWidget.revalidate();
             }
         });

@@ -149,7 +149,7 @@ public class EvaluatorTest {
      */
     @Test
     public void testIDExpression() throws Exception {
-        ID id = new ID(testString1, new IntType());
+        ID id = new ID(testString1);
         valueStorage.saveValue(testString1, new IntValue(5));
         ExpressionValue value = evaluator.evaluateExpression(id);
         assertEquals(value.getValue(), 5);
