@@ -1,4 +1,5 @@
-﻿using QuestionnaireLanguage.Presenter;
+﻿using QuestionnaireLanguage.Events;
+using QuestionnaireLanguage.Presenter;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -8,6 +9,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
     public class CustomTextBox : TextBox
     {
         private ObjectHandler inputHandler;
+        public EventUpdateValue eventUpdateValue;
 
         #region Constructors
         public CustomTextBox(ObjectHandler inputValidation)
@@ -31,8 +33,7 @@ namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
         {
             if (inputHandler.IsValid((sender as CustomTextBox).Text))
             {
-                MainPresenter.UpdateValue((sender as CustomTextBox).Name,
-                                        inputHandler.UpdateValue(sender));
+                eventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
 
                 this.BorderBrush = Brushes.Black;
             }

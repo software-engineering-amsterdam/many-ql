@@ -9,7 +9,7 @@ public class IntegerQuestion extends TextField implements BaseQuestion<String> {
 
 	private final Question question;
 	private final IntegerValidator validator;
-	private final Listener<String> listener;
+	private final Listener<String> listener;	
 
 	public IntegerQuestion(Question question) {
 		super();
@@ -27,11 +27,16 @@ public class IntegerQuestion extends TextField implements BaseQuestion<String> {
 		return this.validator;
 	}
 
-	public void undoChange(String oldValue) {
-		this.setText(oldValue);
-	}
-
 	public void reset() {
 		this.setText("");
+	}
+
+	@Override
+	public String undoChange(String newValue, String oldValue) {
+		if (oldValue.equals("")) {
+			oldValue = "0";
+		} 
+		this.setText(oldValue);
+		return this.getText();
 	}
 }

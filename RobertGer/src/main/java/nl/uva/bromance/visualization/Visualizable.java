@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface Visualizable {
 
-    Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer);
+    Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer);
 
     void isVisible(boolean visible);
 }

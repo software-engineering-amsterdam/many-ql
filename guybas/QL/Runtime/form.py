@@ -26,6 +26,9 @@ class Form:
     def get_ast(self):
         return self.ast
 
+    def get_form(self):
+        return self
+
     def __flatten_ast(self, statements, conditions=[]):
         for statement in statements:
             if statement.is_conditional():
@@ -40,15 +43,14 @@ class Form:
                 self.__q_conditions_dict[statement.get_id()] = conditions
 
     def __enrich_questions(self):
-        questions = []
         order = 0
         for basic_question in self.__ast_questions:
-            if basic_question.get_id() not in self.__q_conditions_dict:
+            qid = basic_question.get_id()
+            if qid not in self.__q_conditions_dict:
                 raise exc.QException("Fatal Error: id does not exist in the dict!")
-            enriched_question = runtime_question.Question(basic_question, order)
-            questions.append(enriched_question)
+            enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
+            self.questions.append(enriched_question)
             order += 1
-        return questions
 
     def __combine_expressions(self):
         for q_id in self.__q_conditions_dict:

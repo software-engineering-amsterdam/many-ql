@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.HasIdentifier;
+import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
@@ -78,7 +79,7 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, String> answerMap, Visualizer visualizer) {
+    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         if (isVisible) {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
@@ -92,30 +93,6 @@ public class Question extends QLNode implements HasIdentifier {
     @Override
     public void isVisible(boolean visible) {
         this.isVisible = visible;
-    }
-
-    //TODO: Think of something to maybe fix this god awful mess of if's
-    @Override
-    public void typeCheck() throws TypeCheckingException {
-        if (getQuestionString() == null) {
-            throw new TypeCheckingException("Question Error: No question asked");
-        }
-        if ((isQuestionTypeBoolean() || isQuestionTypeString()) && getQuestionRange().isPresent()) {
-            throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
-        }
-    }
-
-    @Override
-    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
-        if (getIdentifier().isPresent()) {
-            if (referenceMap.get(getIdentifier().get().getId()) != null) {
-                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get().getId());
-            } else {
-                referenceMap.put(getIdentifier().get().getId(), this);
-            }
-        } else {
-            throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
-        }
     }
 
     //TODO: Not digging the use of instanceof, already better then the strings however.

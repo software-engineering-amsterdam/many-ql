@@ -26,14 +26,14 @@ public class BooleanType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
 
         CheckBox cb = new CheckBox();
         String id = q.getIdentifier().get().getId();
 
-        String answer = answerMap.get(id);
+        BooleanResult answer = (BooleanResult) answerMap.get(id);
         if (answer != null) {
-            if (answer.equals("true")){
+            if (answer.getResult() == true) {
                 cb.setSelected(true);
             }
         }
@@ -43,9 +43,9 @@ public class BooleanType implements QuestionType {
 
         cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == true){
-                answerMap.put(id,"true");
+                answerMap.put(id,new BooleanResult(true));
             } else {
-                answerMap.put(id,"false");
+                answerMap.put(id,new BooleanResult(false));
             }
             visualizer.visualize(q.hashCode());
         });

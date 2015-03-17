@@ -5,7 +5,7 @@ form taxOfficeExample {
   decimal age : "Your age?"
   
   if (hasSoldHouse && hasBoughtHouse) {
-  	decimal income : "Your income?"
+  	integer income : "Your income?"
   	decimal test : "some question?" (20.0 - 10.0)
   	string dependent : "test?" ("test" + " blub")
   }

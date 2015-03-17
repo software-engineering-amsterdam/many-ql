@@ -3,16 +3,20 @@ package nl.uva.bromance.ast.conditionals;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.ast.visitors.NullNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ExpressionEvaluator extends NullNodeVisitor{
 
     private List<Identifier> identifiers;
+    private Map<String,Result> answerMap;
 
+    public ExpressionEvaluator(Map<String,Result> answerMap) {
+        this.answerMap = answerMap;
+    }
     //TODO: We should insert the indentifiers not find them in this class.
     public void evaluate(QLNode qlnode){
     this.identifiers = getIdentifiers(qlnode);
@@ -24,7 +28,6 @@ public class ExpressionEvaluator extends NullNodeVisitor{
             processOperatorExpression(expression, expression.getOperator().get());
         } else {
             processTerminal(expression);
-
         }
     }
 
@@ -54,7 +57,11 @@ public class ExpressionEvaluator extends NullNodeVisitor{
                 for (Identifier identifier : identifiers) {
                     //TODO: What if there is an identifier with the same id?
                     if (terminal.getValue().equals(identifier.getId())) {
-                        expression.setResult(identifier.getResult());
+                        if (answerMap != null && answerMap.get(terminal.getValue()) != null){
+                            expression.setResult(answerMap.get(terminal.getValue()));
+                        } else {
+                            expression.setResult(identifier.getResult());
+                        }
                         break;
                     }
                 }
@@ -70,7 +77,7 @@ public class ExpressionEvaluator extends NullNodeVisitor{
         Result resultTwo = expression.getRightHandSideResult();
         try {
             expression.setResult(operator.performOperation(resultOne, resultTwo));
-
+            System.out.println("Expression result :"+expression.getResult().toString());
             //TODO: This should be done in TypeChecking. Don't want to run into operandExpressions when running the program.
         } catch (InvalidOperandException e) {
             System.err.println("Got invalid operands [" + resultOne.getClass().getSimpleName() + "," + resultTwo.getClass().getSimpleName() + "] for operator type :" + operator.getClass().getSimpleName());
