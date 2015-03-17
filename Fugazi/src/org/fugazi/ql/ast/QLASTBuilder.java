@@ -15,7 +15,6 @@ import java.util.Map;
 public class QLASTBuilder {
 
     private final QLParser parser;
-    private final FugaziQLVisitor visitor;
 
     public QLASTBuilder(InputStream inputStream) throws IOException {
 
@@ -23,18 +22,13 @@ public class QLASTBuilder {
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         this.parser = new QLParser(tokens);
-
-        this.visitor = new FugaziQLVisitor();
     }
 
     public Form buildForm() {
-        Form form = (Form) buildFromTree(parser.form());
-        form.setIdentifierTypes(this.visitor.getIdentifierTypes());
-
-        return form;
+        return (Form) buildFromTree(parser.form());
     }
 
     private AbstractASTNode buildFromTree(ParseTree tree) {
-        return tree.accept(this.visitor);
+        return tree.accept(new FugaziQLVisitor());
     }
 }
