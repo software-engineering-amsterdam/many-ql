@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolw
 import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
@@ -20,6 +21,12 @@ public class RadioWidget implements IWidget {
     @Override
     public Component getWidgetComponent() {
         return btnPanelYesNo;
+    }
+
+    @Override
+    public void resetValue() {
+        yesBtn.setSelected(false);
+        noBtn.setSelected(false);
     }
 
     public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Radio radio) {
@@ -48,5 +55,6 @@ public class RadioWidget implements IWidget {
                 variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
+
     }
 }
