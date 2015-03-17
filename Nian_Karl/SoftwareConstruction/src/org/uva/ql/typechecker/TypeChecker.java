@@ -59,6 +59,15 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private  DependencyList dependencyList;
 	private boolean isVisitingQuestionExpression;
 
+	public TypeChecker() {
+		types = new HashMap<Identifier, Type>();
+		labels = new ArrayList<String>();
+		messageManager = new MessageManager();
+		dependencyList = new DependencyList();
+		questioncomputedList = new ArrayList<Identifier>();
+		isVisitingQuestionExpression = false;
+	}
+	
 	// Name-Type table
 	private void addType(Identifier id, Type type) {
 		types.put(id, type);
@@ -229,12 +238,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Form form) {
-		types = new HashMap<Identifier, Type>();
-		labels = new ArrayList<String>();
-		messageManager = new MessageManager();
-		dependencyList = new DependencyList();
-		questioncomputedList = new ArrayList<Identifier>();
-		isVisitingQuestionExpression = false;
 		boolean result1 = form.getBlock().accept(this);
 		boolean result2 = checkCyclicDependency();
 		return result1 && result2;
