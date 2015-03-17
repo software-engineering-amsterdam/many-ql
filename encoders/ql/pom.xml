@@ -60,7 +60,15 @@
 					<libDirectory>${basedir}/src/main/antlr4/nl/uva/sc/encoders/ql</libDirectory>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<additionalClasspathElements>
+						<additionalClasspathElement>ql/src/main/java/nl/uva/sc/encoders/ql/messages/</additionalClasspathElement>
+					</additionalClasspathElements>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
