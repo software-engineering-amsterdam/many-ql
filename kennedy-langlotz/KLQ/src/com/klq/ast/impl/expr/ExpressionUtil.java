@@ -16,6 +16,9 @@ public class ExpressionUtil {
     private final static DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Value createTerminalFromString(Type type, String value){
+        if (value.trim().isEmpty()){
+            return new UndefinedValue();
+        }
         switch (type){
             case BOOLEAN:
                 return createBooleanFromString(value);
