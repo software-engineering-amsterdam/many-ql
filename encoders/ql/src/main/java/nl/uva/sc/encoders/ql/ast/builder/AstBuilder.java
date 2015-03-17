@@ -97,20 +97,14 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
 
-		Expression condition = null;
 		Expression computed = null;
 		TextLocation textLocation = getTextLocation(ctx);
-		if (ctx.parent instanceof ConditionalBlockContext) {
-			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
-			condition = (Expression) visit(parent.expression());
-		}
 		ExpressionContext computedCtx = ctx.computed;
 		if (computedCtx != null) {
 			computed = (Expression) visit(computedCtx);
 			System.out.println(computed);
 		}
-		Question question = new Question(textLocation, questionName, dataType, questionLabel, condition, computed);
-		super.visitChildren(ctx);
+		Question question = new Question(textLocation, questionName, dataType, questionLabel, computed);
 		return question;
 	}
 

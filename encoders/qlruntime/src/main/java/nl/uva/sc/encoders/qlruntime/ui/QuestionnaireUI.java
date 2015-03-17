@@ -52,7 +52,8 @@ public class QuestionnaireUI {
 			DataType dataType = question.getDataType();
 			Label label = new Label(question.getQuestionLabel());
 			grid.add(label, 0, y);
-			boolean visible = question.getCondition() == null;
+			Expression condition = runtimeQuestion.getCondition();
+			boolean visible = condition == null;
 			label.setVisible(visible);
 			ControlGeneratorVisitor controlGeneratorVisitor = new ControlGeneratorVisitor(runtimeQuestion);
 			ControlWrapper controlWrapper = dataType.accept(controlGeneratorVisitor);
@@ -60,7 +61,6 @@ public class QuestionnaireUI {
 
 			control.setVisible(visible);
 
-			Expression condition = question.getCondition();
 			if (condition != null) {
 				addConditionListeners(runtimeQuestions, label, control, condition);
 			}

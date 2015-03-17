@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
+import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
@@ -43,8 +44,11 @@ public class QuestionnaireToRuntimeQuestions implements StatementVisitor<List<Ru
 	public List<RuntimeQuestion> visit(ConditionalBlock conditionalBlock) {
 		List<RuntimeQuestion> result = new ArrayList<>();
 		List<Question> questions = conditionalBlock.getQuestions();
+		Expression condition = conditionalBlock.getCondition();
 		for (Question question : questions) {
-			result.addAll(question.accept(this));
+			DataType dataType = question.getDataType();
+			Value defaultValue = dataType.accept(this);
+			result.add(new RuntimeQuestion(question, condition, defaultValue));
 		}
 		return result;
 	}

@@ -1,6 +1,5 @@
 package nl.uva.sc.encoders.ql.ast;
 
-import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
@@ -13,7 +12,6 @@ public class QuestionBuilder {
 	private DataType dataType;
 	private String questionLabel;
 	private Expression computed;
-	private Expression condition;
 
 	public static QuestionBuilder aQuestion() {
 		QuestionBuilder builder = new QuestionBuilder();
@@ -22,12 +20,11 @@ public class QuestionBuilder {
 		builder.dataType = new BooleanType();
 		builder.questionLabel = "Why?";
 		builder.computed = null;
-		builder.condition = null;
 		return builder;
 	}
 
 	public Question build() {
-		Question question = new Question(textLocation, name, dataType, questionLabel, condition, computed);
+		Question question = new Question(textLocation, name, dataType, questionLabel, computed);
 		return question;
 	}
 
@@ -48,11 +45,6 @@ public class QuestionBuilder {
 
 	public QuestionBuilder withQuestionLabel(String questionLabel) {
 		this.questionLabel = questionLabel;
-		return this;
-	}
-
-	public QuestionBuilder withCondition(Expression condition) {
-		this.condition = condition;
 		return this;
 	}
 

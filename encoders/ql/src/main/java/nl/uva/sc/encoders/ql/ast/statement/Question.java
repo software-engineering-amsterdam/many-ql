@@ -19,17 +19,13 @@ public class Question extends Statement {
 
 	private final String questionLabel;
 
-	private final Expression condition;
-
 	private final Expression computed;
 
-	public Question(TextLocation textLocation, String name, DataType type, String questionLabel, Expression condition,
-			Expression computed) {
+	public Question(TextLocation textLocation, String name, DataType type, String questionLabel, Expression computed) {
 		super(textLocation);
 		this.name = name;
 		this.type = type;
 		this.questionLabel = questionLabel;
-		this.condition = condition;
 		this.computed = computed;
 	}
 
@@ -43,10 +39,6 @@ public class Question extends Statement {
 
 	public String getQuestionLabel() {
 		return questionLabel;
-	}
-
-	public Expression getCondition() {
-		return condition;
 	}
 
 	public Expression getComputed() {
