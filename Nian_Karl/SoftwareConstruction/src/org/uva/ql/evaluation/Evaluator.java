@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.association.Parenthese;
+import org.uva.ql.ast.expression.association.Parenthesis;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
 import org.uva.ql.ast.expression.binary.Equal;
@@ -12,11 +12,11 @@ import org.uva.ql.ast.expression.binary.Greater;
 import org.uva.ql.ast.expression.binary.GreaterEqual;
 import org.uva.ql.ast.expression.binary.Less;
 import org.uva.ql.ast.expression.binary.LessEqual;
-import org.uva.ql.ast.expression.binary.Minus;
+import org.uva.ql.ast.expression.binary.Substraction;
 import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
-import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.binary.Addition;
 import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
@@ -80,14 +80,14 @@ public class Evaluator implements ExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(Plus node) {
+	public Value visit(Addition node) {
 		Value left = node.getLeftExpression().accept(this);
 		Value right = node.getRightExpression().accept(this);
 		return left.plus(right);
 	}
 
 	@Override
-	public Value visit(Minus node) {
+	public Value visit(Substraction node) {
 		Value left = node.getLeftExpression().accept(this);
 		Value right = node.getRightExpression().accept(this);
 		return left.minus(right);
@@ -184,7 +184,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 	}
 
 	@Override
-	public Value visit(Parenthese node) {
+	public Value visit(Parenthesis node) {
 		return node.getExpression().accept(this);
 	}
 }

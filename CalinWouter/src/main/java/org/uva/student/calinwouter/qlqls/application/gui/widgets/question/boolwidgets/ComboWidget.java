@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolw
 import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Combo;
@@ -19,6 +20,11 @@ public class ComboWidget implements IWidget {
     @Override
     public Component getWidgetComponent() {
         return yesNoComboBox;
+    }
+
+    @Override
+    public void resetValue() {
+        yesNoComboBox.setSelectedIndex(-1);
     }
 
     public ComboWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Combo combo) {
@@ -39,5 +45,6 @@ public class ComboWidget implements IWidget {
                 variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
+
     }
 }

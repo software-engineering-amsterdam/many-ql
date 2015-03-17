@@ -20,6 +20,11 @@ public class CheckboxWidget implements IWidget {
         return checkbox;
     }
 
+    @Override
+    public void resetValue() {
+        checkbox.setSelected(false);
+    }
+
     public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
         this.checkbox = new JCheckBox();
 
@@ -31,5 +36,6 @@ public class CheckboxWidget implements IWidget {
                 variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
+
     }
 }

@@ -9,7 +9,8 @@ import java.util.Set;
 
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.association.Parenthese;
+import org.uva.ql.ast.expression.association.Parenthesis;
+import org.uva.ql.ast.expression.binary.Addition;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Binary;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -18,11 +19,10 @@ import org.uva.ql.ast.expression.binary.Greater;
 import org.uva.ql.ast.expression.binary.GreaterEqual;
 import org.uva.ql.ast.expression.binary.Less;
 import org.uva.ql.ast.expression.binary.LessEqual;
-import org.uva.ql.ast.expression.binary.Minus;
 import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
-import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.binary.Substraction;
 import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
@@ -76,11 +76,10 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private boolean isDeclared(Identifier id) {
 		return types.containsKey(id);
 	}
-	
+
 	public Type getType(Identifier id) {
 		return types.get(id);
 	}
-
 
 	public void printAll() {
 		Set<Identifier> keys = types.keySet();
@@ -136,7 +135,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		String label = question.getLabel().toString();
 		if (hasLabel(label)) {
 			Warning warning = new Warning(Warning.Type.DUPLICATE, question.getPosition().getStartLine(), label);
-			messageManager.addWarning(warning);
+			addWarning(warning);
 		} else {
 			addLabel(label);
 		}
@@ -272,7 +271,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Parenthese node) {
+	public Boolean visit(Parenthesis node) {
 		return node.getExpression().accept(this);
 	}
 
@@ -292,7 +291,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Plus binary) {
+	public Boolean visit(Addition binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
 		boolean resultL = left.accept(this);
@@ -322,7 +321,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Minus binary) {
+	public Boolean visit(Substraction binary) {
 		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 

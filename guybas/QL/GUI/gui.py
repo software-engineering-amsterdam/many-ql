@@ -52,7 +52,7 @@ class GUI:
         condition = question.get_condition()
 
         c_results = True
-        if condition is not None:
+        if condition:
             c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
         if not c_results:
             return False
@@ -64,17 +64,18 @@ class GUI:
             elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
+        print(new_answer)
         self.__answersMap.update(question, new_answer)
         for qid in self.__dependencies:
-            if question.get_id() in self.__dependencies[qid]:
+            if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):
-        statements_dict = self.__form.ast.get_statement_dict()
+        statements_dict = self.__form.get_statement_dict()
         if qid not in statements_dict:
             raise exc.QException("Fatal Error: no such _condition _id " + qid)
         question = statements_dict[qid]
-        elements = question.get_element()
+        elements = question.get_gui_element()
         if elements is None:
             return None
         for e in elements:
