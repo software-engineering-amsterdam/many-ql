@@ -13,6 +13,9 @@ class QLType(object):
 		return isinstance(other, self.__class__) and \
 			self.value == other.value
 
+	def __ne__(self, other):
+		return not self.__eq__(other)
+
 
 class QLInteger(QLType):
 	pass
