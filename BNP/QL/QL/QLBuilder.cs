@@ -174,7 +174,16 @@ namespace QL
 
         }
 
-        
+        public void registerDefault()
+        {
+            registerInitializer(new Initializer());
+            registerAstBuilder(new AstBuilder());
+            registerTypeChecker(new TypeChecker());
+            registerEvaluator(new Evaluator());
+
+
+
+        }
 
         
         public void SetInput(string input)

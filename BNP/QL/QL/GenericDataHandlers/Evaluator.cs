@@ -12,6 +12,7 @@ namespace QL.GenericDataHandlers
     class Evaluator :IExecutable
     {
 
+        public Evaluator() { }
         public bool execute(DataContext context)
         {
 

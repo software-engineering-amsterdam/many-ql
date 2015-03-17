@@ -10,6 +10,7 @@ namespace QL.GenericDataHandlers
 {
     class Initializer :IExecutable
     {
+        public Initializer() { }
         public bool execute(DataContext context)
         {
             

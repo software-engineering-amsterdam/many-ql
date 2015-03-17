@@ -11,6 +11,7 @@ namespace QL.GenericDataHandlers
 {
     class AstBuilder :IExecutable
     {
+        public AstBuilder(){}
         public bool execute(DataContext context)
         {
 

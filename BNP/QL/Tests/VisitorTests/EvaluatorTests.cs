@@ -11,11 +11,14 @@ namespace Tests.VisitorTests
     [TestClass]
     public class EvaluatorTests
     {
-        protected QLBuilder Handler;
+        protected QLBuilder Builder;
 
         public void Initialize(string input){
-            Handler= new QLBuilder(input);
-            Assert.IsTrue(Handler.BuildAST(), "Parsing/lexing error");
+        
+            Builder = new QLBuilder(input);
+            Assert.IsTrue(Builder.runInit());
+            Assert.IsTrue(Builder.runAstBuild());
+            Assert.IsTrue(Builder.runTypeCheck());
 
         }
 
@@ -28,8 +31,7 @@ namespace Tests.VisitorTests
                 }
             "); 
             
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
+            Assert.IsTrue(Builder.runEvaluate());
 
         }
 
@@ -50,15 +52,14 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
+            Assert.IsTrue(Builder.runEvaluate());
             TextWrapper tw = new TextWrapper("\"abc\"");
-            TextWrapper tw_from_code = Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[0].Children[0]] as TextWrapper;
+            TextWrapper tw_from_code = Builder.ReferenceLookupTable[(ITypeResolvable)Builder.RootNode.Children[0].Children[0].Children[0]] as TextWrapper;
             Assert.IsTrue((tw_from_code == tw).Value.Value);
             //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
             //by visitor could be done as well
 
-            Assert.IsTrue((Handler.ReferenceLookupTable[(ITypeResolvable)Handler.RootNode.Children[0].Children[1].Children[0]] as YesnoWrapper == new YesnoWrapper(true)).Value.Value);
+            Assert.IsTrue((Builder.ReferenceLookupTable[(ITypeResolvable)Builder.RootNode.Children[0].Children[1].Children[0]] as YesnoWrapper == new YesnoWrapper(true)).Value.Value);
 
         }
         [TestMethod]
@@ -75,8 +76,8 @@ namespace Tests.VisitorTests
                 if (""bla""!=""bleble""){};
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());           
+            Assert.IsTrue(Builder.CheckType());
+            Assert.IsTrue(Builder.runEvaluate());           
 
         }
         [TestMethod]
@@ -94,20 +95,19 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
+            Assert.IsTrue(Builder.runEvaluate());
             Identifier i = new Identifier("Q1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
-            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            Assert.IsTrue(Builder.IdentifierTable.ContainsKey(i));
+            Assert.IsTrue(Builder.ReferenceLookupTable.ContainsKey(Builder.IdentifierTable[i]));
+            NumberWrapper nw = Builder.ReferenceLookupTable[Builder.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2;
-            Assert.IsTrue(Handler.Evaluate());
+            Assert.IsTrue(Builder.runEvaluate());
             
             Identifier S1 = new Identifier("S1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
-            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsTrue(Builder.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Builder.ReferenceLookupTable.ContainsKey(Builder.IdentifierTable[S1]));
+            NumberWrapper S1_value = Builder.ReferenceLookupTable[Builder.IdentifierTable[S1]] as NumberWrapper;
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(nw.Value,S1_value.Value);
 
@@ -129,20 +129,19 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
+            Assert.IsTrue(Builder.runEvaluate());
             Identifier i = new Identifier("Q1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(i));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[i]));
-            NumberWrapper nw = Handler.ReferenceLookupTable[Handler.IdentifierTable[i]] as NumberWrapper;
+            Assert.IsTrue(Builder.IdentifierTable.ContainsKey(i));
+            Assert.IsTrue(Builder.ReferenceLookupTable.ContainsKey(Builder.IdentifierTable[i]));
+            NumberWrapper nw = Builder.ReferenceLookupTable[Builder.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
-            Assert.IsTrue(Handler.Evaluate(),"reevaluation");
+            Assert.IsTrue(Builder.runEvaluate(),"reevaluation");
 
             Identifier S1 = new Identifier("S1");
-            Assert.IsTrue(Handler.IdentifierTable.ContainsKey(S1));
-            Assert.IsTrue(Handler.ReferenceLookupTable.ContainsKey(Handler.IdentifierTable[S1]));
-            NumberWrapper S1_value = Handler.ReferenceLookupTable[Handler.IdentifierTable[S1]] as NumberWrapper;
+            Assert.IsTrue(Builder.IdentifierTable.ContainsKey(S1));
+            Assert.IsTrue(Builder.ReferenceLookupTable.ContainsKey(Builder.IdentifierTable[S1]));
+            NumberWrapper S1_value = Builder.ReferenceLookupTable[Builder.IdentifierTable[S1]] as NumberWrapper;
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(nw.Value * 2 + 123, S1_value.Value);
         }
@@ -161,17 +160,16 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
-            NumberWrapper nw = (NumberWrapper)Handler.GetWrappedValue("Q1");            
+            Assert.IsTrue(Builder.runEvaluate());
+            NumberWrapper nw = (NumberWrapper)Builder.GetWrappedValue("Q1");            
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
-            Assert.IsTrue(Handler.Evaluate(), "reevaluation");
+            Assert.IsTrue(Builder.runEvaluate(), "reevaluation");
             
             nw.Value = 31; // new answer to the question
-            Assert.IsTrue(Handler.Evaluate(), "reevaluation");
+            Assert.IsTrue(Builder.runEvaluate(), "reevaluation");
 
-            NumberWrapper S1_value = (NumberWrapper)Handler.GetWrappedValue("S1");
+            NumberWrapper S1_value = (NumberWrapper)Builder.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(31 * 2 + 123, S1_value.Value);
         }
@@ -186,18 +184,17 @@ namespace Tests.VisitorTests
                     };
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsTrue(Handler.Evaluate());
-            NumberWrapper nw = (NumberWrapper)Handler.GetWrappedValue("Q1");
+            Assert.IsTrue(Builder.runEvaluate());
+            NumberWrapper nw = (NumberWrapper)Builder.GetWrappedValue("Q1");
             
             nw.Value = 0; // new answer to the question, division by zero
-            Assert.IsFalse(Handler.Evaluate(), "division by zero");
+            Assert.IsFalse(Builder.runEvaluate(), "division by zero");
 
-            Assert.IsInstanceOfType(Handler.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
+            Assert.IsInstanceOfType(Builder.Errors[0], typeof(DivisionByZeroError),"incorrect exception");
             nw.Value = 1; // new answer to the question
-            Assert.IsTrue(Handler.Evaluate(), "reevaluation failed");
+            Assert.IsTrue(Builder.runEvaluate(), "reevaluation failed");
 
-            NumberWrapper S1_value = (NumberWrapper)Handler.GetWrappedValue("S1");            
+            NumberWrapper S1_value = (NumberWrapper)Builder.GetWrappedValue("S1");            
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(123+(123/1), S1_value.Value);
         }     
@@ -209,8 +206,7 @@ namespace Tests.VisitorTests
                   
                 }
             ");
-            Assert.IsTrue(Handler.CheckType());
-            Assert.IsFalse(Handler.Evaluate());
+            Assert.IsFalse(Builder.runEvaluate());
         }
 
         
@@ -285,7 +281,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Handler.CheckType() && Handler.Evaluate());
+            Assert.IsFalse(Builder.CheckType() && Builder.runEvaluate());
 
         }
         [TestMethod]
@@ -303,8 +299,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Handler.CheckType();
-            Assert.IsFalse(Handler.Evaluate());
+            Assert.IsFalse(Builder.runEvaluate());
         }
         [TestMethod]
         public void EvaluatorReferenceFromUnavaliableBranch()
@@ -319,9 +314,8 @@ namespace Tests.VisitorTests
 
                 }
             ");
-            Handler.CheckType();
 
-            Assert.IsFalse(Handler.Evaluate());
+            Assert.IsFalse(Builder.runEvaluate());
         }
         [TestMethod]
         public void EvaluationMemoryBuildup()
@@ -338,20 +332,19 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Handler.CheckType();
-            Assert.IsTrue(Handler.Evaluate());
-            int c1 = Handler.IdentifierTable.Count;
-            int c2 = Handler.ReferenceLookupTable.Count;
+            Assert.IsTrue(Builder.runEvaluate());
+            int c1 = Builder.IdentifierTable.Count;
+            int c2 = Builder.ReferenceLookupTable.Count;
 
             for (int i = 0; i < 1000; i++)
             {
-                Handler.Evaluate();
+                Builder.runEvaluate();
             }
 
 
-            Assert.AreEqual(c1, Handler.IdentifierTable.Count);
+            Assert.AreEqual(c1, Builder.IdentifierTable.Count);
 
-            Assert.AreEqual(c2, Handler.ReferenceLookupTable.Count);
+            Assert.AreEqual(c2, Builder.ReferenceLookupTable.Count);
 
         }
         //todo create real unit tests like new TextWrapper("def") != new TextWrapper("abc")

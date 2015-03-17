@@ -12,6 +12,7 @@ namespace QL.GenericDataHandlers
     class TypeChecker :IExecutable
     {
 
+        public TypeChecker() { }
         public bool execute(DataContext context)
         {
             if (!context.AstBuilt)
