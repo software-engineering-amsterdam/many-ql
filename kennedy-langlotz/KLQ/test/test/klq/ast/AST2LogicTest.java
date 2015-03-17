@@ -47,16 +47,6 @@ public class AST2LogicTest {
         assertThat(storeTextList, is(textList));
     }
 
-/*    @Test
-    public void testComputedQuestion() throws Exception {
-        AddNode add = new AddNode(new NumberNode(13), new NumberNode(17));
-        ast.getComputedAnswer().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
-
-        fillStore();
-
-        System.out.println("lol");
-    }*/
-
     private void fillStore(){
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         controller = (Controller) ast.accept(AST2GUIConverter);
