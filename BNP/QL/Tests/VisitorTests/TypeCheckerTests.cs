@@ -103,6 +103,31 @@ namespace Tests.VisitorTests
             Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
 
         }
+        [TestMethod]
+        public void TCMemoryBuildup()
+        {
+            Initialize(@"form ExampleBlock {
+                statement Smthing (yesno, (3==4)) ""well"";
+                if ((3+(4+(5+6))) ==12){}
+	            else {
+                     if (Smthing==(4==2))
+                        {}
+                     else {};
+                     };
+                }
+            ");
+            Handler.CheckType();
+            int c= Handler.TypeReference.Count;
+
+            for (int i = 0; i < 1000; i++)
+            {
+                Handler.CheckType();
+            }
+            
+
+            Assert.AreEqual(c, Handler.TypeReference.Count);
+
+        }
 
         
         [TestMethod]
@@ -136,6 +161,7 @@ namespace Tests.VisitorTests
             Assert.AreEqual(3, Handler.ASTHandlerExceptions.Count);
 
         }
+
         [TestMethod]
         public void TCReferenceToIdentifierPass()
         {
@@ -188,5 +214,19 @@ namespace Tests.VisitorTests
             Assert.AreEqual(1, Handler.ASTHandlerExceptions.Count);
 
         }
+        [TestMethod]
+        public void TCCyclicReference()
+        {
+            Initialize(@"form ExampleBlock {
+                   statement S1 (number, S3) ""blah"";
+                   statement S2 (number, S1) ""blah"";
+                   statement S3 (number, S2) ""blah"";
+                  
+
+                }
+            ");
+            Assert.IsFalse(Handler.CheckType());
+        }
+        
     }
 }

@@ -7,7 +7,12 @@
             get { return "Division by 0"; }
         }
 
-        public DivisionByZeroError(string message) : base(message)
+        public DivisionByZeroError(string message)
+            : base(message)
+        {
+        }
+        public DivisionByZeroError()
+            : base()
         {
         }
     }

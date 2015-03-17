@@ -44,19 +44,19 @@ namespace QL
         /// <summary>
         /// 
         /// </summary>
-        public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
 
         bool _astBuilt;
         bool _typeChecked;
         bool _evaluated;
-        bool _uiEvaluated;
+        //bool _uiEvaluated;
 
         private ASTHandler()
         {
             ASTHandlerExceptions = new ObservableCollection<QLException>();
             TypeReference = new Dictionary<Identifier, Type>();
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
             _astBuilt = _typeChecked = _evaluated = false;
         }
@@ -114,6 +114,10 @@ namespace QL
             {
                 throw new QLException("Ast is not built");
             }
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
 
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
             try
@@ -136,8 +140,10 @@ namespace QL
             {
                 throw new Exception("Not type checked");
             }
-
-            IdentifierTable.Clear(); //because we want to see variables without declaration?
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
             EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
@@ -146,15 +152,13 @@ namespace QL
             catch (QLException ex)
             {
                 /* Exceptions preventing Evaluator from finishing */
-                ASTHandlerExceptions.Add(ex);
+                ASTHandlerExceptions.Add(ex);                
+
             }
 
             _evaluated = !ASTHandlerExceptions.Any();
             return _evaluated;
             
-            //if evaluation did not went well, references should not be accesible
-            //TODO: separate errors and warnings AGAIN, because warnings should not cause this
-            ReferenceLookupTable.Clear();
         }
 
         //public bool EvaluateUI()
@@ -163,21 +167,32 @@ namespace QL
         //    {
         //        throw new Exception("Expressions not evaluated");
         //    }
-
-        //    UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
-            
-        //    try
+        //    else
         //    {
-        //        RootNode.AcceptSingle(visitor);
-        //    }
-        //    catch (QLException ex)
-        //    {
-        //        ASTHandlerExceptions.Add(ex);
+        //        ASTHandlerExceptions.Clear();
         //    }
 
-        //    _uiEvaluated = !ASTHandlerExceptions.Any();
-        //    if (!_uiEvaluated) ElementsToDisplay.Clear();
-        //    return _uiEvaluated;
         //}
+
+        /// <summary>
+        /// convenience method for getting the Terminal wrapper based on identifier name.
+        /// </summary>
+        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        {
+            return GetWrappedValue(new Identifier(IdentifierName));
+        }
+
+        /// <summary>
+        /// convenience method for getting the Terminal wrapper based on Identifier node.
+        /// </summary>
+        public ITerminalWrapper GetWrappedValue(Identifier i)
+        {
+            if (!_evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+
+            return ReferenceLookupTable[IdentifierTable[i]];
+        }
     }
 }

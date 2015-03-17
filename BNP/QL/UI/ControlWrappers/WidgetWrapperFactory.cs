@@ -35,17 +35,17 @@ namespace QL.UI.ControlWrappers
         #endregion
         
         #region Terminal-wrapper creation methods
-        private TerminalWrapper GetTypeWrapper(Yesno type)
+        private ITerminalWrapper GetTypeWrapper(Yesno type)
         {
             return new YesnoWrapper(type);
         }
 
-        private TerminalWrapper GetTypeWrapper(Number type)
+        private ITerminalWrapper GetTypeWrapper(Number type)
         {
             return new NumberWrapper(type);
         }
 
-        private TerminalWrapper GetTypeWrapper(Text type)
+        private ITerminalWrapper GetTypeWrapper(Text type)
         {
             return new TextWrapper(type);
         }

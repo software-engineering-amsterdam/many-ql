@@ -13,16 +13,17 @@ namespace QL.UI.Visitors
     {
         private readonly WidgetWrapperFactory _wrapperFactory = new WidgetWrapperFactory();
 
+        private IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable;
         private readonly IList<WidgetWrapperBase> _elementsToDisplay;
         //public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
-        private readonly IDictionary<ITypeResolvable, TerminalWrapper> _referenceLookupTable;
+        private readonly IDictionary<ITypeResolvable, ITerminalWrapper> _referenceLookupTable;
         private readonly IDictionary<Model.Terminals.Identifier, ITypeResolvable> _identifierTable;
         public IList<QLException> Exceptions { get; private set; }
 
 
         public UserInterfaceVisitor(
             ObservableCollection<QLException> ASTHandlerExceptions,
-            IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable,
+            IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable,
             IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable,
             IList<WidgetWrapperBase> ElementsToDisplay
             )
@@ -49,7 +50,7 @@ namespace QL.UI.Visitors
         public void Visit(Model.ControlUnit node)
         {
             System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
-            if (((YesnoWrapper)_referenceLookupTable[node.Expression]).ToBool())
+            if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool()) //TODO if result is null Wrapped, do not do true nor false block
             {
                 node.ConditionTrueBlock.Accept(this);
             }

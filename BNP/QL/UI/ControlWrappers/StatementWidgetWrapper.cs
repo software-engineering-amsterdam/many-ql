@@ -8,7 +8,7 @@ namespace QL.UI.ControlWrappers
 {
     public class StatementWidgetWrapper : WidgetWrapperBase
     {
-        private readonly TerminalWrapper _terminalWrapper;
+        private readonly ITerminalWrapper _terminalWrapper;
 
         public override string Identifier
         {
@@ -31,7 +31,7 @@ namespace QL.UI.ControlWrappers
             set { return;  }
         }
 
-        public StatementWidgetWrapper(UnitBase unit, TerminalWrapper terminalWrapper) : base(unit)
+        public StatementWidgetWrapper(UnitBase unit, ITerminalWrapper terminalWrapper) : base(unit)
         {
             _terminalWrapper = terminalWrapper;
         }

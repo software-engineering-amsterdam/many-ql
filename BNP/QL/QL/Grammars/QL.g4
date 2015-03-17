@@ -65,5 +65,5 @@ expression	: literal
 			;
 
 questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
-statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
+statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;//TODO possible to remove type
 controlUnit	  : 'if' expression block ('else' block)? ';';

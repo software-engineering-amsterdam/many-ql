@@ -1,13 +1,14 @@
 ﻿using System.Windows.Controls;
 using QL.Model;
 using QL.Model.Terminals.Wrappers;
+using QL.Visitors;
 
 namespace QL.UI.ControlWrappers
 {
     public abstract class WidgetWrapperBase
     {
         protected UnitBase Unit;
-        protected TerminalWrapper TerminalWrapper;
+        protected ITerminalWrapper TerminalWrapper;
 
         public abstract string Identifier { get; }
 
