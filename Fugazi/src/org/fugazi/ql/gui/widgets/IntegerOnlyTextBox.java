@@ -12,6 +12,8 @@ import java.text.NumberFormat;
 
 public class IntegerOnlyTextBox implements IWidget{
 
+    private static int COLUMNS = 7;
+
     private IntValue value;
 
     private JFormattedTextField input;
@@ -33,7 +35,7 @@ public class IntegerOnlyTextBox implements IWidget{
 
         this.input = new JFormattedTextField(numberFormatter);
 
-        this.input.setColumns(7);
+        this.input.setColumns(COLUMNS);
 
         this.panel.add(label);
         this.panel.add(input);
@@ -77,7 +79,7 @@ public class IntegerOnlyTextBox implements IWidget{
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.input.setEnabled(false);
+        this.input.setEditable(false);
         numberFormatter.setAllowsInvalid(true);
         numberFormatter.setMinimum(-1000);
         numberFormatter.setOverwriteMode(false);
