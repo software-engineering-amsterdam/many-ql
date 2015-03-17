@@ -10,6 +10,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.DropdownType;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ public class QLSDropdown extends AbstractQLSWidget {
 
     private final JComboBox component;
 
+    public QLSDropdown() {
+        this("", "yes", "no");
+    }
+
     public QLSDropdown(String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.component = new JComboBox();
+        this("", _yes, _no);
     }
 
     public QLSDropdown(String _label, String _yes, String _no) {
@@ -34,6 +37,7 @@ public class QLSDropdown extends AbstractQLSWidget {
         this.noLabel = _no;
         this.label = _label;
         this.component = new JComboBox();
+        this.type = new DropdownType();
     }
 
     public String getYesLabel() {

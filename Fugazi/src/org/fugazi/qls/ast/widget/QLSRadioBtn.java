@@ -10,6 +10,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.RadioBtnType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,10 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     private ButtonGroup radioButtonGroup;
     private JRadioButton yesBtn;
     private JRadioButton noBtn;
+
+    public QLSRadioBtn() {
+        this("", "yes", "no");
+    }
 
     public QLSRadioBtn(String _yes, String _no) {
         this("", _yes, _no);
@@ -51,6 +56,8 @@ public class QLSRadioBtn extends AbstractQLSWidget {
         this.component.add(this.yesBtn);
         this.component.add(this.noBtn);
         this.component.add(this.componentLabel);
+
+        this.type = new RadioBtnType();
     }
 
     public String getYesLabel() {

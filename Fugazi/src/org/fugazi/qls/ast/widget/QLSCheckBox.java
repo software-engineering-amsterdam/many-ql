@@ -9,6 +9,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.CheckBoxType;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -22,12 +23,13 @@ public class QLSCheckBox extends AbstractQLSWidget {
     private JCheckBox component;
 
     public QLSCheckBox() {
-        this.component = new JCheckBox();
+        this("");
     }
 
     public QLSCheckBox(String _label) {
         this.label = _label;
         this.component = new JCheckBox(label);
+        this.type = new CheckBoxType();
     }
 
     @Override

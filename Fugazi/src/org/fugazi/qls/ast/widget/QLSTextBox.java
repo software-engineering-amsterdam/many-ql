@@ -9,6 +9,7 @@ import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.Width;
+import org.fugazi.qls.ast.widget.widget_types.TextBoxType;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -25,20 +26,19 @@ public class QLSTextBox extends AbstractQLSWidget {
     private JLabel componentLabel;
 
     public QLSTextBox() {
-        this.buildWidget("");
+        this("");
     }
 
     public QLSTextBox(String _label) {
         this.label = _label;
-        this.buildWidget(_label);
-    }
 
-    private void buildWidget(String _label) {
         this.component = new JPanel();
         this.componentValue = new JTextField();
         this.componentLabel = new JLabel(_label);
         this.component.add(componentValue);
         this.component.add(componentLabel);
+
+        this.type = new TextBoxType();
     }
 
     @Override

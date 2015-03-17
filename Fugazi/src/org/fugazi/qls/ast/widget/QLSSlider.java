@@ -9,6 +9,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.SliderType;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -20,12 +21,13 @@ public class QLSSlider extends AbstractQLSWidget {
     private final JSlider slider;
 
     public QLSSlider() {
-        this.slider = new JSlider();
+        this("");
     }
 
     public QLSSlider(String _label) {
         this.label = _label;
         this.slider = new JSlider();
+        this.type = new SliderType();
     }
 
     @Override
