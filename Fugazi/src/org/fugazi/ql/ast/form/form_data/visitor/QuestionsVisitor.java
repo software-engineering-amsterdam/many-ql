@@ -30,6 +30,13 @@ public class QuestionsVisitor extends StatementsVisitor {
         return null;
     }
 
+    @Override
+    public Void visitComputedQuestion(ComputedQuestion question) {
+        this.saveQuestion(question);
+        this.saveQuestionType(question);
+        return null;
+    }
+
     /**
      * =======================
      * Private data handling functions
