@@ -33,14 +33,14 @@ public class IdentifierNode extends AExpression {
 
     @Override
     public Value evaluate(Map<IdentifierNode, Value> variables) {
-        return variables.get(this.identifier);
+        return variables.get(this);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof IdentifierNode){
             String objId = ((IdentifierNode)obj).identifier;
-            this.identifier.equals(objId);
+            return this.identifier.equals(objId);
         }
         return false;
     }

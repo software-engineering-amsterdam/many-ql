@@ -14,7 +14,7 @@ public class TypeChecker {
     private QuestionnaireNode ast;
 
     public TypeChecker(QuestionnaireNode ast){
-        errors = new ArrayList<AError>();
+        errors = new ArrayList<>();
         this.ast = ast;
     }
 
@@ -32,6 +32,7 @@ public class TypeChecker {
     public void run(){
         secondPass(firstPass());
     }
+    //todo move this
     //Just a temporary method, this logic should not be in here.
     public void reportErrors(){
         run();
