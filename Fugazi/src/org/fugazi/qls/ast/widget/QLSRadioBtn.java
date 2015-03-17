@@ -71,7 +71,7 @@ public class QLSRadioBtn extends AbstractQLSWidget {
         style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
-        
+
         Font font = new Font(
                         style.getFont(this.getDefaultFont().getValue()),
                         0,
