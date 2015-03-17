@@ -71,12 +71,13 @@ class IfBlock(statement.IStatement):
         return d
 
     def valid_type_message(self, td):
-        message = self.condition.is_valid_expression_message(td)
+        message = []
+        message.extend(self.condition.is_valid_expression_message(td))
         for x in self.statements:
-            message += x.valid_type_message(td)
+            message.extend(x.valid_type_message(td))
 
         if not self.condition.return_type_string(td) == constants.BOOL:
-            message += "the return type of the expression: " + self.condition.pretty_print() + " is not of type bool"
+            message.append("the return type of the expression: " + self.condition.pretty_print() + " is not of type bool")
         return message
 
     #
