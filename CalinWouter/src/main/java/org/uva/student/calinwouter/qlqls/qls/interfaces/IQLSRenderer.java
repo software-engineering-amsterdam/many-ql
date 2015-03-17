@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.interfaces;
 
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 

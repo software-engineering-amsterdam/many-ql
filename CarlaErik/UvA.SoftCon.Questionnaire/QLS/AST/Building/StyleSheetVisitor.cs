@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
     {
         public override StyleSheet VisitStyleSheet(QLSParser.StyleSheetContext context)
         {
-            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
+            var id = new Identifier(context.ID().GetText(), context.GetTextPosition());
             var pages = new List<Page>();
 
             foreach (var child in context.page())

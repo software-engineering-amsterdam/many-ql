@@ -2,7 +2,6 @@ package org.uva.student.calinwouter.qlqls.qls.abstractions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQLSRenderer;
 
 import java.util.HashMap;

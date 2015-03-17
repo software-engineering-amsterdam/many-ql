@@ -5,22 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
 {
     /// <summary>
-    /// Checks if there are no duplicate questions declared in the same scope.
+    /// Checks if there are no duplicate questions declared in the same scope
+    /// and there are no references to undefined questions.
     /// </summary>
-    internal class DuplicateQuestionChecker : ASTChecker
+    internal class QuestionDeclarationChecker : ASTChecker
     {
         private ICollection<string> _declaredQuestions = new List<string>();
 
-        public DuplicateQuestionChecker()
+        public QuestionDeclarationChecker()
         {
         }
 
-        protected DuplicateQuestionChecker(IEnumerable<string> declaredQuestions, ValidationReport report)
+        protected QuestionDeclarationChecker(IEnumerable<string> declaredQuestions, ValidationReport report)
             : this()
         {
             // Call ToList so we get our own instance of the list.
@@ -41,17 +43,27 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             return null;
         }
 
+        public override object Visit(Identifier identifier)
+        {
+            if (!_declaredQuestions.Contains(identifier.Name))
+            {
+                Report.AddError(identifier.Position, "Identifier '{0}' does not reference a defined question.", identifier.Name);
+            }
+            return null;
+        }
 
         public override object Visit(IfStatement ifStatement)
         {
-            var thenVisitor = new DuplicateQuestionChecker(_declaredQuestions, Report);
+            ifStatement.If.Accept(this);
+
+            var thenVisitor = new QuestionDeclarationChecker(_declaredQuestions, Report);
 
             foreach (var statement in ifStatement.Then)
             {
                 statement.Accept(thenVisitor);
             }
 
-            var elseVisitor = new DuplicateQuestionChecker(_declaredQuestions, Report);
+            var elseVisitor = new QuestionDeclarationChecker(_declaredQuestions, Report);
 
             foreach (var statement in ifStatement.Else)
             {

@@ -28,7 +28,7 @@ public class ComboWidget implements IWidget {
         yesNoComboBox.setSelectedIndex(-1);
     }
 
-    private JComboBox createYesNoComboDombo(Combo combo) {
+    private JComboBox createYesNoCombo(Combo combo) {
         final String yesLabel = combo.getYesLbl();
         final String noLabel = combo.getNoLbl();
         return new JComboBox<String>(new String[] { yesLabel, noLabel });
@@ -56,7 +56,7 @@ public class ComboWidget implements IWidget {
         this.questionIdentifier = questionIdentifier;
         this.qlInterpreter = qlInterpreter;
         this.stateWrapper = stateWrapper;
-        this.yesNoComboBox = createYesNoComboDombo(combo);
+        this.yesNoComboBox = createYesNoCombo(combo);
         resetValue();
         yesNoComboBox.addItemListener(createComboChangeListener());
     }

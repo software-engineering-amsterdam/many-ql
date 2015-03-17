@@ -22,7 +22,9 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QLS
 
         public override object VisitDefaultStyle(DefaultStyle defaultStyle)
         {
-            //defaultStyle.StyleAttributes.Where(attr => attr )
+
+
+
             return null;
         }
     }
