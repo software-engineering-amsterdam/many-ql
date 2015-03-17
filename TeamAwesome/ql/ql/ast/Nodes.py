@@ -144,5 +144,6 @@ class Identifier(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitIdentifier(self)
 
+    @property
     def value(self):
         return QLIdentifier(self._value)
