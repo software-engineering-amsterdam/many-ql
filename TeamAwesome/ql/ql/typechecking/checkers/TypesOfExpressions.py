@@ -66,10 +66,10 @@ class Checker(AbstractBase):
             self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
-                    'got an expression of type `'+str(exprType)\
+                    'got an expression of type `'+exprType.typeString()\
                    +'` which is not castable to any of the '\
                    +'following types which are allowed here '\
-                   +'here: '+str(allowedTypes),
+                   +'here: '+','.join(map(lambda t: '`'+t.typeString()+'`', allowedTypes)),
                    node
                 )
             )

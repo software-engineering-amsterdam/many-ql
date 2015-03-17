@@ -28,8 +28,8 @@ class Checker(AbstractBase):
                 Message.Error(
                     'Duplicate definition of question `'\
                    +str(node.identifier)+'` with different type `'\
-                   +str(myType)+'` (expected type `'\
-                   +str(expectedType)+'`)',
+                   +myType.typeString()+'` (expected type `'\
+                   +expectedType.typeString()+'`)',
                     node
                 )
             )
