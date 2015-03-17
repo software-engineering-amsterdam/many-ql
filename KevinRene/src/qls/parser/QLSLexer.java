@@ -7,9 +7,9 @@ import java.util.Map;
 
 import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.literal.FloatLiteral;
-import ql.ast.expression.literal.IntegerLiteral;
-import ql.ast.expression.literal.StringLiteral;
+import qls.ast.expression.literal.FloatLiteral;
+import qls.ast.expression.literal.IntegerLiteral;
+import qls.ast.expression.literal.StringLiteral;
 
 public class QLSLexer implements QLSTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -143,6 +143,25 @@ public class QLSLexer implements QLSTokens {
 					
 		    		yylval = new StringLiteral(string);
 		    		return token = STRINGLITERAL;
+			    }
+			    case '#': {
+			    	StringBuilder sb = new StringBuilder("0x");
+			    	
+			    	nextChar();
+			    	
+			    	while(Character.isDigit(c)) {
+			    		sb.append((char) c);
+			    		nextChar();
+			    	}
+			    	
+			    	// Number is 8: 2 for "0x" and 2 for r, g, and b respectively.
+			    	if(sb.length() > 8) {
+			    		throw new RuntimeException("Colour code too long: " + (char)c);
+			    	}
+			    	
+			    	yylval = new IntegerLiteral(Integer.decode(sb.toString()));
+			    	
+			    	return token = INTEGERLITERAL;
 			    }
 			    default: {
 			    	if (Character.isDigit(c)) {

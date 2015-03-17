@@ -305,7 +305,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder blockString = new StringBuilder(printNode(blockNode));
 		
 		indent();
-		for(Statement statement : blockNode.statements()) {
+		for(Statement statement : blockNode.getStatements()) {
 			blockString.append(statement.accept(this));
 		}
 		unindent();

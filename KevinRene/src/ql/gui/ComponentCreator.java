@@ -104,7 +104,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 		Panel widgetPanel = new Panel();
 		UIComponent statementWidget;
 		
-		for(Statement statement : blockNode.statements()) {
+		for(Statement statement : blockNode.getStatements()) {
 			statementWidget = statement.accept(this);			
 			widgetPanel.addComponent(statementWidget);
 		}

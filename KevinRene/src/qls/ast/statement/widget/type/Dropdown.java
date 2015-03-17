@@ -1,12 +1,12 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
-import qls.ast.Widget;
+import qls.ast.statement.widget.WidgetType;
 import qls.ast.visitor.StatementVisitor;
 
-public class RadioButton extends Widget {
+public class Dropdown extends WidgetType {
 	ValueSet values;
 	
-	public RadioButton(ValueSet values) {
+	public Dropdown(ValueSet values) {
 		this.values = values;
 	}
 	
@@ -17,6 +17,6 @@ public class RadioButton extends Widget {
 
 	@Override
 	public String toString() {
-		return "Radio";
+		return "Dropdown";
 	}
 }

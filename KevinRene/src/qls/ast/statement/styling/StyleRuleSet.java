@@ -1,4 +1,4 @@
-package qls.ast.stylerule;
+package qls.ast.statement.styling;
 
 import java.util.ArrayList;
 import java.util.List;

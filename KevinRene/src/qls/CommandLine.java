@@ -11,7 +11,6 @@ import qls.parser.Parser;
 
 public class CommandLine {
 	private static Parser formParser = new Parser();
-	private static PrettyPrinter prettyPrinter = new PrettyPrinter();
 	
 	/**
 	 * The main method, which gets executed once this class is run. Enabled the user
@@ -35,7 +34,7 @@ public class CommandLine {
 					QLNode tree = formParser.parse(str);
 					
 					if(tree instanceof QLSStatement) {						
-						((QLSStatement) tree).accept(prettyPrinter);
+						PrettyPrinter.print((QLSStatement) tree);
 					}
 				}
 			}

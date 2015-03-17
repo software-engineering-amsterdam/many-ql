@@ -2,16 +2,16 @@ package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.Widget;
+import qls.ast.statement.widget.Widget;
+import qls.ast.statement.widget.type.Default;
 import qls.ast.visitor.StatementVisitor;
-import qls.ast.widget.DefaultWidget;
 
 public class Question extends QLSStatement {
 	private final Identifier identifier;
 	private Widget widget;
 	
 	public Question(Identifier identifier) {
-		this(identifier, new DefaultWidget());
+		this(identifier, new Widget(new Default()));
 	}
 	
 	public Question(Identifier identifier, Widget widget) {

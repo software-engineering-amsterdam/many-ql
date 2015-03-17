@@ -1,9 +1,9 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
-import qls.ast.Widget;
+import qls.ast.statement.widget.WidgetType;
 import qls.ast.visitor.StatementVisitor;
 
-public class Slider extends Widget {
+public class Slider extends WidgetType {
 	ValueSet values;
 	
 	public Slider(ValueSet values) {

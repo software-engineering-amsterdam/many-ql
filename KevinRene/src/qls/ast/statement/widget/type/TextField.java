@@ -1,9 +1,9 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
-import qls.ast.Widget;
+import qls.ast.statement.widget.WidgetType;
 import qls.ast.visitor.StatementVisitor;
 
-public class Spinbox extends Widget {
+public class TextField extends WidgetType {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -11,6 +11,6 @@ public class Spinbox extends Widget {
 
 	@Override
 	public String toString() {
-		return "Spinbox";
+		return "TextField";
 	}
 }

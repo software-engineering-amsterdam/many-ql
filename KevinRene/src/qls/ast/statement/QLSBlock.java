@@ -7,24 +7,28 @@ import qls.ast.QLSStatement;
 import qls.ast.visitor.StatementVisitor;
 
 public class QLSBlock extends QLSStatement {
-	private List<QLSStatement> statements = new ArrayList<QLSStatement>();
+	private List<QLSStatement> statements;
 	
-	public QLSBlock() {}
+	public QLSBlock() {
+		statements = new ArrayList<QLSStatement>();
+	}
 	
 	/**
 	 * Constructor for the statement case
 	 * @param statement
 	 */
 	public QLSBlock(QLSStatement statement) {
-		this.statements.add(statement);
+		statements = new ArrayList<QLSStatement>();
+		statements.add(statement);
 	}
 	
 	public QLSBlock(QLSStatement statement, QLSBlock statements) {
+		this.statements = new ArrayList<QLSStatement>();
 		this.statements.add(statement);
-		this.statements.addAll(statements.statements());
+		this.statements.addAll(statements.getStatements());
 	}
 	
-	public List<QLSStatement> statements() {
+	public List<QLSStatement> getStatements() {
 		return this.statements;
 	}
 

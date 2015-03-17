@@ -1,10 +1,9 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
-import qls.ast.Widget;
+import qls.ast.statement.widget.WidgetType;
 import qls.ast.visitor.StatementVisitor;
 
-public class Checkbox extends Widget {
-
+public class Default extends WidgetType {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -12,7 +11,6 @@ public class Checkbox extends Widget {
 
 	@Override
 	public String toString() {
-		return "Checkbox";
+		return "Default";
 	}
-
 }

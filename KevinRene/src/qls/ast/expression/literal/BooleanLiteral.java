@@ -5,8 +5,8 @@ import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
 public class BooleanLiteral extends Literal<BooleanValue> {
-	public BooleanLiteral(BooleanValue value) {
-		super(value);
+	public BooleanLiteral(boolean value) {
+		super(new BooleanValue(value));
 	}
 
 	@Override

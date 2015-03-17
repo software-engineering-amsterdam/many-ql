@@ -5,8 +5,8 @@ import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
 public class IntegerLiteral extends Literal<IntegerValue> {
-	public IntegerLiteral(IntegerValue value) {
-		super(value);
+	public IntegerLiteral(int value) {
+		super(new IntegerValue(value));
 	}
 
 	@Override

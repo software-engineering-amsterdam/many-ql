@@ -5,8 +5,8 @@ import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
 public class StringLiteral extends Literal<StringValue> {
-	public StringLiteral(StringValue value) {
-		super(value);
+	public StringLiteral(String value) {
+		super(new StringValue(value));
 	}
 
 	@Override

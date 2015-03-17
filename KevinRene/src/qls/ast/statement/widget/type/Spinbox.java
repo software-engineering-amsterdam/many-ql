@@ -1,22 +1,16 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
-import qls.ast.Widget;
+import qls.ast.statement.widget.WidgetType;
 import qls.ast.visitor.StatementVisitor;
 
-public class DefaultWidget extends Widget {
-
+public class Spinbox extends WidgetType {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
 	@Override
-	public boolean isDefault() {
-		return true;
-	}
-
-	@Override
 	public String toString() {
-		return "DefaultWidget";
+		return "Spinbox";
 	}
 }

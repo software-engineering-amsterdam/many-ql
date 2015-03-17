@@ -10,36 +10,49 @@ import ql.ast.type.QLInteger;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
+import qls.ast.QLSStatement;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
 import qls.ast.expression.literal.StringLiteral;
-import qls.ast.statement.Default;
+import qls.ast.statement.DefaultStyle;
+import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.stylerule.StyleRule;
-import qls.ast.stylerule.StyleRuleSet;
-import qls.ast.stylerule.property.Color;
-import qls.ast.stylerule.property.Font;
-import qls.ast.stylerule.property.FontSize;
-import qls.ast.stylerule.property.Height;
-import qls.ast.stylerule.property.Width;
+import qls.ast.statement.styling.StyleRule;
+import qls.ast.statement.styling.StyleRuleSet;
+import qls.ast.statement.styling.property.Color;
+import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.styling.property.FontSize;
+import qls.ast.statement.styling.property.Height;
+import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.Widget;
+import qls.ast.statement.widget.type.Checkbox;
+import qls.ast.statement.widget.type.Default;
+import qls.ast.statement.widget.type.Dropdown;
+import qls.ast.statement.widget.type.RadioButton;
+import qls.ast.statement.widget.type.Slider;
+import qls.ast.statement.widget.type.Spinbox;
+import qls.ast.statement.widget.type.TextField;
+import qls.ast.statement.widget.type.ValueSet;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
-import qls.ast.widget.Checkbox;
-import qls.ast.widget.DefaultWidget;
-import qls.ast.widget.Dropdown;
-import qls.ast.widget.RadioButton;
-import qls.ast.widget.Slider;
-import qls.ast.widget.Spinbox;
-import qls.ast.widget.TextField;
-import qls.ast.widget.ValueSet;
 
 public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	private String prefix = "";
+	
+	private PrettyPrinter() {
+		super.setExpressionVisitor(this);
+		super.setTypeVisitor(this);
+	}
+	
+	public static void print(QLSStatement statement) {
+		PrettyPrinter printer = new PrettyPrinter();
+		statement.accept(printer);
+	}
 	
 	/**
 	 * Indent the prefix to indicate that a printable block
@@ -157,7 +170,7 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 
 	@Override
-	public Void visit(Default defaultNode) {
+	public Void visit(DefaultWidget defaultNode) {
 		printNode(defaultNode);
 		
 		indent();
@@ -190,6 +203,28 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 	}
 
 	@Override
+	public Void visit(DefaultStyle defaultNode) {
+		printNode(defaultNode);
+		
+		indent();
+		super.visit(defaultNode);
+		unindent();
+		
+		return null;
+	}
+
+	@Override
+	public Void visit(Widget widgetNode) {
+		printNode(widgetNode);
+		
+		indent();
+		super.visit(widgetNode);
+		unindent();
+		
+		return null;
+	}
+
+	@Override
 	public Void visit(Section sectionNode) {
 		printNode(sectionNode);
 		
@@ -199,17 +234,17 @@ public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionV
 		
 		return null;
 	}
-
-	@Override
-	public Void visit(DefaultWidget defaultWidget) {
-		return printNode(defaultWidget);			
-	}
 	
 	@Override
 	public Void visit(Checkbox checkboxNode) {
 		return printNode(checkboxNode);
 	}
 
+	@Override
+	public Void visit(Default defaultType) {
+		return printNode(defaultType);
+	}
+	
 	@Override
 	public Void visit(Dropdown dropdownNode) {
 		return printNode(dropdownNode);

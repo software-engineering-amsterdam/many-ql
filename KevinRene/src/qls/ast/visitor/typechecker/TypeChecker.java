@@ -13,21 +13,21 @@ import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.stylerule.StyleRule;
-import qls.ast.stylerule.property.Color;
-import qls.ast.stylerule.property.Font;
-import qls.ast.stylerule.property.FontSize;
-import qls.ast.stylerule.property.Height;
-import qls.ast.stylerule.property.Width;
-import qls.ast.visitor.StatementVisitor;
+import qls.ast.statement.styling.StyleRule;
+import qls.ast.statement.styling.property.Color;
+import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.styling.property.FontSize;
+import qls.ast.statement.styling.property.Height;
+import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.type.Checkbox;
+import qls.ast.statement.widget.type.Default;
+import qls.ast.statement.widget.type.Dropdown;
+import qls.ast.statement.widget.type.RadioButton;
+import qls.ast.statement.widget.type.Slider;
+import qls.ast.statement.widget.type.Spinbox;
+import qls.ast.statement.widget.type.TextField;
 import qls.ast.visitor.ExpressionVisitor;
-import qls.ast.widget.Checkbox;
-import qls.ast.widget.DefaultWidget;
-import qls.ast.widget.Dropdown;
-import qls.ast.widget.RadioButton;
-import qls.ast.widget.Slider;
-import qls.ast.widget.Spinbox;
-import qls.ast.widget.TextField;
+import qls.ast.visitor.StatementVisitor;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	private ErrorEnvironment errorEnvironment;
@@ -108,6 +108,11 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	}
 	
 	@Override
+	public Void visit(Default defaultType) {
+		return null;
+	}
+	
+	@Override
 	public Void visit(Dropdown dropdownNode) {
 		return null;
 	}
@@ -129,11 +134,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	@Override
 	public Void visit(Slider sliderNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(DefaultWidget defaultWidget) {
 		return null;
 	}
 	

@@ -1,4 +1,4 @@
-package qls.ast.widget;
+package qls.ast.statement.widget.type;
 
 import java.util.ArrayList;
 import java.util.List;

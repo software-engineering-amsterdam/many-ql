@@ -1,10 +1,10 @@
-package qls.ast.stylerule.property;
+package qls.ast.statement.styling.property;
 
 import java.util.Arrays;
 
 import ql.ast.type.QLInteger;
 import qls.ast.expression.Literal;
-import qls.ast.stylerule.StyleRule;
+import qls.ast.statement.styling.StyleRule;
 import qls.ast.visitor.StatementVisitor;
 
 public class FontSize extends StyleRule {

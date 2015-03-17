@@ -5,8 +5,8 @@ import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
 public class FloatLiteral extends Literal<FloatValue> {
-	public FloatLiteral(FloatValue value) {
-		super(value);
+	public FloatLiteral(float value) {
+		super(new FloatValue(value));
 	}
 
 	@Override

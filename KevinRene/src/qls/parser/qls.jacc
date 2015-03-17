@@ -22,7 +22,7 @@
 %token <Section> SECTION 
 %token <Widget> WIDGET 
 %token <Question> QUESTION 
-%token <Default> DEFAULT 
+%token DEFAULT 
 
 %token RADIO DROPDOWN SLIDER SPINBOX TEXT 
 %token <Checkbox> CHECKBOX
@@ -36,20 +36,22 @@
 %type <ValueSet> values
 %type <StyleRule> styleRule
 %type <StyleRuleSet> styleRules
-%type <Widget> widgetType widget
+%type <WidgetType> widgetType
+%type <Widget> widget
 %type <Page> page
 
 %{
 import ql.ast.QLNode;
-import ql.ast.expression.Identifier;
 import ql.ast.QLType;
 import ql.ast.type.*;
+import ql.ast.expression.Identifier;
 
 import qls.ast.*;
-import qls.ast.widget.*;
 import qls.ast.statement.*;
-import qls.ast.stylerule.*;
-import qls.ast.stylerule.property.*;
+import qls.ast.statement.widget.*;
+import qls.ast.statement.widget.type.*;
+import qls.ast.statement.styling.*;
+import qls.ast.statement.styling.property.*;
 import qls.ast.expression.Literal;
 import qls.ast.expression.literal.*;
 
@@ -63,34 +65,30 @@ import qls.ast.expression.literal.*;
 	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { $$ = new Stylesheet($2, $4); }
 				;
 
-  pages : page pages  { $$ = new QLSBlock($1, $2); }
-        | page        { $$ = new QLSBlock($1); }
-        ;
+  	pages 	: page pages  { $$ = new QLSBlock($1, $2); }
+        	| page        { $$ = new QLSBlock($1); }
+        	;
 
-  page : PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
-       ;
+	page 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
+			;
 
-	statements
-        : statement statements   { $$ = new QLSBlock($1, $2); }
-		| statement              { $$ = new QLSBlock($1); }
-        |                        { $$ = new QLSBlock(); }
-		;
+	statements	: statement statements	{ $$ = new QLSBlock($1, $2); }
+        		| /* empty */			{ $$ = new QLSBlock(); }
+				;
 				
-	statement
-        : SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
-        | DEFAULT type widget                       { $$ = new Default($2, $3);  }
-        | DEFAULT type '{' styleRules '}'           { $$ = new Default($2, $4);  }
-        | DEFAULT type '{' styleRules widget '}'    { $$ = new Default($2, $4, $5);  }
-        | QUESTION IDENTIFIER                       { $$ = new Question($2);     }
-        | QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
-	    ;
+	statement	: SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
+        		| DEFAULT type widget						{ $$ = new DefaultWidget($2, $3);  }
+        		| DEFAULT type '{' styleRules '}'           { $$ = new DefaultStyle($2, $4);  }
+        		| QUESTION IDENTIFIER                       { $$ = new Question($2);     }
+        		| QUESTION IDENTIFIER widget				{ $$ = new Question($2, $3); }
+	    		;
 
-	type : INTEGER	{ $$ = new QLInteger(); }
-	 	 | MONEY		{ $$ = new QLFloat(); }
-		 | FLOAT		{ $$ = new QLFloat(); }
-		 | BOOLEAN	{ $$ = new QLBoolean(); }
-		 | STRING 	{ $$ = new QLString(); }
-		 ;
+	type	: INTEGER	{ $$ = new QLInteger(); }
+			| MONEY		{ $$ = new QLFloat(); }
+		 	| FLOAT		{ $$ = new QLFloat(); }
+		 	| BOOLEAN	{ $$ = new QLBoolean(); }
+			| STRING 	{ $$ = new QLString(); }
+			;
 			
 	literal	: BOOLEANLITERAL
 			| INTEGERLITERAL
@@ -99,7 +97,8 @@ import qls.ast.expression.literal.*;
 			| STRINGLITERAL
 			;
 	
-	widget : WIDGET widgetType { $$ = $2; }
+	widget 	: WIDGET widgetType						{ $$ = new Widget($2); }
+			| '{' styleRules WIDGET widgetType '}' 	{ $$ = new Widget($2, $4); }
 			;
 			
 	widgetType	: SPINBOX           	  { $$ = new Spinbox(); }
@@ -110,17 +109,17 @@ import qls.ast.expression.literal.*;
 				| CHECKBOX                { $$ = new Checkbox(); }
 				;
 	
-	values 	: literal ',' values    { $$ = new ValueSet($1, $3); }
-			| literal                   { $$ = new ValueSet($1);     }
+	values 	: literal ',' values	{ $$ = new ValueSet($1, $3); }
+			| literal				{ $$ = new ValueSet($1);     }
 			;
 	
-	styleRules	: styleRule styleRules   { $$ = new StyleRuleSet($1, $2); }
-				| styleRule                    { $$ = new StyleRuleSet($1); }
+	styleRules	: styleRule styleRules	{ $$ = new StyleRuleSet($1, $2); }
+				| /* empty */			{ $$ = new StyleRuleSet(); }
 				;
 				
-  styleRule	: WIDTH		':' literal  { $$ = new Width($3);  }
+  styleRule	: WIDTH		':' literal  { $$ = new Width($3); }
 			| HEIGHT	':' literal  { $$ = new Height($3); }
-			| FONT		':' literal  { $$ = new Font($3);   }
+			| FONT		':' literal  { $$ = new Font($3); }
 			| FONTSIZE	':' literal  { $$ = new FontSize($3); }
 			| COLOR		':' literal  { $$ = new Color($3); }
 			;

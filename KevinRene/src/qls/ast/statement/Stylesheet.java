@@ -30,5 +30,4 @@ public class Stylesheet extends QLSStatement {
 	public String toString() {
 		return "Stylesheet";
 	}
-
 }
