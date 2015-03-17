@@ -1,6 +1,6 @@
 package typechecker;
 
-import typechecker.errors.ErrorDialog;
+import gui.errors.ErrorDialog;
 import ast.form.Form;
 
 
