@@ -12,11 +12,12 @@
     - [X] get rid of switch statements
     - [X] magic constants
     - [X] duplicated code
-  - [ ] code smell hunt [3/17] from {7}
+  - [ ] code smell hunt [4/17] from {7}
     - [X] comments
     - [X] long method
     - [X] duplicated code (again)
-    - [ ] large class
+    - [X] large class
+      - [X] Gui
     - [ ] long parameter list
     - [ ] divergent change
     - [ ] shotgun surgery

@@ -21,9 +21,9 @@ func (g *Gui) newBooleanQuestion(fieldName, caption string,
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.Bool("checked")
 
-		g.answerStack[objectName] = "0"
+		g.stacks.pushAnswer(objectName, "0")
 		if content {
-			g.answerStack[objectName] = "1"
+			g.stacks.pushAnswer(objectName, "1")
 		}
 	})
 
@@ -51,7 +51,7 @@ func (g *Gui) newNumericQuestion(fieldName, caption string,
 
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
-		g.answerStack[objectName] = content
+		g.stacks.pushAnswer(objectName, content)
 	})
 
 	g.updateCallbacks[fieldName] = func(newValue string) {
@@ -74,7 +74,7 @@ func (g *Gui) newStringQuestion(fieldName, caption string,
 
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
-		g.answerStack[objectName] = content
+		g.stacks.pushAnswer(objectName, content)
 	})
 
 	g.updateCallbacks[fieldName] = func(newValue string) {
