@@ -1,10 +1,12 @@
 package ql.gui.control;
 
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
@@ -13,25 +15,26 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 10-3-15.
  */
-public class Radios extends ControlElement implements BoolControl
+public class Radio extends ControlElement implements BoolControl
 {
     private final ToggleGroup group;
     private final RadioButton trueRadio;
     private final RadioButton falseRadio;
     private final HBox controlNode;
 
-    public Radios(Boolean visible, Boolean disabled, String trueLabel, String falseLabel)
+    public Radio(Boolean visible, Boolean disabled, String trueLabel, String falseLabel)
     {
         super(visible, disabled);
         this.group = new ToggleGroup();
         this.trueRadio = this.createRadio(trueLabel, group);
-        this.falseRadio = this.createRadio(trueLabel, group);
+        this.falseRadio = this.createRadio(falseLabel, group);
 
         this.controlNode = new HBox();
         this.controlNode.getChildren().addAll(this.trueRadio, this.falseRadio);
+        this.controlNode.setAlignment(Pos.BOTTOM_RIGHT);
 
         this.setVisible(visible);
-        this.setDisabled(visible);
+        this.setDisabled(disabled);
     }
 
     private RadioButton createRadio(String label, ToggleGroup group) {
@@ -102,5 +105,17 @@ public class Radios extends ControlElement implements BoolControl
     public Node getControlNode()
     {
         return this.controlNode;
+    }
+
+    @Override
+    public Value getBoolValue()
+    {
+        return new BoolValue(true);
+    }
+
+    @Override
+    public <T> T accept(ControlVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

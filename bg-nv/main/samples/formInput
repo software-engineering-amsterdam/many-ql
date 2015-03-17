@@ -16,10 +16,13 @@ form sample
     boolean maritalStatus "Are you married?"
     decimal division "How much is 5 divided by 2?"
 
+    if (age >= 18) string beer "Let's get a beer?"
+
     if (maritalStatus)
         string married "Yey, you are married!" "good job!"
     if (!maritalStatus) {
         string notMarried "Yey, you are NOT married!" "good job!"
+        string xyz "XYZ"
     }
 
     string someinput "wish you were" "here"

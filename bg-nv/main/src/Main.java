@@ -6,6 +6,8 @@ import ql.gen.QLLexer;
 import ql.gen.QLParser;
 import ql.ast.AstBuilder;
 import ql.gui.SimpleGui;
+import ql.semantics.Flat;
+import ql.semantics.Flattener;
 import ql.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
@@ -24,6 +26,8 @@ public class Main extends Application
 {
     private static Form ast;
     private static Stylesheet stylesheet;
+    private static FormStyle formStyle;
+    private static Flat flat;
 
     public static void main(String[] args)
     {
@@ -56,7 +60,8 @@ public class Main extends Application
             stylesheet = (Stylesheet)builder.visit(style);
 
             qls.semantics.TypeChecker.check(stylesheet, ast);
-            StyleMerger.getStyles(stylesheet, ast);
+            formStyle = StyleMerger.getStyles(stylesheet, ast);
+            flat = Flattener.flatten(ast);
 
         }
         catch (IOException e)
@@ -69,6 +74,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        SimpleGui.run(ast, new StyledModeler(stylesheet, null), primaryStage);
+        SimpleGui.run(ast, new StyledModeler(flat, stylesheet, formStyle), primaryStage);
     }
 }

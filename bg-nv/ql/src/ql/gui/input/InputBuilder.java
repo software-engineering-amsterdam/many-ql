@@ -1,8 +1,7 @@
 package ql.gui.input;
 
 import ql.ast.type.*;
-import ql.gui.control.CheckBox;
-import ql.gui.control.TextField;
+import ql.gui.control.*;
 
 /**
  * Created by Nik on 28-02-2015
@@ -19,6 +18,7 @@ public class InputBuilder implements TypeVisitor<Input>
         return type.accept(b);
     }
 
+
     private InputBuilder(String id)
     {
         this.id = id;
@@ -27,13 +27,13 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id, new CheckBox(VISIBLE, DISABLED));
+        return new BoolInput(this.id, new Radio(VISIBLE, DISABLED, "yes", "no"));
     }
 
     @Override
     public Input visit(DateType type)
     {
-        return new DateInput(this.id, new TextField(VISIBLE, DISABLED));
+        return null; //new DateInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new IntInput(this.id, new Slider(VISIBLE, DISABLED, 0, 100, 1));
     }
 
     @Override
@@ -57,6 +57,6 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(UndefType type)
     {
-        return null;
+        throw new IllegalArgumentException("Cannot build input for undefined type.");
     }
 }

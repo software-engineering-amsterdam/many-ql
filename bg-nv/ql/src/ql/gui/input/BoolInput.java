@@ -2,34 +2,38 @@ package ql.gui.input;
 
 import ql.gui.ModelVisitor;
 import ql.gui.control.BoolControl;
+import ql.semantics.errors.Message;
+import ql.semantics.errors.Warning;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class BoolInput extends RegularInput<Boolean>
+public class BoolInput extends RegularInput<BoolControl>
 {
+    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid boolean.");
+
     public BoolInput(String id, BoolControl control)
     {
-        this(id, control, true, false);
+        super(id, control);
     }
 
-    public BoolInput(String id, BoolControl control, Boolean visible, Boolean disabled)
+    @Override
+    protected Value convertUserInputToValue()
     {
-        super(id, control, visible, disabled);
+        return this.control.getBoolValue();
+    }
+
+    @Override
+    protected Message getInvalidInputErrorMsg()
+    {
+        return VALIDATION_ERROR;
     }
 
     @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
-    }
-
-    @Override
-    public Value convertUserInputToValue(Boolean userInput)
-    {
-        this.resetValidation();
-        return new BoolValue(userInput);
     }
 }

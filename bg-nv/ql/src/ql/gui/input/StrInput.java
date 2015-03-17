@@ -2,23 +2,33 @@ package ql.gui.input;
 
 import ql.gui.ModelVisitor;
 import ql.gui.control.StrControl;
+import ql.semantics.errors.Message;
+import ql.semantics.errors.Warning;
 import ql.semantics.values.StrValue;
 import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class StrInput extends RegularInput<String>
+public class StrInput extends RegularInput<StrControl>
 {
+    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid string.");
 
     public StrInput(String id, StrControl control)
     {
-        this(id, control, true, false);
+        super(id, control);
     }
 
-    public StrInput(String id, StrControl control, Boolean visible, Boolean disabled)
+    @Override
+    protected Value convertUserInputToValue()
     {
-        super(id, control, visible, disabled);
+        return this.control.getStrValue();
+    }
+
+    @Override
+    protected Message getInvalidInputErrorMsg()
+    {
+        return VALIDATION_ERROR;
     }
 
     @Override
@@ -27,11 +37,5 @@ public class StrInput extends RegularInput<String>
         return visitor.visit(this);
     }
 
-    @Override
-    public Value convertUserInputToValue(String userInput)
-    {
-        this.resetValidation();
-        userInput = userInput.trim();
-        return new StrValue(userInput);
-    }
+
 }

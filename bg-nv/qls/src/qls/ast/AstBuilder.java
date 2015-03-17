@@ -200,6 +200,11 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return new Checkbox();
         }
 
+        if (label.equals("textbox"))
+        {
+            return new Textbox();
+        }
+
         throw new IllegalStateException("Unsupported widget value");
     }
 }
