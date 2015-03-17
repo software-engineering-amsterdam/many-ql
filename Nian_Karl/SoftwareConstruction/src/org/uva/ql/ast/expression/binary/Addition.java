@@ -1,37 +1,31 @@
-package org.uva.ql.ast.expression.association;
+package org.uva.ql.ast.expression.binary;
 
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
 
-public class Parenthese extends Expression {
+public class Addition extends Binary {
 
-	private final Expression expr;
-
-	public Parenthese(Expression expr, CodePosition pos) {
-		super(pos);
-		this.expr = expr;
-	}
-
-	public Expression getExpression() {
-		return expr;
+	public Addition(Expression left, Expression right, CodePosition pos) {
+		super(left, right, pos);
 	}
 
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
+	
 	@Override
 	public String toString() {
-		return " ( " + expr.toString() + " ) ";
+		return this.left.toString() + " + " + this.right.toString();
 	}
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return expr.getType(typeChecker);
+		return new IntType(getPosition());
 	}
-
+	
 }
