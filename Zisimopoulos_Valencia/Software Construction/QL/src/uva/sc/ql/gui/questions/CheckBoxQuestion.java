@@ -1,4 +1,4 @@
-package uva.sc.ql.gui;
+package uva.sc.ql.gui.questions;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -8,53 +8,44 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.Box;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
+import uva.sc.ql.gui.listeners.VisibilityListener;
 
 @SuppressWarnings("serial")
-public class TextBoxQuestion extends Question {
+public class CheckBoxQuestion extends Question {
 
     Map<String, List<String>> dependentElements;
     EvaluatorVisitor evaluator;
     List<Component> componentList;
 
-    public TextBoxQuestion(Map<String, List<String>> dependentElements, EvaluatorVisitor evalVisitor, List<Component> componentList) {
+    public CheckBoxQuestion(Map<String, List<String>> dependentElements,
+	    EvaluatorVisitor evalVisitor, List<Component> componentList) {
 	this.dependentElements = dependentElements;
 	this.evaluator = evalVisitor;
 	this.componentList = componentList;
     }
 
     public JPanel drawQuestion(String id, String label, boolean isEditable) {
-	DisplayData data = evaluator.getValuesTable().get(id);
-	boolean visibility = true;
-	JPanel panel = new JPanel();
+	JCheckBox checkBox = new JCheckBox();
+	checkBox.setName(id);
 
-	JTextField textField = new JTextField();
-	textField.setName(id);
-	
 	for (Entry<String, List<String>> entry : dependentElements.entrySet()) {
-	    if (id.equals(entry.getKey())) {
-		textField.getDocument().addDocumentListener((new CalculatorListener(dependentElements, evaluator, componentList, textField)));
+	    if (entry.getKey().equals(checkBox.getName())) {
+		checkBox.addActionListener(new VisibilityListener(
+			dependentElements, evaluator, componentList, checkBox));
 	    }
 	}
 
-	if (data != null) {
-	    if (data.getCondition() != null) {
-		BooleanAtom b = (BooleanAtom) data.getCondition().accept(evaluator);
-		visibility = b.getValue();
-	    }
-	}
-
+	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(2, 0));
 	panel.add(new JLabel(label));
 	panel.add(Box.createRigidArea(new Dimension(0, 5)));
-	panel.add(textField);
+	panel.add(checkBox);
 	panel.setName(id);
-	panel.setVisible(visibility);
 	return panel;
     }
 

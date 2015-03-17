@@ -12,5 +12,5 @@ public class String implements Type {
 	}
 	return type.toString() == this.toString();
     }
-    
+
 }

@@ -1,8 +1,6 @@
 package uva.sc.ql.statements;
 
 import uva.sc.core.types.Type;
-import uva.sc.ql.ast.IQLExpressionNodeVisitor;
-import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.expression.Expression;
@@ -55,5 +53,5 @@ public class Question implements Statement {
     public <T> T accept(IQLStatementNodeVisitor<T> visitor) {
 	return visitor.visit(this);
     }
-    
+
 }
