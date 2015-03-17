@@ -23,6 +23,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAAddExp(AAddExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushInteger();
@@ -30,6 +32,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseASubExp(ASubExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushInteger();
@@ -47,6 +51,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAOrExp(AOrExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popBoolean();
         popBoolean();
         pushBoolean();
@@ -54,6 +60,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAAndExp(AAndExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popBoolean();
         popBoolean();
         pushBoolean();
@@ -61,6 +69,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAEqExp(AEqExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popType();
         popType();
         pushBoolean();
@@ -68,6 +78,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseANeqExp(ANeqExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popType();
         popType();
         pushBoolean();
@@ -75,6 +87,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseALtExp(ALtExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushBoolean();
@@ -82,6 +96,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAGtExp(AGtExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushBoolean();
@@ -89,6 +105,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseALteExp(ALteExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushBoolean();
@@ -96,6 +114,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAGteExp(AGteExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushBoolean();
@@ -108,6 +128,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAMulExp(AMulExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushInteger();
@@ -115,6 +137,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseADivExp(ADivExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushInteger();
@@ -122,6 +146,8 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseAModExp(AModExp node) {
+        typeCheckExpression(node.getLeft());
+        typeCheckExpression(node.getRight());
         popInteger();
         popInteger();
         pushInteger();
@@ -129,6 +155,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
 
     @Override
     public void caseANotExp(ANotExp node) {
+        typeCheckExpression(node.getExp());
         popBoolean();
         pushBoolean();
     }
@@ -145,6 +172,10 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
             typeCheckResults.addUndefinedReferenceError(variableName);
         }
         pushIdentifierType(variableName);
+    }
+
+    public void typeCheckExpression(PExp exp){
+        exp.apply(this);
     }
 
     public TypeDescriptor popType() {
