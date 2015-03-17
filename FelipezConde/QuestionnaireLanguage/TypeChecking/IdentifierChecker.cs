@@ -12,48 +12,47 @@ namespace TypeChecking
     public class IdentifierChecker
     {
         private readonly Form node;
-        private readonly IList<Question> definedIdentifiers;
-        private readonly IList<Id> usedIdentifiers;
 
         public IdentifierChecker(Form node)
         {
             this.node = node;
-            this.definedIdentifiers = Helper.GetDefinedIdentifiers(node);
-            this.usedIdentifiers = GetUsedIdentifiers(); 
         }
 
-        public IEnumerable<INotification> AnalyzeAndReport()
+        public INotificationManager AnalyzeAndReport()
         {
-            List<INotification> notifications = new List<INotification>();
-
-            notifications.AddRange(Has_Undefined_Identifiers());
-            notifications.AddRange(Has_Duplicate_Identifiers());
-
-            return notifications;
+            return null;
         }
 
         private IEnumerable<INotification> Has_Duplicate_Identifiers()
         {
-            return definedIdentifiers
-                            .GroupBy(
-                                x => x.Identifier,
-                                x => x.GetPosition(),
-                                (id, positions) => new { Id = id, Positions = positions }
-                             )
-                            .Where(occurrences => occurrences.Positions.Count() > 1)
-                            .Select(x => new DuplicateIdentifier(x.Id.Name, x.Positions));
+            List<Id> definedIdList = GetDefinedIdList(node);
+
+            foreach (Id id  in definedIdList.GroupBy(s => s.Name).SelectMany(grp => grp.Skip(1)))
+            {
+                yield return new DuplicateIdentifier(id.Name, id.GetPosition());
+            }
         }
 
         private IEnumerable<UndefinedIdentifier> Has_Undefined_Identifiers()
         {
-            return usedIdentifiers
-                    .Where(used => !definedIdentifiers.Any(defined => defined.Identifier.Name == used.Name))
-                    .Select(x => new UndefinedIdentifier(x.GetPosition(), x.Name));
+            List<Id> definedIdList = GetDefinedIdList(node);
+
+            foreach (FormObject formObject in node.GetBody())
+            {
+                definedIdList.AddRange(formObject.Accept(new DefinedIdentifierCollector()));
+            }
         }
 
-        private IList<Id> GetUsedIdentifiers()
+        private List<Id> GetDefinedIdList(Form node)
         {
-            return node.Accept(new UsedIdentifierCollector());
+            List<Id> definedIdList = new List<Id>();
+
+            foreach (FormObject formObject in node.GetBody())
+            {
+                definedIdList.AddRange(formObject.Accept(new DefinedIdentifierCollector()));
+            }
+
+            return definedIdList;
         }
     }
 }

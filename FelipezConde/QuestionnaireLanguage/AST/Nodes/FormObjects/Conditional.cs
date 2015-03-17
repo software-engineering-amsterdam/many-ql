@@ -1,4 +1,5 @@
-﻿using AST.Nodes.Interfaces;
+﻿using AST.Nodes.Expressions;
+using AST.Nodes.Interfaces;
 using System.Collections.Generic;
 
 namespace AST.Nodes.FormObjects
@@ -6,9 +7,9 @@ namespace AST.Nodes.FormObjects
     public class Conditional : FormObject, IFormObjectContainer
     {
         private IList<FormObject> body;
-        public BaseExpression Condition { get; private set; }
+        public Expression Condition { get; private set; }
 
-        public Conditional(BaseExpression condition, IList<FormObject> body, PositionInText positionInText) 
+        public Conditional(Expression condition, IList<FormObject> body, PositionInText positionInText) 
             : base(positionInText)
         {
             this.Condition = condition;
@@ -20,7 +21,7 @@ namespace AST.Nodes.FormObjects
             return this.body;
         }
 
-        public override T Accept<T>(ASTVisitors.Interfaces.IFormObjectVisitor<T> visitor)
+        public override T Accept<T>(VisitorInterfaces.IFormObjectVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
