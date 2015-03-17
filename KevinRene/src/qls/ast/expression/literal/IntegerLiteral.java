@@ -1,11 +1,11 @@
 package qls.ast.expression.literal;
 
-import qls.value.StringValue;
+import qls.value.IntegerValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
-public class StringLiteral extends Literal<StringValue> {
-	public StringLiteral(StringValue value) {
+public class IntegerLiteral extends Literal<IntegerValue> {
+	public IntegerLiteral(IntegerValue value) {
 		super(value);
 	}
 

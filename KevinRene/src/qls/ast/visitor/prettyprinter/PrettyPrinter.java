@@ -2,10 +2,6 @@ package qls.ast.visitor.prettyprinter;
 
 import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.literal.BooleanLiteral;
-import ql.ast.expression.literal.FloatLiteral;
-import ql.ast.expression.literal.IntegerLiteral;
-import ql.ast.expression.literal.StringLiteral;
 import ql.ast.type.QLBoolean;
 import ql.ast.type.QLError;
 import ql.ast.type.QLFloat;
@@ -13,6 +9,11 @@ import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
+import ql.ast.visitor.TypeVisitor;
+import qls.ast.expression.literal.BooleanLiteral;
+import qls.ast.expression.literal.FloatLiteral;
+import qls.ast.expression.literal.IntegerLiteral;
+import qls.ast.expression.literal.StringLiteral;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
@@ -26,7 +27,8 @@ import qls.ast.stylerule.property.Font;
 import qls.ast.stylerule.property.FontSize;
 import qls.ast.stylerule.property.Height;
 import qls.ast.stylerule.property.Width;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.ExpressionVisitor;
+import qls.ast.visitor.StatementVisitor;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
@@ -36,7 +38,7 @@ import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 import qls.ast.widget.ValueSet;
 
-public class PrettyPrinter extends QLSVisitor<Void> {
+public class PrettyPrinter extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	private String prefix = "";
 	
 	/**
@@ -325,12 +327,6 @@ public class PrettyPrinter extends QLSVisitor<Void> {
 		fontSize.getValue().accept(this);
 		unindent();
 		
-		return null;
-	}
-
-	@Override
-	public Void visit(qls.ast.expression.literal.StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

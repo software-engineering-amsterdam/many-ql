@@ -1,10 +1,12 @@
 package qls.ast.visitor.typechecker;
 
 import ql.TypeEnvironment;
-import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.TypeVisitor;
 import ql.errorhandling.ErrorEnvironment;
-import ql.value.StringValue;
 import qls.ast.QLSStatement;
+import qls.ast.expression.literal.BooleanLiteral;
+import qls.ast.expression.literal.FloatLiteral;
+import qls.ast.expression.literal.IntegerLiteral;
 import qls.ast.expression.literal.StringLiteral;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.property.Color;
@@ -12,7 +14,8 @@ import qls.ast.stylerule.property.Font;
 import qls.ast.stylerule.property.FontSize;
 import qls.ast.stylerule.property.Height;
 import qls.ast.stylerule.property.Width;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
+import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.widget.Checkbox;
 import qls.ast.widget.DefaultWidget;
 import qls.ast.widget.Dropdown;
@@ -21,7 +24,7 @@ import qls.ast.widget.Slider;
 import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 
-public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<Void> {
+public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	private static ErrorEnvironment errors;
 	private TypeEnvironment typeEnvironment;
 	
@@ -63,16 +66,23 @@ public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<V
 	}
 	
 	@Override
-	public Void visit(StringLiteral stringLiteral) {
-		// Wrapper function for type checking.
-		stringLiteral.getValue().assignHeight();
-		// Compatible with QL. Will function with only the QL interface.
-		showCompatibility(stringLiteral.getValue());
+	public Void visit(BooleanLiteral stringLiteral) {
+		return null;
+	}
+
+	@Override
+	public Void visit(FloatLiteral stringLiteral) {
+		return null;
+	}
+
+	@Override
+	public Void visit(IntegerLiteral stringLiteral) {
 		return null;
 	}
 	
-	public void showCompatibility(StringValue qlStringValue) {
-		// It's compatible.
+	@Override
+	public Void visit(StringLiteral stringLiteral) {
+		return null;
 	}
 	
 	@Override
@@ -138,5 +148,5 @@ public class TypeChecker extends QLSVisitor<Void> implements ExpressionVisitor<V
 	@Override
 	public Void visit(FontSize fontSize) {
 		return null;
-	}
+	}	
 }

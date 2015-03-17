@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 
 public class StyleRuleSet extends QLSStatement {
 	private List<StyleRule> rules = new ArrayList<StyleRule>();
@@ -25,7 +25,7 @@ public class StyleRuleSet extends QLSStatement {
 	}
 
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

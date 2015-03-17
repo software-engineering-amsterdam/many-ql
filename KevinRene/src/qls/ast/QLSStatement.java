@@ -1,10 +1,10 @@
 package qls.ast;
 
 import ql.ast.QLNode;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 
 public abstract class QLSStatement implements QLNode {	
-	public abstract <T> T accept(QLSVisitor<T> visitor);
+	public abstract <T> T accept(StatementVisitor<T> visitor);
 	
 	/**
 	 * Translates the value and the values of its children to a String.

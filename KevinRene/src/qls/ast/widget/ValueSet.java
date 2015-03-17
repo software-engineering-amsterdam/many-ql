@@ -3,9 +3,9 @@ package qls.ast.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.ast.expression.Literal;
+import qls.ast.expression.Literal;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 
 public class ValueSet extends QLSStatement {	
 	private List<Literal<?>> values = new ArrayList<Literal<?>>();
@@ -24,7 +24,7 @@ public class ValueSet extends QLSStatement {
 	}
 
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

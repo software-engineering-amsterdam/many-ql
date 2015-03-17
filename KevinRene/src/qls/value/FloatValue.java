@@ -1,10 +1,9 @@
 package qls.value;
 
-import ql.value.StringValue;
-import qls.QLSValue;
+import qls.Value;
 
-public class QLSStringValue extends StringValue implements QLSValue {
-	public QLSStringValue(String value) {
+public class FloatValue extends ql.value.FloatValue implements Value {
+	public FloatValue(float value) {
 		super(value);
 	}
 

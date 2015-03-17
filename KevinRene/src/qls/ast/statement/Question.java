@@ -3,7 +3,7 @@ package qls.ast.statement;
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
 import qls.ast.Widget;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 import qls.ast.widget.DefaultWidget;
 
 public class Question extends QLSStatement {
@@ -28,7 +28,7 @@ public class Question extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

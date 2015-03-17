@@ -1,8 +1,8 @@
 package qls.ast.statement;
 
-import ql.ast.expression.literal.StringLiteral;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
+import qls.ast.expression.literal.StringLiteral;
 
 public class Section extends QLSStatement {
 	private final StringLiteral header;
@@ -22,7 +22,7 @@ public class Section extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

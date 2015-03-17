@@ -2,7 +2,7 @@ package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 
 public class Page extends QLSStatement {
 	private final Identifier identifier;
@@ -22,7 +22,7 @@ public class Page extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

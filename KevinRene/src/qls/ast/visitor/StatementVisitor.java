@@ -1,11 +1,10 @@
 package qls.ast.visitor;
 
-import ql.ast.expression.Literal;
-import ql.ast.visitor.ExpressionVisitor;
-import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
 import qls.ast.QLSStatement;
-import qls.ast.expression.literal.StringLiteral;
+import qls.ast.visitor.StatementVisitor;
+import qls.ast.visitor.ExpressionVisitor;
+import qls.ast.expression.Literal;
 import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
@@ -33,14 +32,20 @@ import qls.ast.widget.ValueSet;
  * 
  * @author Rene
  */
-public abstract class QLSVisitor<T> extends StatementVisitor<T> implements ExpressionVisitor<T>, TypeVisitor<T> {
-	public QLSVisitor() {
-		super.setExpressionVisitor(this);
-		super.setTypeVisitor(this);
+public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisitor<T> {
+	private ExpressionVisitor<?> expressionVisitor;
+	private TypeVisitor<?> typeVisitor;
+	
+	public void setExpressionVisitor(ExpressionVisitor<?> expressionVisitor) {
+		this.expressionVisitor = expressionVisitor;
+	}
+	
+	public void setTypeVisitor(TypeVisitor<?> typeVisitor) {
+		this.typeVisitor = typeVisitor;
 	}
 	
 	public T visit(Page pageNode) {
-		pageNode.getIdentifier().accept(this);
+		pageNode.getIdentifier().accept(expressionVisitor);
 		pageNode.getStatements().accept(this);
 		return null;
 	}
@@ -53,24 +58,22 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	}
 	
 	public T visit(Question questionNode) {
-		questionNode.getIdentifier().accept(this);
+		questionNode.getIdentifier().accept(expressionVisitor);
 		questionNode.getWidget().accept(this);
 		return null;
 	}
 	
 	public T visit(Section sectionNode) {
-		sectionNode.getHeader().accept(this);
+		sectionNode.getHeader().accept(expressionVisitor);
 		sectionNode.getStatements().accept(this);
 		return null;
 	}
 	
 	public T visit(Stylesheet stylesheetNode) {
-		stylesheetNode.getIdentifier().accept(this);
+		stylesheetNode.getIdentifier().accept(expressionVisitor);
 		stylesheetNode.getPages().accept(this);
 		return null;
 	}
-	
-	public abstract T visit(StringLiteral stringLiteral);
 	
 	public abstract T visit(Checkbox checkboxNode);
 	public abstract T visit(Dropdown dropdownNode);
@@ -90,14 +93,14 @@ public abstract class QLSVisitor<T> extends StatementVisitor<T> implements Expre
 	
 	public T visit(ValueSet valueSetNode) {
 		for(Literal<?> value : valueSetNode.values()) {
-			value.accept(this);
+			value.accept(expressionVisitor);
 		}
 		return null;
 	}
 
 
 	public T visit(Default defaultNode) {
-		defaultNode.getType().accept(this);
+		defaultNode.getType().accept(typeVisitor);
 		defaultNode.getStyleRuleSet().accept(this);
 		defaultNode.getWidget().accept(this);
 		return null;

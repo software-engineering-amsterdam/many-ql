@@ -42,16 +42,16 @@
 %{
 import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.Literal;
 import ql.ast.QLType;
 import ql.ast.type.*;
-import ql.ast.expression.literal.*;
 
 import qls.ast.*;
+import qls.ast.widget.*;
 import qls.ast.statement.*;
 import qls.ast.stylerule.*;
 import qls.ast.stylerule.property.*;
-import qls.ast.widget.*;
+import qls.ast.expression.Literal;
+import qls.ast.expression.literal.*;
 
 @SuppressWarnings("all")
 %}

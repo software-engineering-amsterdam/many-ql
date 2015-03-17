@@ -1,11 +1,11 @@
 package qls.ast.expression.literal;
 
-import qls.value.StringValue;
+import qls.value.BooleanValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
 
-public class StringLiteral extends Literal<StringValue> {
-	public StringLiteral(StringValue value) {
+public class BooleanLiteral extends Literal<BooleanValue> {
+	public BooleanLiteral(BooleanValue value) {
 		super(value);
 	}
 

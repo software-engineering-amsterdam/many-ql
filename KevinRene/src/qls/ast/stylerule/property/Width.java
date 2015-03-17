@@ -2,10 +2,10 @@ package qls.ast.stylerule.property;
 
 import java.util.Arrays;
 
-import ql.ast.expression.Literal;
 import ql.ast.type.QLInteger;
+import qls.ast.expression.Literal;
 import qls.ast.stylerule.StyleRule;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.visitor.StatementVisitor;
 
 public class Width extends StyleRule {
 	public Width(Literal<?> value) {
@@ -13,7 +13,7 @@ public class Width extends StyleRule {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }
