@@ -7,7 +7,7 @@ import types.TypeEnvironment
 class ReferenceChecker {
 
   def check(s: Section, env: TypeEnvironment): List[Error] = {
-    s.questions.flatMap({
+    s.elements.flatMap({
       case q: Question => check(q, env)
     })
   }

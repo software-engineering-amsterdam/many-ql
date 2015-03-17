@@ -7,14 +7,15 @@ import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class PFormInterpreter extends AnalysisAdapter {
     private final PStmtInterpreter stmtInterpreter;
 
     @Override
     public void caseAForm(AForm aForm) {
-        final LinkedList<PStmt> stmts = aForm.getStmt();
-        for (PStmt stmt : stmts) {
+        final List<PStmt> statements = aForm.getStmt();
+        for (PStmt stmt : statements) {
             stmt.apply(stmtInterpreter);
         }
     }

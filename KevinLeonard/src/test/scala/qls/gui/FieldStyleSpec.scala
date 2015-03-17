@@ -51,7 +51,7 @@ class FieldStyleSpec extends Specification {
         Question(Variable("var"), Radio(List(Width(101), Width(100))))
       ))
 
-      fieldStyle.extractPageElement(section, env) must beEqualTo(result)
+      fieldStyle.extract(section, env) must beEqualTo(result)
     }
 
     "extract Page" in {
@@ -76,14 +76,14 @@ class FieldStyleSpec extends Specification {
       val env = List(
         Width(101)
       )
-      val style = Style("style", List(
+      val style = StyleSheet("style", List(
         Page(Variable("var"), List(
           Section("section1", List(
             Question(Variable("var"), Radio(List(Width(100))))
           ))
         ))
       ))
-      val result = Style("style", List(
+      val result = StyleSheet("style", List(
         Page(Variable("var"), List(
           Section("section1", List(
             Question(Variable("var"), Radio(List(Width(101), Width(100))))

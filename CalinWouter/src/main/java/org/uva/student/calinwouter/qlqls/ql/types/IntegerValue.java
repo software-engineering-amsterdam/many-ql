@@ -5,7 +5,6 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
 public class IntegerValue extends Value {
-    // TODO here and at other places, add equals to typedescriptor!!
     public static final TypeDescriptor INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor() {
         @Override
         public void callTypeMethod(final TypeCallback typeCallback) {
@@ -24,7 +23,12 @@ public class IntegerValue extends Value {
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof IntegerValue;
+            return o instanceof TypeDescriptor && ((TypeDescriptor) o).getDefaultValue() instanceof IntegerValue;
+        }
+
+        @Override
+        public String toString() {
+            return "Integer";
         }
     };
 
@@ -80,7 +84,9 @@ public class IntegerValue extends Value {
 
     @Override
     public Value eq(Value value) {
-        return new BoolValue(value.getValue().equals(getValue()));
+        final Object otherInternalValue = value.getValue();
+        final Object myInternalValue = getValue();
+        return new BoolValue(otherInternalValue.equals(myInternalValue));
     }
 
     public Value neq(Value value) {
