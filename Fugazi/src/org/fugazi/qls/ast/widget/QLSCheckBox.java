@@ -27,6 +27,7 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     public QLSCheckBox(String _label) {
         this.checkBox = new JCheckBox(_label);
+        this.checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
         this.type = new CheckBoxType();
     }
 

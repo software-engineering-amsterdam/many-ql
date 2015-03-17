@@ -50,9 +50,9 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
         this.radioButtonGroup.add(this.yesBtn);
         this.radioButtonGroup.add(this.noBtn);
+        this.panel.add(this.componentLabel);
         this.panel.add(this.yesBtn);
         this.panel.add(this.noBtn);
-        this.panel.add(this.componentLabel);
 
         this.type = new RadioBtnType();
     }

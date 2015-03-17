@@ -34,8 +34,8 @@ public class QLSTextBox extends AbstractQLSWidget {
         this.panel = new JPanel();
         this.input = new JTextField();
         this.componentLabel = new JLabel(_label);
-        this.panel.add(input);
         this.panel.add(componentLabel);
+        this.panel.add(input);
 
         this.type = new TextBoxType();
     }
@@ -74,12 +74,8 @@ public class QLSTextBox extends AbstractQLSWidget {
                     public void insertUpdate(DocumentEvent e) {
                         _listener.stateChanged();
                     }
-
-                    public void removeUpdate(DocumentEvent e) {
-                    }
-
-                    public void changedUpdate(DocumentEvent e) {
-                    }
+                    public void removeUpdate(DocumentEvent e) {}
+                    public void changedUpdate(DocumentEvent e) {}
                 }
         );
     }
