@@ -10,7 +10,7 @@ namespace AST.ASTVisitors.Interfaces
     public interface IFormObjectVisitor<T>
     {
         T Visit(Conditional conditional);
-        T Visit(Question conditional);
+        T Visit(Question question);
 
     }
 }

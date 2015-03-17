@@ -5,6 +5,7 @@ using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
 using System.Windows;
 using Evaluation;
+using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
@@ -28,10 +29,14 @@ namespace QuestionnaireLanguage.GUI.FormObject
         {
             Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
 
-            Widget stackPanelWidget = new StackPanelWidget();
-            UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
+            StackPanel stackPanelWidget = new StackPanel();
 
-            return AddChildren(new BodyProcessor().ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            UIElement customStackPanel = value.Accept(new ValueToStackPanel());
+
+            BodyProcessor conditionalBodyProcessor = new BodyProcessor(symbolTable);
+            conditionalBodyProcessor.EventUpdateValue += UpdateValue;
+
+            return AddChild(conditionalBodyProcessor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
 
         #endregion
@@ -42,6 +47,11 @@ namespace QuestionnaireLanguage.GUI.FormObject
             this.symbolTable = symbolTable;
 
             return symbolTable;
+        }
+
+        private void UpdateValue(string id, Value value)
+        {
+            EventUpdateValue(id, value);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
+import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;
@@ -34,9 +35,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
     private final double EFFECT_DURATION = 500;
 
     protected final Store store;
-    private final String id;
-    private final Type type;
-    private final String text;
+    private final QuestionNode question;
     private final List<AExpression> dependencies;
 
     protected BooleanProperty visibleProperty;
@@ -45,11 +44,9 @@ public abstract class ARenderedQuestion implements IKLQItem {
     private final Label label;
     protected final Region renderedComponent;
 
-    protected ARenderedQuestion(String id, Type type, String text, List<AExpression> dependencies, Store store){
+    protected ARenderedQuestion(QuestionNode question, List<AExpression> dependencies, Store store){
         this.store = store;
-        this.id = id;
-        this.type = type;
-        this.text = text;
+        this.question = question;
         this.dependencies = dependencies;
         visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
         container = new VBox(5);
@@ -62,7 +59,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
     }
 
     private Label createQuestionLabel() {
-        Label result = new Label(text);
+        Label result = new Label(question.getText());
         Font font = new Font("Arial Bold", 14);
         result.setFont(font);
         result.setWrapText(true);
@@ -99,10 +96,10 @@ public abstract class ARenderedQuestion implements IKLQItem {
 
     protected void questionAnswered(@NotNull String result) {
         if (result.trim().isEmpty()){
-            store.updateAnswer(id, new UndefinedValue());
+            store.updateAnswer(question.getID(), new UndefinedValue());
         } else if (isValidInput(result)) {
-            Value expr = ExpressionUtil.createTerminalFromString(type, result);
-            store.updateAnswer(id, expr);
+            Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
+            store.updateAnswer(question.getID(), expr);
         }
     }
 
@@ -111,15 +108,15 @@ public abstract class ARenderedQuestion implements IKLQItem {
     }
 
     public String getID() {
-        return id;
+        return question.getID();
     }
 
     public Type getType() {
-        return type;
+        return question.getType();
     }
 
     public String getText() {
-        return text;
+        return question.getText();
     }
 
     public void setVisible(boolean visible) {

@@ -12,7 +12,7 @@ import java.text.NumberFormat;
 
 public class IntegerOnlyTextBox implements IWidget{
 
-    private IntValue value;
+    private static int COLUMNS = 7;
 
     private JFormattedTextField input;
     private JPanel panel;
@@ -33,7 +33,7 @@ public class IntegerOnlyTextBox implements IWidget{
 
         this.input = new JFormattedTextField(numberFormatter);
 
-        this.input.setColumns(7);
+        this.input.setColumns(COLUMNS);
 
         this.panel.add(label);
         this.panel.add(input);
@@ -65,19 +65,18 @@ public class IntegerOnlyTextBox implements IWidget{
 
     @Override
     public IntValue getWidgetValue() {
-        this.value = new IntValue(Integer.parseInt(this.input.getText()));
-        return this.value;
+        return new IntValue(Integer.parseInt(this.input.getText()));
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (IntValue) _value;
-        this.input.setText(Integer.toString(this.value.getValue()));
+        IntValue value = (IntValue) _value;
+        this.input.setText(Integer.toString(value.getValue()));
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.input.setEnabled(false);
+        this.input.setEditable(false);
         numberFormatter.setAllowsInvalid(true);
         numberFormatter.setMinimum(-1000);
         numberFormatter.setOverwriteMode(false);

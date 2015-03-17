@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
@@ -42,9 +41,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	private FormFrame formView;
 
 	public GUIVisitor() {
-		widgetListener = new WidgetListener();
 		formView = new FormFrame();
-		doneButtonListener = new DoneButtonListener(widgetListener.getEvaluator());
 	}
 
 	@Override
@@ -58,22 +55,22 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	@Override
 	public QuestionComponent visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
-		widget.setIdentifier(questionStatement.toString());
+		widget.setIdentifier(questionStatement.getIdentifier());
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
 		formView.addQuestionPanel(questionComponent);
-		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
+		widgetListener.initializeValue(identifier, new UndefinedValue());
 		return questionComponent;
 	}
 
 	@Override
 	public ExprQuestionComponent visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
-		widget.setIdentifier(questionComputeStatement.toString());
+		widget.setIdentifier(questionComputeStatement.getIdentifier());
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		formView.addExprQuestionPanel(questionComponent);
 		Identifier identifier = questionComputeStatement.getIdentifier();
-		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
+		widgetListener.initializeValue(identifier, new UndefinedValue());
 		return questionComponent;
 	}
 
@@ -89,11 +86,12 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public FormFrame visit(Form form) {
+		widgetListener = new WidgetListener(formView);
 		form.getBlock().accept(this);
 		System.out.println();
 		JButton button = new JButton("Done");
-		button.addActionListener(doneButtonListener);
 		formView.addDoneButton(button);
+		button.addActionListener(new DoneButtonListener(widgetListener.getEvaluator()));
 		formView.setVisible(true);
 		return formView;
 	}
@@ -136,5 +134,4 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		formView.addIfQuestionPanel(questionPanel);
 		return questionPanel;
 	}
-
 }
