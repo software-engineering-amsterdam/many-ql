@@ -7,7 +7,7 @@ grammar QLS;
 stylesheet : 'stylesheet' ID '{' page* '}'                     # StyleSheet
 	       ;
 
-page       : 'page' STRING '{' (section|default_styles)* '}'
+page       : 'page' ID '{' (section|default_styles)* '}'
            ;
 section    : 'section' STRING '{' (question_ref|default_styles)* '}'
            ;

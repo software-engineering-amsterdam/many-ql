@@ -55,11 +55,12 @@
     <Compile Include="Evaluation\Types\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeController.cs" />
+    <Compile Include="Validation\QLS\ASTChecker.cs" />
     <Compile Include="Validation\QLS\QuestionReferencingChecker.cs" />
     <Compile Include="Validation\QLS\StyleAttributeChecker.cs" />
     <Compile Include="Validation\QLS\TypeChecker.cs" />
     <Compile Include="Validation\QL\DuplicateLabelChecker.cs" />
-    <Compile Include="Validation\QL\DuplicateQuestionChecker.cs" />
+    <Compile Include="Validation\QL\QuestionDeclarationChecker.cs" />
     <Compile Include="Validation\QL\ASTChecker.cs" />
     <Compile Include="Validation\QL\LiteralChecker.cs" />
     <Compile Include="Validation\QL\TypeChecker.cs" />

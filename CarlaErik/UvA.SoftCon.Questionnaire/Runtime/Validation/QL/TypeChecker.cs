@@ -56,7 +56,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
 
         public override object Visit(IfStatement ifStatement)
         {
-            // Validate that the condition of the if statement is of type boolean
+            // Validate that the condition of the if statement is of type boolean.
             DataType expressionType = ifStatement.If.GetType(_symbolTable);
 
             if (expressionType != DataType.Undefined)
@@ -67,91 +67,92 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
                 }
             }
 
+            // Validate the inner parts of the expression.
             return base.Visit(ifStatement);
         }
 
         public override object Visit(Add add)
         {
             ValidateBinaryExpression(add);
-            return null;
+            return base.Visit(add);
         }
 
         public override object Visit(And and)
         {
             ValidateBinaryExpression(and);
-            return null;
+            return base.Visit(and);
         }
 
         public override object Visit(Divide divide)
         {
             ValidateBinaryExpression(divide);
-            return null;
+            return base.Visit(divide);
         }
 
         public override object Visit(EqualTo equalTo)
         {
             ValidateBinaryExpression(equalTo);
-            return null;
+            return base.Visit(equalTo);
         }
 
         public override object Visit(GreaterThan greaterThan)
         {
             ValidateBinaryExpression(greaterThan);
-            return null;
+            return base.Visit(greaterThan);
         }
 
         public override object Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
         {
             ValidateBinaryExpression(greaterThanOrEqualTo);
-            return null;
+            return base.Visit(greaterThanOrEqualTo);
         }
 
         public override object Visit(Increment increment)
         {
             ValidateUnaryExpression(increment);
-            return null;
+            return base.Visit(increment);
         }
 
         public override object Visit(LessThan lessThan)
         {
             ValidateBinaryExpression(lessThan);
-            return null;
+            return base.Visit(lessThan);
         }
 
         public override object Visit(LessThanOrEqualTo lessThanOrEqualTo)
         {
             ValidateBinaryExpression(lessThanOrEqualTo);
-            return null;
+            return base.Visit(lessThanOrEqualTo);
         }
 
         public override object Visit(Multiply multiply)
         {
             ValidateBinaryExpression(multiply);
-            return null;
+            return base.Visit(multiply);
         }
 
         public override object Visit(Negation negation)
         {
             ValidateUnaryExpression(negation);
-            return null;
+            return base.Visit(negation);
         }
 
         public override object Visit(NotEqualTo notEqualTo)
         {
             ValidateBinaryExpression(notEqualTo);
-            return null;
+            return base.Visit(notEqualTo);
         }
 
         public override object Visit(Or or)
         {
             ValidateBinaryExpression(or);
-            return null;
+            return base.Visit(or);
         }
 
         public override object Visit(Substract substract)
         {
             ValidateBinaryExpression(substract);
-            return null;
+            return base.Visit(substract);
         }
 
         private void ValidateUnaryExpression(UnaryExpression expression)
@@ -168,7 +169,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
                 }
             }
         }
-
 
         private void ValidateBinaryExpression(BinaryExpression expression)
         {

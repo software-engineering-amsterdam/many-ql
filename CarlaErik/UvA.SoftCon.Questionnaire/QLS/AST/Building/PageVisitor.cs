@@ -13,6 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
     {
         public override Page VisitPage(QLSParser.PageContext context)
         {
+            var id = new Identifier(context.ID().GetText(), context.GetTextPosition());
             var sections = new List<Section>();
             var defaultStyles = new List<DefaultStyle>();
 
@@ -25,7 +26,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
                 defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleVisitor()));
             }
 
-            return new Page(sections, defaultStyles, context.GetTextPosition());
+            return new Page(id, sections, defaultStyles, context.GetTextPosition());
         }
     }
 }
