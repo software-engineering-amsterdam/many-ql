@@ -1,4 +1,4 @@
-package uva.sc.ql.gui;
+package uva.sc.ql.gui.helpers;
 
 import uva.sc.core.types.Type;
 import uva.sc.ql.expression.Expression;

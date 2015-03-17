@@ -1,4 +1,4 @@
-package uva.sc.ql.gui;
+package uva.sc.ql.gui.questions;
 
 import java.awt.Component;
 
@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public abstract class Question extends JFrame {
 
-    public abstract Component drawQuestion(String id, String label, boolean isEditable);
+    public abstract Component drawQuestion(String id, String label,
+	    boolean isEditable);
 
 }
