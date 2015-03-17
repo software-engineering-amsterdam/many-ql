@@ -1,7 +1,7 @@
 package test.klq.typechecker;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;

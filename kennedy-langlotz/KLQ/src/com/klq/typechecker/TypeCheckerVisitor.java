@@ -3,6 +3,7 @@ package com.klq.typechecker;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.expr.ABinaryExprNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.*;
 import com.klq.ast.impl.expr.math.AddNode;

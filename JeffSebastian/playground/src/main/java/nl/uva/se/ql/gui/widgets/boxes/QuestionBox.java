@@ -5,13 +5,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.gui.builders.QuestionBuilder;
+import nl.uva.se.ql.gui.listeners.IMediator;
 
 public class QuestionBox extends VBox {
 	
 	private final Question question;
+	private final IMediator mediator;
 
-	public QuestionBox(Question question) {
+	public QuestionBox(Question question, IMediator mediator) {
 		this.question = question;
+		this.mediator = mediator;
 		addQuestion(question);
 	}
 
@@ -21,7 +24,7 @@ public class QuestionBox extends VBox {
 		this.getChildren().add(title);
 		
 		//Add the widget to the QuestionBox
-		Node widget = question.getType().accept(new QuestionBuilder(question));
+		Node widget = question.getType().accept(new QuestionBuilder(question, mediator));
 		this.getChildren().add(widget);
 	}
 	

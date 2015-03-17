@@ -8,6 +8,7 @@ import com.klq.parser.KLQLexer;
 import com.klq.parser.KLQParser;
 import com.klq.typechecker.TypeChecker;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -63,29 +64,20 @@ public class Main extends Application {
         QuestionnaireNode ast = (QuestionnaireNode) eval.visit(tree);
 
         TypeChecker tc = new TypeChecker(ast);
-        tc.reportErrors();
+        tc.printErrors();
+
+        if(tc.stopApplication()){
+            Platform.exit();
+        }
 
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Controller controller = (Controller) ast.accept(AST2GUIConverter);
 
-        //test stuff. remove later
-        /*
-        StyleMap styleMap = new StyleMap();
-        QuestionStyle qStyle = new QuestionStyle();
-        FontSize size = new FontSize(18);
-        qStyle.addProperty(size);
-        styleMap.addPageStyle("question1", qStyle);
-        */
-
-        QuestionPage page = new QuestionPage(controller/*, styleMap*/);
+        QuestionPage page = new QuestionPage(controller);
         page.addQuestions(controller.getOrderedQuestions());
 
         questionnaire = new Questionnaire(controller);
         questionnaire.addQuestionPage(page);
-
-        //print AST for test purposes
-//        ASTPrinter printer = new ASTPrinter();
-//        ast.accept(printer);
     }
 
     @Override

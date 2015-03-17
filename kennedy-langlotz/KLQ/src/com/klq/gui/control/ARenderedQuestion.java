@@ -3,7 +3,7 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;

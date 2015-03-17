@@ -3,7 +3,7 @@ package com.klq.ast.impl.stmt;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Location;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 
 /**
  * Created by juriaan on 17-2-15.

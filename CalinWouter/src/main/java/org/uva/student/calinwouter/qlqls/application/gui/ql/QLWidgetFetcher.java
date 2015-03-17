@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
@@ -17,11 +17,11 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 public class QLWidgetFetcher implements TypeCallback{
     private final QLInterpreter qlInterpreter;
     private final StaticQuestionField staticQuestionField;
-    private final VariableTableWrapper variableTableWrapper;
+    private final StateWrapper stateWrapper;
     private IWidget widget;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, stateWrapper);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {
@@ -30,26 +30,26 @@ public class QLWidgetFetcher implements TypeCallback{
 
     @Override
     public void usesBoolean() {
-        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField.getVariable(), qlInterpreter, variableTableWrapper));
+        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
     }
 
     @Override
     public void usesInteger() {
-        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField.getVariable(), qlInterpreter, variableTableWrapper));
+        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
     }
 
     @Override
     public void usesString() {
-        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField.getVariable(), qlInterpreter, variableTableWrapper));
+        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
     }
 
     public IWidget getWidget() {
         return widget;
     }
 
-    public QLWidgetFetcher(QLInterpreter qlInterpreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper) {
+    public QLWidgetFetcher(QLInterpreter qlInterpreter, StaticQuestionField staticQuestionField, StateWrapper stateWrapper) {
         this.qlInterpreter = qlInterpreter;
         this.staticQuestionField = staticQuestionField;
-        this.variableTableWrapper = variableTableWrapper;
+        this.stateWrapper = stateWrapper;
     }
 }

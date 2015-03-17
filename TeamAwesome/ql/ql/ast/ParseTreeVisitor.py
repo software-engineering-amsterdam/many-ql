@@ -29,7 +29,7 @@ class ParseTreeVisitor(QLVisitor):
 
         lineNumber = ctx.start.line
 
-        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expr = expr)
+        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expression = expr)
 
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):
