@@ -70,4 +70,10 @@ public class DecimalQuestion extends BaseQuestion<String> {
 	public Node getWidget() {
 		return this.textField;
 	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
+	}
 }
