@@ -30,7 +30,6 @@ public class QLSTextBox extends AbstractQLSWidget {
     }
 
     public QLSTextBox(String _label) {
-        this.label = _label;
 
         this.panel = new JPanel();
         this.input = new JTextField();
@@ -43,8 +42,7 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
-        this.componentLabel.setText(label);
+        this.componentLabel.setText(_label);
     }
 
     @Override

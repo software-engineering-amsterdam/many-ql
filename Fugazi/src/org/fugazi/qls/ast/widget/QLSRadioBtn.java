@@ -40,7 +40,6 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     public QLSRadioBtn(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
-        this.label = _label;
 
         this.panel = new JPanel();
         this.componentLabel = new JLabel(_label);
@@ -68,7 +67,6 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
         this.componentLabel.setText(_label);
     }
 

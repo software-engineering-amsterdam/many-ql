@@ -22,11 +22,9 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    protected String label;
     protected IWidgetType type;
 
     public AbstractQLSWidget() {
-        this.label = "";
         this.type   = new UndefinedWidgetType();
     }
 
@@ -102,7 +100,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 
     public void setLabel(String _label) {
-        this.label = _label;
+        throw new AssertionError();
     }
 
     public boolean isUndefined() {

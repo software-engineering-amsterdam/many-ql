@@ -26,15 +26,13 @@ public class QLSCheckBox extends AbstractQLSWidget {
     }
 
     public QLSCheckBox(String _label) {
-        this.label = _label;
-        this.checkBox = new JCheckBox(label);
+        this.checkBox = new JCheckBox(_label);
         this.type = new CheckBoxType();
     }
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
-        this.checkBox.setText(label);
+        this.checkBox.setText(_label);
     }
 
     @Override

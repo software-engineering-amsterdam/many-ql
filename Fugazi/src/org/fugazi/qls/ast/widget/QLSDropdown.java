@@ -35,7 +35,6 @@ public class QLSDropdown extends AbstractQLSWidget {
     public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
-        this.label = _label;
 
         this.panel = new JPanel();
         this.componentLabel = new JLabel(_label);
@@ -118,7 +117,6 @@ public class QLSDropdown extends AbstractQLSWidget {
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
         this.componentLabel.setText(_label);
     }
 

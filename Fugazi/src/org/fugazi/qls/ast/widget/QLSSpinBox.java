@@ -32,7 +32,6 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
 
     public QLSSpinBox(String _label) {
-        this.label = _label;
         this.panel = new JPanel();
         this.componentLabel = new JLabel(_label);
 
@@ -107,7 +106,6 @@ public class QLSSpinBox extends AbstractQLSWidget {
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
         this.componentLabel.setText(_label);
     }
 
