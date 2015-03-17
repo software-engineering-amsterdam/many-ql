@@ -1,7 +1,7 @@
 package com.klq.controller;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;
@@ -24,47 +24,46 @@ import java.util.*;
  */
 public class Controller implements IKLQItem {
     private final List<IdentifierNode> order;
-    private final Map<IdentifierNode, ARenderedQuestion> questionStore;
-    private final Map<IdentifierNode, Value> variables;
-
+    private final Map<IdentifierNode, ARenderedQuestion> questionController;
+    private final VariableTable variableTable;
     private final DoubleProperty progressProperty;
 
     public Controller() {
         order = new ArrayList<>();
-        questionStore = new HashMap<>();
-        variables = new HashMap<>();
+        questionController = new HashMap<>();
+        variableTable = new VariableTable();
         progressProperty = new SimpleDoubleProperty(0);
     }
 
     public void add(ARenderedQuestion question) {
         order.add(question.getID());
-        questionStore.put(question.getID(), question);
-        variables.put(question.getID(), new UndefinedValue());
+        questionController.put(question.getID(), question);
+        variableTable.add(question.getID());
     }
 
     public List<ARenderedQuestion> getOrderedQuestions() {
         List<ARenderedQuestion> result = new ArrayList<>();
         for (IdentifierNode id : order) {
-            result.add(questionStore.get(id));
+            result.add(questionController.get(id));
         }
         return result;
     }
 
-    public Map<IdentifierNode, Value> getVariables() {
-        return variables;
+    public VariableTable getVariableTable() {
+        return variableTable;
     }
 
 
     public boolean dependenciesResolved(IdentifierNode questionId) {
-        assert questionStore.containsKey(questionId): "All questions should be in the question store.";
-        ARenderedQuestion question = questionStore.get(questionId);
+        assert questionController.containsKey(questionId): "All questions should be in the question store.";
+        ARenderedQuestion question = questionController.get(questionId);
 
-        return question.dependenciesResolved(variables);
+        return question.dependenciesResolved(variableTable);
     }
 
     public void updateAnswer(IdentifierNode questionId, @NotNull Value answer) {
-        assert(variables.containsKey(questionId));
-        variables.put(questionId, answer);
+        assert(variableTable.contains(questionId));
+        variableTable.update(questionId, answer);
 
         updateQuestionVisibilities();
         updateComputedQuestions();
@@ -72,9 +71,9 @@ public class Controller implements IKLQItem {
     }
 
     public void updateQuestionVisibilities(){
-        for (IdentifierNode id : questionStore.keySet()){
+        for (IdentifierNode id : questionController.keySet()){
             boolean visible = dependenciesResolved(id);
-            ARenderedQuestion q = questionStore.get(id);
+            ARenderedQuestion q = questionController.get(id);
             if (q.isVisible() != visible) {
                 q.setVisible(visible);
             }
@@ -82,12 +81,12 @@ public class Controller implements IKLQItem {
     }
 
     private void updateComputedQuestions(){
-        Collection<ARenderedQuestion> questions = questionStore.values();
+        Collection<ARenderedQuestion> questions = questionController.values();
         questions.forEach(question -> {
             if (question.isComputed()) {
                 ComputedRenderedQuestion crq = (ComputedRenderedQuestion) question;
                 AExpression computedExpression = crq.getComputedExpression();
-                Value result = computedExpression.evaluate(variables);
+                Value result = computedExpression.evaluate(variableTable);
                 crq.updateComputedValue(result.toString());
             }
         });
@@ -96,10 +95,10 @@ public class Controller implements IKLQItem {
     private void updateQuestionnaireProgress(){
         double answered = 0;
         double total = 0;
-        for (ARenderedQuestion q : questionStore.values()){
+        for (ARenderedQuestion q : questionController.values()){
             if (!q.isComputed()){
                 total++;
-                Value v = variables.get(q.getID());
+                Value v = variableTable.get(q.getID());
                 if (!v.equals(new UndefinedValue())){
                     answered++;
                 }
@@ -123,7 +122,7 @@ public class Controller implements IKLQItem {
             writer.write(String.format("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>%n"));
             writer.write(String.format("<questionnaire>%n"));
             for (IdentifierNode id : order) {
-                Value assignedValue = variables.get(id);
+                Value assignedValue = variableTable.get(id);
                 String varString = assignedValue.toString();
                 String xmlTag = String.format("\t<%s>%n" + "\t\t%s%n" + "\t</%s>%n",
                                                 id.toString(), varString, id.toString());

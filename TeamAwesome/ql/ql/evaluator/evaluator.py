@@ -9,7 +9,7 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
-    return Visitor().visitQuestionnaireEnd(ast.root)
+    return ast.root.accept(Visitor())
 
 class Evaluator(object):
     def __init__(self):
@@ -74,9 +74,9 @@ class Visitor(ASTStatementVisitor):
         self._currentForm = form
 
     def visitQuestionStatement(self, node):
-        if node.expr:
+        if node.expression:
             expressionVisitor = ExpressionVisitor(self._evaluator)
-            expression = node.expr.accept(expressionVisitor)
+            expression = node.expression.accept(expressionVisitor)
         else:
             expression = None
 
@@ -92,7 +92,7 @@ class Visitor(ASTStatementVisitor):
 
     def visitIfStatementBegin(self, node):
         expressionVisitor = ExpressionVisitor(self._evaluator)
-        expression = node.expr.accept(expressionVisitor)
+        expression = node.expression.accept(expressionVisitor)
         
         self._conditionalStatements.append(expression)
         
@@ -107,7 +107,7 @@ class ExpressionVisitor(ASTExpressionVisitor):
     def visitUnaryExpressionEnd(self, node):
         expr = self._expressionStack.pop()
         
-        unaryExpression = UnaryExpression(node.op, expr, self._evaluator)
+        unaryExpression = UnaryExpression(node.operator, expr, self._evaluator)
         self._expressionStack.append(unaryExpression)
         return unaryExpression
 
@@ -115,7 +115,7 @@ class ExpressionVisitor(ASTExpressionVisitor):
         right = self._expressionStack.pop()
         left = self._expressionStack.pop()
         
-        binaryExpression = BinaryExpression(left, op, right, self._evaluator)
+        binaryExpression = BinaryExpression(left, node.operator, right, self._evaluator)
         self._expressionStack.append(binaryExpression)
         return binaryExpression
 

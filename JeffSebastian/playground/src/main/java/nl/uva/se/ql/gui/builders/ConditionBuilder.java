@@ -4,27 +4,30 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.ql.gui.widgets.boxes.QuestionBox;
 
 public class ConditionBuilder implements StatementVisitor{
 		
 	private final ConditionBox conditionBox;
+	private final IMediator mediator;
 	
-	public ConditionBuilder(Condition condition){			
+	public ConditionBuilder(Condition condition, IMediator mediator){			
 		this.conditionBox = new ConditionBox(condition);	
+		this.mediator = mediator;		
 		visit(condition);
 	}
 
 	@Override
 	public void visit(Question question) {
-		QuestionBox questionBox = new QuestionBox(question);
+		QuestionBox questionBox = new QuestionBox(question, mediator);
 		this.conditionBox.addQuestionBox(questionBox);
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		QuestionBox questionBox = new QuestionBox((Question) calculatedQuestion);
+		QuestionBox questionBox = new QuestionBox((Question) calculatedQuestion, mediator);
 		this.conditionBox.addQuestionBox(questionBox);		
 	}
 

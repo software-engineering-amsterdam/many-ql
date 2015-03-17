@@ -1,4 +1,5 @@
 from .Widgets import *
+from ..QLTypes import *
 
 def typeStyleTable():
-	return {int : Spinbox, Money : TextInput, str : TextInput, bool : Dropdown}
+	return {QLInteger : Spinbox, QLMoney : TextInput, QLString : TextInput, QLBoolean : Dropdown}

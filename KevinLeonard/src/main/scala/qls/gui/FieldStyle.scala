@@ -3,16 +3,21 @@ package qls.gui
 import qls.ast._
 
 class FieldStyle {
+  
+  val DEFAULT_PROPERTY_WIDTH = Width(100)
+  val DEFAULT_PROPERTY_FONT = Font("Arial")
+  val DEFAULT_PROPERTY_FONT_COLOR = FontColor(HexadecimalColor("0000000"))
+  val DEFAULT_PROPERTY_FONT_SIZE = FontSize(13)
 
-  def extract (s: Style, env: List[StyleProperty]): Style = s match {
-    case Style(l, es) => Style(l, es.map(e => extract(e, env)))
+  def extract (s: StyleSheet, env: List[StyleProperty]): StyleSheet = s match {
+    case StyleSheet(l, es) => StyleSheet(l, es.map(e => extract(e, env)))
   }
 
   def extract(e: StyleSheetElement, env: List[StyleProperty]): Page = e match {
-    case Page(v, es) => Page(v, es.map(e => extractPageElement(e, env)))
+    case Page(v, es) => Page(v, es.map(e => extract(e, env)))
   }
 
-  def extractPageElement(e: PageElement, env: List[StyleProperty]): PageElement = e match {
+  def extract(e: Section, env: List[StyleProperty]): Section = e match {
     case Section(t, es) => Section(t, es.map(e => extract(e, env)))
   }
 
@@ -22,34 +27,85 @@ class FieldStyle {
   }
 
   def extract(w: Widget, env: List[StyleProperty]): Widget = w match {
-    case Slider(p) => Slider(updateStyleProperties(env, p))
-    case SpinBox(p) => SpinBox(updateStyleProperties(env, p))
-    case Text(p) => Text(updateStyleProperties(env, p))
-    case TextBlock(p) => TextBlock(updateStyleProperties(env, p))
-    case Radio(p) => Radio(updateStyleProperties(env, p))
-    case CheckBox(p) => CheckBox(updateStyleProperties(env, p))
-    case DropDown(p) => DropDown(updateStyleProperties(env, p))
+    case Slider(p) => Slider(getStyleProperties(env, p))
+    case SpinBox(p) => SpinBox(getStyleProperties(env, p))
+    case Text(p) => Text(getStyleProperties(env, p))
+    case TextBlock(p) => TextBlock(getStyleProperties(env, p))
+    case Radio(p) => Radio(getStyleProperties(env, p))
+    case CheckBox(p) => CheckBox(getStyleProperties(env, p))
+    case DropDown(p) => DropDown(getStyleProperties(env, p))
   }
 
-  // TODO: Update property instead of merge style lists.
-  def updateStyleProperties(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): List[StyleProperty] = {
-    val widgetStyleProperties = defaultStyles ++ styles
-
-    // Check property in default styles and overwrite with widget style properties.
-//    styles.foreach(style => widgetStyleProperties.find(y => y match {
-//      case x: Width => widgetStyleProperties.dropWhile(x => x match {
-//        case Width(_) => true
-//        case _ => false
-//      }); true
-//      case x: FontSize => widgetStyleProperties.dropWhile(x => x match {
-//        case FontSize(_) => true
-//        case _ => false
-//      }); true
-//
-//    }))
-
-    widgetStyleProperties
+  def getStyleProperties(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): List[StyleProperty] = {
+    List(
+      getWidth(defaultStyles, styles),
+      getFont(defaultStyles, styles),
+      getFontColor(defaultStyles, styles),
+      getFontSize(defaultStyles, styles)
+    )
   }
 
+  def getWidth(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+    styles.find(style => style match {
+      case p: Width => true
+      case _ => false
+    }) match {
+      case Some(p) => p
+      case None => defaultStyles.find(style => style match {
+        case p: Width => true
+        case _ => false
+      }) match {
+        case Some(p) => p
+        case None => DEFAULT_PROPERTY_WIDTH
+      }
+    }
+  }
 
+  def getFont(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+    styles.find(style => style match {
+      case p: Font => true
+      case _ => false
+    }) match {
+      case Some(p) => p
+      case None => defaultStyles.find(style => style match {
+        case p: Font => true
+        case _ => false
+      }) match {
+        case Some(p) => p
+        case None => DEFAULT_PROPERTY_FONT
+      }
+    }
+  }
+
+  def getFontColor(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+    styles.find(style => style match {
+      case p: FontColor => true
+      case _ => false
+    }) match {
+      case Some(p) => p
+      case None => defaultStyles.find(style => style match {
+        case p: FontColor => true
+        case _ => false
+      }) match {
+        case Some(p) => p
+        case None => DEFAULT_PROPERTY_FONT_COLOR
+      }
+    }
+  }
+
+  def getFontSize(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+    styles.find(style => style match {
+      case p: FontSize => true
+      case _ => false
+    }) match {
+      case Some(p) => p
+      case None => defaultStyles.find(style => style match {
+        case p: FontSize => true
+        case _ => false
+      }) match {
+        case Some(p) => p
+        case None => DEFAULT_PROPERTY_FONT_SIZE
+      }
+    }
+  }
 }

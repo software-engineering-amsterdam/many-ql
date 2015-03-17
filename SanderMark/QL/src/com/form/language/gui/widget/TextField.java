@@ -23,16 +23,14 @@ public class TextField extends Widget {
 		this.textfield.getDocument().addDocumentListener(textfieldListener);
 	}
 	
-	// TODO: quick fix can be done better
-		public JTextField getTextField()
-		{
-			return this.textfield;
-		}
+	public JTextField getTextField()
+	{
+		return this.textfield;
+	}
 
-	// TODO ADD HANDELER
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			setContextString(new StringValue(TextField.this.textfield.getText()));
+			setContextValue(new StringValue(TextField.this.textfield.getText()));
 			checkDependencyVisibility();
 		}
 

@@ -1,7 +1,7 @@
 package com.klq.typechecker.error;
 
 import com.klq.ast.impl.Location;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 
 /**
  * Created by Juriaan on 1-3-2015.

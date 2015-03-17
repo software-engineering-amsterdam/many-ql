@@ -3,7 +3,7 @@ package com.klq.ast.impl.stmt;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Location;
 import com.klq.ast.impl.Type;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 
 /**
  * Created by juriaan on 10-2-15.
@@ -14,19 +14,19 @@ public class QuestionNode extends AStatementNode {
     private Type questionType;
     private String text;
 
-    public QuestionNode(IdentifierNode questionID, String questionType, String text, Location location) {
+    public QuestionNode(IdentifierNode questionID, Type questionType, String text, Location location) {
         super(location);
         init(questionID, questionType, text);
     }
 
-    public QuestionNode(IdentifierNode questionID, String questionType, String text) {
+    public QuestionNode(IdentifierNode questionID, Type questionType, String text) {
         super();
         init(questionID, questionType, text);
     }
 
-    private void init(IdentifierNode questionID, String questionType, String text) {
+    private void init(IdentifierNode questionID, Type questionType, String text) {
         this.questionID = questionID;
-        this.questionType = Type.valueOf(questionType.toUpperCase());
+        this.questionType = questionType;
         this.text = text;
     }
 

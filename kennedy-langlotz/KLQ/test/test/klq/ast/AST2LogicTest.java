@@ -1,6 +1,6 @@
 package test.klq.ast;
 
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
@@ -46,16 +46,6 @@ public class AST2LogicTest {
         textList.add("This is a test question with a numeral answer");
         assertThat(storeTextList, is(textList));
     }
-
-/*    @Test
-    public void testComputedQuestion() throws Exception {
-        AddNode add = new AddNode(new NumberNode(13), new NumberNode(17));
-        ast.getComputedAnswer().add(new ComputedQuestionNode("question1", "string", "This is a test question", add));
-
-        fillStore();
-
-        System.out.println("lol");
-    }*/
 
     private void fillStore(){
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
