@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class NotEqualsOperator : BinaryTreeElementBase, IOperator, ITypeResolvableDirectly
+    public class NotEqualsOperator : BinaryTreeElementBase, IOperator, ITypeStatic
     {
         public  Type GetReturnType()
         {

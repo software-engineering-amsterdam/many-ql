@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Model.Terminals.Wrappers;
+using QL.Model;
 
 namespace QL.Visitors.EvaluationWrappers
 {

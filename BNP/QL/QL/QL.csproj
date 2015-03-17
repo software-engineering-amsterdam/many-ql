@@ -89,9 +89,8 @@
     <Compile Include="Model\ControlUnit.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
-    <Compile Include="Model\ITraversable.cs" />
-    <Compile Include="Model\ITypeResolvableDirectly.cs" />
-    <Compile Include="Model\ITypeResolvableByChildren.cs" />
+    <Compile Include="Model\ITypeStatic.cs" />
+    <Compile Include="Model\ITypeInferred.cs" />
     <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
     <Compile Include="Model\Operators\DivisionOperator.cs" />

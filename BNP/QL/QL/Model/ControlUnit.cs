@@ -15,7 +15,6 @@ namespace QL.Model
 
         public ControlUnit()
         {
-            Children= new List<ElementBase>(3);            
         }
 
         public void HandleChildren(Expression e, Block trueBlock)

@@ -8,8 +8,12 @@ namespace QL.Model
 {
     public class Block: ElementBase
     {
+        public IList<ElementBase> Children { get; set; }
+
         public Block()
-        { }
+        {
+            Children = new List<ElementBase>();
+        }
 
 
     }

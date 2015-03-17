@@ -66,26 +66,27 @@ namespace QL.Visitors
         {
             node.Expression.Accept(this);
 
-            DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
+            DeclareNewVariable(node.Identifier, node.DataType.GetReturnType());
 
-            if (TypeReference[node.Identifier]!=DetermineType((dynamic)node.Expression)){
+            if (node.DataType.GetReturnType() != DetermineType(node.Expression))
+            {
                 Exceptions.Add(new TypeCheckerError(String.Format(
-                "Expression inside the statement declared as {0}, but resolves into type {1} instead", 
-                TypeReference[node.Identifier], 
-                DetermineType((dynamic)node.Expression))));
+                "Expression inside the statement declared as {0}, but resolves into type {1} instead",
+                node.DataType.GetReturnType(), 
+                DetermineType(node.Expression))));
             }
 
         }
 
         public void Visit(QuestionUnit node)
         {
-            DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
+            DeclareNewVariable(node.Identifier, node.DataType.GetReturnType());
 
         }
 
         public void Visit(Expression node)
         {
-            node.Child.Accept(this);
+            node.Left.Accept(this);
         }
         #endregion
         void _visit_binary(BinaryTreeElementBase node)
@@ -94,137 +95,116 @@ namespace QL.Visitors
             node.Right.Accept(this);
         }
 
+        void operandsShouldBeTheSame<T>(T node) where T:BinaryTreeElementBase, IOperator
+        {
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
+            }
+        }
+
+        void typeRestrictionOnOperands<T>(T node, ICollection<Type> restrictedToTypes) where T : BinaryTreeElementBase, IOperator
+        {
+            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Left)))
+            {
+                Exceptions.Add(new TypeCheckerError("Type not permitted on the left side of the operator", node));
+            }
+            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Right)))
+            {
+                Exceptions.Add(new TypeCheckerError("Type not permitted on the right side of the operator", node));
+
+            }
+
+        }
+        
         #region Operators
         public void Visit(EqualsOperator node)
         {
             _visit_binary(node);
-
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
-            }
+            operandsShouldBeTheSame(node);            
+            
         }
 
         public void Visit(NotEqualsOperator node)
         {
             _visit_binary(node);
 
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on inequality operation", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(GreaterThanOperator node)
         {
             _visit_binary(node);
 
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than operation", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(GreaterThanEqualToOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than-or-equal-to operation", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(LessThanOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than operation", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(LessThanEqualToOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than-or-equal-to operation", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(MultiplicationOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on multiplication operation", node));
-            }
-            if (DetermineType((dynamic)node.Left) !=(new Number()).GetType())
-            {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on the left side of the  multiplication operator", node));
-            }
-            if (DetermineType((dynamic)node.Right) !=(new Number()).GetType())
-            {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on the right side of the multiplication operator", node));
-            }
+            operandsShouldBeTheSame(node);
+            typeRestrictionOnOperands(node, new []{new Number().GetType()});
 
         }
 
         public void Visit(DivisionOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on division operator", node));
-            }
+            operandsShouldBeTheSame(node);            
+
         }
 
         public void Visit(PlusOperator node)
         {
-            _visit_binary(node);
-            ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType(), new Text().GetType() };//this could be abstracted
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator +", node));
-            }
-            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
-            {
-                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
-            }           
-            
+            _visit_binary(node);            
+            operandsShouldBeTheSame(node);            
+            typeRestrictionOnOperands(node,new [] { new Number().GetType(), new Text().GetType() });
         }
 
         public void Visit(MinusOperator node)
         {
             _visit_binary(node);
-            ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Incompatible operands on operator -", node));
-            }
-            if (!ALLOWED_TYPES.Contains(DetermineType((dynamic)node.Left)))
-            {
-                Exceptions.Add(new TypeCheckerError("Usage of this operator is not implemented on these elements", node));
-            }  
+            operandsShouldBeTheSame(node);
+            typeRestrictionOnOperands(node, new[] { new Number().GetType() });
+  
         }
 
         public void Visit(AndOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on AND operator", node));
+            operandsShouldBeTheSame(node);            
 
-            }
         }
 
         public void Visit(OrOperator node)
         {
             _visit_binary(node);
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError("Non-number operands on OR operator", node));
-            }
+
+            operandsShouldBeTheSame(node);            
+
         }
         #endregion
 
@@ -252,7 +232,6 @@ namespace QL.Visitors
 
         public void Visit(Identifier node)
         {
-            return; // nothing to check
         }
         #endregion
 
@@ -265,20 +244,22 @@ namespace QL.Visitors
         
         Type DetermineType(Identifier i)
         { 
-            if (TypeReference.ContainsKey(i)){
-                return TypeReference[i];}
-            else{
-                //This error is thrown up because it prevents from further type checking
+            if (TypeReference.ContainsKey(i))
+            {
+                return TypeReference[i];
+            }
+            else
+            {
                 throw new QLError("Undeclared variable: "+i.Value);
             }
         }
 
-        Type DetermineType(ITypeResolvableByChildren i)
+        Type DetermineType(ITypeInferred i)
         {
-            return DetermineType((dynamic)i.Children[0]);
+            return DetermineType((dynamic)i.Left);
         }
 
-        Type DetermineType(ITypeResolvableDirectly i)
+        Type DetermineType(ITypeStatic i)
         {
             return i.GetReturnType();
         }

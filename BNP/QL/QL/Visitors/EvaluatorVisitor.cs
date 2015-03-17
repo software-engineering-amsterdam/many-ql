@@ -94,11 +94,11 @@ namespace QL.Visitors
         {
 
             //if expression is literal
-            Contract.Assert(node.Child != null, "Expression should have one and only one child");
+            Contract.Assert(node.Left != null, "Expression should have one and only one child");
 
-            node.Child.Accept(this);
+            node.Left.Accept(this);
 
-            Identifier i = node.Child as Identifier;
+            Identifier i = node.Left as Identifier;
             if (i != null) //TODO refactor
             {
 
@@ -118,9 +118,9 @@ namespace QL.Visitors
                     throw new QLError("Usage of variable before declaration");
                 }
             }
-            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Child))//this should recursively get the final result
+            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Left))//this should recursively get the final result
             {
-                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Child];
+                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Left];
 
             }
             else

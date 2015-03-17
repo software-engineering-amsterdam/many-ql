@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class MinusOperator : BinaryTreeElementBase, IOperator, ITypeResolvableByChildren
+    public class MinusOperator : BinaryTreeElementBase, IOperator, ITypeInferred
     { 
     }
 }

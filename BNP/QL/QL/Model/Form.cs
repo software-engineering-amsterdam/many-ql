@@ -10,14 +10,7 @@ namespace QL.Model
     public class Form : ElementBase
     {
         public Identifier Identifier { get; set; }
-        public Block Block {
-                            get { return (Block) Children[0]; }
-                            set {
-                                Children.Clear();
-                                Children.Add(value);
-                                }
-                            }
-
+        public Block Block;
         public Form()
         { }
 

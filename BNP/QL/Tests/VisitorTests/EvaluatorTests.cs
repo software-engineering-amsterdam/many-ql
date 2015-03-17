@@ -56,12 +56,13 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.RunEvaluate());
             TextWrapper tw = new TextWrapper("\"abc\"");
-            TextWrapper tw_from_code = Builder.DataContext.ReferenceLookupTable[(ITypeResolvable)Builder.DataContext.RootNode.Children[0].Children[0].Children[0]] as TextWrapper;
-            Assert.IsTrue((tw_from_code == tw).Value.Value);
+            throw new Exception("FIXME");
+            //TextWrapper tw_from_code = Builder.DataContext.GetWrappedValue[(ITypeResolvable)Builder.DataContext.RootNode.Block.Children[0].Children[0]] as TextWrapper;
+            //Assert.IsTrue((tw_from_code == tw).Value.Value);
             //evaluation should be done on the nodes(think about evaluation of only some part, not the whole tree)
             //by visitor could be done as well
 
-            Assert.IsTrue((Builder.DataContext.ReferenceLookupTable[(ITypeResolvable)Builder.DataContext.RootNode.Children[0].Children[1].Children[0]] as YesnoWrapper == new YesnoWrapper(true)).Value.Value);
+            //Assert.IsTrue((Builder.DataContext.ReferenceLookupTable[(ITypeResolvable)Builder.DataContext.RootNode.Children[0].Children[1].Children[0]] as YesnoWrapper == new YesnoWrapper(true)).Value.Value);
 
         }
         [TestMethod]

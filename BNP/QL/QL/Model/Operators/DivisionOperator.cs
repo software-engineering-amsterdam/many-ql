@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class DivisionOperator : BinaryTreeElementBase, IOperator, ITypeResolvableByChildren
+    public class DivisionOperator : BinaryTreeElementBase, IOperator, ITypeInferred
     {
         
         

@@ -8,10 +8,9 @@ using QL.Visitors;
 
 namespace QL.Model
 {
-    public abstract class ElementBase : IVisitable, ITraversable
+    public abstract class ElementBase : IVisitable
     {
         public SourceLocation SourceLocation { get; set; }
-        public IList<ElementBase> Children { get; set; }
 
         /// <summary>
         /// Gets an ElementType indicating if this element is a leaf or a node.
@@ -19,12 +18,6 @@ namespace QL.Model
         
         protected ElementBase()
         {
-            Children = new List<ElementBase>();
-        }
-
-        internal void HandleChildren(IList<ElementBase> list)
-        {
-            Children = list;
         }
 
 

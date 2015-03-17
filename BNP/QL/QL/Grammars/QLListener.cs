@@ -12,6 +12,7 @@ using System.Diagnostics;
 using QL.Model.Terminals;
 using Antlr4.Runtime;
 using QL.Model.Operators;
+using System.Diagnostics.Contracts;
 
 
 namespace QL.Grammars
@@ -27,6 +28,8 @@ namespace QL.Grammars
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
+            AstBuilderExceptions = new List<QLException>();
+
         }
 
         public QLListener(IList<QLException> AstBuilderExceptions)
@@ -51,12 +54,20 @@ namespace QL.Grammars
             return AstExists ? _astRootNode : null;
         }
 
+        void ThrowExceptionIfAny()
+        {
+            if (AstBuilderExceptions.Any())
+            {
+                throw AstBuilderExceptions.Last();
+            }
+        }
         private IList<ElementBase> GetChildren()
         {
-            Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
+            ThrowExceptionIfAny();
+            Contract.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
             Stack<ElementBase> children = _childrenStack.Pop();
             //stack has opposite ordering, need to be reversed to have the order as it was created.  // todo use queue instead          
-            IList<ElementBase> reversed = children.Reverse().ToList();
+            IList<ElementBase> reversed = children.Reverse().ToList();            
             return reversed;
         }
 
@@ -129,7 +140,8 @@ namespace QL.Grammars
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel above
-            Debug.Assert(!children.Any(), "A question should syntactically not have any children.");
+            ThrowExceptionIfAny();
+            Contract.Assert(!children.Any(), "A question should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             IResolvableTerminalType dataType = GetTypeInstance(context.type());
@@ -154,7 +166,8 @@ namespace QL.Grammars
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
-            Debug.Assert(children.Count() == 1, "A statement should have only expression as a child.");
+            ThrowExceptionIfAny();
+            Contract.Assert(children.Count() == 1, "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             IResolvableTerminalType dataType = GetTypeInstance(context.type());
@@ -193,7 +206,7 @@ namespace QL.Grammars
             IList<ElementBase> children = GetChildren();
 
             ControlUnit controlUnit = new ControlUnit();
-            Debug.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
+            Contract.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
             controlUnit.Expression = (Expression)children[0];
             controlUnit.ConditionTrueBlock = (Block)children[1];
             if (children.Count() == 3)
@@ -248,12 +261,12 @@ namespace QL.Grammars
             }
             else
             {
-                throw new Exception("not known literal");
+                throw new QLError("not known literal");
                 
             }
 
-
-            System.Diagnostics.Contracts.Contract.Assert(!children.Any(), "Children of the literal are not empty");
+            ThrowExceptionIfAny();
+            Contract.Assert(!children.Any(), "Children of the literal are not empty");
         }        
 
         public override void EnterExpression(QLParser.ExpressionContext context)
@@ -265,12 +278,11 @@ namespace QL.Grammars
         {
             IList<ElementBase> children = GetChildren();
 
-            Expression expression = new Expression();
-            expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
+            Expression expression;
 
             if (children.Count() == 1)
             {
-                expression.HandleChildren(children[0]);
+                expression=new Expression(children[0]);
             }
             else if (children.Count() == 2 && context.children.Count() == 5)
             {
@@ -294,13 +306,24 @@ namespace QL.Grammars
                     TryCreateOperator<AndOperator>(operatorContext, operatorContext.AND(), leftOperand, rightOperand, ref operatorElement);
                     TryCreateOperator<OrOperator>(operatorContext, operatorContext.OR(), leftOperand, rightOperand, ref operatorElement);
 
-                    expression.HandleChildren(operatorElement);
+                    expression= new Expression(operatorElement);
+                }
+                else
+                {
+                    throw new QLError("Unknown operator");
                 }
 
             }
+            else
+            {
+                throw new QLError("Expression without a child");
+
+            }
+            expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
 
             AppendToAST(expression);
         }
+        
 
         public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
             where T : BinaryTreeElementBase, IOperator, new()
@@ -312,7 +335,8 @@ namespace QL.Grammars
             }
 
             T @operator = new T();
-            @operator.HandleChildren(leftOperand, rightOperand);
+            @operator.Left=leftOperand;
+            @operator.Right=rightOperand;
             @operator.SourceLocation = SourceLocation.CreateFor(context);
 
             operatorElement = @operator;

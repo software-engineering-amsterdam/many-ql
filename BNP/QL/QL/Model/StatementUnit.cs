@@ -5,15 +5,7 @@ namespace QL.Model
 {
     public class StatementUnit : UnitBase
     {
-        public Expression Expression
-        {
-            get { return (Expression)Children[0]; }
-            set
-            {
-                Children.Clear();
-                Children.Add(value);
-            }
-        }
+        public Expression Expression;
 
         public StatementUnit()
         { }

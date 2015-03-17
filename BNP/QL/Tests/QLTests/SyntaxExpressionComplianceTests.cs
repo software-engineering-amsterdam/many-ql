@@ -125,9 +125,9 @@ namespace Tests.QLTests
             
             string input = @"form ExampleBlock {
                 statement Smthing1 (number, (1+(2 -3))) ""this "";
-                statement Smthing1 (number, (1+(2-3))) ""should"";
-                statement Smthing1 (number, (1+(2 --3))) ""be"";
-                statement Smthing1 (number, (1+(2-- 3))) ""solved"";
+                statement Smthing2 (number, (1+(2-3))) ""should"";
+                statement Smthing3 (number, (1+(2 --3))) ""be"";
+                statement Smthing4 (number, (1+(2-- 3))) ""solved"";
 
                 }
 
