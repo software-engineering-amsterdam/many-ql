@@ -7,6 +7,7 @@ def eval_expression(expression, answers_map):
     # to avoid annoying (not applicable) error messages
     answers_dict['__builtins__'] = None
     try:
+        print(expression)
         result = eval(expression, answers_dict)
         return result
     except Exception as e:
