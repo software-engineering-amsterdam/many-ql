@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.Model;
 using QL;
 using QL.Grammars;
+using QL.Model.Terminals.Wrappers;
 using QL.Visitors;
 using QL.Model.Terminals;
 using QL.Exceptions.Errors;

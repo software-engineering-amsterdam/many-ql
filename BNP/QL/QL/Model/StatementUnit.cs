@@ -7,21 +7,22 @@ namespace QL.Model
     {
         public Expression Expression
         {
-            get {
-            return (Expression)Children[0];
-            }
-            set{
-            Children.Clear();
-            Children.Add(value);
+            get { return (Expression)Children[0]; }
+            set
+            {
+                Children.Clear();
+                Children.Add(value);
             }
         }
-        public StatementUnit() { }
-        public StatementUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText, params string[] parameters)
+
+        public StatementUnit()
+        { }
+
+        public StatementUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText)
         {
             Identifier = identifier;
             DataType = dataType;
             DisplayText = displayText;
-            Parameters = parameters;
         }
 
     }

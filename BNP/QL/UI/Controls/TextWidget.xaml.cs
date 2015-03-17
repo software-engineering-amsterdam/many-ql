@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QL.UI.ControlWrappers;
 using QL.UI.Interfaces;
 
 namespace QL.UI.Controls
@@ -21,6 +22,7 @@ namespace QL.UI.Controls
     /// </summary>
     public partial class TextWidget : IWidget
     {
+        private readonly WidgetWrapperBase _context;
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(TextWidget));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(TextWidget));
 
@@ -36,10 +38,20 @@ namespace QL.UI.Controls
             set { SetValue(TextProperty, value); }
         }
 
-        public TextWidget()
+        public TextWidget(WidgetWrapperBase context)
         {
+            _context = context;
             InitializeComponent();
+
+            BindContext();
             DataContext = this;
+        }
+
+        public void BindContext()
+        {
+            Text = _context.Text;
+            Value = _context.Value;
+            Name = _context.Identifier;
         }
     }
 }

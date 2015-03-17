@@ -18,6 +18,8 @@
                 <MenuItem Header="_Open" Command="Open" />
                 <MenuItem Header="Open example..." x:Name="MenuItemExamples" />
                 <Separator />
+                <MenuItem Header="_Test" Click="TestMenuItem_OnClick" />
+                <Separator />
                 <MenuItem Header="E_xit" Command="Close" />
             </MenuItem>
             <MenuItem Header="_View">
@@ -28,10 +30,10 @@
         <TabControl>
             <TabItem Header="Questionnaire">
                 <StackPanel Name="QuestionsPanel">
-                    <controls:TextWidget Text="Question 1" Value="Hello World" x:Name="TextWidget" />
+                    <!--<controls:TextWidget Text="Question 1" Value="Hello World" x:Name="TextWidget" />
                     <controls:NumberWidget Text="Question 2" Value="10" x:Name="NumberWidget" />
                     <controls:YesNoWidget Text="Question 3" Value="False" x:Name="BoolWidget" />
-                    <controls:StatementWidget Text="Statement 1" Value="Displaying hello world text here" x:Name="StatementWidget" />
+                    <controls:StatementWidget Text="Statement 1" Value="Displaying hello world text here" x:Name="StatementWidget" />-->
                 </StackPanel>
             </TabItem>
 
@@ -53,6 +55,7 @@
                         <Button x:Name="ButtonParse" Click="ButtonParse_Click">Parse</Button>
                         <Button x:Name="ButtonTypeCheck" Click="ButtonTypeCheck_Click">Check types</Button>
                         <Button x:Name="ButtonEvaluate" Click="ButtonEvaluate_Click">Evaluate</Button>
+                        <Button x:Name="ButtonBuild" Click="ButtonBuild_Click">Build</Button>
                     </StackPanel>
                     
                     <GridSplitter ResizeDirection="Rows" Grid.Row="2" ResizeBehavior="PreviousAndNext"

@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model;
-using QL.Model.Terminals;
+using QL.Visitors;
 
-namespace QL.Visitors
+namespace QL.Model.Terminals.Wrappers
 {
-    public class YesnoWrapper:ITerminalWrapper //TODO change to  struct
+    public class YesnoWrapper : ITerminalWrapper
     {
-        
+
         public bool? Value;
         IResolvableTerminalType _node;
 
-        
-        
-     
+
+
+
         public YesnoWrapper(Yesno a)
         {
             if (a != null)
@@ -24,7 +19,7 @@ namespace QL.Visitors
 
                 Value = a.Value;
             }
-            _node = (IResolvableTerminalType) a;
+            _node = (IResolvableTerminalType)a;
 
 
         }
@@ -38,7 +33,12 @@ namespace QL.Visitors
         {
             return Value.Value ? true : false;
         }
-    
+
+        public override string ToString()
+        {
+            return Value.HasValue ? (Value.Value ? "Yes" : "No") : "Unknown";
+        }
+
         
         public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
         {
@@ -61,7 +61,7 @@ namespace QL.Visitors
             return new YesnoWrapper(a.Value.Value != b.Value.Value);
         }
 
-        
+
         public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
         {
             if (ContainsNullValue(a, b))
@@ -82,7 +82,7 @@ namespace QL.Visitors
         }
         public override int GetHashCode()
         {
-            string w="yesnowrapper";
+            string w = "yesnowrapper";
             return 13 * (new { w, Value }.GetHashCode()); //have you heard about those magic numbers?
         }
 

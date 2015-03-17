@@ -63,16 +63,16 @@
     <Compile Include="GenericDataHandlers\TypeChecker.cs" />
     <Compile Include="Visitors\EvaluationWrappers\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="Visitors\EvaluatorVisitor.cs" />
+    <Compile Include="Model\Terminals\Wrappers\TerminalWrapper.cs" />
     <Compile Include="Visitors\EvaluationWrappers\ITerminalWrapper.cs" />
-    <Compile Include="Evaluation\GUIBuilderVisitor.cs" />
     <Compile Include="Visitors\IVisitor.cs" />
     <Compile Include="Visitors\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\Errors\QLError.cs" />
     <Compile Include="Exceptions\Warnings\RedeclaredVariableWarning.cs" />
     <Compile Include="Exceptions\Errors\TypeCheckerError.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\NumberWrapper.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\YesnoWrapper.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\TextWrapper.cs" />
+    <Compile Include="Model\Terminals\Wrappers\NumberWrapper.cs" />
+    <Compile Include="Model\Terminals\Wrappers\YesnoWrapper.cs" />
+    <Compile Include="Model\Terminals\Wrappers\TextWrapper.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
@@ -135,10 +135,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\Warnings\TypeCheckerWarning.cs" />
-    <Compile Include="Visitors\UIWrappers\IRenderable.cs" />
-    <Compile Include="Visitors\UIWrappers\QuestionWrapper.cs" />
-    <Compile Include="Visitors\UIWrappers\StatementWrapper.cs" />
-    <Compile Include="Visitors\UserInterfaceVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

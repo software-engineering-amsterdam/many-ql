@@ -10,5 +10,7 @@ namespace QL.UI.Interfaces
     {
         object Value { get; set; }
         object Text { get; set; }
+
+        void BindContext();
     }
 }

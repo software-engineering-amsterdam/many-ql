@@ -9,25 +9,18 @@ namespace QL.Model
 {
     public class QuestionUnit : UnitBase
     {
-        public bool Required;
-
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText, bool required, params string[] parameters)
+        public QuestionUnit(Identifier identifier, ITerminal<string> displayText)
         {
-            Identifier = identifier; 
-            DataType = dataType;
-            DisplayText = displayText;
-            Required = required;
-            Parameters = parameters;
+            Identifier = identifier;
+            DisplayText = displayText.Value;
         }
 
-        public QuestionUnit(Identifier identifier, Text displayText, bool required)
+        public QuestionUnit(Identifier identifier, ITerminal<string> displayText, IResolvableTerminalType dataType) : this(identifier, displayText)
         {
-            Required = required;
-            Identifier = identifier;
-            DisplayText = displayText.ToString();
-        }        
+            DataType = dataType;
+        }
     }
 }
