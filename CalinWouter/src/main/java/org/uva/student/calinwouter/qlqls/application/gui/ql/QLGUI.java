@@ -27,6 +27,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
         }
@@ -45,7 +46,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     public Component render(StaticQuestionField staticQuestionField) {
         final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper, this);
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
@@ -58,8 +59,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
                     identifier,
                     null,
                     valueRepresentingLabelWidget,
-                    variableTableWrapper,
-                    this);
+                    variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 

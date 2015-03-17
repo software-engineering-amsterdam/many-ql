@@ -4,29 +4,51 @@ import ql.ast.Form
 import ql.gui.FormBuilder
 import ql.parser.Parser
 import ql.typechecker.{DuplicateLabelsChecker, TypeChecker}
+import qls.ast.Section
 
 import scala.io.Source
 
 object Interpreter {
 
   def main(args: Array[String]) {
-    val parser = new Parser()
-    val typeChecker = new TypeChecker()
-    val duplicateLabelsChecker = new DuplicateLabelsChecker()
-    val formBuilder = new FormBuilder()
-
     val source = Source.fromFile(args(0)).mkString
 
-    parser.parseAll[Form](parser.form, source) match {
-      case parser.Success(ast: Form, _) =>
-        val typeCheckErrors = typeChecker.check(ast)
-        typeCheckErrors.foreach(println)
-        duplicateLabelsChecker.check(ast).foreach(println)
-        if (typeCheckErrors.isEmpty) {
-          formBuilder.build(ast).main(Array())
+    parse(source) match {
+      case Some(ast) =>
+        val typeChecks = checkTypes(ast)
+        if (typeChecks) {
+          render(ast)
         }
-      case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
-      case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)
+      case None => ()
     }
+  }
+
+  def parse(source: String): Option[Form] = {
+    val parser = new Parser()
+
+    parser.parseAll[Form](parser.form, source) match {
+      case parser.Success(ast: Form, _) => Some(ast)
+      case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg); None
+      case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg); None
+    }
+  }
+
+  def checkTypes(ast: Form): Boolean = {
+    val typeChecker = new TypeChecker()
+    val duplicateLabelsChecker = new DuplicateLabelsChecker()
+
+    val errors = typeChecker.check(ast)
+    val warnings = duplicateLabelsChecker.check(ast)
+
+    errors.foreach(println)
+    warnings.foreach(println)
+
+    errors.isEmpty
+  }
+
+  def render(ast: Form): Unit = {
+    val formBuilder = new FormBuilder()
+
+    formBuilder.build(ast).main(Array())
   }
 }

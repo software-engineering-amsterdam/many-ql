@@ -23,7 +23,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     private List<AError> errors;
     private QuestionTable table;
     private CyclicDetector cyclicDetector;
-    private String currentQuestion; //tracks for which question we are currently detecting the cycle
+    private IdentifierNode currentQuestion; //tracks for which question we are currently detecting the cycle
 
     private List<Type> allowedMathExprTypes;
     private List<Type> allowedBooleanExprTypes;
@@ -59,7 +59,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
         cyclicDetector.calculateFullDependencies();
         if(cyclicDetector.hasCycles()){
-            for(String cyclicId : cyclicDetector.getCyclicIds()){
+            for(IdentifierNode cyclicId : cyclicDetector.getCyclicIds()){
                 errors.add(new CyclicDependency(table.get(cyclicId)));
             }
         }
@@ -122,13 +122,13 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Type visit(IdentifierNode node) {
-        if(table.has(node.getIdentifier())){
-            cyclicDetector.addDependency(currentQuestion, node.getIdentifier());
-            return table.getQuestionType(node.getIdentifier());
+        if(table.has(node)){
+            cyclicDetector.addDependency(currentQuestion, node);
+            return table.getQuestionType(node);
         }
         else {
             errors.add(new QuestionIDReference(node));
-            return null;
+            return Type.UNDEFINED;
         }
     }
     /*==================================================================================================================
@@ -161,37 +161,30 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     public Type visit(GreaterThanNode node) {
         return visitBinaryBooleanNode(node, ">", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(GreaterEqualsNode node) {
         return visitBinaryBooleanNode(node, ">=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(LessThanNode node) {
         return visitBinaryBooleanNode(node, "<", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(LessEqualsNode node) {
         return visitBinaryBooleanNode(node, "<=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(EqualsNode node) {
         return visitBinaryBooleanNode(node, "==", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(NotEqualsNode node) {
         return visitBinaryBooleanNode(node, "!=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(AndNode node) {
         return visitBinaryBooleanNode(node, "&&", allowedAndOrExprTypes);
     }
-
     @Override
     public Type visit(OrNode node) {
         return visitBinaryBooleanNode(node, "||", allowedAndOrExprTypes);

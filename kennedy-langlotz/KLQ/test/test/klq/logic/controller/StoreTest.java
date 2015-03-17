@@ -1,11 +1,8 @@
 package test.klq.logic.controller;
 
 //import com.klq.logic.controller.NoSuchQuestionException;
-import com.klq.logic.controller.Store;
 //import com.klq.logic.expression.terminal.Number;
 //import com.klq.logic.expression.terminal.String;
-import com.klq.logic.question.Question;
-import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

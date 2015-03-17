@@ -11,15 +11,17 @@ import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
+/**
+ * This class is used to fetch the right widget based on the type descriptor
+ */
 public class QLWidgetFetcher implements TypeCallback{
     private final QLInterpreter qlInterpreter;
     private final StaticQuestionField staticQuestionField;
+    private final VariableTableWrapper variableTableWrapper;
     private IWidget widget;
-    private VariableTableWrapper variableTableWrapper;
-    private QLGUI qlgui;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper, qlgui);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {
@@ -45,10 +47,9 @@ public class QLWidgetFetcher implements TypeCallback{
         return widget;
     }
 
-    public QLWidgetFetcher(QLInterpreter qlInterpreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper, QLGUI qlgui) {
+    public QLWidgetFetcher(QLInterpreter qlInterpreter, StaticQuestionField staticQuestionField, VariableTableWrapper variableTableWrapper) {
         this.qlInterpreter = qlInterpreter;
         this.staticQuestionField = staticQuestionField;
         this.variableTableWrapper = variableTableWrapper;
-        this.qlgui = qlgui;
     }
 }

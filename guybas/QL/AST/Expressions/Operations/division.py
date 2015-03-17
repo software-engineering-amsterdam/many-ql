@@ -12,4 +12,4 @@ class Division(e.Primitive):
         return constants.NUMBER
 
     def eval(self, x, y):
-        x / y
+        return x / y

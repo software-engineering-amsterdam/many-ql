@@ -22,7 +22,7 @@ class Not(p.Primitive):
         return self.__operand.is_valid_expression_message() and self.__operand.return_type_string == constants.BOOL
 
     def eval_expression(self, type_map):
-        x = self._operand.eval_expression(type_map)
+        x = self.__operand.eval_expression(type_map)
         if x is None:
             return None
         return not x

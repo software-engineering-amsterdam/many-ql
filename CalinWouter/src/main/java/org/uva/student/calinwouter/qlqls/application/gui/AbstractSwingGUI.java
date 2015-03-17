@@ -1,7 +1,5 @@
 package org.uva.student.calinwouter.qlqls.application.gui;
 
-import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -41,8 +39,4 @@ public abstract class AbstractSwingGUI{
     protected abstract String getFrameTitle();
 
     protected abstract Component renderFrameContent();
-
-    public void repaintFrame() {
-        frame.repaint();
-    }
 }

@@ -1,5 +1,5 @@
 import pyparsing as pp
-import QL.Grammar.basic_types as ql_type
+import QL.Grammar.grammar as ql_type
 import QLS.Factory.widget as factory
 
 
@@ -12,7 +12,7 @@ class Widget:
     Optional = pp.Optional
 
     # _name :: [0-9a-zA-Z!@#$%^&*(){}[]:;"'
-    name = ql_type.BasicTypes.characters
+    name = ql_type.characters
 
     # number :: [0-9]
     number = Word(nums)

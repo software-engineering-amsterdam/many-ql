@@ -5,7 +5,7 @@ import QLS.AST.Sheet.page as p
 class Default(p.Page):
 
     def __init__(self, qtype, widget, properties):
-        self._type = qtype.pretty_print()
+        self._type = qtype
         self._widget = widget
         self._properties = properties
         self._property_names = Default.property_names(properties)

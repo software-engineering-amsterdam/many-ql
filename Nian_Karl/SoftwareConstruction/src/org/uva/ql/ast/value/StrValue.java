@@ -13,8 +13,14 @@ public class StrValue extends Value {
 		return value;
 	}
 	
-	public boolean equals(StrValue strValue) {
-		return value.equals(strValue.value());
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof StrValue){
+			return value.equals(((StrValue) obj).value());
+			
+		} else {
+			throw new UnsupportedOperationException("StrValue is only compariable with another StrValue.");
+		}
 	}
 
 	@Override

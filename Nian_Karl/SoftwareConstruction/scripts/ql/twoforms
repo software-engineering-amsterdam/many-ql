@@ -1,0 +1,37 @@
+form SalarySurvey{
+	age: "How old are you?" Int
+	isMarried: "Are you married?" Bool	
+	if(age == 25){
+		employeeNr1: "What is your employee number?" Int
+	}else{
+		howAreYou: "How Are you ?" Str
+	}
+	myAge: "Hello?" Int
+	nomnom: "Some Age? " Int
+	if(nomnom == 10){
+		employeeNr1: "What is your employee number?" Int
+	}else{
+		employeeNr1: "What is your employee numbe12312312r?" Int
+	}
+	someDependentQuestion: "Hi Nian?" Bool(howAreYou == "Good")
+	ageWrong: "Age?" Int(ageWrong + age)
+}
+
+form f2{
+	age2: "How old are you?" Int
+	isMarried2: "Are you married?" Bool	
+	if(age2 == 25){
+		employeeNr21: "What is your employee number?" Int
+	}else{
+		howAreYou2: "How Are you ?" Str
+	}
+	myAge2: "Hello?" Int
+	nomnom2: "Some Age? " Int
+	if(nomnom2 == 10){
+		employeeNr22: "What is your employee number?" Int
+	}else{
+		employeeNr22: "What is your employee numbe12312312r?" Int
+	}
+	someDependentQuestion2: "Hi Nian?" Bool(howAreYou2 == "Good")
+	ageWrong2: "Age?" Int(ageWrong2 + age)
+}

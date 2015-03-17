@@ -1,9 +1,9 @@
-import com.klq.AST2GUIConverter;
+import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
-import com.klq.logic.controller.Store;
+import com.klq.controller.Controller;
 import com.klq.parser.KLQLexer;
 import com.klq.parser.KLQParser;
 import com.klq.typechecker.TypeChecker;
@@ -66,7 +66,7 @@ public class Main extends Application {
         tc.reportErrors();
 
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
-        Store store = (Store) ast.accept(AST2GUIConverter);
+        Controller controller = (Controller) ast.accept(AST2GUIConverter);
 
         //test stuff. remove later
         /*
@@ -77,10 +77,10 @@ public class Main extends Application {
         styleMap.addPageStyle("question1", qStyle);
         */
 
-        QuestionPage page = new QuestionPage(store/*, styleMap*/);
-        page.addQuestions(store.getOrderedQuestions());
+        QuestionPage page = new QuestionPage(controller/*, styleMap*/);
+        page.addQuestions(controller.getOrderedQuestions());
 
-        questionnaire = new Questionnaire(store);
+        questionnaire = new Questionnaire(controller);
         questionnaire.addQuestionPage(page);
 
         //print AST for test purposes
