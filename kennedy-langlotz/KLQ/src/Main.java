@@ -64,6 +64,7 @@ public class Main extends Application {
         QuestionnaireNode ast = (QuestionnaireNode) eval.visit(tree);
 
         TypeChecker tc = new TypeChecker(ast);
+        tc.run();
         tc.printErrors();
 
         if(tc.stopApplication()){
