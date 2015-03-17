@@ -18,7 +18,7 @@ import java.util.List;
 public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidget {
 
     public final static String DEFAULT_FONT = "Arial";
-    public final static int DEFAULT_FONT_SIZE = 12;
+    public final static int DEFAULT_FONT_SIZE = 14;
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
