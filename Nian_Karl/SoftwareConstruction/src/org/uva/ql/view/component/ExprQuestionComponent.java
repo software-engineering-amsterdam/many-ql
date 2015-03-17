@@ -23,9 +23,9 @@ public class ExprQuestionComponent extends QuestionComponent {
 		return expr;
 	}
 
-	public void evaluateAndChange(Evaluator evaluator, TypeChecker typechecker) {
+	public void evaluateAndChange(Evaluator evaluator, TypeChecker checker) {
 		Value value = evaluator.evaluate(expr);
-		Type type = expr.getType(typechecker);
+		Type type = expr.getType(checker);
 		widget.setWidgetValue(value, type);
 	}
 }

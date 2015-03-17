@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
     private final StyleSheet styleSheet;
     private final QLInterpreter qlIntepreter;
-    private final VariableTable symbolTable;
+    private final VariableTable variableTable;
     private final StaticFields staticFields;
     private final VariableTableWrapper variableTableWrapper;
 
@@ -91,7 +91,7 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
             final TypeDescriptor typeDescriptor = getTypeDescriptor(questionIdentifier);
             final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
             final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper,question, stylingMap);
+            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper,question, stylingMap, staticFields);
             final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
             return widget.getWidgetComponent();
         } catch(FieldNotFoundException e) {
@@ -109,11 +109,12 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
         final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
         final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue.getIdent(), variableTableWrapper);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValue.getIdent(), new String(),
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(
+                staticFields.getLabelForField(computedValue.getIdent()),
+                computedValue.getIdent(),
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                variableTableWrapper,
-                this);
+                variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
@@ -131,12 +132,12 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         return styleSheet.getStyleSheetName();
     }
 
-    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable symbolTable,
+    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable variableTable,
                   StaticFields staticFields) {
         this.qlIntepreter = qlIntepreter;
-        this.symbolTable = symbolTable;
+        this.variableTable = variableTable;
         this.staticFields = staticFields;
         this.styleSheet = styleSheet;
-        this.variableTableWrapper = new VariableTableWrapper(symbolTable);
+        this.variableTableWrapper = new VariableTableWrapper(variableTable);
     }
 }

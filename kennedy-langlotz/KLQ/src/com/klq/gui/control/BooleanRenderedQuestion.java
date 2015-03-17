@@ -1,8 +1,8 @@
 package com.klq.gui.control;
 
-import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.controller.Store;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.controller.Controller;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Region;
@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class BooleanRenderedQuestion extends ARenderedQuestion {
 
-    public BooleanRenderedQuestion(String id, Type type, String text, List<AExpression> dependencies, Store store) {
-        super(id, type, text, dependencies, store);
+    public BooleanRenderedQuestion(QuestionNode questionNode, List<AExpression> dependencies, Controller controller) {
+        super(questionNode, dependencies, controller);
     }
 
     @Override

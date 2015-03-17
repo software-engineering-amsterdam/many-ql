@@ -1,13 +1,12 @@
 package uva.sc.qls.typeChecker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import uva.sc.qls.ast.INodeVisitor;
-import uva.sc.qls.ast.INode;
-import uva.sc.qls.atom.ID;
+import uva.sc.ql.gui.GUIVisitor;
+import uva.sc.qls.ast.IQLSNodeVisitor;
+import uva.sc.qls.ast.IQLSNode;
+import uva.sc.qls.logic.ID;
 import uva.sc.qls.logic.Page;
 import uva.sc.qls.logic.Question;
 import uva.sc.qls.logic.Section;
@@ -23,31 +22,36 @@ import uva.sc.qls.logic.fonts.TimesNewRoman;
 import uva.sc.qls.logic.fonts.UndefinedFont;
 import uva.sc.qls.logic.style.DefaultStyle;
 import uva.sc.qls.logic.style.StyleProperty;
-import uva.sc.qls.types.Boolean;
-import uva.sc.qls.types.Number;
-import uva.sc.qls.types.String;
-import uva.sc.qls.types.Type;
-import uva.sc.qls.types.Unidentified;
+import uva.sc.core.INode;
+import uva.sc.core.types.Boolean;
+import uva.sc.core.types.Number;
+import uva.sc.core.types.String;
+import uva.sc.core.types.Type;
+import uva.sc.core.types.Undefined;
 import uva.sc.qls.widgetTypes.Checkbox;
 import uva.sc.qls.widgetTypes.Radio;
 import uva.sc.qls.widgetTypes.Spinbox;
 import uva.sc.qls.widgetTypes.UnidentifiedWidget;
 import uva.sc.qls.widgetTypes.WidgetType;
 
-public class TypeCheckerVisitor implements INodeVisitor<INode> {
+public class TypeCheckerVisitor implements IQLSNodeVisitor<INode> {
 
-	List<java.lang.String> errors;
-	List<java.lang.String> placedQuestions;
-	
-	final Map<java.lang.String, List<java.lang.String>> widgetCompatibility;
-	
+	List<java.lang.String>	errors;
+	List<java.lang.String>	placedQuestions;
+	GUIVisitor				qlGUIVisitor;
+
 	public TypeCheckerVisitor() {
 		this.errors = new ArrayList<java.lang.String>();
 		this.placedQuestions = new ArrayList<java.lang.String>();
-		this.widgetCompatibility = new HashMap<java.lang.String, List<java.lang.String>>();
-		populateWidgetCompatibilityMap();
 	}
-	
+
+	public TypeCheckerVisitor(GUIVisitor visitor) {
+		qlGUIVisitor = visitor;
+		this.errors = new ArrayList<java.lang.String>();
+		this.placedQuestions = new ArrayList<java.lang.String>();
+		System.out.println(qlGUIVisitor.getComponentList());
+	}
+
 	public List<java.lang.String> getErrors() {
 		return errors;
 	}
@@ -55,21 +59,11 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 	public List<java.lang.String> getPlacedQuestions() {
 		return placedQuestions;
 	}
-	
-	public void populateWidgetCompatibilityMap() {
-		List<java.lang.String> widgets = new ArrayList<java.lang.String>();
-		widgets.add("[WidgetType]: radio");
-		widgets.add("[WidgetType]: checkbox");
-		this.widgetCompatibility.put("[Type]: boolean", widgets);
-		widgets = new ArrayList<java.lang.String>();
-		widgets.add("[WidgetType]: spinbox");
-		this.widgetCompatibility.put("[Type]: number", widgets);
-	}
 
 	public StyleSheet visit(StyleSheet styleSheet) {
 		ID id = styleSheet.getId();
 		id.accept(this);
-		
+
 		for (Page page : styleSheet.getPages()) {
 			page.accept(this);
 		}
@@ -79,11 +73,11 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 	public Page visit(Page page) {
 		ID id = page.getId();
 		id.accept(this);
-		
+
 		for (Section section : page.getSections()) {
 			section.accept(this);
 		}
-		
+
 		if (page.getDefaultStyle() != null) {
 			DefaultStyle defaultStyle = page.getDefaultStyle();
 			defaultStyle.accept(this);
@@ -94,16 +88,11 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 	public DefaultStyle visit(DefaultStyle defaultStyle) {
 		Type type = defaultStyle.getType();
 		Widget widget = defaultStyle.getWidget();
-		java.lang.String typeName = type.toString();
-		java.lang.String widgetName = widget.getWidgetType().toString();
-		List<java.lang.String> compatibleWidgets = widgetCompatibility.get(typeName);
-		if (!compatibleWidgets.contains(widgetName)) {
-			errors.add("Widget incompatibility, cannot resolve type <" + typeName + 
-					"> to widget type <" + widgetName + ">");
+		Type widgetType = (Type) widget.accept(this);
+		if (!type.equals(widgetType)) {
+			errors.add("Widget incompatibility, cannot resolve type <" + type.toString() + "> to widget type <" + widget.getWidgetType().toString() + ">");
 		}
-		
-		type.accept(this);
-		
+
 		for (StyleProperty styleProperty : defaultStyle.getStyleProperty()) {
 			styleProperty.accept(this);
 		}
@@ -120,10 +109,10 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 		else {
 			errors.add("Duplicated question <" + questionId + ">");
 		}
-		
+
 		ID id = question.getId();
 		id.accept(this);
-		
+
 		if (question.getWidget() != null) {
 			Widget widget = question.getWidget();
 			widget.accept(this);
@@ -141,11 +130,11 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 		for (Question question : sectionBody.getQuestions()) {
 			question.accept(this);
 		}
-		
+
 		for (Section section : sectionBody.getSections()) {
 			section.accept(this);
 		}
-		
+
 		if (sectionBody.getDefaultStyle() != null) {
 			DefaultStyle defaultStyle = sectionBody.getDefaultStyle();
 			defaultStyle.accept(this);
@@ -153,10 +142,10 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 		return null;
 	}
 
-	public Widget visit(Widget widget) {
+	public Type visit(Widget widget) {
 		WidgetType widgetType = widget.getWidgetType();
-		widgetType.accept(this);
-		return null;
+		widgetType = (WidgetType) widgetType.accept(this);
+		return widgetType.getType();
 	}
 
 	public StyleProperty visit(StyleProperty styleProperty) {
@@ -167,23 +156,23 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 		return null;
 	}
 
-	public INode visit(String str) {
+	public IQLSNode visit(String str) {
 		return null;
 	}
 
-	public INode visit(Number number) {
+	public IQLSNode visit(Number number) {
 		return null;
 	}
 
-	public INode visit(Unidentified unidentified) {
+	public IQLSNode visit(Undefined unidentified) {
 		return null;
 	}
 
-	public INode visit(ID id) {
+	public IQLSNode visit(ID id) {
 		return null;
 	}
 
-	public INode visit(UnidentifiedWidget unidentifiedWidget) {
+	public IQLSNode visit(UnidentifiedWidget unidentifiedWidget) {
 		return null;
 	}
 
@@ -199,32 +188,32 @@ public class TypeCheckerVisitor implements INodeVisitor<INode> {
 		return new Radio();
 	}
 
-	public INode visit(Arial arial) {
-		return null;
+	public IQLSNode visit(Arial arial) {
+		return new Arial();
 	}
 
-	public INode visit(Bazooka bazooka) {
-		return null;
+	public IQLSNode visit(Bazooka bazooka) {
+		return new Bazooka();
 	}
 
-	public INode visit(BookAntiqua bookAntiqua) {
-		return null;
+	public IQLSNode visit(BookAntiqua bookAntiqua) {
+		return new BookAntiqua();
 	}
 
-	public INode visit(Courier courier) {
-		return null;
+	public IQLSNode visit(Courier courier) {
+		return new Courier();
 	}
 
-	public INode visit(Dialog dialog) {
-		return null;
+	public IQLSNode visit(Dialog dialog) {
+		return new Dialog();
 	}
 
-	public INode visit(TimesNewRoman timesNewRoman) {
-		return null;
+	public IQLSNode visit(TimesNewRoman timesNewRoman) {
+		return new TimesNewRoman();
 	}
 
-	public INode visit(UndefinedFont undefinedFont) {
-		return null;
+	public IQLSNode visit(UndefinedFont undefinedFont) {
+		return new UndefinedFont();
 	}
 
 }

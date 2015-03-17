@@ -19,7 +19,7 @@ public class QLWidgetFetcher implements TypeCallback{
     private QLGUI qlgui;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper, qlgui);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, variableTableWrapper);
     }
 
     public void createWidget(TypeDescriptor typeDescriptor) {

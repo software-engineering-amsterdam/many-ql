@@ -3,8 +3,7 @@ package ql.semantics.values;
 /**
  * Created by bore on 16/02/15.
  */
-// TODO: add handling for DateValue and the associated operations
-// TODO: add support for binary operations handling both types (integer and decimal) ?
+
 public abstract class Value<T>
 {
     private T value;

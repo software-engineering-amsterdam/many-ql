@@ -4,7 +4,7 @@ import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.gui.control.ARenderedQuestion;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,11 +18,11 @@ import static org.junit.Assert.assertThat;
  * Created by juriaan on 24-2-15.
  */
 public class AST2LogicTest {
-    private Store store;
+    private Controller controller;
     private QuestionnaireNode ast;
     @Before
     public void setUp() throws Exception {
-        store = new Store();
+        controller = new Controller();
         ast = new QuestionnaireNode();
     }
 
@@ -33,10 +33,10 @@ public class AST2LogicTest {
 
         fillStore();
 
-        assertEquals(store.getOrderedQuestions().size(), 2);
+        assertEquals(controller.getOrderedQuestions().size(), 2);
 
         ArrayList<String> storeTextList = new ArrayList<String>();
-        for(ARenderedQuestion question : store.getOrderedQuestions()){
+        for(ARenderedQuestion question : controller.getOrderedQuestions()){
             storeTextList.add(question.getText());
         }
 
@@ -58,6 +58,6 @@ public class AST2LogicTest {
 
     private void fillStore(){
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
-        store = (Store) ast.accept(AST2GUIConverter);
+        controller = (Controller) ast.accept(AST2GUIConverter);
     }
 }

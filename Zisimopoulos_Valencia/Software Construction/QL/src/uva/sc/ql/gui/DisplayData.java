@@ -1,25 +1,32 @@
 package uva.sc.ql.gui;
 
-import uva.sc.ql.logic.Expression;
+import uva.sc.core.types.Type;
+import uva.sc.ql.expression.Expression;
 
 public class DisplayData {
-	Expression	value;
-	Expression	condition;
+    Expression value;
+    Expression condition;
+    Type type;
 
-	public Expression getValue() {
-		return value;
-	}
+    public Expression getValue() {
+	return value;
+    }
 
-	public Expression getCondition() {
-		return condition;
-	}
+    public Expression getCondition() {
+	return condition;
+    }
 
-	public DisplayData(Expression v) {
-		value = v;
-	}
+    public Type getType() {
+	return type;
+    }
 
-	public DisplayData(Expression v, Expression c) {
-		value = v;
-		condition = c;
-	}
+    public DisplayData(Expression v) {
+	value = v;
+    }
+
+    public DisplayData(Expression v, Expression c, Type t) {
+	value = v;
+	condition = c;
+	type = t;
+    }
 }

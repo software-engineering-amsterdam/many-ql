@@ -59,6 +59,15 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private  DependencyList dependencyList;
 	private boolean isVisitingQuestionExpression;
 
+	public TypeChecker() {
+		types = new HashMap<Identifier, Type>();
+		labels = new ArrayList<String>();
+		messageManager = new MessageManager();
+		dependencyList = new DependencyList();
+		questioncomputedList = new ArrayList<Identifier>();
+		isVisitingQuestionExpression = false;
+	}
+	
 	// Name-Type table
 	private void addType(Identifier id, Type type) {
 		types.put(id, type);
@@ -229,12 +238,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Form form) {
-		types = new HashMap<Identifier, Type>();
-		labels = new ArrayList<String>();
-		messageManager = new MessageManager();
-		dependencyList = new DependencyList();
-		questioncomputedList = new ArrayList<Identifier>();
-		isVisitingQuestionExpression = false;
 		boolean result1 = form.getBlock().accept(this);
 		boolean result2 = checkCyclicDependency();
 		return result1 && result2;
@@ -261,12 +264,16 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(QuestionComputed question) {
 		questioncomputedList.add(question.getIdentifier());
-		boolean result1 = checkDeclaration(question);
-		boolean result2 = checkLabel(question);
+		boolean isValidDeclaration = checkDeclaration(question);
+		boolean isValidLabel = checkLabel(question);
+		
+		// Start visiting expression part
 		isVisitingQuestionExpression = true;
-		boolean result3 = question.getExpression().accept(this);
+		boolean isValidExpression = question.getExpression().accept(this);
+		// Complete visiting expression part 
 		isVisitingQuestionExpression = false;
-		return result1 && result2 && result3;
+		
+		return isValidDeclaration && isValidLabel && isValidExpression;
 	}
 
 	@Override

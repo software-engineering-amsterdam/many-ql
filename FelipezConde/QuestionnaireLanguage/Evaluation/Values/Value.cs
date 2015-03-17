@@ -8,6 +8,7 @@ namespace Evaluation.Values
 {
     public abstract class Value
     {
+        public abstract T Accept<T>(IValueVisitor<T> visitor);
         public abstract Value Equal(Value value);
         public abstract Value NotEqual(Value value);
         public virtual Bool Negate() { throw new NotImplementedException(); }
