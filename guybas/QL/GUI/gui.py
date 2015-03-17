@@ -4,6 +4,7 @@ import QL.Runtime.mapper as mapper
 import QL.Tools.exceptions as exc
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
+import QL.AST.Expressions.Operations.binary_expression as binary_expression
 
 
 class GUI:
@@ -53,7 +54,12 @@ class GUI:
 
         c_results = True
         if condition:
-            c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
+            # c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
+            # print(condition.pretty_print())
+            # print(c_results)
+            c_results = condition.eval_expression(self.__answersMap)
+            # print(c_results)
+            # print("--------")
         if not c_results:
             return False
 
@@ -64,7 +70,6 @@ class GUI:
             elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
-        print(new_answer)
         self.__answersMap.update(question, new_answer)
         for qid in self.__dependencies:
             if question.ast.get_id() in self.__dependencies[qid]:
