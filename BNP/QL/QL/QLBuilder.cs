@@ -12,7 +12,6 @@ using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
 using QL.Model.Terminals;
-using QL.Visitors.UIWrappers;
 using QL.GenericDataHandlers;
 
 namespace QL

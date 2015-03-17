@@ -3,7 +3,6 @@ using QL.Exceptions;
 using QL.Model;
 using QL.Model.Terminals;
 using QL.Visitors;
-using QL.Visitors.UIWrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,7 +38,6 @@ namespace QL
         /// </summary>
         public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
-        public IList<IRenderable> ElementsToDisplay;
 
         public bool InputSet;
         public bool AstBuilt;
@@ -64,7 +62,6 @@ namespace QL
         TypeReference = new Dictionary<Identifier, Type>();
         ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
         IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-        ElementsToDisplay = new List<IRenderable>();
 
         }
         public void Initialize(string input)
