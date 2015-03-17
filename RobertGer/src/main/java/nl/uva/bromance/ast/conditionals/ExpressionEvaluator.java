@@ -3,7 +3,6 @@ package nl.uva.bromance.ast.conditionals;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
 import nl.uva.bromance.ast.visitors.NullNodeVisitor;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ public class ExpressionEvaluator extends NullNodeVisitor{
             processOperatorExpression(expression, expression.getOperator().get());
         } else {
             processTerminal(expression);
-
         }
     }
 

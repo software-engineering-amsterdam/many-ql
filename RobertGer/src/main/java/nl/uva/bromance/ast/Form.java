@@ -60,24 +60,6 @@ public class Form extends QLNode implements CanContainConditionals {
         return Optional.of(identifier);
     }
 
-    @Override
-    public void typeCheck() throws TypeCheckingException {
-    }
-
-
-    @Override
-    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
-        if (getIdentifier().isPresent()) {
-            if (referenceMap.get(getIdentifier().get()) != null) {
-                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
-            } else {
-                referenceMap.put(getIdentifier().get(), this);
-            }
-        } else {
-            throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
-        }
-    }
-
     //TODO: Create Identifier class.
     @Override
     public Optional<IfStatement> getIfsStatement() {
