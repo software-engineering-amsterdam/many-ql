@@ -9,7 +9,7 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
-    return Visitor().visit(ast.root)
+    return Visitor().visitQuestionnaireEnd(ast.root)
 
 class Evaluator(object):
     def __init__(self):
@@ -60,7 +60,6 @@ class Evaluator(object):
         return questions
 
 
-
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
@@ -83,12 +82,12 @@ class Visitor(ASTStatementVisitor):
 
         question = Question(node.identifier,
                             node.text,
-                            node.type
+                            node.type,
                             self._conditionalStatements.copy(),
                             expression)
 
         self._evaluator.addQuestion(question)
-
+        
         return question
 
     def visitIfStatementBegin(self, node):
@@ -121,26 +120,22 @@ class ExpressionVisitor(ASTExpressionVisitor):
         return binaryExpression
 
     def visitBoolean(self, node):
-        boolean = Boolean(node.value)
-        self._expressionStack.append(boolean)
-        return boolean
+        self._expressionStack.append(node.value)
+        return node.value
 
     def visitInteger(self, node):
-        integer = Integer(node.value)
-        self._expressionStack.append(integer)
-        return integer
+        self._expressionStack.append(node.value)
+        return node.value
 
     def visitString(self, node):
-        string = String(node.value)
-        self._expressionStack.append(string)
-        return string
+        self._expressionStack.append(node.value)
+        return node.value
 
     def visitMoney(self, node):
-        money = Money(node.value)
-        self._expressionStack.append(money)
-        return money
+        self._expressionStack.append(node.value)
+        return node.value
 
     def visitIdentifier(self, node):
-        identifier = Identifier(node.value, self._evaluator)
+        identifier = EvalIdentifier(node.value, self._evaluator)
         self._expressionStack.append(identifier)
         return identifier

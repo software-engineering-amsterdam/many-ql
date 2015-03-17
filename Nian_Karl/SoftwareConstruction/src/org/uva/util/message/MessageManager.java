@@ -1,11 +1,12 @@
 package org.uva.util.message;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MessageManager{
 	
-	private final ArrayList<Error> errors;
-	private final ArrayList<Warning> warnings;
+	private final List<Error> errors;
+	private final List<Warning> warnings;
 	
 	public MessageManager() {
 		errors = new ArrayList<Error>();

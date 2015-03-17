@@ -128,7 +128,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
         }
         else {
             errors.add(new QuestionIDReference(node));
-            return null;
+            return Type.UNDEFINED;
         }
     }
     /*==================================================================================================================
@@ -161,37 +161,30 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     public Type visit(GreaterThanNode node) {
         return visitBinaryBooleanNode(node, ">", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(GreaterEqualsNode node) {
         return visitBinaryBooleanNode(node, ">=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(LessThanNode node) {
         return visitBinaryBooleanNode(node, "<", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(LessEqualsNode node) {
         return visitBinaryBooleanNode(node, "<=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(EqualsNode node) {
         return visitBinaryBooleanNode(node, "==", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(NotEqualsNode node) {
         return visitBinaryBooleanNode(node, "!=", allowedBooleanExprTypes);
     }
-
     @Override
     public Type visit(AndNode node) {
         return visitBinaryBooleanNode(node, "&&", allowedAndOrExprTypes);
     }
-
     @Override
     public Type visit(OrNode node) {
         return visitBinaryBooleanNode(node, "||", allowedAndOrExprTypes);

@@ -3,8 +3,8 @@ package com.klq.ast.impl.expr.literal;
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.NumberValue;
-import com.klq.ast.impl.expr.value.Value;
+import com.klq.ast.impl.value.NumberValue;
+import com.klq.ast.impl.value.Value;
 
 import java.math.BigDecimal;
 import java.util.Map;

@@ -2,6 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.ComboWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.RadioWidget;
@@ -10,6 +11,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwid
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.SpinboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
@@ -23,11 +25,11 @@ public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final QLInterpreter qlIntepreter;
     private final VariableTableWrapper variableTableWrapper;
     private final StylingSettings stylingSettings;
+    private final StaticFields staticFields;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        //TODO change this
-        //return new LabelWithWidgetWidget(question.getIdent(), stylingSettings, embeddedWidget, variableTableWrapper);
-        return null;
+        return new LabelWithWidgetWidget(staticFields.getLabelForField(question.getIdent()), question.getIdent(), stylingSettings, embeddedWidget, variableTableWrapper);
+
     }
 
     @Override
@@ -66,10 +68,11 @@ public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     }
 
     public QLSWidgetFetcher(QLInterpreter qlIntepreter, VariableTableWrapper variableTableWrapper, Question question,
-                            StylingSettings stylingSettings) {
+                            StylingSettings stylingSettings, StaticFields staticFields) {
         this.qlIntepreter = qlIntepreter;
         this.variableTableWrapper = variableTableWrapper;
         this.question = question;
         this.stylingSettings = stylingSettings;
+        this.staticFields = staticFields;
     }
 }

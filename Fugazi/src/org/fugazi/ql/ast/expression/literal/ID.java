@@ -3,8 +3,6 @@ package org.fugazi.ql.ast.expression.literal;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.ql.ast.type.UndefinedType;
-//import org.fugazi.ql.ast.type.UndefinedType;
 
 public class ID extends Literal {
 
@@ -18,7 +16,6 @@ public class ID extends Literal {
     public String getName() {
         return this.name;
     }
-
 
     @Override
     public String toString() {

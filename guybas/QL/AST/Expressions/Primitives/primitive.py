@@ -14,4 +14,7 @@ class Primitive:
 
     # Every primitive is a valid expression so return the empty error message
     def is_valid_expression_message(self, td):
-        return ""
+        return []
+
+    def eval_expression(self, type_map):
+        raise Exception("Not implemented by sub class")

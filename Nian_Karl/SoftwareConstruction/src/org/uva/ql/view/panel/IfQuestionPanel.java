@@ -1,6 +1,6 @@
 package org.uva.ql.view.panel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
@@ -15,8 +15,8 @@ public class IfQuestionPanel extends QuestionPanel {
 
 	private Expression expr;
 
-	public IfQuestionPanel(ArrayList<Panel> ifBlockPanels, Expression expr) {
-		super(ifBlockPanels);
+	public IfQuestionPanel(List<Panel> questionPanels, Expression expr) {
+		super(questionPanels);
 		this.expr = expr;
 		toggleIfBlock(false);
 	}
@@ -25,9 +25,9 @@ public class IfQuestionPanel extends QuestionPanel {
 		return expr;
 	}
 
-	public void evaluateAndShow(Evaluator evaluator, TypeChecker typeChecker) {
+	public void evaluateAndShow(Evaluator evaluator, TypeChecker checker) {
 		Value value = evaluator.evaluate(expr);
-		Type type = expr.getType(typeChecker);
+		Type type = expr.getType(checker);
 		if (type.isEqual(new BoolType()) && value.isDefined()) {
 			if ((boolean) value.value()) {
 				toggleIfBlock(true);
@@ -41,7 +41,7 @@ public class IfQuestionPanel extends QuestionPanel {
 
 	public void toggleIfBlock(boolean show) {
 		for (Panel panel : this.ifBlockPanels) {
-			panel.setVisible(show);
+			(panel).setVisible(show);
 		}
 	}
 }

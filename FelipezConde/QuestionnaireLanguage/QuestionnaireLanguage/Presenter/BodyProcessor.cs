@@ -1,4 +1,6 @@
 ﻿using Evaluation;
+using Evaluation.Values;
+using QuestionnaireLanguage.Events;
 using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
 using System;
@@ -14,23 +16,37 @@ namespace QuestionnaireLanguage.Presenter
     public class BodyProcessor
     {
         private SymbolTable symbolTable;
+        public EventUpdateValue EventUpdateValue { get; set; }
 
-        public BodyProcessor()
+        public BodyProcessor(SymbolTable symbolTable)
         {
-            symbolTable = new SymbolTable();
+            this.symbolTable = symbolTable;
         }
 
         public UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
         {
             foreach (ASTFormObject.FormObject node in body)
             {
-                FormObject formObject = new FormObjectVisitor().VisitFormObject(node);
+                FormObject formObject = node.Accept(new FormObjectVisitor());
+                formObject.EventUpdateValue += UpdateValue;
+
                 symbolTable = formObject.Register(symbolTable);
 
                 form = formObject.ProcessFormObject(form);
             }
 
             return form;
+        }
+
+        private void UpdateValue(string id, Value value)
+        {
+            EventUpdateValue(id, value);
+        }
+
+        internal SymbolTable Register(SymbolTable symbolTable)
+        {
+            symbolTable = this.symbolTable;
+            return symbolTable;
         }
     }
 }

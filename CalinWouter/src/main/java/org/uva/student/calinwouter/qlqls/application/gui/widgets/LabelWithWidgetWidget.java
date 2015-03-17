@@ -14,17 +14,23 @@ import java.awt.*;
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
+    private IWidget widget;
 
     @Override
     public Component getWidgetComponent() {
         return labelWithWidgetWidget;
     }
 
-    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper, final AbstractSwingGUI gui) {
+    @Override
+    public void resetValue() {
+        widget.resetValue();
+    }
+
+    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper) {
+        this.widget = widget;
         final Label fieldLabel = new Label(label);
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
-        //System.out.println(widget.getClass());
         labelWithWidgetWidget.add(widget.getWidgetComponent());
 
         if(stylingSettings != null) {
@@ -35,10 +41,12 @@ public class LabelWithWidgetWidget implements IWidget {
             widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
         }
 
-        if(variableTableWrapper.getVariableTable().isSet(identifier))
+        if(variableTableWrapper.getVariableTable().isSet(identifier)) {
             labelWithWidgetWidget.setVisible(true);
-        else
+        }
+        else {
             labelWithWidgetWidget.setVisible(false);
+        }
 
         variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
@@ -48,6 +56,7 @@ public class LabelWithWidgetWidget implements IWidget {
                 }
                 else {
                     labelWithWidgetWidget.setVisible(false);
+                    LabelWithWidgetWidget.this.resetValue();
                 }
                 labelWithWidgetWidget.revalidate();
             }

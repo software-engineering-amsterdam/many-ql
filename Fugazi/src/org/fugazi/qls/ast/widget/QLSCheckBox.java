@@ -9,6 +9,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.CheckBoxType;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -18,16 +19,16 @@ import java.util.List;
 
 public class QLSCheckBox extends AbstractQLSWidget {
 
-    private BoolValue value;
     private JCheckBox component;
 
     public QLSCheckBox() {
-        this.component = new JCheckBox();
+        this("");
     }
 
     public QLSCheckBox(String _label) {
         this.label = _label;
         this.component = new JCheckBox(label);
+        this.type = new CheckBoxType();
     }
 
     @Override
@@ -70,14 +71,13 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public BoolValue getWidgetValue() {
-        this.value = new BoolValue(this.component.isSelected());
-        return value;
+        return new BoolValue(this.component.isSelected());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (BoolValue) _value;
-        this.component.setSelected(this.value.getValue());
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
     }
 
     @Override

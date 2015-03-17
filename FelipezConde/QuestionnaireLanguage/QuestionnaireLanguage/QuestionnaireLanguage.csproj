@@ -58,20 +58,11 @@
     </ApplicationDefinition>
     <Compile Include="Events\EventUpdateValue.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\BoolHandler.cs" />
-    <Compile Include="GUI\CustomUIElements\CustomControls\CustomLabel.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\ObjectHandler.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\IntHandler.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\StringHandler.cs" />
-    <Compile Include="GUI\CustomUIElements\CustomPanels\CustomStackPanel.cs" />
-    <Compile Include="GUI\Widgets\CheckboxWidget.cs" />
-    <Compile Include="GUI\Widgets\LabelWidget.cs" />
-    <Compile Include="GUI\Widgets\StackPanelWidget.cs" />
-    <Compile Include="GUI\Widgets\Widget.cs" />
-    <Compile Include="GUI\Widgets\IntTextBoxWidget.cs" />
-    <Compile Include="GUI\Widgets\TextBoxWidget.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomCheckBox.cs" />
     <Compile Include="GUI\CustomUIElements\CustomControls\CustomTextBox.cs" />
-    <Compile Include="GUI\Widgets\StringTextBoxWidget.cs" />
     <Compile Include="GUI\FormObject\ConditionalObject.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,11 +71,9 @@
     <Compile Include="Presenter\MainPresenter.cs" />
     <Compile Include="Model\IMainWindow.cs" />
     <Compile Include="Visitors\FormObjectVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\IFormObjectVisitor.cs" />
-    <Compile Include="Visitors\Interfaces\ITypeVisitor.cs" />
     <Compile Include="Visitors\TypeToValue.cs" />
-    <Compile Include="Visitors\TypeToWidget.cs" />
-    <Compile Include="Visitors\ValueVisitor.cs" />
+    <Compile Include="Visitors\ValueToUIElement.cs" />
+    <Compile Include="Visitors\ValueToStackPanel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -142,9 +131,7 @@
       <Name>Notifications</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\FormObject\Interface\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Antlr4.4.3.0\build\Antlr4.targets" Condition="Exists('..\packages\Antlr4.4.3.0\build\Antlr4.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
