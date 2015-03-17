@@ -1,12 +1,10 @@
 from typechecking import Message
 
-from . import CheckerCommon
-
-from ..ast import Nodes, Visitor as ASTVisitors
+from .AbstractBase import AbstractBase
 
 
 
-class Checker(CheckerCommon.AbstractBase):
+class Checker(AbstractBase):
     def __init__(self, resultAlgebra):
         super().__init__(resultAlgebra)
         self._labels = {}

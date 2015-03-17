@@ -3,13 +3,17 @@ import types
 from .Table import *
 from .EvaluatorTypes import *
 
-from ..ast import AST, Nodes
+from ..ast import Nodes
 from ..ast.Visitor import ExpressionVisitor as ASTExpressionVisitor
 from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
-from ..TypeRules import OperatorTable
 
-def createEvaluator(ast):
-    return ast.root.accept(Visitor())
+from ..core.TypeRules import OperatorTable
+
+
+
+def createEvaluator(questionnaire):
+    return questionnaire.accept(Visitor())
+
 
 class Evaluator(object):
     def __init__(self):

@@ -1,4 +1,4 @@
-from ..ast.Visitor import StatementVisitor
+from ...ast.Visitor import StatementVisitor
 
 
 

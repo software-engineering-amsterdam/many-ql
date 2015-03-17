@@ -1,13 +1,12 @@
 from typechecking import Message
 
-from . import CheckerCommon
+from .AbstractBase import AbstractBase
 
-from .Identifier import typeOfIdentifier
-from ..TypeRules import nativeQuestionType
-
+from ...ast.Functions import typeOfIdentifier
 
 
-class Checker(CheckerCommon.AbstractBase):
+
+class Checker(AbstractBase):
     def __init__(self, resultAlgebra):
         super().__init__(resultAlgebra) 
         self._questionnaire = None
@@ -18,7 +17,7 @@ class Checker(CheckerCommon.AbstractBase):
 
 
     def visitQuestionStatement(self, node):
-        myType = nativeQuestionType(node.type)
+        myType = node.type
         expectedType = typeOfIdentifier(
             node.identifier, self._questionnaire
         )

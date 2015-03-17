@@ -1,6 +1,8 @@
 import operator
 from .QLTypes import *
 
+
+
 class OperatorTable:
     def __init__(self):
         self._rules = self._createRules()
@@ -122,11 +124,3 @@ class OperatorTable:
 
             ('||', QLBoolean, QLBoolean)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value or r.value)),
         }
-
-def nativeQuestionType(questionType):
-    return {
-        'boolean' : QLBoolean,
-        'string' : QLString,
-        'integer' : QLInteger,
-        'money' : QLMoney
-    }[questionType]

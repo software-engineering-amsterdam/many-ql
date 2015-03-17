@@ -1,17 +1,15 @@
 from typechecking import Message
 
-from . import CheckerCommon
+from .AbstractBase import AbstractBase
 
-from .Identifier import typeOfIdentifier
-from .Cast import effectiveTypes
+from ...core import TypeRules, QLTypes
 
-from .. import TypeRules, QLTypes
-
-from ..ast import Nodes, Visitor as ASTVisitors
+from ...ast.Visitor import ExpressionVisitor
+from ...ast.Functions import typeOfIdentifier
 
 
 
-class Checker(CheckerCommon.AbstractBase):
+class Checker(AbstractBase):
     def __init__(self, resultAlgebra):
         super().__init__(resultAlgebra)
         self._questionnaire = None
@@ -62,7 +60,7 @@ class Checker(CheckerCommon.AbstractBase):
     def _allowExpression(self, allowedTypes, exprType, node):
         allowedEffectiveTypeExists = any(map(
             lambda t: t in allowedTypes,
-            effectiveTypes(exprType)
+            _effectiveTypes(exprType)
         ))
         if not allowedEffectiveTypeExists:
             self._result = self._resultAlgebra.withError(
@@ -78,7 +76,7 @@ class Checker(CheckerCommon.AbstractBase):
 
 
         
-class TypeOfExpressionVisitor(ASTVisitors.ExpressionVisitor):
+class TypeOfExpressionVisitor(ExpressionVisitor):
     def __init__(self, questionnaire, resultAlgebra):
         super().__init__()
         self._operatorTable = TypeRules.OperatorTable()
@@ -182,3 +180,19 @@ class TypeOfExpressionVisitor(ASTVisitors.ExpressionVisitor):
                     node
                 )
             )
+
+
+def _castableTo(fromType):
+    castingSpec = {
+        QLTypes.QLInteger: [QLTypes.QLMoney],
+        QLTypes.QLMoney: [QLTypes.QLInteger]
+    }
+
+    if fromType in castingSpec:
+        return castingSpec[fromType]
+
+    return []
+
+
+def _effectiveTypes(actualType):
+    return [actualType] + _castableTo(actualType)

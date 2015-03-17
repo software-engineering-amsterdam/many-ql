@@ -1,10 +1,12 @@
-from . import \
+from .checkers import \
     CyclicQuestionDependencies,\
     TypesOfExpressions,\
     DuplicateQuestionLabels,\
     QuestionRedefinitions
 
 from typechecking import Result
+
+
 
 def check(questionnaire):
     modules = (

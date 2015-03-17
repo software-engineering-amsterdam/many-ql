@@ -1,14 +1,13 @@
 from typechecking import Message
 
-from . import CheckerCommon
+from .AbstractBase import AbstractBase
 
-from .Identifier import questionIdentifiedBy
-
-from ..ast import Nodes, Visitor as ASTVisitors
-
+from ...ast.Visitor import ExpressionVisitor
+from ...ast.Functions import questionIdentifiedBy
 
 
-class Checker(CheckerCommon.AbstractBase):
+
+class Checker(AbstractBase):
     def __init__(self, resultAlgebra):
         super().__init__(resultAlgebra)
         self._questionnaire = None
@@ -61,7 +60,7 @@ class Checker(CheckerCommon.AbstractBase):
         return visitor.identifiers
 
 
-class ExtractIdentifiersVisitor(ASTVisitors.ExpressionVisitor):
+class ExtractIdentifiersVisitor(ExpressionVisitor):
     def __init__(self):
         self._identifiers = []
 

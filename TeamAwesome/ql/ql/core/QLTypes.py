@@ -13,17 +13,22 @@ class QLType(object):
 		return isinstance(other, self.__class__) and \
 			self.value == other.value
 
+
 class QLInteger(QLType):
 	pass
+
 
 class QLString(QLType):
 	pass
 
+
 class QLIdentifier(QLType):
 	pass
 
+
 class QLMoney(QLType):
 	pass
+
 
 class QLBoolean(QLType):
 	pass
