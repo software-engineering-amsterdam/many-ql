@@ -1,6 +1,6 @@
 package test.klq.ast;
 
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;

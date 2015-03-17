@@ -1,6 +1,6 @@
 package com.klq.typechecker;
 
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 
 import java.util.*;
 

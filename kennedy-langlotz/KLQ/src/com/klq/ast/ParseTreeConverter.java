@@ -8,7 +8,7 @@ import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.math.AddNode;

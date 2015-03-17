@@ -1,7 +1,7 @@
 package com.klq.controller;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;

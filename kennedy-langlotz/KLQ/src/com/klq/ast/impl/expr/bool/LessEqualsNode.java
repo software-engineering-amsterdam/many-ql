@@ -3,7 +3,7 @@ package com.klq.ast.impl.expr.bool;
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.value.*;
 
 import java.util.Map;

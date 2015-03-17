@@ -1,6 +1,6 @@
 package test.klq.typechecker;
 
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.typechecker.QuestionTable;
 import org.junit.Test;
