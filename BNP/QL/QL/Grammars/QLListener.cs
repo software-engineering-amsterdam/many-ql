@@ -194,16 +194,13 @@ namespace QL.Grammars
 
             ControlUnit controlUnit = new ControlUnit();
             Debug.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
-
+            controlUnit.Expression = (Expression)children[0];
+            controlUnit.ConditionTrueBlock = (Block)children[1];
             if (children.Count() == 3)
-            {   //                         expresion                if block            else block
-                controlUnit.HandleChildren((Expression)children[0], (Block)children[1], (Block)children[2]);
+            {
+                controlUnit.ConditionFalseBlock = (Block)children[2];
             }
-            else if (children.Count() == 2)
-            {   //                         expression               if block
-                controlUnit.HandleChildren((Expression)children[0], (Block)children[1]);
-            }
-
+                        
             controlUnit.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(controlUnit);

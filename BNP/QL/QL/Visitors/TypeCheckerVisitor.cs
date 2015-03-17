@@ -36,35 +36,35 @@ namespace QL.Visitors
         #region Regular elements
         public void Visit(Form node)
         {
-            node.Block.AcceptSingle(this);
+            node.Block.Accept(this);
         }
 
         public void Visit(Block node)
         {
             foreach (ElementBase child in node.Children)
             {
-                child.AcceptSingle(this);
+                child.Accept(this);
             }
         }
 
         public void Visit(ControlUnit node)
         {
-            node.Expression.AcceptSingle(this);
+            node.Expression.Accept(this);
 
             if (node.ConditionTrueBlock!=null)
             {
-                node.ConditionTrueBlock.AcceptSingle(this);
+                node.ConditionTrueBlock.Accept(this);
             }
-            if (node.ConditionTrueBlock!=null)
+            if (node.ConditionFalseBlock!=null)
             {
-                node.ConditionFalseBlock.AcceptSingle(this);
+                node.ConditionFalseBlock.Accept(this);
             }
 
         }
 
         public void Visit(StatementUnit node)
         {
-            node.Expression.AcceptSingle(this);
+            node.Expression.Accept(this);
 
             DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
 
@@ -85,15 +85,19 @@ namespace QL.Visitors
 
         public void Visit(Expression node)
         {
-            node.Child.AcceptSingle(this);
+            node.Child.Accept(this);
         }
         #endregion
+        void _visit_binary(BinaryTreeElementBase node)
+        {
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+        }
 
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
 
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -103,8 +107,8 @@ namespace QL.Visitors
 
         public void Visit(NotEqualsOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
+
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on inequality operation", node));
@@ -113,8 +117,8 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
+
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than operation", node));
@@ -123,8 +127,7 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanEqualToOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than-or-equal-to operation", node));
@@ -133,8 +136,7 @@ namespace QL.Visitors
 
         public void Visit(LessThanOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than operation", node));
@@ -143,8 +145,7 @@ namespace QL.Visitors
 
         public void Visit(LessThanEqualToOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than-or-equal-to operation", node));
@@ -153,8 +154,7 @@ namespace QL.Visitors
 
         public void Visit(MultiplicationOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on multiplication operation", node));
@@ -172,8 +172,7 @@ namespace QL.Visitors
 
         public void Visit(DivisionOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on division operator", node));
@@ -182,9 +181,8 @@ namespace QL.Visitors
 
         public void Visit(PlusOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
-            ICollection<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
+            _visit_binary(node);
+            ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType(), new Text().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on operator +", node));
@@ -198,8 +196,7 @@ namespace QL.Visitors
 
         public void Visit(MinusOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -213,8 +210,7 @@ namespace QL.Visitors
 
         public void Visit(AndOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on AND operator", node));
@@ -224,8 +220,7 @@ namespace QL.Visitors
 
         public void Visit(OrOperator node)
         {
-            node.Left.AcceptSingle(this);
-            node.Right.AcceptSingle(this);
+            _visit_binary(node);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on OR operator", node));

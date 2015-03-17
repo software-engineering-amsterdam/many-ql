@@ -47,18 +47,37 @@ namespace QL.Visitors
         #region Regular elements
         public void Visit(Form node)
         {
+           node.Block.Accept(this);
+           
         }
 
         public void Visit(Block node)
         {
+            foreach (ElementBase child in node.Children)
+            {
+                child.Accept(this);
+            }
         }
 
         public void Visit(ControlUnit node)
         {
+            node.Expression.Accept(this);
+
+            if (node.ConditionTrueBlock != null)
+            {
+                node.ConditionTrueBlock.Accept(this);
+            }
+            if (node.ConditionFalseBlock != null)
+            {
+                node.ConditionFalseBlock.Accept(this);
+            }
+
         }
 
         public void Visit(StatementUnit node)
         {
+            node.Expression.Accept(this);
+
             IdentifierLookupTable[node.Identifier] = node.Expression;
 
         }
@@ -73,8 +92,12 @@ namespace QL.Visitors
 
         public void Visit(Expression node)
         {
+
             //if expression is literal
             Contract.Assert(node.Child != null, "Expression should have one and only one child");
+
+            node.Child.Accept(this);
+
             Identifier i = node.Child as Identifier;
             if (i != null) //TODO refactor
             {
@@ -107,10 +130,17 @@ namespace QL.Visitors
             }
         }
         #endregion
+        void _visit_binary(BinaryTreeElementBase node)
+        {
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+        }
 
         #region Operators
         public void Visit(EqualsOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
 
@@ -120,6 +150,8 @@ namespace QL.Visitors
 
         public void Visit(NotEqualsOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
             ReferenceLookupTable[node] = ((dynamic)leftWrapper) != ((dynamic)rightWrapper);
@@ -127,6 +159,8 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) > ((dynamic)rightWrapper);
@@ -134,6 +168,8 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanEqualToOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) >= ((dynamic)rightWrapper);
@@ -141,6 +177,8 @@ namespace QL.Visitors
 
         public void Visit(LessThanOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
                 ReferenceLookupTable[node] = ((dynamic)leftWrapper) < ((dynamic)rightWrapper);
@@ -148,6 +186,8 @@ namespace QL.Visitors
 
         public void Visit(LessThanEqualToOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
             ReferenceLookupTable[node] = ((dynamic)leftWrapper) <= ((dynamic)rightWrapper);
@@ -155,6 +195,7 @@ namespace QL.Visitors
 
         public void Visit(MultiplicationOperator node)
         {
+            _visit_binary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -164,6 +205,7 @@ namespace QL.Visitors
 
         public void Visit(DivisionOperator node)
         {
+            _visit_binary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -172,6 +214,7 @@ namespace QL.Visitors
 
         public void Visit(PlusOperator node)
         {
+            _visit_binary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -181,6 +224,7 @@ namespace QL.Visitors
 
         public void Visit(MinusOperator node)
         {
+            _visit_binary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -189,6 +233,8 @@ namespace QL.Visitors
 
         public void Visit(AndOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
             ReferenceLookupTable[node] = ((dynamic)leftWrapper) & ((dynamic)rightWrapper);
@@ -196,6 +242,8 @@ namespace QL.Visitors
 
         public void Visit(OrOperator node)
         {
+            _visit_binary(node);
+
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
             ReferenceLookupTable[node] = ((dynamic)leftWrapper) | ((dynamic)rightWrapper);

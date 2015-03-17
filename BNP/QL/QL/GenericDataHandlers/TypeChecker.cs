@@ -19,7 +19,7 @@ namespace QL.GenericDataHandlers
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.TypeReference, context.ASTHandlerExceptions);
             try
             {
-                context.RootNode.AcceptSingle(typeChecker);
+                context.RootNode.Accept(typeChecker);
             }
             catch (QLError ex)
             {

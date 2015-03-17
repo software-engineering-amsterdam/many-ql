@@ -20,7 +20,7 @@ namespace QL.GenericDataHandlers
             EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ReferenceLookupTable, context.IdentifierTable);
             try
             {
-                context.RootNode.AcceptBottomUp(evaluator);
+                context.RootNode.Accept(evaluator);
             }
             catch (QLError ex)
             {

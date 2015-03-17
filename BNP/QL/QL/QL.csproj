@@ -92,7 +92,6 @@
     <Compile Include="Model\ITraversable.cs" />
     <Compile Include="Model\ITypeResolvableDirectly.cs" />
     <Compile Include="Model\ITypeResolvableByChildren.cs" />
-    <Compile Include="Model\IBottomUpVisitable.cs" />
     <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
     <Compile Include="Model\Operators\DivisionOperator.cs" />
