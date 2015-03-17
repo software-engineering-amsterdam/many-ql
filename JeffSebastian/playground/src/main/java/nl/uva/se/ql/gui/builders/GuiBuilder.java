@@ -28,7 +28,7 @@ public class GuiBuilder implements StatementVisitor, FormVisitor {
 	}
 	
 	public void visit(Condition condition) {
-		ConditionBuilder conditionVisitor = new ConditionBuilder(condition, mediator);
+		ConditionBuilder conditionVisitor = new ConditionBuilder(condition, mediator);		
 		questionPane.addConditionBox(conditionVisitor.getConditionBox());			
 	}
 

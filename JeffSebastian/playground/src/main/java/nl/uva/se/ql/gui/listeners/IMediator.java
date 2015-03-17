@@ -6,7 +6,6 @@ import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 
 public abstract interface IMediator {
-	public void Update(Question question, Value value);	
-	public void registerQuestion(BaseQuestion question);
-	public void registerCondition(ConditionBox condition);
+	public void Update(Question question, Value value);		
+	public void registerCondition(ConditionBox conditionBox);
 }

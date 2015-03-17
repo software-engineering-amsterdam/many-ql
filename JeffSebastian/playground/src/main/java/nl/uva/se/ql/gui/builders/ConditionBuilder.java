@@ -15,7 +15,7 @@ public class ConditionBuilder implements StatementVisitor{
 	
 	public ConditionBuilder(Condition condition, IMediator mediator){			
 		this.conditionBox = new ConditionBox(condition);	
-		this.mediator = mediator;
+		this.mediator = mediator;		
 		visit(condition);
 	}
 

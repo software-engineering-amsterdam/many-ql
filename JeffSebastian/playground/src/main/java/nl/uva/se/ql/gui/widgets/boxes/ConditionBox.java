@@ -9,7 +9,8 @@ public class ConditionBox extends VBox{
 		
 	public ConditionBox(Condition condition){
 		super();
-		this.condition = condition;		
+		this.condition = condition;	
+		this.setVisible(false);
 	}	
 	
 	public void addQuestionBox(QuestionBox questionBox)
@@ -19,5 +20,5 @@ public class ConditionBox extends VBox{
 	
 	public Condition getCondition(){
 		return this.condition;
-	}
+	}	
 }
