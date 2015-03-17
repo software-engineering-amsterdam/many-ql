@@ -22,7 +22,7 @@ form.is_valid_form()
 # typeChecker.is_valid_form()
 
 
-# enriched_form = runtime_form.Form(form)
-# gui = g.GUI(enriched_form)
-# gui.generate_gui()
-# gui.show()
+enriched_form = runtime_form.Form(form)
+gui = g.GUI(enriched_form)
+gui.generate_gui()
+gui.show()

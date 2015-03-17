@@ -59,7 +59,6 @@ class Form:
             else:
                 self.__ast_questions.append(statement)  # add question to the new flat list
                 self.__q_conditions_dict[statement.get_id()] = conditions  # add condition to questions parent conditions
-                conditions = []
 
     def __enrich_questions(self):
         """
@@ -90,5 +89,5 @@ class Form:
                 continue
             expr = conditions_list[0]
             for x in range(1, len(conditions_list), 2):
-                expr = and_op.And("and", expr, conditions_list[x])
+                expr = and_op.And(expr, conditions_list[x])
             self.__q_conditions_dict[q_id] = expr
