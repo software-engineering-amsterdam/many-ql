@@ -11,7 +11,7 @@ class BinaryExpression(e.Primitive):
         self.symbol = symbol
 
     def pretty_print(self, level=0):
-        return "(" + self._operand1.pretty_print() + self.symbol + self._operand2.pretty_print() + ")"
+        return "(" + self._operand1.pretty_print() + " " + self.symbol + " " + self._operand2.pretty_print() + ")"
 
     # get the return _type of the _expression, only one needed to be overwritten
     def return_type_string(self, type_dict):

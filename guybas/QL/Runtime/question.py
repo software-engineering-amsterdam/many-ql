@@ -32,3 +32,6 @@ class Question:
 
     def get_condition(self):
         return self.condition
+
+    def get_statement_dict(self):
+        return {self.ast.get_id(): self}

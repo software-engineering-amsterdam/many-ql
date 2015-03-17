@@ -29,6 +29,12 @@ class Form:
     def get_form(self):
         return self
 
+    def get_statement_dict(self):
+        d = {}
+        for s in self.get_questions():
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        return d
+
     def __flatten_ast(self, statements, conditions=[]):
         for statement in statements:
             if statement.is_conditional():
@@ -41,6 +47,7 @@ class Form:
             else:
                 self.__ast_questions.append(statement)
                 self.__q_conditions_dict[statement.get_id()] = conditions
+                conditions = []
 
     def __enrich_questions(self):
         order = 0
@@ -55,6 +62,9 @@ class Form:
     def __combine_expressions(self):
         for q_id in self.__q_conditions_dict:
             conditions_list = self.__q_conditions_dict[q_id]
+            if not conditions_list:
+                self.__q_conditions_dict[q_id] = None
+                continue
             expr = conditions_list[0]
             for x in range(1, len(conditions_list), 2):
                 expr = and_op.And("and", expr, conditions_list[x])
