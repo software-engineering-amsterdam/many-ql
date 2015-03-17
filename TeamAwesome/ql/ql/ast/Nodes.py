@@ -8,12 +8,14 @@ class Questionnaire(object):
             statement.accept(visitor)
         return visitor.visitQuestionnaireEnd(self)
 
+
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
     def accept(self, visitor):
         raise NotImplementedError
+
 
 class FormStatement(Node):
     def __init__(self, identifier, statements, lineNumber):
@@ -30,29 +32,31 @@ class FormStatement(Node):
             statement.accept(visitor)
         return visitor.visitFormStatementEnd(self)
 
+
 class QuestionStatement(Node):
-    def __init__(self, identifier, text, questionType, lineNumber, expr = None):
+    def __init__(self, identifier, text, questionType, lineNumber, expression = None):
         super().__init__(lineNumber)
         self.identifier = identifier
         self.text = text
         self.type = questionType
-        self.expr = expr
+        self.expression = expression
 
     def __str__(self):
         return "questionId:%s, line:%d, question:%s, type:%s, expr:%s"\
-            %(self.identifier, self.lineNumber, self.text, self.type, self.expr)
+            %(self.identifier, self.lineNumber, self.text, self.type, self.expression)
 
     def accept(self, visitor):
         return visitor.visitQuestionStatement(self)
 
+
 class IfStatement(Node):
     def __init__(self, expr, statements, lineNumber):
         super().__init__(lineNumber)
-        self.expr = expr
+        self.expression = expression
         self.statements = statements
         
     def __str__(self):
-        return "ifStatement, line:%d, expr:%s" %(self.lineNumber, self.expr)
+        return "ifStatement, line:%d, expr:%s" %(self.lineNumber, self.expression)
 
     def accept(self, visitor):
         visitor.visitIfStatementBegin(self)
@@ -60,29 +64,31 @@ class IfStatement(Node):
             statement.accept(visitor)
         return visitor.visitIfStatementEnd(self)
 
+
 class UnaryExpression(Node):
-    def __init__(self, op, expression, lineNumber):
+    def __init__(self, operator, expression, lineNumber):
         super().__init__(lineNumber)
-        self.op = op
+        self.operator = operator
         self.expression = expression
 
     def __str__(self):
-        return "(%s %s)" %(self.op, self.right)
+        return "(%s %s)" %(self.operator, self.right)
 
     def accept(self, visitor):
         visitor.visitUnaryExpressionBegin(self)
         self.expression.accept(visitor)
         return visitor.visitUnaryExpressionEnd(self)
 
+
 class BinaryExpression(Node):
-    def __init__(self, left, op, right, lineNumber):
+    def __init__(self, left, operator, right, lineNumber):
         super().__init__(lineNumber)
         self.left = left
-        self.op = op
+        self.operator = operator
         self.right = right
 
     def __str__(self):
-        return "(%s %s %s)" %(self.left, self.op, self.right)
+        return "(%s %s %s)" %(self.left, self.operator, self.right)
 
     def accept(self, visitor):
         visitor.visitBinaryExpressionBegin(self)
@@ -103,21 +109,26 @@ class AtomBaseType(Node):
     def __str__(self):
         return str(self.value)
 
+
 class Boolean(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitBoolean(self)
+
 
 class Integer(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitInteger(self)
 
+
 class String(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitString(self)
 
+
 class Money(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitMoney(self)
+
 
 class Identifier(AtomBaseType):
     def accept(self, visitor):
