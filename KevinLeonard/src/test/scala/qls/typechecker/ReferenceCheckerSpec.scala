@@ -12,14 +12,26 @@ class ReferenceCheckerSpec extends Specification {
   val checker = new ReferenceChecker
   import checker._
 
+  val AnySectionName = "section"
   val EmptyEnvironment: TypeEnvironment = Map()
 
   "reference checker for sections" should {
-    "return multiple errors, if multiple questions are defined in QL program" in {
-      val sectionWithMultipleQuestion = Section("section", List(Question(Variable("x"), Text(List())), Question(Variable("x"), Text(List()))))
-      val errorList = List(Error("Question x is not defined in your QL program", Some(NoPosition)), Error("Question x is not defined in your QL program", Some(NoPosition)))
+    "return empty list if a correct widget is used for a question" in {
+      val question = Question(Variable("x"), Text(List()))
+      val environmentWithQuestion = Map("x" -> BooleanType())
 
-      check(sectionWithMultipleQuestion, EmptyEnvironment) must beEqualTo(errorList)
+      check(question, environmentWithQuestion) must beEmpty
+    }
+
+    "return list with two errors if two questions with incorrect widget are used" in {
+      val sectionWithMultipleQuestion = Section("section",
+        List(Question(Variable("x"), Text(List())), Question(Variable("x"), Text(List()))))
+      val errors = List(
+        Error("Question x is not defined in your QL program", Some(NoPosition)),
+        Error("Question x is not defined in your QL program", Some(NoPosition))
+      )
+
+      check(sectionWithMultipleQuestion, EmptyEnvironment) must beEqualTo(errors)
     }
   }
 

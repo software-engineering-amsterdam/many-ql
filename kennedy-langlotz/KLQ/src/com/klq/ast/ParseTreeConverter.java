@@ -52,12 +52,13 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
         IdentifierNode id = new IdentifierNode(ctx.id.getText());
+        Type type = Type.getEnum(ctx.type.getText());
 
         if(ctx.expr() == null){
-            questionNode = new QuestionNode(id, ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            questionNode = new QuestionNode(id, type, stripQuotes(ctx.text.getText()), formatLocation(ctx));
         } else {
             AExpression computedAnswer = (AExpression) visit(ctx.expr());
-            questionNode = new ComputedQuestionNode(id, ctx.type.getText(), stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
+            questionNode = new ComputedQuestionNode(id, type, stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
         }
         return questionNode;
     }

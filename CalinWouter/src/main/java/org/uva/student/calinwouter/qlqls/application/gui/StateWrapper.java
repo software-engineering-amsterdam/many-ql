@@ -10,8 +10,7 @@ import java.util.List;
  * A wrapper for the variable table that also allows listeners to get notified when
  * changes occur in the table.
  */
-//TODO we were suggested to change the name of the class
-public class VariableTableWrapper {
+public class StateWrapper {
     private VariableTable variableTable;
     private List<ChangedStateEventListener> listeners;
 
@@ -34,7 +33,7 @@ public class VariableTableWrapper {
         return variableTable;
     }
 
-    public VariableTableWrapper(VariableTable variableTable) {
+    public StateWrapper(VariableTable variableTable) {
         this.variableTable = variableTable;
         listeners = new LinkedList<ChangedStateEventListener>();
     }

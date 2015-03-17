@@ -14,19 +14,19 @@ public class QuestionNode extends AStatementNode {
     private Type questionType;
     private String text;
 
-    public QuestionNode(IdentifierNode questionID, String questionType, String text, Location location) {
+    public QuestionNode(IdentifierNode questionID, Type questionType, String text, Location location) {
         super(location);
         init(questionID, questionType, text);
     }
 
-    public QuestionNode(IdentifierNode questionID, String questionType, String text) {
+    public QuestionNode(IdentifierNode questionID, Type questionType, String text) {
         super();
         init(questionID, questionType, text);
     }
 
-    private void init(IdentifierNode questionID, String questionType, String text) {
+    private void init(IdentifierNode questionID, Type questionType, String text) {
         this.questionID = questionID;
-        this.questionType = Type.valueOf(questionType.toUpperCase());
+        this.questionType = questionType;
         this.text = text;
     }
 

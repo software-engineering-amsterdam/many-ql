@@ -14,15 +14,15 @@ public class DecimalType extends Type {
 	public DecimalValue getDefaultValue() {
 		return new DecimalValue(new BigDecimal(0));
 	}
-
-	@Override
-	public Type getAcceptedType() {
-		return new IntegerType();
-	}
 	
 	@Override
 	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public boolean isNumerical() {
+		return true;
 	}
 	
 }

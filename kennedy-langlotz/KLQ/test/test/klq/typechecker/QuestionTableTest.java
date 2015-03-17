@@ -1,5 +1,6 @@
 package test.klq.typechecker;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.typechecker.QuestionTable;
@@ -17,7 +18,7 @@ public class QuestionTableTest {
         IdentifierNode id1 = new IdentifierNode("question1");
         IdentifierNode id2 = new IdentifierNode("question1");
 
-        qt.add(id1, new QuestionNode(id1, "string", "test"));
+        qt.add(id1, new QuestionNode(id1, Type.STRING, "test"));
         assertEquals(true, qt.has(id2));
     }
 }

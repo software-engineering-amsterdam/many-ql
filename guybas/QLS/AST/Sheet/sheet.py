@@ -30,6 +30,9 @@ class Sheet(e.SheetElement):
     def get_property_dict(self):
         return self._property_dict
 
+    def get_pages(self):
+        return self._pages
+
     @staticmethod
     def id_collection(pages):
         ids = []
