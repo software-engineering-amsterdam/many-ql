@@ -6,6 +6,11 @@ import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+ * A wrapper for the variable table that also allows listeners to get notified when
+ * changes occur in the table.
+ */
+//TODO we were suggested to change the name of the class
 public class VariableTableWrapper {
     private VariableTable variableTable;
     private List<ChangedStateEventListener> listeners;

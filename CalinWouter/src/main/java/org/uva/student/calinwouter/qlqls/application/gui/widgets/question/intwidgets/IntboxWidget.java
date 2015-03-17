@@ -35,12 +35,13 @@ public class IntboxWidget implements IWidget {
             }
 
             public void updateField() {
+                VariableTable variableTable = variableTableWrapper.getVariableTable();
                 try {
-                    variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new IntegerValue(Integer.parseInt(widget.getText())));
+                    variableTable.setVariable(questionIdentifier, new IntegerValue(Integer.parseInt(widget.getText())));
                 } catch(NumberFormatException e) {
-                    variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new IntegerValue(0));
+                    variableTable.setVariable(questionIdentifier, new IntegerValue(0));
                 }
-                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTable);
                 variableTableWrapper.setVariableTable(newVariableTable);
             }
         });

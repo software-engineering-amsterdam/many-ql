@@ -40,9 +40,9 @@ public class InterpreterHelper {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
-        QLInterpreter qlIntepreter = new QLInterpreter((AForm) ((AFormBegin) ast.getPBegin()).getForm());
-        qlIntepreter.interpret(new VariableTable());
-        return qlIntepreter;
+        QLInterpreter qlInterpreter = new QLInterpreter((AForm) ((AFormBegin) ast.getPBegin()).getForm());
+        qlInterpreter.interpret(new VariableTable());
+        return qlInterpreter;
     }
 
     public static StaticFields analyzeQlString(String input) throws ParserException, IOException, LexerException {

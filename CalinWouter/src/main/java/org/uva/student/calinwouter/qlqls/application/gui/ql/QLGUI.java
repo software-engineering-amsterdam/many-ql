@@ -18,7 +18,6 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     private final QLInterpreter qlIntepreter;
     private final StaticFields fieldsList;
-    private final VariableTable variableTable;
     private final VariableTableWrapper variableTableWrapper;
 
     @Override
@@ -29,6 +28,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     protected Component renderFrameContent() {
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
         }
@@ -47,7 +47,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     @Override
     public Component render(StaticQuestionField staticQuestionField) {
         final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper, this);
+        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlIntepreter, staticQuestionField, variableTableWrapper);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
@@ -64,9 +64,8 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
-    public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFields fieldsList) {
-        this.qlIntepreter = qlIntepreter;
-        this.variableTable = variableTable;
+    public QLGUI( QLInterpreter qlInterpreter, VariableTable variableTable, StaticFields fieldsList) {
+        this.qlIntepreter = qlInterpreter;
         this.fieldsList = fieldsList;
         variableTableWrapper = new VariableTableWrapper(variableTable);
     }
