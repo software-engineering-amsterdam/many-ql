@@ -1,27 +1,35 @@
 from typechecking import Message
 
-from . import Checker
+from . import CheckerCommon
+
 from .Identifier import questionIdentifiedBy
 
 from ..ast import Nodes, Visitor as ASTVisitors
 
-from .. import CustomTypes
 
-class Checker(Checker.StatementChecker):
-    def _visitQuestionStatement(self, node):
+
+class Checker(CheckerCommon.AbstractBase):
+    def __init__(self, resultAlgebra):
+        super().__init__(resultAlgebra)
+        self._questionnaire = None
+
+    def visitQuestionnaireBegin(self, questionnaire):
+        self._questionnaire = questionnaire
+
+    def visitQuestionStatement(self, node):
         dependencyChains = self._questionDependencyChains([], node)
         for chain in dependencyChains:
             if chain[-1] in chain[:-1]:
-                self._result = self._resultAlg.withError(
+                self._result = self._resultAlgebra.withError(
                     self._result,
                     Message.Error(
                         'there is a question dependency cycle: '\
-                       +' <- '.join([q.identifier for q in chain])\
+                       +' <- '.join([str(q.identifier) for q in chain])\
                        +'. It means the calculation of the answer '\
                        +'requires its own result as input. This is '\
                        +'incalculable. Please double check the '\
                        +'definitions of the questions.',
-                        node.expr
+                        node.expression
                     )
                 )
 
@@ -30,14 +38,14 @@ class Checker(Checker.StatementChecker):
         
         breadcrumbs.append(node)
 
-        if node.expr is None or cycleFound:
+        if node.expression is None or cycleFound:
             return [breadcrumbs]
 
         chains = []
-        identifiers = self._extractIdentifiers(node.expr)
+        identifiers = self._extractIdentifiers(node.expression)
         
         for i in identifiers:
-            question = questionIdentifiedBy(i, self._ast.root)
+            question = questionIdentifiedBy(i, self._questionnaire)
             if question is not None:
                 chains.extend(
                     self._questionDependencyChains(
@@ -47,9 +55,9 @@ class Checker(Checker.StatementChecker):
 
         return chains
 
-    def _extractIdentifiers(self, node):
+    def _extractIdentifiers(self, expression):
         visitor = ExtractIdentifiersVisitor()
-        visitor.visit(node)
+        expression.accept(visitor)
         return visitor.identifiers
 
 
@@ -61,5 +69,5 @@ class ExtractIdentifiersVisitor(ASTVisitors.ExpressionVisitor):
     def identifiers(self):
         return self._identifiers
 
-    def _visitIdentifier(self, node):
+    def visitIdentifier(self, node):
         self._identifiers.append(node) 

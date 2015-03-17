@@ -6,6 +6,13 @@ class QLType(object):
 	def value(self):
 		return self._value
 
+	def __str__(self):
+		return str(self.value)
+
+	def __eq__(self, other):
+		return isinstance(other, self.__class__) and \
+			self.value == other.value
+
 class QLInteger(QLType):
 	pass
 

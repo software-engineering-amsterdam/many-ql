@@ -6,16 +6,23 @@ from . import \
 
 from typechecking import Result
 
-def check(ast):
-    modules = [
+def check(questionnaire):
+    modules = (
         CyclicQuestionDependencies,
         TypesOfExpressions,
         DuplicateQuestionLabels,
         QuestionRedefinitions
-    ];
+    );
 
-    resultAlg = Result.DefaultResultAlg()
+    resultAlgebra = Result.ErrorsWarningsResultAlgebra()
 
-    checkers = map(lambda m: m.Checker(ast, resultAlg), modules)
-    results = map(lambda c: c.visit(ast.root), checkers)
-    return resultAlg.merge(list(results))
+    checkers = map(
+        lambda module: module.Checker(resultAlgebra),
+        modules
+    )
+    results = map(
+        lambda checker: questionnaire.accept(checker),
+        checkers
+    )
+
+    return resultAlgebra.merge(list(results))

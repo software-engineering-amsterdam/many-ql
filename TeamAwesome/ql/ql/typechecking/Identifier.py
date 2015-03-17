@@ -4,7 +4,7 @@ from ..TypeRules import nativeQuestionType
 
 def questionIdentifiedBy(identifier, node):
     visitor = QuestionIdentifiedByVisitor(identifier)
-    visitor.visit(node)
+    node.accept(visitor)
     return visitor.question
 
 
@@ -32,7 +32,7 @@ class QuestionIdentifiedByVisitor(ASTVisitors.StatementVisitor):
     def question(self):
         return self._question
         
-    def _visitQuestionStatement(self, node):
+    def visitQuestionStatement(self, node):
         if self.question is None and \
-            node.identifier == self._identifier:
+            node.identifier.value == self._identifier.value:
             self._question = node

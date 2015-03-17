@@ -4,7 +4,7 @@
 # It's the Result Object pattern.
 
 # It's also an object algebra! :)
-class ResultAlg:
+class ResultAlgebra:
     def empty(self):
         pass
 
@@ -19,22 +19,21 @@ class ResultAlg:
 
 
 
-# Default implementation.
 # Allows you to extract a list of errors and warnings.
-class DefaultResultAlg(ResultAlg):
+class ErrorsWarningsResultAlgebra(ResultAlgebra):
     def empty(self):
-        return DefaultResult()
+        return ErrorsWarningsResult()
 
     def withError(self, result, error):
-        return DefaultResult(result.errors + [error], result.warnings)
+        return ErrorsWarningsResult(result.errors + [error], result.warnings)
 
     def withWarning(self, result, warning):
-        return DefaultResult(result.errors, result.warnings + [warning])
+        return ErrorsWarningsResult(result.errors, result.warnings + [warning])
 
     def merge(self, results):
         result = self.empty()
         for r in results:
-            result = DefaultResult(
+            result = ErrorsWarningsResult(
                 result.errors + r.errors,
                 result.warnings + r.warnings
             )
@@ -42,7 +41,7 @@ class DefaultResultAlg(ResultAlg):
 
     
 
-class DefaultResult:
+class ErrorsWarningsResult:
     def __init__(self, errors = [], warnings = []):
         self._errors = errors
         self._warnings = warnings

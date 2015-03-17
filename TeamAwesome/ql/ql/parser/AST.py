@@ -1,9 +1,13 @@
-# Generated from java-escape by ANTLR 4.5
+from decimal import Decimal
+
 from antlr4 import *
 from .QLVisitor import QLVisitor
 from .QLParser import QLParser
 from .QLLexer import QLLexer
+
 from ..ast import Nodes
+
+
 
 def create(inputQLFile):
     inputStream = FileStream(inputQLFile)

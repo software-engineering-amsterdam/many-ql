@@ -1,134 +1,62 @@
 from typechecking import Message
 
-from . import Checker
+from . import CheckerCommon
+
 from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
-from .. import TypeRules, CustomTypes
+from .. import TypeRules, QLTypes
 
-from ..ast import Nodes
-
-
-class Checker(Checker.FullChecker):
-    def __init__(self, ast, resultAlg):
-        super().__init__(ast, resultAlg)
-        self._operatorTable = TypeRules.OperatorTable()
+from ..ast import Nodes, Visitor as ASTVisitors
 
 
-    def _visitIfStatement(self, node):
-        typeOfExpression = self.visit(node.expr)
+
+class Checker(CheckerCommon.AbstractBase):
+    def __init__(self, resultAlgebra):
+        super().__init__(resultAlgebra)
+        self._questionnaire = None
+
+
+    def visitQuestionnaireBegin(self, questionnaire):
+        self._questionnaire = questionnaire
+    
+
+    def visitIfStatementBegin(self, node):
+        typeOfExpression = self._typeOfExpression(node.expression)
 
         if typeOfExpression is not None:
             self._allowExpression(
-                [bool],
+                [QLTypes.QLBoolean],
                 typeOfExpression,
-                node.expr
+                node.expression
             )
 
-        for n in node.getChildren():
-            self.visit(n)
 
-
-    def _visitQuestionStatement(self, node):
-        if node.expr is None:
+    def visitQuestionStatement(self, node):
+        if node.expression is None:
             return
             
-        typeOfExpression = self.visit(node.expr)
+        typeOfExpression = self._typeOfExpression(node.expression)
 
         if typeOfExpression is not None:
             self._allowExpression(
                 [typeOfIdentifier(node.identifier, node)],
                 typeOfExpression,
-                node.expr
+                node.expression
             ) 
 
-        
-    def _visitIdentifier(self, node):
-        typeOfExpression = typeOfIdentifier(
-            node,
-            self._ast.root
+
+    def _typeOfExpression(self, expression):
+        visitor = TypeOfExpressionVisitor(
+            self._questionnaire,
+            self._resultAlgebra
         )
-
-        if typeOfExpression is None:
-            self._result = self._resultAlg.withError(
-                self._result,
-                Message.Error(
-                    'undeclared identifier '+node,
-                    node
-                )
-            )
-
-        return typeOfExpression
-        
-
-    def _visitStr(self, node):
-        return str
-
-
-    def _visitInt(self, node):
-        return int
-
-
-    def _visitMoney(self, node):
-        return CustomTypes.Money
-
-
-    def _visitBool(self, node):
-        return bool
-
-
-    def _visitUnaryExpression(self, node):
-        typeOfExpression = self.visit(node.right)
-
-        if typeOfExpression is None:
-            return None
-
-        typeOfExpression = \
-            self._operatorTable.unaryOperationType(
-                node.op,
-                typeOfExpression
-            )
-
-        if typeOfExpression is None:
-            self._result = self._resultAlg.withError(
-                self._result,
-                Message.Error(
-                    'invalid operands to unary operator `'+node.op\
-                   +'`: '+str(node.right),
-                   node
-                )
-            )
-
-        return typeOfExpression
-
-
-    def _visitBinaryExpression(self, node):
-        typeOfLeftExpression = self.visit(node.left)
-        if typeOfLeftExpression is None:
-            return None
-
-        typeOfRightExpression = self.visit(node.right)
-        if typeOfRightExpression is None:
-            return None
-
-        typeOfExpression = \
-            self._operatorTable.binaryOperationType(
-                node.op,
-                typeOfLeftExpression,
-                typeOfRightExpression
-            )
-
-        if typeOfExpression is None: 
-            self._result = self._resultAlg.withError(
-                self._result,
-                Message.Error(
-                    'invalid operands to binary operator `'+node.op\
-                   +'`: ('+str(node.left)+','+str(node.right)+')',
-                    node
-                )
-            )
-
-        return typeOfExpression
+        expression.accept(visitor)
+        self._result = self._resultAlgebra.merge([
+            self._result,
+            visitor.result
+        ])
+        return visitor.typeOfExpression
 
 
     def _allowExpression(self, allowedTypes, exprType, node):
@@ -137,7 +65,7 @@ class Checker(Checker.FullChecker):
             effectiveTypes(exprType)
         ))
         if not allowedEffectiveTypeExists:
-            self._result = self._resultAlg.withError(
+            self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
                     'got an expression of type `'+str(exprType)\
@@ -145,5 +73,112 @@ class Checker(Checker.FullChecker):
                    +'following types which are allowed here '\
                    +'here: '+str(allowedTypes),
                    node
+                )
+            )
+
+
+        
+class TypeOfExpressionVisitor(ASTVisitors.ExpressionVisitor):
+    def __init__(self, questionnaire, resultAlgebra):
+        super().__init__()
+        self._operatorTable = TypeRules.OperatorTable()
+        self._questionnaire = questionnaire
+        self._result = resultAlgebra.empty()
+        self._resultAlgebra = resultAlgebra
+        self._typesOfSeenExpressions = []
+
+
+    @property
+    def result(self):
+        return self._result
+
+
+    @property
+    def typeOfExpression(self):
+        return self._typeOfLastSeenExpression
+
+
+    @property
+    def _typeOfLastSeenExpression(self):
+        return self._typesOfSeenExpressions[-1]
+
+
+    def visitIdentifier(self, node):
+        self._typesOfSeenExpressions.append(typeOfIdentifier(
+            node,
+            self._questionnaire
+        ))
+
+        if self._typeOfLastSeenExpression is None:
+            self._result = self._resultAlgebra.withError(
+                self._result,
+                Message.Error(
+                    'undeclared identifier '+str(node),
+                    node
+                )
+            )
+
+
+    def visitString(self, node):
+        self._typesOfSeenExpressions.append(QLTypes.QLString)
+
+
+
+    def visitInteger(self, node):
+        self._typesOfSeenExpressions.append(QLTypes.QLInteger)
+
+
+    def visitMoney(self, node):
+        self._typesOfSeenExpressions.append(QLTypes.QLMoney)
+
+
+    def visitBoolean(self, node):
+        self._typesOfSeenExpressions.append(QLTypes.QLBoolean)
+
+
+    def visitUnaryExpressionEnd(self, node):
+        if self._typeOfLastSeenExpression is None:
+            self._typesOfSeenExpressions.append(None)
+        else:
+            self._typesOfSeenExpressions.append(
+                self._operatorTable.unaryOperationType(
+                    node.operator,
+                    self._typeOfLastSeenExpression
+                )
+            )
+
+        if self._typeOfLastSeenExpression is None:
+            self._result = self._resultAlgebra.withError(
+                self._result,
+                Message.Error(
+                    'invalid operands to unary operator `'+str(node.operator)\
+                   +'`: '+str(node.expression),
+                   node
+                )
+            )
+
+
+    def visitBinaryExpressionEnd(self, node):
+        typeOfLeftExpression = self._typesOfSeenExpressions[-2]
+        typeOfRightExpression = self._typesOfSeenExpressions[-1]
+
+        if typeOfLeftExpression is None or typeOfRightExpression is None:
+            self._typesOfSeenExpressions.append(None)
+        else:
+            self._typesOfSeenExpressions.append(
+                self._operatorTable.binaryOperationType(
+                    node.operator,
+                    typeOfLeftExpression,
+                    typeOfRightExpression
+                )
+            )
+
+        if self._typeOfLastSeenExpression is None: 
+            self._result = self._resultAlgebra.withError(
+                self._result,
+                Message.Error(
+                    'invalid operands to binary operator `'+node.operator\
+                   +'`: ('+str(node.left)+','+str(node.right)+')',
+                    node
                 )
             )

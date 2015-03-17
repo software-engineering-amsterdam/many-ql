@@ -1,9 +1,9 @@
-from .. import CustomTypes
+from .. import QLTypes
 
 def castableTo(fromType):
     castingSpec = {
-        int: [CustomTypes.Money],
-        CustomTypes.Money: [int]
+        QLTypes.QLInteger: [QLTypes.QLMoney],
+        QLTypes.QLMoney: [QLTypes.QLInteger]
     }
 
     if fromType in castingSpec:
