@@ -41,10 +41,7 @@ namespace QL.Model
         }
 
 
-        public override ElementType ElementType
-        {
-            get { return Left == null || Right == null ? ElementType.Leaf : ElementType.Node; }
-        }
+      
 
         protected BinaryTreeElementBase()
         {

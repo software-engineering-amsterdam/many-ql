@@ -17,7 +17,6 @@ namespace QL.Model
         /// <summary>
         /// Gets an ElementType indicating if this element is a leaf or a node.
         /// </summary>
-        public abstract ElementType ElementType { get; }
         
         protected ElementBase()
         {

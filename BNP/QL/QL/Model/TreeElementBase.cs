@@ -9,9 +9,6 @@ namespace QL.Model
 {
     public abstract class TreeElementBase : ElementBase
     {
-        public override ElementType ElementType
-        {
-            get { return Children == null || Children.Count == 0 ? ElementType.Leaf : ElementType.Node; }
-        }
+       
     }
 }

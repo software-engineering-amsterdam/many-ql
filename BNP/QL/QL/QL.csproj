@@ -80,7 +80,6 @@
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
     <Compile Include="Grammars\QLListener.cs" />
-    <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
     <Compile Include="QLBuilder.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Model\Block.cs" />
     <Compile Include="Model\ControlUnit.cs" />
     <Compile Include="Model\Enums\ControlBlockType.cs" />
-    <Compile Include="Model\Enums\ElementType.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\ITraversable.cs" />

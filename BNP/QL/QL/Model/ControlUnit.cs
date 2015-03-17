@@ -112,7 +112,6 @@ namespace QL.Model
             }
         }
          */
-        public ControlBlockType Type { get; set; }
 
 
         public ControlUnit()
