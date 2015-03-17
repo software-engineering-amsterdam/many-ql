@@ -4,28 +4,46 @@ import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
-import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.SliderType;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class QLSSlider extends AbstractQLSWidget {
 
+    private static final int MIN = -1000;
+    private static final int MAX = 1000;
+    private static final int STEP = 1;
+
+    private final JLabel titleLabel;
+    private final JPanel panel;
     private final JSlider slider;
+    private JLabel valueLabel;
 
     public QLSSlider() {
-        this.slider = new JSlider();
+        this("");
     }
 
     public QLSSlider(String _label) {
         this.label = _label;
-        this.slider = new JSlider();
+
+        this.panel = new JPanel();
+        this.titleLabel = new JLabel(_label);
+        this.valueLabel = new JLabel("0");
+        this.slider = new JSlider(JSlider.HORIZONTAL, MIN, MAX, STEP);
+
+        this.panel.add(this.titleLabel);
+        this.panel.add(this.slider);
+        this.panel.add(this.valueLabel);
+
+        this.type = new SliderType();
     }
 
     @Override
@@ -40,34 +58,43 @@ public class QLSSlider extends AbstractQLSWidget {
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.slider);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.slider);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
-        //todo
+
+        this.slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider)e.getSource();
+                int v = (int)source.getValue();
+                valueLabel.setText(Integer.toString(v));
+                _listener.stateChanged();
+            }
+        });
     }
 
     @Override
     public IntValue getWidgetValue() {
-        //todo
-        return new IntValue(0);
+        return new IntValue(this.slider.getValue());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
         IntValue value = (IntValue) _value;
-        // todo
+        this.slider.setValue(value.getValue());
+        this.valueLabel.setText(Integer.toString(value.getValue()));
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        // todo
+        this.slider.setEnabled(_isReadonly);
     }
     
     public List<Type> getSupportedQuestionTypes() {

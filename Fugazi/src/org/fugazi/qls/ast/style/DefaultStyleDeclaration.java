@@ -3,19 +3,19 @@ package org.fugazi.qls.ast.style;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.IQLSASTVisitor;
-import org.fugazi.qls.ast.widget.AbstractQLSWidget;
+import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
 
 public class DefaultStyleDeclaration extends AbstractASTNode {
 
     private final Style style;
-    private final AbstractQLSWidget widget;
+    private final IWidgetType widgetType;
     private final Type questionType;
 
     public DefaultStyleDeclaration(
-            Style _style, AbstractQLSWidget _widget, Type _questionType)
+            Style _style, IWidgetType _widgetType, Type _questionType)
     {
         this.style = _style;
-        this.widget = _widget;
+        this.widgetType = _widgetType;
         this.questionType = _questionType;
     }
 
@@ -23,8 +23,8 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
         return this.style;
     }
 
-    public AbstractQLSWidget getWidget() {
-        return widget;
+    public IWidgetType getWidgetType() {
+        return widgetType;
     }
 
     public Type getQuestionType() {
