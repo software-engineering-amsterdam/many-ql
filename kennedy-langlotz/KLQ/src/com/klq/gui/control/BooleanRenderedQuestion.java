@@ -3,8 +3,11 @@ package com.klq.gui.control;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.controller.Controller;
+import javafx.event.EventHandler;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -48,6 +51,11 @@ public class BooleanRenderedQuestion extends ARenderedQuestion {
         rb.setFont(DEFAULT_FONT);
         rb.setToggleGroup(group);
         rb.setSelected(false);
+        rb.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                rb.setSelected(true);
+            }
+        });
         return rb;
     }
 

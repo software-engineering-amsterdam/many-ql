@@ -29,5 +29,12 @@ namespace Notifications
         {
             return notifications;
         }
+
+        public INotificationManager Combine(INotificationManager notificationManager)
+        {
+            notifications.AddRange(notificationManager.GetNotifications());
+
+            return this;
+        }
     }
 }

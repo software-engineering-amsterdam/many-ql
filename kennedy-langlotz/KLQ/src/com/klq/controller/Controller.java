@@ -62,7 +62,6 @@ public class Controller implements IKLQItem {
     }
 
     public void updateAnswer(IdentifierNode questionId, @NotNull Value answer) {
-        assert(variableTable.contains(questionId));
         variableTable.update(questionId, answer);
 
         updateQuestionVisibilities();
@@ -88,6 +87,7 @@ public class Controller implements IKLQItem {
                 AExpression computedExpression = crq.getComputedExpression();
                 Value result = computedExpression.evaluate(variableTable);
                 crq.updateComputedValue(result.toString());
+                variableTable.update(crq.getID(), result);
             }
         });
     }
@@ -125,7 +125,7 @@ public class Controller implements IKLQItem {
                 Value assignedValue = variableTable.get(id);
                 String varString = assignedValue.toString();
                 String xmlTag = String.format("\t<%s>%n" + "\t\t%s%n" + "\t</%s>%n",
-                                                id.toString(), varString, id.toString());
+                                                id.getIdentifier(), varString, id.getIdentifier());
                 writer.write(xmlTag);
             }
             writer.write("</questionnaire>");

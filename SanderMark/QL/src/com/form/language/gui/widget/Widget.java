@@ -1,6 +1,5 @@
 package com.form.language.gui.widget;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
@@ -26,9 +25,7 @@ public abstract class Widget {
 	}
 	
 	public void checkDependencyVisibility() {
-		Iterator<Expression> iterator = context.getReferencingExpressions(question.getId());
-		while (iterator.hasNext()) {
-			Expression exp = iterator.next();
+		for (Expression exp : context.getReferencingExpressions(question.getId())){
 			List<QuestionComponent> q = context.getDependantQuestions(exp);
 			checkVisibilities(exp, q);
 		}
