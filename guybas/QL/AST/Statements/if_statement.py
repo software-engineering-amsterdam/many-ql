@@ -20,7 +20,7 @@ class IfBlock(statement.IStatement):
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self.condition.pretty_print(0) + ")"
+        s = "\n" + "   " * level + "If " + self.condition.pretty_print(0)
         for x in self.statements:
             s += "   " * level + x.pretty_print(level + 1)
         return s
@@ -95,5 +95,8 @@ class IfBlock(statement.IStatement):
 
     def get_inverted_condition(self):
         return not_operation.Not(self.condition)
+
+    def evaluate_condition(self, type_map):
+        return self.condition.eval_expression(type_map)
 
 

@@ -14,3 +14,9 @@ class Variable(p.Primitive):
     # The dependency of the calling object is this variable
     def get_dependency_collection(self):
         return [self.__name]
+
+    def eval_expression(self, type_map):
+        if self.__name in type_map:
+            return type_map[self.__name]
+        else:
+            return None

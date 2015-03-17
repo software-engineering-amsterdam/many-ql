@@ -4,6 +4,9 @@ import QL.AST.Expressions.Operations.binary_expression as b
 
 class Equal(b.BinaryExpression):
 
+    def set_operator(self):
+        return " == "
+
     # get the return _type of the _expression
     def return_type_string(self, type_dict):
         return constants.BOOL
@@ -16,3 +19,6 @@ class Equal(b.BinaryExpression):
         if self._operand1.return_type_string(type_map) != self._operand2.return_type_string(type_map):
             message += self._operand1.pretty_print() + " is not the same type as " + self._operand2.pretty_print() + "\n"
         return message
+
+    def eval(self, x, y):
+        return x == y

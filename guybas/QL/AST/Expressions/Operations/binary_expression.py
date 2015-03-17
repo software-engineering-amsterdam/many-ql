@@ -5,10 +5,13 @@ import QL.AST.Expressions.Primitives.primitive as e
 class BinaryExpression(e.Primitive):
 
     # It expects the symbol so all the sub classed don't need to overwrite the constructor and pretty print
-    def __init__(self, symbol, operand1, operand2):
+    def __init__(self, operand1, operand2):
         self._operand1 = operand1
         self._operand2 = operand2
-        self.symbol = symbol
+        self.symbol = self.set_operator()
+
+    def set_operator(self):
+        raise Exception("Not implemented by sub class")
 
     def pretty_print(self, level=0):
         return "(" + self._operand1.pretty_print() + self.symbol + self._operand2.pretty_print() + ")"
@@ -43,3 +46,17 @@ class BinaryExpression(e.Primitive):
         l += (self._operand1.get_dependency_collection())
         l += (self._operand2.get_dependency_collection())
         return l
+
+    # get the dependencies of both operands
+    def eval_expression(self, type_map):
+        x = self._operand1.eval_expression(type_map)
+        y = self._operand2.eval_expression(type_map)
+        if x is None or y is None:
+            z = None
+        else:
+            z = self.eval(x, y)
+        return z
+
+    def eval(self, x, y):
+        raise Exception("Not implemented by sub class")
+

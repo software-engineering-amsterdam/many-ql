@@ -13,8 +13,9 @@ import QL.GUI.gui as g
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-#print(form.pretty_print())
+# print(form.pretty_print())
 
+form.eval_expressions({"hummus": True, "con": True})
 form.is_valid_form()
 
 # typeChecker = type_checker.TypeChecker(form)
