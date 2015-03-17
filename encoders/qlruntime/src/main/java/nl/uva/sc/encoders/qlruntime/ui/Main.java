@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -21,13 +22,16 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
+import nl.uva.sc.encoders.ql.ast.statement.Question;
+import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeChecker;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
-import nl.uva.sc.encoders.qlruntime.runtime.AstTransformer;
-import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestionnaire;
+import nl.uva.sc.encoders.qlruntime.runtime.DefaultValueVisitor;
+import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
+import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
@@ -132,10 +136,21 @@ public class Main extends Application {
 			ValidationsUI validationsUIFactory = new ValidationsUI();
 			return validationsUIFactory.generateUI(typeValidations);
 		}
-		AstTransformer astTransformer = new AstTransformer();
-		RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
+		List<RuntimeQuestion> runtimeQuestions = createRuntimeQuestions(questionnaire);
 		QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-		return questionnaireUIFactory.generateUI(runtimeQuestionnaire);
+		String questionnaireTitle = questionnaire.getName();
+		return questionnaireUIFactory.generateUI(questionnaireTitle, runtimeQuestions);
+	}
+
+	public List<RuntimeQuestion> createRuntimeQuestions(Questionnaire questionnaire) {
+		List<Question> questions = questionnaire.getAllQuestions();
+		List<RuntimeQuestion> uiQuestions = new ArrayList<RuntimeQuestion>();
+		for (Question question : questions) {
+			DataType dataType = question.getDataType();
+			Value defaultValue = dataType.accept(new DefaultValueVisitor());
+			uiQuestions.add(new RuntimeQuestion(question, defaultValue));
+		}
+		return uiQuestions;
 	}
 
 	private URL getURL(String path) {

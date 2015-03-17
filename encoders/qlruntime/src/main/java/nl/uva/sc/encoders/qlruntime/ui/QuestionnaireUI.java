@@ -20,7 +20,6 @@ import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.qlruntime.runtime.ExpressionEvaluator;
 import nl.uva.sc.encoders.qlruntime.runtime.RelatedQuestionVisitor;
 import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
-import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestionnaire;
 import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
@@ -28,25 +27,23 @@ import nl.uva.sc.encoders.qlruntime.ui.control.ControlWrapper;
 
 public class QuestionnaireUI {
 
-	public Control generateUI(RuntimeQuestionnaire questionnaire) {
+	public Control generateUI(String questionnaireTitle, final List<RuntimeQuestion> runtimeQuestions) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		setupQuestionnaireUI(questionnaire, grid);
+		setupQuestionnaireUI(questionnaireTitle, runtimeQuestions, grid);
 
 		ScrollPane scrollPane = new ScrollPane(grid);
 		scrollPane.setPrefSize(650, 500);
 		return scrollPane;
 	}
 
-	private void setupQuestionnaireUI(RuntimeQuestionnaire questionnaire, GridPane grid) {
-		Text scenetitle = new Text(questionnaire.getName());
+	private void setupQuestionnaireUI(String questionnaireTitle, final List<RuntimeQuestion> runtimeQuestions, GridPane grid) {
+		Text scenetitle = new Text(questionnaireTitle);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
-
-		final List<RuntimeQuestion> runtimeQuestions = questionnaire.getQuestions();
 		int y = 1;
 
 		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
