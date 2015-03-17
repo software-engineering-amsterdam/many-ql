@@ -3,7 +3,7 @@ package com.klq.gui;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.value.IdentifierValue;
 import com.klq.ast.impl.stmt.*;
 import com.klq.controller.Store;
 import com.klq.gui.control.*;

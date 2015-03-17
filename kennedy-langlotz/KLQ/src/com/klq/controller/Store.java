@@ -1,8 +1,8 @@
 package com.klq.controller;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.UndefinedValue;
-import com.klq.ast.impl.expr.value.Value;
+import com.klq.ast.impl.value.UndefinedValue;
+import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;
 import com.klq.gui.control.ARenderedQuestion;
 import com.klq.gui.control.ComputedRenderedQuestion;
