@@ -21,6 +21,9 @@ class Question:
     def get_order(self):
         return self.order
 
+    def get_label(self):
+        return self.ast.get_label()
+
     def get_gui_element(self):
         return self.gui_element
 
