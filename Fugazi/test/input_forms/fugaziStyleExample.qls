@@ -6,18 +6,25 @@ stylesheet taxOfficeExample
       question hasBoughtHouse
       default bool {
         font: "Georgia"
-        fontsize: 14
+        fontsize: 24
         color: #E60C0C
-        widget radio("Sure", "Not really")
+        widget radio("Yes", "No")
       }
     section "Loaning"  
       question hasMaintLoan
+        widget checkbox
   }
 
   page Selling { 
     section "Selling" {
       question hasSoldHouse
+      default bool {
+        font: "Georgia"
+        fontsize: 6
+        color: #382192
         widget dropdown("Yes", "No")
+      }
+    }
       section "You sold a house" {
         question sellingPrice
           widget slider
