@@ -17,15 +17,18 @@ import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
+import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
+import nl.uva.sc.encoders.ql.ast.statement.Statement;
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
 import nl.uva.sc.encoders.ql.ast.type.UndefinedType;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
+import nl.uva.sc.encoders.ql.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor<DataType> {
+public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisitor<DataType> {
 
 	private static final String BOOLEAN_CONDITION = "booleanCondition";
 	private static final String DUPLICATE_LABEL = "duplicateLabel";
@@ -46,38 +49,11 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 	}
 
 	public List<TypeValidation> checkTypes() {
-		List<Question> allQuestions = questionnaire.getAllQuestions();
-		for (Question question : allQuestions) {
-			questionNames.add(question.getName());
-			checkForDuplicateLabel(question);
-			checkDataTypes(question);
+		List<Statement> statements = questionnaire.getStatements();
+		for (Statement statement : statements) {
+			statement.accept(this);
 		}
 		return validations;
-	}
-
-	private void checkDataTypes(Question question) {
-		Expression condition = question.getCondition();
-		if (condition != null) {
-			DataType dataType = condition.accept(this);
-			if (!(dataType instanceof BooleanType)) {
-				TextLocation textLocation = condition.getTextLocation();
-				String validationMessage = getString(BOOLEAN_CONDITION, dataType);
-				validations.add(new TypeValidation(validationMessage, textLocation));
-			}
-		}
-		Expression computed = question.getComputed();
-		if (computed != null) {
-			computed.accept(this);
-		}
-	}
-
-	private void checkForDuplicateLabel(Question question) {
-		String label = question.getQuestionLabel();
-		boolean added = questionLabels.add(label);
-		if (!added) {
-			String validationMessage = getString(DUPLICATE_LABEL, label);
-			validations.add(new TypeValidation(validationMessage, question.getTextLocation()));
-		}
 	}
 
 	@Override
@@ -157,5 +133,52 @@ public class TypeChecker implements ExpressionVisitor<DataType> {
 	@Override
 	public DataType visit(BooleanLiteral booleanLiteral) {
 		return new BooleanType();
+	}
+
+	@Override
+	public DataType visit(ConditionalBlock conditionalBlock) {
+		Expression condition = conditionalBlock.getCondition();
+		DataType dataType = condition.accept(this);
+		checkForBooleanCondition(dataType, condition);
+		visitQuestions(conditionalBlock.getQuestions());
+		return dataType;
+	}
+
+	private void visitQuestions(List<Question> questions) {
+		for (Question question : questions) {
+			visit(question);
+		}
+	}
+
+	private void checkForBooleanCondition(DataType dataType, Expression condition) {
+		if (!(dataType instanceof BooleanType)) {
+			TextLocation textLocation = condition.getTextLocation();
+			String validationMessage = getString(BOOLEAN_CONDITION, dataType);
+			validations.add(new TypeValidation(validationMessage, textLocation));
+		}
+	}
+
+	@Override
+	public DataType visit(Question question) {
+		questionNames.add(question.getName());
+		checkForDuplicateLabel(question);
+		checkDataTypes(question);
+		return question.getDataType();
+	}
+
+	private void checkDataTypes(Question question) {
+		Expression computed = question.getComputed();
+		if (computed != null) {
+			computed.accept(this);
+		}
+	}
+
+	private void checkForDuplicateLabel(Question question) {
+		String label = question.getQuestionLabel();
+		boolean added = questionLabels.add(label);
+		if (!added) {
+			String validationMessage = getString(DUPLICATE_LABEL, label);
+			validations.add(new TypeValidation(validationMessage, question.getTextLocation()));
+		}
 	}
 }

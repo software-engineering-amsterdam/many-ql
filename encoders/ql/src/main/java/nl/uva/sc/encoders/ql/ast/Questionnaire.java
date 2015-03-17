@@ -35,6 +35,10 @@ public class Questionnaire extends AstNodeWithLocation {
 		return null;
 	}
 
+	public List<Statement> getStatements() {
+		return statements;
+	}
+
 	public String getName() {
 		return name;
 	}

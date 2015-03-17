@@ -6,6 +6,7 @@ import static nl.uva.sc.encoders.ql.ast.TextLocationBuilder.aTextLocation;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
 
@@ -30,6 +31,12 @@ public class QuestionnaireBuilder {
 	public QuestionnaireBuilder withQuestions(List<Question> questions) {
 		statements.clear();
 		statements.addAll(questions);
+		return this;
+	}
+
+	public QuestionnaireBuilder withConditionalBlocks(List<ConditionalBlock> conditionalBlocks) {
+		statements.clear();
+		statements.addAll(conditionalBlocks);
 		return this;
 	}
 }

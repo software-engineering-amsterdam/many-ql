@@ -6,6 +6,7 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
+import nl.uva.sc.encoders.ql.visitor.StatementVisitor;
 
 /**
  * Represents a question in the {@link Questionnaire}
@@ -60,5 +61,10 @@ public class Question extends Statement {
 	@Override
 	public void collectQuestions(Collection<Question> questions) {
 		questions.add(this);
+	}
+
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }

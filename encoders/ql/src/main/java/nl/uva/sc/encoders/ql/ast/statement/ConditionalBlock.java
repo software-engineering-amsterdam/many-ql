@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.visitor.StatementVisitor;
 
 public class ConditionalBlock extends Statement {
 
@@ -22,8 +23,17 @@ public class ConditionalBlock extends Statement {
 		return condition;
 	}
 
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
 	@Override
 	public void collectQuestions(Collection<Question> questions) {
 		questions.addAll(this.questions);
+	}
+
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }
