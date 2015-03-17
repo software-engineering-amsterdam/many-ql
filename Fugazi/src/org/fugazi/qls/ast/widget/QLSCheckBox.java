@@ -19,7 +19,7 @@ import java.util.List;
 
 public class QLSCheckBox extends AbstractQLSWidget {
 
-    private JCheckBox component;
+    private JCheckBox checkBox;
 
     public QLSCheckBox() {
         this("");
@@ -27,14 +27,14 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     public QLSCheckBox(String _label) {
         this.label = _label;
-        this.component = new JCheckBox(label);
+        this.checkBox = new JCheckBox(label);
         this.type = new CheckBoxType();
     }
 
     @Override
     public void setLabel(String _label) {
         this.label = _label;
-        this.component.setText(label);
+        this.checkBox.setText(label);
     }
 
     @Override
@@ -49,18 +49,18 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.component);
+        _canvas.addWidget(this.checkBox);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.component);
+        _canvas.removeWidget(this.checkBox);
     }
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
 
-        component.addItemListener(
+        checkBox.addItemListener(
                 new ItemListener() {
                     public void itemStateChanged(ItemEvent e) {
                         _listener.stateChanged();
@@ -71,18 +71,18 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public BoolValue getWidgetValue() {
-        return new BoolValue(this.component.isSelected());
+        return new BoolValue(this.checkBox.isSelected());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
         BoolValue value = (BoolValue) _value;
-        this.component.setSelected(value.getValue());
+        this.checkBox.setSelected(value.getValue());
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.component.setEnabled(false);
+        this.checkBox.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {

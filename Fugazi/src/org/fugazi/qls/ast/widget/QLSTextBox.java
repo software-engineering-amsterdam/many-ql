@@ -21,7 +21,7 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
-    private JPanel component;
+    private JPanel panel;
     private JTextField input;
     private JLabel componentLabel;
 
@@ -32,11 +32,11 @@ public class QLSTextBox extends AbstractQLSWidget {
     public QLSTextBox(String _label) {
         this.label = _label;
 
-        this.component = new JPanel();
+        this.panel = new JPanel();
         this.input = new JTextField();
         this.componentLabel = new JLabel(_label);
-        this.component.add(input);
-        this.component.add(componentLabel);
+        this.panel.add(input);
+        this.panel.add(componentLabel);
 
         this.type = new TextBoxType();
     }
@@ -60,12 +60,12 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.component);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.component);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
