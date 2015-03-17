@@ -6,12 +6,17 @@ import javax.swing.JPanel;
 
 import com.form.language.ast.Form;
 
-public class FormComponent extends JPanel {
+public class FormComponent {
 
-    private static final long serialVersionUID = 1L;
+    private JPanel panel;
 
     public FormComponent(Form form, GUIBuilder guibuilder, JFrame frame) {
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	// createGUIComponents(this,form,guibuilder);
+    	this.panel = new JPanel();
+    	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+    }
+    
+    public JPanel getPanel()
+    {
+    	return this.panel;
     }
 }
