@@ -6,9 +6,9 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public interface IOperator<TLeft, TRight>
+    public interface IOperator
     {
-        ITerminalType Evaluate();
+      
     }
     
 }

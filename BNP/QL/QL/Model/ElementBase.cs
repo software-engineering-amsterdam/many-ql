@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Exceptions;
-using QL.Model.Enums;
 using QL.Visitors;
 
 namespace QL.Model

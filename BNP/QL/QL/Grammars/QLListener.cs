@@ -217,25 +217,47 @@ namespace QL.Grammars
         public override void ExitLiteral(QLParser.LiteralContext context)
         {
             IList<ElementBase> children = GetChildren();
+            if (context.YESNO() != null)
+            {
+                Yesno literal = new Yesno();
+                literal.SetValue(context.YESNO().GetText());
+                literal.SourceLocation = SourceLocation.CreateFor(context);
+                AppendToAST(literal);
 
-            AppendLiteral<Yesno>(context, context.YESNO());
-            AppendLiteral<Number>(context, context.NUMBER());
-            AppendLiteral<Identifier>(context, context.IDENTIFIER());
-            AppendLiteral<Text>(context, context.TEXT());
+            }
+            else if (context.NUMBER() != null)
+            {
+                Number literal = new Number();
+                literal.SetValue(context.NUMBER().GetText());
+                literal.SourceLocation = SourceLocation.CreateFor(context);
 
-            Debug.Assert(!children.Any(), "Children of the literal are not empty");
-        }
+                AppendToAST(literal);
+            }
+            else if (context.IDENTIFIER() != null)
+            {
+                Identifier literal = new Identifier();
+                literal.SetValue(context.IDENTIFIER().GetText());
+                literal.SourceLocation = SourceLocation.CreateFor(context);
 
-        public void AppendLiteral<T>(QLParser.LiteralContext context, ITerminalNode node) where T : BinaryTreeElementBase, ITerminalType, new()
-        {
-            if (node == null) return;
+                AppendToAST(literal);
+            }
+            else if (context.TEXT() != null)
+            {
+                Text literal = new Text();
+                literal.SetValue(context.TEXT().GetText());
+                literal.SourceLocation = SourceLocation.CreateFor(context);
 
-            T literal = new T();
-            literal.SetValue(node.GetText());
-            literal.SourceLocation = SourceLocation.CreateFor(context);
+                AppendToAST(literal);
+            }
+            else
+            {
+                throw new Exception("not known literal");
+                
+            }
 
-            AppendToAST(literal);
-        }
+
+            System.Diagnostics.Contracts.Contract.Assert(!children.Any(), "Children of the literal are not empty");
+        }        
 
         public override void EnterExpression(QLParser.ExpressionContext context)
         {
@@ -284,7 +306,7 @@ namespace QL.Grammars
         }
 
         public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
-            where T : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, new()
+            where T : BinaryTreeElementBase, IOperator, new()
         {
             if (node == null)
             {

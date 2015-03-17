@@ -3,12 +3,8 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class GreaterThanEqualToOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, ITypeResolvableDirectly
+    public class GreaterThanEqualToOperator : BinaryTreeElementBase, IOperator, ITypeResolvableDirectly
     {
-        public ITerminalType Evaluate()
-        {
-            throw new NotImplementedException();
-        }
 
         public  Type GetReturnType()
         {

@@ -12,13 +12,13 @@ namespace QL.Model
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier identifier, ITerminal<string> displayText)
+        public QuestionUnit(Identifier identifier, Text displayText)
         {
             Identifier = identifier;
             DisplayText = displayText.Value;
         }
 
-        public QuestionUnit(Identifier identifier, ITerminal<string> displayText, IResolvableTerminalType dataType) : this(identifier, displayText)
+        public QuestionUnit(Identifier identifier, Text displayText, IResolvableTerminalType dataType) : this(identifier, displayText)
         {
             DataType = dataType;
         }

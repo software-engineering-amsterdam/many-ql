@@ -3,7 +3,7 @@ using QL.Exceptions;
 
 namespace QL.Model.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType
+    public class Identifier : BinaryTreeElementBase, ITerminalType
     {
         public string Value { get; private set; }
         

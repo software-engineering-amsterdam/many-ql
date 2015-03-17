@@ -87,7 +87,6 @@
     <Compile Include="Model\ElementBase.cs" />
     <Compile Include="Model\Block.cs" />
     <Compile Include="Model\ControlUnit.cs" />
-    <Compile Include="Model\Enums\ControlBlockType.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\ITraversable.cs" />
@@ -112,7 +111,6 @@
     <Compile Include="Model\SourceLocation.cs" />
     <Compile Include="Model\StatementUnit.cs" />
     <Compile Include="Model\Terminals\Identifier.cs" />
-    <Compile Include="Model\Terminals\ITerminal.cs" />
     <Compile Include="Model\ITypeResolvable.cs" />
     <Compile Include="Model\Terminals\IResolvableTerminalType.cs" />
     <Compile Include="Model\Terminals\Number.cs" />
