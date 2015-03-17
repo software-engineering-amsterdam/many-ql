@@ -34,7 +34,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.runTypeCheck());
-            Assert.AreEqual(0,Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(0,Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
 
@@ -51,7 +51,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
         }
         [TestMethod]
         public void TCCollectException2()
@@ -66,7 +66,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(3, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(3, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -83,7 +83,7 @@ namespace Tests.VisitorTests
             ");
 
             Assert.IsTrue(Builder.runTypeCheck());
-            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -101,7 +101,7 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.runTypeCheck());
 
-            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -118,7 +118,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Builder.runTypeCheck();
-            int c = Builder.dataContext.TypeReference.Count;
+            int c = Builder.DataContext.TypeReference.Count;
 
             for (int i = 0; i < 1000; i++)
             {
@@ -126,7 +126,7 @@ namespace Tests.VisitorTests
             }
 
 
-            Assert.AreEqual(c, Builder.dataContext.TypeReference.Count);
+            Assert.AreEqual(c, Builder.DataContext.TypeReference.Count);
 
         }
 
@@ -143,7 +143,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
 
@@ -159,7 +159,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(3, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(3, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
 
@@ -180,7 +180,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -196,7 +196,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -212,7 +212,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
+            Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
