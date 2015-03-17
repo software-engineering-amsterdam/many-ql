@@ -62,9 +62,6 @@ public class QLTypeChecker {
         }
     }
 
-    /**
-     * Go through the AST to collect type errors that require additional in-depth analysis.
-     */
     private void collectTypeCheckErrorsInDepth() {
         PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
         aForm.apply(formTypeChecker);

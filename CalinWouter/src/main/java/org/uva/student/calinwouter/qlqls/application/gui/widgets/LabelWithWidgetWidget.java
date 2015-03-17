@@ -33,8 +33,6 @@ public class LabelWithWidgetWidget implements IWidget {
         labelWithWidgetWidget.add(widget.getWidgetComponent());
 
         if(stylingSettings != null) {
-            System.out.println(stylingSettings.getFont() + "," + 0 + "," + stylingSettings.getFontSize());
-
             fieldLabel.setFont(new Font(stylingSettings.getFont(), 0, stylingSettings.getFontSize()));
             fieldLabel.setForeground(new Color(stylingSettings.getColor()));
             widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);

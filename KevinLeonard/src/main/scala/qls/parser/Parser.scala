@@ -22,7 +22,7 @@ class Parser extends JavaTokenParsers {
 
   def stylesheetElements: Parser[List[StyleSheetElement]] = "{" ~> rep(page | defaultWidget) <~ "}"
 
-  def page: Parser[StyleSheetElement] = "page" ~> variable ~ pageElements ^^ {
+  def page: Parser[StyleSheetElement] = "page" ~> ident ~ pageElements ^^ {
     case v ~ ps => Page(v, ps)
   }
 

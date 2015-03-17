@@ -22,8 +22,15 @@ public class StringValue extends Value {
         }
 
         @Override
-        public boolean equals(Object o) {
-            return o instanceof StringValue;
+        public boolean equals(final Object obj) {
+            if (!(obj instanceof TypeDescriptor)) {
+                return false;
+            }
+            final TypeDescriptor otherType = (TypeDescriptor) obj;
+            final Value otherDefaultValue = otherType.getDefaultValue();
+            final Value thisDefaultValue = getDefaultValue();
+            final BoolValue equalityComparisonValue = otherDefaultValue.eq(thisDefaultValue);
+            return equalityComparisonValue.isTrue();
         }
 
         @Override
@@ -35,17 +42,6 @@ public class StringValue extends Value {
     @Override
     public void apply(TypeCallback typeCallback) {
         typeCallback.usesString();
-    }
-
-    @Override
-    public Value eq(Value value) {
-        final Object otherInternalValue = value.getValue();
-        final Object myInternalValue = getValue();
-        return new BoolValue(otherInternalValue.equals(myInternalValue));
-    }
-
-    public Value neq(Value value) {
-        return new BoolValue(!value.getValue().equals(getValue()));
     }
 
     public StringValue(String value) {

@@ -67,12 +67,12 @@ class FieldStyleSpec extends Specification {
       val env = List(
         Width(101)
       )
-      val page = Page(Variable("var"), List(
+      val page = Page("var", List(
         Section("section1", List(
           Question(Variable("var"), Radio(List(Width(100))))
         ))
       ))
-      val result = Page(Variable("var"), List(
+      val result = Page("var", List(
         Section("section1", List(
           Question(Variable("var"), Radio(List(
             Width(100),
@@ -91,14 +91,14 @@ class FieldStyleSpec extends Specification {
         Width(101)
       )
       val style = StyleSheet("style", List(
-        Page(Variable("var"), List(
+        Page("var", List(
           Section("section1", List(
             Question(Variable("var"), Radio(List(Width(100))))
           ))
         ))
       ))
       val result = StyleSheet("style", List(
-        Page(Variable("var"), List(
+        Page("var", List(
           Section("section1", List(
             Question(Variable("var"), Radio(List(
               Width(100),
