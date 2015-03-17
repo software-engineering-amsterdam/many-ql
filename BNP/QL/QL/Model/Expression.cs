@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public class Expression : TreeElementBase, ITypeResolvableByChildren
+    public class Expression : ElementBase, ITypeResolvableByChildren
     {
         int ONLY_CHILD = 0;
         public Expression() { }

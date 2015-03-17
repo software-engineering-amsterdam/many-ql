@@ -7,7 +7,7 @@ using QL.Model.Enums;
 
 namespace QL.Model
 {
-    public class ControlUnit : TreeElementBase
+    public class ControlUnit : ElementBase
     {
         public Expression Expression
         {
