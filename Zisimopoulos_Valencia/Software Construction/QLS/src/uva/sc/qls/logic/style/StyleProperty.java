@@ -1,11 +1,9 @@
 package uva.sc.qls.logic.style;
 
-import uva.sc.qls.ast.INode;
-import uva.sc.qls.ast.INodeVisitor;
-import uva.sc.qls.atom.ID;
+import uva.sc.qls.ast.IQLSNode;
 
-public interface StyleProperty extends INode{
+public interface StyleProperty extends IQLSNode {
 
 	public <T> T getValue();
-	
+
 }
