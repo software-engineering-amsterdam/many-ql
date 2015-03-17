@@ -1,23 +1,40 @@
 from decimal import Decimal
 
+from .AbstractBase import AbstractBase
+
 from antlr4 import *
-from .QLVisitor import QLVisitor
-from .QLParser import QLParser
-from .QLLexer import QLLexer
+from .antlr.QLVisitor import QLVisitor
+from .antlr.QLParser import QLParser
+from .antlr.QLLexer import QLLexer
 
 from ..ast import Nodes
 from ..core import QLTypes
 
 
 
-def create(inputQLFile):
-    inputStream = FileStream(inputQLFile)
-    lexer = QLLexer(inputStream)
-    stream = CommonTokenStream(lexer)
-    parser = QLParser(stream)
-    visitor = ParseTreeVisitor()
-    tree = parser.root()
-    return visitor.visit(tree)
+class Parser(AbstractBase):
+    def __init__(self, inputQLFile):
+        inputStream = FileStream(inputQLFile)
+        lexer = QLLexer(inputStream)
+        stream = CommonTokenStream(lexer)
+        parser = QLParser(stream)
+        visitor = ParseTreeVisitor()
+        tree = parser.root()
+        self._questionnaire = visitor.visit(tree)
+
+    @property
+    def questionnaire(self):
+        return self._questionnaire
+        
+    def expressionTypeToken(self, expressionTypeQl):
+        return {
+            qlType : token for (qlType, token) in _expressionTypeTokens()
+        }[expressionTypeQl]
+
+    def operatorToken(self, qlOperator):
+        pass
+
+
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class ParseTreeVisitor(QLVisitor):
@@ -38,7 +55,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitQuestion_statement(self, ctx):
         identifier = self.visit(ctx.name)
         text = ctx.text.getText()[1:-1]
-        question_type = _nativeQuestionType(ctx.qtype.getText())
+        question_type = nativeQuestionType(ctx.qtype.getText())
         
         expr = self.visit(ctx.expression) if ctx.expression != None else None
 
@@ -101,10 +118,18 @@ class ParseTreeVisitor(QLVisitor):
         return Nodes.BinaryExpression(left, op, right, lineNumber)
 
 
-def _nativeQuestionType(questionType):
+def _expressionTypeTokens():
+    return (
+        (QLTypes.QLBoolean, 'boolean'),
+        (QLTypes.QLString, 'string'),
+        (QLTypes.QLInteger, 'integer'),
+        (QLTypes.QLMoney, 'money')
+    )
+
+def _operatorTokens():
+    return ()
+
+def nativeQuestionType(questionTypeToken):
     return {
-        'boolean' : QLTypes.QLBoolean,
-        'string' : QLTypes.QLString,
-        'integer' : QLTypes.QLInteger,
-        'money' : QLTypes.QLMoney
-    }[questionType]
+        token : qlType for (qlType, token) in _expressionTypeTokens()
+    }[questionTypeToken]

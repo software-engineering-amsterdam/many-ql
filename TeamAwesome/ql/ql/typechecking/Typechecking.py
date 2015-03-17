@@ -8,7 +8,7 @@ from typechecking import Result
 
 
 
-def check(questionnaire):
+def check(parser):
     modules = (
         CyclicQuestionDependencies,
         TypesOfExpressions,
@@ -19,11 +19,11 @@ def check(questionnaire):
     resultAlgebra = Result.ErrorsWarningsResultAlgebra()
 
     checkers = map(
-        lambda module: module.Checker(resultAlgebra),
+        lambda module: module.Checker(parser, resultAlgebra),
         modules
     )
     results = map(
-        lambda checker: questionnaire.accept(checker),
+        lambda checker: parser.questionnaire.accept(checker),
         checkers
     )
 

@@ -8,13 +8,6 @@ from ...ast.Functions import questionIdentifiedBy
 
 
 class Checker(AbstractBase):
-    def __init__(self, resultAlgebra):
-        super().__init__(resultAlgebra)
-        self._questionnaire = None
-
-    def visitQuestionnaireBegin(self, questionnaire):
-        self._questionnaire = questionnaire
-
     def visitQuestionStatement(self, node):
         dependencyChains = self._questionDependencyChains([], node)
         for chain in dependencyChains:
@@ -44,7 +37,7 @@ class Checker(AbstractBase):
         identifiers = self._extractIdentifiers(node.expression)
         
         for i in identifiers:
-            question = questionIdentifiedBy(i, self._questionnaire)
+            question = questionIdentifiedBy(i, self._parser.questionnaire)
             if question is not None:
                 chains.extend(
                     self._questionDependencyChains(

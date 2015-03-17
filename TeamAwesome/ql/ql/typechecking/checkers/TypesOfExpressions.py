@@ -10,15 +10,6 @@ from ...ast.Functions import typeOfIdentifier
 
 
 class Checker(AbstractBase):
-    def __init__(self, resultAlgebra):
-        super().__init__(resultAlgebra)
-        self._questionnaire = None
-
-
-    def visitQuestionnaireBegin(self, questionnaire):
-        self._questionnaire = questionnaire
-    
-
     def visitIfStatementBegin(self, node):
         typeOfExpression = self._typeOfExpression(node.expression)
 
@@ -46,7 +37,7 @@ class Checker(AbstractBase):
 
     def _typeOfExpression(self, expression):
         visitor = TypeOfExpressionVisitor(
-            self._questionnaire,
+            self._parser.questionnaire,
             self._resultAlgebra
         )
         expression.accept(visitor)
@@ -63,13 +54,20 @@ class Checker(AbstractBase):
             _effectiveTypes(exprType)
         ))
         if not allowedEffectiveTypeExists:
+
+            exprTypeString = self._parser.expressionTypeToken(exprType)
+            allowedString = ', '.join(map(
+                lambda t: '`'+self._parser.expressionTypeToken(t)+'`',
+                allowedTypes
+            ))
+
             self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
-                    'got an expression of type `'+exprType.typeString()\
+                    'got an expression of type `'+exprTypeString\
                    +'` which is not castable to any of the '\
                    +'following types which are allowed here '\
-                   +'here: '+','.join(map(lambda t: '`'+t.typeString()+'`', allowedTypes)),
+                   +'here: '+allowedString,
                    node
                 )
             )

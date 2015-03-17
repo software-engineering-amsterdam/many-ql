@@ -5,8 +5,8 @@ from .AbstractBase import AbstractBase
 
 
 class Checker(AbstractBase):
-    def __init__(self, resultAlgebra):
-        super().__init__(resultAlgebra)
+    def __init__(self, parser, resultAlgebra):
+        super().__init__(parser, resultAlgebra)
         self._labels = {}
 
     def visitQuestionnaireEnd(self, questionnaire):
