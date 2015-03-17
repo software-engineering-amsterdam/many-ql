@@ -26,7 +26,7 @@ public class LabelWithWidgetWidget implements IWidget {
         widget.resetValue();
     }
 
-    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper, final AbstractSwingGUI gui) {
+    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper) {
         this.widget = widget;
         final Label fieldLabel = new Label(label);
         labelWithWidgetWidget = new JPanel();
@@ -41,10 +41,12 @@ public class LabelWithWidgetWidget implements IWidget {
             widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
         }
 
-        if(variableTableWrapper.getVariableTable().isSet(identifier))
+        if(variableTableWrapper.getVariableTable().isSet(identifier)) {
             labelWithWidgetWidget.setVisible(true);
-        else
+        }
+        else {
             labelWithWidgetWidget.setVisible(false);
+        }
 
         variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override

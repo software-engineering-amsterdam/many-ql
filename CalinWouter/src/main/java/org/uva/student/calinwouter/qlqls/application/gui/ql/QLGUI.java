@@ -60,8 +60,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
                     identifier,
                     null,
                     valueRepresentingLabelWidget,
-                    variableTableWrapper,
-                    this);
+                    variableTableWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
