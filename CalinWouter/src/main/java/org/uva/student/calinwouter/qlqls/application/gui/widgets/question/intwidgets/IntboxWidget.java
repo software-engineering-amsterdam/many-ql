@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
@@ -14,8 +14,9 @@ import java.awt.*;
 public class IntboxWidget implements IWidget {
     private JTextField widget;
 
-    public IntboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
+    public IntboxWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper) {
         this.widget = new JTextField((int) Math.log10(Integer.MAX_VALUE - 1) + 1);
+
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -33,13 +34,14 @@ public class IntboxWidget implements IWidget {
             }
 
             public void updateField() {
+                VariableTable variableTable = stateWrapper.getVariableTable();
                 try {
-                    variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new IntegerValue(Integer.parseInt(widget.getText())));
+                    variableTable.setVariable(questionIdentifier, new IntegerValue(Integer.parseInt(widget.getText())));
                 } catch(NumberFormatException e) {
-                    variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new IntegerValue(0));
+                    variableTable.setVariable(questionIdentifier, new IntegerValue(0));
                 }
-                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
-                variableTableWrapper.setVariableTable(newVariableTable);
+                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
             }
         });
     }
@@ -47,5 +49,10 @@ public class IntboxWidget implements IWidget {
     @Override
     public Component getWidgetComponent() {
         return widget;
+    }
+
+    @Override
+    public void resetValue() {
+        widget.setText("");
     }
 }

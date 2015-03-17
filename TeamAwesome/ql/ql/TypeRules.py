@@ -1,31 +1,8 @@
-from .CustomTypes import *
 import operator
+from .QLTypes import *
 
 class OperatorTable:
     def __init__(self):
-        self._binaryPythonOperators = {
-            '+'  : operator.add,
-            '-'  : operator.sub,
-            '/'  : lambda l, r : l / r,
-            '*'  : operator.mul,
-            '^'  : operator.pow,
-            '%'  : operator.mod,
-            '>'  : operator.gt,
-            '<'  : operator.lt,
-            '>=' : operator.ge,
-            '<=' : operator.le,
-            '==' : operator.eq,
-            '!=' : operator.ne,
-            '&&' : lambda l, r : l and r,
-            '||' : lambda l, r : l or r
-        }
-
-        self._unaryPythonOperators = {
-            '+' : lambda l : +l,
-            '-' : operator.neg,
-            '!' : operator.not_
-        }
-
         self._rules = self._createRules()
 
     def unaryOperationType(self, op, typeRight):
@@ -48,107 +25,108 @@ class OperatorTable:
         if rule:
             return rule[1]
 
-    def _getBinaryPythonOperator(self, op):
-        return self._binaryPythonOperators[op]
-
-    def _getUnaryPythonOperator(self, op):
-        return self._unaryPythonOperators[op]
-
     def _createRules(self):
-        rules = {}
-        rules.update(self._numericalUnaryOperatorRules())
-        rules.update(self._booleanUnaryOperatorRules())
-        rules.update(self._numericalBinaryOperatorRules())
-        rules.update(self._stringBinaryOperatorRules())
-        rules.update(self._booleanBinaryOperatorRules())
-        return rules
-
-    def _numericalUnaryOperatorRules(self):
-        rules = {}
-        for op in ('-','+'):
-            pyOp = self._getUnaryPythonOperator(op)
-
-            rules.update({
-                (op, int) : (int, lambda r, pyOp = pyOp : pyOp(r)),
-                (op, Money) : (Money, lambda r, pyOp = pyOp : Money(pyOp(r)))
-            })
-        return rules
-
-    def _booleanUnaryOperatorRules(self):
-        pyOp = self._getUnaryPythonOperator('!')
-        
         return {
-            ('!', bool) : (bool, lambda r, pyOp = pyOp : pyOp(r))
+            ('-', QLInteger)    :   (QLInteger, lambda v : QLInteger(-v.value)),
+            ('-', QLMoney)      :   (QLMoney,   lambda v : QLMoney(-v.value)),
+            ('+', QLInteger)    :   (QLInteger, lambda v : QLInteger(+v.value)),
+            ('+', QLMoney)      :   (QLMoney,   lambda v : QLMoney(+v.value)),
+        
+            ('!', QLBoolean)    :   (QLBoolean, lambda v : QLBoolean(not v.value)),
+
+            ('^', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value**r.value)),
+            ('^', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value**r.value)),
+            ('^', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value**r.value)),
+            ('^', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value**r.value)),
+
+            ('*', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value * r.value)),
+            ('*', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value * r.value)),
+            ('*', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value * r.value)),
+            ('*', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value * r.value)),
+
+            ('/', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value / r.value)),
+            ('/', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            ('/', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            ('/', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            
+            ('/', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value / r.value)),
+            ('/', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            ('/', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            ('/', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value / r.value)),
+            
+            ('%', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value % r.value)),
+            ('%', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value % r.value)),
+            ('%', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value % r.value)),
+            ('%', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value % r.value)),
+        
+            ('-', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value - r.value)),
+            ('-', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value - r.value)),
+            ('-', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value - r.value)),
+            ('-', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value - r.value)),
+            
+            ('+', QLInteger, QLInteger)     :   (QLInteger, lambda l, r : QLInteger(l.value + r.value)),
+            ('+', QLInteger, QLMoney)       :   (QLMoney,   lambda l, r : QLMoney(l.value + r.value)),
+            ('+', QLMoney, QLInteger)       :   (QLMoney,   lambda l, r : QLMoney(l.value + r.value)),
+            ('+', QLMoney, QLMoney)         :   (QLMoney,   lambda l, r : QLMoney(l.value + r.value)),
+            ('+', QLString, QLInteger)      :   (QLString,  lambda l, r : QLString(l.value + str(r.value))),
+            ('+', QLInteger, QLString)      :   (QLString,  lambda l, r : QLString(str(l.value) + r.value)),
+            ('+', QLString, QLString)       :   (QLString,  lambda l, r : QLString(l.value + r.value)),
+            ('+', QLString, QLString)       :   (QLString,  lambda l, r : QLString(l.value + r.value)),
+            ('+', QLString, QLMoney)        :   (QLString,  lambda l, r : QLString(l.value + str(r.value))),
+            ('+', QLMoney, QLString)        :   (QLString,  lambda l, r : QLString(str(l.value) + r.value)),
+            ('+', QLString, QLBoolean)      :   (QLString,  lambda l, r : QLString(l.value + str(r.value))),
+            ('+', QLBoolean, QLString)      :   (QLString,  lambda l, r : QLString(str(l.value) + r.value)),
+
+            ('*', QLString, QLInteger)      :   (QLString,  lambda l, r : QLString(l.value * r.value)),
+            ('*', QLInteger, QLString)      :   (QLString,  lambda l, r : QLString(l.value * r.value)),
+            
+            ('<', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value < r.value)),
+            ('<', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value < r.value)),
+            ('<', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value < r.value)),
+            ('<', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value < r.value)),
+            ('<', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(len(l.value) < len(r.value))),
+
+            ('<=', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value <= r.value)),
+            ('<=', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value <= r.value)),
+            ('<=', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value <= r.value)),
+            ('<=', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value <= r.value)),
+            ('<=', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(len(l.value) <= len(r.value))),
+  
+            ('>', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value > r.value)),
+            ('>', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value > r.value)),
+            ('>', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value > r.value)),
+            ('>', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value > r.value)),
+            ('>', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(len(l.value) > len(r.value))),
+ 
+            ('>=', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value >= r.value)),
+            ('>=', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value >= r.value)),
+            ('>=', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value >= r.value)),
+            ('>=', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value >= r.value)),
+            ('>=', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(len(l.value) >= len(r.value))),
+        
+            ('==', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+            ('==', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+            ('==', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+            ('==', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+            ('==', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+            ('==', QLBoolean, QLBoolean)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value == r.value)),
+
+            ('!=', QLInteger, QLInteger)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+            ('!=', QLInteger, QLMoney)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+            ('!=', QLMoney, QLInteger)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+            ('!=', QLMoney, QLMoney)         :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+            ('!=', QLString, QLString)       :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+            ('!=', QLBoolean, QLBoolean)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value != r.value)),
+
+            ('&&', QLBoolean, QLBoolean)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value and r.value)),
+
+            ('||', QLBoolean, QLBoolean)     :   (QLBoolean,  lambda l, r : QLBoolean(l.value or r.value)),
         }
-
-    def _numericalBinaryOperatorRules(self):
-        rules = {}
-        for op in ('^','*','/','%','-','+'):
-            pyOp = self._getBinaryPythonOperator(op)
-
-            rules.update({
-                (op, int, int) : (int, lambda l, r, pyOp = pyOp : int(pyOp(l, r))),
-                (op, int, Money) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))),
-                (op, Money, int) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))),
-                (op, Money, Money) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))) # Money, money money!
-            })
-
-        return rules
-
-    def _stringBinaryOperatorRules(self):
-        pyOp = self._getBinaryPythonOperator('*')
-        rules = {
-            ('*', str, int) : (str, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-            ('*', int, str) : (str, lambda l, r, pyOp = pyOp : pyOp(l, r))
-        }
-
-        pyOp = self._getBinaryPythonOperator('+')
-        for t in (str,int,Money,bool):
-            rules.update({
-                ('+', str, t) : (str, lambda l, r, pyOp = pyOp : pyOp(l, str(r))),
-                ('+', t, str) : (str, lambda l, r, pyOp = pyOp : pyOp(str(l), r)),
-            })
-        return rules
-
-    def _booleanBinaryOperatorRules(self):
-        rules = {}
-
-        for op in ('<','<=','>','>='):
-            pyOp = self._getBinaryPythonOperator(op)
-            rules.update({ 
-                (op, int, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, int, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, Money, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, Money, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, str, str) : (bool, lambda l, r, pyOp = pyOp : pyOp(len(l), len(r)))
-            })
-
-        for op in ('==','!='):
-            pyOp = self._getBinaryPythonOperator(op)
-            rules.update({
-                (op, int, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, int, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, Money, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, Money, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, str, str) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
-                (op, bool, bool) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r))
-            })
-
-        pyOpAnd = self._getBinaryPythonOperator('&&')
-        pyOpOr = self._getBinaryPythonOperator('||') 
-
-        rules.update({
-            ('&&', bool, bool) : (bool, lambda l, r, pyOp = pyOpAnd : pyOp(l, r)),
-            ('||', bool, bool) : (bool, lambda l, r, pyOp = pyOpOr : pyOp(l, r))    
-        })
-
-        return rules
-
 
 def nativeQuestionType(questionType):
     return {
-        'boolean' : bool,
-        'string' : str,
-        'integer' : int,
-        'money' : Money
+        'boolean' : QLBoolean,
+        'string' : QLString,
+        'integer' : QLInteger,
+        'money' : QLMoney
     }[questionType]

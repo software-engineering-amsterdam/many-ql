@@ -13,7 +13,6 @@ class GUI:
         self.qGui = tk.Tk()
         self.__form = form
         self.__questions = self.__form.get_questions()
-        print(self.__questions)
         self.__dependencies = self.__form.ast.get_dependencies()
         self.__answersMap = mapper.Mapper()
         self.intro_element = self.intro_label()
@@ -53,8 +52,13 @@ class GUI:
         condition = question.get_condition()
 
         c_results = True
-        if condition is not None:
-            c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
+        if condition:
+            # c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
+            # print(condition.pretty_print())
+            # print(c_results)
+            c_results = condition.eval_expression(self.__answersMap)
+            # print(c_results)
+            # print("--------")
         if not c_results:
             return False
 
@@ -67,15 +71,15 @@ class GUI:
     def update(self, question, new_answer):
         self.__answersMap.update(question, new_answer)
         for qid in self.__dependencies:
-            if question.get_id() in self.__dependencies[qid]:
+            if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):
-        statements_dict = self.__form.ast.get_statement_dict()
+        statements_dict = self.__form.get_statement_dict()
         if qid not in statements_dict:
             raise exc.QException("Fatal Error: no such _condition _id " + qid)
         question = statements_dict[qid]
-        elements = question.get_element()
+        elements = question.get_gui_element()
         if elements is None:
             return None
         for e in elements:

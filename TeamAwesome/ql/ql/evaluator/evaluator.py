@@ -9,7 +9,7 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
-    return Visitor().visit(ast.root)
+    return ast.root.accept(Visitor())
 
 class Evaluator(object):
     def __init__(self):
@@ -60,7 +60,6 @@ class Evaluator(object):
         return questions
 
 
-
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
@@ -75,25 +74,25 @@ class Visitor(ASTStatementVisitor):
         self._currentForm = form
 
     def visitQuestionStatement(self, node):
-        if node.expr:
+        if node.expression:
             expressionVisitor = ExpressionVisitor(self._evaluator)
-            expression = node.expr.accept(expressionVisitor)
+            expression = node.expression.accept(expressionVisitor)
         else:
             expression = None
 
         question = Question(node.identifier,
                             node.text,
-                            node.type
+                            node.type,
                             self._conditionalStatements.copy(),
                             expression)
 
         self._evaluator.addQuestion(question)
-
+        
         return question
 
     def visitIfStatementBegin(self, node):
         expressionVisitor = ExpressionVisitor(self._evaluator)
-        expression = node.expr.accept(expressionVisitor)
+        expression = node.expression.accept(expressionVisitor)
         
         self._conditionalStatements.append(expression)
         
@@ -108,7 +107,7 @@ class ExpressionVisitor(ASTExpressionVisitor):
     def visitUnaryExpressionEnd(self, node):
         expr = self._expressionStack.pop()
         
-        unaryExpression = UnaryExpression(node.op, expr, self._evaluator)
+        unaryExpression = UnaryExpression(node.operator, expr, self._evaluator)
         self._expressionStack.append(unaryExpression)
         return unaryExpression
 
@@ -116,31 +115,31 @@ class ExpressionVisitor(ASTExpressionVisitor):
         right = self._expressionStack.pop()
         left = self._expressionStack.pop()
         
-        binaryExpression = BinaryExpression(left, op, right, self._evaluator)
+        binaryExpression = BinaryExpression(left, node.operator, right, self._evaluator)
         self._expressionStack.append(binaryExpression)
         return binaryExpression
 
     def visitBoolean(self, node):
-        boolean = Boolean(node.value)
-        self._expressionStack.append(boolean)
-        return boolean
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitInteger(self, node):
-        integer = Integer(node.value)
-        self._expressionStack.append(integer)
-        return integer
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitString(self, node):
-        string = String(node.value)
-        self._expressionStack.append(string)
-        return string
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitMoney(self, node):
-        money = Money(node.value)
-        self._expressionStack.append(money)
-        return money
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitIdentifier(self, node):
-        identifier = Identifier(node.value, self._evaluator)
-        self._expressionStack.append(identifier)
-        return identifier
+        expression = AtomicExpression(EvalIdentifier(node.value.value, self._evaluator))
+        self._expressionStack.append(expression)
+        return expression

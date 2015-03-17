@@ -1,55 +1,105 @@
 package nl.uva.bromance.typechecking;
 
-import nl.uva.bromance.ast.AST;
-import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.Question;
+import nl.uva.bromance.ast.*;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.Expression;
+import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.NullNodeVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
  */
-public class TypeChecker {
+public class TypeChecker implements NodeVisitor {
     private ReferenceMap referenceMap = new ReferenceMap();
-    private AST<QLNode> ast;
+    private List<TypeCheckingException> exceptions = new ArrayList<>();
 
-    public TypeChecker(AST<QLNode> ast) {
-        this.ast = ast;
+    public List<TypeCheckingException> runChecks(QLNode node) {
+        node.accept(this);
+        return exceptions;
     }
 
-    public boolean runChecks() {
-        buildReferenceMap(ast.getRoot());
-        typeCheck(ast.getRoot());
-        System.out.println("Got questions :");
-        for (QLNode value : referenceMap.values()) {
-            if (value instanceof Question) {
-                System.out.println(((Question) value).getQuestionString());
-            }
-        }
-        return true;
+    @Override
+    public void visit(Calculation calculation) {
+
     }
 
-    private void typeCheck(QLNode n) {
-        try {
-            n.typeCheck();
-        } catch (TypeCheckingException e) {
-            e.printStackTrace();
-        }
-        if (n.hasChildren()) {
-            for (QLNode child : n.getChildren()) {
-                typeCheck(child);
+    @Override
+    public void visit(Form form) {
+        Optional<String> identifier = form.getIdentifier();
+        if (identifier.isPresent()) {
+            if (referenceMap.get(identifier.get()) != null) {
+                exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(form, identifier.get()));
+            } else {
+                referenceMap.put(identifier.get(), form);
             }
+        } else {
+            exceptions .add(new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(form.getLineNumber()));
         }
     }
 
-    private void buildReferenceMap(QLNode n) {
-        try {
-            n.addReference(referenceMap);
-        } catch (TypeCheckingException e) {
-            e.printStackTrace();
+    @Override
+    public void visit(Input input) {
+
+    }
+
+    @Override
+    public void visit(Label label) {
+
+    }
+
+    @Override
+    public void visit(LabelText labelText) {
+
+    }
+
+    @Override
+    public void visit(Question question){
+        if (question.getQuestionString() == null) {
+            exceptions.add( new TypeCheckingException("Question Error: No question asked"));
         }
-        if (n.hasChildren()) {
-            for (QLNode child : n.getChildren()) {
-                buildReferenceMap(child);
+        if ((question.isQuestionTypeBoolean() || question.isQuestionTypeString()) && question.getQuestionRange().isPresent()) {
+            exceptions.add( new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + question.getLineNumber() + ": Question " + question.getIdentifier() + ", no range allowed for types boolean and string."));
+        }
+//TODO: Identifiers are forced by the grammar. Optional can go.
+        if (question.getIdentifier().isPresent()) {
+            if (referenceMap.get(question.getIdentifier().get().getId()) != null) {
+                exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(question, question.getIdentifier().get().getId()));
+            } else {
+                referenceMap.put(question.getIdentifier().get().getId(), question);
             }
+        } else {
+            exceptions.add(new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(question.getLineNumber()));
         }
+    }
+
+    @Override
+    public void visit(Questionnaire questionnaire) {
+
+    }
+
+    @Override
+    public void visit(IfStatement ifStatement) {
+
+    }
+
+    @Override
+    public void visit(ElseIfStatement elseIfStatement) {
+
+    }
+
+    @Override
+    public void visit(ElseStatement elseStatement) {
+
+    }
+
+    @Override
+    public void visit(Expression expression) {
+
     }
 }

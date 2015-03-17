@@ -1,8 +1,6 @@
 package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
@@ -12,8 +10,9 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class QLSDropdown extends AbstractQLSWidget {
@@ -21,19 +20,30 @@ public class QLSDropdown extends AbstractQLSWidget {
     private final String yesLabel;
     private final String noLabel;
 
-    private final JComboBox component;
+    private final JPanel panel;
+    private final JLabel componentLabel;
+    private final JComboBox comboBox;
+
+    public QLSDropdown() {
+        this("", "yes", "no");
+    }
 
     public QLSDropdown(String _yes, String _no) {
-        this.yesLabel = _yes;
-        this.noLabel = _no;
-        this.component = new JComboBox();
+        this("", _yes, _no);
     }
 
     public QLSDropdown(String _label, String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
-        this.label = _label;
-        this.component = new JComboBox();
+
+        this.panel = new JPanel();
+        this.componentLabel = new JLabel(_label);
+
+        String[] valueArray = {this.yesLabel, this.noLabel};
+        this.comboBox = new JComboBox(valueArray);
+
+        this.panel.add(this.componentLabel);
+        this.panel.add(this.comboBox);
     }
 
     public String getYesLabel() {
@@ -46,51 +56,68 @@ public class QLSDropdown extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        this.style = _style;
+        Style style = _style;
 
         // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
+        style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
     }
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.component);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.component);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
-        //todo
+        this.comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _listener.stateChanged();
+            }
+        });
     }
 
     @Override
     public BoolValue getWidgetValue() {
+        String selectedValue = (String) this.comboBox.getSelectedItem();
+        if (selectedValue.equals(this.yesLabel)) {
+            return  new BoolValue(true);
+        }
         return new BoolValue(false);
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        // todo
+        BoolValue value = (BoolValue) _value;
+        if (value.getValue().equals(true)) {
+            this.comboBox.setSelectedItem(this.yesLabel);
+        } else {
+            this.comboBox.setSelectedItem(this.noLabel);
+        }
     }
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        // todo
+        this.comboBox.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {
         List<Type> supportedTypes = new ArrayList<>();
         supportedTypes.add(new BoolType());
-        supportedTypes.add(new IntType());
-        supportedTypes.add(new StringType());
 
         return supportedTypes;
+    }
+
+    @Override
+    public void setLabel(String _label) {
+        this.componentLabel.setText(_label);
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

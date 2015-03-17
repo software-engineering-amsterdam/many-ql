@@ -1,6 +1,5 @@
-from ..CustomTypes import Money as CustomMoney
-from ..CustomTypes import Identifier as CustomIdentifier
 from ..TypeRules import nativeQuestionType
+from ..QLTypes import *
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
@@ -9,9 +8,11 @@ class BinaryExpression(object):
 		self._right = rightExpression
 		self._evaluator = evaluator
 
+	@property
 	def value(self):
-		leftValue = self._left.value()
-		rightValue = self._right.value()
+		leftValue = self._left.value
+		rightValue = self._right.value
+		print(leftValue, type(leftValue), rightValue, type(rightValue))
 		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
 
 class UnaryExpression(object):
@@ -20,16 +21,18 @@ class UnaryExpression(object):
 		self._expression = expression
 		self._evaluator = evaluator
 
+	@property
 	def value(self):
-		exprValue = self._expression.value()
+		exprValue = self._expression.value
 		return self._evaluator.evaluateUnaryExpression(self._op, exprValue)
 
 class AtomicExpression(object):
 	def __init__(self, value):
 		self._value = value
 
+	@property
 	def value(self):
-		return self._value.value()
+		return self._value.value
 
 class Form(object):
 	def __init__(self, identifier):
@@ -50,42 +53,24 @@ class Question(object):
 		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)
 
 	def isVisible(self):
-		return self.conditionalExpressions.value()
+		print(self.text, self.conditionalExpressions.value)
+		return self.conditionalExpressions.value
 
 
-class EvaluatorBaseType(object):
-	def __init__(self, value, evaluator = None):
+class EvalIdentifier(object):
+	def __init__(self, value, evaluator):
 		self._value = value
 		self._evaluator = evaluator
 
-	def __str__(self):
-		return str(self.value())
-
+	@property
 	def value(self):
-		return self._value
+		print(self._evaluator.getValue(self), self._value, "HERRREE")
+		return self._evaluator.getValue(self) 
 
-	def getType(self):
-		raise NotImplementedError()
+	def __hash__(self):
+		return hash(self._value)
 
-class Boolean(EvaluatorBaseType):
-	def getType(self):
-		return bool
-
-class Integer(EvaluatorBaseType):
-	def getType(self):
-		return int
-
-class String(EvaluatorBaseType):
-	def getType(self):
-		return str
-
-class Money(EvaluatorBaseType):
-	def getType(self):
-		return CustomMoney
-
-class Identifier(EvaluatorBaseType):
-	def getType(self):
-		return CustomIdentifier
-
-	def value(self):
-		return self._evaluator.getValue(self._value)
+	def __eq__(self, other):
+		if isinstance(other, EvalIdentifier):
+			return other._value == self._value
+		return False

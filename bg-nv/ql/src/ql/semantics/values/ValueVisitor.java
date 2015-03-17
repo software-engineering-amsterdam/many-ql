@@ -6,7 +6,6 @@ package ql.semantics.values;
 public interface ValueVisitor<T>
 {
     public T visit(BoolValue val);
-    public T visit(DateValue val);
     public T visit(DecValue val);
     public T visit(IntValue val);
     public T visit(StrValue val);

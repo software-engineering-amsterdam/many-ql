@@ -3,15 +3,14 @@ package uva.sc.qls.logic;
 import java.util.List;
 import java.util.ArrayList;
 
-import uva.sc.qls.ast.INode;
-import uva.sc.qls.ast.INodeVisitor;
-import uva.sc.qls.atom.ID;
+import uva.sc.qls.ast.IQLSNode;
+import uva.sc.qls.ast.IQLSNodeVisitor;
 
-public class StyleSheet implements INode{
+public class StyleSheet implements IQLSNode {
 
-	ID id;
-	List<Page> pages = new ArrayList<Page>();
-	
+	ID			id;
+	List<Page>	pages	= new ArrayList<Page>();
+
 	public StyleSheet(ID id, List<Page> pages) {
 		this.id = id;
 		this.pages = pages;
@@ -25,7 +24,7 @@ public class StyleSheet implements INode{
 		return pages;
 	}
 
-	public <T> T accept(INodeVisitor<T> visitor) {
+	public <T> T accept(IQLSNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
@@ -37,5 +36,5 @@ public class StyleSheet implements INode{
 		result += "\n}";
 		return result;
 	}
-	
+
 }

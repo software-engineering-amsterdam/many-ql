@@ -134,5 +134,10 @@ namespace Evaluation.Values
         }
         #endregion
 
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
     }
 }

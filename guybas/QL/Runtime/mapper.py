@@ -16,3 +16,6 @@ class Mapper:
 
     def get_answer_by_id(self, qid):
         return self.answers[qid]
+
+    def exists(self, qid):
+        return qid in self.answers

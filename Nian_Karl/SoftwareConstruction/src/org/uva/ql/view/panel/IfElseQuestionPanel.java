@@ -3,6 +3,9 @@ package org.uva.ql.view.panel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import org.uva.ql.ast.expression.Expression;
 
 public class IfElseQuestionPanel extends IfQuestionPanel {
@@ -11,7 +14,7 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 
 	private final List<Panel> elseBlockPanels;
 
-	public IfElseQuestionPanel(ArrayList<Panel> ifBlockPanels, ArrayList<Panel> elseBlockPanels, Expression expr) {
+	public IfElseQuestionPanel(List<Panel> ifBlockPanels, List<Panel> elseBlockPanels, Expression expr) {
 		super(ifBlockPanels, expr);
 		this.elseBlockPanels = elseBlockPanels;
 		initializeBlock(this.elseBlockPanels);
@@ -22,7 +25,7 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 		super.toggleIfBlock(show);
 		if (elseBlockPanels != null) {
 			for (Panel panel : elseBlockPanels) {
-				panel.setVisible(!show);
+				(panel).setVisible(!show);
 			}
 		}
 	}

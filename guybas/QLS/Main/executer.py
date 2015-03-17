@@ -1,19 +1,65 @@
 import QLS.Grammar.qls as q
 import QLS.Validators.type_checker as t
-import QL.Grammar.basic_types as b
-import QL.Grammar.grammar as f
+import QL.Grammar.grammar as b
+import QL.Grammar.grammar as f1
 import QLS.Factory.qls as ql
 import QLS.GUI.gui as g
+import QL.Grammar.Factory.forms as f2
+import QLS.Runtime.form as runtime_form
+import QL.Tools.exceptions as ee
 
+########## TODO: QLSBUGS: ##########
+#TODO 1. type checker does not find different ids: e.g. is ValueResidue == valueResidue
+#TODO 2. functions get_colour etc are missing
+#TODO 3. improve QL structure: executor to main etc.
+#TODO 4. what to do in default page ?? (currently skipped)
+#TODO 5. fix error:
+# File "/home/guyromb/PycharmProjects/SOC/guybas/QL/AST/Statements/assignment.py", line 39, in get_dependency_collection
+#    d = self.expression.get_dependencies()
+# AttributeError: 'Minus' object has no attribute 'get_dependencies'
+#TODO 6.
+####################################
+
+
+# qls style
 qls = ql.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
-#print(qls.pretty_print())
+print(qls.pretty_print())
 
+#ql form
 print(qls.get_property_dict())
-formAsParseResults = f.Grammar.form.ignore(b.BasicTypes.comment).parseFile("example.ql")
-f = f.forms.FormFactory.make_form(formAsParseResults)
-checker = t.TypeChecker(f, qls)
+formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
+form = f2.make_form(formAsParseResults)
+checker = t.TypeChecker(form, qls)
 
-print(f)
-pages = [1,2,3]
-gui = g.GUI.draw_pages(pages)
+enriched_form = runtime_form.Form(form)
 
+
+print(form)
+
+questions_dict = enriched_form.get_statement_dict()
+
+gui_pages = []
+
+for page in qls.get_pages():
+    if page.is_default():
+        continue
+
+
+    for section in page.get_sections():
+        for q_style in section.get_question_styles():
+            print(q_style.get_ids()[0])
+            q_id = q_style.get_ids()[0]
+            if q_id not in questions_dict:
+                raise ee.QException("style id does not exist in the questions dictionary!")
+            question = questions_dict[q_id]
+            ggg = question.get_gui_element()
+            gui_pages.append(ggg)
+            # g.set_colour()
+
+# gui_pages = ["a", "b", "c"]
+gui = g.GUI.draw_pages(gui_pages)
+
+enriched_form = runtime_form.Form(form)
+gui = g.GUI(enriched_form)
+gui.generate_gui()
+gui.show()

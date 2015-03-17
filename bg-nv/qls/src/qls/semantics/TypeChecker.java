@@ -3,8 +3,7 @@ package qls.semantics;
 import ql.ast.form.Form;
 import ql.ast.type.*;
 import ql.semantics.QuestionCollector;
-import ql.semantics.QuestionResult;
-import ql.semantics.QuestionSet;
+import ql.semantics.Questions;
 import ql.semantics.errors.Messages;
 import qls.ast.Page;
 import qls.ast.rule.*;
@@ -22,13 +21,13 @@ import java.util.*;
  */
 public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
 {
-    private final QuestionSet questions;
+    private final Questions questions;
     private final Set<String> refQuestions;
     private final Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
-        QuestionSet questions = QuestionCollector.collect(f);
+        Questions questions = QuestionCollector.collect(f);
 
         TypeChecker checker = new TypeChecker(questions);
         if (checker.visit(s))
@@ -39,7 +38,7 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
         return checker.messages;
     }
 
-    private TypeChecker(QuestionSet questions)
+    private TypeChecker(Questions questions)
     {
         this.questions = questions;
         this.refQuestions = new HashSet<>();
@@ -151,9 +150,8 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
 
     private Boolean allQuestionsReferencedCheck()
     {
-        for (ql.ast.statement.Question q : this.questions)
+        for (String id : this.questions)
         {
-            String id = q.getId();
             if (!(this.refQuestions.contains(id)))
             {
                 this.messages.add(StyleError.questionNotReferenced(id));

@@ -1,6 +1,8 @@
 package test.klq.typechecker;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
@@ -33,8 +35,8 @@ public class InvalidConditionTest {
     @Before
     public void setUp() throws Exception {
         ast = new QuestionnaireNode();
-        children = new ArrayList<AStatementNode>();
-        children.add(new QuestionNode("question1", "string", "This is a test question"));
+        children = new ArrayList<>();
+        children.add(new QuestionNode(new IdentifierNode("question1"), Type.STRING, "This is a test question"));
     }
 
     @Test
@@ -95,15 +97,6 @@ public class InvalidConditionTest {
     public void testMultiplyExpression() throws Exception {
         MultiplyNode node = new MultiplyNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
         runWrongTest(node);
-    }
-
-    @Test
-    public void testNestedExpression() throws Exception {
-        GreaterThanNode gt1 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
-        GreaterThanNode gt2 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), gt1);
-
-        runWrongTest(gt2);
-
     }
 
     private void runCorrectTest(AExpression node){

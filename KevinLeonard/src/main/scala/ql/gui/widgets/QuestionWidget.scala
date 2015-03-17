@@ -5,6 +5,7 @@ import ql.evaluator.Evaluator
 import ql.gui.DependencyResolver
 import types.{Dependencies, EvalEnvironment, VariableName}
 
+import scalafx.collections.ObservableMap.{Replace, Add}
 import scalafx.geometry.Insets
 import scalafx.scene.control.Label
 import scalafx.scene.layout.VBox
@@ -16,7 +17,9 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
   val PaddingBottom: Int = 10
   val DefaultMargin: Int = 0
   val MarginBottom: Int = 10
-  val InvalidStyle = "-fx-background-color: -fx-focus-color, linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background); -fx-focus-color: red;"
+  val InvalidStyle = "-fx-background-color: -fx-focus-color," +
+    "linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%)," +
+    "-fx-control-inner-background); -fx-focus-color: red;"
   val ValidStyle = "-fx-focus-color: dodgerblue;"
 
   // Fields
@@ -25,25 +28,40 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
   val valueDependencies: Dependencies = q.expression.fold[Dependencies](List())(e => dependencyResolver.resolve(e))
   val visibilityDependencies: Dependencies = visibilityExpressions.flatMap(e => dependencyResolver.resolve(e))
   val label = Label(q.label)
-  label.margin = Insets(DefaultMargin, DefaultMargin, MarginBottom, DefaultMargin)
 
-  // Initialize VBox properties
+  // Initialize VBox and Label properties
   visible = shouldBeVisible
   managed = isVisible
   padding = Insets(DefaultPadding, DefaultPadding, PaddingBottom, DefaultPadding)
+  label.margin = Insets(DefaultMargin, DefaultMargin, MarginBottom, DefaultMargin)
   children.add(label)
 
-  // Methods
-  def isVisible: Boolean = visible.value
+  // Observer for environment
+  env.onChange((map, change) => change match {
+    case Add(addedName, _) => updateProperties(addedName)
+    case Replace(replacedName, _, _) => updateProperties(replacedName)
+  })
 
+  // Methods
   def updateEnvironment(newValue: Value): Unit = env += (q.variable.name -> newValue)
 
-  def updateVisibility(name: VariableName): Unit = {
-    if (visibilityDependencies contains name) {
+  def updateProperties(updatedVariable: VariableName): Unit = {
+    updateVisibility(updatedVariable)
+    if (isVisible) {
+      updateValue(updatedVariable)
+    }
+  }
+
+  def updateVisibility(updatedVariable: VariableName): Unit = {
+    if (visibilityDependencies contains updatedVariable) {
       visible = shouldBeVisible
       managed = isVisible
     }
   }
+
+  def updateValue(updatedVariable: VariableName): Unit
+
+  def isVisible: Boolean = visible.value
 
   def shouldBeVisible: Boolean = visibilityExpressions.forall(evaluatesToTrue)
 

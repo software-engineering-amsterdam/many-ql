@@ -14,7 +14,7 @@ if (hasSoldHouse) {
 
     Question privateDebt (number) : Private debts for the sold house.
 
-    Assignment valueResidue(number) : sellingPrice - privateDebt
+    Assignment ValueResidue(number) : sellingPrice - privateDebt
 }
 
 

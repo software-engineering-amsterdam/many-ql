@@ -5,8 +5,8 @@ import QL.GUI.Elements.factory as gui_elements_f
 
 class Question:
     def __init__(self, ast_question, order, condition):
-        if not isinstance(ast_question, ast_q.Question):
-            raise e.QException("Input must be an Question Object!")
+        # if not isinstance(ast_question, ast_q.Question):
+        #     raise e.QException("Input must be an Question Object!")
 
         self.order = order
         self.gui_element = None
@@ -21,6 +21,9 @@ class Question:
     def get_order(self):
         return self.order
 
+    def get_label(self):
+        return self.ast.get_label()
+
     def get_gui_element(self):
         return self.gui_element
 
@@ -29,3 +32,6 @@ class Question:
 
     def get_condition(self):
         return self.condition
+
+    def get_statement_dict(self):
+        return {self.ast.get_id(): self}

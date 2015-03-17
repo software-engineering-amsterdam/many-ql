@@ -16,7 +16,6 @@ public class IfStatement extends Statement {
     private Expression conditions;
     private List<Statement> thenStatements;
 
-    // BooleanExpression, get result and cast to boolean
     public IfStatement(Expression conditions, List<Statement> thenStatements, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.conditions = conditions;
@@ -42,7 +41,7 @@ public class IfStatement extends Statement {
 
     @Override
     public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context rm) {
-	guiBuilder.setShowCondition(conditions);
+	guiBuilder.setIfCondition(conditions);
 	for (Statement s : this.thenStatements) {
 	    s.createGUIComponent(guiBuilder, formGUI, rm);
 	}

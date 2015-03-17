@@ -1,11 +1,10 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Radio;
 
 import javax.swing.*;
@@ -22,7 +21,13 @@ public class RadioWidget implements IWidget {
         return btnPanelYesNo;
     }
 
-    public RadioWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Radio radio) {
+    @Override
+    public void resetValue() {
+        yesBtn.setSelected(false);
+        noBtn.setSelected(false);
+    }
+
+    public RadioWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper, Radio radio) {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
         yesBtn = new JRadioButton(radio.getYesLbl());
         noBtn = new JRadioButton(radio.getNoLbl());
@@ -35,18 +40,22 @@ public class RadioWidget implements IWidget {
         yesBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(true));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                variableTable.setVariable(questionIdentifier, new BoolValue(true));
+                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
             }
         });
 
         noBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(false));
-                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
-                variableTableWrapper.setVariableTable(newVariableTable);
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                variableTable.setVariable(questionIdentifier, new BoolValue(false));
+                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
             }
         });
+
     }
 }

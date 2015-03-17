@@ -17,19 +17,19 @@ public class TypeDeducer implements ExprVisitor<Type>
     private final static DecType decType = new DecType();
     private final static UndefType undefType = new UndefType();
 
-    private final QuestionSet questionSet;
+    private final Questions questions;
     private final Messages messages;
 
-    public static InferredTypeResult deduceType(Expr e, QuestionSet questionSet)
+    public static InferredTypeResult deduceType(Expr e, Questions questions)
     {
-        TypeDeducer deducer = new TypeDeducer(questionSet);
+        TypeDeducer deducer = new TypeDeducer(questions);
         Type type = e.accept(deducer);
         return new InferredTypeResult(type, deducer.messages);
     }
 
-    private TypeDeducer(QuestionSet questionSet)
+    private TypeDeducer(Questions questions)
     {
-        this.questionSet = questionSet;
+        this.questions = questions;
         this.messages = new Messages();
     }
 
@@ -156,12 +156,12 @@ public class TypeDeducer implements ExprVisitor<Type>
             return undefType;
         }
 
-        return this.questionSet.getType(n.getId());
+        return this.questions.getType(n.getId());
     }
 
     private boolean isIdentUndeclared(Ident id)
     {
-        return !(this.questionSet.contains(id.getId()));
+        return !(this.questions.contains(id.getId()));
     }
 
     // 1. Check if the operands are defined

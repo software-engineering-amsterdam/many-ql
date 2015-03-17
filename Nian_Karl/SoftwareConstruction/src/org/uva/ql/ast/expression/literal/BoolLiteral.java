@@ -42,8 +42,14 @@ public class BoolLiteral extends Literal {
 		return new BoolType(getPosition());
 	}
 	
-	public boolean equals(BoolLiteral boolLiteral) {
-		return value.equals(boolLiteral.getValue());
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof BoolLiteral){
+			return value.equals(((BoolLiteral) obj).getValue());
+			
+		} else {
+			throw new UnsupportedOperationException("BoolLiteral is only compariable with another BoolLiteral.");
+		}
 	}
 
 }

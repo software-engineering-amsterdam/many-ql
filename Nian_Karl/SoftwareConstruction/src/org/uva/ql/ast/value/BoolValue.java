@@ -14,8 +14,14 @@ public class BoolValue extends Value {
 		return value;
 	}
 	
-	public boolean equals(BoolValue boolValue) {
-		return value.equals(boolValue.value());
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof BoolValue){
+			return value.equals(((BoolValue) obj).value());
+			
+		} else {
+			throw new UnsupportedOperationException("BoolValue is only compariable with another BoolValue.");
+		}
 	}
 	
 	@Override

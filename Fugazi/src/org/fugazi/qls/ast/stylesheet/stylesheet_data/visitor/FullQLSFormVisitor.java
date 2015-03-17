@@ -72,9 +72,6 @@ public abstract class FullQLSFormVisitor implements IQLSASTVisitor<Void> {
     }
 
     public Void visitDefaultStyleDeclr(DefaultStyleDeclaration styleDeclr) {
-        AbstractQLSWidget widget = styleDeclr.getWidget();
-        widget.accept(this);
-
         return null;
     }
 

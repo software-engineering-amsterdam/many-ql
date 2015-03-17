@@ -1,11 +1,11 @@
 import sys, argparse, glob
 sys.path.append('../lib')
 
-from ql.ast.AST import AST
+from ql.parser import AST
 from ql.evaluator.evaluator import createEvaluator
 
 def runTest(verbose, testFileName):
-    ast = AST(testFileName)
+    ast = AST.create(testFileName)
     evaluator = createEvaluator(ast)
     questions = evaluator.questions()
     numQuestions = len(questions)

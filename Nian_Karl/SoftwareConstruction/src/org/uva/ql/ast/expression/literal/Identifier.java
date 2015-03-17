@@ -22,7 +22,7 @@ public class Identifier extends Literal {
 	}
 
 	public Value getValue(Evaluator evaluator) {
-		return evaluator.getValue(identifier);
+		return evaluator.getValue(this);
 	}
 
 	@Override

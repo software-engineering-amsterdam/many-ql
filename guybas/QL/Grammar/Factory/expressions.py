@@ -51,9 +51,9 @@ def make_add_min_expression(subtrees):
     x = subtrees[0]
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == "+":
-            x = add.Add("+", x, subtrees[i + 1])
+            x = add.Add(x, subtrees[i + 1])
         else:
-            x = minus.Minus("-", x, subtrees[i + 1])
+            x = minus.Minus(x, subtrees[i + 1])
     return x
 
 
@@ -62,9 +62,9 @@ def make_mul_expression(subtrees):
     x = subtrees[0]
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == "*":
-            x = multiplication.Multiplication("*", x, subtrees[i + 1])
+            x = multiplication.Multiplication(x, subtrees[i + 1])
         else:
-            x = division.Division("/", x, subtrees[i + 1])
+            x = division.Division(x, subtrees[i + 1])
     return x
 
 
@@ -72,19 +72,45 @@ def make_mul_expression(subtrees):
 def make_compare(subtrees):
     subtrees = subtrees[0]
     x = subtrees[0]
+    print(len(subtrees))
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == ">":
-            x = greater.Greater(">", x, subtrees[i + 1])
+            x = greater.Greater(x, subtrees[i + 1])
         elif subtrees[i] == "<":
-            x = less.Less("<", x, subtrees[i + 1])
+            x = less.Less(x, subtrees[i + 1])
         elif subtrees[i] == ">=":
-            x = greater_equal.GreaterEqual(">=", x, subtrees[i + 1])
+            x = greater_equal.GreaterEqual(x, subtrees[i + 1])
         elif subtrees[i] == "<=":
-            return less_equal.LessEqual("<=", x, subtrees[i + 1])
+            return less_equal.LessEqual( x, subtrees[i + 1])
         elif subtrees[i] == "==":
-            x = equal.Equal("==", x, subtrees[i + 1])
+            x = equal.Equal(x, subtrees[i + 1])
         else:
             raise Exception("make_compare got wrong input")
+    return x
+
+
+def make_compare2(subtrees):
+    subtrees = subtrees[0]
+    expressions = []
+    for i in range(0, len(subtrees)-1, 2):
+
+        if subtrees[i + 1] == ">":
+            expressions.append(greater.Greater(subtrees[i], subtrees[i + 2]))
+        elif subtrees[i+ 1] == "<":
+            expressions.append(less.Less(subtrees[i], subtrees[i + 2]))
+        elif subtrees[i+ 1] == ">=":
+            expressions.append(greater_equal.GreaterEqual(subtrees[i], subtrees[i + 2]))
+        elif subtrees[i+ 1] == "<=":
+            expressions.append(less_equal.LessEqual(subtrees[i], subtrees[i + 2]))
+        elif subtrees[i+ 1] == "==":
+            expressions.append(equal.Equal(subtrees[i], subtrees[i + 2]))
+        else:
+            raise Exception("make_compare got wrong input")
+    x = expressions[0]
+    # create for every compare expression a new and expression
+    # so, for example 1 < 2 < 3 becomes (1 < 2) and (2  < 3)
+    for i in range(1, len(expressions)):
+        x = and_op.And(x, expressions[i])
     return x
 
 
@@ -93,9 +119,9 @@ def make_extra(subtrees):
     x = subtrees[0]
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == "and":
-            x = and_op.And("and", x, subtrees[i + 1])
+            x = and_op.And(x, subtrees[i + 1])
         else:
-            x = or_op.Or("or", x, subtrees[i + 1])
+            x = or_op.Or(x, subtrees[i + 1])
     return x
 
 
