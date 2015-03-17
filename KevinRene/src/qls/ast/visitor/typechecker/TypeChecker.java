@@ -8,6 +8,11 @@ import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
 import qls.ast.expression.literal.StringLiteral;
+import qls.ast.statement.Page;
+import qls.ast.statement.QLSBlock;
+import qls.ast.statement.Question;
+import qls.ast.statement.Section;
+import qls.ast.statement.Stylesheet;
 import qls.ast.stylerule.StyleRule;
 import qls.ast.stylerule.property.Color;
 import qls.ast.stylerule.property.Font;
@@ -25,44 +30,56 @@ import qls.ast.widget.Spinbox;
 import qls.ast.widget.TextField;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
-	private static ErrorEnvironment errors;
-	private TypeEnvironment typeEnvironment;
+	private ErrorEnvironment errorEnvironment;
+	private TypeEnvironment typeEnvironment;	
 	
 	private TypeChecker(TypeEnvironment typeEnvironment) {
-		this.typeEnvironment = typeEnvironment;
 		super.setExpressionVisitor(this);
 		super.setTypeVisitor(this);
+		
+		this.typeEnvironment = typeEnvironment;
+		errorEnvironment = new ErrorEnvironment();
+	}
+	
+	public ErrorEnvironment getErrorEnvironment() {
+		return errorEnvironment;
 	}
 	
 	/**
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(QLSStatement tree, TypeEnvironment typeEnv) {
-		TypeChecker typeChecker = new TypeChecker(typeEnv);
-		errors = new ErrorEnvironment();
+	public static ErrorEnvironment check(QLSStatement tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		
 		tree.accept(typeChecker);
 		
-		errors.outputErrors();
-		
-		return errors.hasErrors();
+		return typeChecker.getErrorEnvironment();
 	}
 	
-	/**
-	 * Entry point, static type checks the supplied tree
-	 * @return a boolean indicating pass or fail
-	 */
-	public static boolean check(QLSStatement tree, TypeEnvironment typeEnv, ErrorEnvironment errorEnvironment) {
-		TypeChecker typeChecker = new TypeChecker(typeEnv);
-		
-		errors = errorEnvironment;
-		
-		tree.accept(typeChecker);
-		
-		errors.outputErrors();
-		
-		return errors.hasErrors();
+	@Override
+	public Void visit(Page pageNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(QLSBlock blockNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(Question questionNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(Section sectionNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(Stylesheet stylesheetNode) {
+		return null;
 	}
 	
 	@Override

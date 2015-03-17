@@ -118,12 +118,12 @@ import qls.ast.expression.literal.*;
 				| styleRule                    { $$ = new StyleRuleSet($1); }
 				;
 				
-  styleRule	: WIDTH     ':' literal  { $$ = new Width($3);  }
-					| HEIGHT      ':' literal  { $$ = new Height($3); }
-					| FONT        ':' literal  { $$ = new Font($3);   }
-					| FONTSIZE    ':' literal  { $$ = new FontSize($3); }
-					| COLOR       ':' literal  { $$ = new Color($3); }
-					;
+  styleRule	: WIDTH		':' literal  { $$ = new Width($3);  }
+			| HEIGHT	':' literal  { $$ = new Height($3); }
+			| FONT		':' literal  { $$ = new Font($3);   }
+			| FONTSIZE	':' literal  { $$ = new FontSize($3); }
+			| COLOR		':' literal  { $$ = new Color($3); }
+			;
 
 %%
 private QLSLexer lexer; 

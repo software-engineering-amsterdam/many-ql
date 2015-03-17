@@ -7,19 +7,63 @@ public class BooleanValue extends ql.value.BooleanValue implements Value {
 		super(value);
 	}
 
-	/*
-	 *  TODO: Extend these functions to look like those in the Evaluator
-	 *  or TypeChecker mechanism in QL. These functions are dropped after
-	 *  the getValue is passed back to the QL after QLS has run. This is
-	 *  the wrapping.
-	 */
 	@Override
-	public boolean assignWidth() {
+	public boolean assignWidth(Value argument) {
 		return false;
 	}
 
 	@Override
-	public boolean assignHeight() {
+	public boolean assignWidthInteger(IntegerValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignWidthFloat(FloatValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignHeight(Value argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignHeightInteger(IntegerValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignHeightFloat(FloatValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignFont(Value argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignFontInteger(IntegerValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignFontSize(Value argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignFontSizeInteger(IntegerValue argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignColour(Value argument) {
+		return false;
+	}
+
+	@Override
+	public boolean assignColourInteger(IntegerValue argument) {
 		return false;
 	}
 }
