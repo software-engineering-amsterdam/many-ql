@@ -28,20 +28,20 @@ public class IdReferences {
 	this.referenceMap.put(idName, dependencies);
     }
 
+    //TODO :: Change while loop!
     public void putAll(IdCollection keyCollection, Expression value) {
-	Iterator<IdLiteral> iterator = keyCollection.iterator();
-	while (iterator.hasNext()) {
-	    IdLiteral key = iterator.next();
-	    List<Expression> tempList;
+	for(IdLiteral l : keyCollection.getList()){
+	    
+		List<Expression> tempList;
 
-	    if (this.referenceMap.containsKey(key.getName())) {
-		tempList = this.referenceMap.get(key.getName());
+	    if (this.referenceMap.containsKey(l.getName())) {
+		tempList = this.referenceMap.get(l.getName());
 	    } else {
 		tempList = new ArrayList<Expression>();
 	    }
 
 	    tempList.add(value);
-	    this.referenceMap.put(key.getName(), tempList);
+	    this.referenceMap.put(l.getName(), tempList);
 	}
     }
 }
