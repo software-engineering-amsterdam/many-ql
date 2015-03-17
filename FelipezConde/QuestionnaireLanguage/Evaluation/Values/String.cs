@@ -44,5 +44,10 @@ namespace Evaluation.Values
             return new Bool(!GetValue().Equals(stringValue.GetValue()));
         }
         #endregion
+
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }
