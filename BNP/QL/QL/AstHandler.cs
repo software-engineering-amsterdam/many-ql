@@ -7,12 +7,12 @@ using Antlr4.Runtime;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Exceptions.Warnings;
+using QL.Model.Terminals.Wrappers;
 using QL.Visitors;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
 using QL.Model.Terminals;
-using QL.Visitors.UIWrappers;
 
 namespace QL
 {
@@ -46,7 +46,6 @@ namespace QL
         /// </summary>
         public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
-        public IList<IRenderable> ElementsToDisplay;
 
         bool _astBuilt;
         bool _typeChecked;
@@ -59,8 +58,7 @@ namespace QL
             TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-            ElementsToDisplay = new List<IRenderable>();
-            _astBuilt = _typeChecked = _evaluated = _uiEvaluated = false;
+            _astBuilt = _typeChecked = _evaluated = false;
         }
 
         public ASTHandler(string input) : this()
@@ -145,7 +143,7 @@ namespace QL
             {
                 RootNode.AcceptBottomUp(evaluator);
             }
-            catch (QLError ex)
+            catch (QLException ex)
             {
                 /* Exceptions preventing Evaluator from finishing */
                 ASTHandlerExceptions.Add(ex);
@@ -159,27 +157,27 @@ namespace QL
             ReferenceLookupTable.Clear();
         }
 
-        public bool EvaluateUI()
-        {
-            if (!_evaluated)
-            {
-                throw new Exception("Expressions not evaluated");
-            }
-            UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
-            try
-            {
-               RootNode.AcceptSingle(visitor);
-            }
-            catch (QLError ex)
-            {
-                ASTHandlerExceptions.Add(ex);
-            }
-            _uiEvaluated = !ASTHandlerExceptions.Any();
-            if (!_uiEvaluated) {
-                ElementsToDisplay.Clear();
-                }
-            return _uiEvaluated;
+        //public bool EvaluateUI()
+        //{
+        //    if (!_evaluated)
+        //    {
+        //        throw new Exception("Expressions not evaluated");
+        //    }
 
-        }
+        //    UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
+            
+        //    try
+        //    {
+        //        RootNode.AcceptSingle(visitor);
+        //    }
+        //    catch (QLException ex)
+        //    {
+        //        ASTHandlerExceptions.Add(ex);
+        //    }
+
+        //    _uiEvaluated = !ASTHandlerExceptions.Any();
+        //    if (!_uiEvaluated) ElementsToDisplay.Clear();
+        //    return _uiEvaluated;
+        //}
     }
 }

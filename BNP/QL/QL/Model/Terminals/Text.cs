@@ -9,6 +9,11 @@ namespace QL.Model.Terminals
         public Text()
         { }
 
+        public Text(string value)
+        {
+            SetValue(value);
+        }
+
         public void SetValue(object value)
         {
             Value = value.ToString();

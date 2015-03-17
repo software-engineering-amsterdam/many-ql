@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model;
-using QL.Model.Terminals;
 
-namespace QL.Visitors
+namespace QL.Model.Terminals.Wrappers
 {
     public class TextWrapper : TerminalWrapper
     {
@@ -28,6 +22,10 @@ namespace QL.Visitors
             throw new Exception("Resolution of this IResolvableTerminalType not implemented: " + a.ToString());
         }
 
+        public override string ToString()
+        {
+            return Value;
+        }
 
         public static YesnoWrapper operator ==(TextWrapper a, TextWrapper b)
         {
@@ -42,7 +40,7 @@ namespace QL.Visitors
         }
         public static YesnoWrapper operator !=(TextWrapper a, TextWrapper b)
         {
-            if (a.Value!=null || b.Value!=null)
+            if (a.Value != null || b.Value != null)
             {
                 return new YesnoWrapper(a.Value != b.Value);
             }

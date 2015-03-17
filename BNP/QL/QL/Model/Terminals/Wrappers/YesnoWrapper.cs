@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model;
-using QL.Model.Terminals;
 
-namespace QL.Visitors
+namespace QL.Model.Terminals.Wrappers
 {
-    public class YesnoWrapper:TerminalWrapper
+    public class YesnoWrapper : TerminalWrapper
     {
-        
+
         public bool? Value;
         IResolvableTerminalType _node;
 
-        
-        
-     
+
+
+
         public YesnoWrapper(Yesno a)
         {
             Value = a.Value;
-            _node = (IResolvableTerminalType) a;
+            _node = (IResolvableTerminalType)a;
 
 
         }
@@ -33,7 +27,12 @@ namespace QL.Visitors
         {
             return Value.Value ? true : false;
         }
-    
+
+        public override string ToString()
+        {
+            return Value.HasValue ? (Value.Value ? "Yes" : "No") : "Unknown";
+        }
+
 
         public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
         {
@@ -66,7 +65,7 @@ namespace QL.Visitors
             }
         }
 
-        
+
         public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
         {
             if (a.Value.HasValue || b.Value.HasValue)
@@ -91,7 +90,7 @@ namespace QL.Visitors
         }
         public override int GetHashCode()
         {
-            string w="yesnowrapper";
+            string w = "yesnowrapper";
             return new { w, Value }.GetHashCode();
         }
 

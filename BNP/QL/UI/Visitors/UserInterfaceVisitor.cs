@@ -1,47 +1,43 @@
-﻿using QL.Visitors;
-using QL.Visitors.UIWrappers;
-
-using QL.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using QL.Exceptions;
+using QL.Model;
+using QL.Model.Terminals.Wrappers;
+using QL.UI.ControlWrappers;
+using QL.Visitors;
 
-
-namespace QL.Visitors
+namespace QL.UI.Visitors
 {
-    class UserInterfaceVisitor :IVisitor
+    public class UserInterfaceVisitor : IVisitor
     {
-        IList<IRenderable> ElementsToDisplay;
-        private System.Collections.ObjectModel.ObservableCollection<QL.Exceptions.QLException> ASTHandlerExceptions;
-        private IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable;
-        private IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable;
+        private readonly WidgetWrapperFactory _wrapperFactory = new WidgetWrapperFactory();
+
+        private readonly IList<WidgetWrapperBase> _elementsToDisplay;
+        //public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
+        private readonly IDictionary<ITypeResolvable, TerminalWrapper> _referenceLookupTable;
+        private readonly IDictionary<Model.Terminals.Identifier, ITypeResolvable> _identifierTable;
         public IList<QLException> Exceptions { get; private set; }
 
 
         public UserInterfaceVisitor(
-            System.Collections.ObjectModel.ObservableCollection<QL.Exceptions.QLException> ASTHandlerExceptions,
-            IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable, 
-            IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable, 
-            IList<IRenderable> ElementsToDisplay
+            ObservableCollection<QLException> ASTHandlerExceptions,
+            IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable,
+            IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable,
+            IList<WidgetWrapperBase> ElementsToDisplay
             )
         {
             // TODO: Complete member initialization
-            this.ASTHandlerExceptions = ASTHandlerExceptions;
-            this.ReferenceLookupTable = ReferenceLookupTable;
-            this.IdentifierTable = IdentifierTable;
-            this.ElementsToDisplay = ElementsToDisplay;
+            this._referenceLookupTable = ReferenceLookupTable;
+            this._identifierTable = IdentifierTable;
+            this._elementsToDisplay = ElementsToDisplay;
         }
-
-
-
+        
         public void Visit(Model.Form node)
         {
             node.Block.AcceptSingle(this);
-
         }
+
         public void Visit(Model.Block node)
         {
             foreach (IVisitable child in node.Children)
@@ -49,35 +45,38 @@ namespace QL.Visitors
                 child.AcceptSingle(this);
             }
         }
-
-
+        
         public void Visit(Model.ControlUnit node)
         {
-            System.Diagnostics.Contracts.Contract.Assert(((ReferenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
-            if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool())
+            System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
+            if (((YesnoWrapper)_referenceLookupTable[node.Expression]).ToBool())
             {
                 node.ConditionTrueBlock.Accept(this);
             }
-            else if (node.ConditionFalseBlock!=null)
+            else if (node.ConditionFalseBlock != null)
             {
-                
+
                 node.ConditionFalseBlock.Accept(this);
             }
         }
-
-
+        
         public void Visit(Model.StatementUnit node)
         {
-            ElementsToDisplay.Add(new StatementWrapper(node, ReferenceLookupTable[IdentifierTable[node.Identifier]]));
+            var unitWrapper = _wrapperFactory.GetWidgetWrapper(node);
+            _elementsToDisplay.Add(unitWrapper); // todo set identifier/do lookup
+
+            //_elementsToDisplay.Add(new StatementWrapper(node, _referenceLookupTable[_identifierTable[node.Identifier]]));
         }
 
         public void Visit(Model.QuestionUnit node)
         {
-            ElementsToDisplay.Add(new QuestionWrapper(node, ReferenceLookupTable[IdentifierTable[node.Identifier]]));
-        }
-        #region Not used elements
-        
+            var unitWrapper = _wrapperFactory.GetWidgetWrapper(node);
+            _elementsToDisplay.Add(unitWrapper); // todo idem ditto
 
+            //_elementsToDisplay.Add(new WidgetWrapperBase(node, _referenceLookupTable[_identifierTable[node.Identifier]]));
+        }
+
+        #region Not used elements
         public void Visit(Model.Expression node)
         {
         }

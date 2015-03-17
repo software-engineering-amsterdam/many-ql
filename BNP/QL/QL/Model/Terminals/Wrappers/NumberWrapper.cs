@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QL.Exceptions.Errors;
-using QL.Model;
-using QL.Model.Terminals;
-using QL.Exceptions;
 
-namespace QL.Visitors
+namespace QL.Model.Terminals.Wrappers
 {
     public class NumberWrapper:TerminalWrapper
     {
@@ -30,6 +23,10 @@ namespace QL.Visitors
             throw new Exception("Resolution of this IResolvableTerminalType not implemented: " + a.ToString());
         }
 
+        public override string ToString()
+        {
+            return Value.HasValue ? Value.Value.ToString() : "Unknown";
+        }
 
         public static YesnoWrapper operator ==(NumberWrapper a, NumberWrapper b)
         {

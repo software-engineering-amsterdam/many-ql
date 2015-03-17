@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,7 +9,12 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using QL.Exceptions;
 using QL.Model;
+using QL.Model.Terminals;
+using QL.Model.Terminals.Wrappers;
 using QL.UI.Controls;
+using QL.UI.ControlWrappers;
+using QL.Visitors;
+using WidgetWrapperBase = QL.UI.ControlWrappers.WidgetWrapperBase;
 
 namespace QL.UI
 {
@@ -59,7 +66,10 @@ namespace QL.UI
             {
                 if (_astHandler.CheckType())
                 {
-                    _astHandler.Evaluate();
+                    if (_astHandler.Evaluate())
+                    {
+                        // todo evaluate ui controls?
+                    }
                 }
             }
         }
@@ -140,6 +150,12 @@ namespace QL.UI
             _astHandler.Evaluate();
         }
 
+        private void ButtonBuild_Click(object sender, RoutedEventArgs e)
+        {
+            if (_astHandler == null) return;
+            //todo rebuild ui _astHandler.EvaluateUI();
+        }
+
         private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
         {
             ListViewItem item = sender as ListViewItem;
@@ -154,5 +170,27 @@ namespace QL.UI
             InputFileSourceText.Focus();
         }
         #endregion
+
+        public void BindTestData()
+        {
+            WidgetWrapperFactory factory = new WidgetWrapperFactory();
+            List<WidgetWrapperBase> renders = new List<WidgetWrapperBase>
+                                        {
+                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question1"), new Text("What is your name?"), new Text())),
+                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question2"), new Text("What is your age?"), new Number())),
+                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question3"), new Text("Are you studying?"), new Yesno())),
+                                        };
+
+            QuestionsPanel.Children.Clear();
+            foreach(var widget in renders.Select(r => r.GetWidget()))
+            {
+                QuestionsPanel.Children.Add(widget);
+            }
+        }
+
+        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            BindTestData();
+        }
     }
 }

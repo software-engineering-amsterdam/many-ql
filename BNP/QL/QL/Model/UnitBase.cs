@@ -9,11 +9,10 @@ namespace QL.Model
 {
     public abstract class UnitBase : TreeElementBase
     {
-        public IResolvableTerminalType DataType;
+        public IResolvableTerminalType DataType { get; set; }
         public Identifier Identifier { get; set; }
         public string DisplayText { get; set; }
-        public string[] Parameters { get; set; }
-
+        
         protected UnitBase()
         {
             
