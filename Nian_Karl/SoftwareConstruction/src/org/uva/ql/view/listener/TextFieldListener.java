@@ -4,14 +4,15 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.StrValue;
 
 public class TextFieldListener implements DocumentListener {
 
 	protected WidgetListener widgetListener;
-	protected String identifier;
+	protected Identifier identifier;
 
-	public TextFieldListener(WidgetListener widgetListener, String identifier) {
+	public TextFieldListener(WidgetListener widgetListener, Identifier identifier) {
 		super();
 		this.widgetListener = widgetListener;
 		this.identifier = identifier;
@@ -35,6 +36,7 @@ public class TextFieldListener implements DocumentListener {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());
+			
 			widgetListener.widgetValueChanged(identifier, new StrValue(s));
 		} catch (BadLocationException e1) {
 			throw new IndexOutOfBoundsException("Index is out of bound at number textfield listener");

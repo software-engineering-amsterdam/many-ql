@@ -55,22 +55,22 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	@Override
 	public QuestionComponent visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
-		widget.setIdentifier(questionStatement.toString());
+		widget.setIdentifier(questionStatement.getIdentifier());
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
 		formView.addQuestionPanel(questionComponent);
-		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
+		widgetListener.initializeValue(identifier, new UndefinedValue());
 		return questionComponent;
 	}
 
 	@Override
 	public ExprQuestionComponent visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
-		widget.setIdentifier(questionComputeStatement.toString());
+		widget.setIdentifier(questionComputeStatement.getIdentifier());
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		formView.addExprQuestionPanel(questionComponent);
 		Identifier identifier = questionComputeStatement.getIdentifier();
-		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
+		widgetListener.initializeValue(identifier, new UndefinedValue());
 		return questionComponent;
 	}
 
