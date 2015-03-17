@@ -13,11 +13,9 @@ public class Listener<T> {
 			@Override
 			public void changed(ObservableValue<? extends T> observable,
 					T oldValue, T newValue) {
-				if(validator.isValid(newValue)){
-					System.out.println("this is accepted input ");
+				if(validator.isValid(newValue)){					
 				}else{
-					System.out.println("this should undo changes");
-					//question.undoChange(oldValue);
+					question.undoChange(newValue, oldValue);
 				}
 			}
 		};

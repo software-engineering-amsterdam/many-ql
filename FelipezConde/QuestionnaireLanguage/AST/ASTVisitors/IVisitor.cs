@@ -1,6 +1,6 @@
 ﻿using AST.Nodes;
 using AST.Nodes.Expressions;
-using AST.Nodes.FormObject;
+using AST.Nodes.FormObjects;
 using AST.Nodes.Interfaces;
 using Binary = AST.Nodes.Expressions.Binary;
 using Label = AST.Nodes.Labels;
@@ -9,7 +9,7 @@ using Values = AST.Nodes.Literals;
 
 namespace AST.ASTVisitors
 {
-    public interface IVisitor<T>
+    public interface IaVisitor<T>
     {
         T Visit(Form node);
         T Visit(Question question);

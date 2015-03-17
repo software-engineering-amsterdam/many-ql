@@ -37,7 +37,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
 
             foreach (var statement in Statements)
             {
-                statement.AppendQuestions(questions);
+                statement.CollectQuestions(questions);
             }
             return questions;
         }

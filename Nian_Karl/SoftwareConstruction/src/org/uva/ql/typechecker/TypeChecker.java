@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.association.Parenthese;
+import org.uva.ql.ast.expression.association.Parenthesis;
+import org.uva.ql.ast.expression.binary.Addition;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Binary;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -18,11 +18,10 @@ import org.uva.ql.ast.expression.binary.Greater;
 import org.uva.ql.ast.expression.binary.GreaterEqual;
 import org.uva.ql.ast.expression.binary.Less;
 import org.uva.ql.ast.expression.binary.LessEqual;
-import org.uva.ql.ast.expression.binary.Minus;
 import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
-import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.binary.Substraction;
 import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
@@ -42,6 +41,7 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.typechecker.dependency.DependencyList;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.ql.visitor.StatementVisitor;
@@ -52,21 +52,12 @@ import org.uva.util.message.Warning;
 public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor<Boolean>,
 		QuestionnaireVisitor<Boolean> {
 
-	private final Map<Identifier, Type> types;
-	private final List<Identifier> questionComputes;
-	private final List<String> labels;
-	private final MessageManager messageManager;
-	private final CyclicChecker cyclicChecker;
-	private boolean isCheckingCyclicDependency;
-
-	public TypeChecker() {
-		types = new HashMap<Identifier, Type>();
-		labels = new ArrayList<String>();
-		messageManager = new MessageManager();
-		cyclicChecker = new CyclicChecker();
-		isCheckingCyclicDependency = false;
-		questionComputes = new ArrayList<Identifier>();
-	}
+	private  Map<Identifier, Type> types;
+	private  List<Identifier> questioncomputedList;
+	private  List<String> labels;
+	private  MessageManager messageManager;
+	private  DependencyList dependencyList;
+	private boolean isVisitingQuestionExpression;
 
 	// Name-Type table
 	private void addType(Identifier id, Type type) {
@@ -76,11 +67,10 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private boolean isDeclared(Identifier id) {
 		return types.containsKey(id);
 	}
-	
+
 	public Type getType(Identifier id) {
 		return types.get(id);
 	}
-
 
 	public void printAll() {
 		Set<Identifier> keys = types.keySet();
@@ -114,6 +104,11 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private void addWarning(Warning warning) {
 		messageManager.addWarning(warning);
 	}
+	
+	private void addWarning(Warning.Type type, QuestionNormal question) {
+		Warning warning = new Warning(type, question.getPosition().getStartLine(), question.getLabel().toString());
+		addWarning(warning);
+	}
 
 	private int countErrors() {
 		return messageManager.countErrors();
@@ -135,8 +130,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private boolean checkLabel(QuestionNormal question) {
 		String label = question.getLabel().toString();
 		if (hasLabel(label)) {
-			Warning warning = new Warning(Warning.Type.DUPLICATE, question.getPosition().getStartLine(), label);
-			messageManager.addWarning(warning);
+			addWarning(Warning.Type.DUPLICATE, question);
 		} else {
 			addLabel(label);
 		}
@@ -208,6 +202,17 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 			return false;
 		}
 	}
+	
+	private boolean checkCyclicDependency() {
+		List<Identifier> cyclicDependentIdentifiers = dependencyList.getCyclicDependentIdentifiers();
+		if (cyclicDependentIdentifiers.size() != 0) {
+			for (Identifier identifier : cyclicDependentIdentifiers) {
+				addError(Error.Type.CYCLIC, identifier);
+			}
+			return false;
+		}
+		return true;
+	}
 
 	// Visits
 
@@ -224,7 +229,15 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Form form) {
-		return form.getBlock().accept(this);
+		types = new HashMap<Identifier, Type>();
+		labels = new ArrayList<String>();
+		messageManager = new MessageManager();
+		dependencyList = new DependencyList();
+		questioncomputedList = new ArrayList<Identifier>();
+		isVisitingQuestionExpression = false;
+		boolean result1 = form.getBlock().accept(this);
+		boolean result2 = checkCyclicDependency();
+		return result1 && result2;
 	}
 
 	@Override
@@ -247,12 +260,12 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(QuestionComputed question) {
-		questionComputes.add(question.getIdentifier());
+		questioncomputedList.add(question.getIdentifier());
 		boolean result1 = checkDeclaration(question);
 		boolean result2 = checkLabel(question);
-		isCheckingCyclicDependency = true;
+		isVisitingQuestionExpression = true;
 		boolean result3 = question.getExpression().accept(this);
-		isCheckingCyclicDependency = false;
+		isVisitingQuestionExpression = false;
 		return result1 && result2 && result3;
 	}
 
@@ -272,7 +285,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Parenthese node) {
+	public Boolean visit(Parenthesis node) {
 		return node.getExpression().accept(this);
 	}
 
@@ -292,7 +305,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Plus binary) {
+	public Boolean visit(Addition binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
 		boolean resultL = left.accept(this);
@@ -322,7 +335,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Minus binary) {
+	public Boolean visit(Substraction binary) {
 		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
 	}
 
@@ -378,8 +391,9 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Identifier node) {
-		if (isCheckingCyclicDependency) {
-			cyclicChecker.add(node, questionComputes.get(questionComputes.size() - 1));
+		if (isVisitingQuestionExpression) {
+			Identifier currentQuestionComputed = questioncomputedList.get(questioncomputedList.size() - 1);
+			dependencyList.add(node, currentQuestionComputed);
 		}
 		return checkReference(node);
 	}
@@ -399,13 +413,4 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		return true;
 	}
 
-	public boolean check(Questionnaire q) {
-		boolean result1 = q.accept(this);
-		boolean result2 = cyclicChecker.check(messageManager);
-		return result1 && result2;
-	}
-
-	public CyclicChecker getCC() {
-		return cyclicChecker;
-	}
 }

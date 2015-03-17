@@ -27,5 +27,4 @@ public class Equal extends Binary {
 	public Type getType(TypeChecker typeChecker) {
 		return new BoolType(getPosition());
 	}
-	
 }

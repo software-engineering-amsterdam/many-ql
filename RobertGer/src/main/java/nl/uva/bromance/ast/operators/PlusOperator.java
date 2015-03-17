@@ -10,13 +10,13 @@ import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 public class PlusOperator extends Operator {
 
     @Override
-    public Result performOperation(Result one, Result two) throws InvalidOperandException {
-        if (!(one instanceof IntResult) || !(two instanceof IntResult)) {
-            throw new InvalidOperandException();
-        } else {
-            IntResult intResultOne = (IntResult) one;
-            IntResult intResultTwo = (IntResult) two;
+    public Result performOperation(Result leftHand, Result rightHand) throws InvalidOperandException {
+        if (leftHand instanceof IntResult && rightHand instanceof IntResult) {
+            IntResult intResultOne = (IntResult) leftHand;
+            IntResult intResultTwo = (IntResult) rightHand;
             return intResultOne.add(intResultTwo);
+        } else {
+            throw new InvalidOperandException();
         }
     }
 

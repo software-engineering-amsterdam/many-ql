@@ -1,5 +1,4 @@
-﻿using AST.Representation;
-
+﻿
 namespace AST.Nodes.Literals
 {
     public class String : Literal
@@ -20,11 +19,6 @@ namespace AST.Nodes.Literals
             return "string";
         }
 
-        public override T Accept<T>(ASTVisitors.IVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
-
         public override Types.Type RetrieveType()
         {
             return new Types.StringType();
@@ -32,7 +26,7 @@ namespace AST.Nodes.Literals
 
         public override T Accept<T>(ASTVisitors.Interfaces.IExpressionVisitor<T> visitor)
         {
-            throw new System.NotImplementedException();
+            return visitor.Visit(this);
         }
     }
 }

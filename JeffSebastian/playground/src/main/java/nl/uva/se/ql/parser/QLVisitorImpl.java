@@ -1,13 +1,8 @@
 package nl.uva.se.ql.parser;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import nl.uva.se.ql.ast.Node;
 import nl.uva.se.ql.ast.expression.Expression;

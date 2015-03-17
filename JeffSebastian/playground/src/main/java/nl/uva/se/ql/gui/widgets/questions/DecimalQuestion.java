@@ -4,6 +4,7 @@ import javafx.scene.control.TextField;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.validators.DecimalValidator;
+import nl.uva.se.ql.gui.validators.IntegerValidator;
 
 public class DecimalQuestion extends TextField implements BaseQuestion<String> {
 	private final Question question;
@@ -27,13 +28,23 @@ public class DecimalQuestion extends TextField implements BaseQuestion<String> {
 	}
 
 	@Override
-	public void undoChange(String oldValue) {
-		
-		this.setText(oldValue);
+	public void reset() {
+		this.setText("");
 	}
 
 	@Override
-	public void reset() {
-		this.setText("");
+	public String undoChange(String newValue, String oldValue) {
+		IntegerValidator integerValidator = new IntegerValidator();
+		if (integerValidator.isValid(newValue)) {
+			this.setText(newValue + ".00");
+			return this.getText();
+		}
+		if (newValue.isEmpty() || !integerValidator.isValid(newValue)
+				&& oldValue.isEmpty()) {
+			this.setText("0.00");
+			return this.getText();
+		}
+		this.setText(oldValue);
+		return this.getText();
 	}
 }

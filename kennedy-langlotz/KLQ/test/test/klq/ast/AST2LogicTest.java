@@ -1,19 +1,18 @@
 package test.klq.ast;
 
-import com.klq.AST2GUIConverter;
+import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
-import com.klq.logic.controller.Store;
-import com.klq.logic.question.Question;
+import com.klq.gui.control.ARenderedQuestion;
+import com.klq.controller.Store;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by juriaan on 24-2-15.
@@ -37,7 +36,7 @@ public class AST2LogicTest {
         assertEquals(store.getOrderedQuestions().size(), 2);
 
         ArrayList<String> storeTextList = new ArrayList<String>();
-        for(Question question : store.getOrderedQuestions()){
+        for(ARenderedQuestion question : store.getOrderedQuestions()){
             storeTextList.add(question.getText());
         }
 

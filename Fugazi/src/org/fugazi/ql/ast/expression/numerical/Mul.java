@@ -16,9 +16,6 @@ public class Mul extends Numerical {
         return this.getLeft().toString() + " * " + this.getRight().toString();
     }
 
-    @Override
-    public Type getReturnedType() { return new IntType(); }
-
     public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitMul(this);
     }

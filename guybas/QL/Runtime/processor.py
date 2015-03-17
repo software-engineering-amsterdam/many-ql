@@ -8,10 +8,8 @@ def eval_expression(expression, answers_map):
     answers_dict['__builtins__'] = None
     try:
         result = eval(expression, answers_dict)
-        print(result)
         return result
     except Exception as e:
-        print(e)
         return False
 
 

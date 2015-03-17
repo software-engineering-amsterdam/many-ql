@@ -13,8 +13,6 @@ form taxOfficeExample {
   bool a("a2") = e;
 
   // spin the other way
-  // with (2) undefined errors
-  // with (2) assignment type mismatch errors
   int x("")=z;
   int z("")=y;
   int y("")=x;

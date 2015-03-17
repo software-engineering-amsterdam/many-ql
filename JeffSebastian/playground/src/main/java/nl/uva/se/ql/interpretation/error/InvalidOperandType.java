@@ -1,7 +1,5 @@
 package nl.uva.se.ql.interpretation.error;
 
-import java.util.List;
-
 import nl.uva.se.ql.ast.type.Type;
 
 public class InvalidOperandType extends Error {

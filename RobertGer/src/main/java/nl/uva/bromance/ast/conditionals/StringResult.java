@@ -8,7 +8,11 @@ public class StringResult extends Result{
     private String result;
 
     public StringResult(String result){
-        this.result = result;
+        if (result != null && result.length() > 0 && result.charAt(0) == '\"'){
+            this.result = result.substring(1,result.length() -1);
+        } else {
+            this.result = result;
+        }
     }
 
     public String getResult(){

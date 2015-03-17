@@ -1,7 +1,6 @@
 package nl.uva.bromance.ast;
 
 import nl.uva.bromance.typechecking.ReferenceMap;
-import nl.uva.bromance.typechecking.TypeCheckable;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * Created by Robert on 16-3-2015.
  */
-public class Node<TYPE extends Node> implements TypeCheckable {
+public class Node<TYPE extends Node> {
     private List<TYPE> children;
     private final int lineNumber;
     private final Class type;
@@ -54,13 +53,4 @@ public class Node<TYPE extends Node> implements TypeCheckable {
     public List<TYPE> getChildren() {
         return children;
     }
-
-    @Override
-    public void typeCheck() throws TypeCheckingException {
-    }
-
-    @Override
-    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
-    }
-
 }
