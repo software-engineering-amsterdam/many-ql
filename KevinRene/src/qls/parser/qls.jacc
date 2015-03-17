@@ -58,11 +58,8 @@ import qls.ast.expression.literal.*;
 @SuppressWarnings("all")
 %}
 
-%%
-	top : stylesheet { result = $1; }
-		;
-		
-	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { $$ = new Stylesheet($2, $4); }
+%%		
+	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { result = new Stylesheet($2, $4); }
 				;
 
   	pages 	: page pages  { $$ = new QLSBlock($1, $2); }
