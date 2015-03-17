@@ -3,8 +3,13 @@ stylesheet taxOfficeExample
     section "Info"
       question name
     section "Buying"
-      question hasBoughtHouse  
+      question hasBoughtHouse
+      default bool {
+        font: "Georgia"
+        fontsize: 14
+        color: #E60C0C
         widget radio("Sure", "Not really")
+      }
     section "Loaning"  
       question hasMaintLoan
   }
@@ -21,9 +26,9 @@ stylesheet taxOfficeExample
         question valueResidue
         default int {
           width: 400
-          font: "Arial" 
+          font: "Georgia"
           fontsize: 14
-          color: #999999
+          color: #E60C0C
           widget spinbox
         }        
       }
