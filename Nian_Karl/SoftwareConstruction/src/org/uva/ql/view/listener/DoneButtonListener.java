@@ -23,19 +23,20 @@ public class DoneButtonListener implements ActionListener {
 		JSONObject json = new JSONObject();
 		for (String key : evaluator.getMap().keySet()) {
 			Value value = evaluator.getValue(key);
-			json.put(key, value.toString());
+			if (value.isDefined()) {
+				json.put(key, value.toString());
+			}
 		}
 		try {
 			PrintWriter writer;
 			writer = new PrintWriter("form.json");
 			writer.println(json.toJSONString());
 			writer.close();
-			System.out.println("Made JSON file in the root of the project folder.w");
+			System.out.println("Made JSON file in the root of the project folder.");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			System.out.println("Couldn't make JSON File.");
 		}
 		System.out.println(json);
 	}
-
 }

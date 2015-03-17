@@ -1,6 +1,5 @@
 package org.uva.ql.view.widgit;
 
-import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.NumberTextFieldListener;
 import org.uva.ql.view.listener.WidgetListener;
 
