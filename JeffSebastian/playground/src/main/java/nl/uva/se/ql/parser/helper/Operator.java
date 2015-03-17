@@ -1,4 +1,4 @@
-package nl.uva.se.ql.constant;
+package nl.uva.se.ql.parser.helper;
 
 public enum Operator {
 	OR("||"),

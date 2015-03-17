@@ -58,7 +58,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	private static final Type[] NUMERIC_TYPES = {INTEGER,DECIMAL};
 	private static final Type[] ALPHA_NUMERIC_TYPES = {INTEGER,DECIMAL,STRING};
 	private static final Type[] ALL_TYPES = {INTEGER,DECIMAL,STRING,BOOLEAN};
-	
 
 	private SymbolTable symbols;
 	private ErrorList errors;
@@ -98,9 +97,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Type questionType = calculatedQuestion.getType();
 		
 		if (!expressionType.equals(questionType)) {
+			System.out.println(calculatedQuestion.getId());
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
-				.getOffset(), calculatedQuestion.getType(), expressionType));
+				.getOffset(), questionType, expressionType));
 		}
 	}
 
