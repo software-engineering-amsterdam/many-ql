@@ -7,9 +7,9 @@ import org.uva.ql.ast.type.Type;
 import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
 
-public class Minus extends Binary {
+public class Substraction extends Binary {
 
-	public Minus(Expression left, Expression right, CodePosition pos) {
+	public Substraction(Expression left, Expression right, CodePosition pos) {
 		super(left, right, pos);
 	}
 
