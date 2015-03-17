@@ -79,7 +79,7 @@ namespace QL
             }
             else
             {
-                throw new EvaluationError("unintialized variable");
+                return null;
             }
         }
 

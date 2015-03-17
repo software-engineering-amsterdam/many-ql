@@ -16,7 +16,9 @@ namespace QL.GenericDataHandlers
         public bool execute(DataContext context)
         {
 
-            context.ASTHandlerExceptions.Clear(); //we need to have clear exception list due to possible reevaluation
+            context.ASTHandlerExceptions.Clear(); 
+            context.IdentifierTable.Clear();
+
             EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ReferenceLookupTable, context.IdentifierTable);
             try
             {

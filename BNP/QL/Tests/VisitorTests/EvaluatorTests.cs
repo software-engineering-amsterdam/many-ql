@@ -160,18 +160,30 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
-            Assert.IsNotNull(nw);
-            nw.Value = 2; // answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
-
-            nw.Value = 31; // new answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
-
+            Assert.IsTrue(Builder.RunEvaluate(),"First evaluation");
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
-            Assert.IsNotNull(S1_value);
-            Assert.AreEqual(31 * 2 + 123, S1_value.Value);
+            Assert.IsNull(S1_value, "S1 should not exist");
+            NumberWrapper S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
+            Assert.IsNull(S2_value, "S2 should not exist");
+
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
+            nw.Value = 2; // answer to the question so the if condition is true
+
+            Assert.IsTrue(Builder.RunEvaluate(), "Second evaluation");
+            S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
+            Assert.IsNotNull(S1_value,"S1 variable was not evaluated correctly");
+            S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
+            Assert.IsNull(S2_value, "S2 variable is evaluated, shouldnt be");
+            Assert.AreEqual(2 * 2 + 123, S1_value.Value,"Bad maths");
+
+            nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
+            nw.Value = 31; // answer to the question so the if condition is false
+
+            Assert.IsTrue(Builder.RunEvaluate(), "Third evaluation");
+            S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
+            Assert.IsNull(S1_value,"S1 shouldnt exist anymore");
+            S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
+            Assert.IsNotNull(S2_value, "S2 should appear");
         }
         [TestMethod]
         public void Maths()
