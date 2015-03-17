@@ -3,9 +3,12 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
+import com.klq.ast.impl.expr.value.BooleanValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
 import com.klq.ast.impl.expr.value.Value;
 import com.klq.gui.IKLQItem;
 import com.klq.controller.Store;
+import com.sun.istack.internal.NotNull;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -88,15 +91,16 @@ public abstract class ARenderedQuestion implements IKLQItem {
     }
 
     /**
-     * Abstract methods that need to be implemented
-     */
+     * Abstract methods that need to be implemented */
     protected abstract Region createQuestionControl();
 
+    /**
+     * Needs to accept empty Strings */
     protected abstract boolean isValidInput(String input);
 
-    protected void questionAnswered(String result) {
-        if (result == null || result.trim().isEmpty()){
-            store.updateAnswer(id, null);
+    protected void questionAnswered(@NotNull String result) {
+        if (result.trim().isEmpty()){
+            store.updateAnswer(id, new UndefinedValue());
         } else if (isValidInput(result)) {
             Value expr = ExpressionUtil.createTerminalFromString(type, result);
             store.updateAnswer(id, expr);
@@ -149,6 +153,9 @@ public abstract class ARenderedQuestion implements IKLQItem {
             if (eval.isUndefined()){
                 return false;
             }
+            if (! (Boolean) eval.getValue()){
+                return false;
+            }
         }
         return true;
     }
@@ -186,9 +193,9 @@ public abstract class ARenderedQuestion implements IKLQItem {
         Duration first = (reverse ? new Duration(EFFECT_DURATION) : Duration.ZERO);
         Duration last = (reverse ? Duration.ZERO : new Duration(EFFECT_DURATION));
         result.add(new KeyFrame(first,
-                new KeyValue(renderedComponent.translateYProperty(), -renderedComponent.getHeight())));
+                new KeyValue(container.translateYProperty(), -container.getHeight())));
         result.add(new KeyFrame(last,
-                new KeyValue(renderedComponent.translateYProperty(), 0)));
+                new KeyValue(container.translateYProperty(), 0)));
         return result;
     }
 
@@ -198,7 +205,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
             Duration duration = (reverse ? new Duration((1-i/steps)*EFFECT_DURATION)
                     : new Duration(i/steps*EFFECT_DURATION));
             frames.add(new KeyFrame(duration,
-                            new KeyValue(renderedComponent.effectProperty(), new BoxBlur(steps-i, steps-i, 3))
+                            new KeyValue(container.effectProperty(), new BoxBlur(steps-i, steps-i, 3))
                     )
             );
         }

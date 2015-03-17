@@ -64,9 +64,9 @@ public class EvaluatorTest {
 
 	@Test
 	public void testGetValue() {
-		int expected = 99;
+		IntValue expected = new IntValue(99);
 		evaluator.addValue(id.toString(), new IntValue(99));
-		int actual = (int) evaluator.getValue(id.toString()).value();
+		IntValue actual = (IntValue) evaluator.getValue(id.toString());
 		Assert.assertEquals(expected, actual);
 	}
 

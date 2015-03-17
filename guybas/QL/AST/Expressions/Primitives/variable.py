@@ -16,7 +16,7 @@ class Variable(p.Primitive):
         return [self.__name]
 
     def eval_expression(self, type_map):
-        if self.__name in type_map:
-            return type_map[self.__name]
+        if type_map.exists(self.__name):
+            return type_map.get_answer_by_id(self.__name)
         else:
             return None

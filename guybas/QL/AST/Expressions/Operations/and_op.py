@@ -12,4 +12,4 @@ class And(b.BinaryExpression):
         return constants.BOOL
 
     def eval(self, x, y):
-        x and y
+        return x and y

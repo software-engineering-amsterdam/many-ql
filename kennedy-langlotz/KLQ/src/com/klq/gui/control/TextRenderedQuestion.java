@@ -34,6 +34,9 @@ public class TextRenderedQuestion extends ARenderedQuestion {
 
     @Override
     protected boolean isValidInput(String input) {
+        if (input.trim().isEmpty()){
+            return true;
+        }
         if (getType() == Type.NUMERAL) {
             return input.matches("-?\\d+(\\.\\d+)?");
         }
