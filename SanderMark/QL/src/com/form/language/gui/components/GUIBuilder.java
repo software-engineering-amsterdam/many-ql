@@ -12,29 +12,39 @@ import com.form.language.memory.Context;
 
 public class GUIBuilder {
 
-    private FormComponent formGUI;
-    private Expression showCondition;
+	private FormComponent formGUI;
+	private Expression ifCondition;
+	
+	private Form form;
+	private JFrame frame;
+	private Context context;
 
-    public GUIBuilder(Form form, JFrame frame, Context context) {
-
-	formGUI = new FormComponent(form, this, frame);
-	frame.add(formGUI);
-
-	for (Iterator<Statement> s = form.getStatements(); s.hasNext();) {
-	    Statement statement = s.next();
-
-	    // Hier mee geven, want deze komt uiteindelijk terug bij createGUI
-	    // question etc.
-	    statement.createGUIComponent(this, formGUI, context);
+	public GUIBuilder(Form form, JFrame frame, Context context) {
+		this.form = form;
+		this.frame = frame;
+		this.context = context;
 	}
-    }
+	
+	public void createGUIForm()
+	{
+		formGUI = new FormComponent(form, this, frame);
+		frame.add(formGUI.getPanel());
+	}
+	
+	public void createGUIComponents()
+	{	
+		for (Iterator<Statement> s = form.getStatements(); s.hasNext();) {
+			Statement statement = s.next();
+			statement.createGUIComponent(this, formGUI, context);
+		}
+	}	
 
-    public void createGUIQuestion(Question question, FormComponent formGUI2, Context context) {
-	QuestionComponent questionCompondent = new QuestionComponent(question, context, showCondition);
-	formGUI2.add(questionCompondent);
-    }
+	public void createGUIQuestion(Question question, FormComponent formGUI2, Context context) {
+		QuestionComponent questionCompondent = new QuestionComponent(question, context, ifCondition);
+		formGUI2.getPanel().add(questionCompondent.getPanel());
+	}
 
-    public void setShowCondition(Expression condition) {
-	showCondition = condition;
-    }
+	public void setIfCondition(Expression condition) {
+		ifCondition = condition;
+	}
 }

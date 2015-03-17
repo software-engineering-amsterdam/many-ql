@@ -18,10 +18,9 @@ public class QuestionFrame extends JFrame {
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	// GUIForm formGUI = new GUIForm(form);
-	// add(formGUI);
-
 	GUIBuilder guiBuilder = new GUIBuilder(form, this, context);
+	guiBuilder.createGUIForm();
+	guiBuilder.createGUIComponents();
 
 	setVisible(true);
     }
