@@ -6,9 +6,9 @@ class QuestionairApp < JRubyFX::Application
     ql = QL.parse("spec/ql/source_files/long_query.ql")
     qls = QLS.parse("spec/qls/source_files/long_query.qls")
 
-    runner = QLS::Runner.new(ql, qls)
-
-    questionair_controller = QuestionairController.new(runner)
+    
+    # from here we asume ql and qls are valid?
+    questionair_controller = QuestionairController.new(ql, qls)
 
     with(stage, title: ql.name, width: 800, height: 600) do
       questionair_controller.scene = layout_scene do
@@ -27,12 +27,18 @@ end
 
 
 class QuestionairController
-  attr_reader :question_panes, :runner, :scene
+  attr_reader :question_panes, :scene
 
-  def initialize(runner)
-    @runner = runner
+  def initialize(ql)
+    @question_panes = QL::QuestionPaneGenerator.run(ql, self)
+    @runner = QL::VisibleQuestionsWriter.run(ql)
+  end
 
-    @question_panes = @runner.renderers.map { |r| r.render(self) }    
+  def initialize(ql, qls)
+    QLS::StyleWriter.run(qls)
+
+    @question_panes = QLS::QuestionPaneGenerator.run(qls, ql, self)
+    @runner = QL::VisibleQuestionsWriter.run(ql)
   end
 
   def update_variable(variable_name, value)
