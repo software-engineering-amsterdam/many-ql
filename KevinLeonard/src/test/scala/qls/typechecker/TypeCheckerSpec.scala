@@ -26,12 +26,12 @@ class TypeCheckerSpec extends Specification {
         List(Question(Variable("x"), SpinBox(List())), Question(Variable("y"), SpinBox(List())))
       )
       val environmentWithQuestion = Map("x" -> BooleanType(), "y" -> BooleanType())
-      val result = List(
+      val errors = List(
         Error("Spin box widget not allowed for question x", Some(NoPosition)),
         Error("Spin box widget not allowed for question y", Some(NoPosition))
       )
 
-      check(question, environmentWithQuestion) must beEqualTo(result)
+      check(question, environmentWithQuestion) must beEqualTo(errors)
     }
   }
 
