@@ -19,7 +19,6 @@ import java.util.List;
 
 public class QLSCheckBox extends AbstractQLSWidget {
 
-    private BoolValue value;
     private JCheckBox component;
 
     public QLSCheckBox() {
@@ -72,14 +71,13 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public BoolValue getWidgetValue() {
-        this.value = new BoolValue(this.component.isSelected());
-        return value;
+        return new BoolValue(this.component.isSelected());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (BoolValue) _value;
-        this.component.setSelected(this.value.getValue());
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
     }
 
     @Override

@@ -21,7 +21,6 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
-    private StringValue value;
     private JPanel component;
     private JTextField input;
     private JLabel componentLabel;
@@ -77,22 +76,25 @@ public class QLSTextBox extends AbstractQLSWidget {
                     public void insertUpdate(DocumentEvent e) {
                         _listener.stateChanged();
                     }
-                    public void removeUpdate(DocumentEvent e) {}
-                    public void changedUpdate(DocumentEvent e) {}
+
+                    public void removeUpdate(DocumentEvent e) {
+                    }
+
+                    public void changedUpdate(DocumentEvent e) {
+                    }
                 }
         );
     }
 
     @Override
     public StringValue getWidgetValue() {
-        this.value = new StringValue(this.input.getText());
-        return this.value;
+        return new StringValue(this.input.getText());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (StringValue) _value;
-        this.input.setText(this.value.getValue());
+        StringValue value = (StringValue) _value;
+        this.input.setText(value.getValue());
     }
 
     @Override

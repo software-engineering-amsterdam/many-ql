@@ -22,8 +22,6 @@ public class QLSSlider extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
-    private IntValue value;
-
     private final JLabel titleLabel;
     private final JPanel panel;
     private final JSlider slider;

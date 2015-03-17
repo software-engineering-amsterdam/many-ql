@@ -1,6 +1,5 @@
 package org.fugazi.qls.ast.widget;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
@@ -20,7 +19,6 @@ import java.util.List;
 
 public class QLSRadioBtn extends AbstractQLSWidget {
 
-    private BoolValue value;
     private String actionCommandValue;
     private final String yesLabel;
     private final String noLabel;
@@ -122,8 +120,8 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (BoolValue) _value;
-        if (this.value.getValue().equals(true)) {
+        BoolValue value = (BoolValue) _value;
+        if (value.getValue().equals(true)) {
             this.yesBtn.setSelected(true);
             this.noBtn.setSelected(false);
         } else {
