@@ -1,5 +1,6 @@
 package test.klq.typechecker;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.bool.GreaterThanNode;
 import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
@@ -30,7 +31,7 @@ public class IncomparableTest {
     public void setUp() throws Exception {
         ast = new QuestionnaireNode();
         children = new ArrayList<AStatementNode>();
-        children.add(new QuestionNode(new IdentifierNode("question1"), "string", "This is a test question"));
+        children.add(new QuestionNode(new IdentifierNode("question1"), Type.STRING, "This is a test question"));
     }
 
     @Test
