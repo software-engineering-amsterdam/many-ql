@@ -32,7 +32,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     public TypeCheckerVisitor(List<AError> errors, QuestionTable table) {
         this.errors = errors;
         this.table = table;
-        this.cyclicDetector = new CyclicDetector(); //TODO fill this and run it
+        this.cyclicDetector = new CyclicDetector();
         this.currentQuestion = null;
 
         allowedMathExprTypes = new ArrayList<Type>();
