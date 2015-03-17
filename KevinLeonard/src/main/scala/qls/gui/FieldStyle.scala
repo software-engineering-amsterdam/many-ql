@@ -4,15 +4,15 @@ import qls.ast._
 
 class FieldStyle {
 
-  def extract (s: Style, env: List[StyleProperty]): Style = s match {
-    case Style(l, es) => Style(l, es.map(e => extract(e, env)))
+  def extract (s: StyleSheet, env: List[StyleProperty]): StyleSheet = s match {
+    case StyleSheet(l, es) => StyleSheet(l, es.map(e => extract(e, env)))
   }
 
   def extract(e: StyleSheetElement, env: List[StyleProperty]): Page = e match {
-    case Page(v, es) => Page(v, es.map(e => extractPageElement(e, env)))
+    case Page(v, es) => Page(v, es.map(e => extract(e, env)))
   }
 
-  def extractPageElement(e: PageElement, env: List[StyleProperty]): PageElement = e match {
+  def extract(e: Section, env: List[StyleProperty]): Section = e match {
     case Section(t, es) => Section(t, es.map(e => extract(e, env)))
   }
 
