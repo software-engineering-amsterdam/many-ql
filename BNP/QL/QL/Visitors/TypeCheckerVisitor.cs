@@ -36,21 +36,36 @@ namespace QL.Visitors
         #region Regular elements
         public void Visit(Form node)
         {
-            return; // nothing to check
+            node.Block.AcceptSingle(this);
         }
 
         public void Visit(Block node)
         {
-            return; // nothing to check
+            foreach (ElementBase child in node.Children)
+            {
+                child.AcceptSingle(this);
+            }
         }
 
         public void Visit(ControlUnit node)
         {
-            return; // nothing to check
+            node.Expression.AcceptSingle(this);
+
+            if (node.ConditionTrueBlock!=null)
+            {
+                node.ConditionTrueBlock.AcceptSingle(this);
+            }
+            if (node.ConditionTrueBlock!=null)
+            {
+                node.ConditionFalseBlock.AcceptSingle(this);
+            }
+
         }
 
         public void Visit(StatementUnit node)
         {
+            node.Expression.AcceptSingle(this);
+
             DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
 
             if (TypeReference[node.Identifier]!=DetermineType((dynamic)node.Expression)){
@@ -70,13 +85,16 @@ namespace QL.Visitors
 
         public void Visit(Expression node)
         {
-            return; // checking is done on children todo: sure this is the case?
+            node.Child.AcceptSingle(this);
         }
         #endregion
 
         #region Operators
         public void Visit(EqualsOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
+
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
@@ -85,6 +103,8 @@ namespace QL.Visitors
 
         public void Visit(NotEqualsOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on inequality operation", node));
@@ -93,6 +113,8 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than operation", node));
@@ -101,6 +123,8 @@ namespace QL.Visitors
 
         public void Visit(GreaterThanEqualToOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on greater-than-or-equal-to operation", node));
@@ -109,6 +133,8 @@ namespace QL.Visitors
 
         public void Visit(LessThanOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than operation", node));
@@ -117,6 +143,8 @@ namespace QL.Visitors
 
         public void Visit(LessThanEqualToOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on less-than-or-equal-to operation", node));
@@ -125,6 +153,8 @@ namespace QL.Visitors
 
         public void Visit(MultiplicationOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Incompatible operands on multiplication operation", node));
@@ -142,6 +172,8 @@ namespace QL.Visitors
 
         public void Visit(DivisionOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on division operator", node));
@@ -150,6 +182,8 @@ namespace QL.Visitors
 
         public void Visit(PlusOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             ICollection<Type> ALLOWED_TYPES = new List<Type>{ new Number().GetType(), new Text().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -164,6 +198,8 @@ namespace QL.Visitors
 
         public void Visit(MinusOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             ICollection<Type> ALLOWED_TYPES = new List<Type> { new Number().GetType() };//this could be abstracted
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -177,6 +213,8 @@ namespace QL.Visitors
 
         public void Visit(AndOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on AND operator", node));
@@ -186,6 +224,8 @@ namespace QL.Visitors
 
         public void Visit(OrOperator node)
         {
+            node.Left.AcceptSingle(this);
+            node.Right.AcceptSingle(this);
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
                 Exceptions.Add(new TypeCheckerError("Non-number operands on OR operator", node));

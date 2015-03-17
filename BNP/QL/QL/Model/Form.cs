@@ -32,6 +32,5 @@ namespace QL.Model
             
         }
 
-   
     }
 }
