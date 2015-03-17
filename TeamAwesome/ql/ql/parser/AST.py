@@ -1,8 +1,18 @@
 # Generated from java-escape by ANTLR 4.5
 from antlr4 import *
-from ..parser.QLVisitor import QLVisitor
-from ..parser.QLParser import QLParser
-from . import Nodes
+from .QLVisitor import QLVisitor
+from .QLParser import QLParser
+from .QLLexer import QLLexer
+from ..ast import Nodes
+
+def create(inputQLFile):
+    inputStream = FileStream(inputQLFile)
+    lexer = QLLexer(inputStream)
+    stream = CommonTokenStream(lexer)
+    parser = QLParser(stream)
+    visitor = ParseTreeVisitor()
+    tree = parser.root()
+    return visitor.visit(tree)
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class ParseTreeVisitor(QLVisitor):
@@ -29,7 +39,7 @@ class ParseTreeVisitor(QLVisitor):
 
         lineNumber = ctx.start.line
 
-        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expr = expr)
+        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expression = expr)
 
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):

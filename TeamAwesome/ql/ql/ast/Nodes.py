@@ -52,7 +52,7 @@ class QuestionStatement(Node):
 
 
 class IfStatement(Node):
-    def __init__(self, expr, statements, lineNumber):
+    def __init__(self, expression, statements, lineNumber):
         super().__init__(lineNumber)
         self.expression = expression
         self.statements = statements

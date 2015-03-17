@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
@@ -22,54 +22,54 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final String questionIdentifier;
     private final QLInterpreter qlInterpreter;
-    private final VariableTableWrapper variableTableWrapper;
+    private final StateWrapper stateWrapper;
     private final StylingSettings stylingSettings;
     private final StaticFields staticFields;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        return new LabelWithWidgetWidget(staticFields.getLabelForField(questionIdentifier), questionIdentifier, stylingSettings, embeddedWidget, variableTableWrapper);
+        return new LabelWithWidgetWidget(staticFields.getLabelForField(questionIdentifier), questionIdentifier, stylingSettings, embeddedWidget, stateWrapper);
 
     }
 
     @Override
     public IWidget createWidget(Checkbox checkbox) {
-        return createLabelWithWidgetWidget(new CheckboxWidget(questionIdentifier, qlInterpreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new CheckboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Radio radio) {
-        return createLabelWithWidgetWidget(new RadioWidget(questionIdentifier, qlInterpreter, variableTableWrapper, radio));
+        return createLabelWithWidgetWidget(new RadioWidget(questionIdentifier, qlInterpreter, stateWrapper, radio));
     }
 
     @Override
     public IWidget createWidget(Slider slider) {
-        return createLabelWithWidgetWidget(new SliderWidget(questionIdentifier, qlInterpreter, variableTableWrapper, slider));
+        return createLabelWithWidgetWidget(new SliderWidget(questionIdentifier, qlInterpreter, stateWrapper, slider));
     }
 
     @Override
     public IWidget createWidget(Spinbox spinbox) {
-        return createLabelWithWidgetWidget(new SpinboxWidget(questionIdentifier, qlInterpreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new SpinboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Textbox textbox) {
-        return createLabelWithWidgetWidget(new TextboxWidget(questionIdentifier, qlInterpreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new TextboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Combo combo) {
-        return createLabelWithWidgetWidget(new ComboWidget(questionIdentifier, qlInterpreter, variableTableWrapper, combo));
+        return createLabelWithWidgetWidget(new ComboWidget(questionIdentifier, qlInterpreter, stateWrapper, combo));
     }
 
     @Override
     public IWidget createWidget(Intbox intbox) {
-        return createLabelWithWidgetWidget(new IntboxWidget(questionIdentifier, qlInterpreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new IntboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
-    public QLSWidgetFetcher(QLInterpreter qlInterpreter, VariableTableWrapper variableTableWrapper, String questionIdentifier,
+    public QLSWidgetFetcher(QLInterpreter qlInterpreter, StateWrapper stateWrapper, String questionIdentifier,
                             StylingSettings stylingSettings, StaticFields staticFields) {
         this.qlInterpreter = qlInterpreter;
-        this.variableTableWrapper = variableTableWrapper;
+        this.stateWrapper = stateWrapper;
         this.questionIdentifier = questionIdentifier;
         this.stylingSettings = stylingSettings;
         this.staticFields = staticFields;

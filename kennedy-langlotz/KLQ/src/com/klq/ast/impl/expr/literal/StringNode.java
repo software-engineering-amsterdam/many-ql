@@ -5,8 +5,7 @@ import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.StringValue;
 import com.klq.ast.impl.value.Value;
-
-import java.util.Map;
+import com.klq.controller.VariableTable;
 
 /**
  * Created by juriaan on 10-2-15.
@@ -33,7 +32,7 @@ public class StringNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierNode, Value> variables) {
+    public Value evaluate(VariableTable variableTable) {
         return new StringValue(string);
     }
 }

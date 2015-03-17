@@ -21,6 +21,9 @@ class Section(e.SheetElement):
     def get_widget_dict(self):
         return self._widget_dict
 
+    def get_question_styles(self):
+        return self._question_styles
+
     @staticmethod
     def id_collection(question_styles):
         ids = []

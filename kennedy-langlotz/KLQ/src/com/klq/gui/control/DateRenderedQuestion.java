@@ -51,7 +51,7 @@ public class DateRenderedQuestion extends ARenderedQuestion {
     @Override
     protected boolean isValidInput(String input) {
         String pattern = "\\d?\\d[\\./-]\\d?\\d[\\./-]\\d\\d\\d\\d";
-        if (input.matches(pattern))
+        if (input.matches(pattern) || input.trim().isEmpty())
             return true;
         return false;
     }
