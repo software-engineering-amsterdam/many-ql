@@ -10,8 +10,6 @@ import java.awt.event.ItemListener;
 
 public class CheckBox implements IWidget {
 
-    private BoolValue value;
-    
     private JCheckBox component;
 
     public CheckBox(String _label) {
@@ -42,14 +40,13 @@ public class CheckBox implements IWidget {
 
     @Override
     public BoolValue getWidgetValue() {
-        this.value = new BoolValue(this.component.isSelected());
-        return value;
+        return new BoolValue(this.component.isSelected());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (BoolValue) _value;
-        this.component.setSelected(this.value.getValue());
+        BoolValue value = (BoolValue) _value;
+        this.component.setSelected(value.getValue());
     }
     
     @Override

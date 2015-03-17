@@ -14,8 +14,6 @@ public class IntegerOnlyTextBox implements IWidget{
 
     private static int COLUMNS = 7;
 
-    private IntValue value;
-
     private JFormattedTextField input;
     private JPanel panel;
     private NumberFormatter numberFormatter; 
@@ -67,14 +65,13 @@ public class IntegerOnlyTextBox implements IWidget{
 
     @Override
     public IntValue getWidgetValue() {
-        this.value = new IntValue(Integer.parseInt(this.input.getText()));
-        return this.value;
+        return new IntValue(Integer.parseInt(this.input.getText()));
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
-        this.value = (IntValue) _value;
-        this.input.setText(Integer.toString(this.value.getValue()));
+        IntValue value = (IntValue) _value;
+        this.input.setText(Integer.toString(value.getValue()));
     }
 
     @Override
