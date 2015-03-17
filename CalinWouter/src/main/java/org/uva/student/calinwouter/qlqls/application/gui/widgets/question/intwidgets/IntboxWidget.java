@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwi
 import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 
@@ -16,6 +17,7 @@ public class IntboxWidget implements IWidget {
 
     public IntboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
         this.widget = new JTextField((int) Math.log10(Integer.MAX_VALUE - 1) + 1);
+
         widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -47,5 +49,10 @@ public class IntboxWidget implements IWidget {
     @Override
     public Component getWidgetComponent() {
         return widget;
+    }
+
+    @Override
+    public void resetValue() {
+        widget.setText("");
     }
 }
