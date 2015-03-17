@@ -62,7 +62,6 @@ public class Controller implements IKLQItem {
     }
 
     public void updateAnswer(IdentifierNode questionId, @NotNull Value answer) {
-        assert(variableTable.contains(questionId));
         variableTable.update(questionId, answer);
 
         updateQuestionVisibilities();
