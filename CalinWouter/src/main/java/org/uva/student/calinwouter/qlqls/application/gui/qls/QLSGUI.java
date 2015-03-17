@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
@@ -22,9 +22,9 @@ import java.util.HashMap;
 
 public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
     private final StyleSheet styleSheet;
-    private final QLInterpreter qlIntepreter;
+    private final QLInterpreter qlInterpreter;
     private final StaticFields staticFields;
-    private final VariableTableWrapper variableTableWrapper;
+    private final StateWrapper stateWrapper;
 
     /**
      * In case of a question, render the field by checking its type, fetching its styling settings,
@@ -75,7 +75,7 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
             final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(questionIdentifier);
             final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
             final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper, questionIdentifier, stylingMap, staticFields);
+            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlInterpreter, stateWrapper, questionIdentifier, stylingMap, staticFields);
             final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
             return widget.getWidgetComponent();
         } catch(FieldNotFoundException e) {
@@ -93,13 +93,13 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         final TypeDescriptor typeless = null;
         final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
         final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueIdentifier, variableTableWrapper);
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueIdentifier, stateWrapper);
         final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(
                 staticFields.getLabelForField(computedValueIdentifier),
                 computedValueIdentifier,
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                variableTableWrapper);
+                stateWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
@@ -117,11 +117,11 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         return styleSheet.getStyleSheetName();
     }
 
-    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable variableTable,
+    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlInterpreter, VariableTable variableTable,
                   StaticFields staticFields) {
-        this.qlIntepreter = qlIntepreter;
+        this.qlInterpreter = qlInterpreter;
         this.staticFields = staticFields;
         this.styleSheet = styleSheet;
-        this.variableTableWrapper = new VariableTableWrapper(variableTable);
+        this.stateWrapper = new StateWrapper(variableTable);
     }
 }
