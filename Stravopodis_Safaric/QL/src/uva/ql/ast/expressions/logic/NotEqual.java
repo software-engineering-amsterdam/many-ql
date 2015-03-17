@@ -13,7 +13,7 @@ import uva.ql.ast.type.TypeInteger;
 import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.BooleanValue;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class NotEqual extends BinaryExpressions{
 
@@ -28,7 +28,7 @@ public class NotEqual extends BinaryExpressions{
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitNotEqual(this);
 	}
 	
@@ -38,7 +38,7 @@ public class NotEqual extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getValueType() {
+	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeBoolean());
 	}
 	

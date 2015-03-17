@@ -9,7 +9,6 @@ import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
 import org.uva.student.calinwouter.qlqls.ql.model.*;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +25,7 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     @Override
     protected Component renderFrameContent() {
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (AbstractStaticFormField f : fieldsList) {
             panel.add(render(f));
@@ -35,18 +34,13 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     }
 
     public Component render(AbstractStaticFormField formField) {
-        //TODO should not catch any exception anymore
-        try {
-            return formField.applyRenderer(this);
-        } catch (FieldNotFoundException e) {
-            throw new RuntimeException();
-        }
+        return formField.applyRenderer(this);
     }
 
     @Override
     public Component render(StaticQuestionField staticQuestionField) {
         final TypeDescriptor typeDescriptor = staticQuestionField.getTypeDescriptor();
-        QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlInterpreter, staticQuestionField, stateWrapper);
+        final QLWidgetFetcher qlWidgetFetcher = new QLWidgetFetcher(qlInterpreter, staticQuestionField, stateWrapper);
         qlWidgetFetcher.createWidget(typeDescriptor);
         return qlWidgetFetcher.getWidget().getWidgetComponent();
     }
@@ -55,11 +49,10 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
     public Component render(StaticComputedValueField staticComputedValueField) {
         final String identifier = staticComputedValueField.getVariable();
         final LabelWidget valueRepresentingLabelWidget = new LabelWidget(identifier, stateWrapper);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(staticComputedValueField.getLabel(),
-                    identifier,
-                    null,
-                    valueRepresentingLabelWidget,
-                stateWrapper);
+        final LabelWithWidgetWidget labelWithWidgetWidget;
+        final String fieldLabel = staticComputedValueField.getLabel();
+        labelWithWidgetWidget = new LabelWithWidgetWidget(
+                fieldLabel, identifier, valueRepresentingLabelWidget, stateWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 

@@ -1,10 +1,11 @@
 package com.form.language.ast.statement;
 
+import javax.swing.JPanel;
+
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.Type;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
-import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
 //TODO: ifStatements can be part of a condition, so they will only be assigned conditionally (at runtime). There will be no problems compiletime, however.
@@ -33,5 +34,5 @@ public class AssignmentStatement extends Statement {
     }
 
     @Override
-    public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context context) {}
+    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {}
 }

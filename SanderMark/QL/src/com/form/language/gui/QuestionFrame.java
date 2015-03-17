@@ -3,7 +3,7 @@ package com.form.language.gui;
 import javax.swing.JFrame;
 
 import com.form.language.ast.Form;
-import com.form.language.gui.components.GUIBuilder;
+import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
 
 public class QuestionFrame extends JFrame {
@@ -18,8 +18,7 @@ public class QuestionFrame extends JFrame {
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	GUIBuilder guiBuilder = new GUIBuilder(form, this, context);
-	guiBuilder.createGUIForm();
+	FormComponent guiBuilder = new FormComponent(form, this, context);
 	guiBuilder.createGUIComponents();
 
 	setVisible(true);

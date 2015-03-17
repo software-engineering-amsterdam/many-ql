@@ -27,6 +27,8 @@ public class NumberValue extends GenericValue<Integer>{
 	}
 	
 	public NumberValue division(NumberValue _value){
+		if (_value.value == 0)
+			return new NumberValue(0);
 		return new NumberValue(this.value / _value.value);
 	}
 	
@@ -62,6 +64,19 @@ public class NumberValue extends GenericValue<Integer>{
 			return false;
 		}
 		return value.getValue() == this.getValue();
+	}
+	
+	@Override
+	public boolean isNotEqual(GenericValue<?> value) {
+		if (value == null){
+			return false;
+		}
+		return value.getValue() != this.getValue();
+	}
+	
+	@Override
+	public String toString(){
+		return String.valueOf(this.value);
 	}
 
 }

@@ -49,7 +49,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
     }
 
     private static String getIdentifier(AValueStmt statement) {
-        final TString identifierInAst = statement.getStr();
+        final TIdent identifierInAst = statement.getIdent();
         return identifierInAst.getText();
     }
 

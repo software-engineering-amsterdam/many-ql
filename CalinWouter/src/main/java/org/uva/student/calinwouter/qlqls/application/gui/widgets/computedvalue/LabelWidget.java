@@ -12,23 +12,38 @@ import java.awt.*;
  * This widget is used for displaying the value of a computed value field.
  */
 public class LabelWidget implements IWidget {
-    private JLabel valueLabel;
+    private final String questionIdentifier;
+    private final StateWrapper stateWrapper;
+    private final JLabel valueLabel;
 
+    private String createNotSetText() {
+        return "-";
+    }
 
-    public LabelWidget(final String questionIdentifier , final StateWrapper stateWrapper) {
-        valueLabel = new JLabel();
+    private String createText(VariableTable variableTable, String questionIdentifier) {
+        if (variableTable.isSet(questionIdentifier)) {
+            return variableTable.getVariable(questionIdentifier).toString();
+        }
+        return createNotSetText();
+    }
 
-        stateWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+    private ChangedStateEventListener createChangedStateEventListener() {
+        return new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 VariableTable variableTable = stateWrapper.getVariableTable();
-                if(variableTable.isSet(questionIdentifier)) {
-                    valueLabel.setText(variableTable.getVariable(questionIdentifier).toString());
-                }else
-                    valueLabel.setText("-");
+                valueLabel.setText(createText(variableTable, questionIdentifier));
                 valueLabel.revalidate();
             }
-        });
+        };
+    }
+
+    public LabelWidget(String questionIdentifier, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.stateWrapper = stateWrapper;
+        this.valueLabel = new JLabel();
+        final ChangedStateEventListener textboxChangedStateEventListener = createChangedStateEventListener();
+        stateWrapper.subscribeChangedStateEventListener(textboxChangedStateEventListener);
     }
 
     @Override
@@ -38,7 +53,7 @@ public class LabelWidget implements IWidget {
 
     @Override
     public void resetValue() {
-        valueLabel.setText("");
+        valueLabel.setText(createNotSetText());
     }
 
 }

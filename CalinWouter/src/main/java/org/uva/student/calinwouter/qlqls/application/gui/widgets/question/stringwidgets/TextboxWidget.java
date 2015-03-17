@@ -9,14 +9,27 @@ import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import java.awt.*;
 
 public class TextboxWidget implements IWidget {
-    private JTextField widget;
+    private final JTextField widget;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
 
-    public TextboxWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper) {
-        this.widget = new JTextField(20);
-        widget.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public Component getWidgetComponent() {
+        return widget;
+    }
+
+    @Override
+    public void resetValue() {
+        widget.setText("");
+    }
+
+    private DocumentListener createTextboxDocumentListener() {
+        return new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateField();
@@ -32,22 +45,27 @@ public class TextboxWidget implements IWidget {
                 updateField();
             }
 
-            public void updateField() {
-                VariableTable variableTable = stateWrapper.getVariableTable();
-                variableTable.setVariable(questionIdentifier, new StringValue(widget.getText()));
-                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+            private void updateField() {
+                final String textboxText = widget.getText();
+                final VariableTable variableTable = stateWrapper.getVariableTable();
+                final StringValue stringValue = new StringValue(textboxText);
+                variableTable.setVariable(questionIdentifier, stringValue);
+                final VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
                 stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
     }
 
-    @Override
-    public Component getWidgetComponent() {
-        return widget;
+    private void createUpdateTextboxListener() {
+        final Document textboxDocument = widget.getDocument();
+        textboxDocument.addDocumentListener(createTextboxDocumentListener());
     }
 
-    @Override
-    public void resetValue() {
-        widget.setText("");
+    public TextboxWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.widget = new JTextField(20);
+        createUpdateTextboxListener();
     }
 }

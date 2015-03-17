@@ -19,7 +19,7 @@ public class StateWrapper {
     }
 
     public void notifyListeners(){
-        for(ChangedStateEventListener listener: listeners){
+        for(ChangedStateEventListener listener : listeners){
             listener.onStateChanged();
         }
     }

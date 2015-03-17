@@ -4,13 +4,14 @@
 
 package main;
 
+import gui.MainFrame;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import main.manager.ASTCreator;
 import typechecker.TypeChecker;
-//import typechecker.TypeChecker;
-import evaluator.ValueRepository;
-import gui.MainFrame;
+import ast.form.Form;
 
 
 	public class MainTaZQL {
@@ -18,11 +19,11 @@ import gui.MainFrame;
 		public static void main(String[] args) throws FileNotFoundException, IOException  {
 				
 			TypeChecker typeChecker = new TypeChecker();
-			boolean check = typeChecker.checkQuestionnaire(new ASTCreator().formCreator());
+			Form form = new ASTCreator().formCreator();
+			boolean check = typeChecker.checkQuestionnaire(form);
 			if(check) {
-				ValueRepository values = new ValueRepository();
 				MainFrame mf = new MainFrame();
-				mf.magic(new ASTCreator().formCreator(), values);
+				mf.magic(form);	
 			}
 			else {
 				typeChecker.showErrors();

@@ -1,4 +1,4 @@
-from ..QLTypes import *
+from ..core.QLTypes import *
 
 class Questionnaire(object):
     def __init__(self, statements):

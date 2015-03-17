@@ -30,17 +30,20 @@ public class QLWidgetFetcher implements TypeCallback{
 
     @Override
     public void usesBoolean() {
-        createLabelWithWidgetWidget(new CheckboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
+        final String variableName = staticQuestionField.getVariable();
+        createLabelWithWidgetWidget(new CheckboxWidget(variableName, qlInterpreter, stateWrapper));
     }
 
     @Override
     public void usesInteger() {
-        createLabelWithWidgetWidget(new IntboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
+        final String variableName = staticQuestionField.getVariable();
+        createLabelWithWidgetWidget(new IntboxWidget(variableName, qlInterpreter, stateWrapper));
     }
 
     @Override
     public void usesString() {
-        createLabelWithWidgetWidget(new TextboxWidget(staticQuestionField.getVariable(), qlInterpreter, stateWrapper));
+        final String variableName = staticQuestionField.getVariable();
+        createLabelWithWidgetWidget(new TextboxWidget(variableName, qlInterpreter, stateWrapper));
     }
 
     public IWidget getWidget() {

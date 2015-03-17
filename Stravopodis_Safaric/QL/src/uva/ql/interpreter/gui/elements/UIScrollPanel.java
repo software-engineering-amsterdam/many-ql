@@ -4,12 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import uva.ql.supporting.Tuple;
 
 public class UIScrollPanel extends JPanel{
 	
@@ -18,15 +17,15 @@ public class UIScrollPanel extends JPanel{
 	private UIContainer jPanel;
 	private JScrollPane jScrollPane;
 	
-	public UIScrollPanel(Tuple<Integer, Integer> frameSize){
-		this.jPanel = new UIContainer(new Tuple<Integer, Integer>(500,400));
+	public UIScrollPanel(Size frameSize){
+		this.jPanel = new UIContainer(frameSize);
 		
 		this.jScrollPane = new JScrollPane(this.jPanel);
-		this.jScrollPane.setPreferredSize(new Dimension(500 , 400));
-		this.jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.jScrollPane.setPreferredSize(new Dimension(frameSize.getWidth(), frameSize.getHeight()));
+		this.jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.jScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
-		this.setSize(frameSize.x, frameSize.y);
+		this.setSize(frameSize.getWidth(), frameSize.getHeight());
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		this.add(this.jScrollPane);
@@ -37,7 +36,7 @@ public class UIScrollPanel extends JPanel{
 		grid.setVgap(1);
 		
 		this.jPanel.setLayout(new GridLayout(grid.getRows()+1, 1));		
-		this.jPanel.addComponent(obj);
+		this.jPanel.addComponents(Arrays.asList(obj));
 	}
 	
 	public void removeAll(){
@@ -46,6 +45,10 @@ public class UIScrollPanel extends JPanel{
 	
 	public UIContainer getPanel(){
 		return this.jPanel;
+	}
+	
+	public void revalidatePanel(){
+		this.getPanel().revalidate();
 	}
 	
 	@Override

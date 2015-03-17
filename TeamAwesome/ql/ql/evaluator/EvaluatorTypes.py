@@ -1,5 +1,4 @@
-from ..TypeRules import nativeQuestionType
-from ..QLTypes import *
+from ..core.QLTypes import *
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
@@ -43,7 +42,7 @@ class Question(object):
 		self.identifier = identifier
 		self.valueExpression = valueExpression
 		self.text = text
-		self.type = nativeQuestionType(questionType)
+		self.type = questionType
 		self.form = form
 
 		self.conditionalExpressions = conditionalExpressionsTuple

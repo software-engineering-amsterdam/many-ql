@@ -22,16 +22,16 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
 	private final JButton saveData;
 	
-	private GUIRenderer(ValueRepository valueRepository) {
+	private GUIRenderer() { 
 		this.panel = new JPanel();
 		this.panel.setLayout(new MigLayout( "wrap 2, hidemode 3")); 
 		this.saveData = new JButton("Save questionnaire");
-		this.valueRepository = valueRepository;
+		this.valueRepository = new ValueRepository();
 		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
 	
-	public static JPanel make(Form form, ValueRepository valueRepository) {
-		GUIRenderer visitor = new GUIRenderer(valueRepository);
+	public static JPanel make(Form form) { 
+		GUIRenderer visitor = new GUIRenderer(); 
 		form.accept(visitor);
 		return visitor.getPanel();
 	}
