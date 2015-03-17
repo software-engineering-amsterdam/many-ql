@@ -7,14 +7,16 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
 
-import javax.lang.model.type.NullType;
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class QLSUndefinedWidget extends AbstractQLSWidget {
+
+    public QLSUndefinedWidget() {
+        this.type = new UndefinedWidgetType();
+    }
 
     @Override
     public void applyStyle(Style _style) {

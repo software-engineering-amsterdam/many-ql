@@ -1,13 +1,11 @@
 package com.form.language.gui.widget;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.BoolValue;
-import com.form.language.ast.values.IntValue;
-import com.form.language.ast.values.StringValue;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
@@ -22,29 +20,12 @@ public abstract class Widget {
 		this.context = context;
 	}
 	
-	//TODO : Change 
-	public void setContextBoolean(BoolValue boolValue) {
-		context.setValue(question.getId(),boolValue);
-		System.out.println(question);
-		System.out.println(context);
-	}
-	public void setContextString(StringValue stringValue)
-	{
-		context.setValue(question.getId(),stringValue);
-		System.out.println(question);
-		System.out.println(context);
-	}
-	public void setContextInt(IntValue intValue)
-	{
-		context.setValue(question.getId(),intValue);
-		System.out.println(question);
-		System.out.println(context);
+	public void setContextValue(GenericValue value) {
+		context.setValue(question.getId(),value);
 	}
 	
 	public void checkDependencyVisibility() {
-		Iterator<Expression> iterator = context.getReferencingExpressions(question.getId());
-		while (iterator.hasNext()) {
-			Expression exp = iterator.next();
+		for (Expression exp : context.getReferencingExpressions(question.getId())){
 			List<QuestionComponent> q = context.getDependantQuestions(exp);
 			checkVisibilities(exp, q);
 		}

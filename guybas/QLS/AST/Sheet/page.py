@@ -24,6 +24,9 @@ class Page(e.SheetElement):
     def is_default(self):
         return False
 
+    def get_sections(self):
+        return self._sections
+
     @staticmethod
     def id_collection(sections):
         ids = []

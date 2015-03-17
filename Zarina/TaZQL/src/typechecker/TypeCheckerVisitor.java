@@ -1,14 +1,15 @@
 package typechecker;
 
-import java.util.List;
+import gui.errors.ErrorCollector;
+import gui.errors.TaZQLError;
+import gui.errors.TaZQLWarning;
 
-import typechecker.elements.ExpressionChecker;
-import typechecker.elements.QuestionChecker;
-import typechecker.errors.ErrorCollector;
-import typechecker.errors.TaZQLError;
-import typechecker.errors.TaZQLWarning;
+import java.util.List;
+import java.util.Map;
+
 import ast.expression.Binary;
 import ast.expression.Brackets;
+import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.expression.arithmetic.Addition;
 import ast.expression.arithmetic.Division;
@@ -34,26 +35,15 @@ import ast.question.IfElseStatement;
 import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
-import ast.type.ChoiceType;
-import ast.type.ITypeVisitor;
 import ast.type.IntegerType;
-import ast.type.TextType;
-import ast.type.UndefinedType;
+import ast.type.Type;
 import ast.unary.Minus;
 import ast.unary.Not;
 import ast.unary.Plus;
 import ast.unary.Unary;
 
-/*
-The type checker detects:
-    + reference to undefined questions
-    + duplicate question declarations with different types
-      conditions that are not of the type boolean
-    + operands of invalid type to operators 
-      cyclic dependencies between questions
-    + duplicate labels (warning)
- */
-public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<Void>, IExpressionVisitor<Void> , ITypeVisitor<Void> {
+
+public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<Void>, IExpressionVisitor<Void>  {
 	private final ErrorCollector errorCollector;
 	private final TypeRepository typeRepository;
 	
@@ -74,44 +64,86 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 		return !this.errorCollector.containsError();
 	}
 	
-	
-	public void checkQuestion(SimpleQuestion question) {
-		QuestionChecker questionChecker = new QuestionChecker(question.getQuestionId().getID(),
-															  question.getQuestionText(),
-															  question.getQuestionType(),
-															  this.errorCollector, this.typeRepository);
-		questionChecker.checkDuplicateDeclaration();
-		questionChecker.checkDuplicateLabels();
+	/*** Question checks ***/
+	private void checkQuestion(SimpleQuestion question) {
+		checkDuplicateDeclaration(question);
+		checkDuplicateLabels(question);
 	}
 	
+	// duplicate question declarations with different types
+	private void checkDuplicateDeclaration(SimpleQuestion question) {
+		String id = question.getQuestionId().getID();
+		Type type = question.getQuestionType();
+		
+		  if(!this.typeRepository.empty()) {
+			if (!this.typeRepository.isDeclared(id) || this.typeRepository.getValue(id).equals(type)) {
+				return;
+			}
+			
+			this.errorCollector.addError("Question declaration *" + id + "* is duplicated. "
+										+ "It is used with a different type.");
+		  }
+	}
 	
-	public Void checkExpression(Binary expression) {
+	//duplicate labels (warning)
+	private void checkDuplicateLabels(SimpleQuestion question) {
+		String id = question.getQuestionId().getID();
+		String label = question.getQuestionText();
+		
+	  if(!this.typeRepository.empty()) {
+					
+		for(Map.Entry<String, String> entry : this.typeRepository.getLabelRepository().entrySet()) {
+			String key = entry.getKey();
+			String labelValue = entry.getValue();
+			
+			if(!labelValue.equals(label) || key.equals(id)) {
+				continue;
+			}
+			this.errorCollector.addWarning("Warning! Duplicated label *" + labelValue + "* in question *" + key + "*.");	
+		}
+	  }	
+	}
+	
+	/*** Expression checks ***/
+	
+	private Void checkExpression(Binary expression) {
 		expression.getLeftExpression().accept(this);
 		expression.getRightExpression().accept(this);
 		
-		ExpressionChecker expressionCheckerLeft = new ExpressionChecker(this.errorCollector,
-																		this.typeRepository,
-																		expression.getLeftExpression());
-		ExpressionChecker expressionCheckerRight = new ExpressionChecker(this.errorCollector,
-																		 this.typeRepository,
-																		 expression.getRightExpression());
-
-		expressionCheckerLeft.checkType(expression.getType());
-		expressionCheckerRight.checkType(expression.getType());
+		checkType(expression.getLeftExpression(),expression.getType());
+		checkType( expression.getRightExpression(), expression.getType());
 		return null;
 	}
 	
-	public Void checkUnaryExpression(Unary expression) {
+	private Void checkComparisonExpression(Binary expression) {
+		expression.getLeftExpression().accept(this);
+		expression.getRightExpression().accept(this);
+		
+		checkType(expression.getLeftExpression(), new IntegerType());
+		checkType(expression.getRightExpression(), new IntegerType());
+		return null;
+	}
+
+	private Void checkUnaryExpression(Unary expression) {
 		expression.getUnaryExpression().accept(this);
 		
-		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
-																		this.typeRepository,
-																		expression.getUnaryExpression());
-		
-		expressionChecker.checkType(expression.getType());
+		checkType(expression.getUnaryExpression(), expression.getType());
 		return null;
 	}
 	
+	private void checkType(Expression expression, Type type) {
+		  
+		if(expression.getType().isCompatibleToType(type)) {
+			return;
+		}
+		this.errorCollector.addError("Error. Expression *" + expression.toString() +
+					   "* is of wrong type: *" + expression.getType() + 
+					   "*, has to be *" +type + "*.");
+		  
+		if(expression.getType() == null) {
+		  this.errorCollector.addError("This declaration *" + expression.toString() + "* has an undefined type.");
+		}
+	}
 	
 	/*** Visitors ***/
 	
@@ -136,8 +168,8 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 	@Override
 	public Void visit(SimpleQuestion simpleQuestion) {
 		this.checkQuestion(simpleQuestion);
-		typeRepository.putID(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionType());
-		typeRepository.putIDLabel(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText());
+		typeRepository.putType(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionType());
+		typeRepository.putLabel(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText());
 		
 		return null;
 	}
@@ -145,33 +177,35 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 	@Override
 	public Void visit(ComputationQuestion calQuestion) {
 		this.checkQuestion(calQuestion);
+		
+		String id = calQuestion.getQuestionId().getID();
+		typeRepository.putType(id, calQuestion.getQuestionType());
+		typeRepository.putLabel(id, calQuestion.getQuestionText());
+		
 		calQuestion.getExpression().accept(this);
 		
-		typeRepository.putID(calQuestion.getQuestionId().getID(), calQuestion.getQuestionType());
-		typeRepository.putIDLabel(calQuestion.getQuestionId().getID(), calQuestion.getQuestionText());
-		
-		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
-																	this.typeRepository,
-																	calQuestion.getExpression());
-
-		expressionChecker.checkType(calQuestion.getQuestionType());
+		checkType(calQuestion.getExpression(), calQuestion.getQuestionType());
 		
 		return null;
 	}
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-	//	ifStatement.getExpression().accept(this);
 		for(Question q : ifStatement.getIfStatement()) {
 			q.accept(this);
 		}
+		
+		ifStatement.getExpression().accept(this);
+		Expression expression = ifStatement.getExpression();
+		
+		checkType(expression, expression.getType());
+		
 	
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
-		//ifElseStatement.getExpression().accept(this);
 		
 		for(Question q : ifElseStatement.getIfStatement()) {
 			q.accept(this);
@@ -181,12 +215,18 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 			q.accept(this);
 		}
 		
+		ifElseStatement.getExpression().accept(this);
+		Expression expression = ifElseStatement.getExpression();
+		
+		checkType(expression, expression.getType());
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(Brackets expr) {
-		//return this.checkExpression(expr);
+		expr.getBracketsExpression().accept(this);
+		checkType(expr.getBracketsExpression(), expr.getType());
 		return null;
 	}
 
@@ -222,22 +262,22 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 
 	@Override
 	public Void visit(LessThan expr) {
-		return this.checkExpression(expr);
+		return this.checkComparisonExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterThan expr) {
-		return this.checkExpression(expr);
+		return this.checkComparisonExpression(expr);
 	}
 
 	@Override
 	public Void visit(LessEqual expr) {
-		return this.checkExpression(expr);
+		return this.checkComparisonExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterEqual expr) {
-		return this.checkExpression(expr);
+		return this.checkComparisonExpression(expr);
 	}
 
 	@Override
@@ -279,31 +319,6 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 
 	@Override
 	public Void visit(BooleanVariable bool) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	@Override
-	public Void visit(TextType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visit(IntegerType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visit(ChoiceType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visit(UndefinedType type) {
 		// TODO Auto-generated method stub
 		return null;
 	}

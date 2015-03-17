@@ -5,9 +5,9 @@ form taxOfficeExample {
   decimal age : "Your age?"
   
   if (hasSoldHouse && hasBoughtHouse) {
-  	integer income : "Your income?"
-  	decimal test : "some question?" (20.0 - 10.0)
-  	string dependent : "test?" ("test" + " blub")
+  	integer a : "Your income?"
+  	integer b : "some question?" (1)
+  	integer c : "test?" (b + 1)
   }
   decimal name : "what is your name?"
 }

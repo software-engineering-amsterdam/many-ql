@@ -1,6 +1,6 @@
 form taxOfficeExample {
 
-    if !bla {
+    if bla {
     }
     
 }

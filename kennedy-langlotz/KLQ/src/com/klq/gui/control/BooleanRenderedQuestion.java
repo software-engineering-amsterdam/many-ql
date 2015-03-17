@@ -1,10 +1,13 @@
 package com.klq.gui.control;
 
-import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.controller.Store;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.controller.Controller;
+import javafx.event.EventHandler;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -15,8 +18,8 @@ import java.util.List;
  */
 public class BooleanRenderedQuestion extends ARenderedQuestion {
 
-    public BooleanRenderedQuestion(String id, Type type, String text, List<AExpression> dependencies, Store store) {
-        super(id, type, text, dependencies, store);
+    public BooleanRenderedQuestion(QuestionNode questionNode, List<AExpression> dependencies, Controller controller) {
+        super(questionNode, dependencies, controller);
     }
 
     @Override
@@ -48,6 +51,11 @@ public class BooleanRenderedQuestion extends ARenderedQuestion {
         rb.setFont(DEFAULT_FONT);
         rb.setToggleGroup(group);
         rb.setSelected(false);
+        rb.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                rb.setSelected(true);
+            }
+        });
         return rb;
     }
 

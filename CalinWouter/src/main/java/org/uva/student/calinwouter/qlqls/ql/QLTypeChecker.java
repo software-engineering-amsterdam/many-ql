@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * This type checker checks:
+ *
  * X reference to undefined questions
  * X duplicate question declarations with different types
  * X conditions that are not of the type boolean
@@ -30,31 +32,36 @@ public class QLTypeChecker {
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             final String fieldLabel = abstractStaticFormField.getLabel();
             if (!labels.add(fieldLabel)) {
-                typeCheckResults.addWarning("Label " + fieldLabel + " found twice.");
+                typeCheckResults.addLabelFoundTwiceWarning(fieldLabel);
             }
         }
     }
 
-    // TODO refactor
+    private void checkSameType(Map<String, TypeDescriptor> identifierToTypeMap, AbstractStaticFormField toCheck) {
+        final String toCheckVariable = toCheck.getVariable();
+        final TypeDescriptor earlierFoundValueType = identifierToTypeMap.get(toCheckVariable);
+        final TypeDescriptor toCheckType = toCheck.getTypeDescriptor();
+        if (!earlierFoundValueType.equals(toCheckType)) {
+            typeCheckResults.addTwoQuestionsSameTypeError(toCheckVariable);
+        }
+    }
+
+    private void putIfNotSet(Map<String, TypeDescriptor> identifierToTypeMap, AbstractStaticFormField toPut) {
+        final String variableToPut = toPut.getVariable();
+        final TypeDescriptor variableType = toPut.getTypeDescriptor();
+        if (!identifierToTypeMap.containsKey(variableToPut)) {
+            identifierToTypeMap.put(variableToPut, variableType);
+        }
+    }
+
     private void collectDuplicateQuestionsWithDifferentTypes() {
-        Map<String, TypeDescriptor> identToTypeMap = new HashMap<String, TypeDescriptor>();
+        Map<String, TypeDescriptor> identifierToTypeMap = new HashMap<String, TypeDescriptor>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
-            if (!identToTypeMap.containsKey(abstractStaticFormField.getVariable())) {
-                identToTypeMap.put(
-                        abstractStaticFormField.getVariable(),
-                        abstractStaticFormField.getTypeDescriptor());
-            }
-            if (!identToTypeMap.get(abstractStaticFormField.getVariable())
-                    .equals(abstractStaticFormField.getTypeDescriptor())) {
-                typeCheckResults.addError("Two questions with the same identifier and a different type for label: "
-                        + abstractStaticFormField.getVariable());
-            }
+            putIfNotSet(identifierToTypeMap, abstractStaticFormField);
+            checkSameType(identifierToTypeMap, abstractStaticFormField);
         }
     }
 
-    /**
-     * Go through the AST to collect the other, undiscovered, type errors.
-     */
     private void collectTypeCheckErrorsInDepth() {
         PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
         aForm.apply(formTypeChecker);
@@ -74,8 +81,12 @@ public class QLTypeChecker {
         this.typeCheckResults = new TypeCheckResults();
     }
 
+    private static StaticFields collectStaticFields(AForm aForm) {
+        return new QLStaticAnalyser(aForm).collectStaticFields();
+    }
+
     public QLTypeChecker(AForm aForm) {
-        this(aForm, new QLStaticAnalyser(aForm).collectStaticFields());
+        this(aForm, collectStaticFields(aForm));
     }
 
 }

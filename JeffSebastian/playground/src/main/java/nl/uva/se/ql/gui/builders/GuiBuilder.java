@@ -6,16 +6,16 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
-import nl.uva.se.ql.evaluation.ValueTable;
+import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 
 public class GuiBuilder implements StatementVisitor, FormVisitor {
 	
 	private QuestionPane questionPane;		
-	private ValueTable values;
+	private final IMediator mediator;
 	
-	public GuiBuilder(ValueTable values) {
-		this.values = values;		
+	public GuiBuilder(IMediator mediator) {
+		this.mediator = mediator;
 	}
 	
 	public void visit(Question question) {
@@ -28,12 +28,12 @@ public class GuiBuilder implements StatementVisitor, FormVisitor {
 	}
 	
 	public void visit(Condition condition) {
-		ConditionBuilder conditionVisitor = new ConditionBuilder(condition);
+		ConditionBuilder conditionVisitor = new ConditionBuilder(condition, mediator);		
 		questionPane.addConditionBox(conditionVisitor.getConditionBox());			
 	}
 
 	public void visit(Form form) {
-		questionPane = new QuestionPane(form, values);
+		questionPane = new QuestionPane(form, mediator);
 		form.visitChildren(this);
 	}
 	

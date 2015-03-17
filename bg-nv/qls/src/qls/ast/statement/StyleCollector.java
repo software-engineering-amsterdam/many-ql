@@ -32,8 +32,9 @@ public class StyleCollector extends DefaultStatementVisitor<Style> implements St
         {
             if (stat.isStyleDefinition())
             {
+                // TODO: fix the addSTyle method
                 Style statStyle = stat.accept(this);
-                result.addStyle(statStyle);
+                result = result.addStyle(statStyle);
             }
         }
 

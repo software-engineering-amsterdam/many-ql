@@ -7,11 +7,12 @@ namespace AST
 {
     public class ASTResult
     {
-        public Form Ast { get; private set; } //implicit contract -> This has to be a form object, otherwise things will go wrong!
-
-        public ASTResult(Form tree)
+        public readonly Form RootNode;
+        public INotificationManager NotificationManager { get; private set; }
+        public ASTResult(Form tree, INotificationManager notificationManager)
         {
-            this.Ast = tree;
+            RootNode = tree;
+            NotificationManager = notificationManager;
         }
     }
 }

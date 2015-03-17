@@ -1,6 +1,5 @@
 package com.form.language.memory;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
@@ -41,9 +40,8 @@ public class Context {
 	this.idReferences.putAll(references, value);
     }
 
-    public Iterator<Expression> getReferencingExpressions(String id) {
-	List<Expression> dependencies = idReferences.get(id);
-	return dependencies.iterator();
+    public List<Expression> getReferencingExpressions(String id) {
+	return idReferences.get(id);
     }
 
     public void setValue(String key, GenericValue value) {

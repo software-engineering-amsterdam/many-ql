@@ -2,24 +2,27 @@ package ql.gui.input;
 
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
+import ql.gui.control.BoolControl;
 import ql.gui.control.Control;
 
 /**
  * Created by Nik on 17-2-15.
  */
-public abstract class Input extends GuiElement
+public abstract class Input<T extends Control> extends GuiElement
 {
     private String id;
     private Boolean disabled;
     protected VBox inputNode;
-    protected final Control control;
+    protected T control;
 
-    public Input(String id, Control control, Boolean visible, Boolean disabled)
+    public Input(String id, T control, Boolean visible, Boolean disabled)
     {
         super(visible);
         this.id = id;
         this.control = control;
         this.disabled = disabled;
+//        this.control.setDisabled(disabled);
+//        this.control.setVisible(visible);
     }
 
     public Boolean getDisabled()
@@ -27,10 +30,10 @@ public abstract class Input extends GuiElement
         return disabled;
     }
 
-    public void setDisabled(Boolean disabled)
-    {
-        this.disabled = disabled;
-    }
+//    public void setDisabled(Boolean disabled)
+//    {
+//        this.disabled = disabled;
+//    }
 
     public VBox getInputNode()
     {
@@ -51,4 +54,14 @@ public abstract class Input extends GuiElement
     }
 
     protected abstract VBox createInputNode(Control control);
+
+    public void switchControl(T control)
+    {
+        //TODO: take care that the input node is reconstructed correctly
+        control.setDisabled(this.getDisabled());
+        control.setVisible(this.getVisible());
+        this.inputNode.getChildren().remove(this.control.getControlNode());
+        this.control = control;
+        this.inputNode.getChildren().add(this.control.getControlNode());
+    }
 }

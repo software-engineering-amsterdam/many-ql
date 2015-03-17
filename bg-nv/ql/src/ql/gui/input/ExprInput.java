@@ -20,14 +20,10 @@ public class ExprInput extends Input implements Refreshable
 
     public ExprInput(String id, Control control, Expr expression)
     {
-        this(id, control, expression, true);
-    }
-
-    public ExprInput(String id, Control control, Expr expression, Boolean visible)
-    {
-        super(id, control, visible, true);
+        super(id, control, true, true);
         this.expression = expression;
         this.inputNode = this.createInputNode(this.control);
+        this.control.setDisabled(true);
     }
 
     public Expr getExpression()

@@ -5,6 +5,5 @@ namespace Notifications
     {
         string Message();
         bool IsError();
-        bool IsWarning();
     }
 }

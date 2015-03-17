@@ -1,6 +1,7 @@
 package org.uva.qls.ast.sheet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.uva.qls.ast.BaseNode;
 import org.uva.qls.ast.CodePosition;
@@ -11,9 +12,9 @@ import org.uva.qls.visitor.SheetVisitor;
 
 public class Style extends BaseNode implements SheetVisitable {
 	private final Type type;
-	private final ArrayList<StyleProperty> styleProperties;
+	private final List<StyleProperty> styleProperties;
 
-	public Style(Type type, ArrayList<StyleProperty> styleProperties, CodePosition pos) {
+	public Style(Type type, List<StyleProperty> styleProperties, CodePosition pos) {
 		super(pos);
 		this.type = type;
 		this.styleProperties = styleProperties;
@@ -29,7 +30,7 @@ public class Style extends BaseNode implements SheetVisitable {
 		return type;
 	}
 
-	public ArrayList<StyleProperty> getStyleProperties() {
+	public List<StyleProperty> getStyleProperties() {
 		return styleProperties;
 	}
 

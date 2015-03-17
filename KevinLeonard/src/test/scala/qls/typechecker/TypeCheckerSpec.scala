@@ -11,6 +11,30 @@ class TypeCheckerSpec extends Specification {
   val checker = new TypeChecker
   import checker._
 
+  val AnySectionName = "section"
+
+  "type checker for section elements" should {
+    "return empty list if a correct widget is used for a question" in {
+      val question = Question(Variable("x"), SpinBox(List()))
+      val environmentWithQuestion = Map("x" -> NumberType())
+
+      check(question, environmentWithQuestion) must beEmpty
+    }
+
+    "return list with two errors if two questions with incorrect widget are used" in {
+      val question = Section(AnySectionName,
+        List(Question(Variable("x"), SpinBox(List())), Question(Variable("y"), SpinBox(List())))
+      )
+      val environmentWithQuestion = Map("x" -> BooleanType(), "y" -> BooleanType())
+      val errors = List(
+        Error("Spin box widget not allowed for question x", Some(NoPosition)),
+        Error("Spin box widget not allowed for question y", Some(NoPosition))
+      )
+
+      check(question, environmentWithQuestion) must beEqualTo(errors)
+    }
+  }
+
   "type checker for questions" should {
     "return no error if spin box widget is used for a number question" in {
       val question = Question(Variable("x"), SpinBox(List()))

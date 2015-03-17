@@ -1,54 +1,33 @@
 package org.uva.ql.view.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typechecker.TypeChecker;
-import org.uva.ql.view.component.ExprQuestionComponent;
-import org.uva.ql.view.panel.IfQuestionPanel;
+import org.uva.ql.view.FormFrame;
 
 public class WidgetListener {
 
 	private Evaluator evaluator;
-	private TypeChecker typeChecker;
-	private List<IfQuestionPanel> dependentQuestionPanels;
-	private List<ExprQuestionComponent> dependentQuestionComponents;
+	private FormFrame form;
+	private TypeChecker checker;
 
-	public WidgetListener() {
+	public WidgetListener(FormFrame form) {
 		this.evaluator = new Evaluator();
-		this.typeChecker = new TypeChecker();
-		this.dependentQuestionPanels = new ArrayList<IfQuestionPanel>();
-		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
+		this.checker = new TypeChecker();
+		this.form = form;
 	}
 
-	public void initializeValue(String identifier, Value value) {
+	public void initializeValue(Identifier identifier, Value value) {
 		evaluator.addValue(identifier, value);
 	}
 
-	public void widgetValueChanged(String identifier, Value value) {
+	public void widgetValueChanged(Identifier identifier, Value value) {
 		evaluator.addValue(identifier, value);
-		for (IfQuestionPanel pannel : dependentQuestionPanels) {
-			pannel.evaluateAndShow(evaluator, typeChecker);
-		}
-
-		for (ExprQuestionComponent pannel : dependentQuestionComponents) {
-			pannel.evaluateAndChange(evaluator, typeChecker);
-		}
-		// printMap();
+		form.notifyPanels(evaluator, checker);
 	};
-
-	public void addDependentQuestionPanel(IfQuestionPanel panel) {
-		dependentQuestionPanels.add(panel);
-	}
-
-	public void addDependentQuestionComponent(ExprQuestionComponent panel) {
-		dependentQuestionComponents.add(panel);
-	}
 
 	public Evaluator getEvaluator() {
 		return evaluator;
 	}
-
 }

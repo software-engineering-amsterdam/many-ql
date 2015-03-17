@@ -30,7 +30,7 @@ public class Form extends ASTNode{
 		return this.statement;
 	}
 	
-	public <T> T accept(StatementVisitorInterface<T> visitor){
+	public <T> T accept(StatementVisitor<T> visitor){
 		return visitor.visitForm(this);
 	}
 	

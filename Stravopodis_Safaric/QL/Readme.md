@@ -35,29 +35,32 @@ Requirements on the implementation:
 The code bellow is just a preliminary example of the QL's syntax. 
 
     form HouseSelling {
+  
     
-      question hasSoldHouse typeof boolean {
-        hasSoldHouse : "Did you sell a house in 2015?";
-        hasSoldHouse : false;
-      }
-      question hasRentHouse typeof boolean {
-        hasRentHouse : "Did you bought a house in 2015?";
-        hasRentHouse : false;
-      }
-      question hasMaintLoan typeof boolean {
-    	  hasMaintLoan : "Did you sell a house in 2014 ?";
-      }
+    		question boolean hasRentHouse ("Did you rent a house in 2015?") { 
+	     		hasRentHouse : true;
+		}
+	
+		question boolean hasBoughtHouse ("Did you bought a house in 2015?") {
+			hasBoughtHouse : false;
+		}
+	
+		question boolean hasSoldHouse ("Did you sell a house in 2014 ?");
     
-      if (hasSoldHouse == true){
-    
-    	  question sellingPrice typeof int {
-    		  sellingPrice : "What was the selling price?";
-    	  }
-    	  question privateDebt typeof int {
-    		  privateDebt : "What was the value of the private debt?";
-    	  }
-    	  question valueResidue typeof int {
-    		  valueResidue : "Value residue:";
-    		  valueResidue : sellingPrice - privateDebt;
-    	  }
-    }
+     		if (hasSoldHouse == true && hasRentHouse == true && hasBoughtHouse == true){
+    	
+    			question string firstName ("Please enter your first name:");
+    	
+    			question string lastName ("Please enter your last name:");
+    	
+    			question integer sellingPrice ("What was the selling price?"){
+    				sellingPrice : 300;
+    			}
+    	
+    		question money privateDebt ("What was the value of the private debt?");
+    	
+    		question money valueResidue ("Value residue:") {
+    			valueResidue : (sellingPrice * privateDebt) / 100;
+    			}
+	  	}
+     		}

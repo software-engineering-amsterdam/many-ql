@@ -3,7 +3,10 @@ package ql.gui.control;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import ql.gui.ModelVisitor;
+import ql.semantics.errors.Warning;
 import ql.semantics.values.*;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Nik on 10-3-15.
@@ -88,5 +91,52 @@ public class TextField extends ControlElement implements IntControl, DecControl,
     {
         this.setText("");
         return null;
+    }
+
+    @Override
+    public Value getIntValue()
+    {
+        String userInput = this.textField.getText();
+        userInput = userInput.trim();
+        Value value;
+        try
+        {
+            Integer intValue = Integer.parseInt(userInput);
+            value = new IntValue(intValue);
+        }
+        catch (NumberFormatException e)
+        {
+            value = new UndefValue();
+        }
+
+        return value;
+    }
+
+    @Override
+    public Value getDecValue()
+    {
+        Value value;
+        try
+        {
+            BigDecimal decValue = new BigDecimal(this.textField.getText());
+            value = new DecValue(decValue);
+        }
+        catch (NumberFormatException e)
+        {
+            value = new UndefValue();
+        }
+        return value;
+    }
+
+    @Override
+    public Value getStrValue()
+    {
+        return new StrValue(this.textField.getText());
+    }
+
+    @Override
+    public <T> T accept(ControlVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

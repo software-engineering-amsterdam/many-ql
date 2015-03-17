@@ -1,38 +1,57 @@
 package ql.gui.segment;
 
 import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import ql.ast.expression.Expr;
+import ql.ast.type.Type;
 import ql.gui.ModelVisitor;
+import ql.gui.Refreshable;
 import ql.gui.input.Input;
 import ql.gui.label.Label;
+import ql.semantics.ExprEvaluator;
+import ql.semantics.ValueTable;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.Value;
 
 import java.util.Collections;
 
 /**
- * Created by Nik on 23-02-2015
+ * Created by Nik on 3-3-15.
  */
-public class Row extends Segment<VBox>
+public class Row extends Segment<Pane> implements Refreshable
 {
-    private Label label;
-    private Input input;
+    private final Expr condition;
+    private final VBox inputBox;
+    private final Label label;
+    private final Input input;
+    private final Type type;
 
-    public Row(Label label, Input input)
+    public Row(Expr condition, Type type, Label label, Input input)
     {
-        this(label, input, true);
-    }
-
-    public Row(Label label, Input input, Boolean visible)
-    {
-        super(new VBox(), Collections.<Segment>emptyList(), visible);
-        this.label = label;
+        super(new HBox(), Collections.emptyList(), true);
         this.input = input;
+        this.label = label;
+        this.type = type;
+        this.condition = condition;
 
-        this.container.getChildren().add(this.label.getTextNode());
-        this.container.getChildren().add(this.input.getInputNode());
-        this.container.setFillWidth(true);
-        this.container.setPrefWidth(400);
-        this.container.setPadding(new Insets(0, 0, 15, 0));
+        this.inputBox = new VBox();
+        this.initializeInputBox();
+
+        this.container.getChildren().add(this.inputBox);
     }
+
+    public void initializeInputBox()
+    {
+        this.inputBox.getChildren().add(this.label.getTextNode());
+        this.inputBox.getChildren().add(this.input.getInputNode());
+        this.inputBox.setFillWidth(true);
+        this.inputBox.setPrefWidth(400);
+        this.inputBox.setPadding(new Insets(0, 0, 15, 0));
+
+    }
+
 
     public Label getLabel()
     {
@@ -44,9 +63,43 @@ public class Row extends Segment<VBox>
         return input;
     }
 
+
     @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
         return visitor.visit(this);
+    }
+
+    @Override
+    public void refreshElement(ValueTable valueTable)
+    {
+        Boolean visible = false;
+
+        Value val = ExprEvaluator.evaluate(condition, valueTable);
+        if (!val.isUndefined())
+        {
+            visible = ((BoolValue)val).getValue();
+        }
+        this.setVisible(visible);
+    }
+
+    @Override
+    public Value evaluate(ValueTable valueTable)
+    {
+        return ExprEvaluator.evaluate(condition, valueTable);
+    }
+
+    @Override
+    public Boolean isRefreshPrerequisite()
+    {
+        return false;
+    }
+
+    public void applyStyle(RowStyle style)
+    {
+        if (style.isWidgetSet())
+        {
+            this.input.switchControl(style.getWidget());
+        }
     }
 }

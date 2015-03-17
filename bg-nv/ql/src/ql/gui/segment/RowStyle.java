@@ -82,4 +82,9 @@ public class RowStyle
     {
         this.fontSize = fontSize;
     }
+
+    public Boolean isWidgetSet()
+    {
+        return this.widget != null;
+    }
 }

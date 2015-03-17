@@ -1,5 +1,6 @@
 package org.uva.ql.view.widgit;
 
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.Value;
@@ -30,7 +31,7 @@ public class TextField extends BaseTextField {
 	}
 
 	@Override
-	public void setIdentifier(String identifier) {
+	public void setIdentifier(Identifier identifier) {
 		super.setIdentifier(identifier);
 		TextFieldListener textFieldListener = new TextFieldListener(widgetListener, getIdentifier());
 		textField.getDocument().addDocumentListener(textFieldListener);

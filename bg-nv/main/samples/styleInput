@@ -1,20 +1,28 @@
 stylesheet sample {
     page main {
         question maritalStatus
+       /*
         question married {
             widget radio("Yes", "No")
         }
         question notMarried {
             widget radio("Yes", "No")
         }
+        */
+        question married
+        question notMarried
         default boolean {
             width: 15
             widget checkbox
+        }
+        default integer {
+            widget textbox
         }
         question name
         question surname
         question combinedName
         question age
+        question beer
         question division
     }
 }

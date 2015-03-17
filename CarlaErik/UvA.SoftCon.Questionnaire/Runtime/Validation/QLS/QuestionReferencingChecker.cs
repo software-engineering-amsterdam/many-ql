@@ -12,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QLS
     /// <summary>
     /// Checks whether all questions are correctly referenced. That is; all questions of a QL are referenced exactly once by the QLS.
     /// </summary>
-    internal class QuestionReferencingChecker : QLSVisitor<object>
+    internal class QuestionReferencingChecker : ASTChecker
     {
         internal QuestionReferencingChecker(IEnumerable<Question> qlQuestions)
         {

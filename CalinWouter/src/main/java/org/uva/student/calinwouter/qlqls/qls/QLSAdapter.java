@@ -2,7 +2,9 @@ package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.staticfieldscollector.PTypeCollector;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -18,6 +20,8 @@ import java.util.*;
 public class QLSAdapter extends ReversedDepthFirstAdapter {
 
     private final PTypeCollector pTypeCollector = new PTypeCollector();
+
+    private final static List<String> allowablePaths = new LinkedList<String>();
 
     /* This is the relative package where the components reside. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
@@ -36,10 +40,10 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     private Object interopComponent(String componentName, List<Object> args)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
-            InvocationTargetException {
-        String classPath = firstCharacterToUpper(componentName);
-        QLSReflection qlsReflection = new QLSReflection(COMPONENTS_PACKAGE_PREFIX, WIDGETS_PACKAGE_PREFIX);
-        return qlsReflection.newInstanceForClassPath(classPath, args);
+            InvocationTargetException, CouldNotFindMatchingQLSComponentException {
+        final String classPath = firstCharacterToUpper(componentName);
+        QLSReflection qlsReflection = new QLSReflection(allowablePaths);
+        return qlsReflection.newComponentInstance(classPath, args);
     }
 
     /**
@@ -50,9 +54,9 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      * - This method returns the transformed stylesheet (StyleSheet)-object.
      * @return the value of the first object on the stack.
      */
-    public Object getValue() {
+    public Object popValue() {
         assert (argumentStack.size() == 1);
-        return argumentStack.get(0);
+        return pop();
     }
 
     /**
@@ -63,16 +67,28 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     @Override
     public void outAEmptyIdentList(AEmptyIdentList node) {
         ArrayList<Object> values = new ArrayList<Object>();
+        final Object model;
         try {
-            final Object model = interopComponent(node.getIdent().getText(), values);
-            argumentStack.push(model);
-        } catch (Exception e) {
+            model = interopComponent(node.getIdent().getText(), values);
+            push(model);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (CouldNotFindMatchingQLSComponentException e) {
+            // TODO handle this error...
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * AFilledIdentList-s (Filled Identified List) are functions in the form of:
+     * AFilledIdentList-s (Filled Identified List) are functions of the form of:
      *
      * ident (expr_1, ... expr_n), with n > 0.
      */
@@ -80,13 +96,23 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     public void outAFilledIdentList(AFilledIdentList node) {
         ArrayList<Object> values = new ArrayList<Object>();
         for (int i = 0; i < node.getElement().size(); i++) {
-            values.add(argumentStack.pop());
+            values.add(pop());
         }
         try {
             final Object model = interopComponent(node.getIdent().getText(), values);
-            argumentStack.push(model);
-        } catch (Exception e) {
-            // TODO This catches ALL the exceptions!
+            push(model);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (CouldNotFindMatchingQLSComponentException e) {
+            // TODO handle this error...
             throw new RuntimeException(e);
         }
     }
@@ -96,7 +122,9 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAIdentElement(AIdentElement node) {
-        argumentStack.push(node.getIdent().getText());
+        final TIdent identifierElement = node.getIdent();
+        final String identifier = identifierElement.getText();
+        push(identifier);
     }
 
     /**
@@ -104,7 +132,11 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAHexElement(AHexElement node) {
-        argumentStack.push(Integer.parseInt(node.getHex().getText().substring(1), 16));
+        final THex hexElement = node.getHex();
+        final String hexStringWithHash = hexElement.getText();
+        final String hexString = hexStringWithHash.substring(1);
+        final Integer hexValue = Integer.parseInt(hexString, 16);
+        push(hexValue);
     }
 
     /**
@@ -112,7 +144,14 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAStringElement(AStringElement node) {
-        argumentStack.push(node.getString().getText());
+        final TString stringElement = node.getString();
+        final String string = stringElement.getText();
+        push(string);
+    }
+
+    private TypeDescriptor convertAstTypeToTypeDescriptor(PType nodeAstType) {
+        nodeAstType.apply(pTypeCollector);
+        return pTypeCollector.popType();
     }
 
     /**
@@ -120,8 +159,9 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outATypeElement(ATypeElement node) {
-        node.getType().apply(pTypeCollector);
-        argumentStack.push(pTypeCollector.popType());
+        final PType nodeAstType = node.getType();
+        final TypeDescriptor nodeTypeDescriptor = convertAstTypeToTypeDescriptor(nodeAstType);
+        push(nodeTypeDescriptor);
     }
 
     /**
@@ -129,7 +169,9 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outANumberElement(ANumberElement node) {
-        argumentStack.push(Integer.parseInt(node.getNumber().getText()));
+        final String elementAsString = node.getNumber().getText();
+        final Integer elementAsNumber = Integer.parseInt(elementAsString);
+        push(elementAsNumber);
     }
 
     /**
@@ -149,10 +191,14 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     public void outAObjectElement(AObjectElement node) {
         Map<Object, Object> hashMap = new HashMap<Object, Object>();
         for (int i = 0; i < node.getObjectEl().size(); i++) {
-            AbstractMap.SimpleEntry<Object, Object> entry = (AbstractMap.SimpleEntry<Object, Object>) argumentStack.pop();
-            hashMap.put(entry.getKey().toString(), entry.getValue());
+            final AbstractMap.SimpleEntry<Object, Object> entry =
+                    (AbstractMap.SimpleEntry<Object, Object>) pop();
+            final Object keyObject = entry.getKey();
+            final String key = keyObject.toString();
+            final Object value = entry.getValue();
+            hashMap.put(key, value);
         }
-        argumentStack.push(hashMap);
+        push(hashMap);
     }
 
     /**
@@ -170,14 +216,30 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAObjectEl(AObjectEl node) {
-        argumentStack.push(new AbstractMap.SimpleEntry<Object, Object>((Object) argumentStack.pop(), argumentStack.pop()));
+        AbstractMap.SimpleEntry<Object, Object> mapEntry = new AbstractMap.SimpleEntry<Object, Object>(pop(), pop());
+        push(mapEntry);
+    }
+
+    private Object pop() {
+        return argumentStack.pop();
+    }
+
+    private void push(Object toPush) {
+        argumentStack.push(toPush);
     }
 
     private static String firstCharacterToUpper(String str) {
-        return str.substring(0, 1).toUpperCase()
-                + str.substring(1);
+        assert(str.length() > 0);
+        final String firstCharacter = str.substring(0, 1);
+        final String rest = str.substring(1);
+        return firstCharacter.toUpperCase() + rest;
     }
 
     /** QLSAdapter can only be used through the QLSInterpreter and the QLSTypeChecker. */
-    protected QLSAdapter() {}
+    protected QLSAdapter() {};
+
+    static {
+        allowablePaths.add(COMPONENTS_PACKAGE_PREFIX);
+        allowablePaths.add(WIDGETS_PACKAGE_PREFIX);
+    }
 }

@@ -2,7 +2,8 @@ package com.klq.gui.control;
 
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.controller.Store;
+import com.klq.ast.impl.stmt.QuestionNode;
+import com.klq.controller.Controller;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
@@ -13,8 +14,8 @@ import java.util.List;
  */
 public class TextRenderedQuestion extends ARenderedQuestion {
 
-    public TextRenderedQuestion(String id, Type type, String text, List<AExpression> dependencies, Store store) {
-        super(id, type, text, dependencies, store);
+    public TextRenderedQuestion(QuestionNode question, List<AExpression> dependencies, Controller controller) {
+        super(question, dependencies, controller);
     }
 
     @Override
@@ -34,11 +35,8 @@ public class TextRenderedQuestion extends ARenderedQuestion {
 
     @Override
     protected boolean isValidInput(String input) {
-        if (input.trim().isEmpty()){
-            return true;
-        }
         if (getType() == Type.NUMERAL) {
-            return input.matches("-?\\d+(\\.\\d+)?");
+            return input.matches("-?\\d+(\\.\\d+)?") || input.trim().isEmpty();
         }
         return true;
     }
