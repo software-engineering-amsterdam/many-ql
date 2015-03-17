@@ -13,7 +13,6 @@ class GUI:
         self.qGui = tk.Tk()
         self.__form = form
         self.__questions = self.__form.get_questions()
-        print(self.__questions)
         self.__dependencies = self.__form.ast.get_dependencies()
         self.__answersMap = mapper.Mapper()
         self.intro_element = self.intro_label()

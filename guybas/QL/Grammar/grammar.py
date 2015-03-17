@@ -32,7 +32,7 @@ comment = pp.Literal("//") + pp.restOfLine | pp.cStyleComment
 statement_id_var = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # bool :: True | False
-bool = pp.Literal("True") | pp.Literal("False")
+boolean = pp.Literal("True") | pp.Literal("False")
 
 # text in expressions may exist of letters and numbers
 text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"")
@@ -40,7 +40,7 @@ text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"
 number = pp.Word(pp.nums)
 
 # values allowed as answers: bool, number, id or text
-value = (bool.setParseAction(expression_factory.make_bool) |
+value = (boolean.setParseAction(expression_factory.make_bool) |
          number.setParseAction(expression_factory.make_number) |
          statement_id_var.setParseAction(expression_factory.make_variable) |
          text.setParseAction(expression_factory.make_text))

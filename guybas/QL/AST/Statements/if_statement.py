@@ -1,7 +1,7 @@
 # AST for if_block
 import QL.AST.Statements.statement as statement
 import QL.AST.Expressions.Operations.not_op as not_operation
-
+import QL.Grammar.constants as constants
 
 class IfBlock(statement.IStatement):
 
@@ -71,6 +71,9 @@ class IfBlock(statement.IStatement):
         message = self.condition.is_valid_expression_message(td)
         for x in self.statements:
             message += x.valid_type_message(td)
+
+        if not self.condition.return_type_string(td) == constants.BOOL:
+            message += "the return type of the expression: " + self.condition.pretty_print() + " is not of type bool"
         return message
 
     #

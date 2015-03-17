@@ -57,7 +57,7 @@ class Question(statement.IStatement):
         return self.__label
 
     def get_type(self):
-        return self.__type.pretty_print()
+        return self.__type
 
     def get_id(self):
         return self.__id
