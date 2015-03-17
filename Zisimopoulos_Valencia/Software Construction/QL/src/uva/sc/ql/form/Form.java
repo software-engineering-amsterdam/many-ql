@@ -1,6 +1,7 @@
 package uva.sc.ql.form;
 
 import java.util.List;
+
 import uva.sc.ql.ast.IQLFormNode;
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.atom.ID;

@@ -21,19 +21,19 @@ func (g *Gui) newBooleanQuestion(fieldName, caption string,
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.Bool("checked")
 
-		g.answerStack[objectName] = "0"
+		g.stacks.pushAnswer(objectName, "0")
 		if content {
-			g.answerStack[objectName] = "1"
+			g.stacks.pushAnswer(objectName, "1")
 		}
 	})
 
-	g.updateCallbacks[fieldName] = func(newValue string) {
+	g.objectTable.setUpdate(fieldName, func(newValue string) {
 		v := false
 		if newValue == symboltable.AnswerYes {
 			v = true
 		}
 		newFieldPtr.Set("checked", v)
-	}
+	})
 
 	return question
 }
@@ -51,12 +51,12 @@ func (g *Gui) newNumericQuestion(fieldName, caption string,
 
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
-		g.answerStack[objectName] = content
+		g.stacks.pushAnswer(objectName, content)
 	})
 
-	g.updateCallbacks[fieldName] = func(newValue string) {
+	g.objectTable.setUpdate(fieldName, func(newValue string) {
 		newFieldPtr.Set("text", newValue)
-	}
+	})
 
 	return question
 }
@@ -74,11 +74,12 @@ func (g *Gui) newStringQuestion(fieldName, caption string,
 
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
-		g.answerStack[objectName] = content
+		g.stacks.pushAnswer(objectName, content)
 	})
 
-	g.updateCallbacks[fieldName] = func(newValue string) {
+	g.objectTable.setUpdate(fieldName, func(newValue string) {
 		newFieldPtr.Set("text", newValue)
-	}
+	})
+
 	return question
 }

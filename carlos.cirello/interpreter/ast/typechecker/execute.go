@@ -12,16 +12,20 @@ func New() (ast.Executer, *symboltable.SymbolTable) {
 	toFrontend := make(chan *plumbing.Frontend)
 	st := symboltable.New()
 
-	go func(toFrontend chan *plumbing.Frontend) {
-		for {
-			<-toFrontend
-		}
-	}(toFrontend)
+	go fakeFrontendDriver(toFrontend)
 
 	tc := &Typechecker{
 		execute: execute.New(toFrontend, st),
 	}
 	return tc, st
+}
+
+func fakeFrontendDriver(toFrontend chan *plumbing.Frontend) {
+	go func(toFrontend chan *plumbing.Frontend) {
+		for {
+			<-toFrontend
+		}
+	}(toFrontend)
 }
 
 // Typechecker is the delegation structure for Execute and typechecking

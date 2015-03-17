@@ -2,7 +2,6 @@ package uva.sc.ql.statements;
 
 import java.util.List;
 
-import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.expression.Expression;
 
