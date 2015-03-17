@@ -1,26 +1,27 @@
-package com.klq.gui.pane;
+package com.klq.gui.control;
 
-import com.klq.ast.impl.expr.value.Value;
-import com.klq.logic.controller.Store;
-import com.klq.logic.question.Question;
-import javafx.scene.Node;
+import com.klq.ast.impl.Type;
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.controller.Store;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 /**
  * Created by Timon on 09.03.2015.
  */
-public class BooleanQuestionPane extends AQuestionPane {
-    private final static int TOGGLE_SPACING = 5;
+public class BooleanRenderedQuestion extends ARenderedQuestion {
 
-    public BooleanQuestionPane(Question question, Store store) {
-        super(question, store);
+    public BooleanRenderedQuestion(String id, Type type, String text, List<AExpression> dependencies, Store store) {
+        super(id, type, text, dependencies, store);
     }
 
     @Override
-    protected Node createInputControl() {
-        VBox container = new VBox(TOGGLE_SPACING);
+    protected Region createQuestionControl() {
+        VBox container = new VBox(5);
         ToggleGroup group = createToggleGroup(container);
 
         group.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
@@ -51,7 +52,7 @@ public class BooleanQuestionPane extends AQuestionPane {
     }
 
     @Override
-    protected boolean matchesInput(String input) {
+    protected boolean isValidInput(String input) {
         return true;
     }
 }

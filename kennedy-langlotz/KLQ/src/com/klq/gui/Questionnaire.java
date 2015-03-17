@@ -1,6 +1,6 @@
 package com.klq.gui;
 
-import com.klq.logic.controller.Store;
+import com.klq.controller.Store;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;

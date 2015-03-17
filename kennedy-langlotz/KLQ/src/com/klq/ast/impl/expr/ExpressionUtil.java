@@ -23,8 +23,7 @@ public class ExpressionUtil {
                 return createDateFromString(value);
             case NUMERAL:
                 return createNumberFromString(value);
-            case STRING:
-                return new StringValue(value);
+            case STRING:                return new StringValue(value);
         }
         throw new IllegalArgumentException("Type is not a valid type! Type: " + type);
     }

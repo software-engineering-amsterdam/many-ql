@@ -32,8 +32,6 @@ public class TypeChecker {
     public void run(){
         secondPass(firstPass());
     }
-
-    //todo fix this
     //Just a temporary method, this logic should not be in here.
     public void reportErrors(){
         run();

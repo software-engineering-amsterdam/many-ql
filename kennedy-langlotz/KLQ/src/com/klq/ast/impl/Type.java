@@ -1,6 +1,6 @@
 package com.klq.ast.impl;
 
-import com.klq.logic.IKLQItem;
+import com.klq.gui.IKLQItem;
 
 /**
  * Created by Timon on 10.02.2015.
