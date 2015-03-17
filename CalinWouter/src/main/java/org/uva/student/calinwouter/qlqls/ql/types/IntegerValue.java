@@ -22,75 +22,71 @@ public class IntegerValue extends Value {
         }
 
         @Override
-        public boolean equals(Object o) {
-            return o instanceof TypeDescriptor && ((TypeDescriptor) o).getDefaultValue() instanceof IntegerValue;
+        public String toString() {
+            return "Integer";
         }
 
         @Override
-        public String toString() {
-            return "Integer";
+        public boolean equals(final Object obj) {
+            if (!(obj instanceof TypeDescriptor)) {
+                return false;
+            }
+            final TypeDescriptor otherType = (TypeDescriptor) obj;
+            final Value otherDefaultValue = otherType.getDefaultValue();
+            final Value thisDefaultValue = getDefaultValue();
+            final BoolValue equalityComparisonValue = otherDefaultValue.eq(thisDefaultValue);
+            return equalityComparisonValue.isTrue();
         }
     };
 
     @Override
     public Value add(Value value) {
-        return new IntegerValue((Integer) getValue() + (Integer) value.getValue());
+        return new IntegerValue((Integer) getInternalValue() + (Integer) value.getInternalValue());
     }
 
     @Override
     public Value sub(Value value) {
-        return new IntegerValue((Integer) getValue() - (Integer) value.getValue());
+        return new IntegerValue((Integer) getInternalValue() - (Integer) value.getInternalValue());
     }
 
     @Override
     public Value mul(Value value) {
-        return new IntegerValue((Integer) getValue() * (Integer) value.getValue());
+        return new IntegerValue((Integer) getInternalValue() * (Integer) value.getInternalValue());
     }
 
     @Override
     public Value div(Value value) {
-        return new IntegerValue((Integer) getValue() / (Integer) value.getValue());
+        return new IntegerValue((Integer) getInternalValue() / (Integer) value.getInternalValue());
     }
 
     @Override
     public Value mod(Value value) {
-        return new IntegerValue((Integer) getValue() % (Integer) value.getValue());
+        return new IntegerValue((Integer) getInternalValue() % (Integer) value.getInternalValue());
     }
 
     @Override
-    public Value lt(Value value) {
-        return new BoolValue((Integer) getValue() < (Integer) value.getValue());
+    public BoolValue lt(Value value) {
+        return new BoolValue((Integer) getInternalValue() < (Integer) value.getInternalValue());
     }
 
     @Override
-    public Value gt(Value value) {
-        return new BoolValue((Integer) getValue() > (Integer) value.getValue());
+    public BoolValue gt(Value value) {
+        return new BoolValue((Integer) getInternalValue() > (Integer) value.getInternalValue());
     }
 
     @Override
-    public Value lte(Value value) {
-        return new BoolValue((Integer) getValue() <= (Integer) value.getValue());
+    public BoolValue lte(Value value) {
+        return new BoolValue((Integer) getInternalValue() <= (Integer) value.getInternalValue());
     }
 
     @Override
-    public Value gte(Value value) {
-        return new BoolValue((Integer) getValue() >= (Integer) value.getValue());
+    public BoolValue gte(Value value) {
+        return new BoolValue((Integer) getInternalValue() >= (Integer) value.getInternalValue());
     }
 
     @Override
     public void apply(TypeCallback typeCallback) {
         typeCallback.usesInteger();
-    }
-
-    @Override
-    public Value eq(Value value) {
-        final Object otherInternalValue = value.getValue();
-        final Object myInternalValue = getValue();
-        return new BoolValue(otherInternalValue.equals(myInternalValue));
-    }
-
-    public Value neq(Value value) {
-        return new BoolValue(!value.getValue().equals(getValue()));
     }
 
     public IntegerValue(Integer value) {

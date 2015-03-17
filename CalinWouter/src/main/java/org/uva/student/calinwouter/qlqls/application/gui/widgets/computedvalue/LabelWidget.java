@@ -23,7 +23,7 @@ public class LabelWidget implements IWidget {
             public void onStateChanged() {
                 VariableTable variableTable = variableTableWrapper.getVariableTable();
                 if(variableTable.isSet(questionIdentifier)) {
-                    valueLabel.setText(variableTable.getVariable(questionIdentifier).getValue().toString());
+                    valueLabel.setText(variableTable.getVariable(questionIdentifier).toString());
                 }else
                     valueLabel.setText("-");
                 valueLabel.revalidate();

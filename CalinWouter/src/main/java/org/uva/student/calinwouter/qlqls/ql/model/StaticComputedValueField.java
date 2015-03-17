@@ -6,13 +6,12 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 public class StaticComputedValueField extends AbstractStaticFormField {
 
-
-    public StaticComputedValueField(String lbl, String variable, TypeDescriptor typeDescriptor) {
-        super(lbl, variable, typeDescriptor);
-    }
-
     @Override
     public <T> T applyRenderer(IQLRenderer<T> iQLRenderer) throws FieldNotFoundException {
         return iQLRenderer.render(this);
+    }
+
+    public StaticComputedValueField(String label, String variable, TypeDescriptor typeDescriptor) {
+        super(label, variable, typeDescriptor);
     }
 }
