@@ -4,7 +4,6 @@ import QL.Runtime.mapper as mapper
 import QL.Tools.exceptions as exc
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
-import QL.AST.Expressions.Operations.binary_expression as binary_expression
 
 
 class GUI:
