@@ -3,10 +3,10 @@ package com.klq.ast.impl.expr.bool;
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.BooleanValue;
-import com.klq.ast.impl.expr.value.ComparableValue;
-import com.klq.ast.impl.expr.value.UndefinedValue;
-import com.klq.ast.impl.expr.value.Value;
+import com.klq.ast.impl.value.BooleanValue;
+import com.klq.ast.impl.value.ComparableValue;
+import com.klq.ast.impl.value.UndefinedValue;
+import com.klq.ast.impl.value.Value;
 
 import java.util.Map;
 

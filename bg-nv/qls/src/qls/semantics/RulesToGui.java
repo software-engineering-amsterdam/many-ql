@@ -14,7 +14,7 @@ import qls.ast.rule.widget.Slider;
  */
 public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
 {
-    private RowStyle result;
+    private RowStyle rowStyle;
 
     public static RowStyle convert(Rules rs)
     {
@@ -24,46 +24,46 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
             r.accept(visitor);
         }
 
-        return visitor.result;
+        return visitor.rowStyle;
     }
 
     private RulesToGui()
     {
-        this.result = new RowStyle();
+        this.rowStyle = new RowStyle();
     }
 
     @Override
     public Void visit(Width r)
     {
-        this.result.setWidth(r.getValue());
+        this.rowStyle.setWidth(r.getValue());
         return null;
     }
 
     @Override
     public Void visit(Font r)
     {
-        this.result.setFont(r.getValue());
+        this.rowStyle.setFont(r.getValue());
         return null;
     }
 
     @Override
     public Void visit(FontSize r)
     {
-        this.result.setFontSize(r.getValue());
+        this.rowStyle.setFontSize(r.getValue());
         return null;
     }
 
     @Override
     public Void visit(BackColor r)
     {
-        this.result.setBackColor(r.getValue().getColor());
+        this.rowStyle.setBackColor(r.getValue().getColor());
         return null;
     }
 
     @Override
     public Void visit(ForeColor r)
     {
-        this.result.setForeColor(r.getValue().getColor());
+        this.rowStyle.setForeColor(r.getValue().getColor());
         return null;
     }
 
@@ -71,7 +71,7 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
     public Void visit(Widget r)
     {
         Control c = r.getValue().accept(this);
-        this.result.setWidget(c);
+        this.rowStyle.setWidget(c);
         return null;
     }
 

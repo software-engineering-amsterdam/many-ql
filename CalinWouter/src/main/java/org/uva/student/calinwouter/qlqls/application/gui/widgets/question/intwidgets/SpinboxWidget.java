@@ -32,4 +32,9 @@ public class SpinboxWidget implements IWidget {
     public Component getWidgetComponent() {
         return spinner;
     }
+
+    @Override
+    public void resetValue() {
+        spinner.setValue(0);
+    }
 }

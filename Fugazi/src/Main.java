@@ -1,6 +1,7 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
@@ -14,6 +15,7 @@ import org.fugazi.qls.type_checker.QLSTypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Map;
 
 public class Main {
 
@@ -33,15 +35,16 @@ public class Main {
           * QL
           * --------------------- */
         // Create The AST Builder.
-        QLASTBuilder QLAstBuilder = new QLASTBuilder(qlInput);
+        QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
         // Build the AST.
-        Form form = QLAstBuilder.buildForm();
+        Form form = qLAstBuilder.buildForm();
+
         QLFormDataStorage formDataStorage = new QLFormDataStorage(form);
 
         // Perform type checking.
-        QLTypeChecker qLTypeChecker = new QLTypeChecker();
-        boolean isFormTypesCorrect = qLTypeChecker.checkForm(form, formDataStorage);
+        QLTypeChecker qLTypeChecker = new QLTypeChecker(form, formDataStorage);
+        boolean isFormTypesCorrect = qLTypeChecker.checkForm();
 
         // display warnings and errors and if form is not type-correct, exit
         ASTIssuePrinter printer = new ASTIssuePrinter(
@@ -97,13 +100,13 @@ public class Main {
             System.exit(-1);
         }
 
-        // todo: temporary to test QLS.
-//        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-//        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-//        guiBuilder.renderUI();
-        
         // QL
-        GUIBuilder guiBuilder = new GUIBuilder(form);
+//        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+//        guiBuilder.renderUI();
+
+        // QLS
+        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
         guiBuilder.renderUI();
     }
 }

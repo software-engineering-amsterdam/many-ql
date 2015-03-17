@@ -33,4 +33,10 @@ public class LabelWidget implements IWidget {
     public Component getWidgetComponent() {
         return valueLabel;
     }
+
+    @Override
+    public void resetValue() {
+        valueLabel.setText("");
+    }
+
 }

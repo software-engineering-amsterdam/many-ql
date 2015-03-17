@@ -9,6 +9,7 @@ public class BaseNode implements Node {
 	}
 
 	public CodePosition getPosition() {
+		
 		return pos;
 	}
 }

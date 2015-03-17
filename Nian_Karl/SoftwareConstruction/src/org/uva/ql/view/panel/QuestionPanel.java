@@ -1,42 +1,31 @@
 package org.uva.ql.view.panel;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.miginfocom.swing.MigLayout;
 
 public class QuestionPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-	protected final ArrayList<Panel> ifBlockPanels;
-	private int gridCounterY = 0;
+	protected final List<Panel> ifBlockPanels;
 
-	public QuestionPanel(ArrayList<Panel> ifBlockPanels) {
+	public QuestionPanel(List<Panel> ifBlockPanels) {
 		super();
-		GridBagLayout bagLayout = new GridBagLayout();
 		this.ifBlockPanels = ifBlockPanels;
-		setLayout(bagLayout);
+		setLayout(new MigLayout());
 		setBackground(Color.blue);
 		initializeBlock(ifBlockPanels);
 	}
 
-	public ArrayList<Panel> getPanels() {
+	public List<Panel> getPanels() {
 		return ifBlockPanels;
-	}
-
-	public void addWithConstraints(Component component) {
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = 0;
-		constraints.gridy = gridCounterY;
-		add(component, constraints);
-		gridCounterY++;
 	}
 
 	protected void initializeBlock(List<Panel> elseBlockPanels) {
 		for (Panel panel : elseBlockPanels) {
-			addWithConstraints(panel);
+			add(panel, "wrap");
 		}
 	}
 }

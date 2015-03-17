@@ -9,7 +9,7 @@ import ql.gui.control.TextField;
  */
 public class InputBuilder implements TypeVisitor<Input>
 {
-    private String id;
+    private final String id;
     private final Boolean VISIBLE = true;
     private final Boolean DISABLED = false;
 
@@ -33,7 +33,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(DateType type)
     {
-        return new DateInput(this.id);
+        return new DateInput(this.id, new TextField(VISIBLE, DISABLED));
     }
 
     @Override

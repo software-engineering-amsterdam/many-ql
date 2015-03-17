@@ -118,7 +118,7 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 	public Value visit(LessThen lessThen) {
 		Value left = lessThen.getLeft().accept(this);
 		Value right = lessThen.getRight().accept(this);
-		return left.lessThen(right);
+		return left.lessThan(right);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 	public Value visit(GreaterThen greaterThen) {
 		Value left = greaterThen.getLeft().accept(this);
 		Value right = greaterThen.getRight().accept(this);
-		return left.greaterThen(right);
+		return left.greaterThan(right);
 	}
 
 	@Override

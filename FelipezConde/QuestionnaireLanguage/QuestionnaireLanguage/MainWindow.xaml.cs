@@ -1,8 +1,9 @@
 ﻿using AST;
 using AST.Test;
 using QuestionnaireLanguage.Contracts;
-using QuestionnaireLanguage.Controller;
+using QuestionnaireLanguage.Presenter;
 using System.Windows;
+using System.Windows.Input;
 
 namespace QuestionnaireLanguage
 {
@@ -22,8 +23,8 @@ namespace QuestionnaireLanguage
             TestClass test = new TestClass();
             ASTResult ast = test.GetAST(path + fileName);
 
-            MainController procesor = new MainController(this, ast);
-            MainController.ProcessBody(ast.Ast.GetBody(), this._stack);
+            MainPresenter procesor = new MainPresenter(this, ast);
+            procesor.ProcessBody(ast.Ast.GetBody(), this._stack);
         }
 
         public UIElement GetRootElement()
@@ -34,6 +35,10 @@ namespace QuestionnaireLanguage
         public void DeleteElements()
         {
             this._stack.Children.Clear();
+        }
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Keyboard.ClearFocus();
         }
     }
 }

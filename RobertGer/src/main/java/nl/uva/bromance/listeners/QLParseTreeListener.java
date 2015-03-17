@@ -8,6 +8,7 @@ import nl.uva.bromance.ast.range.BiggerThan;
 import nl.uva.bromance.ast.range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
+import org.mockito.internal.matchers.Contains;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -16,9 +17,9 @@ import java.util.Stack;
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<QLNode> nodeStack = new Stack<>();
-    private AST ast = null;
+    private AST<QLNode> ast = null;
 
-    public AST getAst() {
+    public AST<QLNode> getAst() {
         return ast;
     }
 
@@ -180,18 +181,28 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterExpression(QLParser.ExpressionContext ctx) {
-
-        nodeStack.push(new Expression(ctx.start.getLine(), Optional.ofNullable(ctx.operator)));
+        Expression expression = new Expression(ctx.start.getLine(), Optional.ofNullable(ctx.operator));
+        nodeStack.push(expression);
     }
 
     @Override
     public void exitExpression(QLParser.ExpressionContext ctx) {
-        Expression e = (Expression) nodeStack.pop();
-        QLNode peek = nodeStack.peek();
-        if (peek instanceof ContainsExpression) {
-            ((ContainsExpression) peek).setExpression(e);
+        Expression expression = (Expression) nodeStack.pop();
+        QLNode parent = nodeStack.peek();
+        parent.addChild(expression);
+        if(parent instanceof Expression) {
+            if(((Expression)parent).getLeftHandSide().isPresent())
+            {
+                ((Expression) parent).setRightHandSide(Optional.of(expression));
+            }
+            else {
+                ((Expression) parent).setLeftHandSide(Optional.of(expression));
+            }
         }
-        peek.addChild(e);
+        else if(parent instanceof ContainsExpression)
+        {
+            ((ContainsExpression) parent).setExpression(expression);
+        }
     }
 
     //TODO: this is actually not an id these are terminals that can appear in a expression.

@@ -1,24 +1,20 @@
-﻿using AST.Nodes.FormObject;
-using QuestionnaireLanguage.GUI.FormObject;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using QuestionnaireLanguage.Visitors.Interfaces;
-using ASTFormObject = AST.Nodes.FormObject;
+﻿using Evaluation.Values;
+using FormObjects = QuestionnaireLanguage.GUI.FormObject;
+using ASTFormObject = AST.Nodes.FormObjects;
+using AST.ASTVisitors.Interfaces;
 
 namespace QuestionnaireLanguage.Visitors
 {
-    public class FormObjectVisitor : IFormObjectVisitor
+    public class FormObjectVisitor : IFormObjectVisitor<FormObjects.FormObject>
     {
-        public IFormObject VisitFormObject(ASTFormObject.FormObject formObject)
+        public FormObjects.FormObject Visit(ASTFormObject.Conditional node)
         {
-            return Visit((dynamic) formObject);
+            return new FormObjects.ConditionalObject(node);
         }
-        public ConditionalObject Visit(Conditional node)
+
+        public FormObjects.FormObject Visit(ASTFormObject.Question node)
         {
-            return new ConditionalObject(node);
-        }
-        public QuestionObject Visit(Question node)
-        {
-            return new QuestionObject(node);
+            return new FormObjects.QuestionObject(node);
         }
     }
 }

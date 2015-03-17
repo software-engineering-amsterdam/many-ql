@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 
@@ -12,24 +13,15 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     /// <summary>
     /// Checks whether literal values are valid within the bounds of their types.
     /// </summary>
-    public class LiteralChecker : QLVisitor<object>
+    public class LiteralChecker : ASTChecker
     {
-        public ICollection<Literal> InvalidLiterals
-        {
-            get;
-            private set;
-        }
-
-        public LiteralChecker()
-        {
-            InvalidLiterals = new List<Literal>();
-        }
+        private const string invalidLiteralMessage = "Invalid value '{0}' for literal of type '{1}'.";
 
         public override object Visit(IntegerLiteral literal)
         {
             if (!literal.IsValid)
             {
-                InvalidLiterals.Add(literal);
+                Report.AddError(literal.Position, invalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
             }
             return null;
         }
@@ -38,7 +30,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
         {
             if (!literal.IsValid)
             {
-                InvalidLiterals.Add(literal);
+                Report.AddError(literal.Position, invalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
             }
             return null;
         }

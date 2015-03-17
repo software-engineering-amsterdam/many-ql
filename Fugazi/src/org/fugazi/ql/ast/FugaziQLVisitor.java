@@ -32,16 +32,6 @@ import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final Map<String, Type> identifiers = new HashMap<>();
-
-    private void addIdentifier(String _name, Type _type) {
-        identifiers.put(_name, _type);
-    }
-
-    private Type getIdentifierType(String _name) {
-        return identifiers.containsKey(_name) ? identifiers.get(_name) : new UndefinedType();
-    }
-    
     private String removeStringQuotes(String _str) {
         return _str.replaceAll("^\"|\"$", "");
     }
@@ -96,10 +86,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
         
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
-        
-        this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         grammarLabel.setLineNumber(this.getLineNumber(ctx));
@@ -114,10 +102,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
 
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
-
-        this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         grammarLabel.setLineNumber(this.getLineNumber(ctx));
@@ -320,8 +306,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         String name = ctx.ID().getText();
-        Type type = this.getIdentifierType(name);
-        ID identifier = new ID(name, type);
+        ID identifier = new ID(name);
         identifier.setLineNumber(this.getLineNumber(ctx));
         return identifier;
     }

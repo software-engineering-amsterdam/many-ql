@@ -15,7 +15,8 @@ public enum Operator {
 	DIVIDE("/"),
 	MULTIPLY("*"),
 	MINUS("-"),
-	PLUS("+");
+	PLUS("+"),
+	UNDEFINED("undefined");
 	
 	private String name;
 	
@@ -34,6 +35,6 @@ public enum Operator {
 			}
 		}
 		
-		return null;
+		return UNDEFINED;
 	}
 }

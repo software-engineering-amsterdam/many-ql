@@ -15,13 +15,15 @@ public class QuestionNode extends AStatementNode {
 
     public QuestionNode(String questionID, String questionType, String text, Location location) {
         super(location);
-        this.questionID = questionID;
-        this.questionType = Type.valueOf(questionType.toUpperCase());
-        this.text = text;
+        init(questionID, questionType, text);
     }
 
     public QuestionNode(String questionID, String questionType, String text) {
         super();
+        init(questionID, questionType, text);
+    }
+
+    private void init(String questionID, String questionType, String text) {
         this.questionID = questionID;
         this.questionType = Type.valueOf(questionType.toUpperCase());
         this.text = text;

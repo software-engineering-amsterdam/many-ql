@@ -1,25 +1,20 @@
 package org.fugazi.ql.ast.expression.literal;
 
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.Type;
 
 public class ID extends Literal {
 
     private final String name;
-    private final Type type;
 
-    public ID(String _name, Type _type) {
+    public ID(String _name) {
         super();
         this.name = _name;
-        this.type = _type;
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public Type getType() {
-        return this.type;
     }
 
     @Override
@@ -27,9 +22,8 @@ public class ID extends Literal {
         return this.name;
     }
 
-    @Override
-    public Type getReturnedType() {
-        return this.type;
+    public Type getReturnedType(QLFormDataStorage _formData) {
+        return _formData.getIdType(this);
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
@@ -44,17 +38,12 @@ public class ID extends Literal {
         }
 
         ID other = (ID) obj;
-        return (
-                this.getName().equals(other.getName())
-                && this.getType().equals(other.getType())
-        );
+        return (this.getName().equals(other.getName()));
     }
 
     @Override
     public int hashCode() {
-        return (
-                this.getType().toString().hashCode() * name.hashCode()
-        );
+        return (this.name.hashCode());
     }
 }
 

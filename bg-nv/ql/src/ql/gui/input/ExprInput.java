@@ -6,9 +6,9 @@ import ql.ast.expression.Expr;
 import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.gui.control.Control;
-import ql.gui.input.Input;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
+import ql.semantics.ValueTableEntry;
 import ql.semantics.values.Value;
 
 /**
@@ -16,20 +16,18 @@ import ql.semantics.values.Value;
  */
 public class ExprInput extends Input implements Refreshable
 {
-    final private Expr expression;
-    final private Control control;
+    private final Expr expression;
 
-    public ExprInput(String id, Expr expression, Control control)
+    public ExprInput(String id, Control control, Expr expression)
     {
-        this(id, expression, control, true);
+        this(id, control, expression, true);
     }
 
-    public ExprInput(String id, Expr expression, Control control, Boolean visible)
+    public ExprInput(String id, Control control, Expr expression, Boolean visible)
     {
-        super(id, visible, true);
+        super(id, control, visible, true);
         this.expression = expression;
-        this.control = control;
-        this.inputNode = this.createInputNode(control);
+        this.inputNode = this.createInputNode(this.control);
     }
 
     public Expr getExpression()
@@ -41,7 +39,7 @@ public class ExprInput extends Input implements Refreshable
     public Value evaluate(ValueTable valueTable)
     {
         Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeValue(this.getId(), val);
+        valueTable.storeEntry(new ValueTableEntry(this.getId(), val));
         return val;
     }
 
@@ -62,7 +60,7 @@ public class ExprInput extends Input implements Refreshable
     protected VBox createInputNode(Control control)
     {
         VBox box = new VBox();
-        box.getChildren().add(this.control.getGuiElement());
+        box.getChildren().add(this.control.getControlNode());
         box.setAlignment(Pos.TOP_RIGHT);
         box.setVisible(this.getVisible());
         return box;

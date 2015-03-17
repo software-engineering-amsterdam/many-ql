@@ -52,8 +52,13 @@ class GUI:
         condition = question.get_condition()
 
         c_results = True
-        if condition is not None:
-            c_results = processor.eval_expression(condition.pretty_print(), self._answersMap)
+        if condition:
+            # c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
+            # print(condition.pretty_print())
+            # print(c_results)
+            c_results = condition.eval_expression(self.__answersMap)
+            # print(c_results)
+            # print("--------")
         if not c_results:
             return False
 
@@ -61,27 +66,27 @@ class GUI:
         if len(elements) is 2:
             colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=statement.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
-        self._answersMap.update(question, new_answer)
-        for qid in self._dependencies:
-            if question.get_id() in self._dependencies[qid]:
+        self.__answersMap.update(question, new_answer)
+        for qid in self.__dependencies:
+            if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):
-        statements_dict = self._form.get_statement_dict()
+        statements_dict = self.__form.get_statement_dict()
         if qid not in statements_dict:
             raise exc.QException("Fatal Error: no such _condition _id " + qid)
-        statement = statements_dict[qid]
-        elements = statement.get_element()
+        question = statements_dict[qid]
+        elements = question.get_gui_element()
         if elements is None:
             return None
         for e in elements:
             # print(expression_factory.grid_info())
             e.destroy()
 
-        self.draw_statement(statement)
+        self.draw_question(question)
 
     def show(self):
         self.qGui.mainloop()

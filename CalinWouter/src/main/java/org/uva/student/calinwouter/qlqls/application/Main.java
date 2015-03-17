@@ -46,16 +46,17 @@ public class Main {
         }
     }
 
-    /*private static void executeQlQls(String ql, String qls) {
+    private static void executeQlQls(String ql, String qls) {
         try {
-            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
             QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
-            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.getSymbolTable(), formTypeChecker).render();
+            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.interpret(new VariableTable()), staticFields).render();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     /**
      * For each change, the QL interpreter is called. The stylesheet's model remains the same, but changes
@@ -65,7 +66,7 @@ public class Main {
         String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String ql = readFile(currentLocation + "../../src/main/resources/ql.txt");
         String qls = readFile(currentLocation + "../../src/main/resources/qls.txt");
-        //executeQlQls(ql, qls);
+        executeQlQls(ql, qls);
         executeQl(ql);
     }
 

@@ -11,6 +11,9 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
+import org.fugazi.qls.ast.widget.IWidgetsTypeVisitor;
+import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
+import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidget;
 
 import java.util.HashMap;
 import java.util.List;
@@ -135,15 +138,18 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         Type questionType = getQLQuestionType(_question);
         String questionLabel = getQLQuestionLabel(_question);
 
-        AbstractQLSWidget currentDeclarationWidget = _styleDeclr.getWidget();
+        WidgetTypeToWidget widgetTypeToWidget = new WidgetTypeToWidget();
+
+        IWidgetType currentDeclarationWidgetType = _styleDeclr.getWidgetType();
+        AbstractQLSWidget currentDeclarationWidget
+                = currentDeclarationWidgetType.accept(widgetTypeToWidget);
+
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
-            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel); 
-        } else {
-            // TODO: NEEDS TO CREATE NEW OBJECT HERE
+            currentDeclarationWidget = getDefaultWidgetForType(questionType, questionLabel);
         }
 
-        Style currentDeclarationStyle = _styleDeclr.getStyle();  // TODO: NEEDS TO CREATE NEW OBJECT HERE
+        Style currentDeclarationStyle = _styleDeclr.getStyle();
         
         // if the style is undefined, set the default style of that widget.
         // otherwise set the right style.
@@ -158,18 +164,26 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         _question.setWidget(currentDeclarationWidget);
     }
     
-    private void setWidgetFromDeclaration(QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
+    private void setWidgetFromDeclaration(
+            QLSQuestion _question,
+            List<DefaultStyleDeclaration> _segmentDefaultStyles)
+    {
+        boolean isSet = false;
+
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
-            Type questionType = getQLQuestionType(_question);
+            Type questionType = this.getQLQuestionType(_question);
             Type currentDeclarationType = currentDeclaration.getQuestionType();
 
             // if there is a style declaration for the question's type
             if (questionType.equals(currentDeclarationType)) {
                 this.setWidgetToQuestion(_question, currentDeclaration);
-            } else {
-                // if there is no default style declaration for this type, set defaults
-                this.setDefaultWidgetToQuestion(_question);
+                isSet = true;
             }
+        }
+
+        if (!isSet) {
+            // if there is no default style declaration for this type, set defaults
+            this.setDefaultWidgetToQuestion(_question);
         }
     }
     
@@ -179,7 +193,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
 
             // if the widget has been found in declarations, set the style.
-            if (_question.getWidget().equals(currentDeclaration.getWidget())) {
+            if (_question.getWidget().getType().equals(currentDeclaration.getWidgetType())) {
                 this.setWidgetToQuestion(_question, currentDeclaration);
                 isWidgetFoundInDeclaration = true;
                 break;

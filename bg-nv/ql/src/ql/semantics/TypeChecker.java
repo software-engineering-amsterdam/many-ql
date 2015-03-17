@@ -8,86 +8,115 @@ import ql.semantics.errors.Error;
 import ql.semantics.errors.Messages;
 import ql.semantics.errors.Warning;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Created by bore on 13/02/15.
  */
 
-public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>
+public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private final QuestionMap questionMap;
+    private final Questions questions;
     private final QuestionDependencies questionDependencies;
     private final LabelMap labels;
     private final Messages messages;
 
     public static Messages check(Form f)
     {
-        QuestionResult questionResult = QuestionCollector.collect(f);
-
-        if (questionResult.containsErrors())
-        {
-            return questionResult.getMessages();
-        }
-
-        QuestionMap questions = questionResult.getQuestionMap();
+        Questions questions = QuestionCollector.collect(f);
         QuestionDependencies dependencies = QuestionDependenciesBuilder.build(f);
         TypeChecker typeChecker = new TypeChecker(questions, dependencies);
+        typeChecker.checkForIdentDuplication();
 
-        if (f.accept(typeChecker))
-        {
-            typeChecker.checkForCyclicDependencies();
-            typeChecker.checkForLabelDuplication();
-        }
+        f.accept(typeChecker);
+
+        typeChecker.checkForCyclicDependencies();
+        typeChecker.checkForLabelDuplication();
 
         return typeChecker.messages;
     }
 
-    private TypeChecker(QuestionMap questions, QuestionDependencies dependencies)
+    private TypeChecker(Questions questions, QuestionDependencies dependencies)
     {
-        this.questionMap = questions;
+        this.questions = questions;
         this.questionDependencies = dependencies;
         this.labels = new LabelMap();
         this.messages = new Messages();
     }
 
-    @Override
-    public Boolean visit(Form form)
+    private void checkForIdentDuplication()
     {
-        for (Statement statement : form.getBody())
+        for (String id : this.questions)
         {
-            if (!(statement.accept(this)))
+            List<Question> lq = this.questions.getQuestionsById(id);
+            if (this.isIdentDuplicate(lq))
             {
-                return false;
+                this.addDuplicationError(id, lq);
             }
         }
+    }
 
-        return true;
+    private List<Integer> getSortedLineNumbers(List<Question> qs)
+    {
+        List<Integer> result = new ArrayList<>();
+        for (Question q : qs)
+        {
+            result.add(q.getLineNumber());
+        }
+        Collections.sort(result);
+
+        return result;
+    }
+
+    private boolean isIdentDuplicate(List<Question> lq)
+    {
+        return lq.size() > 1;
+    }
+
+    private void addDuplicationError(String id, List<Question> lq)
+    {
+        List<String> lines = this.getSortedLineNumbers(lq)
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+
+        Error error = Error.identifierAlreadyDeclared(id, lines);
+
+        this.messages.add(error);
     }
 
     @Override
-    public Boolean visit(IfCondition condition)
+    public Void visit(Form form)
     {
-        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questionMap);
+        for (Statement statement : form.getBody())
+        {
+            statement.accept(this);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(IfCondition condition)
+    {
+        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questions);
         if (condResult.containsErrors())
         {
             this.messages.addAll(condResult.getMessages());
-            return false;
         }
 
         if (this.isTypeAllowedInCond(condResult.getType()))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
-            return false;
         }
 
         for (Statement statement : condition.getBody())
         {
-            if (!(statement.accept(this)))
-            {
-                return false;
-            }
+            statement.accept(this);
         }
 
-        return true;
+        return null;
     }
 
     private boolean isTypeAllowedInCond(Type type)
@@ -96,38 +125,46 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>
     }
 
     @Override
-    public Boolean visit(Question q)
+    public Void visit(Question q)
     {
         this.labels.registerLabel(q);
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(CalculatedQuestion q)
+    public Void visit(CalculatedQuestion q)
     {
         this.labels.registerLabel(q);
         Type defined = q.getType();
 
-        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questionMap);
+        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questions);
         if (typeResult.containsErrors())
         {
             this.messages.addAll(typeResult.getMessages());
-            return false;
         }
 
         Type assigned = typeResult.getType().promoteTo(defined);
 
-        if (!(defined.equals(assigned)))
+        if (this.areTypesMismatched(defined, assigned))
         {
             this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
                     q.getLineNumber()));
-
-            return false;
         }
 
-        return true;
+        return null;
     }
 
+    private boolean areTypesMismatched(Type defined, Type assigned)
+    {
+        return this.isTypeDeclared(defined) &&
+                this.isTypeDeclared(assigned) &&
+                !(defined.equals(assigned));
+    }
+
+    private boolean isTypeDeclared(Type type)
+    {
+        return !type.isUndef();
+    }
 
     private void checkForCyclicDependencies()
     {

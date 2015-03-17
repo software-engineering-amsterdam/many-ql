@@ -1,37 +1,57 @@
-﻿using AST.Nodes.FormObject;
-using AST.Nodes.Literals;
-using QuestionnaireLanguage.Controller;
-using QuestionnaireLanguage.GUI.Interfaces.FormObject;
-using QuestionnaireLanguage.GUI.Widgets;
+﻿using AST.Nodes.FormObjects;
+using Evaluation.Values;
+using QuestionnaireLanguage.Presenter;
+using QuestionnaireLanguage.GUI.FormObject;
 using QuestionnaireLanguage.Visitors;
 using System.Windows;
+using Evaluation;
+using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.FormObject
 {
-    public class ConditionalObject : IFormObject
+    public class ConditionalObject : FormObject
     {
         private Conditional conditionalNode;
+        private SymbolTable symbolTable;
 
         #region Constructors
         public ConditionalObject(Conditional node)
         {
             this.conditionalNode = node;
+            symbolTable = new SymbolTable();
         }
 
         #endregion
 
         #region IFormElement
 
-        public UIElement ProcessFormObject(UIElement form)
+        public override UIElement ProcessFormObject(UIElement form)
         {
-            Literal value = MainController.Evaluate(this.conditionalNode.Condition);
+            Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
 
-            Widget stackPanelWidget = new StackPanelWidget();
-            UIElement customStackPanel = stackPanelWidget.CreateUIControl(ValueVisitor.Visit((dynamic)value));
+            StackPanel stackPanelWidget = new StackPanel();
 
-            return MainController.AddChildren(MainController.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            UIElement customStackPanel = value.Accept(new ValueToStackPanel());
+
+            BodyProcessor conditionalBodyProcessor = new BodyProcessor(symbolTable);
+            conditionalBodyProcessor.EventUpdateValue += UpdateValue;
+
+            return AddChild(conditionalBodyProcessor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
         }
 
         #endregion
+
+
+        public override SymbolTable Register(SymbolTable symbolTable)
+        {
+            this.symbolTable = symbolTable;
+
+            return symbolTable;
+        }
+
+        private void UpdateValue(string id, Value value)
+        {
+            EventUpdateValue(id, value);
+        }
     }
 }

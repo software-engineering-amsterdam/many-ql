@@ -29,15 +29,15 @@ public class CustomType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, String> answerMap, Visualizer visualizer, Question q) {
+    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
         ToggleGroup group = new ToggleGroup();
         String id = q.getIdentifier().get().getId();
-        String selectedButton = answerMap.get(id);
+        StringResult answer = (StringResult) answerMap.get(id);
 
         group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
             RadioButton rb = (RadioButton)newToggle.getToggleGroup().getSelectedToggle();
-            answerMap.put(id, rb.getText());
-            if (oldToggle != null && !oldToggle.equals(newToggle)){
+            answerMap.put(id, new StringResult(rb.getText()));
+            if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null) ) {
                 visualizer.visualize(q.hashCode());
             }
         });
@@ -45,7 +45,7 @@ public class CustomType implements QuestionType {
         for (StringResult option : multipleChoice) {
             RadioButton radioButton = new RadioButton(option.getResult());
             radioButton.setToggleGroup(group);
-            if (option.getResult().equals(selectedButton)){
+            if (answer != null && option.getResult().equals(answer.getResult())){
                 radioButton.setSelected(true);
                 if (visualizer.getFocusId() == q.hashCode()){
                     visualizer.setFocusedNode(radioButton);

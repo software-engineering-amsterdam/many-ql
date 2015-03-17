@@ -1,51 +1,76 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using QL.Errors;
-using QL.Evaluation;
-using QL.Model.Terminals;
-using System;
+using Antlr4.Runtime;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
+using QL.Exceptions.Warnings;
+using QL.Visitors;
 using QL.Grammars;
 using QL.Infrastructure;
-using Antlr4.Runtime;
-using System.IO;
+using QL.Model;
+using QL.Model.Terminals;
+using QL.Visitors.UIWrappers;
 
-namespace QL.Model
+namespace QL
 {
-    public class AstHandler
+    /// <summary>
+    /// This is the god class.
+    ///  After putting source as into the constructor, this class accumulates all the information
+    ///  made by evaluator, type checker ...
+    ///  Is this good, bad? 
+    /// </summary>
+    public sealed class ASTHandler
     {
+        private readonly string _input;
+        private readonly Stream _inputStream;
+
+        /// <summary>
+        /// The main form (i.e. entry point) in the AST
+        /// </summary>
         public Form RootNode { get; private set; }
 
+        /// <summary>
+        /// A collection of all errors and warnings occurring during all stages of interpreting input grammar
+        /// </summary>
         public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
        
+        /// <summary>
+        /// Maps defined identifiers to the datatype of the value they contain
+        /// </summary>
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
-        public IDictionary<ITypeResolvable, TerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        /// <summary>
+        /// 
+        /// </summary>
+        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
-        string Input;
-        Stream InputStream;
+        public IList<IRenderable> ElementsToDisplay;
 
-        bool AstBuilt;
-        bool TypeChecked;
-        bool Evaluated;
+        bool _astBuilt;
+        bool _typeChecked;
+        bool _evaluated;
+        bool _uiEvaluated;
 
-        private AstHandler()
+        private ASTHandler()
         {
             ASTHandlerExceptions = new ObservableCollection<QLException>();
             TypeReference = new Dictionary<Identifier, Type>();
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, TerminalWrapper>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-            
-            AstBuilt = TypeChecked = Evaluated = false;
+            ElementsToDisplay = new List<IRenderable>();
+            _astBuilt = _typeChecked = _evaluated = _uiEvaluated = false;
         }
 
-        public AstHandler(string input) : this()
+        public ASTHandler(string input) : this()
         {
-            Input = input;
+            _input = input;
         }
 
-        public AstHandler(Stream input) : this()
+        public ASTHandler(Stream input) : this()
         {
-            InputStream = input;
+            _inputStream = input;
         }
 
         public bool BuildAST()
@@ -53,38 +78,47 @@ namespace QL.Model
             ASTHandlerExceptions.Clear();
 
             AntlrInputStream inputStream;
-            if (Input != null)
+            if (_input != null)
             {
-                inputStream = new AntlrInputStream(Input);
+                inputStream = new AntlrInputStream(_input);
             }
-            else if (InputStream != null)
+            else if (_inputStream != null)
             {
-                inputStream = new AntlrInputStream(InputStream);
+                inputStream = new AntlrInputStream(_inputStream);
             }
             else
             {
-                throw new Exception("no input");
+                throw new Exception("No proper input provided for building an AST");
             }
 
             QLLexer lexer = new QLLexer(inputStream);
             lexer.AddErrorListener(new LexerErrorHandler(ASTHandlerExceptions));
+
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
             parser.AddErrorListener(new ParserErrorHandler(ASTHandlerExceptions));
+            
             QLListener listener = new QLListener(ASTHandlerExceptions);
             parser.AddParseListener(listener);
-            parser.formBlock();            // parses the input as a formBlock(cos it's on the top)
+            
+            // commence parsing the input as a formBlock since it's supposed to be the entry point of the input file
+            parser.formBlock();
             RootNode = listener.GetAstRootNode();
-            AstBuilt = !ASTHandlerExceptions.Any();
-            return AstBuilt;
+            
+            _astBuilt = !ASTHandlerExceptions.Any();
+            return _astBuilt;
         }
 
 
         public bool CheckType()
         {
-            if (!AstBuilt)
+            if (!_astBuilt)
             {
                 throw new QLException("Ast is not built");
+            }
+            else
+            {
+                ASTHandlerExceptions.Clear();
             }
 
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference, ASTHandlerExceptions);
@@ -98,18 +132,20 @@ namespace QL.Model
                 ASTHandlerExceptions.Add(ex);
             }
 
-            TypeChecked = !ASTHandlerExceptions.Any();
-            return TypeChecked;
+            _typeChecked = !ASTHandlerExceptions.Any();
+            return _typeChecked;
         }
 
         public bool Evaluate()
         {
-            if (!TypeChecked)
+            if (!_typeChecked)
             {
                 throw new Exception("Not type checked");
             }
-
-            IdentifierTable.Clear();//because we want to see variables without declaration?
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
             EvaluatorVisitor evaluator = new EvaluatorVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable);
             try
             {
@@ -118,17 +154,55 @@ namespace QL.Model
             catch (QLError ex)
             {
                 /* Exceptions preventing Evaluator from finishing */
-                ASTHandlerExceptions.Add(ex);
+                ASTHandlerExceptions.Add(ex);                
+
             }
 
-            Evaluated = !ASTHandlerExceptions.Any();
-            if (!Evaluated)
+            _evaluated = !ASTHandlerExceptions.Any();
+            return _evaluated;
+            
+        }
+
+        public bool EvaluateUI()
+        {
+            if (!_evaluated)
             {
-                //if evaluation did not went well, references should not be accesible
-                //TODO: separate errors and warnings AGAIN, because warnings should not cause this
-                ReferenceLookupTable.Clear();
+                throw new Exception("Expressions not evaluated");
             }
-            return Evaluated;
+            else
+            {
+                ASTHandlerExceptions.Clear();
+            }
+            UserInterfaceVisitor visitor = new UserInterfaceVisitor(ASTHandlerExceptions, ReferenceLookupTable, IdentifierTable, ElementsToDisplay);
+            try
+            {
+               RootNode.AcceptSingle(visitor);
+            }
+            catch (QLError ex)
+            {
+                ASTHandlerExceptions.Add(ex);
+            }
+            _uiEvaluated = !ASTHandlerExceptions.Any();
+            if (!_uiEvaluated) {
+                ElementsToDisplay.Clear();
+                }
+            return _uiEvaluated;
+
+        }
+        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        {
+            //convenience method for getting the Terminal wrapper based on identifier name. 
+            return GetWrappedValue(new Identifier(IdentifierName));
+        }
+        public ITerminalWrapper GetWrappedValue(Identifier i)
+        {
+            //convenience method for getting the Terminal wrapper based on Identifier node. 
+            if (!_evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+
+            return ReferenceLookupTable[IdentifierTable[i]];
         }
     }
 }

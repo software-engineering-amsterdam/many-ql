@@ -82,18 +82,13 @@ TRUE  : 'True';
 FALSE : 'False';
 
 BOOL   : 'bool';
-STRING : 'string'; 
-DATE   : 'date';
+STRING : 'string';
 INT    : 'int';
 
 /*Lexer rules*/
 INTLITERAL     : '-'?[0-9]+;
 
-YEAR  : [0-9]+;
-MONTH : [0-9][0-9];
-DAY   : [0-9][0-9];
-
-ALPHANUMERIC : [a-zA-Z0-9]+;
+ALPHANUMERIC  : [a-zA-Z0-9]+;
 STRINGLITERAL : '"' .*? '"';
 
 /* White Space & Comments */

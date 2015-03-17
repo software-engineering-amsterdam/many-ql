@@ -1,6 +1,7 @@
 package org.fugazi.ql.ast.expression.literal;
 
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 
@@ -24,8 +25,7 @@ public class STRING extends Literal {
         return this.value;
     }
 
-    @Override
-    public Type getReturnedType() {
+    public Type getReturnedType(QLFormDataStorage _formData) {
         return new StringType();
     }
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.Runtime.Validation;
-using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;
+using UvA.SoftCon.Questionnaire.Runtime.Validation.QL;
 
 namespace UvA.SoftCon.Questionnaire.Runtime
 {
@@ -17,9 +18,22 @@ namespace UvA.SoftCon.Questionnaire.Runtime
         {
             if (form == null) { throw new ArgumentNullException("form"); }
 
-            var validator = new QLValidator();
+            var validators = new List<ASTChecker> 
+            {
+                new DuplicateLabelChecker(),
+                new DuplicateQuestionChecker(),
+                new TypeChecker(),
+                new LiteralChecker(),
+            };
 
-            return validator.Validate(form);
+            var report = new ValidationReport();
+
+            foreach (var validator in validators)
+            {
+                validator.Validate(form, report);
+            }
+
+            return report;
         }
 
         public IDictionary<string, Value> Interpretet(QuestionForm form, IDictionary<string, Value> context)

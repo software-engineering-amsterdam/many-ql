@@ -3,7 +3,6 @@ package ql.gui.input;
 import javafx.scene.layout.VBox;
 import ql.gui.ModelVisitor;
 import ql.gui.control.Control;
-import ql.semantics.ValueTable;
 import ql.semantics.values.Value;
 
 /**
@@ -12,14 +11,14 @@ import ql.semantics.values.Value;
 // TODO
 public class DateInput extends RegularInput<String>
 {
-    public DateInput(String id)
+    public DateInput(String id, Control control)
     {
-        this(id, true, false);
+        this(id, control, true, false);
     }
 
-    public DateInput(String id, Boolean visible, Boolean disabled)
+    public DateInput(String id, Control control, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
+        super(id, control, visible, disabled);
     }
 
     @Override
@@ -32,12 +31,6 @@ public class DateInput extends RegularInput<String>
     public Value convertUserInputToValue(String userInput)
     {
         return null;
-    }
-
-    @Override
-    public void attachListener(ValueTable valueTable)
-    {
-
     }
 
     @Override
