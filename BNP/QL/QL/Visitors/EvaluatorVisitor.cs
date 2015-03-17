@@ -62,12 +62,12 @@ namespace QL.Visitors
         public void Visit(ControlUnit node)
         {
             node.Expression.Accept(this);
-
-            if (node.ConditionTrueBlock != null)
+            YesnoWrapper conditionstate= ReferenceLookupTable[node.Expression] as YesnoWrapper;
+            if (node.ConditionTrueBlock != null && conditionstate.Value.HasValue && conditionstate.Value.Value)
             {
                 node.ConditionTrueBlock.Accept(this);
             }
-            if (node.ConditionFalseBlock != null)
+            if (node.ConditionFalseBlock != null && conditionstate.Value.HasValue && !conditionstate.Value.Value)
             {
                 node.ConditionFalseBlock.Accept(this);
             }

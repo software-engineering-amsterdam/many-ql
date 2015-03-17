@@ -161,11 +161,11 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.RunEvaluate());
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");            
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
             Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
-            
+
             nw.Value = 31; // new answer to the question
             Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
 
@@ -174,7 +174,53 @@ namespace Tests.VisitorTests
             Assert.AreEqual(31 * 2 + 123, S1_value.Value);
         }
         [TestMethod]
+        public void Maths()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
+
+                statement S1 (number, (1+(2-(3-(4*Q1))))) ""bla"";
+                
+                }
+            ");
+            Assert.IsTrue(Builder.RunEvaluate());
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
+            Assert.IsNotNull(nw);
+            nw.Value = 42; // answer to the question
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual((1 + (2 - (3 - (4 * 42)))), S1_value.Value);
+            nw.Value = -6; // answer to the question
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
+            S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual((1 + (2 - (3 - (4 * (-6))))), S1_value.Value);
+        }
+        [TestMethod]
         public void EvaluationDivisionByZeroReassignment()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""Give me a number"";
+                statement S1 (number, (123+(123/Q1))) ""you wrote 2"";
+                
+                }
+            ");
+            Assert.IsTrue(Builder.RunEvaluate());
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
+
+            nw.Value = 0; // new answer to the question, division by zero
+            Assert.IsFalse(Builder.RunEvaluate(), "division by zero");
+
+            Assert.IsInstanceOfType(Builder.DataContext.ASTHandlerExceptions[0], typeof(DivisionByZeroError), "incorrect exception");
+            nw.Value = 1; // new answer to the question
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation failed");
+
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
+            Assert.IsNotNull(S1_value);
+            Assert.AreEqual(123 + (123 / 1), S1_value.Value);
+        }
+        public void EvaluationOfUnavailableBlock()
         {
             Initialize(@"form ExampleBlock {
                 question Q1 (number) ""Give me a number"";
@@ -186,17 +232,23 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.RunEvaluate());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
-            
-            nw.Value = 0; // new answer to the question, division by zero
-            Assert.IsFalse(Builder.RunEvaluate(), "division by zero");
-
-            Assert.IsInstanceOfType(Builder.DataContext.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
             nw.Value = 1; // new answer to the question
             Assert.IsTrue(Builder.RunEvaluate(), "reevaluation failed");
 
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");            
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
-            Assert.AreEqual(123+(123/1), S1_value.Value);
+            nw.Value = 0; // new answer to the question, statement should not be evaluated
+            Assert.IsTrue(Builder.RunEvaluate(), "division by zero exception should not be thrown");
+            bool correctException=false;            
+            try
+            {
+                Builder.DataContext.GetWrappedValue("S1");
+            }
+            catch (EvaluationError)
+            {
+                correctException=true;
+            }
+            Assert.IsTrue(correctException, "exception not caught, identifier should be removed");
         }     
         [TestMethod]
         public void EvaluationSelfReference()
@@ -273,7 +325,7 @@ namespace Tests.VisitorTests
             Initialize(@"form ExampleBlock {
                 question Q1 (number) ""blah"";
 
-                if (4!=2){
+                if (4==2){
                    statement S1 (number, Q1) ""bbbb"";
                     }
 	            else {
@@ -282,7 +334,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Builder.RunEvaluate());
+            Assert.IsFalse(Builder.RunEvaluate(),"Undeclared variable should be thrown");
         }
         [TestMethod]
         public void EvaluatorReferenceFromUnavaliableBranch()

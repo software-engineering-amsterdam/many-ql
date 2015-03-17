@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using QL.Exceptions;
+using QL.Exceptions.Errors;
 using QL.Model;
 using QL.Model.Terminals;
 using QL.Visitors;
@@ -73,10 +74,16 @@ namespace QL
             //convenience method for getting the Terminal wrapper based on Identifier node. 
             if (!Evaluated)
             {
-                throw new Exception("Expressions not evaluated");
+                throw new Exception("AST not evaluated");
             }
-
-            return ReferenceLookupTable[IdentifierTable[i]];
+            if (IdentifierTable.ContainsKey(i) && ReferenceLookupTable.ContainsKey(IdentifierTable[i]))
+            { 
+                return ReferenceLookupTable[IdentifierTable[i]];
+            }
+            else
+            {
+                throw new EvaluationError("unintialized variable");
+            }
         }
 
     }

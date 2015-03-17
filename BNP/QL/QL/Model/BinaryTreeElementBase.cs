@@ -12,10 +12,6 @@ namespace QL.Model
         public ElementBase Left{get;set;}
         public ElementBase Right;
         protected BinaryTreeElementBase() { }
-        public void HandleChildren(ElementBase left, ElementBase right)
-        {
-            Left = left;
-            Right = right;
-        }
+       
     }
 }

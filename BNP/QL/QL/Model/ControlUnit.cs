@@ -17,14 +17,13 @@ namespace QL.Model
         {
         }
 
-        public void HandleChildren(Expression e, Block trueBlock)
+        public ControlUnit(Expression e, Block trueBlock)
         {
             Expression = e;
             ConditionTrueBlock = trueBlock;
         }
-        public void HandleChildren(Expression e, Block trueBlock, Block falseBlock)
+        public ControlUnit(Expression e, Block trueBlock, Block falseBlock):this(e,trueBlock)
         {
-            HandleChildren(e, trueBlock);
             ConditionFalseBlock = falseBlock;
         }
 
