@@ -10,47 +10,48 @@ import java.awt.event.ItemListener;
 
 public class CheckBox implements IWidget {
 
-    private JCheckBox component;
+    private JCheckBox checkBox;
 
     public CheckBox(String _label) {
-        component = new JCheckBox(_label);
+        this.checkBox = new JCheckBox(_label);
+        this.checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
     }
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.component);
+        _canvas.addWidget(this.checkBox);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.component);
+        _canvas.removeWidget(this.checkBox);
     }
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
 
-        component.addItemListener(
-            new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    _listener.stateChanged();
+        checkBox.addItemListener(
+                new ItemListener() {
+                    public void itemStateChanged(ItemEvent e) {
+                        _listener.stateChanged();
+                    }
                 }
-            }
         );
     }
 
     @Override
     public BoolValue getWidgetValue() {
-        return new BoolValue(this.component.isSelected());
+        return new BoolValue(this.checkBox.isSelected());
     }
 
     @Override
     public void setWidgetValue(ExpressionValue _value) {
         BoolValue value = (BoolValue) _value;
-        this.component.setSelected(value.getValue());
+        this.checkBox.setSelected(value.getValue());
     }
     
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.component.setEnabled(false);
+        this.checkBox.setEnabled(false);
     }
 }
