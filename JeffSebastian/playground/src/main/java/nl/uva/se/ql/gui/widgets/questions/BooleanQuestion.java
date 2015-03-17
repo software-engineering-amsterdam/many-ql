@@ -1,38 +1,41 @@
 package nl.uva.se.ql.gui.widgets.questions;
 
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.evaluation.value.BooleanValue;
+import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.validators.BooleanValidator;
-import javafx.scene.control.CheckBox;
+import nl.uva.se.ql.gui.validators.Validator;
 
-public class BooleanQuestion extends CheckBox implements BaseQuestion<Boolean>{
-
-	private final Question question;
-	private final BooleanValidator validator;
-	private final Listener<Boolean> listener;	
-
-	public BooleanQuestion(Question question) {
-		super();
-		this.question = question;
-		this.validator = new BooleanValidator();
-		this.listener = new Listener<Boolean>();		
-		this.selectedProperty().addListener(listener.addListener(this, validator));
-	}
-
-	public Question getQuestion() {
-		return this.question;
-	}
-
-	public BooleanValidator getValidator() {
-		return this.validator;
-	}
+public class BooleanQuestion extends BaseQuestion<Boolean>{
 	
-	public void reset() {
-		this.setSelected(false);		
+	private CheckBox checkBox = new CheckBox();
+	
+	public BooleanQuestion(Question question, IMediator mediator) {
+		super(question, mediator);
+		Listener<Boolean> listener = new Listener<Boolean>(getMediator());
+		checkBox.selectedProperty().addListener(listener.addListener(this, getValidator()));		
+	}	
+
+	@Override
+	public Validator<Boolean> initValidator() {
+		return new BooleanValidator();
 	}
 
 	@Override
 	public Boolean undoChange(Boolean newValue, Boolean oldValue) {
-		return newValue;		
+		return newValue;
 	}
+
+	@Override
+	public BooleanValue getValue() {
+		return new BooleanValue(checkBox.selectedProperty().getValue());
+	}
+
+	@Override
+	public Node getWidget() {
+		return this.checkBox;
+	}	
 }

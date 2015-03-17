@@ -1,14 +1,10 @@
 package com.klq.typechecker;
 
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.Type;
-import com.klq.typechecker.error.AError;
-import com.klq.typechecker.error.NotUniqueID;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

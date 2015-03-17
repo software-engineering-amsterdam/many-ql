@@ -1,8 +1,7 @@
-package com.klq.ast.impl.expr.literal;
+package com.klq.ast.impl.expr;
 
 import com.klq.ast.impl.Location;
 import com.klq.ast.IExpressionVisitor;
-import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.Value;
 
 import java.util.Map;
@@ -33,14 +32,14 @@ public class IdentifierNode extends AExpression {
 
     @Override
     public Value evaluate(Map<IdentifierNode, Value> variables) {
-        return variables.get(this.identifier);
+        return variables.get(this);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof IdentifierNode){
             String objId = ((IdentifierNode)obj).identifier;
-            this.identifier.equals(objId);
+            return this.identifier.equals(objId);
         }
         return false;
     }
