@@ -142,7 +142,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     public void caseAIdentExp(AIdentExp node) {
         String variableName = node.getIdent().getText();
         if (!staticFields.containsField(variableName)) {
-            typeCheckResults.addError("Undefined reference.");
+            typeCheckResults.addUndefinedReferenceError(variableName);
         }
         pushIdentifierType(variableName);
     }

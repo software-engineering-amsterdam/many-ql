@@ -16,6 +16,10 @@ public class TypeCheckResults {
         addError("Type is not of type: " + typeDescriptor + ".");
     }
 
+    public void addUndefinedReferenceError(String undefinedReference) {
+        addError("Undefined reference: " + undefinedReference);
+    }
+
     private void addWarning(final String s) {
         this.warnings.add(s);
     }
