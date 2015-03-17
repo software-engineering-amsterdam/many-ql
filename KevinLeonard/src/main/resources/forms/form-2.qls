@@ -41,23 +41,23 @@ style PartyForm {
 
         // Number Questions
         section "Number Questions" {
-        
+
             section "Number Questions" {
-                comesToParty spinbox(min, max) {
+                comesToParty spinbox {
                     width: 400
                     font: "Arial"
                     fontSize: 14
                     color: #999999
                 }
             }
-            
-            comesToParty slider(min, max) {
+
+            comesToParty slider {
                 width: 400
                 font: "Arial"
                 fontSize: 14
                 color: #999999
             }
-            
+
             comesToParty text {
                 width: 400
                 font: "Arial"
@@ -66,7 +66,7 @@ style PartyForm {
             }
         }
     }
-    
+
     page page2 {
         // String Questions
         section "String Questions" {
@@ -76,7 +76,7 @@ style PartyForm {
                 fontSize: 14
                 color: #999999
             }
-            
+
             /*
             comesToParty textBlock {
                 width: 400
@@ -87,7 +87,7 @@ style PartyForm {
             */
         }
     }
-    
+
     page page3 {
         // Boolean Questions
         section "Boolean Questions" {
@@ -106,5 +106,5 @@ style PartyForm {
             }
         }
     }
-    
+
 }
