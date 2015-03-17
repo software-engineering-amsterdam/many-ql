@@ -21,14 +21,14 @@ import java.util.*;
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Store implements IKLQItem {
+public class Controller implements IKLQItem {
     private final List<String> order;
     private final Map<String, ARenderedQuestion> questionStore;
     private final Map<String, Value> variables;
 
     private final DoubleProperty progressProperty;
 
-    public Store() {
+    public Controller() {
         order = new ArrayList<>();
         questionStore = new HashMap<>();
         variables = new HashMap<>();

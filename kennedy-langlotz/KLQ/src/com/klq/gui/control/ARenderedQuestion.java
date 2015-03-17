@@ -7,7 +7,7 @@ import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
 import com.klq.gui.IKLQItem;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import com.sun.istack.internal.NotNull;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -34,7 +34,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
     protected final Font DEFAULT_FONT = new Font("Arial", 12);
     private final double EFFECT_DURATION = 500;
 
-    protected final Store store;
+    protected final Controller controller;
     private final QuestionNode question;
     private final List<AExpression> dependencies;
 
@@ -44,8 +44,8 @@ public abstract class ARenderedQuestion implements IKLQItem {
     private final Label label;
     protected final Region renderedComponent;
 
-    protected ARenderedQuestion(QuestionNode question, List<AExpression> dependencies, Store store){
-        this.store = store;
+    protected ARenderedQuestion(QuestionNode question, List<AExpression> dependencies, Controller controller){
+        this.controller = controller;
         this.question = question;
         this.dependencies = dependencies;
         visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
@@ -96,10 +96,10 @@ public abstract class ARenderedQuestion implements IKLQItem {
 
     protected void questionAnswered(@NotNull String result) {
         if (result.trim().isEmpty()){
-            store.updateAnswer(question.getID(), new UndefinedValue());
+            controller.updateAnswer(question.getID(), new UndefinedValue());
         } else if (isValidInput(result)) {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-            store.updateAnswer(question.getID(), expr);
+            controller.updateAnswer(question.getID(), expr);
         }
     }
 

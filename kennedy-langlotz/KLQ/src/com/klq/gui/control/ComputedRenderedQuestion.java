@@ -1,10 +1,8 @@
 package com.klq.gui.control;
 
-import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.stmt.ComputedQuestionNode;
-import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
@@ -17,8 +15,8 @@ public class ComputedRenderedQuestion extends ARenderedQuestion {
     private final AExpression computedExpression;
     private TextField inputField;
 
-    public ComputedRenderedQuestion(ComputedQuestionNode question, List<AExpression> dependencies, Store store) {
-        super(question, dependencies, store);
+    public ComputedRenderedQuestion(ComputedQuestionNode question, List<AExpression> dependencies, Controller controller) {
+        super(question, dependencies, controller);
         this.computedExpression = question.getComputedAnswer();
     }
 

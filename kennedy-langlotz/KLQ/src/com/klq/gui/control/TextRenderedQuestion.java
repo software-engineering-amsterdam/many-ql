@@ -3,7 +3,7 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class TextRenderedQuestion extends ARenderedQuestion {
 
-    public TextRenderedQuestion(QuestionNode question, List<AExpression> dependencies, Store store) {
-        super(question, dependencies, store);
+    public TextRenderedQuestion(QuestionNode question, List<AExpression> dependencies, Controller controller) {
+        super(question, dependencies, controller);
     }
 
     @Override
