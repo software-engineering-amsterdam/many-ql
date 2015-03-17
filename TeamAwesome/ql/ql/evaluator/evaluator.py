@@ -120,22 +120,26 @@ class ExpressionVisitor(ASTExpressionVisitor):
         return binaryExpression
 
     def visitBoolean(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitInteger(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitString(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitMoney(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitIdentifier(self, node):
-        identifier = EvalIdentifier(node.value, self._evaluator)
-        self._expressionStack.append(identifier)
-        return identifier
+        expression = AtomicExpression(EvalIdentifier(node.value.value, self._evaluator))
+        self._expressionStack.append(expression)
+        return expression
