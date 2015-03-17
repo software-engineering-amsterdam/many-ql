@@ -49,24 +49,24 @@ public class EvaluatorTest {
 	@Test
 	public void testAddValue() {
 		int expected = evaluator.countValues() + 1;
-		evaluator.addValue(id.toString(), new IntValue(99));
+		evaluator.addValue(id, new IntValue(99));
 		int actual = evaluator.countValues();
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testContains() {
-		evaluator.addValue(id.toString(), new IntValue(99));
+		evaluator.addValue(id, new IntValue(99));
 		boolean expected = true;
-		boolean actual = evaluator.contains(id.toString());
+		boolean actual = evaluator.contains(id);
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testGetValue() {
 		IntValue expected = new IntValue(99);
-		evaluator.addValue(id.toString(), new IntValue(99));
-		IntValue actual = (IntValue) evaluator.getValue(id.toString());
+		evaluator.addValue(id, new IntValue(99));
+		IntValue actual = (IntValue) evaluator.getValue(id);
 		Assert.assertEquals(expected, actual);
 	}
 

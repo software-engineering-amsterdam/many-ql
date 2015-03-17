@@ -3,7 +3,7 @@ package com.klq.gui;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.value.IdentifierValue;
 import com.klq.ast.impl.stmt.*;
 import com.klq.controller.Store;
 import com.klq.gui.control.*;
@@ -62,27 +62,20 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(QuestionNode node) {
-        String id = node.getID();
         Type type = node.getType();
-        String text = new String(node.getText());
-
         if (type == Type.BOOLEAN){
-            return new BooleanRenderedQuestion(id, type, text, new ArrayList<>(), store);
+            return new BooleanRenderedQuestion(node, new ArrayList<>(), store);
         } else if (type == Type.DATE){
-            return new DateRenderedQuestion(id, type, text, new ArrayList<>(), store);
+            return new DateRenderedQuestion(node, new ArrayList<>(), store);
         } else if (type == Type.STRING || type == Type.NUMERAL) {
-            return new TextRenderedQuestion(id, type, text, new ArrayList<>(), store);
+            return new TextRenderedQuestion(node, new ArrayList<>(), store);
         }
         throw new IllegalArgumentException("Unknown type.");
     }
 
     @Override
     public IKLQItem visit(ComputedQuestionNode node) {
-        IdentifierValue id = new IdentifierValue(node.getID());
-        Type type = node.getType();
-        String text = new String(node.getText());
-
-        return new ComputedRenderedQuestion(id.toString(), type, text, new ArrayList<>(), node.getComputedAnswer(), store);
+        return new ComputedRenderedQuestion(node, new ArrayList<>(), store);
     }
 
     /*

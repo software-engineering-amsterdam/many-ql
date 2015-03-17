@@ -1,6 +1,7 @@
 package org.uva.qls.ast.builder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.uva.qls.antlr.QLSBaseVisitor;
@@ -113,7 +114,7 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 	public Node visitSpinbox(SpinboxContext ctx) {
 		System.out.println("Visiting Spinbox Style");
 		CodePosition pos = CodePosition.getCodePosition(ctx);
-		ArrayList<IntLiteral> intLiteralList = new ArrayList<IntLiteral>();
+		List<IntLiteral> intLiteralList = new ArrayList<IntLiteral>();
 		for (TerminalNode node : ctx.IntegerLiteral()) {
 			int value = Integer.parseInt(node.getText());
 			IntLiteral intLiteral = new IntLiteral(value, pos);
@@ -162,11 +163,11 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 		CodePosition pos = CodePosition.getCodePosition(ctx);
 		StrLiteral sectionTitle = new StrLiteral(name, pos);
 
-		ArrayList<Style> styleList = new ArrayList<Style>();
+		List<Style> styleList = new ArrayList<Style>();
 		for (StyleContext styleCtx : ctx.style()) {
 			styleList.add((Style) styleCtx.accept(this));
 		}
-		ArrayList<Question> questionList = new ArrayList<Question>();
+		List<Question> questionList = new ArrayList<Question>();
 		for (QuestionContext quetionCtx : ctx.question()) {
 			questionList.add((Question) quetionCtx.accept(this));
 		}
@@ -180,11 +181,11 @@ public class QLSImplVisitor extends QLSBaseVisitor<Node> {
 		StrValue name = new StrValue(ctx.Identifier().getText());
 		CodePosition pos = CodePosition.getCodePosition(ctx);
 		IdentifierLiteral identifier = new IdentifierLiteral(name, pos);
-		ArrayList<Style> styleList = new ArrayList<Style>();
+		List<Style> styleList = new ArrayList<Style>();
 		for (StyleContext styleCtx : ctx.style()) {
 			styleList.add((Style) styleCtx.accept(this));
 		}
-		ArrayList<Section> sectionList = new ArrayList<Section>();
+		List<Section> sectionList = new ArrayList<Section>();
 		for (SectionContext sectionCtx : ctx.section()) {
 			sectionList.add((Section) sectionCtx.accept(this));
 		}

@@ -11,14 +11,14 @@ import org.uva.qls.visitor.StyleVisitor;
 
 public class SpinboxModel extends WidgetType {
 
-	private final ArrayList<IntLiteral> values;
+	private final List<IntLiteral> values;
 
-	public SpinboxModel(ArrayList<IntLiteral> values, CodePosition position) {
+	public SpinboxModel(List<IntLiteral> values, CodePosition position) {
 		super(position);
 		this.values = values;
 	}
 
-	public ArrayList<IntLiteral> getValues() {
+	public List<IntLiteral> getValues() {
 		return values;
 	}
 
@@ -38,8 +38,8 @@ public class SpinboxModel extends WidgetType {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<IntLiteral> isValid() {
-		ArrayList<IntLiteral> duplicatedValues = new ArrayList<IntLiteral>();
+	public List<IntLiteral> isValid() {
+		List<IntLiteral> duplicatedValues = new ArrayList<IntLiteral>();
 		List<IntLiteral> newList = new ArrayList<IntLiteral>(new HashSet<IntLiteral>(values));
 
 		for (IntLiteral intLiteral : duplicatedValues) {

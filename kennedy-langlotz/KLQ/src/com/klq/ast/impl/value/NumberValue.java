@@ -1,4 +1,4 @@
-package com.klq.ast.impl.expr.value;
+package com.klq.ast.impl.value;
 
 import java.math.BigDecimal;
 

@@ -30,23 +30,23 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Evaluator implements ExpressionVisitor<Value> {
 
-	private final Map<String, Value> values;
+	private final Map<Identifier, Value> values;
 
 	public Evaluator() {
-		values = new HashMap<String, Value>();
+		values = new HashMap<Identifier, Value>();
 	}
 
-	public void addValue(String name, Value value) {
-		values.put(name, value);
+	public void addValue(Identifier id, Value value) {
+		values.put(id, value);
 	}
 
-	public boolean contains(String name) {
-		return values.containsKey(name);
+	public boolean contains(Identifier id) {
+		return values.containsKey(id);
 	}
 	
-	public Value getValue(String name) {
-		if (contains(name)) {
-			return values.get(name);
+	public Value getValue(Identifier id) {
+		if (contains(id)) {
+			return values.get(id);
 		} else {
 			return new UndefinedValue();
 		}
@@ -56,7 +56,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 		return values.size();
 	}
 	
-	public Map<String, Value> getMap() {
+	public Map<Identifier, Value> getMap() {
 		return values;
 	}
 

@@ -1,6 +1,6 @@
 package org.uva.qls.typechecker;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.uva.qls.ast.literal.BoolLiteral;
 import org.uva.qls.ast.literal.ColorLiteral;
@@ -95,7 +95,7 @@ public class TypeChecker implements LiteralVisitor<Boolean>, StyleVisitor<Boolea
 
 	@Override
 	public Boolean visit(SpinboxModel spinboxModel) {
-		ArrayList<IntLiteral> duplicatedValues = spinboxModel.isValid();
+		List<IntLiteral> duplicatedValues = spinboxModel.isValid();
 		if (duplicatedValues.isEmpty()) {
 			return true;
 		}
