@@ -1,5 +1,6 @@
 package test.klq.ast;
 
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
@@ -28,8 +29,8 @@ public class AST2LogicTest {
 
     @Test
     public void testBasicQuestion() throws Exception {
-        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question"));
-        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is a test question with a numeral answer"));
+        ast.getChildren().add(new QuestionNode(new IdentifierNode("question1"), "string", "This is a test question"));
+        ast.getChildren().add(new QuestionNode(new IdentifierNode("question2"), "numeral", "This is a test question with a numeral answer"));
 
         fillStore();
 

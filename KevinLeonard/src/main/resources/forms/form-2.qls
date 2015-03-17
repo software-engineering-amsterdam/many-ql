@@ -43,7 +43,7 @@ style PartyForm {
         section "Number Questions" {
 
             section "Number Questions" {
-                comesToParty spinbox {
+                comesToParty checkbox {
                     width: 400
                     font: "Arial"
                     fontSize: 14
@@ -51,14 +51,14 @@ style PartyForm {
                 }
             }
 
-            comesToParty slider {
+            comesToParty checkbox {
                 width: 400
                 font: "Arial"
                 fontSize: 14
                 color: #999999
             }
 
-            comesToParty text {
+            comesToParty checkbox {
                 width: 400
                 font: "Arial"
                 fontSize: 14
@@ -70,7 +70,7 @@ style PartyForm {
     page page2 {
         // String Questions
         section "String Questions" {
-            comesToParty text {
+            comesToParty checkbox {
                 width: 400
                 font: "Arial"
                 fontSize: 14

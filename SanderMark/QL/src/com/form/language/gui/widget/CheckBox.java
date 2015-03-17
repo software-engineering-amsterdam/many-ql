@@ -21,7 +21,6 @@ public class CheckBox extends Widget {
 		this.checkbox.addItemListener((ItemListener) checkboxListener);
 	}
 	
-	// TODO: quick fix can be done better
 	public JCheckBox getCheckBox()
 	{
 		return this.checkbox;
@@ -29,7 +28,7 @@ public class CheckBox extends Widget {
 
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
-			setContextBoolean(new BoolValue(CheckBox.this.checkbox.isSelected()));
+			setContextValue(new BoolValue(CheckBox.this.checkbox.isSelected()));
 			checkDependencyVisibility();
 		}
 	}

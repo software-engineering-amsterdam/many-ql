@@ -21,7 +21,7 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
-    private JPanel component;
+    private JPanel panel;
     private JTextField input;
     private JLabel componentLabel;
 
@@ -30,29 +30,27 @@ public class QLSTextBox extends AbstractQLSWidget {
     }
 
     public QLSTextBox(String _label) {
-        this.label = _label;
 
-        this.component = new JPanel();
+        this.panel = new JPanel();
         this.input = new JTextField();
         this.componentLabel = new JLabel(_label);
-        this.component.add(input);
-        this.component.add(componentLabel);
+        this.panel.add(componentLabel);
+        this.panel.add(input);
 
         this.type = new TextBoxType();
     }
 
     @Override
     public void setLabel(String _label) {
-        this.label = _label;
-        this.componentLabel.setText(label);
+        this.componentLabel.setText(_label);
     }
 
     @Override
     public void applyStyle(Style _style) {
-        this.style = _style;
+        Style style = _style;
 
         // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
+        style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
         this.input.setColumns(this.getDefaultWidth().getValue());
@@ -60,12 +58,12 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.component);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.component);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
@@ -76,12 +74,8 @@ public class QLSTextBox extends AbstractQLSWidget {
                     public void insertUpdate(DocumentEvent e) {
                         _listener.stateChanged();
                     }
-
-                    public void removeUpdate(DocumentEvent e) {
-                    }
-
-                    public void changedUpdate(DocumentEvent e) {
-                    }
+                    public void removeUpdate(DocumentEvent e) {}
+                    public void changedUpdate(DocumentEvent e) {}
                 }
         );
     }

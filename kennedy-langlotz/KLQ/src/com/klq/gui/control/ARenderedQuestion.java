@@ -3,6 +3,7 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
@@ -107,7 +108,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
         return container;
     }
 
-    public String getID() {
+    public IdentifierNode getID() {
         return question.getID();
     }
 
@@ -143,7 +144,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
         this.dependencies.add(dependency);
     }
 
-    public boolean dependenciesResolved(Map<String, Value> variables) {
+    public boolean dependenciesResolved(Map<IdentifierNode, Value> variables) {
         for (AExpression dependency : dependencies){
             Value eval = dependency.evaluate(variables);
             if (eval.isUndefined()){

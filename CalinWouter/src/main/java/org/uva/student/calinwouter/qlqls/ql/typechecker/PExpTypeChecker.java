@@ -11,6 +11,11 @@ import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 
 import java.util.Stack;
 
+/**
+ * This type checker works by pushing elements on the stack, and assessing the type of the value that is popped
+ * from the stack. When the type popped from the stack is not the same as (one of) the allowed types, the typechecker
+ * will add an error to the list of type check results.
+ */
 public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     private final StaticFields staticFields;
     private final Stack<TypeDescriptor> typeDescriptors;
@@ -137,7 +142,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     public void caseAIdentExp(AIdentExp node) {
         String variableName = node.getIdent().getText();
         if (!staticFields.containsField(variableName)) {
-            typeCheckResults.addError("Undefined reference.");
+            typeCheckResults.addUndefinedReferenceError(variableName);
         }
         pushIdentifierType(variableName);
     }
@@ -150,22 +155,20 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         typeDescriptors.push(typeDescriptor);
     }
 
-    private void addError(String error) {
-        typeCheckResults.addError(error);
+    private void checkPopGeneratesNoTypeError(TypeDescriptor typeDescriptor) {
+        if (!popType().equals(typeDescriptor)) {
+            typeCheckResults.addErrorTypeIsNotOfType(typeDescriptor);
+        }
     }
 
     private void popBoolean() {
-        if (!popType().equals(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR)) {
-            addError("Type is not of type " + BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR + ".");
-        }
+        checkPopGeneratesNoTypeError(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR);
     }
     
     private void popInteger() {
-        if (!popType().equals(IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR)) {
-            addError("Type is not of type " + IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR + ".");
-        }
+        checkPopGeneratesNoTypeError(IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
     }
-    
+
     private void pushInteger() {
         pushType(IntegerValue.INTEGER_VALUE_TYPE_DESCRIPTOR);
     }
@@ -178,12 +181,20 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         pushType(StringValue.STRING_VALUE_TYPE_DESCRIPTOR);
     }
 
-    private void pushIdentifierType(String ident) {
-        final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(ident);
-        if (typeDescriptor == null) {
-            addError(ident + " is not declared.");
+    private boolean isDeclared(String identifier) {
+        return getTypeOfField(identifier) != null;
+    }
+
+    private TypeDescriptor getTypeOfField(String identifier) {
+        return staticFields.getTypeOfField(identifier);
+    }
+
+    private void pushIdentifierType(String identifier) {
+        if (!isDeclared(identifier)) {
+            typeCheckResults.addNotDeclaredError(identifier);
         }
-        pushType(typeDescriptor);
+        final TypeDescriptor fieldType = getTypeOfField(identifier);
+        pushType(fieldType);
     }
 
     public PExpTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
@@ -195,7 +206,7 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     public void checkLastEntryIsOfType(final TypeDescriptor typeDescriptor) {
         assert(typeDescriptors.size() == 1);
         if (!popType().equals(typeDescriptor)) {
-            addError("Type is not of type " + typeDescriptor + ".");
+            typeCheckResults.addErrorTypeIsNotOfType(typeDescriptor);
         }
     }
 }

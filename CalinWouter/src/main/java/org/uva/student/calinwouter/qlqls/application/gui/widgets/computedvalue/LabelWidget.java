@@ -1,8 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +15,15 @@ public class LabelWidget implements IWidget {
     private JLabel valueLabel;
 
 
-    public LabelWidget(final String questionIdentifier , final VariableTableWrapper variableTableWrapper) {
+    public LabelWidget(final String questionIdentifier , final StateWrapper stateWrapper) {
         valueLabel = new JLabel();
 
-        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        stateWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                if(variableTableWrapper.getVariableTable().isSet(questionIdentifier)) {
-                    valueLabel.setText(variableTableWrapper.getVariableTable().getVariable(questionIdentifier).getValue().toString());
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                if(variableTable.isSet(questionIdentifier)) {
+                    valueLabel.setText(variableTable.getVariable(questionIdentifier).toString());
                 }else
                     valueLabel.setText("-");
                 valueLabel.revalidate();

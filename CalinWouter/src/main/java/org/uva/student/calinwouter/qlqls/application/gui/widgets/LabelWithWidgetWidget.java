@@ -1,8 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
-import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
@@ -10,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Name may be confusing. This widget is basically a (Label + Widget) Widget.
+ * This widget is basically a (Label + Widget) Widget.
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
@@ -26,10 +24,11 @@ public class LabelWithWidgetWidget implements IWidget {
         widget.resetValue();
     }
 
-    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final VariableTableWrapper variableTableWrapper) {
+    public LabelWithWidgetWidget(final String label, final String identifier, StylingSettings stylingSettings, final IWidget widget, final StateWrapper stateWrapper) {
         this.widget = widget;
         final Label fieldLabel = new Label(label);
         labelWithWidgetWidget = new JPanel();
+        labelWithWidgetWidget.setAlignmentX(Component.LEFT_ALIGNMENT);
         labelWithWidgetWidget.add(fieldLabel);
         labelWithWidgetWidget.add(widget.getWidgetComponent());
 
@@ -41,19 +40,16 @@ public class LabelWithWidgetWidget implements IWidget {
             widget.getWidgetComponent().setSize(stylingSettings.getWidth(), widget.getWidgetComponent().getSize().height);
         }
 
-        if(variableTableWrapper.getVariableTable().isSet(identifier)) {
+        if(stateWrapper.getVariableTable().isSet(identifier))
             labelWithWidgetWidget.setVisible(true);
-        }
-        else {
+        else
             labelWithWidgetWidget.setVisible(false);
-        }
 
-        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        stateWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                if(variableTableWrapper.getVariableTable().isSet(identifier)) {
+                if(stateWrapper.getVariableTable().isSet(identifier))
                     labelWithWidgetWidget.setVisible(true);
-                }
                 else {
                     labelWithWidgetWidget.setVisible(false);
                     LabelWithWidgetWidget.this.resetValue();
