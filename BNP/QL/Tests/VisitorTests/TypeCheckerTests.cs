@@ -117,15 +117,15 @@ namespace Tests.VisitorTests
                 }
             ");
             Builder.runTypeCheck();
-            int c= Builder.TypeReference.Count;
+            int c = Builder.dataContext.TypeReference.Count;
 
             for (int i = 0; i < 1000; i++)
             {
                 Builder.runTypeCheck();
             }
-            
 
-            Assert.AreEqual(c, Builder.TypeReference.Count);
+
+            Assert.AreEqual(c, Builder.dataContext.TypeReference.Count);
 
         }
 

@@ -31,7 +31,7 @@ namespace QL
         protected IList<IExecutable> _renderers;
         protected IList<IExecutable> _exporters;
         IList<IList<IExecutable>> _handlerContainer;
-        protected DataContext _dataContext;
+        public DataContext dataContext;//needs to be public because of tests
 
         public IList<Exception> Errors { get; private set; }
 
@@ -102,7 +102,7 @@ namespace QL
                 {
                     try
                     {
-                        successfulExecution = handler.execute(_dataContext);
+                        successfulExecution = handler.execute(dataContext);
                     }
                     catch (Exception e)
                     {
@@ -116,7 +116,7 @@ namespace QL
                     }
                 }
             }
-            Errors.Union(_dataContext.ASTHandlerExceptions);
+            Errors.Union(dataContext.ASTHandlerExceptions);
             return successfulExecution;
         }
         bool runOneLevel(IList<IExecutable> thisLevelHandlers)
@@ -127,7 +127,7 @@ namespace QL
             {
                 try
                 {
-                    successfulExecution = handler.execute(_dataContext);
+                    successfulExecution = handler.execute(dataContext);
                 }
                 catch (Exception e)
                 {
@@ -187,13 +187,13 @@ namespace QL
         
         public void SetInput(string input)
         {
-            _dataContext.Input = input;
+            dataContext.Input = input;
             
         }
 
         public void SetInput(Stream input)
         {
-            _dataContext.InputStream = input;
+            dataContext.InputStream = input;
             
         }
     }
