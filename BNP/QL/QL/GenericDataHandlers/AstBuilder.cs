@@ -26,8 +26,7 @@ namespace QL.GenericDataHandlers
 
             // commence parsing the input as a formBlock since it's supposed to be the entry point of the input file
             parser.formBlock();
-            context.RootNode = listener.GetAstRootNode();
-
+            context.RootNode = listener.GetAstRootNode();            
             return !context.ASTHandlerExceptions.Any();
 
         }

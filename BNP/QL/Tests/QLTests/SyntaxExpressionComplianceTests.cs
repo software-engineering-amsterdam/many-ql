@@ -134,8 +134,8 @@ namespace Tests.QLTests
             ";
             QLBuilder Handler = new QLBuilder(input);
 
-            Handler.BuildAST();
-            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
+                       
+            Assert.AreEqual(true, Handler.runInit());
 
 
 

@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
-    <Compile Include="Visitors\IExecutable.cs" />
+    <Compile Include="GenericDataHandlers\AstBuilder.cs" />
+    <Compile Include="GenericDataHandlers\Initializer.cs" />
+    <Compile Include="GenericDataHandlers\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />
@@ -57,6 +59,8 @@
     <Compile Include="Exceptions\QLException.cs" />
     <Compile Include="Exceptions\Warnings\QLWarning.cs" />
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
+    <Compile Include="GenericDataHandlers\Evaluator.cs" />
+    <Compile Include="GenericDataHandlers\TypeChecker.cs" />
     <Compile Include="Visitors\EvaluationWrappers\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="Visitors\EvaluatorVisitor.cs" />
     <Compile Include="Visitors\EvaluationWrappers\ITerminalWrapper.cs" />
@@ -79,7 +83,7 @@
     <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
-    <Compile Include="AstHandler.cs" />
+    <Compile Include="QLBuilder.cs" />
     <Compile Include="Model\BinaryTreeElementBase.cs" />
     <Compile Include="Model\ElementBase.cs" />
     <Compile Include="Model\Block.cs" />

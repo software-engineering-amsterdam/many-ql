@@ -12,7 +12,7 @@ namespace QL.GenericDataHandlers
     class Evaluator :IExecutable
     {
 
-        bool execute(DataContext context)
+        public bool execute(DataContext context)
         {
 
             if (!context.TypeChecked)

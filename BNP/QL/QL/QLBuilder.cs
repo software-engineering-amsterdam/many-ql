@@ -23,7 +23,7 @@ namespace QL
     ///  made by evaluator, type checker ...
     ///  Is this good, bad? 
     /// </summary>
-    public sealed class QLBuilder
+    public class QLBuilder
     {
         protected IList<IExecutable> _initializers;
         protected IList<IExecutable> _astBuilders;
@@ -34,7 +34,7 @@ namespace QL
         IList<IList<IExecutable>> _handlerContainer;
         protected DataContext _dataContext;
 
-        IList<Exception> Errors { public get; private set; }
+        public IList<Exception> Errors { get; private set; }
 
 
         public QLBuilder()
@@ -53,6 +53,18 @@ namespace QL
         _handlerContainer.Add(_evaluators);
         _handlerContainer.Add(_renderers);
         _handlerContainer.Add(_exporters);
+
+        Errors = new List<Exception>();
+
+        }
+
+        public QLBuilder(string input):this()
+        {
+            SetInput(input);
+        }
+        public QLBuilder(Stream input): this()
+        {
+            SetInput(input);
         }
         public void registerInitializer(IExecutable handler)
         {
@@ -83,6 +95,7 @@ namespace QL
 
         public bool run()
         {
+            Errors.Clear();
             bool successfulExecution=false;
             foreach (IList<IExecutable> thisLevelHandlers in _handlerContainer)
             {
@@ -104,27 +117,66 @@ namespace QL
                     }
                 }
             }
+            Errors.Union(_dataContext.ASTHandlerExceptions);
             return successfulExecution;
         }
-
-
-       
-        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        bool runOneLevel(IList<IExecutable> thisLevelHandlers)
         {
-            //convenience method for getting the Terminal wrapper based on identifier name. 
-            return GetWrappedValue(new Identifier(IdentifierName));
-        }
-        public ITerminalWrapper GetWrappedValue(Identifier i)
-        {
-            //convenience method for getting the Terminal wrapper based on Identifier node. 
-            if (!_evaluated)
+            bool successfulExecution = false;
+
+            foreach (IExecutable handler in thisLevelHandlers)
             {
-                throw new Exception("Expressions not evaluated");
-            }
+                try
+                {
+                    successfulExecution = handler.execute(_dataContext);
+                }
+                catch (Exception e)
+                {
+                    Errors.Add(e);
+                    successfulExecution = false;
 
-            return ReferenceLookupTable[IdentifierTable[i]];
+                }
+                if (!successfulExecution)
+                {
+                    return successfulExecution;
+                }
+            }
+            return true;
+        }
+        public bool runInit()
+        {
+            return runOneLevel(_initializers);
+
+        }
+        public bool runAstBuild()
+        {
+            return runOneLevel(_astBuilders);
+
+        }
+        public bool runTypeCheck()
+        {
+            return runOneLevel(_typeCheckers);
+
+        }
+        public bool runEvaluate()
+        {
+            return runOneLevel(_evaluators);
+
+        }
+        public bool runRender()
+        {
+            return runOneLevel(_renderers);
+
+        }
+        public bool runExport()
+        {
+            return runOneLevel(_exporters);
+
         }
 
+        
+
+        
         public void SetInput(string input)
         {
             _dataContext.Input = input;

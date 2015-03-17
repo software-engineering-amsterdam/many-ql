@@ -74,7 +74,7 @@ namespace QL.Grammars
                     //this is the last one
                     _astRootNode = (Form)newChild;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // todo add ex to list of errors as fatal error
                     _astRootNode = null;

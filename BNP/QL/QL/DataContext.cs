@@ -80,5 +80,21 @@ namespace QL
             InputStream = input;
             InputSet=true;
         }
+        public ITerminalWrapper GetWrappedValue(string IdentifierName)
+        {
+            //convenience method for getting the Terminal wrapper based on identifier name. 
+            return GetWrappedValue(new Identifier(IdentifierName));
+        }
+        public ITerminalWrapper GetWrappedValue(Identifier i)
+        {
+            //convenience method for getting the Terminal wrapper based on Identifier node. 
+            if (!Evaluated)
+            {
+                throw new Exception("Expressions not evaluated");
+            }
+
+            return ReferenceLookupTable[IdentifierTable[i]];
+        }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QL.GenericDataHandlers
 {
-    class AstBuilder :IExecutable
+    class Initializer :IExecutable
     {
         public bool execute(DataContext context)
         {
