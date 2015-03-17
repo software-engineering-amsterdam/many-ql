@@ -87,12 +87,8 @@
     <Compile Include="Controls\TextWidget.xaml.cs">
       <DependentUpon>TextWidget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlWrappers\NumberWidgetWrapper.cs" />
-    <Compile Include="ControlWrappers\StatementWidgetWrapper.cs" />
-    <Compile Include="ControlWrappers\TextWidgetWrapper.cs" />
-    <Compile Include="ControlWrappers\WidgetWrapperFactory.cs" />
-    <Compile Include="ControlWrappers\WidgetWrapperBase.cs" />
-    <Compile Include="ControlWrappers\YesNoWidgetWrapper.cs" />
+    <Compile Include="ControlWrappers\WidgetFactory.cs" />
+    <Compile Include="Controls\WidgetBase.cs" />
     <Compile Include="Visitors\UserInterfaceVisitor.cs" />
     <Page Include="Assets\ApplicationResources.xaml">
       <SubType>Designer</SubType>
@@ -130,7 +126,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\IWidget.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using QL.Exceptions;
 using QL.Model;
 using QL.Model.Terminals.Wrappers;
+using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 using QL.Visitors;
 
@@ -11,10 +12,10 @@ namespace QL.UI.Visitors
 {
     public class UserInterfaceVisitor : IVisitor
     {
-        private readonly WidgetWrapperFactory _wrapperFactory = new WidgetWrapperFactory();
+        private readonly WidgetFactory _widgetFactory = new WidgetFactory();
 
         private IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable;
-        private readonly IList<WidgetWrapperBase> _elementsToDisplay;
+        private readonly IList<WidgetBase> _elementsToDisplay;
         //public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
         private readonly IDictionary<ITypeResolvable, ITerminalWrapper> _referenceLookupTable;
         private readonly IDictionary<Model.Terminals.Identifier, ITypeResolvable> _identifierTable;
@@ -25,7 +26,7 @@ namespace QL.UI.Visitors
             ObservableCollection<QLException> ASTHandlerExceptions,
             IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable,
             IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable,
-            IList<WidgetWrapperBase> ElementsToDisplay
+            IList<WidgetBase> ElementsToDisplay
             )
         {
             // TODO: Complete member initialization
@@ -63,7 +64,7 @@ namespace QL.UI.Visitors
         
         public void Visit(Model.StatementUnit node)
         {
-            var unitWrapper = _wrapperFactory.GetWidgetWrapper(node);
+            var unitWrapper = _widgetFactory.GetWidget(node);
             _elementsToDisplay.Add(unitWrapper); // todo set identifier/do lookup
 
             //_elementsToDisplay.Add(new StatementWrapper(node, _referenceLookupTable[_identifierTable[node.Identifier]]));
@@ -71,7 +72,7 @@ namespace QL.UI.Visitors
 
         public void Visit(Model.QuestionUnit node)
         {
-            var unitWrapper = _wrapperFactory.GetWidgetWrapper(node);
+            var unitWrapper = _widgetFactory.GetWidget(node);
             _elementsToDisplay.Add(unitWrapper); // todo idem ditto
 
             //_elementsToDisplay.Add(new WidgetWrapperBase(node, _referenceLookupTable[_identifierTable[node.Identifier]]));

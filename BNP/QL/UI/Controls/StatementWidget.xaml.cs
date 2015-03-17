@@ -12,46 +12,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QL.Model;
 using QL.UI.ControlWrappers;
-using QL.UI.Interfaces;
+using QL.Visitors;
 
 namespace QL.UI.Controls
 {
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class StatementWidget : IWidget
+    public partial class StatementWidget
     {
-        private readonly WidgetWrapperBase _context;
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(StatementWidget));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(StatementWidget));
 
-        public object Value
+        public override object Value
         {
             get { return (string)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public object Text
+        public override object Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            protected set { SetValue(TextProperty, value); }
         }
 
-        public StatementWidget(WidgetWrapperBase context)
+        public StatementWidget(UnitBase unit, ITerminalWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
-            _context = context;
             InitializeComponent();
-
-            BindContext();
             DataContext = this;
-        }
 
-        public void BindContext()
-        {
-            Text = _context.Text;
-            Value = _context.Value;
-            Name = _context.Identifier;
+            Text = unit.DisplayText;
+            Value = terminalWrapper.ToString();
         }
     }
 }

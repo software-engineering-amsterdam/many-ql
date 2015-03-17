@@ -1,36 +1,29 @@
 ﻿using System.Windows.Controls;
 using QL.Model;
-using QL.Model.Terminals.Wrappers;
 using QL.Visitors;
 
-namespace QL.UI.ControlWrappers
+namespace QL.UI.Controls
 {
-    public abstract class WidgetWrapperBase
+    public abstract class WidgetBase : UserControl
     {
         protected UnitBase Unit;
         protected ITerminalWrapper TerminalWrapper;
 
-        public abstract string Identifier { get; }
-
         /// <summary>
         /// Display text of the widget
         /// </summary>
-        public abstract object Text { get; }
+        public abstract object Text { get; protected set; }
 
         /// <summary>
         /// Holds the value of the widget
         /// </summary>
         public abstract object Value { get; set; }
 
-        /// <summary>
-        /// Gets a widget instance for this wrapper
-        /// </summary>
-        /// <returns></returns>
-        public abstract UserControl GetWidget();
-
-        protected WidgetWrapperBase(UnitBase unit)
+        protected WidgetBase(UnitBase unit, ITerminalWrapper terminalWrapper)
         {
             Unit = unit;
+            TerminalWrapper = terminalWrapper;
+            Name = unit.Identifier.Value;
         }
     }
 

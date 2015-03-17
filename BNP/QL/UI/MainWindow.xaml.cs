@@ -14,7 +14,6 @@ using QL.Model.Terminals.Wrappers;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 using QL.Visitors;
-using WidgetWrapperBase = QL.UI.ControlWrappers.WidgetWrapperBase;
 
 namespace QL.UI
 {
@@ -173,16 +172,16 @@ namespace QL.UI
 
         public void BindTestData()
         {
-            WidgetWrapperFactory factory = new WidgetWrapperFactory();
-            List<WidgetWrapperBase> renders = new List<WidgetWrapperBase>
+            WidgetFactory factory = new WidgetFactory();
+            List<WidgetBase> renders = new List<WidgetBase>
                                         {
-                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question1"), new Text("What is your name?"), new Text())),
-                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question2"), new Text("What is your age?"), new Number())),
-                                            factory.GetWidgetWrapper(new QuestionUnit(new Identifier("Question3"), new Text("Are you studying?"), new Yesno())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text("What is your name?"), new Text())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Text("What is your age?"), new Number())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Text("Are you studying?"), new Yesno())),
                                         };
 
             QuestionsPanel.Children.Clear();
-            foreach(var widget in renders.Select(r => r.GetWidget()))
+            foreach(var widget in renders)
             {
                 QuestionsPanel.Children.Add(widget);
             }
