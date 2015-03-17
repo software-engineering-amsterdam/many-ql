@@ -35,11 +35,6 @@ public class BooleanValue implements Value {
 	}
 
 	@Override
-	public Value addString(StringValue argument) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Value divide(Value argument) {
 		throw new UnsupportedOperationException("Cannot divideide a Boolean.");
 	}

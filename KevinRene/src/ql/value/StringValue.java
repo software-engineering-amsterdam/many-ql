@@ -21,22 +21,17 @@ public class StringValue implements Value {
 
 	@Override
 	public Value add(Value argument) {
-		return argument.addString(this);
+		throw new UnsupportedOperationException("Cannot add strings.");
 	}
 
 	@Override
 	public Value addInteger(IntegerValue argument) {
-		return new StringValue(argument.getValue() + getValue());
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		return new StringValue(argument.getValue() + getValue());
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

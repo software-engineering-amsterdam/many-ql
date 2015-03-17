@@ -155,8 +155,8 @@ public class QLSLexer implements QLSTokens {
 			    	}
 			    	
 			    	// Number is 8: 2 for "0x" and 2 for r, g, and b respectively.
-			    	if(sb.length() > 8) {
-			    		throw new RuntimeException("Colour code too long: " + (char)c);
+			    	if(sb.length() != 8) {
+			    		throw new RuntimeException("Only hexadecimals of 6 numbers allowed: " + sb.toString() + ".");
 			    	}
 			    	
 			    	yylval = new IntegerLiteral(Integer.decode(sb.toString()));

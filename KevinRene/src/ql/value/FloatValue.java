@@ -36,11 +36,6 @@ public class FloatValue implements Value {
 	}
 
 	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
-	}
-
-	@Override
 	public Value divide(Value argument) {
 		return argument.divideFloat(this);
 	}

@@ -20,7 +20,6 @@ public interface Value {
 	public Value add(Value argument);
 	public Value addInteger(IntegerValue argument);
 	public Value addFloat(FloatValue argument);
-	public Value addString(StringValue argument);
 	
 	/**
 	 * Division

@@ -99,11 +99,6 @@ public class UndefinedValue implements Value {
 	}
 
 	@Override
-	public Value addString(StringValue argument) {
-		return this;
-	}
-
-	@Override
 	public Value divideInteger(IntegerValue argument) {
 		return this;
 	}
