@@ -28,7 +28,7 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (test == "A") {
+if (1 + 2) {
     Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {

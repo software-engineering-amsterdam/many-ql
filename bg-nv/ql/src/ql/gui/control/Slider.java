@@ -8,7 +8,7 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 16-3-15.
  */
-public class Slider extends ControlElement implements IntegerControl, DecimalControl
+public class Slider extends ControlElement implements IntControl, DecControl
 {
     public Slider(Boolean visible, Boolean disabled)
     {
@@ -28,7 +28,7 @@ public class Slider extends ControlElement implements IntegerControl, DecimalCon
     }
 
     @Override
-    public Node getGuiElement()
+    public Node getControlNode()
     {
         return null;
     }
@@ -42,6 +42,6 @@ public class Slider extends ControlElement implements IntegerControl, DecimalCon
     @Override
     public <V> V accept(ModelVisitor<V> visitor)
     {
-        return null;
+        return visitor.visit(this);
     }
 }

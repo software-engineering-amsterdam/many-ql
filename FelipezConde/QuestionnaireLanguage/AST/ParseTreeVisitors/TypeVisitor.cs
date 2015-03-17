@@ -13,7 +13,6 @@ namespace AST.ParseTreeVisitors
         {
             return new Types.StringType();
         }
-
         public override Types.Type VisitIntType(QLMainParser.IntTypeContext context)
         {
             return new Types.IntType();

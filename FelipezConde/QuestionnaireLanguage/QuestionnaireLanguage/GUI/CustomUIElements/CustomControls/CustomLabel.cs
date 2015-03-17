@@ -1,9 +1,8 @@
-﻿using QuestionnaireLanguage.GUI.Interfaces.CustomControl;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace QuestionnaireLanguage.GUI.CustomUIElements.CustomControls
 {
-    public class CustomLabel : Label, ICustomControl
+    public class CustomLabel : Label
     {
         #region Constructor
         public CustomLabel() { }

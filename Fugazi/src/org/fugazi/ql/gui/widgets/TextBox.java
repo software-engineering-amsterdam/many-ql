@@ -2,23 +2,21 @@ package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.util.EventListener;
 
 public class TextBox implements IWidget {
 
-    private final String label;
-
+    private StringValue value;
     private JTextField input;
     private JPanel panel;
 
     public TextBox(String _label) {
-        this.label = _label;
-
         this.panel = new JPanel();
-        JLabel label = new JLabel(this.label);
+        JLabel label = new JLabel(_label);
         this.input = new JTextField();
 
         this.input.setColumns(7);
@@ -28,24 +26,40 @@ public class TextBox implements IWidget {
     }
 
     @Override
-    public JComponent getJComponent() {
-        return this.panel;
+    public void render(UIForm _canvas) {
+        _canvas.addWidget(this.panel);
     }
 
     @Override
-    public void addEventListener(EventListener _listener) {
-        this.input.getDocument().addDocumentListener((DocumentListener) _listener);
+    public void supress(UIForm _canvas){
+        _canvas.removeWidget(this.panel);
+    }
+
+
+    @Override
+    public void addEventListener(WidgetsEventListener _listener) {
+
+        this.input.getDocument().addDocumentListener(
+            new DocumentListener() {
+                public void insertUpdate(DocumentEvent e) {
+                    _listener.stateChanged();
+                }
+                public void removeUpdate(DocumentEvent e) {}
+                public void changedUpdate(DocumentEvent e) {}
+            }
+        );
     }
 
     @Override
-    public StringValue getValue() {
-        return new StringValue(this.input.getText());
+    public StringValue getWidgetValue() {
+        this.value = new StringValue(this.input.getText());
+        return this.value;
     }
 
     @Override
-    public void setValue(ExpressionValue _value) {
-        StringValue value = (StringValue) _value;
-        this.input.setText(value.getValue());
+    public void setWidgetValue(ExpressionValue _value) {
+        this.value = (StringValue) _value;
+        this.input.setText(this.value.getValue());
     }
 
     @Override

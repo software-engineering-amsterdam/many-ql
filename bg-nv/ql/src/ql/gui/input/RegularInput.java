@@ -1,10 +1,12 @@
 package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import ql.gui.input.Input;
-import ql.semantics.ValueTable;
+import ql.gui.control.Control;
+import ql.semantics.ValueTableEntry;
 import ql.semantics.errors.Message;
 import ql.semantics.values.Value;
 
@@ -13,37 +15,44 @@ import ql.semantics.values.Value;
  */
 public abstract class RegularInput<T> extends Input
 {
-    private Text errorField;
-
-    public RegularInput(String id, Boolean visible, Boolean disabled)
+    private final Text errorField;
+    public RegularInput(String id, Control control, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
+        super(id, control, visible, disabled);
+
+        this.control.addListener(this.constructChangeListener());
 
         this.errorField = new Text(null);
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
+
+        this.inputNode = this.createInputNode(this.control);
     }
 
-    public abstract Value convertUserInputToValue(T userInput);
-
-    public void update(ValueTable valueTable)
+    @Override
+    public void setDisabled(Boolean disabled)
     {
-        setChanged();
-        notifyObservers(valueTable);
+        super.setDisabled(disabled);
+        this.control.setDisabled(disabled);
     }
 
-    public void processUserInput(T userInput, ValueTable valueTable)
+    @Override
+    public void setVisible(Boolean visible)
     {
-        valueTable.storeValue(this.getId(), this.convertUserInputToValue(userInput));
-        this.update(valueTable);
+        super.setVisible(visible);
+        this.control.setVisible(visible);
     }
 
-    protected void resetValidation()
+    @Override
+    protected VBox createInputNode(Control control)
     {
-        this.errorField.setText(null);
-        this.errorField.setVisible(false);
-        this.errorField.setManaged(false);
+        VBox box = new VBox();
+        box.getChildren().add(this.control.getControlNode());
+        box.getChildren().add(this.errorField);
+        box.setAlignment(Pos.TOP_RIGHT);
+        box.setVisible(this.getVisible());
+        return box;
     }
 
     protected void addValidationError(Message validationError)
@@ -53,15 +62,23 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setManaged(true);
     }
 
-    public Text getErrorField()
+    protected void resetValidation()
     {
-        return this.errorField;
+        this.errorField.setText(null);
+        this.errorField.setVisible(false);
+        this.errorField.setManaged(false);
     }
-    
-    public abstract void attachListener(ValueTable valueTable);
 
-    protected ChangeListener<T> constructChangeListener(ValueTable valueTable)
-    {
-        return (observable, oldValue, newValue) -> processUserInput(newValue, valueTable);
+    private ChangeListener<T> constructChangeListener() {
+        return (observable, oldValue, newValue) -> update(newValue);
     }
+
+    private void update(T userInput)
+    {
+        Value val = this.convertUserInputToValue(userInput);
+        this.setChanged();
+        this.notifyObservers(new ValueTableEntry(this.getId(), val));
+    }
+
+    protected abstract Value convertUserInputToValue(T userInput);
 }

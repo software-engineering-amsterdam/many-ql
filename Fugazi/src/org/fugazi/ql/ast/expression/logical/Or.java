@@ -16,11 +16,6 @@ public class Or extends Logical {
         return this.getLeft().toString() + " || " + this.getRight().toString();
     }
 
-    @Override
-    public Type getReturnedType() {
-        return new BoolType();
-    }
-
     public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitOr(this);
     }

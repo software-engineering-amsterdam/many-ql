@@ -10,6 +10,10 @@ public void printSelf() {
 
     }
 
+//This is still questionable
+In QuestionPage: why have the types themselves decide how to render themselves?
+ switch (question.getType()){}
+
 I have trouble understanding the package com.klq.logic.question
 It seems it's wrapping AST stuff, but what is the added value? There's no JavaFx widgets either.
 Is this an unneeded level of indirection.
@@ -51,6 +55,11 @@ In QuestionMapper you see problem of not having a separate StatemenVisitor: lot 
 Also mentioned before: the firstPass and secondPass things *could* be used incorrectly: encode the dependency explicitly by letting the result of one pass be input to the second pass.
 
 Tangling in QuestionTable: it should do one thing (maintaining relation between name and question object), but it also checks for undefined names. This can be easily moved elsewhere. Also: again use List<> at declaration sites.
+
+This is not so good: you use the accidental AST class types to check for QL types. Even though this could work, now it doesn't, since the BooleanNode is not an instance of ABooleanNode.
+ if(node.getCondition() instanceof ABooleanNode) {
+You can refactor by allowing you to ask an expression what is its type (possibly given certain argument types).
+In this particular case, you should check what is returned from: node.getCondition().accept(this);
 ======================================================================================================================================================================================================
 EVERYTHING ABOVE THIS LINE IS FIXED
 ======================================================================================================================================================================================================
@@ -62,17 +71,9 @@ And they are also not values: public class IdentifierValue extends Value<String>
 In Main this field is never initialize (Main is not instantiated, it seems):
  private Questionnaire questionnaire;
 
-This is not so good: you use the accidental AST class types to check for QL types. Even though this could work, now it doesn't, since the BooleanNode is not an instance of ABooleanNode.
- if(node.getCondition() instanceof ABooleanNode) {
-You can refactor by allowing you to ask an expression what is its type (possibly given certain argument types).
-In this particular case, you should check what is returned from: node.getCondition().accept(this);
-
 These expression depend on singletonness of types: childType != node.getQuestionType()
 
 In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
 the case that null is returned is missed. Although you get away with it, it's a very fine line.
 
 Avoid extending stdlib base classes (like JavaFX): you're not extending the framework, and probably you don't support the full contract of the base class. Better to encapsulate instead of extend.
-
-In QuestionPage: why have the types themselves decide how to render themselves?
- switch (question.getType()){

@@ -1,4 +1,4 @@
-﻿using QL.Evaluation;
+﻿using QL.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +10,9 @@ namespace QL.Model
     public interface IVisitable
     {
         void Accept(IVisitor visitor);
+
+        void AcceptBottomUp(IVisitor visitor);
+        void AcceptSingle(IVisitor visitor);
+
     }
 }

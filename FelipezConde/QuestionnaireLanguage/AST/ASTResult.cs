@@ -1,5 +1,4 @@
 ﻿using AST.Nodes;
-using AST.Representation;
 using Notifications;
 using System;
 using System.Collections.Generic;

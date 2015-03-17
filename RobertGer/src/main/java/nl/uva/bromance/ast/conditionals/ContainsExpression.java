@@ -7,9 +7,7 @@ package nl.uva.bromance.ast.conditionals;
  */
 public interface ContainsExpression {
 
-    Expression getExpression();
-
     void setExpression(Expression expression);
 
-    void handleExpressionResult(Result result);
+    void handleExpressionResult();
 }

@@ -10,8 +10,8 @@ import ql.gui.control.TextField;
  */
 public class ExprInputBuilder implements TypeVisitor<ExprInput>
 {
-    private String id;
-    private Expr expression;
+    private final String id;
+    private final Expr expression;
     private final Boolean DISABLED = true;
     private final Boolean VISIBLE = true;
 
@@ -30,31 +30,31 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
     @Override
     public ExprInput visit(BoolType type)
     {
-        return new ExprInput(this.id, this.expression, new CheckBox(VISIBLE, DISABLED));
+        return new ExprInput(this.id, new CheckBox(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(DateType type)
     {
-        return new ExprInput(this.id, this.expression, new TextField(VISIBLE, DISABLED));
+        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(DecType type)
     {
-        return new ExprInput(this.id, this.expression, new TextField(VISIBLE, DISABLED));
+        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(IntType type)
     {
-        return new ExprInput(this.id, this.expression, new TextField(VISIBLE, DISABLED));
+        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override
     public ExprInput visit(StrType type)
     {
-        return new ExprInput(this.id, this.expression, new TextField(VISIBLE, DISABLED));
+        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
     }
 
     @Override

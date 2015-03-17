@@ -2,16 +2,19 @@ import tkinter as tk
 import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
 import QL.Tools.exceptions as exc
+import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
 
 class GUI:
     def __init__(self, form):
+        if not isinstance(form, enriched_form.Form):
+            raise exc.QException("Input must be an enriched form object!")
         self.qGui = tk.Tk()
-        self._form = form
-        self._statements = self._form.get_statements()
-        self._dependencies = self._form.get_dependencies()
-        self._answersMap = mapper.Mapper()
+        self.__form = form
+        self.__questions = self.__form.get_questions()
+        self.__dependencies = self.__form.ast.get_dependencies()
+        self.__answersMap = mapper.Mapper()
         self.intro_element = self.intro_label()
 
     def generate_gui(self):
@@ -21,40 +24,36 @@ class GUI:
         # l.configure(font="Helvetica 15 bold")
         self.intro_element.grid(row=0, column=0, sticky=tk.W)
 
-        self.draw_statements(self._statements)
-        tk.Button(text="Submit", width=10, command=lambda: processor.Processor.export_answers(self._answersMap, self)
+        self.draw_questions(self.__questions)
+        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
     def create_title(self):
-        self.qGui.title(self._form.get_name())
+        self.qGui.title(self.__form.ast.get_name())
 
     def intro_label(self):
-        l = label.Label(self._form.get_introduction())
+        l = label.Label(self.__form.ast.get_introduction())
         intro_row = l.get_row()
         return intro_row[0]
 
-    def draw_statements(self, statements):
-        for statement in statements:
-            if statement.is_conditional():
-                self.draw_statements(statement.get_c_statements())
-                self.draw_statements(statement.get_e_statements())
-            else:
-                self.draw_statement(statement)
+    def draw_questions(self, questions):
+        for question in questions:
+            self.draw_question(question)
 
-    def draw_statement(self, statement):
-        self._answersMap.update(statement, None)
-        statement.set_element(self)
-        elements = statement.get_element()
+    def draw_question(self, question):
+        self.__answersMap.update(question, None)
+        question.set_gui_element(self)
+        elements = question.get_gui_element()
         # don't print anything if has no elements (expression_factory.g. assignment)
         if elements is None:
             return False
 
         # check if _condition holds
-        condition = statement.get_parent_condition()
+        condition = question.get_condition()
 
         c_results = True
-        if condition is not None:
-            c_results = processor.eval_expression(condition.pretty_print(), self._answersMap)
+        if condition:
+            c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
         if not c_results:
             return False
 
@@ -62,27 +61,28 @@ class GUI:
         if len(elements) is 2:
             colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=statement.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
-        self._answersMap.update(question, new_answer)
-        for qid in self._dependencies:
-            if question.get_id() in self._dependencies[qid]:
+        print(new_answer)
+        self.__answersMap.update(question, new_answer)
+        for qid in self.__dependencies:
+            if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):
-        statements_dict = self._form.get_statement_dict()
+        statements_dict = self.__form.get_statement_dict()
         if qid not in statements_dict:
             raise exc.QException("Fatal Error: no such _condition _id " + qid)
-        statement = statements_dict[qid]
-        elements = statement.get_element()
+        question = statements_dict[qid]
+        elements = question.get_gui_element()
         if elements is None:
             return None
         for e in elements:
             # print(expression_factory.grid_info())
             e.destroy()
 
-        self.draw_statement(statement)
+        self.draw_question(question)
 
     def show(self):
         self.qGui.mainloop()
