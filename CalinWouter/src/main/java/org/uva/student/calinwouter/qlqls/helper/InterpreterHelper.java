@@ -12,6 +12,7 @@ import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class InterpreterHelper {
         return qlTypeChecker.typeCheck();
     }
 
-    public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
+    public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException, CouldNotFindMatchingQLSComponentException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();

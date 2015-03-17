@@ -12,6 +12,7 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQLSRenderer;
+import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
@@ -60,7 +61,8 @@ public class QLSGUI extends AbstractSwingGUI implements IQLSRenderer<Component> 
     public Component render(Question question) {
         final String questionIdentifier = question.getIdent();
         final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(questionIdentifier);
-        final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
+        final FieldType fieldType = new FieldType(questionIdentifier, typeDescriptor);
+        final StylingSettings stylingMap = styleSheet.getStylingSettings(fieldType);
         final AbstractWidget abstractWidget = stylingMap.getWidget();
         final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(
                 qlInterpreter, stateWrapper, questionIdentifier, stylingMap, staticFields);

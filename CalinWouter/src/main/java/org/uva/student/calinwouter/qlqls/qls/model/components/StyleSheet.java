@@ -5,6 +5,7 @@ import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import java.util.HashMap;
@@ -21,7 +22,10 @@ public class StyleSheet {
      * Get the styling settings of a widget by overriding their settings in-depth.
      */
     // TODO looks pretty bad...
-    public StylingSettings getStylingSettings(String identifier, TypeDescriptor type) {
+    public StylingSettings getStylingSettings(FieldType fieldType) {
+        final TypeDescriptor type = fieldType.getTypeDescriptor();
+        final String identifier = fieldType.getFieldName();
+
         for (Page page : getPages()) {
             Map<String, Object> resultPage = new HashMap<String, Object>();
             Map<String, Object> o = page.getDefaults().getDefaultStyleSheetSettings().get(type);
