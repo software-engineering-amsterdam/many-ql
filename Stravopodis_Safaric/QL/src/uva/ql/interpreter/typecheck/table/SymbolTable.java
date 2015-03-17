@@ -2,25 +2,20 @@ package uva.ql.interpreter.typecheck.table;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import uva.ql.ast.type.*;
-import uva.ql.supporting.table.Table;
 
-public class SymbolTable extends Table <String, Type> {
+public class SymbolTable  {
 
 	private final Map<String, Type> symbolTable = new HashMap<String, Type>();
 	
-	@Override
 	public void putValue(String key, Type value) {
 		this.symbolTable.put(key, value);
 	}
 
-	@Override
 	public boolean keyExists(String key) {
 		return this.symbolTable.containsKey(key);
 	}
 
-	@Override
 	public boolean valueExists(String key, Type value) {
 		
 		if (this.keyExists(key)){
@@ -30,7 +25,6 @@ public class SymbolTable extends Table <String, Type> {
 		return false;
 	}
 
-	@Override
 	public Type retrieveValue(String key) {
 		return this.symbolTable.get(key);
 	}

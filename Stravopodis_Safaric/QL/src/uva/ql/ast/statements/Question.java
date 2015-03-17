@@ -5,7 +5,7 @@ import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.StringLiteral;
 import uva.ql.ast.type.Type;
-import uva.ql.ast.visitor.StatementVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitor;
 
 public class Question extends Statement {
 	
@@ -37,8 +37,16 @@ public class Question extends Statement {
 		return this.identifier;
 	}
 	
+	public String getQuestionIdentifierValue(){
+		return this.identifier.evaluate().getValue();
+	}
+	
 	public StringLiteral getQuestionLabel(){
 		return this.questionLabel;
+	}
+	
+	public String getQuestionLabelText(){
+		return this.getQuestionLabel().evaluate().getValue().replaceAll("\"", "");
 	}
 	
 	public Expression getQuestionExpression(){
@@ -51,7 +59,7 @@ public class Question extends Statement {
 	}
 	
 	@Override
-	public <T> T accept(StatementVisitorInterface<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		if (this.expression == null){
 			return visitor.visitSimpleQuestion(this);
 		}
