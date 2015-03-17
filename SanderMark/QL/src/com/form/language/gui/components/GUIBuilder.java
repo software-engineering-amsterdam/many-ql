@@ -1,7 +1,5 @@
 package com.form.language.gui.components;
 
-import java.util.Iterator;
-
 import javax.swing.JFrame;
 
 import com.form.language.ast.Form;
@@ -33,9 +31,8 @@ public class GUIBuilder {
 	
 	public void createGUIComponents()
 	{	
-		for (Iterator<Statement> s = form.getStatements(); s.hasNext();) {
-			Statement statement = s.next();
-			statement.createGUIComponent(this, formGUI, context);
+		for(Statement s : form.getStatements()){
+			s.createGUIComponent(this, formGUI, context);
 		}
 	}	
 
