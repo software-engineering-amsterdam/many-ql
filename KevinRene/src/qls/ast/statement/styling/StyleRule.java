@@ -7,10 +7,10 @@ import qls.ast.expression.Literal;
 import qls.ast.QLSStatement;
 
 public abstract class StyleRule extends QLSStatement {
-	protected final List<Class<? extends QLType>> compatibleTypes;
+	protected final List<QLType> compatibleTypes;
 	private final Literal<?> value;
 	
-	public StyleRule(List<Class<? extends QLType>> compatibleTypes, Literal<?> value) {
+	public StyleRule(List<QLType> compatibleTypes, Literal<?> value) {
 		this.compatibleTypes = compatibleTypes;
 		this.value = value;
 	}

@@ -9,7 +9,7 @@ import qls.ast.visitor.StatementVisitor;
 
 public class Font extends StyleRule {
 	public Font(Literal<?> value) {
-		super(Arrays.asList(QLString.class), value);
+		super(Arrays.asList(new QLString()), value);
 	}
 	
 	@Override

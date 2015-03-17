@@ -9,7 +9,7 @@ import qls.ast.visitor.StatementVisitor;
 
 public class Width extends StyleRule {
 	public Width(Literal<?> value) {
-		super(Arrays.asList(QLInteger.class), value);
+		super(Arrays.asList(new QLInteger()), value);
 	}
 	
 	@Override
