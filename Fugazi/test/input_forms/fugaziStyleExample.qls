@@ -12,7 +12,7 @@ stylesheet taxOfficeExample
   page Selling { 
     section "Selling" {
       question hasSoldHouse
-        widget radio("Yes", "No") 
+        widget dropdown("Yes", "No")
       section "You sold a house" {
         question sellingPrice
           widget spinbox
