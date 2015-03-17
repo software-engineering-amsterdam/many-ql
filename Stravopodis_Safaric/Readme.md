@@ -34,27 +34,37 @@ Requirements on the implementation:
 
 The code bellow is just a preliminary example of the QL's syntax. 
 
-        form HouseSelling {
+         form HouseSelling {
+  
+    
+    		question boolean hasRentHouse ("Did you rent a house in 2015?") { 
+	     		hasRentHouse : true;
+		}
+	
+		question boolean hasBoughtHouse ("Did you bought a house in 2015?") {
+			hasBoughtHouse : false;
+		}
+	
+		question boolean hasSoldHouse ("Did you sell a house in 2014 ?");
+    
+     		if (hasSoldHouse == true && hasRentHouse == true && hasBoughtHouse == true){
+    	
+    			question string firstName ("Please enter your first name:");
+    	
+    			question string lastName ("Please enter your last name:");
+    	
+    			question integer sellingPrice ("What was the selling price?"){
+    				sellingPrice : 300;
+    			}
+    	
+    		question money privateDebt ("What was the value of the private debt?");
+    	
+    		question money valueResidue ("Value residue:") {
+    			valueResidue : (sellingPrice * privateDebt) / 100;
+    			}
+	  	}
+     		}
 
-                question hasSoldHouse typeof boolean {
-                        hasSoldHouse = "Did you sold an house?";
-                        hasSoldHouse.questionType = ComputableQuestion;
-                        hasSoldHouse.value = false ;
-                }
-                question hasRentHouse typeof boolean {
-                        hasRentHouse = "Did you rent a house?";
-                        hasRentHouse.questionType = OrdinaryQuestion;
-                        hasRentHouse.value = false;
-                }
-
-                if (hasSoldHouse == true){
-                        question hasBoughtHouse typeof int {
-                            hasBoughtHouse = "What was the price of the house?";
-                            hasBoughtHouse.questionType = ComputableQuestion;
-                            hasBoughtHouse.value = 100000;
-                        }
-                }
-        }
 
 Project: QLS
 
