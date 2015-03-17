@@ -9,9 +9,10 @@ from typechecking import Result
 
 
 # The type checker depends on the parser because it uses the parser
-# to generate error messages using tokens from the QL language for
-# example for operators. So instead of spitting out a message with
-# 'QLAddition' the type checker can say '+' (in case of the ANTLR parser)
+# to generate error messages using the syntax of the QL language for
+# example for question types. So instead of spitting out a message saying
+# 'QLBoolean' the type checker can say 'boolean' (in case of the ANTLR
+# parser). This way users don't become confused about the error messages.
 def check(parser):
     modules = (
         CyclicQuestionDependencies,
