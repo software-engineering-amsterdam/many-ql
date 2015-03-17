@@ -16,6 +16,9 @@ public class ExpressionUtil {
     private final static DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Value createTerminalFromString(Type type, String value){
+        if (value.trim().isEmpty()){
+            return new UndefinedValue();
+        }
         switch (type){
             case BOOLEAN:
                 return createBooleanFromString(value);
@@ -23,8 +26,7 @@ public class ExpressionUtil {
                 return createDateFromString(value);
             case NUMERAL:
                 return createNumberFromString(value);
-            case STRING:
-                return new StringValue(value);
+            case STRING:                return new StringValue(value);
         }
         throw new IllegalArgumentException("Type is not a valid type! Type: " + type);
     }

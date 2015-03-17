@@ -15,3 +15,6 @@ class Bool(p.Primitive):
     # booleans are not dependencies
     def get_dependency_collection(self):
         return []
+
+    def eval_expression(self, type_map):
+        return self.__bool

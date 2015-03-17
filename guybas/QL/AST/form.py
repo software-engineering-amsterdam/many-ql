@@ -136,3 +136,11 @@ class Form:
 
         return valid
 
+    def eval_expressions(self, type_map):
+        for x in self._statements:
+            if x.is_conditional():
+                print(x.get_condition().pretty_print())
+                print(x.evaluate_condition(type_map))
+                print("----------")
+
+

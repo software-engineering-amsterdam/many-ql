@@ -15,6 +15,7 @@ formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.inp
 form = form_factory.make_form(formAsParseResults)
 # print(form.pretty_print())
 
+#form.eval_expressions({"hummus": True, "con": True})
 form.is_valid_form()
 
 # typeChecker = type_checker.TypeChecker(form)
