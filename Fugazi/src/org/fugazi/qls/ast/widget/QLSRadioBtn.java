@@ -57,14 +57,6 @@ public class QLSRadioBtn extends AbstractQLSWidget {
         this.type = new RadioBtnType();
     }
 
-    public String getYesLabel() {
-        return this.yesLabel;
-    }
-
-    public String getNoLabel() {
-        return this.noLabel;
-    }
-
     @Override
     public void setLabel(String _label) {
         this.componentLabel.setText(_label);
