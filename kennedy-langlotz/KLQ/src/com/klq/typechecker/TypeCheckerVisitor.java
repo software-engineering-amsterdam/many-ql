@@ -131,7 +131,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
         }
         else {
             errors.add(new QuestionIDReference(node));
-            return null;
+            return Type.UNDEFINED;
         }
     }
     /*==================================================================================================================
