@@ -7,6 +7,7 @@ import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
+import com.klq.controller.VariableTable;
 import com.klq.gui.IKLQItem;
 import com.klq.controller.Controller;
 import com.sun.istack.internal.NotNull;
@@ -26,7 +27,6 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Timon on 09.03.2015.
@@ -144,9 +144,9 @@ public abstract class ARenderedQuestion implements IKLQItem {
         this.dependencies.add(dependency);
     }
 
-    public boolean dependenciesResolved(Map<IdentifierNode, Value> variables) {
+    public boolean dependenciesResolved(VariableTable variableTable) {
         for (AExpression dependency : dependencies){
-            Value eval = dependency.evaluate(variables);
+            Value eval = dependency.evaluate(variableTable);
             if (eval.isUndefined()){
                 return false;
             }
