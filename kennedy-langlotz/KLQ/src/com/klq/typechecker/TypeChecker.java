@@ -16,7 +16,6 @@ public class TypeChecker {
     public TypeChecker(QuestionnaireNode ast){
         errors = new ArrayList<>();
         this.ast = ast;
-        run();
     }
 
     private QuestionTable firstPass(){
