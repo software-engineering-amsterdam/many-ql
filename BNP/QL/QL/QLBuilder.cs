@@ -54,6 +54,7 @@ namespace QL
         _handlerContainer.Add(_exporters);
 
         Errors = new List<Exception>();
+        dataContext = new DataContext();
 
         }
 
@@ -91,37 +92,9 @@ namespace QL
         }
        
 
-
-        public bool run()
-        {
-            Errors.Clear();
-            bool successfulExecution=false;
-            foreach (IList<IExecutable> thisLevelHandlers in _handlerContainer)
-            {
-                foreach (IExecutable handler in thisLevelHandlers)
-                {
-                    try
-                    {
-                        successfulExecution = handler.execute(dataContext);
-                    }
-                    catch (Exception e)
-                    {
-                        Errors.Add(e);
-                        successfulExecution= false;
-
-                    }
-                    if (!successfulExecution)
-                    {
-                        return successfulExecution;
-                    }
-                }
-            }
-            Errors.Union(dataContext.ASTHandlerExceptions);
-            return successfulExecution;
-        }
         bool runOneLevel(IList<IExecutable> thisLevelHandlers)
         {
-            bool successfulExecution = false;
+            bool successfulExecution = true;
 
             foreach (IExecutable handler in thisLevelHandlers)
             {
@@ -129,51 +102,96 @@ namespace QL
                 {
                     successfulExecution = handler.execute(dataContext);
                 }
+                catch (QLException e)
+                {
+                    dataContext.ASTHandlerExceptions.Add(e);
+                    successfulExecution = false;
+
+                }
                 catch (Exception e)
                 {
+                    //not known exception!
                     Errors.Add(e);
                     successfulExecution = false;
 
                 }
+                
                 if (!successfulExecution)
                 {
-                    return successfulExecution;
+                    break;
                 }
             }
-            return true;
+
+            return successfulExecution;
         }
         public bool runInit()
         {
-            return runOneLevel(_initializers);
+            dataContext.InputSet = runOneLevel(_initializers);
+            return dataContext.InputSet;
 
         }
         public bool runAstBuild()
         {
-            return runOneLevel(_astBuilders);
+            if (!dataContext.InputSet)
+            {
+                dataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+
+            dataContext.AstBuilt= runOneLevel(_astBuilders);
+            return dataContext.AstBuilt;
 
         }
         public bool runTypeCheck()
         {
-            return runOneLevel(_typeCheckers);
+
+            if (!dataContext.AstBuilt)
+            {
+
+                dataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            dataContext.TypeChecked = runOneLevel(_typeCheckers);
+            return dataContext.TypeChecked;
 
         }
         public bool runEvaluate()
         {
-            return runOneLevel(_evaluators);
+
+            if (!dataContext.TypeChecked)
+            {
+                dataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            dataContext.Evaluated= runOneLevel(_evaluators);
+            return dataContext.Evaluated;
 
         }
         public bool runRender()
         {
-            return runOneLevel(_renderers);
+
+            if (!dataContext.Evaluated)
+            {
+                dataContext.ASTHandlerExceptions.Add( new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            dataContext.Rendered = runOneLevel(_renderers);
+            return dataContext.Rendered;
 
         }
         public bool runExport()
         {
+
+            if (!dataContext.Evaluated)
+            {
+                dataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
+                return false;
+            }
             return runOneLevel(_exporters);
 
         }
 
-        public void registerDefault()
+        public void registerGenericDataHandlers()
         {
             registerInitializer(new Initializer());
             registerAstBuilder(new AstBuilder());

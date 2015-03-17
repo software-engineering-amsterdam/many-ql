@@ -15,13 +15,14 @@ namespace Tests.VisitorTests
         public void Initialize(string input)
         {
             Builder = new QLBuilder(input);
+            Builder.registerGenericDataHandlers();
             Assert.IsTrue(Builder.runInit());
             Assert.IsTrue(Builder.runAstBuild());
         }
 
 
         [TestMethod]
-        public void TypeCheckerCollectNothing()
+        public void TCCollectNothing()
         {
             Initialize(@"form ExampleBlock {
                 if (3==-11){}
@@ -33,12 +34,12 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.runTypeCheck());
-            Assert.AreEqual(0,Builder.Errors.Count);
+            Assert.AreEqual(0,Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
 
         [TestMethod]
-        public void TypeCheckerCollectException()
+        public void TCCollectException()
         {
             Initialize(@"form ExampleBlock {
                 if (3==-11){}
@@ -50,10 +51,10 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(1, Builder.Errors.Count);
+            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
         }
         [TestMethod]
-        public void TypeCheckerCollectException2()
+        public void TCCollectException2()
         {
             Initialize(@"form ExampleBlock {
                 if (3==(4==(4>2))){}
@@ -65,11 +66,11 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(3, Builder.Errors.Count);
+            Assert.AreEqual(3, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
-        public void TypeCheckerCollectNoExceptionCosParentheses()
+        public void TCCollectNoExceptionCosParentheses()
         {
             Initialize(@"form ExampleBlock {
                 if ((3+(4+(5+6)))==9){}
@@ -82,11 +83,11 @@ namespace Tests.VisitorTests
             ");
 
             Assert.IsTrue(Builder.runTypeCheck());
-            Assert.AreEqual(0, Builder.Errors.Count);
+            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
-        public void TypeCheckerReferencesTest()
+        public void TCReferencesTest()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing (yesno, (3==4)) ""well"";
@@ -100,7 +101,7 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.runTypeCheck());
 
-            Assert.AreEqual(0, Builder.Errors.Count);
+            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -142,7 +143,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(0, Builder.Errors.Count);
+            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
 
@@ -158,7 +159,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(3, Builder.Errors.Count);
+            Assert.AreEqual(3, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
 
@@ -179,7 +180,7 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(0, Builder.Errors.Count);
+            Assert.AreEqual(0, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -195,7 +196,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Builder.runTypeCheck());
 
 
-            Assert.AreEqual(1, Builder.Errors.Count);
+            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -211,7 +212,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsFalse(Builder.runTypeCheck());
-            Assert.AreEqual(1, Builder.Errors.Count);
+            Assert.AreEqual(1, Builder.dataContext.ASTHandlerExceptions.Count);
 
         }
         [TestMethod]
@@ -227,6 +228,23 @@ namespace Tests.VisitorTests
             ");
             Assert.IsFalse(Builder.runTypeCheck());
         }
-        
+        [TestMethod]
+        public void ReferenceFromAnotherBranch1()
+        {
+            Initialize(@"form ExampleBlock {
+                question Q1 (number) ""blah"";
+
+                if (4!=2){
+                   statement S1 (number, S2) ""this is not ok"";
+                    }
+	            else {
+                        statement S2 (number, Q1) """";                    
+                     };
+                
+                }
+            ");
+            Assert.IsFalse(Builder.runTypeCheck());
+
+        }        
     }
 }

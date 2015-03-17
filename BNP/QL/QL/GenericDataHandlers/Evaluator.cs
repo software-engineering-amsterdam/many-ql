@@ -16,14 +16,7 @@ namespace QL.GenericDataHandlers
         public bool execute(DataContext context)
         {
 
-            if (!context.TypeChecked)
-            {
-                throw new Exception("Not type checked");
-            }
-            else
-            {
-                context.ASTHandlerExceptions.Clear();
-            }
+            context.ASTHandlerExceptions.Clear(); //we need to have clear exception list due to possible reevaluation
             EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ReferenceLookupTable, context.IdentifierTable);
             try
             {

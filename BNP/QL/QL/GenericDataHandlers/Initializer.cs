@@ -13,10 +13,9 @@ namespace QL.GenericDataHandlers
         public Initializer() { }
         public bool execute(DataContext context)
         {
-            
-            context.ASTHandlerExceptions.Clear();
 
-            if (context.Input != null)
+
+            if  (context.Input != null)
             {
                 context.AntlrInput = new AntlrInputStream(context.Input);
             }

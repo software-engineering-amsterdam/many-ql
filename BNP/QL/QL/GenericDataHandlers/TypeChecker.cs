@@ -15,15 +15,7 @@ namespace QL.GenericDataHandlers
         public TypeChecker() { }
         public bool execute(DataContext context)
         {
-            if (!context.AstBuilt)
-            {
-                throw new QLException("Ast is not built");
-            }
-            else
-            {
-                context.ASTHandlerExceptions.Clear();
-            }
-
+            
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.TypeReference, context.ASTHandlerExceptions);
             try
             {
@@ -33,10 +25,10 @@ namespace QL.GenericDataHandlers
             {
                 /* Exceptions preventing TypeChecker from finishing */
                 context.ASTHandlerExceptions.Add(ex);
+                return false;
             }
 
-            context.TypeChecked = !context.ASTHandlerExceptions.Any();
-            return context.TypeChecked;
+            return !context.ASTHandlerExceptions.Any();
         }
     }
 }

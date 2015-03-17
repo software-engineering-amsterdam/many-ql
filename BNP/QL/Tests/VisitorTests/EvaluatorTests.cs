@@ -17,6 +17,7 @@ namespace Tests.VisitorTests
         public void Initialize(string input){
         
             Builder = new QLBuilder(input);
+            Builder.registerGenericDataHandlers();
             Assert.IsTrue(Builder.runInit());
             Assert.IsTrue(Builder.runAstBuild());
             Assert.IsTrue(Builder.runTypeCheck());
@@ -191,7 +192,7 @@ namespace Tests.VisitorTests
             nw.Value = 0; // new answer to the question, division by zero
             Assert.IsFalse(Builder.runEvaluate(), "division by zero");
 
-            Assert.IsInstanceOfType(Builder.Errors[0], typeof(DivisionByZeroError),"incorrect exception");
+            Assert.IsInstanceOfType(Builder.dataContext.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
             nw.Value = 1; // new answer to the question
             Assert.IsTrue(Builder.runEvaluate(), "reevaluation failed");
 
@@ -267,24 +268,7 @@ namespace Tests.VisitorTests
 
 
         }
-        [TestMethod]
-        public void ReferenceFromAnotherBranch1()
-        {
-            Initialize(@"form ExampleBlock {
-                question Q1 (number) ""blah"";
-
-                if (4!=2){
-                   statement S1 (number, S2) ""this is not ok"";
-                    }
-	            else {
-                        statement S2 (number, Q1) """";                    
-                     };
-                
-                }
-            ");
-            Assert.IsFalse(Builder.runEvaluate());
-
-        }
+       
         [TestMethod]
         public void ReferenceFromAnotherBranch2()
         {

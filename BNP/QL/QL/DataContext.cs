@@ -46,37 +46,23 @@ namespace QL
         public bool Rendered;
         public DataContext(){
             InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
+            ASTHandlerExceptions = new ObservableCollection<QLException>();
+            TypeReference = new Dictionary<Identifier, Type>();
+            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
+            IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
+
         }
         public DataContext(string input):this()
         {
-            Initialize(input);        
+            Input=input;        
         }
         public DataContext(Stream input):this()
         {
-            Initialize(input);
+            InputStream=input;
         }
 
-        void Initialize(){
-
-        ASTHandlerExceptions = new ObservableCollection<QLException>();
-        TypeReference = new Dictionary<Identifier, Type>();
-        ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
-        IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-
-        }
-        public void Initialize(string input)
-        {
-            Initialize();
-            Input = input;
-            InputSet=true;
-        }
-
-        public void Initialize(Stream input) 
-        {
-            Initialize();
-            InputStream = input;
-            InputSet=true;
-        }
+        
+       
         public ITerminalWrapper GetWrappedValue(string IdentifierName)
         {
             //convenience method for getting the Terminal wrapper based on identifier name. 

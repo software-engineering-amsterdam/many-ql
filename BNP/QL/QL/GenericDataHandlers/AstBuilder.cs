@@ -14,7 +14,7 @@ namespace QL.GenericDataHandlers
         public AstBuilder(){}
         public bool execute(DataContext context)
         {
-
+            
             QLLexer lexer = new QLLexer(context.AntlrInput);
             lexer.AddErrorListener(new LexerErrorHandler(context.ASTHandlerExceptions));
 
