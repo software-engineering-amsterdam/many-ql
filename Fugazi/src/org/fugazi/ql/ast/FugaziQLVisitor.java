@@ -32,35 +32,12 @@ import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final Map<String, Type> identifierTypes = new HashMap<>();
-
-    private void addIdentifier(String _name, Type _type) {
-        identifierTypes.put(_name, _type);
-    }
-
     private String removeStringQuotes(String _str) {
         return _str.replaceAll("^\"|\"$", "");
     }
 
     private int getLineNumber(ParserRuleContext ctx) {
         return ctx.getStart().getLine();
-    }
-
-    private Type getIdentifierType(String _name) {
-        return (
-                identifierTypes.containsKey(_name) ?
-                    identifierTypes.get(_name) : new UndefinedType()
-        );
-    }
-
-    /**
-     * =======================
-     * Exposed
-     * =======================
-     */
-
-    public Map<String, Type> getIdentifierTypes() {
-        return this.identifierTypes;
     }
 
     /**
@@ -111,8 +88,6 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         
         ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
-        
-        this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         grammarLabel.setLineNumber(this.getLineNumber(ctx));
@@ -129,8 +104,6 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
         identifier.setLineNumber(this.getLineNumber(ctx));
-
-        this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         grammarLabel.setLineNumber(this.getLineNumber(ctx));
