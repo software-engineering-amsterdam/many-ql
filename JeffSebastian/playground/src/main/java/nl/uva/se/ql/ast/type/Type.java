@@ -19,11 +19,15 @@ public abstract class Type {
 		return false;
 	}
 	
+	public boolean isNumerical() {
+		return false;
+	}
+	
 	public Value getDefaultValue() {
 		return new UndefinedValue();
 	}
 	
-	public Type getAcceptedType() {
+	public Type promote() {
 		return this;
 	}
 	

@@ -10,14 +10,10 @@ import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 public class PStmtTypeChecker extends AnalysisAdapter {
     private final StaticFields staticFields;
     private final PExpTypeChecker pExpTypeChecker;
-    private final TypeCheckResults typeCheckResults;
 
     private void typeCheckExpressionIsBoolean(PExp ifExpression) {
         ifExpression.apply(pExpTypeChecker);
-        final TypeDescriptor ifExpressionType = pExpTypeChecker.popType();
-        if (!ifExpressionType.equals(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR)) {
-            typeCheckResults.addErrorTypeIsNotOfType(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR);
-        }
+        pExpTypeChecker.checkLastEntryIsOfType(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR);
     }
 
     private void typeCheckIfExpression(AIfStmt node) {
@@ -33,9 +29,7 @@ public class PStmtTypeChecker extends AnalysisAdapter {
     @Override
     public void caseAIfStmt(final AIfStmt node) {
         typeCheckIfExpression(node);
-        for (PStmt thenStatement : node.getThenStmtList()) {
-            typeCheckStatement(thenStatement);
-        }
+        typeCheckThenStatements(node);
     }
 
     private void typeCheckStatement(PStmt node) {
@@ -45,9 +39,23 @@ public class PStmtTypeChecker extends AnalysisAdapter {
     @Override
     public void caseAIfelseStmt(AIfelseStmt node) {
         typeCheckIfExpression(node);
+        typeCheckThenStatements(node);
+        typeCheckElseStatements(node);
+    }
+
+    private void typeCheckThenStatements(AIfStmt node) {
         for (PStmt thenStatement : node.getThenStmtList()) {
             typeCheckStatement(thenStatement);
         }
+    }
+
+    private void typeCheckThenStatements(AIfelseStmt node) {
+        for (PStmt thenStatement : node.getThenStmtList()) {
+            typeCheckStatement(thenStatement);
+        }
+    }
+
+    private void typeCheckElseStatements(AIfelseStmt node) {
         for (PStmt elseStatement : node.getElseStmtList()) {
             typeCheckStatement(elseStatement);
         }
@@ -76,7 +84,6 @@ public class PStmtTypeChecker extends AnalysisAdapter {
 
     public PStmtTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
         this.staticFields = staticFields;
-        this.typeCheckResults = typeCheckResults;
         this.pExpTypeChecker = new PExpTypeChecker(staticFields, typeCheckResults);
     }
 

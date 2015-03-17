@@ -11,8 +11,8 @@ public class StaticQuestionField extends AbstractStaticFormField {
         return iQLRenderer.render(this);
     }
 
-    public StaticQuestionField(String lbl, String variable, TypeDescriptor typeDescriptor) {
-        super(lbl, variable, typeDescriptor);
+    public StaticQuestionField(String label, String variable, TypeDescriptor typeDescriptor) {
+        super(label, variable, typeDescriptor);
     }
 
 }

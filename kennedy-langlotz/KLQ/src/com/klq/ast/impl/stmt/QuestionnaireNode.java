@@ -14,12 +14,12 @@ public class QuestionnaireNode extends AStatementNode {
 
     public QuestionnaireNode(Location location) {
         super(location);
-        this.children = new ArrayList<AStatementNode>();
+        this.children = new ArrayList<>();
     }
 
     public QuestionnaireNode() {
         super();
-        this.children = new ArrayList<AStatementNode>();
+        this.children = new ArrayList<>();
     }
 
     public List<AStatementNode> getChildren() {

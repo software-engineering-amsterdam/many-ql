@@ -3,7 +3,7 @@ package qls.interpreter
 import ql.interpreter.{Interpreter => QLInterpreter}
 import qls.ast.StyleSheet
 import qls.parser.Parser
-import qls.typechecker.TypeChecker
+import qls.typechecker.{QuestionPlacementChecker, ReferenceChecker, TypeChecker}
 import types.TypeEnvironment
 
 import scala.io.Source
@@ -41,13 +41,30 @@ object Interpreter {
   }
 
   def checkTypes(ast: StyleSheet, env: TypeEnvironment): Boolean = {
-    // TODO: add all four type checkers
+    val referenceChecker = new ReferenceChecker()
+    val questionPlacementChecker = new QuestionPlacementChecker()
     val typeChecker = new TypeChecker()
 
-    val errors = typeChecker.check(ast, env)
+    // TODO: env does not contain the questions inside if/else blocks
 
-    errors.foreach(println)
+    val referenceErrors = referenceChecker.check(ast, env)
+    if (referenceErrors.nonEmpty) {
+      referenceErrors.foreach(println)
+      return false
+    }
 
-    errors.isEmpty
+    val placementErrors = questionPlacementChecker.check(ast, env)
+    println(placementErrors)
+    if (placementErrors.nonEmpty) {
+      placementErrors.foreach(println)
+      return false
+    }
+
+    val typeCheckErrors = typeChecker.check(ast, env)
+    typeCheckErrors.foreach(println)
+
+    // TODO: duplicate placement checker
+
+    typeCheckErrors.isEmpty
   }
 }

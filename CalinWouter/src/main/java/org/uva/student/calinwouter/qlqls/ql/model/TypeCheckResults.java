@@ -17,16 +17,11 @@ public class TypeCheckResults {
     }
 
     public void addUndefinedReferenceError(String undefinedReference) {
-        addError("Undefined reference: " + undefinedReference);
+        addError("Undefined reference: " + undefinedReference + ".");
     }
 
     private void addWarning(final String s) {
         this.warnings.add(s);
-    }
-
-    public TypeCheckResults() {
-        this.errors = new LinkedList<String>();
-        this.warnings = new LinkedList<String>();
     }
 
     public void addNotDeclaredError(final String identifier) {
@@ -34,7 +29,7 @@ public class TypeCheckResults {
     }
 
     public void addTwoQuestionsSameTypeError(final String variable) {
-        addError("Two questions with the same identifier and a different type was found for variable: " + variable);
+        addError("Two questions with the same identifier and a different type was found for variable: " + variable + ".");
     }
 
     public String toString() {
@@ -64,4 +59,10 @@ public class TypeCheckResults {
     public void addLabelFoundTwiceWarning(final String fieldLabel) {
         addWarning("Label " + fieldLabel + " found twice.");
     }
+
+    public TypeCheckResults() {
+        this.errors = new LinkedList<String>();
+        this.warnings = new LinkedList<String>();
+    }
+
 }

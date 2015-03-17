@@ -22,29 +22,36 @@ public class BoolValue extends Value {
         }
 
         @Override
-        public boolean equals(Object o) {
-            return o instanceof BoolValue;
+        public String toString() {
+            return "Boolean";
         }
 
         @Override
-        public String toString() {
-            return "Boolean";
+        public boolean equals(final Object obj) {
+            if (!(obj instanceof TypeDescriptor)) {
+                return false;
+            }
+            final TypeDescriptor otherType = (TypeDescriptor) obj;
+            final Value otherDefaultValue = otherType.getDefaultValue();
+            final Value thisDefaultValue = getDefaultValue();
+            final BoolValue equalityComparisonValue = otherDefaultValue.eq(thisDefaultValue);
+            return equalityComparisonValue.isTrue();
         }
     };
 
     @Override
     public Value or(Value value) {
-        return new BoolValue((Boolean) getValue() || (Boolean) value.getValue());
+        return new BoolValue((Boolean) getInternalValue() || (Boolean) value.getInternalValue());
     }
 
     @Override
     public Value and(Value value) {
-        return new BoolValue((Boolean) getValue() && (Boolean) value.getValue());
+        return new BoolValue((Boolean) getInternalValue() && (Boolean) value.getInternalValue());
     }
 
     @Override
-    public Value not() {
-        return new BoolValue(!(Boolean) getValue());
+    public BoolValue not() {
+        return new BoolValue(!(Boolean) getInternalValue());
     }
 
     @Override
@@ -52,19 +59,8 @@ public class BoolValue extends Value {
         typeCallback.usesBoolean();
     }
 
-    @Override
-    public Value eq(Value value) {
-        final Object otherInternalValue = value.getValue();
-        final Object myInternalValue = getValue();
-        return new BoolValue(otherInternalValue.equals(myInternalValue));
-    }
-
-    public Value neq(Value value) {
-        return new BoolValue(!value.getValue().equals(getValue()));
-    }
-
     public boolean isTrue() {
-        return (Boolean) getValue();
+        return (Boolean) getInternalValue();
     }
 
     public BoolValue(Boolean value) {

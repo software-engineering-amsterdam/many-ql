@@ -29,7 +29,10 @@ class QuestionModel(object):
 
     @property
     def value(self):
-        return self._evaluator.getValue(self._identifier)
+        qlVal = self._evaluator.getValue(self._identifier)
+        if qlVal != None:
+            return qlVal.value
+        return None
 
     def updateValue(self, value):
         try:
