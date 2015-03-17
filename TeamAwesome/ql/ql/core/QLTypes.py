@@ -6,6 +6,10 @@ class QLType(object):
 	def value(self):
 		return self._value
 
+	@classmethod
+	def typeString(cls):
+		return cls.__name__[2:]
+
 	def __str__(self):
 		return str(self.value)
 
