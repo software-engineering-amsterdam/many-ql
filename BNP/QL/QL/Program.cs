@@ -29,7 +29,7 @@ namespace QL
 
                 Stream inputStream = Console.OpenStandardInput();
 
-                ASTHandler ast = new ASTHandler(inputStream);
+                QLBuilder ast = new QLBuilder(inputStream);
 
                 if (ast.BuildAST())
                 {

@@ -17,7 +17,7 @@ namespace QL.UI
     public partial class MainWindow : Window
     {
         private string _inputFilePath = null;
-        private ASTHandler _astHandler = null;
+        private QLBuilder _astHandler = null;
 
         public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
@@ -52,7 +52,7 @@ namespace QL.UI
         private void BuildQuestionnaire(string inputFileContents)
         {
             InputFileSourceText.Text = inputFileContents;
-            _astHandler = new ASTHandler(inputFileContents);
+            _astHandler = new QLBuilder(inputFileContents);
             ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
 
             if (_astHandler.BuildAST())
@@ -123,7 +123,7 @@ namespace QL.UI
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
             if (_astHandler == null) return;
-            _astHandler = new ASTHandler(InputFileSourceText.Text);
+            _astHandler = new QLBuilder(InputFileSourceText.Text);
             ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
             _astHandler.BuildAST();
         }

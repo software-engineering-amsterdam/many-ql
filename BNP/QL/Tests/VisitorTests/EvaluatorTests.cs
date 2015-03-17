@@ -11,10 +11,10 @@ namespace Tests.VisitorTests
     [TestClass]
     public class EvaluatorTests
     {
-        protected ASTHandler Handler;
+        protected QLBuilder Handler;
 
         public void Initialize(string input){
-            Handler= new ASTHandler(input);
+            Handler= new QLBuilder(input);
             Assert.IsTrue(Handler.BuildAST(), "Parsing/lexing error");
 
         }

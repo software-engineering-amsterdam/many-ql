@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContext.cs" />
+    <Compile Include="Visitors\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />

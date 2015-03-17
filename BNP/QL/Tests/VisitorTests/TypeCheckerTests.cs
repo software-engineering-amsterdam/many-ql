@@ -10,11 +10,11 @@ namespace Tests.VisitorTests
     public class TypeCheckerTests
     {
 
-        protected ASTHandler Handler;
+        protected QLBuilder Handler;
 
         public void Initialize(string input)
         {
-            Handler = new ASTHandler(input);
+            Handler = new QLBuilder(input);
             Assert.IsTrue(Handler.BuildAST());
 
         }
