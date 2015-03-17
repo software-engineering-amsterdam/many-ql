@@ -16,6 +16,7 @@ public class TypeChecker {
     public TypeChecker(QuestionnaireNode ast){
         errors = new ArrayList<>();
         this.ast = ast;
+        run();
     }
 
     private QuestionTable firstPass(){
@@ -32,15 +33,18 @@ public class TypeChecker {
     public void run(){
         secondPass(firstPass());
     }
-    //todo move this
-    //Just a temporary method, this logic should not be in here.
-    public void reportErrors(){
-        run();
-        if(errors.size() > 0){
-            for(AError error : errors){
-                System.out.println(error.toString());
-            }
-            System.exit(0);
+
+    public boolean stopApplication(){
+        boolean answer = false;
+        for(AError error : errors){
+            answer = error.getStopRunning();
+        }
+        return answer;
+    }
+
+    public void printErrors(){
+        for(AError error : errors){
+            System.out.println(error.toString());
         }
     }
 
