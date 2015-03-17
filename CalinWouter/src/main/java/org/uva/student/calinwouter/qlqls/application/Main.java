@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+// TODO refactor.
 public class Main {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 

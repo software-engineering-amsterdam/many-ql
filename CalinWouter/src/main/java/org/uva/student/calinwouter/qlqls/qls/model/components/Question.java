@@ -2,14 +2,14 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
+import org.uva.student.calinwouter.qlqls.qls.interfaces.IQLSRenderer;
 
 import java.util.Map;
 
 public class Question extends AbstractFormField {
 
     @Override
-    public <T> T applyRenderer(final IQlsRenderer<T> iQlsRenderer) throws FieldNotFoundException {
+    public <T> T applyRenderer(final IQLSRenderer<T> iQlsRenderer) {
         return iQlsRenderer.render(this);
     }
 

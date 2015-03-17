@@ -27,7 +27,8 @@ public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
     private final StaticFields staticFields;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        return new LabelWithWidgetWidget(staticFields.getLabelForField(questionIdentifier), questionIdentifier, stylingSettings, embeddedWidget, stateWrapper);
+        final String label = staticFields.getLabelForField(questionIdentifier);
+        return new LabelWithWidgetWidget(label, questionIdentifier, stylingSettings, embeddedWidget, stateWrapper);
 
     }
 

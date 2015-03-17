@@ -8,6 +8,14 @@ import java.util.List;
 public class TypeCheckResults {
     private final List<String> errors, warnings;
 
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
     private void addError(String s) {
         this.errors.add(s);
     }

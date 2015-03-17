@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
+import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
@@ -13,7 +14,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.Defaults;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Page;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Section;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import java.util.*;
 
@@ -28,8 +28,8 @@ import java.util.*;
 public class QLSTypeChecker {
     private List<Defaults> collectDefaults(StyleSheet styleSheet) {
         final List<Defaults> collectedDefaults = new LinkedList<Defaults>();
-        for (final Page p : styleSheet.getPages().getPages()) {
-            for (final Section s : p.getSections().getSections()) {
+        for (final Page p : styleSheet.getPages()) {
+            for (final Section s : p.getSections()) {
                 collectedDefaults.add(s.getDefaults());
             }
             collectedDefaults.add(p.getDefaults());
@@ -40,9 +40,9 @@ public class QLSTypeChecker {
 
     private List<String> collectFields(StyleSheet styleSheet) {
         final List<String> collectedFields = new LinkedList<String>();
-        for (final Page p : styleSheet.getPages().getPages()) {
-            for (final Section s : p.getSections().getSections()) {
-                for (AbstractFormField abstractFormField : s.getFields().getFields()) {
+        for (final Page p : styleSheet.getPages()) {
+            for (final Section s : p.getSections()) {
+                for (AbstractFormField abstractFormField : s.getFields()) {
                     collectedFields.add(abstractFormField.getIdent());
                 }
             }

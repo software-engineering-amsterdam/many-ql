@@ -13,11 +13,37 @@ import java.awt.*;
 
 public class IntboxWidget implements IWidget {
     private JTextField widget;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
+    private final static Integer MAX_TEXTBOX_LENGTH_FOR_INTEGER = (int) Math.log10(Integer.MAX_VALUE - 1) + 1;
 
-    public IntboxWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper) {
-        this.widget = new JTextField((int) Math.log10(Integer.MAX_VALUE - 1) + 1);
+    @Override
+    public Component getWidgetComponent() {
+        return widget;
+    }
 
-        widget.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public void resetValue() {
+        widget.setText("");
+    }
+
+    private void resetVariable(VariableTable variableTable) {
+        variableTable.setVariable(questionIdentifier, new IntegerValue(0));
+    }
+
+    private void trySetVariable(VariableTable variableTable) {
+        try {
+            final Integer newValue = Integer.parseInt(widget.getText());
+            final IntegerValue integerValue = new IntegerValue(newValue);
+            variableTable.setVariable(questionIdentifier, integerValue);
+        } catch(NumberFormatException e) {
+            resetVariable(variableTable);
+        }
+    }
+
+    private DocumentListener createIntboxChangeListener() {
+        return new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateField();
@@ -33,26 +59,20 @@ public class IntboxWidget implements IWidget {
                 updateField();
             }
 
-            public void updateField() {
+            private void updateField() {
                 VariableTable variableTable = stateWrapper.getVariableTable();
-                try {
-                    variableTable.setVariable(questionIdentifier, new IntegerValue(Integer.parseInt(widget.getText())));
-                } catch(NumberFormatException e) {
-                    variableTable.setVariable(questionIdentifier, new IntegerValue(0));
-                }
+                trySetVariable(variableTable);
                 VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
                 stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
     }
 
-    @Override
-    public Component getWidgetComponent() {
-        return widget;
-    }
-
-    @Override
-    public void resetValue() {
-        widget.setText("");
+    public IntboxWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.widget = new JTextField(MAX_TEXTBOX_LENGTH_FOR_INTEGER);
+        widget.getDocument().addDocumentListener(createIntboxChangeListener());
     }
 }

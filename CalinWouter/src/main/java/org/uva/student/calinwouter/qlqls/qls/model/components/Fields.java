@@ -6,11 +6,15 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import java.util.*;
 
-@Data
-public class Fields {
+public class Fields implements Iterable<AbstractFormField> {
     private final List<AbstractFormField> fields;
 
     public Fields(AbstractFormField... fields) {
         this.fields = Arrays.asList(fields);
+    }
+
+    @Override
+    public Iterator<AbstractFormField> iterator() {
+        return fields.iterator();
     }
 }

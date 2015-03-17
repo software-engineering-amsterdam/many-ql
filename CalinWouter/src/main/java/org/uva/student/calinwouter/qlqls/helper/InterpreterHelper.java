@@ -18,16 +18,6 @@ import java.io.StringReader;
 
 public class InterpreterHelper {
 
-    /*public static FormTypeChecker typeCheckString(String input) throws ParserException, IOException, LexerException {
-        FormTypeChecker formTypeChecker = new FormTypeChecker();
-        Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
-        Parser parser = new Parser(lexer);
-        Start ast = parser.parse();
-        AForm form = (AForm) ((AFormBegin) ast.getPBegin()).getForm();
-        form.apply(formTypeChecker);
-        return formTypeChecker;
-    }*/
-
     public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);

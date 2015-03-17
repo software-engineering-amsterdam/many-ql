@@ -14,6 +14,10 @@ import java.awt.*;
 
 
 public class SliderWidget implements IWidget {
+    final String questionIdentifier;
+    final QLInterpreter qlInterpreter;
+    final StateWrapper stateWrapper;
+    final Slider slider;
     private JSlider sliderWidget;
 
     @Override
@@ -26,10 +30,8 @@ public class SliderWidget implements IWidget {
         sliderWidget.setValue(0);
     }
 
-    public SliderWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper, Slider slider) {
-        this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
-
-        sliderWidget.addChangeListener(new ChangeListener() {
+    private ChangeListener createChangeListener() {
+        return new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 VariableTable variableTable = stateWrapper.getVariableTable();
@@ -37,7 +39,16 @@ public class SliderWidget implements IWidget {
                 VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
                 stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
+    }
+
+    public SliderWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper, Slider slider) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.slider = slider;
+        this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
+        sliderWidget.addChangeListener(createChangeListener());
 
     }
 }

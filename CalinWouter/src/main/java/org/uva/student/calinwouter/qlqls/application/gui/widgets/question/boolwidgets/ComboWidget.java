@@ -13,7 +13,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class ComboWidget implements IWidget {
-    private JComboBox yesNoComboBox;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
+    private final JComboBox yesNoComboBox;
 
     @Override
     public Component getWidgetComponent() {
@@ -25,22 +28,36 @@ public class ComboWidget implements IWidget {
         yesNoComboBox.setSelectedIndex(-1);
     }
 
-    public ComboWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper, Combo combo) {
-        yesNoComboBox = new JComboBox(new String[]{combo.getYesLbl(), combo.getNoLbl()});
-        yesNoComboBox.setSelectedIndex(-1);
+    private JComboBox createYesNoComboDombo(Combo combo) {
+        final String yesLabel = combo.getYesLbl();
+        final String noLabel = combo.getNoLbl();
+        return new JComboBox<String>(new String[] { yesLabel, noLabel });
+    }
 
-        yesNoComboBox.addItemListener(new ItemListener() {
+    private void setComboValue(VariableTable variableTable) {
+        final boolean isFirstSelected = yesNoComboBox.getSelectedIndex() == 0;
+        final BoolValue selectionBasedValue = new BoolValue(isFirstSelected);
+        variableTable.setVariable(questionIdentifier, selectionBasedValue);
+    }
+
+    private ItemListener createComboChangeListener() {
+        return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                VariableTable variableTable = stateWrapper.getVariableTable();
-                if (yesNoComboBox.getSelectedIndex() == 0)
-                    variableTable.setVariable(questionIdentifier, new BoolValue(true));
-                else
-                    variableTable.setVariable(questionIdentifier, new BoolValue(false));
-                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                VariableTable currentVariableTable = stateWrapper.getVariableTable();
+                setComboValue(currentVariableTable);
+                VariableTable newVariableTable = qlInterpreter.interpret(currentVariableTable);
                 stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
+    }
 
+    public ComboWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper, Combo combo) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.yesNoComboBox = createYesNoComboDombo(combo);
+        resetValue();
+        yesNoComboBox.addItemListener(createComboChangeListener());
     }
 }

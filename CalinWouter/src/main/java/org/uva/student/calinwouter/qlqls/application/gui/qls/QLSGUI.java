@@ -11,103 +11,81 @@ import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.qls.model.IQlsRenderer;
+import org.uva.student.calinwouter.qlqls.qls.interfaces.IQLSRenderer;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.HashMap;
 
-public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
+public class QLSGUI extends AbstractSwingGUI implements IQLSRenderer<Component> {
     private final StyleSheet styleSheet;
     private final QLInterpreter qlInterpreter;
     private final StaticFields staticFields;
     private final StateWrapper stateWrapper;
 
-    /**
-     * In case of a question, render the field by checking its type, fetching its styling settings,
-     * fetching the right widget and attaching it to a label with widget - widget.
-     *
-     * In case of a computed value, just render a label with widget - widget with a label representing its value.
-     */
     private Component render(AbstractFormField abstractFormField) {
-        try {
-            return abstractFormField.applyRenderer(this);
-        } catch(FieldNotFoundException e) {
-            // This exception should never be thrown, assuming the type checker did its work correctly. - TODO: then this try-catch should be removed
-            throw new RuntimeException(e);
+        return abstractFormField.applyRenderer(this);
+    }
+
+    private void renderFields(Section section, JPanel sectionPanel) {
+        for (AbstractFormField abstractFormField : section.getFields()) {
+            final Component renderedComponent = render(abstractFormField);
+            sectionPanel.add(renderedComponent);
         }
     }
 
-    /**
-     * Render a section: create a panel with fields.
-     */
     private Component render(Section section) {
-        JPanel sectionPanel = new JPanel();
-        sectionPanel.setBorder(BorderFactory.createTitledBorder(section.getSectionName()));
-        sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
-        for (AbstractFormField abstractFormField : section.getFields().getFields()) {
-            sectionPanel.add(render(abstractFormField));
-        }
+        final JPanel sectionPanel = new JPanel();
+        final String sectionName = section.getSectionName();
+        final TitledBorder sectionBorder = BorderFactory.createTitledBorder(sectionName);
+        sectionPanel.setBorder(sectionBorder);
+        BoxLayout boxLayout = new BoxLayout(sectionPanel, BoxLayout.Y_AXIS);
+        sectionPanel.setLayout(boxLayout);
+        renderFields(section, sectionPanel);
         return sectionPanel;
     }
 
-    /**
-     * Render a page: create a panel with sections.
-     */
     private Component render(Page page) {
         JPanel pagePanel = new JPanel();
-        for (Section section : page.getSections().getSections()) {
-            pagePanel.add(render(section));
+        for (Section section : page.getSections()) {
+            final Component renderedComponent = render(section);
+            pagePanel.add(renderedComponent);
         }
         return pagePanel;
     }
 
-    /*
-     * Render a question field. Use the type descriptor to fetch the right styling settings and afterwards widget.
-     */
     @Override
     public Component render(Question question) {
-        try {
-            final String questionIdentifier = question.getIdent();
-            final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(questionIdentifier);
-            final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
-            final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlInterpreter, stateWrapper, questionIdentifier, stylingMap, staticFields);
-            final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
-            return widget.getWidgetComponent();
-        } catch(FieldNotFoundException e) {
-            // This exception should never be thrown, assuming the type checker did its work correctly.
-            throw new RuntimeException(e);
-        }
+        final String questionIdentifier = question.getIdent();
+        final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(questionIdentifier);
+        final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
+        final AbstractWidget abstractWidget = stylingMap.getWidget();
+        final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(
+                qlInterpreter, stateWrapper, questionIdentifier, stylingMap, staticFields);
+        final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
+        return widget.getWidgetComponent();
     }
 
-    /**
-     * Render a computed value field.
-     */
     @Override
     public Component render(ComputedValue computedValue) {
         final String computedValueIdentifier = computedValue.getIdent();
-        final TypeDescriptor typeless = null;
-        final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
-        final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
         final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueIdentifier, stateWrapper);
-        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(
-                staticFields.getLabelForField(computedValueIdentifier),
-                computedValueIdentifier,
-                stylingSettingsObject,
-                valueRepresentingLabelWidget,
-                stateWrapper);
+        final String computedValueLabel = staticFields.getLabelForField(computedValueIdentifier);
+        final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(computedValueLabel,
+                computedValueIdentifier, valueRepresentingLabelWidget, stateWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
     @Override
     public Component renderFrameContent() {
         final JTabbedPane jTabbedPane = new JTabbedPane();
-        for (Page page : styleSheet.getPages().getPages()) {
-            jTabbedPane.addTab(page.getIdent(), new JScrollPane(render(page)));
+        for (Page page : styleSheet.getPages()) {
+            final String pageIdentifier = page.getIdent();
+            final Component renderedPage = render(page);
+            final JScrollPane renderedScrollPane = new JScrollPane(renderedPage);
+            jTabbedPane.addTab(pageIdentifier, renderedScrollPane);
         }
         return jTabbedPane;
     }
