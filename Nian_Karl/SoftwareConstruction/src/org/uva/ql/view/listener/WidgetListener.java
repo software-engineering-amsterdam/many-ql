@@ -8,23 +8,26 @@ import org.uva.ql.view.FormFrame;
 public class WidgetListener {
 
 	private Evaluator evaluator;
+	private FormFrame form;
 	private TypeChecker checker;
 
-	public WidgetListener() {
+	public WidgetListener(FormFrame form) {
 		this.evaluator = new Evaluator();
 		this.checker = new TypeChecker();
+		this.form = form;
 	}
 
+	
 	public void initializeValue(String identifier, Value value) {
 		evaluator.addValue(identifier, value);
 	}
 
 	public void widgetValueChanged(String identifier, Value value) {
 		evaluator.addValue(identifier, value);
+		form.notifyPanels(evaluator, checker);
 	};
 
 	public Evaluator getEvaluator() {
 		return evaluator;
 	}
-
 }
