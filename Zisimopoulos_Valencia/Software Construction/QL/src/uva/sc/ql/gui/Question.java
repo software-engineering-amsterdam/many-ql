@@ -7,6 +7,6 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public abstract class Question extends JFrame {
 
-	public abstract Component drawQuestion(String id, String label);
+    public abstract Component drawQuestion(String id, String label, boolean isEditable);
 
 }

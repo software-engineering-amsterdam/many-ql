@@ -10,7 +10,6 @@ def eval_expression(expression, answers_map):
         result = eval(expression, answers_dict)
         return result
     except Exception as e:
-        print(e)
         return False
 
 

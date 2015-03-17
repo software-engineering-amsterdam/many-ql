@@ -1,38 +1,34 @@
 package uva.sc.ql.atom;
 
-import uva.sc.ql.ast.INodeVisitor;
-import uva.sc.ql.logic.Expression;
+import uva.sc.ql.ast.IQLExpressionNodeVisitor;
+import uva.sc.ql.expression.Expression;
 
-public class BooleanAtom extends Expression {
+public class BooleanAtom extends Expression<Object> {
 
-	final String	value;
+    final Boolean value;
 
-	public BooleanAtom(boolean value) {
-		if (value) {
-			this.value = "true";
-		}
-		else {
-			this.value = "false";
-		}
-	}
+    public BooleanAtom(boolean value) {
+	this.value = new Boolean(value);
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public Boolean getValue() {
+	return value;
+    }
 
-	public String toString() {
-		return "[Boolean]: " + getValue();
-	}
+    public String toString() {
+	return "[Boolean]: " + getValue();
+    }
 
-	public static BooleanAtom isTrue() {
-		return new BooleanAtom(true);
-	}
+    public static BooleanAtom getTrue() {
+	return new BooleanAtom(true);
+    }
 
-	public static BooleanAtom isFalse() {
-		return new BooleanAtom(false);
-	}
+    public static BooleanAtom getFalse() {
+	return new BooleanAtom(false);
+    }
 
-	public <T> T accept(INodeVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
+    public Object accept(IQLExpressionNodeVisitor visitor) {
+	return visitor.visit(this);
+    }
+
 }

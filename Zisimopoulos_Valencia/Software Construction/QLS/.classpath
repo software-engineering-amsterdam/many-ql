@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/antlr-4.5-complete.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core_3.10.0.v20140902-0626.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QL"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

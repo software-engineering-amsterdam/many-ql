@@ -60,20 +60,20 @@ This is not so good: you use the accidental AST class types to check for QL type
  if(node.getCondition() instanceof ABooleanNode) {
 You can refactor by allowing you to ask an expression what is its type (possibly given certain argument types).
 In this particular case, you should check what is returned from: node.getCondition().accept(this);
+
+In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
+the case that null is returned is missed. Although you get away with it, it's a very fine line. ===> add undefined type and return this
 ======================================================================================================================================================================================================
 EVERYTHING ABOVE THIS LINE IS FIXED
 ======================================================================================================================================================================================================
 
 Identifiers are not literals, so they in the wrong package.
 And they are also not values: public class IdentifierValue extends Value<String> {
-(They are *bound* to values in the environment (e.g. Map<String,Value>).
+(They are *bound* to values in the environment (e.g. Map<String,Value>). ===> Replace identifiervalue with identifiernode
 
 In Main this field is never initialize (Main is not instantiated, it seems):
  private Questionnaire questionnaire;
 
-These expression depend on singletonness of types: childType != node.getQuestionType()
-
-In Type visitBinaryNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
-the case that null is returned is missed. Although you get away with it, it's a very fine line.
+These expression depend on singletonness of types: childType != node.getQuestionType() ====> is okay because we use enum???
 
 Avoid extending stdlib base classes (like JavaFX): you're not extending the framework, and probably you don't support the full contract of the base class. Better to encapsulate instead of extend.

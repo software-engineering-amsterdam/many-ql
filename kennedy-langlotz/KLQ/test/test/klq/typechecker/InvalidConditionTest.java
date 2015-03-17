@@ -97,15 +97,6 @@ public class InvalidConditionTest {
         runWrongTest(node);
     }
 
-    @Test
-    public void testNestedExpression() throws Exception {
-        GreaterThanNode gt1 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), new NumberNode(new BigDecimal("2")));
-        GreaterThanNode gt2 = new GreaterThanNode(new NumberNode(new BigDecimal("1")), gt1);
-
-        runWrongTest(gt2);
-
-    }
-
     private void runCorrectTest(AExpression node){
         ast.getChildren().add(new ConditionalNode(node, children));
         TypeChecker tc = new TypeChecker(ast);

@@ -3,8 +3,7 @@ package qls.semantics;
 import ql.ast.form.Form;
 import ql.ast.type.Type;
 import ql.semantics.QuestionCollector;
-import ql.semantics.QuestionResult;
-import ql.semantics.QuestionSet;
+import ql.semantics.Questions;
 import qls.ast.Page;
 import qls.ast.rule.Rules;
 import qls.ast.Styleable;
@@ -17,20 +16,20 @@ import qls.ast.statement.*;
  */
 public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
-    private final QuestionSet questions;
+    private final Questions questions;
     private final StyleStack styleStack;
     private final FormStyle styles;
 
     public static FormStyle getStyles(Stylesheet s, Form f)
     {
-        QuestionSet questions = QuestionCollector.collect(f);
+        Questions questions = QuestionCollector.collect(f);
         StyleMerger styleEval = new StyleMerger(questions);
         styleEval.visit(s);
 
         return styleEval.styles;
     }
 
-    private StyleMerger(QuestionSet questions)
+    private StyleMerger(Questions questions)
     {
         this.questions = questions;
         this.styleStack = new StyleStack();

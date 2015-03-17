@@ -1,12 +1,11 @@
 # Grammar for QLS
 
 import pyparsing as pp
-import QL.Grammar.basic_types as b
 import QL.Grammar.grammar as form
 import QLS.Factory.qls as q
 from QLS.Grammar.widget import *
 import QLS.Factory.properties as p
-
+import QL.Grammar.grammar as b
 
 class QLS:
 
@@ -19,10 +18,10 @@ class QLS:
     Group = pp.Group
 
     # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
-    characters = b.BasicTypes.characters
+    characters = b.characters
 
     # word :: end_sign_esc | characters
-    word = b.BasicTypes.word
+    word = b.word
 
     # _name :: [0-9a-zA-Z!@#$%^&*()_-~`{}[]'"
     name = Widget.name
@@ -63,7 +62,7 @@ class QLS:
 
     # default_settings :: Default answerR _widget
     default_setting = \
-        (Suppress("Default") + form.Grammar.answerR + Widget.widget +
+        (Suppress("Default") + form.answerR + Widget.widget +
          Optional(Group(obrac + default_properties + cbrac) )
         ).setParseAction(q.QLSFactory.make_default)
 

@@ -43,7 +43,8 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new BoolValue(true));
-                qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
+                variableTableWrapper.setVariableTable(newVariableTable);
             }
         });
 
