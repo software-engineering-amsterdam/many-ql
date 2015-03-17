@@ -82,7 +82,6 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
 
         DateValue date = (DateValue) ExpressionUtil.createTerminalFromString(Type.DATE, dateString);
 
-        //TODO discuss with Timon localdate vs date and refactor
         DateNode dateNode = new DateNode(date.getValue(), formatLocation(ctx));
         return dateNode;
     }
