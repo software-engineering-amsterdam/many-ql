@@ -11,7 +11,7 @@ namespace QL.Visitors
 {
     public interface IVisitor
     {
-        IList<QLException> Exceptions { get; }
+        IList<QLBaseException> Exceptions { get; }
 
         void Visit(Form node);
         void Visit(Block node);

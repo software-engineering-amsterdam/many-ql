@@ -22,17 +22,17 @@ namespace QL.Grammars
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
-        private IList<QLException> AstBuilderExceptions;
+        private IList<QLBaseException> AstBuilderExceptions;
 
 
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
-            AstBuilderExceptions = new List<QLException>();
+            AstBuilderExceptions = new List<QLBaseException>();
 
         }
 
-        public QLListener(IList<QLException> AstBuilderExceptions)
+        public QLListener(IList<QLBaseException> AstBuilderExceptions)
         {
             this.AstBuilderExceptions = AstBuilderExceptions;
             _childrenStack = new Stack<Stack<ElementBase>>();

@@ -16,9 +16,9 @@ namespace QL.Visitors
     public class TypeCheckerVisitor: IVisitor
     {
         public readonly IDictionary<Identifier, Type> TypeReference;
-        public IList<QLException> Exceptions { get; private set; }
+        public IList<QLBaseException> Exceptions { get; private set; }
         
-        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLException> exceptions)
+        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLBaseException> exceptions)
         {
             TypeReference = typeReference;
             Exceptions = exceptions;

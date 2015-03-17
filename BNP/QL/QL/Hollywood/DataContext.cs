@@ -18,17 +18,14 @@ namespace QL
     {
         public string Input;
         public Stream InputStream;
-        public AntlrInputStream AntlrInput;
+        public AntlrInputStream AntlrInput; //Input used in parser
 
-        /// <summary>
-        /// The main form (i.e. entry point) in the AST
-        /// </summary>
-        public Form RootNode;
+        public Form RootNode; //AST root node, entry point for all visitors
 
         /// <summary>
         /// A collection of all errors and warnings occurring during all stages of interpreting input grammar
         /// </summary>
-        public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
+        public ObservableCollection<QLBaseException> ASTHandlerExceptions { get; private set; }
 
         /// <summary>
         /// Maps defined identifiers to the datatype of the value they contain
@@ -47,7 +44,7 @@ namespace QL
         public bool Rendered;
         public DataContext(){
             InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
-            ASTHandlerExceptions = new ObservableCollection<QLException>();
+            ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
             TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();

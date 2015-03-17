@@ -17,7 +17,7 @@ namespace QL.Visitors
 {
     public class EvaluatorVisitor : IVisitor
     {
-        public IList<QLException> Exceptions { get; private set; }
+        public IList<QLBaseException> Exceptions { get; private set; }
         
         public readonly IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
         public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
@@ -27,14 +27,14 @@ namespace QL.Visitors
             return Exceptions.Any() ? null : ReferenceLookupTable;
         }
 
-        public EvaluatorVisitor(ObservableCollection<QLException> exceptions)
+        public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions)
         {
             Exceptions = exceptions;
             ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
         }
 
-        public EvaluatorVisitor(ObservableCollection<QLException> exceptions, IDictionary<ITypeResolvable, ITerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
+        public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions, IDictionary<ITypeResolvable, ITerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
         {
             Exceptions = exceptions;
             ReferenceLookupTable = referenceTable;

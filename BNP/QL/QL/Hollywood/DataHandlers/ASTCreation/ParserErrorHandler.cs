@@ -9,16 +9,16 @@ namespace QL.Infrastructure
 {
     public class ParserErrorHandler : IAntlrErrorListener<IToken>
     {
-        private readonly IList<QLException> _parserErrors;
+        private readonly IList<QLBaseException> _parserErrors;
 
-        public ParserErrorHandler(IList<QLException> parserErrors)
+        public ParserErrorHandler(IList<QLBaseException> parserErrors)
         {
             _parserErrors = parserErrors;
         }
 
         public ParserErrorHandler()
         {
-            _parserErrors = new List<QLException>();
+            _parserErrors = new List<QLBaseException>();
         }
 
         public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)

@@ -9,14 +9,14 @@ namespace QL.Infrastructure
 {
     public class LexerErrorHandler : IAntlrErrorListener<int>
     {
-        private readonly IList<QLException> _lexerErrors;
+        private readonly IList<QLBaseException> _lexerErrors;
 
         public LexerErrorHandler()
         {
-            _lexerErrors = new List<QLException>();
+            _lexerErrors = new List<QLBaseException>();
         }
 
-        public LexerErrorHandler(IList<QLException> lexerErrors)
+        public LexerErrorHandler(IList<QLBaseException> lexerErrors)
         {
             _lexerErrors = lexerErrors;
         }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace QL.GenericDataHandlers
 {
-    class AstBuilder :IExecutable
+    class ASTBuilder :IExecutable
     {
-        public AstBuilder(){}
+        public ASTBuilder(){}
         public bool execute(DataContext context)
         {
             

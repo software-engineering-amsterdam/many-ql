@@ -53,7 +53,7 @@ namespace QL
             Initializers.Add(handler);
         }
 
-        public void RegisterAstBuilder(IExecutable handler)
+        public void RegisterASTBuilder(IExecutable handler)
         {
             ASTBuilders.Add(handler);
         }
@@ -89,7 +89,7 @@ namespace QL
                 {
                     successfulExecution = handler.execute(DataContext);
                 }
-                catch (QLException ex)
+                catch (QLBaseException ex)
                 {
                     DataContext.ASTHandlerExceptions.Add(ex);
                     successfulExecution = false;
@@ -184,7 +184,7 @@ namespace QL
         public void RegisterGenericDataHandlers()
         {
             RegisterInitializer(new Initializer());
-            RegisterAstBuilder(new AstBuilder());
+            RegisterASTBuilder(new ASTBuilder());
             RegisterTypeChecker(new TypeChecker());
             RegisterEvaluator(new Evaluator());
         }
