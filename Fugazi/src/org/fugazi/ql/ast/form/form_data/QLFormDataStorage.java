@@ -69,7 +69,10 @@ public class QLFormDataStorage {
     }
 
     public HashMap<String, Type> getallQuestionTypes() {
-        return this.questionsVisitor.getQuestionTypes();
+        HashMap<String, Type> questionTypes = this.questionsVisitor.getQuestionTypes();
+        HashMap<String, Type> computedQuestionTypes = this.computedQuestionsVisitor.getComputedQuestionTypes();
+        questionTypes.putAll(computedQuestionTypes);
+        return questionTypes;
     }
 
     public Type getIdType(ID _id) {

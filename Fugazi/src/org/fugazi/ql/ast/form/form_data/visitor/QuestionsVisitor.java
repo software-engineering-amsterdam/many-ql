@@ -14,7 +14,6 @@ public class QuestionsVisitor extends StatementsVisitor {
         super(_form);
         this.questions = new ArrayList<>();
         this.questionTypes = new HashMap<>();
-
     }
 
     /**
@@ -25,13 +24,6 @@ public class QuestionsVisitor extends StatementsVisitor {
 
     @Override
     public Void visitQuestion(Question question) {
-        this.saveQuestion(question);
-        this.saveQuestionType(question);
-        return null;
-    }
-
-    @Override
-    public Void visitComputedQuestion(ComputedQuestion question) {
         this.saveQuestion(question);
         this.saveQuestionType(question);
         return null;
