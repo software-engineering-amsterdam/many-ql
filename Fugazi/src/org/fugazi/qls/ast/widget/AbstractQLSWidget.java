@@ -8,7 +8,6 @@ import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
-import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
 import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
@@ -23,13 +22,9 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public final static String DEFAULT_COLOR = "#000000";
     public final static int DEFAULT_WIDTH = 50;
 
-    protected String label;
-    protected Style style;
     protected IWidgetType type;
 
     public AbstractQLSWidget() {
-        this.label = "";
-        this.style  = new UndefinedStyle();
         this.type   = new UndefinedWidgetType();
     }
 
@@ -64,8 +59,8 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     }
 
     public void resetStyleToDefault() {
-        this.style = getDefaultStyle();
-        this.applyStyle(this.style);
+        Style style = this.getDefaultStyle();
+        this.applyStyle(style);
     }
 
     public abstract void applyStyle(Style _style);
@@ -105,7 +100,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 
     public void setLabel(String _label) {
-        this.label = _label;
+        throw new AssertionError();
     }
 
     public boolean isUndefined() {

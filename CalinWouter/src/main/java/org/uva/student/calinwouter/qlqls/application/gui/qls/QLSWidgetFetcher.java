@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets.CheckboxWidget;
@@ -14,64 +14,63 @@ import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
-import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.*;
 
 /**
  * This class is used to fetch the right widget based on the QLS widget settings.
  */
 public class QLSWidgetFetcher implements IQuestionWidgetCallback<IWidget> {
-    private final Question question;
-    private final QLInterpreter qlIntepreter;
-    private final VariableTableWrapper variableTableWrapper;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
     private final StylingSettings stylingSettings;
     private final StaticFields staticFields;
 
     private IWidget createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        return new LabelWithWidgetWidget(staticFields.getLabelForField(question.getIdent()), question.getIdent(), stylingSettings, embeddedWidget, variableTableWrapper);
+        return new LabelWithWidgetWidget(staticFields.getLabelForField(questionIdentifier), questionIdentifier, stylingSettings, embeddedWidget, stateWrapper);
 
     }
 
     @Override
     public IWidget createWidget(Checkbox checkbox) {
-        return createLabelWithWidgetWidget(new CheckboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new CheckboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Radio radio) {
-        return createLabelWithWidgetWidget(new RadioWidget(question, qlIntepreter, variableTableWrapper, radio));
+        return createLabelWithWidgetWidget(new RadioWidget(questionIdentifier, qlInterpreter, stateWrapper, radio));
     }
 
     @Override
     public IWidget createWidget(Slider slider) {
-        return createLabelWithWidgetWidget(new SliderWidget(question, qlIntepreter, variableTableWrapper, slider));
+        return createLabelWithWidgetWidget(new SliderWidget(questionIdentifier, qlInterpreter, stateWrapper, slider));
     }
 
     @Override
     public IWidget createWidget(Spinbox spinbox) {
-        return createLabelWithWidgetWidget(new SpinboxWidget(question, qlIntepreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new SpinboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Textbox textbox) {
-        return createLabelWithWidgetWidget(new TextboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new TextboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
     @Override
     public IWidget createWidget(Combo combo) {
-        return createLabelWithWidgetWidget(new ComboWidget(question, qlIntepreter, variableTableWrapper, combo));
+        return createLabelWithWidgetWidget(new ComboWidget(questionIdentifier, qlInterpreter, stateWrapper, combo));
     }
 
     @Override
     public IWidget createWidget(Intbox intbox) {
-        return createLabelWithWidgetWidget(new IntboxWidget(question.getIdent(), qlIntepreter, variableTableWrapper));
+        return createLabelWithWidgetWidget(new IntboxWidget(questionIdentifier, qlInterpreter, stateWrapper));
     }
 
-    public QLSWidgetFetcher(QLInterpreter qlIntepreter, VariableTableWrapper variableTableWrapper, Question question,
+    public QLSWidgetFetcher(QLInterpreter qlInterpreter, StateWrapper stateWrapper, String questionIdentifier,
                             StylingSettings stylingSettings, StaticFields staticFields) {
-        this.qlIntepreter = qlIntepreter;
-        this.variableTableWrapper = variableTableWrapper;
-        this.question = question;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.questionIdentifier = questionIdentifier;
         this.stylingSettings = stylingSettings;
         this.staticFields = staticFields;
     }

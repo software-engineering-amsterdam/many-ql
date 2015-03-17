@@ -5,8 +5,7 @@ import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.BooleanValue;
 import com.klq.ast.impl.value.Value;
-
-import java.util.Map;
+import com.klq.controller.VariableTable;
 
 /**
  * Created by Timon on 03.03.2015.
@@ -24,7 +23,7 @@ public class BooleanNode extends AExpression{
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
+    public Value evaluate(VariableTable variableTable) {
         return new BooleanValue(value);
     }
 

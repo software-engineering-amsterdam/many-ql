@@ -6,8 +6,7 @@ import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.BooleanValue;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
-
-import java.util.Map;
+import com.klq.controller.VariableTable;
 
 /**
  * Created by Juriaan on 22-2-2015.
@@ -28,9 +27,9 @@ public class NotEqualsNode extends ABooleanNode {
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
-        Value left = getLeftChild().evaluate(variables);
-        Value right =getRightChild().evaluate(variables);
+    public Value evaluate(VariableTable variableTable) {
+        Value left = getLeftChild().evaluate(variableTable);
+        Value right =getRightChild().evaluate(variableTable);
 
         if(anyUndefined(left, right))
         {

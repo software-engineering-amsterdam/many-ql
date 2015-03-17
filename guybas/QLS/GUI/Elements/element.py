@@ -2,7 +2,7 @@ import QL.GUI.Elements.element as i_element
 import tkinter as tk
 
 
-class Element(i_element):
+class Element(i_element.Element):
     def set_font_style(self, style):
         for i in range(0, len(self.rowElements)):
             self.rowElements[i].configure(font=style)

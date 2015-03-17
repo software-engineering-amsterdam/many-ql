@@ -1,9 +1,18 @@
 # Generated from java-escape by ANTLR 4.5
 from antlr4 import *
-from ..parser.QLVisitor import QLVisitor
-from ..parser.QLParser import QLParser
-from . import Nodes
-from ..CustomTypes import *
+from .QLVisitor import QLVisitor
+from .QLParser import QLParser
+from .QLLexer import QLLexer
+from ..ast import Nodes
+
+def create(inputQLFile):
+    inputStream = FileStream(inputQLFile)
+    lexer = QLLexer(inputStream)
+    stream = CommonTokenStream(lexer)
+    parser = QLParser(stream)
+    visitor = ParseTreeVisitor()
+    tree = parser.root()
+    return visitor.visit(tree)
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class ParseTreeVisitor(QLVisitor):
@@ -11,7 +20,7 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParserRoot.
     def visitRoot(self, ctx):
         statements = [self.visit(child) for child in ctx.getChildren()]
-        return Nodes.Root(statements)
+        return Nodes.Questionnaire(statements)
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm_statement(self, ctx):
@@ -30,7 +39,7 @@ class ParseTreeVisitor(QLVisitor):
 
         lineNumber = ctx.start.line
 
-        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expr = expr)
+        return Nodes.QuestionStatement(identifier, text, question_type, lineNumber, expression = expr)
 
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):
@@ -42,31 +51,27 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
         lineNumber = ctx.start.line
-        return Boolean(ctx.getText() == 'true', lineNumber);
-
-    # Visit a parse tree produced by QLParser#question_type.
-    def visitQuestion_type(self, ctx):
-        return ctx.getText()
+        return Nodes.Boolean(ctx.getText() == 'true', lineNumber);
 
     # Visit a parse tree produced by QLParser#string.
     def visitString(self, ctx):
         lineNumber = ctx.start.line
-        return String(ctx.getText()[1:-1], lineNumber)
+        return Nodes.String(ctx.getText()[1:-1], lineNumber)
 
     # Visit a parse tree produced by QLParser#integer.
     def visitInteger(self, ctx):
         lineNumber = ctx.start.line
-        return Integer(int(ctx.getText()), lineNumber)
+        return Nodes.Integer(int(ctx.getText()), lineNumber)
 
     # Visit a parse tree produced by QLParser#money.
     def visitMoney(self, ctx):
         lineNumber = ctx.start.line
-        return Money(Decimal(ctx.getText()), lineNumber)
+        return Nodes.Money(Decimal(ctx.getText()), lineNumber)
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx):
         lineNumber = ctx.start.line
-        return Identifier(ctx.getText(), lineNumber)
+        return Nodes.Identifier(ctx.getText(), lineNumber)
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):

@@ -5,9 +5,9 @@ import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.NumberValue;
 import com.klq.ast.impl.value.Value;
+import com.klq.controller.VariableTable;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * Created by juriaan on 17-2-15.
@@ -30,7 +30,7 @@ public class NumberNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
+    public Value evaluate(VariableTable variableTable) {
         return new NumberValue(number);
     }
 

@@ -1,6 +1,5 @@
-from ..CustomTypes import Money as CustomMoney
-from ..CustomTypes import Identifier as CustomIdentifier
 from ..TypeRules import nativeQuestionType
+from ..QLTypes import *
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
@@ -53,39 +52,10 @@ class Question(object):
 		return self.conditionalExpressions.value()
 
 
-class EvaluatorBaseType(object):
-	def __init__(self, value, evaluator = None):
+class EvalIdentifier(object):
+	def __init__(self, value, evaluator):
 		self._value = value
 		self._evaluator = evaluator
-
-	def __str__(self):
-		return str(self.value())
-
-	def value(self):
-		return self._value
-
-	def getType(self):
-		raise NotImplementedError()
-
-class Boolean(EvaluatorBaseType):
-	def getType(self):
-		return bool
-
-class Integer(EvaluatorBaseType):
-	def getType(self):
-		return int
-
-class String(EvaluatorBaseType):
-	def getType(self):
-		return str
-
-class Money(EvaluatorBaseType):
-	def getType(self):
-		return CustomMoney
-
-class Identifier(EvaluatorBaseType):
-	def getType(self):
-		return CustomIdentifier
 
 	def value(self):
 		return self._evaluator.getValue(self._value)

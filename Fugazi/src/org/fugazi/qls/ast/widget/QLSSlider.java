@@ -22,7 +22,7 @@ public class QLSSlider extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
-    private final JLabel titleLabel;
+    private final JLabel componentLabel;
     private final JPanel panel;
     private final JSlider slider;
     private JLabel valueLabel;
@@ -32,14 +32,13 @@ public class QLSSlider extends AbstractQLSWidget {
     }
 
     public QLSSlider(String _label) {
-        this.label = _label;
 
         this.panel = new JPanel();
-        this.titleLabel = new JLabel(_label);
+        this.componentLabel = new JLabel(_label);
         this.valueLabel = new JLabel("0");
         this.slider = new JSlider(JSlider.HORIZONTAL, MIN, MAX, STEP);
 
-        this.panel.add(this.titleLabel);
+        this.panel.add(this.componentLabel);
         this.panel.add(this.slider);
         this.panel.add(this.valueLabel);
 
@@ -48,10 +47,10 @@ public class QLSSlider extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        this.style = _style;
+        Style style = _style;
 
         // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
+        style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
     }
@@ -102,6 +101,11 @@ public class QLSSlider extends AbstractQLSWidget {
         supportedTypes.add(new IntType());
 
         return supportedTypes;
+    }
+
+    @Override
+    public void setLabel(String _label) {
+        this.componentLabel.setText(_label);
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

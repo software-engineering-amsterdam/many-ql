@@ -7,8 +7,7 @@ import com.klq.ast.impl.value.BooleanValue;
 import com.klq.ast.impl.value.ComparableValue;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
-
-import java.util.Map;
+import com.klq.controller.VariableTable;
 
 /**
  * Created by Juriaan on 22-2-2015.
@@ -29,9 +28,9 @@ public class LessThanNode extends ABooleanNode {
     }
 
     @Override
-    public Value evaluate(Map<String, Value> variables) {
-        ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variables));
-        ComparableValue right = (ComparableValue)(getRightChild().evaluate(variables));
+    public Value evaluate(VariableTable variableTable) {
+        ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variableTable));
+        ComparableValue right = (ComparableValue)(getRightChild().evaluate(variableTable));
 
         if(anyUndefined(left, right))
         {

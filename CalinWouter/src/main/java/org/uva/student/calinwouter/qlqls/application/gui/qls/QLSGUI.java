@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.application.gui.AbstractSwingGUI;
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.LabelWithWidgetWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue.LabelWidget;
@@ -20,15 +20,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-/**
- * Clean and simple QLS renderer.
- */
 public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> {
     private final StyleSheet styleSheet;
-    private final QLInterpreter qlIntepreter;
-    private final VariableTable variableTable;
+    private final QLInterpreter qlInterpreter;
     private final StaticFields staticFields;
-    private final VariableTableWrapper variableTableWrapper;
+    private final StateWrapper stateWrapper;
 
     /**
      * In case of a question, render the field by checking its type, fetching its styling settings,
@@ -40,7 +36,7 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         try {
             return abstractFormField.applyRenderer(this);
         } catch(FieldNotFoundException e) {
-            // This exception should never be thrown, assuming the type checker did its work correctly.
+            // This exception should never be thrown, assuming the type checker did its work correctly. - TODO: then this try-catch should be removed
             throw new RuntimeException(e);
         }
     }
@@ -69,29 +65,17 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         return pagePanel;
     }
 
-    /**
-     * Use QL's type checker to identify the identifier's referring field. This method will throw a runtime
-     * exception when the field cannot be found, which should not happen, because the program should crash
-     * before the QLSGUI takes place in case a field is not in both QL and QLS.
-     */
-    // TODO maybe this method could be part of the typeChecker
-    private TypeDescriptor getTypeDescriptor(String ident) {
-        return staticFields.getTypeOfField(ident);
-    }
-
-    /**
-     * Use QL's type checker to identify the identifier's referring field. This method will throw a runtime
-     * exception when the field cannot be found, which should not happen, because the program should crash
-     * before the QLSGUI takes place in case a field is not in both QL and QLS.
+    /*
+     * Render a question field. Use the type descriptor to fetch the right styling settings and afterwards widget.
      */
     @Override
     public Component render(Question question) {
         try {
             final String questionIdentifier = question.getIdent();
-            final TypeDescriptor typeDescriptor = getTypeDescriptor(questionIdentifier);
+            final TypeDescriptor typeDescriptor = staticFields.getTypeOfField(questionIdentifier);
             final StylingSettings stylingMap = styleSheet.getStylingSettings(questionIdentifier, typeDescriptor);
             final AbstractWidget abstractWidget = stylingMap.getWidget();
-            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlIntepreter, variableTableWrapper,question, stylingMap, staticFields);
+            final QLSWidgetFetcher questionWidgetFetcher = new QLSWidgetFetcher(qlInterpreter, stateWrapper, questionIdentifier, stylingMap, staticFields);
             final IWidget widget = abstractWidget.createWidget(questionWidgetFetcher);
             return widget.getWidgetComponent();
         } catch(FieldNotFoundException e) {
@@ -105,16 +89,17 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
      */
     @Override
     public Component render(ComputedValue computedValue) {
+        final String computedValueIdentifier = computedValue.getIdent();
         final TypeDescriptor typeless = null;
         final HashMap<String, Object> emptyStylingSettingsMap = new HashMap<String, Object>();
         final StylingSettings stylingSettingsObject = new StylingSettings(typeless, emptyStylingSettingsMap);
-        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValue.getIdent(), variableTableWrapper);
+        final LabelWidget valueRepresentingLabelWidget = new LabelWidget(computedValueIdentifier, stateWrapper);
         final LabelWithWidgetWidget labelWithWidgetWidget = new LabelWithWidgetWidget(
-                staticFields.getLabelForField(computedValue.getIdent()),
-                computedValue.getIdent(),
+                staticFields.getLabelForField(computedValueIdentifier),
+                computedValueIdentifier,
                 stylingSettingsObject,
                 valueRepresentingLabelWidget,
-                variableTableWrapper);
+                stateWrapper);
         return labelWithWidgetWidget.getWidgetComponent();
     }
 
@@ -132,12 +117,11 @@ public class QLSGUI extends AbstractSwingGUI implements IQlsRenderer<Component> 
         return styleSheet.getStyleSheetName();
     }
 
-    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlIntepreter, VariableTable variableTable,
+    public QLSGUI(StyleSheet styleSheet, QLInterpreter qlInterpreter, VariableTable variableTable,
                   StaticFields staticFields) {
-        this.qlIntepreter = qlIntepreter;
-        this.variableTable = variableTable;
+        this.qlInterpreter = qlInterpreter;
         this.staticFields = staticFields;
         this.styleSheet = styleSheet;
-        this.variableTableWrapper = new VariableTableWrapper(variableTable);
+        this.stateWrapper = new StateWrapper(variableTable);
     }
 }

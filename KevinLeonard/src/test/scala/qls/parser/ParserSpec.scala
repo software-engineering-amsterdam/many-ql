@@ -210,7 +210,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "page page1 {}" +
           "page page2 {}" +
         "}")
-        .withResult(Style("PartyForm",List(DefaultWidget(BooleanType(), Slider(List())), Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
+        .withResult(StyleSheet("PartyForm",List(DefaultWidget(BooleanType(), Slider(List())), Page(Variable("page1"),List()), Page(Variable("page2"),List()))))
     }
   }
 
