@@ -134,9 +134,9 @@ namespace Tests.QLTests
             ";
             QLBuilder Handler = new QLBuilder(input);
 
-            Handler.registerGenericDataHandlers();
-            Assert.AreEqual(true, Handler.runInit());
-            Assert.AreEqual(true, Handler.runAstBuild());
+            Handler.RegisterGenericDataHandlers();
+            Assert.AreEqual(true, Handler.RunInit());
+            Assert.AreEqual(true, Handler.RunAstBuild());
 
 
 

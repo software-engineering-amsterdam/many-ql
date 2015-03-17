@@ -15,67 +15,71 @@ namespace QL
     /// </summary>
     public class QLBuilder
     {
-        protected IList<IExecutable> _initializers;
-        protected IList<IExecutable> _astBuilders;
-        protected IList<IExecutable> _typeCheckers;
-        protected IList<IExecutable> _evaluators;
-        protected IList<IExecutable> _renderers;
-        protected IList<IExecutable> _exporters;
-        public readonly DataContext DataContext;//needs to be public because of tests
+        protected IList<IExecutable> Initializers;
+        protected IList<IExecutable> ASTBuilders;
+        protected IList<IExecutable> TypeCheckers;
+        protected IList<IExecutable> Evaluators;
+        protected IList<IExecutable> Renderers;
+        protected IList<IExecutable> Exporters;
 
+        public readonly DataContext DataContext; //needs to be public because of tests
         public IList<Exception> Errors { get; private set; }
-
-
+        
         public QLBuilder()
         {
-            _initializers = new List<IExecutable>();
-            _astBuilders = new List<IExecutable>();
-            _typeCheckers = new List<IExecutable>();
-            _evaluators = new List<IExecutable>();
-            _renderers = new List<IExecutable>();
-            _exporters = new List<IExecutable>();
+            Initializers = new List<IExecutable>();
+            ASTBuilders = new List<IExecutable>();
+            TypeCheckers = new List<IExecutable>();
+            Evaluators = new List<IExecutable>();
+            Renderers = new List<IExecutable>();
+            Exporters = new List<IExecutable>();
 
-            Errors = new List<Exception>();
             DataContext = new DataContext();
+            Errors = new List<Exception>();
         }
 
-        public QLBuilder(string input)
-            : this()
+        public QLBuilder(string input) : this()
         {
             SetInput(input);
         }
-        public QLBuilder(Stream input)
-            : this()
+
+        public QLBuilder(Stream input) : this()
         {
             SetInput(input);
         }
-        public void registerInitializer(IExecutable handler)
+
+        public void RegisterInitializer(IExecutable handler)
         {
-            _initializers.Add(handler);
+            Initializers.Add(handler);
         }
-        public void registerAstBuilder(IExecutable handler)
+
+        public void RegisterAstBuilder(IExecutable handler)
         {
-            _astBuilders.Add(handler);
+            ASTBuilders.Add(handler);
         }
-        public void registerTypeChecker(IExecutable handler)
+
+        public void RegisterTypeChecker(IExecutable handler)
         {
-            _typeCheckers.Add(handler);
+            TypeCheckers.Add(handler);
         }
-        public void registerEvaluator(IExecutable handler)
+
+        public void RegisterEvaluator(IExecutable handler)
         {
-            _evaluators.Add(handler);
+            Evaluators.Add(handler);
         }
-        public void registerRenderer(IExecutable handler)
+
+        public void RegisterRenderer(IExecutable handler)
         {
-            _renderers.Add(handler);
+            Renderers.Add(handler);
         }
-        public void registerExporter(IExecutable handler)
+
+        public void RegisterExporter(IExecutable handler)
         {
-            _exporters.Add(handler);
+            Exporters.Add(handler);
         }
 
 
-        bool runOneLevel(IEnumerable<IExecutable> thisLevelHandlers)
+        private bool RunOneLevel(IEnumerable<IExecutable> thisLevelHandlers)
         {
             bool successfulExecution = true;
 
@@ -85,16 +89,16 @@ namespace QL
                 {
                     successfulExecution = handler.execute(DataContext);
                 }
-                catch (QLException e)
+                catch (QLException ex)
                 {
-                    DataContext.ASTHandlerExceptions.Add(e);
+                    DataContext.ASTHandlerExceptions.Add(ex);
                     successfulExecution = false;
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     //not known exception!
-                    Errors.Add(e);
+                    Errors.Add(ex);
                     successfulExecution = false;
 
                 }
@@ -107,13 +111,14 @@ namespace QL
 
             return successfulExecution;
         }
-        public bool runInit()
-        {
-            DataContext.InputSet = runOneLevel(_initializers);
-            return DataContext.InputSet;
 
+        public bool RunInit()
+        {
+            DataContext.InputSet = RunOneLevel(Initializers);
+            return DataContext.InputSet;
         }
-        public bool runAstBuild()
+
+        public bool RunAstBuild()
         {
             if (!DataContext.InputSet)
             {
@@ -121,24 +126,24 @@ namespace QL
                 return false;
             }
 
-            DataContext.AstBuilt = runOneLevel(_astBuilders);
+            DataContext.AstBuilt = RunOneLevel(ASTBuilders);
             return DataContext.AstBuilt;
-
         }
-        public bool runTypeCheck()
+
+        public bool RunTypeCheck()
         {
 
             if (!DataContext.AstBuilt)
             {
-
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.TypeChecked = runOneLevel(_typeCheckers);
+            DataContext.TypeChecked = RunOneLevel(TypeCheckers);
             return DataContext.TypeChecked;
 
         }
-        public bool runEvaluate()
+
+        public bool RunEvaluate()
         {
 
             if (!DataContext.TypeChecked)
@@ -146,11 +151,12 @@ namespace QL
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.Evaluated = runOneLevel(_evaluators);
+            DataContext.Evaluated = RunOneLevel(Evaluators);
             return DataContext.Evaluated;
 
         }
-        public bool runRender()
+
+        public bool RunRender()
         {
 
             if (!DataContext.Evaluated)
@@ -158,11 +164,12 @@ namespace QL
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.Rendered = runOneLevel(_renderers);
+            DataContext.Rendered = RunOneLevel(Renderers);
             return DataContext.Rendered;
 
         }
-        public bool runExport()
+
+        public bool RunExport()
         {
 
             if (!DataContext.Evaluated)
@@ -170,32 +177,26 @@ namespace QL
                 DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
                 return false;
             }
-            return runOneLevel(_exporters);
+            return RunOneLevel(Exporters);
 
         }
 
-        public void registerGenericDataHandlers()
+        public void RegisterGenericDataHandlers()
         {
-            registerInitializer(new Initializer());
-            registerAstBuilder(new AstBuilder());
-            registerTypeChecker(new TypeChecker());
-            registerEvaluator(new Evaluator());
-
-
-
+            RegisterInitializer(new Initializer());
+            RegisterAstBuilder(new AstBuilder());
+            RegisterTypeChecker(new TypeChecker());
+            RegisterEvaluator(new Evaluator());
         }
-
-
+        
         public void SetInput(string input)
         {
             DataContext.Input = input;
-
         }
 
         public void SetInput(Stream input)
         {
             DataContext.InputStream = input;
-
         }
     }
 }

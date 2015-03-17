@@ -23,7 +23,7 @@ namespace QL.UI
     public partial class MainWindow : Window
     {
         private string _inputFilePath = null;
-        private QLBuilder _astHandler = null;
+        private QLBuilder _qlBuilder = null;
 
         public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
@@ -58,19 +58,19 @@ namespace QL.UI
         private void BuildQuestionnaire(string inputFileContents)
         {
             InputFileSourceText.Text = inputFileContents;
-            _astHandler = new QLBuilder(inputFileContents);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
+            _qlBuilder = new QLBuilder(inputFileContents);
+            ExceptionTable.ItemsSource = _qlBuilder.Errors;
 
-            if (_astHandler.BuildAST())
-            {
-                if (_astHandler.CheckType())
-                {
-                    if (_astHandler.Evaluate())
-                    {
-                        // todo evaluate ui controls?
-                    }
-                }
-            }
+            //if (_astHandler.BuildAST())
+            //{
+            //    if (_astHandler.CheckType())
+            //    {
+            //        if (_astHandler.Evaluate())
+            //        {
+            //            // todo evaluate ui controls?
+            //        }
+            //    }
+            //}
         }
 
         #region Menu event handlers
@@ -131,27 +131,27 @@ namespace QL.UI
 
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler = new QLBuilder(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
-            _astHandler.BuildAST();
+            if (_qlBuilder == null) return;
+            _qlBuilder = new QLBuilder(InputFileSourceText.Text);
+            ExceptionTable.ItemsSource = _qlBuilder.Errors;
+            //_qlBuilder.BuildAST();
         }
 
         private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.CheckType();
+            if (_qlBuilder == null) return;
+            //_qlBuilder.CheckType();
         }
 
         private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.Evaluate();
+            if (_qlBuilder == null) return;
+            //_qlBuilder.Evaluate();
         }
 
         private void ButtonBuild_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
+            if (_qlBuilder == null) return;
             //todo rebuild ui _astHandler.EvaluateUI();
         }
 

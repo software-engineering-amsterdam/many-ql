@@ -31,11 +31,11 @@ namespace QL
 
                 QLBuilder ast = new QLBuilder(inputStream);
 
-                ast.registerGenericDataHandlers();
-                ast.runInit();
-                ast.runAstBuild();
-                ast.runTypeCheck();
-                ast.runEvaluate();
+                ast.RegisterGenericDataHandlers();
+                ast.RunInit();
+                ast.RunAstBuild();
+                ast.RunTypeCheck();
+                ast.RunEvaluate();
                 foreach (Exception e in ast.Errors){
                     Console.WriteLine(e.ToString());
                 }

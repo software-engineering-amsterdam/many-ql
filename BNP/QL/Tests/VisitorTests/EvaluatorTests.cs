@@ -17,10 +17,10 @@ namespace Tests.VisitorTests
         public void Initialize(string input){
         
             Builder = new QLBuilder(input);
-            Builder.registerGenericDataHandlers();
-            Assert.IsTrue(Builder.runInit());
-            Assert.IsTrue(Builder.runAstBuild());
-            Assert.IsTrue(Builder.runTypeCheck());
+            Builder.RegisterGenericDataHandlers();
+            Assert.IsTrue(Builder.RunInit());
+            Assert.IsTrue(Builder.RunAstBuild());
+            Assert.IsTrue(Builder.RunTypeCheck());
 
         }
 
@@ -33,7 +33,7 @@ namespace Tests.VisitorTests
                 }
             "); 
             
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
 
         }
 
@@ -54,7 +54,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             TextWrapper tw = new TextWrapper("\"abc\"");
             TextWrapper tw_from_code = Builder.DataContext.ReferenceLookupTable[(ITypeResolvable)Builder.DataContext.RootNode.Children[0].Children[0].Children[0]] as TextWrapper;
             Assert.IsTrue((tw_from_code == tw).Value.Value);
@@ -78,7 +78,7 @@ namespace Tests.VisitorTests
                 if (""bla""!=""bleble""){};
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());           
+            Assert.IsTrue(Builder.RunEvaluate());           
 
         }
 
@@ -97,14 +97,14 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             Identifier i = new Identifier("Q1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(i));
             Assert.IsTrue(Builder.DataContext.ReferenceLookupTable.ContainsKey(Builder.DataContext.IdentifierTable[i]));
             NumberWrapper nw = Builder.DataContext.ReferenceLookupTable[Builder.DataContext.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2;
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             
             Identifier S1 = new Identifier("S1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(S1));
@@ -131,14 +131,14 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             Identifier i = new Identifier("Q1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(i));
             Assert.IsTrue(Builder.DataContext.ReferenceLookupTable.ContainsKey(Builder.DataContext.IdentifierTable[i]));
             NumberWrapper nw = Builder.DataContext.ReferenceLookupTable[Builder.DataContext.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
-            Assert.IsTrue(Builder.runEvaluate(),"reevaluation");
+            Assert.IsTrue(Builder.RunEvaluate(),"reevaluation");
 
             Identifier S1 = new Identifier("S1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(S1));
@@ -162,14 +162,14 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");            
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
-            Assert.IsTrue(Builder.runEvaluate(), "reevaluation");
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
             
             nw.Value = 31; // new answer to the question
-            Assert.IsTrue(Builder.runEvaluate(), "reevaluation");
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
 
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
@@ -186,15 +186,15 @@ namespace Tests.VisitorTests
                     };
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             
             nw.Value = 0; // new answer to the question, division by zero
-            Assert.IsFalse(Builder.runEvaluate(), "division by zero");
+            Assert.IsFalse(Builder.RunEvaluate(), "division by zero");
 
             Assert.IsInstanceOfType(Builder.DataContext.ASTHandlerExceptions[0], typeof(DivisionByZeroError),"incorrect exception");
             nw.Value = 1; // new answer to the question
-            Assert.IsTrue(Builder.runEvaluate(), "reevaluation failed");
+            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation failed");
 
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");            
             Assert.IsNotNull(S1_value);
@@ -208,7 +208,7 @@ namespace Tests.VisitorTests
                   
                 }
             ");
-            Assert.IsFalse(Builder.runEvaluate());
+            Assert.IsFalse(Builder.RunEvaluate());
         }
 
         
@@ -284,7 +284,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Builder.runEvaluate());
+            Assert.IsFalse(Builder.RunEvaluate());
         }
         [TestMethod]
         public void EvaluatorReferenceFromUnavaliableBranch()
@@ -300,7 +300,7 @@ namespace Tests.VisitorTests
                 }
             ");
 
-            Assert.IsFalse(Builder.runEvaluate());
+            Assert.IsFalse(Builder.RunEvaluate());
         }
         [TestMethod]
         public void EvaluationMemoryBuildup()
@@ -317,13 +317,13 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.runEvaluate());
+            Assert.IsTrue(Builder.RunEvaluate());
             int c1 = Builder.DataContext.IdentifierTable.Count;
             int c2 = Builder.DataContext.ReferenceLookupTable.Count;
 
             for (int i = 0; i < 1000; i++)
             {
-                Builder.runEvaluate();
+                Builder.RunEvaluate();
             }
 
 
