@@ -20,6 +20,8 @@ public class QLSDropdown extends AbstractQLSWidget {
     private final String yesLabel;
     private final String noLabel;
 
+    private final JPanel panel;
+    private final JLabel componentLabel;
     private final JComboBox comboBox;
 
     public QLSDropdown() {
@@ -35,8 +37,14 @@ public class QLSDropdown extends AbstractQLSWidget {
         this.noLabel = _no;
         this.label = _label;
 
+        this.panel = new JPanel();
+        this.componentLabel = new JLabel(_label);
+
         String[] valueArray = {this.yesLabel, this.noLabel};
         this.comboBox = new JComboBox(valueArray);
+
+        this.panel.add(this.componentLabel);
+        this.panel.add(this.comboBox);
     }
 
     public String getYesLabel() {
@@ -49,22 +57,22 @@ public class QLSDropdown extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        this.style = _style;
+        Style style = _style;
 
         // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
+        style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
     }
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.comboBox);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.comboBox);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
@@ -106,6 +114,12 @@ public class QLSDropdown extends AbstractQLSWidget {
         supportedTypes.add(new BoolType());
 
         return supportedTypes;
+    }
+
+    @Override
+    public void setLabel(String _label) {
+        this.label = _label;
+        this.componentLabel.setText(_label);
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

@@ -8,7 +8,6 @@ import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
-import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
 import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
