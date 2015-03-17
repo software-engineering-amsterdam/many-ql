@@ -37,7 +37,6 @@ type Gui struct {
 	symbolTable     map[string]qml.Object
 	root            qml.Object
 	updateCallbacks map[string]func(v string)
-	targetContainer qml.Object
 }
 
 // GUI creates the driver for Frontend process.
