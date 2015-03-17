@@ -63,11 +63,7 @@ public class Store implements IKLQItem {
 
     public void updateAnswer(String questionId, @NotNull Value answer) {
         assert(variables.containsKey(questionId));
-        if (answer == null){
-            variables.put(questionId, new UndefinedValue());
-        } else {
-            variables.put(questionId, answer);
-        }
+        variables.put(questionId, answer);
 
         updateQuestionVisibilities();
         updateComputedQuestions();

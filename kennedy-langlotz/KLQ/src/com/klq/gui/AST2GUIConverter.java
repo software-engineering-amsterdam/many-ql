@@ -5,10 +5,8 @@ import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.IdentifierValue;
 import com.klq.ast.impl.stmt.*;
-import com.klq.gui.control.*;
-import com.klq.gui.IKLQItem;
 import com.klq.controller.Store;
-import com.klq.gui.QuestionList;
+import com.klq.gui.control.*;
 
 import java.util.ArrayList;
 
