@@ -21,8 +21,12 @@ public class QLInterpreter {
         this.staticFields = staticFields;
     }
 
+    private static StaticFields collectStaticFields(AForm aForm) {
+        return new QLStaticAnalyser(aForm).collectStaticFields();
+    }
+
     public QLInterpreter(AForm aForm) {
-        this(aForm, new QLStaticAnalyser(aForm).collectStaticFields());
+        this(aForm, collectStaticFields(aForm));
     }
 
 }

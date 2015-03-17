@@ -18,12 +18,17 @@ public class BoolValue extends Value {
 
         @Override
         public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
-            return allowTypeChecker.allowsStringValue();
+            return allowTypeChecker.allowsBooleanValue();
         }
 
         @Override
         public boolean equals(Object o) {
             return o instanceof BoolValue;
+        }
+
+        @Override
+        public String toString() {
+            return "Boolean";
         }
     };
 
@@ -49,7 +54,9 @@ public class BoolValue extends Value {
 
     @Override
     public Value eq(Value value) {
-        return new BoolValue(value.getValue().equals(getValue()));
+        final Object otherInternalValue = value.getValue();
+        final Object myInternalValue = getValue();
+        return new BoolValue(otherInternalValue.equals(myInternalValue));
     }
 
     public Value neq(Value value) {

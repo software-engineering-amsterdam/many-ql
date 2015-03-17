@@ -15,10 +15,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
-
     private final QLInterpreter qlIntepreter;
     private final StaticFields fieldsList;
-    private final VariableTable variableTable;
     private final VariableTableWrapper variableTableWrapper;
 
     @Override
@@ -67,7 +65,6 @@ public class QLGUI extends AbstractSwingGUI implements IQLRenderer<Component> {
 
     public QLGUI( QLInterpreter qlIntepreter, VariableTable variableTable, StaticFields fieldsList) {
         this.qlIntepreter = qlIntepreter;
-        this.variableTable = variableTable;
         this.fieldsList = fieldsList;
         variableTableWrapper = new VariableTableWrapper(variableTable);
     }

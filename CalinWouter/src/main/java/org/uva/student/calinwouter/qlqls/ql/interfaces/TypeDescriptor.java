@@ -8,6 +8,9 @@ public interface TypeDescriptor {
 
     Value getDefaultValue();
 
+    /**
+     * Checks if this type is allowed by the provided consumer (e.g. widget).
+     */
     boolean isAllowed(IAllowTypeChecker allowTypeChecker);
 
 }

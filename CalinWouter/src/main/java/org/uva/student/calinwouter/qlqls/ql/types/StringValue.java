@@ -25,6 +25,11 @@ public class StringValue extends Value {
         public boolean equals(Object o) {
             return o instanceof StringValue;
         }
+
+        @Override
+        public String toString() {
+            return "String";
+        }
     };
 
     @Override
@@ -34,7 +39,9 @@ public class StringValue extends Value {
 
     @Override
     public Value eq(Value value) {
-        return new BoolValue(value.getValue().equals(getValue()));
+        final Object otherInternalValue = value.getValue();
+        final Object myInternalValue = getValue();
+        return new BoolValue(otherInternalValue.equals(myInternalValue));
     }
 
     public Value neq(Value value) {
