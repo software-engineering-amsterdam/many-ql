@@ -1,28 +1,29 @@
-package com.klq.logic.question;
+package com.klq.gui;
 
-import com.klq.logic.IKLQItem;
+import com.klq.gui.control.ARenderedQuestion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by juriaan on 24-2-15.
  */
 public class QuestionList implements IKLQItem {
-    private ArrayList<Question> list;
+    private List<ARenderedQuestion> list;
 
     public QuestionList(){
         list = new ArrayList<>();
     }
 
-    public Question get(int index){
+    public ARenderedQuestion get(int index){
         return list.get(index);
     }
 
-    public void add(Question question){
+    public void add(ARenderedQuestion question){
         list.add(question);
     }
 
-    public ArrayList<Question> getList() {
+    public List<ARenderedQuestion> getList() {
         return list;
     }
 }

@@ -1,9 +1,9 @@
-import com.klq.AST2GUIConverter;
+import com.klq.gui.AST2GUIConverter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.ast.impl.stmt.QuestionnaireNode;
 import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
-import com.klq.logic.controller.Store;
+import com.klq.controller.Store;
 import com.klq.parser.KLQLexer;
 import com.klq.parser.KLQParser;
 import com.klq.typechecker.TypeChecker;

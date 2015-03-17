@@ -1,11 +1,7 @@
 package com.klq.gui;
 
-import com.klq.gui.pane.AQuestionPane;
-import com.klq.gui.pane.DateQuestionPane;
-import com.klq.gui.pane.BooleanQuestionPane;
-import com.klq.gui.pane.TextQuestionPane;
-import com.klq.logic.controller.Store;
-import com.klq.logic.question.Question;
+import com.klq.gui.control.ARenderedQuestion;
+import com.klq.controller.Store;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -46,36 +42,19 @@ public class QuestionPage extends ScrollPane {
         this.setBorder(Border.EMPTY);
     }
 
-    public void addQuestions(List<Question> questions){
-        for (Question question : questions) {
-            AQuestionPane newPane = createQuestionPane(question);
-            vbox.getChildren().add(newPane);
+    public void addQuestions(List<ARenderedQuestion> questions){
+        for (ARenderedQuestion question : questions) {
+            vbox.getChildren().add(question.getControl());
         }
     }
 
-    private AQuestionPane createQuestionPane(Question question){
-        AQuestionPane questionPane;
-        switch (question.getType()){
-            case BOOLEAN:
-                questionPane = new BooleanQuestionPane(question, store);
-                break;
-            case NUMERAL:
-            case STRING:
-                questionPane = new TextQuestionPane(question, store);
-                break;
-            case DATE:
-                questionPane = new DateQuestionPane(question, store);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown question type: " + question.getType());
-        }
-        //TODO let styling happen in AQuestionPane, need to do that for widgets anyway
+    private ARenderedQuestion createQuestionPane(ARenderedQuestion question){
+        //TODO let styling happen in ARenderedQuestionPane, need to do that for widgets anyway
         /*
         if(style != null && style.contains(question.getId().toString())){
             AStyle questionStyle = style.getStyle(question.getId().toString());
             questionPane.setStyle(questionStyle.toCSS());
         }*/
-
-        return questionPane;
+        return null;
     }
 }

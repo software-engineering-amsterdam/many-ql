@@ -1,33 +1,37 @@
-package com.klq;
+package com.klq.gui;
 
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Type;
-import com.klq.ast.impl.stmt.*;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.logic.IKLQItem;
-import com.klq.logic.controller.Store;
-import com.klq.logic.question.*;
-import com.klq.ast.impl.expr.value.*;
+import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.stmt.*;
+import com.klq.gui.control.*;
+import com.klq.gui.IKLQItem;
+import com.klq.controller.Store;
+import com.klq.gui.QuestionList;
+
+import java.util.ArrayList;
 
 /**
  * Created by juriaan on 17-2-15.
  */
 public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
+    private Store store;
 
     /*==================================================================================================================
     Statements
      ==================================================================================================================*/
     @Override
     public IKLQItem visit(QuestionnaireNode node) {
-        Store store = new Store();
+        store = new Store();
         for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
-                Question question = (Question) child.accept(this);
+                ARenderedQuestion question = (ARenderedQuestion) child.accept(this);
                 store.add(question);
             }
             else if(child instanceof ConditionalNode){
                 QuestionList questionList = (QuestionList) child.accept(this);
-                for(Question question : questionList.getList()){
+                for(ARenderedQuestion question : questionList.getList()){
                     store.add(question);
                 }
             }
@@ -37,19 +41,19 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(ConditionalNode node) {
-        AExpression expr = (AExpression) node.getCondition();
+        AExpression expr = node.getCondition();
         QuestionList questionList = new QuestionList();
 
         //todo refactor
         for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
-                Question question = (Question) child.accept(this);
+                ARenderedQuestion question = (ARenderedQuestion) child.accept(this);
                 question.addDependency(expr);
                 questionList.add(question);
             }
             else if(child instanceof ConditionalNode){
                 QuestionList questionListOfChild = (QuestionList) child.accept(this);
-                for(Question question : questionListOfChild.getList()){
+                for(ARenderedQuestion question : questionListOfChild.getList()){
                     question.addDependency(expr);
                     questionList.add(question);
                 }
@@ -60,11 +64,18 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(QuestionNode node) {
-        IdentifierValue id = new IdentifierValue(node.getID());
+        String id = node.getID();
         Type type = node.getType();
         String text = new String(node.getText());
 
-        return new Question(id, type, text);
+        if (type == Type.BOOLEAN){
+            return new BooleanRenderedQuestion(id, type, text, new ArrayList<>(), store);
+        } else if (type == Type.DATE){
+            return new DateRenderedQuestion(id, type, text, new ArrayList<>(), store);
+        } else if (type == Type.STRING || type == Type.NUMERAL) {
+            return new TextRenderedQuestion(id, type, text, new ArrayList<>(), store);
+        }
+        throw new IllegalArgumentException("Unknown type.");
     }
 
     @Override
@@ -73,7 +84,7 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
         Type type = node.getType();
         String text = new String(node.getText());
 
-        return new Question(id, type, text, node.getComputedAnswer());
+        return new ComputedRenderedQuestion(id.toString(), type, text, new ArrayList<>(), node.getComputedAnswer(), store);
     }
 
     /*
