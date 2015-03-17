@@ -87,10 +87,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(ConditionalNode node) {
-        if(node.getCondition() instanceof ABooleanNode) {
-            node.getCondition().accept(this);
-        }
-        else{
+        if(node.getCondition().accept(this) != Type.BOOLEAN) {
             errors.add(new InvalidCondition(node));
         }
 
@@ -192,6 +189,7 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
     public Type visit(OrNode node) {
         return visitBinaryBooleanNode(node, "||", allowedAndOrExprTypes);
     }
+
     private Type visitBinaryBooleanNode(ABinaryExprNode node, String operator, List<Type> allowedTypes){
         visitBinaryNode(node, operator, allowedTypes);
         return Type.BOOLEAN;
