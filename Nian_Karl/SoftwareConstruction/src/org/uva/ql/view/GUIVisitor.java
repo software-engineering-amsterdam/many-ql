@@ -1,6 +1,7 @@
 package org.uva.ql.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -26,7 +27,6 @@ import org.uva.ql.view.listener.WidgetListener;
 import org.uva.ql.view.panel.IfElseQuestionPanel;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
-import org.uva.ql.view.panel.QuestionPanel;
 import org.uva.ql.view.widgit.CheckBox;
 import org.uva.ql.view.widgit.NumberTextField;
 import org.uva.ql.view.widgit.TextField;
@@ -37,68 +37,70 @@ import org.uva.ql.visitor.TypeVisitor;
 
 public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>, QuestionnaireVisitor<Object> {
 
-	private final WidgetListener widgetListener;
-	private final DoneButtonListener doneButtonListener;
+	private WidgetListener widgetListener;
+	private DoneButtonListener doneButtonListener;
+	private FormFrame formView;
 
 	public GUIVisitor() {
 		widgetListener = new WidgetListener();
+		formView = new FormFrame();
 		doneButtonListener = new DoneButtonListener(widgetListener.getEvaluator());
 	}
 
 	@Override
 	public IfQuestionPanel visit(IfStatement ifStatement) {
-		ArrayList<Panel> questionPanels = (ArrayList<Panel>) ifStatement.getIfBlock().accept(this);
+		List<Panel> questionPanels = (ArrayList<Panel>) ifStatement.getIfBlock().accept(this);
 		IfQuestionPanel questionPanel = new IfQuestionPanel(questionPanels, ifStatement.getExpr());
-		widgetListener.addDependentQuestionPanel(questionPanel);
+		formView.addIfQuestionPanel(questionPanel);
 		return questionPanel;
 	}
 
 	@Override
-	public Panel visit(QuestionNormal questionStatement) {
+	public QuestionComponent visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
 		widget.setIdentifier(questionStatement.toString());
 		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
+		formView.addQuestionPanel(questionComponent);
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
 		return questionComponent;
 	}
 
 	@Override
-	public Panel visit(QuestionComputed questionComputeStatement) {
+	public ExprQuestionComponent visit(QuestionComputed questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
 		widget.setIdentifier(questionComputeStatement.toString());
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
+		formView.addExprQuestionPanel(questionComponent);
 		Identifier identifier = questionComputeStatement.getIdentifier();
 		widgetListener.initializeValue(identifier.toString(), new UndefinedValue());
-		widgetListener.addDependentQuestionComponent(questionComponent);
 		return questionComponent;
 	}
 
 	@Override
-	public ArrayList<Panel> visit(Block blockStatement) {
-		ArrayList<Panel> questionPannels = new ArrayList<Panel>();
+	public List<Panel> visit(Block blockStatement) {
+		List<Panel> questionPannels = new ArrayList<Panel>();
 		for (Statement statement : blockStatement.getStatements()) {
 			questionPannels.add((Panel) statement.accept(this));
 		}
+
 		return questionPannels;
 	}
 
 	@Override
 	public FormFrame visit(Form form) {
-		FormFrame formView = new FormFrame(form.getIdentifier().toString());
-		ArrayList<Panel> questionPannels = (ArrayList<Panel>) form.getBlock().accept(this);
-		QuestionPanel questionPanel = new QuestionPanel(questionPannels);
-		formView.addWithConstraints(questionPanel);
+		form.getBlock().accept(this);
+		System.out.println();
 		JButton button = new JButton("Done");
 		button.addActionListener(doneButtonListener);
-		formView.addWithConstraints(button);
+		formView.addDoneButton(button);
 		formView.setVisible(true);
 		return formView;
 	}
 
 	@Override
-	public ArrayList<FormFrame> visit(Questionnaire questionnaire) {
-		ArrayList<FormFrame> formViews = new ArrayList<FormFrame>();
+	public List<FormFrame> visit(Questionnaire questionnaire) {
+		List<FormFrame> formViews = new ArrayList<FormFrame>();
 		for (Form form : questionnaire.getForms()) {
 			formViews.add((FormFrame) form.accept(this));
 		}
@@ -127,11 +129,11 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public IfElseQuestionPanel visit(IfElseStatement ifElseStatement) {
-		ArrayList<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
-		ArrayList<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
-		Expression expr = ifElseStatement.getExpr();
-		IfElseQuestionPanel questionPanel = new IfElseQuestionPanel(ifQuestions, elseQuestions, expr);
-		widgetListener.addDependentQuestionPanel(questionPanel);
+		List<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
+		List<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
+		IfElseQuestionPanel questionPanel = new IfElseQuestionPanel(ifQuestions, elseQuestions,
+				ifElseStatement.getExpr());
+		formView.addIfQuestionPanel(questionPanel);
 		return questionPanel;
 	}
 

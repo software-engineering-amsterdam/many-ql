@@ -1,8 +1,6 @@
 package org.uva.ql.view.listener;
 
 import java.awt.Color;
-import java.rmi.UnexpectedException;
-import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

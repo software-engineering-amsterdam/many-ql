@@ -11,7 +11,7 @@ import org.uva.ql.view.panel.Panel;
 import org.uva.ql.view.widgit.Label;
 import org.uva.ql.view.widgit.Widget;
 
-public class QuestionComponent extends Panel {
+public class QuestionComponent extends Panel{
 
 	private static final long serialVersionUID = 134684077598012568L;
 
