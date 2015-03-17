@@ -1,3 +1,5 @@
+from ..QLTypes import *
+
 class Questionnaire(object):
     def __init__(self, statements):
         self.statements = statements
@@ -91,10 +93,6 @@ class AtomBaseType(Node):
         super().__init__(lineNumber)
         self._value = value
 
-    @property
-    def value(self):
-        return self._value
-
     def __str__(self):
         return str(self.value)
 
@@ -102,18 +100,37 @@ class Boolean(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitBoolean(self)
 
+    @property
+    def value(self):
+        return QLBoolean(self._value)
+
 class Integer(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitInteger(self)
+
+    @property
+    def value(self):
+        return QLInteger(self._value)
 
 class String(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitString(self)
 
+    @property
+    def value(self):
+        return QLString(self._value)
+
 class Money(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitMoney(self)
 
+    @property
+    def value(self):
+        return QLMoney(self._value)
+
 class Identifier(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitIdentifier(self)
+
+    def value(self):
+        return QLIdentifier(self._value)
