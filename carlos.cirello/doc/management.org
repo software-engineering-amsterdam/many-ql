@@ -12,17 +12,13 @@
     - [X] get rid of switch statements
     - [X] magic constants
     - [X] duplicated code
-  - [ ] code smell hunt [4/17] from {7}
+  - [ ] code smell hunt [5/17] from {7}
     - [X] comments
     - [X] long method
     - [X] duplicated code (again)
     - [X] large class
       - [X] Gui
-    - [ ] long parameter list
-    - [ ] divergent change
-    - [ ] shotgun surgery
-    - [ ] feature envy
-    - [ ] data clumps
+    - [X] data clumps
     - [ ] case statements
     - [ ] parallel inheritance hierarchies
     - [ ] lazy class
@@ -30,6 +26,10 @@
     - [ ] temporary field
     - [ ] middleman
     - [ ] alternative classes with different interfaces
+    - [ ] feature envy
+    - [ ] shotgun surgery
+    - [ ] divergent change
+    - [ ] long parameter list
     - [ ] duplicated code (againˆ2)
 
 * QL [7/7]
