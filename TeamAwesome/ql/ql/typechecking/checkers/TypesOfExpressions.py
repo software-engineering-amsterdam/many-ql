@@ -37,7 +37,7 @@ class Checker(AbstractBase):
 
     def _typeOfExpression(self, expression):
         visitor = TypeOfExpressionVisitor(
-            self._parser.questionnaire,
+            self._parser,
             self._resultAlgebra
         )
         expression.accept(visitor)
@@ -75,10 +75,10 @@ class Checker(AbstractBase):
 
         
 class TypeOfExpressionVisitor(ExpressionVisitor):
-    def __init__(self, questionnaire, resultAlgebra):
+    def __init__(self, parser, resultAlgebra):
         super().__init__()
         self._operatorTable = TypeRules.OperatorTable()
-        self._questionnaire = questionnaire
+        self._parser = parser
         self._result = resultAlgebra.empty()
         self._resultAlgebra = resultAlgebra
         self._typesOfSeenExpressions = []
@@ -102,7 +102,7 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
     def visitIdentifier(self, node):
         self._typesOfSeenExpressions.append(typeOfIdentifier(
             node,
-            self._questionnaire
+            self._parser.questionnaire
         ))
 
         if self._typeOfLastSeenExpression is None:
@@ -144,10 +144,13 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
             )
 
         if self._typeOfLastSeenExpression is None:
+
+            operatorToken = self._parser.operatorToken(node.operator)
+
             self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
-                    'invalid operands to unary operator `'+str(node.operator)\
+                    'invalid operands to unary operator `'+operatorToken\
                    +'`: '+str(node.expression),
                    node
                 )
@@ -170,10 +173,13 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
             )
 
         if self._typeOfLastSeenExpression is None: 
+
+            operatorToken = self._parser.operatorToken(node.operator)
+
             self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
-                    'invalid operands to binary operator `'+node.operator\
+                    'invalid operands to binary operator `'+operatorToken\
                    +'`: ('+str(node.left)+','+str(node.right)+')',
                     node
                 )
