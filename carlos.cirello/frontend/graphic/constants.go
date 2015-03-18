@@ -66,9 +66,10 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		TextField {
-			validator: IntValidator {}
+			validator: DoubleValidator {}
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
+			inputMethodHints: Qt.ImhFormattedNumbersOnly
 		}
 	}
 }
@@ -110,6 +111,7 @@ GroupBox {
 			inputMask: "99/99/9999"
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
+			inputMethodHints: Qt.ImhDate
 		}
 		Text {
 			objectName: "{{ .ObjectName }}Warning"
