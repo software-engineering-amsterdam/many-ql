@@ -17,6 +17,7 @@ import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.ValueSet;
 import qls.ast.statement.widget.Widget;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
@@ -25,7 +26,6 @@ import qls.ast.statement.widget.type.RadioButton;
 import qls.ast.statement.widget.type.Slider;
 import qls.ast.statement.widget.type.Spinbox;
 import qls.ast.statement.widget.type.TextField;
-import qls.ast.statement.widget.type.ValueSet;
 
 /**
  * @author Rene

@@ -1,7 +1,10 @@
 package qls.ast.visitor.typechecker;
 
 import ql.TypeEnvironment;
+import ql.ast.Expression;
 import ql.ast.QLType;
+import ql.ast.expression.Identifier;
+import ql.ast.type.QLForm;
 import ql.ast.visitor.TypeVisitor;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.QLSStatement;
@@ -29,6 +32,7 @@ import qls.ast.statement.widget.type.TextField;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 import qls.errorhandling.error.IllegalPropertyValueError;
+import qls.errorhandling.error.StylesheetIdentifierError;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<Void> {
 	private ErrorEnvironment errorEnvironment;
@@ -48,7 +52,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	/**
 	 * Entry point, static type checks the supplied tree
-	 * @return a boolean indicating pass or fail
 	 */
 	public static ErrorEnvironment check(QLSStatement tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
@@ -58,10 +61,31 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		return typeChecker.getErrorEnvironment();
 	}
 	
+	public static ErrorEnvironment check(Expression tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
+		
+		tree.accept(typeChecker);
+		
+		return typeChecker.getErrorEnvironment();
+	}
+	
+	public static ErrorEnvironment check(QLType tree, TypeEnvironment typeEnvironment) {
+		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
+		
+		tree.accept(typeChecker);
+		
+		return typeChecker.getErrorEnvironment();
+	}
+	
+	@Override
+	public QLType visit(Identifier identifierNode) {
+		return typeEnvironment.resolve(identifierNode);
+	}
+	
 	@Override
 	public Void visit(Page pageNode) {
-		super.visit(pageNode);
-		return null;
+		pageNode.getIdentifier().accept(this);
+		return pageNode.getStatements().accept(this);
 	}
 	
 	@Override
@@ -84,8 +108,13 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	@Override
 	public Void visit(Stylesheet stylesheetNode) {
-		super.visit(stylesheetNode);
-		return null;
+		QLType resolvedType = stylesheetNode.getIdentifier().accept(this);
+		
+		if(resolvedType == null || !resolvedType.equals(new QLForm())) {
+			errorEnvironment.addError(new StylesheetIdentifierError(stylesheetNode, resolvedType));
+		}
+		
+		return stylesheetNode.getPages().accept(this);
 	}
 	
 	@Override

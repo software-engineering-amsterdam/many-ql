@@ -13,8 +13,6 @@ import qls.ast.QLSStatement;
 import qls.parser.Parser;
 
 public class CommandLine {
-	private static Parser formParser = new Parser();
-	
 	/**
 	 * The main method, which gets executed once this class is run. Enabled the user
 	 * to enter a string, which is then parsed and shown as an AST.
@@ -35,7 +33,7 @@ public class CommandLine {
 					break;
 				} 
 				else {
-					QLNode tree = formParser.parse(str);
+					QLNode tree = Parser.parse(str);
 					
 					if(tree instanceof QLSStatement) {
 						errorEnvironment = TypeChecker.check((QLSStatement) tree, null); 
