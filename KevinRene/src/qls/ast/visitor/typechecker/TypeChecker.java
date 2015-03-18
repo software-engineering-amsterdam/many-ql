@@ -2,7 +2,6 @@ package qls.ast.visitor.typechecker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import ql.TypeEnvironment;
 import ql.ast.Expression;
@@ -29,6 +28,7 @@ import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 import qls.errorhandling.error.IllegalPropertyValueError;
 import qls.errorhandling.error.IncompatibleWidgetError;
+import qls.errorhandling.error.MissingIdentifiersError;
 import qls.errorhandling.error.StylesheetIdentifierError;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<Void> {
@@ -125,12 +125,8 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		stylesheetNode.getPages().accept(this);
 		
 		if(!processedIdentifiers.containsAll(typeEnvironment.getIdentifiers())) {
-			System.out.println("-- Missing identifiers --");
-			typeEnvironment.getIdentifiers().stream()
-					.filter(identifier -> !processedIdentifiers.contains(identifier))
-					.forEach(identifier -> System.out.println("  > " + identifier));
-		} else {
-			System.out.println("NO MISSING");
+			errorEnvironment.addError(new MissingIdentifiersError(stylesheetNode, 
+					processedIdentifiers, typeEnvironment.getIdentifiers()));
 		}
 		
 		return null;
