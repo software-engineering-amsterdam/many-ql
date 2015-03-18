@@ -24,7 +24,13 @@ public class TestDefault extends BaseTest {
 	@Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{ createDefaultStyledWidget("boolean", "spinbox"), true }, });
+				{ createDefaultStyledWidget("boolean", "dropdown(\"Yes\", \"No\")"), true },
+				{ createDefaultStyledWidget("boolean", "radio(\"Yes\", \"No\")"), true },
+				{ createDefaultStyledWidget("boolean", "checkbox"), true },
+				
+				{ createDefaultStyledWidget("integer", "dropdown(\"Yes\", \"No\")"), false },
+			}
+		);
 	}
 
 	public TestDefault(String input, boolean expected) {

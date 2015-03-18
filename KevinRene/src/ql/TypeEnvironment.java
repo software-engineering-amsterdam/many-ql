@@ -2,6 +2,7 @@ package ql;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
@@ -27,6 +28,10 @@ public class TypeEnvironment {
 		}
 		
 		return type;
+	}
+	
+	public Set<Identifier> getIdentifiers() {
+		return environment.keySet();
 	}
 	
 	public TypeEnvironment getParent() {

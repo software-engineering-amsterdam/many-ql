@@ -1,5 +1,9 @@
 package qls.ast.visitor.typechecker;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import ql.TypeEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
@@ -12,31 +16,25 @@ import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
 import qls.ast.expression.literal.StringLiteral;
+import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
-import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
-import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
 import qls.ast.statement.styling.property.Color;
 import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
-import qls.ast.statement.widget.type.Checkbox;
-import qls.ast.statement.widget.type.Default;
-import qls.ast.statement.widget.type.Dropdown;
-import qls.ast.statement.widget.type.RadioButton;
-import qls.ast.statement.widget.type.Slider;
-import qls.ast.statement.widget.type.Spinbox;
-import qls.ast.statement.widget.type.TextField;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 import qls.errorhandling.error.IllegalPropertyValueError;
+import qls.errorhandling.error.IncompatibleWidgetError;
 import qls.errorhandling.error.StylesheetIdentifierError;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<Void> {
 	private ErrorEnvironment errorEnvironment;
-	private TypeEnvironment typeEnvironment;	
+	private TypeEnvironment typeEnvironment;
+	private List<Identifier> processedIdentifiers;
 	
 	private TypeChecker(TypeEnvironment typeEnvironment) {
 		super.setExpressionVisitor(this);
@@ -44,6 +42,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		this.typeEnvironment = typeEnvironment;
 		errorEnvironment = new ErrorEnvironment();
+		processedIdentifiers = new ArrayList<Identifier>();
 	}
 	
 	public ErrorEnvironment getErrorEnvironment() {
@@ -76,9 +75,24 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		return typeChecker.getErrorEnvironment();
 	}
-	
+
+	@Override
+	public Void visit(DefaultWidget defaultNode) {
+		if(!defaultNode.getWidget().isCompatibleWith(defaultNode.getType())) {
+			errorEnvironment.addError(new IncompatibleWidgetError(defaultNode,
+					defaultNode.getType(), defaultNode.getWidget()));
+		}
+		
+		return super.visit(defaultNode);
+	}
+
 	@Override
 	public QLType visit(Identifier identifierNode) {
+		if(processedIdentifiers.contains(identifierNode)) {
+			System.out.println("Double usage.");
+		}
+		
+		processedIdentifiers.add(identifierNode);
 		return typeEnvironment.resolve(identifierNode);
 	}
 	
@@ -89,21 +103,15 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	}
 	
 	@Override
-	public Void visit(QLSBlock blockNode) {
-		super.visit(blockNode);
-		return null;
-	}
-	
-	@Override
 	public Void visit(Question questionNode) {
-		super.visit(questionNode);
-		return null;
-	}
-	
-	@Override
-	public Void visit(Section sectionNode) {
-		super.visit(sectionNode);
-		return null;
+		QLType identifierType = questionNode.getIdentifier().accept(this);
+		
+		if(!questionNode.hasCompatibleWidget(identifierType)) {
+			errorEnvironment.addError(new IncompatibleWidgetError(questionNode,
+					identifierType, questionNode.getWidget()));
+		}
+		
+		return questionNode.getWidget().accept(this);
 	}
 	
 	@Override
@@ -114,7 +122,18 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 			errorEnvironment.addError(new StylesheetIdentifierError(stylesheetNode, resolvedType));
 		}
 		
-		return stylesheetNode.getPages().accept(this);
+		stylesheetNode.getPages().accept(this);
+		
+		if(!processedIdentifiers.containsAll(typeEnvironment.getIdentifiers())) {
+			System.out.println("-- Missing identifiers --");
+			typeEnvironment.getIdentifiers().stream()
+					.filter(identifier -> !processedIdentifiers.contains(identifier))
+					.forEach(identifier -> System.out.println("  > " + identifier));
+		} else {
+			System.out.println("NO MISSING");
+		}
+		
+		return null;
 	}
 	
 	@Override
@@ -137,44 +156,6 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		return stringLiteral.getType();
 	}
 	
-	/*****************
-	 * WIDGET TYPES **
-	 *****************/
-	@Override
-	public Void visit(Checkbox checkboxNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(Default defaultType) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(Dropdown dropdownNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(RadioButton radioButtonNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(TextField textFieldNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(Spinbox spinnerNode) {
-		return null;
-	}
-	
-	@Override
-	public Void visit(Slider sliderNode) {
-		return null;
-	}
-
 	/*********************
 	 * STYLE PROPERTIES **
 	 *********************/

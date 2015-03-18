@@ -13,7 +13,7 @@ import qls.ast.visitor.StatementVisitor;
 public class Default extends WidgetType {
 	public Default() {
 		super(Arrays.asList(new QLBoolean(), new QLFloat(), 
-				new QLNumeric(), new QLInteger(), 
+				new QLInteger(), new QLNumeric(),
 				new QLString()));
 	}
 	@Override
