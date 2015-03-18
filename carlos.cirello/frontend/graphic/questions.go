@@ -1,6 +1,8 @@
 package graphic
 
 import (
+	"time"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"gopkg.in/qml.v1"
 )
@@ -75,6 +77,38 @@ func (g *Gui) newStringQuestion(fieldName, caption string,
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
 		g.stacks.pushAnswer(objectName, content)
+	})
+
+	g.objectTable.setUpdate(fieldName, func(newValue string) {
+		newFieldPtr.Set("text", newValue)
+	})
+
+	return question
+}
+
+func (g *Gui) newDateQuestion(fieldName, caption string,
+	content string) (question qml.Object) {
+
+	question = g.createQuestionQML(dateFieldQML, fieldName, caption)
+
+	newFieldPtr := question.ObjectByName(fieldName)
+	newFieldPtrWarning := question.ObjectByName(fieldName + "Warning")
+	newFieldPtr.Set("text", content)
+	newFieldPtr.On("editingFinished", func() {
+		g.mu.Lock()
+		defer g.mu.Unlock()
+
+		objectName := newFieldPtr.String("objectName")
+		content := newFieldPtr.String("text")
+
+		_, err := time.Parse("02/01/2006", content)
+		if err == nil {
+			g.stacks.pushAnswer(objectName, content)
+			newFieldPtrWarning.Set("visible", false)
+			return
+		}
+		newFieldPtrWarning.Set("visible", true)
+		newFieldPtr.Set("text", "")
 	})
 
 	g.objectTable.setUpdate(fieldName, func(newValue string) {

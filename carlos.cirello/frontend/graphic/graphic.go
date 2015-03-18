@@ -172,6 +172,8 @@ func (g *Gui) addNewQuestion(typ, name, caption string, invisible bool) {
 		question = g.newBooleanQuestion(name, caption, false)
 	case ast.ScalarNumericPrimitive:
 		question = g.newNumericQuestion(name, caption, 0)
+	case ast.ScalarDatePrimitive:
+		question = g.newDateQuestion(name, caption, "")
 	}
 
 	if !invisible {
