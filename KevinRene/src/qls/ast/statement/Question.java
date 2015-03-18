@@ -1,5 +1,6 @@
 package qls.ast.statement;
 
+import ql.ast.QLType;
 import ql.ast.expression.Identifier;
 import qls.ast.QLSStatement;
 import qls.ast.statement.widget.Widget;
@@ -25,6 +26,10 @@ public class Question extends QLSStatement {
 	
 	public Widget getWidget() {
 		return widget;
+	}
+	
+	public boolean hasCompatibleWidget(QLType type) {
+		return widget.isCompatibleWith(type);
 	}
 	
 	@Override

@@ -32,11 +32,7 @@ import ql.ast.statement.IfElse;
 import ql.ast.statement.Question;
 import ql.ast.type.QLBoolean;
 import ql.ast.type.QLError;
-import ql.ast.type.QLFloat;
 import ql.ast.type.QLForm;
-import ql.ast.type.QLInteger;
-import ql.ast.type.QLNumeric;
-import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
@@ -277,33 +273,26 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		return not.getType();
 	}
-	
-	/**
-	 * Types
-	 */
+		
 	@Override
-	public QLType visit(QLBoolean booleanNode) { return booleanNode; }
-	@Override
-	public QLType visit(QLFloat floatNode) { return floatNode; }
-	@Override
-	public QLType visit(QLForm formNode) { return formNode; }   
-	@Override
-	public QLType visit(QLNumeric numericNode) { return numericNode; }
-	@Override
-	public QLType visit(QLInteger intNode) { return intNode; }
-	@Override
-	public QLType visit(QLString stringNode) { return stringNode; }
-	@Override
-	public QLType visit(QLError errNode) { return errNode; }
+	public QLType visit(BooleanLiteral booleanNode) { 
+		return booleanNode.getType(); 
+	}	
 	
 	@Override
-	public QLType visit(BooleanLiteral booleanNode) { return booleanNode.getType(); }	
+	public QLType visit(FloatLiteral floatNode) { 
+		return floatNode.getType(); 
+	}
+	
 	@Override
-	public QLType visit(FloatLiteral floatNode) { return floatNode.getType(); }
+	public QLType visit(IntegerLiteral intNode) { 
+		return intNode.getType(); 
+	}
+	
 	@Override
-	public QLType visit(IntegerLiteral intNode) { return intNode.getType(); }
-	@Override
-	public QLType visit(StringLiteral stringNode) {	return stringNode.getType(); }
+	public QLType visit(StringLiteral stringNode) {	
+		return stringNode.getType();
+	}
 	
 	public QLType visit(Identifier identifier) {
 		QLType identifierType = typeEnvironment.resolve(identifier);
@@ -344,7 +333,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		Identifier formIdentifier = formNode.getIdentifier();
 		
 		if(typeEnvironment.resolve(formIdentifier) == null) {
-			typeEnvironment.store(formNode.getIdentifier(), formNode.getType());
+			typeEnvironment.store(formNode.getIdentifier(), new QLForm());
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(formIdentifier));
 		}

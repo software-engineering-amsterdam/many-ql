@@ -17,6 +17,7 @@ import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.ValueSet;
 import qls.ast.statement.widget.Widget;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
@@ -25,7 +26,6 @@ import qls.ast.statement.widget.type.RadioButton;
 import qls.ast.statement.widget.type.Slider;
 import qls.ast.statement.widget.type.Spinbox;
 import qls.ast.statement.widget.type.TextField;
-import qls.ast.statement.widget.type.ValueSet;
 
 /**
  * @author Rene
@@ -73,13 +73,33 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 		return null;
 	}
 	
-	public abstract T visit(Checkbox checkboxNode);
-	public abstract T visit(Default defaultType);
-	public abstract T visit(Dropdown dropdownNode);
-	public abstract T visit(RadioButton radioButtonNode);
-	public abstract T visit(TextField textFieldNode);
-	public abstract T visit(Spinbox spinnerNode);
-	public abstract T visit(Slider sliderNode);
+	public T visit(Checkbox checkboxNode) {
+		return null;
+	}
+	
+	public T visit(Default defaultType) {
+		return null;
+	}
+	
+	public T visit(Dropdown dropdownNode) {
+		return null;
+	}
+	
+	public T visit(RadioButton radioButtonNode) {
+		return null;
+	}
+	
+	public T visit(TextField textFieldNode) {
+		return null;
+	}
+	
+	public T visit(Spinbox spinnerNode) {
+		return null;
+	}
+	
+	public T visit(Slider sliderNode) {
+		return null;
+	}
 
 	public T visit(StyleProperties styleNode) {
 		for(Property rule : styleNode.getProperties()) {
