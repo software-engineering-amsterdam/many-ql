@@ -11,9 +11,8 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
-import org.fugazi.qls.ast.widget.IWidgetsTypeVisitor;
 import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
-import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidget;
+import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidgetVisitor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +23,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private Segment currentSegment;
     private final QLFormDataStorage formDataStorage;
     private final DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
+    private final WidgetTypeToWidgetVisitor widgetTypeToWidget = new WidgetTypeToWidgetVisitor();
 
     public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet styleSheet) {
         this.formDataStorage = _formDataStorage;
@@ -138,11 +138,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         Type questionType = getQLQuestionType(_question);
         String questionLabel = getQLQuestionLabel(_question);
 
-        WidgetTypeToWidget widgetTypeToWidget = new WidgetTypeToWidget();
-
         IWidgetType currentDeclarationWidgetType = _styleDeclr.getWidgetType();
         AbstractQLSWidget currentDeclarationWidget
-                = currentDeclarationWidgetType.accept(widgetTypeToWidget);
+                = currentDeclarationWidgetType.accept(this.widgetTypeToWidget);
 
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
