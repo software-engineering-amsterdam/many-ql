@@ -11,6 +11,11 @@ import qls.ast.visitor.StatementVisitor;
 public class WidgetBinder extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	@Override
 	public Void visit(BooleanLiteral booleanLiteral) {
+		// IntegerWidget.create(SpinboxFactory);
+		// spinboxFactory.createIntegerWidget();
+		
+		// SpinboxFactory.create(integerPrototype);
+		// integerPrototype.createSpinbox();
 		return null;
 	}
 

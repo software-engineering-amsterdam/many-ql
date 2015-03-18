@@ -140,7 +140,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		
 		indent();
 		defaultStyleString.append(defaultNode.getType().accept(this));
-		defaultStyleString.append(defaultNode.getStyleRuleSet().accept(this));
+		defaultStyleString.append(defaultNode.getStyleProperties().accept(this));
 		unindent();
 		
 		return defaultStyleString.toString();

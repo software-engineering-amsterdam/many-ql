@@ -108,7 +108,7 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 	
 	public T visit(DefaultStyle defaultNode) {
 		defaultNode.getType().accept(typeVisitor);
-		defaultNode.getStyleRuleSet().accept(this);
+		defaultNode.getStyleProperties().accept(this);
 		return null;
 	}	
 

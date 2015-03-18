@@ -18,7 +18,7 @@ public class DefaultStyle extends QLSStatement {
 		return type;
 	}
 	
-	public StyleProperties getStyleRuleSet() {
+	public StyleProperties getStyleProperties() {
 		return ruleSet;
 	}
 	
