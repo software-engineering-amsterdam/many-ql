@@ -27,6 +27,7 @@ import ql.gui.content.UIQuestion;
 import ql.gui.structure.Label;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
+import ql.gui.widget.input.IntegerField;
 import ql.gui.widget.input.RadioButton;
 import ql.gui.widget.input.TextField;
 import ql.gui.widget.input.spinbox.FloatSpinbox;
@@ -68,7 +69,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(QLInteger integerNode) {
-		return new IntegerSpinbox();
+		return new IntegerField();
 	}
 	
 	@Override
