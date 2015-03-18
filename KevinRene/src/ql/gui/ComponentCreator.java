@@ -28,8 +28,8 @@ import ql.gui.structure.Label;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
 import ql.gui.widget.input.RadioButton;
-import ql.gui.widget.input.field.IntegerField;
 import ql.gui.widget.input.field.TextField;
+import ql.gui.widget.input.slider.IntegerSlider;
 import ql.gui.widget.input.spinbox.FloatSpinbox;
 import ql.gui.widget.input.spinbox.IntegerSpinbox;
 
@@ -69,7 +69,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(QLInteger integerNode) {
-		return new IntegerField();
+		return new IntegerSlider();
 	}
 	
 	@Override
