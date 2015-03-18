@@ -1,15 +1,10 @@
 
-- memory id gedeelte , implementeren met error class
-- Errors koppelen aan GUI 
-
-- GUI afmaken if statemens 
-- testen voor statements
-
-- code checken
-- grade form
-
-- else statements voor andere types / values t.c
+- else statements voor andere types / values etc. (errors)
 - curly altijd, dus geen 1 line ifs etc.
+- Rule 4: First class collections (seperate collections from classes)
+- one dot per line. (see paper for example)
+- Within classes dont repeat the name of the class within methods like shipOrder, just call it order()
+- classes of 50 > is a issue
 
 
 
