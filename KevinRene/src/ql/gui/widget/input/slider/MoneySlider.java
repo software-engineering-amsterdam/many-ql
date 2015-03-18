@@ -23,6 +23,9 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	public MoneySlider() {
 		super();
 	}
+	public MoneySlider(int min, int max, int initial) {
+		super(min, max, initial);
+	}
 
 	@Override
 	public void setValue(FloatValue value) {
@@ -38,6 +41,6 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
-		label.setText(decimalFormat.format(getValue()));
+		label.setText(decimalFormat.format(getValue().getValue()));
 	}
 }

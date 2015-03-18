@@ -30,6 +30,7 @@ import ql.gui.widget.InputWidget;
 import ql.gui.widget.input.RadioButton;
 import ql.gui.widget.input.field.TextField;
 import ql.gui.widget.input.slider.IntegerSlider;
+import ql.gui.widget.input.slider.MoneySlider;
 import ql.gui.widget.input.spinbox.FloatSpinbox;
 import ql.gui.widget.input.spinbox.IntegerSpinbox;
 
@@ -64,7 +65,7 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(QLFloat floatNode) {
-		return new FloatSpinbox();
+		return new MoneySlider();
 	}
 	
 	@Override

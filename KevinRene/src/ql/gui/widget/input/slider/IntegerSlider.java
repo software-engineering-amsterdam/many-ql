@@ -11,6 +11,9 @@ public class IntegerSlider extends Slider<IntegerValue> implements ChangeListene
 	public IntegerSlider() {
 		super();
 	}
+	public IntegerSlider(int min, int max, int initial) {
+		super(min, max, initial);
+	}
 
 	@Override
 	public void setValue(IntegerValue value) {
