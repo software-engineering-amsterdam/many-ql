@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.visitor;
+package nl.uva.sc.encoders.qls.ast.builder;
 
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
