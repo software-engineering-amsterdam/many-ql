@@ -1,5 +1,6 @@
 package qls.ast.visitor.prettyprinter;
 
+import ql.ast.Expression;
 import ql.ast.QLNode;
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
@@ -48,9 +49,9 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	/* 
 	 * Expression with custom prefix 
 	 */
-	public static void print(Literal<?> literal, PrintWriter printWriter) {
+	public static void print(Expression expression, PrintWriter printWriter) {
 		PrettyPrinter printer = new PrettyPrinter();
-		printWriter.printString(literal.accept(printer));
+		printWriter.printString(expression.accept(printer));
 	}
 	
 	/* 

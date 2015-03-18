@@ -26,6 +26,9 @@ public class TestQuestion extends BaseTest {
 				+ 			"question booleanQuestion {"
 				+ 				"widget checkbox"
 				+ 			"}"
+				+ 			"question booleanQuestion {"
+				+ 				"widget checkbox"
+				+ 			"}"
 				+ 		"}"
 				+ "}";
 	}

@@ -2,7 +2,6 @@ package qls.ast.visitor.typechecker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import ql.TypeEnvironment;
 import ql.ast.Expression;
@@ -27,8 +26,12 @@ import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
+import qls.errorhandling.error.DuplicateIdentifierError;
 import qls.errorhandling.error.IllegalPropertyValueError;
 import qls.errorhandling.error.IncompatibleWidgetError;
+import qls.errorhandling.error.MissingIdentifiersError;
+import qls.errorhandling.error.NullQuestionError;
+import qls.errorhandling.error.PageIdentifierError;
 import qls.errorhandling.error.StylesheetIdentifierError;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<Void> {
@@ -89,7 +92,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	@Override
 	public QLType visit(Identifier identifierNode) {
 		if(processedIdentifiers.contains(identifierNode)) {
-			System.out.println("Double usage.");
+			errorEnvironment.addError(new DuplicateIdentifierError(identifierNode));
 		}
 		
 		processedIdentifiers.add(identifierNode);
@@ -98,7 +101,12 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	
 	@Override
 	public Void visit(Page pageNode) {
-		pageNode.getIdentifier().accept(this);
+		QLType resolvedType = pageNode.getIdentifier().accept(this);
+		
+		if(resolvedType != null) {
+			errorEnvironment.addError(new PageIdentifierError(pageNode.getIdentifier(), resolvedType));
+		}
+		
 		return pageNode.getStatements().accept(this);
 	}
 	
@@ -106,7 +114,9 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	public Void visit(Question questionNode) {
 		QLType identifierType = questionNode.getIdentifier().accept(this);
 		
-		if(!questionNode.hasCompatibleWidget(identifierType)) {
+		if(identifierType == null || identifierType == new QLForm()) {
+			errorEnvironment.addError(new NullQuestionError(questionNode.getIdentifier()));
+		} else if(!questionNode.hasCompatibleWidget(identifierType)) {
 			errorEnvironment.addError(new IncompatibleWidgetError(questionNode,
 					identifierType, questionNode.getWidget()));
 		}
@@ -125,12 +135,8 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		stylesheetNode.getPages().accept(this);
 		
 		if(!processedIdentifiers.containsAll(typeEnvironment.getIdentifiers())) {
-			System.out.println("-- Missing identifiers --");
-			typeEnvironment.getIdentifiers().stream()
-					.filter(identifier -> !processedIdentifiers.contains(identifier))
-					.forEach(identifier -> System.out.println("  > " + identifier));
-		} else {
-			System.out.println("NO MISSING");
+			errorEnvironment.addError(new MissingIdentifiersError(stylesheetNode, 
+					processedIdentifiers, typeEnvironment.getIdentifiers()));
 		}
 		
 		return null;
