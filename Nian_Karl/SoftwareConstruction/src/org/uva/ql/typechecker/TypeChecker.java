@@ -394,6 +394,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Identifier node) {
+		
 		if (isVisitingQuestionExpression) {
 			Identifier currentQuestionComputed = questioncomputedList.get(questioncomputedList.size() - 1);
 			dependencyList.add(node, currentQuestionComputed);
