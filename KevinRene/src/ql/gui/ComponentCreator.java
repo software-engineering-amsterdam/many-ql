@@ -27,9 +27,9 @@ import ql.gui.content.UIQuestion;
 import ql.gui.structure.Label;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
-import ql.gui.widget.input.IntegerField;
 import ql.gui.widget.input.RadioButton;
-import ql.gui.widget.input.TextField;
+import ql.gui.widget.input.field.IntegerField;
+import ql.gui.widget.input.field.TextField;
 import ql.gui.widget.input.spinbox.FloatSpinbox;
 import ql.gui.widget.input.spinbox.IntegerSpinbox;
 
