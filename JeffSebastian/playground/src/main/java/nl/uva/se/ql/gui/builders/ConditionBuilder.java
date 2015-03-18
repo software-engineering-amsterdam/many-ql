@@ -29,7 +29,7 @@ public class ConditionBuilder implements StatementVisitor{
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		CalculatedBox calculatedBox = new CalculatedBox(calculatedQuestion, mediator);	
-		mediator.registerCalculated(calculatedBox);
+		mediator.registerCalculated(calculatedQuestion.getId(), calculatedBox);
 		this.conditionBox.addBox(calculatedBox);		
 	}
 

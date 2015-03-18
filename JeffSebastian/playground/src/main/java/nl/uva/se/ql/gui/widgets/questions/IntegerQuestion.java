@@ -44,9 +44,4 @@ public class IntegerQuestion extends BaseQuestion<String> {
 		return this.textField;
 	}
 
-	@Override
-	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
-	}
 }

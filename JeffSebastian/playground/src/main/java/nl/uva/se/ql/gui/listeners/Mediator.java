@@ -1,7 +1,11 @@
 package nl.uva.se.ql.gui.listeners;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import nl.uva.se.ql.ast.expression.Expression;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
@@ -17,7 +21,7 @@ public class Mediator implements IMediator {
 
 	private final ValueTable values;
 	private List<ConditionBox> conditions = new ArrayList<ConditionBox>();
-	private List<CalculatedBox> calculations = new ArrayList<CalculatedBox>();
+	private Map<String, CalculatedBox> calculations = new HashMap<String, CalculatedBox>();
 
 	public Mediator(ValueTable values) {
 		this.values = values;
@@ -30,23 +34,24 @@ public class Mediator implements IMediator {
 		values.addValue(question.getId(), value);
 		evaluteConditions();
 		updateCalculatedQuestions();
-	}	
-
-	@Override
-	public void registerCalculated(CalculatedBox calculatedBox) {
-		calculations.add(calculatedBox);		
 	}
-	
+
 	@Override
 	public void registerCondition(ConditionBox conditionBox) {
 		conditions.add(conditionBox);
 	}
-	
-	private void updateCalculatedQuestions(){
-		for(CalculatedBox calculatedBox : calculations){			
-			if(values.containsKey(calculatedBox.getBaseQuestion().getQuestion().getId())){	
-				System.out.println("this should work.");
-				//calculatedBox.getBaseQuestion().setValue(values.getValue(calculatedBox.getId()));
+
+	@Override
+	public void registerCalculated(String identifier,
+			CalculatedBox calculatedBox) {
+		calculations.put(identifier, calculatedBox);
+	}
+
+	private void updateCalculatedQuestions() {
+		for (Entry<String, CalculatedBox> entry : calculations.entrySet()) {
+			if(values.containsKey(entry.getKey())){	
+				System.out.println("The valueTable"+values);
+				entry.getValue().setValue(values.getValue(entry.getKey()));
 			}
 		}
 	}

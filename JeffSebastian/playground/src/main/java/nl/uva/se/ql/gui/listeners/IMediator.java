@@ -8,5 +8,5 @@ import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 public abstract interface IMediator {
 	public void Update(Question question, Value value);		
 	public void registerCondition(ConditionBox conditionBox);
-	public void registerCalculated(CalculatedBox calculatedBox);
+	public void registerCalculated(String identifier, CalculatedBox calculatedBox);
 }

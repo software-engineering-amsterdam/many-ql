@@ -43,7 +43,7 @@ public class QuestionPane extends BorderPane {
 	
 	public void addQuestion(CalculatedQuestion question){
 		CalculatedBox questionBox = new CalculatedBox(question, mediator);
-		mediator.registerCalculated(questionBox);
+		mediator.registerCalculated(question.getId(), questionBox);
 		vbox.getChildren().add(questionBox);
 	}
 

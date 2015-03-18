@@ -34,9 +34,7 @@ public abstract class BaseQuestion<T> {
 
 	public abstract T undoChange(T newValue, T oldValue);
 
-	public abstract Value getValue();
-	
-	public abstract void setValue(T value);
+	public abstract Value getValue();	
 	
 	public abstract Node getWidget();
 	

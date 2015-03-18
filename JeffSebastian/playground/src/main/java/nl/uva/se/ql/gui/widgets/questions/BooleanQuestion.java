@@ -38,11 +38,5 @@ public class BooleanQuestion extends BaseQuestion<Boolean>{
 	public Node getWidget() {
 		return this.checkBox;
 	}
-
-	@Override
-	public void setValue(Boolean value) {
-		this.checkBox.setSelected(value);
-		
-	}
 	
 }
