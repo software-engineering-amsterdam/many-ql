@@ -19,14 +19,6 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Building
             return context.expr().Accept(this);
         }
 
-        public override Expression VisitIncrement(QLParser.IncrementContext context)
-        {
-            Expression operand = context.expr().Accept(this);
-            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
-
-            return new Increment(operation, operand, context.GetTextPosition());
-        }
-
         public override Expression VisitNegation(QLParser.NegationContext context)
         {
             Expression operand = context.expr().Accept(this);

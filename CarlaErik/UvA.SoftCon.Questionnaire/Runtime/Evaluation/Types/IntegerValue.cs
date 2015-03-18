@@ -119,10 +119,5 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
         {
             return new BooleanValue(value.Val >= this.Val);
         }
-
-        public override Value Increment()
-        {
-            return new IntegerValue(Val + 1);
-        }
     }
 }

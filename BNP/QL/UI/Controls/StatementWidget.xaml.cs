@@ -12,34 +12,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using QL.UI.Interfaces;
+using QL.Model;
+using QL.UI.ControlWrappers;
+using QL.Visitors;
 
 namespace QL.UI.Controls
 {
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class StatementWidget : IWidget
+    public partial class StatementWidget
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(StatementWidget));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(StatementWidget));
 
-        public object Value
+        public override object Value
         {
             get { return (string)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public object Text
+        public override object Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            protected set { SetValue(TextProperty, value); }
         }
 
-        public StatementWidget()
+        public StatementWidget(UnitBase unit, ITerminalWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
             InitializeComponent();
             DataContext = this;
+
+            Text = unit.DisplayText;
+            Value = terminalWrapper.ToString();
         }
     }
 }

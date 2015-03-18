@@ -1,6 +1,6 @@
 package ql.gui.widgets
 
-import ql.ast.{Expression, Question, StringValue}
+import ql.ast.{Expression, Question, StringValue, Value}
 import types._
 
 import scalafx.scene.control.TextField
@@ -22,13 +22,26 @@ class StringQuestionWidget(q: Question, visibilityExpressions: List[Expression],
     if (valueDependencies contains updatedVariable) {
       textField.text = eval()
     }
+
+    // Needed in order to keep multiple questions with the same key in sync
+    if (isQuestionWithSameKey(updatedVariable)) {
+      val value = env.getOrElse(q.variable.name, StringValue())
+      textField.text = extract(value)
+    }
   }
 
-  def eval(): String = q.expression match {
-    case Some(e) => evaluator.eval(e, env) match {
+  def eval(): String = {
+    val value = q.expression match {
+      case Some(e) => evaluator.eval(e, env)
+      case None => StringValue()
+    }
+    extract(value)
+  }
+
+  def extract(value: Value): String = {
+    value match {
       case StringValue(v) => v
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type String.")
     }
-    case None => ""
   }
 }

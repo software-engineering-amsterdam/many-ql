@@ -13,34 +13,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using QL.UI.Interfaces;
+using QL.Model;
+using QL.Model.Terminals.Wrappers;
+using QL.UI.ControlWrappers;
 
 namespace QL.UI.Controls
 {
     /// <summary>
     /// Interaction logic for TextWidget.xaml
     /// </summary>
-    public partial class YesNoWidget : IWidget
+    public partial class YesNoWidget
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(YesNoWidget));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(YesNoWidget));
 
-        public object Value
+        public override object Value
         {
             get { return (bool)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public object Text
+        public override object Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            protected set { SetValue(TextProperty, value); }
         }
 
-        public YesNoWidget()
+        public YesNoWidget(UnitBase unit, YesnoWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
             InitializeComponent();
             DataContext = this;
+
+            Text = unit.DisplayText;
+            Value = terminalWrapper.Value;
         }
     }
 

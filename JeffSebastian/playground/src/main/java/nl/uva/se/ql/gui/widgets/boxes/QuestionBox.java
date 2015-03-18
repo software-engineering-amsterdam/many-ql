@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.gui.builders.QuestionBuilder;
 import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 
 public class QuestionBox extends VBox {
 	
@@ -24,8 +25,8 @@ public class QuestionBox extends VBox {
 		this.getChildren().add(title);
 		
 		//Add the widget to the QuestionBox
-		Node widget = question.getType().accept(new QuestionBuilder(question, mediator));
-		this.getChildren().add(widget);
+		BaseQuestion baseQuestion = question.getType().accept(new QuestionBuilder(question, mediator));
+		this.getChildren().add(baseQuestion.getWidget());
 	}
 	
 	public Question getQuestion(){

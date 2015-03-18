@@ -11,18 +11,16 @@ import javax.swing.filechooser.FileFilter;
 public class FileManager {
 	final JFileChooser fileChooser = new JFileChooser();
 	
-	
 	public String getFileString() {
 		try {
 			return fileToString(fileName());
 		} catch (FileNotFoundException e) {
-			System.out.println("No file was found.");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog (null, "You didn't choose (existing) file.", "Error!", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
 	
-	private String fileToString(String filename) throws FileNotFoundException  {
+	public String fileToString(String filename) throws FileNotFoundException  {
 		File file = new File(filename);
 		StringBuilder fileContents = new StringBuilder((int)file.length());
 		Scanner scan = new Scanner(file);
@@ -39,18 +37,18 @@ public class FileManager {
 		}
 	}
 	
-	private String fileName() {
+	public String fileName() {
 		customazeFileChooser();
 		fileFilter();
-		int result = fileChooser.showOpenDialog(new JOptionPane());
-		
+		int result = fileChooser.showOpenDialog(new JOptionPane());	
 		
 		if (!(result == JFileChooser.APPROVE_OPTION)) {
-			JOptionPane.showMessageDialog (null, "You didn't select any file.", "Warning!", JOptionPane.WARNING_MESSAGE);
+			return "";
 		}
-		   File selectedFile = fileChooser.getSelectedFile();
-		   String fileName = selectedFile.getAbsolutePath();
-		   return fileName;
+		   
+		File selectedFile = fileChooser.getSelectedFile();
+		String fileName = selectedFile.getAbsolutePath();
+		return fileName;
         
 	}
 	
@@ -64,15 +62,14 @@ public class FileManager {
 	}
 	
 	private JFileChooser fileFilter() {
-		
 		fileChooser.setFileFilter(new FileFilter() {        
 			 
-		       @Override
+			@Override
 		       public String getDescription() {
 		            return "Questionnaires (*.ql)";
 		        }
 		 
-		       @Override
+		   @Override
 		       public boolean accept(File f) {
 		            if (f.isDirectory()) {
 		                return true;
