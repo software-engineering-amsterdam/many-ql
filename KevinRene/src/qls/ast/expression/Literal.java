@@ -1,7 +1,7 @@
 package qls.ast.expression;
 
 import ql.ast.QLType;
-import qls.Value;
+import ql.Value;
 import qls.ast.visitor.ExpressionVisitor;
 
 public abstract class Literal<U extends Value> extends ql.ast.expression.Literal<U> {

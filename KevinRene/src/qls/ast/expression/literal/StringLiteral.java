@@ -2,9 +2,9 @@ package qls.ast.expression.literal;
 
 import ql.ast.QLType;
 import ql.ast.type.QLString;
+import ql.value.StringValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
-import qls.value.StringValue;
 
 public class StringLiteral extends Literal<StringValue> {
 	public StringLiteral(String value) {

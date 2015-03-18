@@ -2,9 +2,9 @@ package qls.ast.expression.literal;
 
 import ql.ast.QLType;
 import ql.ast.type.QLFloat;
+import ql.value.FloatValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
-import qls.value.FloatValue;
 
 public class FloatLiteral extends Literal<FloatValue> {
 	public FloatLiteral(float value) {

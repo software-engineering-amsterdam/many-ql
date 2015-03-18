@@ -2,9 +2,9 @@ package qls.ast.expression.literal;
 
 import ql.ast.QLType;
 import ql.ast.type.QLBoolean;
+import ql.value.BooleanValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
-import qls.value.BooleanValue;
 
 public class BooleanLiteral extends Literal<BooleanValue> {
 	public BooleanLiteral(boolean value) {
