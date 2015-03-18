@@ -57,7 +57,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitQuestion_statement(self, ctx):
         identifier = self.visit(ctx.name)
         text = ctx.text.getText()[1:-1]
-        question_type = qlQuestionType(ctx.qtype.getText())
+        question_type = _qlQuestionType(ctx.qtype.getText())
         
         expr = self.visit(ctx.expression) if ctx.expression != None else None
 
@@ -114,13 +114,13 @@ class ParseTreeVisitor(QLVisitor):
         # unary (rightside) operator
         if ctx.left == None:
             return Nodes.UnaryExpression(
-                qlUnaryOperator(op), right, lineNumber
+                _qlUnaryOperator(op), right, lineNumber
             )
 
         left = self.visit(ctx.left)
 
         return Nodes.BinaryExpression(
-            left, qlBinaryOperator(op), right, lineNumber
+            left, _qlBinaryOperator(op), right, lineNumber
         )
 
 
@@ -153,18 +153,18 @@ def _operatorTokens():
         (QLOperators.QLLogicalOr, '||')
     )
 
-def qlQuestionType(questionTypeToken):
+def _qlQuestionType(questionTypeToken):
     return {
         token : qlType for (qlType, token) in _expressionTypeTokens()
     }[questionTypeToken]
 
-def qlUnaryOperator(operatorToken):
+def _qlUnaryOperator(operatorToken):
     unaryOperatorTokens = _operatorTokens()[:3]
     return {
         token : qlOperator for (qlOperator, token) in unaryOperatorTokens
     }[operatorToken]
 
-def qlBinaryOperator(operatorToken):
+def _qlBinaryOperator(operatorToken):
     binaryOperatorTokens = _operatorTokens()[3:]
     return {
         token : qlOperator for (qlOperator, token) in binaryOperatorTokens
