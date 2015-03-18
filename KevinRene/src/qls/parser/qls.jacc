@@ -34,8 +34,8 @@
 %type <QLSBlock> statements pages
 %type <QLSStatement> statement
 %type <ValueSet> values
-%type <StyleRule> styleRule
-%type <StyleRuleSet> styleRules
+%type <Property> styleRule
+%type <StyleProperties> styleRules
 %type <WidgetType> widgetType
 %type <Widget> widget
 %type <Page> page
@@ -110,8 +110,8 @@ import qls.ast.expression.literal.*;
 			| literal				{ $$ = new ValueSet($1);     }
 			;
 	
-	styleRules	: styleRule styleRules	{ $$ = new StyleRuleSet($1, $2); }
-				| /* empty */			{ $$ = new StyleRuleSet(); }
+	styleRules	: styleRule styleRules	{ $$ = new StyleProperties($1, $2); }
+				| /* empty */			{ $$ = new StyleProperties(); }
 				;
 				
   styleRule	: WIDTH		':' literal  { $$ = new Width($3); }
