@@ -3,13 +3,17 @@ import types
 from .Table import *
 from .EvaluatorTypes import *
 
-from ..ast import AST, Nodes
+from ..ast import Nodes
 from ..ast.Visitor import ExpressionVisitor as ASTExpressionVisitor
 from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
-from ..TypeRules import OperatorTable
 
-def createEvaluator(ast):
-    return ast.root.accept(Visitor())
+from ..core.TypeRules import OperatorTable
+
+
+
+def createEvaluator(questionnaire):
+    return questionnaire.accept(Visitor())
+
 
 class Evaluator(object):
     def __init__(self):
@@ -120,22 +124,26 @@ class ExpressionVisitor(ASTExpressionVisitor):
         return binaryExpression
 
     def visitBoolean(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitInteger(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitString(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitMoney(self, node):
-        self._expressionStack.append(node.value)
-        return node.value
+        expression = AtomicExpression(node)
+        self._expressionStack.append(expression)
+        return expression
 
     def visitIdentifier(self, node):
-        identifier = EvalIdentifier(node.value, self._evaluator)
-        self._expressionStack.append(identifier)
-        return identifier
+        expression = AtomicExpression(EvalIdentifier(node.value.value, self._evaluator))
+        self._expressionStack.append(expression)
+        return expression

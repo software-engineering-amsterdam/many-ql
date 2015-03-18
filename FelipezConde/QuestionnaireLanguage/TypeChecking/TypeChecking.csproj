@@ -39,26 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collectors\DefinedIdentifierCollector.cs" />
+    <Compile Include="Collectors\UsedIdentifierCollector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IdentifierChecker.cs" />
     <Compile Include="Notifications\Errors\ComputedQuestionTypeConflict.cs" />
-    <Compile Include="Collectors\ConditionalCollector.cs" />
     <Compile Include="Notifications\Errors\DuplicateIdentifier.cs" />
     <Compile Include="Notifications\Warnings\DuplicateLabel.cs" />
     <Compile Include="Notifications\Error.cs" />
     <Compile Include="ExpressionChecker.cs" />
-    <Compile Include="Collectors\ExpressionTypeCollector.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="IdentifierChecker.cs" />
-    <Compile Include="Collectors\IdentifierTypeCollector.cs" />
     <Compile Include="Notifications\Errors\IncompatibleBinaryOperator.cs" />
     <Compile Include="Notifications\Errors\IncompatibleUnaryOperator.cs" />
     <Compile Include="Notifications\Errors\NonBooleanCondition.cs" />
     <Compile Include="Notifications\PositionPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Collectors\QuestionCollector.cs" />
-    <Compile Include="Collectors\TopLevelExpressionCollector.cs" />
     <Compile Include="TypeChecker.cs" />
     <Compile Include="Notifications\Errors\UndefinedIdentifier.cs" />
-    <Compile Include="Collectors\UsedIdentifierCollector.cs" />
     <Compile Include="Notifications\Warning.cs" />
   </ItemGroup>
   <ItemGroup>

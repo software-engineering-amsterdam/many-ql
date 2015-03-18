@@ -9,7 +9,8 @@ public class PFormTypeChecker extends DepthFirstAdapter {
     private final PStmtTypeChecker pStmtTypeChecker;
 
     private void typeCheckForm(AForm form) {
-        form.apply(pStmtTypeChecker);
+        for(PStmt stmt: form.getStmt())
+            stmt.apply(pStmtTypeChecker);
     }
 
     @Override

@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ast.form.Form;
-import evaluator.ValueRepository;
 
 public class MainFrame {
 
@@ -31,8 +30,8 @@ public class MainFrame {
 		mainFrame.setContentPane(contentPane);	
 	}
 	
-	public void magic(Form form, ValueRepository valueRepository) {
-		JPanel mainpanel = GUIRenderer.make(form, valueRepository);
+	public void magic(Form form) {
+		JPanel mainpanel = GUIRenderer.make(form); 
 		contentPane.add(mainpanel);
 		mainFrame.setTitle(form.getFormId().toString());
 		

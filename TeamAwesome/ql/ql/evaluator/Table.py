@@ -28,8 +28,7 @@ class QuestionValueTable(object):
 
     def get(self, question):
         if question in self._expressionTable:
-            return self._expressionTable[question].value()
-
+            return self._expressionTable[question].value
         return self._valueTable.get(question, None)
 
 class QuestionTable(object):
@@ -67,15 +66,17 @@ class ExpressionsTuple(tuple):
     def __add__(self, value):
         return ExpressionsTuple(tuple.__add__(self, value))
 
+    @property
     def value(self):
-        return all(expr.value() for expr in self)
+        return all(expr.value for expr in self)
 
 class ExpressionsList(list):
     def __add__(self, value):
         return ExpressionsList(tuple.__add__(self, value))
 
+    @property
     def value(self):
-        return all(expr.value() for expr in self)
+        return all(expr.value for expr in self)
 
     def copy(self):
         return ExpressionsList(self)

@@ -12,6 +12,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class CheckboxWidget implements IWidget {
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
     private JCheckBox checkbox;
 
     @Override
@@ -24,10 +27,8 @@ public class CheckboxWidget implements IWidget {
         checkbox.setSelected(false);
     }
 
-    public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper) {
-        this.checkbox = new JCheckBox();
-
-        checkbox.addItemListener(new ItemListener() {
+    private ItemListener createChangeListener() {
+        return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 VariableTable variableTable = stateWrapper.getVariableTable();
@@ -35,7 +36,14 @@ public class CheckboxWidget implements IWidget {
                 VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
                 stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
+    }
 
+    public CheckboxWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.checkbox = new JCheckBox();
+        checkbox.addItemListener(createChangeListener());
     }
 }

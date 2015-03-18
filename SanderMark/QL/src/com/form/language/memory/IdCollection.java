@@ -10,13 +10,8 @@ public class IdCollection {
 
     private List<IdLiteral> ids;
 
-    // private HashMap<String,GenericValue> values;
-    // private List<String> labels;
-
     public IdCollection() {
 	ids = new ArrayList<IdLiteral>();
-	// values = new HashMap();
-	// labels = new List();
     }
 
     public void addId(IdLiteral idLiteral) {

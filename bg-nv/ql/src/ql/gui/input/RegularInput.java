@@ -13,12 +13,13 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 3-3-15.
  */
-public abstract class RegularInput<T> extends Input
+public abstract class RegularInput<T extends Control> extends Input<T>
 {
     private final Text errorField;
-    public RegularInput(String id, Control control, Boolean visible, Boolean disabled)
+
+    public RegularInput(String id, T control)
     {
-        super(id, control, visible, disabled);
+        super(id, control, true, false);
 
         this.control.addListener(this.constructChangeListener());
 
@@ -26,16 +27,16 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
-
+        //this.control.setDisabled(true);
         this.inputNode = this.createInputNode(this.control);
     }
-
-    @Override
-    public void setDisabled(Boolean disabled)
-    {
-        super.setDisabled(disabled);
-        this.control.setDisabled(disabled);
-    }
+//
+//    @Override
+//    public void setDisabled(Boolean disabled)
+//    {
+//        super.setDisabled(disabled);
+//        this.control.setDisabled(disabled);
+//    }
 
     @Override
     public void setVisible(Boolean visible)
@@ -55,6 +56,13 @@ public abstract class RegularInput<T> extends Input
         return box;
     }
 
+    @Override
+    public void switchControl(T control)
+    {
+        super.switchControl(control);
+        this.control.addListener(this.constructChangeListener());
+    }
+
     protected void addValidationError(Message validationError)
     {
         this.errorField.setText(validationError.getMessage());
@@ -69,16 +77,22 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setManaged(false);
     }
 
-    private ChangeListener<T> constructChangeListener() {
-        return (observable, oldValue, newValue) -> update(newValue);
+    private ChangeListener<Object> constructChangeListener() {
+        return (observable, oldValue, newValue) -> update();
     }
 
-    private void update(T userInput)
+    private void update()
     {
-        Value val = this.convertUserInputToValue(userInput);
+        this.resetValidation();
+        Value val = this.convertUserInputToValue();
+        if (val.isUndefined())
+        {
+            this.addValidationError(this.getInvalidInputErrorMsg());
+        }
         this.setChanged();
         this.notifyObservers(new ValueTableEntry(this.getId(), val));
     }
 
-    protected abstract Value convertUserInputToValue(T userInput);
+    protected abstract Value convertUserInputToValue();
+    protected abstract Message getInvalidInputErrorMsg();
 }

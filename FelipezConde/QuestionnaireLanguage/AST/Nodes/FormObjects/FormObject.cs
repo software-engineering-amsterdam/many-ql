@@ -1,4 +1,4 @@
-﻿using AST.ASTVisitors.Interfaces;
+﻿using AST.VisitorInterfaces;
 using AST.Nodes.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.FormObjects
 {
-    public abstract class FormObject : ASTNode
+    public abstract class FormObject : Node
     {
         public FormObject(PositionInText pos)
             :base(pos)

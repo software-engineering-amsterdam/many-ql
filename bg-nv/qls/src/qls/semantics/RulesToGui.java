@@ -1,12 +1,12 @@
 package qls.semantics;
 
 import ql.gui.control.*;
+import ql.gui.control.Radio;
 import ql.gui.control.Spinbox;
 import ql.gui.segment.RowStyle;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
 import qls.ast.rule.widget.Dropdown;
-import qls.ast.rule.widget.Radio;
 import qls.ast.rule.widget.Slider;
 
 /**
@@ -78,36 +78,36 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
     @Override
     public Control visit(Checkbox w)
     {
-        return new CheckBox(true, true); //TODO: check these values
+        return new CheckBox(true, false); //TODO: check these values
     }
 
     @Override
     public Control visit(Dropdown w)
     {
-        return new ql.gui.control.Dropdown(true, true);
+        return new ql.gui.control.Dropdown(true, false);
     }
 
     @Override
-    public Control visit(Radio w)
+    public Control visit(qls.ast.rule.widget.Radio w)
     {
-        return new Radios(true, true, w.getYesLabel(), w.getNoLabel());
+        return new Radio(true, false, w.getYesLabel(), w.getNoLabel());
     }
 
     @Override
     public Control visit(Slider w)
     {
-        return new ql.gui.control.Slider(true, true);
+        return new ql.gui.control.Slider(true, false, 0, 100, 1);
     }
 
     @Override
     public Control visit(qls.ast.rule.widget.Spinbox w)
     {
-        return new Spinbox(true, true);
+        return new Spinbox(true, false);
     }
 
     @Override
     public Control visit(Textbox w)
     {
-        return new TextField(true, true);
+        return new TextField(true, false);
     }
 }

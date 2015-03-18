@@ -4,7 +4,7 @@ import java.util.List;
 
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.visitor.StatementVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitor;
 
 public class IfStatement extends Statement {
 	
@@ -25,13 +25,17 @@ public class IfStatement extends Statement {
 		return this.statement;
 	}
 	
+	public boolean hasBooleanCondition() {
+		return expression.isBoolean();
+	}
+	
 	@Override
 	public CodeLines getCodeLine() {
 		return this.codeLines;
 	}
 	
 	@Override
-	public <T> T accept(StatementVisitorInterface<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitIfStatement(this);
 	}
 	

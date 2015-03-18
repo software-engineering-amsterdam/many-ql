@@ -6,8 +6,10 @@ import java.util.List;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeString;
+import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.value.StringValue;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.expressions.tablevisitor.*;
+import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class Identifier extends Literal{
 	
@@ -22,6 +24,10 @@ public class Identifier extends Literal{
 		this.identifier = _identifier;
 	}
 	
+	public GenericValue<?> getValue(ValueTable valueTable){
+		return valueTable.getValue(this.identifier);
+	}
+	
 	@Override
 	public CodeLines getCodeLine() {
 		return this.codeLines;
@@ -33,7 +39,7 @@ public class Identifier extends Literal{
 	}
 	
 	@Override
-	public List<Type> getValueType() {
+	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeString());
 	}
 	
@@ -43,8 +49,16 @@ public class Identifier extends Literal{
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitIdentifier(this);
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if (obj == null){
+			return false;
+		}
+		return ((Identifier)obj).identifier.equals(this.identifier);
 	}
 	
 	@Override

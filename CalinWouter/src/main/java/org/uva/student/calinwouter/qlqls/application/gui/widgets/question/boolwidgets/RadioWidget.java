@@ -13,8 +13,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class RadioWidget implements IWidget {
-    private JPanel btnPanelYesNo;
-    private JRadioButton yesBtn, noBtn;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
+    private final JPanel btnPanelYesNo;
+    private final Radio radio;
+    private final JRadioButton yesRadioButton, noRadioButton;
 
     @Override
     public Component getWidgetComponent() {
@@ -23,39 +27,51 @@ public class RadioWidget implements IWidget {
 
     @Override
     public void resetValue() {
-        yesBtn.setSelected(false);
-        noBtn.setSelected(false);
+        yesRadioButton.setSelected(false);
+        noRadioButton.setSelected(false);
     }
 
-    public RadioWidget(final String questionIdentifier, final QLInterpreter qlInterpreter, final StateWrapper stateWrapper, Radio radio) {
+    private ItemListener createRadioSelectedEventListener(final boolean radioSelectionType) {
+        return new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                final VariableTable variableTable = stateWrapper.getVariableTable();
+                final BoolValue radioSelectionTypeValue = new BoolValue(radioSelectionType);
+                variableTable.setVariable(questionIdentifier, radioSelectionTypeValue);
+                final VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
+            }
+        };
+    }
+
+    private void initializeEventListeners() {
+        yesRadioButton.addItemListener(createRadioSelectedEventListener(true));
+        noRadioButton.addItemListener(createRadioSelectedEventListener(false));
+    }
+
+    private void initializeButtonGroup() {
         ButtonGroup btnGroupYesNo = new ButtonGroup();
-        yesBtn = new JRadioButton(radio.getYesLbl());
-        noBtn = new JRadioButton(radio.getNoLbl());
-        btnGroupYesNo.add(yesBtn);
-        btnGroupYesNo.add(noBtn);
-        btnPanelYesNo = new JPanel();
-        btnPanelYesNo.add(yesBtn);
-        btnPanelYesNo.add(noBtn);
+        btnGroupYesNo.add(yesRadioButton);
+        btnGroupYesNo.add(noRadioButton);
+    }
 
-        yesBtn.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                VariableTable variableTable = stateWrapper.getVariableTable();
-                variableTable.setVariable(questionIdentifier, new BoolValue(true));
-                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
-                stateWrapper.setVariableTable(newVariableTable);
-            }
-        });
+    private String getYesLabel() {
+        return radio.getYesLbl();
+    }
 
-        noBtn.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                VariableTable variableTable = stateWrapper.getVariableTable();
-                variableTable.setVariable(questionIdentifier, new BoolValue(false));
-                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
-                stateWrapper.setVariableTable(newVariableTable);
-            }
-        });
+    private String getNoLabel() {
+        return radio.getNoLbl();
+    }
 
+    public RadioWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper, Radio radio) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.btnPanelYesNo = new JPanel();
+        this.radio = radio;
+        this.yesRadioButton = new JRadioButton(getYesLabel());
+        this.noRadioButton = new JRadioButton(getNoLabel());
+        initializeButtonGroup();
+        initializeEventListeners();
     }
 }

@@ -28,4 +28,16 @@ public class StringValue extends GenericValue<String> {
 		return value.getValue() == this.getValue();
 	}
 	
+	@Override
+	public boolean isNotEqual(GenericValue<?> value) {
+		if (value == null){
+			return false;
+		}
+		return value.getValue() != this.getValue();
+	}
+	
+	@Override
+	public String toString(){
+		return this.value;
+	}
 }

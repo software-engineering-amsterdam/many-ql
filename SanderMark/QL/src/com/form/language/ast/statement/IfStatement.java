@@ -2,6 +2,9 @@ package com.form.language.ast.statement;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
@@ -9,7 +12,6 @@ import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
-import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
 public class IfStatement extends Statement {
@@ -40,10 +42,10 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context rm) {
+    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context rm) {
 	guiBuilder.setIfCondition(conditions);
 	for (Statement s : this.thenStatements) {
-	    s.createGUIComponent(guiBuilder, formGUI, rm);
+	    s.createGUIComponent(guiBuilder, panel, rm);
 	}
     };
 

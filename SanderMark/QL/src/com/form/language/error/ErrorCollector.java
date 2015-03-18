@@ -21,9 +21,8 @@ public class ErrorCollector {
 
     public List<String> print() {
 	List<String> result = new ArrayList<String>();
-	Iterator<Error> iter = errorList.iterator();
-	while (iter.hasNext()) {
-	    result.add(iter.next().toString());
+	for(Error e : errorList){
+	    result.add(e.toString());
 	}
 	return result;
     }
@@ -31,9 +30,9 @@ public class ErrorCollector {
     @Override
     public String toString() {
 	String result = "";
-	Iterator<Error> iter = errorList.iterator();
-	while (iter.hasNext()) {
-	    result += iter.next() + "\n";
+	for(Error e : errorList)
+	{
+		result += e + "\n";
 	}
 	return result;
     }

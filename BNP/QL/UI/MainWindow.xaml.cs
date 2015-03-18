@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,7 +9,11 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using QL.Exceptions;
 using QL.Model;
+using QL.Model.Terminals;
+using QL.Model.Terminals.Wrappers;
 using QL.UI.Controls;
+using QL.UI.ControlWrappers;
+using QL.Visitors;
 
 namespace QL.UI
 {
@@ -17,7 +23,7 @@ namespace QL.UI
     public partial class MainWindow : Window
     {
         private string _inputFilePath = null;
-        private ASTHandler _astHandler = null;
+        private QLBuilder _qlBuilder = null;
 
         public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
@@ -52,16 +58,19 @@ namespace QL.UI
         private void BuildQuestionnaire(string inputFileContents)
         {
             InputFileSourceText.Text = inputFileContents;
-            _astHandler = new ASTHandler(inputFileContents);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
+            _qlBuilder = new QLBuilder(inputFileContents);
+            ExceptionTable.ItemsSource = _qlBuilder.Errors;
 
-            if (_astHandler.BuildAST())
-            {
-                if (_astHandler.CheckType())
-                {
-                    _astHandler.Evaluate();
-                }
-            }
+            //if (_astHandler.BuildAST())
+            //{
+            //    if (_astHandler.CheckType())
+            //    {
+            //        if (_astHandler.Evaluate())
+            //        {
+            //            // todo evaluate ui controls?
+            //        }
+            //    }
+            //}
         }
 
         #region Menu event handlers
@@ -122,22 +131,28 @@ namespace QL.UI
 
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler = new ASTHandler(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
-            _astHandler.BuildAST();
+            if (_qlBuilder == null) return;
+            _qlBuilder = new QLBuilder(InputFileSourceText.Text);
+            ExceptionTable.ItemsSource = _qlBuilder.Errors;
+            //_qlBuilder.BuildAST();
         }
 
         private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.CheckType();
+            if (_qlBuilder == null) return;
+            //_qlBuilder.CheckType();
         }
 
         private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.Evaluate();
+            if (_qlBuilder == null) return;
+            //_qlBuilder.Evaluate();
+        }
+
+        private void ButtonBuild_Click(object sender, RoutedEventArgs e)
+        {
+            if (_qlBuilder == null) return;
+            //todo rebuild ui _astHandler.EvaluateUI();
         }
 
         private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
@@ -154,5 +169,27 @@ namespace QL.UI
             InputFileSourceText.Focus();
         }
         #endregion
+
+        public void BindTestData()
+        {
+            WidgetFactory factory = new WidgetFactory();
+            List<WidgetBase> renders = new List<WidgetBase>
+                                        {
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text("What is your name?"), new Text())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Text("What is your age?"), new Number())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Text("Are you studying?"), new Yesno())),
+                                        };
+
+            QuestionsPanel.Children.Clear();
+            foreach(var widget in renders)
+            {
+                QuestionsPanel.Children.Add(widget);
+            }
+        }
+
+        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            BindTestData();
+        }
     }
 }

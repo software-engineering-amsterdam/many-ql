@@ -39,13 +39,13 @@ import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.constant.Operator;
 import nl.uva.se.ql.parser.QLParser.ConditionContext;
 import nl.uva.se.ql.parser.QLParser.ExpressionContext;
 import nl.uva.se.ql.parser.QLParser.FormContext;
 import nl.uva.se.ql.parser.QLParser.LiteralContext;
 import nl.uva.se.ql.parser.QLParser.QuestionContext;
 import nl.uva.se.ql.parser.QLParser.StatementContext;
+import nl.uva.se.ql.parser.helper.Operator;
 
 public class QLVisitorImpl extends QLBaseVisitor<Node> {
 

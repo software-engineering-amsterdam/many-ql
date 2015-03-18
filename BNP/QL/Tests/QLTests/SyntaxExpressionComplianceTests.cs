@@ -125,17 +125,18 @@ namespace Tests.QLTests
             
             string input = @"form ExampleBlock {
                 statement Smthing1 (number, (1+(2 -3))) ""this "";
-                statement Smthing1 (number, (1+(2-3))) ""should"";
-                statement Smthing1 (number, (1+(2 --3))) ""be"";
-                statement Smthing1 (number, (1+(2-- 3))) ""solved"";
+                statement Smthing2 (number, (1+(2-3))) ""should"";
+                statement Smthing3 (number, (1+(2 --3))) ""be"";
+                statement Smthing4 (number, (1+(2-- 3))) ""solved"";
 
                 }
 
             ";
-            ASTHandler Handler = new ASTHandler(input);
+            QLBuilder Handler = new QLBuilder(input);
 
-            Handler.BuildAST();
-            Assert.AreEqual(0, Handler.ASTHandlerExceptions.Count);
+            Handler.RegisterGenericDataHandlers();
+            Assert.AreEqual(true, Handler.RunInit());
+            Assert.AreEqual(true, Handler.RunAstBuild());
 
 
 

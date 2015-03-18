@@ -44,8 +44,8 @@ public class Form {
 	}
     }
     
-    public Iterator<Statement> getStatements(){
-	return this.statementList.iterator();
+    public List<Statement> getStatements(){
+	return this.statementList;
     }
 
     public String getId() {

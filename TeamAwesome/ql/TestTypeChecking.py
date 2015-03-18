@@ -4,12 +4,12 @@ sys.path.append('../lib')
 import argparse
 import glob
 
-from ql.parser import AST
-from ql.typechecking import typechecking as tc
+from ql.parser.ANTLR import Parser
+from ql.typechecking import Typechecking as tc
 
 def runTest(verbose, testFileName):
-    ast = AST.create(testFileName)
-    typeCheckResult = tc.check(ast)
+    parser = Parser(testFileName)
+    typeCheckResult = tc.check(parser)
 
     expectedNumMessages = int(
         testFileName.split('.')[0].split('-')[2]

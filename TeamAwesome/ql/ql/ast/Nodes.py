@@ -1,4 +1,4 @@
-from ..QLTypes import *
+from ..core.QLTypes import *
 
 class Questionnaire(object):
     def __init__(self, statements):
@@ -144,5 +144,6 @@ class Identifier(AtomBaseType):
     def accept(self, visitor):
         return visitor.visitIdentifier(self)
 
+    @property
     def value(self):
         return QLIdentifier(self._value)

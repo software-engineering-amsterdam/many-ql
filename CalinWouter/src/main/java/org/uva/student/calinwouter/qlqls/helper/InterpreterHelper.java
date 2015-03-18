@@ -7,9 +7,12 @@ import org.uva.student.calinwouter.qlqls.generated.parser.Parser;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.QLStaticAnalyser;
+import org.uva.student.calinwouter.qlqls.ql.QLTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
+import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.IOException;
@@ -18,17 +21,16 @@ import java.io.StringReader;
 
 public class InterpreterHelper {
 
-    /*public static FormTypeChecker typeCheckString(String input) throws ParserException, IOException, LexerException {
-        FormTypeChecker formTypeChecker = new FormTypeChecker();
+    public static TypeCheckResults typeCheckString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
         AForm form = (AForm) ((AFormBegin) ast.getPBegin()).getForm();
-        form.apply(formTypeChecker);
-        return formTypeChecker;
-    }*/
+        QLTypeChecker qlTypeChecker = new QLTypeChecker(form);
+        return qlTypeChecker.typeCheck();
+    }
 
-    public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
+    public static StyleSheet interpetStylesheetString(String input) throws ParserException, IOException, LexerException, CouldNotFindMatchingQLSComponentException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();

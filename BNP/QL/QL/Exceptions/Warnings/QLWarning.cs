@@ -6,7 +6,7 @@ namespace QL.Exceptions.Warnings
     /// <summary>
     /// Base class for all QL Warnings 
     /// </summary>
-    public class QLWarning : QLException
+    public class QLWarning : QLBaseException
     {
         public QLWarning()
         {

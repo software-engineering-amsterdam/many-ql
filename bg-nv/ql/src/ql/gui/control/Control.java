@@ -17,4 +17,6 @@ public interface Control extends ValueVisitor
     public Node getControlNode();
 
     public void addListener(ChangeListener listener);
+
+    public <T> T accept(ControlVisitor<T> visitor);
 }
