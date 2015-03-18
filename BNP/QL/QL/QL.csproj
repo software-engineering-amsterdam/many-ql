@@ -48,99 +48,87 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hollywood\DataContext.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\AstBuilder.cs" />
+    <Compile Include="Hollywood\DataHandlers\InputHandling\Initializer.cs" />
+    <Compile Include="Hollywood\DataHandlers\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />
     <Compile Include="Exceptions\Errors\ParserError.cs" />
-    <Compile Include="Exceptions\QLException.cs" />
+    <Compile Include="Exceptions\QLBaseException.cs" />
     <Compile Include="Exceptions\Warnings\QLWarning.cs" />
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\EvaluationTerminalWrapperFactory.cs" />
-    <Compile Include="Visitors\EvaluatorVisitor.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\ITerminalWrapper.cs" />
-    <Compile Include="Evaluation\GUIBuilderVisitor.cs" />
-    <Compile Include="Visitors\IVisitor.cs" />
-    <Compile Include="Visitors\TypeCheckerVisitor.cs" />
+    <Compile Include="Hollywood\DataHandlers\Evaluation\Evaluator.cs" />
+    <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeChecker.cs" />
+    <Compile Include="AST\ValueWrappers\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluatorVisitor.cs" />
+    <Compile Include="AST\ValueWrappers\ITerminalWrapper.cs" />
+    <Compile Include="AST\IVisitor.cs" />
+    <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\Errors\QLError.cs" />
     <Compile Include="Exceptions\Warnings\RedeclaredVariableWarning.cs" />
     <Compile Include="Exceptions\Errors\TypeCheckerError.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\NumberWrapper.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\YesnoWrapper.cs" />
-    <Compile Include="Visitors\EvaluationWrappers\TextWrapper.cs" />
-    <Compile Include="Grammars\QL.parser.cs">
+    <Compile Include="AST\ValueWrappers\NumberWrapper.cs" />
+    <Compile Include="AST\ValueWrappers\YesnoWrapper.cs" />
+    <Compile Include="AST\ValueWrappers\TextWrapper.cs" />
+    <Compile Include="Grammar\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
-    <Compile Include="Grammars\QL.lexer.cs">
+    <Compile Include="Grammar\QL.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
-    <Compile Include="Grammars\QLListener.cs" />
-    <Compile Include="Grammars\QLVisitor.cs" />
-    <Compile Include="Infrastructure\ParserErrorHandler.cs" />
-    <Compile Include="Infrastructure\LexerErrorHandler.cs" />
-    <Compile Include="AstHandler.cs" />
-    <Compile Include="Model\BinaryTreeElementBase.cs" />
-    <Compile Include="Model\ElementBase.cs" />
-    <Compile Include="Model\Block.cs" />
-    <Compile Include="Model\ControlUnit.cs" />
-    <Compile Include="Model\Enums\ControlBlockType.cs" />
-    <Compile Include="Model\Enums\ElementType.cs" />
-    <Compile Include="Model\Expression.cs" />
-    <Compile Include="Model\Form.cs" />
-    <Compile Include="Model\ITraversable.cs" />
-    <Compile Include="Model\ITypeResolvableDirectly.cs" />
-    <Compile Include="Model\ITypeResolvableByChildren.cs" />
-    <Compile Include="Model\IBottomUpVisitable.cs" />
-    <Compile Include="Model\IVisitable.cs" />
-    <Compile Include="Model\Operators\AndOperator.cs" />
-    <Compile Include="Model\Operators\DivisionOperator.cs" />
-    <Compile Include="Model\Operators\GreaterThanEqualToOperator.cs" />
-    <Compile Include="Model\Operators\GreaterThanOperator.cs" />
-    <Compile Include="Model\Operators\LessThanEqualToOperator.cs" />
-    <Compile Include="Model\Operators\LessThanOperator.cs" />
-    <Compile Include="Model\Operators\MinusOperator.cs" />
-    <Compile Include="Model\Operators\MultiplicationOperator.cs" />
-    <Compile Include="Model\Operators\OrOperator.cs" />
-    <Compile Include="Model\Operators\PlusOperator.cs" />
-    <Compile Include="Model\Operators\EqualsOperator.cs" />
-    <Compile Include="Model\Operators\IOperator.cs" />
-    <Compile Include="Model\Operators\NotEqualsOperator.cs" />
-    <Compile Include="Model\QuestionUnit.cs" />
-    <Compile Include="Model\SourceLocation.cs" />
-    <Compile Include="Model\StatementUnit.cs" />
-    <Compile Include="Model\Terminals\Identifier.cs" />
-    <Compile Include="Model\Terminals\ITerminal.cs" />
-    <Compile Include="Model\ITypeResolvable.cs" />
-    <Compile Include="Model\Terminals\IResolvableTerminalType.cs" />
-    <Compile Include="Model\Terminals\Number.cs" />
-    <Compile Include="Model\Terminals\ITerminalType.cs" />
-    <Compile Include="Model\Terminals\Text.cs" />
-    <Compile Include="Model\Terminals\Yesno.cs" />
-    <Compile Include="Model\TreeElementBase.cs" />
-    <Compile Include="Model\UnitBase.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\QLListener.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\ParserErrorHandler.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\LexerErrorHandler.cs" />
+    <Compile Include="Hollywood\QLBuilder.cs" />
+    <Compile Include="AST\Nodes\BinaryTreeElementBase.cs" />
+    <Compile Include="AST\Nodes\ElementBase.cs" />
+    <Compile Include="AST\Nodes\Branches\Block.cs" />
+    <Compile Include="AST\Nodes\Branches\ControlUnit.cs" />
+    <Compile Include="AST\Nodes\Branches\Expression.cs" />
+    <Compile Include="AST\Nodes\Branches\Form.cs" />
+    <Compile Include="AST\Nodes\ITypeStatic.cs" />
+    <Compile Include="AST\Nodes\ITypeInferred.cs" />
+    <Compile Include="AST\Nodes\IVisitable.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\AndOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\DivisionOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\GreaterThanOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\LessThanEqualToOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\LessThanOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\MinusOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\MultiplicationOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\OrOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\PlusOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\EqualsOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\IOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\Operators\NotEqualsOperator.cs" />
+    <Compile Include="AST\Nodes\Branches\QuestionUnit.cs" />
+    <Compile Include="AST\SourceLocation.cs" />
+    <Compile Include="AST\Nodes\Branches\StatementUnit.cs" />
+    <Compile Include="AST\Nodes\Terminals\Identifier.cs" />
+    <Compile Include="AST\Nodes\ITypeResolvable.cs" />
+    <Compile Include="AST\Nodes\Terminals\IResolvableTerminalType.cs" />
+    <Compile Include="AST\Nodes\Terminals\Number.cs" />
+    <Compile Include="AST\Nodes\Terminals\ITerminalType.cs" />
+    <Compile Include="AST\Nodes\Terminals\Text.cs" />
+    <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
+    <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />
     <Compile Include="obj\Debug\QLListener.cs" />
     <Compile Include="obj\Debug\QLParser.cs" />
     <Compile Include="obj\Debug\QLVisitor.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\Warnings\TypeCheckerWarning.cs" />
-    <Compile Include="Visitors\UIWrappers\IRenderable.cs" />
-    <Compile Include="Visitors\UIWrappers\QuestionWrapper.cs" />
-    <Compile Include="Visitors\UIWrappers\StatementWrapper.cs" />
-    <Compile Include="Visitors\UserInterfaceVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Class diagrams\Error diagram.cd" />
     <None Include="Class diagrams\AST Diagram.cd" />
-    <None Include="Definitions\CodeFile1.ql" />
-    <None Include="Definitions\Ideas v1.ql" />
-    <None Include="Definitions\Ideas v2.ql" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\QL.csprojResolveAssemblyReference.cache" />
     <AntlrTokens Include="obj\Debug\QL.tokens">
@@ -152,7 +140,7 @@
       <CustomToolNamespace>QL.obj.Debug</CustomToolNamespace>
     </AntlrTokens>
     <None Include="packages.config" />
-    <Antlr4 Include="Grammars\QL.g4">
+    <Antlr4 Include="Grammar\QL.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>QL.Grammars</CustomToolNamespace>
       <Listener>True</Listener>
@@ -166,7 +154,7 @@
     <Content Include="obj\Debug\QL.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Hollywood\DataHandlers\ExportHandling\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

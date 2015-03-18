@@ -1,16 +1,16 @@
 package qls.typechecker
 
 import ql.typechecker.Error
-import qls.ast.{Question, Section}
+import qls.ast.{DefaultWidget, Page, Question, Section, StyleSheet}
 import types.{TypeEnvironment, VariableName}
 
 class QuestionPlacementChecker {
 
-  def check(s: Section, env: TypeEnvironment): Option[Error] = {
+  def check(s: StyleSheet, env: TypeEnvironment): Option[Error] = {
     val qlVariables = env.keySet
-    val qlsVariables = s.questions.map({
-      case q: Question => getVariableName(q)
-    })
+    println(qlVariables)
+    val qlsVariables = getVariables(s)
+    println(qlsVariables)
     val notPlacedQuestion = qlVariables -- qlsVariables
 
     if (notPlacedQuestion.nonEmpty) {
@@ -20,7 +20,17 @@ class QuestionPlacementChecker {
     }
   }
 
-  private def getVariableName(q: Question): VariableName = {
-    q.variable.name
+  def getVariables(s: StyleSheet): List[VariableName] = {
+    s.elements.flatMap {
+      case _: DefaultWidget => List()
+      case Page(_, sections) => sections.flatMap(getVariables)
+    }
+  }
+
+  def getVariables(e: Section): List[VariableName] = {
+    e.elements.flatMap {
+      case s: Section => getVariables(s)
+      case Question(v, _) => List(v.name)
+    }
   }
 }

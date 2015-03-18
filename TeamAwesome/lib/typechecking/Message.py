@@ -1,11 +1,11 @@
 class Message:
-    def __init__(self, message, nodeOrLine = None):
-        self._message = message
+    def __init__(self, text, nodeOrLine = None):
+        self._text = text
         self._line = getattr(nodeOrLine, 'lineNumber', nodeOrLine)
 
     @property
-    def message(self):
-        return self._message
+    def text(self):
+        return self._text
 
     @property
     def line(self):
@@ -13,9 +13,9 @@ class Message:
 
     def __str__(self):
         if self.line is None:
-            return self.message
+            return self.text
         else:
-            return 'line '+str(self.line)+': '+self.message
+            return 'line '+str(self.line)+': '+self.text
 
 
 class Warning(Message):

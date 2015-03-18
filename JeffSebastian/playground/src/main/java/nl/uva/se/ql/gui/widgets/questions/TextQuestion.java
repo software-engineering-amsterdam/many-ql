@@ -1,40 +1,49 @@
 package nl.uva.se.ql.gui.widgets.questions;
 
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.evaluation.value.StringValue;
+import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.validators.TextValidator;
-import javafx.scene.control.TextField;
+import nl.uva.se.ql.gui.validators.Validator;
 
-public class TextQuestion extends TextField implements BaseQuestion<String> {
+public class TextQuestion extends BaseQuestion<String> {
 
-	private final Question question;
-	private final TextValidator validator;
-	private final Listener<String> listener;
+	private TextField textField = new TextField();
 
-	public TextQuestion(Question question) {
-		super();
-		this.question = question;
-		this.validator = new TextValidator();
-		this.listener = new Listener<String>();
-		this.textProperty().addListener(listener.addListener(this, validator));
-	}
-
-	public Question getQuestion() {
-		return this.question;
-	}
-
-	public TextValidator getValidator() {
-		return this.validator;
-	}
-
-	@Override
-	public void reset() {
-		this.setText("");
+	public TextQuestion(Question question, IMediator mediator) {
+		super(question, mediator);
+		Listener<String> listener = new Listener<String>(getMediator());
+		textField.textProperty().addListener(
+				listener.addListener(this, getValidator()));
 	}
 
 	@Override
 	public String undoChange(String newValue, String oldValue) {
-		this.setText(oldValue);
-		return this.getText();
+		textField.setText(oldValue);
+		return textField.getText();
+	}
+
+	@Override
+	public Validator<String> initValidator() {
+		return new TextValidator();
+	}
+
+	@Override
+	public StringValue getValue() {
+		return new StringValue(textField.getText());
+	}
+
+	@Override
+	public Node getWidget() {
+		return this.textField;
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
 	}
 }

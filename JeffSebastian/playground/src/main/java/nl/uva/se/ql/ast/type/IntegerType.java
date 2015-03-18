@@ -19,4 +19,14 @@ public class IntegerType extends Type {
 		return visitor.visit(this);
 	}
 
+	@Override
+	public Type promote() {
+		return new DecimalType();
+	}
+
+	@Override
+	public boolean isNumerical() {
+		return true;
+	}
+	
 }

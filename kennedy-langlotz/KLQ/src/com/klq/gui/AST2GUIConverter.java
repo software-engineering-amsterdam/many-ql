@@ -3,9 +3,8 @@ package com.klq.gui;
 import com.klq.ast.IStatementVisitor;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.value.IdentifierValue;
 import com.klq.ast.impl.stmt.*;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import com.klq.gui.control.*;
 
 import java.util.ArrayList;
@@ -14,27 +13,27 @@ import java.util.ArrayList;
  * Created by juriaan on 17-2-15.
  */
 public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
-    private Store store;
+    private Controller controller;
 
     /*==================================================================================================================
     Statements
      ==================================================================================================================*/
     @Override
     public IKLQItem visit(QuestionnaireNode node) {
-        store = new Store();
+        controller = new Controller();
         for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 ARenderedQuestion question = (ARenderedQuestion) child.accept(this);
-                store.add(question);
+                controller.add(question);
             }
             else if(child instanceof ConditionalNode){
                 QuestionList questionList = (QuestionList) child.accept(this);
                 for(ARenderedQuestion question : questionList.getList()){
-                    store.add(question);
+                    controller.add(question);
                 }
             }
         }
-        return store;
+        return controller;
     }
 
     @Override
@@ -42,7 +41,6 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
         AExpression expr = node.getCondition();
         QuestionList questionList = new QuestionList();
 
-        //todo refactor
         for(AStatementNode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 ARenderedQuestion question = (ARenderedQuestion) child.accept(this);
@@ -64,17 +62,17 @@ public class AST2GUIConverter implements IStatementVisitor<IKLQItem> {
     public IKLQItem visit(QuestionNode node) {
         Type type = node.getType();
         if (type == Type.BOOLEAN){
-            return new BooleanRenderedQuestion(node, new ArrayList<>(), store);
+            return new BooleanRenderedQuestion(node, new ArrayList<>(), controller);
         } else if (type == Type.DATE){
-            return new DateRenderedQuestion(node, new ArrayList<>(), store);
+            return new DateRenderedQuestion(node, new ArrayList<>(), controller);
         } else if (type == Type.STRING || type == Type.NUMERAL) {
-            return new TextRenderedQuestion(node, new ArrayList<>(), store);
+            return new TextRenderedQuestion(node, new ArrayList<>(), controller);
         }
         throw new IllegalArgumentException("Unknown type.");
     }
 
     @Override
     public IKLQItem visit(ComputedQuestionNode node) {
-        return new ComputedRenderedQuestion(node, new ArrayList<>(), store);
+        return new ComputedRenderedQuestion(node, new ArrayList<>(), controller);
     }
 }

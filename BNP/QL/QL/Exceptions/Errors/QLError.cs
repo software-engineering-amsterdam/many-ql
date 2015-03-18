@@ -3,7 +3,7 @@ using QL.Model;
 
 namespace QL.Exceptions.Errors
 {
-    public class QLError : QLException
+    public class QLError : QLBaseException
     {
         /* Base class for all QL Errors
          */

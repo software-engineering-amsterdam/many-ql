@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthesis;
@@ -53,19 +54,15 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		QuestionnaireVisitor<Boolean> {
 
 	private  Map<Identifier, Type> types;
-	private  List<Identifier> questioncomputedList;
 	private  List<String> labels;
 	private  MessageManager messageManager;
 	private  DependencyList dependencyList;
-	private boolean isVisitingQuestionExpression;
 
 	public TypeChecker() {
 		types = new HashMap<Identifier, Type>();
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
 		dependencyList = new DependencyList();
-		questioncomputedList = new ArrayList<Identifier>();
-		isVisitingQuestionExpression = false;
 	}
 	
 	// Name-Type table
@@ -256,35 +253,40 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(QuestionNormal question) {
-		boolean result1 = checkDeclaration(question);
-		boolean result2 = checkLabel(question);
-		return result1 && result2;
+		boolean isValidDeclaration = checkDeclaration(question);
+		boolean isValidLabel = checkLabel(question);
+		return isValidDeclaration && isValidLabel;
 	}
 
 	@Override
 	public Boolean visit(QuestionComputed question) {
-		questioncomputedList.add(question.getIdentifier());
-		boolean result1 = checkDeclaration(question);
-		boolean result2 = checkLabel(question);
-		isVisitingQuestionExpression = true;
-		boolean result3 = question.getExpression().accept(this);
-		isVisitingQuestionExpression = false;
-		return result1 && result2 && result3;
+		boolean isValidDeclaration = checkDeclaration(question);
+		boolean isValidLabel = checkLabel(question);
+		boolean isValidExpression = question.getExpression().accept(this);
+		
+		// Build the dependency list
+		DependencyVisitor visitor = new DependencyVisitor();
+		List<Identifier> dependentIdentifiers = question.getExpression().accept(visitor);
+		for (Identifier identifier : dependentIdentifiers) {
+			dependencyList.add(identifier, question.getIdentifier());
+		}
+		
+		return isValidDeclaration && isValidLabel && isValidExpression;
 	}
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		boolean result1 = ifStatement.getExpr().accept(this);
-		boolean result2 = ifStatement.getIfBlock().accept(this);
-		return result1 && result2;
+		boolean isValidExpression = ifStatement.getExpr().accept(this);
+		boolean isValidIfBlock = ifStatement.getIfBlock().accept(this);
+		return isValidExpression && isValidIfBlock;
 	}
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		boolean result1 = ifElseStatement.getExpr().accept(this);
-		boolean result2 = ifElseStatement.getIfBlock().accept(this);
-		boolean result3 = ifElseStatement.getElseBLock().accept(this);
-		return result1 && result2 && result3;
+		boolean isValidExpression = ifElseStatement.getExpr().accept(this);
+		boolean isValidIfBlock = ifElseStatement.getIfBlock().accept(this);
+		boolean isValidElseBlock = ifElseStatement.getElseBLock().accept(this);
+		return isValidExpression && isValidIfBlock && isValidElseBlock;
 	}
 
 	@Override
@@ -311,11 +313,11 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(Addition binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		boolean resultL = left.accept(this);
-		boolean resultR = right.accept(this);
+		boolean isValidLeftPart = left.accept(this);
+		boolean isValidRightPart = right.accept(this);
 		boolean result = true;
 		CodePosition pos = binary.getPosition();
-		if (resultL && resultR) {
+		if (isValidLeftPart && isValidRightPart) {
 			if (left.getType(this).isEqual(new IntType(pos)) || left.getType(this).isEqual(new StrType(pos))) {
 				result = checkMatchThisLevel(right, left.getType(this));
 			} else {
@@ -394,11 +396,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Identifier node) {
-		
-		if (isVisitingQuestionExpression) {
-			Identifier currentQuestionComputed = questioncomputedList.get(questioncomputedList.size() - 1);
-			dependencyList.add(node, currentQuestionComputed);
-		}
 		return checkReference(node);
 	}
 

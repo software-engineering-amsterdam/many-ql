@@ -4,12 +4,15 @@ import lombok.Data;
 
 import java.util.*;
 
-@Data
-public class Sections {
+public class Sections implements Iterable<Section> {
     private final List<Section> sections;
 
     public Sections(Section... sections) {
         this.sections = Arrays.asList(sections);
     }
 
+    @Override
+    public Iterator<Section> iterator() {
+        return sections.iterator();
+    }
 }

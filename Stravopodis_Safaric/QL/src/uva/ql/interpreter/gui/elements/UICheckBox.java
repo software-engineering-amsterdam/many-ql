@@ -2,31 +2,27 @@ package uva.ql.interpreter.gui.elements;
 
 import java.awt.Component;
 import java.awt.event.ItemEvent;
-
+import java.util.Observer;
 import javax.swing.JCheckBox;
-
-import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.literals.BooleanLiteral;
+import uva.ql.ast.expressions.tablevisitor.ValueTable;
 import uva.ql.ast.statements.Question;
-import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.table.ExpressionTable;
-import uva.ql.interpreter.typecheck.table.SymbolTable;
+import uva.ql.ast.value.BooleanValue;
+import uva.ql.ast.value.GenericValue;
 
 public class UICheckBox extends UIQuestion{
 	
 	private JCheckBox checkBox;
 	
-	public UICheckBox(Question _question, ExpressionTable _expressionTable, SymbolTable _symbolTable, Subject _subject, Expression _expression) {
-		super(_question, _expressionTable, _symbolTable, _subject, _expression);
-		
-		this.checkBox = new JCheckBox();
-		this.checkBox.setText("yes");
-		this.checkBox.setSelected((boolean)this.getExpression().evaluate().getValue());	
-		this.checkBox.addItemListener(event -> checkBoxSelected(event));
+	public UICheckBox(Question question, ValueTable valueTable, Observer observer) {
+		super(question, valueTable, observer);
+		this.setCheckBox();
 	}
 	
-	public void setCheckBoxValue(Boolean _status) {
-		this.checkBox.setSelected(_status);
+	private void setCheckBox(){
+		this.checkBox = new JCheckBox();
+		this.checkBox.setText("yes");	
+		this.checkBox.setSelected(this.isSelected());
+		this.checkBox.addItemListener(event -> checkBoxSelected(event));
 	}
 	
 	public Component getWidget(){
@@ -34,26 +30,12 @@ public class UICheckBox extends UIQuestion{
 	}
 	
 	private void checkBoxSelected(ItemEvent e){
-		this.expressionTable.updateValue(this.question.getIdentifier(), 
-				new BooleanLiteral((e.getStateChange() - 1) == 0, this.question.getCodeLines()));
-		
-		this.subject.lastResponse = this.question.getIdentifier().evaluate().getValue();
-		super.update();
+		this.updateValue(new BooleanValue((e.getStateChange() - 1) == 0));
 	}
 	
-	@Override
-	public String getIdentifier(){
-		return this.question.getIdentifier().evaluate().getValue();
-	}
-	
-	@Override
-	public Expression getExpression(){
-		return super.getExpression();
-	}
-	
-	@Override
-	public Boolean getWidgetValue() {
-		return this.checkBox.isSelected();
+	private boolean isSelected(){
+		GenericValue<?> value = this.getQuestionValue();
+		return (boolean)value.getValue();
 	}
 
 }

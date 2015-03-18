@@ -9,6 +9,7 @@ namespace Notifications
     public interface INotificationManager
     {
         void AddNotification(INotification notification);
+        INotificationManager Combine(INotificationManager notificationManager);
         bool HasError();
         IList<INotification> GetNotifications();
     }

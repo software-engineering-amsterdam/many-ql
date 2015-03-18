@@ -8,7 +8,7 @@ import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.math.AddNode;
@@ -51,12 +51,14 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     @Override
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
+        IdentifierNode id = new IdentifierNode(ctx.id.getText());
+        Type type = Type.getEnum(ctx.type.getText());
 
         if(ctx.expr() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
+            questionNode = new QuestionNode(id, type, stripQuotes(ctx.text.getText()), formatLocation(ctx));
         } else {
             AExpression computedAnswer = (AExpression) visit(ctx.expr());
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
+            questionNode = new ComputedQuestionNode(id, type, stripQuotes(ctx.text.getText()), computedAnswer, formatLocation(ctx));
         }
         return questionNode;
     }

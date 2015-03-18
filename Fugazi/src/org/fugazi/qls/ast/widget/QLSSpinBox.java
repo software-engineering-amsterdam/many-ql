@@ -23,38 +23,45 @@ public class QLSSpinBox extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
+    private final JPanel panel;
     private final JSpinner spinbox;
+    private final JLabel componentLabel;
 
     public QLSSpinBox() {
         this("");
     }
 
     public QLSSpinBox(String _label) {
-        this.label = _label;
+        this.panel = new JPanel();
+        this.componentLabel = new JLabel(_label);
 
         SpinnerModel spinnerModel = new SpinnerNumberModel(0, MIN, MAX, STEP);
         this.spinbox = new JSpinner(spinnerModel);
+
+        this.panel.add(this.componentLabel);
+        this.panel.add(this.spinbox);
+
         this.type = new SpinBoxType();
     }
 
     @Override
     public void applyStyle(Style _style) {
-        this.style = _style;
+        Style style = _style;
 
         // inherit properties that are not set in the given style from default.
-        this.style.inheriteFromStyle(this.getDefaultStyle());
+        style.inheriteFromStyle(this.getDefaultStyle());
 
         // todo
     }
 
     @Override
     public void render(UIForm _canvas) {
-        _canvas.addWidget(this.spinbox);
+        _canvas.addWidget(this.panel);
     }
 
     @Override
     public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.spinbox);
+        _canvas.removeWidget(this.panel);
     }
 
     @Override
@@ -97,6 +104,10 @@ public class QLSSpinBox extends AbstractQLSWidget {
         return supportedTypes;
     }
 
+    @Override
+    public void setLabel(String _label) {
+        this.componentLabel.setText(_label);
+    }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitSpinBox(this);

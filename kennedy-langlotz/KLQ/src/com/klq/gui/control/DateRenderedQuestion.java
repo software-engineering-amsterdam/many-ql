@@ -1,9 +1,8 @@
 package com.klq.gui.control;
 
-import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.stmt.QuestionNode;
-import com.klq.controller.Store;
+import com.klq.controller.Controller;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,8 +17,8 @@ import java.util.List;
 public class DateRenderedQuestion extends ARenderedQuestion {
     private TextField inputField;
 
-    public DateRenderedQuestion(QuestionNode question, List<AExpression> dependencies, Store store) {
-        super(question, dependencies, store);
+    public DateRenderedQuestion(QuestionNode question, List<AExpression> dependencies, Controller controller) {
+        super(question, dependencies, controller);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class DateRenderedQuestion extends ARenderedQuestion {
     @Override
     protected boolean isValidInput(String input) {
         String pattern = "\\d?\\d[\\./-]\\d?\\d[\\./-]\\d\\d\\d\\d";
-        if (input.matches(pattern))
+        if (input.matches(pattern) || input.trim().isEmpty())
             return true;
         return false;
     }

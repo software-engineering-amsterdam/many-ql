@@ -3,12 +3,13 @@ package com.klq.gui.control;
 import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.ExpressionUtil;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.stmt.QuestionNode;
 import com.klq.ast.impl.value.UndefinedValue;
 import com.klq.ast.impl.value.Value;
+import com.klq.controller.Controller;
+import com.klq.controller.VariableTable;
 import com.klq.gui.IKLQItem;
-import com.klq.controller.Store;
-import com.sun.istack.internal.NotNull;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -22,10 +23,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Timon on 09.03.2015.
@@ -34,7 +35,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
     protected final Font DEFAULT_FONT = new Font("Arial", 12);
     private final double EFFECT_DURATION = 500;
 
-    protected final Store store;
+    protected final Controller controller;
     private final QuestionNode question;
     private final List<AExpression> dependencies;
 
@@ -44,8 +45,8 @@ public abstract class ARenderedQuestion implements IKLQItem {
     private final Label label;
     protected final Region renderedComponent;
 
-    protected ARenderedQuestion(QuestionNode question, List<AExpression> dependencies, Store store){
-        this.store = store;
+    protected ARenderedQuestion(QuestionNode question, List<AExpression> dependencies, Controller controller){
+        this.controller = controller;
         this.question = question;
         this.dependencies = dependencies;
         visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
@@ -96,10 +97,10 @@ public abstract class ARenderedQuestion implements IKLQItem {
 
     protected void questionAnswered(@NotNull String result) {
         if (result.trim().isEmpty()){
-            store.updateAnswer(question.getID(), new UndefinedValue());
+            controller.updateAnswer(question.getID(), new UndefinedValue());
         } else if (isValidInput(result)) {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
-            store.updateAnswer(question.getID(), expr);
+            controller.updateAnswer(question.getID(), expr);
         }
     }
 
@@ -107,7 +108,7 @@ public abstract class ARenderedQuestion implements IKLQItem {
         return container;
     }
 
-    public String getID() {
+    public IdentifierNode getID() {
         return question.getID();
     }
 
@@ -143,9 +144,9 @@ public abstract class ARenderedQuestion implements IKLQItem {
         this.dependencies.add(dependency);
     }
 
-    public boolean dependenciesResolved(Map<String, Value> variables) {
+    public boolean dependenciesResolved(VariableTable variableTable) {
         for (AExpression dependency : dependencies){
-            Value eval = dependency.evaluate(variables);
+            Value eval = dependency.evaluate(variableTable);
             if (eval.isUndefined()){
                 return false;
             }

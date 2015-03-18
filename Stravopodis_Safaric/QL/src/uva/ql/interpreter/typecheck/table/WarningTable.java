@@ -5,29 +5,32 @@ import java.util.Map;
 
 import uva.ql.interpreter.typecheck.error.*;
 import uva.ql.interpreter.typecheck.error.IssueType.WARNING;
-import uva.ql.supporting.table.Table;
 import uva.ql.ast.*;
 
-public class WarningTable extends Table <IssueType.WARNING, CodeLines>{
+public class WarningTable {
 
 	private final Map<IssueType.WARNING, CodeLines> warningTable = new HashMap<IssueType.WARNING, CodeLines>();
 	
-	@Override
+	public boolean hasWarnings(){
+		return this.warningTable.isEmpty();
+	}
+	
+	public Map<IssueType.WARNING, CodeLines> getTable(){
+		return this.warningTable;
+	}
+	
 	public void putValue(WARNING key, CodeLines value) {
 		this.warningTable.put(key, value);
 	}
 
-	@Override
 	public boolean keyExists(WARNING key) {
 		return this.warningTable.containsKey(key);
 	}
 
-	@Override
 	public boolean valueExists(WARNING key, CodeLines value) {
 		return false;
 	}
 
-	@Override
 	public CodeLines retrieveValue(WARNING key) {
 		return this.warningTable.get(key);
 	}

@@ -4,7 +4,6 @@ import pyparsing as pp
 import QL.Grammar.Factory.forms as form_factory
 import QL.Grammar.constants as constants
 import QL.Grammar.Factory.expressions as expression_factory
-
 #
 # basic types
 #

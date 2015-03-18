@@ -1,9 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
@@ -13,6 +12,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class CheckboxWidget implements IWidget {
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
     private JCheckBox checkbox;
 
     @Override
@@ -25,17 +27,23 @@ public class CheckboxWidget implements IWidget {
         checkbox.setSelected(false);
     }
 
-    public CheckboxWidget(final String questionIdentifier, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper) {
-        this.checkbox = new JCheckBox();
-
-        checkbox.addItemListener(new ItemListener() {
+    private ItemListener createChangeListener() {
+        return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                variableTableWrapper.getVariableTable().setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
-                VariableTable newVariableTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
-                variableTableWrapper.setVariableTable(newVariableTable);
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                variableTable.setVariable(questionIdentifier, new BoolValue(checkbox.isSelected()));
+                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
+    }
 
+    public CheckboxWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.checkbox = new JCheckBox();
+        checkbox.addItemListener(createChangeListener());
     }
 }

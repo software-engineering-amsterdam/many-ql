@@ -29,36 +29,15 @@ namespace QL
 
                 Stream inputStream = Console.OpenStandardInput();
 
-                ASTHandler ast = new ASTHandler(inputStream);
+                QLBuilder ast = new QLBuilder(inputStream);
 
-                if (ast.BuildAST())
-                {
-                    foreach (QLException e in ast.ASTHandlerExceptions)
-                        {
-                            Console.WriteLine(e.ToString());
-                        }
-                }
-
-                ast.CheckType();
-
-                if (ast.ASTHandlerExceptions.Any())
-                {
-                    foreach (QLError e in ast.ASTHandlerExceptions)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    continue;
-                }
-
-                ast.Evaluate();
-
-                if (ast.ASTHandlerExceptions.Any())
-                {
-                    foreach (QLError e in ast.ASTHandlerExceptions)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    continue;
+                ast.RegisterGenericDataHandlers();
+                ast.RunInit();
+                ast.RunAstBuild();
+                ast.RunTypeCheck();
+                ast.RunEvaluate();
+                foreach (Exception e in ast.Errors){
+                    Console.WriteLine(e.ToString());
                 }
 
                 Console.Write("Hit <return> to restart");

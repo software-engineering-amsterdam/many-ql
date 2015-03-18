@@ -8,23 +8,37 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import uva.sc.core.types.Boolean;
-import uva.sc.core.types.Number;
-import uva.sc.core.types.String;
-import uva.sc.core.types.Undefined;
-import uva.sc.ql.ast.*;
-import uva.sc.ql.atom.*;
-import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.expression.unaryExpressions.*;
+import uva.sc.ql.ast.IQLExpressionNodeVisitor;
+import uva.sc.ql.ast.IQLFormNodeVisitor;
+import uva.sc.ql.ast.IQLStatementNodeVisitor;
+import uva.sc.ql.atom.BooleanAtom;
+import uva.sc.ql.atom.ID;
+import uva.sc.ql.atom.NumberAtom;
+import uva.sc.ql.atom.StringAtom;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
 import uva.sc.ql.form.Form;
 import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
 @SuppressWarnings({ "unchecked" })
-public class DependentQuestionsVisitor implements IQLExpressionNodeVisitor<Object>, 
-						IQLFormNodeVisitor<Object>, 
-						 IQLStatementNodeVisitor<Object> {
+public class DependentQuestionsVisitor implements
+	IQLExpressionNodeVisitor<Object>, IQLFormNodeVisitor<Object>,
+	IQLStatementNodeVisitor<Object> {
 
     Map<java.lang.String, List<java.lang.String>> dependentElements = new HashMap<java.lang.String, List<java.lang.String>>();
     java.lang.String currentElement;
@@ -172,5 +186,5 @@ public class DependentQuestionsVisitor implements IQLExpressionNodeVisitor<Objec
     public Component visit(StringAtom str) {
 	return null;
     }
-    
+
 }

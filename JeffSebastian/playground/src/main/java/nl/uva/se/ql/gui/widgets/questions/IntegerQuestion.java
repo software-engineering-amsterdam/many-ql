@@ -1,42 +1,52 @@
 package nl.uva.se.ql.gui.widgets.questions;
 
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import nl.uva.se.ql.ast.statement.Question;
+import nl.uva.se.ql.evaluation.value.IntegerValue;
+import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.validators.IntegerValidator;
-import javafx.scene.control.TextField;
+import nl.uva.se.ql.gui.validators.Validator;
 
-public class IntegerQuestion extends TextField implements BaseQuestion<String> {
+public class IntegerQuestion extends BaseQuestion<String> {
 
-	private final Question question;
-	private final IntegerValidator validator;
-	private final Listener<String> listener;	
+	private TextField textField = new TextField();
 
-	public IntegerQuestion(Question question) {
-		super();
-		this.question = question;
-		this.validator = new IntegerValidator();
-		this.listener = new Listener<String>();
-		this.textProperty().addListener(listener.addListener(this, validator));
-	}
-
-	public Question getQuestion() {
-		return this.question;
-	}
-
-	public IntegerValidator getValidator() {
-		return this.validator;
-	}
-
-	public void reset() {
-		this.setText("");
+	public IntegerQuestion(Question question, IMediator mediator) {
+		super(question, mediator);
+		Listener<String> listener = new Listener<String>(getMediator());
+		textField.textProperty().addListener(
+				listener.addListener(this, getValidator()));
 	}
 
 	@Override
 	public String undoChange(String newValue, String oldValue) {
 		if (oldValue.equals("")) {
 			oldValue = "0";
-		} 
-		this.setText(oldValue);
-		return this.getText();
+		}
+		textField.setText(oldValue);
+		return textField.getText();
+	}
+
+	@Override
+	public Validator<String> initValidator() {
+		return new IntegerValidator();
+	}
+
+	@Override
+	public IntegerValue getValue() {
+		return new IntegerValue(Integer.parseInt(textField.getText()));
+	}
+
+	@Override
+	public Node getWidget() {
+		return this.textField;
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
 	}
 }

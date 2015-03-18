@@ -1,10 +1,12 @@
 package com.form.language.ast.statement;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
-import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.Context;
 
 public class Question extends Statement {
@@ -39,8 +41,8 @@ public class Question extends Statement {
     }
 
     @Override
-    public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI, Context context) {
-	guiBuilder.createGUIQuestion(this, formGUI, context);
+    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
+	guiBuilder.createGUIQuestion(this, panel, context);
 
     }
 
