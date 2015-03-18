@@ -29,6 +29,10 @@ class OperatorTable:
         if rule:
             return rule[1]
 
+    # The rules contain type information and evaluation information
+    # for operators applied to various types of operands.
+    #
+    # It is a map of (operator, operand_type..)  :  (return_type, evaluation_function)
     def _createRules(self):
         return {
             (QLUnaryMinus, QLInteger)    :   (QLInteger, lambda v : QLInteger(-v.value)),
