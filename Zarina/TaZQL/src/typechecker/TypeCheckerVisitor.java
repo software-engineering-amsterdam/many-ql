@@ -65,13 +65,13 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 	}
 	
 	/*** Question checks ***/
-	private void checkQuestion(SimpleQuestion question) {
+	public void checkQuestion(SimpleQuestion question) {
 		checkDuplicateDeclaration(question);
 		checkDuplicateLabels(question);
 	}
 	
 	// duplicate question declarations with different types
-	private void checkDuplicateDeclaration(SimpleQuestion question) {
+	public void checkDuplicateDeclaration(SimpleQuestion question) {
 		String id = question.getQuestionId().getID();
 		Type type = question.getQuestionType();
 		
@@ -86,12 +86,11 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 	}
 	
 	//duplicate labels (warning)
-	private void checkDuplicateLabels(SimpleQuestion question) {
+	public void checkDuplicateLabels(SimpleQuestion question) {
 		String id = question.getQuestionId().getID();
 		String label = question.getQuestionText();
 		
-	  if(!this.typeRepository.empty()) {
-					
+	  if(!this.typeRepository.empty()) { 
 		for(Map.Entry<String, String> entry : this.typeRepository.getLabelRepository().entrySet()) {
 			String key = entry.getKey();
 			String labelValue = entry.getValue();
@@ -99,14 +98,14 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 			if(!labelValue.equals(label) || key.equals(id)) {
 				continue;
 			}
-			this.errorCollector.addWarning("Warning! Duplicated label *" + labelValue + "* in question *" + key + "*.");	
+			this.errorCollector.addWarning("Warning! Duplicated label *" + labelValue + "* in question *" + key + "*.");	 
 		}
 	  }	
 	}
 	
 	/*** Expression checks ***/
 	
-	private Void checkExpression(Binary expression) {
+	public Void checkExpression(Binary expression) {
 		expression.getLeftExpression().accept(this);
 		expression.getRightExpression().accept(this);
 		
@@ -115,7 +114,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 		return null;
 	}
 	
-	private Void checkComparisonExpression(Binary expression) {
+	public Void checkComparisonExpression(Binary expression) {
 		expression.getLeftExpression().accept(this);
 		expression.getRightExpression().accept(this);
 		
@@ -124,25 +123,22 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 		return null;
 	}
 
-	private Void checkUnaryExpression(Unary expression) {
+	public Void checkUnaryExpression(Unary expression) {
 		expression.getUnaryExpression().accept(this);
 		
 		checkType(expression.getUnaryExpression(), expression.getType());
 		return null;
 	}
 	
-	private void checkType(Expression expression, Type type) {
-		  
+	public void checkType(Expression expression, Type type) {
+	   if(expression.getType() != null) {
 		if(expression.getType().isCompatibleToType(type)) {
 			return;
 		}
 		this.errorCollector.addError("Error. Expression *" + expression.toString() +
 					   "* is of wrong type: *" + expression.getType() + 
 					   "*, has to be *" +type + "*.");
-		  
-		if(expression.getType() == null) {
-		  this.errorCollector.addError("This declaration *" + expression.toString() + "* has an undefined type.");
-		}
+		} 
 	}
 	
 	/*** Visitors ***/

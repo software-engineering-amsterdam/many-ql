@@ -1,6 +1,11 @@
 package typechecker;
 
 import gui.errors.ErrorDialog;
+import gui.errors.TaZQLError;
+import gui.errors.TaZQLWarning;
+
+import java.util.List;
+
 import ast.form.Form;
 
 
@@ -17,12 +22,19 @@ public class TypeChecker {
 	
 	public boolean checkQuestionnaire(Form form) {
 		form.accept(typeCheckerVisitor);
-		return this.typeCheckerVisitor.isCorrect();
+		return isCorrect();
 	}
 	
 	public void showErrors() {
-		new ErrorDialog(this.typeCheckerVisitor.getError(), this.typeCheckerVisitor.getWarning());
+		new ErrorDialog(getError(), getWarning());
 	}
 	
+	public List<TaZQLError> getError() {
+		return this.typeCheckerVisitor.getError();
+	}
+	
+	public List<TaZQLWarning> getWarning() {
+		return this.typeCheckerVisitor.getWarning();
+	}
 	
 }
