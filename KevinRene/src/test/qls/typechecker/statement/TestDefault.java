@@ -14,6 +14,18 @@ public class TestDefault extends BaseTest {
 	public static String createDefaultStyledWidget(String type, String widget) {
 		return 	  "stylesheet formNode {" 
 				+ 		"page Housing {"
+				+ 			"question integerQuestion {"
+				+ 				"widget text"
+				+ 			"}"
+				+ 			"question floatQuestion {"
+				+ 				"widget spinbox"
+				+ 			"}"
+				+ 			"question stringQuestion {"
+				+ 				"widget text"
+				+ 			"}"
+				+ 			"question booleanQuestion {"
+				+ 				"widget checkbox"
+				+ 			"}"
 				+ 			"default " + type + " {"
 				+ 				"widget " + widget 
 				+ 			"}"

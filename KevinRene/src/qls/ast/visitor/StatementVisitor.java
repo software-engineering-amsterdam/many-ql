@@ -2,7 +2,6 @@ package qls.ast.visitor;
 
 import ql.ast.visitor.TypeVisitor;
 import qls.ast.QLSStatement;
-import qls.ast.expression.Literal;
 import qls.ast.statement.DefaultStyle;
 import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
@@ -17,15 +16,14 @@ import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
-import qls.ast.statement.widget.ValueSet;
 import qls.ast.statement.widget.Widget;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
-import qls.ast.statement.widget.type.Dropdown;
-import qls.ast.statement.widget.type.RadioButton;
-import qls.ast.statement.widget.type.Slider;
 import qls.ast.statement.widget.type.Spinbox;
 import qls.ast.statement.widget.type.TextField;
+import qls.ast.statement.widget.type.parameterised.Dropdown;
+import qls.ast.statement.widget.type.parameterised.RadioButton;
+import qls.ast.statement.widget.type.parameterised.Slider;
 
 /**
  * @author Rene
@@ -108,13 +106,6 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 		return null;
 	}
 	
-	public T visit(ValueSet valueSetNode) {
-		for(Literal<?> value : valueSetNode.values()) {
-			value.accept(expressionVisitor);
-		}
-		return null;
-	}
-
 	public T visit(DefaultStyle defaultNode) {
 		defaultNode.getType().accept(typeVisitor);
 		defaultNode.getStyleRuleSet().accept(this);

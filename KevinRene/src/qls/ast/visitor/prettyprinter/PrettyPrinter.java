@@ -14,7 +14,6 @@ import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 import ql.ast.visitor.prettyprinter.PrintWriter;
 import qls.ast.QLSStatement;
-import qls.ast.expression.Literal;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
@@ -33,15 +32,14 @@ import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
-import qls.ast.statement.widget.ValueSet;
 import qls.ast.statement.widget.Widget;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
-import qls.ast.statement.widget.type.Dropdown;
-import qls.ast.statement.widget.type.RadioButton;
-import qls.ast.statement.widget.type.Slider;
 import qls.ast.statement.widget.type.Spinbox;
 import qls.ast.statement.widget.type.TextField;
+import qls.ast.statement.widget.type.parameterised.Dropdown;
+import qls.ast.statement.widget.type.parameterised.RadioButton;
+import qls.ast.statement.widget.type.parameterised.Slider;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 
@@ -162,7 +160,14 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 
 	@Override
 	public String visit(Dropdown dropdownNode) {
-		return printNode(dropdownNode);
+		StringBuilder dropdownString = new StringBuilder(printNode(dropdownNode));
+		
+		indent();
+		dropdownString.append(dropdownNode.getFirstValue().accept(this));
+		dropdownString.append(dropdownNode.getSecondValue().accept(this));
+		unindent();
+		
+		return dropdownString.toString();
 	}
 	
 	@Override
@@ -286,8 +291,15 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	}
 
 	@Override
-	public String visit(RadioButton radioButtonNode) {
-		return printNode(radioButtonNode);
+	public String visit(RadioButton radioNode) {
+		StringBuilder radioString = new StringBuilder(printNode(radioNode));
+		
+		indent();
+		radioString.append(radioNode.getFirstValue().accept(this));
+		radioString.append(radioNode.getSecondValue().accept(this));
+		unindent();
+		
+		return radioString.toString();
 	}
 
 	@Override
@@ -304,7 +316,14 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 
 	@Override
 	public String visit(Slider sliderNode) {
-		return printNode(sliderNode);
+		StringBuilder sliderString = new StringBuilder(printNode(sliderNode));
+		
+		indent();
+		sliderString.append(sliderNode.getFirstValue().accept(this));
+		sliderString.append(sliderNode.getSecondValue().accept(this));
+		unindent();
+		
+		return sliderString.toString();
 	}
 
 	@Override
@@ -347,19 +366,6 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	@Override
 	public String visit(TextField textFieldNode) {
 		return printNode(textFieldNode);
-	}
-
-	@Override
-	public String visit(ValueSet valueSetNode) {
-		StringBuilder valueSetString = new StringBuilder(printNode(valueSetNode));
-		
-		indent();
-		for(Literal<?> value : valueSetNode.values()) {
-			valueSetString.append(value.accept(this));
-		}
-		unindent();
-		
-		return valueSetString.toString();
 	}
 
 	@Override

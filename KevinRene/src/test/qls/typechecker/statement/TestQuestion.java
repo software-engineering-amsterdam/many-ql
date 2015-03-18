@@ -26,15 +26,21 @@ public class TestQuestion extends BaseTest {
 				+ 			"question booleanQuestion {"
 				+ 				"widget checkbox"
 				+ 			"}"
-				+ 			"question booleanQuestion {"
-				+ 				"widget checkbox"
-				+ 			"}"
 				+ 		"}"
 				+ "}";
 	}
 	public static String createQuestionWidget(String identifier, String widget) {
 		return 	  "stylesheet formNode {" 
 				+ 		"page Housing {"
+				+ 			"question integerQuestion {"
+				+ 				"widget text"
+				+ 			"}"
+				+ 			"question floatQuestion {"
+				+ 				"widget spinbox"
+				+ 			"}"
+				+ 			"question stringQuestion {"
+				+ 				"widget text"
+				+ 			"}"
 				+ 			"question " + identifier + " {"
 				+ 				"widget " + widget 
 				+ 			"}"

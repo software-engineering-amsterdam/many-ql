@@ -24,10 +24,14 @@ import qls.ast.statement.styling.property.Font;
 import qls.ast.statement.styling.property.FontSize;
 import qls.ast.statement.styling.property.Height;
 import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.type.parameterised.Dropdown;
+import qls.ast.statement.widget.type.parameterised.RadioButton;
+import qls.ast.statement.widget.type.parameterised.Slider;
 import qls.ast.visitor.ExpressionVisitor;
 import qls.ast.visitor.StatementVisitor;
 import qls.errorhandling.error.DuplicateIdentifierError;
 import qls.errorhandling.error.IllegalPropertyValueError;
+import qls.errorhandling.error.IllegalWidgetValueError;
 import qls.errorhandling.error.IncompatibleWidgetError;
 import qls.errorhandling.error.MissingIdentifiersError;
 import qls.errorhandling.error.NullQuestionError;
@@ -142,6 +146,38 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		return null;
 	}
 	
+	
+	
+	@Override
+	public Void visit(Dropdown dropdownNode) {
+		if(!dropdownNode.hasCompatibleValues()) {
+			errorEnvironment.addError(new IllegalWidgetValueError(dropdownNode, 
+					dropdownNode.getCompatibleValueType()));
+		}
+		
+		return super.visit(dropdownNode);
+	}
+
+	@Override
+	public Void visit(RadioButton radioButtonNode) {
+		if(!radioButtonNode.hasCompatibleValues()) {
+			errorEnvironment.addError(new IllegalWidgetValueError(radioButtonNode, 
+					radioButtonNode.getCompatibleValueType()));
+		}
+		
+ 		return super.visit(radioButtonNode);
+	}
+
+	@Override
+	public Void visit(Slider sliderNode) {
+		if(!sliderNode.hasCompatibleValues()) {
+			errorEnvironment.addError(new IllegalWidgetValueError(sliderNode, 
+					sliderNode.getCompatibleValueType()));
+		}
+		
+		return super.visit(sliderNode);
+	}
+
 	@Override
 	public QLType visit(BooleanLiteral booleanLiteral) {
 		return booleanLiteral.getType();

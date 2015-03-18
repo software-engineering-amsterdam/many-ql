@@ -33,9 +33,8 @@
 %type <QLType> type
 %type <QLSBlock> statements pages
 %type <QLSStatement> statement
-%type <ValueSet> values
-%type <Property> styleRule
-%type <StyleProperties> styleRules
+%type <Property> property
+%type <StyleProperties> styleProperties
 %type <WidgetType> widgetType
 %type <Widget> widget
 %type <Page> page
@@ -75,7 +74,7 @@ import qls.ast.expression.literal.*;
 				
 	statement	: SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
         		| DEFAULT type widget						{ $$ = new DefaultWidget($2, $3);  }
-        		| DEFAULT type '{' styleRules '}'           { $$ = new DefaultStyle($2, $4);  }
+        		| DEFAULT type '{' styleProperties '}'           { $$ = new DefaultStyle($2, $4);  }
         		| QUESTION IDENTIFIER                       { $$ = new Question($2);     }
         		| QUESTION IDENTIFIER widget				{ $$ = new Question($2, $3); }
 	    		;
@@ -95,26 +94,22 @@ import qls.ast.expression.literal.*;
 			;
 	
 	widget 	: WIDGET widgetType						{ $$ = new Widget($2); }
-			| '{' styleRules WIDGET widgetType '}' 	{ $$ = new Widget($2, $4); }
+			| '{' styleProperties WIDGET widgetType '}' 	{ $$ = new Widget($2, $4); }
 			;
 			
-	widgetType	: SPINBOX           	  { $$ = new Spinbox(); }
-				| RADIO '(' values ')'    { $$ = new RadioButton($3); }
-				| SLIDER '(' values ')'   { $$ = new Slider($3); }
-				| DROPDOWN '(' values ')' { $$ = new Dropdown($3); }
-				| TEXT                    { $$ = new TextField(); }
-				| CHECKBOX                { $$ = new Checkbox(); }
+	widgetType	: SPINBOX           	  				{ $$ = new Spinbox(); }
+				| RADIO '(' literal ',' literal ')'    	{ $$ = new RadioButton($3, $5); }
+				| SLIDER '(' literal ',' literal ')'   	{ $$ = new Slider($3, $5); }
+				| DROPDOWN '(' literal ',' literal ')' 	{ $$ = new Dropdown($3, $5); }
+				| TEXT                    				{ $$ = new TextField(); }
+				| CHECKBOX               				{ $$ = new Checkbox(); }
 				;
 	
-	values 	: literal ',' values	{ $$ = new ValueSet($1, $3); }
-			| literal				{ $$ = new ValueSet($1);     }
-			;
-	
-	styleRules	: styleRule styleRules	{ $$ = new StyleProperties($1, $2); }
-				| /* empty */			{ $$ = new StyleProperties(); }
-				;
+	styleProperties	: property styleProperties	{ $$ = new StyleProperties($1, $2); }
+					| /* empty */			{ $$ = new StyleProperties(); }
+					;
 				
-  styleRule	: WIDTH		':' literal  { $$ = new Width($3); }
+  property	: WIDTH		':' literal  { $$ = new Width($3); }
 			| HEIGHT	':' literal  { $$ = new Height($3); }
 			| FONT		':' literal  { $$ = new Font($3); }
 			| FONTSIZE	':' literal  { $$ = new FontSize($3); }
