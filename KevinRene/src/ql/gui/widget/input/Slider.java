@@ -19,10 +19,10 @@ public abstract class Slider<T extends Value> extends InputWidget<T> implements 
 	protected JLabel label;
 	
 	public Slider() {
-		this(0, Integer.MAX_VALUE, 0);
+		this(0, Integer.MAX_VALUE);
 	}
-	public Slider (int min, int max, int initial) {
-		slider = new JSlider(JSlider.HORIZONTAL, min, max, initial);
+	public Slider (int min, int max) {
+		slider = new JSlider(JSlider.HORIZONTAL, min, max, 0);
 		
 		slider.setMaximumSize(new Dimension(slider.getPreferredSize().width, 
 				slider.getPreferredSize().height * 2));
