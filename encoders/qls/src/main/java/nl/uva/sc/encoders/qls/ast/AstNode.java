@@ -2,16 +2,5 @@ package nl.uva.sc.encoders.qls.ast;
 
 // Duplication?
 
-public abstract class AstNode {
-
-	private TextLocation textLocation;
-
-	public AstNode(TextLocation textLocation) {
-		this.textLocation = textLocation;
-	}
-
-	public TextLocation getTextLocation() {
-		return textLocation;
-	}
-
+public interface AstNode {
 }

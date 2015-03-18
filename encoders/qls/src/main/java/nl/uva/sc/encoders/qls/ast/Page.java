@@ -3,7 +3,7 @@ package nl.uva.sc.encoders.qls.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Page extends AstNode {
+public class Page extends AstNodeWithLocation {
 
 	private final String name;
 
