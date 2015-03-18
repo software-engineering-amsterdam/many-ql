@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -54,7 +55,15 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addSaveButton() {
 		saveData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-			   new SaveButtonListener(valueRepository);
+				int selectedOption = 
+						JOptionPane.showConfirmDialog(null, 
+						"Do you want to save changes made to the form?", 
+						"Save form",
+						JOptionPane.YES_NO_OPTION); 
+				
+				if (selectedOption == JOptionPane.YES_OPTION) {
+					new SaveButtonListener(valueRepository);
+				}	
 			}
 		});
 		this.panel.add(saveData, "span 2, align center");
