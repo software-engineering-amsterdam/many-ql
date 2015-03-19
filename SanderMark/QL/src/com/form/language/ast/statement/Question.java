@@ -21,6 +21,7 @@ public class Question extends Statement {
 	this.questionType = questionType;
     }
 
+    //TODO: This is not really 'getType' but rather something like initialization we can't do in the constructor.
     @Override
     public Type getType(Context context) {
 	context.addId(new Reference(this.id, this.questionType, null, tokenInfo));
