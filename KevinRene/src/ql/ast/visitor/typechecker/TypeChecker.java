@@ -305,7 +305,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	}
 	
 	public QLType visit(Identifier identifier) {
-		QLType identifierType = typeEnvironment.resolve(identifier);
+		QLType identifierType = scopedEnvironment.resolve(identifier);
 		
 		if(identifierType == null) {
 			errorEnvironment.addError(new UndefinedVariableError(identifier));
@@ -329,9 +329,9 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		Identifier questionIdentifier = compQuestionNode.getIdentifier();
 		
-		if(typeEnvironment.resolve(questionIdentifier) == null) {
-			typeEnvironment.store(questionIdentifier, questionType);
+		if(scopedEnvironment.resolve(questionIdentifier) == null) {
 			scopedEnvironment.store(questionIdentifier, questionType);
+			typeEnvironment.store(questionIdentifier, questionType);
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
@@ -343,9 +343,9 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	public Void visit(Form formNode) {
 		Identifier formIdentifier = formNode.getIdentifier();
 		
-		if(typeEnvironment.resolve(formIdentifier) == null) {
-			typeEnvironment.store(formNode.getIdentifier(), new QLForm());
+		if(scopedEnvironment.resolve(formIdentifier) == null) {
 			scopedEnvironment.store(formNode.getIdentifier(), new QLForm());
+			typeEnvironment.store(formNode.getIdentifier(), new QLForm());
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(formIdentifier));
 		}
@@ -383,9 +383,9 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	public Void visit(Question questionNode) {
 		Identifier questionIdentifier = questionNode.getIdentifier();
 		
-		if(typeEnvironment.resolve(questionIdentifier) == null) {
-			typeEnvironment.store(questionIdentifier, questionNode.getType());
+		if(scopedEnvironment.resolve(questionIdentifier) == null) {
 			scopedEnvironment.store(questionIdentifier, questionNode.getType());
+			typeEnvironment.store(questionIdentifier, questionNode.getType());
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}

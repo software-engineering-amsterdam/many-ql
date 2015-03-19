@@ -50,8 +50,15 @@ public abstract class BaseTest {
 			errors = TypeChecker.check((Statement) inputNode, register);
 		}
 		
-		System.out.println("   Result: " + !errors.hasErrors());
+		boolean result = !errors.hasErrors();
+		
+		
+		if(result != expected) {
+			System.out.println(errors.getErrors());
+		}
+		
+		System.out.println("   Result: " + result);
 
-		assertEquals(expected, !errors.hasErrors());
+		assertEquals(expected, result);
 	}
 }
