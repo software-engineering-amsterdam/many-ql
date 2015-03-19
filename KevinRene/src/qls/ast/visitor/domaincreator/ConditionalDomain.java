@@ -50,7 +50,7 @@ public class ConditionalDomain {
 		Value value = Evaluator.check(conditionalExpression, valueEnvironment);
 		
 		if(value.isUndefined()) {
-			activateIfPanel();
+			activateElsePanel();
 			return;
 		}
 		
