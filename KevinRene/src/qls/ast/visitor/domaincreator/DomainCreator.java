@@ -19,6 +19,7 @@ import ql.gui.UIComponent;
 import ql.gui.content.UIComputedQuestion;
 import ql.gui.content.UIQuestion;
 import ql.gui.structure.Label;
+import qls.ast.visitor.ProcessedCache;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.gui.widget.InputWidget;
 
@@ -26,7 +27,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	private WidgetEnvironment widgetEnvironment;
 	private ValueEnvironment valueEnvironment;
 	private List<ConditionalDomain> conditionalDomains;
-	private ProcessedQuestions processedQuestions;
+	private ProcessedCache<UIComponent> processedQuestions;
 	 
 	private DomainCreator(WidgetEnvironment widgetEnvironment) {
 		super.setExpressionVisitor(this);
@@ -35,7 +36,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		this.widgetEnvironment = widgetEnvironment;
 		valueEnvironment = new ValueEnvironment();
 		conditionalDomains = new ArrayList<ConditionalDomain>(); 
-		processedQuestions = new ProcessedQuestions();
+		processedQuestions = new ProcessedCache<UIComponent>();
 	}
 
 	public static List<ConditionalDomain> create(Statement tree, WidgetEnvironment widgetEnvironment) {
@@ -51,7 +52,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	}
 	
 	private void decreaseScope() {
-		processedQuestions = new ProcessedQuestions(processedQuestions);
+		processedQuestions = new ProcessedCache<UIComponent>(processedQuestions);
 	}
 	
 	private void increaseScope() {
@@ -74,7 +75,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		
 		decreaseScope();
 		ifNode.getBlock().accept(this);		
-		ifDomain.setIfComponent(processedQuestions.getProcessedQuestions());
+		ifDomain.setIfComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
 		
 		conditionalDomains.add(ifDomain);
@@ -88,12 +89,12 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 
 		decreaseScope();
 		ifElseNode.getIfBranch().accept(this);
-		ifElseDomain.setIfComponent(processedQuestions.getProcessedQuestions());
+		ifElseDomain.setIfComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
 		
 		decreaseScope();
 		ifElseNode.getElseBranch().accept(this);
-		ifElseDomain.setElseComponent(processedQuestions.getProcessedQuestions());
+		ifElseDomain.setElseComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
 		
 		conditionalDomains.add(ifElseDomain);
@@ -110,7 +111,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
     	
     	widgetEnvironment.store(compQuestionNode.getIdentifier(), computedQuestionWidget);
     	
-    	processedQuestions.addQuestion(computedQuestionWidget);
+    	processedQuestions.addObject(computedQuestionWidget);
     	
     	return null;
 	}
@@ -124,7 +125,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
     	
     	widgetEnvironment.store(questionNode.getIdentifier(), questionWidget);
     	
-    	processedQuestions.addQuestion(questionWidget);
+    	processedQuestions.addObject(questionWidget);
     	
     	return null;
 	}

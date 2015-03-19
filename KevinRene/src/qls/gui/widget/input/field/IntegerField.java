@@ -1,8 +1,5 @@
 package qls.gui.widget.input.field;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.event.CaretListener;
 
 import ql.value.IntegerValue;
@@ -11,10 +8,6 @@ import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class IntegerField extends Field<IntegerValue> implements CaretListener {	
-	protected JPanel container;
-	protected JTextField textField;
-	protected JLabel errorLabel;
-	
 	public IntegerField () {
 		super();
 	}

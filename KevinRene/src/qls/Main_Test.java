@@ -1,10 +1,17 @@
 package qls;
 
+import java.util.List;
+
+import javax.swing.JFrame;
+
 import ql.TypeEnvironment;
 import ql.ast.expression.Identifier;
 import ql.errorhandling.ErrorEnvironment;
+import ql.gui.UIComponent;
 import qls.ast.visitor.WidgetEnvironment;
+import qls.ast.visitor.domaincreator.ConditionalDomain;
 import qls.ast.visitor.domaincreator.DomainCreator;
+import qls.ast.visitor.pagebuilder.PageBuilder;
 import qls.ast.visitor.widgetbinder.WidgetBinder;
 
 public class Main_Test {
@@ -46,7 +53,7 @@ public class Main_Test {
 	public static String qlsForm = 
 			"stylesheet taxOfficeExample {"
 			+ 	"page First {"
-			+ 		"section \"SecondSection\" {"
+			+ 		"section \"Page 1 Section 1\" {"
 			+ 			"question secondString {"
 			+ 				"widget text;"
 			+ 			"}"
@@ -58,7 +65,7 @@ public class Main_Test {
 			+ 		"}"
 			+ 	"}"
 			+ 	"page Second {"
-			+ 		"section \"SecondSection\" {"
+			+ 		"section \"Page 2 Section 1\" {"
 			+ 			"question booleanValue {"
 			+ 				"widget radio(\"Yes\", \"No\");"
 			+ 			"}"
@@ -75,7 +82,7 @@ public class Main_Test {
 			+ 				"widget text;"
 			+			"}"
 			+ 		"}"
-			+  		"section \"SecondSection Yay\" {"
+			+  		"section \"Page 2 Section 2\" {"
 			+ 			"question firstInteger {"
 			+ 				"widget spinbox;"
 			+ 			"}"	
@@ -84,9 +91,14 @@ public class Main_Test {
 			+ 		"default integer widget text;"
 			+ 	"}"
 			+ "}";
-	
-	public static void main(String[] args) {
-		ql.ast.Statement qlTree = (ql.ast.Statement) ql.parser.Parser.parse(qlForm);
+		
+	/**
+     * Create the GUI and show it.  For thread safety,
+     * this method should be invoked from the
+     * event-dispatching thread.
+     */
+    private static void createAndShowGUI() {
+    	ql.ast.Statement qlTree = (ql.ast.Statement) ql.parser.Parser.parse(qlForm);
 		
 		TypeEnvironment typeEnvironment = new TypeEnvironment();
 		ErrorEnvironment errors = ql.ast.visitor.typechecker.TypeChecker.check(qlTree, typeEnvironment);
@@ -110,10 +122,32 @@ public class Main_Test {
 			System.out.println(identifier + " : " + widgets.resolve(identifier).getClass().getSimpleName());
 		}
 		
-		DomainCreator.create(qlTree, widgets);
+		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);
 		
 		for(Identifier identifier : widgets.getIdentifiers()) {
 			System.out.println(identifier + " : " + widgets.resolve(identifier));
 		}
-	}
+		
+		UIComponent createdPanel = PageBuilder.build(qlsTree, domains, widgets);
+		
+        //Create and set up the window.
+        JFrame frame = new JFrame("Questionnaire");
+        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.setVisible(true);
+        
+        frame.add(createdPanel.getComponent());
+    }
+ 
+    public static void main(String[] args) {
+        //Schedule a job for the event-dispatching thread:
+        //creating and showing this application's GUI.
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
 }

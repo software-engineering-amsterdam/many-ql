@@ -47,7 +47,6 @@ public class ConditionalDomain {
 	}
 	
 	public void updateDomain() {
-		// Recalculate the value for this computedQuestion
 		Value value = Evaluator.check(conditionalExpression, valueEnvironment);
 		
 		if(value.isUndefined()) {

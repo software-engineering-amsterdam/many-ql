@@ -12,12 +12,11 @@ import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
 public class Panel extends DefaultChangeHandler implements UIComponent {
-	private JPanel panel;
+	protected JPanel panel;
 	private List<UIComponent> components;
 	
 	public Panel() {		
 		panel = new JPanel(new MigLayout("hidemode 3"));
-//		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		components = new ArrayList<UIComponent>();
 	}
