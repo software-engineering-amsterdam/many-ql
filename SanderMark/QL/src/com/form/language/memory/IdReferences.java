@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 
 public class IdReferences {
     private Map<String, List<Expression>> referenceMap;
@@ -30,7 +30,7 @@ public class IdReferences {
 
     //TODO :: Change while loop!
     public void putAll(IdCollection keyCollection, Expression value) {
-	for(IdLiteral l : keyCollection.getList()){
+	for(Reference l : keyCollection.getList()){
 	    
 		List<Expression> tempList;
 

@@ -3,7 +3,7 @@ package com.form.language.ast.statement;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 import com.form.language.ast.type.Type;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
@@ -23,7 +23,7 @@ public class Question extends Statement {
 
     @Override
     public Type getType(Context context) {
-	context.addId(new IdLiteral(this.id, this.questionType, null, tokenInfo));
+	context.addId(new Reference(this.id, this.questionType, null, tokenInfo));
 	return this.questionType;
     }
 

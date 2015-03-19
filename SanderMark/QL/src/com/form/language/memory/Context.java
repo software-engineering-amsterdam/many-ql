@@ -3,7 +3,7 @@ package com.form.language.memory;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
@@ -52,15 +52,15 @@ public class Context {
 	return this.memory.get(s);
     }
 
-    public void addId(IdLiteral id) {
+    public void addId(Reference id) {
 	if (id.IsReference()) {
 	    this.globalIdList.addId(id);
 	}
 	this.declarations.put(id.getName(), id);
     }
 
-    public Type getIdType(IdLiteral id) {
-	IdLiteral declaration = this.declarations.get(id.getName());
+    public Type getIdType(Reference id) {
+	Reference declaration = this.declarations.get(id.getName());
 	if (declaration == null) {
 	    this.addError(new Error(id.getTokenInfo(), "Undeclared variable reference"));
 	    return new ErrorType();

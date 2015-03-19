@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 
 public class IdCollection {
 
-    private List<IdLiteral> ids;
+    private List<Reference> ids;
 
     public IdCollection() {
-	ids = new ArrayList<IdLiteral>();
+	ids = new ArrayList<Reference>();
     }
 
-    public void addId(IdLiteral idLiteral) {
-	ids.add(idLiteral);
+    public void addId(Reference reference) {
+	ids.add(reference);
     }
 
     public int showMemory() {
@@ -23,7 +23,7 @@ public class IdCollection {
     }
 
     public boolean containsId(String id) {
-	for (IdLiteral i : this.ids) {
+	for (Reference i : this.ids) {
 	    i.IsReference();
 	    if (i.getName().equals(id)) {
 		return true;
@@ -32,17 +32,17 @@ public class IdCollection {
 	return false;
     }
 
-    public List<IdLiteral> getList() {
+    public List<Reference> getList() {
 	return ids;
     }
 
-    public Iterator<IdLiteral> iterator() {
+    public Iterator<Reference> iterator() {
 	return ids.iterator();
     }
 
     public String toString() {
 	String result = "";
-	for (IdLiteral id : ids) {
+	for (Reference id : ids) {
 	    result += id.getName() + "-->" + id.showTokenInfo() + "\n";
 	}
 	return result;

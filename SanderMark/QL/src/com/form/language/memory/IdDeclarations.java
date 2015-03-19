@@ -3,20 +3,20 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 
 public class IdDeclarations {
-    private Map<String, IdLiteral> declarations;
+    private Map<String, Reference> declarations;
 
     public IdDeclarations() {
-	this.declarations = new HashMap<String, IdLiteral>();
+	this.declarations = new HashMap<String, Reference>();
     }
 
-    public void put(String name, IdLiteral declaration) {
+    public void put(String name, Reference declaration) {
 	this.declarations.put(name, declaration);
     }
 
-    public IdLiteral get(String name) {
+    public Reference get(String name) {
 	return this.declarations.get(name);
     }
 

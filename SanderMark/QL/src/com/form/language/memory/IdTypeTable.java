@@ -3,16 +3,16 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 
 public class IdTypeTable {
-    private Map<String, IdLiteral> idMap;
+    private Map<String, Reference> idMap;
 
     public IdTypeTable(IdCollection idList) {
-	this.idMap = new HashMap<String, IdLiteral>();
-	for (IdLiteral id : idList.getList()) {
+	this.idMap = new HashMap<String, Reference>();
+	for (Reference id : idList.getList()) {
 	    if (!id.IsReference()) {
 		this.idMap.put(id.getName(), id);
 	    }

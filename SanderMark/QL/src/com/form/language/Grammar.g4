@@ -7,6 +7,7 @@ grammar Grammar;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.expression.reference.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
