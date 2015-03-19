@@ -21,6 +21,7 @@ import QL.Tools.exceptions as ee
 # File "/home/guyromb/PycharmProjects/SOC/guybas/QLS/GUI/Elements/factory.py", line 9, in __init__
 #     q_type = statement.ast.get_type()
 # AttributeError: 'Assignment' object has no attribute 'get_type'
+#TODO 6. (GUY) Move page for loop to runtime.form
 ####################################
 
 
@@ -40,6 +41,8 @@ enriched_form = runtime_form.Form(form)
 questions_dict = enriched_form.get_statement_dict()
 
 gui_pages = []
+
+##################### gui #####################
 
 for page in qls_ast.get_pages():
     if page.is_default():
