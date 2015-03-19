@@ -25,8 +25,7 @@ statementList returns [List<Statement> result]
 	;
 
 statement returns [Statement result]
-: Astmt=assignmentStatement {$result = $Astmt.result;}
-| Istmt=ifStatement {$result = $Istmt.result;}
+: Istmt=ifStatement {$result = $Istmt.result;}
 | Qstmt=question {$result = $Qstmt.result;}
 ;
 
@@ -37,10 +36,6 @@ question returns [Question result]
 ifStatement returns [Statement result]
 : IF exp=expression 'then' slist=statementList
   'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
-;
-
-assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result,new QLToken($ID.line,$ID.pos));}
 ;
 
 expression returns [Expression result]
