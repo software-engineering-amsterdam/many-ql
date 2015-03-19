@@ -25,10 +25,9 @@ public class IfQuestionPanel extends QuestionPanel {
 		return expr;
 	}
 
-	public void evaluateAndShow(Evaluator evaluator, TypeChecker checker) {
+	public void evaluateAndShow(Evaluator evaluator) {
 		Value value = evaluator.evaluate(expr);
-		Type type = expr.getType(checker);
-		if (type.isEqual(new BoolType()) && value.isDefined()) {
+		if (value.isDefined()) {
 			if ((boolean) value.value()) {
 				toggleIfBlock(true);
 			} else {

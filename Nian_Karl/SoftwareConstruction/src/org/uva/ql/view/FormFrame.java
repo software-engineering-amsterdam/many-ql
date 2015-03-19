@@ -52,13 +52,13 @@ public class FormFrame extends JFrame {
 		addWithConstraints(button);
 	}
 
-	public void notifyPanels(Evaluator evaluator, TypeChecker checker) {
+	public void notifyPanels(Evaluator evaluator) {
 		for (ExprQuestionComponent exprQuestionComponent : dependentQuestionComponents) {
-			exprQuestionComponent.evaluateAndChange(evaluator, checker);
+			exprQuestionComponent.evaluateAndChange(evaluator);
 		}
 
 		for (IfQuestionPanel ifQuestionPanel : dependentQuestionPanels) {
-			ifQuestionPanel.evaluateAndShow(evaluator, checker);
+			ifQuestionPanel.evaluateAndShow(evaluator);
 		}
 	}
 }
