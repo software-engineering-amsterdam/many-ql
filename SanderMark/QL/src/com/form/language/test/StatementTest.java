@@ -12,7 +12,6 @@ import org.junit.Test;
 import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.AssignmentStatement;
 import com.form.language.ast.statement.IfStatement;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
@@ -39,12 +38,6 @@ public class StatementTest {
 
     private Question getQuestionObject() {
 	return new Question("\"Did you sell a house in 2010?\"", "hasHouseSold", new BoolType(), null);
-    }
-
-    private AssignmentStatement getAssigmentStatementObject() throws IOException {
-	GrammarParser parser = AstTest.getParser("true");
-	Expression expression = parser.expression().result;
-	return new AssignmentStatement("hasHouseSold", new BoolType(), expression, null);
     }
 
     private IfStatement getIfStatementObject() throws IOException {
@@ -76,15 +69,6 @@ public class StatementTest {
 	GrammarParser parser = AstTest.getParser(str);
 	Question actual = parser.question().result;
 	Question expected = getQuestionObject();
-	assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testAssigement() throws RecognitionException, IOException {
-	String str = getAssigementString();
-	GrammarParser parser = AstTest.getParser(str);
-	AssignmentStatement actual = (AssignmentStatement) parser.assignmentStatement().result;
-	AssignmentStatement expected = getAssigmentStatementObject();
 	assertEquals(expected, actual);
     }
 
