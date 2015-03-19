@@ -7,16 +7,16 @@ import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 
 public class BoolLiteral extends Literal  {
-    private final boolean _value;
+    private final boolean value;
 
     public BoolLiteral(boolean _value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this._value = _value;
+	this.value = _value;
     }
 
     @Override
     public BoolValue evaluate(Context context) {
-	return new BoolValue(_value);
+	return new BoolValue(value);
     }
 
     @Override

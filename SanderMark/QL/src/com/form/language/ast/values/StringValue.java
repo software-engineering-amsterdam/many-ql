@@ -14,7 +14,6 @@ public class StringValue extends GenericValue {
 
     @Override
     public String toString() {
-	// TODO Auto-generated method stub
 	return "\"" + this.value + "\"";
     }
     

@@ -27,7 +27,6 @@ public class IdReferences {
 	this.referenceMap.put(idName, dependencies);
     }
 
-    //TODO :: Change while loop!
     public void putAll(IdCollection keyCollection, Expression value) {
 	for(Reference l : keyCollection){
 	    

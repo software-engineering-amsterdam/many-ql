@@ -22,17 +22,16 @@ public final class BoolType extends Type {
 
     @Override
     public GenericValue defaultValue() {
-	// TODO Auto-generated method stub
 	return new BoolValue(false);
     }
 
     @Override
+    //This makes sense because there are no fields. Alternative is making this class a Singleton, but that does make the code less readable
     public boolean equals(Object o) {
 	return (o instanceof BoolType);
     }
     
     @Override
-    //TODO: this makes sense because there are no fields. But maybe it is some sort of bad smell? We never use different instances of this 'object'
     public int hashCode() {
 	return 3;
     }
