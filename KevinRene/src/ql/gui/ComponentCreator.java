@@ -17,6 +17,7 @@ import ql.ast.statement.Question;
 import ql.ast.type.QLBoolean;
 import ql.ast.type.QLFloat;
 import ql.ast.type.QLInteger;
+import ql.ast.type.QLMoney;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
@@ -31,6 +32,7 @@ import ql.gui.widget.input.RadioButton;
 import ql.gui.widget.input.field.TextField;
 import ql.gui.widget.input.spinbox.FloatSpinbox;
 import ql.gui.widget.input.spinbox.IntegerSpinbox;
+import ql.gui.widget.input.spinbox.MoneySpinbox;
 
 public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent>, TypeVisitor<UIComponent> {	
 	private ValueEnvironment valueEnvironment;
@@ -64,6 +66,11 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	@Override
 	public UIComponent visit(QLFloat floatNode) {
 		return new FloatSpinbox();
+	}
+	
+	@Override
+	public UIComponent visit(QLMoney moneyNode) {
+		return new MoneySpinbox();
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ import ql.ast.expression.booleanalgebra.Or;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.Equal;
 import ql.ast.expression.relational.Greater;
@@ -37,6 +38,7 @@ import ql.ast.type.QLError;
 import ql.ast.type.QLFloat;
 import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
+import ql.ast.type.QLMoney;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
@@ -169,6 +171,11 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	}
 	
 	@Override
+	public String visit(QLMoney moneyNode) {
+		return printNode(moneyNode);
+	}
+	
+	@Override
 	public String visit(QLForm formNode) {
 		return printNode(formNode);
 	}
@@ -204,6 +211,11 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	@Override
 	public String visit(FloatLiteral floatNode) {
 		return printNode(floatNode);
+	}
+	
+	@Override
+	public String visit(MoneyLiteral moneyNode) {
+		return printNode(moneyNode);
 	}
 
 	@Override

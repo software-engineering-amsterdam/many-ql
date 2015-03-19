@@ -5,6 +5,7 @@ import ql.ast.type.QLError;
 import ql.ast.type.QLFloat;
 import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
+import ql.ast.type.QLMoney;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 
@@ -17,4 +18,5 @@ public interface TypeVisitor<T> {
 	default T visit(QLInteger intNode) { return null; }
 	default T visit(QLString stringNode) { return null; }
 	default T visit(QLError errNode) { return null; }
+	default T visit(QLMoney moneyNode) { return null; }
 }

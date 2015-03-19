@@ -4,7 +4,7 @@ import ql.Value;
 
 public class FloatValue implements Value {
 	
-	private final Float value;
+	protected final Float value;
 	
 	public FloatValue(Float value) {
 		this.value = value;
