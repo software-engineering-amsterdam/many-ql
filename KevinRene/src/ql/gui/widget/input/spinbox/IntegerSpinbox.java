@@ -1,8 +1,5 @@
 package ql.gui.widget.input.spinbox;
 
-import java.awt.Component;
-
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
@@ -13,18 +10,14 @@ import ql.value.IntegerValue;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListener {
-	private SpinnerNumberModel model;
 	        
 	public IntegerSpinbox() {
-		model = new SpinnerNumberModel(
+		super(new SpinnerNumberModel(
 					0, //initial value
 	        		0, //min
 	        		Integer.MAX_VALUE, //max
 	        		1
-	        	);
-		spinbox = new JSpinner(model);
-		spinbox.addChangeListener(this);
-		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
+	        	));
 	}
 	
 	public IntegerSpinbox(IntegerValue integerValue) {

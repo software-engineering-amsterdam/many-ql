@@ -1,5 +1,7 @@
 package ql.gui.structure;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
@@ -9,7 +11,8 @@ public class ScrollablePanel extends UIComponent {
 	private JScrollPane scrollablePanel;
 
 	public ScrollablePanel(UIComponent content) {		
-		scrollablePanel = new JScrollPane(content.getComponent());		
+		scrollablePanel = new JScrollPane(content.getComponent());
+		scrollablePanel.setPreferredSize(new Dimension(800, 600));
 	}
 	
 	public ScrollablePanel(UIComponent handler, UIComponent content) {

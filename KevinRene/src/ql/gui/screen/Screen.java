@@ -12,8 +12,11 @@ public abstract class Screen extends UIComponent {
 		screen = new Panel(this);
 	}
 	
-	public void addScreenSection(Panel screenSection) {		
-		screen.addComponent(screenSection);
+	public void addScreenSection(Panel screenSection) {
+		addScreenSection(screenSection, "");
+	}
+	public void addScreenSection(Panel screenSection, String migSetting) {		
+		screen.addComponent(screenSection, migSetting);
 		screenSection.setHandler(this);
 	}
 	

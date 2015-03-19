@@ -1,15 +1,54 @@
 package ql.gui.widget.input;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.miginfocom.swing.MigLayout;
 import ql.Value;
 import ql.gui.widget.InputWidget;
 
 public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {
+	protected JPanel container;
 	protected JSpinner spinbox;
+	protected JLabel errorLabel;
+	protected SpinnerNumberModel model;
+	
+	public Spinbox(SpinnerNumberModel model) {
+		this.model = model;
+		
+		spinbox = new JSpinner(model);
+		spinbox.setSize(100, 40);
+		spinbox.addChangeListener(this);
+//		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		errorLabel = new JLabel();
+    	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
+    	errorLabel.setVisible(true);
+    	
+    	container = new JPanel(new MigLayout());
+    	container.add(spinbox);
+    	container.add(errorLabel, "wrap");
+	}
+	
+	protected void setError(String text) {
+		spinbox.setBorder(BorderFactory.createLineBorder(Color.RED));
+		errorLabel.setText(text);
+	}
+	
+	protected void removeError() {
+		spinbox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		errorLabel.setText("");
+	}
 	
 	@Override
 	public void disable() {

@@ -31,13 +31,13 @@ public class FormLoaderScreen extends Screen {
 		log = new UILog();
 		log.setHandler(this);
 		logPanel = new Panel(this);
-		logPanel.addComponent(log);
+		logPanel.addComponent(log, "span");
 		
 		openButton = new Button("Open QL File...");
 		buttonPanel = new Panel(this);
-		buttonPanel.addComponent(openButton);
+		buttonPanel.addComponent(openButton, "span");
 		
-		addScreenSection(buttonPanel);
+		addScreenSection(buttonPanel, "wrap");
 		addScreenSection(logPanel);
 		
 		fileChooser = new FormFileChooser();

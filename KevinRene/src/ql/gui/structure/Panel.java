@@ -4,10 +4,10 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
 import ql.gui.UIComponent;
 
 public class Panel extends UIComponent {
@@ -15,8 +15,8 @@ public class Panel extends UIComponent {
 	private List<UIComponent> components;
 	
 	public Panel() {		
-		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel = new JPanel(new MigLayout("hidemode 3"));
+//		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		components = new ArrayList<UIComponent>();
 	}
@@ -27,9 +27,12 @@ public class Panel extends UIComponent {
 	}
 	
 	public void addComponent(UIComponent component) {
+		addComponent(component, "wrap");
+	}
+	public void addComponent(UIComponent component, String migSetting) {
 		components.add(component);
 		
-		panel.add(component.getComponent());
+		panel.add(component.getComponent(), migSetting);
 		
 		component.setHandler(this);
 		component.getComponent().setAlignmentX(Component.LEFT_ALIGNMENT);

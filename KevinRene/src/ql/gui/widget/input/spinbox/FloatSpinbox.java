@@ -1,8 +1,5 @@
 package ql.gui.widget.input.spinbox;
 
-import java.awt.Component;
-
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
@@ -16,15 +13,12 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 	private SpinnerNumberModel model;
 	        
 	public FloatSpinbox() {
-		model = new SpinnerNumberModel(
-					0.0, //initial value
-	        		0.0, //min
-	        		Float.MAX_VALUE, //max
-	        		0.1
-	        	);
-		spinbox = new JSpinner(model);
-		spinbox.addChangeListener(this);
-		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		super(new SpinnerNumberModel(
+				0.0, //initial value
+        		0.0, //min
+        		Float.MAX_VALUE, //max
+        		0.1
+        	));
 	}
 	
 	public FloatSpinbox(FloatValue floatValue) {

@@ -22,7 +22,7 @@ public class Application extends UIComponent {
 		
 		fileLoaderScreen = new FormLoaderScreen(this);
 		
-		activePanel = new Panel(this);
+		activePanel = new Panel();
 		activePanel.addComponent(fileLoaderScreen.getScreen());
 		
 		frame.getContentPane().add(activePanel.getComponent());
