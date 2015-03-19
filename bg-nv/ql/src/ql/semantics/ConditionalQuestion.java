@@ -8,8 +8,9 @@ import ql.ast.statement.Question;
  */
 public class ConditionalQuestion
 {
-    private Expr condition;
-    private Question question;
+    // TODO: this class is a code smell
+    private final Expr condition;
+    private final Question question;
 
     public ConditionalQuestion(Expr condition, Question question)
     {

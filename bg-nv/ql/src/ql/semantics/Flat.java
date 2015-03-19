@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Flat implements Iterable<ConditionalQuestion>
 {
+    // TODO: find a better name and probably remove ConditionalQuestion smelly class
     private final List<ConditionalQuestion> flat;
 
     public Flat()

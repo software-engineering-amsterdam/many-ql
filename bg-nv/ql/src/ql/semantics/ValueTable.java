@@ -23,6 +23,7 @@ public class ValueTable
         {
             return values.get(key);
         }
+
         throw new IllegalArgumentException("The question with id \"" + key + "\" is not present in the value table.");
     }
 

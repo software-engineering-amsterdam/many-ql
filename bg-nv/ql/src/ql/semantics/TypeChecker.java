@@ -100,13 +100,9 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(IfCondition condition)
     {
-        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questions);
-        if (condResult.containsErrors())
-        {
-            this.messages.addAll(condResult.getMessages());
-        }
+        Type inferredType = TypeDeducer.deduceType(condition.getCondition(), this.questions, this.messages);
 
-        if (this.isTypeAllowedInCond(condResult.getType()))
+        if (this.isTypeAllowedInCond(inferredType))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
         }
@@ -137,13 +133,9 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
         this.labels.registerLabel(q);
         Type defined = q.getType();
 
-        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questions);
-        if (typeResult.containsErrors())
-        {
-            this.messages.addAll(typeResult.getMessages());
-        }
+        Type inferredType = TypeDeducer.deduceType(q.getCalculation(), questions, this.messages);
 
-        Type assigned = typeResult.getType().promoteTo(defined);
+        Type assigned = inferredType.promoteTo(defined);
 
         if (this.areTypesMismatched(defined, assigned))
         {
