@@ -18,7 +18,7 @@ public class Reference extends Expression {
 	this.name = value;
     }
 
-    public Reference(String name, Type questionType, IdCollection idCollection, QLToken tokenInfo) {
+    public Reference(String name, Type questionType, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.name = name;
 	this.type = questionType;

@@ -7,7 +7,7 @@ grammar Grammar;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
-	import com.form.language.ast.expression.reference.*;
+	import com.form.language.ast.expression.variable.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
@@ -101,7 +101,7 @@ literal returns [Expression result]
 	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),new QLToken($BOOLEAN.line,$BOOLEAN.pos));}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),new QLToken($INTEGER.line,$INTEGER.pos));}
 	| STRING	{$result = new StringLiteral($STRING.text,new QLToken($STRING.line,$STRING.pos));}
-	| ID	    {$result = new IdLiteral($ID.text,new QLToken($ID.line,$ID.pos));}
+	| ID	    {$result = new Reference($ID.text,new QLToken($ID.line,$ID.pos));}
 	;
 
 type returns [Type result]
