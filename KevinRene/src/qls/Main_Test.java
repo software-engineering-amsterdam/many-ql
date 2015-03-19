@@ -4,6 +4,7 @@ import ql.TypeEnvironment;
 import ql.ast.expression.Identifier;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.visitor.WidgetEnvironment;
+import qls.ast.visitor.domaincreator.DomainCreator;
 import qls.ast.visitor.widgetbinder.WidgetBinder;
 
 public class Main_Test {
@@ -85,10 +86,10 @@ public class Main_Test {
 			+ "}";
 	
 	public static void main(String[] args) {
-		ql.ast.Statement tree = (ql.ast.Statement) ql.parser.Parser.parse(qlForm);
+		ql.ast.Statement qlTree = (ql.ast.Statement) ql.parser.Parser.parse(qlForm);
 		
 		TypeEnvironment typeEnvironment = new TypeEnvironment();
-		ErrorEnvironment errors = ql.ast.visitor.typechecker.TypeChecker.check(tree, typeEnvironment);
+		ErrorEnvironment errors = ql.ast.visitor.typechecker.TypeChecker.check(qlTree, typeEnvironment);
 		
 		if(errors.hasErrors()) {
 			System.out.println(errors.getErrors());
@@ -107,6 +108,12 @@ public class Main_Test {
 		
 		for(Identifier identifier : widgets.getIdentifiers()) {
 			System.out.println(identifier + " : " + widgets.resolve(identifier).getClass().getSimpleName());
+		}
+		
+		DomainCreator.create(qlTree, widgets);
+		
+		for(Identifier identifier : widgets.getIdentifiers()) {
+			System.out.println(identifier + " : " + widgets.resolve(identifier));
 		}
 	}
 }

@@ -5,20 +5,20 @@ import java.util.Map;
 import java.util.Set;
 
 import ql.ast.expression.Identifier;
-import qls.gui.widget.InputWidget;
+import ql.gui.UIComponent;
 
 public class WidgetEnvironment {
-	private Map<Identifier, InputWidget<?>> environment;
+	private Map<Identifier, UIComponent> environment;
 	
 	public WidgetEnvironment() {
-		environment = new HashMap<Identifier, InputWidget<?>>();
+		environment = new HashMap<Identifier, UIComponent>();
 	}
 	
-	public void store(Identifier identifier, InputWidget<?> widgetInstance) {
+	public void store(Identifier identifier, UIComponent widgetInstance) {
 		environment.put(identifier, widgetInstance);
 	}
 	
-	public InputWidget<?> resolve(Identifier identifier) {		
+	public UIComponent resolve(Identifier identifier) {		
 		return environment.get(identifier);
 	}
 	
