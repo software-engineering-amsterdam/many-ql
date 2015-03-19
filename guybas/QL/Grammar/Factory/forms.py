@@ -1,9 +1,6 @@
 # Factory for creating Form elements out of parsed subtrees
 
-import QL.AST.Statements.question as question
-import QL.AST.Statements.if_statement as if_statement
-import QL.AST.Statements.else_statement as else_statement
-import QL.AST.Statements.assignment as assignment
+from QL.AST.Statements import *
 import QL.AST.form as form
 
 
@@ -39,7 +36,7 @@ def make_else(subtrees):
     else_questions = []
     for i in range(k + 1, len(subtrees)):
         else_questions.append(subtrees[i])
-    x = else_statement.IfElseBlock(condition, questions, else_questions)
+    x = if_else_statement.IfElseBlock(condition, questions, else_questions)
     return x
 
 

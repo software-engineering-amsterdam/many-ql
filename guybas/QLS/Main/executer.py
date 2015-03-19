@@ -12,18 +12,15 @@ import QL.Tools.exceptions as ee
 #TODO 1. type checker does not find different ids: e.g. is ValueResidue == valueResidue
 #TODO 2. functions get_colour etc are missing
 #TODO 3. improve QL structure: executor to main etc.
+# -> What do you mean???
 #TODO 4. what to do in default page ?? (currently skipped)
-#TODO 5. fix error:
-# File "/home/guyromb/PycharmProjects/SOC/guybas/QL/AST/Statements/assignment.py", line 39, in get_dependency_collection
-#    d = self.expression.get_dependencies()
-# AttributeError: 'Minus' object has no attribute 'get_dependencies'
-#TODO 6.
+# -> This can be used to set a default style for a widget (e.g. color, width, height etc for every time the widget is used
 ####################################
 
 
 # qls style
 qls = ql.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
-print(qls.pretty_print())
+print(qls.string_presentation())
 
 #ql form
 print(qls.get_property_dict())

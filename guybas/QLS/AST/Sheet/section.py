@@ -12,7 +12,7 @@ class Section(e.SheetElement):
     def pretty_print(self, level=0):
         s = "    " * level + "Section " + self._name + "\n"
         for p in self._question_styles:
-            s += p.pretty_print(level + 1)
+            s += p.string_presentation(level + 1)
         return s
 
     def get_ids(self):

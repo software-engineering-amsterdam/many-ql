@@ -11,6 +11,6 @@ class SpinBox(i_element.Element):
         e = tk.Spinbox(from_=0, to_=10000, command=lambda: self.gui.update(self.statement, None if e.get() is '' else int(e.get())))
         print(e.winfo_height())
         e.bind("<KeyPress><KeyRelease>", lambda event: self.gui.update(self.statement, None if e.get() is '' else int(e.get())))
-        # expression_factory.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
+        # expression_factory.grid(row=statement.get_order_number(), column=1, columnspan=2, sticky=W)
         e_list.append(e)
         return e_list

@@ -15,7 +15,7 @@ class Sheet(e.SheetElement):
     def pretty_print(self, level=0):
         s = "    " * level + "Sheet " + self._name + "\n"
         for p in self._pages:
-            s += p.pretty_print(level + 1)
+            s += p.string_presentation(level + 1)
         return s
 
     def get_ids(self):

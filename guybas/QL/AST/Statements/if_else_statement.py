@@ -14,14 +14,14 @@ class IfElseBlock(if_statement.IfBlock):
         self.else_statements = else_statements
 
     # pretty print ast, with level giving the indentation
-    def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "If " + self.condition.pretty_print(0)
+    def string_presentation(self, level=0):
+        s = "\n" + "   " * level + "If " + self.condition.string_presentation(0)
         for x in self.statements:
-            s += "   " * level + x.pretty_print(level+1)
+            s += "   " * level + x.string_presentation(level+1)
 
         s += "   " * level + "else"
         for x in self.else_statements:
-            s += "   " * level + x.pretty_print(level+1)
+            s += "   " * level + x.string_presentation(level+1)
         return s
 
     # return all ids in the statement
@@ -61,18 +61,15 @@ class IfElseBlock(if_statement.IfBlock):
 
         return d
 
-    #
-    # Method of else statement
-    #
+    def valid_expression_message(self, td):
+        message = self.condition.is_valid_expression_message(td)
+        for x in self.statements:
+            message += x.valid_expression_message(td)
+        for x in self.else_statements:
+            message += x.valid_expression_message(td)
+        return message
 
     def get_e_statements(self):
         return self.else_statements
 
-    def valid_type_message(self, td):
-        message = self.condition.is_valid_expression_message(td)
-        for x in self.statements:
-            message += x.valid_type_message(td)
-        for x in self.else_statements:
-            message += x.valid_type_message(td)
-        return message
 

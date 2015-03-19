@@ -11,7 +11,7 @@ class Radio(w.Widget):
 
     def pretty_print(self, level=0):
         s = "    " * level + "Radio "
-        s += self.options.pretty_print()
+        s += self.options.string_presentation()
         s += "\n"
         return s
 

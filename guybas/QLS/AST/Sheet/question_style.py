@@ -4,13 +4,13 @@ import QLS.AST.Sheet.sheet_element as e
 # Question style AST
 class QuestionStyle(e.SheetElement):
 
-    def __init__(self, qid, widget):
+    def __init__(self, qid, widget, properties=[]):
         self._id = qid
         self._widget = widget
 
     def pretty_print(self, level=0):
         s = "    " * level + "Question " + self._id + "\n"
-        s += self._widget.pretty_print(level + 1)
+        s += self._widget.string_presentation(level + 1)
         return s
 
     def get_ids(self):

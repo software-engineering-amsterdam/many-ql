@@ -1,8 +1,8 @@
 import tkinter as tk
-import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
 import QL.Tools.exceptions as exc
 import QL.Runtime.form as enriched_form
+import QL.Tools.converters as converter
 from QL.GUI.Elements import *
 
 
@@ -25,7 +25,7 @@ class GUI:
         self.intro_element.grid(row=0, column=0, sticky=tk.W)
 
         self.draw_questions(self.__questions)
-        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self.__answersMap, self)
+        tk.Button(text="Submit", width=10, command=lambda: converter.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
     def create_title(self):
@@ -53,8 +53,8 @@ class GUI:
 
         c_results = True
         if condition:
-            # c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
-            # print(condition.pretty_print())
+            # c_results = processor.eval_expression(condition.string_presentation(), self.__answersMap)
+            # print(condition.string_presentation())
             # print(c_results)
             c_results = condition.eval_expression(self.__answersMap)
             # print(c_results)
@@ -66,12 +66,12 @@ class GUI:
         if len(elements) is 2:
             colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order_number() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
         self.__answersMap.update(question, new_answer)
         for qid in self.__dependencies:
-            if question.ast.get_id() in self.__dependencies[qid]:
+            if question.get_ast_question().get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):

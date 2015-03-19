@@ -11,6 +11,6 @@ class TextEntry(i_element.Element):
         str_var = tk.StringVar()
         e = tk.Entry(textvariable=str_var)
         e.bind("<KeyPress><KeyRelease>", lambda event: self.gui.update(self.statement, e.get()))
-        # expression_factory.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W) #validate="key" ,validatecommand=(vcmd, '%S')
+        # expression_factory.grid(row=statement.get_order_number(), column=1, columnspan=2, sticky=W) #validate="key" ,validatecommand=(vcmd, '%S')
         e_list.append(e)
         return e_list

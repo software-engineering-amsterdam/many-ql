@@ -9,13 +9,13 @@ import QL.Tools.exceptions as ee
 
 #
 # p = grammar.expr.parseString("not 5 + 3 * 2 - 1 == 4")
-# print(p[0].pretty_print())
+# print(p[0].string_presentation())
 
 
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-# print(form.pretty_print())
+print(form.string_presentation())
 form.is_valid_form()
 
 enriched_form = runtime_form.Form(form)

@@ -11,7 +11,7 @@ class DropDown(w.Widget):
 
     def pretty_print(self, level=0):
         s = "    " * level + "Drop down "
-        s += self.options.pretty_print()
+        s += self.options.string_presentation()
         return s
 
     def get_compatible(self):
