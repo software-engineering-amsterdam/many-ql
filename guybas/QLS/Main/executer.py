@@ -13,8 +13,14 @@ import QL.Tools.exceptions as ee
 #TODO 2. functions get_colour etc are missing
 #TODO 3. improve QL structure: executor to main etc.
 # -> What do you mean???
+# --> A: Changing maybe the folders structure so it will be consists to QL? I can do it, what do you think?
 #TODO 4. what to do in default page ?? (currently skipped)
-# -> This can be used to set a default style for a widget (e.g. color, width, height etc for every time the widget is used
+# -> This can be used to set a default style for a widget (e.g. color, width, height etc for every time the widget is used.
+# --> Does it means default page = one page / like in QL ?
+#TODO 5. Error fix (URGENT!!):
+# File "/home/guyromb/PycharmProjects/SOC/guybas/QLS/GUI/Elements/factory.py", line 9, in __init__
+#     q_type = statement.ast.get_type()
+# AttributeError: 'Assignment' object has no attribute 'get_type'
 ####################################
 
 
