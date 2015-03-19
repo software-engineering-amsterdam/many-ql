@@ -92,7 +92,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		JButton button = new JButton("Done");
 		formView.addDoneButton(button);
 		button.addActionListener(new DoneButtonListener(widgetListener.getEvaluator()));
-		formView.setVisible(true);
+		formView.setFrameVisible(true);
 		return formView;
 	}
 
