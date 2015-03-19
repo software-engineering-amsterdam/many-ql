@@ -19,6 +19,7 @@ class Dropdown(tk.OptionMenu, Widget):
         self._gridIfVisible(questionModel)
             
     def value(self):
+        print(self._value.get(), "here!!!")
         return self._value.get() == "yes"
 
 class RadioButtons(tk.Frame, Widget):

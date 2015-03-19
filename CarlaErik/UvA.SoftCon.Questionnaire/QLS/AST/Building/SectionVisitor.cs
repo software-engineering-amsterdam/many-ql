@@ -13,8 +13,12 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
     {
         public override Section VisitSection(QLSParser.SectionContext context)
         {
+            string title = context.STRING().GetText();
             var questionStyles = new List<QuestionReference>();
             var defaultStyles = new List<DefaultStyle>();
+
+            // Remove the leading and trailing '"' characters from the string literal.
+            title = title.Trim('"');
 
             foreach (var questionStyleContext in context.question_ref())
             {
@@ -25,7 +29,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
                 defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleVisitor()));
             }
 
-            return new Section(questionStyles, defaultStyles, context.GetTextPosition());
+            return new Section(title, questionStyles, defaultStyles, context.GetTextPosition());
         }
     }
 }

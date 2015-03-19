@@ -20,6 +20,10 @@ public class StylingSettings {
     private final String font;
     private final int fontSize, color, width;
 
+    public AbstractWidget getWidget() {
+        return widget;
+    }
+
     /**
      * This internal class is used for setting the default widget settings based on its type.
      */

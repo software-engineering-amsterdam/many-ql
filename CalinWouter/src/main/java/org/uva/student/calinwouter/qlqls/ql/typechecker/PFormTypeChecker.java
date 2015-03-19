@@ -6,11 +6,16 @@ import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 
 public class PFormTypeChecker extends DepthFirstAdapter {
-    private PStmtTypeChecker pStmtTypeChecker;
+    private final PStmtTypeChecker pStmtTypeChecker;
+
+    private void typeCheckForm(AForm form) {
+        for(PStmt stmt: form.getStmt())
+            stmt.apply(pStmtTypeChecker);
+    }
 
     @Override
     public void caseAForm(AForm node) {
-        node.apply(pStmtTypeChecker);
+        typeCheckForm(node);
     }
 
     public PFormTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {

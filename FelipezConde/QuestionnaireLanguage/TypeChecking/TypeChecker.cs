@@ -1,4 +1,5 @@
-﻿using AST.Nodes;
+﻿using AST;
+using AST.Nodes;
 using Notifications;
 using System.Collections.Generic;
 
@@ -6,21 +7,20 @@ namespace TypeChecking
 {
     public static class TypeChecker
     {
-        public static List<INotification> GetTypeCheckDiagnosis(Form node)
+        public static ASTResult GetTypeCheckDiagnosis(ASTResult astResult)
         {
             List<INotification> notifications = new List<INotification>(); 
 
-            notifications.AddRange(new IdentifierChecker(node).AnalyzeAndReport());
-            notifications.AddRange(new ExpressionChecker(node).AnalyzeAndReport());
-            //TODO: Add Cyclic dependency check
+            INotificationManager notificationManager = new NotificationManager();
 
-            return notifications;
+            //notificationManager = new IdentifierChecker(astResult.RootNode, notificationManager).AnalyzeAndReport();
+            //notifications.AddRange(new ExpressionChecker(astResult.RootNode).AnalyzeAndReport());
+
+            //ASTResult result = new ASTResult()
+
+            return null;
         }
 
-        public static bool IsTypeCorrect(Form node)
-        {
-            return Helper.ContainsError(GetTypeCheckDiagnosis(node));
-        }
 
     }
 }

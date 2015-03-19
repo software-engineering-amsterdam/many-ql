@@ -30,6 +30,5 @@ namespace UvA.SoftCon.Questionnaire.QL
         T Visit(Or or);
         T Visit(Substract substract);
         T Visit(Negation negation);
-        T Visit(Increment increment);
     }
 }

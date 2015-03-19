@@ -4,15 +4,18 @@ import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.QLStaticAnalyser;
+import org.uva.student.calinwouter.qlqls.ql.QLTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
+import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 
+// TODO refactor!
 public class Main {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -36,31 +39,31 @@ public class Main {
 
     private static void executeQl(String ql) {
         try {
-            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
-            QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
-            QLGUI qui = new QLGUI(qlIntepreter, qlIntepreter.interpret( new VariableTable()), staticFields);
-            qui.render();
+            TypeCheckResults typeCheckResults = InterpreterHelper.typeCheckString(ql);
+            System.out.println(typeCheckResults.toString());
+            if(!typeCheckResults.hasErrors()) {
+                StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
+                QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
+                QLGUI qui = new QLGUI(qlIntepreter, qlIntepreter.interpret(new VariableTable()), staticFields);
+                qui.render();
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    /*private static void executeQlQls(String ql, String qls) {
+    private static void executeQlQls(String ql, String qls) {
         try {
-            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            //FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            StaticFields staticFields = InterpreterHelper.analyzeQlString(ql);
             QLInterpreter qlIntepreter = InterpreterHelper.interpretQlString(ql);
             StyleSheet styleSheet = InterpreterHelper.interpetStylesheetString(qls);
-            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.getSymbolTable(), formTypeChecker).render();
+            new QLSGUI(styleSheet, qlIntepreter, qlIntepreter.interpret(new VariableTable()), staticFields).render();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-    /**
-     * For each change, the QL interpreter is called. The stylesheet's model remains the same, but changes
-     * based on the results of QL.
-     */
     public static void main(String[] args) throws IOException {
         String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String ql = readFile(currentLocation + "../../src/main/resources/ql.txt");

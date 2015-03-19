@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
+import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,13 +14,24 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
         staticFormFields.add(staticFieldElement);
     }
 
-    public TypeDescriptor getTypeOfField(String ident) {
+    public TypeDescriptor getTypeOfField(String identifier) {
         for (AbstractStaticFormField staticFormField : staticFormFields) {
-            if (staticFormField.getVariable().equals(ident)) {
+            final String iteratedVariableName = staticFormField.getVariable();
+            if (iteratedVariableName.equals(identifier)) {
                 return staticFormField.getTypeDescriptor();
             }
         }
-        throw new RuntimeException(new FieldNotFoundException());
+        throw new FieldNotFoundException(identifier);
+    }
+
+    public String getLabelForField(String identifier) {
+        for(AbstractStaticFormField field : staticFormFields){
+            final String iteratedVariableName = field.getVariable();
+            if (iteratedVariableName.equals(identifier)){
+                return field.getLabel();
+            }
+        }
+        throw new FieldNotFoundException(identifier);
     }
 
     public StaticFields() {
@@ -34,7 +45,8 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
 
     public boolean containsField(String variableName) {
         for (AbstractStaticFormField staticFormField : staticFormFields) {
-            if (staticFormField.getVariable().equals(variableName)) {
+            final String iteratedVariableName = staticFormField.getVariable();
+            if (iteratedVariableName.equals(variableName)) {
                 return true;
             }
         }

@@ -9,11 +9,6 @@ namespace TypeChecking.Notifications.Warnings
             return false;
         }
 
-        public bool IsWarning()
-        {
-            return true;
-        }
-
         public abstract string Message();
     }
 }

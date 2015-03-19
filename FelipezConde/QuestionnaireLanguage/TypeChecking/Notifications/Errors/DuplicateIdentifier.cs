@@ -7,11 +7,11 @@ namespace TypeChecking.Notifications.Errors
     public class DuplicateIdentifier : Error
     {
             string identifierName;
-            IEnumerable<PositionInText> identifierPositions;
+            PositionInText identifierPosition;
 
-            public DuplicateIdentifier(string name, IEnumerable<PositionInText> positions)
+            public DuplicateIdentifier(string name, PositionInText positions)
             { 
-                this.identifierPositions = positions;
+                this.identifierPosition = positions;
                 this.identifierName = name;
             }
 
@@ -19,7 +19,7 @@ namespace TypeChecking.Notifications.Errors
             {
                 return string.Format("Duplicate identifier \"{0}\" at {1}",
                                       identifierName,
-                                      PositionPrinter.PrettyPrint(identifierPositions));
+                                      identifierPosition.ToString());
             }
     }
 }

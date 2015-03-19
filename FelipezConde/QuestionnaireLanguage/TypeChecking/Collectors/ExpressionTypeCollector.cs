@@ -1,12 +1,11 @@
 ﻿using AST.Nodes.Expressions;
-using AST.Nodes.Expressions.Binary;
-using AST.Nodes.Expressions.Unary;
-using AST.ASTVisitors;
+using AST.Nodes.Expressions.Binaries;
+using AST.Nodes.Expressions.Unaries;
 using Notifications;
 using System.Collections.Generic;
 using TypeChecking.Notifications.Errors;
 using Types = AST.Types;
-using AST.ASTVisitors.Interfaces;
+using AST.VisitorInterfaces;
 
 namespace TypeChecking.Collectors
 {
@@ -106,7 +105,7 @@ namespace TypeChecking.Collectors
         }
         #endregion
 
-        private Types.Type VisitBinaryExpectedType(BaseBinary node, Types.Type expectedType)
+        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedType)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
@@ -118,7 +117,7 @@ namespace TypeChecking.Collectors
 
             return expectedType;
         }
-        private Types.Type VisitBinary(BaseBinary node)
+        private Types.Type VisitBinary(Binary node)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
@@ -130,11 +129,11 @@ namespace TypeChecking.Collectors
 
             return left;
         }
-        private Types.Type VisitUnary(BaseUnary node)
+        private Types.Type VisitUnary(Unary node)
         {
             return node.GetChildExpression().Accept(this);
         }
-        private Types.Type VisitUnaryExpectedType(BaseUnary node, Types.Type expectedType)
+        private Types.Type VisitUnaryExpectedType(Unary node, Types.Type expectedType)
         {
             Types.Type childType = node.GetChildExpression().Accept(this);
 

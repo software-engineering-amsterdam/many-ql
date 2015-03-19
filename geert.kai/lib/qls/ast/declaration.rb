@@ -8,25 +8,25 @@ module QLS
       end
 
       def to_css
-        "\n\t#{property}: #{value}"
+        "#{property}: #{value}"
       end
     end
 
     class FontSizeProperty < PropertyDeclaration
       def to_css
-        "\n\t-fx-font-size: #{value.to_s}px;"
+        "-fx-font-size: #{value.to_s}px;"
       end
     end
 
     class FontColorProperty < PropertyDeclaration
       def to_css
-        "\n\t-fx-color: #{value.to_s};"
+        "-fx-color: #{value.to_s};"
       end
     end
 
     class FontProperty < PropertyDeclaration
       def to_css
-        "\n\t-fx-font-family: \"#{value.to_s}\";"
+        "-fx-font-family: \"#{value.to_s}\";"
       end
     end
 

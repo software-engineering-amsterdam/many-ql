@@ -1,9 +1,8 @@
 package uva.ql.interpreter.typecheck.error;
 
 import java.util.*;
-import uva.ql.supporting.table.*;
 
-public class IssueTable extends Table<IssueType.ERROR, IssueObject>{
+public class IssueTable{
 
 	private final Map<IssueType.ERROR, IssueTableList> errorTable = new HashMap<IssueType.ERROR, IssueTableList>();
 	
@@ -11,7 +10,10 @@ public class IssueTable extends Table<IssueType.ERROR, IssueObject>{
 		return this.errorTable;
 	}
 	
-	@Override
+	public boolean hasIssues(){
+		return this.errorTable.isEmpty();
+	}
+	
 	public void putValue(IssueType.ERROR key, IssueObject value) {
 
 		if (this.errorTable.containsKey(key)){
@@ -22,17 +24,14 @@ public class IssueTable extends Table<IssueType.ERROR, IssueObject>{
 		}
 	}
 
-	@Override
 	public boolean keyExists(IssueType.ERROR key) {
 		return this.errorTable.containsKey(key);
 	}
 
-	@Override
 	public boolean valueExists(IssueType.ERROR key, IssueObject value) {
 		return this.errorTable.get(key).valueExists(value);
 	}
 
-	@Override
 	public IssueObject retrieveValue(IssueType.ERROR key) {
 		return null;
 	}

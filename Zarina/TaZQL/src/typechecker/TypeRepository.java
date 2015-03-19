@@ -2,6 +2,7 @@ package typechecker;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ast.type.Type;
 
@@ -14,15 +15,15 @@ public class TypeRepository {
 		this.labelRepository = new HashMap<String, String>();
 	}
 	
-	public void putID(String id, Type type) {
+	public void putType(String id, Type type) {
 		typeRepository.put(id, type);
 	}
 	
-	public void putIDLabel(String id, String label) {
+	public void putLabel(String id, String label) {
 		labelRepository.put(id, label);
 	}
 	
-	public Map<String, Type> getTypeRepository() {
+	private Map<String, Type> getTypeRepository() {
 		return typeRepository;
 	}
 	
@@ -57,5 +58,10 @@ public class TypeRepository {
 			return false;
 		}
 		return true;
+	}
+	
+	public Set<String> getIDkeys() {
+		Set<String> keys = typeRepository.keySet();
+		return keys;
 	}
 }

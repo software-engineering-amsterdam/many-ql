@@ -1,237 +1,253 @@
 package uva.sc.ql.evaluator;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
-import uva.sc.ql.ast.INodeVisitor;
-import uva.sc.ql.atom.*;
-import uva.sc.ql.gui.DisplayData;
-import uva.sc.ql.logic.*;
-import uva.sc.ql.logic.binaryExpressions.*;
-import uva.sc.ql.logic.unaryExpressions.*;
-import uva.sc.ql.types.Boolean;
-import uva.sc.ql.types.Number;
-import uva.sc.ql.types.String;
-import uva.sc.ql.types.Unidentified;
+import uva.sc.ql.ast.IQLExpressionNodeVisitor;
+import uva.sc.ql.ast.IQLFormNodeVisitor;
+import uva.sc.ql.ast.IQLStatementNodeVisitor;
+import uva.sc.ql.atom.BooleanAtom;
+import uva.sc.ql.atom.ID;
+import uva.sc.ql.atom.NumberAtom;
+import uva.sc.ql.atom.StringAtom;
+import uva.sc.ql.expression.Expression;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
+import uva.sc.ql.form.Form;
+import uva.sc.ql.gui.helpers.DisplayData;
+import uva.sc.ql.statements.IfStatement;
+import uva.sc.ql.statements.Question;
+import uva.sc.ql.statements.Statement;
 
-public class EvaluatorVisitor implements INodeVisitor<Expression> {
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class EvaluatorVisitor extends Observable implements
+	IQLFormNodeVisitor<Expression>, IQLStatementNodeVisitor<Expression>,
+	IQLExpressionNodeVisitor<Expression> {
 
-	Map<java.lang.String, DisplayData>	valuesTable			= new HashMap<java.lang.String, DisplayData>();
-	Expression							currentIfCondition	= null;
+    Map<java.lang.String, DisplayData> valuesTable = new HashMap<java.lang.String, DisplayData>();
 
-	public Map<java.lang.String, DisplayData> getValuesTable() {
-		return valuesTable;
+    Expression currentIfCondition = null;
+
+    public Map<java.lang.String, DisplayData> getValuesTable() {
+	return valuesTable;
+    }
+
+    public void putToValuesTable(String s, DisplayData d) {
+	valuesTable.put(s, d);
+	setChanged();
+	notifyObservers();
+    }
+
+    public Expression visit(Form questionnaire) {
+	List<Statement> statements = questionnaire.getStatements();
+	for (Statement statement : statements) {
+	    statement.accept(this);
 	}
+	return null;
+    }
 
-	public Expression visit(Form questionare) {
-		List<Statement> statements = questionare.getStatements();
-		for (Statement statement : statements) {
-			statement.accept(this);
-		}
-		return null;
+    public Expression visit(Question question) {
+	if (question.getExpr() != null) {
+	    putToValuesTable(question.getId().getValue(), new DisplayData(
+		    question.getExpr(), currentIfCondition, question.getType()));
+	} else {
+	    putToValuesTable(question.getId().getValue(), new DisplayData(null,
+		    currentIfCondition, question.getType()));
 	}
+	return null;
+    }
 
-	public Expression visit(Expression Expression) {
-		return null;
-	}
+    public Expression visit(IfStatement ifStatement) {
+	currentIfCondition = ifStatement.getExpr();
+	ifStatement.getExpr().accept(this);
+	List<Question> questions = ifStatement.getQuestions();
+	for (Question question : questions)
+	    question.accept(this);
+	currentIfCondition = null;
+	return null;
+    }
 
-	public Expression visit(Question question) {
-		if (question.getExpr() != null) {
-			valuesTable.put(question.getId().getValue(), new DisplayData(question.getExpr(), currentIfCondition));
-			//question.getExpr().accept(this);
-		}
-		else {
-			valuesTable.put(question.getId().getValue(), new DisplayData(null, currentIfCondition));
-		}
-		return null;
-	}
+    public Expression visit(ID id) {
+	return (Expression) valuesTable.get(id.getValue()).getValue();
+    }
 
-	public Expression visit(If_Statement if_statement) {
-		currentIfCondition = if_statement.getExpr();
-		if_statement.getExpr().accept(this);
-		List<Question> questions = if_statement.getQuestions();
-		for (Question question : questions)
-			question.accept(this);
-		currentIfCondition = null;
-		return null;
-	}
+    public NumberAtom visit(Addition addition) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) addition
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) addition
+		.getSecondOperand().accept(this));
+	return new NumberAtom(firstOperand.getValue()
+		+ secondOperand.getValue());
+    }
 
-	public Expression visit(ID id) {
-		return valuesTable.get(id.getValue()).getValue();
-	}
+    public NumberAtom visit(Substraction sub) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) sub
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) sub
+		.getSecondOperand().accept(this));
+	return new NumberAtom(firstOperand.getValue()
+		- secondOperand.getValue());
+    }
 
-	public Expression visit(Addition addition) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(addition).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(addition).getValue());
-		return new NumberAtom(firstOperand.add(secondOperand).toString());
-	}
+    public NumberAtom visit(Multiplication mult) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) mult
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) mult
+		.getSecondOperand().accept(this));
+	return new NumberAtom(firstOperand.getValue()
+		* secondOperand.getValue());
+    }
 
-	public Expression visit(And and) {
-		Expression firstOperand = and.getFirstOperand().accept(this);
-		Expression secondOperand = and.getSecondOperand().accept(this);
-		BooleanAtom result = new BooleanAtom(false);
-		if (firstOperand != null && secondOperand != null) {
-			if (java.lang.Boolean.valueOf(firstOperand.getValue()) && java.lang.Boolean.valueOf(secondOperand.getValue())) {
-				result = new BooleanAtom(true);
-			}
-			else {
-				result = new BooleanAtom(false);
-			}
-		}
-		return result;
+    public NumberAtom visit(Division division) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) division
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) division
+		.getSecondOperand().accept(this));
+	NumberAtom result = new NumberAtom(0.);
+	try {
+	    result = new NumberAtom(firstOperand.getValue()
+		    / secondOperand.getValue());
+	} catch (ArithmeticException e) {
 	}
+	return result;
+    }
 
-	public Expression visit(Division division) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(division).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(division).getValue());
-		NumberAtom result = new NumberAtom("0");
-		// check for divide by 0 errors and throw an IllegalArgumentException if detected
-		if (secondOperand.doubleValue() != 0) {
-			BigDecimal r = firstOperand.divide(secondOperand, 2, RoundingMode.HALF_UP);
-			result = new NumberAtom(r.toString());
-		}
-		else {
-			throw new IllegalArgumentException();
-		}
-		return result;
-	}
+    public NumberAtom visit(Modulus mod) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) mod
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) mod
+		.getSecondOperand().accept(this));
+	return new NumberAtom(firstOperand.getValue()
+		% secondOperand.getValue());
+    }
 
-	public Expression visit(Equals eq) {
-		Expression firstOperand = eq.getFirstOperand().accept(this);
-		Expression secondOperand = eq.getSecondOperand().accept(this);
-		return new BooleanAtom(firstOperand.equals(secondOperand));
+    public BooleanAtom visit(And and) {
+	BooleanAtom firstOperand = (BooleanAtom) and.getFirstOperand().accept(
+		this);
+	BooleanAtom secondOperand = (BooleanAtom) and.getSecondOperand()
+		.accept(this);
+	BooleanAtom result = new BooleanAtom(false);
+	if (firstOperand != null && secondOperand != null) {
+	    result = new BooleanAtom(java.lang.Boolean.valueOf(firstOperand
+		    .getValue())
+		    && java.lang.Boolean.valueOf(secondOperand.getValue()));
 	}
+	return result;
+    }
 
-	public Expression visit(GreaterThan greaterThan) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(greaterThan).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(greaterThan).getValue());
-		return new BooleanAtom(firstOperand.compareTo(secondOperand) == 1);
+    public BooleanAtom visit(Or or) {
+	BooleanAtom firstOperand = (BooleanAtom) or.getFirstOperand().accept(
+		this);
+	BooleanAtom secondOperand = (BooleanAtom) or.getSecondOperand().accept(
+		this);
+	BooleanAtom result = new BooleanAtom(false);
+	if (firstOperand != null && secondOperand != null) {
+	    result = new BooleanAtom(java.lang.Boolean.valueOf(firstOperand
+		    .getValue())
+		    || java.lang.Boolean.valueOf(secondOperand.getValue()));
 	}
+	return result;
+    }
 
-	public Expression visit(GreaterThanEquals greaterThanEquals) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(greaterThanEquals).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(greaterThanEquals).getValue());
-		return new BooleanAtom(firstOperand.compareTo(secondOperand) >= 0);
-	}
+    public BooleanAtom visit(Equals eq) {
+	Expression firstOperand = (Expression) eq.getFirstOperand()
+		.accept(this);
+	Expression secondOperand = (Expression) eq.getSecondOperand().accept(
+		this);
+	return new BooleanAtom(firstOperand.equals(secondOperand));
+    }
 
-	public Expression visit(LesserThan lesserThan) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(lesserThan).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(lesserThan).getValue());
-		return new BooleanAtom(firstOperand.compareTo(secondOperand) == -1);
-	}
+    public BooleanAtom visit(NotEquals notEquals) {
+	Expression firstOperand = (Expression) notEquals.getFirstOperand()
+		.accept(this);
+	Expression secondOperand = (Expression) notEquals.getSecondOperand()
+		.accept(this);
+	return new BooleanAtom(!firstOperand.equals(secondOperand));
+    }
 
-	public Expression visit(LesserThanEquals lesserThanEquals) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(lesserThanEquals).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(lesserThanEquals).getValue());
-		return new BooleanAtom(firstOperand.compareTo(secondOperand) <= 0);
-	}
+    public BooleanAtom visit(GreaterThan greaterThan) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) greaterThan
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) greaterThan
+		.getSecondOperand().accept(this));
+	return new BooleanAtom(firstOperand.getValue().compareTo(
+		secondOperand.getValue()) == 1);
+    }
 
-	public Expression visit(Modulus mod) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(mod).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(mod).getValue());
-		return new NumberAtom(firstOperand.remainder(secondOperand).toString());
-	}
+    public BooleanAtom visit(GreaterThanEquals greaterThanEquals) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) greaterThanEquals
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) greaterThanEquals
+		.getSecondOperand().accept(this));
+	return new BooleanAtom(firstOperand.getValue().compareTo(
+		secondOperand.getValue()) >= 0);
+    }
 
-	public Expression visit(Multiplication mult) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(mult).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(mult).getValue());
-		return new NumberAtom(firstOperand.multiply(secondOperand).toString());
-	}
+    public BooleanAtom visit(LesserThan lesserThan) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) lesserThan
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) lesserThan
+		.getSecondOperand().accept(this));
+	return new BooleanAtom(firstOperand.getValue().compareTo(
+		secondOperand.getValue()) == -1);
+    }
 
-	public Expression visit(NotEquals notEquals) {
-		Expression firstOperand = notEquals.getFirstOperand().accept(this);
-		Expression secondOperand = notEquals.getSecondOperand().accept(this);
-		return new BooleanAtom(!firstOperand.equals(secondOperand));
-	}
+    public BooleanAtom visit(LesserThanEquals lesserThanEquals) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) lesserThanEquals
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) lesserThanEquals
+		.getSecondOperand().accept(this));
+	return new BooleanAtom(firstOperand.getValue().compareTo(
+		secondOperand.getValue()) <= 0);
+    }
 
-	public Expression visit(Or or) {
-		Expression firstOperand = or.getFirstOperand().accept(this);
-		Expression secondOperand = or.getSecondOperand().accept(this);
-		BooleanAtom result = null;
-		if (firstOperand.equals(BooleanAtom.isFalse()) || secondOperand.equals(BooleanAtom.isFalse())) {
-			result = new BooleanAtom(false);
-		}
-		else {
-			result = new BooleanAtom(true);
-		}
-		return result;
+    public NumberAtom visit(Minus minus) {
+	NumberAtom operand = (NumberAtom) minus.getOperand().accept(this);
+	NumberAtom result = new NumberAtom(0.);
+	if (operand != null) {
+	    NumberAtom numericalOperand = new NumberAtom(operand.getValue());
+	    result = new NumberAtom(numericalOperand.getValue() * (-1));
 	}
+	return result;
+    }
 
-	public Expression visit(Substraction sub) {
-		BigDecimal firstOperand = new BigDecimal(getFirstNumericOperandValue(sub).getValue());
-		BigDecimal secondOperand = new BigDecimal(getSecondNumericOperandValue(sub).getValue());
-		return new NumberAtom(firstOperand.subtract(secondOperand).toString());
-	}
+    public BooleanAtom visit(Not not) {
+	BooleanAtom operand = (BooleanAtom) not.getOperand().accept(this);
+	return new BooleanAtom(!operand.getValue());
+    }
 
-	public Expression visit(Minus minus) {
-		Expression operand = minus.getOperand().accept(this);
-		Expression result = new NumberAtom("0");
-		if (operand != null) {
-			BigDecimal numericalOperand = new BigDecimal(operand.getValue());
-			result = new NumberAtom(numericalOperand.multiply(new BigDecimal(-1)).toString());
-		}
-		return result;
-	}
+    public BooleanAtom visit(BooleanAtom bool) {
+	return bool;
+    }
 
-	public Expression visit(Not not) {
-		Expression operand = not.getOperand().accept(this);
-		BooleanAtom result = null;
-		if (operand.equals(BooleanAtom.isTrue())) {
-			result = new BooleanAtom(false);
-		}
-		else {
-			result = new BooleanAtom(true);
-		}
-		return result;
-	}
+    public NumberAtom visit(NumberAtom doub) {
+	return doub;
+    }
 
-	public Expression visit(Boolean bool) {
-		return null;
-	}
+    public StringAtom visit(StringAtom str) {
+	return str;
+    }
 
-	public Expression visit(String str) {
-		return null;
+    private NumberAtom getNumericOperandValue(Expression expr) {
+	NumberAtom result = new NumberAtom(0.);
+	if (expr != null) {
+	    result = new NumberAtom((Double) expr.getValue());
 	}
-
-	public Expression visit(BooleanAtom bool) {
-		return bool;
-	}
-
-	public Expression visit(NumberAtom doub) {
-		return doub;
-	}
-
-	public Expression visit(StringAtom str) {
-		return str;
-	}
-
-	public Expression visit(Number number) {
-		return null;
-	}
-
-	public Expression visit(Unidentified unidentified) {
-		return null;
-	}
-
-	private Expression getFirstNumericOperandValue(BinaryExpression expr) {
-		NumberAtom result = new NumberAtom("0");
-		Expression firstOperand = expr.getFirstOperand().accept(this);
-		if (firstOperand != null) {
-			result = new NumberAtom(firstOperand.getValue().toString());
-		}
-		return result;
-	}
-
-	private Expression getSecondNumericOperandValue(BinaryExpression expr) {
-		NumberAtom result = new NumberAtom("0");
-		Expression secondOperand = expr.getSecondOperand().accept(this);
-		if (secondOperand != null) {
-			result = new NumberAtom(secondOperand.getValue().toString());
-		}
-		return result;
-	}
+	return result;
+    }
 }

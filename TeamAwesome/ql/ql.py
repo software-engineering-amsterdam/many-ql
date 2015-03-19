@@ -7,7 +7,7 @@ from ql.ast.AST import AST
 from ql.gui.View import *
 from ql.gui.Controller import *
 from ql.gui.Model import *
-from ql.typechecking import typechecking 
+#from ql.typechecking import typechecking 
 
 
 def main():
@@ -22,14 +22,14 @@ def main():
     	exit(1)
 
     ast = AST(filename)
-
+    """
     typeCheckResult = typechecking.check(ast)
     printErrors(typeCheckResult)
     printWarnings(typeCheckResult)
 
     if len(typeCheckResult.errors) > 0:
         exit(-1)
-
+    """
     evaluator = createEvaluator(ast)
 
     models = [QuestionModel(identifier, evaluator) for identifier in evaluator.identifiers()]

@@ -8,8 +8,7 @@ public abstract class AbstractStaticFormField {
     private String label, variable;
     private TypeDescriptor typeDescriptor;
 
-    //TODO should not throw any exception anymore
-    public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer) throws FieldNotFoundException;
+    public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer);
 
     public String getVariable() {
         return variable;
