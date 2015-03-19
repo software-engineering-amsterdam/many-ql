@@ -13,7 +13,7 @@ import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 import ql.ast.visitor.prettyprinter.PrintWriter;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
@@ -21,18 +21,18 @@ import qls.ast.expression.literal.StringLiteral;
 import qls.ast.statement.DefaultStyle;
 import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
-import qls.ast.statement.QLSBlock;
+import qls.ast.statement.Block;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.Property;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Color;
-import qls.ast.statement.styling.property.Font;
-import qls.ast.statement.styling.property.FontSize;
-import qls.ast.statement.styling.property.Height;
-import qls.ast.statement.styling.property.Width;
 import qls.ast.statement.widget.Widget;
+import qls.ast.statement.widget.styling.Property;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Color;
+import qls.ast.statement.widget.styling.property.Font;
+import qls.ast.statement.widget.styling.property.FontSize;
+import qls.ast.statement.widget.styling.property.Height;
+import qls.ast.statement.widget.styling.property.Width;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
 import qls.ast.statement.widget.type.Spinbox;
@@ -55,7 +55,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	/* 
 	 * Statement with custom prefix 
 	 */
-	public static void print(QLSStatement statement, PrintWriter printWriter) {
+	public static void print(Statement statement, PrintWriter printWriter) {
 		PrettyPrinter printer = new PrettyPrinter();
 		printWriter.printString(statement.accept(printer));
 	}
@@ -261,11 +261,11 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	}
 	
 	@Override
-	public String visit(QLSBlock blockNode) {
+	public String visit(Block blockNode) {
 		StringBuilder blockString = new StringBuilder(printNode(blockNode));
 		
 		indent();
-		for(QLSStatement statement : blockNode.getStatements()) {
+		for(Statement statement : blockNode.getStatements()) {
 			blockString.append(statement.accept(this));
 		}
 		unindent();

@@ -22,6 +22,11 @@ public class Default extends WidgetType {
 	}
 
 	@Override
+	public boolean isDefault() {
+		return true;
+	}
+	
+	@Override
 	public String toString() {
 		return "Default";
 	}

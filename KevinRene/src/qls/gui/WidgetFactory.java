@@ -1,7 +1,8 @@
 package qls.gui;
 
-import ql.gui.UIComponent;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.gui.widget.InputWidget;
 
 public interface WidgetFactory {
-	public UIComponent create(WidgetBuilder builder);
+	public InputWidget<?> create(WidgetBuilder builder, StyleProperties properties);
 }

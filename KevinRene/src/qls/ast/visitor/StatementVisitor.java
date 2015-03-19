@@ -1,22 +1,22 @@
 package qls.ast.visitor;
 
 import ql.ast.visitor.TypeVisitor;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.statement.DefaultStyle;
 import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
-import qls.ast.statement.QLSBlock;
+import qls.ast.statement.Block;
 import qls.ast.statement.Question;
 import qls.ast.statement.Section;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.Property;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Color;
-import qls.ast.statement.styling.property.Font;
-import qls.ast.statement.styling.property.FontSize;
-import qls.ast.statement.styling.property.Height;
-import qls.ast.statement.styling.property.Width;
 import qls.ast.statement.widget.Widget;
+import qls.ast.statement.widget.styling.Property;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Color;
+import qls.ast.statement.widget.styling.property.Font;
+import qls.ast.statement.widget.styling.property.FontSize;
+import qls.ast.statement.widget.styling.property.Height;
+import qls.ast.statement.widget.styling.property.Width;
 import qls.ast.statement.widget.type.Checkbox;
 import qls.ast.statement.widget.type.Default;
 import qls.ast.statement.widget.type.Spinbox;
@@ -46,8 +46,8 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 		return null;
 	}
 	
-	public T visit(QLSBlock blockNode) {
-		for(QLSStatement statement : blockNode.getStatements()) {
+	public T visit(Block blockNode) {
+		for(Statement statement : blockNode.getStatements()) {
 			statement.accept(this);
 		}
 		return null;

@@ -4,8 +4,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.value.IntegerValue;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Slider;
 
 public class IntegerSlider extends Slider<IntegerValue> implements ChangeListener {

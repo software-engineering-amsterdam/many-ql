@@ -1,12 +1,12 @@
 package qls.gui.builder;
 
 import ql.ast.QLType;
-import ql.ast.type.QLInteger;
+import ql.ast.type.QLMoney;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
 import qls.gui.widget.InputWidget;
 
-public class IntegerWidgetBuilder implements WidgetBuilder {
+public class MoneyWidgetBuilder implements WidgetBuilder {
 	@Override
 	public InputWidget<?> createCheckbox(StyleProperties properties) {
 		// TODO Auto-generated method stub
@@ -45,6 +45,6 @@ public class IntegerWidgetBuilder implements WidgetBuilder {
 	
 	@Override
 	public QLType getBuilderType() {
-		return new QLInteger();
+		return new QLMoney();
 	}
 }

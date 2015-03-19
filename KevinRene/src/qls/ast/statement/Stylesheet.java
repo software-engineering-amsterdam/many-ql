@@ -1,19 +1,19 @@
 package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.visitor.StatementVisitor;
 
-public class Stylesheet extends QLSStatement {	
+public class Stylesheet extends Statement {	
 	private final Identifier identifier;
-	private final QLSBlock pages;
+	private final Block pages;
 
-	public Stylesheet(Identifier identifier, QLSBlock pages) {
+	public Stylesheet(Identifier identifier, Block pages) {
 		this.identifier = identifier;
 		this.pages = pages;
 	}
 	
-	public QLSBlock getPages() {
+	public Block getPages() {
 		return pages;
 	}
 	

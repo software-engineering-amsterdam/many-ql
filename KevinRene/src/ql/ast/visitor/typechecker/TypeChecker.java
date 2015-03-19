@@ -45,13 +45,17 @@ import ql.errorhandling.error.UndefinedVariableError;
 
 public class TypeChecker extends StatementVisitor<Void> implements ExpressionVisitor<QLType>, TypeVisitor<QLType> {
 	private ErrorEnvironment errorEnvironment;
-	private TypeEnvironment typeEnvironment;	
+	private TypeEnvironment typeEnvironment, scopedEnvironment;	
 	
 	private TypeChecker(TypeEnvironment typeEnvironment) {
 		super.setExpressionVisitor(this);
 		super.setTypeVisitor(this);
 		
+		// Type environment that is given. Will include ALL identifiers with their types.
 		this.typeEnvironment = typeEnvironment;
+		// Type environment for internal scope that abides scoping rules.
+		scopedEnvironment = new TypeEnvironment();
+		
 		errorEnvironment = new ErrorEnvironment();
 	}
 	
@@ -327,6 +331,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		if(typeEnvironment.resolve(questionIdentifier) == null) {
 			typeEnvironment.store(questionIdentifier, questionType);
+			scopedEnvironment.store(questionIdentifier, questionType);
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
@@ -340,6 +345,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		if(typeEnvironment.resolve(formIdentifier) == null) {
 			typeEnvironment.store(formNode.getIdentifier(), new QLForm());
+			scopedEnvironment.store(formNode.getIdentifier(), new QLForm());
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(formIdentifier));
 		}
@@ -379,6 +385,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		if(typeEnvironment.resolve(questionIdentifier) == null) {
 			typeEnvironment.store(questionIdentifier, questionNode.getType());
+			scopedEnvironment.store(questionIdentifier, questionNode.getType());
 		} else {
 			errorEnvironment.addError(new RedefinedVariableError(questionIdentifier));
 		}
@@ -395,10 +402,10 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	}
 	
 	private void increaseScope() {
-		typeEnvironment = new TypeEnvironment(typeEnvironment);
+		scopedEnvironment = new TypeEnvironment(scopedEnvironment);
 	}
 	
 	private void decreaseScope() {
-		typeEnvironment = typeEnvironment.getParent();
+		scopedEnvironment = scopedEnvironment.getParent();
 	}
 }

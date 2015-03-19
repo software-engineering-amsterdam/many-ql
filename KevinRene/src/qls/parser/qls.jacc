@@ -26,13 +26,13 @@
 
 %token RADIO DROPDOWN SLIDER SPINBOX TEXT 
 %token <Checkbox> CHECKBOX
-%token  '"' ':' '.' ','
+%token  '"' ':' '.' ',' ';'
 %token '(' ')' '{' '}'
 
 %type <Literal> literal
 %type <QLType> type
-%type <QLSBlock> statements pages
-%type <QLSStatement> statement
+%type <Block> statements pages
+%type <Statement> statement
 %type <Property> property
 %type <StyleProperties> styleProperties
 %type <WidgetType> widgetType
@@ -50,8 +50,8 @@ import qls.ast.statement.*;
 import qls.ast.statement.widget.*;
 import qls.ast.statement.widget.type.*;
 import qls.ast.statement.widget.type.parameterised.*;
-import qls.ast.statement.styling.*;
-import qls.ast.statement.styling.property.*;
+import qls.ast.statement.widget.styling.*;
+import qls.ast.statement.widget.styling.property.*;
 import qls.ast.expression.Literal;
 import qls.ast.expression.literal.*;
 
@@ -62,21 +62,21 @@ import qls.ast.expression.literal.*;
 	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { result = new Stylesheet($2, $4); }
 				;
 
-  	pages 	: page pages  { $$ = new QLSBlock($1, $2); }
-        	| page        { $$ = new QLSBlock($1); }
+  	pages 	: page pages  { $$ = new Block($1, $2); }
+        	| page        { $$ = new Block($1); }
         	;
 
 	page 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
 			;
 
-	statements	: statement statements	{ $$ = new QLSBlock($1, $2); }
-        		| /* empty */			{ $$ = new QLSBlock(); }
+	statements	: statement statements	{ $$ = new Block($1, $2); }
+        		| /* empty */			{ $$ = new Block(); }
 				;
 				
 	statement	: SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
-        		| DEFAULT type widget						{ $$ = new DefaultWidget($2, $3);  }
+        		| DEFAULT type widget ';'						{ $$ = new DefaultWidget($2, $3);  }
         		| DEFAULT type '{' styleProperties '}'           { $$ = new DefaultStyle($2, $4);  }
-        		| QUESTION IDENTIFIER                       { $$ = new Question($2);     }
+        		| QUESTION IDENTIFIER ';'                      { $$ = new Question($2);     }
         		| QUESTION IDENTIFIER widget				{ $$ = new Question($2, $3); }
 	    		;
 

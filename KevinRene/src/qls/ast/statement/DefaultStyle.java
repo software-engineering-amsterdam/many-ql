@@ -1,11 +1,11 @@
 package qls.ast.statement;
 
 import ql.ast.QLType;
-import qls.ast.QLSStatement;
-import qls.ast.statement.styling.StyleProperties;
+import qls.ast.Statement;
+import qls.ast.statement.widget.styling.StyleProperties;
 import qls.ast.visitor.StatementVisitor;
 
-public class DefaultStyle extends QLSStatement {	
+public class DefaultStyle extends Statement {	
 	private final QLType type;
 	private final StyleProperties ruleSet;
 	

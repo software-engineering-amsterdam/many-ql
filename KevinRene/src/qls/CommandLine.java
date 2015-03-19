@@ -9,7 +9,7 @@ import ql.ast.visitor.prettyprinter.printer.ConsolePrinter;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.visitor.prettyprinter.PrettyPrinter;
 import qls.ast.visitor.typechecker.TypeChecker;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.parser.Parser;
 
 public class CommandLine {
@@ -35,9 +35,9 @@ public class CommandLine {
 				else {
 					QLNode tree = Parser.parse(str);
 					
-					if(tree instanceof QLSStatement) {
-						errorEnvironment = TypeChecker.check((QLSStatement) tree, null); 
-						PrettyPrinter.print((QLSStatement) tree, new ConsolePrinter());
+					if(tree instanceof Statement) {
+						errorEnvironment = TypeChecker.check((Statement) tree, null); 
+						PrettyPrinter.print((Statement) tree, new ConsolePrinter());
 					}
 					
 					if(errorEnvironment.hasErrors()) {

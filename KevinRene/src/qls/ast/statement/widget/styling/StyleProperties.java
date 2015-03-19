@@ -1,14 +1,14 @@
-package qls.ast.statement.styling;
+package qls.ast.statement.widget.styling;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import qls.ast.QLSStatement;
-import qls.ast.statement.styling.property.Height;
-import qls.ast.statement.styling.property.Width;
+import qls.ast.Statement;
+import qls.ast.statement.widget.styling.property.Height;
+import qls.ast.statement.widget.styling.property.Width;
 import qls.ast.visitor.StatementVisitor;
 
-public class StyleProperties extends QLSStatement {
+public class StyleProperties extends Statement {
 	private Map<Property, Property> properties;
 	
 	public StyleProperties() {

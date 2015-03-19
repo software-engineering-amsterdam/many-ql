@@ -10,7 +10,7 @@ import ql.ast.expression.Identifier;
 import ql.ast.type.QLForm;
 import ql.ast.visitor.TypeVisitor;
 import ql.errorhandling.ErrorEnvironment;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
 import qls.ast.expression.literal.IntegerLiteral;
@@ -19,11 +19,11 @@ import qls.ast.statement.DefaultWidget;
 import qls.ast.statement.Page;
 import qls.ast.statement.Question;
 import qls.ast.statement.Stylesheet;
-import qls.ast.statement.styling.property.Color;
-import qls.ast.statement.styling.property.Font;
-import qls.ast.statement.styling.property.FontSize;
-import qls.ast.statement.styling.property.Height;
-import qls.ast.statement.styling.property.Width;
+import qls.ast.statement.widget.styling.property.Color;
+import qls.ast.statement.widget.styling.property.Font;
+import qls.ast.statement.widget.styling.property.FontSize;
+import qls.ast.statement.widget.styling.property.Height;
+import qls.ast.statement.widget.styling.property.Width;
 import qls.ast.statement.widget.type.parameterised.Dropdown;
 import qls.ast.statement.widget.type.parameterised.RadioButton;
 import qls.ast.statement.widget.type.parameterised.Slider;
@@ -59,7 +59,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	/**
 	 * Entry point, static type checks the supplied tree
 	 */
-	public static ErrorEnvironment check(QLSStatement tree, TypeEnvironment typeEnvironment) {
+	public static ErrorEnvironment check(Statement tree, TypeEnvironment typeEnvironment) {
 		TypeChecker typeChecker = new TypeChecker(typeEnvironment);
 		
 		tree.accept(typeChecker);

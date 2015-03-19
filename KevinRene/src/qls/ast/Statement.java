@@ -3,7 +3,7 @@ package qls.ast;
 import ql.ast.QLNode;
 import qls.ast.visitor.StatementVisitor;
 
-public abstract class QLSStatement implements QLNode {	
+public abstract class Statement implements QLNode {	
 	public abstract <T> T accept(StatementVisitor<T> visitor);
 	
 	/**

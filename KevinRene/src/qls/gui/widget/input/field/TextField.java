@@ -3,8 +3,8 @@ package qls.gui.widget.input.field;
 import javax.swing.JTextField;
 
 import ql.value.StringValue;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class TextField extends Field<StringValue> {

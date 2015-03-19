@@ -16,7 +16,7 @@ import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
 import ql.ast.type.QLString;
 import ql.errorhandling.ErrorEnvironment;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.typechecker.TypeChecker;
 import qls.parser.Parser;
@@ -57,8 +57,8 @@ public abstract class BaseTest {
 	public void test() {
 		ErrorEnvironment errors;
 
-		if(inputNode instanceof QLSStatement) {
-			errors = TypeChecker.check((QLSStatement) inputNode, register);
+		if(inputNode instanceof Statement) {
+			errors = TypeChecker.check((Statement) inputNode, register);
 		} else if(inputNode instanceof Literal) {
 			errors = TypeChecker.check((Literal<?>) inputNode, register);
 		} else {

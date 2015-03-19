@@ -1,11 +1,11 @@
 package qls.ast.statement.widget;
 
 import ql.ast.QLType;
-import qls.ast.QLSStatement;
-import qls.ast.statement.styling.StyleProperties;
+import qls.ast.Statement;
+import qls.ast.statement.widget.styling.StyleProperties;
 import qls.ast.visitor.StatementVisitor;
 
-public class Widget extends QLSStatement {
+public class Widget extends Statement {
 	private final StyleProperties styleRules;
 	private final WidgetType widgetType;
 	
@@ -25,6 +25,10 @@ public class Widget extends QLSStatement {
 	
 	public WidgetType getWidgetType() {
 		return widgetType;
+	}
+	
+	public boolean isDefault() {
+		return widgetType.isDefault();
 	}
 	
 	public boolean isCompatibleWith(QLType type) {

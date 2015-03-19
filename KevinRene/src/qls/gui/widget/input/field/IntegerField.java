@@ -6,8 +6,8 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretListener;
 
 import ql.value.IntegerValue;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class IntegerField extends Field<IntegerValue> implements CaretListener {	

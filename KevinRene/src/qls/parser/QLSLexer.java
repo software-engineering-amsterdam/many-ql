@@ -114,6 +114,7 @@ public class QLSLexer implements QLSTokens {
 			    case ')': nextChar(); return token = ')';
 			    case '(': nextChar(); return token = '(';
 			    case ',': nextChar(); return token = ',';
+			    case ';': nextChar(); return token = ';';
 			    
 			    case '"': {
 			    	StringBuilder sb = new StringBuilder();

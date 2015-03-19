@@ -5,9 +5,9 @@ import qls.gui.WidgetBuilder;
 import qls.gui.WidgetFactory;
 import qls.gui.widget.InputWidget;
 
-public class SpinboxFactory implements WidgetFactory {
+public class SliderFactory implements WidgetFactory {
 	@Override
 	public InputWidget<?> create(WidgetBuilder builder, StyleProperties properties) {
-		return builder.createSpinbox(properties);
+		return builder.createSlider(properties);
 	}
 }

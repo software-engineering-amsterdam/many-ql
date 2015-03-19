@@ -3,32 +3,32 @@ package qls.ast.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.visitor.StatementVisitor;
 
-public class QLSBlock extends QLSStatement {
-	private List<QLSStatement> statements;
+public class Block extends Statement {
+	private List<Statement> statements;
 	
-	public QLSBlock() {
-		statements = new ArrayList<QLSStatement>();
+	public Block() {
+		statements = new ArrayList<Statement>();
 	}
 	
 	/**
 	 * Constructor for the statement case
 	 * @param statement
 	 */
-	public QLSBlock(QLSStatement statement) {
-		statements = new ArrayList<QLSStatement>();
+	public Block(Statement statement) {
+		statements = new ArrayList<Statement>();
 		statements.add(statement);
 	}
 	
-	public QLSBlock(QLSStatement statement, QLSBlock statements) {
-		this.statements = new ArrayList<QLSStatement>();
+	public Block(Statement statement, Block statements) {
+		this.statements = new ArrayList<Statement>();
 		this.statements.add(statement);
 		this.statements.addAll(statements.getStatements());
 	}
 	
-	public List<QLSStatement> getStatements() {
+	public List<Statement> getStatements() {
 		return this.statements;
 	}
 
@@ -36,7 +36,7 @@ public class QLSBlock extends QLSStatement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Block(");
 		
-		for (QLSStatement statement : statements) {
+		for (Statement statement : statements) {
 			sb.append(statement.toString() + ", ");
 		}
 		

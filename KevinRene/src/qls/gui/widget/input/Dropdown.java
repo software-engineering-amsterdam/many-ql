@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 import ql.gui.DefaultChangeHandler;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
-import qls.ast.statement.styling.StyleProperties;
-import qls.ast.statement.styling.property.Font;
+import qls.ast.statement.widget.styling.StyleProperties;
+import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.InputWidget;
 
 public class Dropdown extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {

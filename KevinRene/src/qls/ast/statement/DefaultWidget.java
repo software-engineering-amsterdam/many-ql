@@ -1,11 +1,11 @@
 package qls.ast.statement;
 
 import ql.ast.QLType;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.statement.widget.Widget;
 import qls.ast.visitor.StatementVisitor;
 
-public class DefaultWidget extends QLSStatement {	
+public class DefaultWidget extends Statement {	
 	private final QLType type;
 	private final Widget widget;
 	

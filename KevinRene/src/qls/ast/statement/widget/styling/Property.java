@@ -1,12 +1,12 @@
-package qls.ast.statement.styling;
+package qls.ast.statement.widget.styling;
 
 import java.util.List;
 
 import ql.ast.QLType;
 import qls.ast.expression.Literal;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 
-public abstract class Property extends QLSStatement {
+public abstract class Property extends Statement {
 	private final List<QLType> compatibleTypes;
 	private final Literal<?> value;
 	

@@ -2,12 +2,12 @@ package qls.ast.statement;
 
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
-import qls.ast.QLSStatement;
+import qls.ast.Statement;
 import qls.ast.statement.widget.Widget;
 import qls.ast.statement.widget.type.Default;
 import qls.ast.visitor.StatementVisitor;
 
-public class Question extends QLSStatement {
+public class Question extends Statement {
 	private final Identifier identifier;
 	private Widget widget;
 	
@@ -26,6 +26,10 @@ public class Question extends QLSStatement {
 	
 	public Widget getWidget() {
 		return widget;
+	}
+	
+	public boolean hasDefaultWidget() {
+		return widget.isDefault();
 	}
 	
 	public boolean hasCompatibleWidget(QLType type) {
