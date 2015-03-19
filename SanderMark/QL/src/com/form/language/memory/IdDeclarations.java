@@ -3,21 +3,22 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.variable.Reference;
+import com.form.language.ast.statement.Question;
 
 public class IdDeclarations {
-    private Map<String, Reference> declarations;
+    private Map<String, Question> declarations;
 
     public IdDeclarations() {
-	this.declarations = new HashMap<String, Reference>();
+	this.declarations = new HashMap<String, Question>();
     }
 
-    public void put(String name, Reference declaration) {
+    public void put(String name, Question declaration) {
 	this.declarations.put(name, declaration);
     }
 
-    public Reference get(String name) {
+    public Question get(String name) {
 	return this.declarations.get(name);
     }
+
 
 }

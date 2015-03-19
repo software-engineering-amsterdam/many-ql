@@ -2,13 +2,9 @@ package com.form.language.ast.statement;
 
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.type.BoolType;
-import com.form.language.ast.type.ErrorType;
-import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
@@ -25,15 +21,15 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public Type getType(Context context) {
+    public boolean checkType(Context context) {
 	for (Statement s : thenStatements) {
-	    s.getType(context);
+	    s.checkType(context);
 	}
 	if (conditions.getType(context).isBoolType()) {
-	    return new BoolType();
+	    return true;
 	} else {
 	    context.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
-	    return new ErrorType();
+	    return false;
 	}
     }
 
@@ -47,6 +43,6 @@ public class IfStatement extends Statement {
 	for (Statement s : this.thenStatements) {
 	    s.createGUIComponent(guiBuilder, panel, rm);
 	}
-    };
+    }
 
 }

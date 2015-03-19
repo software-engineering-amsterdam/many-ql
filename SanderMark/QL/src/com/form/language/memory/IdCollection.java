@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.form.language.ast.expression.variable.Reference;
 
-public class IdCollection {
+public class IdCollection implements Iterable<Reference>{
 
     private List<Reference> ids;
 
@@ -24,16 +24,11 @@ public class IdCollection {
 
     public boolean containsId(String id) {
 	for (Reference i : this.ids) {
-	    i.IsReference();
 	    if (i.getName().equals(id)) {
 		return true;
 	    }
 	}
 	return false;
-    }
-
-    public List<Reference> getList() {
-	return ids;
     }
 
     public Iterator<Reference> iterator() {

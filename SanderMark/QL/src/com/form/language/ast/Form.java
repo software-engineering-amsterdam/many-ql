@@ -23,7 +23,7 @@ public class Form {
 
     public void getTypes(Context context) {
 	for (Statement s : statementList) {
-	    s.getType(context);
+	    s.checkType(context);
 	}
     }
 
@@ -40,7 +40,7 @@ public class Form {
 
     public void showTypes(Context context) {
 	for (Statement s : statementList) {
-	    System.out.println(s.getType(context));
+	    System.out.println(s.checkType(context));
 	}
     }
     

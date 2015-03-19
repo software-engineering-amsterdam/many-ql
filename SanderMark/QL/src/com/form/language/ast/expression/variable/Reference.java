@@ -11,25 +11,14 @@ import com.form.language.memory.IdCollection;
 
 public class Reference extends Expression {
     private String name;
-    private Type type;
 
     public Reference(String value, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.name = value;
     }
 
-    public Reference(String name, Type questionType, QLToken tokenInfo) {
-	super(tokenInfo);
-	this.name = name;
-	this.type = questionType;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public Boolean IsReference() {
-	return (this.type == null);
     }
 
     @Override
@@ -39,11 +28,7 @@ public class Reference extends Expression {
     
     @Override
     public Type getType(Context context) {
-	if (this.IsReference()) {
-	    return getTypeFromMemory(context);
-	}
-	context.addId(this);
-	return this.type;
+	return getTypeFromMemory(context);
     }
 
     private Type getTypeFromMemory(Context context) {

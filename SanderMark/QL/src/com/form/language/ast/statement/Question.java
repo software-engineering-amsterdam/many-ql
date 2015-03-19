@@ -1,9 +1,7 @@
 package com.form.language.ast.statement;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.form.language.ast.expression.variable.Reference;
 import com.form.language.ast.type.Type;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
@@ -21,10 +19,7 @@ public class Question extends Statement {
 	this.questionType = questionType;
     }
 
-    //TODO: This is not really 'getType' but rather something like initialization we can't do in the constructor.
-    @Override
     public Type getType(Context context) {
-	context.addId(new Reference(this.id, this.questionType, tokenInfo));
 	return this.questionType;
     }
 
@@ -33,12 +28,18 @@ public class Question extends Statement {
     }
 
     public String getId() {
-	// TODO Auto-generated method stub
 	return this.id;
     }
 
     public void initMemory(Context context) {
 	context.setValue(id, questionType.defaultValue());
+    }
+    
+    //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
+    @Override
+    public boolean checkType(Context context) {
+	context.addId(this);
+	return true;
     }
 
     @Override
@@ -46,5 +47,4 @@ public class Question extends Statement {
 	guiBuilder.createGUIQuestion(this, panel, context);
 
     }
-
 }

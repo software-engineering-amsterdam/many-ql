@@ -12,10 +12,8 @@ public class IdTypeTable {
 
     public IdTypeTable(IdCollection idList) {
 	this.idMap = new HashMap<String, Reference>();
-	for (Reference id : idList.getList()) {
-	    if (!id.IsReference()) {
-		this.idMap.put(id.getName(), id);
-	    }
+	for (Reference var : idList) {
+	    this.idMap.put(var.getName(), var);
 	}
     }
 

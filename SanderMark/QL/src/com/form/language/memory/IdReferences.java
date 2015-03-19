@@ -2,7 +2,6 @@ package com.form.language.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class IdReferences {
 
     //TODO :: Change while loop!
     public void putAll(IdCollection keyCollection, Expression value) {
-	for(Reference l : keyCollection.getList()){
+	for(Reference l : keyCollection){
 	    
 		List<Expression> tempList;
 

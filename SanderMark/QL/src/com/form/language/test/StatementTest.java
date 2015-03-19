@@ -23,10 +23,6 @@ public class StatementTest {
 	return "hasSoldHouse: \"Did you sell a house in 2010?\" boolean";
     }
 
-    private String getAssigementString() {
-	return "hasHouseSold := Boolean true";
-    }
-
     private String getIfString() {
 	return "if hasSoldHouse == true && hasBoughtHouse == true then question" + "\"Test?\""
 		+ "hasTest : Boolean end";
