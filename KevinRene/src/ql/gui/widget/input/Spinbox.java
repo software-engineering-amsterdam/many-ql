@@ -6,12 +6,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.Value;
-import ql.gui.UIComponent;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 
-public abstract class Spinbox<T extends Value> implements InputWidget<T>, ChangeListener {
+public abstract class Spinbox<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
 	protected JSpinner spinbox;
-	private UIComponent handler;
 	
 	@Override
 	public void disable() {
@@ -60,15 +59,5 @@ public abstract class Spinbox<T extends Value> implements InputWidget<T>, Change
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
-	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 }

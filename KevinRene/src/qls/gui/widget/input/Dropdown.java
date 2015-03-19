@@ -6,12 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import ql.gui.widget.InputWidget;
+import ql.gui.DefaultChangeHandler;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
+import qls.ast.statement.styling.StyleProperties;
+import qls.ast.statement.styling.property.Font;
+import qls.gui.widget.InputWidget;
 
-public class Dropdown extends InputWidget<BooleanValue> implements ActionListener {
-
+public class Dropdown extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {
 	protected JComboBox<String> comboBox;
 	private String[] labels;
 	
@@ -53,5 +55,15 @@ public class Dropdown extends InputWidget<BooleanValue> implements ActionListene
 	@Override
 	public JComponent getComponent() {
 		return comboBox;
+	}
+
+	@Override
+	public void setStyle(StyleProperties properties) {
+		
+	}
+
+	@Override
+	public void setFont(Font font) {
+		
 	}
 }

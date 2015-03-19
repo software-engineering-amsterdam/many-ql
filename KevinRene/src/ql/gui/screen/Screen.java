@@ -2,13 +2,12 @@ package ql.gui.screen;
 
 import javax.swing.JComponent;
 
-import ql.Value;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 
-public abstract class Screen implements UIComponent {
+public abstract class Screen extends DefaultChangeHandler implements UIComponent {
 	private Panel screen;
-	private UIComponent handler;
 	
 	public Screen() {
 		screen = new Panel(this);
@@ -39,15 +38,5 @@ public abstract class Screen implements UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return screen.getComponent();
-	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 }

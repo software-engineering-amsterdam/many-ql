@@ -8,10 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 
-public class Page extends UIComponent {
+public class Page extends DefaultChangeHandler implements UIComponent {
 	private JPanel panel;
 	private List<UIComponent> components;
 	

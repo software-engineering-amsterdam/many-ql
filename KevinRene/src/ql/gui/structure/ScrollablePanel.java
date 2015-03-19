@@ -1,17 +1,19 @@
 package ql.gui.structure;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import ql.Value;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
-public class ScrollablePanel implements UIComponent {
+public class ScrollablePanel extends DefaultChangeHandler implements UIComponent {
 	private JScrollPane scrollablePanel;
-	private UIComponent handler;
 
 	public ScrollablePanel(UIComponent content) {		
-		scrollablePanel = new JScrollPane(content.getComponent());		
+		scrollablePanel = new JScrollPane(content.getComponent());
+		scrollablePanel.setPreferredSize(new Dimension(800, 600));
 	}
 	
 	public ScrollablePanel(UIComponent handler, UIComponent content) {
@@ -28,15 +30,5 @@ public class ScrollablePanel implements UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return scrollablePanel;
-	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 }

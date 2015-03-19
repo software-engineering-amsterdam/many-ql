@@ -7,11 +7,12 @@ import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
 
-public class UIComputedQuestion implements UIComponent {
+public class UIComputedQuestion extends DefaultChangeHandler implements UIComponent {
 	private final Identifier identifier;
 	private final Panel questionPanel;
 	private final Expression expression;
@@ -19,8 +20,6 @@ public class UIComputedQuestion implements UIComponent {
 	
 	private final UIComponent questionText;
 	private final InputWidget<Value> inputWidget;
-
-	private UIComponent handler;
 	
 	@SuppressWarnings("unchecked")
 	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
@@ -41,17 +40,12 @@ public class UIComputedQuestion implements UIComponent {
 	public Expression getExpression() {
 		return expression;
 	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
 
 	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
 		valueEnvironment.store(identifier, changedValue);
 		
-		handler.handleChange(changedValue, this);
+		super.handleChange(changedValue, this);
 	}
 	
 	@Override

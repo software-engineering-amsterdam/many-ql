@@ -6,14 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 
-import ql.Value;
-import ql.gui.UIComponent;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 import ql.value.BooleanValue;
 
-public class RadioButton implements InputWidget<BooleanValue>, ActionListener {	
+public class RadioButton extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {	
 	private JRadioButton radioButton;
-	private UIComponent handler;
 
 	public RadioButton() {
 		radioButton = new JRadioButton();
@@ -55,15 +53,5 @@ public class RadioButton implements InputWidget<BooleanValue>, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		handleChange(getValue(), this);
-	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 }

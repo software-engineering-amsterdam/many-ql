@@ -11,9 +11,10 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
-import ql.gui.widget.InputWidget;
+import ql.gui.DefaultChangeHandler;
+import qls.gui.widget.InputWidget;
 
-public abstract class Slider<T extends Value> extends InputWidget<T> implements ChangeListener {
+public abstract class Slider<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
 	protected JPanel container;
 	protected JSlider slider;
 	protected JLabel label;

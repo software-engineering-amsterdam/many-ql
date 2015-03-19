@@ -5,12 +5,11 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-import ql.Value;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
-public class FormFileChooser implements UIComponent {
+public class FormFileChooser extends DefaultChangeHandler implements UIComponent {
 	private JFileChooser fileChooser;
-	private UIComponent handler;
 	
 	public FormFileChooser() {
 		fileChooser = new JFileChooser();
@@ -41,15 +40,5 @@ public class FormFileChooser implements UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return fileChooser;
-	}
-	
-	@Override
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
 	}
 }
