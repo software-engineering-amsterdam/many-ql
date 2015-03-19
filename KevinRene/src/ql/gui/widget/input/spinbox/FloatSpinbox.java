@@ -1,18 +1,18 @@
-package ql.gui.widget.input.spinner;
+package ql.gui.widget.input.spinbox;
 
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
 import ql.Value;
-import ql.gui.widget.input.Spinner;
+import ql.gui.widget.input.Spinbox;
 import ql.value.FloatValue;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
-public class FloatSpinner extends Spinner<FloatValue> implements ChangeListener {
+public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener {
 	private SpinnerNumberModel model;
 	        
-	public FloatSpinner() {
+	public FloatSpinbox() {
 		super(new SpinnerNumberModel(
 				0.0, //initial value
         		0.0, //min
@@ -21,7 +21,7 @@ public class FloatSpinner extends Spinner<FloatValue> implements ChangeListener 
         	));
 	}
 	
-	public FloatSpinner(FloatValue floatValue) {
+	public FloatSpinbox(FloatValue floatValue) {
 		this();
 		
 		disable();

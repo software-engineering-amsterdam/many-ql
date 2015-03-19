@@ -17,18 +17,19 @@ import ql.Value;
 import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 
-public abstract class Spinner<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
+public abstract class Spinbox<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
 	protected JPanel container;
 	protected JSpinner spinbox;
 	protected JLabel errorLabel;
 	protected SpinnerNumberModel model;
 	
-	public Spinner(SpinnerNumberModel model) {
+	public Spinbox(SpinnerNumberModel model) {
 		this.model = model;
 		
 		spinbox = new JSpinner(model);
 		spinbox.setSize(100, 40);
 		spinbox.addChangeListener(this);
+//		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		errorLabel = new JLabel();
     	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
@@ -36,7 +37,7 @@ public abstract class Spinner<T extends Value> extends DefaultChangeHandler impl
     	
     	container = new JPanel(new MigLayout());
     	container.add(spinbox);
-    	container.add(errorLabel);
+    	container.add(errorLabel, "wrap");
 	}
 	
 	protected void setError(String text) {

@@ -1,4 +1,4 @@
-package ql.gui.widget.input.spinner;
+package ql.gui.widget.input.spinbox;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -7,16 +7,16 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
 import ql.Value;
-import ql.gui.widget.input.Spinner;
+import ql.gui.widget.input.Spinbox;
 import ql.value.MoneyValue;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
-public class MoneySpinner extends Spinner<MoneyValue> implements ChangeListener {
+public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener {
 
 	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
 	        
-	public MoneySpinner() {
+	public MoneySpinbox() {
 		super(new SpinnerNumberModel(
 					0.0, //initial value
 	        		0.0, //min
@@ -25,7 +25,7 @@ public class MoneySpinner extends Spinner<MoneyValue> implements ChangeListener 
 	        	));
 	}
 	
-	public MoneySpinner(MoneyValue moneyValue) {
+	public MoneySpinbox(MoneyValue moneyValue) {
 		this();
 		
 		disable();

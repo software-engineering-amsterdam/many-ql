@@ -1,17 +1,17 @@
-package ql.gui.widget.input.spinner;
+package ql.gui.widget.input.spinbox;
 
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
 import ql.Value;
-import ql.gui.widget.input.Spinner;
+import ql.gui.widget.input.Spinbox;
 import ql.value.IntegerValue;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
-public class IntegerSpinner extends Spinner<IntegerValue> implements ChangeListener {
+public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListener {
 	        
-	public IntegerSpinner() {
+	public IntegerSpinbox() {
 		super(new SpinnerNumberModel(
 					0, //initial value
 	        		0, //min
@@ -20,7 +20,7 @@ public class IntegerSpinner extends Spinner<IntegerValue> implements ChangeListe
 	        	));
 	}
 	
-	public IntegerSpinner(IntegerValue integerValue) {
+	public IntegerSpinbox(IntegerValue integerValue) {
 		this();
 		
 		disable();
