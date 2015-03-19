@@ -1,4 +1,4 @@
-package ql.gui.widget.input.field;
+package qls.gui.widget.field;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

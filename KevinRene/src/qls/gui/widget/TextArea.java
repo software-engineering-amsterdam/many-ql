@@ -1,4 +1,4 @@
-package ql.gui.widget.input;
+package qls.gui.widget;
 
 import javax.swing.JComponent;
 import javax.swing.JTextArea;

@@ -1,4 +1,4 @@
-package ql.gui.widget.input.slider;
+package qls.gui.widget.slider;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -6,8 +6,8 @@ import java.text.NumberFormat;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ql.gui.widget.input.Slider;
 import ql.value.FloatValue;
+import qls.gui.widget.Slider;
 
 /**
  * This class uses some voodoo. JSliders are incapable of dealing with floating point values.
