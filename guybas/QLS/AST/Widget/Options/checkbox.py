@@ -11,7 +11,7 @@ class Checkbox(w.Widget):
 
     def pretty_print(self, level=0):
         s = "    " * level + "Checkbox "
-        s += self.options.string_presentation()
+        s += self.options.pretty_print()
         s += "\n"
         return s
 

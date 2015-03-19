@@ -2,7 +2,7 @@ import QLS.Grammar.qls as q
 import QLS.Validators.type_checker as t
 import QL.Grammar.grammar as b
 import QL.Grammar.grammar as f1
-import QLS.Factory.qls as ql
+import QLS.Grammar.Factory.qls as factory
 import QLS.GUI.gui as g
 import QL.Grammar.Factory.forms as f2
 import QLS.Runtime.form as runtime_form
@@ -19,14 +19,14 @@ import QL.Tools.exceptions as ee
 
 
 # qls style
-qls = ql.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
-print(qls.string_presentation())
+qls_ast = factory.make_sheet(q.sheet.parseFile("example.qls"))
+print(qls_ast.pretty_print())
 
 #ql form
-print(qls.get_property_dict())
+print(qls_ast.get_property_dict())
 formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
 form = f2.make_form(formAsParseResults)
-checker = t.TypeChecker(form, qls)
+checker = t.TypeChecker(form, qls_ast)
 
 enriched_form = runtime_form.Form(form)
 
@@ -37,7 +37,7 @@ questions_dict = enriched_form.get_statement_dict()
 
 gui_pages = []
 
-for page in qls.get_pages():
+for page in qls_ast.get_pages():
     if page.is_default():
         continue
 
