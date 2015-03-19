@@ -30,9 +30,9 @@ import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
 import ql.gui.widget.input.RadioButton;
 import ql.gui.widget.input.field.TextField;
-import ql.gui.widget.input.spinbox.FloatSpinbox;
-import ql.gui.widget.input.spinbox.IntegerSpinbox;
-import ql.gui.widget.input.spinbox.MoneySpinbox;
+import ql.gui.widget.input.spinner.FloatSpinner;
+import ql.gui.widget.input.spinner.IntegerSpinner;
+import ql.gui.widget.input.spinner.MoneySpinner;
 
 public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent>, TypeVisitor<UIComponent> {	
 	private ValueEnvironment valueEnvironment;
@@ -65,17 +65,17 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(QLFloat floatNode) {
-		return new FloatSpinbox();
+		return new FloatSpinner();
 	}
 	
 	@Override
 	public UIComponent visit(QLMoney moneyNode) {
-		return new MoneySpinbox();
+		return new MoneySpinner();
 	}
 	
 	@Override
 	public UIComponent visit(QLInteger integerNode) {
-		return new IntegerSpinbox();
+		return new IntegerSpinner();
 	}
 	
 	@Override
@@ -90,12 +90,12 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	
 	@Override
 	public UIComponent visit(FloatLiteral floatLiteral) {
-		return new FloatSpinbox(floatLiteral.getValue());
+		return new FloatSpinner(floatLiteral.getValue());
 	}
 	
 	@Override
 	public UIComponent visit(IntegerLiteral integerLiteral) {
-		return new IntegerSpinbox(integerLiteral.getValue());
+		return new IntegerSpinner(integerLiteral.getValue());
 	}
 	
 	@Override
