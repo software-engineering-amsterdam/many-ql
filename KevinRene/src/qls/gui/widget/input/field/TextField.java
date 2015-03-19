@@ -1,12 +1,13 @@
-package ql.gui.widget.input.field;
+package qls.gui.widget.input.field;
 
 import javax.swing.JTextField;
-import javax.swing.event.CaretListener;
 
-import ql.gui.widget.input.Field;
 import ql.value.StringValue;
+import qls.ast.statement.styling.StyleProperties;
+import qls.ast.statement.styling.property.Font;
+import qls.gui.widget.input.Field;
 
-public class TextField extends Field<StringValue> implements CaretListener {	
+public class TextField extends Field<StringValue> {
 	private JTextField textField;
 	
 	public TextField() {
@@ -26,5 +27,15 @@ public class TextField extends Field<StringValue> implements CaretListener {
 	@Override
 	public void setValue(StringValue value) {
 		textField.setText(value.toString());		
+	}
+
+	@Override
+	public void setStyle(StyleProperties properties) {
+		
+	}
+
+	@Override
+	public void setFont(Font font) {
+		
 	}
 }
