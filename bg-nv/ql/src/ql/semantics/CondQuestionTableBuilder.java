@@ -5,27 +5,24 @@ import ql.ast.form.Form;
 import ql.ast.form.FormVisitor;
 import ql.ast.statement.*;
 
-import java.util.Stack;
-
 /**
  * Created by Nik on 10-3-15.
  */
-public class Flattener implements FormVisitor<Void>, StatVisitor<Void>
+public class CondQuestionTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
 {
-    // TODO find a better name based on the Flat class
-    private final Flat flat;
+    private final CondQuestionTable condQuestionTable;
     private final ConditionStack conditionStack;
 
-    public static Flat flatten(Form f)
+    public static CondQuestionTable flatten(Form f)
     {
-        Flattener flattener = new Flattener();
-        f.accept(flattener);
-        return flattener.flat;
+        CondQuestionTableBuilder builder = new CondQuestionTableBuilder();
+        f.accept(builder);
+        return builder.condQuestionTable;
     }
 
-    private Flattener()
+    private CondQuestionTableBuilder()
     {
-        this.flat = new Flat();
+        this.condQuestionTable = new CondQuestionTable();
         this.conditionStack = new ConditionStack();
     }
 
@@ -72,8 +69,7 @@ public class Flattener implements FormVisitor<Void>, StatVisitor<Void>
 
     private void addQuestionToFlat(Question q)
     {
-        Expr condition = this.conditionStack.peek();
-        ConditionalQuestion cq = new ConditionalQuestion(condition, q);
-        this.flat.addQuestion(cq);
+        Expr c = this.conditionStack.peek();
+        this.condQuestionTable.addQuestion(c, q);
     }
 }

@@ -17,5 +17,11 @@ public abstract class Message
         return this.message;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.getMessage();
+    }
+
     public abstract boolean isError();
 }

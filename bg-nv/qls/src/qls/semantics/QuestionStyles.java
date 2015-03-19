@@ -9,11 +9,11 @@ import java.util.Map;
  * Created by bore on 09/03/15.
  */
 
-public class FormStyle
+public class QuestionStyles
 {
-    private Map<String, Rules> questionIdToRules;
+    private final Map<String, Rules> questionIdToRules;
 
-    public FormStyle()
+    public QuestionStyles()
     {
         this.questionIdToRules = new HashMap<>();
     }

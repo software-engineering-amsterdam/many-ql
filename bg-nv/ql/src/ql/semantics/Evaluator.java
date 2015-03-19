@@ -9,31 +9,33 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 24-2-15.
  */
-public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
+public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private ValueTable valueTable;
+    private static final BoolValue trueValue = new BoolValue(true);
+    private final ValueTable valueTable;
 
     public static ValueTable evaluate(Form f)
     {
-        ValueTable table = new ValueTable();
-        Evaluator evaluator = new Evaluator(table);
-        return f.accept(evaluator);
+        Evaluator evaluator = new Evaluator();
+        f.accept(evaluator);
+
+        return evaluator.valueTable;
     }
 
-    private Evaluator(ValueTable valueTable)
+    private Evaluator()
     {
-        this.valueTable = valueTable;
+        this.valueTable = new ValueTable();
     }
 
     @Override
-    public ValueTable visit(Form f)
+    public Void visit(Form f)
     {
         for (Statement s : f.getBody())
         {
             s.accept(this);
         }
 
-        return this.valueTable;
+        return null;
     }
 
     @Override
@@ -61,8 +63,7 @@ public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
         Expr expr = c.getCondition();
         Value condValue = ExprEvaluator.evaluate(expr, this.valueTable);
 
-        // TODO is there a nicer way to do this?
-        if (!condValue.isUndefined() && condValue instanceof BoolValue && ((BoolValue) condValue).getValue())
+        if (this.isCondValueTrue(condValue))
         {
             for (Statement s : c.getBody())
             {
@@ -71,5 +72,11 @@ public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
         }
 
         return null;
+    }
+
+    private boolean isCondValueTrue(Value v)
+    {
+        Value result = v.equBoolean(trueValue);
+        return result.isTrue();
     }
 }

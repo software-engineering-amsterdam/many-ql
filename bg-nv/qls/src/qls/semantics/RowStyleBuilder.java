@@ -12,13 +12,13 @@ import qls.ast.rule.widget.Slider;
 /**
  * Created by bore on 10/03/15.
  */
-public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
+public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control>
 {
     private RowStyle rowStyle;
 
-    public static RowStyle convert(Rules rs)
+    public static RowStyle build(Rules rs)
     {
-        RulesToGui visitor = new RulesToGui();
+        RowStyleBuilder visitor = new RowStyleBuilder();
         for (Rule r : rs)
         {
             r.accept(visitor);
@@ -27,7 +27,7 @@ public class RulesToGui implements RuleVisitor<Void>, WidgetVisitor<Control>
         return visitor.rowStyle;
     }
 
-    private RulesToGui()
+    private RowStyleBuilder()
     {
         this.rowStyle = new RowStyle();
     }

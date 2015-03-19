@@ -19,12 +19,9 @@ public class ValueTable
 
     public Value getValue(String key)
     {
-        if (values.containsKey(key))
-        {
-            return values.get(key);
-        }
+        assert this.values.containsKey(key);
 
-        throw new IllegalArgumentException("The question with id \"" + key + "\" is not present in the value table.");
+        return this.values.get(key);
     }
 
     public void storeEntry(ValueTableEntry entry)

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by bore on 02/03/15.
  */
-public class Page extends AstNode implements Styleable, RenderableParent
+public class Page extends AstNode implements Styleable
 {
     private final String name;
     private final List<Statement> body;
@@ -45,11 +45,5 @@ public class Page extends AstNode implements Styleable, RenderableParent
     public <T> T accept(StylesheetVisitor<T> visitor)
     {
         return visitor.visit(this);
-    }
-
-    @Override
-    public List<Statement> getRenderableChildren()
-    {
-        return null;
     }
 }

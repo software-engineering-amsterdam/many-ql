@@ -45,47 +45,6 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
         this.messages = new Messages();
     }
 
-    private void checkForIdentDuplication()
-    {
-        for (String id : this.questions)
-        {
-            List<Question> lq = this.questions.getQuestionsById(id);
-            if (this.isIdentDuplicate(lq))
-            {
-                this.addDuplicationError(id, lq);
-            }
-        }
-    }
-
-    private List<Integer> getSortedLineNumbers(List<Question> qs)
-    {
-        List<Integer> result = new ArrayList<>();
-        for (Question q : qs)
-        {
-            result.add(q.getLineNumber());
-        }
-        Collections.sort(result);
-
-        return result;
-    }
-
-    private boolean isIdentDuplicate(List<Question> lq)
-    {
-        return lq.size() > 1;
-    }
-
-    private void addDuplicationError(String id, List<Question> lq)
-    {
-        List<String> lines = this.getSortedLineNumbers(lq)
-                .stream()
-                .map(Object::toString)
-                .collect(Collectors.toList());
-
-        Error error = Error.identifierAlreadyDeclared(id, lines);
-
-        this.messages.add(error);
-    }
-
     @Override
     public Void visit(Form form)
     {
@@ -174,5 +133,46 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
         {
             this.messages.add(Warning.labelDuplication(d.toString()));
         }
+    }
+
+    private void checkForIdentDuplication()
+    {
+        for (String id : this.questions)
+        {
+            List<Question> lq = this.questions.getQuestionsById(id);
+            if (this.isIdentDuplicate(lq))
+            {
+                this.addDuplicationError(id, lq);
+            }
+        }
+    }
+
+    private List<Integer> getSortedLineNumbers(List<Question> qs)
+    {
+        List<Integer> result = new ArrayList<>();
+        for (Question q : qs)
+        {
+            result.add(q.getLineNumber());
+        }
+        Collections.sort(result);
+
+        return result;
+    }
+
+    private boolean isIdentDuplicate(List<Question> lq)
+    {
+        return lq.size() > 1;
+    }
+
+    private void addDuplicationError(String id, List<Question> lq)
+    {
+        List<String> lines = this.getSortedLineNumbers(lq)
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+
+        Error error = Error.identifierAlreadyDeclared(id, lines);
+
+        this.messages.add(error);
     }
 }

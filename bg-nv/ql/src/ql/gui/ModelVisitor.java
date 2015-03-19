@@ -22,7 +22,6 @@ public interface ModelVisitor<T>
     public T visit(Label label);
 
     public T visit(BoolInput input);
-    public T visit(DateInput input);
     public T visit(DecInput input);
     public T visit(IntInput input);
     public T visit(StrInput input);

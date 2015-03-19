@@ -3,25 +3,25 @@ package ql.gui;
 import ql.ast.statement.StatVisitor;
 import ql.gui.canvas.Canvas;
 import ql.gui.segment.Row;
-import ql.gui.segment.Segment;
-import ql.semantics.Flat;
+import ql.semantics.CondQuestionTable;
 
 /**
  * Created by Nik on 10-3-15.
  */
 public abstract class Modeler implements StatVisitor<Row>
 {
-    private Flat flat;
+    private final CondQuestionTable condQuestionTable;
 
-    public Modeler(Flat flat)
+    public Modeler(CondQuestionTable condQuestionTable)
     {
-        this.flat = flat;
+        this.condQuestionTable = condQuestionTable;
     }
 
-    public Flat getFlat()
+    public CondQuestionTable getCondQuestionTable()
     {
-        return flat;
+        return condQuestionTable;
     }
 
+    // TODO: getCanvas() ?
     public abstract Canvas model();
 }

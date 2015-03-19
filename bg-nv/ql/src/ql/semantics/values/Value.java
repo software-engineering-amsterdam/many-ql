@@ -13,6 +13,8 @@ public abstract class Value<T>
         return false;
     }
 
+    public Boolean isTrue() { return false; }
+
     public Value(T value)
     {
         this.value = value;

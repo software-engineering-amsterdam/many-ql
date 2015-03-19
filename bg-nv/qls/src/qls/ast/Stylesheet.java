@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by bore on 27/02/15.
  */
-public class Stylesheet extends AstNode implements RenderableParent
+public class Stylesheet extends AstNode
 {
     private final String id;
     private final List<Page> body;
@@ -33,11 +33,5 @@ public class Stylesheet extends AstNode implements RenderableParent
     public <T> T accept(StylesheetVisitor<T> visitor)
     {
         return visitor.visit(this);
-    }
-
-    @Override
-    public List<Statement> getRenderableChildren()
-    {
-        return null;
     }
 }
