@@ -1,4 +1,4 @@
-package qls.gui.widget.field;
+package qls.gui.widget.input.field;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -6,28 +6,28 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretListener;
 
 import ql.gui.widget.input.Field;
-import ql.value.IntegerValue;
+import ql.value.FloatValue;
 
-public class IntegerField extends Field<IntegerValue> implements CaretListener {	
+public class FloatField extends Field<FloatValue> implements CaretListener {	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;
 	
-	public IntegerField () {
+	public FloatField () {
 		super();
 	}
-	public IntegerField (IntegerValue value) {
+	public FloatField (FloatValue value) {
 		super();		
     	textField.setText(value.getValue().toString());	
 	}
 
 	@Override
-	public IntegerValue getValue() {
-		return new IntegerValue(Integer.parseInt(textField.getText()));
+	public FloatValue getValue() {
+		return new FloatValue(Float.parseFloat(textField.getText()));
 	}
 	
 	@Override
-	public void setValue(IntegerValue value) {
+	public void setValue(FloatValue value) {
 		textField.setText(value.toString());		
 	}
 }

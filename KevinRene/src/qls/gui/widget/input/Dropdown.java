@@ -1,4 +1,4 @@
-package qls.gui.widget;
+package qls.gui.widget.input;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

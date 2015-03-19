@@ -1,10 +1,10 @@
-package qls.gui.widget.slider;
+package qls.gui.widget.input.slider;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.value.IntegerValue;
-import qls.gui.widget.Slider;
+import qls.gui.widget.input.Slider;
 
 public class IntegerSlider extends Slider<IntegerValue> implements ChangeListener {
 

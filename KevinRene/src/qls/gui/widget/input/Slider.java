@@ -1,4 +1,4 @@
-package qls.gui.widget;
+package qls.gui.widget.input;
 
 import java.awt.Dimension;
 import java.awt.Font;
