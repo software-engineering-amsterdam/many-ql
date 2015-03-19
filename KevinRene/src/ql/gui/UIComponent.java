@@ -4,17 +4,10 @@ import javax.swing.JComponent;
 
 import ql.Value;
 
-public abstract class UIComponent {
-	private UIComponent handler;
+public interface UIComponent {
+	public void setHandler(UIComponent handler);
+	public void handleChange(Value changedValue, UIComponent source);
 	
-	public void setHandler(UIComponent handler) {
-		this.handler = handler;
-	}
-	
-	public void handleChange(Value changedValue, UIComponent source) {
-		handler.handleChange(changedValue, source);
-	}
-	
-	public abstract void updateComponent();
-	public abstract JComponent getComponent();
+	public void updateComponent();
+	public JComponent getComponent();
 }

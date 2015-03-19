@@ -5,10 +5,11 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 import ql.value.StringValue;
 
-public class TextArea extends InputWidget<StringValue> implements CaretListener {	
+public class TextArea extends DefaultChangeHandler implements InputWidget<StringValue>, CaretListener {	
 	protected JTextArea textArea;
 	
 	public TextArea() {

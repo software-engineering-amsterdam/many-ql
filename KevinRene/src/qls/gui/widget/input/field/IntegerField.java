@@ -5,8 +5,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.CaretListener;
 
-import ql.gui.widget.input.Field;
 import ql.value.IntegerValue;
+import qls.ast.statement.styling.StyleProperties;
+import qls.ast.statement.styling.property.Font;
+import qls.gui.widget.input.Field;
 
 public class IntegerField extends Field<IntegerValue> implements CaretListener {	
 	protected JPanel container;
@@ -29,5 +31,13 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	@Override
 	public void setValue(IntegerValue value) {
 		textField.setText(value.toString());		
+	}
+	
+	@Override
+	public void setStyle(StyleProperties properties) {
+	}
+	
+	@Override
+	public void setFont(Font font) {
 	}
 }

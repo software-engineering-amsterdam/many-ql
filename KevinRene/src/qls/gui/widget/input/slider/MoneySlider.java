@@ -7,6 +7,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.value.FloatValue;
+import qls.ast.statement.styling.StyleProperties;
+import qls.ast.statement.styling.property.Font;
 import qls.gui.widget.input.Slider;
 
 /**
@@ -42,5 +44,15 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
 		label.setText(decimalFormat.format(getValue().getValue()));
+	}
+	
+	@Override
+	public void setStyle(StyleProperties properties) {
+		
+	}
+	
+	@Override
+	public void setFont(Font font) {
+		
 	}
 }

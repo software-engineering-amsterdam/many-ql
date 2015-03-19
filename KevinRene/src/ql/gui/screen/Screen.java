@@ -2,10 +2,11 @@ package ql.gui.screen;
 
 import javax.swing.JComponent;
 
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 
-public abstract class Screen extends UIComponent {
+public abstract class Screen extends DefaultChangeHandler implements UIComponent {
 	private Panel screen;
 	
 	public Screen() {

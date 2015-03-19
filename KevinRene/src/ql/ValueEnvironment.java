@@ -6,9 +6,11 @@ import java.util.Map;
 import ql.ast.expression.Identifier;
 
 public class ValueEnvironment {
-	private Map<Identifier, Value> environment = new HashMap<Identifier, Value>();
+	private Map<Identifier, Value> environment;
 	
-	public ValueEnvironment() {}
+	public ValueEnvironment() {
+		environment = new HashMap<Identifier, Value>();
+	}
 	
 	public void store(Identifier identifier, Value valueInstance) {
 		environment.put(identifier, valueInstance);

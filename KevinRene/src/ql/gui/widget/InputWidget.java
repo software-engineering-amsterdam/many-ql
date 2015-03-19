@@ -3,10 +3,10 @@ package ql.gui.widget;
 import ql.Value;
 import ql.gui.UIComponent;
 
-public abstract class InputWidget<T extends Value> extends UIComponent {
-	public abstract void disable();
 
-	public abstract void setValue(T value);
+public interface InputWidget<T extends Value> extends UIComponent {	
+	public void disable();
 
-	public abstract T getValue();
+	public void setValue(T value);	
+	public T getValue();
 }

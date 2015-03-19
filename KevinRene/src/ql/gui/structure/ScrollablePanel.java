@@ -5,9 +5,10 @@ import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
-public class ScrollablePanel extends UIComponent {
+public class ScrollablePanel extends DefaultChangeHandler implements UIComponent {
 	private JScrollPane scrollablePanel;
 
 	public ScrollablePanel(UIComponent content) {		

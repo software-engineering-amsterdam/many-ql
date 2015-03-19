@@ -7,16 +7,13 @@ import ql.Value;
 import ql.gui.UIComponent;
 import ql.value.StringValue;
 
-public class Label extends UIComponent {
+public class Label implements UIComponent {
 	private final JLabel labelComponent;
 	
 	public Label(StringValue text) {
 		this.labelComponent = new JLabel(text.getValue());
 	}
 
-	@Override
-	public void handleChange(Value changedValue, UIComponent source) {}
-	
 	@Override
 	public void updateComponent() {
 		labelComponent.repaint();
@@ -26,4 +23,10 @@ public class Label extends UIComponent {
 	public JComponent getComponent() {
 		return labelComponent;
 	}
+	
+	@Override
+	public void setHandler(UIComponent handler) {}
+
+	@Override
+	public void handleChange(Value changedValue, UIComponent source) {}
 }

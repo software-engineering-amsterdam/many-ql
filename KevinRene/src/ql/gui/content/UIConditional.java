@@ -6,11 +6,12 @@ import ql.Value;
 import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.visitor.evaluator.Evaluator;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 import ql.value.BooleanValue;
 
-public class UIConditional extends UIComponent {
+public class UIConditional extends DefaultChangeHandler implements UIComponent {
 	private Panel activePanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;

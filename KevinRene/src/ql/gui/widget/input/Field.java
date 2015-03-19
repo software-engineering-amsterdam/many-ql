@@ -14,9 +14,10 @@ import javax.swing.event.CaretListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 
-public abstract class Field<T extends Value> extends InputWidget<T> implements CaretListener {	
+public abstract class Field<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, CaretListener {	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;
@@ -61,7 +62,7 @@ public abstract class Field<T extends Value> extends InputWidget<T> implements C
 	public JComponent getComponent() {
 		return this.container;
 	}
-
+	
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		try {

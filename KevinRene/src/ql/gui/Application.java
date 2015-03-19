@@ -9,7 +9,7 @@ import ql.gui.screen.FormLoaderScreen;
 import ql.gui.screen.FormScreen;
 import ql.gui.structure.Panel;
 
-public class Application extends UIComponent {
+public class Application implements UIComponent {
 	private JFrame frame;
 	
 	private FormLoaderScreen fileLoaderScreen;
@@ -54,5 +54,10 @@ public class Application extends UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return activePanel.getComponent();
+	}
+
+	@Override
+	public void setHandler(UIComponent handler) {
+		// Handler is not used.
 	}
 }

@@ -1,7 +1,6 @@
 package ql.gui.widget.input;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
@@ -15,9 +14,10 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
+import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 
-public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {
+public abstract class Spinbox<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
 	protected JPanel container;
 	protected JSpinner spinbox;
 	protected JLabel errorLabel;

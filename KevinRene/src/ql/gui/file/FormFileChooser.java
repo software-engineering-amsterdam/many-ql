@@ -5,9 +5,10 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
-public class FormFileChooser extends UIComponent {
+public class FormFileChooser extends DefaultChangeHandler implements UIComponent {
 	private JFileChooser fileChooser;
 	
 	public FormFileChooser() {

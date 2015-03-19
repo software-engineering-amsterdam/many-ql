@@ -1,5 +1,9 @@
 package qls.ast.visitor.widgetbinder;
 
+import ql.ast.type.QLBoolean;
+import ql.ast.type.QLFloat;
+import ql.ast.type.QLInteger;
+import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 import qls.ast.expression.literal.BooleanLiteral;
 import qls.ast.expression.literal.FloatLiteral;
@@ -10,8 +14,27 @@ import qls.ast.visitor.StatementVisitor;
 
 public class WidgetBinder extends StatementVisitor<Void> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
 	@Override
+	public Void visit(QLBoolean booleanNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(QLFloat floatNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(QLInteger integerNode) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(QLString stringNode) {
+		return null;
+	}
+	
+	@Override
 	public Void visit(BooleanLiteral booleanLiteral) {
-		
 		// SpinboxFactory.create(integerPrototype);
 		// integerPrototype.createSpinbox();
 		return null;
