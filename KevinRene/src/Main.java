@@ -1,6 +1,6 @@
-import gui.Application;
-
 import javax.swing.JFrame;
+
+import ql.gui.Application;
 
 public class Main {	
     /**

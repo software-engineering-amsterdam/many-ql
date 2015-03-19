@@ -1,25 +1,15 @@
 package ql.errorhandling.error;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import ql.ast.QLNode;
 import ql.ast.QLType;
 import ql.errorhandling.Error;
 
-public class TypeError extends Error {
-	public TypeError(QLNode origin, QLType expectedType, QLType actualType) {
-		super(origin, "Expected (" + expectedType + ") got (" + actualType + ").");
+public class TypeError extends Error {	
+	public TypeError(QLNode origin, QLType type) {
+		super(origin, "Incompatible type: " + type.toString() + ".");
 	}
 	
-	public TypeError(QLNode origin, QLType expectedType, List<QLType> actualTypes) {		
-		super(origin, "Expected (" + typesToString(expectedType.getCompatibilities()) 
-				+ ") got (" + typesToString(actualTypes) + ").");
-	}
-	
-	private static String typesToString(List<QLType> types) {
-		return types.stream()
-			   .map(x -> x.toString())
-			   .collect(Collectors.joining(" & "));
+	public TypeError(QLNode origin, QLType lhs, QLType rhs) {		
+		super(origin, "(" + origin.toString() + ") " + lhs.toString() + " and " + rhs.toString() + " are incompatible.");
 	}
 }

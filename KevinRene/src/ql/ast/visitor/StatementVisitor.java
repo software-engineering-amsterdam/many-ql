@@ -21,7 +21,7 @@ public abstract class StatementVisitor<T> {
 	}
 	
 	public T visit(Block blockNode) {
-		for(Statement statement : blockNode.statements()) {
+		for(Statement statement : blockNode.getStatements()) {
 			statement.accept(this);
 		}
 		return null;
@@ -61,4 +61,3 @@ public abstract class StatementVisitor<T> {
 		return null;
 	}
 }
-// form hh { ques : boolean { "Whatever" } quest2 : integer { "HAHAHA" } }

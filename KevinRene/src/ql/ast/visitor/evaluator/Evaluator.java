@@ -17,6 +17,7 @@ import ql.ast.expression.booleanalgebra.Or;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.Equal;
 import ql.ast.expression.relational.Greater;
@@ -153,6 +154,11 @@ public class Evaluator extends StatementVisitor<Value> implements ExpressionVisi
 	@Override
 	public Value visit(BooleanLiteral booleanLiteral) {
 		return booleanLiteral.getValue();
+	}
+	
+	@Override
+	public Value visit(MoneyLiteral moneyLiteral) {
+		return moneyLiteral.getValue();
 	}
 
 	@Override

@@ -6,14 +6,10 @@ import ql.value.IntegerValue;
 import ql.value.StringValue;
 
 
-public abstract class Value {	
-	public boolean isUndefined() {
-		return false;
-	}
+public interface Value {	
+	public boolean isUndefined();
 	
-	public boolean isNumeric() {
-		return false;
-	}
+	public boolean isNumeric();
 	
 	/**
 	 * Addition
@@ -21,10 +17,9 @@ public abstract class Value {
 	 * @param argument
 	 * @return
 	 */	
-	public abstract Value add(Value argument);
-	public abstract Value addInteger(IntegerValue argument);
-	public abstract Value addFloat(FloatValue argument);
-	public abstract Value addString(StringValue argument);
+	public Value add(Value argument);
+	public Value addInteger(IntegerValue argument);
+	public Value addFloat(FloatValue argument);
 	
 	/**
 	 * Division
@@ -32,9 +27,9 @@ public abstract class Value {
 	 * @param argument
 	 * @return
 	 */
-	public abstract Value divide(Value argument);
-	public abstract Value divideInteger(IntegerValue argument);
-	public abstract Value divideFloat(FloatValue argument);
+	public Value divide(Value argument);
+	public Value divideInteger(IntegerValue argument);
+	public Value divideFloat(FloatValue argument);
 	
 	/**
 	 * Multiplication
@@ -42,9 +37,9 @@ public abstract class Value {
 	 * @param argument
 	 * @return
 	 */
-	public abstract Value multiply(Value argument);
-	public abstract Value multiplyInteger(IntegerValue argument);	
-	public abstract Value multiplyFloat(FloatValue argument);
+	public Value multiply(Value argument);
+	public Value multiplyInteger(IntegerValue argument);	
+	public Value multiplyFloat(FloatValue argument);
 	
 	/**
 	 * Subtraction
@@ -52,62 +47,62 @@ public abstract class Value {
 	 * @param argument
 	 * @return
 	 */
-	public abstract Value subtract(Value argument);
-	public abstract Value subtractInteger(IntegerValue argument);
-	public abstract Value subtractFloat(FloatValue argument);
+	public Value subtract(Value argument);
+	public Value subtractInteger(IntegerValue argument);
+	public Value subtractFloat(FloatValue argument);
 	
 	/**
 	 * Unary
 	 * 
 	 * @return
 	 */
-	public abstract Value not();
-	public abstract Value positive();
-	public abstract Value negative();
+	public Value not();
+	public Value positive();
+	public Value negative();
 	
 	/**
 	 * Relational
 	 * @param rightValue
 	 * @return
 	 */
-	public abstract Value or(Value rightValue);
-	public abstract Value orBoolean(BooleanValue argument);
+	public Value or(Value rightValue);
+	public Value orBoolean(BooleanValue argument);
 	
-	public abstract Value notEqualTo(Value argument);
-	public abstract Value notEqualToBoolean(BooleanValue argument);
-	public abstract Value notEqualToInteger(IntegerValue argument);
-	public abstract Value notEqualToFloat(FloatValue argument);
-	public abstract Value notEqualToString(StringValue argument);
+	public Value notEqualTo(Value argument);
+	public Value notEqualToBoolean(BooleanValue argument);
+	public Value notEqualToInteger(IntegerValue argument);
+	public Value notEqualToFloat(FloatValue argument);
+	public Value notEqualToString(StringValue argument);
 	
-	public abstract Value lowerThan(Value argument);
-	public abstract Value lowerThanInteger(IntegerValue argument);
-	public abstract Value lowerThanFloat(FloatValue argument);
+	public Value lowerThan(Value argument);
+	public Value lowerThanInteger(IntegerValue argument);
+	public Value lowerThanFloat(FloatValue argument);
 	
-	public abstract Value lowerOrEqual(Value argument);
-	public abstract Value lowerOrEqualInteger(IntegerValue argument);
-	public abstract Value lowerOrEqualFloat(FloatValue argument);
+	public Value lowerOrEqual(Value argument);
+	public Value lowerOrEqualInteger(IntegerValue argument);
+	public Value lowerOrEqualFloat(FloatValue argument);
 	
-	public abstract Value greaterThan(Value argument);
-	public abstract Value greaterThanInteger(IntegerValue argument);
-	public abstract Value greaterThanFloat(FloatValue argument);
+	public Value greaterThan(Value argument);
+	public Value greaterThanInteger(IntegerValue argument);
+	public Value greaterThanFloat(FloatValue argument);
 	
-	public abstract Value greaterOrEqual(Value argument);
-	public abstract Value greaterOrEqualThanInteger(IntegerValue argument);
-	public abstract Value greaterOrEqualThanFloat(FloatValue argument);
+	public Value greaterOrEqual(Value argument);
+	public Value greaterOrEqualThanInteger(IntegerValue argument);
+	public Value greaterOrEqualThanFloat(FloatValue argument);
 	
-	public abstract Value equalTo(Value argument);
-	public abstract Value equalToBoolean(BooleanValue argument);
-	public abstract Value equalToInteger(IntegerValue argument);
-	public abstract Value equalToFloat(FloatValue argument);
-	public abstract Value equalToString(StringValue argument);
+	public Value equalTo(Value argument);
+	public Value equalToBoolean(BooleanValue argument);
+	public Value equalToInteger(IntegerValue argument);
+	public Value equalToFloat(FloatValue argument);
+	public Value equalToString(StringValue argument);
 	
-	public abstract Value and(Value argument);
-	public abstract Value andBoolean(BooleanValue argument);
+	public Value and(Value argument);
+	public Value andBoolean(BooleanValue argument);
 	
 	@Override
-	public abstract int hashCode();
+	public int hashCode();
 	@Override
-	public abstract boolean equals(Object obj);
+	public boolean equals(Object obj);
 	@Override
-	public abstract String toString();
+	public String toString();
 }
