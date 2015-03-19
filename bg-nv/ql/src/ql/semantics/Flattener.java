@@ -12,6 +12,7 @@ import java.util.Stack;
  */
 public class Flattener implements FormVisitor<Void>, StatVisitor<Void>
 {
+    // TODO find a better name based on the Flat class
     private final Flat flat;
     private final ConditionStack conditionStack;
 
