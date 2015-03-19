@@ -100,7 +100,7 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 	}
 
 	public T visit(StyleProperties styleNode) {
-		for(Property rule : styleNode.getProperties()) {
+		for(Property rule : styleNode.getProperties().values()) {
 			rule.accept(this);
 		}
 		return null;

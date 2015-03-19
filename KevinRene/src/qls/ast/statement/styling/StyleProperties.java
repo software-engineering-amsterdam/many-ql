@@ -1,26 +1,44 @@
 package qls.ast.statement.styling;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import qls.ast.QLSStatement;
+import qls.ast.statement.styling.property.Height;
+import qls.ast.statement.styling.property.Width;
 import qls.ast.visitor.StatementVisitor;
 
 public class StyleProperties extends QLSStatement {
-	private List<Property> properties = new ArrayList<Property>();
+	private Map<Property, Property> properties;
 	
-	public StyleProperties() {}
-	
-	public StyleProperties(Property rule) {
-		properties.add(rule);
+	public StyleProperties() {
+		properties = new HashMap<Property, Property>();
 	}
 	
-	public StyleProperties(Property rule, StyleProperties set) {
-		properties.add(rule);
-		properties.addAll(set.getProperties());
+	public StyleProperties(Property property) {
+		this();
+		setProperty(property);
 	}
 	
-	public List<Property> getProperties() {
+	public StyleProperties(Property property, StyleProperties properties) {
+		this();
+		this.properties.putAll(properties.getProperties());
+		setProperty(property);
+	}
+	
+	public void setProperty(Property property) {
+		properties.put(property, property);
+	}
+	
+	public Height getHeight() {
+		return (Height) properties.get(new Height(null));
+	}
+	
+	public Width getWidth() {
+		return (Width) properties.get(new Width(null));
+	}
+	
+	public Map<Property, Property> getProperties() {
 		return properties;
 	}
 
@@ -33,7 +51,7 @@ public class StyleProperties extends QLSStatement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("StyleProperties(");
 		
-		for(Property rule : properties) {
+		for(Property rule : properties.keySet()) {
 			sb.append(rule.toString() + ", ");
 		}
 		

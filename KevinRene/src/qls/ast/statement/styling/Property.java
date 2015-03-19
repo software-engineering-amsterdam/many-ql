@@ -22,6 +22,16 @@ public abstract class Property extends QLSStatement {
 	public boolean isCompatibleWith(QLType type) {
 		return compatibleTypes.contains(type);
 	}
+	
+	@Override
+	public final int hashCode() {
+		return this.getClass().getSimpleName().hashCode();
+	}
+	
+	@Override
+	public final boolean equals(Object comparisonObject) {
+		return hashCode() == comparisonObject.hashCode();
+	};
 
 	@Override
 	public String toString() {

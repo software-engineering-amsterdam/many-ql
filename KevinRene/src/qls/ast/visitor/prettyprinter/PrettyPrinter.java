@@ -341,7 +341,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder styleString = new StringBuilder(printNode(styleNode));
 		
 		indent();
-		for(Property property : styleNode.getProperties()) {
+		for(Property property : styleNode.getProperties().values()) {
 			styleString.append(property.accept(this));
 		}
 		unindent();
