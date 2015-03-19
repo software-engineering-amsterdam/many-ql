@@ -137,7 +137,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 	
 	@Override
 	public WidgetFactory visit(Dropdown dropdownNode) {
-		return new DropdownFactory();
+		return new DropdownFactory(dropdownNode.getFirstValue(), dropdownNode.getSecondValue());
 	}
 
 	@Override

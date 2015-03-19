@@ -1,7 +1,9 @@
 package qls;
 
 import ql.TypeEnvironment;
+import ql.ast.expression.Identifier;
 import ql.errorhandling.ErrorEnvironment;
+import qls.ast.visitor.WidgetEnvironment;
 import qls.ast.visitor.widgetbinder.WidgetBinder;
 
 public class Main_Test {
@@ -34,7 +36,7 @@ public class Main_Test {
 			+ 		"secondString: string {"
 			+ 			"\"This is the else\""
 			+ 		"}"
-			+ 		"thirdString: integer {"
+			+ 		"secondInteger: integer {"
 			+  			"\"This is the else second\""
 			+ 		"}"
 			+ 	"}"
@@ -45,10 +47,10 @@ public class Main_Test {
 			+ 	"page First {"
 			+ 		"section \"SecondSection\" {"
 			+ 			"question secondString {"
-			+ 				"widget text"
+			+ 				"widget text;"
 			+ 			"}"
 			+ 			"question sellingPrice {"
-			+ 				"widget text" 
+			+ 				"widget text;" 
 			+ 			"}"
 			+ 			"question privateDebt;"
 			+ 			"default money widget spinbox;"
@@ -57,20 +59,26 @@ public class Main_Test {
 			+ 	"page Second {"
 			+ 		"section \"SecondSection\" {"
 			+ 			"question booleanValue {"
-			+ 				"widget radio(\"Yes\", \"No\")"
+			+ 				"widget radio(\"Yes\", \"No\");"
 			+ 			"}"
-			+ 			"question valueResidue {"
-			+ 				"widget spinbox"
-			+ 			"}"
+			+			"section \"Nested\" {"
+			+ 				"question valueResidue {"
+			+ 					"widget spinbox;"
+			+ 				"}"
+			+			"}"
 			+ 			"question firstString {"
-			+ 				"widget text"
-			+ 			"}"		
+			+ 				"widget text;"
+			+ 			"}"
+			+			"default integer { "
+			+				"width : 500;"
+			+ 				"widget text;"
+			+			"}"
 			+ 		"}"
 			+  		"section \"SecondSection Yay\" {"
 			+ 			"question firstInteger {"
-			+ 				"widget spinbox"
+			+ 				"widget spinbox;"
 			+ 			"}"	
-			+ 			"question thirdString;"
+			+ 			"question secondInteger;"
 			+ 		"}"
 			+ 		"default integer widget text;"
 			+ 	"}"
@@ -95,6 +103,10 @@ public class Main_Test {
 			System.out.println(errors.getErrors());
 		}
 		
-		WidgetBinder.bind(qlsTree, typeEnvironment);
+		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
+		
+		for(Identifier identifier : widgets.getIdentifiers()) {
+			System.out.println(identifier + " : " + widgets.resolve(identifier).getClass().getSimpleName());
+		}
 	}
 }

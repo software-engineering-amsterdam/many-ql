@@ -74,7 +74,7 @@ import qls.ast.expression.literal.*;
 				;
 				
 	statement	: SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
-        		| DEFAULT type widget ';'						{ $$ = new DefaultWidget($2, $3);  }
+        		| DEFAULT type widget						{ $$ = new DefaultWidget($2, $3);  }
         		| DEFAULT type '{' styleProperties '}'           { $$ = new DefaultStyle($2, $4);  }
         		| QUESTION IDENTIFIER ';'                      { $$ = new Question($2);     }
         		| QUESTION IDENTIFIER widget				{ $$ = new Question($2, $3); }
@@ -94,8 +94,8 @@ import qls.ast.expression.literal.*;
 			| STRINGLITERAL
 			;
 	
-	widget 	: WIDGET widgetType						{ $$ = new Widget($2); }
-			| '{' styleProperties WIDGET widgetType '}' 	{ $$ = new Widget($2, $4); }
+	widget 	: WIDGET widgetType	';'					{ $$ = new Widget($2); }
+			| '{' styleProperties WIDGET widgetType ';' '}' 	{ $$ = new Widget($2, $4); }
 			;
 			
 	widgetType	: SPINBOX           	  				{ $$ = new Spinbox(); }
@@ -110,11 +110,11 @@ import qls.ast.expression.literal.*;
 					| /* empty */			{ $$ = new StyleProperties(); }
 					;
 				
-  property	: WIDTH		':' literal  { $$ = new Width($3); }
-			| HEIGHT	':' literal  { $$ = new Height($3); }
-			| FONT		':' literal  { $$ = new Font($3); }
-			| FONTSIZE	':' literal  { $$ = new FontSize($3); }
-			| COLOR		':' literal  { $$ = new Color($3); }
+  property	: WIDTH		':' literal ';' { $$ = new Width($3); }
+			| HEIGHT	':' literal ';' { $$ = new Height($3); }
+			| FONT		':' literal ';' { $$ = new Font($3); }
+			| FONTSIZE	':' literal ';' { $$ = new FontSize($3); }
+			| COLOR		':' literal ';' { $$ = new Color($3); }
 			;
 
 %%

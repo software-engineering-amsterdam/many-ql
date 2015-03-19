@@ -32,6 +32,8 @@ public class DefaultWidgetEnvironment {
 	}
 	
 	public DefaultWidgetEnvironment(DefaultWidgetEnvironment parent) {
+		environment = new HashMap<QLType, InputWidget<?>>();
+		
 		parentEnvironment = parent;
 	}
 	
