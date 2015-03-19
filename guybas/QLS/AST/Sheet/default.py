@@ -13,7 +13,7 @@ class Default(p.Page):
 
     def pretty_print(self, level=0):
         s = "    " * level + "Default " + self._type
-        s += " " + self._widget.pretty_print(0)
+        s += " " + self._widget.pretty_print()
         for i in self._properties:
             s += i.pretty_print(level + 1)
         return s

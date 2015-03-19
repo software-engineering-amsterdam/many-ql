@@ -4,7 +4,7 @@ import QLS.AST.Sheet.sheet_element as e
 # Question style AST
 class QuestionStyle(e.SheetElement):
 
-    def __init__(self, qid, widget):
+    def __init__(self, qid, widget, properties=[]):
         self._id = qid
         self._widget = widget
 

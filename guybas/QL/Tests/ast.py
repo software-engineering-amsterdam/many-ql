@@ -3,10 +3,10 @@ import unittest
 import QL.AST.Statements.question as q
 import QL.AST.Elements.operator as op
 import QL.AST.Statements.if_statement as i
-import QL.AST.Statements.else_statement as e
+import QL.AST.Statements.if_else_statement as e
 import QL.AST.Expressions.expression_interface as se
 import QL.AST.Elements.variable as v
-import QL.AST.Expressions.Primitives.bool as b
+import QL.AST.Expressions.Primitives.bool_prim as b
 import QL.AST.form as f
 import QL.Grammar.Factory.expressions as ef
 import QL.Factory.forms as ff
@@ -120,7 +120,7 @@ class TestAST(unittest.TestCase):
         self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the _dependencies
-        self.assertEqual(result[0].get_dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
+        self.assertEqual(result[0].get_variables({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_ast_if_fail(self):

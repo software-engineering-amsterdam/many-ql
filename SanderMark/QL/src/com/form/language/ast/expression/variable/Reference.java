@@ -1,5 +1,6 @@
-package com.form.language.ast.expression.literal;
+package com.form.language.ast.expression.variable;
 
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
@@ -8,27 +9,16 @@ import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 
-public class IdLiteral extends Literal {
+public class Reference extends Expression {
     private String name;
-    private Type type;
 
-    public IdLiteral(String value, QLToken tokenInfo) {
+    public Reference(String value, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.name = value;
     }
 
-    public IdLiteral(String name, Type questionType, IdCollection idCollection, QLToken tokenInfo) {
-	super(tokenInfo);
-	this.name = name;
-	this.type = questionType;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public Boolean IsReference() {
-	return (this.type == null);
     }
 
     @Override
@@ -38,11 +28,7 @@ public class IdLiteral extends Literal {
     
     @Override
     public Type getType(Context context) {
-	if (this.IsReference()) {
-	    return getTypeFromMemory(context);
-	}
-	context.addId(this);
-	return this.type;
+	return getTypeFromMemory(context);
     }
 
     private Type getTypeFromMemory(Context context) {

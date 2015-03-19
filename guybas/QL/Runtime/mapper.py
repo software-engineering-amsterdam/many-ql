@@ -8,7 +8,7 @@ class Mapper:
         self.inputObj = {}
 
     def update(self, question, answer):
-        qid = question.ast.get_id()
+        qid = question.get_ast_question().get_id()
         self.answers[qid] = answer
 
     def get_answers(self):

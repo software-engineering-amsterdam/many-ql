@@ -5,10 +5,10 @@ import QL.AST.Expressions.Operations.binary_expression as b
 class Equal(b.BinaryExpression):
 
     def set_operator(self):
-        return " == "
+        return "=="
 
     # get the return _type of the _expression
-    def return_type_string(self, type_dict):
+    def return_type_string(self, type_map):
         return constants.BOOL
 
     # override as equal is allowed to have types on both sides which are not booleans
@@ -21,8 +21,8 @@ class Equal(b.BinaryExpression):
 
         # if the types of both operands are not similar the expression is not correct
         if self._operand1.return_type_string(type_map) != self._operand2.return_type_string(type_map):
-            message.append(self._operand1.pretty_print() +
-                           " is not the same type as " + self._operand2.pretty_print())
+            message.append(self._operand1.string_presentation() +
+                           " is not the same type as " + self._operand2.string_presentation())
 
         return message
 

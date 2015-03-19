@@ -3,21 +3,22 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.statement.Question;
 
 public class IdDeclarations {
-    private Map<String, IdLiteral> declarations;
+    private Map<String, Question> declarations;
 
     public IdDeclarations() {
-	this.declarations = new HashMap<String, IdLiteral>();
+	this.declarations = new HashMap<String, Question>();
     }
 
-    public void put(String name, IdLiteral declaration) {
+    public void put(String name, Question declaration) {
 	this.declarations.put(name, declaration);
     }
 
-    public IdLiteral get(String name) {
+    public Question get(String name) {
 	return this.declarations.get(name);
     }
+
 
 }
