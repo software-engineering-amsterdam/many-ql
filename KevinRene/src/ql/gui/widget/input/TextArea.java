@@ -5,11 +5,14 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import ql.Value;
+import ql.gui.UIComponent;
 import ql.gui.widget.InputWidget;
 import ql.value.StringValue;
 
-public class TextArea extends InputWidget<StringValue> implements CaretListener {	
+public class TextArea implements InputWidget<StringValue>, CaretListener {	
 	protected JTextArea textArea;
+	private UIComponent handler;
 	
 	public TextArea() {
 		textArea = new JTextArea();
@@ -56,5 +59,15 @@ public class TextArea extends InputWidget<StringValue> implements CaretListener 
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		handleChange(getValue(), this);
+	}
+
+	@Override
+	public void setHandler(UIComponent handler) {
+		this.handler = handler;
+	}
+
+	@Override
+	public void handleChange(Value changedValue, UIComponent source) {
+		handler.handleChange(changedValue, source);
 	}
 }

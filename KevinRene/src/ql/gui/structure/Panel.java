@@ -8,10 +8,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import ql.Value;
 import ql.gui.UIComponent;
 
-public class Panel extends UIComponent {
+public class Panel implements UIComponent {
 	private JPanel panel;
+	private UIComponent handler;
 	private List<UIComponent> components;
 	
 	public Panel() {		
@@ -48,5 +50,15 @@ public class Panel extends UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return panel;
+	}
+	
+	@Override
+	public void setHandler(UIComponent handler) {
+		this.handler = handler;
+	}
+
+	@Override
+	public void handleChange(Value changedValue, UIComponent source) {
+		handler.handleChange(changedValue, source);
 	}
 }

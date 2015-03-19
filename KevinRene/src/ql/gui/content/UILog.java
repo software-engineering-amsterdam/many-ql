@@ -2,14 +2,17 @@ package ql.gui.content;
 
 import javax.swing.JComponent;
 
+import ql.Value;
 import ql.gui.UIComponent;
 import ql.gui.structure.ScrollablePanel;
 import ql.gui.widget.input.TextArea;
 import ql.value.StringValue;
 
-public class UILog extends UIComponent {
+public class UILog implements UIComponent {
 	private ScrollablePanel scrollableSection;
 	private TextArea log;
+	
+	private UIComponent handler;
 	
 	public UILog() {
 		log = new TextArea();
@@ -32,5 +35,15 @@ public class UILog extends UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return scrollableSection.getComponent();
+	}
+	
+	@Override
+	public void setHandler(UIComponent handler) {
+		this.handler = handler;
+	}
+
+	@Override
+	public void handleChange(Value changedValue, UIComponent source) {
+		handler.handleChange(changedValue, source);
 	}
 }

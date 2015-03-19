@@ -11,7 +11,7 @@ import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
 
-public class UIComputedQuestion extends UIComponent {
+public class UIComputedQuestion implements UIComponent {
 	private final Identifier identifier;
 	private final Panel questionPanel;
 	private final Expression expression;
@@ -19,6 +19,8 @@ public class UIComputedQuestion extends UIComponent {
 	
 	private final UIComponent questionText;
 	private final InputWidget<Value> inputWidget;
+
+	private UIComponent handler;
 	
 	@SuppressWarnings("unchecked")
 	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
@@ -41,10 +43,15 @@ public class UIComputedQuestion extends UIComponent {
 	}
 	
 	@Override
+	public void setHandler(UIComponent handler) {
+		this.handler = handler;
+	}
+
+	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
 		valueEnvironment.store(identifier, changedValue);
 		
-		super.handleChange(changedValue, this);
+		handler.handleChange(changedValue, this);
 	}
 	
 	@Override

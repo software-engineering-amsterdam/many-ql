@@ -10,11 +10,13 @@ import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 import ql.value.BooleanValue;
 
-public class UIConditional extends UIComponent {
+public class UIConditional implements UIComponent {
 	private Panel activePanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
 	private final UIComponent ifPanel, elsePanel;
+	
+	private UIComponent handler;
 	
 	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {		
 		this.expression = expression;
@@ -72,6 +74,16 @@ public class UIConditional extends UIComponent {
 	@Override
 	public JComponent getComponent() {		
 		return activePanel.getComponent();
+	}
+	
+	@Override
+	public void setHandler(UIComponent handler) {
+		this.handler = handler;
+	}
+
+	@Override
+	public void handleChange(Value changedValue, UIComponent source) {
+		handler.handleChange(changedValue, source);
 	}
 }
  
