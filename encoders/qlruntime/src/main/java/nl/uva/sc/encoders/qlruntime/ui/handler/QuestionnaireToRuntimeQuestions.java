@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.ui;
+package nl.uva.sc.encoders.qlruntime.ui.handler;
 
 import java.util.ArrayList;
 import java.util.List;

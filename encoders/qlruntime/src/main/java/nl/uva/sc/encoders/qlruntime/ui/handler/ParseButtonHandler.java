@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.ui;
+package nl.uva.sc.encoders.qlruntime.ui.handler;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +20,8 @@ import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
+import nl.uva.sc.encoders.qlruntime.ui.QuestionnaireUI;
+import nl.uva.sc.encoders.qlruntime.ui.ValidationsUI;
 
 import org.controlsfx.dialog.ExceptionDialog;
 

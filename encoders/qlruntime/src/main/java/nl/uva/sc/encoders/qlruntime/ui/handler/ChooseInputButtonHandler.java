@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.ui;
+package nl.uva.sc.encoders.qlruntime.ui.handler;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -11,22 +11,21 @@ import javafx.stage.FileChooser;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
-final class ChooseInputButtonHandler implements EventHandler<ActionEvent> {
-	private URL getURL(String path) {
-		ClassLoader classLoader = getClass().getClassLoader();
-		return classLoader.getResource(path);
-	}
+public final class ChooseInputButtonHandler implements EventHandler<ActionEvent> {
 
 	private final TextField textField;
 
-	ChooseInputButtonHandler(TextField textField) {
+	private final String defaultLocation;
+
+	public ChooseInputButtonHandler(TextField textField, String defaultLocation) {
 		this.textField = textField;
+		this.defaultLocation = defaultLocation;
 	}
 
 	@Override
 	public void handle(ActionEvent event) {
 		try {
-			URL resource = getURL(Main.DEFAULT_INPUT_FILE_DIRECTORY + Main.DEFAULT_INPUT_FILE_NAME);
+			URL resource = getURL(defaultLocation);
 			File file = new File(resource.toURI());
 			file = file.getParentFile();
 			FileChooser fileChooser = new FileChooser();
@@ -41,4 +40,10 @@ final class ChooseInputButtonHandler implements EventHandler<ActionEvent> {
 			e.printStackTrace();
 		}
 	}
+
+	private URL getURL(String path) {
+		ClassLoader classLoader = getClass().getClassLoader();
+		return classLoader.getResource(path);
+	}
+
 }
