@@ -6,6 +6,13 @@
 - Within classes dont repeat the name of the class within methods like shipOrder, just call it order()
 - classes of 50 > is a issue
 
+- You can often use Inline Temp (121) to get rid of the temps. Long lists of parameters can be slimmed
+down with Introduce Parameter Object (247) and Preserve Whole Object (241)
+
+- Conditionals and loops also give signs for extractions. Use Decompose Conditional (136) to deal with conditional expressions. 
+With loops extract the loop and the code within the loop into its own method.
+
+
 
 
 form taxOfficeExample { 

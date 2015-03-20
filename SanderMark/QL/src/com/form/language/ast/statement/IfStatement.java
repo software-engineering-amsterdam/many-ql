@@ -10,6 +10,7 @@ import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
 
+//TODO :: Seperate ifstatementconditions and ifstatementthenstatement, kent beck / and rule 4: seperate collections of classes
 public class IfStatement extends Statement {
     private Expression conditions;
     private List<Statement> thenStatements;

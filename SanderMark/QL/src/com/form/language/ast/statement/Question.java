@@ -7,6 +7,7 @@ import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
 
+//TODO :: Seperate each variable?
 public class Question extends Statement {
     private String id;
     private String questionLabel;
