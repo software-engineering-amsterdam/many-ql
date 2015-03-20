@@ -7,13 +7,9 @@ public class StringValue extends GenericValue<String> {
 	public StringValue(String _value){
 		this.value=_value;
 	}
+	
 	@Override
 	public String getValue(){
-		return this.value;
+		return this.value.replaceAll("[\"]", "");
 	}
-	@Override
-	public int intValue() {
-		return 0;
-	}
-	
 }

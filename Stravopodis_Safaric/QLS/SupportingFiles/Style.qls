@@ -1,59 +1,64 @@
 stylesheet taxOfficeExample 
 
-  page Selling { 
-    section "Selling" {
-      question hasSoldHouse
-        widget radio("Yes", "No")
+page Selling {
 
-      section "You sold a house" {
-        question privateDebt
-          widget textbox {
-            width : 400
-            fontsize: 14
-            color: #999999
-          }
-
-    	question valueResidue
-
-		section "some section" {
-			default boolean widget dropdown ("Si", "No")
-			question hasMaintLoan
-		}
-		
-		question hasRentHouse
-		
-		section "sellingPrice" {
-			default money widget textbox
-			question sellingPrice
-		}
-
-		default money widget textbox {
-			width : 200
-			font : "Arial"
-			color: #999999
-			fontsize : 14
-		}
-
-        default integer {
-          width: 200
-        }        
-        default string {
-          color: #999999
-        }
-        default integer widget slider ("Min", "Max")
-      }
-      
-
-      default boolean widget dropdown ("Yes", "No")
+  section "hasSoldHouse" {
+    default boolean widget checkbox ("Yes") {
+      font : "Times New Roman"
+      fontsize : 14
+      color : #000000
     }
-   
-   default string widget textbox
 
-   default money {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
-   } 
+    question hasSoldHouse
+
+    section "Calculations" {
+      default money widget slider ("Min", "Max") {
+        width : 200
+        font : "Times New Roman"
+      }
+
+      question sellingPrice
+      question valueResidue
+      question privateDebt
+        widget textbox {
+          font : "Times New Roman"
+          fontsize : 14
+          color : #000000
+        }
+    }
+
   }
 
+}
+
+page Renting {
+
+  section "hasRentHouse" {
+    default boolean widget checkbox ("Yes") {
+      font : "Times New Roman"
+      fontsize : 14
+      color : #000000
+    }
+
+    question hasRentHouse
+
+
+  }
+
+}
+
+page Loan {
+
+  section "hasMaintLoan" {
+    default boolean widget checkbox ("Yes") {
+      font : "Times New Roman"
+      fontsize : 14
+      color : #000000
+    }
+
+    question hasMaintLoan
+
+
+  }
+
+}

@@ -3,8 +3,6 @@ package uva.qls.ast.statements;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.*;
 
 public class Subsection extends Statement {
 	
@@ -28,22 +26,7 @@ public class Subsection extends Statement {
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitSubsection(this);
 	}
-	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
 
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
-	}
-	
 	@Override
 	public String toString(){
 		return "Subsection(" + this.getName() + "," + question.toString() + ")";

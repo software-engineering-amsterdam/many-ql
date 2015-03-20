@@ -4,8 +4,6 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.*;
 
 public class Question extends Statement {
 
@@ -25,29 +23,19 @@ public class Question extends Statement {
 		return this.component;
 	}
 	
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitQuestion(this);
 	}
 	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
+	
 	@Override
 	public String toString(){
 		return this.component == null	? "Question(" + this.identifier.toString() + "," + ")"
 										: "Question(" + this.identifier.toString() + "," +  this.component.toString() + ")";
 	}
-
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
-	}
-	
 }

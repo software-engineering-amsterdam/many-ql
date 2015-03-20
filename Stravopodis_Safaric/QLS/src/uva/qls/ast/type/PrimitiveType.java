@@ -1,4 +1,4 @@
-package uva.qls.ast.primitive;
+package uva.qls.ast.type;
 
 import java.util.ArrayList;
 import java.util.List;

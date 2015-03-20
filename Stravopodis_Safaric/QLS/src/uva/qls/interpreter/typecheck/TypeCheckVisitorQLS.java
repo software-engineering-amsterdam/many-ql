@@ -19,7 +19,6 @@ import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.literal.Literal;
 import uva.qls.ast.literal.MoneyLiteral;
 import uva.qls.ast.literal.StringLiteral;
-import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
 import uva.qls.ast.statements.Section;
@@ -33,14 +32,19 @@ import uva.qls.ast.style.FontSize;
 import uva.qls.ast.style.Height;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.style.Width;
+import uva.qls.ast.type.Type;
+import uva.qls.ast.type.TypeBoolean;
+import uva.qls.ast.type.TypeInteger;
+import uva.qls.ast.type.TypeMoney;
+import uva.qls.ast.type.TypeString;
 
-public class TypeCheckVisitor implements StatementVisitor<Object>{
+public class TypeCheckVisitorQLS implements StatementVisitor<Object>{
 	
 	private TypeCheckQLS typeCheck;
 	protected SymbolTable symbolTable;
 	protected CheckWidget widget;
 	
-	public TypeCheckVisitor (TypeCheckQLS _typeCheck, SymbolTable table){	
+	public TypeCheckVisitorQLS (TypeCheckQLS _typeCheck, SymbolTable table){	
 		this.typeCheck = _typeCheck;
 		this.symbolTable= table;
 	}
@@ -252,6 +256,30 @@ public class TypeCheckVisitor implements StatementVisitor<Object>{
 
 	@Override
 	public Object visitType(Type type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitTypeBoolean(TypeBoolean booleanType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitTypeInteger(TypeInteger integerType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitTypeMoney(TypeMoney moneyType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitTypeString(TypeString stringType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
