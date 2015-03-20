@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.qls.EncodersQLSLexer;
 import nl.uva.sc.encoders.qls.EncodersQLSParser;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.ast.TextLocation;
 import nl.uva.sc.encoders.qls.ast.builder.AstBuilder;
-import nl.uva.sc.encoders.qls.validation.SyntaxError;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BaseErrorListener;

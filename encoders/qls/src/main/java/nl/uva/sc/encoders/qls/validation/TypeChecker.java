@@ -3,6 +3,7 @@ package nl.uva.sc.encoders.qls.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
 
 public class TypeChecker {

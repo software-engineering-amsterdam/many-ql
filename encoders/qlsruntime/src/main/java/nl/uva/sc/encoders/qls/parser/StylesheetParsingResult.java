@@ -2,8 +2,8 @@ package nl.uva.sc.encoders.qls.parser;
 
 import java.util.List;
 
+import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.validation.SyntaxError;
 
 public class StylesheetParsingResult {
 

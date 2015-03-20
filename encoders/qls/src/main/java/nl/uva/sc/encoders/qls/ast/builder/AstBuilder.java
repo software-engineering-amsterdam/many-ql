@@ -1,10 +1,10 @@
 package nl.uva.sc.encoders.qls.ast.builder;
 
+import nl.uva.sc.encoders.ql.ast.AstNode;
+import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
-import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.Page;
-import nl.uva.sc.encoders.qls.ast.TextLocation;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;

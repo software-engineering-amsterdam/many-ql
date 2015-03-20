@@ -37,6 +37,11 @@
 			<artifactId>qls</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>nl.uva.sc.encoders</groupId>
+			<artifactId>qlruntime</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

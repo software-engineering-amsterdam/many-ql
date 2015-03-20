@@ -11,12 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import nl.uva.sc.encoders.ql.validation.SyntaxError;
+import nl.uva.sc.encoders.ql.validation.TypeValidation;
+import nl.uva.sc.encoders.qlruntime.ui.ValidationsUI;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
 import nl.uva.sc.encoders.qls.parser.StylesheetParser;
 import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
-import nl.uva.sc.encoders.qls.validation.SyntaxError;
 import nl.uva.sc.encoders.qls.validation.TypeChecker;
-import nl.uva.sc.encoders.qls.validation.TypeValidation;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
