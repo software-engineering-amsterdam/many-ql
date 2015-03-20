@@ -28,6 +28,9 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
 		textField = new JTextField(50);
     	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
+
+    	setValue(initialValue);
+    	
     	textField.addCaretListener(this);
     	textField.setFocusable(true);
     	
@@ -39,7 +42,6 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
     	container.add(textField);
     	container.add(errorLabel, "wrap");
     	
-    	setValue(initialValue);
 	}
 		
 	protected void setError(String text) {
@@ -73,7 +75,7 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
 	
 	public void setValue(T value) {
 		this.value = value;
-		textField.setText(value.toString());		
+		textField.setText(value.getValue().toString());		
 	}
 	
 	public abstract void caretUpdate(CaretEvent e);
