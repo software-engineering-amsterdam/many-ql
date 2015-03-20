@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.runtime.value;
+package nl.uva.sc.encoders.qlruntime.value;
 
 public class IntegerValue extends Value {
 

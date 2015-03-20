@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.runtime;
+package nl.uva.sc.encoders.qlruntime.evaluator;
 
 import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
 import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
@@ -11,7 +11,7 @@ import nl.uva.sc.encoders.ql.ast.operator.MultiplyOperator;
 import nl.uva.sc.encoders.ql.ast.operator.OrOperator;
 import nl.uva.sc.encoders.ql.ast.operator.SubstractOperator;
 import nl.uva.sc.encoders.ql.visitor.BinaryOperatorVisitor;
-import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
+import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class BinaryEvaluator implements BinaryOperatorVisitor<Value> {
 

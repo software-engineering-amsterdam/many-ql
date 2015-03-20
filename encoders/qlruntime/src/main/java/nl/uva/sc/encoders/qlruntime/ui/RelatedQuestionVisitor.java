@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.runtime;
+package nl.uva.sc.encoders.qlruntime.ui;
 
 import java.util.Collections;
 import java.util.HashSet;

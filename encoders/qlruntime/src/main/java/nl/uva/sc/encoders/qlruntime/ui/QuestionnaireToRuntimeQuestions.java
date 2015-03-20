@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.runtime;
+package nl.uva.sc.encoders.qlruntime.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
 import nl.uva.sc.encoders.ql.visitor.DataTypeVisitor;
 import nl.uva.sc.encoders.ql.visitor.StatementVisitor;
-import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
-import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.IntegerValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.StringValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
+import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
+import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.value.IntegerValue;
+import nl.uva.sc.encoders.qlruntime.value.StringValue;
+import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class QuestionnaireToRuntimeQuestions implements StatementVisitor<List<RuntimeQuestion>>, DataTypeVisitor<Value> {
 

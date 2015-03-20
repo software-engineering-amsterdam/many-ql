@@ -15,10 +15,9 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeChecker;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
+import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
-import nl.uva.sc.encoders.qlruntime.runtime.QuestionnaireToRuntimeQuestions;
-import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
 
 import org.controlsfx.dialog.ExceptionDialog;
 

@@ -1,13 +1,13 @@
-package nl.uva.sc.encoders.qlruntime.runtime;
+package nl.uva.sc.encoders.qlruntime.evaluator;
 
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
 import nl.uva.sc.encoders.ql.visitor.DataTypeVisitor;
-import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.IntegerValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.StringValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
+import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.value.IntegerValue;
+import nl.uva.sc.encoders.qlruntime.value.StringValue;
+import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class DefaultValueVisitor implements DataTypeVisitor<Value> {
 

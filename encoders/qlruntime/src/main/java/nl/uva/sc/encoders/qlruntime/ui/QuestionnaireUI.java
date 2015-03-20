@@ -17,13 +17,12 @@ import javafx.scene.text.Text;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
-import nl.uva.sc.encoders.qlruntime.runtime.ExpressionEvaluator;
-import nl.uva.sc.encoders.qlruntime.runtime.RelatedQuestionVisitor;
-import nl.uva.sc.encoders.qlruntime.runtime.model.RuntimeQuestion;
-import nl.uva.sc.encoders.qlruntime.runtime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
+import nl.uva.sc.encoders.qlruntime.evaluator.ExpressionEvaluator;
+import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlWrapper;
+import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class QuestionnaireUI {
 

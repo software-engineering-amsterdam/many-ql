@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.runtime.model;
+package nl.uva.sc.encoders.qlruntime.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
-import nl.uva.sc.encoders.qlruntime.runtime.value.Value;
+import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class RuntimeQuestion {
 
