@@ -4,6 +4,7 @@ import QL.Tools.exceptions as exc
 
 
 class Form(ql_form.Form):
+
     def __enrich_questions(self):
         """
         takes the basic ast questions and generate new enriched question objects

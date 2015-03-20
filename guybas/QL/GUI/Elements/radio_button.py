@@ -6,17 +6,17 @@ import QL.GUI.Elements.label as e_label
 class RadioButton(i_element.Element):
     def create(self):
         e_list = []
-        label = e_label.Label(self.statement.get_label())
+        label = e_label.Label(self.statement.get_label(), self.frame)
         e_list += label.get_row()
-        e1 = tk.Radiobutton(text="True", value=1, variable=self.statement.get_order_number(),
+        e1 = tk.Radiobutton(self.frame, text="True", value=1, variable=self.statement.get_order(),
                          command=lambda: self.gui.update(self.statement, True))
-        e2 = tk.Radiobutton(text="False", value=0, variable=self.statement.get_order_number(),
+        e2 = tk.Radiobutton(self.frame, text="False", value=0, variable=self.statement.get_order(),
                          command=lambda: self.gui.update(self.statement, False))
         # e2.select()  # set default as False
         # e2.deselect()  # clean selection
-        # e1.grid(row=statement.get_order_number(), column=1, sticky=W)
+        # e1.grid(row=statement.get_order(), column=1, sticky=W)
         e_list.append(e1)
-        # e2.grid(row=statement.get_order_number(), column=2, sticky=W)
+        # e2.grid(row=statement.get_order(), column=2, sticky=W)
         e_list.append(e2)
         return e_list
 

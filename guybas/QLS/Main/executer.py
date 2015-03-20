@@ -13,8 +13,15 @@ import QL.Tools.exceptions as ee
 #TODO 2. functions get_colour etc are missing
 #TODO 3. improve QL structure: executor to main etc.
 # -> What do you mean???
+# --> A: Changing maybe the folders structure so it will be consists to QL? I can do it, what do you think?
 #TODO 4. what to do in default page ?? (currently skipped)
-# -> This can be used to set a default style for a widget (e.g. color, width, height etc for every time the widget is used
+# -> This can be used to set a default style for a widget (e.g. color, width, height etc for every time the widget is used.
+# --> Does it means default page = one page / like in QL ?
+#TODO 5. Error fix (URGENT!!):
+# File "/home/guyromb/PycharmProjects/SOC/guybas/QLS/GUI/Elements/factory.py", line 9, in __init__
+#     q_type = statement.ast.get_type()
+# AttributeError: 'Assignment' object has no attribute 'get_type'
+#TODO 6. (GUY) Move page for loop to runtime.form
 ####################################
 
 
@@ -28,20 +35,19 @@ formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
 form = f2.make_form(formAsParseResults)
 checker = t.TypeChecker(form, qls_ast)
 
-enriched_form = runtime_form.Form(form)
-
-
 print(form)
 
+enriched_form = runtime_form.Form(form)
 questions_dict = enriched_form.get_statement_dict()
 
 gui_pages = []
 
+##################### gui #####################
+
 for page in qls_ast.get_pages():
     if page.is_default():
         continue
-
-
+    page_elements = []
     for section in page.get_sections():
         for q_style in section.get_question_styles():
             print(q_style.get_ids()[0])
@@ -49,14 +55,9 @@ for page in qls_ast.get_pages():
             if q_id not in questions_dict:
                 raise ee.QException("style id does not exist in the questions dictionary!")
             question = questions_dict[q_id]
-            ggg = question.get_gui_element()
-            gui_pages.append(ggg)
-            # g.set_colour()
+            page_elements.append(question)
+    gui_pages.append(page_elements)
 
-# gui_pages = ["a", "b", "c"]
-gui = g.GUI.draw_pages(gui_pages)
-
-enriched_form = runtime_form.Form(form)
-gui = g.GUI(enriched_form)
+gui = g.GUI(enriched_form, gui_pages)
 gui.generate_gui()
 gui.show()
