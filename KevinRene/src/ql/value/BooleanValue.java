@@ -20,6 +20,11 @@ public class BooleanValue implements Value {
 	}
 
 	@Override
+	public Boolean getValue() {
+		return this.value;
+	}
+	
+	@Override
 	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add to a Boolean.");
 	}
@@ -222,10 +227,6 @@ public class BooleanValue implements Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(argument.getValue() && getValue());
-	}
-	
-	public Boolean getValue() {
-		return this.value;
 	}
 
 	@Override

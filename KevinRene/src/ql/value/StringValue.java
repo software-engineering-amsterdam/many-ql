@@ -20,6 +20,11 @@ public class StringValue implements Value {
 	}
 
 	@Override
+	public String getValue() {
+		return value;
+	}
+	
+	@Override
 	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add strings.");
 	}
@@ -224,10 +229,6 @@ public class StringValue implements Value {
 		throw new UnsupportedOperationException();
 	}
 	
-	public String getValue() {
-		return value;
-	}
-
 	@Override
 	public int hashCode() {
 		return value.hashCode();
@@ -244,6 +245,6 @@ public class StringValue implements Value {
 	
 	@Override
 	public String toString() {
-		return "\"" + getValue().toString() + "\"";
+		return "\"" + getValue() + "\"";
 	}
 }

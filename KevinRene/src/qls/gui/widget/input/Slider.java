@@ -1,7 +1,6 @@
 package qls.gui.widget.input;
 
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -12,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
 import ql.gui.DefaultChangeHandler;
+import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.InputWidget;
 
 public abstract class Slider<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
@@ -30,7 +30,7 @@ public abstract class Slider<T extends Value> extends DefaultChangeHandler imple
 		slider.addChangeListener(this);
 		
 		label = new JLabel();
-    	label.setFont(new Font("Serif", Font.BOLD, 20));
+    	label.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 20));
     	label.setVisible(true);
     	label.setText(String.valueOf(slider.getValue()));
     	
@@ -44,6 +44,8 @@ public abstract class Slider<T extends Value> extends DefaultChangeHandler imple
 		slider.setEnabled(false);
 	}
 
+	protected abstract void setFont(Font font);
+	
 	@Override
 	public void updateComponent() {
 		container.repaint();

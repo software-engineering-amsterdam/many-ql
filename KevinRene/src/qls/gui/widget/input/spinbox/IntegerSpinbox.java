@@ -50,7 +50,7 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 	}
 
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 		
 	}
 }

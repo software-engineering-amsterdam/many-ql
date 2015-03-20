@@ -20,6 +20,11 @@ public class IntegerValue implements Value {
 	}
 
 	@Override
+	public Integer getValue() {
+		return value;
+	}
+	
+	@Override
 	public Value add(Value argument) {
 		return argument.addInteger(this);
 	}
@@ -222,10 +227,6 @@ public class IntegerValue implements Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
-	}
-	
-	public Integer getValue() {
-		return value;
 	}
 	
 	@Override

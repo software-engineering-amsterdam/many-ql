@@ -31,6 +31,6 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	}
 	
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 	}
 }

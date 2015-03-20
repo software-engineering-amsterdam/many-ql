@@ -20,7 +20,7 @@ public class StringWidgetBuilder implements WidgetBuilder {
 	}
 
 	@Override
-	public InputWidget<?> createRadioButton(StyleProperties properties) {
+	public InputWidget<?> createRadioButton(StyleProperties properties, StringValue trueValue, StringValue falseValue) {
 		throw new UnsupportedOperationException();
 	}
 

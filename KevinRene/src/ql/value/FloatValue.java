@@ -19,6 +19,11 @@ public class FloatValue implements Value {
 	public boolean isNumeric() {
 		return true;
 	}
+	
+	@Override
+	public Float getValue() {
+		return value;
+	}
 
 	@Override
 	public Value add(Value argument) {
@@ -223,10 +228,6 @@ public class FloatValue implements Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
-	}
-	
-	public Float getValue() {
-		return value;
 	}
 	
 	@Override

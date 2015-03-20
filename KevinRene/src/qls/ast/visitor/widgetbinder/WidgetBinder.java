@@ -142,7 +142,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 
 	@Override
 	public WidgetFactory visit(RadioButton radioButtonNode) {
-		return new RadioButtonFactory();
+		return new RadioButtonFactory(radioButtonNode.getFirstValue(), radioButtonNode.getSecondValue());
 	}
 
 	@Override

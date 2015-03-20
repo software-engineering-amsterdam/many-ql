@@ -52,7 +52,7 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	}
 	
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 		
 	}
 }

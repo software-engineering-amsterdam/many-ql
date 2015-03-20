@@ -37,8 +37,8 @@ public class IntegerSlider extends Slider<IntegerValue> implements ChangeListene
 	public void setStyle(StyleProperties properties) {
 		
 	}
-	@Override
-	public void setFont(Font font) {
+
+	protected void setFont(Font font) {
 		
 	}
 }

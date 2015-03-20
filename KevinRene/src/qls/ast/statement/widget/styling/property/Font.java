@@ -12,6 +12,11 @@ public class Font extends Property {
 		super(Arrays.asList(new QLString()), value);
 	}
 	
+	public String getFontName() {
+		// Must unpack to a primitive string.
+		return (String) getValue().getValue().getValue();
+	}
+	
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);

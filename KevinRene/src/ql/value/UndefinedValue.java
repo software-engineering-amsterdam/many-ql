@@ -14,6 +14,11 @@ public class UndefinedValue implements Value {
 	}
 
 	@Override
+	public Void getValue() {
+		return null;
+	}
+	
+	@Override
 	public Value add(Value argument) {
 		return this;
 	}

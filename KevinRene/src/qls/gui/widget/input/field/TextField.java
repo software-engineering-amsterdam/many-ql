@@ -31,7 +31,7 @@ public class TextField extends Field<StringValue> {
 	}
 
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 		
 	}
 }

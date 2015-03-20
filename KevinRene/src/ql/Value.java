@@ -11,6 +11,8 @@ public interface Value {
 	
 	public boolean isNumeric();
 	
+	public Object getValue();
+	
 	/**
 	 * Addition
 	 * 

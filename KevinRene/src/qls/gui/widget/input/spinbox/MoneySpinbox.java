@@ -57,7 +57,7 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 	}
 
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 		
 	}
 }

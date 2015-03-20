@@ -28,9 +28,10 @@ public class FloatField extends Field<FloatValue> implements CaretListener {
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
+		textField.setSize(textField.getWidth(), textField.getHeight());
 	}
 	
 	@Override
-	public void setFont(Font font) {
+	protected void setFont(Font font) {
 	}
 }

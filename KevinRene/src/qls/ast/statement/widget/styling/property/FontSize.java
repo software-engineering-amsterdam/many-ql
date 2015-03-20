@@ -12,6 +12,10 @@ public class FontSize extends Property {
 		super(Arrays.asList(new QLInteger()), value);
 	}
 	
+	public int getFontSize() {
+		return (int) getValue().getValue().getValue();
+	}
+	
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);

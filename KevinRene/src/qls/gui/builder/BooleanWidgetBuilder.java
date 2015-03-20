@@ -17,12 +17,20 @@ public class BooleanWidgetBuilder implements WidgetBuilder {
 
 	@Override
 	public InputWidget<?> createDropdown(StyleProperties properties, StringValue trueValue, StringValue falseValue) {
-		return new Dropdown(trueValue, falseValue);
+		InputWidget<?> dropdown = new Dropdown(trueValue, falseValue);
+		
+		dropdown.setStyle(properties);
+		
+		return dropdown;
 	}
 
 	@Override
-	public InputWidget<?> createRadioButton(StyleProperties properties) {
-		return new Radio();
+	public InputWidget<?> createRadioButton(StyleProperties properties, StringValue trueValue, StringValue falseValue) {
+		InputWidget<?> radioButton = new Radio(trueValue, falseValue);
+		
+		radioButton.setStyle(properties);
+		
+		return radioButton;
 	}
 
 	@Override
