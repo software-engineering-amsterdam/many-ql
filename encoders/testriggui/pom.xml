@@ -38,7 +38,7 @@
 			<version>8.20.8</version>
 		</dependency>
 		<dependency>
-			<groupId>nl.uva.sc.encoders.qls</groupId>
+			<groupId>nl.uva.sc.encoders</groupId>
 			<artifactId>qls</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
