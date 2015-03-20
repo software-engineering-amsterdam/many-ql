@@ -1,18 +1,5 @@
 
-// Observable pattern
-// Symbol table from QL in QLS
-// How to present Issue from QL type checker
-// Type Checker QL - Check it - show the classes from value - supportingTypes() getType() 
-// public abstract GenericValue<?> initialTypeValue(); in Type.java
 
-/*
-	for instance
-	@Override
-	public NumberValue initialTypeValue() {
-		return new NumberValue(0);
-	}
-
-*/
 
 form HouseSelling {
   
@@ -40,7 +27,10 @@ form HouseSelling {
     	question money privateDebt ("What was the value of the private debt?");
     	
     	question money valueResidue ("Value residue:") {
-    		valueResidue : (sellingPrice * privateDebt) / 100;
+    		valueResidue : (sellingPrice * residueValue) / 100;
+    	}
+    	question money residueValue ("Residue value:") {
+    		residueValue : valueResidue - privateDebt;
     	}
     }
 }

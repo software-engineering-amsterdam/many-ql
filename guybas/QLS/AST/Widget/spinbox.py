@@ -1,5 +1,4 @@
 import QLS.AST.Widget.widget as w
-import QLS.AST.Widget.default_settings as d
 import QL.Grammar.constants as constants
 
 
@@ -8,10 +7,9 @@ class Spinbox(w.Widget):
         self.min = min
         self.max = max
         self.default = default
-        self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
+        self._properties = {self.widget_name(): ""}
 
-
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Spinbox "
         s += self.min + " " + self.max
         s += "\n"

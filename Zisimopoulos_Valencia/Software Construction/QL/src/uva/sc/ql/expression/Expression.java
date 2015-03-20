@@ -6,6 +6,7 @@ import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 
 public abstract class Expression<T> implements IQLExpressionNode {
 
+    @SuppressWarnings("hiding")
     public abstract <T> T accept(IQLExpressionNodeVisitor<T> visitor);
 
     public T getValue() {

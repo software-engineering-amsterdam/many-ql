@@ -1,21 +1,24 @@
 package uva.qls.ast.component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.style.Style;
+import uva.qls.ast.style.visitor.StyleTable;
 import uva.qls.supporting.*;
 
 public class Slider extends Component{
 	
 	private Tuple<String, String> minMax;
+	private StyleTable style;
 	
-	public Slider(String _min, String _max, ArrayList<Style> _style , CodeLines _codeLines) {
+	public Slider(String _min, String _max, StyleTable _style , CodeLines _codeLines) {
 		super(_codeLines);
 		this.minMax = new Tuple<String, String>(_min, _max);
 		this.style = _style;
+	}
+	
+	
+	public Tuple<String, String> getSliderValues(){
+		return this.minMax;
 	}
 	
 	@Override
@@ -24,23 +27,13 @@ public class Slider extends Component{
 	}
 
 	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-
-	@Override
-	public Tuple<String, String> evaluate() {
-		return this.minMax;
+	public void componentStyle(StyleTable style) {
+		this.style = style;
 	}
 	
 	@Override
-	public void componentStyle(List<Style> style) {
-		this.style = style;
+	public StyleTable getStyle() {
+		return this.style;
 	}
 	
 	@Override

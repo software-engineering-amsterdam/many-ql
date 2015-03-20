@@ -7,8 +7,8 @@ public class ColorValue extends GenericValue <Color>{
 
 	private Color value;
 	
-	public ColorValue(Integer _value){
-		this.value = this.hexToColor(_value.toString());
+	public ColorValue(String _value){
+		this.value = this.hexToColor(_value);
 	}
 	
 	public ColorValue(Color _value){
@@ -24,10 +24,4 @@ public class ColorValue extends GenericValue <Color>{
 	public Color getValue() {
 		return this.value;
 	}
-
-	@Override
-	public int intValue() {
-		return 0;
-	}
-
 }

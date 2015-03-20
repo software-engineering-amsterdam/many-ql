@@ -5,8 +5,6 @@ import java.util.List;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.*;
 
 public class Section extends Statement {
 	
@@ -36,21 +34,6 @@ public class Section extends Statement {
 		return visitor.visitSection(this);
 	}
 	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
-	}
-
 	@Override
 	public String toString(){
 		return "Section(" + this.getName() + "," + this.statement.toString() + ")";

@@ -26,12 +26,11 @@ public class Main{
 		typeCheck.visitProg(prog);
 		
 		if (!typeCheck.hasErrors()){
-			
-			//ExpressionTable expressionTable = new ExpressionTable(prog);
-			//System.out.println(expressionTable.getExpressionTable());
-			
 			Renderer renderer = new Renderer(prog);
 			renderer.visitProg(prog);
+		}
+		else {
+			typeCheck.printIssues();
 		}
 	}
 	

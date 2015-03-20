@@ -15,10 +15,10 @@ public class TypeBoolean extends Type{
 	}
 
 	@Override
-	public BooleanValue initialTypeValue() {
+	public BooleanValue typeInitialValue() {
 		return new BooleanValue(false);
 	}
-	
+
 	@Override
 	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visitTypeBoolean(this);

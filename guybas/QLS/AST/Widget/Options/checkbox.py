@@ -1,18 +1,14 @@
 import QLS.AST.Widget.widget as w
 import QL.Grammar.constants as constants
-import QLS.AST.Widget.default_settings as d
 
 
 # Checkbox AST
 class Checkbox(w.Widget):
-    def __init__(self, options):
-        self.options = options
-        self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
+    def __init__(self):
+        self._properties = {self.widget_name(): "" }
 
-    def pretty_print(self, level=0):
-        s = "    " * level + "Checkbox "
-        s += self.options.pretty_print()
-        s += "\n"
+    def string_presentation(self, level=0):
+        s = "    " * level + "Checkbox\n"
         return s
 
     def get_compatible(self):

@@ -12,25 +12,29 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.NumberAtom;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.gui.helpers.DisplayData;
 import uva.sc.ql.gui.helpers.ListenerHelper;
 
+@SuppressWarnings({ "unchecked" })
 public class CalculatorListener implements
 	DocumentListener, Observer {
 
     EvaluatorVisitor evalVisitor;
     List<Component> componentList;
-    Map<String, List<String>> dependentElements;
+    Map<ID, List<ID>> patronElements;
     JTextField textField;
+    ID id;
 
-    public CalculatorListener(Map<String, List<String>> d, EvaluatorVisitor v,
-	    List<Component> c, JTextField field) {
-	dependentElements = d;
+    public CalculatorListener(Map<ID, List<ID>> d, EvaluatorVisitor v,
+	    List<Component> c, JTextField field, ID i) {
+	patronElements = d;
 	evalVisitor = v;
 	componentList = c;
 	textField = field;
+	id =i;
 	evalVisitor.addObserver(this);
     }
 
@@ -52,18 +56,17 @@ public class CalculatorListener implements
 	    value = new NumberAtom(Double.valueOf(textField.getText()));
 	} catch (Exception ex) {
 	} finally {
-	    DisplayData d = evalVisitor.getValuesTable().get(
-		    textField.getName());
+	    DisplayData d = evalVisitor.getValuesTable().get(id);
 	    DisplayData data = new DisplayData(value, d.getCondition(),
 		    d.getType());
-	    evalVisitor.putToValuesTable(textField.getName(), data);
+	    evalVisitor.putToValuesTable(id, data);
 	}
     }
 
     @Override
     public void update(Observable o, Object arg) {
-	List<String> elements = dependentElements.get(textField.getName());
-	for (String element : elements) {
+	List<ID> elements = patronElements.get(id);
+	for (ID element : elements) {
 	    ListenerHelper helper = new ListenerHelper();
 	    JTextField text = (JTextField) (((JPanel) helper.getComponentByName(
 		    element, componentList)).getComponent(2));

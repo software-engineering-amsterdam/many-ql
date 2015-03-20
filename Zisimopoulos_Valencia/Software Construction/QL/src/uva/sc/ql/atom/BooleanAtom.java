@@ -27,6 +27,7 @@ public class BooleanAtom extends Expression<Object> {
 	return new BooleanAtom(false);
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

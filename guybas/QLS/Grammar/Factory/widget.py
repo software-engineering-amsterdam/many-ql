@@ -1,4 +1,3 @@
-import QLS.AST.Widget.Options.options as op
 import QLS.AST.Widget.Options.radio as r
 import QLS.AST.Widget.Options.checkbox as c
 import QLS.AST.Widget.Options.drop_down as d
@@ -7,31 +6,28 @@ import QLS.AST.Widget.slider as sl
 import QLS.AST.Widget.textbox as t
 
 
-def make_option(tokens):
-    return op.Options(tokens)
-
-
 def make_radio(tokens):
-    options = tokens[0]
-    if len(tokens) > 1:
-        default = tokens[1]
+    option1 = tokens[0]
+    option2 = tokens[1]
+    if len(tokens) > 2:
+        default = tokens[2]
     else:
         default = ""
-    return r.Radio(options, default)
+    return r.Radio(option1, option2, default)
 
 
 def make_checkbox(tokens):
-    options = tokens[0]
-    return c.Checkbox(options)
+    return c.Checkbox()
 
 
 def make_drop_down(tokens):
-    options = tokens[0]
-    if len(tokens) > 1:
-        default = tokens[1]
+    option1 = tokens[0]
+    option2 = tokens[1]
+    if len(tokens) > 2:
+        default = tokens[2]
     else:
         default = ""
-    return d.DropDown(options, default)
+    return d.DropDown(option1, option2, default)
 
 
 def make_spinbox(tokens):

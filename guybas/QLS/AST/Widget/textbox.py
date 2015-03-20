@@ -1,13 +1,12 @@
 import QLS.AST.Widget.widget as w
 import QL.Grammar.constants as constants
-import QLS.AST.Widget.default_settings as d
 
 
 class Textbox(w.Widget):
     def __init__(self):
-        self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
+        self._properties = {self.widget_name(): "" }
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         return "    " * level + "Textbox \n"
 
     def get_compatible(self):

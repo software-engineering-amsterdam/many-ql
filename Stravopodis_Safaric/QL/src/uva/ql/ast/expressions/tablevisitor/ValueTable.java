@@ -114,7 +114,7 @@ public class ValueTable implements  ExpressionVisitor<Object>, StatementVisitor<
 
 	@Override
 	public Object visitSimpleQuestion(Question question) {
-		GenericValue<?> questionInitialValue = question.getQuestionType().initialTypeValue();
+		GenericValue<?> questionInitialValue = question.getQuestionType().typeInitialValue();
 		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
 		
 		if (!this.valueTable.containsKey(questionIdentifier)){

@@ -7,15 +7,15 @@ import uva.qls.ast.value.NumberValue;
 
 public class Height extends Style{
 
-	private IntLiteral value;
+	private IntLiteral height;
 
 	public Height(IntLiteral _value, CodeLines _codeLines) {
 		super(_codeLines);
-		this.value = _value;
+		this.height = _value;
 	}
 
 	public Integer evaluatedValue(){
-		return this.evaluate().getValue().intValue();
+		return this.evaluate().getValue();
 	}
 	
 	@Override
@@ -25,12 +25,16 @@ public class Height extends Style{
 	
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.value.evaluatedValue());
+		return new NumberValue(this.height.evaluate().getValue());
 	}
-
+	
+	@Override
+	public String getStyleType() {
+		return this.getClass().getName();
+	}
+	
 	@Override
 	public String toString() {
 		return "Height(" + this.evaluatedValue().toString() + ")";
 	}
-
 }

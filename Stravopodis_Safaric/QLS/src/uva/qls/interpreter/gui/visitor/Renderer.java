@@ -1,5 +1,7 @@
 package uva.qls.interpreter.gui.visitor;
 
+import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import uva.qls.ast.ASTNode;
@@ -19,9 +21,9 @@ import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.literal.Literal;
 import uva.qls.ast.literal.MoneyLiteral;
 import uva.qls.ast.literal.StringLiteral;
-import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
+import uva.qls.ast.statements.QuestionStringTable;
 import uva.qls.ast.statements.Section;
 import uva.qls.ast.statements.Statement;
 import uva.qls.ast.statements.Subsection;
@@ -33,107 +35,142 @@ import uva.qls.ast.style.FontSize;
 import uva.qls.ast.style.Height;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.style.Width;
+import uva.qls.ast.type.Type;
+import uva.qls.interpreter.gui.GUI;
 import uva.qls.interpreter.gui.table.DefaultTableValue;
 import uva.qls.interpreter.gui.table.QuestionValueTable;
+import uva.qls.interpreter.gui.elements.*;
 
 public class Renderer implements StatementVisitor<Object>{
 
+	private QuestionStringTable questionStringTable;
 	private QuestionValueTable table;
+	private GUI gui;
 	
-	public Renderer(QuestionValueTable _table){
+	public Renderer(QuestionValueTable _table, GUI _gui, ASTNode ast){
 		this.table = _table;
-		this.visitQuestionTable(this.table);
-	}
-	
-	public void visitQuestionTable(QuestionValueTable _table){
+		this.gui = _gui;
 		
-		for (Question question : this.table.getTable().keySet()){
-			question.accept(this);
-		}
+		this.questionStringTable = new QuestionStringTable();
+		this.questionStringTable = this.questionStringTable.getQLQuestionStrings(
+										this.gui.getTypeCheck().getTypeCheckQL(), 
+										this.gui.getTypeCheck().getSymbolTable());
 		
-	}
-
-	@Override
-	public Object visitQuestion(Question question) {
-		// TODO Auto-generated method stub
-		// visit the question itself
-		
-		DefaultTableValue value = this.table.retrieveValue(question);
-		Component questionComponent = value.getComponent();
-		List<Style> questionStyle = value.getStyle();
-		
-		//System.out.println("Component check: "  + question.getIdentifier().evaluatedValue() + " ==== "+ questionComponent);
-		questionComponent.accept(this);
-		questionComponent.componentStyle(questionStyle);
-		
-		return null;
-	}
-
-	@Override
-	public Checkbox visitCheckBox(Checkbox checkBox) {
-		System.out.println("Return a check box UIComponent");
-		return null;
-	}
-
-	@Override
-	public Dropdown visitDropDown(Dropdown dropDown) {
-		System.out.println("Return drop down UIComponent");
-		return null;
-	}
-
-	@Override
-	public Radio visitRadio(Radio radio) {
-		System.out.println("Return a radio UIComponent");
-		return null;
-	}
-
-	@Override
-	public Object visitSlider(Slider slider) {
-		System.out.println("Return a slider UIComponent");
-		return null;
-	}
-
-	@Override
-	public Object visitSpinbox(Spinbox spinbox) {
-		System.out.println("Return a spinbox UIComponent");
-		return null;
-	}
-
-	@Override
-	public Object visitTextbox(Textbox textbox) {
-		System.out.println("Return a textbox UIComponent");
-		return null;
+		this.visitProg((Prog)ast);
 	}
 	
 	@Override
 	public Object visitASTNode(ASTNode node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitProg(Prog prog) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitPage(Page page) {
-		// TODO Auto-generated method stub
+		prog.getStyleSheet().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visitStyleSheet(StyleSheet styleSheet) {
-		// TODO Auto-generated method stub
+		for (Page page : styleSheet.getPage()){
+			page.accept(this);
+		}
 		return null;
+	}
+	
+	@Override
+	public Object visitPage(Page page) {
+		
+		UIScrollView scrollView = new UIScrollView(new Size(this.gui.getLargestWidth()+320, 300));
+		this.gui.getTabController().addTab(page.getIdentifier().evaluatedValue(), scrollView);
+		
+		for (Question question : this.getPageQuestions(page.getStatement(), new ArrayList<Question>())){
+			question.accept(this);
+		}
+		
+		return null;
+	}
+	
+	private List<Question> getPageQuestions(List<Statement> list, List<Question> questions){
+		
+		for (Statement s : list){
+			if (s.getClass().equals(Section.class)){
+				this.getPageQuestions(((Section)s).getStatement(), questions);
+			}
+			else if (s.getClass().equals(Question.class)){
+				questions.add((Question)s);
+			}
+		}
+		
+		return questions;
 	}
 
 	@Override
 	public Object visitStatement(Statement statement) {
-		// TODO Auto-generated method stub
+		statement.accept(this);
 		return null;
 	}
+
+	@Override
+	public Object visitQuestion(Question question) {
+		
+		DefaultTableValue value = this.table.retrieveValue(question);
+		Component questionComponent = value.getComponent();
+		
+		// Get question text from QL
+		String questionText = this.questionStringTable.retrieveValue(question.getIdentifier().evaluatedValue());
+		questionText = questionText.replaceAll("[\"]", "");
+		
+		UIComponent<?> component = (UIComponent<?>)questionComponent.accept(this);
+		UILabel label = new UILabel(questionText);
+		label.setFont(new java.awt.Font(value.getStyle().fontName(), java.awt.Font.PLAIN, value.getStyle().fontSize()));
+		
+		UIContainer questionContainer = new UIContainer(new Size(value.getStyle().width(), value.getStyle().height()));
+		
+		questionContainer.add(label);
+		questionContainer.add((java.awt.Component)component.getComponent());
+		
+		this.gui.addFrameComponent(questionContainer);
+		
+		return null;
+	}
+
+	@Override
+	public UICheckbox visitCheckBox(Checkbox checkBox) {
+		UICheckbox _box = new UICheckbox(checkBox);
+		return _box;
+	}
+
+	@Override
+	public UIDropdown visitDropDown(Dropdown dropDown) {
+		UIDropdown _dropdown = new UIDropdown(dropDown);
+		return _dropdown;
+	}
+
+	@Override
+	public UIRadio visitRadio(Radio radio) {
+		UIRadio _radio = new UIRadio(radio);
+		return _radio;
+	}
+
+	@Override
+	public UISlider visitSlider(Slider slider) {
+		UISlider _slider = new UISlider(slider);
+		return _slider;
+	}
+
+	@Override
+	public UISpinbox visitSpinbox(Spinbox spinbox) {
+		UISpinbox _spin = new UISpinbox(spinbox);
+		return _spin;
+	}
+
+	@Override
+	public UITextbox visitTextbox(Textbox textbox) {
+		UITextbox _box = new UITextbox(textbox);
+		return _box;
+	}
+	
 
 	@Override
 	public Object visitDefaultValueComponent(DefaultValue defaultValue) {
@@ -161,43 +198,37 @@ public class Renderer implements StatementVisitor<Object>{
 	
 	@Override
 	public Object visitStyle(Style style) {
-		// TODO Auto-generated method stub
+		style.accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visitColor(Color color) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitFont(Font font) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitFontsize(FontSize fontSize) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitFontName(FontName fontName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitHeight(Height height) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitWidth(Width width) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

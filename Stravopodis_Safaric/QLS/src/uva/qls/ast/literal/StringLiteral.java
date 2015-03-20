@@ -3,7 +3,7 @@ package uva.qls.ast.literal;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.StringValue;
-import uva.qls.supporting.*;
+
 
 public class StringLiteral extends Literal {
 
@@ -17,31 +17,16 @@ public class StringLiteral extends Literal {
 		this.value = _value;
 	}
 	
-	public String evaluatedValue(){
-		return this.evaluate().getValue();
-	}
-	
-	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		return visitor.visitStringLiteral(this);
-	}
-	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-	
 	@Override
 	public String toString(){
 		if (this.value != null) return "StringLiteral(" + this.value + ")";
 		else return "StringLiteral()";
 	}
 	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitStringLiteral(this);
+	}
 	@Override
 	public StringValue evaluate() {
 		return new StringValue(this.value);

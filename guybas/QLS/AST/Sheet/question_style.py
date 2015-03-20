@@ -1,16 +1,20 @@
 import QLS.AST.Sheet.sheet_element as e
+import QLS.AST.Properties.constants as constants
 
 
 # Question style AST
 class QuestionStyle(e.SheetElement):
 
-    def __init__(self, qid, widget, properties=[]):
+    def __init__(self, qid, widget, props={}):
         self._id = qid
         self._widget = widget
+        self.set_properties(props)
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Question " + self._id + "\n"
-        s += self._widget.pretty_print(level + 1)
+        s += self._widget.string_presentation(level + 1)
+        for i in constants.PROPERTIES:
+            s += "    " * (level + 1) + i + ":" + getattr(self, i) + "\n"
         return s
 
     def get_ids(self):
@@ -22,11 +26,34 @@ class QuestionStyle(e.SheetElement):
     def is_default(self):
         return False
 
-    @staticmethod
-    def id_collection(elements):
-        raise NotImplementedError("Not implemented by sub class")
+    def set_properties(self, property_map):
+        for i in constants.PROPERTIES:
+            if i in property_map:
+                setattr(self, i, property_map[i])
+            else:
+                setattr(self, i, constants.PROPERTIES[i])
 
-    @staticmethod
-    def id_widget_dict():
-        raise NotImplementedError("Not implemented by sub class")
+    #
+    # Properties
+    #
+
+    def setter(self, a, v):
+        setattr(self, '_%s' % a, v)
+
+    def get_color(self):
+        return self.color
+
+    def get_font(self):
+        return self.font
+
+    def get_width(self):
+        return self.width
+
+    def get_height(self):
+        return self.height
+
+    def get_size(self):
+        return self.size
+
+
 

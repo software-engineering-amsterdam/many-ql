@@ -1,9 +1,8 @@
 package uva.qls.interpreter.typecheck;
 
-
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.ql.interpreter.typecheck.TypeCheck;
+import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.Prog;
 import uva.ql.main.Main;
@@ -13,16 +12,15 @@ import uva.ql.ast.ASTNode;
 import uva.qls.ast.literal.*;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
-import uva.qls.interpreter.typecheck.TypeCheckVisitor;
+import uva.qls.interpreter.typecheck.TypeCheckVisitorQLS;
 import uva.ql.supporting.*;
 
 public class TypeCheckQLS {
 	
 	private SymbolTable table;
-	private TypeCheck typeCheckQL;
+	private TypeCheckVisitor typeCheckQL;
 	private ErrorTable errorTable;
-	private TypeCheckVisitor visitor;
-	
+	private TypeCheckVisitorQLS visitor;
 	
 	public TypeCheckQLS(uva.qls.ast.ASTNode _ast){
 		this.errorTable = new ErrorTable();
@@ -31,6 +29,18 @@ public class TypeCheckQLS {
 		this.initTypeCheckQL();
 		this.startTypeVisitor(_ast);
 		this.allQuestionsDefined();
+	}
+	
+	public TypeCheckVisitor getTypeCheckQL(){
+		return this.typeCheckQL;
+	}
+	
+	public SymbolTable getSymbolTable(){
+		return this.table;
+	}
+	
+	public ErrorTable getErrorTable(){
+		return this.errorTable;
 	}
 	
 	private void initTypeCheckQL(){
@@ -46,20 +56,8 @@ public class TypeCheckQLS {
 		
 	}
 	
-	public TypeCheck getTypeCheckQL(){
-		return this.typeCheckQL;
-	}
-	
-	public SymbolTable getSymbolTable(){
-		return this.table;
-	}
-	
-	public ErrorTable getErrorTable(){
-		return this.errorTable;
-	}
-	
 	private void startTypeVisitor(uva.qls.ast.ASTNode _ast){
-		this.visitor = new TypeCheckVisitor(this, this.table);
+		this.visitor = new TypeCheckVisitorQLS(this, this.table);
 		visitor.visitProg((Prog) _ast);
 	}
 	

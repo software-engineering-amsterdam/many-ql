@@ -25,7 +25,12 @@ public class FontSize extends Font{
 	
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.value.evaluatedValue());
+		return new NumberValue(this.value.evaluate().getValue());
+	}
+	
+	@Override
+	public String getStyleType() {
+		return this.getClass().getName();
 	}
 
 	@Override

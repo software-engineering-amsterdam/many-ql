@@ -15,7 +15,7 @@ public class TypeMoney extends Type{
 	}
 	
 	@Override
-	public NumberValue initialTypeValue() {
+	public NumberValue typeInitialValue() {
 		return new NumberValue(0);
 	}
 

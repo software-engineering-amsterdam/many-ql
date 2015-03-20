@@ -4,8 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
-
-import uva.qls.ast.primitive.PrimitiveType;
+import uva.qls.ast.type.PrimitiveType;
 import uva.qls.interpreter.typecheck.table.Table;
 
 public class DefaultTable extends Table<String, Deque<DefaultTableValue>>{

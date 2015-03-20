@@ -12,41 +12,51 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import uva.sc.ql.atom.ID;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.gui.listeners.VisibilityListener;
 
 @SuppressWarnings("serial")
 public class CheckBoxQuestion extends Question {
 
-    Map<String, List<String>> dependentElements;
+    Map<ID, List<ID>> patronElements;
     EvaluatorVisitor evaluator;
     List<Component> componentList;
 
-    public CheckBoxQuestion(Map<String, List<String>> dependentElements,
+    public CheckBoxQuestion(Map<ID, List<ID>> d,
 	    EvaluatorVisitor evalVisitor, List<Component> componentList) {
-	this.dependentElements = dependentElements;
+	this.patronElements = d;
 	this.evaluator = evalVisitor;
 	this.componentList = componentList;
     }
 
-    public JPanel drawQuestion(String id, String label, boolean isEditable) {
+    public JPanel drawQuestion(ID id, String label, boolean isEditable) {
 	JCheckBox checkBox = new JCheckBox();
-	checkBox.setName(id);
+	checkBox.setName(id.getValue());
 
-	for (Entry<String, List<String>> entry : dependentElements.entrySet()) {
-	    if (entry.getKey().equals(checkBox.getName())) {
-		checkBox.addActionListener(new VisibilityListener(
-			dependentElements, evaluator, componentList, checkBox));
-	    }
-	}
-
+	addListeners(id, checkBox);
+	
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(2, 0));
 	panel.add(new JLabel(label));
 	panel.add(Box.createRigidArea(new Dimension(0, 5)));
 	panel.add(checkBox);
-	panel.setName(id);
+	panel.setName(id.getValue());
 	return panel;
+    }
+
+    private void addListeners(ID id, JCheckBox checkBox) {
+	for (Entry<ID, List<ID>> entry : patronElements.entrySet()) {
+	    addListener(id, checkBox, entry);
+	}
+    }
+
+    private void addListener(ID id, JCheckBox checkBox,
+	    Entry<ID, List<ID>> entry) {
+	if (entry.getKey().equals(id)) {
+	    checkBox.addActionListener(new VisibilityListener(
+		patronElements, evaluator, componentList, checkBox, id));
+	}
     }
 
 }

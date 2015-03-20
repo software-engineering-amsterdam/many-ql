@@ -15,12 +15,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import uva.sc.core.errors.IError;
 import uva.sc.core.warnings.IWarning;
 import uva.sc.ql.ast.IQLFormNode;
-import uva.sc.ql.dependentElements.DependentQuestionsVisitor;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.parser.ASTGeneratorVisitor;
 import uva.sc.ql.parser.QLErrorListener;
 import uva.sc.ql.parser.QLGrammarLexer;
 import uva.sc.ql.parser.QLGrammarParser;
+import uva.sc.ql.patronElements.PatronQuestionsVisitor;
 import uva.sc.ql.typeChecker.TypeCheckerVisitor;
 
 @SuppressWarnings("serial")
@@ -35,18 +35,18 @@ public class QuestionnaireForm extends JFrame {
 	QLGrammarLexer lexer = new QLGrammarLexer(in);
 	CommonTokenStream tokens = new CommonTokenStream(lexer);
 	QLGrammarParser parser = new QLGrammarParser(tokens);
+	
 	parser.removeErrorListeners();
 	QLErrorListener syntaxErrorListener = new QLErrorListener();
 	parser.addErrorListener(syntaxErrorListener);
 	tree = parser.form();
 
-	List<IError> syntaxErrors = syntaxErrorListener.getErrors();
-	showErrorMessages(file, "Syntax Errors", syntaxErrors);
+	syntaxErrorChecking(syntaxErrorListener);
 	
 	IQLFormNode questionnaire = generateAST(); 
 	typeChecking(questionnaire);
 	EvaluatorVisitor eval = evaluate(questionnaire);
-	DependentQuestionsVisitor dependentQuestions = findDependentQuestions(questionnaire);
+	PatronQuestionsVisitor dependentQuestions = findDependentQuestions(questionnaire);
 	GUIVisitor questions = generateGUIQuestions(eval, dependentQuestions, questionnaire);
 	renderQuestionnaire(eval, questions, dependentQuestions);
     }
@@ -56,6 +56,11 @@ public class QuestionnaireForm extends JFrame {
 	IQLFormNode questionnaire = (IQLFormNode) visitor.visit(tree);
 	return questionnaire;
     }
+    
+    public void syntaxErrorChecking(QLErrorListener syntaxErrorListener) {
+	List<IError> syntaxErrors = syntaxErrorListener.getErrors();
+	showErrorMessages(file, "Syntax Errors", syntaxErrors);
+    }  
     
     public TypeCheckerVisitor typeChecking(IQLFormNode questionnaire) {
 	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
@@ -76,26 +81,26 @@ public class QuestionnaireForm extends JFrame {
 	return evaluator;
     }
     
-    public DependentQuestionsVisitor findDependentQuestions (IQLFormNode questionnaire) {
-	DependentQuestionsVisitor d = new DependentQuestionsVisitor();
+    public PatronQuestionsVisitor findDependentQuestions (IQLFormNode questionnaire) {
+	PatronQuestionsVisitor d = new PatronQuestionsVisitor();
 	questionnaire.accept(d);
 	return d;
     }
     
-    public GUIVisitor generateGUIQuestions(EvaluatorVisitor eval, DependentQuestionsVisitor d, IQLFormNode questionnaire) {
+    public GUIVisitor generateGUIQuestions(EvaluatorVisitor eval, PatronQuestionsVisitor d, IQLFormNode questionnaire) {
 	GUIVisitor vis = new GUIVisitor(eval, d);
 	questionnaire.accept(vis);
 	return vis;
     }
     
-    public void renderQuestionnaire(EvaluatorVisitor eval, GUIVisitor vis, DependentQuestionsVisitor d) {
-	DrawQuestionnaire draw = new DrawQuestionnaire(eval, vis.getComponentList(), d.getDependentElements());
+    public void renderQuestionnaire(EvaluatorVisitor eval, GUIVisitor vis, PatronQuestionsVisitor d) {
+	DrawQuestionnaire draw = new DrawQuestionnaire(vis.getComponentList());
 	draw.render();
     }
 
     private void showWarningMessages(File file, String title,
 	    List<IWarning> typeCheckerWarnings) {
-	// Show an Warning messageBox
+	// Show a Warning messageBox
 	String message = "Warnings in the file " + file + ":\n\n";
 	for (IWarning warning : typeCheckerWarnings) {
 	    message = message + warning + "\n";

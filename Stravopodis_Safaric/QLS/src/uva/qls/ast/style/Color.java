@@ -6,18 +6,17 @@ import uva.qls.ast.value.ColorValue;
 
 public class Color extends Style{
 
-	private Integer colorCode;
+	private String colorCode;
 	
-	public Color(Integer _colorCode, CodeLines _codeLines){
+	public Color(String _colorCode, CodeLines _codeLines){
 		super(_codeLines);
 		this.colorCode = _colorCode;
 	}
 	
-
 	public java.awt.Color evaluatedValue(){
 		return this.evaluate().getValue();
 	}
-	
+
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitColor(this);
@@ -26,6 +25,11 @@ public class Color extends Style{
 	@Override
 	public ColorValue evaluate() {
 		return new ColorValue(this.colorCode);
+	}
+	
+	@Override
+	public String getStyleType() {
+		return this.getClass().getName();
 	}
 
 	@Override
