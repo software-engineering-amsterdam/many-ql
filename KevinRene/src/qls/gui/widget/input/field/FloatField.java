@@ -12,6 +12,7 @@ public class FloatField extends Field<FloatValue> implements CaretListener {
 	public FloatField () {
 		super(new FloatValue(0f));
 	}
+	
 	public FloatField (FloatValue value) {
 		super(value);
 	}

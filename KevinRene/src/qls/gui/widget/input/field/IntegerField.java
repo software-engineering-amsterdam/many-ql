@@ -12,6 +12,7 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	public IntegerField () {
 		super(new IntegerValue(0));
 	}
+	
 	public IntegerField (IntegerValue value) {
 		super(value);
 	}

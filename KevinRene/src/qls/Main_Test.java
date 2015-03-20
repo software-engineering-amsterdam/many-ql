@@ -5,6 +5,13 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import ql.TypeEnvironment;
+package qls;
+
+import java.util.List;
+
+import javax.swing.JFrame;
+
+import ql.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import qls.ast.visitor.WidgetEnvironment;
@@ -29,7 +36,7 @@ public class Main_Test {
 			+ 		"privateDebt: money {"
 			+ 			"\"Private debts for the sold house:\""
 			+ 		"}"
-			+ 		"valueResidue: float {"
+			+ 		"valueResidue: integer {"
 			+ 			"\"Value residue:\""
 			+ 			"assign(sellingPrice - privateDebt)"
 			+ 		"}"
@@ -71,9 +78,7 @@ public class Main_Test {
 			+ 				"widget radio(\"Yes\", \"No\");"
 			+ 			"}"
 			+			"section \"Nested\" {"
-			+ 				"question valueResidue {"
-			+ 					"widget spinbox;"
-			+ 				"}"
+			+ 				"question valueResidue;"
 			+			"}"
 			+ 			"question firstString {"
 			+ 				"widget text;"
@@ -115,8 +120,18 @@ public class Main_Test {
 			System.out.println(errors.getErrors());
 		}
 
-		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);		
-		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);		
+		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
+		
+		for(Identifier identifier : widgets.getIdentifiers()) {
+			System.out.println(identifier + " : " + widgets.resolve(identifier).getClass().getSimpleName());
+		}
+		
+		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);
+		
+		for(Identifier identifier : widgets.getIdentifiers()) {
+			System.out.println(identifier + " : " + widgets.resolve(identifier));
+		}
+		
 		UIComponent createdPanel = PageBuilder.build(qlsTree, domains, widgets);
 		
         //Create and set up the window.
