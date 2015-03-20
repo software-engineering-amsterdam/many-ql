@@ -14,11 +14,11 @@ import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
 import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 
-public class ControlGeneratorVisitor implements DataTypeVisitor<ControlPropertyChangeWrapper> {
+public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWrapper> {
 
 	private RuntimeQuestion runtimeQuestion;
 
-	public ControlGeneratorVisitor(RuntimeQuestion runtimeQuestion) {
+	public ControlGenerator(RuntimeQuestion runtimeQuestion) {
 		this.runtimeQuestion = runtimeQuestion;
 	}
 

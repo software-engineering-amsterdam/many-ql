@@ -21,7 +21,7 @@ import nl.uva.sc.encoders.qlruntime.evaluator.ExpressionEvaluator;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.Value;
-import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
+import nl.uva.sc.encoders.qlruntime.ui.control.ControlGenerator;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
 public class QuestionnaireUI {
@@ -54,8 +54,8 @@ public class QuestionnaireUI {
 			Expression condition = runtimeQuestion.getCondition();
 			boolean visible = condition == null;
 			label.setVisible(visible);
-			ControlGeneratorVisitor controlGeneratorVisitor = new ControlGeneratorVisitor(runtimeQuestion);
-			ControlPropertyChangeWrapper controlPropertyChangeWrapper = dataType.accept(controlGeneratorVisitor);
+			ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
+			ControlPropertyChangeWrapper controlPropertyChangeWrapper = dataType.accept(controlGenerator);
 			Control control = controlPropertyChangeWrapper.getControl();
 
 			control.setVisible(visible);
