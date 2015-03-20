@@ -2,6 +2,7 @@ package qls.gui.builder;
 
 import ql.ast.QLType;
 import ql.ast.type.QLBoolean;
+import ql.value.IntegerValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
@@ -34,7 +35,7 @@ public class BooleanWidgetBuilder implements WidgetBuilder {
 	}
 
 	@Override
-	public InputWidget<?> createSlider(StyleProperties properties) {
+	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
 		throw new UnsupportedOperationException();
 	}
 

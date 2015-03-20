@@ -2,7 +2,6 @@ package qls.gui.widget.input.field;
 
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class TextField extends Field<StringValue> {
@@ -27,11 +26,6 @@ public class TextField extends Field<StringValue> {
 
 	@Override
 	public void setStyle(StyleProperties properties) {
-		
-	}
-
-	@Override
-	protected void setFont(Font font) {
-		
+		stylizer.setStyle(textField, properties);
 	}
 }

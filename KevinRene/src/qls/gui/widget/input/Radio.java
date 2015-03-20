@@ -12,16 +12,18 @@ import ql.gui.widget.input.RadioButton;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
-import qls.ast.statement.widget.styling.property.FontSize;
 import qls.gui.widget.InputWidget;
+import qls.gui.widget.WidgetStylizer;
 
 public class Radio extends DefaultChangeHandler implements InputWidget<BooleanValue> {
+	private WidgetStylizer stylizer;
 	private RadioButton trueRadio, falseRadio;
 	private ButtonGroup buttons;
 	private Panel buttonsPanel;
 	
 	public Radio(StringValue trueValue, StringValue falseValue) {
+		stylizer = new WidgetStylizer();
+		
 		trueRadio = new RadioButton(trueValue);
 		falseRadio = new RadioButton(falseValue);
 		
@@ -42,33 +44,8 @@ public class Radio extends DefaultChangeHandler implements InputWidget<BooleanVa
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		setFont(properties.getFont());
-		setFontSize(properties.getFontSize());
-	}
-
-	private void setFont(Font font) {
-		if(font == null || font.getFontName() == null) {
-			return;
-		}
-		
-		trueRadio.getComponent().setFont(
-				new java.awt.Font(font.getFontName(), java.awt.Font.PLAIN, 13));
-		falseRadio.getComponent().setFont(
-				new java.awt.Font(font.getFontName(), java.awt.Font.PLAIN, 13));
-	}
-	
-	private void setFontSize(FontSize fontSize) {
-		if(fontSize == null) {
-			return;
-		}
-		
-		java.awt.Font currentFont = trueRadio.getComponent().getFont();
-		trueRadio.getComponent().setFont(new java.awt.Font(currentFont.getFontName(), 
-				java.awt.Font.PLAIN, fontSize.getFontSize()));
-		
-		currentFont = falseRadio.getComponent().getFont();
-		falseRadio.getComponent().setFont(new java.awt.Font(currentFont.getFontName(), 
-					java.awt.Font.PLAIN, fontSize.getFontSize()));
+		stylizer.setStyle(trueRadio.getComponent(), properties);
+		stylizer.setStyle(falseRadio.getComponent(), properties);
 	}
 	
 	@Override

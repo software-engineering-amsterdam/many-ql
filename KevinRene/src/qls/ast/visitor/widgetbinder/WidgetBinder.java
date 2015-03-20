@@ -157,7 +157,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 
 	@Override
 	public WidgetFactory visit(Slider sliderNode) {
-		return new SliderFactory();
+		return new SliderFactory(sliderNode.getFirstValue(), sliderNode.getSecondValue());
 	}
 
 	public Void visit(DefaultStyle defaultNode) {

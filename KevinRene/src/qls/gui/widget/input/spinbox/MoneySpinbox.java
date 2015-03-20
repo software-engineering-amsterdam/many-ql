@@ -9,7 +9,6 @@ import javax.swing.event.ChangeListener;
 import ql.Value;
 import ql.value.MoneyValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Spinbox;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
@@ -53,11 +52,6 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		
-	}
-
-	@Override
-	protected void setFont(Font font) {
-		
+		stylizer.setStyle(spinbox, properties);
 	}
 }
