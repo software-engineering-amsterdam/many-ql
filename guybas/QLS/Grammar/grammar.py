@@ -95,4 +95,4 @@ default_setting = \
 page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(qls.make_page)
 
 # sheet = Sheet _name page+
-sheet = Suppress("Sheet") + name + Group(OneOrMore(page | default_setting))
+sheet = Suppress("Sheet") + name + Group(OneOrMore(page | default_setting)) + pp.StringEnd()
