@@ -70,16 +70,18 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 	private Node determineNodeToShow(StylesheetParsingResult stylesheetParsingResult) {
 		List<SyntaxError> syntaxErrors = stylesheetParsingResult.getSyntaxErrors();
 		if (!syntaxErrors.isEmpty()) {
-			ValidationsUI validationsUIFactory = new ValidationsUI();
-			return validationsUIFactory.generateUI(syntaxErrors);
+			ValidationsUI validationsUI = new ValidationsUI();
+			validationsUI.showValidations(syntaxErrors);
+			return validationsUI;
 		}
 
 		Stylesheet stylesheet = stylesheetParsingResult.getStylesheet();
 		TypeChecker typeChecker = new TypeChecker(stylesheet);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
-			ValidationsUI validationsUIFactory = new ValidationsUI();
-			return validationsUIFactory.generateUI(typeValidations);
+			ValidationsUI validationsUI = new ValidationsUI();
+			validationsUI.showValidations(typeValidations);
+			return validationsUI;
 		}
 
 		// How will we refer to the QL environment?

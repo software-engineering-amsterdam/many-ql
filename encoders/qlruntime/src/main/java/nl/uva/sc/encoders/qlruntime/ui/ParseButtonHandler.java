@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
@@ -24,11 +25,11 @@ import org.controlsfx.dialog.ExceptionDialog;
 public class ParseButtonHandler implements EventHandler<ActionEvent> {
 
 	private final StackPane stackPane;
-	private final String inputFilePath;
+	private final TextField inputFileTextField;
 
-	public ParseButtonHandler(StackPane stackPane, String inputFilePath) {
+	public ParseButtonHandler(StackPane stackPane, TextField inputFileTextField) {
 		this.stackPane = stackPane;
-		this.inputFilePath = inputFilePath;
+		this.inputFileTextField = inputFileTextField;
 	}
 
 	public StackPane getStackPane() {
@@ -37,6 +38,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
+		String inputFilePath = inputFileTextField.getText();
 		try {
 			URL resource = getURL(inputFilePath);
 			File file;
@@ -70,16 +72,18 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 	private Node determineNodeToShow(QuestionnaireParsingResult questionnaireParsingResult) {
 		List<SyntaxError> syntaxErrors = questionnaireParsingResult.getSyntaxErrors();
 		if (!syntaxErrors.isEmpty()) {
-			ValidationsUI validationsUIFactory = new ValidationsUI();
-			return validationsUIFactory.generateUI(syntaxErrors);
+			ValidationsUI validationsUI = new ValidationsUI();
+			validationsUI.showValidations(syntaxErrors);
+			return validationsUI;
 		}
 
 		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
 		TypeChecker typeChecker = new TypeChecker(questionnaire);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
-			ValidationsUI validationsUIFactory = new ValidationsUI();
-			return validationsUIFactory.generateUI(typeValidations);
+			ValidationsUI validationsUI = new ValidationsUI();
+			validationsUI.showValidations(typeValidations);
+			return validationsUI;
 		}
 		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 		List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);

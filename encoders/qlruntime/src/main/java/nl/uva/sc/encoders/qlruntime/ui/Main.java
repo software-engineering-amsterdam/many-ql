@@ -48,8 +48,7 @@ public class Main extends Application {
 		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField));
 
 		StackPane stackPane = new StackPane();
-		String inputFilePath = inputFileTextField.getText();
-		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(stackPane, inputFilePath);
+		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(stackPane, inputFileTextField);
 		parseButton.setOnAction(parseButtonHandler);
 
 		grid.add(stackPane, 0, 1, 3, 1);
