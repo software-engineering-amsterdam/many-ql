@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
@@ -87,8 +88,11 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		}
 		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 		List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
-		QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
 		String questionnaireTitle = questionnaire.getName();
-		return questionnaireUIFactory.generateUI(questionnaireTitle, runtimeQuestions);
+		QuestionnaireUI questionnaireUI = new QuestionnaireUI(questionnaireTitle);
+		ScrollPane scrollPane = new ScrollPane(questionnaireUI);
+		questionnaireUI.showQuestions(runtimeQuestions);
+		scrollPane.setPrefSize(650, 500);
+		return scrollPane;
 	}
 }

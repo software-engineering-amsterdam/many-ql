@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -23,25 +22,21 @@ import nl.uva.sc.encoders.qlruntime.model.value.Value;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGenerator;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
-public class QuestionnaireUI {
+public class QuestionnaireUI extends GridPane {
 
-	public Control generateUI(String questionnaireTitle, final List<RuntimeQuestion> runtimeQuestions) {
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
-		setupQuestionnaireUI(questionnaireTitle, runtimeQuestions, grid);
+	public QuestionnaireUI(String questionnaireTitle) {
+		setAlignment(Pos.CENTER);
+		setHgap(10);
+		setVgap(10);
+		setPadding(new Insets(25, 25, 25, 25));
 
-		ScrollPane scrollPane = new ScrollPane(grid);
-		scrollPane.setPrefSize(650, 500);
-		return scrollPane;
-	}
-
-	private void setupQuestionnaireUI(String questionnaireTitle, final List<RuntimeQuestion> runtimeQuestions, GridPane grid) {
 		Text scenetitle = new Text(questionnaireTitle);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		grid.add(scenetitle, 0, 0, 2, 1);
+		add(scenetitle, 0, 0, 2, 1);
+	}
+
+	public void showQuestions(final List<RuntimeQuestion> runtimeQuestions) {
+		getChildren().clear();
 		int y = 1;
 
 		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
@@ -49,7 +44,7 @@ public class QuestionnaireUI {
 
 			DataType dataType = question.getDataType();
 			Label label = new Label(question.getQuestionLabel());
-			grid.add(label, 0, y);
+			add(label, 0, y);
 			Expression condition = runtimeQuestion.getCondition();
 			boolean visible = condition == null;
 			label.setVisible(visible);
@@ -81,7 +76,7 @@ public class QuestionnaireUI {
 					runtimeQuestion.setValue(value);
 				});
 			}
-			grid.add(control, 1, y);
+			add(control, 1, y);
 			y++;
 		}
 	}
