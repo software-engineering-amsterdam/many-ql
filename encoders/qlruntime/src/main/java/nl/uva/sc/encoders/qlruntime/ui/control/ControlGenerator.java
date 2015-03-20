@@ -1,8 +1,5 @@
 package nl.uva.sc.encoders.qlruntime.ui.control;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
@@ -25,8 +22,10 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 	@Override
 	public CheckBoxPropertyChangeWrapper visit(BooleanType qlBoolean) {
 		CheckBox checkBox = new CheckBox("Yes");
-		CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
-		checkBox.setOnAction(checkBoxEventHandler);
+		checkBox.setOnAction(event -> {
+			CheckBox checkBox1 = (CheckBox) event.getSource();
+			runtimeQuestion.setValue(new BooleanValue(checkBox1.isSelected()));
+		});
 		return new CheckBoxPropertyChangeWrapper(checkBox);
 	}
 
@@ -47,63 +46,26 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 				}
 			}
 		};
-		textField.setOnKeyReleased(new NumberFieldHandler(runtimeQuestion));
+		textField.setOnKeyReleased(event -> {
+			TextField textField1 = (TextField) event.getSource();
+			String text = textField1.getText();
+			Integer value = 0;
+			if (!text.isEmpty()) {
+				value = Integer.valueOf(text);
+			}
+			runtimeQuestion.setValue(new IntegerValue(value));
+		});
 		return new TextFieldPropertyChangeWrapper(textField);
 	}
 
 	@Override
 	public TextFieldPropertyChangeWrapper visit(StringType stringType) {
 		TextField textField = new TextField();
-		textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
+		textField.setOnKeyReleased(event -> {
+			TextField textField1 = (TextField) event.getSource();
+			StringValue value = new StringValue(textField1.getText());
+			runtimeQuestion.setValue(value);
+		});
 		return new TextFieldPropertyChangeWrapper(textField);
 	}
-
-	private class TextFieldHandler implements EventHandler<Event> {
-		private RuntimeQuestion question;
-
-		public TextFieldHandler(RuntimeQuestion question) {
-			this.question = question;
-		}
-
-		@Override
-		public void handle(Event event) {
-			TextField textField = (TextField) event.getSource();
-			StringValue value = new StringValue(textField.getText());
-			question.setValue(value);
-		}
-	}
-
-	private class NumberFieldHandler implements EventHandler<Event> {
-		private RuntimeQuestion question;
-
-		public NumberFieldHandler(RuntimeQuestion question) {
-			this.question = question;
-		}
-
-		@Override
-		public void handle(Event event) {
-			TextField textField = (TextField) event.getSource();
-			String text = textField.getText();
-			Integer value = 0;
-			if (!text.isEmpty()) {
-				value = Integer.valueOf(text);
-			}
-			question.setValue(new IntegerValue(value));
-		}
-	}
-
-	private class CheckBoxEventHandler implements EventHandler<ActionEvent> {
-		private RuntimeQuestion question;
-
-		public CheckBoxEventHandler(RuntimeQuestion question) {
-			this.question = question;
-		}
-
-		@Override
-		public void handle(ActionEvent event) {
-			CheckBox checkBox = (CheckBox) event.getSource();
-			question.setValue(new BooleanValue(checkBox.isSelected()));
-		}
-	}
-
 }
