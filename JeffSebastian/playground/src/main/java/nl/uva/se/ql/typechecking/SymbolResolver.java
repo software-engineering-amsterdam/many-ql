@@ -45,6 +45,7 @@ public class SymbolResolver extends AbstractResolver {
 			errors.addError(new UndefinedReference(reference.getLineNumber(), 
 					reference.getOffset(), reference.getName()));
 		}
+		
 		return null;
 	}
 	

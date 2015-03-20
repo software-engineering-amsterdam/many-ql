@@ -230,4 +230,9 @@ public class IntegerValue extends Value<Integer> {
 		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) != 0);
 	}
 
+	@Override
+	public Value promote() {
+		return new DecimalValue(new BigDecimal(getValue()));
+	}
+	
 }

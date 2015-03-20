@@ -6,6 +6,7 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.ast.type.DecimalType;
 import nl.uva.se.ql.evaluation.value.Value;
 
 public class Evaluator implements FormVisitor, StatementVisitor {
@@ -41,6 +42,9 @@ public class Evaluator implements FormVisitor, StatementVisitor {
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Value exprValue = ExpressionEvaluator.evaluate(calculatedQuestion.getExpression(), values);
+		if (calculatedQuestion.getType().equals(new DecimalType())) {
+			exprValue = exprValue.promote();
+		}
 		values.addValue(calculatedQuestion.getId(), exprValue);
 	}
 

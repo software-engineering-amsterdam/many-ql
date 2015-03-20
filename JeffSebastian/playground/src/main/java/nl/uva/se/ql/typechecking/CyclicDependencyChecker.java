@@ -1,5 +1,7 @@
 package nl.uva.se.ql.typechecking;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import nl.uva.se.ql.ast.statement.Question;
@@ -41,19 +43,20 @@ public class CyclicDependencyChecker {
 			if (dependant.equals(question)) {
 				errors.addError(new CyclicDependency(question.getLineNumber(), 
 						question.getOffset()));
-				return;
 			}
 			
-			checkAllPaths(question, dependencies.getDependenciesFor(dependant));
+			checkAllPaths(question, dependencies.getDependenciesFor(dependant), new ArrayList<Question>());
 		}
 	}
 	
-	private void checkAllPaths(Question question, Set<Question> dependants) {
+	private void checkAllPaths(Question question, Set<Question> dependants, List<Question> visited) {
 		for (Question q : dependants) {
-			if (q.equals(question)) {
-				errors.addError(new CyclicDependency(question.getLineNumber(), 
-						question.getOffset()));
-				return;
+			if (!visited.contains(q)) {
+				visited.add(q);
+				if (q.equals(question)) {
+					errors.addError(new CyclicDependency(question.getLineNumber(), 
+							question.getOffset()));
+				}
 			}
 		}
 	}
