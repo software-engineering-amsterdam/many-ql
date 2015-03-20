@@ -4,6 +4,6 @@ import java.beans.PropertyChangeListener;
 
 import javafx.scene.control.Control;
 
-public interface ControlWrapper extends PropertyChangeListener {
+public interface ControlPropertyChangeWrapper extends PropertyChangeListener {
 	abstract Control getControl();
 }

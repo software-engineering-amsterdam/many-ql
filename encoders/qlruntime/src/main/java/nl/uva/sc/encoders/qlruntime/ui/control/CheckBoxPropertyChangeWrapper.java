@@ -5,11 +5,11 @@ import java.beans.PropertyChangeEvent;
 import javafx.scene.control.CheckBox;
 import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 
-public class CheckBoxWrapper implements ControlWrapper {
+public class CheckBoxPropertyChangeWrapper implements ControlPropertyChangeWrapper {
 
 	private final CheckBox checkBox;
 
-	public CheckBoxWrapper(CheckBox checkBox) {
+	public CheckBoxPropertyChangeWrapper(CheckBox checkBox) {
 		this.checkBox = checkBox;
 	}
 

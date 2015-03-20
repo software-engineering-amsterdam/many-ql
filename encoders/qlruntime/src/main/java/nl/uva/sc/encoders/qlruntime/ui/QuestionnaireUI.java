@@ -22,7 +22,7 @@ import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.Value;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
-import nl.uva.sc.encoders.qlruntime.ui.control.ControlWrapper;
+import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
 public class QuestionnaireUI {
 
@@ -55,8 +55,8 @@ public class QuestionnaireUI {
 			boolean visible = condition == null;
 			label.setVisible(visible);
 			ControlGeneratorVisitor controlGeneratorVisitor = new ControlGeneratorVisitor(runtimeQuestion);
-			ControlWrapper controlWrapper = dataType.accept(controlGeneratorVisitor);
-			Control control = controlWrapper.getControl();
+			ControlPropertyChangeWrapper controlPropertyChangeWrapper = dataType.accept(controlGeneratorVisitor);
+			Control control = controlPropertyChangeWrapper.getControl();
 
 			control.setVisible(visible);
 
@@ -67,7 +67,7 @@ public class QuestionnaireUI {
 			Expression computed = question.getComputed();
 			if (computed != null) {
 				control.setDisable(true);
-				addComputedListeners(runtimeQuestions, runtimeQuestion, controlWrapper, computed);
+				addComputedListeners(runtimeQuestions, runtimeQuestion, controlPropertyChangeWrapper, computed);
 			}
 			grid.add(control, 1, y);
 			y++;
@@ -99,10 +99,10 @@ public class QuestionnaireUI {
 	}
 
 	private void addComputedListeners(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
-			final ControlWrapper controlWrapper, final Expression computed) {
+			final ControlPropertyChangeWrapper controlPropertyChangeWrapper, final Expression computed) {
 		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 		Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
-		runtimeQuestion.addPropertyChangeListener(controlWrapper);
+		runtimeQuestion.addPropertyChangeListener(controlPropertyChangeWrapper);
 		for (String relatedQuestionName : relatedQuestionNames) {
 			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 			relatedQuestion.addPropertyChangeListener(new PropertyChangeListener() {

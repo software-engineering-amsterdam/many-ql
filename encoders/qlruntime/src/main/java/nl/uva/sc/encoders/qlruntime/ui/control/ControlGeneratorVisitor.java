@@ -14,7 +14,7 @@ import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
 import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 
-public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> {
+public class ControlGeneratorVisitor implements DataTypeVisitor<ControlPropertyChangeWrapper> {
 
 	private RuntimeQuestion runtimeQuestion;
 
@@ -23,15 +23,15 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> 
 	}
 
 	@Override
-	public CheckBoxWrapper visit(BooleanType qlBoolean) {
+	public CheckBoxPropertyChangeWrapper visit(BooleanType qlBoolean) {
 		CheckBox checkBox = new CheckBox("Yes");
 		CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
 		checkBox.setOnAction(checkBoxEventHandler);
-		return new CheckBoxWrapper(checkBox);
+		return new CheckBoxPropertyChangeWrapper(checkBox);
 	}
 
 	@Override
-	public TextFieldWrapper visit(IntegerType integerType) {
+	public TextFieldPropertyChangeWrapper visit(IntegerType integerType) {
 		TextField textField = new TextField() {
 			@Override
 			public void replaceText(int start, int end, String text) {
@@ -48,14 +48,14 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> 
 			}
 		};
 		textField.setOnKeyReleased(new NumberFieldHandler(runtimeQuestion));
-		return new TextFieldWrapper(textField);
+		return new TextFieldPropertyChangeWrapper(textField);
 	}
 
 	@Override
-	public TextFieldWrapper visit(StringType stringType) {
+	public TextFieldPropertyChangeWrapper visit(StringType stringType) {
 		TextField textField = new TextField();
 		textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
-		return new TextFieldWrapper(textField);
+		return new TextFieldPropertyChangeWrapper(textField);
 	}
 
 	private class TextFieldHandler implements EventHandler<Event> {

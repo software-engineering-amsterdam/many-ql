@@ -4,11 +4,11 @@ import java.beans.PropertyChangeEvent;
 
 import javafx.scene.control.TextField;
 
-public class TextFieldWrapper implements ControlWrapper {
+public class TextFieldPropertyChangeWrapper implements ControlPropertyChangeWrapper {
 
 	private final TextField textField;
 
-	public TextFieldWrapper(TextField textField) {
+	public TextFieldPropertyChangeWrapper(TextField textField) {
 		this.textField = textField;
 	}
 
