@@ -22,7 +22,9 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
 	protected JTextField textField;
 	protected JLabel errorLabel;
 	
-	public Field() {
+	protected T value;
+	
+	public Field(T initialValue) {
 		textField = new JTextField(50);
     	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
@@ -36,6 +38,8 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
     	container = new JPanel(new MigLayout());
     	container.add(textField);
     	container.add(errorLabel, "wrap");
+    	
+    	setValue(initialValue);
 	}
 		
 	protected void setError(String text) {
@@ -63,14 +67,15 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
 		return this.container;
 	}
 	
-	@Override
-	public void caretUpdate(CaretEvent e) {
-		try {
-			handleChange(getValue(), this);
-			removeError();
-		}
-		catch (NumberFormatException nfe) {
-			setError("Not a valid integer");
-		}
+	public T getValue() {
+		return this.value;
 	}
+	
+	public void setValue(T value) {
+		this.value = value;
+		textField.setText(value.toString());		
+	}
+	
+	public abstract void caretUpdate(CaretEvent e);
+	protected abstract T getFieldValue() throws NumberFormatException;
 }

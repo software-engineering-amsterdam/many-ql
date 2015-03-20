@@ -1,5 +1,7 @@
 package qls.gui.widget.input.field;
 
+import javax.swing.event.CaretEvent;
+
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.ast.statement.widget.styling.property.Font;
@@ -7,24 +9,13 @@ import qls.gui.widget.input.Field;
 
 public class TextField extends Field<StringValue> {
 	public TextField() {
-		super();
+		super(new StringValue(""));
 	}
 	
 	public TextField (StringValue stringValue) {
-		super();		
-    	textField.setText(stringValue.getValue());	
+		super(stringValue);		
 	}
 	
-	@Override
-	public StringValue getValue() {
-		return new StringValue(textField.getText());
-	}
-	
-	@Override
-	public void setValue(StringValue value) {
-		textField.setText(value.toString());		
-	}
-
 	@Override
 	public void setStyle(StyleProperties properties) {
 		
@@ -33,5 +24,15 @@ public class TextField extends Field<StringValue> {
 	@Override
 	protected void setFont(Font font) {
 		
+	}
+
+	@Override
+	public void caretUpdate(CaretEvent e) {
+		handleChange(getFieldValue(), this);
+	}
+
+	@Override
+	protected StringValue getFieldValue() {
+		return new StringValue(textField.getText());
 	}
 }

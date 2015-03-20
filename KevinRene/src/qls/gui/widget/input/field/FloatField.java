@@ -1,5 +1,6 @@
 package qls.gui.widget.input.field;
 
+import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import ql.value.FloatValue;
@@ -9,21 +10,10 @@ import qls.gui.widget.input.Field;
 
 public class FloatField extends Field<FloatValue> implements CaretListener {	
 	public FloatField () {
-		super();
+		super(new FloatValue(0f));
 	}
 	public FloatField (FloatValue value) {
-		super();		
-    	textField.setText(value.getValue().toString());	
-	}
-
-	@Override
-	public FloatValue getValue() {
-		return new FloatValue(Float.parseFloat(textField.getText()));
-	}
-	
-	@Override
-	public void setValue(FloatValue value) {
-		textField.setText(value.toString());		
+		super(value);
 	}
 	
 	@Override
@@ -33,5 +23,22 @@ public class FloatField extends Field<FloatValue> implements CaretListener {
 	
 	@Override
 	protected void setFont(Font font) {
+	}
+
+	@Override
+	public void caretUpdate(CaretEvent e) {
+		try {			
+			FloatValue newValue = getFieldValue();
+			handleChange(newValue, this);
+			removeError();
+		}
+		catch (NumberFormatException nfe) {
+			setError("Not a valid float");
+		}
+	}
+	
+	@Override
+	protected FloatValue getFieldValue() {
+		return new FloatValue(Float.parseFloat(textField.getText()));
 	}
 }

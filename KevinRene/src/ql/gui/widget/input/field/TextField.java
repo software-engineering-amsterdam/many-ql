@@ -1,5 +1,6 @@
 package ql.gui.widget.input.field;
 
+import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import ql.gui.widget.input.Field;
@@ -7,21 +8,22 @@ import ql.value.StringValue;
 
 public class TextField extends Field<StringValue> implements CaretListener {	
 	public TextField() {
-		super();
+		super(new StringValue(""));
 	}
 	
 	public TextField (StringValue stringValue) {
-		super();		
-    	textField.setText(stringValue.getValue());	
+		super(stringValue);
 	}
 	
 	@Override
-	public StringValue getValue() {
+	public void caretUpdate(CaretEvent e) {
+		setValue(getFieldValue());
+		
+		handleChange(getValue(), this);
+	}
+	
+	@Override
+	protected StringValue getFieldValue() {
 		return new StringValue(textField.getText());
-	}
-	
-	@Override
-	public void setValue(StringValue value) {
-		textField.setText(value.toString());		
 	}
 }

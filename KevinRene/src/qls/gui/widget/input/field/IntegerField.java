@@ -1,5 +1,6 @@
 package qls.gui.widget.input.field;
 
+import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import ql.value.IntegerValue;
@@ -9,21 +10,10 @@ import qls.gui.widget.input.Field;
 
 public class IntegerField extends Field<IntegerValue> implements CaretListener {	
 	public IntegerField () {
-		super();
+		super(new IntegerValue(0));
 	}
 	public IntegerField (IntegerValue value) {
-		super();		
-    	textField.setText(value.getValue().toString());	
-	}
-
-	@Override
-	public IntegerValue getValue() {
-		return new IntegerValue(Integer.parseInt(textField.getText()));
-	}
-	
-	@Override
-	public void setValue(IntegerValue value) {
-		textField.setText(value.toString());		
+		super(value);
 	}
 	
 	@Override
@@ -32,5 +22,22 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	
 	@Override
 	protected void setFont(Font font) {
+	}
+	
+	@Override
+	public void caretUpdate(CaretEvent e) {
+		try {			
+			IntegerValue newValue = getFieldValue();
+			handleChange(newValue, this);
+			removeError();
+		}
+		catch (NumberFormatException nfe) {
+			setError("Not a valid integer");
+		}
+	}
+	
+	@Override
+	protected IntegerValue getFieldValue() {
+		return new IntegerValue(Integer.parseInt(textField.getText()));
 	}
 }

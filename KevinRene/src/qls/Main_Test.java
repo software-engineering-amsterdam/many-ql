@@ -61,7 +61,7 @@ public class Main_Test {
 			+ 				"widget text;" 
 			+ 			"}"
 			+ 			"question privateDebt;"
-			+ 			"default money widget spinbox;"
+			+ 			"default money widget text;"
 			+ 		"}"
 			+ 	"}"
 			+ 	"page Second {"
