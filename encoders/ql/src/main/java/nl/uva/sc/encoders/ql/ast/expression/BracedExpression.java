@@ -1,5 +1,7 @@
 package nl.uva.sc.encoders.ql.ast.expression;
 
+import java.util.Set;
+
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 
@@ -28,5 +30,10 @@ public class BracedExpression extends Expression {
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public void collectQuestionNames(Set<String> relatedQuestionNames) {
+		expression.collectQuestionNames(relatedQuestionNames);
 	}
 }

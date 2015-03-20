@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qlruntime.ui;
 
 import java.beans.PropertyChangeListener;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -83,8 +84,8 @@ public class QuestionnaireUI extends GridPane {
 
 	private void addChangeListeners(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
 			final Expression expression, final PropertyChangeListener listener) {
-		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
-		Set<String> relatedQuestionNames = expression.accept(relatedQuestionVisitor);
+		Set<String> relatedQuestionNames = new HashSet<>();
+		expression.collectQuestionNames(relatedQuestionNames);
 		for (String relatedQuestionName : relatedQuestionNames) {
 			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 			relatedQuestion.addPropertyChangeListener(listener);

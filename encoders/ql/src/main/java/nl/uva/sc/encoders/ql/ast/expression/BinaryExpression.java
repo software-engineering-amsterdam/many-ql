@@ -1,5 +1,7 @@
 package nl.uva.sc.encoders.ql.ast.expression;
 
+import java.util.Set;
+
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
@@ -29,6 +31,12 @@ public class BinaryExpression extends Expression {
 
 	public BinaryOperator getOperator() {
 		return operator;
+	}
+
+	@Override
+	public void collectQuestionNames(Set<String> relatedQuestionNames) {
+		leftHand.collectQuestionNames(relatedQuestionNames);
+		rightHand.collectQuestionNames(relatedQuestionNames);
 	}
 
 	@Override
