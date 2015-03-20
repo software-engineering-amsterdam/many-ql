@@ -1,11 +1,8 @@
 package ql.gui.input;
 
-import ql.gui.ModelVisitor;
 import ql.gui.control.DecControl;
 import ql.semantics.errors.Message;
 import ql.semantics.errors.Warning;
-import ql.semantics.values.DecValue;
-import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
 
 import java.math.BigDecimal;
@@ -35,7 +32,7 @@ public class DecInput extends RegularInput<DecControl>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(InputVisitor<V> visitor)
     {
         return visitor.visit(this);
     }

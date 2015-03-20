@@ -43,4 +43,5 @@ public class IntegerQuestion extends BaseQuestion<String> {
 	public Node getWidget() {
 		return this.textField;
 	}
+
 }

@@ -1,19 +1,19 @@
 package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
-import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.Statement;
+import qls.ast.visitor.StatementVisitor;
 
-public class Page extends QLSStatement {
+public class Page extends Statement {
 	private final Identifier identifier;
-	private final QLSBlock statements;
+	private final Block statements;
 
-	public Page(Identifier identifier, QLSBlock statements) {
+	public Page(Identifier identifier, Block statements) {
 		this.identifier = identifier;
 		this.statements = statements;
 	}
 	
-	public QLSBlock getStatements() {
+	public Block getStatements() {
 		return statements;
 	}
 	
@@ -22,7 +22,7 @@ public class Page extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

@@ -10,11 +10,9 @@ public class WidgetListener {
 
 	private Evaluator evaluator;
 	private FormFrame form;
-	private TypeChecker checker;
 
 	public WidgetListener(FormFrame form) {
 		this.evaluator = new Evaluator();
-		this.checker = new TypeChecker();
 		this.form = form;
 	}
 
@@ -24,7 +22,7 @@ public class WidgetListener {
 
 	public void widgetValueChanged(Identifier identifier, Value value) {
 		evaluator.addValue(identifier, value);
-		form.notifyPanels(evaluator, checker);
+		form.notifyPanels(evaluator);
 	};
 
 	public Evaluator getEvaluator() {

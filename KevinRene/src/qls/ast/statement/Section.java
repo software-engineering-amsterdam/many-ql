@@ -1,14 +1,14 @@
 package qls.ast.statement;
 
-import ql.ast.expression.literal.StringLiteral;
-import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.Statement;
+import qls.ast.visitor.StatementVisitor;
+import qls.ast.expression.literal.StringLiteral;
 
-public class Section extends QLSStatement {
+public class Section extends Statement {
 	private final StringLiteral header;
-	private final QLSBlock statements;
+	private final Block statements;
 	
-	public Section(StringLiteral header, QLSBlock statements) {
+	public Section(StringLiteral header, Block statements) {
 		this.header = header;
 		this.statements = statements;
 	}
@@ -17,12 +17,12 @@ public class Section extends QLSStatement {
 		return header;
 	}
 	
-	public QLSBlock getStatements() {
+	public Block getStatements() {
 		return statements;
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

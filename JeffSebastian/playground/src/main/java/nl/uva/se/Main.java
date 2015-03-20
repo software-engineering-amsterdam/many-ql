@@ -13,10 +13,10 @@ import nl.uva.se.ql.gui.listeners.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.interpretation.Interpreter;
 import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
 import nl.uva.se.ql.parser.QLLexer;
 import nl.uva.se.ql.parser.QLParser;
 import nl.uva.se.ql.parser.QLVisitorImpl;
+import nl.uva.se.ql.typechecking.error.ErrorList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;

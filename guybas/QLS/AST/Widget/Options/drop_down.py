@@ -1,17 +1,16 @@
 import QLS.AST.Widget.widget as w
 import QL.Grammar.constants as constants
-import QLS.AST.Widget.default_settings as d
 
 
 class DropDown(w.Widget):
     def __init__(self, options, default=""):
         self.options = options
         self.default = default
-        self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
+        self._properties = {self.widget_name(): "" }
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Drop down "
-        s += self.options.pretty_print()
+        s += self.options.string_presentation()
         return s
 
     def get_compatible(self):

@@ -16,7 +16,6 @@ form sample
     decimal division "How much is 5 divided by 2?"
 
     if (age >= 18) string beer "Let's get a beer?"
-
     if (maritalStatus)
         string married "Yey, you are married!" "good job!"
     if (!maritalStatus) {

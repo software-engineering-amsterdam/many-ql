@@ -32,7 +32,11 @@ public class Evaluator implements FormVisitor, StatementVisitor {
 	}
 
 	public void visit(Question question) {
-		values.addValue(question.getId(), question.getType().getDefaultValue());
+		if (values.containsKey(question.getId())) {
+			values.addValue(question.getId(), values.getValue(question.getId()));
+		} else {
+			values.addValue(question.getId(), question.getType().getDefaultValue());
+		}
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {

@@ -9,11 +9,11 @@ class Form:
         self._statements = statements
 
     # Pretty print the _form
-    def pretty_print(self):
+    def string_presentation(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
         for x in self._statements:
-            s += x.pretty_print(1)
+            s += x.string_presentation(1)
         return s
 
     #
@@ -78,7 +78,7 @@ class Form:
         td = self.get_type_dict()
         message = []
         for x in self._statements:
-            message.extend(x.valid_type_message(td))
+            message.extend(x.valid_expression_message(td))
         return message
 
     #
@@ -87,7 +87,6 @@ class Form:
 
     @staticmethod
     def check_duplicates(l):
-        # get_dependencies for duplicates
         duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
@@ -135,12 +134,5 @@ class Form:
             print(expression_message)
 
         return valid
-
-    def eval_expressions(self, type_map):
-        for x in self._statements:
-            if x.is_conditional():
-                print(x.get_condition().pretty_print())
-                print(x.evaluate_condition(type_map))
-                print("----------")
 
 

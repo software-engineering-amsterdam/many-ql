@@ -3,48 +3,55 @@ package nl.uva.se.ql.typechecking;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-public class DependencyTable {
+import nl.uva.se.ql.ast.statement.Question;
 
-	private Map<String, Set<String>> dependencies;
+public class DependencyTable implements Iterable<Question> {
+
+	private Map<Question, Set<Question>> dependencies;
 	
 	public DependencyTable() {
-		dependencies = new HashMap<String, Set<String>>();
+		dependencies = new HashMap<Question, Set<Question>>();
 	}
 	
-	public void addDependency(String from, String to) {
-		if (dependencies.containsKey(from)) {
-			dependencies.get(from).add(to);
-		} else {
-			Set<String> set = new HashSet<String>();
-			set.add(to);
-			dependencies.put(from, set);
+	public void addDependency(Question from, Question to) {
+		if (!dependencies.containsKey(from)) {
+			dependencies.put(from, new HashSet<Question>());
 		}
+		
+		dependencies.get(from).add(to);
 	}
 	
-	public Set<String> getDependenciesFor(String name) {
+	public Set<Question> getDependenciesFor(Question name) {
 		if (dependencies.containsKey(name)) {
 			return dependencies.get(name);
 		}
 		
-		return Collections.<String> emptySet();
+		return Collections.<Question> emptySet();
+	}
+	
+	@Override
+	public Iterator<Question> iterator() {
+		return dependencies.keySet().iterator();
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (Entry<String, Set<String>> entry : dependencies.entrySet()) {
+		for (Entry<Question, Set<Question>> entry : dependencies.entrySet()) {
 			sb.append(entry.getKey() + ": ");
-			for (String s : entry.getValue()) {
-				sb.append(s + ", ");
+			for (Question q : entry.getValue()) {
+				sb.append(q.getId() + ", ");
 			}
 			sb.append("\n");
 		}
 		
 		return sb.toString();
 	}
+	
 }

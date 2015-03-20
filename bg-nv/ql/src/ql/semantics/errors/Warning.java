@@ -18,6 +18,6 @@ public class Warning extends Message
 
     public static Warning labelDuplication(String idList)
     {
-        return new Warning(String.format("The following questions have identical labels: %s", idList));
+        return new Warning(String.format("QL Warning: the following questions have identical labels: %s", idList));
     }
 }

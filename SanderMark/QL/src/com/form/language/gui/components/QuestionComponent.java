@@ -43,6 +43,7 @@ public class QuestionComponent {
 
     // TODO: Type checker implementation to be added
     // TODO: casten to specifc widget needed?
+    // TODO: kent beck Case Statements, chapter 3 code smells
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
 		Widget checkbox = new CheckBox(question, this, rm);

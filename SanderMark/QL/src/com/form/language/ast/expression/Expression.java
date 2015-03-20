@@ -2,6 +2,7 @@ package com.form.language.ast.expression;
 
 import com.form.language.ast.ASTNode;
 import com.form.language.ast.type.ErrorType;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
@@ -19,4 +20,6 @@ public abstract class Expression extends ASTNode {
     public Boolean isCorrectlyTyped(Context context) {
 	return !this.getType(context).equals(new ErrorType());
     }
+
+    public abstract Type getType(Context context);
 }

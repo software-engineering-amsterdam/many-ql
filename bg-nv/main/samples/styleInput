@@ -16,7 +16,7 @@ stylesheet sample {
             widget checkbox
         }
         default integer {
-            widget textbox
+            widget slider
         }
         question name
         question surname

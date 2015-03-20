@@ -40,12 +40,12 @@ import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
 import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
-import nl.uva.se.ql.interpretation.error.InvalidConditionType;
-import nl.uva.se.ql.interpretation.error.InvalidOperandType;
-import nl.uva.se.ql.interpretation.error.TypeMismatch;
-import nl.uva.se.ql.interpretation.error.TypeNotAllowed;
-import nl.uva.se.ql.interpretation.error.UndefinedReference;
+import nl.uva.se.ql.typechecking.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.InvalidConditionType;
+import nl.uva.se.ql.typechecking.error.InvalidOperandType;
+import nl.uva.se.ql.typechecking.error.TypeMismatch;
+import nl.uva.se.ql.typechecking.error.TypeNotAllowed;
+import nl.uva.se.ql.typechecking.error.UndefinedReference;
 
 public class TypeChecker implements FormVisitor, StatementVisitor,
 		ExpressionVisitor<Type>, TypeVisitor<Type> {
@@ -71,14 +71,16 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
 
 		if (!symbolResult.getErrorList().hasErrors()) {
-			Result<DependencyTable> result = DependencyResolver.resolve(form);
-			if (!result.getErrorList().hasErrors()) {
+			DependencyTable dependencies = DependencyResolver.resolve(form, symbolResult.getResult());
+			ErrorList errors = CyclicDependencyChecker.check(dependencies);
+			
+			if (!errors.hasErrors()) {
 				TypeChecker typeChecker = new TypeChecker(symbolResult);
 				typeChecker.visit(form);
 				return new Result<SymbolTable>(typeChecker.errors,
 						typeChecker.symbols);
 			} else {
-				result.getErrorList().printAll();
+				errors.printAll();
 			}
 		}
 
@@ -95,9 +97,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Type expressionType = calculatedQuestion.getExpression().accept(this);
 		Type questionType = calculatedQuestion.getType();
+		Type promotedExpressionType = expressionType.promote();
+		Type promotedQuesType = questionType.promote();
 		
-		if (!expressionType.equals(questionType)) {
-			System.out.println(calculatedQuestion.getId());
+		if (!promotedExpressionType.equals(promotedQuesType)) {
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
 				.getOffset(), questionType, expressionType));
@@ -267,6 +270,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 			errors.addError(new UndefinedReference(right.getLineNumber(), 
 					right.getOffset(), right.toString()));
 			return new UndefinedType();
+		}
+		
+		if (leftType.equals(rightType)) {
+			return leftType.accept(this);
 		}
 		
 		Type leftPromoted = leftType.promote();

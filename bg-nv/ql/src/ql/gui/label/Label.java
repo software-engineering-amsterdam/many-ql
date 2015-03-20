@@ -29,8 +29,7 @@ public class Label extends GuiElement
         return this.textNode;
     }
 
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(LabelVisitor<V> visitor)
     {
         return visitor.visit(this);
     }

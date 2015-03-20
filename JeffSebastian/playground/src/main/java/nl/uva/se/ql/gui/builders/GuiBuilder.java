@@ -22,9 +22,8 @@ public class GuiBuilder implements StatementVisitor, FormVisitor {
 		questionPane.addQuestion(question);
 	}
 
-	public void visit(CalculatedQuestion calculatedQuestion) {
-		Question question = (Question) calculatedQuestion;
-		questionPane.addQuestion(question);
+	public void visit(CalculatedQuestion calculatedQuestion) {	
+		questionPane.addQuestion(calculatedQuestion);
 	}
 	
 	public void visit(Condition condition) {

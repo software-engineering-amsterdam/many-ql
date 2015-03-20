@@ -8,7 +8,7 @@ class And(b.BinaryExpression):
         return " and "
 
     # get the return _type of the _expression
-    def return_type_string(self, type_dict):
+    def return_type_string(self, type_map):
         return constants.BOOL
 
     def eval(self, x, y):

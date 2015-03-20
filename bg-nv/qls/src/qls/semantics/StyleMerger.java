@@ -18,13 +18,13 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
 {
     private final Questions questions;
     private final StyleStack styleStack;
-    private final FormStyle styles;
+    private final QuestionStyles styles;
 
-    public static FormStyle getStyles(Stylesheet s, Form f)
+    public static QuestionStyles getStyles(Stylesheet s, Form f)
     {
         Questions questions = QuestionCollector.collect(f);
         StyleMerger styleEval = new StyleMerger(questions);
-        styleEval.visit(s);
+        s.accept(styleEval);
 
         return styleEval.styles;
     }
@@ -33,7 +33,7 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
     {
         this.questions = questions;
         this.styleStack = new StyleStack();
-        this.styles = new FormStyle();
+        this.styles = new QuestionStyles();
     }
 
     @Override
@@ -64,12 +64,10 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
         Style style = s.getStyle();
 
         this.styleStack.push(style);
-
         for (Statement stat : stats)
         {
             stat.accept(this);
         }
-
         this.styleStack.pop();
 
         return null;

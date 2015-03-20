@@ -1,15 +1,18 @@
 
-- memory id gedeelte , implementeren met error class
-- Errors koppelen aan GUI 
-
-- GUI afmaken if statemens 
-- testen voor statements
-
-- code checken
-- grade form
-
-- else statements voor andere types / values t.c
+- else statements voor andere types / values etc. (errors)
 - curly altijd, dus geen 1 line ifs etc.
+- Rule 4: First class collections (seperate collections from classes)
+- one dot per line. (see paper for example)
+- Within classes dont repeat the name of the class within methods like shipOrder, just call it order()
+- classes of 50 > is a issue
+
+- You can often use Inline Temp (121) to get rid of the temps. Long lists of parameters can be slimmed
+down with Introduce Parameter Object (247) and Preserve Whole Object (241)
+
+- Conditionals and loops also give signs for extractions. Use Decompose Conditional (136) to deal with conditional expressions. 
+With loops extract the loop and the code within the loop into its own method.
+
+- Large classes (to many instance variables), divide them into different components(classes)
 
 
 

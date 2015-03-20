@@ -2,8 +2,18 @@ package ql.value;
 
 import ql.Value;
 
-public class BooleanValue extends Value {
+public class BooleanValue implements Value {
 	private final boolean value;
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 	
 	public BooleanValue(Boolean value) {
 		this.value = value;
@@ -21,11 +31,6 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 

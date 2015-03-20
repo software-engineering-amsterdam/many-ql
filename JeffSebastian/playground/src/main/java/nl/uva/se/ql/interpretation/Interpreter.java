@@ -3,9 +3,9 @@ package nl.uva.se.ql.interpretation;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.evaluation.Evaluator;
 import nl.uva.se.ql.evaluation.ValueTable;
-import nl.uva.se.ql.interpretation.error.ErrorList;
 import nl.uva.se.ql.typechecking.SymbolTable;
 import nl.uva.se.ql.typechecking.TypeChecker;
+import nl.uva.se.ql.typechecking.error.ErrorList;
 
 public class Interpreter {
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import com.form.language.ast.statement.Statement;
 import com.form.language.memory.Context;
 
+//TODO :: Seperate id and statementlist (just like within error)
 public class Form {
     private String id;
     private List<Statement> statementList;
@@ -23,7 +24,7 @@ public class Form {
 
     public void getTypes(Context context) {
 	for (Statement s : statementList) {
-	    s.getType(context);
+	    s.checkType(context);
 	}
     }
 
@@ -40,7 +41,7 @@ public class Form {
 
     public void showTypes(Context context) {
 	for (Statement s : statementList) {
-	    System.out.println(s.getType(context));
+	    System.out.println(s.checkType(context));
 	}
     }
     

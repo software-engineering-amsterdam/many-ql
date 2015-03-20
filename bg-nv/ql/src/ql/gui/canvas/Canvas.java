@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ql.gui.GuiElement;
-import ql.gui.ModelVisitor;
 import ql.gui.segment.Segment;
 
 import java.util.List;
@@ -80,8 +79,7 @@ public class Canvas extends GuiElement
         this.submitButton.setOnAction(action);
     }
 
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <T> T accept(CanvasVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

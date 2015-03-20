@@ -57,6 +57,7 @@ extra_op = pp.oneOf('and or')
 
 # expr uses the above operators in the following order and associations
 # 1 means it binds to one operand, 2 means it binds to two operands
+# pyparsing doesn't support non-associative so left is chosen
 expr = pp.infixNotation(value,
          [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
           (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
@@ -83,8 +84,8 @@ question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR 
             ).setParseAction(form_factory.make_question)
 questions = pp.OneOrMore(question)
 
-
 statement = pp.Forward()
+
 # pIf :: if ( expr ) { statement+ }
 pIf = (pp.Suppress("if" + pp.Literal("(")) + expr + pp.Suppress(")") + pp.Suppress("{") +
        pp.OneOrMore(statement) + pp.Suppress("}")

@@ -53,10 +53,10 @@ import org.uva.util.message.Warning;
 public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor<Boolean>,
 		QuestionnaireVisitor<Boolean> {
 
-	private  Map<Identifier, Type> types;
-	private  List<String> labels;
-	private  MessageManager messageManager;
-	private  DependencyList dependencyList;
+	private Map<Identifier, Type> types;
+	private List<String> labels;
+	private MessageManager messageManager;
+	private DependencyList dependencyList;
 
 	public TypeChecker() {
 		types = new HashMap<Identifier, Type>();
@@ -64,7 +64,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		messageManager = new MessageManager();
 		dependencyList = new DependencyList();
 	}
-	
+
 	// Name-Type table
 	private void addType(Identifier id, Type type) {
 		types.put(id, type);
@@ -110,7 +110,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private void addWarning(Warning warning) {
 		messageManager.addWarning(warning);
 	}
-	
+
 	private void addWarning(Warning.Type type, QuestionNormal question) {
 		Warning warning = new Warning(type, question.getPosition().getStartLine(), question.getLabel().toString());
 		addWarning(warning);
@@ -208,7 +208,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 			return false;
 		}
 	}
-	
+
 	private boolean checkCyclicDependency() {
 		List<Identifier> cyclicDependentIdentifiers = dependencyList.getCyclicDependentIdentifiers();
 		if (cyclicDependentIdentifiers.size() != 0) {
@@ -263,14 +263,14 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		boolean isValidDeclaration = checkDeclaration(question);
 		boolean isValidLabel = checkLabel(question);
 		boolean isValidExpression = question.getExpression().accept(this);
-		
+
 		// Build the dependency list
 		DependencyVisitor visitor = new DependencyVisitor();
 		List<Identifier> dependentIdentifiers = question.getExpression().accept(visitor);
 		for (Identifier identifier : dependentIdentifiers) {
 			dependencyList.add(identifier, question.getIdentifier());
 		}
-		
+
 		return isValidDeclaration && isValidLabel && isValidExpression;
 	}
 

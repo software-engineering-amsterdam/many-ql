@@ -91,12 +91,6 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(DateInput input)
-    {
-        return null; //handleInputVisit(input);
-    }
-
-    @Override
     public Void visit(DecInput input)
     {
         return handleInputVisit(input);

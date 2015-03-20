@@ -29,11 +29,10 @@ type Gui struct {
 	renderplumbing chan render
 	appName        string
 
-	mu              sync.Mutex
-	symbolTable     map[string]qml.Object
-	root            qml.Object
-	updateCallbacks map[string]func(v string)
-	stacks          *stacks
+	mu          sync.Mutex
+	root        qml.Object
+	stacks      *stacks
+	objectTable *objectTable
 }
 
 // GUI creates the driver for Frontend process.
@@ -41,10 +40,9 @@ func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 
-		renderplumbing:  make(chan render),
-		stacks:          newStack(),
-		symbolTable:     make(map[string]qml.Object),
-		updateCallbacks: make(map[string]func(v string)),
+		renderplumbing: make(chan render),
+		stacks:         newStack(),
+		objectTable:    newObjectTable(),
 	}
 	return driver
 }
@@ -174,17 +172,19 @@ func (g *Gui) addNewQuestion(typ, name, caption string, invisible bool) {
 		question = g.newBooleanQuestion(name, caption, false)
 	case ast.ScalarNumericPrimitive:
 		question = g.newNumericQuestion(name, caption, 0)
+	case ast.ScalarDatePrimitive:
+		question = g.newDateQuestion(name, caption, "")
 	}
 
 	if !invisible {
 		question.Set("visible", true)
 	}
 
-	g.symbolTable[name] = question
+	g.objectTable.add(name, question)
 }
 
 func (g *Gui) updateQuestion(fieldName string, content interface{}) {
-	if question, ok := g.symbolTable[fieldName]; ok {
+	if question, ok := g.objectTable.has(fieldName); ok {
 		question.Set("visible", true)
 
 		fieldPtr := question.ObjectByName(fieldName)
@@ -199,11 +199,11 @@ func (g *Gui) updateIfUnfocused(fieldPtr qml.Object, fieldName,
 		return
 	}
 
-	g.updateCallbacks[fieldName](content)
+	g.objectTable.updateFor(fieldName, content)
 }
 
 func (g *Gui) hideQuestion(fieldName string) {
-	g.symbolTable[fieldName].Set("visible", "false")
+	g.objectTable.get(fieldName).Set("visible", "false")
 }
 
 func (g *Gui) createQuestionQML(template, fieldName, caption string) qml.Object {

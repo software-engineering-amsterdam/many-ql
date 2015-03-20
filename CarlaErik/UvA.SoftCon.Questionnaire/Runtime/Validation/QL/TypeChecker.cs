@@ -107,12 +107,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             return base.Visit(greaterThanOrEqualTo);
         }
 
-        public override object Visit(Increment increment)
-        {
-            ValidateUnaryExpression(increment);
-            return base.Visit(increment);
-        }
-
         public override object Visit(LessThan lessThan)
         {
             ValidateBinaryExpression(lessThan);

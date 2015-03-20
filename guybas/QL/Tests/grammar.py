@@ -80,7 +80,7 @@ class TestExpressionGrammar(unittest.TestCase):
 
     def test_expression_print(self):
         result = expressions.Expressions.expr.parseString("1 + 2 - (3 * 4) / 6")
-        self.assertEqual(result[0].pretty_print(), "1 + 2 - (3 * 4) / 6")
+        self.assertEqual(result[0].string_presentation(), "1 + 2 - (3 * 4) / 6")
 
     def test_expression_type(self):
         result = expressions.Expressions.expr.parseString("1 + 2 - (3 * 4) / 6 == True")

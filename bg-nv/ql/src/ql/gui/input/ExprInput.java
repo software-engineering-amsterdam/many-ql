@@ -1,9 +1,6 @@
 package ql.gui.input;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
 import ql.ast.expression.Expr;
-import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.gui.control.Control;
 import ql.semantics.ExprEvaluator;
@@ -14,7 +11,7 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 28-02-2015
  */
-public class ExprInput extends Input implements Refreshable
+public class ExprInput extends Input<Control> implements Refreshable
 {
     private final Expr expression;
 
@@ -22,8 +19,8 @@ public class ExprInput extends Input implements Refreshable
     {
         super(id, control, true, true);
         this.expression = expression;
-        this.inputNode = this.createInputNode(this.control);
-        this.control.setDisabled(true);
+
+        this.fillInputNode();
     }
 
     public Expr getExpression()
@@ -53,17 +50,7 @@ public class ExprInput extends Input implements Refreshable
     }
 
     @Override
-    protected VBox createInputNode(Control control)
-    {
-        VBox box = new VBox();
-        box.getChildren().add(this.control.getControlNode());
-        box.setAlignment(Pos.TOP_RIGHT);
-        box.setVisible(this.getVisible());
-        return box;
-    }
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(InputVisitor<V> visitor)
     {
         return visitor.visit(this);
     }
@@ -72,5 +59,4 @@ public class ExprInput extends Input implements Refreshable
     {
         this.control.setValue(value);
     }
-
 }

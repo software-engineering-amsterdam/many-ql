@@ -3,8 +3,8 @@ from collections import Counter
 
 class TypeChecker:
     def __init__(self, form, sheet):
-        self.form = form
-        self.sheet = sheet
+        self._form = form
+        self._sheet = sheet
         self._sheet_ids = sheet.get_ids()
         self._sheet_property_names = sheet.get_property_names()
         self._form_type_dict = form.get_type_dict()

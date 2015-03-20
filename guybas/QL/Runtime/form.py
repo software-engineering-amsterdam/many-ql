@@ -1,5 +1,4 @@
 import QL.AST.form as ast_form
-import QL.Tools.exceptions as e
 import QL.Runtime.question as runtime_question
 import QL.Tools.exceptions as exc
 import QL.AST.Expressions.Operations.and_op as and_op
@@ -8,7 +7,7 @@ import QL.AST.Expressions.Operations.and_op as and_op
 class Form:
     def __init__(self, ast_obj):
         if not isinstance(ast_obj, ast_form.Form):
-            raise e.QException("Input must be an AST!")
+            raise exc.QException("Input must be an AST!")
         self.ast = ast_obj
 
         # cookbook - must be in the following order

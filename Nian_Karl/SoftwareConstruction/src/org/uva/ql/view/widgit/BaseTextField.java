@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JTextField;
 import javax.swing.text.DocumentFilter;
 
-import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
@@ -29,10 +27,8 @@ public abstract class BaseTextField extends Widget {
 	}
 
 	@Override
-	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType())) {
-			getWidget().setText(value.toString());
-		}
+	public void setWidgetValue(Value value) {
+		getWidget().setText(value.toString());
 	}
 
 	public void setForegroundColor(Color color) {

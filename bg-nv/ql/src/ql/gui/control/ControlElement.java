@@ -43,4 +43,6 @@ public abstract class ControlElement extends GuiElement
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
+
+    public abstract <T> T accept(ControlVisitor<T> visitor);
 }

@@ -7,29 +7,23 @@ from ...ast.Functions import typeOfIdentifier
 
 
 class Checker(AbstractBase):
-    def __init__(self, resultAlgebra):
-        super().__init__(resultAlgebra) 
-        self._questionnaire = None
-
-
-    def visitQuestionnaireBegin(self, questionnaire):
-        self._questionnaire = questionnaire
-
-
     def visitQuestionStatement(self, node):
         myType = node.type
         expectedType = typeOfIdentifier(
-            node.identifier, self._questionnaire
+            node.identifier, self._parser.questionnaire
         )
 
         if myType != expectedType:
+            myTypeString = self._parser.expressionTypeToken(myType)
+            expectedTypeString = self._parser.expressionTypeToken(expectedType)
+
             self._result = self._resultAlgebra.withError(
                 self._result,
                 Message.Error(
                     'Duplicate definition of question `'\
                    +str(node.identifier)+'` with different type `'\
-                   +myType.typeString()+'` (expected type `'\
-                   +expectedType.typeString()+'`)',
+                   +myTypeString+'` (expected type `'\
+                   +expectedTypeString+'`)',
                     node
                 )
             )

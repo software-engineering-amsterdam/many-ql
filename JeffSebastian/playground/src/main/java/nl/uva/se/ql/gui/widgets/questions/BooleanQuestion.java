@@ -37,5 +37,6 @@ public class BooleanQuestion extends BaseQuestion<Boolean>{
 	@Override
 	public Node getWidget() {
 		return this.checkBox;
-	}	
+	}
+	
 }
