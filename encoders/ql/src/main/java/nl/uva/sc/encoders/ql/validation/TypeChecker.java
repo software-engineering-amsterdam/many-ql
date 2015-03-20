@@ -1,8 +1,8 @@
 package nl.uva.sc.encoders.ql.validation;
 
 import static nl.uva.sc.encoders.ql.message.Messages.getString;
-import static nl.uva.sc.encoders.ql.validation.Validation.Type.ERROR;
-import static nl.uva.sc.encoders.ql.validation.Validation.Type.WARNING;
+import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.ERROR;
+import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.WARNING;
 
 import java.util.ArrayList;
 import java.util.HashSet;

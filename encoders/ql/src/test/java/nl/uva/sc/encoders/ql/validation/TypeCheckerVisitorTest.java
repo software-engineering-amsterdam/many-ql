@@ -49,9 +49,9 @@ public class TypeCheckerVisitorTest {
 		visitor = new TypeChecker(questionnaire);
 
 		List<TypeValidation> validations = visitor.checkTypes();
-		Validation validation = validations.get(0);
-		assertThat(validation, is(notNullValue()));
-		assertThat(validation.getValidationMessage(), is("Condition has to be of type boolean. Type encountered is 'integer'"));
+		ValidationMessage validationMessage = validations.get(0);
+		assertThat(validationMessage, is(notNullValue()));
+		assertThat(validationMessage.getValidationMessage(), is("Condition has to be of type boolean. Type encountered is 'integer'"));
 	}
 
 	@Test
@@ -64,9 +64,9 @@ public class TypeCheckerVisitorTest {
 		visitor = new TypeChecker(questionnaire);
 
 		List<TypeValidation> validations = visitor.checkTypes();
-		Validation validation = validations.get(0);
-		assertThat(validation, is(notNullValue()));
-		assertThat(validation.getValidationMessage(), is("Duplicate label 'What is the meaning of life?'"));
+		ValidationMessage validationMessage = validations.get(0);
+		assertThat(validationMessage, is(notNullValue()));
+		assertThat(validationMessage.getValidationMessage(), is("Duplicate label 'What is the meaning of life?'"));
 	}
 
 	@Test

@@ -7,7 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import nl.uva.sc.encoders.ql.validation.Validation;
+import nl.uva.sc.encoders.ql.validation.ValidationMessage;
 
 public class ValidationsUI extends GridPane {
 
@@ -28,10 +28,10 @@ public class ValidationsUI extends GridPane {
 		add(typeCheckerMessages, 0, 1);
 	}
 
-	public void showValidations(List<? extends Validation> validations) {
+	public void showValidations(List<? extends ValidationMessage> validationMessages) {
 		typeCheckerMessages.clear();
-		for (Validation validation : validations) {
-			typeCheckerMessages.appendText(validation.toString());
+		for (ValidationMessage validationMessage : validationMessages) {
+			typeCheckerMessages.appendText(validationMessage.toString());
 		}
 	}
 }

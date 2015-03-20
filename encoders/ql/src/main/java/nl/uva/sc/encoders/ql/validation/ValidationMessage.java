@@ -2,7 +2,7 @@ package nl.uva.sc.encoders.ql.validation;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 
-public class Validation {
+public class ValidationMessage {
 
 	public enum Type {
 		WARNING, ERROR;
@@ -14,7 +14,7 @@ public class Validation {
 
 	private final Type type;
 
-	public Validation(String validationMessage, TextLocation textLocation, Type type) {
+	public ValidationMessage(String validationMessage, TextLocation textLocation, Type type) {
 		this.validationMessage = validationMessage;
 		this.textLocation = textLocation;
 		this.type = type;
