@@ -1,34 +1,33 @@
 import QL.GUI.gui as ql_gui
 import tkinter as tk
 import QL.Tools.converters as converters
+import QLS.Runtime.section as runtime_section
 
 
 class GUI(ql_gui.GUI):
-    def __init__(self, form, pages):
+    def __init__(self, form):
         ql_gui.GUI.__init__(self, form)
         self.frames = []
-        self.__pages = pages
+        self.__pages = form.gui_pages
 
     def resize_window(self, height, width):
         self.qGui.geometry(str(height) + 'x' + str(width))
 
-    def set_intro_font_style(self, font_style):
-        """
-        set introduction font style
-        :param font_style: family size weight (expression_factory.g. Helvetica 15 bold)
-        :return:
-        """
-        self.intro_element.configure(font=font_style)
+    def draw_questions(self, elements, content_frame):
+        for element in elements:
+            if isinstance(element, runtime_section.Section):
+                tk.Frame(content_frame, height=1, bg="black").grid(row=element.get_order(), columnspan=999, sticky="ew")
+                continue
+            self.draw_question(element, content_frame)
 
     def generate_gui(self):
         print("_" * 50)
         self.create_title()
-        self.qGui.geometry('500x500')
         windowFrame = tk.Frame(self.qGui)
 
         #introduction
         # l.configure(font="Helvetica 15 bold")
-        intro_element = self.intro_label(windowFrame)
+        intro_element = self.intro_label(windowFrame) # self.intro_element.configure(font=font_style)
         intro_element.grid(row=0, column=0, sticky=tk.W)
 
 
@@ -37,23 +36,10 @@ class GUI(ql_gui.GUI):
             self.draw_page(windowFrame, page, page_i)
             page_i += 1
 
-
         # tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
         #           ).grid(row=999, column=0)
 
-        # windowFrame.grid()
         windowFrame.pack(side="top", fill="both", expand=True)
-
-    # def draw_pages(self, pages):
-    #     container = tk.Frame(self.qGui)
-    #     self.qGui.geometry('500x500')
-    #
-    #     page_i = 1
-    #     for page in pages:
-    #         GUI.draw_page(container, page, page_i)
-    #         page_i += 1
-    #
-    #     container.pack(side="top", fill="both", expand=True)
 
     def draw_page(self, container, page, page_i):
         f = tk.Frame(container, width="300px", height="300px") # , pady="100"
