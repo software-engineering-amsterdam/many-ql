@@ -38,21 +38,21 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 		return tree.accept(builder);
 	}
 	
-	private void decreaseScope() {
+	private void scopeDown() {
 		processedComponents = new ProcessedCache<UIComponent>(processedComponents);
 	}
 	
-	private void increaseScope() {
+	private void scopeUp() {
 		processedComponents = processedComponents.getParent();
 	}
 	
 	@Override
 	public UIComponent visit(Page pageNode) {
-		decreaseScope();
+		scopeDown();
 		super.visit(pageNode);
 		UIPage page = new UIPage(pageNode.getIdentifier());
 		page.setSections(processedComponents.getProcessedObjects());
-		increaseScope();
+		scopeUp();
 		
 		processedComponents.addObject(page);
 		return null;
@@ -67,11 +67,11 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 
 	@Override
 	public UIComponent visit(Section sectionNode) {
-		decreaseScope();
+		scopeDown();
 		super.visit(sectionNode);
 		UISection section = new UISection(sectionNode.getHeader());
 		section.setComponents(processedComponents.getProcessedObjects());
-		increaseScope();
+		scopeUp();
 		
 		processedComponents.addObject(section);
 		return null;
@@ -79,11 +79,11 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 
 	@Override
 	public UIComponent visit(Stylesheet stylesheetNode) {
-		decreaseScope();
+		scopeDown();
 		super.visit(stylesheetNode);
-		TabbedPanel stylesheet = new TabbedPanel(domains);
+		TabbedPanel stylesheet = new TabbedPanel(stylesheetNode.getIdentifier(), domains);
 		stylesheet.setPages(processedComponents.getProcessedObjects());
-		increaseScope();
+		scopeUp();
 		
 		return stylesheet;
 	}

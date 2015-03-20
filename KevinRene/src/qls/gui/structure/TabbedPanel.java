@@ -7,19 +7,22 @@ import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import ql.Value;
+import ql.ast.expression.Identifier;
 import ql.gui.UIComponent;
 import qls.ast.visitor.domaincreator.ConditionalDomain;
 
 public class TabbedPanel implements UIComponent {
+	private Identifier identifier;
 	private JTabbedPane tabbedPanel;
 	private List<ConditionalDomain> domains;
 	private List<UIComponent> pages;
 	private UIComponent handler;
 	
-	public TabbedPanel(List<ConditionalDomain> domains) {
+	public TabbedPanel(Identifier identifier, List<ConditionalDomain> domains) {
 		tabbedPanel = new JTabbedPane();
 		pages = new ArrayList<UIComponent>();
 		
+		this.identifier = identifier;
 		this.domains = domains;
 	}
 	
@@ -51,9 +54,9 @@ public class TabbedPanel implements UIComponent {
 	public void handleChange(Value changedValue, UIComponent source) {
 		if(handler != null) {
 			handler.handleChange(changedValue, source);
+		} else {
+			updateComponent();
 		}
-		
-		updateComponent();
 	}
 
 	@Override
@@ -65,5 +68,10 @@ public class TabbedPanel implements UIComponent {
 	@Override
 	public JComponent getComponent() {
 		return tabbedPanel;
+	}
+	
+	@Override
+	public String toString() {
+		return identifier.toString();
 	}
 }

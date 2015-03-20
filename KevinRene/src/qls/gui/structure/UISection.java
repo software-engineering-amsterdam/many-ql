@@ -11,15 +11,25 @@ import qls.ast.expression.literal.StringLiteral;
 public class UISection extends Panel {
 	public UISection(StringLiteral borderHeader) {		
 		super();
-		panel.setBorder(BorderFactory.createTitledBorder(borderHeader.getValue().getValue()));
+		getPanel().setBorder(BorderFactory.createTitledBorder(borderHeader.getValue().getValue()));
 	}
 	
 	public UISection(StringLiteral borderHeader, UIComponent handler) {
 		super(handler);
-		panel.setBorder(BorderFactory.createTitledBorder(borderHeader.getValue().getValue()));
+		getPanel().setBorder(BorderFactory.createTitledBorder(borderHeader.getValue().getValue()));
 	}
 	
 	public void setComponents(List<UIComponent> components) {
 		components.stream().forEach(component -> addComponent(component));
+	}
+	
+	@Override
+	public void updateComponent() {
+		boolean hasVisibleComponents = getComponents().stream()
+				.anyMatch(component -> component.getComponent().isVisible());
+		
+		getPanel().setVisible(hasVisibleComponents);
+		
+		super.updateComponent();
 	}
 }

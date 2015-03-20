@@ -108,7 +108,6 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		ifElseDomain.setElseComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
 		
-		
 		conditionalDomains.add(ifElseDomain);
 		
 		return null;

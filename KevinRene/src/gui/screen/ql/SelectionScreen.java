@@ -21,7 +21,6 @@ import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import ql.gui.widget.input.Button;
 import ql.parser.Parser;
-import ql.value.StringValue;
 import qls.ast.expression.literal.StringLiteral;
 import qls.gui.structure.UISection;
 
@@ -38,8 +37,7 @@ public class SelectionScreen extends Screen {
 	public SelectionScreen(UIComponent handler) {
 		super(new Identifier("QL Page"));
 		
-		log = new UILog();
-		log.setHandler(this);
+		log = new UILog(this);
 		logSection = new UISection(new StringLiteral("Output log"));
 		logSection.addComponent(log, "span");
 		
@@ -63,17 +61,13 @@ public class SelectionScreen extends Screen {
 		return parsedTree;
 	}
 	
-	private void addLogMessage(String logMessage) {
-		log.appendMessage(new StringValue(logMessage + "\n"));
-	}
-	
 	private String loadSelectedFile(String path) {
 		Path filePath = Paths.get(path);
 		
 		try {
 			return new String(Files.readAllBytes(filePath));
 		} catch (IOException e) {
-			addLogMessage(filePath + " cannot be found.");
+			log.appendMessage(filePath + " cannot be found.");
 		}
 		
 		return null;
@@ -93,7 +87,7 @@ public class SelectionScreen extends Screen {
 		} 
 		
 		ErrorEnvironment errorEnvironment = TypeChecker.check((Statement) parsedTree, new TypeEnvironment());
-		addLogMessage(errorEnvironment.getErrors());
+		log.appendMessage(errorEnvironment.getErrors());
 		
 		return !errorEnvironment.hasErrors();
 	}
@@ -104,7 +98,7 @@ public class SelectionScreen extends Screen {
 				super.handleChange(null, this);
 			}
 		} else {
-			addLogMessage("Open command cancelled by user.");
+			log.appendMessage("Open command cancelled by user.");
 		}
 	}
 	

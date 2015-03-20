@@ -12,7 +12,7 @@ import ql.gui.DefaultChangeHandler;
 import ql.gui.UIComponent;
 
 public class Panel extends DefaultChangeHandler implements UIComponent {
-	protected JPanel panel;
+	private JPanel panel;
 	private List<UIComponent> components;
 	
 	public Panel() {		
@@ -26,9 +26,18 @@ public class Panel extends DefaultChangeHandler implements UIComponent {
 		setHandler(handler);
 	}
 	
+	protected JPanel getPanel() {
+		return panel;
+	}
+	
+	protected List<UIComponent> getComponents() {
+		return components;
+	}
+	
 	public void addComponent(UIComponent component) {
 		addComponent(component, "wrap");
 	}
+	
 	public void addComponent(UIComponent component, String migSetting) {
 		components.add(component);
 		

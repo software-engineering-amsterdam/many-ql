@@ -9,43 +9,45 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import ql.TypeEnvironment;
 import ql.Value;
-import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.statement.Form;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import ql.gui.widget.input.Button;
-import ql.value.StringValue;
-import qls.ast.Statement;
 import qls.ast.expression.literal.StringLiteral;
-import qls.ast.visitor.typechecker.TypeChecker;
+import qls.ast.visitor.WidgetEnvironment;
+import qls.ast.visitor.domaincreator.ConditionalDomain;
+import qls.ast.visitor.domaincreator.DomainCreator;
+import qls.ast.visitor.pagebuilder.PageBuilder;
+import qls.ast.visitor.widgetbinder.WidgetBinder;
 import qls.gui.structure.UISection;
-import qls.parser.Parser;
 
 public class SelectionScreen extends Screen {
 	private FileChooser fileChooser;
 
-	private Button openButton;
+	private Button openButton, clearButton;
 	private UILog log;
 	
 	private UISection logSection, buttonSection;
 	
-	private QLNode parsedTree;
+	private UIComponent qlsInterface;
 	
 	public SelectionScreen(UIComponent handler) {
 		super(new Identifier("QLS Loader"));
 		
-		log = new UILog();
-		log.setHandler(this);
+		log = new UILog(this);
 		logSection = new UISection(new StringLiteral("Output log"));
 		logSection.addComponent(log, "span");
 		
 		openButton = new Button("Open QLS File...");
+		clearButton = new Button("Clear log");
 		buttonSection = new UISection(new StringLiteral("Buttons"));
-		buttonSection.addComponent(openButton, "span");
+		buttonSection.addComponent(openButton, "");
+		buttonSection.addComponent(clearButton, "");
 		
 		addSection(buttonSection, "wrap");
 		addSection(logSection);
@@ -56,58 +58,82 @@ public class SelectionScreen extends Screen {
 		setHandler(handler);
 	}	
 	
-	public QLNode getFormAst() {
-		return parsedTree;
+	public UIComponent getQLSInterface() {
+		return qlsInterface;
+	}
+
+	private String stripExtension(String string) {
+		return string.replaceFirst("[.][^.]+$", "");
 	}
 	
-	private void addLogMessage(String logMessage) {
-		log.appendMessage(new StringValue(logMessage + "\n"));
-	}
-	
-	private String loadSelectedFile() {
-		File selectedFile = fileChooser.getSelectedFile();
-		Path filePath = Paths.get(selectedFile.getAbsolutePath());
+	private String loadSelectedFile(String path, String extension) {
+		Path filePath = Paths.get(stripExtension(path) + "." + extension);
 		
 		try {
 			return new String(Files.readAllBytes(filePath));
 		} catch (IOException e) {
-			addLogMessage(selectedFile.getAbsolutePath() + " cannot be found.");
+			log.appendMessage(filePath + " cannot be found.");
 		}
 		
 		return null;
 	}
 	
-	private boolean processFile() {
-		String fileContents = loadSelectedFile();
+	private boolean processFile(File file) {
+		String qlContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QL);
+		String qlsContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QLS);
 		
-		if(fileContents == null) {
+		if(qlContents == null || qlsContents == null) {
 			return false;
 		}
 		
-		parsedTree = Parser.parse(fileContents);
+		ql.ast.Statement qlTree = (ql.ast.Statement) ql.parser.Parser.parse(qlContents);
 		
-		if(!(parsedTree instanceof Form)) {
+		if(!(qlTree instanceof Form)) {
 			return false;
-		} 
+		}		
 		
-		ErrorEnvironment errorEnvironment = TypeChecker.check((Statement) parsedTree, new TypeEnvironment());
-		addLogMessage(errorEnvironment.getErrors());
+		TypeEnvironment typeEnvironment = new TypeEnvironment();
+		ErrorEnvironment errors = ql.ast.visitor.typechecker.TypeChecker.check(qlTree, typeEnvironment);
 		
-		return !errorEnvironment.hasErrors();
+		if(errors.hasErrors()) {
+			log.appendMessage("-- QL Errors --");
+			log.appendMessage(errors.getErrors());
+		}
+		
+		qls.ast.Statement qlsTree = (qls.ast.Statement) qls.parser.Parser.parse(qlsContents);
+		errors = qls.ast.visitor.typechecker.TypeChecker.check(qlsTree, typeEnvironment);
+		
+		if(errors.hasErrors()) {
+			log.appendMessage("-- QLS Errors --");
+			log.appendMessage(errors.getErrors());
+		}
+
+		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
+		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);
+		
+		qlsInterface = PageBuilder.build(qlsTree, domains, widgets);
+		
+		return !errors.hasErrors();
+	}
+	
+	private void handleFileChooser() {
+		if (fileChooser.showOpenDialog(getScreen())) {
+			if(processFile(fileChooser.getSelectedFile())) {
+				super.handleChange(null, this);
+			}
+		} else {
+			log.appendMessage("Open command cancelled by user.");
+		}
 	}
 	
 	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
-		if (source != openButton) {
-			return;
+		if(source == openButton) {
+			handleFileChooser();
 		}
 		
-		if (fileChooser.showOpenDialog(getScreen())) {
-			if(processFile()) {
-				super.handleChange(changedValue, this);
-			}
-		} else {
-			addLogMessage("Open command cancelled by user.");
+		if(source == clearButton) {
+			log.clear();
 		}
 	}
 }

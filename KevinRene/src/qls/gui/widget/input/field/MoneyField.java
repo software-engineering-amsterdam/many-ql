@@ -12,19 +12,13 @@ import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.input.Field;
 
 public class MoneyField extends Field<MoneyValue> implements CaretListener {
-	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
+	private NumberFormat decimalFormat = new DecimalFormat("#0,00");
 	
 	public MoneyField () {
 		super(new MoneyValue(0f));
 	}
 	public MoneyField (MoneyValue value) {
 		super(value);
-	}
-	
-	@Override
-	public void setValue(MoneyValue value) {
-		this.value = value;
-		textField.setText(decimalFormat.format(value.toString()));		
 	}
 	
 	@Override
@@ -52,6 +46,6 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 	}
 	@Override
 	public String convertValue(Value value) {
-		return getValue().toString();
+		return decimalFormat.format(value.getValue());	
 	}
 }

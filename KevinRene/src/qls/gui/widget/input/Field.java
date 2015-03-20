@@ -16,7 +16,7 @@ public abstract class Field<T extends Value> extends
 	}
 
 	@Override
-	public void setValue(T newValue) {
+	public final void setValue(T newValue) {
 		Runnable changeValue = new Runnable() {
 			@Override
 			public void run() {

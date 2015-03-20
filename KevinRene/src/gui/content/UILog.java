@@ -20,12 +20,17 @@ public class UILog extends DefaultChangeHandler implements UIComponent {
 		scrollableSection = new ScrollablePanel(this, log);
 	}
 	
+	public UILog(UIComponent handler) {
+		this();
+		setHandler(this);
+	}
+	
 	public void clear() {
 		log.setValue(new StringValue(""));
 	}
 	
-	public void appendMessage(StringValue logMessage) {
-		log.appendValue(logMessage);
+	public void appendMessage(String logMessage) {
+		log.appendValue(new StringValue(logMessage + "\n"));
 	}
 
 	@Override
