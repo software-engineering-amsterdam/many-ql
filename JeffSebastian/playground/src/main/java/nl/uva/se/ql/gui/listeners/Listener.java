@@ -7,22 +7,23 @@ import nl.uva.se.ql.gui.validators.Validator;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 
 public class Listener<T> {
-	
+
 	private final Mediator med;
-	
-	public Listener(Mediator med){
+
+	public Listener(Mediator med) {
 		this.med = med;
 	}
-	
-	public ChangeListener<T> addListener(BaseQuestion<T> question, Validator<T> validator) {
+
+	public ChangeListener<T> addListener(BaseQuestion<T> question,
+			Validator<T> validator) {
 		return new ChangeListener<T>() {
 
 			@Override
 			public void changed(ObservableValue<? extends T> observable,
 					T oldValue, T newValue) {
-				if(validator.isValid(newValue)){					
+				if (validator.isValid(newValue)) {
 					med.update(question.getQuestion(), question.getValue());
-				}else{
+				} else {
 					question.undoChange(newValue, oldValue);
 				}
 			}

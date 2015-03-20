@@ -4,10 +4,11 @@ import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.BooleanValue;
 import nl.uva.se.ql.gui.mediators.Mediator;
 
-public class BooleanCalculatedQuestion extends BaseCalculatedQuestion<BooleanValue>{	
+public class BooleanCalculatedQuestion extends
+		BaseCalculatedQuestion<BooleanValue> {
 
 	public BooleanCalculatedQuestion(Question question, Mediator mediator) {
-		super(question, mediator);		
+		super(question, mediator);
 	}
 
 	@Override
@@ -19,6 +20,6 @@ public class BooleanCalculatedQuestion extends BaseCalculatedQuestion<BooleanVal
 	@Override
 	public BooleanValue getValue() {
 		return value;
-	}		
-	
+	}
+
 }

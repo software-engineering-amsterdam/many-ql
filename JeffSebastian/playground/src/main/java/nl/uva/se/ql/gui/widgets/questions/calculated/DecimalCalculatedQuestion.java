@@ -9,12 +9,12 @@ public class DecimalCalculatedQuestion extends
 
 	public DecimalCalculatedQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
-		
+
 	}
 
 	@Override
 	public void setValue(DecimalValue value) {
-		System.out.println(value.getClass() +" "+value.getValue());
+		System.out.println(value.getClass() + " " + value.getValue());
 		this.value = value;
 		label.setText(createText(value.getValue().toString()));
 	}

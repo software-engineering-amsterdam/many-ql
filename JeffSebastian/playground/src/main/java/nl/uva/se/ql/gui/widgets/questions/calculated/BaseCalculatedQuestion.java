@@ -8,10 +8,10 @@ import nl.uva.se.ql.gui.validators.Validator;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 
 public abstract class BaseCalculatedQuestion<T> extends BaseQuestion<T> {
-	
+
 	protected Label label = new Label();
 	protected T value;
-	
+
 	public BaseCalculatedQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
 		register(question);
@@ -34,7 +34,7 @@ public abstract class BaseCalculatedQuestion<T> extends BaseQuestion<T> {
 	public abstract void setValue(T value);
 
 	public String createText(String value) {
-		return getQuestion().getId() + " : " + value;
+		return getQuestion().getLabel() + " " + value;
 	}
 
 	@Override

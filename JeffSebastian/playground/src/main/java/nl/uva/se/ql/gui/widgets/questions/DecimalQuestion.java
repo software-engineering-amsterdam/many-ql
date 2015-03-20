@@ -48,7 +48,6 @@ public class DecimalQuestion extends BaseQuestion<String> {
 
 	@Override
 	public DecimalValue getValue() {
-		// Create a DecimalFormat that fits your requirements
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setGroupingSeparator(',');
 		symbols.setDecimalSeparator('.');

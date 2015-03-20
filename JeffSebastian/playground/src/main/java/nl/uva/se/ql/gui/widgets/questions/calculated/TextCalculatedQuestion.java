@@ -8,7 +8,6 @@ public class TextCalculatedQuestion extends BaseCalculatedQuestion<StringValue> 
 
 	public TextCalculatedQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

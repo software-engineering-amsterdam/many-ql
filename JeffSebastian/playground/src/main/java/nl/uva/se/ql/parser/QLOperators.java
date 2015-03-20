@@ -1,6 +1,6 @@
-package nl.uva.se.ql.parser.helper;
+package nl.uva.se.ql.parser;
 
-public enum Operator {
+public enum QLOperators {
 	OR("||"),
 	AND("&&"),
 	EQUAL("=="),
@@ -20,7 +20,7 @@ public enum Operator {
 	
 	private String name;
 	
-	private Operator(String name) {
+	private QLOperators(String name) {
 		this.name = name;
 	}
 
@@ -28,8 +28,8 @@ public enum Operator {
 		return name;
 	}
 	
-	public static Operator getByName(String name) {
-		for (Operator operator : Operator.values()) {
+	public static QLOperators getByName(String name) {
+		for (QLOperators operator : QLOperators.values()) {
 			if (operator.getName().equals(name)) {
 				return operator;
 			}

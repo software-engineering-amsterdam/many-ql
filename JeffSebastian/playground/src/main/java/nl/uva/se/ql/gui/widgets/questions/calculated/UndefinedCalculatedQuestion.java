@@ -9,7 +9,6 @@ public class UndefinedCalculatedQuestion extends
 
 	public UndefinedCalculatedQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
