@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.ql.validation;
 
 import static nl.uva.sc.encoders.ql.message.Messages.getString;
+import static nl.uva.sc.encoders.ql.validation.Validation.Type.ERROR;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,13 +72,13 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 			if (!questionNames.contains(name)) {
 				String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
 				TextLocation textLocation = nameExpression.getTextLocation();
-				validations.add(new TypeValidation(validationMessage, textLocation));
+				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			}
 			return question.getDataType();
 		} else {
 			String validationMessage = getString(UNDEFINED_QUESTION, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
-			validations.add(new TypeValidation(validationMessage, textLocation));
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			return UndefinedType.UNDEFINED;
 		}
 	}
@@ -116,7 +117,7 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		}
 		TextLocation textLocation = binaryExpression.getTextLocation();
 		String validationMessage = getString(MATCHING_DATA_TYPES, leftHandDataType, rightHandDataType);
-		validations.add(new TypeValidation(validationMessage, textLocation));
+		validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		return UndefinedType.UNDEFINED;
 	}
 
@@ -154,7 +155,7 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		if (!(dataType instanceof BooleanType)) {
 			TextLocation textLocation = condition.getTextLocation();
 			String validationMessage = getString(BOOLEAN_CONDITION, dataType);
-			validations.add(new TypeValidation(validationMessage, textLocation));
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
 	}
 
@@ -178,7 +179,8 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		boolean added = questionLabels.add(label);
 		if (!added) {
 			String validationMessage = getString(DUPLICATE_LABEL, label);
-			validations.add(new TypeValidation(validationMessage, question.getTextLocation()));
+			TextLocation textLocation = question.getTextLocation();
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
 	}
 }
