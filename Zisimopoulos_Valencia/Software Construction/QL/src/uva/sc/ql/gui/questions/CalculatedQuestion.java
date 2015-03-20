@@ -13,38 +13,39 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import uva.sc.ql.atom.BooleanAtom;
+import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.StringAtom;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.gui.helpers.DisplayData;
 import uva.sc.ql.gui.listeners.CalculatorListener;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unchecked", "serial" })
 public class CalculatedQuestion extends Question {
 
-    Map<String, List<String>> dependentElements;
+    Map<ID, List<ID>> patronElements;
     EvaluatorVisitor evaluator;
     List<Component> componentList;
 
-    public CalculatedQuestion(Map<String, List<String>> dependentElements,
+    public CalculatedQuestion(Map<ID, List<ID>> d,
 	    EvaluatorVisitor evalVisitor, List<Component> componentList) {
-	this.dependentElements = dependentElements;
+	this.patronElements = d;
 	this.evaluator = evalVisitor;
 	this.componentList = componentList;
     }
 
-    public JPanel drawQuestion(String id, String label, boolean isEditable) {
+    public JPanel drawQuestion(ID id, String label, boolean isEditable) {
 	DisplayData data = evaluator.getValuesTable().get(id);
 	boolean visibility = true;
 
 	JPanel panel = new JPanel();
 	JTextField textField = new JTextField();
-	textField.setName(id);
+	textField.setName(id.getValue());
 
-	for (Entry<String, List<String>> entry : dependentElements.entrySet()) {
+	for (Entry<ID, List<ID>> entry : patronElements.entrySet()) {
 	    if (id.equals(entry.getKey())) {
 		textField.getDocument().addDocumentListener(
-			(new CalculatorListener(dependentElements, evaluator,
-				componentList, textField)));
+			(new CalculatorListener(patronElements, evaluator,
+				componentList, textField, id)));
 	    }
 	}
 
@@ -69,7 +70,7 @@ public class CalculatedQuestion extends Question {
 	    }
 	}
 	panel.add(textField);
-	panel.setName(id);
+	panel.setName(id.getValue());
 	panel.setVisible(visibility);
 	return panel;
     }

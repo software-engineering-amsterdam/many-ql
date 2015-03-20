@@ -15,6 +15,7 @@ public class StringAtom extends Expression<Object> {
 	return value;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

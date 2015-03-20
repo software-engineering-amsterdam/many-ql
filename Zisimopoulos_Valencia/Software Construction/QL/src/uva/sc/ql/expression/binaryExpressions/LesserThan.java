@@ -3,6 +3,7 @@ package uva.sc.ql.expression.binaryExpressions;
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class LesserThan extends BinaryExpression {
 
     public LesserThan(Expression firstOperand, Expression secondOperand) {

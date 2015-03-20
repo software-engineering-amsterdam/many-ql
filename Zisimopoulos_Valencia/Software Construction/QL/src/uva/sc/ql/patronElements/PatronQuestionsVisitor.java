@@ -1,4 +1,4 @@
-package uva.sc.ql.dependentElements;
+package uva.sc.ql.patronElements;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -36,18 +36,15 @@ import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
 @SuppressWarnings({ "unchecked" })
-public class DependentQuestionsVisitor implements
+public class PatronQuestionsVisitor implements
 	IQLExpressionNodeVisitor<Object>, IQLFormNodeVisitor<Object>,
 	IQLStatementNodeVisitor<Object> {
 
-    Map<java.lang.String, List<java.lang.String>> dependentElements = new HashMap<java.lang.String, List<java.lang.String>>();
-    java.lang.String currentElement;
+    Map<ID, List<ID>> patronElements = new HashMap<ID, List<ID>>();
+    ID currentElement;
 
-    public Map<java.lang.String, List<java.lang.String>> getDependentElements() {
-	return dependentElements;
-    }
-
-    public DependentQuestionsVisitor() {
+    public Map<ID, List<ID>> getPatronElements() {
+	return patronElements;
     }
 
     public Component visit(Form questionnaire) {
@@ -59,7 +56,7 @@ public class DependentQuestionsVisitor implements
     }
 
     public JPanel visit(Question question) {
-	currentElement = question.getId().getValue();
+	currentElement = question.getId();
 
 	if (question.getExpr() != null) {
 	    question.getExpr().accept(this);
@@ -78,12 +75,12 @@ public class DependentQuestionsVisitor implements
     }
 
     public Component visit(ID id) {
-	List<java.lang.String> elements = dependentElements.get(id.getValue());
+	List<ID> elements = patronElements.get(id);
 	if (elements == null) {
-	    elements = new ArrayList<java.lang.String>();
+	    elements = new ArrayList<ID>();
 	}
 	elements.add(currentElement);
-	dependentElements.put(id.getValue(), elements);
+	patronElements.put(id, elements);
 	return null;
     }
 
