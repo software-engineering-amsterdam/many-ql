@@ -68,15 +68,18 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
 		return this.container;
 	}
 	
+	@Override
 	public T getValue() {
 		return this.value;
 	}
 	
+	@Override
 	public void setValue(T value) {
 		this.value = value;
 		textField.setText(value.getValue().toString());		
 	}
 	
+	@Override
 	public abstract void caretUpdate(CaretEvent e);
 	protected abstract T getFieldValue() throws NumberFormatException;
 }

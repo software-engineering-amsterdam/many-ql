@@ -8,6 +8,7 @@ import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.input.field.FloatField;
+import qls.gui.widget.input.slider.MoneySlider;
 import qls.gui.widget.input.spinbox.FloatSpinbox;
 
 public class FloatWidgetBuilder implements WidgetBuilder {
@@ -28,7 +29,12 @@ public class FloatWidgetBuilder implements WidgetBuilder {
 
 	@Override
 	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
-		throw new UnsupportedOperationException();
+		// TODO Look for a float slider.
+		InputWidget<?> slider = new MoneySlider((IntegerValue) minValue, (IntegerValue) maxValue);
+		
+		slider.setStyle(properties);
+		
+		return slider;
 	}
 
 	@Override

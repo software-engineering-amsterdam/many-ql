@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import ql.Value;
 import ql.value.MoneyValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.input.Field;
@@ -48,5 +49,9 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 		return new MoneyValue(
 				Math.round(Float.parseFloat(textField.getText()) * 100.0) / 100.0f
 			);
+	}
+	@Override
+	public String convertValue(Value value) {
+		return getValue().toString();
 	}
 }

@@ -7,7 +7,7 @@ import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
 import qls.gui.widget.InputWidget;
-import qls.gui.widget.input.field.FloatField;
+import qls.gui.widget.input.field.MoneyField;
 import qls.gui.widget.input.slider.MoneySlider;
 import qls.gui.widget.input.spinbox.MoneySpinbox;
 
@@ -47,8 +47,7 @@ public class MoneyWidgetBuilder implements WidgetBuilder {
 
 	@Override
 	public InputWidget<?> createTextField(StyleProperties properties) {
-		// TODO Make a money field.
-		InputWidget<?> field = new FloatField();
+		InputWidget<?> field = new MoneyField();
 		
 		field.setStyle(properties);
 		
