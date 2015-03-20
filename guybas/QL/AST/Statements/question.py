@@ -53,7 +53,7 @@ class Question(statement.IStatement):
     def get_label(self):
         return self.__label
 
-    def get_type(self):
+    def get_type_string(self):
         return self.__type
 
     def get_id(self):

@@ -16,7 +16,7 @@ class Checkbox(w.Widget):
         return s
 
     def get_compatible(self):
-        return [constants.GrammarConstants.BOOL]
+        return [constants.BOOL]
 
     def get_settings(self):
         return self._properties

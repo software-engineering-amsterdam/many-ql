@@ -1,5 +1,6 @@
 import QLS.AST.Widget.widget as w
 import QLS.AST.Widget.default_settings as d
+import QL.Grammar.constants as constants
 
 
 class Spinbox(w.Widget):
@@ -17,7 +18,7 @@ class Spinbox(w.Widget):
         return s
 
     def get_compatible(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return [constants.NUMBER]
 
     def set_settings(self, dictionary):
         for x in dictionary:

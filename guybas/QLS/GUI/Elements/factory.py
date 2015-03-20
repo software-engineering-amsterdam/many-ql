@@ -6,7 +6,7 @@ import QLS.GUI.Elements.text_entry as t
 
 class Factory:
     def __init__(self, statement, gui, frame):
-        q_type = statement.ast.get_type()
+        q_type = statement.ast.get_type_string()
         if q_type == c.BOOL:
             self.gui_element = r.RadioButton(statement, gui, frame)
         elif q_type == c.NUMBER:

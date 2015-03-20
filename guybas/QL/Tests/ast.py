@@ -103,7 +103,7 @@ class TestAST(unittest.TestCase):
         result = (fg.Grammar.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], q.Question)
         self.assertEqual(result[0].get_id(), "why")
-        self.assertEqual(result[0].get_type(), c.GrammarConstants.TEXT)
+        self.assertEqual(result[0].get_type_string(), c.GrammarConstants.TEXT)
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
     def test_ast_if(self):

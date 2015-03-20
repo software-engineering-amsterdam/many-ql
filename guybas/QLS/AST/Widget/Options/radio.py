@@ -16,7 +16,7 @@ class Radio(w.Widget):
         return s
 
     def get_compatible(self):
-        return [constants.GrammarConstants.BOOL, constants.GrammarConstants.NUMBER]
+        return [constants.BOOL, constants.NUMBER]
 
     def get_settings(self):
         return self._properties

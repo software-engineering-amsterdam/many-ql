@@ -53,3 +53,9 @@ class Assignment(statement.IStatement):
 
     def get_id(self):
         return self.id
+
+    def get_type_string(self):
+        return self.type
+
+    def get_label(self):
+        return ""
