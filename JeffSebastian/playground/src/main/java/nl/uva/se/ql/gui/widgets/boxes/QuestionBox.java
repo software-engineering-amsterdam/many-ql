@@ -3,7 +3,7 @@ package nl.uva.se.ql.gui.widgets.boxes;
 import nl.uva.se.ql.ast.statement.*;
 import nl.uva.se.ql.gui.builders.CalculatedQuestionBuilder;
 import nl.uva.se.ql.gui.builders.QuestionBuilder;
-import nl.uva.se.ql.gui.mediators.IMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.questions.calculated.BaseCalculatedQuestion;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -12,15 +12,15 @@ import nl.uva.se.ql.gui.widgets.questions.*;
 public class QuestionBox extends VBox {
 	
 	private final Question question;
-	private final IMediator mediator;
+	private final Mediator mediator;
 
-	public QuestionBox(Question question, IMediator mediator) {
+	public QuestionBox(Question question, Mediator mediator) {
 		this.question = question;
 		this.mediator = mediator;
 		addQuestion(question);
 	}
 	
-	public QuestionBox(CalculatedQuestion question, IMediator mediator) {
+	public QuestionBox(CalculatedQuestion question, Mediator mediator) {
 		this.question = question;
 		this.mediator = mediator;
 		addQuestion(question);

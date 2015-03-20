@@ -7,16 +7,16 @@ import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.gui.mediators.IMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.questions.calculated.*;
 
 @SuppressWarnings("rawtypes")
 public class CalculatedQuestionBuilder implements TypeVisitor<BaseCalculatedQuestion> {
 
 	private final Question question;
-	private final IMediator mediator;
+	private final Mediator mediator;
 
-	public CalculatedQuestionBuilder(Question question, IMediator mediator) {
+	public CalculatedQuestionBuilder(Question question, Mediator mediator) {
 		this.question = question;
 		this.mediator = mediator;
 	}

@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.evaluation.ValueTable;
 import nl.uva.se.ql.gui.builders.GuiBuilder;
-import nl.uva.se.ql.gui.listeners.IMediator;
-import nl.uva.se.ql.gui.listeners.Mediator;
+import nl.uva.se.ql.gui.mediators.GuiMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.interpretation.Interpreter;
 import nl.uva.se.ql.interpretation.Result;
@@ -46,12 +46,10 @@ public class Main extends Application{
 			Form ast = (Form) visitor.visit(tree);
 			Result<ValueTable> result = Interpreter.interpret(ast);
 			errors = result.getErrorList();
-			IMediator med = new Mediator(result.getResult());
+			Mediator med = new GuiMediator(result.getResult(), ast);
 			
-			if (!result.getErrorList().hasErrors()) {
-				GuiBuilder guiBuilder = new GuiBuilder(med);
-				guiBuilder.visit(ast);
-				this.questionPane = guiBuilder.getQuestionPane();			
+			if (!result.getErrorList().hasErrors()) {				
+				this.questionPane = med.getQuestionPane();			
 			}
 			
 		} catch (IOException e) {

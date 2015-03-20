@@ -2,12 +2,12 @@ package nl.uva.se.ql.gui.widgets.questions.calculated;
 
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.DecimalValue;
-import nl.uva.se.ql.gui.mediators.IMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 
 public class DecimalCalculatedQuestion extends
 		BaseCalculatedQuestion<DecimalValue> {
 
-	public DecimalCalculatedQuestion(Question question, IMediator mediator) {
+	public DecimalCalculatedQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
 		
 	}
