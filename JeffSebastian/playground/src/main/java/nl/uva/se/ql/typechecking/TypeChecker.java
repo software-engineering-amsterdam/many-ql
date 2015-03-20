@@ -1,7 +1,5 @@
 package nl.uva.se.ql.typechecking;
 
-import java.awt.Robot;
-
 import nl.uva.se.ql.ast.expression.Binary;
 import nl.uva.se.ql.ast.expression.Expression;
 import nl.uva.se.ql.ast.expression.ExpressionVisitor;
@@ -42,12 +40,12 @@ import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
 import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
-import nl.uva.se.ql.interpretation.error.InvalidConditionType;
-import nl.uva.se.ql.interpretation.error.InvalidOperandType;
-import nl.uva.se.ql.interpretation.error.TypeMismatch;
-import nl.uva.se.ql.interpretation.error.TypeNotAllowed;
-import nl.uva.se.ql.interpretation.error.UndefinedReference;
+import nl.uva.se.ql.typechecking.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.InvalidConditionType;
+import nl.uva.se.ql.typechecking.error.InvalidOperandType;
+import nl.uva.se.ql.typechecking.error.TypeMismatch;
+import nl.uva.se.ql.typechecking.error.TypeNotAllowed;
+import nl.uva.se.ql.typechecking.error.UndefinedReference;
 
 public class TypeChecker implements FormVisitor, StatementVisitor,
 		ExpressionVisitor<Type>, TypeVisitor<Type> {
@@ -73,14 +71,16 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
 
 		if (!symbolResult.getErrorList().hasErrors()) {
-			Result<DependencyTable> result = DependencyResolver.resolve(form);
-			if (!result.getErrorList().hasErrors()) {
+			DependencyTable dependencies = DependencyResolver.resolve(form, symbolResult.getResult());
+			ErrorList errors = CyclicDependencyChecker.check(dependencies);
+			
+			if (!errors.hasErrors()) {
 				TypeChecker typeChecker = new TypeChecker(symbolResult);
 				typeChecker.visit(form);
 				return new Result<SymbolTable>(typeChecker.errors,
 						typeChecker.symbols);
 			} else {
-				result.getErrorList().printAll();
+				errors.printAll();
 			}
 		}
 
@@ -101,7 +101,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		Type promotedQuesType = questionType.promote();
 		
 		if (!promotedExpressionType.equals(promotedQuesType)) {
-			System.out.println(calculatedQuestion.getId());
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
 				.getOffset(), questionType, expressionType));

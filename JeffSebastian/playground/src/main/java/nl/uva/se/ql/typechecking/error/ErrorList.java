@@ -1,4 +1,4 @@
-package nl.uva.se.ql.interpretation.error;
+package nl.uva.se.ql.typechecking.error;
 
 import java.util.ArrayList;
 import java.util.List;

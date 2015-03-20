@@ -6,7 +6,7 @@ form taxOfficeExample {
   
   if (hasSoldHouse && hasBoughtHouse) {
   	integer a : "Your income?"
-  	integer b : "some question?" (1 + a)
+  	integer b : "some question?" (b + a)
   	integer c : "test?" (1)
   }
   decimal name : "what is your name?"

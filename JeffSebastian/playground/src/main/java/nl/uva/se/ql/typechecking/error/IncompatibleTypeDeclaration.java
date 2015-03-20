@@ -1,4 +1,4 @@
-package nl.uva.se.ql.interpretation.error;
+package nl.uva.se.ql.typechecking.error;
 
 import nl.uva.se.ql.ast.statement.Question;
 
