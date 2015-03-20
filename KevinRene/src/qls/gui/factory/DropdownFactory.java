@@ -8,7 +8,7 @@ import qls.gui.WidgetFactory;
 import qls.gui.widget.InputWidget;
 
 public class DropdownFactory implements WidgetFactory {
-private Literal<StringValue> trueValue, falseValue;
+	private Literal<StringValue> trueValue, falseValue;
 	
 	@SuppressWarnings("unchecked")
 	public DropdownFactory(Literal<?> trueValue, Literal<?> falseValue) {

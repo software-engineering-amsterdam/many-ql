@@ -10,15 +10,17 @@ import ql.gui.DefaultChangeHandler;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.InputWidget;
+import qls.gui.widget.WidgetStylizer;
 
 public class Dropdown extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {
-	protected JComboBox<String> comboBox;
+	private WidgetStylizer stylizer;
+	private JComboBox<String> comboBox;
 	private String[] labels;
 	
-	public Dropdown(StringValue tru, StringValue fls) {
-		labels = new String[]{tru.getValue(), fls.getValue()};
+	public Dropdown(StringValue trueValue, StringValue falseValue) {
+		stylizer = new WidgetStylizer();
+		labels = new String[]{trueValue.getValue(), falseValue.getValue()};
 		
 		comboBox = new JComboBox<String>(labels);
 		comboBox.addActionListener(this);
@@ -49,6 +51,7 @@ public class Dropdown extends DefaultChangeHandler implements InputWidget<Boolea
 
 	@Override
 	public void updateComponent() {
+		comboBox.revalidate();
 		comboBox.repaint();
 	}
 
@@ -59,11 +62,6 @@ public class Dropdown extends DefaultChangeHandler implements InputWidget<Boolea
 
 	@Override
 	public void setStyle(StyleProperties properties) {
-		
-	}
-
-	@Override
-	public void setFont(Font font) {
-		
+		stylizer.setStyle(comboBox, properties);
 	}
 }

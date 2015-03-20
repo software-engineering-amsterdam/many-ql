@@ -2,7 +2,6 @@ package ql.ast.expression.literal;
 
 import ql.ast.QLType;
 import ql.ast.expression.Literal;
-import ql.ast.type.QLInteger;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.value.IntegerValue;
 
@@ -14,7 +13,7 @@ public class IntegerLiteral extends Literal<IntegerValue> {
 	
 	@Override
 	public QLType getType() {
-		return new QLInteger();
+		return getValue().getType();
 	}
 	
 	@Override

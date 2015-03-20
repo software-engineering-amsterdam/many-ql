@@ -2,6 +2,7 @@ package qls.gui.builder;
 
 import ql.ast.QLType;
 import ql.ast.type.QLBoolean;
+import ql.value.IntegerValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
@@ -17,16 +18,24 @@ public class BooleanWidgetBuilder implements WidgetBuilder {
 
 	@Override
 	public InputWidget<?> createDropdown(StyleProperties properties, StringValue trueValue, StringValue falseValue) {
-		return new Dropdown(trueValue, falseValue);
+		InputWidget<?> dropdown = new Dropdown(trueValue, falseValue);
+		
+		dropdown.setStyle(properties);
+		
+		return dropdown;
 	}
 
 	@Override
-	public InputWidget<?> createRadioButton(StyleProperties properties) {
-		return new Radio();
+	public InputWidget<?> createRadioButton(StyleProperties properties, StringValue trueValue, StringValue falseValue) {
+		InputWidget<?> radioButton = new Radio(trueValue, falseValue);
+		
+		radioButton.setStyle(properties);
+		
+		return radioButton;
 	}
 
 	@Override
-	public InputWidget<?> createSlider(StyleProperties properties) {
+	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
 		throw new UnsupportedOperationException();
 	}
 

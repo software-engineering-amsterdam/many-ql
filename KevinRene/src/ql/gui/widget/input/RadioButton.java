@@ -9,12 +9,18 @@ import javax.swing.JRadioButton;
 import ql.gui.DefaultChangeHandler;
 import ql.gui.widget.InputWidget;
 import ql.value.BooleanValue;
+import ql.value.StringValue;
 
 public class RadioButton extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {	
-	private JRadioButton radioButton;
+	protected JRadioButton radioButton;
 
 	public RadioButton() {
 		radioButton = new JRadioButton();
+		radioButton.addActionListener(this);
+	}
+	
+	public RadioButton(StringValue radioLabel) {
+		radioButton = new JRadioButton(radioLabel.getValue());
 		radioButton.addActionListener(this);
 	}
 	

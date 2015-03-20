@@ -7,8 +7,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ql.value.FloatValue;
+import ql.value.IntegerValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Slider;
 
 /**
@@ -22,11 +22,8 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	private final float FACTOR = 100;
 	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
 	
-	public MoneySlider() {
-		super();
-	}
-	public MoneySlider(int min, int max) {
-		super(min, max);
+	public MoneySlider(IntegerValue minValue, IntegerValue maxValue) {
+		super(minValue, maxValue);
 	}
 
 	@Override
@@ -37,22 +34,22 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 
 	@Override
 	public FloatValue getValue() {
-		return new FloatValue((float)slider.getValue() / FACTOR);
+		return new FloatValue((float) slider.getValue() / FACTOR);
+	}
+	
+	@Override
+	public void updateComponent() {
+		label.setText(decimalFormat.format(getValue().getValue()));
+		super.updateComponent();
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
-		label.setText(decimalFormat.format(getValue().getValue()));
 	}
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		
-	}
-	
-	@Override
-	public void setFont(Font font) {
-		
+		stylizer.setStyle(slider, properties);
 	}
 }

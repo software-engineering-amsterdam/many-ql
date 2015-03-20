@@ -11,13 +11,6 @@ public abstract class Expression implements QLNode {
 		this.operands = operands;
 	}
 	
-	/**
-	 * Translates the value and the values of its children to a String.
-	 * @return The resulting concatenation as a string
-	 */	
-	@Override
-	public abstract String toString();
-	
 	public List<Expression> getOperands() {
 		return this.operands;
 	}
@@ -26,4 +19,10 @@ public abstract class Expression implements QLNode {
 
 	public abstract <T> T accept(ExpressionVisitor<T> visitor);
 
+	/**
+	 * Translates the value and the values of its children to a String.
+	 * @return The resulting concatenation as a string
+	 */	
+	@Override
+	public abstract String toString();
 }

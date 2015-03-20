@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLBoolean;
 
 public class BooleanValue implements Value {
 	private final boolean value;
@@ -19,6 +21,16 @@ public class BooleanValue implements Value {
 		this.value = value;
 	}
 
+	@Override
+	public Boolean getValue() {
+		return this.value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLBoolean();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add to a Boolean.");
@@ -222,10 +234,6 @@ public class BooleanValue implements Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(argument.getValue() && getValue());
-	}
-	
-	public Boolean getValue() {
-		return this.value;
 	}
 
 	@Override

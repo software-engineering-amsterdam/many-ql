@@ -12,6 +12,10 @@ public class Height extends Property {
 		super(Arrays.asList(new QLInteger()), value);
 	}
 	
+	public int getHeight() {
+		return (int) getValue().getValue().getValue();
+	}
+	
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
