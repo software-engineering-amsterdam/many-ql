@@ -1,6 +1,5 @@
 package nl.uva.sc.encoders.qlruntime.ui;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Set;
@@ -61,61 +60,39 @@ public class QuestionnaireUI {
 			control.setVisible(visible);
 
 			if (condition != null) {
-				addConditionListeners(runtimeQuestions, label, control, condition);
+				addChangeListeners(runtimeQuestions, runtimeQuestion, condition, evt -> {
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
+					// The cast to BooleanValue should be safe, because the
+					// types should already be checked at this point.
+						BooleanValue value = (BooleanValue) condition.accept(expressionEvaluator);
+						Boolean visible1 = value.getValue();
+						control.setVisible(visible1);
+						label.setVisible(visible1);
+					});
 			}
 
 			Expression computed = question.getComputed();
 			if (computed != null) {
+				runtimeQuestion.addPropertyChangeListener(controlPropertyChangeWrapper);
 				control.setDisable(true);
-				addComputedListeners(runtimeQuestions, runtimeQuestion, controlPropertyChangeWrapper, computed);
+				addChangeListeners(runtimeQuestions, runtimeQuestion, computed, evt -> {
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
+					Value value = computed.accept(expressionEvaluator);
+					runtimeQuestion.setValue(value);
+				});
 			}
 			grid.add(control, 1, y);
 			y++;
 		}
 	}
 
-	private void addConditionListeners(final List<RuntimeQuestion> runtimeQuestions, final Label label, final Control control,
-			final Expression condition) {
+	private void addChangeListeners(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
+			final Expression expression, final PropertyChangeListener listener) {
 		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
-		Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
+		Set<String> relatedQuestionNames = expression.accept(relatedQuestionVisitor);
 		for (String relatedQuestionName : relatedQuestionNames) {
 			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
-			relatedQuestion.addPropertyChangeListener(new PropertyChangeListener() {
-
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
-					// The cast to BooleanValue should be safe, because the
-					// types should already be checked at this point.
-					BooleanValue value = (BooleanValue) condition.accept(expressionEvaluator);
-					Boolean visible = value.getValue();
-					control.setVisible(visible);
-					label.setVisible(visible);
-					System.out.println("Waarde is nu: " + evt.getNewValue());
-				}
-			});
+			relatedQuestion.addPropertyChangeListener(listener);
 		}
-		System.out.println(relatedQuestionNames);
 	}
-
-	private void addComputedListeners(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
-			final ControlPropertyChangeWrapper controlPropertyChangeWrapper, final Expression computed) {
-		RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
-		Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
-		runtimeQuestion.addPropertyChangeListener(controlPropertyChangeWrapper);
-		for (String relatedQuestionName : relatedQuestionNames) {
-			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
-			relatedQuestion.addPropertyChangeListener(new PropertyChangeListener() {
-
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
-					Value value = computed.accept(expressionEvaluator);
-					runtimeQuestion.setValue(value);
-				}
-			});
-		}
-		System.out.println(relatedQuestionNames);
-	}
-
 }
