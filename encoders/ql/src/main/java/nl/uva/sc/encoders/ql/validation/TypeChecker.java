@@ -2,6 +2,7 @@ package nl.uva.sc.encoders.ql.validation;
 
 import static nl.uva.sc.encoders.ql.message.Messages.getString;
 import static nl.uva.sc.encoders.ql.validation.Validation.Type.ERROR;
+import static nl.uva.sc.encoders.ql.validation.Validation.Type.WARNING;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -180,7 +181,7 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		if (!added) {
 			String validationMessage = getString(DUPLICATE_LABEL, label);
 			TextLocation textLocation = question.getTextLocation();
-			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+			validations.add(new TypeValidation(validationMessage, textLocation, WARNING));
 		}
 	}
 }
