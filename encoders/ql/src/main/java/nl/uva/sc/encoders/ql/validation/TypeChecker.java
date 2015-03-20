@@ -87,15 +87,11 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	private Question getQuestion(String name) {
 		List<Question> allQuestions = questionnaire.getAllQuestions();
 		for (Question question : allQuestions) {
-			if (questionHasName(question, name)) {
+			if (question.hasName(name)) {
 				return question;
 			}
 		}
 		return null;
-	}
-
-	private boolean questionHasName(Question question, String name) {
-		return name.equals(question.getName());
 	}
 
 	@Override
