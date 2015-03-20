@@ -1,15 +1,17 @@
 package uva.sc.core.errors;
 
+import uva.sc.ql.atom.ID;
+
 public class UndefinedID implements IError {
 
-    String identity;
+    ID identity;
 
-    public UndefinedID(String id) {
+    public UndefinedID(ID id) {
 	identity = id;
     }
 
     public String toString() {
-	return "The variable " + identity
+	return "The variable " + identity.getValue()
 		+ " is used but has not been declared.";
     }
 }

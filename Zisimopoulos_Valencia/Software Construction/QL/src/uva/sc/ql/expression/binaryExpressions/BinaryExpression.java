@@ -3,6 +3,7 @@ package uva.sc.ql.expression.binaryExpressions;
 import uva.sc.core.types.Type;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public abstract class BinaryExpression extends Expression {
 
     Expression firstOperand;

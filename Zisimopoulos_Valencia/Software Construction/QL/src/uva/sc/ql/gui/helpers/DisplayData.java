@@ -3,6 +3,7 @@ package uva.sc.ql.gui.helpers;
 import uva.sc.core.types.Type;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class DisplayData {
     Expression value;
     Expression condition;

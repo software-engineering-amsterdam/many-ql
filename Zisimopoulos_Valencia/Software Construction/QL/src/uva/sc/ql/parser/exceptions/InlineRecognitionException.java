@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.Token;
 
 import uva.sc.core.errors.IError;
 
+@SuppressWarnings("serial")
 public class InlineRecognitionException extends RecognitionException implements
 	IError {
 

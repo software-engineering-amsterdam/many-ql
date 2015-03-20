@@ -5,6 +5,7 @@ import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class Question implements Statement {
 
     String str;
