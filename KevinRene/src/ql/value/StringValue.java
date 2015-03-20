@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLString;
 
 public class StringValue implements Value {
 	private final String value;
@@ -22,6 +24,11 @@ public class StringValue implements Value {
 	@Override
 	public String getValue() {
 		return value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLString();
 	}
 	
 	@Override

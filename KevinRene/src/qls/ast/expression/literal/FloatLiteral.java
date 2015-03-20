@@ -1,7 +1,6 @@
 package qls.ast.expression.literal;
 
 import ql.ast.QLType;
-import ql.ast.type.QLFloat;
 import ql.value.FloatValue;
 import qls.ast.expression.Literal;
 import qls.ast.visitor.ExpressionVisitor;
@@ -13,7 +12,7 @@ public class FloatLiteral extends Literal<FloatValue> {
 
 	@Override
 	public QLType getType() {
-		return new QLFloat();
+		return getValue().getType();
 	}
 	
 	@Override

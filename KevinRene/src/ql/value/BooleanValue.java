@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLBoolean;
 
 public class BooleanValue implements Value {
 	private final boolean value;
@@ -22,6 +24,11 @@ public class BooleanValue implements Value {
 	@Override
 	public Boolean getValue() {
 		return this.value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLBoolean();
 	}
 	
 	@Override

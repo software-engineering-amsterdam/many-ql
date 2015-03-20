@@ -1,5 +1,6 @@
 package ql;
 
+import ql.ast.QLType;
 import ql.value.BooleanValue;
 import ql.value.FloatValue;
 import ql.value.IntegerValue;
@@ -12,6 +13,7 @@ public interface Value {
 	public boolean isNumeric();
 	
 	public Object getValue();
+	public QLType getType();
 	
 	/**
 	 * Addition

@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLFloat;
 
 public class FloatValue implements Value {
 	
@@ -23,6 +25,11 @@ public class FloatValue implements Value {
 	@Override
 	public Float getValue() {
 		return value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLFloat();
 	}
 
 	@Override
