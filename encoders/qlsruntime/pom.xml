@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>nl.uva.sc.encoders</groupId>
-	<artifactId>qls</artifactId>
+	<groupId>nl.uva.sc.encoders.qls</groupId>
+	<artifactId>qlsruntime</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Questionnaire Language Styling</name>
+	<name>Questionnaire Language Styling Runtime</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -26,6 +26,16 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.controlsfx</groupId>
+			<artifactId>controlsfx</artifactId>
+			<version>8.20.8</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.uva.sc.encoders</groupId>
+			<artifactId>qls</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
