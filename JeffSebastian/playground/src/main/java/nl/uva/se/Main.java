@@ -6,16 +6,15 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.uva.se.ql.ast.form.Form;
+import nl.uva.se.ql.evaluation.Evaluator;
 import nl.uva.se.ql.evaluation.ValueTable;
-import nl.uva.se.ql.gui.builders.GuiBuilder;
 import nl.uva.se.ql.gui.mediators.GuiMediator;
 import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
-import nl.uva.se.ql.interpretation.Interpreter;
-import nl.uva.se.ql.interpretation.Result;
 import nl.uva.se.ql.parser.QLLexer;
 import nl.uva.se.ql.parser.QLParser;
 import nl.uva.se.ql.parser.QLVisitorImpl;
+import nl.uva.se.ql.typechecking.TypeChecker;
 import nl.uva.se.ql.typechecking.error.ErrorList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -27,7 +26,7 @@ public class Main extends Application{
 	
 	private QuestionPane questionPane;
 	
-	private ErrorList errors;
+	private ErrorList semanticErrors;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -44,12 +43,12 @@ public class Main extends Application{
 			
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Form ast = (Form) visitor.visit(tree);
-			Result<ValueTable> result = Interpreter.interpret(ast);
-			errors = result.getErrorList();
-			Mediator med = new GuiMediator(result.getResult(), ast);
-			
-			if (!result.getErrorList().hasErrors()) {				
-				this.questionPane = med.getQuestionPane();			
+			semanticErrors = TypeChecker.check(ast);
+
+			if (!semanticErrors.hasErrors()) {
+				ValueTable valueTable = Evaluator.evaluate(ast, new ValueTable());
+				Mediator med = new GuiMediator(valueTable, ast);
+				this.questionPane = med.getQuestionPane();
 			}
 			
 		} catch (IOException e) {
@@ -59,11 +58,12 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		if (!errors.hasErrors()) {
+		if (!semanticErrors.hasErrors()) {
 			Scene scene = new Scene(questionPane, 350, 350);
 			primaryStage.setTitle(questionPane.getForm().getId());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
 	}
+	
 }

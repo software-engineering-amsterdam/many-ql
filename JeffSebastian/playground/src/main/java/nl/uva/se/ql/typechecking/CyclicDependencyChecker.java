@@ -45,7 +45,8 @@ public class CyclicDependencyChecker {
 						question.getOffset()));
 			}
 			
-			checkAllPaths(question, dependencies.getDependenciesFor(dependant), new ArrayList<Question>());
+			checkAllPaths(question, dependencies.getDependenciesFor(dependant), 
+					new ArrayList<Question>());
 		}
 	}
 	
@@ -57,6 +58,7 @@ public class CyclicDependencyChecker {
 					errors.addError(new CyclicDependency(question.getLineNumber(), 
 							question.getOffset()));
 				}
+				checkAllPaths(question, dependencies.getDependenciesFor(q), visited);
 			}
 		}
 	}

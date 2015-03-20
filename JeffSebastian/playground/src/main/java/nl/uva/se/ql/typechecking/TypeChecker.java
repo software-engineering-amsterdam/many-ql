@@ -39,7 +39,6 @@ import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.interpretation.Result;
 import nl.uva.se.ql.typechecking.error.ErrorList;
 import nl.uva.se.ql.typechecking.error.InvalidConditionType;
 import nl.uva.se.ql.typechecking.error.InvalidOperandType;
@@ -62,29 +61,31 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	private SymbolTable symbols;
 	private ErrorList errors;
 
-	private TypeChecker(Result<SymbolTable> symbolResult) {
-		this.symbols = symbolResult.getResult();
-		this.errors = symbolResult.getErrorList();
+	private TypeChecker(SymbolTable symbols) {
+		this.symbols = symbols;
+		this.errors = new ErrorList();
 	}
 
-	public static Result<SymbolTable> check(Form form) {
-		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
+	public static ErrorList check(Form form) {
+		SymbolResult symbolResult = SymbolResolver.resolve(form);
+		ErrorList symbolErrorList = symbolResult.getErrorList();
 
-		if (!symbolResult.getErrorList().hasErrors()) {
-			DependencyTable dependencies = DependencyResolver.resolve(form, symbolResult.getResult());
-			ErrorList errors = CyclicDependencyChecker.check(dependencies);
-			
-			if (!errors.hasErrors()) {
-				TypeChecker typeChecker = new TypeChecker(symbolResult);
-				typeChecker.visit(form);
-				return new Result<SymbolTable>(typeChecker.errors,
-						typeChecker.symbols);
-			} else {
-				errors.printAll();
-			}
+		if (symbolErrorList.hasErrors()) {
+			return symbolErrorList;
 		}
-
-		return symbolResult;
+			
+		DependencyTable dependencies = DependencyResolver.resolve(form, 
+				symbolResult.getSymbols());
+		ErrorList dependencyErrorList = CyclicDependencyChecker.check(dependencies);
+		
+		if (dependencyErrorList.hasErrors()) {
+			return dependencyErrorList;
+		}
+		
+		TypeChecker typeChecker = new TypeChecker(symbolResult.getSymbols());
+		typeChecker.visit(form);
+		
+		return typeChecker.errors;
 	}
 
 	public void visit(Form form) {
