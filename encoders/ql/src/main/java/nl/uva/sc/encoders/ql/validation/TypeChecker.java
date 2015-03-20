@@ -68,20 +68,19 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	public DataType visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
 
-		Question question = questionnaire.getQuestion(name);
-		if (question != null) {
-			if (!questionNames.contains(name)) {
-				String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
-				TextLocation textLocation = nameExpression.getTextLocation();
-				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
-			}
-			return question.getDataType();
-		} else {
+		if (!questionnaire.containsQuestion(name)) {
 			String validationMessage = getString(UNDEFINED_QUESTION, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			return UndefinedType.UNDEFINED;
 		}
+		Question question = questionnaire.getQuestion(name);
+		if (!questionNames.contains(name)) {
+			String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
+			TextLocation textLocation = nameExpression.getTextLocation();
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		}
+		return question.getDataType();
 	}
 
 	@Override

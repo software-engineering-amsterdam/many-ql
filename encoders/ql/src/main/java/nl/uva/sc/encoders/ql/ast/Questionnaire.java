@@ -26,13 +26,18 @@ public class Questionnaire extends AstNodeWithLocation {
 		return questions;
 	}
 
+	public boolean containsQuestion(final String name) {
+		return getAllQuestions().stream().anyMatch(p -> p.getName().equals(name));
+	}
+
 	public Question getQuestion(String name) {
+		getAllQuestions().stream().findAny();
 		for (Question question : getAllQuestions()) {
 			if (question.getName().equals(name)) {
 				return question;
 			}
 		}
-		return null;
+		throw new IllegalStateException("Question " + name + " should be in questionnaire");
 	}
 
 	public List<Statement> getStatements() {
