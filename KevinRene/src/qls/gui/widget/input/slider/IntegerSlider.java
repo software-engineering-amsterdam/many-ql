@@ -24,9 +24,14 @@ public class IntegerSlider extends Slider<IntegerValue> implements ChangeListene
 	}
 
 	@Override
+	public void updateComponent() {
+		label.setText(getValue().toString());
+		super.updateComponent();
+	}
+	
+	@Override
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
-		label.setText(getValue().toString());
 	}
 
 	@Override

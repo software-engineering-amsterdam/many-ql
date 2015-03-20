@@ -11,8 +11,6 @@ import qls.gui.widget.input.Spinbox;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener {
-	private SpinnerNumberModel model;
-	        
 	public FloatSpinbox() {
 		super(new SpinnerNumberModel(
 				0.0, //initial value

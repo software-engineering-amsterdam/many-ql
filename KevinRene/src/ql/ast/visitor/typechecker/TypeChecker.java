@@ -290,13 +290,13 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	}
 	
 	@Override
-	public QLType visit(MoneyLiteral literalNode) {
-		return literalNode.getType();
+	public QLType visit(MoneyLiteral moneyNode) {
+		return moneyNode.getType();
 	}
 	
 	@Override
-	public QLType visit(IntegerLiteral intNode) { 
-		return intNode.getType(); 
+	public QLType visit(IntegerLiteral integerNode) { 
+		return integerNode.getType(); 
 	}
 	
 	@Override
