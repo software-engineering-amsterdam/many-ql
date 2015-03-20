@@ -7,7 +7,6 @@ import ql.ast.visitor.ExpressionVisitor;
 import ql.value.MoneyValue;
 
 public class MoneyLiteral extends Literal<MoneyValue> {	
-
 	public MoneyLiteral(float value) {
 		super(new MoneyValue(value));
 	}
@@ -21,6 +20,4 @@ public class MoneyLiteral extends Literal<MoneyValue> {
 	public <T> T accept(ExpressionVisitor<T> visitor) {		
 		return visitor.visit(this);
 	}
-
-	
 }

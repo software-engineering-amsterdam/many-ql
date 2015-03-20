@@ -2,11 +2,14 @@ package qls.gui.builder;
 
 import ql.ast.QLType;
 import ql.ast.type.QLMoney;
+import ql.value.IntegerValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.input.field.FloatField;
+import qls.gui.widget.input.slider.MoneySlider;
+import qls.gui.widget.input.spinbox.MoneySpinbox;
 
 public class MoneyWidgetBuilder implements WidgetBuilder {
 	@Override
@@ -25,18 +28,31 @@ public class MoneyWidgetBuilder implements WidgetBuilder {
 	}
 
 	@Override
-	public InputWidget<?> createSlider(StyleProperties properties) {
-		throw new UnsupportedOperationException();
+	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
+		InputWidget<?> slider = new MoneySlider(minValue, maxValue);
+		
+		slider.setStyle(properties);
+		
+		return slider;
 	}
 
 	@Override
 	public InputWidget<?> createSpinbox(StyleProperties properties) {
-		throw new UnsupportedOperationException();
+		InputWidget<?> spinbox = new MoneySpinbox();
+		
+		spinbox.setStyle(properties);
+		
+		return spinbox;
 	}
 
 	@Override
 	public InputWidget<?> createTextField(StyleProperties properties) {
-		return new FloatField();
+		// TODO Make a money field.
+		InputWidget<?> field = new FloatField();
+		
+		field.setStyle(properties);
+		
+		return field;
 	}
 	
 	@Override

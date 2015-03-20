@@ -17,14 +17,6 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	}
 	
 	@Override
-	public void setStyle(StyleProperties properties) {
-	}
-	
-	@Override
-	protected void setFont(Font font) {
-	}
-	
-	@Override
 	public void caretUpdate(CaretEvent e) {
 		try {			
 			IntegerValue newValue = getFieldValue();
@@ -39,5 +31,14 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	@Override
 	protected IntegerValue getFieldValue() {
 		return new IntegerValue(Integer.parseInt(textField.getText()));
+	}
+	
+	public void setStyle(StyleProperties properties) {
+		stylizer.setStyle(textField, properties);
+	}
+	@Override
+	protected void setFont(Font font) {
+		// TODO Auto-generated method stub
+		
 	}
 }

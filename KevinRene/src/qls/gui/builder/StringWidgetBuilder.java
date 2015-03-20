@@ -2,6 +2,7 @@ package qls.gui.builder;
 
 import ql.ast.QLType;
 import ql.ast.type.QLString;
+import ql.value.IntegerValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
@@ -25,7 +26,7 @@ public class StringWidgetBuilder implements WidgetBuilder {
 	}
 
 	@Override
-	public InputWidget<?> createSlider(StyleProperties properties) {
+	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -36,7 +37,11 @@ public class StringWidgetBuilder implements WidgetBuilder {
 
 	@Override
 	public InputWidget<?> createTextField(StyleProperties properties) {
-		return new TextField();
+		InputWidget<?> field = new TextField();
+		
+		field.setStyle(properties);
+		
+		return field;
 	}
 	
 	@Override

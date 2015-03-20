@@ -5,7 +5,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import ql.TypeEnvironment;
-import ql.ast.expression.Identifier;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import qls.ast.visitor.WidgetEnvironment;
@@ -30,7 +29,7 @@ public class Main_Test {
 			+ 		"privateDebt: money {"
 			+ 			"\"Private debts for the sold house:\""
 			+ 		"}"
-			+ 		"valueResidue: integer {"
+			+ 		"valueResidue: float {"
 			+ 			"\"Value residue:\""
 			+ 			"assign(sellingPrice - privateDebt)"
 			+ 		"}"
@@ -54,11 +53,9 @@ public class Main_Test {
 			"stylesheet taxOfficeExample {"
 			+ 	"page First {"
 			+ 		"section \"Page 1 Section 1\" {"
-			+ 			"question secondString {"
-			+ 				"widget text;"
-			+ 			"}"
+			+ 			"question secondString;"
 			+ 			"question sellingPrice {"
-			+ 				"widget text;" 
+			+ 				"widget slider(20, 1000);" 
 			+ 			"}"
 			+ 			"question privateDebt;"
 			+ 			"default money widget text;"
@@ -67,12 +64,11 @@ public class Main_Test {
 			+ 	"page Second {"
 			+ 		"section \"Page 2 Section 1\" {"
 			+ 			"question booleanValue {"
-			+				"width : 600;"
-			+				"height : 600;"
+			+				"width : 200;"
+			+				"height : 50;"
 			+				"font : \"Consolas\";"
 			+				"fontsize : 20;"
-			+				"color : #FF0000;"
-			+ 				"widget dropdown(\"Yes\", \"No\");"
+			+ 				"widget radio(\"Yes\", \"No\");"
 			+ 			"}"
 			+			"section \"Nested\" {"
 			+ 				"question valueResidue {"
@@ -112,27 +108,15 @@ public class Main_Test {
 			System.out.println(errors.getErrors());
 		}
 		
-		System.out.println(typeEnvironment.getIdentifiers());
-		
 		qls.ast.Statement qlsTree = (qls.ast.Statement) qls.parser.Parser.parse(qlsForm);
 		errors = qls.ast.visitor.typechecker.TypeChecker.check(qlsTree, typeEnvironment);
 		
 		if(errors.hasErrors()) {
 			System.out.println(errors.getErrors());
 		}
-		
-		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
-		
-		for(Identifier identifier : widgets.getIdentifiers()) {
-			System.out.println(identifier + " : " + widgets.resolve(identifier).getClass().getSimpleName());
-		}
-		
-		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);
-		
-		for(Identifier identifier : widgets.getIdentifiers()) {
-			System.out.println(identifier + " : " + widgets.resolve(identifier));
-		}
-		
+
+		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);		
+		List<ConditionalDomain> domains = DomainCreator.create(qlTree, widgets);		
 		UIComponent createdPanel = PageBuilder.build(qlsTree, domains, widgets);
 		
         //Create and set up the window.

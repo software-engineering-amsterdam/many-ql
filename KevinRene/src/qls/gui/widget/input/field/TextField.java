@@ -15,16 +15,6 @@ public class TextField extends Field<StringValue> {
 	public TextField (StringValue stringValue) {
 		super(stringValue);		
 	}
-	
-	@Override
-	public void setStyle(StyleProperties properties) {
-		
-	}
-
-	@Override
-	protected void setFont(Font font) {
-		
-	}
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
@@ -35,4 +25,15 @@ public class TextField extends Field<StringValue> {
 	protected StringValue getFieldValue() {
 		return new StringValue(textField.getText());
 	}
+	
+	public void setStyle(StyleProperties properties) {
+		stylizer.setStyle(textField, properties);
+	}
+
+	@Override
+	protected void setFont(Font font) {
+		// TODO Auto-generated method stub
+		
+	}	
+
 }

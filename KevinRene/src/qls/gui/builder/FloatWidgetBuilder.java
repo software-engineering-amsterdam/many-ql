@@ -2,6 +2,7 @@ package qls.gui.builder;
 
 import ql.ast.QLType;
 import ql.ast.type.QLFloat;
+import ql.value.IntegerValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
@@ -26,18 +27,26 @@ public class FloatWidgetBuilder implements WidgetBuilder {
 	}
 
 	@Override
-	public InputWidget<?> createSlider(StyleProperties properties) {
+	public InputWidget<?> createSlider(StyleProperties properties, IntegerValue minValue, IntegerValue maxValue) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public InputWidget<?> createSpinbox(StyleProperties properties) {
-		return new FloatSpinbox();
+		InputWidget<?> spinbox =  new FloatSpinbox();
+		
+		spinbox.setStyle(properties);
+		
+		return spinbox;
 	}
 
 	@Override
 	public InputWidget<?> createTextField(StyleProperties properties) {
-		return new FloatField();
+		InputWidget<?> field = new FloatField();
+		
+		field.setStyle(properties);
+		
+		return field;
 	}
 	
 	@Override

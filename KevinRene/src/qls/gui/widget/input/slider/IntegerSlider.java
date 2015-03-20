@@ -5,16 +5,11 @@ import javax.swing.event.ChangeListener;
 
 import ql.value.IntegerValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Slider;
 
 public class IntegerSlider extends Slider<IntegerValue> implements ChangeListener {
-
-	public IntegerSlider() {
-		super();
-	}
-	public IntegerSlider(int min, int max) {
-		super(min, max);
+	public IntegerSlider(IntegerValue minValue, IntegerValue maxValue) {
+		super(minValue, maxValue);
 	}
 
 	@Override
@@ -29,16 +24,18 @@ public class IntegerSlider extends Slider<IntegerValue> implements ChangeListene
 	}
 
 	@Override
+	public void updateComponent() {
+		label.setText(getValue().toString());
+		super.updateComponent();
+	}
+	
+	@Override
 	public void stateChanged(ChangeEvent e) {
 		handleChange(getValue(), this);
-		label.setText(getValue().toString());
-	}
-	@Override
-	public void setStyle(StyleProperties properties) {
-		
 	}
 
-	protected void setFont(Font font) {
-		
+	@Override
+	public void setStyle(StyleProperties properties) {
+		stylizer.setStyle(slider, properties);
 	}
 }
