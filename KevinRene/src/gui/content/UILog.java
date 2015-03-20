@@ -1,4 +1,4 @@
-package ql.gui.content;
+package gui.content;
 
 import javax.swing.JComponent;
 
@@ -15,13 +15,17 @@ public class UILog extends DefaultChangeHandler implements UIComponent {
 	public UILog() {
 		log = new TextArea();
 		log.setHandler(this);
+		log.disable();
 		
 		scrollableSection = new ScrollablePanel(this, log);
 	}
 	
-	// TODO: Wrap the string into the StringValue at the source.
-	public void appendMessage(String logMessage) {
-		log.appendValue(new StringValue(logMessage));
+	public void clear() {
+		log.setValue(new StringValue(""));
+	}
+	
+	public void appendMessage(StringValue logMessage) {
+		log.appendValue(logMessage);
 	}
 
 	@Override

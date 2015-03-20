@@ -1,12 +1,15 @@
-package ql.gui.file;
+package gui.file;
 
 import java.io.File;
 
-import javax.swing.filechooser.FileFilter;
 
-public class FormFileFilter extends FileFilter {
-	public final static String ql = "ql";
-
+public class FileFilter extends javax.swing.filechooser.FileFilter {
+	private String filterExtension;
+	
+	public FileFilter(String filterExtension) {
+		this.filterExtension = filterExtension;
+	}
+	
 	/*
 	 * Get the extension of a file.
 	 */
@@ -30,7 +33,7 @@ public class FormFileFilter extends FileFilter {
 		String extension = getExtension(path);
 		
 		if (extension != null) {
-			if (extension.equals(ql)) {
+			if (extension.equals(filterExtension)) {
 				return true;
 			} else {
 				return false;
@@ -42,6 +45,6 @@ public class FormFileFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "QL Forms";
+		return filterExtension.toUpperCase() + " forms";
 	}
 }
