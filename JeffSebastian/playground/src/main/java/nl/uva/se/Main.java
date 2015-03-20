@@ -49,6 +49,8 @@ public class Main extends Application{
 				ValueTable valueTable = Evaluator.evaluate(ast, new ValueTable());
 				Mediator med = new GuiMediator(valueTable, ast);
 				this.questionPane = med.getQuestionPane();
+			} else {
+				semanticErrors.printAll();
 			}
 			
 		} catch (IOException e) {
