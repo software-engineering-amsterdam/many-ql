@@ -46,14 +46,6 @@ public class QLSDropdown extends AbstractQLSWidget {
         this.panel.add(this.comboBox);
     }
 
-    public String getYesLabel() {
-        return yesLabel;
-    }
-    
-    public String getNoLabel() {
-        return noLabel;        
-    }
-
     @Override
     public void applyStyle(Style _style) {
         Style style = _style;

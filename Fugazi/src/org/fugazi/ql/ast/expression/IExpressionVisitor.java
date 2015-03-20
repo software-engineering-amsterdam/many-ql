@@ -18,31 +18,31 @@ import org.fugazi.ql.ast.expression.unary.Positive;
 public interface IExpressionVisitor<T> {
 
     // Logical
-    public T visitAnd(And and);
-    public T visitOr(Or less);
+    public T visitAnd(And _and);
+    public T visitOr(Or _less);
 
     // Unary
-    public T visitNot(Not not);
-    public T visitNegative(Negative negative);
-    public T visitPositive(Positive positive);
+    public T visitNot(Not _not);
+    public T visitNegative(Negative _negative);
+    public T visitPositive(Positive _positive);
 
     // Comparison
-    public T visitEQ(EQ eq);
-    public T visitGE(GE ge);
-    public T visitGreater(Greater greater);
-    public T visitLE(LE le);
-    public T visitLesser(Less less);
-    public T visitNotEq(NotEq notEq);
+    public T visitEQ(EQ _eq);
+    public T visitGE(GE _ge);
+    public T visitGreater(Greater _greater);
+    public T visitLE(LE _le);
+    public T visitLesser(Less _less);
+    public T visitNotEq(NotEq _notEq);
 
     // Numerical
-    public T visitAdd(Add add);
-    public T visitSub(Sub sub);
-    public T visitMul(Mul mul);
-    public T visitDiv(Div div);
+    public T visitAdd(Add _add);
+    public T visitSub(Sub _sub);
+    public T visitMul(Mul _mul);
+    public T visitDiv(Div _div);
 
     // Literals
-    public T visitID(ID id);
-    public T visitINT(INT INT);
-    public T visitSTRING(STRING string);
-    public T visitBOOL(BOOL bool);
+    public T visitID(ID _id);
+    public T visitINT(INT _int);
+    public T visitSTRING(STRING _string);
+    public T visitBOOL(BOOL _bool);
 }

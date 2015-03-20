@@ -29,16 +29,16 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     /**
      * Logical
      */
-    public ExpressionValue visitAnd(And and) {
-        ExpressionValue left = and.getLeft().accept(this);
-        ExpressionValue right = and.getRight().accept(this);
+    public ExpressionValue visitAnd(And _and) {
+        ExpressionValue left = _and.getLeft().accept(this);
+        ExpressionValue right = _and.getRight().accept(this);
 
         return left.and(right);
     }
     
-    public ExpressionValue visitOr(Or or) {
-        ExpressionValue left = or.getLeft().accept(this);
-        ExpressionValue right = or.getRight().accept(this);
+    public ExpressionValue visitOr(Or _or) {
+        ExpressionValue left = _or.getLeft().accept(this);
+        ExpressionValue right = _or.getRight().accept(this);
 
         return left.or(right);
     }
@@ -46,62 +46,62 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     /**
      * Unary
      */
-    public ExpressionValue visitNot(Not not) {
-        ExpressionValue expression = not.getExpr().accept(this);
+    public ExpressionValue visitNot(Not _not) {
+        ExpressionValue expression = _not.getExpr().accept(this);
         return expression.not();
     }   
     
-    public ExpressionValue visitNegative(Negative negative) {
-        ExpressionValue expression = negative.getExpr().accept(this);
+    public ExpressionValue visitNegative(Negative _negative) {
+        ExpressionValue expression = _negative.getExpr().accept(this);
         return expression.negative();
     }   
     
-    public ExpressionValue visitPositive(Positive positive) {
-        ExpressionValue expression = positive.getExpr().accept(this);
+    public ExpressionValue visitPositive(Positive _positive) {
+        ExpressionValue expression = _positive.getExpr().accept(this);
         return expression.positive();
     }
 
     /**
      * Comparison
      */
-    public ExpressionValue visitEQ(EQ eq) {
-        ExpressionValue left = eq.getLeft().accept(this);
-        ExpressionValue right = eq.getRight().accept(this);
+    public ExpressionValue visitEQ(EQ _eq) {
+        ExpressionValue left = _eq.getLeft().accept(this);
+        ExpressionValue right = _eq.getRight().accept(this);
 
         return left.equal(right);
     }
 
-    public ExpressionValue visitNotEq(NotEq notEq) {
-        ExpressionValue left = notEq.getLeft().accept(this);
-        ExpressionValue right = notEq.getRight().accept(this);
+    public ExpressionValue visitNotEq(NotEq _notEq) {
+        ExpressionValue left = _notEq.getLeft().accept(this);
+        ExpressionValue right = _notEq.getRight().accept(this);
 
         return left.notEqual(right);
     }
 
-    public ExpressionValue visitGreater(Greater greater) {
-        ExpressionValue left = greater.getLeft().accept(this);
-        ExpressionValue right = greater.getRight().accept(this);
+    public ExpressionValue visitGreater(Greater _greater) {
+        ExpressionValue left = _greater.getLeft().accept(this);
+        ExpressionValue right = _greater.getRight().accept(this);
 
         return left.greater(right);
     }
 
-    public ExpressionValue visitLesser(Less less) {
-        ExpressionValue left = less.getLeft().accept(this);
-        ExpressionValue right = less.getRight().accept(this);
+    public ExpressionValue visitLesser(Less _less) {
+        ExpressionValue left = _less.getLeft().accept(this);
+        ExpressionValue right = _less.getRight().accept(this);
 
         return left.less(right);
     }
     
-    public ExpressionValue visitGE(GE ge) {
-        ExpressionValue left = ge.getLeft().accept(this);
-        ExpressionValue right = ge.getRight().accept(this);
+    public ExpressionValue visitGE(GE _ge) {
+        ExpressionValue left = _ge.getLeft().accept(this);
+        ExpressionValue right = _ge.getRight().accept(this);
 
         return left.greaterEqual(right);
     }   
 
-    public ExpressionValue visitLE(LE le) {
-        ExpressionValue left = le.getLeft().accept(this);
-        ExpressionValue right = le.getRight().accept(this);
+    public ExpressionValue visitLE(LE _le) {
+        ExpressionValue left = _le.getLeft().accept(this);
+        ExpressionValue right = _le.getRight().accept(this);
 
         return left.lessEqual(right);
     }
@@ -109,30 +109,30 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     /**
      * Numerical
      */
-    public ExpressionValue visitAdd(Add add) {
-        ExpressionValue left = add.getLeft().accept(this);
-    	ExpressionValue right = add.getRight().accept(this);
+    public ExpressionValue visitAdd(Add _add) {
+        ExpressionValue left = _add.getLeft().accept(this);
+    	ExpressionValue right = _add.getRight().accept(this);
 
     	return left.add(right);
     }
     
-    public ExpressionValue visitSub(Sub sub) {
-        ExpressionValue left = sub.getLeft().accept(this);
-        ExpressionValue right = sub.getRight().accept(this);
+    public ExpressionValue visitSub(Sub _sub) {
+        ExpressionValue left = _sub.getLeft().accept(this);
+        ExpressionValue right = _sub.getRight().accept(this);
 
         return left.sub(right);
     }
     
-    public ExpressionValue visitMul(Mul mul) {
-        ExpressionValue left = mul.getLeft().accept(this);
-        ExpressionValue right = mul.getRight().accept(this);
+    public ExpressionValue visitMul(Mul _mul) {
+        ExpressionValue left = _mul.getLeft().accept(this);
+        ExpressionValue right = _mul.getRight().accept(this);
 
         return left.mul(right);
     }
     
-    public ExpressionValue visitDiv(Div div) {
-        ExpressionValue left = div.getLeft().accept(this);
-        ExpressionValue right = div.getRight().accept(this);
+    public ExpressionValue visitDiv(Div _div) {
+        ExpressionValue left = _div.getLeft().accept(this);
+        ExpressionValue right = _div.getRight().accept(this);
 
         return left.div(right);
     }
@@ -140,19 +140,19 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     /**
      * Literals
      */
-    public ExpressionValue visitID(ID id) {
-        return this.values.getExpressionValue(id.getName());
+    public ExpressionValue visitID(ID _id) {
+        return this.values.getExpressionValue(_id.getName());
     }
     
-    public ExpressionValue visitINT(INT number) {
-        return new IntValue(number.getValue());
+    public ExpressionValue visitINT(INT _int) {
+        return new IntValue(_int.getValue());
     }
 
-    public ExpressionValue visitSTRING(STRING string) {
-        return new StringValue(string.getValue());
+    public ExpressionValue visitSTRING(STRING _string) {
+        return new StringValue(_string.getValue());
     }
 
-    public ExpressionValue visitBOOL(BOOL bool) {
-        return new BoolValue(bool.getValue());
+    public ExpressionValue visitBOOL(BOOL _bool) {
+        return new BoolValue(_bool.getValue());
     }
 }
