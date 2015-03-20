@@ -8,11 +8,8 @@ import java.util.Map.Entry;
 
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.statement.Question;
-import nl.uva.se.ql.evaluation.Evaluator;
-import nl.uva.se.ql.evaluation.ExpressionEvaluator;
-import nl.uva.se.ql.evaluation.ValueTable;
-import nl.uva.se.ql.evaluation.value.BooleanValue;
-import nl.uva.se.ql.evaluation.value.Value;
+import nl.uva.se.ql.evaluation.*;
+import nl.uva.se.ql.evaluation.value.*;
 import nl.uva.se.ql.gui.builders.GuiBuilder;
 import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
@@ -49,16 +46,14 @@ public class GuiMediator implements Mediator {
 		conditions.add(conditionBox);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void updateCalculatedQuestions() {
 		for (Entry<String, BaseCalculatedQuestion> entry : calculations
 				.entrySet()) {
-			if (values.containsKey(entry.getKey())) {
-				BaseCalculatedQuestion calculated = entry.getValue();
-				System.out.println(values.getValue(
-						calculated.getQuestion().getId()).getClass());
-				calculated.setValue(values.getValue(calculated.getQuestion()
-						.getId()));
-			}
+			BaseCalculatedQuestion calculatedQuestion = entry.getValue();
+			Value value = values.getValue(entry.getKey());
+
+			calculatedQuestion.setValue(value);
 		}
 	}
 

@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.evaluation.ValueTable;
-import nl.uva.se.ql.gui.builders.GuiBuilder;
 import nl.uva.se.ql.gui.mediators.GuiMediator;
 import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
