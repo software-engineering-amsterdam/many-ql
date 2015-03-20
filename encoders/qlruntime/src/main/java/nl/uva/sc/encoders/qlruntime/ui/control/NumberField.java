@@ -17,4 +17,8 @@ public class NumberField extends TextField {
 			super.replaceSelection(text);
 		}
 	}
+
+	public void setNumber(Number number) {
+		setText(number.toString());
+	}
 }

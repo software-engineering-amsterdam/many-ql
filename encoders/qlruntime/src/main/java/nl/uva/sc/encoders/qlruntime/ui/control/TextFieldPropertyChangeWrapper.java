@@ -3,6 +3,7 @@ package nl.uva.sc.encoders.qlruntime.ui.control;
 import java.beans.PropertyChangeEvent;
 
 import javafx.scene.control.TextField;
+import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 
 public class TextFieldPropertyChangeWrapper implements ControlPropertyChangeWrapper {
 
@@ -14,7 +15,7 @@ public class TextFieldPropertyChangeWrapper implements ControlPropertyChangeWrap
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		textField.setText(evt.getNewValue().toString());
+		textField.setText(((StringValue) evt.getNewValue()).getValue());
 	}
 
 	@Override

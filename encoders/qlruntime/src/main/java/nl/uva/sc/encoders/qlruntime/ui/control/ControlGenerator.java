@@ -30,9 +30,9 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 	}
 
 	@Override
-	public TextFieldPropertyChangeWrapper visit(IntegerType integerType) {
-		TextField textField = new NumberField();
-		textField.setOnKeyReleased(event -> {
+	public NumberFieldPropertyChangeWrapper visit(IntegerType integerType) {
+		NumberField numberField = new NumberField();
+		numberField.setOnKeyReleased(event -> {
 			TextField textField1 = (TextField) event.getSource();
 			String text = textField1.getText();
 			Integer value = 0;
@@ -41,7 +41,7 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 			}
 			runtimeQuestion.setValue(new IntegerValue(value));
 		});
-		return new TextFieldPropertyChangeWrapper(textField);
+		return new NumberFieldPropertyChangeWrapper(numberField);
 	}
 
 	@Override
