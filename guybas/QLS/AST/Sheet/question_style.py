@@ -37,6 +37,9 @@ class QuestionStyle(e.SheetElement):
     # Properties
     #
 
+    def setter(self, a, v):
+        setattr(self, '_%s' % a, v)
+
     def get_color(self):
         return self.color
 

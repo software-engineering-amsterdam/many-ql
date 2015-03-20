@@ -4,14 +4,11 @@ import QL.Grammar.constants as constants
 
 # Checkbox AST
 class Checkbox(w.Widget):
-    def __init__(self, options):
-        self.options = options
+    def __init__(self):
         self._properties = {self.widget_name(): "" }
 
     def string_presentation(self, level=0):
-        s = "    " * level + "Checkbox "
-        s += self.options.string_presentation()
-        s += "\n"
+        s = "    " * level + "Checkbox\n"
         return s
 
     def get_compatible(self):

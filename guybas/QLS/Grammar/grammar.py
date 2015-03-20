@@ -24,9 +24,7 @@ name = form.characters
 number = Word(nums)
 
 # options :: ( (_name,)* _name )
-options = \
-    (Suppress("(") + ZeroOrMore(name + Suppress(",")) + name + Suppress(")")
-    ).setParseAction(widget.make_option)
+options = Suppress("(") + name + Suppress(",") + name + Suppress(")")
 
 # radio :: Radio options
 radio = \
@@ -34,26 +32,22 @@ radio = \
     ).setParseAction(widget.make_radio)
 
 # checkbox :: Checkbox options
-checkbox = (Suppress("Checkbox") + options).setParseAction(widget.make_checkbox)
+checkbox = (Suppress("Checkbox")).setParseAction(widget.make_checkbox)
 
 # spinbox :: Spinbox number number number?
-spinbox = \
-    (Suppress("Spinbox") + number + number + Optional(Suppress("default") + Suppress(":") + number)
-    ).setParseAction(widget.make_spinbox)
+spinbox = (Suppress("Spinbox") + number + number).setParseAction(widget.make_spinbox)
 
 # slider :: Slider number number
 slider = (Suppress("Slider") + number + number).setParseAction(widget.make_slider)
 
 # textbox :: Textbox number?
-textbox = (Suppress("Textbox") + Optional(number)).setParseAction(widget.make_textbox)
+textbox = (Suppress("Textbox")).setParseAction(widget.make_textbox)
 
 # drop_down :: Dropdown
 drop_down = (Suppress("Dropdown") + options).setParseAction(widget.make_drop_down)
 
 # _widget  :: Widget : (radio | checkbox | spinbox | slider | textbox | drop_down)
-widget_decl = \
-    (Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
-     )
+widget_decl = Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
 
 # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
 characters = grammar.characters
@@ -61,7 +55,6 @@ characters = grammar.characters
 # word :: end_sign_esc | characters
 word = grammar.word
 
-# ( ) { } :
 opar = Suppress("(")
 cpar = Suppress(")")
 obrac = Suppress("{")
