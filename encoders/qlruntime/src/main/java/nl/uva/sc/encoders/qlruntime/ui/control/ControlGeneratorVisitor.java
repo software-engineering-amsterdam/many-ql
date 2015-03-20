@@ -10,9 +10,9 @@ import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
 import nl.uva.sc.encoders.ql.visitor.DataTypeVisitor;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
-import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.value.IntegerValue;
-import nl.uva.sc.encoders.qlruntime.value.StringValue;
+import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
+import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 
 public class ControlGeneratorVisitor implements DataTypeVisitor<ControlWrapper> {
 

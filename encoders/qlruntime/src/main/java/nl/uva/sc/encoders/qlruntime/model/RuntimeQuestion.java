@@ -6,7 +6,7 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
-import nl.uva.sc.encoders.qlruntime.value.Value;
+import nl.uva.sc.encoders.qlruntime.model.value.Value;
 
 public class RuntimeQuestion {
 

@@ -19,10 +19,10 @@ import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.qlruntime.evaluator.ExpressionEvaluator;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
+import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.model.value.Value;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGeneratorVisitor;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlWrapper;
-import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.value.Value;
 
 public class QuestionnaireUI {
 

@@ -3,7 +3,7 @@ package nl.uva.sc.encoders.qlruntime.ui.control;
 import java.beans.PropertyChangeEvent;
 
 import javafx.scene.control.CheckBox;
-import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 
 public class CheckBoxWrapper implements ControlWrapper {
 

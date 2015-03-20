@@ -14,10 +14,10 @@ import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
 import nl.uva.sc.encoders.ql.ast.operator.UnaryOperator;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
-import nl.uva.sc.encoders.qlruntime.value.BooleanValue;
-import nl.uva.sc.encoders.qlruntime.value.IntegerValue;
-import nl.uva.sc.encoders.qlruntime.value.StringValue;
-import nl.uva.sc.encoders.qlruntime.value.Value;
+import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
+import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
+import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
+import nl.uva.sc.encoders.qlruntime.model.value.Value;
 
 public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
