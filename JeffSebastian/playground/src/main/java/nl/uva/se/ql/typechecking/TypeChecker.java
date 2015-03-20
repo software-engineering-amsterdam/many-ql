@@ -1,5 +1,7 @@
 package nl.uva.se.ql.typechecking;
 
+import java.awt.Robot;
+
 import nl.uva.se.ql.ast.expression.Binary;
 import nl.uva.se.ql.ast.expression.Expression;
 import nl.uva.se.ql.ast.expression.ExpressionVisitor;
@@ -95,8 +97,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Type expressionType = calculatedQuestion.getExpression().accept(this);
 		Type questionType = calculatedQuestion.getType();
+		Type promotedExpressionType = expressionType.promote();
+		Type promotedQuesType = questionType.promote();
 		
-		if (!expressionType.equals(questionType)) {
+		if (!promotedExpressionType.equals(promotedQuesType)) {
 			System.out.println(calculatedQuestion.getId());
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
@@ -267,6 +271,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 			errors.addError(new UndefinedReference(right.getLineNumber(), 
 					right.getOffset(), right.toString()));
 			return new UndefinedType();
+		}
+		
+		if (leftType.equals(rightType)) {
+			return leftType.accept(this);
 		}
 		
 		Type leftPromoted = leftType.promote();
