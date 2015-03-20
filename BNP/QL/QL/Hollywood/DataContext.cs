@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
+using QL.Exceptions.Warnings;
 using QL.Model;
 using QL.Model.Terminals;
 using QL.Visitors;
@@ -26,6 +27,10 @@ namespace QL
         /// A collection of all errors and warnings occurring during all stages of interpreting input grammar
         /// </summary>
         public ObservableCollection<QLBaseException> ASTHandlerExceptions { get; private set; }
+        /// <summary>
+        /// A collection of all warnings occurring during all stages of interpreting input grammer
+        /// </summary>
+        public ObservableCollection<QLWarning> ASTHandlerWarnings { get; private set; }
 
         /// <summary>
         /// Maps defined identifiers to the datatype of the value they contain
@@ -45,6 +50,7 @@ namespace QL
         public DataContext(){
             InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
             ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
+            ASTHandlerWarnings = new ObservableCollection<QLWarning>();
             TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();

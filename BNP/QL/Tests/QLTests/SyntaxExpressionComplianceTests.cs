@@ -136,7 +136,7 @@ namespace Tests.QLTests
 
             Handler.RegisterGenericDataHandlers();
             Assert.AreEqual(true, Handler.RunInit());
-            Assert.AreEqual(true, Handler.RunAstBuild());
+            Assert.AreEqual(true, Handler.RunASTBuilders());
 
 
 

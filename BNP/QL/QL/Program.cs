@@ -33,10 +33,10 @@ namespace QL
 
                 ast.RegisterGenericDataHandlers();
                 ast.RunInit();
-                ast.RunAstBuild();
-                ast.RunTypeCheck();
-                ast.RunEvaluate();
-                foreach (Exception e in ast.Errors){
+                ast.RunASTBuilders();
+                ast.RunTypeCheckers();
+                ast.RunEvaluators();
+                foreach (Exception e in ast.UnhandledExceptions){
                     Console.WriteLine(e.ToString());
                 }
 

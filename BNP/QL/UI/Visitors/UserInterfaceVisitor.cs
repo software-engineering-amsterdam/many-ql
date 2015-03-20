@@ -19,11 +19,11 @@ namespace QL.UI.Visitors
         //public ObservableCollection<QLException> ASTHandlerExceptions { get; private set; }
         private readonly IDictionary<ITypeResolvable, ITerminalWrapper> _referenceLookupTable;
         private readonly IDictionary<Model.Terminals.Identifier, ITypeResolvable> _identifierTable;
-        public IList<QLException> Exceptions { get; private set; }
+        public IList<QLBaseException> Exceptions { get; private set; }
 
 
         public UserInterfaceVisitor(
-            ObservableCollection<QLException> ASTHandlerExceptions,
+            ObservableCollection<QLBaseException> ASTHandlerExceptions,
             IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable,
             IDictionary<Model.Terminals.Identifier, ITypeResolvable> IdentifierTable,
             IList<WidgetBase> ElementsToDisplay
@@ -37,14 +37,14 @@ namespace QL.UI.Visitors
         
         public void Visit(Model.Form node)
         {
-            node.Block.AcceptSingle(this);
+            node.Block.Accept(this);
         }
 
         public void Visit(Model.Block node)
         {
             foreach (IVisitable child in node.Children)
             {
-                child.AcceptSingle(this);
+                child.Accept(this);
             }
         }
         

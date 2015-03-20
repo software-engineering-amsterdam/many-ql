@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.GenericDataHandlers;
@@ -23,7 +25,12 @@ namespace QL
         protected IList<IExecutable> Exporters;
 
         public readonly DataContext DataContext; //needs to be public because of tests
-        public IList<Exception> Errors { get; private set; }
+        
+        public IList<Exception> UnhandledExceptions { get; private set; }
+        public ObservableCollection<QLBaseException> QLExceptions
+        {
+            get { return new ObservableCollection<QLBaseException>(Enumerable.Concat(DataContext.ASTHandlerExceptions, DataContext.ASTHandlerWarnings)); }
+        }
         
         public QLBuilder()
         {
@@ -35,7 +42,7 @@ namespace QL
             Exporters = new List<IExecutable>();
 
             DataContext = new DataContext();
-            Errors = new List<Exception>();
+            UnhandledExceptions = new List<Exception>();
         }
 
         public QLBuilder(string input) : this()
@@ -98,7 +105,7 @@ namespace QL
                 catch (Exception ex)
                 {
                     //not known exception!
-                    Errors.Add(ex);
+                    UnhandledExceptions.Add(ex);
                     successfulExecution = false;
 
                 }
@@ -118,7 +125,7 @@ namespace QL
             return DataContext.InputSet;
         }
 
-        public bool RunAstBuild()
+        public bool RunASTBuilders()
         {
             if (!DataContext.InputSet)
             {
@@ -130,7 +137,7 @@ namespace QL
             return DataContext.AstBuilt;
         }
 
-        public bool RunTypeCheck()
+        public bool RunTypeCheckers()
         {
 
             if (!DataContext.AstBuilt)
@@ -143,7 +150,7 @@ namespace QL
 
         }
 
-        public bool RunEvaluate()
+        public bool RunEvaluators()
         {
 
             if (!DataContext.TypeChecked)
@@ -156,7 +163,7 @@ namespace QL
 
         }
 
-        public bool RunRender()
+        public bool RunRenderers()
         {
 
             if (!DataContext.Evaluated)
@@ -169,7 +176,7 @@ namespace QL
 
         }
 
-        public bool RunExport()
+        public bool RunExporters()
         {
 
             if (!DataContext.Evaluated)
@@ -179,6 +186,21 @@ namespace QL
             }
             return RunOneLevel(Exporters);
 
+        }
+
+        /// <summary>
+        /// Runs all registrerd handlers. If any error occurs, returns false but continues running if possible.
+        /// </summary>
+        public bool RunAllHandlers()
+        {
+            bool retVal = false;
+            retVal |= RunInit();
+            retVal |= RunASTBuilders();
+            retVal |= RunTypeCheckers();
+            retVal |= RunEvaluators();
+            retVal |= RunRenderers();
+            retVal |= RunExporters();
+            return retVal;
         }
 
         public void RegisterGenericDataHandlers()

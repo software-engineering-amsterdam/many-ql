@@ -19,8 +19,8 @@ namespace Tests.VisitorTests
             Builder = new QLBuilder(input);
             Builder.RegisterGenericDataHandlers();
             Assert.IsTrue(Builder.RunInit());
-            Assert.IsTrue(Builder.RunAstBuild());
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunASTBuilders());
+            Assert.IsTrue(Builder.RunTypeCheckers());
 
         }
 
@@ -33,7 +33,7 @@ namespace Tests.VisitorTests
                 }
             "); 
             
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
 
         }
 
@@ -54,7 +54,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             TextWrapper tw = new TextWrapper("\"abc\"");
             TextWrapper tw_from_code = Builder.DataContext.GetWrappedValue("S1") as TextWrapper;
             Assert.IsTrue((tw_from_code == tw).Value.Value);
@@ -76,7 +76,7 @@ namespace Tests.VisitorTests
                 if (""bla""!=""bleble""){};
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());           
+            Assert.IsTrue(Builder.RunEvaluators());           
 
         }
 
@@ -95,14 +95,14 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             Identifier i = new Identifier("Q1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(i));
             Assert.IsTrue(Builder.DataContext.ReferenceLookupTable.ContainsKey(Builder.DataContext.IdentifierTable[i]));
             NumberWrapper nw = Builder.DataContext.ReferenceLookupTable[Builder.DataContext.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2;
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             
             Identifier S1 = new Identifier("S1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(S1));
@@ -129,14 +129,14 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             Identifier i = new Identifier("Q1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(i));
             Assert.IsTrue(Builder.DataContext.ReferenceLookupTable.ContainsKey(Builder.DataContext.IdentifierTable[i]));
             NumberWrapper nw = Builder.DataContext.ReferenceLookupTable[Builder.DataContext.IdentifierTable[i]] as NumberWrapper;
             Assert.IsNotNull(nw);
             nw.Value = 2; // answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(),"reevaluation");
+            Assert.IsTrue(Builder.RunEvaluators(),"reevaluation");
 
             Identifier S1 = new Identifier("S1");
             Assert.IsTrue(Builder.DataContext.IdentifierTable.ContainsKey(S1));
@@ -160,7 +160,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate(),"First evaluation");
+            Assert.IsTrue(Builder.RunEvaluators(),"First evaluation");
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNull(S1_value, "S1 should not exist");
             NumberWrapper S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
@@ -169,7 +169,7 @@ namespace Tests.VisitorTests
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             nw.Value = 2; // answer to the question so the if condition is true
 
-            Assert.IsTrue(Builder.RunEvaluate(), "Second evaluation");
+            Assert.IsTrue(Builder.RunEvaluators(), "Second evaluation");
             S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value,"S1 variable was not evaluated correctly");
             S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
@@ -179,7 +179,7 @@ namespace Tests.VisitorTests
             nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             nw.Value = 31; // answer to the question so the if condition is false
 
-            Assert.IsTrue(Builder.RunEvaluate(), "Third evaluation");
+            Assert.IsTrue(Builder.RunEvaluators(), "Third evaluation");
             S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNull(S1_value,"S1 shouldnt exist anymore");
             S2_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S2");
@@ -195,16 +195,15 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             Assert.IsNotNull(nw);
             nw.Value = 42; // answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
+            Assert.IsTrue(Builder.RunEvaluators(), "reevaluation");
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual((1 + (2 - (3 - (4 * 42)))), S1_value.Value);
             nw.Value = -6; // answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation");
+            Assert.IsTrue(Builder.RunEvaluators(), "reevaluation");
             S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual((1 + (2 - (3 - (4 * (-6))))), S1_value.Value);
@@ -218,15 +217,15 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
 
             nw.Value = 0; // new answer to the question, division by zero
-            Assert.IsFalse(Builder.RunEvaluate(), "division by zero");
+            Assert.IsFalse(Builder.RunEvaluators(), "division by zero");
 
             Assert.IsInstanceOfType(Builder.DataContext.ASTHandlerExceptions[0], typeof(DivisionByZeroError), "incorrect exception");
             nw.Value = 1; // new answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation failed");
+            Assert.IsTrue(Builder.RunEvaluators(), "reevaluation failed");
 
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
@@ -242,15 +241,15 @@ namespace Tests.VisitorTests
                     };
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             nw.Value = 1; // new answer to the question
-            Assert.IsTrue(Builder.RunEvaluate(), "reevaluation failed");
+            Assert.IsTrue(Builder.RunEvaluators(), "reevaluation failed");
 
             NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.GetWrappedValue("S1");
             Assert.IsNotNull(S1_value);
             nw.Value = 0; // new answer to the question, statement should not be evaluated
-            Assert.IsTrue(Builder.RunEvaluate(), "division by zero exception should not be thrown");
+            Assert.IsTrue(Builder.RunEvaluators(), "division by zero exception should not be thrown");
             bool correctException=false;            
             try
             {
@@ -270,7 +269,7 @@ namespace Tests.VisitorTests
                   
                 }
             ");
-            Assert.IsFalse(Builder.RunEvaluate());
+            Assert.IsFalse(Builder.RunEvaluators());
         }
 
         
@@ -346,7 +345,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Builder.RunEvaluate(),"Undeclared variable should be thrown");
+            Assert.IsFalse(Builder.RunEvaluators(),"Undeclared variable should be thrown");
         }
         [TestMethod]
         public void EvaluatorReferenceFromUnavaliableBranch()
@@ -362,7 +361,7 @@ namespace Tests.VisitorTests
                 }
             ");
 
-            Assert.IsFalse(Builder.RunEvaluate());
+            Assert.IsFalse(Builder.RunEvaluators());
         }
         [TestMethod]
         public void EvaluationMemoryBuildup()
@@ -379,13 +378,13 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsTrue(Builder.RunEvaluate());
+            Assert.IsTrue(Builder.RunEvaluators());
             int c1 = Builder.DataContext.IdentifierTable.Count;
             int c2 = Builder.DataContext.ReferenceLookupTable.Count;
 
             for (int i = 0; i < 1000; i++)
             {
-                Builder.RunEvaluate();
+                Builder.RunEvaluators();
             }
 
 

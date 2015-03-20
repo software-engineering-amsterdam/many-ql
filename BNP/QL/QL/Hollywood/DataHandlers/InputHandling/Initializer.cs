@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace QL.GenericDataHandlers
 {
-    class Initializer :IExecutable
+    class Initializer : IExecutable
     {
         public Initializer() { }
         public bool execute(DataContext context)
         {
 
 
-            if  (context.Input != null)
+            if (context.Input != null)
             {
                 context.AntlrInput = new AntlrInputStream(context.Input);
             }

@@ -59,18 +59,9 @@ namespace QL.UI
         {
             InputFileSourceText.Text = inputFileContents;
             _qlBuilder = new QLBuilder(inputFileContents);
-            ExceptionTable.ItemsSource = _qlBuilder.Errors;
-
-            //if (_astHandler.BuildAST())
-            //{
-            //    if (_astHandler.CheckType())
-            //    {
-            //        if (_astHandler.Evaluate())
-            //        {
-            //            // todo evaluate ui controls?
-            //        }
-            //    }
-            //}
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RegisterGenericDataHandlers();
+            _qlBuilder.RunAllHandlers();
         }
 
         #region Menu event handlers
@@ -133,20 +124,21 @@ namespace QL.UI
         {
             if (_qlBuilder == null) return;
             _qlBuilder = new QLBuilder(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _qlBuilder.Errors;
-            //_qlBuilder.BuildAST();
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RunInit();
+            _qlBuilder.RunASTBuilders();
         }
 
         private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            //_qlBuilder.CheckType();
+            _qlBuilder.RunTypeCheckers();
         }
 
         private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            //_qlBuilder.Evaluate();
+            _qlBuilder.RunEvaluators();
         }
 
         private void ButtonBuild_Click(object sender, RoutedEventArgs e)
@@ -160,7 +152,7 @@ namespace QL.UI
             ListViewItem item = sender as ListViewItem;
             if (item == null || !item.IsSelected) return;
 
-            QLException error = item.Content as QLException;
+            QLBaseException error = item.Content as QLBaseException;
             if (error == null) return;
 
             InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
