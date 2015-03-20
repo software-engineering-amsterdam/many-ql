@@ -31,21 +31,7 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 
 	@Override
 	public TextFieldPropertyChangeWrapper visit(IntegerType integerType) {
-		TextField textField = new TextField() {
-			@Override
-			public void replaceText(int start, int end, String text) {
-				if (text.matches("[0-9]*")) {
-					super.replaceText(start, end, text);
-				}
-			}
-
-			@Override
-			public void replaceSelection(String text) {
-				if (text.matches("[0-9]*")) {
-					super.replaceSelection(text);
-				}
-			}
-		};
+		TextField textField = new NumberField();
 		textField.setOnKeyReleased(event -> {
 			TextField textField1 = (TextField) event.getSource();
 			String text = textField1.getText();
