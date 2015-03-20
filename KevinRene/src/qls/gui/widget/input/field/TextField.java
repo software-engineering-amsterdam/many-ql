@@ -4,7 +4,6 @@ import javax.swing.event.CaretEvent;
 
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class TextField extends Field<StringValue> {
@@ -29,11 +28,4 @@ public class TextField extends Field<StringValue> {
 	public void setStyle(StyleProperties properties) {
 		stylizer.setStyle(textField, properties);
 	}
-
-	@Override
-	protected void setFont(Font font) {
-		// TODO Auto-generated method stub
-		
-	}	
-
 }

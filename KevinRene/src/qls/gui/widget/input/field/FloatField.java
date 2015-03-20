@@ -5,7 +5,6 @@ import javax.swing.event.CaretListener;
 
 import ql.value.FloatValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class FloatField extends Field<FloatValue> implements CaretListener {	
@@ -17,10 +16,6 @@ public class FloatField extends Field<FloatValue> implements CaretListener {
 		super(value);
 	}
 	
-	@Override
-	protected void setFont(Font font) {
-	}
-
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		try {			

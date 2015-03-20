@@ -1,7 +1,6 @@
 package qls.gui.widget.input;
 
 import ql.Value;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.WidgetStylizer;
 
@@ -14,6 +13,4 @@ public abstract class Field<T extends Value>
 		super(initialValue);
 		stylizer = new WidgetStylizer();
 	}
-
-	protected abstract void setFont(Font font);
 }

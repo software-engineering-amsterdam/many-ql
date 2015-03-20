@@ -5,13 +5,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import ql.TypeEnvironment;
-package qls;
-
-import java.util.List;
-
-import javax.swing.JFrame;
-
-import ql.TypeEnvironment;
+import ql.ast.expression.Identifier;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import qls.ast.visitor.WidgetEnvironment;

@@ -8,7 +8,6 @@ import javax.swing.event.CaretListener;
 
 import ql.value.MoneyValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class MoneyField extends Field<MoneyValue> implements CaretListener {
@@ -32,10 +31,6 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 		textField.setSize(textField.getWidth(), textField.getHeight());
 	}
 	
-	@Override
-	protected void setFont(Font font) {
-	}
-
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		try {			

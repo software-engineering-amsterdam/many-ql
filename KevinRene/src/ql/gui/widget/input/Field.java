@@ -41,7 +41,6 @@ public abstract class Field<T extends Value> extends DefaultChangeHandler implem
     	container = new JPanel(new MigLayout());
     	container.add(textField);
     	container.add(errorLabel, "wrap");
-    	
 	}
 		
 	protected void setError(String text) {
