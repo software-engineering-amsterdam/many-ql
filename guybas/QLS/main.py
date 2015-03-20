@@ -10,20 +10,19 @@ import QL.Tools.exceptions as ee
 
 ########## QLS TO DO LIST: ##########
 #TODO 1. (BAS) functions get_colour etc are missing
-# -> will work on it tonight (friday night)
 #TODO 2. (GUY+BAS) Debugging nested questions.
 #TODO 3. (GUY) Debugging sections
 ####################################
 
 # qls style
 qls_ast = factory.make_sheet(q.sheet.parseFile("example.qls"))
-#print(qls_ast.pretty_print())
+print(qls_ast.string_presentation())
 
 #ql form
 formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
 form = f2.make_form(formAsParseResults)
-checker = t.TypeChecker(form, qls_ast)
-checker.is_valid()
+# checker = t.TypeChecker(form, qls_ast)
+# checker.is_valid()
 
 # gui
 enriched_form = runtime_form.Form(form, qls_ast)

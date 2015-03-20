@@ -9,9 +9,9 @@ class Radio(w.Widget):
         self.default = default
         self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Radio "
-        s += self.options.pretty_print()
+        s += self.options.string_presentation()
         s += "\n"
         return s
 

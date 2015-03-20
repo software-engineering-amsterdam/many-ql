@@ -11,7 +11,7 @@ class Spinbox(w.Widget):
         self._properties = {self.widget_name(): d.DefaultSettings.return_settings() }
 
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Spinbox "
         s += self.min + " " + self.max
         s += "\n"

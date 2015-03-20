@@ -55,8 +55,8 @@ class GUI:
 
         c_results = True
         if condition:
-            # c_results = processor.eval_expression(condition.pretty_print(), self.__answersMap)
-            # print(condition.pretty_print())
+            # c_results = processor.eval_expression(condition.string_presentation(), self.__answersMap)
+            # print(condition.string_presentation())
             # print(c_results)
             c_results = condition.eval_expression(self.__answersMap)
             # print(c_results)
