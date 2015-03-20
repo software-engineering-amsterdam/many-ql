@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.*;
 
 import java.math.BigDecimal;
@@ -95,12 +94,6 @@ public class Slider extends ControlElement implements IntControl, DecControl
     public void addListener(ChangeListener listener)
     {
         this.slider.valueProperty().addListener(listener);
-    }
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
     }
 
     @Override

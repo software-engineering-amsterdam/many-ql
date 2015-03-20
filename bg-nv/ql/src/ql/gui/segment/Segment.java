@@ -43,4 +43,6 @@ public abstract class Segment<T extends Node> extends GuiElement
     {
         return this.container;
     }
+
+    public abstract <V> V accept (SegmentVisitor<V> visitor);
 }

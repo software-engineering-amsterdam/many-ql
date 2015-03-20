@@ -1,10 +1,8 @@
 package ql.gui.input;
 
-import ql.gui.ModelVisitor;
 import ql.gui.control.StrControl;
 import ql.semantics.errors.Message;
 import ql.semantics.errors.Warning;
-import ql.semantics.values.StrValue;
 import ql.semantics.values.Value;
 
 /**
@@ -32,10 +30,8 @@ public class StrInput extends RegularInput<StrControl>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(InputVisitor<V> visitor)
     {
         return visitor.visit(this);
     }
-
-
 }

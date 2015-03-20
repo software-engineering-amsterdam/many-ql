@@ -1,5 +1,6 @@
 package ql.gui;
 
+import ql.ast.expression.Expr;
 import ql.ast.statement.*;
 import ql.gui.canvas.Canvas;
 import ql.gui.input.ExprInputBuilder;
@@ -43,18 +44,19 @@ public class SimpleModeler extends Modeler
     @Override
     public Row visit(Question q)
     {
+        Expr expr = this.getCondition(q.getId());
         Label label = new Label(q.getLabel());
         Input input = InputBuilder.build(q.getId(), q.getType());
-        //TODO: shorten this monster
-        return new Row(this.getCondQuestionTable().getCondition(q.getId()), q.getType(), label, input);
+        return new Row(expr, q.getType(), label, input);
     }
 
     @Override
     public Row visit(CalculatedQuestion cq)
     {
+        Expr expr = this.getCondition(cq.getId());
         Label label = new Label(cq.getLabel());
         Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
-        return new Row(this.getCondQuestionTable().getCondition(cq.getId()), cq.getType(), label, input);
+        return new Row(expr, cq.getType(), label, input);
     }
 
     @Override

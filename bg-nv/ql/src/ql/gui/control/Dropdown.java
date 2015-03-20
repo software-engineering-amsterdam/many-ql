@@ -2,7 +2,6 @@ package ql.gui.control;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.Value;
 
 /**
@@ -37,12 +36,6 @@ public class Dropdown extends ControlElement implements BoolControl, IntControl
     public void addListener(ChangeListener listener)
     {
 
-    }
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
     }
 
     @Override

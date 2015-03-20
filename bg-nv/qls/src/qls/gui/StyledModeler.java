@@ -73,7 +73,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
 
     private Segment getConditional(String id)
     {
-        ql.ast.statement.Question q = this.getCondQuestionTable().getQuestion(id);
+        ql.ast.statement.Question q = this.getQuestion(id);
         Row row = q.accept(this);
         Rules rules = questionStyles.getStyleForQuestion(id);
         RowStyle style = RowStyleBuilder.build(rules);

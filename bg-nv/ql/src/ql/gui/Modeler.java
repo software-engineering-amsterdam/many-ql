@@ -1,5 +1,7 @@
 package ql.gui;
 
+import ql.ast.expression.Expr;
+import ql.ast.statement.Question;
 import ql.ast.statement.StatVisitor;
 import ql.gui.canvas.Canvas;
 import ql.gui.segment.Row;
@@ -17,9 +19,19 @@ public abstract class Modeler implements StatVisitor<Row>
         this.condQuestionTable = condQuestionTable;
     }
 
-    public CondQuestionTable getCondQuestionTable()
+    protected CondQuestionTable getCondQuestionTable()
     {
-        return condQuestionTable;
+        return this.condQuestionTable;
+    }
+
+    protected Expr getCondition(String questionId)
+    {
+        return this.condQuestionTable.getCondition(questionId);
+    }
+
+    protected Question getQuestion(String questionId)
+    {
+        return this.condQuestionTable.getQuestion(questionId);
     }
 
     // TODO: getCanvas() ?

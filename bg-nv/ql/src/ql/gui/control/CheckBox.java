@@ -61,13 +61,6 @@ public class CheckBox extends ControlElement implements BoolControl
         return null;
     }
 
-    //TODO: split the model visitor into smaller ones
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
-    }
-
     @Override
     public void addListener(ChangeListener listener)
     {

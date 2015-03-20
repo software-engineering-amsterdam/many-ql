@@ -7,7 +7,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
@@ -30,7 +29,9 @@ public class Radio extends ControlElement implements BoolControl
         this.falseRadio = this.createRadio(falseLabel, group);
 
         this.controlNode = new HBox();
-        this.controlNode.getChildren().addAll(this.trueRadio, this.falseRadio);
+        VBox box = new VBox();
+        box.getChildren().addAll(this.trueRadio, this.falseRadio);
+        this.controlNode.getChildren().add(box);
         this.controlNode.setAlignment(Pos.BOTTOM_RIGHT);
 
         this.setVisible(visible);
@@ -42,12 +43,6 @@ public class Radio extends ControlElement implements BoolControl
         radio.setText(label);
         radio.setToggleGroup(group);
         return radio;
-    }
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
     }
 
     @Override
@@ -82,22 +77,14 @@ public class Radio extends ControlElement implements BoolControl
     @Override
     public Void visit(BoolValue value)
     {
-        //TODO: make sure this works - are the groups ok?
-        if (value.getValue())
-        {
-            this.trueRadio.setSelected(true);
-        }
-        else
-        {
-            this.falseRadio.setSelected(true);
-        }
+        this.trueRadio.setSelected(value.getValue());
+        this.falseRadio.setSelected(!value.getValue());
         return null;
     }
 
     @Override
     public void addListener(ChangeListener listener)
     {
-        //TODO: does this work?
         this.group.selectedToggleProperty().addListener(listener);
     }
 
@@ -110,7 +97,11 @@ public class Radio extends ControlElement implements BoolControl
     @Override
     public Value getBoolValue()
     {
-        return new BoolValue(true);
+        if (this.group.getSelectedToggle() != null)
+        {
+            return new BoolValue(this.trueRadio.isSelected());
+        }
+        return new UndefValue();
     }
 
     @Override

@@ -1,10 +1,8 @@
 package ql.gui.input;
 
-import ql.gui.ModelVisitor;
 import ql.gui.control.BoolControl;
 import ql.semantics.errors.Message;
 import ql.semantics.errors.Warning;
-import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
 /**
@@ -32,7 +30,7 @@ public class BoolInput extends RegularInput<BoolControl>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(InputVisitor<V> visitor)
     {
         return visitor.visit(this);
     }

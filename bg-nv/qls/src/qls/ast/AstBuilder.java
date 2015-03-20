@@ -172,6 +172,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
 
         if (label.equals("slider"))
         {
+            // TODO: Boryana, this throws a null pointer (min, max and step are all null). Why?
             int min = Integer.parseInt(context.min.getText());
             int max = Integer.parseInt(context.max.getText());
             int step = Integer.parseInt(context.step.getText());

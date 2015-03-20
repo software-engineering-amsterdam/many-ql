@@ -51,7 +51,7 @@ public class Page extends Segment<GridPane> implements Refreshable
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(SegmentVisitor<V> visitor)
     {
         return visitor.visit(this);
     }
