@@ -6,8 +6,7 @@ import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
-import nl.uva.se.ql.gui.listeners.IMediator;
-import nl.uva.se.ql.gui.widgets.boxes.CalculatedBox;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.ql.gui.widgets.boxes.QuestionBox;
 
@@ -42,8 +41,7 @@ public class QuestionPane extends BorderPane {
 	}
 	
 	public void addQuestion(CalculatedQuestion question){
-		CalculatedBox questionBox = new CalculatedBox(question, mediator);
-		mediator.registerCalculated(question.getId(), questionBox);
+		QuestionBox questionBox = new QuestionBox(question, mediator);		
 		vbox.getChildren().add(questionBox);
 	}
 

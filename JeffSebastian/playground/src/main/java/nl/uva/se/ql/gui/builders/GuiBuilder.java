@@ -6,7 +6,7 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
-import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 
 public class GuiBuilder implements StatementVisitor, FormVisitor {

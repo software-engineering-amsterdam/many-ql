@@ -1,10 +1,9 @@
 package nl.uva.se.ql.gui.widgets.questions;
 
 import javafx.scene.Node;
-import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.Value;
-import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.validators.Validator;
 
 public abstract class BaseQuestion<T> {

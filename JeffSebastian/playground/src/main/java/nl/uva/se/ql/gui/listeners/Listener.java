@@ -2,6 +2,7 @@ package nl.uva.se.ql.gui.listeners;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.validators.Validator;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 

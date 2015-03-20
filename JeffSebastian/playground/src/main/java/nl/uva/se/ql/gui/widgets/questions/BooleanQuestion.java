@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.BooleanValue;
-import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.validators.BooleanValidator;
 import nl.uva.se.ql.gui.validators.Validator;
 

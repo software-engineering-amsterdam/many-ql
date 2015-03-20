@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.StringValue;
-import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.validators.TextValidator;
 import nl.uva.se.ql.gui.validators.Validator;
 

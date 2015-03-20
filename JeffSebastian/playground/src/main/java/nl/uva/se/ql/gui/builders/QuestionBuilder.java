@@ -1,6 +1,5 @@
 package nl.uva.se.ql.gui.builders;
 
-import javafx.scene.Node;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.type.BooleanType;
 import nl.uva.se.ql.ast.type.DecimalType;
@@ -8,7 +7,7 @@ import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.mediators.IMediator;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 import nl.uva.se.ql.gui.widgets.questions.BooleanQuestion;
 import nl.uva.se.ql.gui.widgets.questions.DecimalQuestion;
