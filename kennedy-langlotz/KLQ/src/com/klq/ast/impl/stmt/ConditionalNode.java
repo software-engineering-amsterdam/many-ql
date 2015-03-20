@@ -16,12 +16,15 @@ public class ConditionalNode extends AStatementNode {
 
     public ConditionalNode(AExpression condition, ArrayList<AStatementNode> children, Location location) {
         super(location);
-        this.condition = condition;
-        this.children = children;
+        init(condition, children);
     }
 
     public ConditionalNode(AExpression condition, ArrayList<AStatementNode> children) {
         super();
+        init(condition, children);
+    }
+
+    private void init(AExpression condition, ArrayList<AStatementNode> children) {
         this.condition = condition;
         this.children = children;
     }

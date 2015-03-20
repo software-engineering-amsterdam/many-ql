@@ -1,42 +1,108 @@
 package ql.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import ql.ast.type.QLBoolean;
+import ql.ast.type.QLNumeric;
+import ql.ast.type.QLString;
 import ql.ast.visitor.TypeVisitor;
 
 public abstract class QLType implements QLNode {
-	protected List<QLType> compatibleTypes;
-	
-	public QLType() {
-		compatibleTypes = new ArrayList<QLType>();
-	}
-	
-	public boolean compatibleWith(QLType type) {
-		return compatibleTypes.stream()
-				.map(compatibleType -> compatibleType.equals(type))
-				.reduce(false, (x, y) -> x || y);
-	}
 	
 	/**
-	 * @return the list of compatibilities
+	 * Addition
+	 * 
+	 * @param argument
+	 * @return
+	 */	
+	public abstract boolean add(QLType argument);
+	public abstract boolean addNumeric(QLNumeric argument);
+	public abstract boolean addString(QLString argument);
+	
+	/**
+	 * Division
+	 * 
+	 * @param argument
+	 * @return
 	 */
-	public List<QLType> getCompatibilities() {
-		return compatibleTypes;
-	}
-
+	public abstract boolean divide(QLType argument);
+	public abstract boolean divideNumeric(QLNumeric argument);
+	
+	/**
+	 * Multiplication
+	 * 
+	 * @param argument
+	 * @return
+	 */
+	public abstract boolean multiply(QLType argument);
+	public abstract boolean multiplyNumeric(QLNumeric argument);
+	
+	/**
+	 * Subtraction
+	 * 
+	 * @param argument
+	 * @return
+	 */
+	public abstract boolean subtract(QLType argument);
+	public abstract boolean subtractNumeric(QLNumeric argument);
+	
+	/**
+	 * Unary
+	 * 
+	 * @return
+	 */
+	public abstract boolean not();
+	public abstract boolean positive();
+	public abstract boolean negative();
+	
+	/**
+	 * Relational
+	 * @param rightValue
+	 * @return
+	 */
+	public abstract boolean or(QLType rightValue);
+	public abstract boolean orBoolean(QLBoolean argument);
+	
+	public abstract boolean notEqualTo(QLType argument);
+	public abstract boolean notEqualToBoolean(QLBoolean argument);
+	public abstract boolean notEqualToNumeric(QLNumeric argument);
+	public abstract boolean notEqualToString(QLString argument);
+	
+	public abstract boolean lowerThan(QLType argument);
+	public abstract boolean lowerThanNumeric(QLNumeric argument);
+	
+	public abstract boolean lowerOrEqual(QLType argument);
+	public abstract boolean lowerOrEqualNumeric(QLNumeric argument);
+	
+	public abstract boolean greaterThan(QLType argument);
+	public abstract boolean greaterThanNumeric(QLNumeric argument);
+	
+	public abstract boolean greaterOrEqual(QLType argument);
+	public abstract boolean greaterOrEqualNumeric(QLNumeric argument);
+	
+	public abstract boolean equalTo(QLType argument);
+	public abstract boolean equalToBoolean(QLBoolean argument);
+	public abstract boolean equalToNumeric(QLNumeric argument);
+	public abstract boolean equalToString(QLString argument);
+	
+	public abstract boolean and(QLType argument);
+	public abstract boolean andBoolean(QLBoolean argument);
+	
+	public abstract boolean assign(QLType argument);
+	public abstract boolean assignBoolean(QLBoolean argument);
+	public abstract boolean assignNumeric(QLNumeric argument);
+	public abstract boolean assignString(QLString argument);
+	
 	public abstract <T> T accept(TypeVisitor<T> visitor);
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		return this.getClass().getSimpleName().hashCode();
 	}
 	
 	@Override
-	public abstract boolean equals(Object comparisonObject);
+	public final boolean equals(Object comparisonObject) {
+		return comparisonObject.hashCode() == hashCode();
+	}
 	
 	@Override
-	public String toString() {
-		return this.getClass().getSimpleName();
-	}
+	public abstract String toString();
 }

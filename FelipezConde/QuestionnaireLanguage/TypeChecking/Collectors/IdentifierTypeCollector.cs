@@ -1,7 +1,7 @@
 ﻿using AST.Nodes;
 using AST.Nodes.Expressions;
 using AST.Nodes.FormObjects;
-using AST.ASTVisitors.Interfaces;
+using AST.VisitorInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 

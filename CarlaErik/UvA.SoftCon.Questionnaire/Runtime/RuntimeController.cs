@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime
             var validators = new List<ASTChecker> 
             {
                 new DuplicateLabelChecker(),
-                new DuplicateQuestionChecker(),
+                new QuestionDeclarationChecker(),
                 new TypeChecker(),
                 new LiteralChecker(),
             };

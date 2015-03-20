@@ -15,23 +15,19 @@ class Question(statement.IStatement):
         self.__type = qtype
 
     # pretty print ast, with level giving the indentation
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.__label + "\n"
-        s += "   " * (level + 1) + "Question type: " + self.__type
-        s += "\n"
+        s += "   " * (level + 1) + "Question type: " + self.__type + "\n"
         return s
 
-    # return all ids in the statement
     def id_collection(self):
         return [self.__id]
 
-    # return all labels in the statement
     def label_collection(self):
         return [self.__label]
 
-    # a question is not a conditional statement
     def is_conditional(self):
         return False
 
@@ -46,6 +42,7 @@ class Question(statement.IStatement):
         return {self.__id: self.__type}
 
     # Get a dictionary with ids and statements
+    # TODO: rename this without problems..
     def get_statement_dict(self):
         return {self.__id: self}
 
@@ -56,14 +53,14 @@ class Question(statement.IStatement):
     def get_label(self):
         return self.__label
 
-    def get_type(self):
-        return self.__type.pretty_print()
+    def get_type_string(self):
+        return self.__type
 
     def get_id(self):
         return self.__id
 
     # returns a message with errors if the expression is wrongly typed, here empty thus
-    def valid_type_message(self, td):
+    def valid_expression_message(self, td):
         return ""
 
 

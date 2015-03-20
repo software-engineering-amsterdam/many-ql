@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by Nik on 3-3-15.
  */
+//TODO: push down the subsegments
 public abstract class Segment<T extends Node> extends GuiElement
 {
     private final List<Segment> subsegments;
@@ -42,4 +43,6 @@ public abstract class Segment<T extends Node> extends GuiElement
     {
         return this.container;
     }
+
+    public abstract <V> V accept (SegmentVisitor<V> visitor);
 }

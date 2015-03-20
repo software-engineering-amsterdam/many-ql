@@ -19,6 +19,7 @@ import ql.ast.expression.booleanalgebra.Or;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.expression.relational.Equal;
 import ql.ast.expression.relational.Greater;
@@ -37,6 +38,7 @@ import ql.ast.type.QLError;
 import ql.ast.type.QLFloat;
 import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
+import ql.ast.type.QLMoney;
 import ql.ast.type.QLNumeric;
 import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
@@ -85,7 +87,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * of nodes has been entered.
 	 */
 	private void indent() {
-		this.prefix += "   ";
+		prefix += "   ";
 	}
 	
 	/**
@@ -94,7 +96,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * exits. 
 	 */
 	private void unindent() {
-		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
+		prefix = prefix.substring(0, this.prefix.length() - 3);
 	}
 	
 	/**
@@ -109,7 +111,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
-		return prefix + (prefixSymbol) + nodeString + " : " + type + "\n";
+		return prefix + prefixSymbol + nodeString + " : " + type + "\n";
 	}
 	
 	/**
@@ -120,11 +122,14 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * @param binaryNode - The binary node to print.
 	 */
 	private String printBinaryNode(Binary binaryNode) {
+		StringBuilder binaryString = new StringBuilder(printNode(binaryNode));
+		
 		indent();
-		ExpressionVisitor.super.visit(binaryNode);
+		binaryString.append(binaryNode.getLeft().accept(this));
+		binaryString.append(binaryNode.getRight().accept(this));
 		unindent();
 		
-		return printNode(binaryNode);
+		return binaryString.toString();
 	}
 	
 	/**
@@ -135,11 +140,13 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	 * @param unaryNode - The unary node to print.
 	 */
 	private String printUnaryNode(Unary unaryNode) {
+		StringBuilder unaryString = new StringBuilder(printNode(unaryNode));
+		
 		indent();
-		ExpressionVisitor.super.visit(unaryNode);
+		unaryString.append(unaryNode.getExpression().accept(this));
 		unindent();
 		
-		return printNode(unaryNode);
+		return unaryString.toString();
 	}
 
 	/*********************
@@ -161,6 +168,11 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	@Override
 	public String visit(QLFloat floatNode) {
 		return printNode(floatNode);
+	}
+	
+	@Override
+	public String visit(QLMoney moneyNode) {
+		return printNode(moneyNode);
 	}
 	
 	@Override
@@ -199,6 +211,11 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 	@Override
 	public String visit(FloatLiteral floatNode) {
 		return printNode(floatNode);
+	}
+	
+	@Override
+	public String visit(MoneyLiteral moneyNode) {
+		return printNode(moneyNode);
 	}
 
 	@Override
@@ -300,7 +317,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder blockString = new StringBuilder(printNode(blockNode));
 		
 		indent();
-		for(Statement statement : blockNode.statements()) {
+		for(Statement statement : blockNode.getStatements()) {
 			blockString.append(statement.accept(this));
 		}
 		unindent();

@@ -86,7 +86,7 @@ WS			: (' ' | NEWLINE | TAB) -> skip;
 
 ID_LETTER	: 'a'..'z' | 'A'..'Z' | '_' ;
 
-DIGIT		: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
+DIGIT		: '0' | [0-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
 
 STRING 		: '"'	(ESC|.)*? '"';
 fragment

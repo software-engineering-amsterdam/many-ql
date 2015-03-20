@@ -1,5 +1,6 @@
 package org.uva.ql.ast.value;
 
+
 public class IntValue extends Value {
 
 	private final Integer value;
@@ -8,8 +9,14 @@ public class IntValue extends Value {
 		this.value = value;
 	}
 	
-	public boolean equals(IntValue intValue) {
-		return value == intValue.value();
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof IntValue){
+			return value.equals(((IntValue) obj).value());
+			
+		} else {
+			throw new UnsupportedOperationException("IntValue is only compariable with another IntValue.");
+		}
 	}
 	
 	@Override

@@ -1,25 +1,26 @@
 package uva.sc.ql.atom;
 
-import uva.sc.ql.ast.INodeVisitor;
-import uva.sc.ql.logic.Expression;
+import uva.sc.ql.ast.IQLExpressionNodeVisitor;
+import uva.sc.ql.expression.Expression;
 
-public class NumberAtom extends Expression {
+public class NumberAtom extends Expression<Object> {
 
-	String	value;
+    Double value;
 
-	public NumberAtom(String value) {
-		this.value = (value.equals("")) ? "0" : value;
-	}
+    public NumberAtom(Double value) {
+	this.value = (value != null) ? value : 0.;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public Double getValue() {
+	return value;
+    }
 
-	public String toString() {
-		return value;
-	}
+    public String toString() {
+	return String.valueOf(value);
+    }
 
-	public <T> T accept(INodeVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Object accept(IQLExpressionNodeVisitor visitor) {
+	return visitor.visit(this);
+    }
 }

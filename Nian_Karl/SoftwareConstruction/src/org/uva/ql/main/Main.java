@@ -16,7 +16,7 @@ import org.uva.ql.view.GUIVisitor;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		
+
 		QLImplErrorListener errorListener = new QLImplErrorListener();
 		ANTLRFileStream input = new ANTLRFileStream("scripts/ql/quest1.ql");
 		QLLexer lexer = new QLLexer(input);
@@ -30,17 +30,8 @@ public class Main {
 		if (questionnaire.accept(typeChecker)) {
 			GUIVisitor guiVisitor = new GUIVisitor();
 			questionnaire.accept(guiVisitor);
-<<<<<<< HEAD
 		}
 		typeChecker.printMessages();
-||||||| merged common ancestors
-//		}
-//		typeChecker.printMessages();
-=======
-		}
-		typeChecker.printMessages();
-
->>>>>>> b0dcee3df62a4a5cfbefc84e2ed8dd6c04bd998e
 	}
 
 }

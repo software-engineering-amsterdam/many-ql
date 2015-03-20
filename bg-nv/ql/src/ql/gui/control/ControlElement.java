@@ -24,11 +24,6 @@ public abstract class ControlElement extends GuiElement
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
 
-    public Void visit(DateValue val)
-    {
-        throw new IllegalArgumentException("This value is not valid for the given control.");
-    }
-
     public Void visit(DecValue val)
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
@@ -48,4 +43,6 @@ public abstract class ControlElement extends GuiElement
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
+
+    public abstract <T> T accept(ControlVisitor<T> visitor);
 }

@@ -1,1 +1,12 @@
-	1. 	divide by zero
+check the format in the textfield
+
+//QLS Rendering
+
+1. Get the component list from QL.
+2. For each placedQuestion in the typechecker of QLS, check if its contained in the component list of QL.
+3. If not contained, add error message to error list of QLS.
+4. Prompt errors both from QL and QLS.
+5. Set the style on each component.
+6. Render reusing stuff from QL - Factory.
+7. Add listeners.
+8. Write Unit tests.

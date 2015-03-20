@@ -1,11 +1,10 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Slider;
 
 import javax.swing.*;
@@ -15,6 +14,10 @@ import java.awt.*;
 
 
 public class SliderWidget implements IWidget {
+    final String questionIdentifier;
+    final QLInterpreter qlInterpreter;
+    final StateWrapper stateWrapper;
+    final Slider slider;
     private JSlider sliderWidget;
 
     @Override
@@ -22,16 +25,30 @@ public class SliderWidget implements IWidget {
         return sliderWidget;
     }
 
-    public SliderWidget(final Question question, final QLInterpreter qlIntepreter, final VariableTableWrapper variableTableWrapper, Slider slider) {
-        this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
+    @Override
+    public void resetValue() {
+        sliderWidget.setValue(0);
+    }
 
-        sliderWidget.addChangeListener(new ChangeListener() {
+    private ChangeListener createChangeListener() {
+        return new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                variableTableWrapper.getVariableTable().setVariable(question.getIdent(), new IntegerValue(sliderWidget.getValue()));
-                VariableTable newVaribaleTable = qlIntepreter.interpret(variableTableWrapper.getVariableTable());
-                variableTableWrapper.setVariableTable(newVaribaleTable);
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                variableTable.setVariable(questionIdentifier, new IntegerValue(sliderWidget.getValue()));
+                VariableTable newVariableTable = qlInterpreter.interpret(variableTable);
+                stateWrapper.setVariableTable(newVariableTable);
             }
-        });
+        };
+    }
+
+    public SliderWidget(String questionIdentifier, QLInterpreter qlInterpreter, StateWrapper stateWrapper, Slider slider) {
+        this.questionIdentifier = questionIdentifier;
+        this.qlInterpreter = qlInterpreter;
+        this.stateWrapper = stateWrapper;
+        this.slider = slider;
+        this.sliderWidget = new JSlider(slider.getMin(), slider.getMax());
+        sliderWidget.addChangeListener(createChangeListener());
+
     }
 }

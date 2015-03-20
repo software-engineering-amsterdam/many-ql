@@ -1,28 +1,24 @@
 package uva.qls.ast.statements;
 
-import java.util.List;
-
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
-import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.style.Style;
-import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.*;
+import uva.qls.ast.style.visitor.StyleTable;
+import uva.qls.ast.type.Type;
 
 public class DefaultValue extends Statement {
 	
 	private Type type;
 	private Component component;
-	private List<Style> style;
+	private StyleTable style;
 
-	public DefaultValue (Type _type,Component _component, CodeLines _codeLines ){
+	public DefaultValue (Type _type, Component _component, CodeLines _codeLines ){
 		super(_codeLines);
-		this.component=_component;
-		this.type=_type;
+		this.component = _component;
+		this.type = _type;
 	}
 	
-	public DefaultValue(Type _type, List<Style> _style, CodeLines _codeLines){
+	public DefaultValue(Type _type, StyleTable _style, CodeLines _codeLines){
 		super(_codeLines);
 		this.style = _style;
 		this.type = _type;
@@ -31,7 +27,7 @@ public class DefaultValue extends Statement {
 	public Type getType(){
 		return this.type;
 	}
-	public List<Style> getStyle(){
+	public StyleTable getStyle(){
 		return this.style;
 	}
 	
@@ -39,24 +35,13 @@ public class DefaultValue extends Statement {
 		return this.component;
 	}
 	
+	public CodeLines getLOC(){
+		return this.codeLines;
+	}
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return this.component != null 	? visitor.visitDefaultValueComponent(this)
 										: visitor.visitDefaultValueStatements(this);
-	}
-	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
 	}
 	
 	@Override

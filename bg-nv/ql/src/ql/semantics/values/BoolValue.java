@@ -11,6 +11,9 @@ public class BoolValue extends Value<Boolean>
     }
 
     @Override
+    public Boolean isTrue() { return this.getValue(); }
+
+    @Override
     public Value not()
     {
         return new BoolValue(!(this.getValue()));

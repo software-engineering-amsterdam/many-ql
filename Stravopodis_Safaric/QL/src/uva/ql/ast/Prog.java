@@ -1,6 +1,6 @@
 package uva.ql.ast;
 
-import uva.ql.ast.visitor.StatementVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitor;
 
 public class Prog extends ASTNode{
 	
@@ -15,7 +15,7 @@ public class Prog extends ASTNode{
 		return this.form;
 	}
 	
-	public <T> T accept(StatementVisitorInterface<T> visitor){
+	public <T> T accept(StatementVisitor<T> visitor){
 		return visitor.visitProg(this);
 	}
 	

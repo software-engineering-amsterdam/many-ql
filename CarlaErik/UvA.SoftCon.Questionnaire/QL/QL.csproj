@@ -76,7 +76,6 @@
     <Compile Include="AST\Model\Expressions\Literals\Literal.cs" />
     <Compile Include="AST\Model\Expressions\Literals\StringLiteral.cs" />
     <Compile Include="AST\Model\Expressions\Operation.cs" />
-    <Compile Include="AST\Model\Expressions\Unary\Increment.cs" />
     <Compile Include="AST\Model\Expressions\Unary\Negation.cs" />
     <Compile Include="AST\Model\Expressions\Unary\UnaryExpression.cs" />
     <Compile Include="AST\Model\QLNode.cs" />

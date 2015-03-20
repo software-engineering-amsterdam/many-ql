@@ -4,7 +4,11 @@ import QL.Grammar.constants as constants
 
 class Minus(b.BinaryExpression):
 
-    # get the return _type of the _expression
-    def return_type_string(self, type_dict):
+    def set_operator(self):
+        return "-"
+
+    def return_type_string(self, type_map):
         return constants.NUMBER
 
+    def eval(self, x, y):
+        return x - y

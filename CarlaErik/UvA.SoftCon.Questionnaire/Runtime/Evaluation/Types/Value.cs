@@ -62,11 +62,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             throw new InvalidOperationException(CreateMessage(Operation.Divide, value, this));
         }
 
-        public virtual Value Increment()
-        {
-            throw new InvalidOperationException(CreateMessage(Operation.Increment, this));
-        }
-
         public virtual Value IsEqualTo(Value value)
         {
             throw new InvalidOperationException(CreateMessage(Operation.EqualTo, this, value));

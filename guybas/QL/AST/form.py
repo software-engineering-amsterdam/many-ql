@@ -9,11 +9,11 @@ class Form:
         self._statements = statements
 
     # Pretty print the _form
-    def pretty_print(self):
+    def string_presentation(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
         for x in self._statements:
-            s += x.pretty_print(1)
+            s += x.string_presentation(1)
         return s
 
     #
@@ -76,9 +76,9 @@ class Form:
     # TODO : test expression validator
     def check_expressions(self):
         td = self.get_type_dict()
-        message = ""
+        message = []
         for x in self._statements:
-            message += x.valid_type_message(td)
+            message.extend(x.valid_expression_message(td))
         return message
 
     #
@@ -87,7 +87,6 @@ class Form:
 
     @staticmethod
     def check_duplicates(l):
-        # get_dependencies for duplicates
         duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
@@ -116,22 +115,24 @@ class Form:
     def is_valid_form(self):
         valid = True
         id_message = self.check_ids()
-        if id_message != "":
+        if id_message:
             valid = False
             print(id_message)
 
         label_message = self.check_labels()
-        if label_message != "":
+        if label_message:
             print(label_message)
 
         dependency_message = self.check_dependencies()
-        if dependency_message != "":
+        if dependency_message:
             valid = False
             print(dependency_message)
 
         expression_message = self.check_expressions()
-        if expression_message != "":
+        if expression_message:
             valid = False
             print(expression_message)
 
         return valid
+
+

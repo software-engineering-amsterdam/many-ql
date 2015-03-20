@@ -12,7 +12,7 @@ import ql.semantics.values.Value;
  */
 public class CheckBox extends ControlElement implements BoolControl
 {
-    javafx.scene.control.CheckBox checkBox;
+    private javafx.scene.control.CheckBox checkBox;
 
     public CheckBox(Boolean visible, Boolean disabled)
     {
@@ -61,21 +61,26 @@ public class CheckBox extends ControlElement implements BoolControl
         return null;
     }
 
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
-    }
-
     @Override
     public void addListener(ChangeListener listener)
     {
         this.checkBox.selectedProperty().addListener(listener);
     }
 
+    @Override
+    public <T> T accept(ControlVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
+
     private void setSelected(Boolean selected)
     {
         this.checkBox.setSelected(selected);
+    }
+
+    @Override
+    public Value getBoolValue()
+    {
+        return new BoolValue(this.checkBox.isSelected());
     }
 }

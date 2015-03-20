@@ -7,7 +7,7 @@ import scala.util.parsing.input.Position
 
 class TypeChecker {
 
-  def check(f: Form, env: TypeEnvironment = Map()): List[Error] = check(f.statements, env)._1
+  def check(f: Form, env: TypeEnvironment = Map()): (List[Error], TypeEnvironment) = check(f.statements, env)
 
   def check(s: Statement, env: TypeEnvironment): (List[Error], TypeEnvironment) = s match {
     case Sequence(statements) => checkSequence(statements, env)

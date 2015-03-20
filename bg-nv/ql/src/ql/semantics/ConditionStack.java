@@ -11,6 +11,7 @@ import java.util.Stack;
  */
 public class ConditionStack
 {
+    private final static BoolExpr trueBoolExpr = new BoolExpr(true);
     private final Stack<Expr> conditions;
 
     public ConditionStack()
@@ -39,7 +40,7 @@ public class ConditionStack
     {
         if (this.conditions.isEmpty())
         {
-            return new BoolExpr(true);
+            return trueBoolExpr;
         }
 
         return this.conditions.peek();

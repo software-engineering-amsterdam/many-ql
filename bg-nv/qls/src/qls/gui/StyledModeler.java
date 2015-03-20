@@ -1,53 +1,38 @@
 package qls.gui;
 
-import ql.gui.GuiElement;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
 import ql.gui.segment.*;
-import ql.semantics.ConditionalQuestion;
-import ql.semantics.Flat;
+import ql.semantics.CondQuestionTable;
 import qls.ast.*;
 import qls.ast.Page;
 import qls.ast.rule.Rules;
 import qls.ast.statement.*;
 import qls.ast.statement.Section;
-import qls.semantics.FormStyle;
-import qls.semantics.RulesToGui;
+import qls.ast.statement.Statement;
+import qls.semantics.QuestionStyles;
+import qls.semantics.RowStyleBuilder;
 
 import java.util.*;
 
 /**
  * Created by Nik on 10-3-15.
  */
-// TODO
 public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Segment>, StatementVisitor<Segment>
 {
     private final Stylesheet stylesheet;
-    private final FormStyle formStyle;
-    private Map<String, GuiElement> elems;
-    private Flat flat;
+    private final QuestionStyles questionStyles;
 
-    public StyledModeler(Stylesheet stylesheet, FormStyle formStyle)
+    public StyledModeler(CondQuestionTable condQuestionTable, Stylesheet stylesheet, QuestionStyles questionStyles)
     {
-        super();
+        super(condQuestionTable);
         this.stylesheet = stylesheet;
-        this.formStyle = formStyle;
+        this.questionStyles = questionStyles;
     }
 
     @Override
-    public Canvas model(Flat flat)
+    public Canvas model()
     {
-        // We do not need renderables, we only need to avoid visiting default statements
-//        //TODO: get the renderables!
-//        Collection<Renderable> renderables = Collections.emptyList();
-//
-//        List<Segment> segments = new ArrayList<>();
-//        for (Renderable r : renderables)
-//        {
-//            // TODO: create a renderable visitor?
-//            // segments.add(r.accept(this));
-//        }
-        this.flat = flat;
         List<Segment> pageSegments = new ArrayList<>();
         for (Page p : this.stylesheet.getBody())
         {
@@ -76,25 +61,24 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     @Override
     public Segment visit(qls.ast.statement.Question q)
     {
-        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
-
-        Segment qs = cq.getQuestion().accept(this);
-        List<Segment> r = new ArrayList<>();
-        r.add(qs);
-        Rules rules = formStyle.getStyleForQuestion(q.getId());
-        RowStyle style = RulesToGui.convert(rules);
-        return new Conditional(cq.getCondition(), r, style);
+        return getConditional(q.getId());
     }
 
     @Override
     public Segment visit(QuestionWithRules q)
     {
-        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
 
-        Segment qs = cq.getQuestion().accept(this);
-        List<Segment> r = new ArrayList<>();
-        r.add(qs);
-        return new Conditional(cq.getCondition(), r);
+        return getConditional(q.getId());
+    }
+
+    private Segment getConditional(String id)
+    {
+        ql.ast.statement.Question q = this.getQuestion(id);
+        Row row = q.accept(this);
+        Rules rules = questionStyles.getStyleForQuestion(id);
+        RowStyle style = RowStyleBuilder.build(rules);
+        row.applyStyle(style);
+        return row;
     }
 
     @Override
@@ -103,6 +87,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
         throw new IllegalStateException("Visiting a default node is not allowed");
     }
 
+    // TODO: why throw exception for the default stat but not for the stylesheet?
     @Override
     public Segment visit(Stylesheet s)
     {

@@ -22,6 +22,9 @@ const (
 	// ScalarBoolPrimitive is the constant which define "bool" question
 	// type.
 	ScalarBoolPrimitive = "bool"
+	// ScalarDatePrimitive is the constant which define "date" question
+	// type.
+	ScalarDatePrimitive = "date"
 )
 
 // NewScalarQuestion factory of ScalarQuestion struct.

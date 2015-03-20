@@ -15,7 +15,7 @@ public class Width extends Style{
 	}
 
 	public Integer evaluatedValue(){
-		return this.width.evaluatedValue();
+		return this.width.evaluate().getValue();
 	}
 	
 	@Override
@@ -25,7 +25,12 @@ public class Width extends Style{
 	
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.width.evaluatedValue());
+		return new NumberValue(this.width.evaluate().getValue());
+	}
+	
+	@Override
+	public String getStyleType() {
+		return this.getClass().getName();
 	}
 
 	@Override

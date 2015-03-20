@@ -144,7 +144,7 @@ public class AstTest {
 	String str = "1==1";
 	GrammarParser parser = AstTest.getParser(str);
 	boolean actual = ((BoolValue) (parser.expression().result).evaluate(new Context())).getValue();
-	boolean exspected = 1 == 1;
+	boolean exspected = ((Integer) 1).equals((Integer) 1);
 	assertEquals(exspected, actual);
     }
 

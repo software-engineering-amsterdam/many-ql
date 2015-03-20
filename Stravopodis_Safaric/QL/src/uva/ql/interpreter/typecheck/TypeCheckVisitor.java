@@ -3,6 +3,7 @@ package uva.ql.interpreter.typecheck;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
@@ -36,30 +37,88 @@ import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.type.TypeInteger;
 import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.type.TypeString;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
-import uva.ql.ast.visitor.StatementVisitorInterface;
-import uva.ql.interpreter.typecheck.error.IssueTable;
+import uva.ql.ast.visitor.ExpressionVisitor;
+import uva.ql.ast.visitor.StatementVisitor;
+import uva.ql.ast.visitor.TypeVisitor;
+import uva.ql.interpreter.typecheck.dependency.DependencyExpressionVisitor;
+import uva.ql.interpreter.typecheck.dependency.DependencyHelper;
+import uva.ql.interpreter.typecheck.dependency.DependencySet;
+import uva.ql.interpreter.typecheck.dependency.DependencyTable;
+import uva.ql.interpreter.typecheck.error.IssueList;
 import uva.ql.interpreter.typecheck.error.IssueObject;
 import uva.ql.interpreter.typecheck.error.IssueType;
 import uva.ql.interpreter.typecheck.table.LabelTable;
 import uva.ql.interpreter.typecheck.table.SymbolTable;
-import uva.ql.interpreter.typecheck.table.WarningTable;
 
-public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
+public class TypeCheckVisitor implements ExpressionVisitor<Expression>, StatementVisitor<Void>, TypeVisitor<Type>{
 
-	private final WarningTable warningTable = new WarningTable();
+	private final IssueList issueList = new IssueList();
 	private final SymbolTable symbolTable = new SymbolTable();
 	private final LabelTable labelTable = new LabelTable();
-	private final IssueTable issueTable = new IssueTable();
+	private final DependencyExpressionVisitor dependency = new DependencyExpressionVisitor();
+	private  DependencyTable dependencyTable = new DependencyTable();
+	
+	/* Type Check Methods */
+	
+	public boolean hasErrors(){
+		return this.issueList.hasErrors();
+	}
+	
+	public void printIssues(){
+		this.issueList.printIssues();
+	}
+	
+	private boolean isDuplicateQuestionSameType(Question question){
+		
+		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
+		Type questionType = question.getQuestionType();
+		
+		return this.symbolTable.valueExists(questionIdentifier, questionType);
+	}
+	
+	private boolean isDuplicateQuestionDifferentType(Question question){
+		
+		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
+		Type questionType = question.getQuestionType();
+		
+		if (this.symbolTable.keyExists(questionIdentifier)){
+			return !this.symbolTable.retrieveValue(questionIdentifier).equals(questionType);
+		}
+		
+		return false;
+	}
+	
+	private boolean referenceToUndefinedQuestion(Identifier identifier){
+		return !symbolTable.keyExists(identifier.evaluate().getValue());
+	}
+	
+	private boolean duplicateLabelCheck(Question question){
+		return this.labelTable.keyExists(question.getQuestionLabel().evaluate().getValue().replaceAll("\\s+",""));
+	}
+	
+	private boolean expressionOfType(List<Type> possibleTypes, List<Type> supportedTypes){
+		
+		for (Type type : supportedTypes){
+			if (possibleTypes.contains(type)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/* Type Check Visitor */
 	
 	@Override
-	public Object visitProg(Prog prog) {
+	public Void visitProg(Prog prog) {
 		prog.getForm().accept(this);
+		dependencyTable = DependencyHelper.populateFullDependencies(dependencyTable);
+		System.err.println(DependencyHelper.findCycles(dependencyTable));
+		Set<String> cycles = DependencyHelper.findCycles(dependencyTable);
 		
-		for (IssueType.ERROR issue : this.issueTable.getTable().keySet()){
-			System.out.println("ERROR: " + issue);
-			for (IssueObject obj : this.issueTable.retrieveValues(issue).retrieveValues()){
-				System.out.println("====== > " + obj.toString());
+		if (!cycles.isEmpty()){
+			for (String s: cycles){
+				System.out.println("Check: " + s + " ==== " + cycles);
 			}
 		}
 		
@@ -67,7 +126,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitForm(Form form) {
+	public Void visitForm(Form form) {
 		this.visitStatements(form.getStatement());
 		
 		return null;
@@ -82,12 +141,12 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitASTNode(ASTNode node) {
+	public Void visitASTNode(ASTNode node) {
 		return null;
 	}
 
 	@Override
-	public Object visitStatement(Statement statement) {
+	public Void visitStatement(Statement statement) {
 		statement.accept(this);
 		
 		return null;
@@ -95,15 +154,14 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 
 
 	@Override
-	public Object visitIfStatement(IfStatement ifStatement) {
+	public Void visitIfStatement(IfStatement ifStatement) {
 		
-		// Expressions - conditions must be of type TypeBoolean()
-
-		if (ifStatement.getExpression().getValueType().contains(new TypeBoolean())){
+		if (ifStatement.hasBooleanCondition()){			
 			this.visitBinaryLogical((BinaryExpressions)ifStatement.getExpression());
 		}
 		else {
-			this.issueTable.putValue(IssueType.ERROR.CONDITION_NOT_BOOLEAN, new IssueObject(ifStatement.getCodeLine(), ifStatement.getExpression()));
+			IssueObject issue = new IssueObject(IssueType.ERROR.CONDITION_NOT_BOOLEAN, ifStatement.getExpression(),ifStatement.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		this.visitStatements(ifStatement.getStatement());
@@ -112,14 +170,18 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 	
 	@Override
-	public Object visitSimpleQuestion(Question question) {
+	public Void visitSimpleQuestion(Question question) {
 		this.visitQuestion(question);
 		
 		return null;
 	}
 
 	@Override
-	public Object visitComputedQuestion(Question question) {
+	public Void visitComputedQuestion(Question question) {
+		dependency.visitExpression(question.getQuestionExpression());
+		dependencyTable.putValue(question.getQuestionIdentifier().evaluate().getValue(), new DependencySet(dependency.getIdentifierList().toString()));
+		
+		//System.out.println("=====>" + dependencyTable.toString());
 		this.visitQuestion(question);
 		question.getQuestionExpression().accept(this);
 
@@ -130,16 +192,19 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
 		String questionLabel = question.getQuestionLabel().evaluate().getValue();
 		
-		if (TypeCheckHelper.isDuplicateQuestionDifferentType(question, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, new IssueObject(question.getCodeLine(), question));
+		if (this.isDuplicateQuestionDifferentType(question)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
-		if (TypeCheckHelper.isDuplicateQuestionSameType(question, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_SAME_TYPE, new IssueObject(question.getCodeLine(), question));
+		if (isDuplicateQuestionSameType(question)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.DUPLICATE_SAME_TYPE, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
-		if (TypeCheckHelper.duplicateLabelCheck(question, this.labelTable)){
-			this.warningTable.putValue(IssueType.WARNING.DUPLICATE_QUESTION_LABEL, question.getCodeLine());
+		if (duplicateLabelCheck(question)){
+			IssueObject issue = new IssueObject(IssueType.WARNING.DUPLICATE_QUESTION_LABEL, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		this.labelTable.putValue(questionLabel.replaceAll("\\s+",""), question.getCodeLine());
@@ -149,7 +214,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitAssign(Assign assign) {
+	public Void visitAssign(Assign assign) {
 		assign.getIdentifier().accept(this);
 		assign.getExpression().accept(this);
 		
@@ -157,21 +222,21 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitBinaryExpression(BinaryExpressions expression) {	
+	public Expression visitBinaryExpression(BinaryExpressions expression) {	
 		expression.accept(this);
 		
 		return null;
 	}
 	
-	private Object visitBinaryNumerical(BinaryExpressions binaryExpression){
+	private Expression visitBinaryNumerical(BinaryExpressions binaryExpression){
 		
 		Expression left = binaryExpression.getLeftExpr();
 		Expression right = binaryExpression.getRightExpr();
 		
 		List<Type> supportedTypes = Arrays.asList(new TypeMoney(), new TypeInteger());
 		
-		boolean leftIsNumerical = TypeHelper.expressionOfType(left, supportedTypes);
-		boolean rightIsNumerical = TypeHelper.expressionOfType(right, supportedTypes);
+		boolean leftIsNumerical = this.expressionOfType(left.possibleReturnTypes(), supportedTypes);
+		boolean rightIsNumerical = this.expressionOfType(right.possibleReturnTypes(), supportedTypes);
 		
 		// If the leftIsNumerical | rightIsNumerical are false - check if they are Identifiers
 		
@@ -184,7 +249,9 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		return null;
 	}
 	
-	private Object visitBinaryLogical(BinaryExpressions binaryExpression){
+	
+	
+	private Expression visitBinaryLogical(BinaryExpressions binaryExpression){
 
 		Expression left = binaryExpression.getLeftExpr();
 		Expression right = binaryExpression.getRightExpr();
@@ -194,12 +261,14 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		
 		// Checking operator - operand support
 		if (Collections.disjoint(leftType, rightType)){
-			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, binaryExpression, binaryExpression.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		// Operands must be of the same type
 		if (Collections.disjoint(leftType, rightType)){
-			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, binaryExpression, binaryExpression.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		left.accept(this);
@@ -210,24 +279,30 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	
 	private void checkIdentifierTypeCompliance(boolean isOfType, Expression expression, List<Type> supportedTypes){
 		
-		if (!isOfType && !expression.getValueType().containsAll(supportedTypes)){
+		if (!isOfType && !expression.possibleReturnTypes().containsAll(supportedTypes)){
 				
 			// Check is an expression is of type Identifier() of type TypeString() - sellingPrice integer e.g.
+			// Prepare an issue
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_MATH, expression, expression.getCodeLine());
 			
-			if (expression.getValueType().contains(new TypeString())){
+			if (expression.possibleReturnTypes().contains(new TypeString())){
 				
 				// Get question type of an Identifier (expression)
 				
 				Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
 				
-				if (!TypeHelper.checkTypeConformance(type, supportedTypes)){
-					this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+				try{
+					if (!type.checkTypeConformance(supportedTypes)){
+						this.issueList.putIssueObject(issue);
+					}
+				}
+				catch (Exception ex){
+					
 				}
 			}
 			else {
-				this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+				this.issueList.putIssueObject(issue);
 			}
-		
 		}
 	}
 	
@@ -235,89 +310,90 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		
 		// Check is an expression is an Identifier() of TypeString()
 		
-		if (expression.getValueType().contains(new TypeString())){
+		if (expression.possibleReturnTypes().contains(new TypeString())){
 			Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
 			return Arrays.asList(type);
 		}
 		
-		return expression.getValueType();
+		return expression.possibleReturnTypes();
 	}
 
 	@Override
-	public Object visitExpression(Expression expression) {		
+	public Expression visitExpression(Expression expression) {		
 		return expression.accept(this);
 	}
 
 	@Override
-	public Object visitExponentiation(Exponentiation exponentiation) {
+	public Expression visitExponentiation(Exponentiation exponentiation) {
 		return this.visitBinaryNumerical(exponentiation);
 	}
 
 	@Override
-	public Object visitAddition(Addition addition) {
+	public Expression visitAddition(Addition addition) {
 		return this.visitBinaryNumerical(addition);
 	}
 
 	@Override
-	public Object visitSubstraction(Substraction substraction) {
+	public Expression visitSubstraction(Substraction substraction) {
 		return this.visitBinaryNumerical(substraction);
 	}
 
 	@Override
-	public Object visitMultiplication(Multiplication multipllication) {
+	public Expression visitMultiplication(Multiplication multipllication) {
 		return this.visitBinaryNumerical(multipllication);
 	}
 
 	@Override
-	public Object visitDivision(Division division) {
+	public Expression visitDivision(Division division) {
 		return this.visitBinaryNumerical(division);
 	}
 
 	@Override
-	public Object visitAnd(And and) {
+	public Expression visitAnd(And and) {
 		return this.visitBinaryLogical(and);
 	}
 
 	@Override
-	public Object visitOr(Or or) {
+	public Expression visitOr(Or or) {
 		return this.visitBinaryLogical(or);
 	}
 
 	@Override
-	public Object visitEqual(Equal equal) {
+	public Expression visitEqual(Equal equal) {
 		return this.visitBinaryLogical(equal);
 	}
 
 	@Override
-	public Object visitNotEqual(NotEqual notEqual) {
+	public Expression visitNotEqual(NotEqual notEqual) {
 		return this.visitBinaryLogical(notEqual);
 	}
 
 	@Override
-	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
+	public Expression visitGreaterEqual(Greater_Eq greaterEqual) {
 		return this.visitBinaryLogical(greaterEqual);
 	}
 
 	@Override
-	public Object visitGreater(Greater greater) {
+	public Expression visitGreater(Greater greater) {
 		return this.visitBinaryLogical(greater);
 	}
 
 	@Override
-	public Object visitLessEqual(Less_Eq lessEqual) {
+	public Expression visitLessEqual(Less_Eq lessEqual) {
 		return this.visitBinaryLogical(lessEqual);
 	}
 
 	@Override
-	public Object visitLess(Less less) {
+	public Expression visitLess(Less less) {
 		return this.visitBinaryLogical(less);
 	}
 
 	@Override
 	public Identifier visitIdentifier(Identifier identifier) {
 		
-		if (TypeCheckHelper.referenceToUndefinedQuestion(identifier, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.REFERENCE_UNDEFINED, new IssueObject(identifier.getCodeLine(), identifier));
+		if (this.referenceToUndefinedQuestion(identifier)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.REFERENCE_UNDEFINED, identifier, identifier.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		return identifier;

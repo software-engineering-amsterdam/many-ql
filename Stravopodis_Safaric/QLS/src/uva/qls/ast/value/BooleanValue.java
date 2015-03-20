@@ -12,12 +12,4 @@ public class BooleanValue extends GenericValue<Boolean> {
 	public Boolean getValue() {
 		return this.value;
 	}
-
-	@Override
-	public int intValue() {
-		return 0;
-	}
-	
-	
-
 }

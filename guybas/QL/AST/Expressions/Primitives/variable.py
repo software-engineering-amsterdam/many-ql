@@ -5,12 +5,23 @@ class Variable(p.Primitive):
     def __init__(self, name):
         self.__name = name
 
+    # return the type name (string) of the variable
+    # we need to check if the variable exists because the type checking continuous even if other errors have been found
     def return_type_string(self, type_dict):
+        if self.__name not in type_dict:
+            return None
         return type_dict[self.__name]
 
-    def pretty_print(self):
+    def string_presentation(self):
         return self.__name
 
-    # The dependency of the calling object is this variable
-    def get_dependency_collection(self):
+    # The variables are the variable itself
+    def get_variables(self):
         return [self.__name]
+
+    # evaluate the primitive, in this case the value in the answer_map given (if existent)
+    def eval_expression(self, answer_map):
+        if answer_map.exists(self.__name):
+            return answer_map.get_answer_by_id(self.__name)
+        else:
+            return None

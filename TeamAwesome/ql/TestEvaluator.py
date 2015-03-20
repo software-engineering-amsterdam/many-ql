@@ -1,12 +1,12 @@
 import sys, argparse, glob
 sys.path.append('../lib')
 
-from ql.ast.AST import AST
+from ql.parser.ANTLR import Parser
 from ql.evaluator.evaluator import createEvaluator
 
 def runTest(verbose, testFileName):
-    ast = AST(testFileName)
-    evaluator = createEvaluator(ast)
+    parser = Parser(testFileName)
+    evaluator = createEvaluator(parser.questionnaire)
     questions = evaluator.questions()
     numQuestions = len(questions)
 

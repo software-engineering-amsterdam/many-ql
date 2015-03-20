@@ -1,6 +1,5 @@
 package qls.ast.statement;
 
-import qls.ast.RenderableParent;
 import qls.ast.Styleable;
 import qls.semantics.Style;
 
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * Created by bore on 02/03/15.
  */
-public class Section extends Statement implements Styleable, RenderableParent
+public class Section extends Statement implements Styleable
 {
     private final String name;
     private final List<Statement> body;
@@ -57,11 +56,5 @@ public class Section extends Statement implements Styleable, RenderableParent
     public boolean isRenderable()
     {
         return true;
-    }
-
-    @Override
-    public List<Statement> getRenderableChildren()
-    {
-        return null;
     }
 }

@@ -20,7 +20,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
         {
             if (LabelExists(question))
             {
-                Report.AddWarning(question.Position, "Question '{0}' has a duplicate label.", question.Position);
+                Report.AddWarning(question.Position, "Question '{0}' has a duplicate label.", question.Id.Name);
             }
             _questions.Add(question);
             return null;

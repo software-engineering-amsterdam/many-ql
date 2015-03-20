@@ -1,6 +1,6 @@
 package nl.uva.se.ql.interpretation;
 
-import nl.uva.se.ql.interpretation.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.ErrorList;
 
 public class Result<T> {
 

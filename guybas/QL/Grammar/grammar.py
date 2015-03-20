@@ -4,7 +4,6 @@ import pyparsing as pp
 import QL.Grammar.Factory.forms as form_factory
 import QL.Grammar.constants as constants
 import QL.Grammar.Factory.expressions as expression_factory
-
 #
 # basic types
 #
@@ -32,7 +31,7 @@ comment = pp.Literal("//") + pp.restOfLine | pp.cStyleComment
 statement_id_var = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # bool :: True | False
-bool = pp.Literal("True") | pp.Literal("False")
+boolean = pp.Literal("True") | pp.Literal("False")
 
 # text in expressions may exist of letters and numbers
 text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"")
@@ -40,7 +39,7 @@ text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"
 number = pp.Word(pp.nums)
 
 # values allowed as answers: bool, number, id or text
-value = (bool.setParseAction(expression_factory.make_bool) |
+value = (boolean.setParseAction(expression_factory.make_bool) |
          number.setParseAction(expression_factory.make_number) |
          statement_id_var.setParseAction(expression_factory.make_variable) |
          text.setParseAction(expression_factory.make_text))
@@ -58,12 +57,13 @@ extra_op = pp.oneOf('and or')
 
 # expr uses the above operators in the following order and associations
 # 1 means it binds to one operand, 2 means it binds to two operands
+# pyparsing doesn't support non-associative so left is chosen
 expr = pp.infixNotation(value,
          [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
           (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
           (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
-          (comp_op, 2, pp.opAssoc.RIGHT, expression_factory.make_compare),
-          (extra_op, 2, pp.opAssoc.LEFT)]
+          (comp_op, 2, pp.opAssoc.LEFT, expression_factory.make_compare2),
+          (extra_op, 2, pp.opAssoc.LEFT, expression_factory.make_extra)]
     )
 
 
@@ -84,8 +84,8 @@ question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR 
             ).setParseAction(form_factory.make_question)
 questions = pp.OneOrMore(question)
 
-
 statement = pp.Forward()
+
 # pIf :: if ( expr ) { statement+ }
 pIf = (pp.Suppress("if" + pp.Literal("(")) + expr + pp.Suppress(")") + pp.Suppress("{") +
        pp.OneOrMore(statement) + pp.Suppress("}")

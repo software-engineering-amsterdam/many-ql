@@ -1,8 +1,9 @@
 package org.uva.student.calinwouter.qlqls.application.gui.widgets.computedvalue;
 
-import org.uva.student.calinwouter.qlqls.application.gui.VariableTableWrapper;
+import org.uva.student.calinwouter.qlqls.application.gui.StateWrapper;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
+import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,26 +12,48 @@ import java.awt.*;
  * This widget is used for displaying the value of a computed value field.
  */
 public class LabelWidget implements IWidget {
-    private JLabel valueLabel;
+    private final String questionIdentifier;
+    private final StateWrapper stateWrapper;
+    private final JLabel valueLabel;
 
+    private String createNotSetText() {
+        return "-";
+    }
 
-    public LabelWidget(final String questionIdentifier , final VariableTableWrapper variableTableWrapper) {
-        valueLabel = new JLabel();
+    private String createText(VariableTable variableTable, String questionIdentifier) {
+        if (variableTable.isSet(questionIdentifier)) {
+            return variableTable.getVariable(questionIdentifier).toString();
+        }
+        return createNotSetText();
+    }
 
-        variableTableWrapper.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+    private ChangedStateEventListener createChangedStateEventListener() {
+        return new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                if(variableTableWrapper.getVariableTable().isSet(questionIdentifier)) {
-                    valueLabel.setText(variableTableWrapper.getVariableTable().getVariable(questionIdentifier).getValue().toString());
-                }else
-                    valueLabel.setText("-");
+                VariableTable variableTable = stateWrapper.getVariableTable();
+                valueLabel.setText(createText(variableTable, questionIdentifier));
                 valueLabel.revalidate();
             }
-        });
+        };
+    }
+
+    public LabelWidget(String questionIdentifier, StateWrapper stateWrapper) {
+        this.questionIdentifier = questionIdentifier;
+        this.stateWrapper = stateWrapper;
+        this.valueLabel = new JLabel();
+        final ChangedStateEventListener textboxChangedStateEventListener = createChangedStateEventListener();
+        stateWrapper.subscribeChangedStateEventListener(textboxChangedStateEventListener);
     }
 
     @Override
     public Component getWidgetComponent() {
         return valueLabel;
     }
+
+    @Override
+    public void resetValue() {
+        valueLabel.setText(createNotSetText());
+    }
+
 }

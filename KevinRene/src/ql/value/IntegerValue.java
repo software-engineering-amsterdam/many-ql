@@ -2,11 +2,16 @@ package ql.value;
 
 import ql.Value;
 
-public class IntegerValue extends Value {
+public class IntegerValue implements Value {
 	private final int value;
 	
 	public IntegerValue(int value) {
 		this.value = value;
+	}
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
 	}
 	
 	@Override
@@ -27,11 +32,6 @@ public class IntegerValue extends Value {
 	@Override
 	public Value addFloat(FloatValue argument) {
 		return new FloatValue(argument.getValue() + getValue());
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override

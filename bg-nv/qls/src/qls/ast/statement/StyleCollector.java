@@ -27,7 +27,6 @@ public class StyleCollector extends DefaultStatementVisitor<Style> implements St
     private Style extractStyle(Iterable<qls.ast.statement.Statement> stats)
     {
         Style result = new Style();
-
         for (Statement stat : stats)
         {
             if (stat.isStyleDefinition())

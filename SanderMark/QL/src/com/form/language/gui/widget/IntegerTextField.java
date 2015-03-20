@@ -24,16 +24,14 @@ public class IntegerTextField extends Widget {
 		this.textfield.getDocument().addDocumentListener(textfieldListener);
 	}
 	
-	// TODO: quick fix can be done better
-		public JTextField getTextField()
-		{
-			return this.textfield;
-		}
+	public JTextField getTextField()
+	{
+		return this.textfield;
+	}
 
-	// TODO ADD HANDELER
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			setContextInt( new IntValue(Integer.parseInt(IntegerTextField.this.textfield.getText())));
+			setContextValue( new IntValue(Integer.parseInt(IntegerTextField.this.textfield.getText())));
 			checkDependencyVisibility();
 		}
 

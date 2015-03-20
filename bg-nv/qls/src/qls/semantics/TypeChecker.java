@@ -3,8 +3,7 @@ package qls.semantics;
 import ql.ast.form.Form;
 import ql.ast.type.*;
 import ql.semantics.QuestionCollector;
-import ql.semantics.QuestionResult;
-import ql.semantics.QuestionSet;
+import ql.semantics.Questions;
 import ql.semantics.errors.Messages;
 import qls.ast.Page;
 import qls.ast.rule.*;
@@ -20,26 +19,24 @@ import java.util.*;
 /**
  * Created by bore on 03/03/15.
  */
-public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor<Boolean>
+public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Void>
 {
-    private final QuestionSet questions;
+    private final Questions questions;
     private final Set<String> refQuestions;
     private final Messages messages;
 
     public static Messages check(Stylesheet s, Form f)
     {
-        QuestionSet questions = QuestionCollector.collect(f);
+        Questions questions = QuestionCollector.collect(f);
 
         TypeChecker checker = new TypeChecker(questions);
-        if (checker.visit(s))
-        {
-            checker.allQuestionsReferencedCheck();
-        }
+        s.accept(checker);
+        checker.allQuestionsReferencedCheck();
 
         return checker.messages;
     }
 
-    private TypeChecker(QuestionSet questions)
+    private TypeChecker(Questions questions)
     {
         this.questions = questions;
         this.refQuestions = new HashSet<>();
@@ -47,120 +44,120 @@ public class TypeChecker implements StylesheetVisitor<Boolean>, StatementVisitor
     }
 
     @Override
-    public Boolean visit(Stylesheet s)
+    public Void visit(Stylesheet s)
     {
         for (Page p : s.getBody())
         {
-            if (!(p.accept(this)))
-            {
-                return false;
-            }
+            p.accept(this);
         }
 
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(Page p)
+    public Void visit(Page p)
     {
         for (Statement s : p.getBody())
         {
-            if (!(s.accept(this)))
-            {
-                return false;
-            }
+            s.accept(this);
         }
 
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(Section s)
+    public Void visit(Section s)
     {
         for (Statement stat : s.getBody())
         {
-            if (!(stat.accept(this)))
-            {
-                return false;
-            }
+            stat.accept(this);
         }
 
-        return true;
+        return null;
     }
 
     @Override
-    public Boolean visit(Question q)
+    public Void visit(Question q)
     {
-        return this.registerQuestion(q);
+        this.addQuestionReference(q);
+        return null;
     }
 
     @Override
-    public Boolean visit(QuestionWithRules q)
+    public Void visit(QuestionWithRules q)
     {
-        if (this.registerQuestion(q))
-        {
-            Rules rs = q.getBody();
-            Type qType = this.questions.getType(q.getId());
+        this.addQuestionReference(q);
 
-            return this.visitRules(rs, qType, q.getLineNumber());
-        }
+        Rules rs = q.getBody();
+        Type qType = this.questions.getType(q.getId());
+        this.checkForWidgetTypeMismatch(rs, qType, q.getLineNumber());
 
-        return false;
+        return null;
     }
 
-    private Boolean registerQuestion(Question q)
+    @Override
+    public Void visit(DefaultStat d)
+    {
+        Rules rs = d.getBody();
+        Type type = d.getType();
+        this.checkForWidgetTypeMismatch(rs, type, d.getLineNumber());
+
+        return null;
+    }
+
+    private Void addQuestionReference(Question q)
     {
         String id = q.getId();
-        if (!(this.questions.contains(id)))
+        if (this.isQuestionNotDefinedInForm(q))
         {
             this.messages.add(StyleError.undefinedQuestion(id, q.getLineNumber()));
-            return false;
         }
 
-        if (this.refQuestions.contains(id))
+        if (this.isQuestionAlreadyReferenced(q))
         {
             this.messages.add(StyleError.questionAlreadyReferenced(id, q.getLineNumber()));
-            return false;
         }
 
         this.refQuestions.add(id);
 
-        return true;
+        return null;
     }
 
-    @Override
-    public Boolean visit(DefaultStat d)
-    {
-        Rules rs = d.getBody();
-        return this.visitRules(rs, d.getType(), d.getLineNumber());
-    }
-
-    private Boolean visitRules(Rules rs, Type declType, int lineNumber)
+    private Void checkForWidgetTypeMismatch(Rules rs, Type declType, Integer lineNumber)
     {
         for (Rule r : rs)
         {
             if (r.isCompatibleWithType(declType))
             {
                 this.messages.add(StyleError.widgetTypeMismatch(declType.getTitle(), lineNumber));
-                return false;
             }
         }
-
-        return true;
+        return null;
     }
 
-    private Boolean allQuestionsReferencedCheck()
+    private boolean isQuestionNotDefinedInForm(Question q)
     {
-        for (ql.ast.statement.Question q : this.questions)
+        return !(this.questions.contains(q.getId()));
+    }
+
+    private boolean isQuestionAlreadyReferenced(Question q)
+    {
+        return this.refQuestions.contains(q.getId());
+    }
+
+    private void allQuestionsReferencedCheck()
+    {
+        for (String id : this.questions)
         {
-            String id = q.getId();
-            if (!(this.refQuestions.contains(id)))
+            if (this.isQuestionNotReferenced(id))
             {
                 this.messages.add(StyleError.questionNotReferenced(id));
-                return false;
             }
         }
+    }
 
-        return true;
+    private boolean isQuestionNotReferenced(String id)
+    {
+        return !(this.refQuestions.contains(id));
     }
 }

@@ -3,31 +3,29 @@ package uva.ql.interpreter.gui.elements;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
+import java.util.Observer;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.tablevisitor.ValueTable;
 import uva.ql.ast.statements.Question;
-import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
-import uva.ql.interpreter.typecheck.table.ExpressionTable;
-import uva.ql.interpreter.typecheck.table.SymbolTable;
-import uva.ql.supporting.ExpressionSupporting;
+import uva.ql.ast.type.TypeString;
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.value.NumberValue;
+import uva.ql.ast.value.StringValue;
 
 public class UITextField extends UIQuestion{
 	
 	private JTextField textField;
-	private Expression expression;
 	
-	public UITextField(Question _question, ExpressionTable _expressionTable, SymbolTable _symbolTable, Subject _subject, Expression _expression) {
-		super(_question, _expressionTable, _symbolTable, _subject, _expression);
-		
-		this.expression = _expression;
-		
+	public UITextField(Question question, ValueTable valueTable, Observer observer) {
+		super(question, valueTable, observer);
+		this.setTextField();
+	}
+	
+	private void setTextField(){
 		this.textField = new JTextField();
-		this.textField.setText(this.getValue());
+		this.textField.setText(this.getFieldText());
 
 		this.textField.setColumns(10);
 		this.textField.setSelectionStart(0);
@@ -38,33 +36,22 @@ public class UITextField extends UIQuestion{
 		this.setFocusListener();
 	}
 	
-	@Override
-	public String getIdentifier(){
-		return this.question.getIdentifier().evaluate().getValue();
-	}
-	
-	@Override
-	public String getWidgetValue() {
+	public String getTextFieldText() {
 		return this.textField.getText();
 	}
-	
-	@Override
-	public Expression getExpression() {
-		return super.getExpression();
-	}
-	
+
 	private void setDocumentListener(){
 		this.textField.getDocument().addDocumentListener(new DocumentListener(){
 			public void insertUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
+				setValue(getTextFieldText());
 			}
 
 			public void removeUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
+				setValue(getTextFieldText());
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
+				setValue(getTextFieldText());
 			}
 		});
 	}
@@ -75,7 +62,7 @@ public class UITextField extends UIQuestion{
 			@Override
 			public void focusGained(FocusEvent e) {
 				textField.setSelectionEnd(0);
-				textField.setSelectionStart(getValue().length());
+				textField.setSelectionStart(getValueLenght());
 			}
 
 			@Override
@@ -89,47 +76,41 @@ public class UITextField extends UIQuestion{
 		return this.textField;
 	}
 	
-	private String getValue(){
-		if ((int)this.getExpression().evaluate().getValue() != 0){
-			return String.valueOf(this.getExpression().evaluate().getValue());
-		}
-		return "";
-	}
-	
 	private void setValue(String _value){
 		
-		String questionType = super.question.getType().getTypeName();
+		GenericValue<?> value = this.getQuestionValue();
+		GenericValue<?> updateValue;
 		
-		if (questionType.equals("string") && this.isNumeric(_value) && !_value.equals(""))
-			throw new IllegalTypeException("IllegalTypeException: you are trying to enter different type of value");
-		else {
-			if (!this.isNumeric(_value) && !_value.equals(""))
-				throw new IllegalTypeException("IllegalTypeException: you are trying to enter different type of value");
+		if (_value.length() != 0){
+			if (value.getValueType().equals(new TypeString())){
+				updateValue = new StringValue(_value);
+			}
+			else {
+				updateValue = new NumberValue(Integer.valueOf(_value));
+			}
+			
+			this.updateValue(updateValue);
 		}
-				
-		ExpressionSupporting exprSupporting = new ExpressionSupporting(this.expressionTable, this.symbolTable, null, null, null);
+	}
+	
+	private GenericValue<?> getValue(){
+		return super.getQuestionValue();
+	}
+	
+	private String getFieldText(){
+		String value = this.getValue().getValue().toString();
 		
-		this.expressionTable.updateValue(this.question.getIdentifier(), exprSupporting.expressionFromValue(this.question.getType().getPrimitiveType(), _value));
-		this.subject.lastResponse = this.question.getIdentifier().evaluate().getValue();
-		
-		super.update();
+		if (value.equals("0")){
+			return "";
+		}
+		return value;
+	}
+	
+	private int getValueLenght(){
+		return this.getValue().toString().length();
 	}
 	
 	private boolean shouldBeEnabled(){
-		if (this.expression != null)
-			if (!this.expression.evaluateType().matches(".*Literal"))
-				return false;
-		
-		return true;
-	}
-	
-	private boolean isNumeric(String _value){
-		try{
-			Integer.parseInt(_value);
-		}
-		catch(NumberFormatException e){
-			return false;
-		}
 		return true;
 	}
 }

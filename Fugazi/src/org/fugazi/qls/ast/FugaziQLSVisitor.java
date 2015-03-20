@@ -124,7 +124,8 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
         Type questionType = (Type) ctx.type().accept(this);
         AbstractQLSWidget widget = (AbstractQLSWidget) ctx.widget().accept(this);
 
-        DefaultStyleDeclaration defaultStyleDeclaration = new DefaultStyleDeclaration(new UndefinedStyle(), widget, questionType);
+        DefaultStyleDeclaration defaultStyleDeclaration =
+                new DefaultStyleDeclaration(new UndefinedStyle(), widget.getType(), questionType);
         defaultStyleDeclaration.setLineNumber(this.getLineNumber(ctx));
         return defaultStyleDeclaration;
     }
@@ -143,7 +144,8 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
         Style style = new Style(styleProperties);
         style.setLineNumber(this.getLineNumber(ctx));
 
-        DefaultStyleDeclaration defaultStyleDeclaration = new DefaultStyleDeclaration(style, widget, questionType);
+        DefaultStyleDeclaration defaultStyleDeclaration =
+                new DefaultStyleDeclaration(style, widget.getType(), questionType);
         defaultStyleDeclaration.setLineNumber(this.getLineNumber(ctx));
         return defaultStyleDeclaration;
 	}

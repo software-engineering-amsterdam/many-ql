@@ -17,8 +17,8 @@ public class Section extends Segment<Node>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(SegmentVisitor<V> visitor)
     {
-        return null;
+        return visitor.visit(this);
     }
 }

@@ -1,17 +1,28 @@
 package nl.uva.se.ql.gui.widgets.boxes;
 
-import javafx.scene.Node;
+import nl.uva.se.ql.ast.statement.*;
+import nl.uva.se.ql.gui.builders.CalculatedQuestionBuilder;
+import nl.uva.se.ql.gui.builders.QuestionBuilder;
+import nl.uva.se.ql.gui.mediators.IMediator;
+import nl.uva.se.ql.gui.widgets.questions.calculated.BaseCalculatedQuestion;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import nl.uva.se.ql.ast.statement.Question;
-import nl.uva.se.ql.gui.builders.QuestionBuilder;
+import nl.uva.se.ql.gui.widgets.questions.*;
 
 public class QuestionBox extends VBox {
 	
 	private final Question question;
+	private final IMediator mediator;
 
-	public QuestionBox(Question question) {
+	public QuestionBox(Question question, IMediator mediator) {
 		this.question = question;
+		this.mediator = mediator;
+		addQuestion(question);
+	}
+	
+	public QuestionBox(CalculatedQuestion question, IMediator mediator) {
+		this.question = question;
+		this.mediator = mediator;
 		addQuestion(question);
 	}
 
@@ -21,8 +32,14 @@ public class QuestionBox extends VBox {
 		this.getChildren().add(title);
 		
 		//Add the widget to the QuestionBox
-		Node widget = question.getType().accept(new QuestionBuilder(question));
-		this.getChildren().add(widget);
+		BaseQuestion baseQuestion = question.getType().accept(new QuestionBuilder(question, mediator));
+		this.getChildren().add(baseQuestion.getWidget());
+	}
+	
+	public void addQuestion(CalculatedQuestion question) {			
+		//Add the widget to the QuestionBox		
+		BaseCalculatedQuestion baseQuestion = question.getType().accept(new CalculatedQuestionBuilder(question, mediator));
+		this.getChildren().add(baseQuestion.getWidget());
 	}
 	
 	public Question getQuestion(){

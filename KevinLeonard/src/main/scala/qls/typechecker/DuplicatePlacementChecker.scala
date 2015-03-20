@@ -6,7 +6,7 @@ import qls.ast.{Question, Section}
 class DuplicatePlacementChecker {
 
   def check(s: Section): List[Error] = {
-    val names = s.questions.map({
+    val names = s.elements.map({
       case q: Question => q.variable.name
     })
     names.groupBy(identity).collect({

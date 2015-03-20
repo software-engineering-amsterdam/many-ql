@@ -44,7 +44,7 @@ namespace UvA.SoftCon.Questionnaire.Common.Validation
             Messages = new List<Message>();
         }
 
-        public void AddWarning(string message, TextPosition position)
+        public void AddWarning(TextPosition position, string message)
         {
             Messages.Add(new Message(Severity.Warning, position, message));
         }

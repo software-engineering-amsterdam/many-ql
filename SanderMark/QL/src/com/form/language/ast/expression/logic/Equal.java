@@ -22,7 +22,6 @@ public class Equal extends BinaryExpression {
     }
 
     @Override
-    // TODO: improve this code
     public Type getType(Context context) {
 	Type leftType = left.getType(context);
 	Type rightType = right.getType(context);

@@ -6,6 +6,20 @@ import types.TypeEnvironment
 
 class TypeChecker {
 
+  def check(s: StyleSheet, env: TypeEnvironment): List[Error] = {
+    s.elements.flatMap {
+      case _: DefaultWidget => List()
+      case Page(_, sections) => sections.flatMap(check(_, env))
+    }
+  }
+
+  def check(e: Section, env: TypeEnvironment): List[Error] = {
+    e.elements.flatMap {
+      case s: Section => check(s, env)
+      case q: Question => check(q, env)
+    }
+  }
+
   def check(q: Question, env: TypeEnvironment): Option[Error] = {
     val name = q.variable.name
     val widget = q.widget

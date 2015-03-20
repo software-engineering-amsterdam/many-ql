@@ -23,8 +23,7 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
 
     public static void run(Form ast, Modeler modeler, Stage stage)
     {
-        Flat flat = Flattener.flatten(ast);
-        Canvas canvas = modeler.model(flat);
+        Canvas canvas = modeler.model();
 
         SimpleGui gui = new SimpleGui(ast);
         DataStore dataStore = new DataStore(ast);
@@ -70,22 +69,12 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(Conditional segment)
+    public Void visit(Row segment)
     {
         this.refresher.addItem(segment);
-        for (Segment subsegment : segment.getSubsegments())
-        {
-            subsegment.accept(this);
-        }
+        segment.getLabel().accept(this);
+        segment.getInput().accept(this);
 
-        return null;
-    }
-
-    @Override
-    public Void visit(Row row)
-    {
-        row.getLabel().accept(this);
-        row.getInput().accept(this);
         return null;
     }
 
@@ -97,12 +86,6 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
 
     @Override
     public Void visit(BoolInput input)
-    {
-        return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(DateInput input)
     {
         return handleInputVisit(input);
     }
@@ -150,7 +133,7 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(Radios control)
+    public Void visit(Radio control)
     {
         return null;
     }

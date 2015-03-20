@@ -1,16 +1,15 @@
 package ql.gui.widgets
 
-import ql.ast.{Expression, NumberValue, Question}
+import ql.ast.{Expression, NumberValue, Question, Value}
 import types._
 
-import scalafx.collections.ObservableMap.{Add, Replace}
 import scalafx.scene.control.TextField
 
 class NumberQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
   extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
 
   // Initialize TextField
-  val value = eval
+  val value = eval()
   val textField = new TextField {
     text = value.toString
     text.onChange((_, _, newValue) => {
@@ -25,33 +24,33 @@ class NumberQuestionWidget(q: Question, visibilityExpressions: List[Expression],
   updateEnvironment(NumberValue(value))
   children.add(textField)
 
-  // Observer for environment
-  env.onChange((map, change) => change match {
-    case Add(addedName, _) => updateProperties(textField, addedName)
-    case Replace(replacedName, _, _) => updateProperties(textField, replacedName)
-  })
-
   // Methods
+  override def updateValue(updatedVariable: VariableName): Unit = {
+    if (valueDependencies contains updatedVariable) {
+      textField.text = eval().toString
+    }
+
+    // Needed in order to keep multiple questions with the same key in sync
+    if (isQuestionWithSameKey(updatedVariable)) {
+      val value = env.getOrElse(q.variable.name, NumberValue())
+      textField.text = extract(value).toString
+    }
+  }
+
   def isValidInput(input: String): Boolean = input.matches("^-?\\d+$")
 
-  def updateProperties(field: TextField, name: VariableName): Unit = {
-    updateVisibility(name)
-    if (isVisible) {
-      updateValue(field, name, eval)
+  def eval(): Int = {
+    val value = q.expression match {
+      case Some(e) => evaluator.eval(e, env)
+      case None => NumberValue()
     }
+    extract(value)
   }
 
-  def updateValue(field: TextField, name: VariableName, value: Int): Unit = {
-    if (valueDependencies contains name) {
-      field.text = value.toString
-    }
-  }
-
-  def eval: Int = q.expression match {
-    case Some(e) => evaluator.eval(e, env) match {
+  def extract(value: Value): Int = {
+    value match {
       case NumberValue(v) => v
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Number.")
     }
-    case None => 0
   }
 }

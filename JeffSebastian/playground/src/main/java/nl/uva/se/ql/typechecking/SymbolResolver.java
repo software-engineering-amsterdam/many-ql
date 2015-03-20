@@ -1,17 +1,17 @@
 package nl.uva.se.ql.typechecking;
 
+import nl.uva.se.ql.ast.expression.variable.Reference;
 import nl.uva.se.ql.ast.form.Form;
-import nl.uva.se.ql.ast.form.FormVisitor;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
-import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
-import nl.uva.se.ql.ast.statement.StatementVisitor;
+import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.DuplicateLabels;
-import nl.uva.se.ql.interpretation.error.ErrorList;
-import nl.uva.se.ql.interpretation.error.IncompatibleTypeDeclaration;
+import nl.uva.se.ql.typechecking.error.DuplicateLabels;
+import nl.uva.se.ql.typechecking.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.IncompatibleTypeDeclaration;
+import nl.uva.se.ql.typechecking.error.UndefinedReference;
 
-public class SymbolResolver implements FormVisitor, StatementVisitor {
+public class SymbolResolver extends AbstractResolver {
 
 	private SymbolTable symbols;
 	private ErrorList errors;
@@ -28,26 +28,30 @@ public class SymbolResolver implements FormVisitor, StatementVisitor {
 		return new Result<SymbolTable>(visitor.errors, visitor.symbols);
 	}
 
-	public void visit(Form form) {
-		form.visitChildren(this);
-	}
-
+	@Override
 	public void visit(Question question) {
 		addSymbol(question);		
 	}
 
+	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		addSymbol(calculatedQuestion);		
+		addSymbol(calculatedQuestion);
+		calculatedQuestion.getExpression().accept(this);
 	}
 
-	public void visit(Condition condition) {
-		condition.visitChildren(this);
+	@Override
+	public Void visit(Reference reference) {
+		if (!symbols.containsSymbol(reference.getName())) {
+			errors.addError(new UndefinedReference(reference.getLineNumber(), 
+					reference.getOffset(), reference.getName()));
+		}
+		return null;
 	}
 	
 	private void addSymbol(Question question) {
 		if (symbols.containsSymbol(question.getId())) {
-			if (symbols.getTypeForSymbol(question.getId()).equals(
-					question.getType())) {
+			Type existingType = symbols.getTypeForSymbol(question.getId());
+			if (existingType.equals(question.getType())) {
 				errors.addWarning(new DuplicateLabels(question.getLineNumber(),
 						question.getOffset(), question.getId()));
 			} else {

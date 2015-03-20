@@ -7,16 +7,16 @@ import com.form.language.error.QLToken;
 import com.form.language.memory.Context;
 
 public class IntLiteral extends Literal {
-    private final int _value;
+    private final int value;
 
     public IntLiteral(int _value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this._value = _value;
+	this.value = _value;
     }
 
     @Override
     public IntValue evaluate(Context context) {
-	return new IntValue(_value);
+	return new IntValue(value);
     }
 
     @Override

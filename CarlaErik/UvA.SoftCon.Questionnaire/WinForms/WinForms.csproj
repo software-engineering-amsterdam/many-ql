@@ -50,47 +50,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DropDownControl.cs">
+    <Compile Include="Controls\PageControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DropDownControl.Designer.cs">
+    <Compile Include="Controls\PageControl.Designer.cs">
+      <DependentUpon>PageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SectionControl.Designer.cs">
+      <DependentUpon>SectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Widgets\DropDownControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Widgets\DropDownControl.Designer.cs">
       <DependentUpon>DropDownControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RadioControl.cs">
+    <Compile Include="Controls\Widgets\RadioControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\RadioControl.Designer.cs">
+    <Compile Include="Controls\Widgets\RadioControl.Designer.cs">
       <DependentUpon>RadioControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CalendarControl.cs">
+    <Compile Include="Controls\Widgets\CalendarControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CalendarControl.Designer.cs">
+    <Compile Include="Controls\Widgets\CalendarControl.Designer.cs">
       <DependentUpon>CalendarControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CheckBoxControl.cs">
+    <Compile Include="Controls\Widgets\CheckBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CheckBoxControl.Designer.cs">
+    <Compile Include="Controls\Widgets\CheckBoxControl.Designer.cs">
       <DependentUpon>CheckBoxControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpinBoxControl.cs">
+    <Compile Include="Controls\Widgets\SpinBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SpinBoxControl.Designer.cs">
+    <Compile Include="Controls\Widgets\SpinBoxControl.Designer.cs">
       <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\OutputWindow.cs" />
-    <Compile Include="Controls\QuestionControl.cs">
+    <Compile Include="Controls\Widgets\QuestionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\QuestionControl.Designer.cs">
+    <Compile Include="Controls\Widgets\QuestionControl.Designer.cs">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TextBoxControl.cs">
+    <Compile Include="Controls\Widgets\TextBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TextBoxControl.Designer.cs">
+    <Compile Include="Controls\Widgets\TextBoxControl.Designer.cs">
       <DependentUpon>TextBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -101,25 +113,33 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\CheckBoxControl.resx">
+    <Compile Include="UIBuilding\DefaultUIBuilder.cs" />
+    <Compile Include="UIBuilding\StyleSheetUIBuilder.cs" />
+    <EmbeddedResource Include="Controls\PageControl.resx">
+      <DependentUpon>PageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SectionControl.resx">
+      <DependentUpon>SectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Widgets\CheckBoxControl.resx">
       <DependentUpon>CheckBoxControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DropDownControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\DropDownControl.resx">
       <DependentUpon>DropDownControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RadioControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\RadioControl.resx">
       <DependentUpon>RadioControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CalendarControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\CalendarControl.resx">
       <DependentUpon>CalendarControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SpinBoxControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\SpinBoxControl.resx">
       <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\QuestionControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\QuestionControl.resx">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TextBoxControl.resx">
+    <EmbeddedResource Include="Controls\Widgets\TextBoxControl.resx">
       <DependentUpon>TextBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -149,6 +169,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QLS\QLS.csproj">
+      <Project>{affaeebf-af97-4c93-b471-f892de2e1325}</Project>
+      <Name>QLS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QL\QL.csproj">
       <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
       <Name>QL</Name>
@@ -162,6 +186,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

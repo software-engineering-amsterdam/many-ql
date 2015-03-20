@@ -21,10 +21,10 @@ public class Block extends Statement {
 	
 	public Block(Statement statement, Block statements) {
 		this.statements.add(statement);
-		this.statements.addAll(statements.statements());
+		this.statements.addAll(statements.getStatements());
 	}
 	
-	public List<Statement> statements() {
+	public List<Statement> getStatements() {
 		return this.statements;
 	}
 

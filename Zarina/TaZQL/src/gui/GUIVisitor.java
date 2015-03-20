@@ -50,7 +50,8 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		SimpleQuestionUI sq = new SimpleQuestionUI(
 				simpleQuestion.getQuestionId().getID(),
 				new JLabel(simpleQuestion.getQuestionText()), 
-				this.widget(simpleQuestion)
+				this.widget(simpleQuestion),
+				this.valueRepository
 			);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);

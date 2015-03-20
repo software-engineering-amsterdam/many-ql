@@ -9,4 +9,5 @@ public interface IWidget {
      */
     public Component getWidgetComponent();
 
+    public void resetValue();
 }

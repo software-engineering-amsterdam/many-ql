@@ -1,8 +1,6 @@
 package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import ql.gui.control.Control;
@@ -13,12 +11,13 @@ import ql.semantics.values.Value;
 /**
  * Created by Nik on 3-3-15.
  */
-public abstract class RegularInput<T> extends Input
+public abstract class RegularInput<T extends Control> extends Input<T>
 {
     private final Text errorField;
-    public RegularInput(String id, Control control, Boolean visible, Boolean disabled)
+
+    public RegularInput(String id, T control)
     {
-        super(id, control, visible, disabled);
+        super(id, control, true, false);
 
         this.control.addListener(this.constructChangeListener());
 
@@ -26,15 +25,7 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
-
-        this.inputNode = this.createInputNode(this.control);
-    }
-
-    @Override
-    public void setDisabled(Boolean disabled)
-    {
-        super.setDisabled(disabled);
-        this.control.setDisabled(disabled);
+        this.fillInputNode();
     }
 
     @Override
@@ -45,14 +36,17 @@ public abstract class RegularInput<T> extends Input
     }
 
     @Override
-    protected VBox createInputNode(Control control)
+    protected void fillInputNode()
     {
-        VBox box = new VBox();
-        box.getChildren().add(this.control.getControlNode());
-        box.getChildren().add(this.errorField);
-        box.setAlignment(Pos.TOP_RIGHT);
-        box.setVisible(this.getVisible());
-        return box;
+        super.fillInputNode();
+        this.inputNode.getChildren().add(this.errorField);
+    }
+
+    @Override
+    public void switchControl(T control)
+    {
+        super.switchControl(control);
+        this.control.addListener(this.constructChangeListener());
     }
 
     protected void addValidationError(Message validationError)
@@ -69,16 +63,22 @@ public abstract class RegularInput<T> extends Input
         this.errorField.setManaged(false);
     }
 
-    private ChangeListener<T> constructChangeListener() {
-        return (observable, oldValue, newValue) -> update(newValue);
+    private ChangeListener<Object> constructChangeListener() {
+        return (observable, oldValue, newValue) -> update();
     }
 
-    private void update(T userInput)
+    private void update()
     {
-        Value val = this.convertUserInputToValue(userInput);
+        this.resetValidation();
+        Value val = this.convertUserInputToValue();
+        if (val.isUndefined())
+        {
+            this.addValidationError(this.getInvalidInputErrorMsg());
+        }
         this.setChanged();
         this.notifyObservers(new ValueTableEntry(this.getId(), val));
     }
 
-    protected abstract Value convertUserInputToValue(T userInput);
+    protected abstract Value convertUserInputToValue();
+    protected abstract Message getInvalidInputErrorMsg();
 }

@@ -42,9 +42,15 @@ public class IntLiteral extends Literal {
 	public Type getType(TypeChecker typeChecker) {
 		return new IntType(getPosition());
 	}
-	
-	public boolean equals(IntLiteral intLiteral) {
-		return value.equals(intLiteral.getValue());
-	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof IntLiteral){
+			return value.equals(((IntLiteral) obj).getValue());
+			
+		} else {
+			throw new UnsupportedOperationException("IntLiteral is only compariable with another IntLiteral.");
+		}
+	}
+	
 }

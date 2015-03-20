@@ -3,28 +3,25 @@ package ql.semantics;
 import ql.ast.form.Form;
 import ql.ast.form.FormVisitor;
 import ql.ast.statement.*;
-import ql.ast.type.Type;
-import ql.semantics.errors.*;
-import ql.semantics.errors.Error;
 
 /**
  * Created by bore on 13/02/15.
  */
 public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private final QuestionSet questionSet;
+    private final Questions questions;
 
-    public static QuestionSet collect(Form f)
+    public static Questions collect(Form f)
     {
         QuestionCollector visitor = new QuestionCollector();
         f.accept(visitor);
 
-        return visitor.questionSet;
+        return visitor.questions;
     }
 
     private QuestionCollector()
     {
-        this.questionSet = new QuestionSet();
+        this.questions = new Questions();
     }
 
     @Override
@@ -52,14 +49,16 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(Question q)
     {
-        this.questionSet.put(q);
+        this.questions.put(q);
+
         return null;
     }
 
     @Override
     public Void visit(CalculatedQuestion q)
     {
-        this.questionSet.put(q);
+        this.questions.put(q);
+
         return null;
     }
 }

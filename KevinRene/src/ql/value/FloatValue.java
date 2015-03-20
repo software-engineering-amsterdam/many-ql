@@ -2,12 +2,17 @@ package ql.value;
 
 import ql.Value;
 
-public class FloatValue extends Value {
+public class FloatValue implements Value {
 	
-	private final Float value;
+	protected final Float value;
 	
 	public FloatValue(Float value) {
 		this.value = value;
+	}
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
 	}
 	
 	@Override
@@ -28,11 +33,6 @@ public class FloatValue extends Value {
 	@Override
 	public Value addFloat(FloatValue argument) {
 		return new FloatValue(argument.getValue() + getValue());
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
@@ -246,5 +246,5 @@ public class FloatValue extends Value {
 	@Override
 	public String toString() {
 		return getValue().toString();
-	}
+	}	
 }

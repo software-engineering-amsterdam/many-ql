@@ -2,12 +2,11 @@ package com.form.language.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
 
 public class IdReferences {
     private Map<String, List<Expression>> referenceMap;
@@ -29,19 +28,18 @@ public class IdReferences {
     }
 
     public void putAll(IdCollection keyCollection, Expression value) {
-	Iterator<IdLiteral> iterator = keyCollection.iterator();
-	while (iterator.hasNext()) {
-	    IdLiteral key = iterator.next();
-	    List<Expression> tempList;
+	for(Reference l : keyCollection){
+	    
+		List<Expression> tempList;
 
-	    if (this.referenceMap.containsKey(key.getName())) {
-		tempList = this.referenceMap.get(key.getName());
+	    if (this.referenceMap.containsKey(l.getName())) {
+		tempList = this.referenceMap.get(l.getName());
 	    } else {
 		tempList = new ArrayList<Expression>();
 	    }
 
 	    tempList.add(value);
-	    this.referenceMap.put(key.getName(), tempList);
+	    this.referenceMap.put(l.getName(), tempList);
 	}
     }
 }

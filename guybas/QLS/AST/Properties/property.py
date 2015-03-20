@@ -8,7 +8,7 @@ class Property:
     def prop_value(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         raise NotImplementedError("Not implemented by sub class")
 
 

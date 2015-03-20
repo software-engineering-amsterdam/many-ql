@@ -8,13 +8,15 @@ import javafx.stage.Stage;
 import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.evaluation.ValueTable;
 import nl.uva.se.ql.gui.builders.GuiBuilder;
+import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.listeners.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 import nl.uva.se.ql.interpretation.Interpreter;
 import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
 import nl.uva.se.ql.parser.QLLexer;
 import nl.uva.se.ql.parser.QLParser;
 import nl.uva.se.ql.parser.QLVisitorImpl;
+import nl.uva.se.ql.typechecking.error.ErrorList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -44,9 +46,10 @@ public class Main extends Application{
 			Form ast = (Form) visitor.visit(tree);
 			Result<ValueTable> result = Interpreter.interpret(ast);
 			errors = result.getErrorList();
+			IMediator med = new Mediator(result.getResult());
 			
 			if (!result.getErrorList().hasErrors()) {
-				GuiBuilder guiBuilder = new GuiBuilder(result.getResult());
+				GuiBuilder guiBuilder = new GuiBuilder(med);
 				guiBuilder.visit(ast);
 				this.questionPane = guiBuilder.getQuestionPane();			
 			}

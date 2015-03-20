@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AST.Nodes
 {
-    public class Form : ASTNode, IFormObjectContainer
+    public class Form : Node, IFormObjectContainer
     {
         private List<FormObjects.FormObject> body;
 
@@ -17,7 +17,7 @@ namespace AST.Nodes
         
         public IList<FormObjects.FormObject> GetBody() { return body; }
 
-        public T Accept<T>(ASTVisitors.Interfaces.IFormVisitor<T> visitor)
+        public T Accept<T>(VisitorInterfaces.IFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

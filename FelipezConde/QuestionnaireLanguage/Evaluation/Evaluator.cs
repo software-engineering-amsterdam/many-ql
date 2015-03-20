@@ -1,10 +1,10 @@
 ﻿using AST.Nodes;
-using AST.Nodes.Expressions.Binary;
-using AST.Nodes.Expressions.Unary;
+using AST.Nodes.Expressions.Binaries;
+using AST.Nodes.Expressions.Unaries;
 using Evaluation.Values;
 using AST.Nodes.Expressions;
 using Literals = AST.Nodes.Literals;
-using AST.ASTVisitors.Interfaces;
+using AST.VisitorInterfaces;
 
 namespace Evaluation
 {
@@ -17,7 +17,7 @@ namespace Evaluation
         }
 
         #region Operations
-        public Value Evaluate(BaseExpression expression)
+        public Value Evaluate(Expression expression)
         {
             return expression.Accept(this);
         }

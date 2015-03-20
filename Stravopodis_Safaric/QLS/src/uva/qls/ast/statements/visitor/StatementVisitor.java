@@ -12,8 +12,9 @@ import uva.qls.ast.statements.Section;
 import uva.qls.ast.statements.Statement;
 import uva.qls.ast.statements.Subsection;
 import uva.qls.ast.style.visitor.StyleVisitor;
+import uva.qls.ast.type.TypeVisitor;
 
-public interface StatementVisitor<T> extends StyleVisitor<T>, ComponentVisitor<T>, LiteralVisitor<T>{
+public interface StatementVisitor<T> extends StyleVisitor<T>, ComponentVisitor<T>, LiteralVisitor<T>, TypeVisitor<T>{
 
 	public T visitASTNode(ASTNode node);
 	public T visitProg(Prog prog);
@@ -26,5 +27,6 @@ public interface StatementVisitor<T> extends StyleVisitor<T>, ComponentVisitor<T
 	public T visitQuestion(Question question);
 	public T visitSection(Section section);
 	public T visitSubsection(Subsection subsection);
+	
 	
 }

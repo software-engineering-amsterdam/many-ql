@@ -1,6 +1,8 @@
 package test.klq.typechecker;
 
+import com.klq.ast.impl.Type;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.IdentifierNode;
 import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.stmt.ComputedQuestionNode;
 import com.klq.ast.impl.stmt.QuestionNode;
@@ -29,13 +31,13 @@ public class DuplicateQuestionIdTest {
 
     @Test
     public void testDuplicateQuestionId(){
-        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question"));
-        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is another test question"));
+        ast.getChildren().add(new QuestionNode(new IdentifierNode("question1"), Type.STRING, "This is a test question"));
+        ast.getChildren().add(new QuestionNode(new IdentifierNode("question2"), Type.NUMERAL, "This is another test question"));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();
         assertEquals(0, tc.getErrors().size());
 
-        ast.getChildren().add(new QuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID"));
+        ast.getChildren().add(new QuestionNode(new IdentifierNode("question1"), Type.NUMERAL, "This is another test question, but with a duplicate ID"));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(1,tc.getErrors().size());
@@ -44,7 +46,7 @@ public class DuplicateQuestionIdTest {
         List<AExpression> list = new ArrayList<AExpression>();
         list.add(new StringNode("test"));
         AExpression cond = new StringNode("test");
-        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", cond));
+        ast.getChildren().add(new ComputedQuestionNode(new IdentifierNode("question1"), Type.STRING, "This is another test question, but with a duplicate ID", cond));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());
