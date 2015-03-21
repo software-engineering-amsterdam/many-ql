@@ -23,7 +23,7 @@ class IStatement:
         return False
 
     # return all the dependencies in the statement of other statements
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")
 
     # return a dictionary of the ids as keys and types as value in the statement

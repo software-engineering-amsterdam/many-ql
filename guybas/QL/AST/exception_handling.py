@@ -1,3 +1,6 @@
+import sys
+
+
 class ExceptionHandling:
 
     def __init__(self):
@@ -10,5 +13,15 @@ class ExceptionHandling:
     def add_errors(self, errors):
         self.errors.extend(errors)
 
-    def exceptions(self):
-        return self.errors, self.warnings
+    def execute(self):
+        if self.errors:
+            print("errors:")
+            for e in self.errors:
+                print(e)
+            print("")
+        if self.warnings:
+            print("warnings:")
+            for w in self.warnings:
+                print(w)
+        if self.errors:
+            sys.exit()

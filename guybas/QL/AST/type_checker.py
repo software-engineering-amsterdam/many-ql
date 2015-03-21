@@ -23,7 +23,7 @@ def check_labels(labels):
 
 
 def check_dependencies(dependencies):
-    message = ""
+    message = []
     for d in dependencies:
         if d in dependencies[d]:
             message += [str(d) + " is dependent on itself"]

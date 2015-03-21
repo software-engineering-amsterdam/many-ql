@@ -35,7 +35,7 @@ class Assignment(statement.IStatement):
 
     # return all the dependencies in the statement of other statements
     # TODO: debug this
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         if self.id not in dependencies:
             dependencies[self.id] = self.expression.get_variables()
         return dependencies

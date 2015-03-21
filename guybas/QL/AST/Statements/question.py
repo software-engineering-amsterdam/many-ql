@@ -32,7 +32,7 @@ class Question(statement.IStatement):
         return False
 
     # return all the dependencies in the statement (which are none)
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         if self.__id not in dependencies:
             dependencies[self.__id] = []
         return dependencies

@@ -1,8 +1,11 @@
 import unittest
 
+# import folders
 from QL.AST.Statements import *
 from QL.AST.Expressions.Primitives import *
 from QL.AST.Expressions.Operations import *
+
+# import files
 import QL.AST.form as f
 import QL.Grammar.Factory.expressions as ef
 import QL.Grammar.grammar as fg
@@ -31,7 +34,7 @@ class GenerateStatements:
         return form
 
 
-class TestFactories(unittest.TestCase):
+class Tests(unittest.TestCase):
 
     def test_factory_variable(self):
         v = ef.make_variable("hello")
@@ -54,11 +57,8 @@ class TestFactories(unittest.TestCase):
         fm = GenerateStatements.generate_statements()
         self.assertIsInstance(fm, f.Form)
 
-
-class TestAST(unittest.TestCase):
-
     def test_ast_question(self):
-        result = (fg.Grammar.question.parseString("Question why (text) : What do you like about hummus?")).asList()
+        result = (fg.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], question.Question)
         self.assertEqual(result[0].get_id(), "why")
         self.assertEqual(result[0].get_type_string(), c.TEXT)
@@ -78,7 +78,7 @@ class TestAST(unittest.TestCase):
         self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the _dependencies
-        self.assertEqual(result[0].get_variables({}), {"trans" : ["con"], "two" : ["con"]})
+        self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_ast_if_fail(self):
@@ -87,7 +87,7 @@ class TestAST(unittest.TestCase):
         self.assertIsInstance(result[0], if_statement.IfBlock)
 
     def test_ast_else(self):
-        result = (fg.Grammar.pIfElse.parseString(
+        result = (fg.pIfElse.parseString(
             "if (con == True) "
             "{  Question trans (bool) : Will transitive closure work? } "
             "else "

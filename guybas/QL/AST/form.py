@@ -46,7 +46,7 @@ class Form:
     def get_dependencies(self):
         dependencies = {}
         for s in self._statements:
-            new_dependencies = s.get_dependency_collection({})
+            new_dependencies = s.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         # Get transitive _dependencies
         transitive_dependencies = {}
@@ -87,12 +87,11 @@ class Form:
     # Type checker stuff
     #
 
-    def exceptions(self):
+    def handle_exceptions(self):
         self.exception_handler.add_errors(type_checker.check_ids(self.get_ids()))
         self.exception_handler.add_warnings(type_checker.check_labels(self.get_labels()))
         self.exception_handler.add_errors(type_checker.check_dependencies(self.get_dependencies()))
         self.exception_handler.add_errors(self.check_expressions())
-        exceptions = self.exception_handler.exceptions()
+        self.exception_handler.execute()
 
-        return exceptions
 
