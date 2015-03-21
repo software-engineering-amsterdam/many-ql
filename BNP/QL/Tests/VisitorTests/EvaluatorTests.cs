@@ -190,11 +190,12 @@ namespace Tests.VisitorTests
         {
             Initialize(@"form ExampleBlock {
                 question Q1 (number) ""Give me a number"";
-
                 statement S1 (number, (1+(2-(3-(4*Q1))))) ""bla"";
                 
                 }
             ");
+            Assert.IsTrue(Builder.RunEvaluators(), "evaluation");
+            
             NumberWrapper nw = (NumberWrapper)Builder.DataContext.GetWrappedValue("Q1");
             Assert.IsNotNull(nw);
             nw.Value = 42; // answer to the question
