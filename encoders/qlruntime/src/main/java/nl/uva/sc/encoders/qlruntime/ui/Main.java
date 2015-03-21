@@ -47,11 +47,7 @@ public class Main extends Application {
 
 		StackPane stackPane = new StackPane();
 		InputFileTextCallback inputFileTextCallback = () -> inputFileTextField.getText();
-		ShowwNodeCallback showwNodeCallback = nodeToShow -> {
-			ObservableList<Node> stackPaneChildren = stackPane.getChildren();
-			stackPaneChildren.clear();
-			stackPaneChildren.add(nodeToShow);
-		};
+		ShowwNodeCallback showwNodeCallback = nodeToShow -> showNode(stackPane, nodeToShow);
 		parseButton.setOnAction(new ParseButtonHandler(inputFileTextCallback, showwNodeCallback));
 
 		grid.add(stackPane, 0, 1, 3, 1);
@@ -59,5 +55,11 @@ public class Main extends Application {
 		Scene scene = new Scene(grid, 750, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	private void showNode(StackPane stackPane, Node nodeToShow) {
+		ObservableList<Node> stackPaneChildren = stackPane.getChildren();
+		stackPaneChildren.clear();
+		stackPaneChildren.add(nodeToShow);
 	}
 }
