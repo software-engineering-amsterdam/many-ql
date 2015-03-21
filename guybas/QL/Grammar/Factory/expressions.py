@@ -60,6 +60,7 @@ def make_mul_expression(subtrees):
         if subtrees[i] == "*":
             x = multiplication.Multiplication(x, subtrees[i + 1])
         else:
+            print(subtrees[i + 1])
             x = division.Division(x, subtrees[i + 1])
     return x
 
