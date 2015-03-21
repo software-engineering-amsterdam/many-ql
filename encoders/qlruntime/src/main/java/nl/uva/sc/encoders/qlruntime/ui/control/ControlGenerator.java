@@ -48,11 +48,11 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 					value = Integer.valueOf(text);
 				} catch (NumberFormatException e) {
 					numberField.setNumber(value);
-					runtimeQuestion.setValue(new IntegerValue(value));
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setContentText(text + " is not a valid number.");
 					alert.show();
 				}
+				runtimeQuestion.setValue(new IntegerValue(value));
 			}
 		});
 		return new NumberFieldPropertyChangeWrapper(numberField);
