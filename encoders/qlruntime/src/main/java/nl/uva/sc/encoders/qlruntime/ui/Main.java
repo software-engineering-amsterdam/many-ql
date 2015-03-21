@@ -1,7 +1,9 @@
 package nl.uva.sc.encoders.qlruntime.ui;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -42,7 +44,11 @@ public class Main extends Application {
 		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField, defaultLocation));
 
 		StackPane stackPane = new StackPane();
-		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(stackPane, inputFileTextField);
+		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(() -> inputFileTextField.getText(), nodeToShow -> {
+			ObservableList<Node> stackPaneChildren = stackPane.getChildren();
+			stackPaneChildren.clear();
+			stackPaneChildren.add(nodeToShow);
+		});
 		parseButton.setOnAction(parseButtonHandler);
 
 		grid.add(stackPane, 0, 1, 3, 1);

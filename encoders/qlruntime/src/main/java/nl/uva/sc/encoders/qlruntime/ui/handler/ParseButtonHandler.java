@@ -6,13 +6,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeChecker;
@@ -27,21 +24,26 @@ import org.controlsfx.dialog.ExceptionDialog;
 
 public class ParseButtonHandler implements EventHandler<ActionEvent> {
 
-	private final StackPane stackPane;
-	private final TextField inputFileTextField;
-
-	public ParseButtonHandler(StackPane stackPane, TextField inputFileTextField) {
-		this.stackPane = stackPane;
-		this.inputFileTextField = inputFileTextField;
+	public interface ShowwNodeCallback {
+		void showNode(Node node);
 	}
 
-	public StackPane getStackPane() {
-		return stackPane;
+	public interface GetInputFileTextCallback {
+		String getInputFileText();
+	}
+
+	private final ShowwNodeCallback showNodeCallback;
+
+	private final GetInputFileTextCallback getInputFileTextCallback;
+
+	public ParseButtonHandler(GetInputFileTextCallback getInputFileTextCallback, ShowwNodeCallback showwNodeCallback) {
+		this.getInputFileTextCallback = getInputFileTextCallback;
+		this.showNodeCallback = showwNodeCallback;
 	}
 
 	@Override
 	public void handle(ActionEvent event) {
-		String inputFilePath = inputFileTextField.getText();
+		String inputFilePath = getInputFileTextCallback.getInputFileText();
 		try {
 			URL resource = getURL(inputFilePath);
 			File file;
@@ -56,9 +58,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 			QuestionnaireParsingResult questionnaireParsingResult = questionnaireParser.parse(absolutePath);
 
 			Node node = determineNodeToShow(questionnaireParsingResult);
-			ObservableList<Node> stackPaneChildren = stackPane.getChildren();
-			stackPaneChildren.clear();
-			stackPaneChildren.add(node);
+			showNodeCallback.showNode(node);
 
 		} catch (IOException | URISyntaxException e) {
 			ExceptionDialog dialog = new ExceptionDialog(e);
@@ -97,4 +97,5 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		scrollPane.setPrefSize(650, 500);
 		return scrollPane;
 	}
+
 }
