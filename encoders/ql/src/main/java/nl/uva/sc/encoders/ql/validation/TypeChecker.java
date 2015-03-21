@@ -19,6 +19,8 @@ import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
+import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
+import nl.uva.sc.encoders.ql.ast.operator.UnaryOperator;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
@@ -36,7 +38,8 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	private static final String DUPLICATE_LABEL = "duplicateLabel";
 	private static final String REFERENCE_BEFORE_STATED = "referenceBeforeStated";
 	private static final String UNDEFINED_QUESTION = "undefinedQuestion";
-	private static final String MATCHING_DATA_TYPES = "matchingDataTypes";
+	private static final String UNSUPPORTED_TYPES_FOR_BINARY_OPERATOR = "unsupportedTypesForBinaryOperator";
+	private static final String UNSUPPORTED_TYPES_FOR_UNARY_OPERATOR = "unsupportedTypesForUnaryOperator";
 
 	private final Set<String> questionLabels = new HashSet<>();
 
@@ -86,7 +89,14 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	@Override
 	public DataType visit(UnaryExpression unaryExpression) {
 		Expression expression = unaryExpression.getExpression();
-		return expression.accept(this);
+		DataType dataType = expression.accept(this);
+		UnaryOperator operator = unaryExpression.getOperator();
+		if (!operator.supports(dataType)) {
+			String validationMessage = getString(UNSUPPORTED_TYPES_FOR_UNARY_OPERATOR, dataType);
+			TextLocation textLocation = unaryExpression.getTextLocation();
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		}
+		return dataType;
 	}
 
 	@Override
@@ -101,9 +111,13 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		if (leftHandDataType.equals(rightHandDataType)) {
 			return leftHandDataType;
 		}
+
+		BinaryOperator operator = binaryExpression.getOperator();
 		TextLocation textLocation = binaryExpression.getTextLocation();
-		String validationMessage = getString(MATCHING_DATA_TYPES, leftHandDataType, rightHandDataType);
-		validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		if (!operator.supports(leftHandDataType, rightHandDataType)) {
+			String validationMessage = getString(UNSUPPORTED_TYPES_FOR_BINARY_OPERATOR, leftHandDataType, rightHandDataType);
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		}
 		return UndefinedType.UNDEFINED;
 	}
 
