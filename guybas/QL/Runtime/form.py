@@ -13,6 +13,8 @@ class Form:
         # cookbook - must be in the following order
         self.__ast_questions = []  # questions only based on the ast (basic questions)
         self.__q_conditions_dict = {}  # {question_id : parent conditions}
+        self.assignments = []
+
         self.__flatten_ast(self.ast.get_statements())
         self.__combine_expressions()
 
@@ -55,6 +57,8 @@ class Form:
                 e_statement_c.append(statement.get_inverted_condition())
                 self.__flatten_ast(statement.get_e_statements(), e_statement_c)
                 conditions = []
+            elif statement.is_assignment():
+                pass #TODO: fix assignments
             else:
                 self.__ast_questions.append(statement)  # add question to the new flat list
                 self.__q_conditions_dict[statement.get_id()] = conditions  # add condition to questions parent conditions

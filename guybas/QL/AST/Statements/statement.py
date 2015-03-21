@@ -19,6 +19,9 @@ class IStatement:
     def is_conditional(self):
         raise NotImplementedError("Not implemented by sub class")
 
+    def is_assignment(self):
+        return False
+
     # return all the dependencies in the statement of other statements
     def get_dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")

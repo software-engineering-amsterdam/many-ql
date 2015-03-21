@@ -79,7 +79,7 @@ class GUI:
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
         if qid not in statements_dict:
-            raise exc.QException("Fatal Error: no such _condition _id " + qid)
+            raise exc.QException("Fatal Error: no such condition id " + qid)
         question = statements_dict[qid]
         row_elements = question.get_gui_element()
         if row_elements is None:

@@ -37,7 +37,7 @@ class Assignment(statement.IStatement):
     # TODO: debug this
     def get_dependency_collection(self, dependencies):
         if self.id not in dependencies:
-            dependencies[self.__id] = self.expression.get_variables()
+            dependencies[self.id] = self.expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
@@ -46,6 +46,7 @@ class Assignment(statement.IStatement):
 
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
+        print("here")
         return {self.id: self}
 
     def valid_expression_message(self, type_map):
@@ -59,3 +60,6 @@ class Assignment(statement.IStatement):
 
     def get_label(self):
         return ""
+
+    def is_assignment(self):
+        return True
