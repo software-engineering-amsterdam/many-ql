@@ -19,7 +19,7 @@ form taxOfficeExample {
       privateDebt: integer
     "Value residue:"
       valueResidue: integer = 
-        (sellingPrice - privateDebt / ( percentage - commissioning ) )
+        (sellingPrice - privateDebt * ( percentage - commissioning ) )
   }
   
   if (hasContract && hasSoldHouse) {
