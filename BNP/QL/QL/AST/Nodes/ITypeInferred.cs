@@ -9,6 +9,6 @@ namespace QL.Model
 {
     public interface ITypeInferred : ITypeResolvable
     {
-        ElementBase Left {get;}
+        ElementBase GetTypeInferableChild();
     }
 }

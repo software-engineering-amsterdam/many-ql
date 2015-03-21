@@ -10,15 +10,19 @@ namespace QL.Model
 {
     public class Expression : ElementBase, ITypeInferred
     {
-        public ElementBase Left{get; private set;}
+        public ElementBase Child{get; private set;}
         
         
         public Expression() { }
         public Expression(ElementBase child) 
         {
-            Left = child;
+            Child = child;
         }
-        
+
+        public ElementBase GetTypeInferableChild()
+        {
+            return Child;
+        }
         
     }
 }

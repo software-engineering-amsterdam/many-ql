@@ -5,7 +5,10 @@ namespace QL.Model.Operators
 {
     public class DivisionOperator : BinaryTreeElementBase, IOperator, ITypeInferred
     {
-        
+        public ElementBase GetTypeInferableChild()
+        {
+            return Left;
+        }
         
     }
 }

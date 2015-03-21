@@ -86,7 +86,7 @@ namespace QL.Visitors
 
         public void Visit(Expression node)
         {
-            node.Left.Accept(this);
+            node.Child.Accept(this);
         }
         #endregion
         void _visit_binary(BinaryTreeElementBase node)
@@ -256,7 +256,7 @@ namespace QL.Visitors
 
         Type DetermineType(ITypeInferred i)
         {
-            return DetermineType((dynamic)i.Left);
+            return DetermineType((dynamic)i.GetTypeInferableChild());
         }
 
         Type DetermineType(ITypeStatic i)

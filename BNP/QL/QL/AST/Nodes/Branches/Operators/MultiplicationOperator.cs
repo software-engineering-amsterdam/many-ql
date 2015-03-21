@@ -5,5 +5,9 @@ namespace QL.Model.Operators
 {
     public class MultiplicationOperator : BinaryTreeElementBase, IOperator, ITypeInferred
     {
+        public ElementBase GetTypeInferableChild()
+        {
+            return Left;
+        }
     }
 }
