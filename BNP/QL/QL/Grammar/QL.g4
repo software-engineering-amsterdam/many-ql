@@ -24,19 +24,32 @@ SUBTRACTION			: '-';	// number
 AND					: '&&';
 OR					: '||';
 
+operatorEquals					:EQUALS;
+operatorNotEquals				:NOTEQUALS;
+operatorGreaterThan				:GREATERTHAN;
+operatorGreaterThanOrEqualTo	:GREATERTHANOREQUALTO;
+operatorLessThan				:LESSTHAN;
+operatorLessThanOrEqualTo		:LESSTHANOREQUALTO;
+operatorMultiplication			:MULTIPLICATION;
+operatorDivision				:DIVISION;
+operatorAddition				:ADDITION;
+operatorSubtraction				:SUBTRACTION;
+operatorAnd						:AND;
+operatorOr						:OR;
+
 // Production rules
-operator	: EQUALS
-			| NOTEQUALS
-			| GREATERTHAN
-			| GREATERTHANOREQUALTO
-			| LESSTHAN
-			| LESSTHANOREQUALTO
-			| MULTIPLICATION
-			| DIVISION
-			| ADDITION
-			| SUBTRACTION
-			| AND
-			| OR
+operator	: operatorEquals
+			| operatorNotEquals
+			| operatorGreaterThan
+			| operatorGreaterThanOrEqualTo
+			| operatorLessThan
+			| operatorLessThanOrEqualTo
+			| operatorMultiplication
+			| operatorDivision
+			| operatorAddition
+			| operatorSubtraction
+			| operatorAnd
+			| operatorOr
 			;
 
 type		: 'yesno'	# yesno

@@ -1,4 +1,5 @@
-﻿using QL.AST.Nodes.Terminals;
+﻿using QL.AST.Nodes;
+using QL.AST.Nodes.Terminals;
 
 namespace QL.AST.ValueWrappers
 {
@@ -6,7 +7,7 @@ namespace QL.AST.ValueWrappers
     {
 
         public bool? Value;
-        IResolvableTerminalType _node;
+        IStaticReturnType _node;
 
 
 
@@ -18,7 +19,7 @@ namespace QL.AST.ValueWrappers
 
                 Value = a.Value;
             }
-            _node = (IResolvableTerminalType)a;
+            _node = (IStaticReturnType)a;
 
 
         }

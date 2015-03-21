@@ -1,13 +1,14 @@
 ﻿using System;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions.Errors;
+using QL.AST.Nodes;
 
 namespace QL.AST.ValueWrappers
 {
     public class NumberWrapper : ITerminalWrapper//TODO change to  struct
     {
         public int? Value;
-        IResolvableTerminalType _node;
+        IStaticReturnType _node;
 
          public NumberWrapper(int a)
         {
@@ -20,9 +21,9 @@ namespace QL.AST.ValueWrappers
             { 
                 Value = a.Value;
             }
-            _node = (IResolvableTerminalType) a;
+            _node = (IStaticReturnType) a;
         }
-        public NumberWrapper(IResolvableTerminalType a)
+        public NumberWrapper(IStaticReturnType a)
         {
             throw new Exception("Resolution of this IResolvableTerminalType not implemented: " + a.ToString());
         }

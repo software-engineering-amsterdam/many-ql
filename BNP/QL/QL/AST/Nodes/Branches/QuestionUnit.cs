@@ -13,7 +13,7 @@ namespace QL.AST.Nodes.Branches
             DisplayText = displayText.Value;
         }
 
-        public QuestionUnit(Identifier identifier, Text displayText, IResolvableTerminalType dataType) : this(identifier, displayText)
+        public QuestionUnit(Identifier identifier, Text displayText, IStaticReturnType dataType) : this(identifier, displayText)
         {
             DataType = dataType;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes;
 
 namespace QL.AST.ValueWrappers
 {
@@ -20,7 +21,7 @@ namespace QL.AST.ValueWrappers
             return new TextWrapper(a);
 
         }
-        public static ITerminalWrapper CreateWrapper(IResolvableTerminalType a)
+        public static ITerminalWrapper CreateWrapper(IStaticReturnType a)
         {
             Contract.Assert((a as Text) != null || (a as Yesno) != null || (a as Number)!=null);
             return (ITerminalWrapper)CreateWrapper((dynamic)a);

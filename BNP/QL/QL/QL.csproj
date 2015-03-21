@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Hollywood\DataContext.cs" />
     <Compile Include="Hollywood\DataHandlers\ASTCreation\AstBuilder.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\OperatorFactory.cs" />
     <Compile Include="Hollywood\DataHandlers\InputHandling\Initializer.cs" />
     <Compile Include="Hollywood\DataHandlers\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="AST\Nodes\Branches\StatementUnit.cs" />
     <Compile Include="AST\Nodes\Terminals\Identifier.cs" />
     <Compile Include="AST\Nodes\ITypeResolvable.cs" />
-    <Compile Include="AST\Nodes\Terminals\IResolvableTerminalType.cs" />
     <Compile Include="AST\Nodes\Terminals\Number.cs" />
     <Compile Include="AST\Nodes\Terminals\Text.cs" />
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />

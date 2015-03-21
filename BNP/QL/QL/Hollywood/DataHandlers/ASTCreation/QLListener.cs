@@ -10,7 +10,6 @@ using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Grammar;
-using QL.Grammar;
 
 namespace QL.Hollywood.DataHandlers.ASTCreation
 {
@@ -141,7 +140,7 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             Contract.Assert(!children.Any(), "A question should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IResolvableTerminalType dataType = GetTypeInstance(context.type());
+            IStaticReturnType dataType = GetTypeInstance(context.type());
 
             string unitText = context.TEXT().GetText();
 
@@ -167,7 +166,7 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             Contract.Assert(children.Count() == 1, "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IResolvableTerminalType dataType = GetTypeInstance(context.type());
+            IStaticReturnType dataType = GetTypeInstance(context.type());
             string unitText = context.TEXT().GetText();
 
             StatementUnit statement = new StatementUnit();
@@ -181,14 +180,14 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             AppendToAST(statement);
         }
 
-        public IResolvableTerminalType GetTypeInstance(QLParser.TypeContext context)
+        public IStaticReturnType GetTypeInstance(QLParser.TypeContext context)
         {
             if (context as QLParser.YesnoContext != null) return new Yesno();
 
             if (context as QLParser.NumberContext != null) return new Number();
 
             if (context as QLParser.TextContext != null) return new Text();
-
+            
             AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
             return null; // formality
         }
@@ -281,36 +280,16 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             {
                 expression=new Expression(children[0]);
             }
-            else if (children.Count() == 2 && context.children.Count() == 5)
+            else if (children.Count() == 3 && context.children.Count() == 5)
             {
-                QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
                 ElementBase leftOperand = children[0];
-                ElementBase rightOperand = children[1];
+                BinaryTreeElementBase op = (BinaryTreeElementBase) children[1];
+                ElementBase rightOperand = children[2];
 
-                if (operatorContext != null)
-                {
-                    BinaryTreeElementBase operatorElement = null;
-                    TryCreateOperator<EqualsOperator>(operatorContext, operatorContext.EQUALS(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<NotEqualsOperator>(operatorContext, operatorContext.NOTEQUALS(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<GreaterThanOperator>(operatorContext, operatorContext.GREATERTHAN(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<GreaterThanEqualToOperator>(operatorContext, operatorContext.GREATERTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<LessThanOperator>(operatorContext, operatorContext.LESSTHAN(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<LessThanEqualToOperator>(operatorContext, operatorContext.LESSTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<MultiplicationOperator>(operatorContext, operatorContext.MULTIPLICATION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<DivisionOperator>(operatorContext, operatorContext.DIVISION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<PlusOperator>(operatorContext, operatorContext.ADDITION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<MinusOperator>(operatorContext, operatorContext.SUBTRACTION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<AndOperator>(operatorContext, operatorContext.AND(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<OrOperator>(operatorContext, operatorContext.OR(), leftOperand, rightOperand, ref operatorElement);
-
-                    expression= new Expression(operatorElement);
+                op.Left=leftOperand;
+                op.Right=rightOperand;
+                expression = new Expression(op);
                 }
-                else
-                {
-                    throw new QLError("Unknown operator");
-                }
-
-            }
             else
             {
                 throw new QLError("Expression without a child");
@@ -320,24 +299,85 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
             AppendToAST(expression);
         }
+
         
-
-        public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
-            where T : BinaryTreeElementBase, IOperator, new()
+        public override void ExitOperatorAddition(QLParser.OperatorAdditionContext context)
         {
-            if (node == null)
-            {
-                operatorElement = operatorElement ?? null;
-                return;
-            }
+            BinaryTreeElementBase op = new PlusOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
 
-            T @operator = new T();
-            @operator.Left=leftOperand;
-            @operator.Right=rightOperand;
-            @operator.SourceLocation = SourceLocation.CreateFor(context);
-
-            operatorElement = @operator;
         }
+        public override void ExitOperatorAnd(QLParser.OperatorAndContext context)
+        {
+            BinaryTreeElementBase op = new AndOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        
+        
+        public override void ExitOperatorEquals(QLParser.OperatorEqualsContext context)
+        {
+            BinaryTreeElementBase op = new EqualsOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorDivision(QLParser.OperatorDivisionContext context)
+        {
+            BinaryTreeElementBase op = new DivisionOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorGreaterThan(QLParser.OperatorGreaterThanContext context)
+        {
+            BinaryTreeElementBase op = new GreaterThanOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorGreaterThanOrEqualTo(QLParser.OperatorGreaterThanOrEqualToContext context)
+        {
+            BinaryTreeElementBase op = new GreaterThanEqualToOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorLessThan(QLParser.OperatorLessThanContext context)
+        {
+            BinaryTreeElementBase op = new LessThanOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorSubtraction(QLParser.OperatorSubtractionContext context)
+        {
+            BinaryTreeElementBase op = new MinusOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorLessThanOrEqualTo(QLParser.OperatorLessThanOrEqualToContext context)
+        {
+            BinaryTreeElementBase op = new LessThanEqualToOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorMultiplication(QLParser.OperatorMultiplicationContext context)
+        {
+            BinaryTreeElementBase op = new MultiplicationOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorNotEquals(QLParser.OperatorNotEqualsContext context)
+        {
+            BinaryTreeElementBase op = new NotEqualsOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+        public override void ExitOperatorOr(QLParser.OperatorOrContext context)
+        {
+            BinaryTreeElementBase op = new OrOperator();
+            op.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(op);
+        }
+    
+       
         #endregion
     }
 

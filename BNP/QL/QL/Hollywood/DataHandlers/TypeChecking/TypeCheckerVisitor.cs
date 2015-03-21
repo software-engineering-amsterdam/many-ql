@@ -258,7 +258,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
             return DetermineType((dynamic)i.GetTypeInferableChild());
         }
 
-        Type DetermineType(ITypeStatic i)
+        Type DetermineType(IStaticReturnType i)
         {
             return i.GetReturnType();
         }

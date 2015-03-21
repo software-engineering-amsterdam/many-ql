@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Yesno : BinaryTreeElementBase, IResolvableTerminalType
+    public class Yesno : BinaryTreeElementBase, IStaticReturnType
     {
         public bool? Value { get; set; }
 

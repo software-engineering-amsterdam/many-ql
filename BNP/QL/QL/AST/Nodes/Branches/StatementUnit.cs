@@ -9,7 +9,7 @@ namespace QL.AST.Nodes.Branches
         public StatementUnit()
         { }
 
-        public StatementUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText)
+        public StatementUnit(Identifier identifier, IStaticReturnType dataType, string displayText)
         {
             Identifier = identifier;
             DataType = dataType;

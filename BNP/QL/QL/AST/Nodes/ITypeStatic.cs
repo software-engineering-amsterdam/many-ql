@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes
 {
-    public interface ITypeStatic : ITypeResolvable
+    public interface IStaticReturnType : ITypeResolvable
     {
         Type GetReturnType();
     }
