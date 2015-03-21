@@ -28,22 +28,22 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		void showNode(Node node);
 	}
 
-	public interface GetInputFileTextCallback {
+	public interface InputFileTextCallback {
 		String getInputFileText();
 	}
 
 	private final ShowwNodeCallback showNodeCallback;
 
-	private final GetInputFileTextCallback getInputFileTextCallback;
+	private final InputFileTextCallback inputFileTextCallback;
 
-	public ParseButtonHandler(GetInputFileTextCallback getInputFileTextCallback, ShowwNodeCallback showwNodeCallback) {
-		this.getInputFileTextCallback = getInputFileTextCallback;
+	public ParseButtonHandler(InputFileTextCallback inputFileTextCallback, ShowwNodeCallback showwNodeCallback) {
+		this.inputFileTextCallback = inputFileTextCallback;
 		this.showNodeCallback = showwNodeCallback;
 	}
 
 	@Override
 	public void handle(ActionEvent event) {
-		String inputFilePath = getInputFileTextCallback.getInputFileText();
+		String inputFilePath = inputFileTextCallback.getInputFileText();
 		try {
 			URL resource = getURL(inputFilePath);
 			File file;

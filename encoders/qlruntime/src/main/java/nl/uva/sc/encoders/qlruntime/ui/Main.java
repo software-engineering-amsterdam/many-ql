@@ -13,6 +13,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.InputFileTextCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.ShowwNodeCallback;
 
 public class Main extends Application {
 
@@ -44,12 +46,13 @@ public class Main extends Application {
 		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField, defaultLocation));
 
 		StackPane stackPane = new StackPane();
-		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(() -> inputFileTextField.getText(), nodeToShow -> {
+		InputFileTextCallback inputFileTextCallback = () -> inputFileTextField.getText();
+		ShowwNodeCallback showwNodeCallback = nodeToShow -> {
 			ObservableList<Node> stackPaneChildren = stackPane.getChildren();
 			stackPaneChildren.clear();
 			stackPaneChildren.add(nodeToShow);
-		});
-		parseButton.setOnAction(parseButtonHandler);
+		};
+		parseButton.setOnAction(new ParseButtonHandler(inputFileTextCallback, showwNodeCallback));
 
 		grid.add(stackPane, 0, 1, 3, 1);
 
