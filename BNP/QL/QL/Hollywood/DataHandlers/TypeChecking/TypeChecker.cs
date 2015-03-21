@@ -9,10 +9,10 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         public TypeChecker() { }
         public bool execute(DataContext context)
         {
-            
-            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.TypeReference, context.ASTHandlerExceptions);
             try
             {
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.TypeReference, context.ASTHandlerExceptions);
+            
                 context.RootNode.Accept(typeChecker);
             }
             catch (QLError ex)

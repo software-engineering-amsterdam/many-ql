@@ -8,6 +8,7 @@ using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Exceptions.Warnings;
+using System.Linq;
 
 namespace QL.Hollywood.DataHandlers.TypeChecking
 {
@@ -101,13 +102,13 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
             }
         }
 
-        void typeRestrictionOnOperands<T>(T node, ICollection<Type> restrictedToTypes) where T : BinaryTreeElementBase, IOperator
+        void typeRestrictionOnOperands<T>(T node, params Type[] restrictedToTypes) where T : BinaryTreeElementBase, IOperator
         {
-            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Left)))
+            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Left)))
             {
                 Exceptions.Add(new TypeCheckerError("Type not permitted on the left side of the operator", node));
             }
-            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Right)))
+            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Right)))
             {
                 Exceptions.Add(new TypeCheckerError("Type not permitted on the right side of the operator", node));
 
@@ -164,7 +165,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         {
             _visit_binary(node);
             operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new []{new Number().GetType()});
+            typeRestrictionOnOperands(node, new Number().GetType());
 
         }
 
@@ -179,14 +180,14 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         {
             _visit_binary(node);            
             operandsShouldBeTheSame(node);            
-            typeRestrictionOnOperands(node,new [] { new Number().GetType(), new Text().GetType() });
+            typeRestrictionOnOperands(node, new Number().GetType(), new Text().GetType() );
         }
 
         public void Visit(MinusOperator node)
         {
             _visit_binary(node);
             operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new[] { new Number().GetType() });
+            typeRestrictionOnOperands(node, new Number().GetType() );
   
         }
 

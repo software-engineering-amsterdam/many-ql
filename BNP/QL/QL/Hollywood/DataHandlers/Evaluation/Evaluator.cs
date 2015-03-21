@@ -25,8 +25,8 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
             }
 
-            context.Evaluated = !context.ASTHandlerExceptions.Any();
-            return context.Evaluated;
+            return !context.ASTHandlerExceptions.Any();
+            
         }
     }
 }

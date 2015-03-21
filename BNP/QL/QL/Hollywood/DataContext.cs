@@ -39,13 +39,8 @@ namespace QL.Hollywood
         public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
 
-        public bool InputSet;
-        public bool AstBuilt;
-        public bool TypeChecked;
-        public bool Evaluated;
-        public bool Rendered;
+      
         public DataContext(){
-            InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
             ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
             ASTHandlerWarnings = new ObservableCollection<QLWarning>();
             TypeReference = new Dictionary<Identifier, Type>();
@@ -72,10 +67,7 @@ namespace QL.Hollywood
         public ITerminalWrapper GetWrappedValue(Identifier i)
         {
             //convenience method for getting the Terminal wrapper based on Identifier node. 
-            if (!Evaluated)
-            {
-                throw new Exception("AST not evaluated");
-            }
+           
             if (IdentifierTable.ContainsKey(i) && ReferenceLookupTable.ContainsKey(IdentifierTable[i]))
             { 
                 return ReferenceLookupTable[IdentifierTable[i]];

@@ -27,6 +27,11 @@ namespace QL.Hollywood
         protected IList<IExecutable> Evaluators;
         protected IList<IExecutable> Renderers;
         protected IList<IExecutable> Exporters;
+        public bool InputSet;
+        public bool AstBuilt;
+        public bool TypeChecked;
+        public bool Evaluated;
+        public bool Rendered;
 
         public readonly DataContext DataContext; //needs to be public because of tests
         
@@ -44,6 +49,7 @@ namespace QL.Hollywood
             Evaluators = new List<IExecutable>();
             Renderers = new List<IExecutable>();
             Exporters = new List<IExecutable>();
+            InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
 
             DataContext = new DataContext();
             UnhandledExceptions = new List<Exception>();
@@ -125,65 +131,66 @@ namespace QL.Hollywood
 
         public bool RunInit()
         {
-            DataContext.InputSet = RunOneLevel(Initializers);
-            return DataContext.InputSet;
+            InputSet = RunOneLevel(Initializers);
+            return InputSet;
         }
 
         public bool RunASTBuilders()
         {
-            if (!DataContext.InputSet)
+            if (!InputSet)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
 
-            DataContext.AstBuilt = RunOneLevel(ASTBuilders);
-            return DataContext.AstBuilt;
+            AstBuilt = RunOneLevel(ASTBuilders);
+            return AstBuilt;
         }
 
         public bool RunTypeCheckers()
         {
 
-            if (!DataContext.AstBuilt)
+            if (!AstBuilt)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.TypeChecked = RunOneLevel(TypeCheckers);
-            return DataContext.TypeChecked;
+            TypeChecked = RunOneLevel(TypeCheckers);
+            return TypeChecked;
 
         }
 
         public bool RunEvaluators()
         {
 
-            if (!DataContext.TypeChecked)
+            if (!TypeChecked)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.Evaluated = RunOneLevel(Evaluators);
-            return DataContext.Evaluated;
+            Evaluated = RunOneLevel(Evaluators);
+            return Evaluated;
 
         }
+      
 
         public bool RunRenderers()
         {
 
-            if (!DataContext.Evaluated)
+            if (!Evaluated)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            DataContext.Rendered = RunOneLevel(Renderers);
-            return DataContext.Rendered;
+            Rendered = RunOneLevel(Renderers);
+            return Rendered;
 
         }
 
         public bool RunExporters()
         {
 
-            if (!DataContext.Evaluated)
+            if (!Evaluated)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
                 return false;
