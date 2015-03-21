@@ -4,10 +4,16 @@ using QL.AST.Nodes;
 
 namespace QL.Exceptions.Errors
 {
+    /// <summary>
+    /// Base class for all QL Errors
+    /// </summary>
     public class QLError : QLBaseException
     {
-        /* Base class for all QL Errors
-         */
+        public override string Origin
+        {
+            get { return GetType().Name; }
+        }
+        
         public QLError()
         {
         }

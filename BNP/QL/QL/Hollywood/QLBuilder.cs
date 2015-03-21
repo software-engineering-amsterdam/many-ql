@@ -17,7 +17,6 @@ namespace QL.Hollywood
     /// This is the god class.
     ///  After putting source as into the constructor, this class accumulates all the information
     ///  made by evaluator, type checker ...
-    ///  Is this good, bad? 
     /// </summary>
     public class QLBuilder
     {
@@ -33,15 +32,17 @@ namespace QL.Hollywood
         public bool Evaluated;
         public bool Rendered;
 
-        public readonly DataContext DataContext; //needs to be public because of tests
+        public QLBuilderStateMachine BuilderStateMachine { get; private set; }
+        public DataContext DataContext { get; private set; } //needs to be public because of tests
         
         public IList<Exception> UnhandledExceptions { get; private set; }
-        public ObservableCollection<QLBaseException> QLExceptions
+        public ReadOnlyObservableCollection<QLBaseException> QLExceptions
         {
-            get { return new ObservableCollection<QLBaseException>(Enumerable.Concat(DataContext.ASTHandlerExceptions, DataContext.ASTHandlerWarnings)); }
+            get { return new ReadOnlyObservableCollection<QLBaseException>(DataContext.ASTHandlerExceptions); }
         }
-        
-        public QLBuilder()
+
+        #region Constructors
+        private QLBuilder()
         {
             Initializers = new List<IExecutable>();
             ASTBuilders = new List<IExecutable>();
@@ -51,20 +52,22 @@ namespace QL.Hollywood
             Exporters = new List<IExecutable>();
             InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
 
-            DataContext = new DataContext();
+            BuilderStateMachine = new QLBuilderStateMachine();
             UnhandledExceptions = new List<Exception>();
         }
 
         public QLBuilder(string input) : this()
         {
-            SetInput(input);
+            DataContext = new DataContext(input);
         }
 
         public QLBuilder(Stream input) : this()
         {
-            SetInput(input);
+            DataContext = new DataContext(input);
         }
+        #endregion
 
+        #region Handler level registration
         public void RegisterInitializer(IExecutable handler)
         {
             Initializers.Add(handler);
@@ -94,110 +97,73 @@ namespace QL.Hollywood
         {
             Exporters.Add(handler);
         }
+        #endregion
 
-
-        private bool RunOneLevel(IEnumerable<IExecutable> thisLevelHandlers)
-        {
-            bool successfulExecution = true;
-
-            foreach (IExecutable handler in thisLevelHandlers)
-            {
-                try
-                {
-                    successfulExecution = handler.execute(DataContext);
-                }
-                catch (QLBaseException ex)
-                {
-                    DataContext.ASTHandlerExceptions.Add(ex);
-                    successfulExecution = false;
-
-                }
-                catch (Exception ex)
-                {
-                    //not known exception!
-                    UnhandledExceptions.Add(ex);
-                    successfulExecution = false;
-
-                }
-
-                if (!successfulExecution)
-                {
-                    break;
-                }
-            }
-
-            return successfulExecution;
-        }
+        #region Handler level runners
 
         public bool RunInit()
         {
-            InputSet = RunOneLevel(Initializers);
-            return InputSet;
+            BuilderStateMachine.InputIsSet = RunHandlerLevel(Initializers);
+            return BuilderStateMachine.InputIsSet;
         }
 
         public bool RunASTBuilders()
         {
-            if (!InputSet)
+            if (!BuilderStateMachine.InputIsSet)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
 
-            AstBuilt = RunOneLevel(ASTBuilders);
-            return AstBuilt;
+            BuilderStateMachine.ASTIsBuilt = RunHandlerLevel(ASTBuilders);
+            return BuilderStateMachine.ASTIsBuilt;
         }
 
         public bool RunTypeCheckers()
         {
-
-            if (!AstBuilt)
+            if (!BuilderStateMachine.ASTIsBuilt)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            TypeChecked = RunOneLevel(TypeCheckers);
-            return TypeChecked;
-
+            BuilderStateMachine.TypeIsChecked = RunHandlerLevel(TypeCheckers);
+            return BuilderStateMachine.TypeIsChecked;
         }
 
         public bool RunEvaluators()
         {
-
-            if (!TypeChecked)
+            if (!BuilderStateMachine.TypeIsChecked)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            Evaluated = RunOneLevel(Evaluators);
-            return Evaluated;
-
+            BuilderStateMachine.IsEvaluated = RunHandlerLevel(Evaluators);
+            return BuilderStateMachine.IsEvaluated;
         }
       
 
         public bool RunRenderers()
         {
-
-            if (!Evaluated)
+            if (!BuilderStateMachine.IsEvaluated)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            Rendered = RunOneLevel(Renderers);
-            return Rendered;
+            BuilderStateMachine.IsRendered = RunHandlerLevel(Renderers);
+            return BuilderStateMachine.IsRendered;
 
         }
 
         public bool RunExporters()
         {
-
-            if (!Evaluated)
+            if (!BuilderStateMachine.IsEvaluated)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
                 return false;
             }
-            return RunOneLevel(Exporters);
-
+            return RunHandlerLevel(Exporters);
         }
+        #endregion
 
         /// <summary>
         /// Runs all registrerd handlers. If any error occurs, returns false but continues running if possible.
@@ -214,22 +180,41 @@ namespace QL.Hollywood
             return retVal;
         }
 
+        private bool RunHandlerLevel(IEnumerable<IExecutable> levelHandlerList)
+        {
+            bool successfulExecution = true;
+
+            foreach (IExecutable handler in levelHandlerList)
+            {
+                try
+                {
+                    successfulExecution = handler.Execute(DataContext);
+                }
+                catch (QLBaseException ex)
+                {
+                    DataContext.ASTHandlerExceptions.Add(ex);
+                    successfulExecution = false;
+                }
+                catch (Exception ex)
+                {   //not known exception!
+                    UnhandledExceptions.Add(ex);
+                    successfulExecution = false;
+                }
+
+                if (!successfulExecution)
+                {
+                    break;
+                }
+            }
+            return successfulExecution;
+        }
+
         public void RegisterGenericDataHandlers()
         {
             RegisterInitializer(new Initializer());
             RegisterASTBuilder(new ASTBuilder());
             RegisterTypeChecker(new TypeChecker());
             RegisterEvaluator(new Evaluator());
-        }
-        
-        public void SetInput(string input)
-        {
-            DataContext.Input = input;
-        }
-
-        public void SetInput(Stream input)
-        {
-            DataContext.InputStream = input;
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using Antlr4.Runtime;
+﻿using System.Linq;
+using Antlr4.Runtime;
 using QL.Exceptions.Errors;
 
 namespace QL.Hollywood.DataHandlers.InputHandling
 {
-    class Initializer : IExecutable
+    public class Initializer : IExecutable
     {
-        public Initializer() { }
-        public bool execute(DataContext context)
+        public Initializer()
+        { }
+
+        public bool Execute(DataContext context)
         {
-
-
             if (context.Input != null)
             {
                 context.AntlrInput = new AntlrInputStream(context.Input);
@@ -23,8 +24,8 @@ namespace QL.Hollywood.DataHandlers.InputHandling
                 context.ASTHandlerExceptions.Add(new QLError("No proper input provided for building an AST"));
                 return false;
             }
-            return true;
 
+            return !context.ASTHandlerExceptions.Any();
         }
     }
 }

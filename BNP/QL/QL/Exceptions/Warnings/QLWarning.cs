@@ -9,6 +9,11 @@ namespace QL.Exceptions.Warnings
     /// </summary>
     public class QLWarning : QLBaseException
     {
+        public override string Origin
+        {
+            get { return GetType().Name; }
+        }
+
         public QLWarning()
         {
         }

@@ -114,6 +114,7 @@
     <Compile Include="AST\Nodes\Terminals\Text.cs" />
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
     <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
+    <Compile Include="Hollywood\QLBuilderStateMachine.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />

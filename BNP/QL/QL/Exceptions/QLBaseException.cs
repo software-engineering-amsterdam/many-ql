@@ -16,7 +16,7 @@ namespace QL.Exceptions
 
         public virtual string Origin
         {
-            get { return GetType().Name; }
+            get { return "Unknown"; }
         }
 
         public virtual string Severity

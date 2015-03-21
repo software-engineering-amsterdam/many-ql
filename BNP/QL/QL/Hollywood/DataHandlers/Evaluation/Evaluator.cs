@@ -3,14 +3,14 @@ using QL.Exceptions.Errors;
 
 namespace QL.Hollywood.DataHandlers.Evaluation
 {
-    class Evaluator :IExecutable
+    public class Evaluator : IExecutable
     {
+        public Evaluator()
+        { }
 
-        public Evaluator() { }
-        public bool execute(DataContext context)
+        public bool Execute(DataContext context)
         {
-
-            context.ASTHandlerExceptions.Clear(); 
+            context.ASTHandlerExceptions.Clear();
             context.IdentifierTable.Clear();
 
             EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ReferenceLookupTable, context.IdentifierTable);
@@ -19,14 +19,12 @@ namespace QL.Hollywood.DataHandlers.Evaluation
                 context.RootNode.Accept(evaluator);
             }
             catch (QLError ex)
-            {
-                /* Exceptions preventing Evaluator from finishing */
+            {   // Exceptions preventing Evaluator from finishing
                 context.ASTHandlerExceptions.Add(ex);
-
+                return false;
             }
 
             return !context.ASTHandlerExceptions.Any();
-            
         }
     }
 }

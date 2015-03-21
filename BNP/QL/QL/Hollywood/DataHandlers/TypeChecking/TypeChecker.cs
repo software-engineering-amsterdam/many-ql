@@ -1,13 +1,15 @@
 ﻿using System.Linq;
+using QL.Exceptions;
 using QL.Exceptions.Errors;
 
 namespace QL.Hollywood.DataHandlers.TypeChecking
 {
-    class TypeChecker :IExecutable
+    public class TypeChecker : IExecutable
     {
+        public TypeChecker()
+        { }
 
-        public TypeChecker() { }
-        public bool execute(DataContext context)
+        public bool Execute(DataContext context)
         {
             try
             {
@@ -15,7 +17,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
             
                 context.RootNode.Accept(typeChecker);
             }
-            catch (QLError ex)
+            catch (QLBaseException ex)
             {
                 /* Exceptions preventing TypeChecker from finishing */
                 context.ASTHandlerExceptions.Add(ex);

@@ -5,12 +5,13 @@ using QLLexer = QL.Grammar.QLLexer;
 
 namespace QL.Hollywood.DataHandlers.ASTCreation
 {
-    class ASTBuilder :IExecutable
+    public class ASTBuilder : IExecutable
     {
-        public ASTBuilder(){}
-        public bool execute(DataContext context)
+        public ASTBuilder()
+        { }
+
+        public bool Execute(DataContext context)
         {
-            
             QLLexer lexer = new QLLexer(context.AntlrInput);
             lexer.AddErrorListener(new LexerErrorHandler(context.ASTHandlerExceptions));
 
@@ -23,9 +24,8 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
             // commence parsing the input as a formBlock since it's supposed to be the entry point of the input file
             parser.formBlock();
-            context.RootNode = listener.GetAstRootNode();            
+            context.RootNode = listener.GetAstRootNode();
             return !context.ASTHandlerExceptions.Any();
-
         }
     }
 }
