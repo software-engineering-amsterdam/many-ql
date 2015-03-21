@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminalType
+    public class Identifier : BinaryTreeElementBase
     {
         public string Value { get; private set; }
         
@@ -18,12 +18,6 @@ namespace QL.AST.Nodes.Terminals
         { 
             Value = value.ToString();
         }
-
-        public ITerminalType ResolveValue()
-        {
-            throw new NotImplementedException();
-        }
-
         
         public bool Equals(Identifier obj)
         {

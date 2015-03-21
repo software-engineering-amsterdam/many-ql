@@ -112,7 +112,6 @@
     <Compile Include="AST\Nodes\ITypeResolvable.cs" />
     <Compile Include="AST\Nodes\Terminals\IResolvableTerminalType.cs" />
     <Compile Include="AST\Nodes\Terminals\Number.cs" />
-    <Compile Include="AST\Nodes\Terminals\ITerminalType.cs" />
     <Compile Include="AST\Nodes\Terminals\Text.cs" />
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
     <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
