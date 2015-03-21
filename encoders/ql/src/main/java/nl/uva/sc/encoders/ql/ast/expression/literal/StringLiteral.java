@@ -4,6 +4,9 @@ import java.util.Set;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.type.DataType;
+import nl.uva.sc.encoders.ql.ast.type.StringType;
+import nl.uva.sc.encoders.ql.ast.type.TypeMap;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 
 public class StringLiteral extends Expression {
@@ -27,5 +30,10 @@ public class StringLiteral extends Expression {
 	@Override
 	public void collectQuestionNames(Set<String> relatedQuestionNames) {
 		// Do nothing, because there are no related questions to literals.
+	}
+
+	@Override
+	public DataType getType(TypeMap typeMap) {
+		return new StringType();
 	}
 }

@@ -3,6 +3,8 @@ package nl.uva.sc.encoders.ql.ast.expression;
 import java.util.Set;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.ql.ast.type.DataType;
+import nl.uva.sc.encoders.ql.ast.type.TypeMap;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 
 public class BracedExpression extends Expression {
@@ -35,5 +37,10 @@ public class BracedExpression extends Expression {
 	@Override
 	public void collectQuestionNames(Set<String> relatedQuestionNames) {
 		expression.collectQuestionNames(relatedQuestionNames);
+	}
+
+	@Override
+	public DataType getType(TypeMap typeMap) {
+		return expression.getType(typeMap);
 	}
 }

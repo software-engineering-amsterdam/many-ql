@@ -5,6 +5,7 @@ import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.ERROR;
 import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.WARNING;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,13 +27,11 @@ import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
-import nl.uva.sc.encoders.ql.ast.type.IntegerType;
-import nl.uva.sc.encoders.ql.ast.type.StringType;
-import nl.uva.sc.encoders.ql.ast.type.UndefinedType;
+import nl.uva.sc.encoders.ql.ast.type.TypeMap;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 import nl.uva.sc.encoders.ql.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisitor<DataType> {
+public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, StatementVisitor<List<TypeValidation>> {
 
 	private static final String BOOLEAN_CONDITION = "booleanCondition";
 	private static final String DUPLICATE_LABEL = "duplicateLabel";
@@ -41,11 +40,9 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	private static final String UNSUPPORTED_TYPES_FOR_BINARY_OPERATOR = "unsupportedTypesForBinaryOperator";
 	private static final String UNSUPPORTED_TYPES_FOR_UNARY_OPERATOR = "unsupportedTypesForUnaryOperator";
 
+	private final TypeMap typeMap = new TypeMap();
+
 	private final Set<String> questionLabels = new HashSet<>();
-
-	private final Set<String> questionNames = new HashSet<String>();
-
-	private final List<TypeValidation> validations = new ArrayList<>();
 
 	private final Questionnaire questionnaire;
 
@@ -54,63 +51,63 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 	}
 
 	public List<TypeValidation> checkTypes() {
+		List<TypeValidation> validations = new ArrayList<>();
 		List<Statement> statements = questionnaire.getStatements();
 		for (Statement statement : statements) {
-			statement.accept(this);
+			validations.addAll(statement.accept(this));
 		}
 		return validations;
 	}
 
 	@Override
-	public DataType visit(BracedExpression bracedExpression) {
+	public List<TypeValidation> visit(BracedExpression bracedExpression) {
 		Expression innerExpression = bracedExpression.getExpression();
 		return innerExpression.accept(this);
 	}
 
 	@Override
-	public DataType visit(NameExpression nameExpression) {
-		String name = nameExpression.getName();
+	public List<TypeValidation> visit(NameExpression nameExpression) {
 
+		List<TypeValidation> validations = new ArrayList<>();
+		String name = nameExpression.getName();
 		if (!questionnaire.containsQuestion(name)) {
 			String validationMessage = getString(UNDEFINED_QUESTION, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
-			return UndefinedType.UNDEFINED;
 		}
-		Question question = questionnaire.getQuestion(name);
-		if (!questionNames.contains(name)) {
+		if (!typeMap.containsKey(name)) {
 			String validationMessage = getString(REFERENCE_BEFORE_STATED, name);
 			TextLocation textLocation = nameExpression.getTextLocation();
 			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
-		return question.getDataType();
+		return validations;
 	}
 
 	@Override
-	public DataType visit(UnaryExpression unaryExpression) {
+	public List<TypeValidation> visit(UnaryExpression unaryExpression) {
+		List<TypeValidation> validations = new ArrayList<>();
 		Expression expression = unaryExpression.getExpression();
-		DataType dataType = expression.accept(this);
+		validations.addAll(expression.accept(this));
 		UnaryOperator operator = unaryExpression.getOperator();
+		DataType dataType = expression.getType(typeMap);
 		if (!operator.supports(dataType)) {
 			String validationMessage = getString(UNSUPPORTED_TYPES_FOR_UNARY_OPERATOR, dataType);
 			TextLocation textLocation = unaryExpression.getTextLocation();
 			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
-		return dataType;
+		return validations;
 	}
 
 	@Override
-	public DataType visit(BinaryExpression binaryExpression) {
+	public List<TypeValidation> visit(BinaryExpression binaryExpression) {
 		Expression leftHand = binaryExpression.getLeftHand();
 		Expression rightHand = binaryExpression.getRightHand();
-		DataType leftHandDataType = leftHand.accept(this);
-		DataType rightHandDataType = rightHand.accept(this);
-		if (leftHandDataType.equals(UndefinedType.UNDEFINED) || rightHandDataType.equals(UndefinedType.UNDEFINED)) {
-			return UndefinedType.UNDEFINED;
-		}
-		if (leftHandDataType.equals(rightHandDataType)) {
-			return leftHandDataType;
-		}
+		DataType leftHandDataType = leftHand.getType(typeMap);
+		DataType rightHandDataType = rightHand.getType(typeMap);
+
+		List<TypeValidation> validations = new ArrayList<>();
+		validations.addAll(leftHand.accept(this));
+		validations.addAll(rightHand.accept(this));
 
 		BinaryOperator operator = binaryExpression.getOperator();
 		TextLocation textLocation = binaryExpression.getTextLocation();
@@ -118,31 +115,38 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 			String validationMessage = getString(UNSUPPORTED_TYPES_FOR_BINARY_OPERATOR, leftHandDataType, rightHandDataType);
 			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
-		return UndefinedType.UNDEFINED;
+		return validations;
 	}
 
 	@Override
-	public DataType visit(IntegerLiteral integerLiteral) {
-		return new IntegerType();
+	public List<TypeValidation> visit(IntegerLiteral integerLiteral) {
+		return Collections.emptyList();
 	}
 
 	@Override
-	public DataType visit(StringLiteral stringLiteral) {
-		return new StringType();
+	public List<TypeValidation> visit(StringLiteral stringLiteral) {
+		return Collections.emptyList();
 	}
 
 	@Override
-	public DataType visit(BooleanLiteral booleanLiteral) {
-		return new BooleanType();
+	public List<TypeValidation> visit(BooleanLiteral booleanLiteral) {
+		return Collections.emptyList();
 	}
 
 	@Override
-	public DataType visit(ConditionalBlock conditionalBlock) {
+	public List<TypeValidation> visit(ConditionalBlock conditionalBlock) {
+		List<TypeValidation> validations = new ArrayList<>();
 		Expression condition = conditionalBlock.getCondition();
-		DataType dataType = condition.accept(this);
-		checkForBooleanCondition(dataType, condition);
+		validations.addAll(condition.accept(this));
+
+		DataType dataType = condition.getType(typeMap);
+		if (!(dataType instanceof BooleanType)) {
+			TextLocation textLocation = condition.getTextLocation();
+			String validationMessage = getString(BOOLEAN_CONDITION, dataType);
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		}
 		visitQuestions(conditionalBlock.getQuestions());
-		return dataType;
+		return validations;
 	}
 
 	private void visitQuestions(List<Question> questions) {
@@ -151,30 +155,29 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 		}
 	}
 
-	private void checkForBooleanCondition(DataType dataType, Expression condition) {
-		if (!(dataType instanceof BooleanType)) {
-			TextLocation textLocation = condition.getTextLocation();
-			String validationMessage = getString(BOOLEAN_CONDITION, dataType);
-			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
-		}
-	}
-
 	@Override
-	public DataType visit(Question question) {
-		questionNames.add(question.getName());
-		checkForDuplicateLabel(question);
-		checkDataTypes(question);
-		return question.getDataType();
+	public List<TypeValidation> visit(Question question) {
+		typeMap.put(question.getName(), question.getDataType());
+		List<TypeValidation> validations = new ArrayList<>();
+		validations.addAll(checkForDuplicateLabel(question));
+		validations.addAll(checkDataTypes(question));
+		return validations;
 	}
 
-	private void checkDataTypes(Question question) {
+	private List<TypeValidation> checkDataTypes(Question question) {
+		List<TypeValidation> validations = new ArrayList<>();
 		Expression computed = question.getComputed();
 		if (computed != null) {
-			computed.accept(this);
+			validations.addAll(computed.accept(this));
+			if (!computed.getType(typeMap).equals(question.getDataType())) {
+				// TODO add validation!
+			}
 		}
+		return validations;
 	}
 
-	private void checkForDuplicateLabel(Question question) {
+	private List<TypeValidation> checkForDuplicateLabel(Question question) {
+		List<TypeValidation> validations = new ArrayList<>();
 		String label = question.getQuestionLabel();
 		boolean added = questionLabels.add(label);
 		if (!added) {
@@ -182,5 +185,6 @@ public class TypeChecker implements ExpressionVisitor<DataType>, StatementVisito
 			TextLocation textLocation = question.getTextLocation();
 			validations.add(new TypeValidation(validationMessage, textLocation, WARNING));
 		}
+		return validations;
 	}
 }

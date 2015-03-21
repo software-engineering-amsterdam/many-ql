@@ -16,6 +16,7 @@ import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
+import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
 import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
@@ -43,7 +44,7 @@ public class TypeCheckerVisitorTest {
 	public void testCheckTypes_conditionsWithIntegersAreNotAllowed() {
 		Expression leftHand = new IntegerLiteral(aTextLocation().build(), 0);
 		Expression rightHand = new IntegerLiteral(aTextLocation().build(), 1);
-		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
+		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AddOperator());
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
 		visitor = new TypeChecker(questionnaire);
@@ -51,7 +52,8 @@ public class TypeCheckerVisitorTest {
 		List<TypeValidation> validations = visitor.checkTypes();
 		ValidationMessage validationMessage = validations.get(0);
 		assertThat(validationMessage, is(notNullValue()));
-		assertThat(validationMessage.getValidationMessage(), is("Condition has to be of type boolean. Type encountered is 'integer'"));
+		assertThat(validationMessage.getValidationMessage(),
+				is("Condition has to be of type boolean. Type encountered is 'integer'"));
 	}
 
 	@Test

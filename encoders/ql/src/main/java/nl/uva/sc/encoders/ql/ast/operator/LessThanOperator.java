@@ -1,5 +1,6 @@
 package nl.uva.sc.encoders.ql.ast.operator;
 
+import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.visitor.BinaryOperatorVisitor;
@@ -20,5 +21,10 @@ public class LessThanOperator implements BinaryOperator {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public DataType getType(DataType leftHandType, DataType rightHandType) {
+		return new BooleanType();
 	}
 }

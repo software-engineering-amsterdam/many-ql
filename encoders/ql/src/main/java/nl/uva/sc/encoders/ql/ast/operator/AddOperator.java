@@ -14,13 +14,21 @@ public class AddOperator implements BinaryOperator {
 
 	@Override
 	public boolean supports(DataType leftHandType, DataType rightHandType) {
-		if (!leftHandType.equals(rightHandType)) {
+		if (!(leftHandType instanceof StringType) && !(leftHandType instanceof IntegerType)) {
 			return false;
 		}
-		if (!(leftHandType instanceof StringType) || !(leftHandType instanceof IntegerType)) {
+		if (!(rightHandType instanceof StringType) && !(rightHandType instanceof IntegerType)) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public DataType getType(DataType leftHandType, DataType rightHandType) {
+		if (leftHandType instanceof StringType || rightHandType instanceof StringType) {
+			return new StringType();
+		}
+		return new IntegerType();
 	}
 
 }

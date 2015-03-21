@@ -4,6 +4,8 @@ import java.util.Set;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
+import nl.uva.sc.encoders.ql.ast.type.DataType;
+import nl.uva.sc.encoders.ql.ast.type.TypeMap;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
 
 public class BinaryExpression extends Expression {
@@ -53,5 +55,12 @@ public class BinaryExpression extends Expression {
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public DataType getType(TypeMap typeMap) {
+		DataType leftHandType = leftHand.getType(typeMap);
+		DataType rightHandType = rightHand.getType(typeMap);
+		return operator.getType(leftHandType, rightHandType);
 	}
 }

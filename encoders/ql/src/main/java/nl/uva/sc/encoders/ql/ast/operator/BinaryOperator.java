@@ -8,4 +8,6 @@ public interface BinaryOperator {
 	<T> T accept(BinaryOperatorVisitor<T> visitor);
 
 	boolean supports(DataType leftHandType, DataType rightHandType);
+
+	DataType getType(DataType leftHandType, DataType rightHandType);
 }

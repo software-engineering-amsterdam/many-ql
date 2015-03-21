@@ -21,4 +21,9 @@ public class DivideOperator implements BinaryOperator {
 		}
 		return true;
 	}
+
+	@Override
+	public DataType getType(DataType leftHandType, DataType rightHandType) {
+		return new IntegerType();
+	}
 }
