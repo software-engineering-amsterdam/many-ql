@@ -46,7 +46,6 @@ class Assignment(statement.IStatement):
 
     # Get a dictionary with ids and statements
     def get_statement_dict(self):
-        print("here")
         return {self.id: self}
 
     def valid_expression_message(self, type_map):

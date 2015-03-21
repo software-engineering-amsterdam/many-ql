@@ -60,7 +60,6 @@ def make_mul_expression(subtrees):
         if subtrees[i] == "*":
             x = multiplication.Multiplication(x, subtrees[i + 1])
         else:
-            print(subtrees[i + 1])
             x = division.Division(x, subtrees[i + 1])
     return x
 
@@ -68,7 +67,6 @@ def make_mul_expression(subtrees):
 def make_compare(subtrees):
     subtrees = subtrees[0]
     x = subtrees[0]
-    print(len(subtrees))
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == ">":
             x = greater.Greater(x, subtrees[i + 1])

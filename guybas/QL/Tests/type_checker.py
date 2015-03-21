@@ -3,7 +3,7 @@ import QL.AST.type_checker as type_checker
 
 
 class Tests(unittest.TestCase):
-    def test_duplicates(self):
+    def test_type_duplicates(self):
         l1 = list(range(1, 10))
         self.assertEqual(type_checker.check_duplicates(l1), [])
 
@@ -13,7 +13,7 @@ class Tests(unittest.TestCase):
         l3 = [1, 2, 2, 9, 1, 1]
         self.assertEqual(type_checker.check_duplicates(l3), [1, 2])
 
-    def test_check_ids(self):
+    def test_type_check_ids(self):
         l1 = list(range(1, 10))
         self.assertEqual(type_checker.check_ids(l1), "")
 
@@ -23,7 +23,7 @@ class Tests(unittest.TestCase):
         l3 = [1, 2, 2, 9, 1, 1]
         self.assertEqual(type_checker.check_ids(l3), ["There are duplicate ids: [1, 2]"])
 
-    def test_dependencies(self):
+    def test_type_dependencies(self):
         d1 = {1: set(), 2: set()}
         self.assertEqual(type_checker.check_dependencies(d1), [])
 
