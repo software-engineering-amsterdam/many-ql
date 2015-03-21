@@ -1,7 +1,10 @@
 package nl.uva.sc.encoders.qlruntime.ui.control;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
@@ -31,15 +34,25 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 
 	@Override
 	public NumberFieldPropertyChangeWrapper visit(IntegerType integerType) {
-		NumberField numberField = new NumberField();
+		final NumberField numberField = new NumberField();
 		numberField.setOnKeyReleased(event -> {
+			KeyCode keyCode = event.getCode();
+			if (keyCode.isNavigationKey() || keyCode.isFunctionKey() || keyCode.isMediaKey()) {
+				return;
+			}
 			TextField textField1 = (TextField) event.getSource();
 			String text = textField1.getText();
 			Integer value = 0;
 			if (!text.isEmpty()) {
-				value = Integer.valueOf(text);
+				try {
+					value = Integer.valueOf(text);
+					runtimeQuestion.setValue(new IntegerValue(value));
+				} catch (NumberFormatException e) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setContentText(text + " is not a valid number.");
+					alert.show();
+				}
 			}
-			runtimeQuestion.setValue(new IntegerValue(value));
 		});
 		return new NumberFieldPropertyChangeWrapper(numberField);
 	}
@@ -48,6 +61,10 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 	public TextFieldPropertyChangeWrapper visit(StringType stringType) {
 		TextField textField = new TextField();
 		textField.setOnKeyReleased(event -> {
+			KeyCode keyCode = event.getCode();
+			if (!(keyCode.isLetterKey() || keyCode.isDigitKey() || keyCode.isWhitespaceKey())) {
+				return;
+			}
 			TextField textField1 = (TextField) event.getSource();
 			StringValue value = new StringValue(textField1.getText());
 			runtimeQuestion.setValue(value);
