@@ -10,10 +10,14 @@ import ql.gui.UIComponent;
 
 public class ScrollablePanel extends DefaultChangeHandler implements UIComponent {
 	private JScrollPane scrollablePanel;
+	private UIComponent content;
 
 	public ScrollablePanel(UIComponent content) {		
 		scrollablePanel = new JScrollPane(content.getComponent());
 		scrollablePanel.setPreferredSize(new Dimension(800, 600));
+		
+		this.content = content;
+		this.content.setHandler(this);
 	}
 	
 	public ScrollablePanel(UIComponent handler, UIComponent content) {
@@ -22,7 +26,9 @@ public class ScrollablePanel extends DefaultChangeHandler implements UIComponent
 	}
 	
 	@Override
-	public void updateComponent() {		
+	public void updateComponent() {
+		content.updateComponent();
+		
 		scrollablePanel.revalidate();
 		scrollablePanel.repaint();
 	}

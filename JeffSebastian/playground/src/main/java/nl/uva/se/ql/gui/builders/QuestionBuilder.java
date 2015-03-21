@@ -7,7 +7,7 @@ import nl.uva.se.ql.ast.type.IntegerType;
 import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.gui.mediators.IMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.questions.BaseQuestion;
 import nl.uva.se.ql.gui.widgets.questions.BooleanQuestion;
 import nl.uva.se.ql.gui.widgets.questions.DecimalQuestion;
@@ -18,9 +18,9 @@ import nl.uva.se.ql.gui.widgets.questions.UndefinedQuestion;
 public class QuestionBuilder implements TypeVisitor<BaseQuestion> {
 
 	private final Question question;
-	private final IMediator mediator;
+	private final Mediator mediator;
 
-	public QuestionBuilder(Question question, IMediator mediator) {
+	public QuestionBuilder(Question question, Mediator mediator) {
 		this.question = question;
 		this.mediator = mediator;
 	}

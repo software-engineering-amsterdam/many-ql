@@ -1,6 +1,7 @@
 package nl.uva.se.ql.typechecking.error;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ErrorList {
@@ -34,4 +35,13 @@ public class ErrorList {
 			System.out.println(error);
 		}
 	}
+	
+	public Iterator<Error> getErrors() {
+		return errors.iterator();
+	}
+	
+	public Iterator<Warning> getWarnings() {
+		return warnings.iterator();
+	}
+
 }

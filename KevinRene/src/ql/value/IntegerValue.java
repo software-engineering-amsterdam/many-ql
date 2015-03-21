@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLInteger;
 
 public class IntegerValue implements Value {
 	private final int value;
@@ -19,6 +21,16 @@ public class IntegerValue implements Value {
 		return true;
 	}
 
+	@Override
+	public Integer getValue() {
+		return value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLInteger();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		return argument.addInteger(this);
@@ -222,10 +234,6 @@ public class IntegerValue implements Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		throw new UnsupportedOperationException();
-	}
-	
-	public Integer getValue() {
-		return value;
 	}
 	
 	@Override

@@ -5,7 +5,6 @@ import nl.uva.se.ql.ast.form.Form;
 import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.type.Type;
-import nl.uva.se.ql.interpretation.Result;
 import nl.uva.se.ql.typechecking.error.DuplicateLabels;
 import nl.uva.se.ql.typechecking.error.ErrorList;
 import nl.uva.se.ql.typechecking.error.IncompatibleTypeDeclaration;
@@ -21,11 +20,11 @@ public class SymbolResolver extends AbstractResolver {
 		errors = new ErrorList();
 	}
 
-	public static Result<SymbolTable> resolve(Form form) {
+	public static SymbolResult resolve(Form form) {
 		SymbolResolver visitor = new SymbolResolver();
 		visitor.visit(form);
 
-		return new Result<SymbolTable>(visitor.errors, visitor.symbols);
+		return new SymbolResult(visitor.errors, visitor.symbols);
 	}
 
 	@Override
@@ -45,6 +44,7 @@ public class SymbolResolver extends AbstractResolver {
 			errors.addError(new UndefinedReference(reference.getLineNumber(), 
 					reference.getOffset(), reference.getName()));
 		}
+		
 		return null;
 	}
 	
