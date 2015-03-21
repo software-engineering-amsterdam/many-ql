@@ -1,5 +1,6 @@
 # AST format of the Form
-import collections
+import QL.AST.type_checker as type_checker
+import QL.AST.exception_handling as exception_handling
 
 
 class Form:
@@ -7,6 +8,7 @@ class Form:
         self._name = name
         self._introduction = introduction
         self._statements = statements
+        self.exception_handler = exception_handling.ExceptionHandling()
 
     # Pretty print the _form
     def string_presentation(self):
@@ -85,54 +87,12 @@ class Form:
     # Type checker stuff
     #
 
-    @staticmethod
-    def check_duplicates(l):
-        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
-        return duplicates
+    def exceptions(self):
+        self.exception_handler.add_errors(type_checker.check_ids(self.get_ids()))
+        self.exception_handler.add_warnings(type_checker.check_labels(self.get_labels()))
+        self.exception_handler.add_errors(type_checker.check_dependencies(self.get_dependencies()))
+        self.exception_handler.add_errors(self.check_expressions())
+        exceptions = self.exception_handler.exceptions()
 
-    def check_ids(self):
-        duplicates = Form.check_duplicates(self.get_ids())
-        if duplicates:
-            return "There are duplicate ids: " + str(duplicates)
-        else:
-            return ""
-
-    def check_labels(self):
-        duplicates = Form.check_duplicates(self.get_labels())
-        if duplicates:
-            return "There are duplicate labels: " + str(duplicates)
-        else:
-            return ""
-
-    def check_dependencies(self):
-        message = ""
-        dependencies = self.get_dependencies()
-        for d in dependencies:
-            if d in dependencies[d]:
-                message += str(d) + " is dependent on itself"
-        return message
-
-    def is_valid_form(self):
-        valid = True
-        id_message = self.check_ids()
-        if id_message:
-            valid = False
-            print(id_message)
-
-        label_message = self.check_labels()
-        if label_message:
-            print(label_message)
-
-        dependency_message = self.check_dependencies()
-        if dependency_message:
-            valid = False
-            print(dependency_message)
-
-        expression_message = self.check_expressions()
-        if expression_message:
-            valid = False
-            print(expression_message)
-
-        return valid
-
+        return exceptions
 

@@ -25,10 +25,10 @@ if (con == True) {
     Question trans (bool) : Will transitive closure work?
 }
 else {
-    Question check (bool) : Will this work?
+    Question check (bool) : What do you like about hummus?
 }
 
-if (1 + 2 == True) {
+if (1 + 2 == 3) {
     Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {

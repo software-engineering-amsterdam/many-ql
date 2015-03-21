@@ -15,8 +15,8 @@ import QL.Tools.exceptions as ee
 pp.ParserElement.enablePackrat()
 formAsParseResults = grammar.form.ignore(grammar.comment).parseFile(c.Config.input_path)
 form = form_factory.make_form(formAsParseResults)
-print(form.string_presentation())
-form.is_valid_form()
+# print(form.string_presentation())
+exception_handler = ee.TypeException(form.exceptions())
 
 enriched_form = runtime_form.Form(form)
 gui = g.GUI(enriched_form)

@@ -61,7 +61,7 @@ class Question(statement.IStatement):
 
     # returns a message with errors if the expression is wrongly typed, here empty thus
     def valid_expression_message(self, td):
-        return ""
+        return []
 
 
 

@@ -1,4 +1,6 @@
 import pyparsing as pp
+import sys
+
 
 def exceptions_handling(e):
     print("Error occured!")
@@ -12,6 +14,22 @@ def exceptions_handling(e):
 
 class QException(Exception):
     pass
+
+
+class TypeException(Exception):
+    def __init__(self, exceptions):
+        errors, warnings = exceptions
+        if errors:
+            print("errors:")
+            for e in errors:
+                print(e)
+            print("")
+        if warnings:
+            print("warnings:")
+            for w in warnings:
+                print(w)
+        if errors:
+            sys.exit()
 
 
 class FException:
