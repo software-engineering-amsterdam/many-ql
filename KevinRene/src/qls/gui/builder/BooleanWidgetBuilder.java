@@ -7,13 +7,18 @@ import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.WidgetBuilder;
 import qls.gui.widget.InputWidget;
+import qls.gui.widget.input.Checkbox;
 import qls.gui.widget.input.Dropdown;
 import qls.gui.widget.input.Radio;
 
 public class BooleanWidgetBuilder implements WidgetBuilder {
 	@Override
 	public InputWidget<?> createCheckbox(StyleProperties properties) {
-		throw new UnsupportedOperationException();
+		InputWidget<?> checkBox = new Checkbox();
+		
+		checkBox.setStyle(properties);
+		
+		return checkBox;
 	}
 
 	@Override

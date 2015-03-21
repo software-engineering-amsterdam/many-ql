@@ -60,4 +60,8 @@ public class RadioButton extends DefaultChangeHandler implements InputWidget<Boo
 	public void actionPerformed(ActionEvent e) {
 		handleChange(getValue(), this);
 	}
+	
+	public BooleanValue isSelected() {
+		return new BooleanValue(radioButton.isSelected());
+	}
 }

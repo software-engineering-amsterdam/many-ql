@@ -11,7 +11,7 @@ stylesheet taxOfficeExample {
 	}
 	page Second {
 		section "Page 2 Section 1" {
-			question booleanValue;
+			question booleanValue widget checkbox;
 			section "Nested" {
 				question valueResidue;
 			}

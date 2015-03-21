@@ -64,11 +64,7 @@ public class Radio extends DefaultChangeHandler implements InputWidget<BooleanVa
 
 	@Override
 	public BooleanValue getValue() {
-		if(trueRadio.getValue().getValue()) {
-			return new BooleanValue(true);
-		}
-		
-		return new BooleanValue(false);
+		return trueRadio.isSelected();
 	}
 
 	@Override
