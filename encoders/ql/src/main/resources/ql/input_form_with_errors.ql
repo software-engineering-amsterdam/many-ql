@@ -10,10 +10,14 @@ form taxOfficeExample {
   "What is the commissioning?"
     commissioning: boolean
 
-if(!percentage) {
+    "Is this even possible?"
+      booleanQuestionWithComputedInteger: boolean = 
+        (percentage * 2)
+        
+  if(!percentage) {
     "What was the selling price?"
       sellingPrice: integer
-}
+  }
 
   if (hasSoldHouse) {
     "What was the selling price?"

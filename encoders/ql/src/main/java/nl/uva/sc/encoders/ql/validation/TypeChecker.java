@@ -39,6 +39,7 @@ public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, Sta
 	private static final String UNDEFINED_QUESTION = "undefinedQuestion";
 	private static final String UNSUPPORTED_TYPES_FOR_BINARY_OPERATOR = "unsupportedTypesForBinaryOperator";
 	private static final String UNSUPPORTED_TYPES_FOR_UNARY_OPERATOR = "unsupportedTypesForUnaryOperator";
+	private static final String COMPUTED_TYPE_DOES_NOT_MATCH_QUESTION_TYPE = "computedTypeDoesNotMatchQuestionType";
 
 	private final TypeMap typeMap = new TypeMap();
 
@@ -169,8 +170,12 @@ public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, Sta
 		Expression computed = question.getComputed();
 		if (computed != null) {
 			validations.addAll(computed.accept(this));
-			if (!computed.getType(typeMap).equals(question.getDataType())) {
-				// TODO add validation!
+			DataType computedType = computed.getType(typeMap);
+			DataType questionType = question.getDataType();
+			if (!computedType.equals(questionType)) {
+				TextLocation textLocation = computed.getTextLocation();
+				String validationMessage = getString(COMPUTED_TYPE_DOES_NOT_MATCH_QUESTION_TYPE, computedType, questionType);
+				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			}
 		}
 		return validations;
