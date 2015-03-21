@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Hollywood\DataContext.cs" />
     <Compile Include="Hollywood\DataHandlers\ASTCreation\AstBuilder.cs" />
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\OperatorFactory.cs" />
     <Compile Include="Hollywood\DataHandlers\InputHandling\Initializer.cs" />
     <Compile Include="Hollywood\DataHandlers\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
