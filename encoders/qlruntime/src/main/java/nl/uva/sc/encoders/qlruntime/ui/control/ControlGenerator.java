@@ -37,7 +37,7 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 		final NumberField numberField = new NumberField();
 		numberField.setOnKeyReleased(event -> {
 			KeyCode keyCode = event.getCode();
-			if (keyCode.isNavigationKey() || keyCode.isFunctionKey() || keyCode.isMediaKey()) {
+			if (!keyCode.isDigitKey()) {
 				return;
 			}
 			TextField textField1 = (TextField) event.getSource();
@@ -46,8 +46,9 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 			if (!text.isEmpty()) {
 				try {
 					value = Integer.valueOf(text);
-					runtimeQuestion.setValue(new IntegerValue(value));
 				} catch (NumberFormatException e) {
+					numberField.setNumber(value);
+					runtimeQuestion.setValue(new IntegerValue(value));
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setContentText(text + " is not a valid number.");
 					alert.show();
@@ -62,7 +63,7 @@ public class ControlGenerator implements DataTypeVisitor<ControlPropertyChangeWr
 		TextField textField = new TextField();
 		textField.setOnKeyReleased(event -> {
 			KeyCode keyCode = event.getCode();
-			if (!(keyCode.isLetterKey() || keyCode.isDigitKey() || keyCode.isWhitespaceKey())) {
+			if (keyCode.isNavigationKey() || keyCode.isFunctionKey() || keyCode.isMediaKey()) {
 				return;
 			}
 			TextField textField1 = (TextField) event.getSource();
