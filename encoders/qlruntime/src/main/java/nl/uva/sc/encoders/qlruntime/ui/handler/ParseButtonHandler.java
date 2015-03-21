@@ -20,8 +20,8 @@ import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParser;
 import nl.uva.sc.encoders.qlruntime.parser.QuestionnaireParsingResult;
-import nl.uva.sc.encoders.qlruntime.ui.QuestionnaireUI;
-import nl.uva.sc.encoders.qlruntime.ui.ValidationsUI;
+import nl.uva.sc.encoders.qlruntime.ui.QuestionnaireGridPane;
+import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
@@ -75,25 +75,25 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 	private Node determineNodeToShow(QuestionnaireParsingResult questionnaireParsingResult) {
 		List<SyntaxError> syntaxErrors = questionnaireParsingResult.getSyntaxErrors();
 		if (!syntaxErrors.isEmpty()) {
-			ValidationsUI validationsUI = new ValidationsUI();
-			validationsUI.showValidations(syntaxErrors);
-			return validationsUI;
+			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
+			validationsGridPane.showValidations(syntaxErrors);
+			return validationsGridPane;
 		}
 
 		Questionnaire questionnaire = questionnaireParsingResult.getQuestionnaire();
 		TypeChecker typeChecker = new TypeChecker(questionnaire);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
-			ValidationsUI validationsUI = new ValidationsUI();
-			validationsUI.showValidations(typeValidations);
-			return validationsUI;
+			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
+			validationsGridPane.showValidations(typeValidations);
+			return validationsGridPane;
 		}
 		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 		List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
 		String questionnaireTitle = questionnaire.getName();
-		QuestionnaireUI questionnaireUI = new QuestionnaireUI(questionnaireTitle);
-		ScrollPane scrollPane = new ScrollPane(questionnaireUI);
-		questionnaireUI.showQuestions(runtimeQuestions);
+		QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(questionnaireTitle);
+		ScrollPane scrollPane = new ScrollPane(questionnaireGridPane);
+		questionnaireGridPane.showQuestions(runtimeQuestions);
 		scrollPane.setPrefSize(650, 500);
 		return scrollPane;
 	}

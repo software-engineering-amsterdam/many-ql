@@ -9,11 +9,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import nl.uva.sc.encoders.ql.validation.ValidationMessage;
 
-public class ValidationsUI extends GridPane {
+public class ValidationsGridPane extends GridPane {
 
 	private final TextArea typeCheckerMessages;
 
-	public ValidationsUI() {
+	public ValidationsGridPane() {
 		setAlignment(Pos.CENTER);
 		setHgap(10);
 		setVgap(10);

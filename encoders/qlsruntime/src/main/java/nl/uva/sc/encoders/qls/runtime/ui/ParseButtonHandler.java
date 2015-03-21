@@ -13,7 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
-import nl.uva.sc.encoders.qlruntime.ui.ValidationsUI;
+import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
 import nl.uva.sc.encoders.qls.parser.StylesheetParser;
 import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
@@ -70,18 +70,18 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 	private Node determineNodeToShow(StylesheetParsingResult stylesheetParsingResult) {
 		List<SyntaxError> syntaxErrors = stylesheetParsingResult.getSyntaxErrors();
 		if (!syntaxErrors.isEmpty()) {
-			ValidationsUI validationsUI = new ValidationsUI();
-			validationsUI.showValidations(syntaxErrors);
-			return validationsUI;
+			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
+			validationsGridPane.showValidations(syntaxErrors);
+			return validationsGridPane;
 		}
 
 		Stylesheet stylesheet = stylesheetParsingResult.getStylesheet();
 		TypeChecker typeChecker = new TypeChecker(stylesheet);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
-			ValidationsUI validationsUI = new ValidationsUI();
-			validationsUI.showValidations(typeValidations);
-			return validationsUI;
+			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
+			validationsGridPane.showValidations(typeValidations);
+			return validationsGridPane;
 		}
 
 		// How will we refer to the QL environment?

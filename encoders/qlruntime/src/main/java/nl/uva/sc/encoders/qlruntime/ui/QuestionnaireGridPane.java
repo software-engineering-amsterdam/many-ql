@@ -23,9 +23,9 @@ import nl.uva.sc.encoders.qlruntime.model.value.Value;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlGenerator;
 import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
-public class QuestionnaireUI extends GridPane {
+public class QuestionnaireGridPane extends GridPane {
 
-	public QuestionnaireUI(String questionnaireTitle) {
+	public QuestionnaireGridPane(String questionnaireTitle) {
 		setAlignment(Pos.CENTER);
 		setHgap(10);
 		setVgap(10);
