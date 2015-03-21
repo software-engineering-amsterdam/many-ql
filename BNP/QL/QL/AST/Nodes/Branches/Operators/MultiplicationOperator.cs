@@ -1,7 +1,4 @@
-﻿using System;
-using QL.Model.Terminals;
-
-namespace QL.Model.Operators
+﻿namespace QL.AST.Nodes.Branches.Operators
 {
     public class MultiplicationOperator : BinaryTreeElementBase, IOperator, ITypeInferred
     {

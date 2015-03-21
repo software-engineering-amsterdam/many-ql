@@ -1,12 +1,7 @@
 ﻿using Antlr4.Runtime;
 using QL.Exceptions.Errors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QL.GenericDataHandlers
+namespace QL.Hollywood.DataHandlers.InputHandling
 {
     class Initializer : IExecutable
     {

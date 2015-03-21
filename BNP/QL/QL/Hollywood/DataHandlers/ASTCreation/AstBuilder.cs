@@ -1,13 +1,9 @@
-﻿using Antlr4.Runtime;
-using QL.Grammars;
-using QL.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Antlr4.Runtime;
+using QL.Grammar;
+using QLLexer = QL.Grammar.QLLexer;
 
-namespace QL.GenericDataHandlers
+namespace QL.Hollywood.DataHandlers.ASTCreation
 {
     class ASTBuilder :IExecutable
     {

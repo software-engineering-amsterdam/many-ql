@@ -1,14 +1,7 @@
-﻿using QL.Model.Terminals;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals.Wrappers;
-using QL.Model;
+﻿using System.Diagnostics.Contracts;
+using QL.AST.Nodes.Terminals;
 
-namespace QL.Visitors.EvaluationWrappers
+namespace QL.AST.ValueWrappers
 {
     class EvaluationTerminalWrapperFactory
     {

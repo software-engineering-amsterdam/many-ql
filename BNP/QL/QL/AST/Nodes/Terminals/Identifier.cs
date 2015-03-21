@@ -1,7 +1,6 @@
 ﻿using System;
-using QL.Exceptions;
 
-namespace QL.Model.Terminals
+namespace QL.AST.Nodes.Terminals
 {
     public class Identifier : BinaryTreeElementBase, ITerminalType
     {

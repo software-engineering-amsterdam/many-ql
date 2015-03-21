@@ -1,8 +1,8 @@
 ﻿using System;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions.Errors;
-using QL.Visitors;
 
-namespace QL.Model.Terminals.Wrappers
+namespace QL.AST.ValueWrappers
 {
     public class NumberWrapper : ITerminalWrapper//TODO change to  struct
     {

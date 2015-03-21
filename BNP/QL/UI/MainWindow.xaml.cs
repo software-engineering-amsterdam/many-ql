@@ -7,19 +7,15 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
-using QL.Model;
-using QL.Model.Terminals;
-using QL.Model.Terminals.Wrappers;
+using QL.Hollywood;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
-using QL.Visitors;
 
 namespace QL.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private string _inputFilePath = null;

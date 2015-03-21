@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
-using QL;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.Model;
-using System.Diagnostics;
-using QL.Model.Terminals;
-using Antlr4.Runtime;
-using QL.Model.Operators;
-using System.Diagnostics.Contracts;
+using QL.Grammar;
+using QL.Grammar;
 
-
-namespace QL.Grammars
+namespace QL.Hollywood.DataHandlers.ASTCreation
 {
     public class QLListener : QLBaseListener
     {

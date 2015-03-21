@@ -1,19 +1,18 @@
-﻿using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Model;
-using QL.Model.Operators;
-using QL.Model.Terminals;
-using QL.Visitors.EvaluationWrappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals.Wrappers;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
+using QL.AST.ValueWrappers;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
 
-namespace QL.Visitors
+namespace QL.Hollywood.DataHandlers.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {

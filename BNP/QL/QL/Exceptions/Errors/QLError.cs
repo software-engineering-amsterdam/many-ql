@@ -1,5 +1,6 @@
 ﻿using System;
-using QL.Model;
+using QL.AST;
+using QL.AST.Nodes;
 
 namespace QL.Exceptions.Errors
 {

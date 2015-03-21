@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals;
-
-namespace QL.Model
+﻿namespace QL.AST.Nodes
 {
     public abstract class BinaryTreeElementBase : ElementBase
     {

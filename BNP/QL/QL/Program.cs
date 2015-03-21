@@ -10,10 +10,8 @@ using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.Grammars;
-using QL.Infrastructure;
-using QL.Model;
-using QL.Visitors;
+using QL.Grammar;
+using QL.Hollywood;
 
 
 namespace QL

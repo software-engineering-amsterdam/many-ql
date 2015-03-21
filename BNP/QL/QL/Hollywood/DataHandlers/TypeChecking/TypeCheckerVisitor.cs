@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Exceptions.Warnings;
-using QL.Model;
-using QL.Model.Operators;
 
-using QL.Model.Terminals;
-
-namespace QL.Visitors
+namespace QL.Hollywood.DataHandlers.TypeChecking
 {
     public class TypeCheckerVisitor: IVisitor
     {

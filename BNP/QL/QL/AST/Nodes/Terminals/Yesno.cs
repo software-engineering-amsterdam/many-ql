@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QL.Model.Terminals
+namespace QL.AST.Nodes.Terminals
 {
     public class Yesno : BinaryTreeElementBase, IResolvableTerminalType
     {

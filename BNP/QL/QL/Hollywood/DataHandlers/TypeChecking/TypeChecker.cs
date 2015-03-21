@@ -1,13 +1,7 @@
-﻿using QL.Exceptions;
+﻿using System.Linq;
 using QL.Exceptions.Errors;
-using QL.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QL.GenericDataHandlers
+namespace QL.Hollywood.DataHandlers.TypeChecking
 {
     class TypeChecker :IExecutable
     {

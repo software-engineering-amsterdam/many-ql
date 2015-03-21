@@ -5,9 +5,13 @@ using System.IO;
 using System.Linq;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.GenericDataHandlers;
+using QL.Hollywood.DataHandlers;
+using QL.Hollywood.DataHandlers.ASTCreation;
+using QL.Hollywood.DataHandlers.Evaluation;
+using QL.Hollywood.DataHandlers.InputHandling;
+using QL.Hollywood.DataHandlers.TypeChecking;
 
-namespace QL
+namespace QL.Hollywood
 {
     /// <summary>
     /// This is the god class.

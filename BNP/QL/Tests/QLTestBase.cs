@@ -1,5 +1,7 @@
 ﻿using Antlr4.Runtime;
-using QL.Grammars;
+using QL.Grammar;
+using QL.Hollywood.DataHandlers.ASTCreation;
+using QLLexer = QL.Grammar.QLLexer;
 
 namespace Tests
 {

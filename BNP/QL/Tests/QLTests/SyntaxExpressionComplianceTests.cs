@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL;
-using QL.Model;
+using QL.Hollywood;
 
 namespace Tests.QLTests
 {

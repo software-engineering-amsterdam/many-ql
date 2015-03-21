@@ -142,7 +142,7 @@
     </AntlrTokens>
     <Antlr4 Include="Grammar\QL.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>QL.Grammars</CustomToolNamespace>
+      <CustomToolNamespace>QL.Grammar</CustomToolNamespace>
       <Listener>True</Listener>
       <Visitor>True</Visitor>
     </Antlr4>

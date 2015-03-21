@@ -1,7 +1,6 @@
-﻿using QL.Model.Terminals;
-using System;
+﻿using QL.AST.Nodes.Terminals;
 
-namespace QL.Model
+namespace QL.AST.Nodes.Branches
 {
     public class StatementUnit : UnitBase
     {

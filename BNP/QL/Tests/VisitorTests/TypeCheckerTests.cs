@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL.Grammars;
-using QL.Model;
+using QL.Grammar;
 using QL;
+using QL.Hollywood;
 
 namespace Tests.VisitorTests
 {

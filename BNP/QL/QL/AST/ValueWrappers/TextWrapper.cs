@@ -1,7 +1,7 @@
 ﻿using System;
-using QL.Visitors;
+using QL.AST.Nodes.Terminals;
 
-namespace QL.Model.Terminals.Wrappers
+namespace QL.AST.ValueWrappers
 {
     public class TextWrapper : ITerminalWrapper//TODO change to  struct
     {

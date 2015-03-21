@@ -1,19 +1,16 @@
-﻿using Antlr4.Runtime;
-using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Exceptions.Warnings;
-using QL.Model;
-using QL.Model.Terminals;
-using QL.Visitors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Antlr4.Runtime;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
+using QL.AST.ValueWrappers;
+using QL.Exceptions;
+using QL.Exceptions.Warnings;
 
-namespace QL
+namespace QL.Hollywood
 {
     public class DataContext
     {

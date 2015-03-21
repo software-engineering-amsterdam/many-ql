@@ -1,10 +1,4 @@
-﻿using QL.Visitors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace QL.Model
+﻿namespace QL.AST.Nodes
 {
 
     public interface IVisitable

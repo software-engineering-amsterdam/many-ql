@@ -7,7 +7,7 @@ TEXT		: '\"' .*? '\"';
 IDENTIFIER	: [a-zA-Z][a-zA-Z0-9]*;
 
 // Ignore rules
-WS			: [\r\n\t ]+ -> skip;
+WS			: [\r\n\t ]+	-> skip;
 COMMENT		: '//' ~[\r\n]* -> skip;
 
 // Operators

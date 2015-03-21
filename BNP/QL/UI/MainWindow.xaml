@@ -1,7 +1,6 @@
 ﻿<Window x:Class="QL.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:QL.UI.Controls"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         x:Name="MainWindowControl"
         Title="QL Form filler" Height="600" Width="800" ResizeMode="CanResizeWithGrip"

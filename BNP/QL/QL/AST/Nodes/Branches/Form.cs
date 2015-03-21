@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals;
+using QL.AST.Nodes.Terminals;
 
-namespace QL.Model
+namespace QL.AST.Nodes.Branches
 {
     public class Form : ElementBase
     {
