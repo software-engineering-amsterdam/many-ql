@@ -6,7 +6,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 public interface IWidget {
 
     public void render(UIForm _canvas);
-    public void supress(UIForm _canvas);
+    public void suppress(UIForm _canvas);
 
     public ExpressionValue getWidgetValue();
     public void setWidgetValue(ExpressionValue _value);

@@ -33,7 +33,7 @@ public class UIQuestionBuilder implements IStatementVisitor <UIQuestion>{
     }
 
     public UIQuestion visitIfStatement(IfStatement _ifStatement) {
-        throw new AssertionError(); // Should never go in here
+        throw new AssertionError(); // Should never go in here, this is used as a factory.
     }
 
     public UIQuestion visitComputedQuestion(ComputedQuestion _computedQuestion) {
