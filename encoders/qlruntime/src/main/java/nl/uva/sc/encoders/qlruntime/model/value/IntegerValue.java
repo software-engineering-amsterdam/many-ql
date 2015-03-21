@@ -1,5 +1,8 @@
 package nl.uva.sc.encoders.qlruntime.model.value;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class IntegerValue extends Value {
 
 	private final int value;
@@ -21,7 +24,14 @@ public class IntegerValue extends Value {
 
 	@Override
 	public IntegerValue divide(Value otherValue) {
-		int result = value / ((IntegerValue) otherValue).getValue();
+		int result = 0;
+		try {
+			result = value / ((IntegerValue) otherValue).getValue();
+		} catch (ArithmeticException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText(value + "/" + otherValue + " cannot be evaluated: " + e.getMessage());
+			alert.show();
+		}
 		return new IntegerValue(result);
 	}
 
