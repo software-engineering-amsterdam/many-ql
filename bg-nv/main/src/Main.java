@@ -7,9 +7,9 @@ import ql.ast.AstBuilder;
 import ql.gui.Modeler;
 import ql.gui.SimpleGui;
 import ql.gui.SimpleModeler;
-import ql.semantics.CondQuestionTable;
-import ql.semantics.CondQuestionTableBuilder;
-import ql.semantics.TypeChecker;
+import ql.gui.canvas.Canvas;
+import ql.semantics.*;
+import qls.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
 import qls.gen.QLSLexer;
@@ -42,7 +42,7 @@ public class Main extends Application
         AstBuilder qlBuilder = new AstBuilder();
         Form form = (Form)qlBuilder.visit(qlContext);
 
-        Messages ms = TypeChecker.check(form);
+        Messages ms = ql.semantics.TypeChecker.check(form);
         if (ms.containsError())
         {
             System.err.print(ms.toString());
@@ -62,7 +62,7 @@ public class Main extends Application
             qls.ast.AstBuilder qlsBuilder = new qls.ast.AstBuilder();
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
-            Messages qlsMs =  qls.semantics.TypeChecker.check(stylesheet, form);
+            Messages qlsMs =  TypeChecker.check(stylesheet, form);
 // TODO: fix the ql and qls files and enable type checking
 //            if (qlsMs.containsError())
 //            {
@@ -74,7 +74,14 @@ public class Main extends Application
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);
         }
 
-        SimpleGui.run(form, modeler, primaryStage);
+        //TODO: move this part below + maybe pull out the attaching of listeners etc. from SimpleGui as well ?
+        ValueTable valueTable = Evaluator.evaluate(form);
+        DataStore dataStore = new FileStore(form, valueTable);
+        Canvas canvas = modeler.model();
+        //TODO: user feedback
+        canvas.setSubmitAction(e -> dataStore.store());
+
+        SimpleGui.display(valueTable, canvas, primaryStage);
     }
 
     private CharStream getStream(String file)

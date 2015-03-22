@@ -10,12 +10,7 @@ public abstract class ControlElement extends GuiElement
 {
     public ControlElement(Boolean visible, Boolean disabled)
     {
-
-    }
-
-    protected void sendNotification(Value val) {
-        setChanged();
-        notifyObservers(val);
+        super(visible);
     }
 
     // the default visit methods - children implement the Control interface, which enforces them
