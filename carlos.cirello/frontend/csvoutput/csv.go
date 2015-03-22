@@ -17,7 +17,7 @@ type output struct {
 	stream  io.Writer
 }
 
-// New takes in a pair of channels for the interpreter, a writer stream and
+// Write takes in a pair of channels for the interpreter, a writer stream and
 // writes CSV output.
 func Write(pipes *plumbing.Pipes, stream io.Writer) {
 	output := &output{

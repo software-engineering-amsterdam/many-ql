@@ -41,6 +41,7 @@ func (s BoolQuestion) Value() interface{} {
 	return s.value
 }
 
+// BoolString makes the conversion from primitive boolen into string ("Yes/No").
 func BoolString(v bool) string {
 	if v {
 		return AnswerYes

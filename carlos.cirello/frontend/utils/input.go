@@ -6,6 +6,9 @@ type inputUtil struct {
 	receive, send chan *plumbing.Frontend
 }
 
+// DispatchReadAnswers takes a set of read answers from input frontend and feeds
+// to interpreter through pipes. It handles both the feed and the set of signals
+// necessary to set interpreter ready for next process connecting to the pipes.
 func DispatchReadAnswers(answers map[string]string,
 	receive, send chan *plumbing.Frontend) {
 

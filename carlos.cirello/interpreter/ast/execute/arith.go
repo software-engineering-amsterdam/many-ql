@@ -52,7 +52,7 @@ func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 		str := value.(string)
 		v, err := strconv.ParseFloat(str, 32)
 		if err != nil {
-			log.Panicf("%s: variable %s not a number.",
+			log.Panicf("%s: variable %s not a number. Got: %s",
 				s.Pos(), s.IdentifierReference(), str)
 		}
 		return float32(v)

@@ -19,7 +19,7 @@ type input struct {
 	stream  io.Reader
 }
 
-// New takes in a pair of channels for the interpreter, a reader stream and
+// Read takes in a pair of channels for the interpreter, a reader stream and
 // reads the input file content.
 func Read(pipes *plumbing.Pipes, stream io.Reader) {
 	input := &input{
