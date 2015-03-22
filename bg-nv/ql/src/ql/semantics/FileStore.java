@@ -1,8 +1,9 @@
 package ql.semantics;
 
-import ql.ast.form.Form;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import ql.ast.statement.Question;
+import ql.semantics.values.Value;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,28 +24,20 @@ public class FileStore extends DataStore
 {
     private static final String FILEPATH = "questionnaire.xml";
 
-    public FileStore(Form ast, ValueTable valueTable)
+    public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
     {
-        super(ast, valueTable);
+        super(condQuestionTable, valueTable);
     }
 
     @Override
-    public void store()
+    public void save()
     {
         try
         {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("questionnaire");
-            doc.appendChild(rootElement);
-
-            for (String questionId : this.storeItems)
-            {
-                Element questionElem = this.createElementForQuestion(doc, questionId);
-                rootElement.appendChild(questionElem);
-            }
+            Document doc = this.createDocument(docBuilder);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -67,14 +60,26 @@ public class FileStore extends DataStore
         }
     }
 
-    private Element createElementForQuestion(Document doc, String questionId)
+    private Document createDocument(DocumentBuilder docBuilder)
     {
-        String question = this.storeItems.getLabel(questionId);
-        String answer = this.storeItems.getAnswer(questionId);
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("questionnaire");
+        doc.appendChild(rootElement);
 
+        for (Question question : this.getQuestions())
+        {
+            Element questionElem = this.createElementForQuestion(doc, question);
+            rootElement.appendChild(questionElem);
+        }
+        return doc;
+    }
+
+    private Element createElementForQuestion(Document doc, Question question)
+    {
+        Value answer = this.getAnswer(question.getId());
         Element questionElem = doc.createElement("question");
-        questionElem.setAttribute("text", question);
-        questionElem.setAttribute("answer", answer);
+        questionElem.setAttribute("text", question.getLabel());
+        questionElem.setAttribute("answer", answer.toString());
 
         return questionElem;
     }

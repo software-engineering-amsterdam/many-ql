@@ -76,10 +76,10 @@ public class Main extends Application
 
         //TODO: move this part below + maybe pull out the attaching of listeners etc. from SimpleGui as well ?
         ValueTable valueTable = Evaluator.evaluate(form);
-        DataStore dataStore = new FileStore(form, valueTable);
+        DataStore dataStore = new FileStore(condQuestionTable, valueTable);
         Canvas canvas = modeler.model();
         //TODO: user feedback
-        canvas.setSubmitAction(e -> dataStore.store());
+        canvas.setSubmitAction(e -> dataStore.save());
 
         SimpleGui.display(valueTable, canvas, primaryStage);
     }

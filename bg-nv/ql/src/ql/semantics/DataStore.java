@@ -1,18 +1,30 @@
 package ql.semantics;
 
-import ql.ast.form.Form;
+import ql.semantics.values.Value;
 
 /**
  * Created by Nik on 22-03-2015
  */
 public abstract class DataStore
 {
-    protected final StoreItems storeItems;
+    private final CondQuestionTable questions;
+    private final ValueTable valueTable;
 
-    public DataStore(Form ast, ValueTable valueTable)
+    public DataStore(CondQuestionTable questions, ValueTable valueTable)
     {
-         this.storeItems = new StoreItems(ast, valueTable);
+        this.questions = questions;
+        this.valueTable = valueTable;
     }
 
-    public abstract void store();
+    protected CondQuestionTable getQuestions()
+    {
+        return this.questions;
+    }
+
+    protected Value getAnswer(String questionId)
+    {
+        return this.valueTable.getValue(questionId);
+    }
+
+    public abstract void save();
 }
