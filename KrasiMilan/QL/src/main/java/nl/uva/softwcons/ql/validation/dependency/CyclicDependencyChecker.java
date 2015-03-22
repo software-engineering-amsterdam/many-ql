@@ -1,7 +1,5 @@
 package nl.uva.softwcons.ql.validation.dependency;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
@@ -11,17 +9,11 @@ import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
-import nl.uva.softwcons.ql.validation.Error;
+import nl.uva.softwcons.ql.validation.Checker;
 import nl.uva.softwcons.ql.validation.VariableExctractor;
 import nl.uva.softwcons.ql.validation.dependency.error.CyclicQuestionsDependency;
 
-public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisitor<Void> {
-
-    private final List<Error> errorsFound;
-
-    public CyclicDependencyChecker() {
-        this.errorsFound = new ArrayList<>();
-    }
+public class CyclicDependencyChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void> {
 
     @Override
     public Void visit(final Form form) {
@@ -35,7 +27,7 @@ public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisi
         final Set<Identifier> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
 
         if (expressionVariables.contains(questionIdentifier)) {
-            this.errorsFound.add(new CyclicQuestionsDependency(question.getLineInfo()));
+            this.addError(new CyclicQuestionsDependency(question.getLineInfo()));
         }
 
         return null;
@@ -50,11 +42,6 @@ public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisi
     public Void visit(Conditional conditional) {
         conditional.getQuestions().forEach(q -> q.accept(this));
         return null;
-    }
-
-    // TODO this should be part of some interface
-    public List<Error> getErrors() {
-        return this.errorsFound;
     }
 
 }

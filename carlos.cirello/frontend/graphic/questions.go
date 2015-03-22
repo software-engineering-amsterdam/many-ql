@@ -1,8 +1,6 @@
 package graphic
 
 import (
-	"time"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"gopkg.in/qml.v1"
 )
@@ -101,8 +99,7 @@ func (g *Gui) newDateQuestion(fieldName, caption string,
 		objectName := newFieldPtr.String("objectName")
 		content := newFieldPtr.String("text")
 
-		_, err := time.Parse("02/01/2006", content)
-		if err == nil {
+		if isValidDate(content) {
 			g.stacks.pushAnswer(objectName, content)
 			newFieldPtrWarning.Set("visible", false)
 			return

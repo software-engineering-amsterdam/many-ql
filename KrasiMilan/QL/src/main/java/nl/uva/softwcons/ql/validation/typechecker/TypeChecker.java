@@ -5,9 +5,7 @@ import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import nl.uva.softwcons.ql.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ql.ast.expression.binary.BinaryExpression;
@@ -35,19 +33,17 @@ import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.ql.validation.Error;
+import nl.uva.softwcons.ql.validation.Checker;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidConditionType;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidOperatorTypes;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidQuestionExpressionType;
 import nl.uva.softwcons.ql.validation.typechecker.error.UndefinedReference;
 
-public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Type> {
+public class TypeChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Type> {
     private final Environment env;
-    private final List<Error> errorsFound;
 
     public TypeChecker() {
         this.env = new Environment();
-        this.errorsFound = new ArrayList<>();
     }
 
     @Override
@@ -62,7 +58,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
         final Type questionExpressionType = computedQuestion.getExpression().accept(this);
         if (questionExpressionType != computedQuestion.getType()) {
-            this.errorsFound.add(new InvalidQuestionExpressionType(computedQuestion.getLineInfo()));
+            this.addError(new InvalidQuestionExpressionType(computedQuestion.getLineInfo()));
         }
 
         return null;
@@ -79,7 +75,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     public Void visit(final Conditional conditional) {
         final Type conditionExprType = conditional.getExpression().accept(this);
         if (conditionExprType != BOOLEAN_TYPE) {
-            this.errorsFound.add(new InvalidConditionType(conditional.getLineInfo()));
+            this.addError(new InvalidConditionType(conditional.getLineInfo()));
         }
 
         conditional.getQuestions().forEach(q -> q.accept(this));
@@ -175,7 +171,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     public Type visit(final Not expr) {
         final Type expressionType = visitUnaryOperand(expr);
         if (expressionType != BOOLEAN_TYPE) {
-            this.errorsFound.add(new InvalidOperatorTypes(expr.getLineInfo()));
+            this.addError(new InvalidOperatorTypes(expr.getLineInfo()));
         }
 
         return BOOLEAN_TYPE;
@@ -186,7 +182,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
         final Type variableType = this.env.resolveVariable(questionId);
 
         if (variableType == UNDEFINED_TYPE) {
-            this.errorsFound.add(new UndefinedReference(questionId.getLineInfo()));
+            this.addError(new UndefinedReference(questionId.getLineInfo()));
         }
 
         return variableType;
@@ -221,15 +217,10 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     private Type resolveAndValidateBinaryExpressionType(final BinaryExpression expr, final Type... allowedTypes) {
         final Type nodeType = expr.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
         if (!Arrays.asList(allowedTypes).contains(nodeType)) {
-            this.errorsFound.add(new InvalidOperatorTypes(expr.getLineInfo()));
+            this.addError(new InvalidOperatorTypes(expr.getLineInfo()));
         }
 
         return nodeType;
-    }
-
-    // TODO this should be part of some interface
-    public List<Error> getErrors() {
-        return this.errorsFound;
     }
 
 }

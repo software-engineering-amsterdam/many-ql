@@ -1,8 +1,6 @@
 package nl.uva.softwcons.ql.validation.labels;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import nl.uva.softwcons.ql.ast.form.Form;
@@ -11,16 +9,14 @@ import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
-import nl.uva.softwcons.ql.validation.Error;
+import nl.uva.softwcons.ql.validation.Checker;
 import nl.uva.softwcons.ql.validation.labels.error.DuplicateLabel;
 
-public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
+public class LabelChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void> {
     private final Set<String> labels;
-    private final List<Error> errorsFound;
 
     public LabelChecker() {
         this.labels = new HashSet<>();
-        this.errorsFound = new ArrayList<>();
     }
 
     @Override
@@ -47,11 +43,6 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
         return null;
     }
 
-    // TODO this should be part of some interface
-    public List<Error> getErrors() {
-        return this.errorsFound;
-    }
-
     /**
      * Registers the given question's label for the current environment or adds
      * a {@link DuplicateLabel} error to the current errors list in case the
@@ -64,7 +55,7 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     private void validateQuestionLabel(final Question question) {
         final String questionLabel = question.getLabel();
         if (this.labels.contains(questionLabel)) {
-            this.errorsFound.add(new DuplicateLabel(question.getLineInfo()));
+            this.addError(new DuplicateLabel(question.getLineInfo()));
         } else {
             this.labels.add(questionLabel);
         }

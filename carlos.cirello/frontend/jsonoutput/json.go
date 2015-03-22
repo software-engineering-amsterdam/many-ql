@@ -1,10 +1,10 @@
-// Package csvoutput is responsible for storing the result of a form in a CSV
+// Package jsonoutput is responsible for storing the result of a form in a JSON
 // file from the runtime. It fulfills package frontend interface, therefore
 // from package interpreter perspective, this is just another interface.
-package csvoutput
+package jsonoutput
 
 import (
-	"encoding/csv"
+	"encoding/json"
 	"io"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/utils"
@@ -18,7 +18,7 @@ type output struct {
 }
 
 // New takes in a pair of channels for the interpreter, a writer stream and
-// writes CSV output.
+// writes JSON output.
 func Write(pipes *plumbing.Pipes, stream io.Writer) {
 	output := &output{
 		receive: pipes.FromInterpreter(),
@@ -34,22 +34,26 @@ func (o *output) write() {
 }
 
 func (o *output) writeLines() {
-	csv := csv.NewWriter(o.stream)
+	enc := json.NewEncoder(o.stream)
+	var lines []map[string]string
+
 commLoop:
 	for {
 		select {
 		case r := <-o.receive:
 			switch r.Type {
 			case plumbing.UpdateQuestion:
-				csv.Write([]string{
-					r.Identifier,
-					r.Label,
-					r.Value,
-				})
+				row := map[string]string{
+					"question": r.Identifier,
+					"label":    r.Label,
+					"value":    r.Value,
+				}
+				lines = append(lines, row)
 			case plumbing.Flush:
-				csv.Flush()
+				enc.Encode(lines)
 				break commLoop
 			}
 		}
 	}
+
 }

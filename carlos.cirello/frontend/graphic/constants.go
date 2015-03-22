@@ -2,12 +2,6 @@ package graphic
 
 const rootNode = `questions`
 
-const (
-	drawQuestion renderAction = iota
-	updateQuestion
-	nukeQuestion
-)
-
 const checkboxQML = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1

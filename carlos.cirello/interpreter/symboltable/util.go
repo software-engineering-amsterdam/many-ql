@@ -8,14 +8,12 @@ import (
 
 func scalarQuestionFactory(primitive string) (fmt.Stringer, error) {
 	switch primitive {
-	case ast.ScalarStringPrimitive:
+	default:
 		return new(StringQuestion), nil
 	case ast.ScalarNumericPrimitive:
 		return new(NumericQuestion), nil
 	case ast.ScalarBoolPrimitive:
 		return new(BoolQuestion), nil
-	case ast.ScalarDatePrimitive:
-		return new(DateQuestion), nil
 	}
 	return NewInvalidQuestion(primitive),
 		fmt.Errorf("Invalid question type. Got %s", primitive)

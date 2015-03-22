@@ -7,6 +7,7 @@ import (
 	"encoding/csv"
 	"io"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/utils"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
@@ -29,9 +30,7 @@ func Read(pipes *plumbing.Pipes, stream io.Reader) {
 
 func (i *input) read() {
 	answers := i.readAnswers()
-	i.handshake()
-	i.sendAnswers(answers)
-	i.handoverAndRedraw()
+	utils.DispatchReadAnswers(answers, i.receive, i.send)
 }
 
 func (i *input) readAnswers() (answers map[string]string) {
@@ -45,63 +44,4 @@ func (i *input) readAnswers() (answers map[string]string) {
 		answers[row[0]] = row[2]
 	}
 	return answers
-}
-
-func (i *input) handshake() {
-	i.sendHandshake()
-	i.unlockInterpreter()
-}
-
-func (i *input) sendHandshake() {
-	<-i.receive
-	i.send <- &plumbing.Frontend{
-		Type: plumbing.ReadyT,
-	}
-}
-
-func (i *input) unlockInterpreter() {
-renderingSkipLoop:
-	for {
-		select {
-		case r := <-i.receive:
-			if r.Type == plumbing.Flush {
-				break renderingSkipLoop
-			}
-		}
-	}
-
-}
-
-func (i *input) sendAnswers(answers map[string]string) {
-	answerEvent := &plumbing.Frontend{
-		Type:    plumbing.Answers,
-		Answers: answers,
-	}
-commLoop:
-	for {
-		select {
-		case <-i.receive:
-		case i.send <- answerEvent:
-			break commLoop
-
-		default:
-
-		}
-	}
-}
-
-func (i *input) handoverAndRedraw() {
-	redrawEvent := &plumbing.Frontend{Type: plumbing.Redraw}
-redrawLoop:
-	for {
-		select {
-		case <-i.receive:
-
-		case i.send <- redrawEvent:
-			break redrawLoop
-
-		default:
-
-		}
-	}
 }
