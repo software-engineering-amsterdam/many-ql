@@ -6,7 +6,6 @@ package jsonoutput
 import (
 	"encoding/json"
 	"io"
-	"os"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/utils"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
@@ -35,7 +34,7 @@ func (o *output) write() {
 }
 
 func (o *output) writeLines() {
-	enc := json.NewEncoder(os.Stdout)
+	enc := json.NewEncoder(o.stream)
 	var lines []map[string]string
 
 commLoop:
