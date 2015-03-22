@@ -1,7 +1,6 @@
 package ql.tests.evaluator;
 
 import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.values.*;
 import ql.tests.TestHelper;
 import org.junit.Test;

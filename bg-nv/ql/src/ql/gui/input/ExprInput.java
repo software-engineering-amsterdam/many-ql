@@ -5,7 +5,6 @@ import ql.gui.Refreshable;
 import ql.gui.control.Control;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.values.Value;
 
 /**

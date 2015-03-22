@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import ql.gui.control.Control;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.errors.Message;
 import ql.semantics.values.Value;
 
