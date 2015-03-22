@@ -62,6 +62,11 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
         throw new AssertionError();
     }
 
+    @Override
+    public void setLabel(String _label) {
+        throw new AssertionError();
+    }
+
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitUndefinedWidget(this);
     }
