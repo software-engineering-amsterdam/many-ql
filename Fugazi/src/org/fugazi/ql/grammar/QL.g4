@@ -22,8 +22,8 @@ ifStatement : 'if' '(' expression ')' '{' (statement)* '}';
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is computed from other variables / values.
-questionDeclaration : type ID '(' STRING ')' ';'                             # noAssignmentQuestion
-                    | type ID '(' STRING ')' '=' expression ';'              # assignmentQuestion
+questionDeclaration : type ID '(' STRING ')' ';'                             # simpleQuestion
+                    | type ID '(' STRING ')' '=' expression ';'              # computedQuestion
                     ;
 
 // all alowed variable types.

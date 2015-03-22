@@ -60,7 +60,7 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         _canvas.removeWidget(this.panel);
     }
 

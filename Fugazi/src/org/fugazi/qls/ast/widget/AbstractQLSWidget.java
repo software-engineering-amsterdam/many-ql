@@ -71,7 +71,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         throw new AssertionError();
     }
 

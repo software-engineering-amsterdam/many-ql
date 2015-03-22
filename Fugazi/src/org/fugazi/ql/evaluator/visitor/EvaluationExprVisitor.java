@@ -20,10 +20,10 @@ import org.fugazi.ql.evaluator.expression_value.*;
 
 public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValue> {
 
-    private final ValueStorage values;
+    private final ValueStorage valueStorage;
     
     public EvaluationExprVisitor(ValueStorage _values) {
-        this.values = _values;
+        this.valueStorage = _values;
     }
 
     /**
@@ -141,7 +141,7 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
      * Literals
      */
     public ExpressionValue visitID(ID _id) {
-        return this.values.getExpressionValue(_id.getName());
+        return this.valueStorage.getExpressionValue(_id.getName());
     }
     
     public ExpressionValue visitINT(INT _int) {
