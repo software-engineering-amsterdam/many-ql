@@ -24,9 +24,9 @@ class Widget(w.IWidget):
         return self._properties
 
     def widget_name(self):
-        return "widget"
+        return "get_widget"
 
-    def widget(self):
+    def get_widget(self):
         return self.widget
 
     def defaults(self):

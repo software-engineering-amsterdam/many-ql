@@ -23,8 +23,9 @@ class QuestionStyle(e.SheetElement):
     def get_widget_dict(self):
         return {self._id : self._widget}
 
-    def widget(self):
-        return self._widget.widget()
+    def get_widget(self):
+        x = self._widget
+        return x
 
     def is_default(self):
         return False

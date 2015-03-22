@@ -3,11 +3,11 @@ import QLS.AST.Properties.constants as constants
 
 class Widget:
     def __init__(self, question_style):
-        self.widget = question_style.widget()
-        self.property_map = self.property_map()
+        self.widget = question_style.get_widget()
+        self.property_map = self.widget.property_map()
 
     def __enrich_widget(self, question_style):
-        widget = question_style.widget()
+        widget = question_style.get_widget()
         for i in widget.default_settings():
             if i in self.property_map:
                 setattr(self, i, self.property_map[i])

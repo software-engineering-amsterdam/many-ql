@@ -55,7 +55,7 @@ slider = (suppress("Slider") + number + number).setParseAction(widget.make_slide
 textbox = (suppress("Textbox")).setParseAction(widget.make_textbox)
 drop_down = (suppress("Dropdown") + options).setParseAction(widget.make_drop_down)
 
-# widget  :: IWidget : (radio | checkbox | spinbox | slider | textbox | drop_down)
+# get_widget  :: IWidget : (radio | checkbox | spinbox | slider | textbox | drop_down)
 widget_decl = (suppress("Widget") + suppress(":") +
                (radio | checkbox | spinbox | slider | textbox | drop_down) +
                 optional(obrac + default_properties + cbrac)).setParseAction(widget.make_widget)

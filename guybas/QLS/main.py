@@ -36,7 +36,7 @@ form = f2.make_form(formAsParseResults)
 # checker.is_valid()
 
 # gui
-# enriched_form = runtime_form.Sheet(form, qls_ast)
-# gui = g.GUI(enriched_form)
-# gui.generate_gui()
-# gui.show()
+enriched_form = runtime_form.Sheet(form, qls_ast)
+gui = g.GUI(enriched_form)
+gui.generate_gui()
+gui.show()
