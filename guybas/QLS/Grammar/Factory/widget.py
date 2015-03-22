@@ -1,9 +1,4 @@
-import QLS.AST.Widget.Options.radio as r
-import QLS.AST.Widget.Options.checkbox as c
-import QLS.AST.Widget.Options.drop_down as d
-import QLS.AST.Widget.spinbox as s
-import QLS.AST.Widget.slider as sl
-import QLS.AST.Widget.textbox as t
+from QLS.AST.Widget import *
 
 
 def make_radio(tokens):
@@ -13,11 +8,11 @@ def make_radio(tokens):
         default = tokens[2]
     else:
         default = ""
-    return r.Radio(option1, option2, default)
+    return radio.Radio(option1, option2, default)
 
 
 def make_checkbox(tokens):
-    return c.Checkbox()
+    return checkbox.Checkbox()
 
 
 def make_drop_down(tokens):
@@ -27,7 +22,7 @@ def make_drop_down(tokens):
         default = tokens[2]
     else:
         default = ""
-    return d.DropDown(option1, option2, default)
+    return drop_down.DropDown(option1, option2, default)
 
 
 def make_spinbox(tokens):
@@ -37,7 +32,7 @@ def make_spinbox(tokens):
         default = tokens[2]
     else:
         default = ""
-    return s.Spinbox(min_value, max_value, default)
+    return spinbox.Spinbox(min_value, max_value, default)
 
 
 def make_slider(tokens):
@@ -47,8 +42,17 @@ def make_slider(tokens):
         default = tokens[2]
     else:
         default = ""
-    return sl.Slider(min_value, max_value, default)
+    return slider.Slider(min_value, max_value, default)
 
 
 def make_textbox(tokens):
-    return t.Textbox()
+    return textbox.Textbox()
+
+
+def make_widget(tokens):
+    actual_widget = tokens[0]
+    if len(tokens) > 1:
+        properties = tokens[1]
+    else:
+        properties = []
+    return widget.Widget(actual_widget, properties)

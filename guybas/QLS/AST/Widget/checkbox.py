@@ -1,9 +1,9 @@
-import QLS.AST.Widget.widget as w
+import QLS.AST.Widget.widget_interface as w
 import QL.Grammar.constants as constants
 
 
 # Checkbox AST
-class Checkbox(w.Widget):
+class Checkbox(w.IWidget):
     def __init__(self):
         self._properties = {self.widget_name(): "" }
 

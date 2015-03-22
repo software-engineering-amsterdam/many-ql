@@ -32,7 +32,7 @@ Page Selling
 
     Section Check {
         Question sellingPrice
-            Widget : Radio(yes, no)
+            Widget : Radio(yes, no) { font : verdana }
     }
 
 Default bool Widget : Radio (yes, no) {

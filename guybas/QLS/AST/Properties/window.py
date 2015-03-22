@@ -12,7 +12,7 @@ class Width(p.Property):
         return self._width
 
     def string_presentation(self, level=0):
-        return "    " * level + "widget-width :" + self._width + "\n"
+        return "    " * level + "widget-width : " + self._width + "\n"
 
 
 class Height(p.Property):
@@ -26,4 +26,4 @@ class Height(p.Property):
         return self._height
 
     def string_presentation(self, level=0):
-        return "    " * level + "widget-height :" + self._height + "\n"
+        return "    " * level + "widget-height : " + self._height + "\n"
