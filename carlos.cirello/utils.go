@@ -32,8 +32,7 @@ func errorHandler() {
 	}
 }
 
-func startInterpreter(srcReader io.Reader, srcFn string) (
-	pipes *plumbing.Pipes,
+func startInterpreter(srcReader io.Reader, srcFn string) (pipes *plumbing.Pipes,
 	guiAppName string,
 ) {
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)

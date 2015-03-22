@@ -13,17 +13,6 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-type renderAction int
-
-type render struct {
-	action     renderAction
-	identifier string
-	label      string
-	fieldType  string
-	content    interface{}
-	invisible  bool
-}
-
 // Gui holds the driver which is used by Frontend to execute the application.
 type Gui struct {
 	renderplumbing chan render
