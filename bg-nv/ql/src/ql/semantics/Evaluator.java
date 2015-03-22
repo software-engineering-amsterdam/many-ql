@@ -11,7 +11,6 @@ import ql.semantics.values.*;
  */
 public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private static final BoolValue trueValue = new BoolValue(true);
     private final ValueTable valueTable;
 
     public static ValueTable evaluate(Form f)
