@@ -24,6 +24,10 @@ func readInput(pipes *plumbing.Pipes, inReader io.Reader) {
 
 func writeOutput(pipes *plumbing.Pipes, outWriter io.Writer) {
 	csvoutput.Write(pipes, outWriter)
+
+	// Replace the line above with this line below to change the output
+	// format. Remember to run goimports to update the import list.
+	// jsonoutput.Write(pipes, outWriter)
 }
 
 func errorHandler() {
