@@ -32,7 +32,7 @@ public class ExprInput extends Input<Control> implements Refreshable
     public Value evaluate(ValueTable valueTable)
     {
         Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeEntry(new ValueTableEntry(this.getId(), val));
+        valueTable.storeEntry(this.getId(), val);
         return val;
     }
 

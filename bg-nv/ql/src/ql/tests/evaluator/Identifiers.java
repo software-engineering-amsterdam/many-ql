@@ -18,7 +18,7 @@ public class Identifiers
     public void idInt()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new BoolValue(true)));
+        table.storeEntry("hasHouse", new BoolValue(true));
         BoolValue v = TestHelper.as(TestHelper.evaluate("hasHouse", table), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());

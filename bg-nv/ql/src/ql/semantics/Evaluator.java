@@ -41,7 +41,7 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(Question q)
     {
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), new UndefValue()));
+        this.valueTable.storeEntry(q.getId(), new UndefValue());
 
         return null;
     }
@@ -52,7 +52,7 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
         Expr expr = q.getCalculation();
 
         Value value = ExprEvaluator.evaluate(expr, this.valueTable);
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), value));
+        this.valueTable.storeEntry(q.getId(), value);
 
         return null;
     }

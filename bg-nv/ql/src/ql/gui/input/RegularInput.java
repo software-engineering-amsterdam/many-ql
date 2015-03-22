@@ -76,7 +76,7 @@ public abstract class RegularInput<T extends Control> extends Input<T>
             this.addValidationError(this.getInvalidInputErrorMsg());
         }
         this.setChanged();
-        this.notifyObservers(new ValueTableEntry(this.getId(), val));
+        this.notifyObservers(val);
     }
 
     protected abstract Value convertUserInputToValue();

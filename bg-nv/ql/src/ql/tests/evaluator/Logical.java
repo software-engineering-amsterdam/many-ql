@@ -58,7 +58,7 @@ public class Logical
     public void undefinedNot()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -67,7 +67,7 @@ public class Logical
     public void undefinedAnd()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -76,7 +76,7 @@ public class Logical
     public void undefinedOr()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", table), UndefValue.class);
         assertNotNull(v);
     }

@@ -1,7 +1,7 @@
 package ql.gui;
 
+import ql.gui.input.Input;
 import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.values.Value;
 
 import java.util.HashSet;
@@ -40,7 +40,8 @@ public class Refresher implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        valueTable.storeEntry((ValueTableEntry) arg);
+        Input input = (Input) o;
+        valueTable.storeEntry(input.getId(), (Value) arg);
 
         this.evaluatePrerequisites(this.getPrerequisites());
         this.evaluate(this.getNonPrerequisites());

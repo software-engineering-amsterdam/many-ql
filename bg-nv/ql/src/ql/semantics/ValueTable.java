@@ -24,8 +24,8 @@ public class ValueTable
         return this.values.get(key);
     }
 
-    public void storeEntry(ValueTableEntry entry)
+    public void storeEntry(String questionId, Value value)
     {
-        this.values.put(entry.getKey(), entry.getValue());
+        this.values.put(questionId, value);
     }
 }
