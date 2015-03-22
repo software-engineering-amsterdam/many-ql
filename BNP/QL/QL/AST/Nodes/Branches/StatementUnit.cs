@@ -16,5 +16,15 @@ namespace QL.AST.Nodes.Branches
             DisplayText = displayText;
         }
 
+        public StatementUnit(Identifier identifier, Expression expression, IStaticReturnType dataType, string unitText, AST.SourceLocation sourceLocation)
+        {
+            
+            Identifier = identifier;
+            Expression = expression;
+            DataType = dataType;
+            DisplayText = unitText;
+            SourceLocation = sourceLocation;
+        }
+
     }
 }

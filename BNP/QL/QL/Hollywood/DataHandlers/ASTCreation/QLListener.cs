@@ -102,15 +102,13 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         {
             IList<ElementBase> children = GetChildren();
 
-            if (children.Count() != 1)
+            if (children.Count() != 2)
             {
-                AstBuilderExceptions.Add(new ParserError("initial form block should have only one child", SourceLocation.CreateFor(context)));
+                AstBuilderExceptions.Add(new ParserError("initial form block should have only two children", SourceLocation.CreateFor(context)));
                 return;
             }
-            
-            Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            Block bodyBlock = (Block)children[0];
-            Form form = new Form(formBlockId, bodyBlock);
+
+            Form form = new Form((Identifier)children[0], (Block)children[1]);
             form.SourceLocation = SourceLocation.CreateFor(context);
             AppendToAST(form);
         }
@@ -127,143 +125,133 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             block.Children = GetChildren();
             AppendToAST(block);
         }
-
-        public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
+        public override void EnterUnit(QLParser.UnitContext context)
         {
             InitializeNewLevel();
         }
 
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
-            IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel above
+            IList<ElementBase> children = GetChildren();
             ThrowExceptionIfAny();
-            Contract.Assert(!children.Any(), "A question should syntactically not have any children.");
+            Contract.Assert(children.Count()==1, "A question should have identifier only.");
 
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IStaticReturnType dataType = GetTypeInstance(context.type());
+            IStaticReturnType dataType = GetTypeInstance((dynamic)context.type());
+            string questionText = context.TEXT().GetText();
 
-            string unitText = context.TEXT().GetText();
 
-            QuestionUnit question = new QuestionUnit();
+            QuestionUnit question = new QuestionUnit((Identifier)children[0], questionText, dataType);
 
-            question.Identifier = identifier;
-            question.DataType = dataType;
-            question.DisplayText = unitText;
             question.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(question);
         }
 
-        public override void EnterStatementUnit(QLParser.StatementUnitContext context)
+        private IStaticReturnType GetTypeInstance(QLParser.YesnoTypeContext typeContext)
         {
-            InitializeNewLevel();
+            return new Yesno();    
         }
+        private IStaticReturnType GetTypeInstance(QLParser.NumberTypeContext typeContext)
+        {
+            return new Number();
+        }
+        private IStaticReturnType GetTypeInstance(QLParser.TextTypeContext typeContext)
+        {
+            return new Text();
+        }
+        private IStaticReturnType GetTypeInstance(QLParser.TypeContext typeContext)
+        {
+           throw new QLError("type not recognized"+typeContext.ToString());
+            
+        }
+
+        
 
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
             ThrowExceptionIfAny();
-            Contract.Assert(children.Count() == 1, "A statement should have only expression as a child.");
-
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IStaticReturnType dataType = GetTypeInstance(context.type());
-            string unitText = context.TEXT().GetText();
-
-            StatementUnit statement = new StatementUnit();
-
-            statement.Expression = (Expression)children[0];
-            statement.Identifier = identifier;
-            statement.DataType = dataType;
-            statement.DisplayText = unitText;
-            statement.SourceLocation = SourceLocation.CreateFor(context);
+            Contract.Assert(children.Count() == 2, "A statement should have only expression and an identifier as children.");
+            
+            StatementUnit statement = new StatementUnit(
+                                            (Identifier)children[0],
+                                            (Expression)children[1],
+                                            GetTypeInstance((dynamic)context.type()),
+                                            context.TEXT().GetText(),
+                                            SourceLocation.CreateFor(context)
+                                            );
 
             AppendToAST(statement);
-        }
-
-        public IStaticReturnType GetTypeInstance(QLParser.TypeContext context)
-        {
-            if (context as QLParser.YesnoContext != null) return new Yesno();
-
-            if (context as QLParser.NumberContext != null) return new Number();
-
-            if (context as QLParser.TextContext != null) return new Text();
-            
-            AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
-            return null; // formality
-        }
-
-        public override void EnterControlUnit(QLParser.ControlUnitContext context)
-        {
-            InitializeNewLevel();
         }
 
         public override void ExitControlUnit(QLParser.ControlUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
+            ControlUnit controlUnit;
 
-            ControlUnit controlUnit = new ControlUnit();
-            Contract.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
-            controlUnit.Expression = (Expression)children[0];
-            controlUnit.ConditionTrueBlock = (Block)children[1];
             if (children.Count() == 3)
             {
-                controlUnit.ConditionFalseBlock = (Block)children[2];
+                controlUnit = new ControlUnit(
+                                    (Expression)children[0],
+                                    (Block)children[1],
+                                    (Block)children[2],
+                                    SourceLocation.CreateFor(context)
+                                    );
             }
-                        
-            controlUnit.SourceLocation = SourceLocation.CreateFor(context);
+            else   if (children.Count() == 2)
+            {
+                controlUnit = new ControlUnit(
+                                    (Expression)children[0],
+                                    (Block)children[1],
+                                    SourceLocation.CreateFor(context)
+                                    );
+
+            }
+            else
+            {
+                throw new  QLError("Bad number of controlUnit children:"+children.Count());
+
+            }
 
             AppendToAST(controlUnit);
         }
 
-        public override void EnterLiteral(QLParser.LiteralContext context)
+        
+        public override void ExitNumber(QLParser.NumberContext context)
         {
-            InitializeNewLevel();
+            Number literal = new Number();
+            literal.SetValue(context.NUMBER().GetText());
+            literal.SourceLocation = SourceLocation.CreateFor(context);
+
+            AppendToAST(literal);
+        }
+        
+        public override void ExitYesno(QLParser.YesnoContext context)
+        {
+            Yesno literal = new Yesno();
+            literal.SetValue(context.YESNO().GetText());
+            literal.SourceLocation = SourceLocation.CreateFor(context);
+            AppendToAST(literal);
+        }
+        
+        public override void ExitText(QLParser.TextContext context)
+        {
+            Text literal = new Text();
+            literal.SetValue(context.TEXT().GetText());
+            literal.SourceLocation = SourceLocation.CreateFor(context);
+
+            AppendToAST(literal);
+        }
+        
+        public override void ExitIdentifier(QLParser.IdentifierContext context)
+        {
+            Identifier literal = new Identifier();
+            literal.SetValue(context.IDENTIFIER().GetText());
+            literal.SourceLocation = SourceLocation.CreateFor(context);
+
+            AppendToAST(literal);
         }
 
-        public override void ExitLiteral(QLParser.LiteralContext context)
-        {
-            IList<ElementBase> children = GetChildren();
-            if (context.YESNO() != null)
-            {
-                Yesno literal = new Yesno();
-                literal.SetValue(context.YESNO().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-                AppendToAST(literal);
-
-            }
-            else if (context.NUMBER() != null)
-            {
-                Number literal = new Number();
-                literal.SetValue(context.NUMBER().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else if (context.IDENTIFIER() != null)
-            {
-                Identifier literal = new Identifier();
-                literal.SetValue(context.IDENTIFIER().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else if (context.TEXT() != null)
-            {
-                Text literal = new Text();
-                literal.SetValue(context.TEXT().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else
-            {
-                throw new QLError("not known literal");
-                
-            }
-
-            ThrowExceptionIfAny();
-            Contract.Assert(!children.Any(), "Children of the literal are not empty");
-        }        
 
         public override void EnterExpression(QLParser.ExpressionContext context)
         {

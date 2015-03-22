@@ -7,13 +7,13 @@ namespace QL.AST.Nodes.Branches
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier identifier, Text displayText)
+        public QuestionUnit(Identifier identifier, string displayText)
         {
             Identifier = identifier;
-            DisplayText = displayText.Value;
+            DisplayText = displayText;
         }
 
-        public QuestionUnit(Identifier identifier, Text displayText, IStaticReturnType dataType) : this(identifier, displayText)
+        public QuestionUnit(Identifier identifier, string displayText, IStaticReturnType dataType) : this(identifier, displayText)
         {
             DataType = dataType;
         }

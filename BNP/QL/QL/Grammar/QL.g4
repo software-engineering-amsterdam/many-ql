@@ -52,15 +52,21 @@ operator	: operatorEquals
 			| operatorOr
 			;
 
-type		: 'yesno'	# yesno
-			| 'number'	# number
-			| 'text'	# text
+type		: 'yesno'	# yesnoType
+			| 'number'	# numberType
+			| 'text'	# textType
 			;
 
-literal		: YESNO
-			| NUMBER
-			| TEXT
-			| IDENTIFIER
+yesno:		YESNO;
+number:		NUMBER;
+text:		TEXT;
+identifier:	IDENTIFIER;
+
+
+literal		: yesno
+			| number
+			| text
+			| identifier
 			;
 
 unit		: questionUnit
@@ -70,13 +76,13 @@ unit		: questionUnit
 
 block		: '{' unit* '}';
 
-formBlock	: 'form' IDENTIFIER block;
+formBlock	: 'form' identifier block;
 
 expression	: literal
 			| '(' expression ')'
 			| '(' expression operator expression ')'
 			;
 
-questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
-statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
+questionUnit  : 'question' identifier '(' type ')' TEXT ';';
+statementUnit : 'statement' identifier '(' type ',' expression ')' TEXT ';'	;
 controlUnit	  : 'if' expression block ('else' block)? ';';
