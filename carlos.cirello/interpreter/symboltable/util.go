@@ -8,7 +8,9 @@ import (
 
 func scalarQuestionFactory(primitive string) (fmt.Stringer, error) {
 	switch primitive {
-	default:
+	case ast.ScalarStringPrimitive:
+		fallthrough
+	case ast.ScalarDatePrimitive:
 		return new(StringQuestion), nil
 	case ast.ScalarNumericPrimitive:
 		return new(NumericQuestion), nil
