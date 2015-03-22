@@ -5,7 +5,7 @@ import QL.Grammar.grammar as f1
 import QLS.Grammar.Factory.qls as factory
 import QLS.GUI.gui as g
 import QL.Grammar.Factory.forms as f2
-import QLS.Runtime.form as runtime_form
+import QLS.Runtime.sheet as runtime_form
 import QL.Tools.exceptions as ee
 
 ########## QLS TO DO LIST: ##########
@@ -36,7 +36,7 @@ form = f2.make_form(formAsParseResults)
 # checker.is_valid()
 
 # gui
-# enriched_form = runtime_form.Form(form, qls_ast)
+# enriched_form = runtime_form.Sheet(form, qls_ast)
 # gui = g.GUI(enriched_form)
 # gui.generate_gui()
 # gui.show()

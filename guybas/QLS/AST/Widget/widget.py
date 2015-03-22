@@ -25,3 +25,15 @@ class Widget(w.IWidget):
 
     def widget_name(self):
         return "widget"
+
+    def widget(self):
+        return self.widget
+
+    def defaults(self):
+        return self.default_settings
+
+    def property_map(self):
+        d = {}
+        for i in self.default_settings:
+            d[i.prop_name()] = i.prop_value()
+        return d

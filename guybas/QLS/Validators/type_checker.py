@@ -43,7 +43,7 @@ class TypeChecker:
         message = ""
         for i in sheet_ids:
             if i not in form_ids:
-                message += i + " does not exist in the Form\n"
+                message += i + " does not exist in the Sheet\n"
         return message
 
     @staticmethod
