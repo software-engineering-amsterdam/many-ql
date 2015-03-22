@@ -60,23 +60,10 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(IfCondition c)
     {
-        Expr expr = c.getCondition();
-        Value condValue = ExprEvaluator.evaluate(expr, this.valueTable);
-
-        if (this.isCondValueTrue(condValue))
+        for (Statement s : c.getBody())
         {
-            for (Statement s : c.getBody())
-            {
-                s.accept(this);
-            }
+            s.accept(this);
         }
-
         return null;
-    }
-
-    private boolean isCondValueTrue(Value v)
-    {
-        Value result = v.equBoolean(trueValue);
-        return result.isTrue();
     }
 }

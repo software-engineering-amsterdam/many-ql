@@ -157,7 +157,6 @@ public class SimpleGui implements ModelVisitor<Void>
     private Void handleInputVisit(ExprInput input)
     {
         this.refresher.addItem(input);
-        input.evaluate(this.valueTable);
         return null;
     }
 }
