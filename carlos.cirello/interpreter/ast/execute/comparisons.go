@@ -116,14 +116,22 @@ func (exec Execute) BoolNegNode(n *ast.BoolNegNode) bool {
 // ResolveComparisonNode is the helper function to process all comparison
 // operations.
 func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
+
+	conditionState, err := exec.visitComparisonNode(n)
+	if err != nil {
+		panic(err)
+	}
+
+	return conditionState
+}
+
+func (exec *Execute) visitComparisonNode(n interface{}) (bool, error) {
 	conditionState := true
 
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		panic(fmt.Sprintf(
-			"%s:runtime error: impossible condition type. got: %T",
-			pos, t))
+		return false, fmt.Errorf("%s:runtime error: impossible condition type. got: %T", pos, t)
 
 	case *ast.TermNode:
 		conditionState = exec.TermNode(n.(*ast.TermNode))
@@ -162,5 +170,5 @@ func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 
 	}
 
-	return conditionState
+	return conditionState, nil
 }

@@ -230,6 +230,35 @@ func TestLikeOperator(t *testing.T) {
 	)
 }
 
+func TestComputedBoolean(t *testing.T) {
+	form := `
+	form TaxForm {
+		"q1" q1 numeric
+		"q2" q2 numeric
+		"q3" q3 computed = q1 >= q2
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,1`+"\n"+
+			`q2,q2,2`+"\n",
+		`q1,q1,1`+"\n"+
+			`q2,q2,2`+"\n"+
+			`q3,q3,No`+"\n",
+	)
+
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		`q1,q1,2`+"\n"+
+			`q2,q2,2`+"\n",
+		`q1,q1,2`+"\n"+
+			`q2,q2,2`+"\n"+
+			`q3,q3,Yes`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {
