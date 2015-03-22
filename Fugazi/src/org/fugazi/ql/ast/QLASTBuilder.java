@@ -4,13 +4,11 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.parser.QLLexer;
 import org.fugazi.ql.parser.QLParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 public class QLASTBuilder {
 

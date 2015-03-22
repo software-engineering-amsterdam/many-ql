@@ -17,7 +17,7 @@ public class UIForm {
 
         this.formFrame.setSize(winWidth, winHeight);
         this.formFrame.setLocationRelativeTo(null);
-        this.formFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.formFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.formFrame.setResizable(false);
 
         GridLayout layout = new GridLayout(0, 1);

@@ -26,9 +26,7 @@ import org.fugazi.ql.parser.QLBaseVisitor;
 import org.fugazi.ql.parser.QLParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
@@ -83,7 +81,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
+    public Question visitSimpleQuestion(@NotNull QLParser.SimpleQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
         
         ID identifier = new ID(ctx.ID().getText());
@@ -99,7 +97,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+    public ComputedQuestion visitComputedQuestion(@NotNull QLParser.ComputedQuestionContext ctx)  {
         Type type = (Type) ctx.type().accept(this);
 
         ID identifier = new ID(ctx.ID().getText());
