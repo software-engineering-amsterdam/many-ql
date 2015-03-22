@@ -20,6 +20,9 @@ func readInput(pipes *plumbing.Pipes, inReader io.Reader) {
 		return
 	}
 	csvinput.Read(pipes, inReader)
+	// Replace the line above with this line below to change the input
+	// format. Remember to run goimports to update the import list.
+	// jsoninput.Read(pipes, inReader)
 }
 
 func writeOutput(pipes *plumbing.Pipes, outWriter io.Writer) {
