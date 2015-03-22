@@ -15,14 +15,14 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
-func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
+func readInput(pipes *plumbing.Pipes, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
 	csvinput.Read(pipes, inReader)
 }
 
-func writeOutputCsv(pipes *plumbing.Pipes, outWriter io.Writer) {
+func writeOutput(pipes *plumbing.Pipes, outWriter io.Writer) {
 	csvoutput.Write(pipes, outWriter)
 }
 
