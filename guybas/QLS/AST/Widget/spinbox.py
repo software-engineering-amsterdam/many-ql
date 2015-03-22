@@ -1,8 +1,8 @@
-import QLS.AST.Widget.widget as w
+import QLS.AST.Widget.widget_interface as w
 import QL.Grammar.constants as constants
 
 
-class Spinbox(w.Widget):
+class Spinbox(w.IWidget):
     def __init__(self, min, max, default=""):
         self.min = min
         self.max = max

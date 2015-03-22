@@ -1,8 +1,8 @@
-import QLS.AST.Widget.widget as w
+import QLS.AST.Widget.widget_interface as w
 import QL.Grammar.constants as constants
 
 
-class Slider(w.Widget):
+class Slider(w.IWidget):
     def __init__(self, min_value, max_value, default=""):
         self.min = min_value
         self.max = max_value

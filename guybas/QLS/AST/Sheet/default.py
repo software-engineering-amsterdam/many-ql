@@ -10,8 +10,8 @@ class Default(p.Page):
         self._properties = properties
 
     def string_presentation(self, level=0):
-        s = "    " * level + "Default " + self._type
-        s += "    " * level + self._widget.string_presentation()
+        s = "    " * level + "Default " + self._type + " "
+        s += self._widget.string_presentation()
         for i in self._properties:
             s += i.string_presentation(level + 1)
         return s

@@ -1,4 +1,4 @@
-Name_of_Questionnaire
+Name
 
 Introduction : Welcome to my questionnaire.
 
@@ -14,7 +14,7 @@ if (hasSoldHouse) {
 
     Question privateDebt (number) : Private debts for the sold house.
 
-    Assignment ValueResidue(number) : sellingPrice - privateDebt
+    Assignment valueResidue(number) : sellingPrice - privateDebt
 }
 
 

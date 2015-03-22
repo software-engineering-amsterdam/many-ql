@@ -38,7 +38,7 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         throw new AssertionError();
     }
 
