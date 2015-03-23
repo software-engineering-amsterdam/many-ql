@@ -44,7 +44,7 @@ namespace QL.UI.Visitors
 
         public void Visit(Block node)
         {
-            foreach (IVisitable child in node.Children)
+            foreach (ElementBase child in node.Children)
             {
                 child.Accept(this);
             }

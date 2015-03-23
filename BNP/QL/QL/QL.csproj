@@ -91,7 +91,6 @@
     <Compile Include="AST\Nodes\Branches\Form.cs" />
     <Compile Include="AST\Nodes\ITypeStatic.cs" />
     <Compile Include="AST\Nodes\ITypeInferred.cs" />
-    <Compile Include="AST\Nodes\IVisitable.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\AndOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\DivisionOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs" />

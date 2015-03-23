@@ -1,6 +1,6 @@
 ﻿namespace QL.AST.Nodes
 {
-    public abstract class ElementBase : IVisitable
+    public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; set; }
 
