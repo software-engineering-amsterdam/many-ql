@@ -21,5 +21,10 @@ namespace QL.AST.Nodes.Branches
             
         }
 
+        public Form(Terminals.Identifier identifier, Block block, SourceLocation sourceLocation):this(identifier, block)
+        {
+            SourceLocation = sourceLocation;
+        }
+
     }
 }

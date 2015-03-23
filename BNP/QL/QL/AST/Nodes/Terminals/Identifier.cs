@@ -4,6 +4,7 @@ namespace QL.AST.Nodes.Terminals
 {
     public class Identifier : BinaryTreeElementBase
     {
+
         public string Value { get; private set; }
         
         public Identifier()
@@ -14,11 +15,11 @@ namespace QL.AST.Nodes.Terminals
             Value = value;
         }
 
-        public void SetValue(object value)
-        { 
-            Value = value.ToString();
+        public Identifier(string value, AST.SourceLocation sourceLocation):this(value)
+        {
+            SourceLocation = sourceLocation;
         }
-        
+
         public bool Equals(Identifier obj)
         {
             return Value == obj.Value;

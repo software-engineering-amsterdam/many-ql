@@ -185,9 +185,9 @@ namespace QL.UI
             WidgetFactory factory = new WidgetFactory();
             List<WidgetBase> renders = new List<WidgetBase>
                                         {
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), "What is your name?", new Text())),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), "What is your age?", new Number())),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), "Are you studying?", new Yesno())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"),new Text(),  "What is your name?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
                                         };
 
             QuestionsPanel.Children.Clear();

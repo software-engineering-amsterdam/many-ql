@@ -11,6 +11,11 @@
             Child = child;
         }
 
+        public Expression(ElementBase child, AST.SourceLocation sourceLocation):this(child)
+        {
+            SourceLocation = sourceLocation;
+        }
+
         public ElementBase GetTypeInferableChild()
         {
             return Child;

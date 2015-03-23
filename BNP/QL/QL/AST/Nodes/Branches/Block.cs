@@ -10,6 +10,17 @@ namespace QL.AST.Nodes.Branches
         {
             Children = new List<ElementBase>();
         }
+        public Block(IList<ElementBase> children)
+        {
+            Children = children ;
+        }
+
+
+
+        public Block(IList<ElementBase> children, AST.SourceLocation sourceLocation):this(children)
+        {
+            SourceLocation = sourceLocation;
+        }
 
 
     }

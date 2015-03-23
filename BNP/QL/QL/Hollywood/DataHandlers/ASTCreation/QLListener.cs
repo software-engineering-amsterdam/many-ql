@@ -10,6 +10,7 @@ using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Grammar;
+using System;
 
 namespace QL.Hollywood.DataHandlers.ASTCreation
 {
@@ -18,19 +19,19 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
-        private IList<QLBaseException> AstBuilderExceptions;
+        private IList<QLBaseException> _astBuilderExceptions;
 
 
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
-            AstBuilderExceptions = new List<QLBaseException>();
+            _astBuilderExceptions = new List<QLBaseException>();
 
         }
 
-        public QLListener(IList<QLBaseException> AstBuilderExceptions)
+        public QLListener(IList<QLBaseException> astBuilderExceptions)
         {
-            this.AstBuilderExceptions = AstBuilderExceptions;
+            _astBuilderExceptions = astBuilderExceptions;
             _childrenStack = new Stack<Stack<ElementBase>>();
 
         }
@@ -42,7 +43,10 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
         public bool AstExists
         {
-            get { return _astRootNode != null; }
+            get 
+            {
+                return _astRootNode != null; 
+            }
         }
         
         public Form GetAstRootNode()
@@ -52,17 +56,22 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
         void ThrowExceptionIfAny()
         {
-            if (AstBuilderExceptions.Any())
+            if (_astBuilderExceptions.Any())
             {
-                throw AstBuilderExceptions.Last();
+                throw _astBuilderExceptions.Last();
             }
         }
         private IList<ElementBase> GetChildren()
         {
             ThrowExceptionIfAny();
-            Contract.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
+            if (!_childrenStack.Any())
+            {
+                //we are intentionally not throwing QL exception, it is not intented to be displayed
+                _astBuilderExceptions.Add(new ParserError("Level with children should be always initialized before appending one."));
+            }
+            
             Stack<ElementBase> children = _childrenStack.Pop();
-            //stack has opposite ordering, need to be reversed to have the order as it was created.  // todo use queue instead          
+            //stack has to be reversed to have the order as it was created.
             IList<ElementBase> reversed = children.Reverse().ToList();            
             return reversed;
         }
@@ -76,17 +85,8 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             }
             else
             {
-                try
-                {
-                    //this is the last one
-                    _astRootNode = (Form)newChild;
-                }
-                catch
-                {
-                    // todo add ex to list of errors as fatal error
-                    _astRootNode = null;
-                    throw;
-                }
+                //this is the last one, it should be Form
+                _astRootNode = (Form)newChild;                
             }
         }
 
@@ -104,12 +104,15 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
             if (children.Count() != 2)
             {
-                AstBuilderExceptions.Add(new ParserError("initial form block should have only two children", SourceLocation.CreateFor(context)));
-                return;
+                _astBuilderExceptions.Add(new ParserError("initial form block should have two children", SourceLocation.CreateFor(context)));
             }
 
-            Form form = new Form((Identifier)children[0], (Block)children[1]);
-            form.SourceLocation = SourceLocation.CreateFor(context);
+            Form form = new Form(
+                (Identifier)children[0], 
+                (Block)children[1], 
+                SourceLocation.CreateFor(context)
+                );
+            
             AppendToAST(form);
         }
 
@@ -120,9 +123,13 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
         public override void ExitBlock(QLParser.BlockContext context)
         {
-            Block block = new Block();
-            block.SourceLocation = SourceLocation.CreateFor(context);
-            block.Children = GetChildren();
+            IList<ElementBase> children = GetChildren();
+
+            Block block = new Block(
+                children,
+                SourceLocation.CreateFor(context)
+                );
+
             AppendToAST(block);
         }
         public override void EnterUnit(QLParser.UnitContext context)
@@ -133,51 +140,41 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
+
             ThrowExceptionIfAny();
-            Contract.Assert(children.Count()==1, "A question should have identifier only.");
+            if (children.Count()!=1)
+            {
+                _astBuilderExceptions.Add(new ParserError("A question should have only identifier as a child."));
+            }
 
-            IStaticReturnType dataType = GetTypeInstance((dynamic)context.type());
-            string questionText = context.TEXT().GetText();
-
-
-            QuestionUnit question = new QuestionUnit((Identifier)children[0], questionText, dataType);
-
-            question.SourceLocation = SourceLocation.CreateFor(context);
-
+            QuestionUnit question = new QuestionUnit(
+                (Identifier)children[0], 
+                TypeFactory.GetTypeInstance(context.type()),
+                context.TEXT().GetText(),
+                SourceLocation.CreateFor(context)
+                );
             AppendToAST(question);
         }
 
-        private IStaticReturnType GetTypeInstance(QLParser.YesnoTypeContext typeContext)
-        {
-            return new Yesno();    
-        }
-        private IStaticReturnType GetTypeInstance(QLParser.NumberTypeContext typeContext)
-        {
-            return new Number();
-        }
-        private IStaticReturnType GetTypeInstance(QLParser.TextTypeContext typeContext)
-        {
-            return new Text();
-        }
-        private IStaticReturnType GetTypeInstance(QLParser.TypeContext typeContext)
-        {
-           throw new QLError("type not recognized"+typeContext.ToString());
-            
-        }
+        
 
         
 
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
+            
             ThrowExceptionIfAny();
-            Contract.Assert(children.Count() == 2, "A statement should have only expression and an identifier as children.");
+            if (children.Count() != 2)
+            {
+                _astBuilderExceptions.Add(new ParserError("A statement should have only expression and an identifier as children."));
+            }
             
             StatementUnit statement = new StatementUnit(
                                             (Identifier)children[0],
                                             (Expression)children[1],
-                                            GetTypeInstance((dynamic)context.type()),
                                             context.TEXT().GetText(),
+                                            TypeFactory.GetTypeInstance(context.type()),
                                             SourceLocation.CreateFor(context)
                                             );
 
@@ -187,8 +184,8 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         public override void ExitControlUnit(QLParser.ControlUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
+            
             ControlUnit controlUnit;
-
             if (children.Count() == 3)
             {
                 controlUnit = new ControlUnit(
@@ -198,7 +195,7 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
                                     SourceLocation.CreateFor(context)
                                     );
             }
-            else   if (children.Count() == 2)
+            else if (children.Count() == 2)
             {
                 controlUnit = new ControlUnit(
                                     (Expression)children[0],
@@ -209,8 +206,8 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             }
             else
             {
-                throw new  QLError("Bad number of controlUnit children:"+children.Count());
-
+                _astBuilderExceptions.Add(new ParserError("Bad number of controlUnit children:"+children.Count()));
+                return;
             }
 
             AppendToAST(controlUnit);
@@ -219,35 +216,40 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         
         public override void ExitNumber(QLParser.NumberContext context)
         {
-            Number literal = new Number();
-            literal.SetValue(context.NUMBER().GetText());
-            literal.SourceLocation = SourceLocation.CreateFor(context);
+            Number literal = new Number(
+                context.NUMBER().GetText(),
+                SourceLocation.CreateFor(context)
+                );
 
             AppendToAST(literal);
         }
         
         public override void ExitYesno(QLParser.YesnoContext context)
         {
-            Yesno literal = new Yesno();
-            literal.SetValue(context.YESNO().GetText());
-            literal.SourceLocation = SourceLocation.CreateFor(context);
+            Yesno literal = new Yesno(
+                context.YESNO().GetText(),
+                SourceLocation.CreateFor(context)
+                );
+
             AppendToAST(literal);
         }
         
         public override void ExitText(QLParser.TextContext context)
         {
-            Text literal = new Text();
-            literal.SetValue(context.TEXT().GetText());
-            literal.SourceLocation = SourceLocation.CreateFor(context);
+            Text literal = new Text(
+            context.TEXT().GetText(),
+            SourceLocation.CreateFor(context)
+            );
 
             AppendToAST(literal);
         }
         
         public override void ExitIdentifier(QLParser.IdentifierContext context)
         {
-            Identifier literal = new Identifier();
-            literal.SetValue(context.IDENTIFIER().GetText());
-            literal.SourceLocation = SourceLocation.CreateFor(context);
+            Identifier literal = new Identifier(
+                context.IDENTIFIER().GetText(),
+                SourceLocation.CreateFor(context)
+                    );
 
             AppendToAST(literal);
         }
@@ -261,29 +263,36 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
             IList<ElementBase> children = GetChildren();
-
             Expression expression;
 
             if (children.Count() == 1)
             {
-                expression=new Expression(children[0]);
+                expression = new Expression(
+                    children[0], 
+                    SourceLocation.CreateFor(context));
             }
-            else if (children.Count() == 3 && context.children.Count() == 5)
+            else if (children.Count() == 3)
             {
-                ElementBase leftOperand = children[0];
-                BinaryTreeElementBase op = (BinaryTreeElementBase) children[1];
-                ElementBase rightOperand = children[2];
+                
+                
+                ElementBase leftNode = children[0];
+                BinaryTreeElementBase operatorNode = (BinaryTreeElementBase) children[1];
+                ElementBase rightNode = children[2];
 
-                op.Left=leftOperand;
-                op.Right=rightOperand;
-                expression = new Expression(op);
+                operatorNode.Left=leftNode;
+                operatorNode.Right=rightNode;
+                
+                expression = new Expression(
+                    operatorNode,
+                    SourceLocation.CreateFor(context)
+                    );
                 }
             else
             {
-                throw new QLError("Expression without a child");
-
+                _astBuilderExceptions.Add(new ParserError("Expression without a child"));
+                return;
             }
-            expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
+            
 
             AppendToAST(expression);
         }

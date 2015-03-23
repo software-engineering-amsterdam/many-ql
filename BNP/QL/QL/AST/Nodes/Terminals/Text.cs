@@ -4,6 +4,7 @@ namespace QL.AST.Nodes.Terminals
 {
     public class Text : BinaryTreeElementBase, IStaticReturnType
     {
+
         public string Value { get; set; }
 
         public Text()
@@ -11,13 +12,14 @@ namespace QL.AST.Nodes.Terminals
 
         public Text(string value)
         {
-            SetValue(value);
+            Value = value;
         }
 
-        public void SetValue(object value)
+        public Text(string value, AST.SourceLocation sourceLocation):this(value)
         {
-            Value = value.ToString();
+            SourceLocation = sourceLocation;
         }
+
 
         public Type GetReturnType()
         {

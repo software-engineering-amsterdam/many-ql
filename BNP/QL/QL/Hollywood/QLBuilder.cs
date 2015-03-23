@@ -26,11 +26,8 @@ namespace QL.Hollywood
         protected IList<IExecutable> Evaluators;
         protected IList<IExecutable> Renderers;
         protected IList<IExecutable> Exporters;
-        public bool InputSet;
-        public bool AstBuilt;
-        public bool TypeChecked;
-        public bool Evaluated;
-        public bool Rendered;
+
+
 
         public QLBuilderStateMachine BuilderStateMachine { get; private set; }
         public DataContext DataContext { get; private set; } //needs to be public because of tests
@@ -50,7 +47,6 @@ namespace QL.Hollywood
             Evaluators = new List<IExecutable>();
             Renderers = new List<IExecutable>();
             Exporters = new List<IExecutable>();
-            InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
 
             BuilderStateMachine = new QLBuilderStateMachine();
             UnhandledExceptions = new List<Exception>();

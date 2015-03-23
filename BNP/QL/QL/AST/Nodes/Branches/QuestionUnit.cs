@@ -4,18 +4,12 @@ namespace QL.AST.Nodes.Branches
 {
     public class QuestionUnit : UnitBase
     {
-        public QuestionUnit()
+        public QuestionUnit(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)
+            : base(identifier, dataType, displayText, sourceLocation)
+        { }
+        public QuestionUnit(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText)
+            : base(identifier, dataType, displayText)
         { }
 
-        public QuestionUnit(Identifier identifier, string displayText)
-        {
-            Identifier = identifier;
-            DisplayText = displayText;
-        }
-
-        public QuestionUnit(Identifier identifier, string displayText, IStaticReturnType dataType) : this(identifier, displayText)
-        {
-            DataType = dataType;
-        }
     }
 }

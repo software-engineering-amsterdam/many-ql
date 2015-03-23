@@ -6,24 +6,9 @@ namespace QL.AST.Nodes.Branches
     {
         public Expression Expression;
 
-        public StatementUnit()
-        { }
-
-        public StatementUnit(Identifier identifier, IStaticReturnType dataType, string displayText)
-        {
-            Identifier = identifier;
-            DataType = dataType;
-            DisplayText = displayText;
-        }
-
-        public StatementUnit(Identifier identifier, Expression expression, IStaticReturnType dataType, string unitText, AST.SourceLocation sourceLocation)
-        {
-            
-            Identifier = identifier;
+        public StatementUnit(Identifier identifier, Expression expression, string unitText, IStaticReturnType dataType, AST.SourceLocation sourceLocation):base(identifier,dataType,unitText,sourceLocation)
+        {            
             Expression = expression;
-            DataType = dataType;
-            DisplayText = unitText;
-            SourceLocation = sourceLocation;
         }
 
     }
