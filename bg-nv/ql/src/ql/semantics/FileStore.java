@@ -22,15 +22,13 @@ import java.io.File;
 // TODO: handle errors, paths, etc.
 public class FileStore extends DataStore
 {
-    private static final String FILEPATH = "questionnaire.xml";
-
     public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
     {
         super(condQuestionTable, valueTable);
     }
 
     @Override
-    public void save()
+    public void save(File file)
     {
         try
         {
@@ -42,7 +40,7 @@ public class FileStore extends DataStore
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(FILEPATH));
+            StreamResult result = new StreamResult(file);
 
             transformer.transform(source, result);
         }

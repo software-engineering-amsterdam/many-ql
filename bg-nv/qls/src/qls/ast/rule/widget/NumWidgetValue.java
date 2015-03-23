@@ -1,15 +1,17 @@
 package qls.ast.rule.widget;
 
+import java.math.BigDecimal;
+
 /**
  * Created by bore on 09/03/15.
  */
 public abstract class NumWidgetValue extends WidgetValue
 {
-    private final Integer min;
-    private final Integer max;
-    private final Integer step;
+    private final BigDecimal min;
+    private final BigDecimal max;
+    private final BigDecimal step;
 
-    public NumWidgetValue(String label, Integer min, Integer max, Integer step)
+    public NumWidgetValue(String label, BigDecimal min, BigDecimal max, BigDecimal step)
     {
         super(label);
         this.min = min;
@@ -17,17 +19,17 @@ public abstract class NumWidgetValue extends WidgetValue
         this.step = step;
     }
 
-    public Integer getMin()
+    public BigDecimal getMin()
     {
         return this.min;
     }
 
-    public Integer getMax()
+    public BigDecimal getMax()
     {
         return this.max;
     }
 
-    public Integer getStep()
+    public BigDecimal getStep()
     {
         return this.step;
     }

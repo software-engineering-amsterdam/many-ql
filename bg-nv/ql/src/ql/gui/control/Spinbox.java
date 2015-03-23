@@ -3,6 +3,9 @@ package ql.gui.control;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import ql.semantics.values.Value;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Nik on 16-3-15.
@@ -12,6 +15,13 @@ public class Spinbox extends ControlElement implements BoolControl, IntControl
     public Spinbox(Boolean visible, Boolean disabled)
     {
         super(visible, disabled);
+    }
+
+    public Spinbox(Boolean visible, Boolean disabled, BigDecimal startValue, BigDecimal endValue, BigDecimal step)
+    {
+        this(visible, disabled);
+        // Boryana: :P
+        throw new NotImplementedException();
     }
 
     @Override

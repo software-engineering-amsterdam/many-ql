@@ -1,4 +1,7 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ql.ast.form.Form;
 import ql.gen.QLLexer;
@@ -21,6 +24,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,6 +38,7 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        // TODO: display error if there is no file!
         String qlFile = getParameter(0);
         CharStream qlStream = getStream(qlFile);
         QLLexer qlLexer = new QLLexer(qlStream);
@@ -79,7 +84,20 @@ public class Main extends Application
         DataStore dataStore = new FileStore(condQuestionTable, valueTable);
         Canvas canvas = modeler.model();
         //TODO: user feedback
-        canvas.setSubmitAction(e -> dataStore.save());
+        canvas.setSubmitAction(
+                e ->
+                {
+                    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.getExtensionFilters().add(filter);
+
+                    File file = fileChooser.showSaveDialog(primaryStage);
+                    if (file != null)
+                    {
+                        dataStore.save(file);
+                    }
+                });
 
         SimpleGui.display(valueTable, canvas, primaryStage);
     }
