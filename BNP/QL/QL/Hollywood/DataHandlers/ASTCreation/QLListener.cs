@@ -171,12 +171,12 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             }
             
             StatementUnit statement = new StatementUnit(
-                                            (Identifier)children[0],
-                                            (Expression)children[1],
-                                            context.TEXT().GetText(),
-                                            TypeFactory.GetTypeInstance(context.type()),
-                                            SourceLocation.CreateFor(context)
-                                            );
+                (Identifier)children[0],
+                (Expression)children[1],
+                context.TEXT().GetText(),
+                TypeFactory.GetTypeInstance(context.type()),
+                SourceLocation.CreateFor(context)
+                );
 
             AppendToAST(statement);
         }
@@ -189,19 +189,19 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             if (children.Count() == 3)
             {
                 controlUnit = new ControlUnit(
-                                    (Expression)children[0],
-                                    (Block)children[1],
-                                    (Block)children[2],
-                                    SourceLocation.CreateFor(context)
-                                    );
+                    (Expression)children[0],
+                    (Block)children[1],
+                    (Block)children[2],
+                    SourceLocation.CreateFor(context)
+                    );
             }
             else if (children.Count() == 2)
             {
                 controlUnit = new ControlUnit(
-                                    (Expression)children[0],
-                                    (Block)children[1],
-                                    SourceLocation.CreateFor(context)
-                                    );
+                    (Expression)children[0],
+                    (Block)children[1],
+                    SourceLocation.CreateFor(context)
+                    );
 
             }
             else
@@ -269,7 +269,8 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             {
                 expression = new Expression(
                     children[0], 
-                    SourceLocation.CreateFor(context));
+                    SourceLocation.CreateFor(context)
+                    );
             }
             else if (children.Count() == 3)
             {
