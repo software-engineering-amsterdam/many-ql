@@ -7,7 +7,7 @@ TEXT		: '\"' .*? '\"';
 IDENTIFIER	: [a-zA-Z][a-zA-Z0-9]*;
 
 // Ignore rules
-WS			: [\r\n\t ]+ -> skip;
+WS			: [\r\n\t ]+	-> skip;
 COMMENT		: '//' ~[\r\n]* -> skip;
 
 // Operators
@@ -24,30 +24,49 @@ SUBTRACTION			: '-';	// number
 AND					: '&&';
 OR					: '||';
 
+operatorEquals					:EQUALS;
+operatorNotEquals				:NOTEQUALS;
+operatorGreaterThan				:GREATERTHAN;
+operatorGreaterThanOrEqualTo	:GREATERTHANOREQUALTO;
+operatorLessThan				:LESSTHAN;
+operatorLessThanOrEqualTo		:LESSTHANOREQUALTO;
+operatorMultiplication			:MULTIPLICATION;
+operatorDivision				:DIVISION;
+operatorAddition				:ADDITION;
+operatorSubtraction				:SUBTRACTION;
+operatorAnd						:AND;
+operatorOr						:OR;
+
 // Production rules
-operator	: EQUALS
-			| NOTEQUALS
-			| GREATERTHAN
-			| GREATERTHANOREQUALTO
-			| LESSTHAN
-			| LESSTHANOREQUALTO
-			| MULTIPLICATION
-			| DIVISION
-			| ADDITION
-			| SUBTRACTION
-			| AND
-			| OR
+operator	: operatorEquals
+			| operatorNotEquals
+			| operatorGreaterThan
+			| operatorGreaterThanOrEqualTo
+			| operatorLessThan
+			| operatorLessThanOrEqualTo
+			| operatorMultiplication
+			| operatorDivision
+			| operatorAddition
+			| operatorSubtraction
+			| operatorAnd
+			| operatorOr
 			;
 
-type		: 'yesno'	# yesno
-			| 'number'	# number
-			| 'text'	# text
+type		: 'yesno'	# yesnoType
+			| 'number'	# numberType
+			| 'text'	# textType
 			;
 
-literal		: YESNO
-			| NUMBER
-			| TEXT
-			| IDENTIFIER
+yesno:		YESNO;
+number:		NUMBER;
+text:		TEXT;
+identifier:	IDENTIFIER;
+
+
+literal		: yesno
+			| number
+			| text
+			| identifier
 			;
 
 unit		: questionUnit
@@ -57,13 +76,13 @@ unit		: questionUnit
 
 block		: '{' unit* '}';
 
-formBlock	: 'form' IDENTIFIER block;
+formBlock	: 'form' identifier block;
 
 expression	: literal
 			| '(' expression ')'
 			| '(' expression operator expression ')'
 			;
 
-questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
-statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;//TODO possible to remove type
+questionUnit  : 'question' identifier '(' type ')' TEXT ';';
+statementUnit : 'statement' identifier '(' type ',' expression ')' TEXT ';'	;
 controlUnit	  : 'if' expression block ('else' block)? ';';

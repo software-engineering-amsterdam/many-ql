@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL.Grammars
+namespace QL.Grammar
 {
     public partial class QLParser
     {

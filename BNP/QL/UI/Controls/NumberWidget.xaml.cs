@@ -14,8 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using QL.Model;
-using QL.Model.Terminals.Wrappers;
+using QL.AST.Nodes.Branches;
+using QL.AST.ValueWrappers;
 using QL.UI.ControlWrappers;
 
 namespace QL.UI.Controls

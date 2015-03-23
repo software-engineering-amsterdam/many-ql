@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
-using QL.Model;
+using QL.AST;
+using QL.AST.Nodes;
 
 namespace QL.Exceptions
 {
@@ -15,7 +16,7 @@ namespace QL.Exceptions
 
         public virtual string Origin
         {
-            get { return GetType().Name; }
+            get { return "Unknown"; }
         }
 
         public virtual string Severity

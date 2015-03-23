@@ -1,4 +1,4 @@
-package uva.ql.interpreter.gui.elements;
+package uva.ql.interpreter.gui.supporting;
 
 import uva.ql.supporting.Tuple;
 

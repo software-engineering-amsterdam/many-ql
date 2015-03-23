@@ -12,6 +12,7 @@ import uva.ql.ast.visitor.ExpressionVisitor;
 public abstract class Expression extends ASTNode {
 	
 	public abstract GenericValue<?> evaluate();
+	public abstract Object getEvaluatedValue();
 	public abstract <T> T accept(ExpressionVisitor<T> visitor);
 	public abstract List<Type> possibleReturnTypes();
 	public abstract List<Type> getSupportedType();

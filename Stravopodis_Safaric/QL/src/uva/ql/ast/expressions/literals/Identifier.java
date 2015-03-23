@@ -39,6 +39,11 @@ public class Identifier extends Literal{
 	}
 	
 	@Override
+	public String getEvaluatedValue() {
+		return this.evaluate().getValue();
+	}
+	
+	@Override
 	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeString());
 	}

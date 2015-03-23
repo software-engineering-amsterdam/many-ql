@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL;
-using QL.Model;
+using QL.Hollywood;
 
 namespace Tests.QLTests
 {
@@ -136,7 +136,7 @@ namespace Tests.QLTests
 
             Handler.RegisterGenericDataHandlers();
             Assert.AreEqual(true, Handler.RunInit());
-            Assert.AreEqual(true, Handler.RunAstBuild());
+            Assert.AreEqual(true, Handler.RunASTBuilders());
 
 
 

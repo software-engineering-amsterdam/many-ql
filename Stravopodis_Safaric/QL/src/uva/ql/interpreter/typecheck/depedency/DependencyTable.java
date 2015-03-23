@@ -1,20 +1,15 @@
-package uva.ql.interpreter.typecheck.dependency;
-
+package uva.ql.interpreter.typecheck.depedency;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-
-
 public class DependencyTable {
 
 	private Map<String,DependencySet> dependencies = new HashMap<String,DependencySet>();
 	
-	public DependencyTable(){
-		
-	}
+	public DependencyTable(){}
 	
 	public Collection<DependencySet> getValues(){
 		return this.dependencies.values();

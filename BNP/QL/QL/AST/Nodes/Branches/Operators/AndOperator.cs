@@ -1,13 +1,18 @@
 ﻿using System;
-using QL.Model.Terminals;
+using QL.AST.Nodes.Terminals;
 
-namespace QL.Model.Operators
+namespace QL.AST.Nodes.Branches.Operators
 {
-    public class AndOperator : BinaryTreeElementBase, IOperator, ITypeStatic
+    public class AndOperator : BinaryTreeElementBase, IStaticReturnType
     {
         public  Type GetReturnType()
         {
             return (new Yesno()).GetReturnType();
+        }
+
+        public AndOperator(SourceLocation sourceLocation)
+        {
+            this.SourceLocation = sourceLocation;
         }
     }
 }

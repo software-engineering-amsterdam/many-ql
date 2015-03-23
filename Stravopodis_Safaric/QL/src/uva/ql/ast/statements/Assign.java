@@ -35,6 +35,6 @@ public class Assign extends Statement {
 	}
 	@Override
 	public String toString(){
-		return "Assign(" + this.identifier.evaluate().getValue() + "," + this.expression + ")";
+		return "Assign(" + this.identifier.getEvaluatedValue() + "," + this.expression + ")";
 	}
 }

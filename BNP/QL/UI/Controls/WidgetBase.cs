@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using QL.Model;
-using QL.Visitors;
+using QL.AST.Nodes.Branches;
+using QL.AST.ValueWrappers;
 
 namespace QL.UI.Controls
 {

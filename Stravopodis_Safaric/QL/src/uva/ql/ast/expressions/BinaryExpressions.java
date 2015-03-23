@@ -25,10 +25,19 @@ public abstract class BinaryExpressions extends Expression{
 		return this.right;
 	}
 	
+	public Object getLeftValue(){
+		return this.getEvaluatedValue();
+	}
+	
+	public Object getRightValue(){
+		return this.getEvaluatedValue();
+	}
+	
 	public Operator getOperator(){
 		return this.operator;
 	}
 	
 	@Override
 	public abstract GenericValue<?> evaluate();
+
 }

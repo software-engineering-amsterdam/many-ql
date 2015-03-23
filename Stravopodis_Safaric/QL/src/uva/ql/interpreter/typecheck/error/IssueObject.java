@@ -32,10 +32,10 @@ public class IssueObject {
 	@Override
 	public String toString(){
 		if (this.issueTypeError != null){
-			return "ErrorTypeObject(" + this.issueTypeError + "," + this.object + "," + this.codeLines + ")";
+			return "Error of type: " + this.issueTypeError + "," + this.object + ", at code lines: " + this.codeLines + ")";
 		}
 		else {
-			return "ErrorTypeObject(" + this.issueTypeWarning + "," + this.object + "," + this.codeLines + ")";
+			return "Warning of type: " + this.issueTypeWarning + "," + this.object + ", at code lines: " + this.codeLines + ")";
 		}
 	}
 	

@@ -40,10 +40,10 @@ import uva.ql.ast.type.TypeString;
 import uva.ql.ast.visitor.ExpressionVisitor;
 import uva.ql.ast.visitor.StatementVisitor;
 import uva.ql.ast.visitor.TypeVisitor;
-import uva.ql.interpreter.typecheck.dependency.DependencyExpressionVisitor;
-import uva.ql.interpreter.typecheck.dependency.DependencyHelper;
-import uva.ql.interpreter.typecheck.dependency.DependencySet;
-import uva.ql.interpreter.typecheck.dependency.DependencyTable;
+import uva.ql.interpreter.typecheck.depedency.DependencyExpressionVisitor;
+import uva.ql.interpreter.typecheck.depedency.DependencyHelper;
+import uva.ql.interpreter.typecheck.depedency.DependencySet;
+import uva.ql.interpreter.typecheck.depedency.DependencyTable;
 import uva.ql.interpreter.typecheck.error.IssueList;
 import uva.ql.interpreter.typecheck.error.IssueObject;
 import uva.ql.interpreter.typecheck.error.IssueType;
@@ -55,8 +55,9 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 	private final IssueList issueList = new IssueList();
 	private final SymbolTable symbolTable = new SymbolTable();
 	private final LabelTable labelTable = new LabelTable();
-	private final DependencyExpressionVisitor dependency = new DependencyExpressionVisitor();
-	private  DependencyTable dependencyTable = new DependencyTable();
+	
+	private final DependencyExpressionVisitor dependencyVisitor = new DependencyExpressionVisitor();
+	private DependencyTable dependencyTable = new DependencyTable();
 	
 	/* Type Check Methods */
 	
@@ -107,20 +108,26 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		return false;
 	}
 	
+	private void cyclicDependencies(){
+		
+		dependencyTable = DependencyHelper.populateFullDependencies(dependencyTable);
+		
+		Set<String> cycles = DependencyHelper.findCycles(dependencyTable);
+		
+		if (!cycles.isEmpty()){
+			for (String _identifier: cycles){
+				IssueObject issue = new IssueObject(IssueType.ERROR.CYCLIC_DEPENDANCIES, _identifier, null);
+				this.issueList.putIssueObject(issue);
+			}
+		}
+	}
+	
 	/* Type Check Visitor */
 	
 	@Override
 	public Void visitProg(Prog prog) {
 		prog.getForm().accept(this);
-		dependencyTable = DependencyHelper.populateFullDependencies(dependencyTable);
-		System.err.println(DependencyHelper.findCycles(dependencyTable));
-		Set<String> cycles = DependencyHelper.findCycles(dependencyTable);
-		
-		if (!cycles.isEmpty()){
-			for (String s: cycles){
-				System.out.println("Check: " + s + " ==== " + cycles);
-			}
-		}
+		this.cyclicDependencies();
 		
 		return null;
 	}
@@ -178,10 +185,13 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 
 	@Override
 	public Void visitComputedQuestion(Question question) {
-		dependency.visitExpression(question.getQuestionExpression());
-		dependencyTable.putValue(question.getQuestionIdentifier().evaluate().getValue(), new DependencySet(dependency.getIdentifierList().toString()));
 		
-		//System.out.println("=====>" + dependencyTable.toString());
+		// CAUTION
+		dependencyVisitor.visitExpression(question.getQuestionExpression());
+		
+		DependencySet dependencies = new DependencySet(dependencyVisitor.getIdentifierList().toString());
+		dependencyTable.putValue(question.getQuestionIdentifierValue(), dependencies);
+			
 		this.visitQuestion(question);
 		question.getQuestionExpression().accept(this);
 
@@ -189,8 +199,8 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 	}
 	
 	private Object visitQuestion(Question question){
-		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
-		String questionLabel = question.getQuestionLabel().evaluate().getValue();
+		String questionIdentifier = question.getQuestionIdentifierValue();
+		String questionLabel = question.getQuestionLabelText();
 		
 		if (this.isDuplicateQuestionDifferentType(question)){
 			IssueObject issue = new IssueObject(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, question, question.getCodeLine());
@@ -289,15 +299,10 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 				
 				// Get question type of an Identifier (expression)
 				
-				Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+				Type type = this.symbolTable.retrieveValue(expression.getEvaluatedValue().toString());
 				
-				try{
-					if (!type.checkTypeConformance(supportedTypes)){
-						this.issueList.putIssueObject(issue);
-					}
-				}
-				catch (Exception ex){
-					
+				if (!type.checkTypeConformance(supportedTypes)){
+					this.issueList.putIssueObject(issue);
 				}
 			}
 			else {
@@ -311,7 +316,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		// Check is an expression is an Identifier() of TypeString()
 		
 		if (expression.possibleReturnTypes().contains(new TypeString())){
-			Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+			Type type = this.symbolTable.retrieveValue(expression.getEvaluatedValue().toString());
 			return Arrays.asList(type);
 		}
 		

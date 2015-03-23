@@ -1,4 +1,4 @@
-package uva.ql.interpreter.typecheck.dependency;
+package uva.ql.interpreter.typecheck.depedency;
 
 import java.util.Arrays;
 import uva.ql.ast.expressions.*;
@@ -25,11 +25,10 @@ import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class DependencyExpressionVisitor implements ExpressionVisitor<Expression>{
 
-		private final DependencySet identifierList = new DependencySet();
+	private final DependencySet identifierList = new DependencySet();
 	
 	@Override
 	public Expression visitBinaryExpression(BinaryExpressions expression) {
-		
 		
 		Expression left = expression.getLeftExpr();
 		Expression right = expression.getRightExpr();
@@ -131,7 +130,6 @@ public class DependencyExpressionVisitor implements ExpressionVisitor<Expression
 		return this.visitBinaryExpression(less);
 	}
 
-	/////
 	@Override
 	public Identifier visitIdentifier(Identifier identifier) {
 		return identifier;

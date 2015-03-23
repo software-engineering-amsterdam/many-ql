@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL.Grammars;
-using QL.Model;
+using QL.Grammar;
 using QL;
+using QL.Hollywood;
 
 namespace Tests.VisitorTests
 {
@@ -17,7 +17,7 @@ namespace Tests.VisitorTests
             Builder = new QLBuilder(input);
             Builder.RegisterGenericDataHandlers();
             Assert.IsTrue(Builder.RunInit());
-            Assert.IsTrue(Builder.RunAstBuild());
+            Assert.IsTrue(Builder.RunASTBuilders());
         }
 
 
@@ -33,7 +33,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunTypeCheckers());
             Assert.AreEqual(0,Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
@@ -50,7 +50,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
             Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
         }
         [TestMethod]
@@ -65,7 +65,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
             Assert.AreEqual(3, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
@@ -82,7 +82,7 @@ namespace Tests.VisitorTests
                 }
             ");
 
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunTypeCheckers());
             Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
@@ -99,7 +99,7 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunTypeCheckers());
 
             Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
 
@@ -117,12 +117,12 @@ namespace Tests.VisitorTests
                      };
                 }
             ");
-            Builder.RunTypeCheck();
+            Builder.RunTypeCheckers();
             int c = Builder.DataContext.TypeReference.Count;
 
             for (int i = 0; i < 1000; i++)
             {
-                Builder.RunTypeCheck();
+                Builder.RunTypeCheckers();
             }
 
 
@@ -140,7 +140,7 @@ namespace Tests.VisitorTests
                 statement Smthing3 (text, "" all your money"" ) ""well"";
                 }
             ");
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunTypeCheckers());
 
 
             Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
@@ -156,7 +156,7 @@ namespace Tests.VisitorTests
                 statement Smthing (yesno, "" all your money"" ) ""well"";
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
 
 
             Assert.AreEqual(3, Builder.DataContext.ASTHandlerExceptions.Count);
@@ -177,7 +177,7 @@ namespace Tests.VisitorTests
 
                 }
             ");
-            Assert.IsTrue(Builder.RunTypeCheck());
+            Assert.IsTrue(Builder.RunTypeCheckers());
 
 
             Assert.AreEqual(0, Builder.DataContext.ASTHandlerExceptions.Count);
@@ -193,7 +193,7 @@ namespace Tests.VisitorTests
 
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
 
 
             Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
@@ -211,7 +211,7 @@ namespace Tests.VisitorTests
 
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
             Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
 
         }
@@ -226,7 +226,7 @@ namespace Tests.VisitorTests
 
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
         }
         [TestMethod]
         public void ReferenceFromAnotherBranch1()
@@ -243,7 +243,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Builder.RunTypeCheck());
+            Assert.IsFalse(Builder.RunTypeCheckers());
 
         }        
     }

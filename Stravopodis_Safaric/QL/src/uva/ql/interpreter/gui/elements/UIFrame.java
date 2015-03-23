@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import uva.ql.interpreter.gui.supporting.Size;
+
 public class UIFrame extends JFrame{
 	
 	static final long serialVersionUID = 42L; 
