@@ -21,12 +21,12 @@ stylesheetRule
     ;
 
 widgetValue
-    : label='slider' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
-    | label='spinbox' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
-    | label='radio' '(' yesText=String ',' noText=String ')'
-    | label='dropdown' '(' yesText=String ',' noText=String ')'
-    | label='checkbox'
-    | label='textbox'
+    : wlabel='slider' '(' min=(Decimal|Integer) ',' max=(Decimal|Integer) ',' step=(Decimal|Integer) ')'
+    | wlabel='spinbox' '(' min=(Decimal|Integer) ',' max=(Decimal|Integer) ',' step=(Decimal|Integer) ')'
+    | wlabel='radio' '(' yesText=String ',' noText=String ')'
+    | wlabel='dropdown' '(' yesText=String ',' noText=String ')'
+    | wlabel='checkbox'
+    | wlabel='textbox'
     ;
 
 fragment Hex : [0-9A-F];
@@ -67,8 +67,6 @@ Color : '#' Hex Hex Hex Hex Hex Hex;
 Integer : (ZeroDigit | NonZeroDigit Digit*);
 
 Decimal : (NonZeroDigit Digit* | ZeroDigit?) '.' Digit+ ;
-
-IntOrDec : Integer | Decimal;
 
 String : Quote StringCharacter*? Quote;
 

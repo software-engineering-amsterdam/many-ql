@@ -96,13 +96,13 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     @Override
     public Control visit(Slider w)
     {
-        return new ql.gui.control.Slider(true, false, 0, 100, 1);
+        return new ql.gui.control.Slider(true, false, w.getMin(), w.getMax(), w.getStep());
     }
 
     @Override
     public Control visit(qls.ast.rule.widget.Spinbox w)
     {
-        return new Spinbox(true, false);
+        return new Spinbox(true, false, w.getMin(), w.getMax(), w.getStep());
     }
 
     @Override

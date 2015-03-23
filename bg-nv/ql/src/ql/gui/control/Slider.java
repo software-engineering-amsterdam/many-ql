@@ -22,14 +22,15 @@ public class Slider extends ControlElement implements IntControl, DecControl
     private Double defaultValue;
     private NumberFormat formatter;
 
-    public Slider(Boolean visible, Boolean disabled, Integer startValue, Integer endValue, Integer step)
+    // TODO: Shall we initialize the default slider values in the class? What do you think?
+    public Slider(Boolean visible, Boolean disabled)
+    {
+        this(visible, disabled, new BigDecimal("0"), new BigDecimal("100"), new BigDecimal("1"));
+    }
+
+    public Slider(Boolean visible, Boolean disabled, BigDecimal startValue, BigDecimal endValue, BigDecimal step)
     {
         this(visible, disabled, startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0");
-     }
-
-    public Slider(Boolean visible, Boolean disabled, Double startValue, Double endValue, Double step)
-    {
-        this(visible, disabled, startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0.00");
     }
 
     private Slider(Boolean visible, Boolean disabled, Double startValue, Double endValue, Double step, String format)

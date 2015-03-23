@@ -3,6 +3,8 @@ package ql.gui.input;
 import ql.ast.type.*;
 import ql.gui.control.*;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Nik on 28-02-2015
  */
@@ -45,7 +47,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id, new Slider(VISIBLE, DISABLED, 0, 100, 1));
+        return new IntInput(this.id, new Slider(VISIBLE, DISABLED));
     }
 
     @Override
