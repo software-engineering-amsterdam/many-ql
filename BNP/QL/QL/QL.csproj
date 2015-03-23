@@ -63,7 +63,7 @@
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
     <Compile Include="Hollywood\DataHandlers\Evaluation\Evaluator.cs" />
     <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeChecker.cs" />
-    <Compile Include="AST\ValueWrappers\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="AST\ValueWrappers\ITerminalWrapper.cs" />
     <Compile Include="AST\IVisitor.cs" />

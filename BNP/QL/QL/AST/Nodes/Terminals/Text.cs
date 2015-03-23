@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Text : BinaryTreeElementBase, IStaticReturnType
+    public class Text : ElementBase, IStaticReturnType
     {
 
         public string Value { get; set; }

@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Identifier : BinaryTreeElementBase
+    public class Identifier : ElementBase
     {
 
         public string Value { get; private set; }
