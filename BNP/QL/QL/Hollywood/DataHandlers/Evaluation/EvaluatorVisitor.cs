@@ -17,23 +17,17 @@ namespace QL.Hollywood.DataHandlers.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLBaseException> Exceptions { get; private set; }
-        
-        public readonly IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
-        public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
+
+        References ValueReference;
         private EvaluationTerminalWrapperFactory _evaluationTerminalWrapperFactory;
-
-        public IDictionary<ITypeResolvable, ITerminalWrapper> GetValuesIfNoErrors()
-        {
-            return Exceptions.Any() ? null : ReferenceLookupTable;
-        }
+       
 
         
-        public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions, IDictionary<ITypeResolvable, ITerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
+        public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions, References valueReference)
         {
             Exceptions = exceptions;
-            _evaluationTerminalWrapperFactory = new EvaluationTerminalWrapperFactory();       
-            ReferenceLookupTable = referenceTable;
-            IdentifierLookupTable = identifierTable;
+            _evaluationTerminalWrapperFactory = new EvaluationTerminalWrapperFactory();
+            ValueReference = valueReference;            
 
         }
 
@@ -57,7 +51,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         public void Visit(ControlUnit node)
         {
             node.Expression.Accept(this);
-            YesnoWrapper conditionstate= ReferenceLookupTable[node.Expression] as YesnoWrapper;
+            YesnoWrapper conditionstate= ValueReference.GetValue(node.Expression) as YesnoWrapper;
             if (node.ConditionTrueBlock != null && conditionstate.Value.HasValue && conditionstate.Value.Value)
             {
                 node.ConditionTrueBlock.Accept(this);
@@ -73,45 +67,22 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             node.Expression.Accept(this);
 
-            IdentifierLookupTable[node.Identifier] = node.Expression;
+            ValueReference.SetReference(node.Identifier, node.Expression);
 
         }
 
         public void Visit(QuestionUnit node)
         {
-            IdentifierLookupTable[node.Identifier] = node.DataType;
-            if (!ReferenceLookupTable.ContainsKey(node.DataType)) { 
-                ReferenceLookupTable[node.DataType]= _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType);
-            }
+            ValueReference.SetReference(node.Identifier,node.DataType);
+
+            if (!ValueReference.ContainsKey(node.DataType))
+            { 
+                ValueReference.SetValue(node.DataType, _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType));
+            }//todo shouldnt here be else with some warning?
         }
 
 
-        ITerminalWrapper _GetValueFor(Identifier i) 
-        {
-            if (IdentifierLookupTable.ContainsKey(i) && ReferenceLookupTable.ContainsKey(IdentifierLookupTable[i]))
-            {
-                return ReferenceLookupTable[IdentifierLookupTable[i]];
-            }
-            else if (IdentifierLookupTable.ContainsKey(i))
-            {
-                throw new Exception("reference not initialized");
-            }
-            else
-            {
-                throw new QLError("Usage of a variable before declaration");
-            }
-        }
-        ITerminalWrapper _GetValueFor(ITypeResolvable i)
-        {
-            if (ReferenceLookupTable.ContainsKey(i))
-            {
-                return ReferenceLookupTable[i];
-            }
-            else{
-                throw new Exception("how is this possible? there should be at least null valued wrapper");
-            }
         
-        }
         
 
         public void Visit(Expression node)
@@ -125,7 +96,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
             node.Child.Accept(this);
 
-            ReferenceLookupTable[node] = _GetValueFor((dynamic)node.Child);
+            ValueReference.SetValue(node,  ValueReference.GetValue(node.Child));
         }
 
         #endregion
@@ -140,10 +111,10 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
 
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) == ((dynamic)rightWrapper);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) == ((dynamic)rightWrapper));
             
         }
 
@@ -151,54 +122,54 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) != ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) != ((dynamic)rightWrapper));
         }
 
         public void Visit(GreaterThanOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) > ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+                ValueReference.SetValue(node,  ((dynamic)leftWrapper) > ((dynamic)rightWrapper));
         }
 
         public void Visit(GreaterThanEqualToOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) >= ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+                ValueReference.SetValue(node,  ((dynamic)leftWrapper) >= ((dynamic)rightWrapper));
         }
 
         public void Visit(LessThanOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-                ReferenceLookupTable[node] = ((dynamic)leftWrapper) < ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+                ValueReference.SetValue(node,  ((dynamic)leftWrapper) < ((dynamic)rightWrapper));
         }
 
         public void Visit(LessThanEqualToOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) <= ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) <= ((dynamic)rightWrapper));
         }
 
         public void Visit(MultiplicationOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) * ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) * ((dynamic)rightWrapper));
             
         }
 
@@ -206,18 +177,18 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) / ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) / ((dynamic)rightWrapper));
         }
 
         public void Visit(PlusOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) + ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) + ((dynamic)rightWrapper));
             
         }
 
@@ -225,47 +196,47 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) - ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) - ((dynamic)rightWrapper));
         }
 
         public void Visit(AndOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) & ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) & ((dynamic)rightWrapper));
          }
 
         public void Visit(OrOperator node)
         {
             _VisitBinary(node);
 
-            ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
-            ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
-            ReferenceLookupTable[node] = ((dynamic)leftWrapper) | ((dynamic)rightWrapper);
+            ITerminalWrapper leftWrapper = ValueReference.GetValue(node.Left);
+            ITerminalWrapper rightWrapper = ValueReference.GetValue(node.Right);
+            ValueReference.SetValue(node,  ((dynamic)leftWrapper) | ((dynamic)rightWrapper));
         }
         #endregion
 
         #region Terminals
         public void Visit(Number node)
         {
-            ReferenceLookupTable[node] = new NumberWrapper(node);
+            ValueReference.SetValue(node,  new NumberWrapper(node));
             
         }
 
         public void Visit(Yesno node)
         {
-            ReferenceLookupTable[node] = new YesnoWrapper(node);
+            ValueReference.SetValue(node,  new YesnoWrapper(node));
 
 
         }
 
         public void Visit(Text node)
         {
-            ReferenceLookupTable[node] = new TextWrapper(node);
+            ValueReference.SetValue(node,  new TextWrapper(node));
 
         }
 
