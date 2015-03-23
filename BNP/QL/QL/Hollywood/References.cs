@@ -12,16 +12,16 @@ namespace QL.Hollywood
 {
     public class References
     {
-        IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable;
-        IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable;
+        IDictionary<IResolvable, ITerminalWrapper> ReferenceLookupTable;
+        IDictionary<Identifier, IResolvable> IdentifierLookupTable;
 
 
         public References()
         {
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
-            IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
+            ReferenceLookupTable = new Dictionary<IResolvable, ITerminalWrapper>();
+            IdentifierLookupTable = new Dictionary<Identifier, IResolvable>();
         }
-        public void SetValue(ITypeResolvable key, ITerminalWrapper value)
+        public void SetValue(IResolvable key, ITerminalWrapper value)
         {
             ReferenceLookupTable[key] = value;
         
@@ -41,7 +41,7 @@ namespace QL.Hollywood
                 throw new QLError("Usage of a variable before declaration");
             }
         }
-        ITerminalWrapper _GetValue(ITypeResolvable i)
+        ITerminalWrapper _GetValue(IResolvable i)
         {
             if (ReferenceLookupTable.ContainsKey(i))
             {
@@ -82,7 +82,7 @@ namespace QL.Hollywood
         }
 
 
-        public void SetReference(Identifier key, ITypeResolvable value)
+        public void SetReference(Identifier key, IResolvable value)
         {
             IdentifierLookupTable[key] = value;
         }
@@ -91,7 +91,7 @@ namespace QL.Hollywood
             IdentifierLookupTable.Clear();
         }
 
-        public bool ContainsKey(ITypeResolvable key)
+        public bool ContainsKey(IResolvable key)
         {
             return  ReferenceLookupTable.ContainsKey(key);
         }

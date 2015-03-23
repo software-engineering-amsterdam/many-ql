@@ -1,6 +1,6 @@
 ﻿namespace QL.AST.Nodes.Branches
 {
-    public class Expression : ElementBase, ITypeInferred
+    public class Expression : ElementBase, IReturnTypeInferred
     {
         public ElementBase Child{get; private set;}
         

@@ -12,8 +12,7 @@ namespace QL.AST.Nodes.Branches.Operators
 
         public EqualsOperator(SourceLocation sourceLocation)
         {
-            // TODO: Complete member initialization
-            this.SourceLocation = sourceLocation;
+            SourceLocation = sourceLocation;
         }
     }
 }

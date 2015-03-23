@@ -10,6 +10,7 @@ using QL.AST.ValueWrappers;
 using QL.Exceptions;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
+using QL.Hollywood;
 
 namespace QL.UI.Visitors
 {
@@ -17,23 +18,19 @@ namespace QL.UI.Visitors
     {
         private readonly WidgetFactory _widgetFactory = new WidgetFactory();
 
-        private IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable;
         private readonly IList<WidgetBase> _elementsToDisplay;
-        private readonly IDictionary<ITypeResolvable, ITerminalWrapper> _referenceLookupTable;
-        private readonly IDictionary<Identifier, ITypeResolvable> _identifierTable;
+        private readonly References _valueReference;
         public IList<QLBaseException> Exceptions { get; private set; }
 
 
         public UserInterfaceVisitor(
             ObservableCollection<QLBaseException> ASTHandlerExceptions,
-            IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable,
-            IDictionary<Identifier, ITypeResolvable> IdentifierTable,
+            References valueReference,
             IList<WidgetBase> ElementsToDisplay
             )
         {
             // TODO: Complete member initialization
-            this._referenceLookupTable = ReferenceLookupTable;
-            this._identifierTable = IdentifierTable;
+            this._valueReference = valueReference;
             this._elementsToDisplay = ElementsToDisplay;
         }
         
@@ -52,8 +49,8 @@ namespace QL.UI.Visitors
         
         public void Visit(ControlUnit node)
         {
-            System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());//FIXME make that a proper exception
-            if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool()) //TODO if result is null Wrapped, do not do true nor false block
+            
+            if (((YesnoWrapper)_valueReference.GetValue(node.Expression)).ToBool()) //TODO if result is null Wrapped, do not do true nor false block
             {
                 node.ConditionTrueBlock.Accept(this);
             }
