@@ -16,23 +16,28 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 {
     public class QLListener : QLBaseListener
     {
-        #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
         private IList<QLBaseException> _astBuilderExceptions;
+        private TypeFactory _typeFactory;
+
+        #region Common
 
 
         public QLListener()
         {
+            if (_astBuilderExceptions == null)
+            {
+                _astBuilderExceptions = new List<QLBaseException>();
+            }
+            
             _childrenStack = new Stack<Stack<ElementBase>>();
-            _astBuilderExceptions = new List<QLBaseException>();
+            _typeFactory = new TypeFactory();
 
         }
-
-        public QLListener(IList<QLBaseException> astBuilderExceptions)
+        public QLListener(IList<QLBaseException> astBuilderExceptions):this()
         {
             _astBuilderExceptions = astBuilderExceptions;
-            _childrenStack = new Stack<Stack<ElementBase>>();
 
         }
 
@@ -149,7 +154,7 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 
             QuestionUnit question = new QuestionUnit(
                 (Identifier)children[0], 
-                TypeFactory.GetTypeInstance(context.type()),
+                _typeFactory.GetTypeInstance(context.type()),
                 context.TEXT().GetText(),
                 SourceLocation.CreateFor(context)
                 );
@@ -174,7 +179,7 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
                 (Identifier)children[0],
                 (Expression)children[1],
                 context.TEXT().GetText(),
-                TypeFactory.GetTypeInstance(context.type()),
+                _typeFactory.GetTypeInstance(context.type()),
                 SourceLocation.CreateFor(context)
                 );
 

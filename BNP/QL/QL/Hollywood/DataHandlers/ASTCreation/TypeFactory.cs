@@ -12,26 +12,27 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
 {
     class TypeFactory
     {
-        static IStaticReturnType _getTypeInstance(QLParser.YesnoTypeContext typeContext)
+        public TypeFactory() { }
+        IStaticReturnType _GetTypeInstance(QLParser.YesnoTypeContext typeContext)
         {
             return new Yesno();
         }
-        static IStaticReturnType _getTypeInstance(QLParser.NumberTypeContext typeContext)
+         IStaticReturnType _GetTypeInstance(QLParser.NumberTypeContext typeContext)
         {
             return new Number();
         }
-        static IStaticReturnType _getTypeInstance(QLParser.TextTypeContext typeContext)
+         IStaticReturnType _GetTypeInstance(QLParser.TextTypeContext typeContext)
         {
             return new Text();
         }
-        static IStaticReturnType _getTypeInstance(QLParser.TypeContext typeContext)
+         IStaticReturnType _GetTypeInstance(QLParser.TypeContext typeContext)
         {
             throw new ParserError("type not recognized" + typeContext.ToString());
 
         }
-        public static IStaticReturnType GetTypeInstance(QLParser.TypeContext typeContext)
+        public  IStaticReturnType GetTypeInstance(QLParser.TypeContext typeContext)
         {
-            return _getTypeInstance((dynamic)typeContext);
+            return _GetTypeInstance((dynamic)typeContext);
 
         }
     }

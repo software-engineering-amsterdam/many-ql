@@ -20,22 +20,18 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         
         public readonly IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable; // a lookup of references to terminals
         public readonly IDictionary<Identifier, ITypeResolvable> IdentifierLookupTable; // a lookup of identifiers to resolvable types
+        private EvaluationTerminalWrapperFactory _evaluationTerminalWrapperFactory;
 
         public IDictionary<ITypeResolvable, ITerminalWrapper> GetValuesIfNoErrors()
         {
             return Exceptions.Any() ? null : ReferenceLookupTable;
         }
 
-        public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions)
-        {
-            Exceptions = exceptions;
-            ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
-            IdentifierLookupTable = new Dictionary<Identifier, ITypeResolvable>();
-        }
-
+        
         public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions, IDictionary<ITypeResolvable, ITerminalWrapper> referenceTable, IDictionary<Identifier, ITypeResolvable> identifierTable)
         {
             Exceptions = exceptions;
+            _evaluationTerminalWrapperFactory = new EvaluationTerminalWrapperFactory();       
             ReferenceLookupTable = referenceTable;
             IdentifierLookupTable = identifierTable;
 
@@ -85,7 +81,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         {
             IdentifierLookupTable[node.Identifier] = node.DataType;
             if (!ReferenceLookupTable.ContainsKey(node.DataType)) { 
-                ReferenceLookupTable[node.DataType]= EvaluationTerminalWrapperFactory.CreateWrapper(node.DataType);
+                ReferenceLookupTable[node.DataType]= _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType);
             }
         }
 
