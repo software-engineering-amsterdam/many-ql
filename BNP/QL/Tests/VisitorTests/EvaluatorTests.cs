@@ -346,7 +346,7 @@ namespace Tests.VisitorTests
                 
                 }
             ");
-            Assert.IsFalse(Builder.RunEvaluators(),"Undeclared variable should be thrown");
+            Assert.IsFalse(Builder.RunEvaluators(),"Undeclared variable error should be thrown");
         }
         [TestMethod]
         public void EvaluatorReferenceFromUnavaliableBranch()
@@ -394,7 +394,6 @@ namespace Tests.VisitorTests
             Assert.AreEqual(c2, Builder.DataContext.ReferenceLookupTable.Count);
 
         }
-        //todo create real unit tests like new TextWrapper("def") != new TextWrapper("abc")
        
     }
 }

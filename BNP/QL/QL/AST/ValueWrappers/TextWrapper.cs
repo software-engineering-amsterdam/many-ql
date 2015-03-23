@@ -4,7 +4,7 @@ using QL.AST.Nodes;
 
 namespace QL.AST.ValueWrappers
 {
-    public class TextWrapper : ITerminalWrapper//TODO change to  struct
+    public class TextWrapper : ITerminalWrapper
     {
         public string Value;
         IStaticReturnType _node;

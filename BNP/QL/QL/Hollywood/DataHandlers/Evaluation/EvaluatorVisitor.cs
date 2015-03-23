@@ -85,47 +85,51 @@ namespace QL.Hollywood.DataHandlers.Evaluation
             }
         }
 
+
+        ITerminalWrapper _GetValueFor(Identifier i) 
+        {
+            if (IdentifierLookupTable.ContainsKey(i) && ReferenceLookupTable.ContainsKey(IdentifierLookupTable[i]))
+            {
+                return ReferenceLookupTable[IdentifierLookupTable[i]];
+            }
+            else if (IdentifierLookupTable.ContainsKey(i))
+            {
+                throw new Exception("reference not initialized");
+            }
+            else
+            {
+                throw new QLError("Usage of a variable before declaration");
+            }
+        }
+        ITerminalWrapper _GetValueFor(ITypeResolvable i)
+        {
+            if (ReferenceLookupTable.ContainsKey(i))
+            {
+                return ReferenceLookupTable[i];
+            }
+            else{
+                throw new Exception("how is this possible? there should be at least null valued wrapper");
+            }
+        
+        }
+        
+
         public void Visit(Expression node)
         {
 
             //if expression is literal
-            Contract.Assert(node.Child != null, "Expression should have one and only one child");
+            if(node.Child== null)
+            {
+                throw new Exception("Expression should have one and only one child");
+            }
 
             node.Child.Accept(this);
 
-            Identifier i = node.Child as Identifier;
-            if (i != null) //TODO refactor
-            {
-
-                if (IdentifierLookupTable.ContainsKey(i))
-                {
-                    if (ReferenceLookupTable.ContainsKey(IdentifierLookupTable[i]))
-                    {
-                        ReferenceLookupTable[node] = ReferenceLookupTable[IdentifierLookupTable[i]];
-                    }
-                    else
-                    {
-                        throw new Exception("reference not initialized, not possible");
-                    }
-                }
-                else
-                {
-                    throw new QLError("Usage of variable before declaration");
-                }
-            }
-            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Child))//this should recursively get the final result
-            {
-                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Child];
-
-            }
-            else
-            {
-                throw new Exception("how is this possible? there should be at least null valued wrapper");
-                //ReferenceLookupTable[node] = null;
-            }
+            ReferenceLookupTable[node] = _GetValueFor((dynamic)node.Child);
         }
+
         #endregion
-        void _visit_binary(BinaryTreeElementBase node)
+        void _VisitBinary(BinaryTreeElementBase node)
         {
             node.Left.Accept(this);
             node.Right.Accept(this);
@@ -134,7 +138,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -145,7 +149,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(NotEqualsOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -154,7 +158,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(GreaterThanOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -163,7 +167,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(GreaterThanEqualToOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -172,7 +176,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(LessThanOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -181,7 +185,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(LessThanEqualToOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -190,7 +194,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(MultiplicationOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -200,7 +204,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(DivisionOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -209,7 +213,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(PlusOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -219,7 +223,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(MinusOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -228,7 +232,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(AndOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];
@@ -237,7 +241,7 @@ namespace QL.Hollywood.DataHandlers.Evaluation
 
         public void Visit(OrOperator node)
         {
-            _visit_binary(node);
+            _VisitBinary(node);
 
             ITerminalWrapper leftWrapper = ReferenceLookupTable[(ITypeResolvable)node.Left];
             ITerminalWrapper rightWrapper = ReferenceLookupTable[(ITypeResolvable)node.Right];

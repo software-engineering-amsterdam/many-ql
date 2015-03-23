@@ -71,7 +71,6 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
             ThrowExceptionIfAny();
             if (!_childrenStack.Any())
             {
-                //we are intentionally not throwing QL exception, it is not intented to be displayed
                 _astBuilderExceptions.Add(new ParserError("Level with children should be always initialized before appending one."));
             }
             

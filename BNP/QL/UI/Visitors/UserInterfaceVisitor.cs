@@ -52,7 +52,7 @@ namespace QL.UI.Visitors
         
         public void Visit(ControlUnit node)
         {
-            System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
+            System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());//FIXME make that a proper exception
             if (((YesnoWrapper)ReferenceLookupTable[node.Expression]).ToBool()) //TODO if result is null Wrapped, do not do true nor false block
             {
                 node.ConditionTrueBlock.Accept(this);
