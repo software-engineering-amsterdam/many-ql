@@ -9,10 +9,10 @@ import uva.ql.ast.visitor.StatementVisitor;
 
 public class Question extends Statement {
 	
-	private Type type;
-	private Identifier identifier;
 	private StringLiteral questionLabel;
+	private Identifier identifier;
 	private Expression expression;
+	private Type type;
 	
 	public Question(Type _type, Identifier _identifier, StringLiteral _questionLabel, CodeLines _codeLines){
 		super(_codeLines);
@@ -33,12 +33,16 @@ public class Question extends Statement {
 		return this.type;
 	}
 	
+	public boolean questionTypeEquals(Type type){
+		return this.type.equals(type);
+	}
+	
 	public Identifier getQuestionIdentifier(){
 		return this.identifier;
 	}
 	
 	public String getQuestionIdentifierValue(){
-		return this.identifier.evaluate().getValue();
+		return this.identifier.getEvaluatedValue().toString();
 	}
 	
 	public StringLiteral getQuestionLabel(){
@@ -46,7 +50,8 @@ public class Question extends Statement {
 	}
 	
 	public String getQuestionLabelText(){
-		return this.getQuestionLabel().evaluate().getValue().replaceAll("\"", "");
+		String labelTextValue = this.getQuestionLabel().getEvaluatedValue();
+		return labelTextValue.replaceAll("\"", "");
 	}
 	
 	public Expression getQuestionExpression(){

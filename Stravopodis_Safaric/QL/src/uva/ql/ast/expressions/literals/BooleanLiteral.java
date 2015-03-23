@@ -36,6 +36,11 @@ public class BooleanLiteral extends Literal{
 	public BooleanValue evaluate() {
 		return new BooleanValue(this.value);
 	}
+	
+	@Override
+	public Object getEvaluatedValue() {
+		return this.evaluate().getValue();
+	}
 
 	@Override
 	public List<Type> possibleReturnTypes() {
@@ -56,5 +61,4 @@ public class BooleanLiteral extends Literal{
 	public String toString() {
 		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
-
 }

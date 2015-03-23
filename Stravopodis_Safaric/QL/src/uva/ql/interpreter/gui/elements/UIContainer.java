@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import uva.ql.interpreter.gui.supporting.Size;
+
 public class UIContainer extends JPanel{
 
 	static final long serialVersionUID = 42L; 

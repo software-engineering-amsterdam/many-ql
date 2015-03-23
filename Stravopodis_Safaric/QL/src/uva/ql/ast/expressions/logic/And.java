@@ -30,7 +30,12 @@ public class And extends BinaryExpressions{
 	
 	@Override
 	public BooleanValue evaluate() {
-		return new BooleanValue((boolean)this.getLeftExpr().evaluate().getValue()).and(new BooleanValue((boolean)this.getRightExpr().evaluate().getValue()));
+		return new BooleanValue((boolean)this.getLeftExpr().getEvaluatedValue()).and(new BooleanValue((boolean)this.getRightExpr().getEvaluatedValue()));
+	}
+	
+	@Override
+	public Object getEvaluatedValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override

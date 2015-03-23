@@ -62,7 +62,7 @@ public class ValueTable implements  ExpressionVisitor<Object>, StatementVisitor<
 		this.visitProg(this.prog);
 	}
 	
-	public void updateValueTable(){
+	public void refreshValueTable(){
 		this.visitProg(this.prog);
 	}
 	
@@ -78,8 +78,8 @@ public class ValueTable implements  ExpressionVisitor<Object>, StatementVisitor<
 		return this.valueTable.get(identifier);
 	}
 	
-	public void updateValueTable(String identifier, GenericValue<?> value){
-		this.valueTable.put(identifier, value);
+	public void updateValueTable(Identifier identifier, GenericValue<?> value){
+		this.valueTable.put(identifier.getEvaluatedValue(), value);
 	}
 	
 	public boolean conditionalExpression(Expression expression){
