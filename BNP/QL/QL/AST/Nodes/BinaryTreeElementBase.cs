@@ -5,6 +5,7 @@
         public ElementBase Left;
         public ElementBase Right;
         protected BinaryTreeElementBase() { }
+        
        
     }
 }

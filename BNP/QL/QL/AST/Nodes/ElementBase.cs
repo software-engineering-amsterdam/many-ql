@@ -11,7 +11,9 @@
         protected ElementBase()
         {
         }
-
+        protected ElementBase(SourceLocation sourceLocation) {
+            SourceLocation = sourceLocation;
+        }
 
         public virtual void Accept(IVisitor visitor)
         {

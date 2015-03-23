@@ -103,7 +103,6 @@
     <Compile Include="AST\Nodes\Branches\Operators\OrOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\PlusOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\EqualsOperator.cs" />
-    <Compile Include="AST\Nodes\Branches\Operators\IOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\NotEqualsOperator.cs" />
     <Compile Include="AST\Nodes\Branches\QuestionUnit.cs" />
     <Compile Include="AST\SourceLocation.cs" />

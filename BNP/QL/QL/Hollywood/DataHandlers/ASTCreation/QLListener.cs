@@ -300,77 +300,65 @@ namespace QL.Hollywood.DataHandlers.ASTCreation
         
         public override void ExitOperatorAddition(QLParser.OperatorAdditionContext context)
         {
-            BinaryTreeElementBase op = new PlusOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new PlusOperator(sourceLocation:SourceLocation.CreateFor(context));
             AppendToAST(op);
 
         }
         public override void ExitOperatorAnd(QLParser.OperatorAndContext context)
         {
-            BinaryTreeElementBase op = new AndOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new AndOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         
         
         public override void ExitOperatorEquals(QLParser.OperatorEqualsContext context)
         {
-            BinaryTreeElementBase op = new EqualsOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new EqualsOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorDivision(QLParser.OperatorDivisionContext context)
         {
-            BinaryTreeElementBase op = new DivisionOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new DivisionOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorGreaterThan(QLParser.OperatorGreaterThanContext context)
         {
-            BinaryTreeElementBase op = new GreaterThanOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new GreaterThanOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorGreaterThanOrEqualTo(QLParser.OperatorGreaterThanOrEqualToContext context)
         {
-            BinaryTreeElementBase op = new GreaterThanEqualToOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new GreaterThanEqualToOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorLessThan(QLParser.OperatorLessThanContext context)
         {
-            BinaryTreeElementBase op = new LessThanOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new LessThanOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorSubtraction(QLParser.OperatorSubtractionContext context)
         {
-            BinaryTreeElementBase op = new MinusOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new MinusOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorLessThanOrEqualTo(QLParser.OperatorLessThanOrEqualToContext context)
         {
-            BinaryTreeElementBase op = new LessThanEqualToOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new LessThanEqualToOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorMultiplication(QLParser.OperatorMultiplicationContext context)
         {
-            BinaryTreeElementBase op = new MultiplicationOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new MultiplicationOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorNotEquals(QLParser.OperatorNotEqualsContext context)
         {
-            BinaryTreeElementBase op = new NotEqualsOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new NotEqualsOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
         public override void ExitOperatorOr(QLParser.OperatorOrContext context)
         {
-            BinaryTreeElementBase op = new OrOperator();
-            op.SourceLocation = SourceLocation.CreateFor(context);
+            BinaryTreeElementBase op = new OrOperator(sourceLocation: SourceLocation.CreateFor(context));
             AppendToAST(op);
         }
     

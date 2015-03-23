@@ -3,11 +3,17 @@ using QL.AST.Nodes.Terminals;
 
 namespace QL.AST.Nodes.Branches.Operators
 {
-    public class OrOperator : BinaryTreeElementBase, IOperator, IStaticReturnType
+    public class OrOperator : BinaryTreeElementBase, IStaticReturnType
     {
         public Type GetReturnType()
         {
             return (new Yesno()).GetReturnType();
+        }
+
+        public OrOperator(SourceLocation sourceLocation)
+        {
+            // TODO: Complete member initialization
+            this.SourceLocation = sourceLocation;
         }
     }
 }

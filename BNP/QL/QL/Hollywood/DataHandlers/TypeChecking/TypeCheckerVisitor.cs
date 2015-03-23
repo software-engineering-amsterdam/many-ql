@@ -94,7 +94,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
             node.Right.Accept(this);
         }
 
-        void operandsShouldBeTheSame<T>(T node) where T:BinaryTreeElementBase, IOperator
+        void operandsShouldBeTheSame(BinaryTreeElementBase node)
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -102,7 +102,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
             }
         }
 
-        void typeRestrictionOnOperands<T>(T node, params Type[] restrictedToTypes) where T : BinaryTreeElementBase, IOperator
+        void typeRestrictionOnOperands(BinaryTreeElementBase node, params Type[] restrictedToTypes)
         {
             if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Left)))
             {
