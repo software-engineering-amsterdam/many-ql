@@ -1,13 +1,13 @@
-﻿using System;
-using QL.Visitors;
+﻿using QL.AST.Nodes;
+using QL.AST.Nodes.Terminals;
 
-namespace QL.Model.Terminals.Wrappers
+namespace QL.AST.ValueWrappers
 {
     public class YesnoWrapper : ITerminalWrapper
     {
 
         public bool? Value;
-        IResolvableTerminalType _node;
+        IStaticReturnType _node;
 
 
 
@@ -19,7 +19,7 @@ namespace QL.Model.Terminals.Wrappers
 
                 Value = a.Value;
             }
-            _node = (IResolvableTerminalType)a;
+            _node = (IStaticReturnType)a;
 
 
         }

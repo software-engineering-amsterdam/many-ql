@@ -1,24 +1,25 @@
-﻿using QL.Model.Operators;
-using QL.Model.Terminals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QL.Model
+﻿namespace QL.AST.Nodes.Branches
 {
     public class Expression : ElementBase, ITypeInferred
     {
-        public ElementBase Left{get; private set;}
+        public ElementBase Child{get; private set;}
         
         
         public Expression() { }
         public Expression(ElementBase child) 
         {
-            Left = child;
+            Child = child;
         }
-        
+
+        public Expression(ElementBase child, AST.SourceLocation sourceLocation):this(child)
+        {
+            SourceLocation = sourceLocation;
+        }
+
+        public ElementBase GetTypeInferableChild()
+        {
+            return Child;
+        }
         
     }
 }

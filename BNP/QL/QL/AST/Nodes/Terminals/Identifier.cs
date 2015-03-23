@@ -1,10 +1,10 @@
 ﻿using System;
-using QL.Exceptions;
 
-namespace QL.Model.Terminals
+namespace QL.AST.Nodes.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminalType
+    public class Identifier : ElementBase
     {
+
         public string Value { get; private set; }
         
         public Identifier()
@@ -15,17 +15,11 @@ namespace QL.Model.Terminals
             Value = value;
         }
 
-        public void SetValue(object value)
-        { 
-            Value = value.ToString();
-        }
-
-        public ITerminalType ResolveValue()
+        public Identifier(string value, AST.SourceLocation sourceLocation):this(value)
         {
-            throw new NotImplementedException();
+            SourceLocation = sourceLocation;
         }
 
-        
         public bool Equals(Identifier obj)
         {
             return Value == obj.Value;

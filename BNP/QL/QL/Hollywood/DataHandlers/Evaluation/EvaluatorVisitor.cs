@@ -1,19 +1,18 @@
-﻿using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Model;
-using QL.Model.Operators;
-using QL.Model.Terminals;
-using QL.Visitors.EvaluationWrappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals.Wrappers;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
+using QL.AST.ValueWrappers;
+using QL.Exceptions;
+using QL.Exceptions.Errors;
 
-namespace QL.Visitors
+namespace QL.Hollywood.DataHandlers.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {
@@ -94,11 +93,11 @@ namespace QL.Visitors
         {
 
             //if expression is literal
-            Contract.Assert(node.Left != null, "Expression should have one and only one child");
+            Contract.Assert(node.Child != null, "Expression should have one and only one child");
 
-            node.Left.Accept(this);
+            node.Child.Accept(this);
 
-            Identifier i = node.Left as Identifier;
+            Identifier i = node.Child as Identifier;
             if (i != null) //TODO refactor
             {
 
@@ -118,9 +117,9 @@ namespace QL.Visitors
                     throw new QLError("Usage of variable before declaration");
                 }
             }
-            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Left))//this should recursively get the final result
+            else if (ReferenceLookupTable.ContainsKey((ITypeResolvable)node.Child))//this should recursively get the final result
             {
-                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Left];
+                ReferenceLookupTable[node] = ReferenceLookupTable[(ITypeResolvable)node.Child];
 
             }
             else

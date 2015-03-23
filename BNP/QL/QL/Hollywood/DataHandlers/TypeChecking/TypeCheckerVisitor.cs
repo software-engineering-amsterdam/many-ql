@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Exceptions.Warnings;
-using QL.Model;
-using QL.Model.Operators;
+using System.Linq;
 
-using QL.Model.Terminals;
-
-namespace QL.Visitors
+namespace QL.Hollywood.DataHandlers.TypeChecking
 {
     public class TypeCheckerVisitor: IVisitor
     {
@@ -86,7 +85,7 @@ namespace QL.Visitors
 
         public void Visit(Expression node)
         {
-            node.Left.Accept(this);
+            node.Child.Accept(this);
         }
         #endregion
         void _visit_binary(BinaryTreeElementBase node)
@@ -95,7 +94,7 @@ namespace QL.Visitors
             node.Right.Accept(this);
         }
 
-        void operandsShouldBeTheSame<T>(T node) where T:BinaryTreeElementBase, IOperator
+        void operandsShouldBeTheSame(BinaryTreeElementBase node)
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
@@ -103,13 +102,13 @@ namespace QL.Visitors
             }
         }
 
-        void typeRestrictionOnOperands<T>(T node, ICollection<Type> restrictedToTypes) where T : BinaryTreeElementBase, IOperator
+        void typeRestrictionOnOperands(BinaryTreeElementBase node, params Type[] restrictedToTypes)
         {
-            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Left)))
+            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Left)))
             {
                 Exceptions.Add(new TypeCheckerError("Type not permitted on the left side of the operator", node));
             }
-            if (!restrictedToTypes.Contains(DetermineType((dynamic)node.Right)))
+            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Right)))
             {
                 Exceptions.Add(new TypeCheckerError("Type not permitted on the right side of the operator", node));
 
@@ -166,7 +165,7 @@ namespace QL.Visitors
         {
             _visit_binary(node);
             operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new []{new Number().GetType()});
+            typeRestrictionOnOperands(node, new Number().GetType());
 
         }
 
@@ -181,14 +180,14 @@ namespace QL.Visitors
         {
             _visit_binary(node);            
             operandsShouldBeTheSame(node);            
-            typeRestrictionOnOperands(node,new [] { new Number().GetType(), new Text().GetType() });
+            typeRestrictionOnOperands(node, new Number().GetType(), new Text().GetType() );
         }
 
         public void Visit(MinusOperator node)
         {
             _visit_binary(node);
             operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new[] { new Number().GetType() });
+            typeRestrictionOnOperands(node, new Number().GetType() );
   
         }
 
@@ -256,10 +255,10 @@ namespace QL.Visitors
 
         Type DetermineType(ITypeInferred i)
         {
-            return DetermineType((dynamic)i.Left);
+            return DetermineType((dynamic)i.GetTypeInferableChild());
         }
 
-        Type DetermineType(ITypeStatic i)
+        Type DetermineType(IStaticReturnType i)
         {
             return i.GetReturnType();
         }

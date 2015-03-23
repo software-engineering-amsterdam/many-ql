@@ -7,31 +7,18 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
-using QL.Model;
-using QL.Model.Terminals;
-using QL.Model.Terminals.Wrappers;
+using QL.Hollywood;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
-using QL.Visitors;
 
 namespace QL.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private string _inputFilePath = null;
         private QLBuilder _qlBuilder = null;
-
-        public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
-
-        public bool ShowIdentifiers
-        {
-            get { return (bool)GetValue(ShowIdentifiersProperty); }
-            set { SetValue(ShowIdentifiersProperty, value); }
-        }
 
         public MainWindow()
         {
@@ -39,38 +26,36 @@ namespace QL.UI
             InitializeComponent();
         }
 
-        private void LoadFile()
+        private void BuildQuestionnaire(string inputData)
         {
-            if (string.IsNullOrEmpty(_inputFilePath) || !File.Exists(_inputFilePath))
+            _qlBuilder = new QLBuilder(inputData);
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RegisterGenericDataHandlers();
+            _qlBuilder.RunAllHandlers();
+        }
+
+        private void LoadQuestionnaireFile(string inputFilePath)
+        {
+            if (string.IsNullOrEmpty(inputFilePath) || !File.Exists(inputFilePath))
             {
                 InputFileSourceText.Text = "File not loaded";
                 return;
             }
 
-            using (FileStream fileStream = File.Open(_inputFilePath, FileMode.Open))
+            try
             {
-                StreamReader sr = new StreamReader(fileStream);
-                string inputFileContents = sr.ReadToEnd();
-                BuildQuestionnaire(inputFileContents);
+                using (FileStream fileStream = File.Open(inputFilePath, FileMode.Open))
+                {
+                    StreamReader sr = new StreamReader(fileStream);
+                    string inputQuestionnaire = sr.ReadToEnd();
+                    InputFileSourceText.Text = inputQuestionnaire;
+                    BuildQuestionnaire(inputQuestionnaire);
+                }
             }
-        }
-
-        private void BuildQuestionnaire(string inputFileContents)
-        {
-            InputFileSourceText.Text = inputFileContents;
-            _qlBuilder = new QLBuilder(inputFileContents);
-            ExceptionTable.ItemsSource = _qlBuilder.Errors;
-
-            //if (_astHandler.BuildAST())
-            //{
-            //    if (_astHandler.CheckType())
-            //    {
-            //        if (_astHandler.Evaluate())
-            //        {
-            //            // todo evaluate ui controls?
-            //        }
-            //    }
-            //}
+            catch (Exception ex)
+            {
+                InputFileSourceText.Text = string.Format("An error has occurred whilst reading the input file{0}{1}", Environment.NewLine, ex.Message);
+            }
         }
 
         #region Menu event handlers
@@ -87,8 +72,7 @@ namespace QL.UI
 
             if (inputFilePicker.ShowDialog().GetValueOrDefault())
             {
-                _inputFilePath = inputFilePicker.FileName;
-                LoadFile();
+                LoadQuestionnaireFile(inputFilePicker.FileName);
             }
         }
 
@@ -96,9 +80,13 @@ namespace QL.UI
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem == null) return;
+            LoadQuestionnaireFile(menuItem.Tag.ToString());
+        }
 
-            _inputFilePath = menuItem.Tag.ToString();
-            LoadFile();
+
+        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            BindTestData();
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)
@@ -110,49 +98,34 @@ namespace QL.UI
         #region General event handlers
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "examples");
-            if (!Directory.Exists(path)) return;
-
-            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
-
-            foreach (string file in files)
-            {
-                MenuItem menuItem = new MenuItem
-                                    {
-                                        Header = Path.GetFileNameWithoutExtension(file),
-                                        Tag = file
-                                    };
-                menuItem.Click += MenuItemOpenExample_Click;
-                MenuItemExamples.Items.Add(menuItem);
-            }
-            
-            if(files.Length <= 0) MenuItemExamples.Visibility = Visibility.Hidden;
+            PopulateExampleFileMenu();
         }
 
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
             _qlBuilder = new QLBuilder(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _qlBuilder.Errors;
-            //_qlBuilder.BuildAST();
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RunInit();
+            _qlBuilder.RunASTBuilders();
         }
 
         private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            //_qlBuilder.CheckType();
+            _qlBuilder.RunTypeCheckers();
         }
 
         private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            //_qlBuilder.Evaluate();
+            _qlBuilder.RunEvaluators();
         }
 
         private void ButtonBuild_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            //todo rebuild ui _astHandler.EvaluateUI();
+            _qlBuilder.RunRenderers();
         }
 
         private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
@@ -160,7 +133,7 @@ namespace QL.UI
             ListViewItem item = sender as ListViewItem;
             if (item == null || !item.IsSelected) return;
 
-            QLException error = item.Content as QLException;
+            QLBaseException error = item.Content as QLBaseException;
             if (error == null) return;
 
             InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
@@ -170,14 +143,51 @@ namespace QL.UI
         }
         #endregion
 
+        #region Dependency properties
+        public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+
+        public bool ShowIdentifiers
+        {
+            get { return (bool)GetValue(ShowIdentifiersProperty); }
+            set { SetValue(ShowIdentifiersProperty, value); }
+        }
+        #endregion
+
+        private void PopulateExampleFileMenu()
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "examples");
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
+            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
+
+            foreach (string file in files)
+            {
+                MenuItem menuItem = new MenuItem
+                {
+                    Header = Path.GetFileNameWithoutExtension(file),
+                    Tag = file
+                };
+                menuItem.Click += MenuItemOpenExample_Click;
+                MenuItemExamples.Items.Add(menuItem);
+            }
+
+            if (files.Length <= 0)
+            {
+                MenuItemExamples.Visibility = Visibility.Hidden;
+            }
+        }
+
         public void BindTestData()
         {
             WidgetFactory factory = new WidgetFactory();
             List<WidgetBase> renders = new List<WidgetBase>
                                         {
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text("What is your name?"), new Text())),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Text("What is your age?"), new Number())),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Text("Are you studying?"), new Yesno())),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"),new Text(),  "What is your name?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
                                         };
 
             QuestionsPanel.Children.Clear();
@@ -185,11 +195,6 @@ namespace QL.UI
             {
                 QuestionsPanel.Children.Add(widget);
             }
-        }
-
-        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            BindTestData();
         }
     }
 }

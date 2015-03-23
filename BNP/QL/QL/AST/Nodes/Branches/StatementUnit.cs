@@ -1,20 +1,14 @@
-﻿using QL.Model.Terminals;
-using System;
+﻿using QL.AST.Nodes.Terminals;
 
-namespace QL.Model
+namespace QL.AST.Nodes.Branches
 {
     public class StatementUnit : UnitBase
     {
         public Expression Expression;
 
-        public StatementUnit()
-        { }
-
-        public StatementUnit(Identifier identifier, IResolvableTerminalType dataType, string displayText)
-        {
-            Identifier = identifier;
-            DataType = dataType;
-            DisplayText = displayText;
+        public StatementUnit(Identifier identifier, Expression expression, string unitText, IStaticReturnType dataType, AST.SourceLocation sourceLocation):base(identifier,dataType,unitText,sourceLocation)
+        {            
+            Expression = expression;
         }
 
     }
