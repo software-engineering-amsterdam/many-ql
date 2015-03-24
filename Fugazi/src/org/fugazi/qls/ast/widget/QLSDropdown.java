@@ -8,6 +8,7 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.DropdownType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,8 @@ public class QLSDropdown extends AbstractQLSWidget {
 
         this.panel.add(this.componentLabel);
         this.panel.add(this.comboBox);
+
+        this.type = new DropdownType();
     }
 
     @Override
