@@ -6,8 +6,7 @@ import QL.AST.Expressions.Operations.and_op as and_op
 
 class Form:
     def __init__(self, ast_obj):
-        if not isinstance(ast_obj, ast_form.Form):
-            raise exc.QException("Input must be an AST!")
+        assert isinstance(ast_obj, ast_form.Form), "Input must be an AST!"
         self.ast = ast_obj
 
         # cookbook - must be in the following order
@@ -50,12 +49,12 @@ class Form:
                 # flatten if block
                 c_statement_c = list(conditions)
                 c_statement_c.append(statement.get_condition())
-                self.__flatten_ast(statement.get_c_statements(), c_statement_c)
+                self.__flatten_ast(statement.get_if_statements(), c_statement_c)
 
                 # flatten else block
                 e_statement_c = list(conditions)
                 e_statement_c.append(statement.get_inverted_condition())
-                self.__flatten_ast(statement.get_e_statements(), e_statement_c)
+                self.__flatten_ast(statement.get_else_statements(), e_statement_c)
                 conditions = []
             elif statement.is_assignment():
                 pass #TODO: fix assignments
@@ -74,8 +73,7 @@ class Form:
         order = 0
         for basic_question in self.__ast_questions:
             qid = basic_question.get_id()
-            if qid not in self.__q_conditions_dict:
-                raise exc.QException("Fatal Error: id does not exist in the dict!")
+            assert qid in self.__q_conditions_dict, "id does not exist in the dict"
             enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
             self.questions.append(enriched_question)
             order += 1

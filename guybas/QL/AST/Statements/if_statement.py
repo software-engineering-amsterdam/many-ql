@@ -1,7 +1,6 @@
 # AST for if_block
 import QL.AST.Statements.statement as statement
 import QL.AST.Expressions.Operations.not_op as not_operation
-import QL.Grammar.constants as constants
 
 
 class IfBlock(statement.IStatement):
@@ -18,7 +17,7 @@ class IfBlock(statement.IStatement):
 
     # pretty print ast, with level giving the indentation
     def string_presentation(self, level=0):
-        s = "\n" + "   " * level + "If " + self.condition.string_presentation(0)
+        s = "\n" + "   " * level + "If " + str(self.condition)
         for x in self.statements:
             s += "   " * level + x.string_presentation(level + 1)
         return s
@@ -68,26 +67,28 @@ class IfBlock(statement.IStatement):
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
-    def valid_expression_message(self, td):
-        message = []
-        message.extend(self.condition.is_valid_expression_message(td))
+    def valid_expression_messages(self, td):
+        messages = []
+        messages.extend(self.condition.is_valid_expression_message(td))
         for x in self.statements:
-            message.extend(x.valid_expression_message(td))
+            messages.extend(x.valid_expression_messages(td))
 
-        if not self.condition.return_type_string(td) == constants.BOOL:
-            message.append("the return type of the expression: " + self.condition.string_presentation() + " is not of type bool")
-        return message
+        if not self.condition.return_type(td) == bool:
+            messages.append("the return type of the expression: " + self.condition.__str__() + " is not of type bool")
+        return messages
 
     #
     # Getters of the if statement
     #
 
     # get normal statements (if and else version)
-    def get_c_statements(self):
+    def get_if_statements(self):
         return self.statements
 
-    def get_e_statements(self):
-        return []  # empty as if statement has no else statements
+    def get_else_statements(self):
+        # empty since an if statement has no else statements
+        # needed so the caller doesn't have to know if it is an if or if-else statement
+        return []
 
     def get_condition(self):
         return self.condition

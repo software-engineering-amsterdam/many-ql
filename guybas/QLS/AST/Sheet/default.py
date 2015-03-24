@@ -11,9 +11,9 @@ class Default(p.Page):
 
     def string_presentation(self, level=0):
         s = "    " * level + "Default " + self._type + " "
-        s += self._widget.string_presentation()
+        s += self._widget.__str__()
         for i in self._properties:
-            s += i.string_presentation(level + 1)
+            s += i.__str__(level + 1)
         return s
 
     def get_ids(self):

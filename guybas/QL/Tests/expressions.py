@@ -19,16 +19,16 @@ class Tests(unittest.TestCase):
 
     def test_calc_expression(self):
         result = grammar.expr.parseString("4 / 2 + (3 - 1) * 4")
-        self.assertEquals(result[0].string_presentation(), "((4 / 2)  +  ((3 - 1) * 4))")
+        self.assertEquals(result[0].__str__(), "((4 / 2)  +  ((3 - 1) * 4))")
 
     @unittest.expectedFailure
     def test_expression_fail(self):
         result = grammar.expr.parseString("4 * - 1")
-        self.assertEquals(result[0].string_presentation(), "4 * - 1")
+        self.assertEquals(result[0].__str__(), "4 * - 1")
 
     def test_expression_malformed(self):
         result = grammar.expr.parseString("4 / 2 == True")
-        self.assertEquals(result[0].string_presentation(), "((4 / 2) == True)")
+        self.assertEquals(result[0].__str__(), "((4 / 2) == True)")
 
     def test_expression_primitive(self):
         result = grammar.expr.parseString("1")

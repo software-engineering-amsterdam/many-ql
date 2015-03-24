@@ -35,5 +35,5 @@ class IStatement:
         raise NotImplementedError("Not implemented by sub class")
 
     # return the error message of type checking, empty if correct
-    def valid_expression_message(self, td):
+    def valid_expression_messages(self, td):
         raise NotImplementedError("Not implemented by sub class")
