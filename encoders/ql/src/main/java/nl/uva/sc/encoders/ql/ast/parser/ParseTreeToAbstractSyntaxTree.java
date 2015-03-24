@@ -207,25 +207,25 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	private BinaryOperator getBinaryOperator(String operator) {
 		switch (operator) {
 		case "*":
-			return new MultiplyOperator();
+			return new MultiplyOperator(operator);
 		case "/":
-			return new DivideOperator();
+			return new DivideOperator(operator);
 		case "+":
-			return new AddOperator();
+			return new AddOperator(operator);
 		case "-":
-			return new SubstractOperator();
+			return new SubstractOperator(operator);
 		case "&&":
-			return new AndOperator();
+			return new AndOperator(operator);
 		case "||":
-			return new OrOperator();
+			return new OrOperator(operator);
 		case "<":
-			return new LessThanOperator();
+			return new LessThanOperator(operator);
 		case ">":
-			return new GreaterThanOperator();
+			return new GreaterThanOperator(operator);
 		case "<=":
-			return new LessOrEqualOperator();
+			return new LessOrEqualOperator(operator);
 		case ">=":
-			return new GreaterOrEqualOperator();
+			return new GreaterOrEqualOperator(operator);
 		default:
 			throw new AssertionError("Operator " + operator + " is not suppoerted.");
 		}
@@ -234,7 +234,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	private UnaryOperator getUnaryOperator(String operator) {
 		switch (operator) {
 		case "!":
-			return new NotOperator();
+			return new NotOperator(operator);
 		default:
 			throw new AssertionError("Operator " + operator + " is not suppoerted.");
 		}

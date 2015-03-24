@@ -6,6 +6,16 @@ import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.visitor.BinaryOperatorVisitor;
 
 public class GreaterThanOperator implements BinaryOperator {
+	private String stringRepresentation;
+
+	public GreaterThanOperator(String stringRepresentation) {
+		this.stringRepresentation = stringRepresentation;
+	}
+
+	@Override
+	public String toString() {
+		return stringRepresentation.toString();
+	}
 
 	@Override
 	public <T> T accept(BinaryOperatorVisitor<T> visitor) {

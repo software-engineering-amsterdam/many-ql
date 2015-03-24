@@ -5,6 +5,16 @@ import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.visitor.BinaryOperatorVisitor;
 
 public class AndOperator implements BinaryOperator {
+	private String stringRepresentation;
+
+	public AndOperator(String stringRepresentation) {
+		this.stringRepresentation = stringRepresentation;
+	}
+
+	@Override
+	public String toString() {
+		return stringRepresentation.toString();
+	}
 
 	@Override
 	public <T> T accept(BinaryOperatorVisitor<T> visitor) {

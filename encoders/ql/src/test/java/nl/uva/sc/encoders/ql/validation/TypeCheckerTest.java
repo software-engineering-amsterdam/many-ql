@@ -32,7 +32,7 @@ public class TypeCheckerTest {
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
 		Expression leftHand = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
 		Expression rightHand = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
-		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
+		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator("&&"));
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
 		typeChecker = new TypeChecker(questionnaire);
@@ -45,7 +45,7 @@ public class TypeCheckerTest {
 	public void testCheckTypes_conditionsWithIntegersAreNotAllowed() {
 		Expression leftHand = new LiteralExpression(aTextLocation().build(), new IntegerLiteral(0));
 		Expression rightHand = new LiteralExpression(aTextLocation().build(), new IntegerLiteral(1));
-		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AddOperator());
+		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AddOperator("+"));
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
 		typeChecker = new TypeChecker(questionnaire);
