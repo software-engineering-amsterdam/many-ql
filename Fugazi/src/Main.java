@@ -85,10 +85,8 @@ public class Main {
             QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
             // Perform QLS type checking.
-            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                    styleSheetData, formDataStorage
-            );
+            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheetData, formDataStorage);
+            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet();
 
             // display warnings and errors and if form is not type-correct, exit
             printer = new ASTIssuePrinter();
