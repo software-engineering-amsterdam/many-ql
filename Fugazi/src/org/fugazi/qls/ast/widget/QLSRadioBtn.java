@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
@@ -17,6 +18,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QLSRadioBtn extends AbstractQLSWidget {
@@ -143,10 +145,12 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     }
 
     public List<Type> getSupportedQuestionTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new BoolType());
-        supportedTypes.add(new StringType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(
+                        new BoolType(),
+                        new StringType()
+                )
+        );
         return supportedTypes;
     }
 

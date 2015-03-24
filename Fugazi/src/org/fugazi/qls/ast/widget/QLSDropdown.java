@@ -1,6 +1,8 @@
 package org.fugazi.qls.ast.widget;
 
 import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.IntType;
+import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
@@ -15,6 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QLSDropdown extends AbstractQLSWidget {
@@ -117,9 +120,9 @@ public class QLSDropdown extends AbstractQLSWidget {
     }
 
     public List<Type> getSupportedQuestionTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new BoolType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(new BoolType())
+        );
         return supportedTypes;
     }
 
