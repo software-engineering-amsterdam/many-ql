@@ -15,7 +15,7 @@ class IfElseBlock(if_statement.IfBlock):
 
     # pretty print ast, with level giving the indentation
     def string_presentation(self, level=0):
-        s = "\n" + "   " * level + "If " + self.condition.string_presentation(0)
+        s = "\n" + "   " * level + "If " + str(self.condition)
         for x in self.statements:
             s += "   " * level + x.string_presentation(level+1)
 
@@ -61,13 +61,13 @@ class IfElseBlock(if_statement.IfBlock):
 
         return d
 
-    def valid_expression_message(self, td):
-        message = self.condition.is_valid_expression_message(td)
+    def valid_expression_messages(self, td):
+        messages = self.condition.is_valid_expression_message(td)
         for x in self.statements:
-            message += x.valid_expression_message(td)
+            messages += x.valid_expression_messages(td)
         for x in self.else_statements:
-            message += x.valid_expression_message(td)
-        return message
+            messages += x.valid_expression_messages(td)
+        return messages
 
     def get_e_statements(self):
         return self.else_statements

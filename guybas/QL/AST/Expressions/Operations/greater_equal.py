@@ -4,12 +4,12 @@ import QL.Grammar.constants as constants
 
 class GreaterEqual(e.Equal):
 
-    def set_operator(self):
+    def set_string_operator(self):
         return " >= "
 
     # get the return _type of the _expression
     def return_type_string(self, type_map):
-        return constants.BOOL
+        return bool
 
     def eval(self, x, y):
         return x >= y

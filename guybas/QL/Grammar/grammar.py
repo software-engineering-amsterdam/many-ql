@@ -75,9 +75,9 @@ expr = pp.infixNotation(value,
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # answerR is one of the texts: "bool", "number" or "text"
-answerR = (pp.Literal(constants.BOOL) |
-           pp.Literal(constants.NUMBER) |
-           pp.Literal(constants.TEXT))
+answerR = (pp.Literal(constants.BOOL).setParseAction(lambda x: bool) |
+           pp.Literal(constants.NUMBER).setParseAction(lambda x: int) |
+           pp.Literal(constants.TEXT).setParseAction(lambda x: str))
 
 # question :: Question id ( answerR ) : label
 question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + sentence

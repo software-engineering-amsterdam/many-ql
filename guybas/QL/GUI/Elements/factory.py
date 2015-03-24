@@ -7,11 +7,11 @@ import QL.GUI.Elements.text_entry as t
 class Factory:
     def __init__(self, statement, gui, frame):
         q_type = statement.ast.get_type_string()
-        if q_type == c.BOOL:
+        if q_type == bool:
             self.gui_element = r.RadioButton(statement, gui, frame)
-        elif q_type == c.NUMBER:
+        elif q_type == int:
             self.gui_element = s.SpinBox(statement, gui, frame)
-        elif q_type == c.TEXT:
+        elif q_type == str:
             self.gui_element = t.TextEntry(statement, gui, frame)
 
     def get_gui_element(self):

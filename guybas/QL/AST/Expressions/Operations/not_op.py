@@ -6,11 +6,11 @@ class Not(p.Primitive):
     def __init__(self, operand):
         self.__operand = operand
 
-    def string_presentation(self,level=0):
-        return "not " + self.__operand.string_presentation()
+    def __str__(self,level=0):
+        return "not " + self.__operand.__str__()
 
     def return_type_string(self, type_dict):
-        return constants.BOOL
+        return bool
 
     # get all variables in the expression
     def get_variables(self):

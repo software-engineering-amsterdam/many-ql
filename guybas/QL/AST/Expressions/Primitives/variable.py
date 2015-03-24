@@ -12,7 +12,7 @@ class Variable(p.Primitive):
             return None
         return type_dict[self.__name]
 
-    def string_presentation(self):
+    def __str__(self):
         return self.__name
 
     # The variables are the variable itself

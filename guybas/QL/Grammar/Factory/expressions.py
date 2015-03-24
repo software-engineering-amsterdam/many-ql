@@ -97,7 +97,7 @@ def make_compare2(subtrees):
         elif subtrees[i+ 1] == "==":
             expressions.append(equal.Equal(subtrees[i], subtrees[i + 2]))
         else:
-            raise Exception("make_compare got wrong input")
+            pass # TODO parse error
     x = expressions[0]
 
     # create for every compare expression a new and-expression

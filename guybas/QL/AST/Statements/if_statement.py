@@ -18,7 +18,7 @@ class IfBlock(statement.IStatement):
 
     # pretty print ast, with level giving the indentation
     def string_presentation(self, level=0):
-        s = "\n" + "   " * level + "If " + self.condition.string_presentation(0)
+        s = "\n" + "   " * level + "If " + str(self.condition)
         for x in self.statements:
             s += "   " * level + x.string_presentation(level + 1)
         return s
@@ -68,15 +68,15 @@ class IfBlock(statement.IStatement):
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
-    def valid_expression_message(self, td):
-        message = []
-        message.extend(self.condition.is_valid_expression_message(td))
+    def valid_expression_messages(self, td):
+        messages = []
+        messages.extend(self.condition.is_valid_expression_message(td))
         for x in self.statements:
-            message.extend(x.valid_expression_message(td))
+            messages.extend(x.valid_expression_messages(td))
 
-        if not self.condition.return_type_string(td) == constants.BOOL:
-            message.append("the return type of the expression: " + self.condition.string_presentation() + " is not of type bool")
-        return message
+        if not self.condition.return_type_string(td) == bool:
+            messages.append("the return type of the expression: " + self.condition.__str__() + " is not of type bool")
+        return messages
 
     #
     # Getters of the if statement

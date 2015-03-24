@@ -4,11 +4,11 @@ import QL.Grammar.constants as constants
 
 class LessEqual(e.Equal):
 
-    def set_operator(self):
+    def set_string_operator(self):
         return "<="
 
     def return_type_string(self, type_map):
-        return constants.BOOL
+        return bool
 
     def eval(self, x, y):
         return x <= y

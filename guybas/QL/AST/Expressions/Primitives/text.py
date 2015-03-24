@@ -6,11 +6,11 @@ class Text(p.Primitive):
     def __init__(self, text):
         self.__text = "\"" + text + "\""
 
-    def string_presentation(self):
+    def __str__(self):
         return self.__text
 
     def return_type_string(self, type_dict):
-        return constants.TEXT
+        return str
 
     # evaluation is just the value of the text
     def eval_expression(self, type_map):
