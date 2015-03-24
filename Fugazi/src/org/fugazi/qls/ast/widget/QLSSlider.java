@@ -13,6 +13,7 @@ import org.fugazi.qls.ast.widget.widget_types.SliderType;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,18 @@ public class QLSSlider extends AbstractQLSWidget {
         // inherit properties that are not set in the given style from default.
         style.inheriteFromStyle(this.getDefaultStyle());
 
-        // todo
+        Font font = new Font(
+                _style.getFont(this.getDefaultFont().getValue()), 0,
+                _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
+
+        Color color = style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
+
+        this.slider.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(), (int) this.slider.getPreferredSize().getHeight()
+        ));
     }
 
     @Override

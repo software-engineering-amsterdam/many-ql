@@ -1,7 +1,6 @@
 # AST for if_block
 import QL.AST.Statements.statement as statement
 import QL.AST.Expressions.Operations.not_op as not_operation
-import QL.Grammar.constants as constants
 
 
 class IfBlock(statement.IStatement):
@@ -74,7 +73,7 @@ class IfBlock(statement.IStatement):
         for x in self.statements:
             messages.extend(x.valid_expression_messages(td))
 
-        if not self.condition.return_type_string(td) == bool:
+        if not self.condition.return_type(td) == bool:
             messages.append("the return type of the expression: " + self.condition.__str__() + " is not of type bool")
         return messages
 
@@ -83,11 +82,13 @@ class IfBlock(statement.IStatement):
     #
 
     # get normal statements (if and else version)
-    def get_c_statements(self):
+    def get_if_statements(self):
         return self.statements
 
-    def get_e_statements(self):
-        return []  # empty as if statement has no else statements
+    def get_else_statements(self):
+        # empty since an if statement has no else statements
+        # needed so the caller doesn't have to know if it is an if or if-else statement
+        return []
 
     def get_condition(self):
         return self.condition

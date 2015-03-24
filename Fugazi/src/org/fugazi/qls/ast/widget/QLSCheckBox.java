@@ -12,6 +12,7 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.widget.widget_types.CheckBoxType;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -43,7 +44,16 @@ public class QLSCheckBox extends AbstractQLSWidget {
         // inherit properties that are not set in the given style from default.
         style.inheriteFromStyle(this.getDefaultStyle());
 
-        // todo
+        Font font = new Font(
+            _style.getFont(this.getDefaultFont().getValue()), 0,
+            _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.checkBox.setFont(font);
+
+        Color color = style.getColor(this.getDefaultColor().getValue());
+        this.checkBox.setForeground(color);
+
+        // Checkbox's width cannot be changed.
     }
 
     @Override

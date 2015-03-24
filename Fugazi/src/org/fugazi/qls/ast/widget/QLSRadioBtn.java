@@ -13,6 +13,7 @@ import org.fugazi.qls.ast.widget.widget_types.RadioBtnType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -65,18 +66,26 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
-
-        // todo
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
-                        style.getFont(this.getDefaultFont().getValue()),
-                        0,
-                        style.getFontSize(this.getDefaultFontSize().getValue()));
+            _style.getFont(this.getDefaultFont().getValue()), 0,
+            _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
         this.componentLabel.setFont(font);
+
+        Color color = _style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
+
+        this.yesBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.yesBtn.getPreferredSize().getHeight()
+        ));
+        this.noBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.noBtn.getPreferredSize().getHeight()
+        ));
     }
 
     @Override

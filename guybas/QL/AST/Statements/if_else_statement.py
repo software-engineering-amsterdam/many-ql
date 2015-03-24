@@ -69,7 +69,7 @@ class IfElseBlock(if_statement.IfBlock):
             messages += x.valid_expression_messages(td)
         return messages
 
-    def get_e_statements(self):
+    def get_else_statements(self):
         return self.else_statements
 
 

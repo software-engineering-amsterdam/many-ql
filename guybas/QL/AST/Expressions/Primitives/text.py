@@ -1,5 +1,4 @@
 import QL.AST.Expressions.Primitives.primitive as p
-import QL.Grammar.constants as constants
 
 
 class Text(p.Primitive):
@@ -9,7 +8,7 @@ class Text(p.Primitive):
     def __str__(self):
         return self.__text
 
-    def return_type_string(self, type_dict):
+    def return_type(self, type_dict):
         return str
 
     # evaluation is just the value of the text

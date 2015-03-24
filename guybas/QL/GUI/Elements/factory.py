@@ -1,4 +1,3 @@
-import QL.Grammar.constants as c
 import QL.GUI.Elements.radio_button as r
 import QL.GUI.Elements.spin_box as s
 import QL.GUI.Elements.text_entry as t

@@ -49,12 +49,12 @@ class Form:
                 # flatten if block
                 c_statement_c = list(conditions)
                 c_statement_c.append(statement.get_condition())
-                self.__flatten_ast(statement.get_c_statements(), c_statement_c)
+                self.__flatten_ast(statement.get_if_statements(), c_statement_c)
 
                 # flatten else block
                 e_statement_c = list(conditions)
                 e_statement_c.append(statement.get_inverted_condition())
-                self.__flatten_ast(statement.get_e_statements(), e_statement_c)
+                self.__flatten_ast(statement.get_else_statements(), e_statement_c)
                 conditions = []
             elif statement.is_assignment():
                 pass #TODO: fix assignments

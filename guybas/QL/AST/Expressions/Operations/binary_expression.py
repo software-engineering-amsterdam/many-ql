@@ -22,13 +22,13 @@ class BinaryExpression(e.Primitive):
         error_messages.extend(self._right_operand.is_valid_expression_message(type_map))
 
         # if the types of both operands are not similar the expression is not correct (except for compare expressions)
-        if self._left_operand.return_type_string(type_map) != self._right_operand.return_type_string(type_map):
+        if self._left_operand.return_type(type_map) != self._right_operand.return_type(type_map):
             error_messages.append(self._left_operand.__str__() +
                                   " is not the same type as " + self._right_operand.__str__())
 
         # if the types of the operands do not match with the operation it's own type it is incorrect
         # (except for compare expressions)
-        elif self._left_operand.return_type_string(type_map) != self.return_type_string(type_map):
+        elif self._left_operand.return_type(type_map) != self.return_type(type_map):
             error_messages.append("the operands " + self._left_operand.__str__() +
                                   " and " + self._right_operand.__str__() + " are not of the correct type")
 
@@ -61,7 +61,7 @@ class BinaryExpression(e.Primitive):
         raise NotImplementedError("Not implemented by sub class")
 
     # get the return _type of the _expression, only one needed to be overwritten
-    def return_type_string(self, type_map):
+    def return_type(self, type_map):
         raise NotImplementedError("Not implemented by sub class")
 
     def eval(self, x, y):
