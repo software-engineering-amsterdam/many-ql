@@ -35,7 +35,7 @@ public class SimpleModeler extends Modeler
             Segment segment = q.accept(this);
             segments.add(segment);
         }
-        List<Segment> pages = new ArrayList<>();
+        List<Page> pages = new ArrayList<>();
         pages.add(new Page(segments, true));
 
         return new Canvas("Questionnaire", pages);

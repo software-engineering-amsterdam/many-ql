@@ -43,7 +43,7 @@ public class SimpleGui implements ModelVisitor<Void>
     @Override
     public Void visit(Canvas c)
     {
-        for (Segment s : c.getSegments())
+        for (Page s : c.getPages())
         {
             s.accept(this);
         }

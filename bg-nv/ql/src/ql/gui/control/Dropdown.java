@@ -8,10 +8,6 @@ import javafx.scene.layout.VBox;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-
 /**
  * Created by Nik on 16-3-15.
  */
@@ -27,9 +23,11 @@ public class Dropdown extends ControlElement implements BoolControl
         super();
         this.trueLabel = trueLabel;
         this.falseLabel = falseLabel;
+
         this.dropdown = new ComboBox<>();
         this.dropdown.getItems().add(this.trueLabel);
         this.dropdown.getItems().add(this.falseLabel);
+
         this.box = new VBox();
         this.box.getChildren().add(this.dropdown);
         this.box.setAlignment(Pos.BOTTOM_RIGHT);
@@ -63,7 +61,6 @@ public class Dropdown extends ControlElement implements BoolControl
     @Override
     public void addListener(ChangeListener listener)
     {
-        // TODO: which property do I need here?
         this.dropdown.valueProperty().addListener(listener);
     }
 
