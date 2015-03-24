@@ -23,7 +23,7 @@ public class GUIBuilder implements IMediator {
     private final GUIEvaluator guiEvaluator;
     private final UIForm uiForm;
 
-    private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
+    private Map<UIQuestion, List<IfStatement>> questionsWithConditionState = new LinkedHashMap<>();
     private List<UIQuestion> questionsInForm = new ArrayList<>();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
     
@@ -35,25 +35,26 @@ public class GUIBuilder implements IMediator {
         this.uiForm = new UIForm(_form.getName());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
-        this.addIfStatementsToQuestion(_form);
+        this.addConditionsToQuestions(_form);
         this.addComputedQuestions(_form);
     }
 
     public void renderUI() {
-        this.setupForm();
+        this.setupForm(this.questionsWithConditionState);
         this.uiForm.showForm();
     }
 
     @Override
     public void getChangeFromColleagues(Colleague _origin) {
         this.valueStorage.saveValue(_origin.getId(), _origin.getState());
-        this.checkComputedQuestions();
+        this.checkComputedQuestions(this.computedQuestions);
         this.renderUI();
     }
 
-    private void setupForm() {
-        for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
-            if (isQuestionStateTrue(uiQuestion)) {
+    private void setupForm(
+            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+        for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
+            if (this.guiEvaluator.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
                 this.addQuestionToForm(uiQuestion);
             } else {
                 this.removeQuestionFromForm(uiQuestion);
@@ -80,14 +81,20 @@ public class GUIBuilder implements IMediator {
         this.computedQuestions = formDataStorage.getComputedQuestions();
     }
 
-    private void checkComputedQuestions() {
-        for (ComputedQuestion computedQuestion : this.computedQuestions) {
-            for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
-                if (computedQuestion.getIdName().equals(uiQuestion.getId())) {
-                    this.changeSingleComputedQuestion(computedQuestion, uiQuestion);
-                }
+    private void checkComputedQuestions(List<ComputedQuestion> _computedQuestions) {
+        for (ComputedQuestion computedQuestion : _computedQuestions) {
+            UIQuestion uiQuestion = this.getUIQuestionById(computedQuestion.getIdName());
+            this.changeSingleComputedQuestion(computedQuestion, uiQuestion);
+        }
+    }
+
+    private UIQuestion getUIQuestionById(String _id) {
+        for (UIQuestion uiQuestion : this.questionsWithConditionState.keySet()) {
+            if (_id.equals(uiQuestion.getId())) {
+                return uiQuestion;
             }
         }
+        return null;
     }
     
     private void changeSingleComputedQuestion(ComputedQuestion _computedQuestion, UIQuestion _uiQuestion) {
@@ -96,7 +103,7 @@ public class GUIBuilder implements IMediator {
         uiComputedQuestion.setComputedValue(result);
     }
 
-    private void addIfStatementsToQuestion(Form _form) {
+    private void addConditionsToQuestions(Form _form) {
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
         List<Question> questionsList = formDataStorage.getAllQuestions();
         List<IfStatement> ifStatementsList = formDataStorage.getIfStatements();
@@ -105,25 +112,15 @@ public class GUIBuilder implements IMediator {
         for (Question question : questionsList) {
             UIQuestion uiQuestion = createUiQuestion(question);
             this.valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
-            this.questionsWithState.put(uiQuestion, new ArrayList<>());
+            this.questionsWithConditionState.put(uiQuestion, new ArrayList<>());
 
             // get if statements which the questionsInForm are included.
             for (IfStatement ifStatement : ifStatementsList) {
                 if (ifStatement.getBody().contains(question)) {
-                    this.questionsWithState.get(uiQuestion).add(ifStatement);
+                    this.questionsWithConditionState.get(uiQuestion).add(ifStatement);
                 }
             }
         }
-    }
-
-    private boolean isQuestionStateTrue(UIQuestion _question) {
-        boolean isTrue = true;
-        for (IfStatement ifStatement : this.questionsWithState.get(_question)) {
-            if (!this.guiEvaluator.evaluateIfStatement(ifStatement)) {
-                isTrue = false;
-            }
-        }
-        return isTrue;
     }
 
     protected UIQuestion createUiQuestion(Question _question) {

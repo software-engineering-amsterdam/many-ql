@@ -7,6 +7,10 @@ import org.fugazi.ql.evaluator.Evaluator;
 import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.UIQuestion;
+
+import java.util.List;
+import java.util.Map;
 
 public class GUIEvaluator {
 
@@ -32,6 +36,18 @@ public class GUIEvaluator {
     public boolean evaluateIfStatement(IfStatement _ifStatement) {
         Expression condition = _ifStatement.getCondition();
         return this.getConditionResult(condition);
+    }
+
+    public boolean isQuestionStateTrue(
+            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
+    {
+        boolean isTrue = true;
+        for (IfStatement ifStatement : _questionsWithConditionState.get(_question)) {
+            if (!this.evaluateIfStatement(ifStatement)) {
+                isTrue = false;
+            }
+        }
+        return isTrue;
     }
     
     private boolean getConditionResult(Expression _condition) {
