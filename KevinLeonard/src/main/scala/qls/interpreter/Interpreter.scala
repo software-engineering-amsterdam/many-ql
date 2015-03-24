@@ -54,7 +54,6 @@ object Interpreter {
     }
 
     val placementErrors = questionPlacementChecker.check(ast, env)
-    println(placementErrors)
     if (placementErrors.nonEmpty) {
       placementErrors.foreach(println)
       return false

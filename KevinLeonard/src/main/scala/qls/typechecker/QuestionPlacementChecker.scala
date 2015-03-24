@@ -8,9 +8,7 @@ class QuestionPlacementChecker {
 
   def check(s: StyleSheet, env: TypeEnvironment): Option[Error] = {
     val qlVariables = env.keySet
-    println(qlVariables)
     val qlsVariables = getVariables(s)
-    println(qlsVariables)
     val notPlacedQuestion = qlVariables -- qlsVariables
 
     if (notPlacedQuestion.nonEmpty) {
