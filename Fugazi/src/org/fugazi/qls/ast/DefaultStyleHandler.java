@@ -90,13 +90,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
 
                 // get the default style of a widget, for it's type.
                 IWidgetType widgetType = baseDeclaration.getWidgetType();
-                WidgetTypeToWidgetVisitor widgetTypeToWidgetVisitor = new WidgetTypeToWidgetVisitor();
-                AbstractQLSWidget widget = widgetType.accept(widgetTypeToWidgetVisitor);
+                AbstractQLSWidget widget = widgetType.accept(this.widgetTypeToWidget);
                 Style defaultStyleOfWidget = widget.getDefaultStyle();
 
                 // set the style.
                 baseDeclaration.setStyle(defaultStyleOfWidget);
-
             } else {
                 this.inheriteStyleFromParent(
                         _derivedSegmentDefaultStyles, baseDeclarationType, baseDeclarationStyle);
