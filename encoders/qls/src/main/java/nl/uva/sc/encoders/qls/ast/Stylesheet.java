@@ -2,10 +2,10 @@ package nl.uva.sc.encoders.qls.ast;
 
 import java.util.List;
 
-import nl.uva.sc.encoders.ql.ast.AstNodeWithLocation;
+import nl.uva.sc.encoders.ql.ast.AstNode;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 
-public class Stylesheet extends AstNodeWithLocation {
+public class Stylesheet extends AstNode {
 
 	private final String name;
 

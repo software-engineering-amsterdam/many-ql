@@ -3,10 +3,10 @@ package nl.uva.sc.encoders.qls.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.uva.sc.encoders.ql.ast.AstNodeWithLocation;
+import nl.uva.sc.encoders.ql.ast.AstNode;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 
-public class Section extends AstNodeWithLocation {
+public class Section extends AstNode {
 
 	private final String name;
 

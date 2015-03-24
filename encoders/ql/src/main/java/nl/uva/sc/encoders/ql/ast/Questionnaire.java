@@ -6,7 +6,7 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
 
-public class Questionnaire extends AstNodeWithLocation {
+public class Questionnaire extends AstNode {
 
 	private final String name;
 
