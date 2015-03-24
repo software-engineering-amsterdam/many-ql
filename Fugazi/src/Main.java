@@ -33,7 +33,8 @@ public class Main {
 
         /** ---------------------
           * QL
-          * --------------------- */
+          * ---------------------
+         **/
         // Create The AST Builder.
         QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
@@ -59,54 +60,57 @@ public class Main {
 
         /** ---------------------
          * QLS
-         * --------------------- */
-        String inputQLSFile = null;
-
-        if (args.length > 1)
+         *  ---------------------
+         */
+        if (args.length > 1) {
+            String inputQLSFile = null;
             inputQLSFile = args[1];
 
-        InputStream qlsInput = System.in;
+            InputStream qlsInput = System.in;
 
-        if (inputQLFile != null)
-            qlsInput = new FileInputStream(inputQLSFile);
+            if (inputQLFile != null)
+                qlsInput = new FileInputStream(inputQLSFile);
 
-         // Create The AST Builder.
-        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
+            // Create The AST Builder.
+            QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
 
-        // Build the AST.
-        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+            // Build the AST.
+            StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
 
-        // Get the styles.
-        DefaultStyleHandler defaultStyleDeclaration =
-                new DefaultStyleHandler(formDataStorage, styleSheet);
-        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+            // Get the styles.
+            DefaultStyleHandler defaultStyleDeclaration =
+                    new DefaultStyleHandler(formDataStorage, styleSheet);
+            StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
 
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
+            QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
-        // Perform QLS type checking.
-        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                styleSheetData, formDataStorage
-        );
+            // Perform QLS type checking.
+            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
+            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
+                    styleSheetData, formDataStorage
+            );
 
-        // display warnings and errors and if form is not type-correct, exit
-        printer = new ASTIssuePrinter(
-                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-        );
-        printer.displayWarningsAndErrors();
+            // display warnings and errors and if form is not type-correct, exit
+            printer = new ASTIssuePrinter(
+                    qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
+            );
+            printer.displayWarningsAndErrors();
 
-        if (!isQLSFormTypesCorrect) {
-            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(-1);
+            if (!isQLSFormTypesCorrect) {
+                System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
+                System.exit(-1);
+            }
+
+            // QLS
+            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
+            guiBuilder.renderUI();
+
+        } else {
+
+            // QL
+            GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+            guiBuilder.renderUI();
         }
-
-        // QL
-//        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
-//        guiBuilder.renderUI();
-
-        // QLS
-        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-        guiBuilder.renderUI();
     }
 }
