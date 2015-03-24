@@ -1,8 +1,12 @@
 package nl.uva.sc.encoders.qls.runtime.ui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Properties;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -31,7 +35,18 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Stylesheet");
+
+		Properties uiProperties = new Properties();
+		InputStream inputProperties = null;
+
+		try {
+			inputProperties = new FileInputStream("src/main/resources/ui.properties");
+			uiProperties.load(inputProperties);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+		primaryStage.setTitle(uiProperties.getProperty("windowName"));
 		primaryStage.getIcons().add(new Image("questionnaire.png"));
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
