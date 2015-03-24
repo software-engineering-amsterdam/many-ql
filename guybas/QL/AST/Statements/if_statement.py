@@ -83,11 +83,13 @@ class IfBlock(statement.IStatement):
     #
 
     # get normal statements (if and else version)
-    def get_c_statements(self):
+    def get_if_statements(self):
         return self.statements
 
-    def get_e_statements(self):
-        return []  # empty as if statement has no else statements
+    def get_else_statements(self):
+        # empty since an if statement has no else statements
+        # needed so the caller doesn't have to know if it is an if or if-else statement
+        return []
 
     def get_condition(self):
         return self.condition
