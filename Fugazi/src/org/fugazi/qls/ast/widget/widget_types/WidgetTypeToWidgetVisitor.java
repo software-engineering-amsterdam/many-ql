@@ -2,9 +2,9 @@ package org.fugazi.qls.ast.widget.widget_types;
 
 import org.fugazi.qls.ast.widget.*;
 
-public class WidgetTypeToWidget implements IWidgetsTypeVisitor<AbstractQLSWidget> {
+public class WidgetTypeToWidgetVisitor implements IWidgetsTypeVisitor<AbstractQLSWidget> {
 
-    public WidgetTypeToWidget() {
+    public WidgetTypeToWidgetVisitor() {
 
     }
 

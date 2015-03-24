@@ -30,7 +30,7 @@ public class TextBox implements IWidget {
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         _canvas.removeWidget(this.panel);
     }
 

@@ -11,9 +11,8 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.FullQLSFormVisitor;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
-import org.fugazi.qls.ast.widget.IWidgetsTypeVisitor;
 import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
-import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidget;
+import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidgetVisitor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,15 +23,16 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     private Segment currentSegment;
     private final QLFormDataStorage formDataStorage;
     private final DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
+    private final WidgetTypeToWidgetVisitor widgetTypeToWidget = new WidgetTypeToWidgetVisitor();
 
-    public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet styleSheet) {
+    public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet _styleSheet) {
         this.formDataStorage = _formDataStorage;
-        this.styledStyleSheet = styleSheet;
+        this.styledStyleSheet = _styleSheet;
         this.styledStyleSheet.accept(this);
     }
 
     public StyleSheet getStylesheetWithStyles() {
-        return styledStyleSheet;
+        return this.styledStyleSheet;
     }
 
     public Void visitStyleSheet(StyleSheet styleSheet){
@@ -44,9 +44,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     public Void visitPage(Page page){
-
         // set current segment
-        currentSegment = page;
+        this.currentSegment = page;
 
         for (Section section : page.getSections()) {
             section.accept(this);
@@ -56,10 +55,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
 
     public Void visitSection(Section section) {
 
-        // CurrentSegment is the parent.
-        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
-        currentSegment = section;// Change current segment
-        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = currentSegment.getDefaultStyleDeclarations();
+        // currentSegment is the parent.
+        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = this.currentSegment.getDefaultStyleDeclarations();
+
+        this.currentSegment = section;// Change current segment
+        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = this.currentSegment.getDefaultStyleDeclarations();
 
         this.inheritStyles(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
         this.addDeclarationsFromParent(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
@@ -83,14 +83,21 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
             Type baseDeclarationType = baseDeclaration.getQuestionType();
             Style baseDeclarationStyle = baseDeclaration.getStyle();
+            this.inheriteStyleFromParent(
+                    _derivedSegmentDefaultStyles, baseDeclarationType, baseDeclarationStyle);
+        }
+    }
 
-            for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
-                Type currentDeclarationType = currentDeclaration.getQuestionType();
-                Style currentDeclarationStyle = currentDeclaration.getStyle();
-
-                if (baseDeclarationType.equals(currentDeclarationType)) {
-                    currentDeclarationStyle.inheriteFromStyle(baseDeclarationStyle);
-                }
+    private void inheriteStyleFromParent(
+            List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles,
+            Type _baseDeclarationType,
+            Style _baseDeclarationStyle)
+    {
+        for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
+            Type currentDeclarationType = currentDeclaration.getQuestionType();
+            Style currentDeclarationStyle = currentDeclaration.getStyle();
+            if (_baseDeclarationType.equals(currentDeclarationType)) {
+                currentDeclarationStyle.inheriteFromStyle(_baseDeclarationStyle);
             }
         }
     }
@@ -101,7 +108,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     {
         for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
             if (!_derivedSegmentDefaultStyles.contains(baseDeclaration)) {
-                currentSegment.addDefaultStyleDeclaration(baseDeclaration);
+                this.currentSegment.addDefaultStyleDeclaration(baseDeclaration);
             }
         }
     }
@@ -116,7 +123,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         
         // if there is no default style declaration
         if (_segmentDefaultStyles.size() == 0) {
-            // if is undefined, set defaults
+
             if (_question.getWidget().isUndefined()) {
                 this.setDefaultWidgetToQuestion(_question);
             } else {
@@ -127,8 +134,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             // if is undefined, set from declarations.
             if (_question.getWidget().isUndefined()) {
                 this.setWidgetFromDeclaration(_question, _segmentDefaultStyles);
-                
-            } else { 
+            } else {
+                // else set style to the widget.
                 this.styleQuestionFormDeclarations(_question, _segmentDefaultStyles);
             }
         }
@@ -138,11 +145,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         Type questionType = getQLQuestionType(_question);
         String questionLabel = getQLQuestionLabel(_question);
 
-        WidgetTypeToWidget widgetTypeToWidget = new WidgetTypeToWidget();
-
         IWidgetType currentDeclarationWidgetType = _styleDeclr.getWidgetType();
         AbstractQLSWidget currentDeclarationWidget
-                = currentDeclarationWidgetType.accept(widgetTypeToWidget);
+                = currentDeclarationWidgetType.accept(this.widgetTypeToWidget);
 
         // if the widget is undefined, set the default widget fot that type.
         if (currentDeclarationWidget.isUndefined()) {
@@ -181,8 +186,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             }
         }
 
+        // if there is no default style declaration for this type, set defaults
         if (!isSet) {
-            // if there is no default style declaration for this type, set defaults
             this.setDefaultWidgetToQuestion(_question);
         }
     }
@@ -198,12 +203,12 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
                 isWidgetFoundInDeclaration = true;
                 break;
             }
+        }
 
-            // if not set default
-            if (!isWidgetFoundInDeclaration) {
-                this.setDefaultStyleToWidget(_question.getWidget());
-            }
-        }  
+        // if not set default
+        if (!isWidgetFoundInDeclaration) {
+            this.setDefaultStyleToWidget(_question.getWidget());
+        }
     }
     
     private void setDefaultWidgetToQuestion(QLSQuestion _question) {

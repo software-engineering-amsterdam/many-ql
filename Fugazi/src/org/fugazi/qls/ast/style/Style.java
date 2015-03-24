@@ -2,7 +2,6 @@ package org.fugazi.qls.ast.style;
 
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.style.style_property.StyleProperty;
-import org.fugazi.qls.ast.style.style_property.Width;
 
 import java.awt.*;
 import java.util.List;
