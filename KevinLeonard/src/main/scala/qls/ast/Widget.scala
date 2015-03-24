@@ -2,7 +2,11 @@ package qls.ast
 
 import ql.ast.{BooleanType, StringType, NumberType, Type}
 
-sealed trait Widget {
+//sealed trait Widget {
+//  def allowsType(_type: Type): Boolean
+//}
+abstract class Widget {
+  val properties: List[StyleProperty]
   def allowsType(_type: Type): Boolean
 }
 case class SpinBox(properties: List[StyleProperty]) extends Widget {
