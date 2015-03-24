@@ -19,7 +19,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
 
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 14;
-    public final static String DEFAULT_COLOR = "#000000";
+    public final static int DEFAULT_COLOR = 0x000000;
     public final static int DEFAULT_WIDTH = 50;
 
     protected IWidgetType type;
@@ -66,42 +66,28 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract void applyStyle(Style _style);
 
     @Override
-    public void render(UIForm _canvas) {
-        throw new AssertionError();
-    }
+    public abstract void render(UIForm _canvas);
 
     @Override
-    public void supress(UIForm _canvas){
-        throw new AssertionError();
-    }
+    public abstract void suppress(UIForm _canvas);
 
     @Override
-    public ExpressionValue getWidgetValue() {
-        throw new AssertionError();
-    }
+    public abstract ExpressionValue getWidgetValue();
 
     @Override
-    public void setWidgetValue(ExpressionValue _value) {
-        throw new AssertionError();
-    }
+    public abstract void setWidgetValue(ExpressionValue _value);
 
     @Override
-    public void addEventListener(WidgetsEventListener _listener) {
-        throw new AssertionError();
-    }
+    public abstract void addEventListener(WidgetsEventListener _listener);
     
     @Override
-    public void setReadOnly(boolean _isReadonly) {
-        throw new AssertionError();
-    }
+    public abstract void setReadOnly(boolean _isReadonly);
 
     public abstract List<Type> getSupportedQuestionTypes();
 
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 
-    public void setLabel(String _label) {
-        throw new AssertionError();
-    }
+    public abstract void setLabel(String _label);
 
     public boolean isUndefined() {
         return false;

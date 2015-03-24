@@ -15,115 +15,126 @@ import org.fugazi.ql.gui.ui_elements.UIQuestion;
 import org.fugazi.ql.gui.ui_elements.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
+import javax.swing.*;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
+
+    // typedef
+    private class QuestionsWithConditionsState extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final UIForm uiForm;
 
-    private Map<UIQuestion, List<IfStatement>> questionsWithState = new LinkedHashMap<>();
-    private List<UIQuestion> questionsInForm = new ArrayList<>();
+    private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
     
     private UIQuestionBuilder uiQuestionBuilder;
+    private final FormQuestionsHandler formQuestionsHandler;
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        this.uiForm = new UIForm(_form.getName());
+        this.uiForm = new UIForm(_form.getName(), new JPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
-        this.addIfStatementsToQuestion(_form);
-        this.addComputedQuestions(_form);
-    }
+        this.formQuestionsHandler = new FormQuestionsHandler(this.uiForm);
 
-    public void renderUI() {
-        this.setupForm();
-        this.uiForm.showForm();
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
+        questionsWithConditionState = this.createQuestionsWithConditions(formDataStorage);
+        this.computedQuestions = formDataStorage.getComputedQuestions();
     }
 
     @Override
     public void getChangeFromColleagues(Colleague _origin) {
-        this.valueStorage.saveValue(_origin.getId(), _origin.getState());
-        this.checkComputedQuestions();
+        this.storeValue(_origin.getId(), _origin.getState());
+        this.checkComputedQuestions(this.computedQuestions);
         this.renderUI();
     }
 
-    private void setupForm() {
-        for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
-            if (isQuestionStateTrue(uiQuestion)) {
-                this.addQuestionToForm(uiQuestion);
+    public void renderUI() {
+        this.setupForm(this.questionsWithConditionState);
+        this.uiForm.showForm();
+    }
+
+    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+        for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
+            if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
+                this.formQuestionsHandler.addQuestion(uiQuestion);
             } else {
-                this.removeQuestionFromForm(uiQuestion);
+                this.formQuestionsHandler.removeQuestion(uiQuestion);
             }
         }
     }
 
-    private void addQuestionToForm(UIQuestion _uiQuestion) {
-        if (!this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.add(_uiQuestion);
-            _uiQuestion.addToForm(this.uiForm);
+    private void checkComputedQuestions(List<ComputedQuestion> _computedQuestions) {
+        for (ComputedQuestion computedQuestion : _computedQuestions) {
+            this.updateComputedQuestion(computedQuestion);
         }
     }
 
-    private void removeQuestionFromForm(UIQuestion _uiQuestion) {
-        if (this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.remove(_uiQuestion);
-            _uiQuestion.removeFromForm(this.uiForm);
+    private QuestionsWithConditionsState createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
+        QuestionsWithConditionsState questionsWithCondition = new QuestionsWithConditionsState();
+
+        for (Question question : _formDataStorage.getAllQuestions()) {
+            UIQuestion uiQuestion = createUiQuestion(question);
+            this.storeValue(uiQuestion.getId(), uiQuestion.getState());
+            questionsWithCondition.put(uiQuestion, new ArrayList<>());
+            this.addIfStatementsToQuestion(
+                    _formDataStorage.getIfStatements(), question, questionsWithCondition);
         }
+        return questionsWithCondition;
     }
 
-    private void addComputedQuestions(Form _form) {
-        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        this.computedQuestions = formDataStorage.getComputedQuestions();
-    }
-
-    private void checkComputedQuestions() {
-        for (ComputedQuestion computedQuestion : this.computedQuestions) {
-            for (UIQuestion uiQuestion : this.questionsWithState.keySet()) {
-                if (computedQuestion.getIdName().equals(uiQuestion.getId())) {
-                    this.changeSingleComputedQuestion(computedQuestion, uiQuestion);
-                }
-            }
-        }
-    }
-    
-    private void changeSingleComputedQuestion(ComputedQuestion _computedQuestion, UIQuestion _uiQuestion) {
+    /**
+     * Helper Functions.
+     */
+    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
         ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) _uiQuestion;
+        UIComputedQuestion uiComputedQuestion =
+                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditionState);
         uiComputedQuestion.setComputedValue(result);
     }
-
-    private void addIfStatementsToQuestion(Form _form) {
-        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        List<Question> questionsList = formDataStorage.getAllQuestions();
-        List<IfStatement> ifStatementsList = formDataStorage.getIfStatements();
-
-        // Get all the questions of the form.
-        for (Question question : questionsList) {
-            UIQuestion uiQuestion = createUiQuestion(question);
-            this.valueStorage.saveValue(uiQuestion.getId(), uiQuestion.getState()); // save defaults
-            this.questionsWithState.put(uiQuestion, new ArrayList<>());
-
-            // get if statements which the questionsInForm are included.
-            for (IfStatement ifStatement : ifStatementsList) {
-                if (ifStatement.getBody().contains(question)) {
-                    this.questionsWithState.get(uiQuestion).add(ifStatement);
-                }
+    
+    private void addIfStatementsToQuestion(
+            List<IfStatement> _ifStatementsList,
+            Question _question,
+            QuestionsWithConditionsState _questionsWithConditionsState)
+    {
+        for (IfStatement ifStatement : _ifStatementsList) {
+            if (ifStatement.getBody().contains(_question)) {
+                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditionsState);
+                _questionsWithConditionsState.get(uiQuestion).add(ifStatement);
             }
         }
     }
 
-    private boolean isQuestionStateTrue(UIQuestion _question) {
+    private UIQuestion getUIQuestionById(
+            String _id, QuestionsWithConditionsState _questionsWithConditionsState) 
+    {
+        for (UIQuestion uiQuestion : _questionsWithConditionsState.keySet()) {
+            if (_id.equals(uiQuestion.getId())) {
+                return uiQuestion;
+            }
+        }
+        return null;
+    }
+
+    public boolean isQuestionStateTrue(
+            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
+    {
         boolean isTrue = true;
-        for (IfStatement ifStatement : this.questionsWithState.get(_question)) {
+        for (IfStatement ifStatement : _questionsWithConditionState.get(_question)) {
             if (!this.guiEvaluator.evaluateIfStatement(ifStatement)) {
                 isTrue = false;
             }
         }
         return isTrue;
+    }
+    
+    private void storeValue(String _id, ExpressionValue _value) {
+        this.valueStorage.saveValue(_id, _value);
     }
 
     protected UIQuestion createUiQuestion(Question _question) {

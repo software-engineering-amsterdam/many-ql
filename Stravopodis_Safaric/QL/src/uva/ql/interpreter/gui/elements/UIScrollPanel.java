@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import uva.ql.interpreter.gui.supporting.Size;
+
 public class UIScrollPanel extends JPanel{
 	
 	static final long serialVersionUID = 42L; 

@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model.Terminals;
+﻿using QL.AST.Nodes.Terminals;
 
-namespace QL.Model
+namespace QL.AST.Nodes.Branches
 {
     public class QuestionUnit : UnitBase
     {
-        public QuestionUnit()
+        public QuestionUnit(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)
+            : base(identifier, dataType, displayText, sourceLocation)
+        { }
+        public QuestionUnit(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText)
+            : base(identifier, dataType, displayText)
         { }
 
-        public QuestionUnit(Identifier identifier, Text displayText)
-        {
-            Identifier = identifier;
-            DisplayText = displayText.Value;
-        }
-
-        public QuestionUnit(Identifier identifier, Text displayText, IResolvableTerminalType dataType) : this(identifier, displayText)
-        {
-            DataType = dataType;
-        }
     }
 }

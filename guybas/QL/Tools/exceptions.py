@@ -1,5 +1,6 @@
 import pyparsing as pp
 
+
 def exceptions_handling(e):
     print("Error occured!")
     print(type(e))

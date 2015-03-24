@@ -23,7 +23,6 @@ import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ql.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ql.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ql.ast.expression.unary.logical.Not;
 
 public final class VariableExctractor implements ExpressionVisitor<Set<Identifier>> {
@@ -36,99 +35,95 @@ public final class VariableExctractor implements ExpressionVisitor<Set<Identifie
     }
 
     @Override
-    public Set<Identifier> visit(Addition expr) {
+    public Set<Identifier> visit(final Addition expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Division expr) {
+    public Set<Identifier> visit(final Division expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Multiplication expr) {
+    public Set<Identifier> visit(final Multiplication expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Subtraction expr) {
+    public Set<Identifier> visit(final Subtraction expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Equal expr) {
+    public Set<Identifier> visit(final Equal expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(GreaterOrEqual expr) {
+    public Set<Identifier> visit(final GreaterOrEqual expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(GreaterThan expr) {
+    public Set<Identifier> visit(final GreaterThan expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(LowerOrEqual expr) {
+    public Set<Identifier> visit(final LowerOrEqual expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(LowerThan expr) {
+    public Set<Identifier> visit(final LowerThan expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(NotEqual expr) {
+    public Set<Identifier> visit(final NotEqual expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(And expr) {
+    public Set<Identifier> visit(final And expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Or expr) {
+    public Set<Identifier> visit(final Or expr) {
         return extractVariablesFrom(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Not expr) {
-        return extractVariablesFrom(expr);
+    public Set<Identifier> visit(final Not expr) {
+        return visitUnaryOperand(expr);
     }
 
     @Override
-    public Set<Identifier> visit(Identifier questionId) {
+    public Set<Identifier> visit(final Identifier questionId) {
         return new HashSet<>(Arrays.asList(questionId));
     }
 
     @Override
-    public Set<Identifier> visit(BooleanLiteral expr) {
+    public Set<Identifier> visit(final BooleanLiteral expr) {
         return new HashSet<>();
     }
 
     @Override
-    public Set<Identifier> visit(StringLiteral expr) {
+    public Set<Identifier> visit(final StringLiteral expr) {
         return new HashSet<>();
     }
 
     @Override
-    public Set<Identifier> visit(NumberLiteral expr) {
+    public Set<Identifier> visit(final NumberLiteral expr) {
         return new HashSet<>();
     }
 
     private Set<Identifier> extractVariablesFrom(final BinaryExpression expr) {
-        Set<Identifier> variablesInExpression = expr.getLeftExpression().accept(this);
-        Set<Identifier> variablesInOtherExpression = expr.getRightExpression().accept(this);
-        variablesInExpression.addAll(variablesInOtherExpression);
+        final Set<Identifier> variables = visitLeftOperand(expr);
+        variables.addAll(visitRightOperand(expr));
 
-        return variablesInExpression;
+        return variables;
     }
 
-    private Set<Identifier> extractVariablesFrom(final UnaryExpression expr) {
-        return expr.getExpression().accept(this);
-    }
 }

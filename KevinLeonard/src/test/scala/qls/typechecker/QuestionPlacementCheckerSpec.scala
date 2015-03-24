@@ -15,13 +15,13 @@ class QuestionPlacementCheckerSpec extends Specification {
 
   "all question placed checker" should {
     "return None if all questions are placed" in {
-      val sectionWithQuestion = StyleSheet(AnyLabel, List(Page(AnyLabel, List(
+      val styleSheetWithQuestions = StyleSheet(AnyLabel, List(Page(AnyLabel, List(
         Section(AnyLabel, List(Question(Variable("x"), Text(List())))),
         Section(AnyLabel, List(Section(AnyLabel, List(Question(Variable("y"), Text(List()))))))
       ))))
       val environmentWithQuestion = Map("x" -> BooleanType(), "y" -> BooleanType())
 
-      check(sectionWithQuestion, environmentWithQuestion) should beNone
+      check(styleSheetWithQuestions, environmentWithQuestion) should beNone
     }
 
     "return Some with one error, if one question isn't placed" in {

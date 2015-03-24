@@ -7,22 +7,23 @@ public class UIForm {
 
     private final JFrame formFrame;
 
+    private final JComponent panel;
+
     public static final int winHeight = 600;
     public static final int winWidth = 580;
-    
-    private final JPanel panel = new JPanel();
 
-    public UIForm(String _formTitle) {
+    public UIForm(String _formTitle, JComponent _panel) {
+        this.panel = _panel;
         this.formFrame = new JFrame(_formTitle);
 
         this.formFrame.setSize(winWidth, winHeight);
         this.formFrame.setLocationRelativeTo(null);
-        this.formFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.formFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.formFrame.setResizable(false);
 
         GridLayout layout = new GridLayout(0, 1);
         this.panel.setLayout(layout);
-        this.formFrame.add(panel);
+        this.formFrame.add(this.panel);
     }
 
     public void showForm() {

@@ -33,13 +33,18 @@ func (s *BoolQuestion) From(str string) error {
 
 // String prints in human form the content of the question - String.
 func (s BoolQuestion) String() string {
-	if s.value {
-		return AnswerYes
-	}
-	return AnswerNo
+	return BoolString(s.value)
 }
 
 // Value converts underlying String into primitive String.
 func (s BoolQuestion) Value() interface{} {
 	return s.value
+}
+
+// BoolString makes the conversion from primitive boolen into string ("Yes/No").
+func BoolString(v bool) string {
+	if v {
+		return AnswerYes
+	}
+	return AnswerNo
 }

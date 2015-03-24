@@ -112,7 +112,7 @@ questionType:
 	{
 		$$.questionType = ast.NewScalarQuestion($1.content, $1.position)
 	}
-	| ComputedQuestionToken '=' term
+	| ComputedQuestionToken '=' andOrBlock
 	{
 		$$.questionType = ast.NewComputedQuestion($3.evaluatable, $3.position)
 	}

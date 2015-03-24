@@ -1,24 +1,35 @@
-﻿using System;
+﻿using QL.Exceptions.Errors;
+using System;
 
-namespace QL.Model.Terminals
+namespace QL.AST.Nodes.Terminals
 {
-    public class Yesno : BinaryTreeElementBase, IResolvableTerminalType
+    public class Yesno : ElementBase, IStaticReturnType
     {
+
         public bool? Value { get; set; }
 
         public Yesno()
         { }
 
-        public void SetValue(object value)
+        
+        public Yesno(string unparsedValue)
         {
-            bool parsedValue;
-            bool parseSuccess = bool.TryParse(value.ToString(), out parsedValue);
-            if (!parseSuccess)
+             if (unparsedValue.ToLowerInvariant() == "yes")
             {
-                parsedValue = value.ToString().ToLowerInvariant() == "yes" ? true : false;
+                Value = true;
             }
-            Value = parsedValue;
-
+            else if (unparsedValue.ToLowerInvariant() == "no")
+            {
+                Value = false;
+            }
+            else
+            {
+                throw new QLError("Cannot parse the value:" + unparsedValue);
+            }         
+        }
+        public Yesno(string unparsedValue, AST.SourceLocation sourceLocation):this(unparsedValue)
+        {
+         SourceLocation=sourceLocation;       
         }
 
         public Type GetReturnType()

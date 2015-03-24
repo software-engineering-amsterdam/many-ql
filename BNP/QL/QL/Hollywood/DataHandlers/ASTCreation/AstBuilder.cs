@@ -1,20 +1,17 @@
-﻿using Antlr4.Runtime;
-using QL.Grammars;
-using QL.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Antlr4.Runtime;
+using QL.Grammar;
+using QLLexer = QL.Grammar.QLLexer;
 
-namespace QL.GenericDataHandlers
+namespace QL.Hollywood.DataHandlers.ASTCreation
 {
-    class ASTBuilder :IExecutable
+    public class ASTBuilder : IExecutable
     {
-        public ASTBuilder(){}
-        public bool execute(DataContext context)
+        public ASTBuilder()
+        { }
+
+        public bool Execute(DataContext context)
         {
-            
             QLLexer lexer = new QLLexer(context.AntlrInput);
             lexer.AddErrorListener(new LexerErrorHandler(context.ASTHandlerExceptions));
 
@@ -27,9 +24,8 @@ namespace QL.GenericDataHandlers
 
             // commence parsing the input as a formBlock since it's supposed to be the entry point of the input file
             parser.formBlock();
-            context.RootNode = listener.GetAstRootNode();            
+            context.RootNode = listener.GetAstRootNode();
             return !context.ASTHandlerExceptions.Any();
-
         }
     }
 }

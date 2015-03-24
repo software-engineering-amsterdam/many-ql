@@ -1,18 +1,16 @@
-﻿using Antlr4.Runtime;
-using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Model;
-using QL.Model.Terminals;
-using QL.Visitors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Antlr4.Runtime;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
+using QL.AST.ValueWrappers;
+using QL.Exceptions;
+using QL.Exceptions.Warnings;
 
-namespace QL
+namespace QL.Hollywood
 {
     public class DataContext
     {
@@ -20,7 +18,7 @@ namespace QL
         public Stream InputStream;
         public AntlrInputStream AntlrInput; //Input used in parser
 
-        public Form RootNode; //AST root node, entry point for all visitors
+        public Form RootNode { get; internal set; } //AST root node, entry point for all visitors
 
         /// <summary>
         /// A collection of all errors and warnings occurring during all stages of interpreting input grammar
@@ -32,56 +30,49 @@ namespace QL
         /// </summary>
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
         /// <summary>
-        /// 
+        /// a lookup of references to terminals
         /// </summary>
-        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; } // a lookup of references to terminals
+        public IDictionary<ITypeResolvable, ITerminalWrapper> ReferenceLookupTable { get; private set; }
         public IDictionary<Identifier, ITypeResolvable> IdentifierTable;
 
-        public bool InputSet;
-        public bool AstBuilt;
-        public bool TypeChecked;
-        public bool Evaluated;
-        public bool Rendered;
-        public DataContext(){
-            InputSet = AstBuilt = TypeChecked = Evaluated = Rendered = false;
+        private DataContext()
+        {
             ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
             TypeReference = new Dictionary<Identifier, Type>();
             ReferenceLookupTable = new Dictionary<ITypeResolvable, ITerminalWrapper>();
             IdentifierTable = new Dictionary<Identifier, ITypeResolvable>();
-
-        }
-        public DataContext(string input):this()
-        {
-            Input=input;        
-        }
-        public DataContext(Stream input):this()
-        {
-            InputStream=input;
         }
 
-        
-       
+        public DataContext(string input) : this()
+        {
+            Input = input;
+        }
+
+        public DataContext(Stream input) : this()
+        {
+            InputStream = input;
+        }
+
+
+        /// <summary>
+        /// convenience method for getting the Terminal wrapper based on identifier name.
+        /// </summary>
         public ITerminalWrapper GetWrappedValue(string IdentifierName)
         {
-            //convenience method for getting the Terminal wrapper based on identifier name. 
             return GetWrappedValue(new Identifier(IdentifierName));
         }
+
+        /// <summary>
+        /// convenience method for getting the Terminal wrapper based on Identifier node.
+        /// </summary>
         public ITerminalWrapper GetWrappedValue(Identifier i)
         {
-            //convenience method for getting the Terminal wrapper based on Identifier node. 
-            if (!Evaluated)
-            {
-                throw new Exception("AST not evaluated");
-            }
             if (IdentifierTable.ContainsKey(i) && ReferenceLookupTable.ContainsKey(IdentifierTable[i]))
-            { 
+            {
                 return ReferenceLookupTable[IdentifierTable[i]];
             }
-            else
-            {
-                return null;
-            }
+            
+            return null;
         }
-
     }
 }

@@ -1,17 +1,22 @@
 ﻿using System;
 
-namespace QL.Model.Terminals
+namespace QL.AST.Nodes.Terminals
 {
-    public class Number : BinaryTreeElementBase, IResolvableTerminalType
+    public class Number : ElementBase, IStaticReturnType
     {
+
         public int? Value { get; set; }
 
         public Number()
         {}
-
-        public void SetValue(object value)
+        public Number(string unparsedValue)
         {
-            Value = Int32.Parse(value.ToString());
+            Value = Int32.Parse(unparsedValue);
+        }
+
+        public Number(string unparsedValue, AST.SourceLocation sourceLocation):this(unparsedValue)
+        {
+            SourceLocation = sourceLocation;
         }
 
         public Type GetReturnType()

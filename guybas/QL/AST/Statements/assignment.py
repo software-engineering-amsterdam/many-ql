@@ -17,8 +17,8 @@ class Assignment(statement.IStatement):
     def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expression.string_presentation() + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.type) +  "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + str(self.expression) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + str(self.type) + "\n"
         return s
 
     # return all ids in the statement
@@ -35,9 +35,9 @@ class Assignment(statement.IStatement):
 
     # return all the dependencies in the statement of other statements
     # TODO: debug this
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         if self.id not in dependencies:
-            dependencies[self.__id] = self.expression.get_variables()
+            dependencies[self.id] = self.expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
@@ -48,7 +48,7 @@ class Assignment(statement.IStatement):
     def get_statement_dict(self):
         return {self.id: self}
 
-    def valid_expression_message(self, type_map):
+    def valid_expression_messages(self, type_map):
         return self.expression.is_valid_expression_message(type_map)
 
     def get_id(self):
@@ -59,3 +59,6 @@ class Assignment(statement.IStatement):
 
     def get_label(self):
         return ""
+
+    def is_assignment(self):
+        return True

@@ -1,8 +1,8 @@
-import QLS.AST.Widget.widget as w
+import QLS.AST.Widget.widget_interface as w
 import QL.Grammar.constants as constants
 
 
-class Textbox(w.Widget):
+class Textbox(w.IWidget):
     def __init__(self):
         self._properties = {self.widget_name(): "" }
 

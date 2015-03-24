@@ -25,9 +25,8 @@ public class IssueList {
 	}
 	
 	public void printIssues(){
-		System.out.println("Issues:");
 		for (IssueObject issue : this.issueList){
-			System.out.println(issue.toString());
+			System.err.println(issue.toString());
 		}
 	}
 	

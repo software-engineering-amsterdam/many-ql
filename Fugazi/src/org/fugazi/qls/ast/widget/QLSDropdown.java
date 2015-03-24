@@ -8,8 +8,10 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.widget.widget_types.DropdownType;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -44,16 +46,30 @@ public class QLSDropdown extends AbstractQLSWidget {
 
         this.panel.add(this.componentLabel);
         this.panel.add(this.comboBox);
+
+        this.type = new DropdownType();
     }
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
-        // todo
+        Font font = new Font(
+            _style.getFont(this.getDefaultFont().getValue()), 0,
+            _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
+
+        Color color = _style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
+
+        this.comboBox.setPreferredSize(
+                new Dimension(
+                    this.getDefaultWidth().getValue(),
+                    (int) this.comboBox.getPreferredSize().getHeight()
+                )
+        );
     }
 
     @Override
@@ -62,7 +78,7 @@ public class QLSDropdown extends AbstractQLSWidget {
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         _canvas.removeWidget(this.panel);
     }
 

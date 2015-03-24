@@ -1,9 +1,16 @@
-﻿using System;
-using QL.Model.Terminals;
-
-namespace QL.Model.Operators
+﻿namespace QL.AST.Nodes.Branches.Operators
 {
-    public class MinusOperator : BinaryTreeElementBase, IOperator, ITypeInferred
-    { 
+    public class MinusOperator : BinaryTreeElementBase, ITypeInferred
+    {
+        public ElementBase GetTypeInferableChild()
+        {
+            return Left;
+        }
+
+        public MinusOperator(SourceLocation sourceLocation)
+        {
+            // TODO: Complete member initialization
+            this.SourceLocation = sourceLocation;
+        }
     }
 }

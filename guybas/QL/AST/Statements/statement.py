@@ -19,8 +19,11 @@ class IStatement:
     def is_conditional(self):
         raise NotImplementedError("Not implemented by sub class")
 
+    def is_assignment(self):
+        return False
+
     # return all the dependencies in the statement of other statements
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")
 
     # return a dictionary of the ids as keys and types as value in the statement
@@ -32,5 +35,5 @@ class IStatement:
         raise NotImplementedError("Not implemented by sub class")
 
     # return the error message of type checking, empty if correct
-    def valid_expression_message(self, td):
+    def valid_expression_messages(self, td):
         raise NotImplementedError("Not implemented by sub class")

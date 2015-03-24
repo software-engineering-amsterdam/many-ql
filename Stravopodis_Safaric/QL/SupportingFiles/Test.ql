@@ -21,16 +21,14 @@ form HouseSelling {
     	question string lastName ("Please enter your last name:");
     	
     	question integer sellingPrice ("What was the selling price?"){
-    		sellingPrice : 300;
+    		sellingPrice : 300 ;
     	}
     	
     	question money privateDebt ("What was the value of the private debt?");
     	
     	question money valueResidue ("Value residue:") {
-    		valueResidue : (sellingPrice * residueValue) / 100;
+    		valueResidue : (sellingPrice * privateDebt) / 100;
     	}
-    	question money residueValue ("Residue value:") {
-    		residueValue : valueResidue - privateDebt;
-    	}
+    	
     }
 }

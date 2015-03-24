@@ -2,7 +2,7 @@ import unittest
 import QL.Grammar.grammar as grammar
 
 
-class TestBasicGrammar(unittest.TestCase):
+class Tests(unittest.TestCase):
     def test_grammar_id(self):
         # Test simple _id
         result = grammar.characters.parseString("this_is_an_id").asList()

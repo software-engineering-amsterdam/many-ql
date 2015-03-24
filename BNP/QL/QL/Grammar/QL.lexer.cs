@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 
-namespace QL.Grammars
+namespace QL.Grammar
 {
     public partial class QLLexer
     {

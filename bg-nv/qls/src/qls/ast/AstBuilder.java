@@ -11,6 +11,7 @@ import qls.gen.QLSBaseVisitor;
 import qls.gen.QLSParser;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,22 +161,21 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
     @Override
     public AstNode visitWidgetValue(QLSParser.WidgetValueContext context)
     {
-        String label = context.label.getText();
+        String label = context.wlabel.getText();
         if (label.equals("spinbox"))
         {
-            int min = Integer.parseInt(context.min.getText());
-            int max = Integer.parseInt(context.max.getText());
-            int step = Integer.parseInt(context.step.getText());
+            BigDecimal min = new BigDecimal(context.min.getText());
+            BigDecimal max = new BigDecimal(context.max.getText());
+            BigDecimal step = new BigDecimal(context.step.getText());
 
             return new Spinbox(min, max, step);
         }
 
         if (label.equals("slider"))
         {
-            // TODO: Boryana, this throws a null pointer (min, max and step are all null). Why?
-            int min = Integer.parseInt(context.min.getText());
-            int max = Integer.parseInt(context.max.getText());
-            int step = Integer.parseInt(context.step.getText());
+            BigDecimal min = new BigDecimal(context.min.getText());
+            BigDecimal max = new BigDecimal(context.max.getText());
+            BigDecimal step = new BigDecimal(context.step.getText());
 
             return new Slider(min, max, step);
         }

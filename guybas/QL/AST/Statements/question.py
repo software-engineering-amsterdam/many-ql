@@ -19,7 +19,7 @@ class Question(statement.IStatement):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.__label + "\n"
-        s += "   " * (level + 1) + "Question type: " + self.__type + "\n"
+        s += "   " * (level + 1) + "Question type: %r\n" % self.__type.__name__
         return s
 
     def id_collection(self):
@@ -32,7 +32,7 @@ class Question(statement.IStatement):
         return False
 
     # return all the dependencies in the statement (which are none)
-    def get_dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies):
         if self.__id not in dependencies:
             dependencies[self.__id] = []
         return dependencies
@@ -60,8 +60,8 @@ class Question(statement.IStatement):
         return self.__id
 
     # returns a message with errors if the expression is wrongly typed, here empty thus
-    def valid_expression_message(self, td):
-        return ""
+    def valid_expression_messages(self, td):
+        return []
 
 
 

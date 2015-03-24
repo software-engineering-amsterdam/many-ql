@@ -8,8 +8,7 @@ from QL.GUI.Elements import *
 
 class GUI:
     def __init__(self, form):
-        if not isinstance(form, enriched_form.Form):
-            raise exc.QException("Input must be an enriched form object!")
+        assert isinstance(form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
         self.__form = form
         self.__questions = self.__form.get_questions()
@@ -55,8 +54,8 @@ class GUI:
 
         c_results = True
         if condition:
-            # c_results = processor.eval_expression(condition.string_presentation(), self.__answersMap)
-            # print(condition.string_presentation())
+            # c_results = processor.eval_expression(condition.__str__(), self.__answersMap)
+            # print(condition.__str__())
             # print(c_results)
             c_results = condition.eval_expression(self.__answersMap)
             # print(c_results)
@@ -78,8 +77,6 @@ class GUI:
 
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
-        if qid not in statements_dict:
-            raise exc.QException("Fatal Error: no such _condition _id " + qid)
         question = statements_dict[qid]
         row_elements = question.get_gui_element()
         if row_elements is None:

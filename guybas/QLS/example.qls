@@ -25,14 +25,11 @@ Page Selling
 
         Question privateDebt
             Widget : Slider 1 100
-
-        QuestionValueResidue
-            Widget : Spinbox 1 10
     }
 
     Section Check {
         Question sellingPrice
-            Widget : Radio(yes, no)
+            Widget : Radio(yes, no) { font : verdana }
     }
 
 Default bool Widget : Radio (yes, no) {

@@ -14,12 +14,10 @@ public class CheckBox extends ControlElement implements BoolControl
 {
     private javafx.scene.control.CheckBox checkBox;
 
-    public CheckBox(Boolean visible, Boolean disabled)
+    public CheckBox()
     {
-        super(visible, disabled);
+        super();
         this.checkBox = new javafx.scene.control.CheckBox();
-        this.setVisible(visible);
-        this.setDisabled(disabled);
     }
 
     @Override

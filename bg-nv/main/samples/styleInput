@@ -13,10 +13,10 @@ stylesheet sample {
         question notMarried
         default boolean {
             width: 15
-            widget checkbox
+            widget radio("Yes", "No")
         }
-        default integer {
-            widget slider
+        default boolean {
+            widget slider(0,100,1)
         }
         question name
         question surname

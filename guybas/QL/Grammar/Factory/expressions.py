@@ -67,7 +67,6 @@ def make_mul_expression(subtrees):
 def make_compare(subtrees):
     subtrees = subtrees[0]
     x = subtrees[0]
-    print(len(subtrees))
     for i in range(1, len(subtrees)-1, 2):
         if subtrees[i] == ">":
             x = greater.Greater(x, subtrees[i + 1])
@@ -98,7 +97,7 @@ def make_compare2(subtrees):
         elif subtrees[i+ 1] == "==":
             expressions.append(equal.Equal(subtrees[i], subtrees[i + 2]))
         else:
-            raise Exception("make_compare got wrong input")
+            pass # TODO parse error
     x = expressions[0]
 
     # create for every compare expression a new and-expression

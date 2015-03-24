@@ -38,6 +38,11 @@ public class NotEqual extends BinaryExpressions{
 	}
 	
 	@Override
+	public Object getEvaluatedValue() {
+		return this.evaluate().getValue();
+	}
+	
+	@Override
 	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeBoolean());
 	}

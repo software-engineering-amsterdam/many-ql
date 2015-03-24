@@ -60,7 +60,6 @@ public class QLTypeChecker {
                 labels.add(label);
             }
         }
-        return;
     }
 
     private void checkQuestionTypes() {

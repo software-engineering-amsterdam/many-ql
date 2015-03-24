@@ -9,9 +9,9 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 24-2-15.
  */
+// TODO: shouldn't this class be ValueTableBuilder?
 public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private static final BoolValue trueValue = new BoolValue(true);
     private final ValueTable valueTable;
 
     public static ValueTable evaluate(Form f)
@@ -41,7 +41,7 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(Question q)
     {
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), new UndefValue()));
+        this.valueTable.storeEntry(q.getId(), new UndefValue());
 
         return null;
     }
@@ -52,7 +52,7 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
         Expr expr = q.getCalculation();
 
         Value value = ExprEvaluator.evaluate(expr, this.valueTable);
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), value));
+        this.valueTable.storeEntry(q.getId(), value);
 
         return null;
     }
@@ -60,23 +60,10 @@ public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(IfCondition c)
     {
-        Expr expr = c.getCondition();
-        Value condValue = ExprEvaluator.evaluate(expr, this.valueTable);
-
-        if (this.isCondValueTrue(condValue))
+        for (Statement s : c.getBody())
         {
-            for (Statement s : c.getBody())
-            {
-                s.accept(this);
-            }
+            s.accept(this);
         }
-
         return null;
-    }
-
-    private boolean isCondValueTrue(Value v)
-    {
-        Value result = v.equBoolean(trueValue);
-        return result.isTrue();
     }
 }

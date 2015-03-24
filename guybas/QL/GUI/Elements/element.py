@@ -1,7 +1,6 @@
 class Element:
     def __init__(self, statement, gui, frame):
-        if type(self) == Element:
-            raise Exception("Primitive must be sub-classed.")
+        assert type(self) != Element, "The element is not sub classed"
         self.statement = statement
         self.gui = gui
         self.frame = frame

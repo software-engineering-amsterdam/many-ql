@@ -1,8 +1,7 @@
-﻿using QL.Model;
-using QL.Model.Terminals;
-using QL.Model.Terminals.Wrappers;
+﻿using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
+using QL.AST.ValueWrappers;
 using QL.UI.Controls;
-using QL.Visitors;
 
 namespace QL.UI.ControlWrappers
 {

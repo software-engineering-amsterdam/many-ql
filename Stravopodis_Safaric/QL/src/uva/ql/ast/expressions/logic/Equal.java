@@ -33,7 +33,12 @@ public class Equal extends BinaryExpressions{
 	
 	@Override
 	public BooleanValue evaluate() {
-		return new BooleanValue(this.getLeftExpr().evaluate().getValue() == this.getRightExpr().evaluate().getValue());
+		return new BooleanValue(this.getLeftExpr().getEvaluatedValue() == this.getRightExpr().getEvaluatedValue());
+	}
+	
+	@Override
+	public Object getEvaluatedValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override

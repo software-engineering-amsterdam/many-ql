@@ -5,7 +5,6 @@ import ql.gui.Refreshable;
 import ql.gui.control.Control;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.values.Value;
 
 /**
@@ -32,7 +31,7 @@ public class ExprInput extends Input<Control> implements Refreshable
     public Value evaluate(ValueTable valueTable)
     {
         Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeEntry(new ValueTableEntry(this.getId(), val));
+        valueTable.storeEntry(this.getId(), val);
         return val;
     }
 

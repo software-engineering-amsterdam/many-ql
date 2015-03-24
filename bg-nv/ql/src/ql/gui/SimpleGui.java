@@ -1,10 +1,8 @@
 package ql.gui;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ql.ast.form.Form;
 import ql.gui.canvas.Canvas;
 import ql.gui.control.*;
 import ql.gui.input.*;
@@ -15,27 +13,21 @@ import ql.semantics.*;
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui<T extends Node> implements ModelVisitor<Void>
+public class SimpleGui implements ModelVisitor<Void>
 {
     private final ValueTable valueTable;
     private final Refresher refresher;
 
-
-    public static void run(Form ast, Modeler modeler, Stage stage)
+    public static void display(ValueTable valueTable, Canvas canvas, Stage stage)
     {
-        Canvas canvas = modeler.model();
-
-        SimpleGui gui = new SimpleGui(ast);
-        DataStore dataStore = new DataStore(ast);
-        //TODO: user feedback
-        canvas.setSubmitAction(e -> dataStore.store(gui.valueTable));
+        SimpleGui gui = new SimpleGui(valueTable);
         canvas.accept(gui);
         gui.start(canvas, stage);
     }
 
-    private SimpleGui(Form ast)
+    private SimpleGui(ValueTable valueTable)
     {
-        this.valueTable = Evaluator.evaluate(ast);
+        this.valueTable = valueTable;
         this.refresher = new Refresher(this.valueTable);
     }
 
@@ -165,7 +157,6 @@ public class SimpleGui<T extends Node> implements ModelVisitor<Void>
     private Void handleInputVisit(ExprInput input)
     {
         this.refresher.addItem(input);
-        input.evaluate(this.valueTable);
         return null;
     }
 }
