@@ -51,16 +51,15 @@ class TypeChecker {
       case Left(e) => List(e)
     }
 
-    val errorsInBlocks = i.elseBlock match {
-      case None => check(i.ifBlock, env)._1
+    val (errorsInBlocks, envWithIfAndElseBlock) = i.elseBlock match {
+      case None => check(i.ifBlock, env)
       case Some(elseBlock) =>
-        val errorsInIfBlock = check(i.ifBlock, env)._1
-        val errorsInElseBlock = check(elseBlock, env)._1
-        errorsInIfBlock ++ errorsInElseBlock
+        val (errorsInIfBlock, envWithIfBlock) = check(i.ifBlock, env)
+        val (errorsInElseBlock, envWithIfAndElseBlock) = check(elseBlock, envWithIfBlock)
+        (errorsInIfBlock ++ errorsInElseBlock, envWithIfAndElseBlock)
     }
 
-    // Return environment without the questions in s1 and s2.
-    (errorInExpression ++ errorsInBlocks, env)
+    (errorInExpression ++ errorsInBlocks, envWithIfAndElseBlock)
   }
 
   def checkQuestionStatement(q: Question, env: TypeEnvironment): (List[Error], TypeEnvironment) = {
@@ -69,8 +68,8 @@ class TypeChecker {
     val errorInExpression = q.expression match {
       case None => List()
       case Some(expression) => check(expression, env) match {
+        case Right(t: Type) if t != q._type  => List(Error(s"Invalid expression type for computed question: expected ${q._type}, got $t", Some(q.pos)))
         case Right(t: Type) if t == q._type => List()
-        case Right(_) => List(Error("Invalid expression type for computed question", Some(q.pos)))
         case Left(e) => List(e)
       }
     }
@@ -80,10 +79,11 @@ class TypeChecker {
 
   def tryAddQuestionToEnvironment(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
     val name = q.variable.name
-    if (env contains name) {
-      Left(Error(s"Variable $name is already defined", Some(q.pos)))
-    } else {
-      Right(env + (name -> q._type))
+
+    env get name match {
+      case Some(t) if t != q._type => Left(Error(s"Variable $name is already defined as a $t", Some(q.pos)))
+      case Some(t) if t == q._type => Right(env)
+      case None => Right(env + (name -> q._type))
     }
   }
 
