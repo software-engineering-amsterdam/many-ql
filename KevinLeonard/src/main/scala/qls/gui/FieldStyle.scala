@@ -36,19 +36,19 @@ class FieldStyle {
     // TODO: Get question Type from QL ast + replace match based on widget type.
     case q: Question => {
       q.widget.toString() match {
-        case "spin box" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(NumberType(), q.widget, env)))
-        case "slider" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(NumberType(), q.widget, env)))
-        case "text" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(StringType(), q.widget, env)))
-        case "text block" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(StringType(), q.widget, env)))
-        case "radio" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
-        case "check box" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
-        case "drop down" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
+        case "spin box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
+        case "slider" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
+        case "text" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
+        case "text block" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
+        case "radio" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
+        case "check box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
+        case "drop down" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
       }
     }
     case s: Section => extract(s, env)
   }
 
-  def getDefaultStylePropertiesForQuestionTypeAndWidget(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
+  def getDefaultStyleProperties(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
     if (env contains t) {
       env(t) getOrElse(w.toString(), List())
     } else {
