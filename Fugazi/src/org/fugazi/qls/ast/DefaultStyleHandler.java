@@ -87,11 +87,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             // if there is no style declaration,
             // but only widget declaration then set widget's default style.
             if (baseDeclaration.getStyle().isUndefined()) {
-
-                // get the default style of a widget, for it's type.
-                IWidgetType widgetType = baseDeclaration.getWidgetType();
-                AbstractQLSWidget widget = widgetType.accept(this.widgetTypeToWidget);
-                Style defaultStyleOfWidget = widget.getDefaultStyle();
+                Style defaultStyleOfWidget = getDefaultStyleForWidgetType(
+                        baseDeclaration.getWidgetType());
 
                 // set the style.
                 baseDeclaration.setStyle(defaultStyleOfWidget);
@@ -102,6 +99,11 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
     }
 
+    private Style getDefaultStyleForWidgetType(IWidgetType _widgetType) {
+        AbstractQLSWidget widget = _widgetType.accept(this.widgetTypeToWidget);
+        return widget.getDefaultStyle();
+    }
+
     private void inheriteStyleFromParent(
             List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles,
             Type _baseDeclarationType,
@@ -110,6 +112,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
             Type currentDeclarationType = currentDeclaration.getQuestionType();
             Style currentDeclarationStyle = currentDeclaration.getStyle();
+
             if (_baseDeclarationType.equals(currentDeclarationType)) {
                 currentDeclarationStyle.inheriteFromStyle(_baseDeclarationStyle);
             }

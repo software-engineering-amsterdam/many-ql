@@ -29,5 +29,4 @@ stylesheet taxOfficeExample
       }
     default bool widget radio("Yes", "No")
     }
-  }
   
