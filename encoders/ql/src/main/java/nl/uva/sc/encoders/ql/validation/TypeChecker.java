@@ -121,13 +121,15 @@ public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, Sta
 	public List<TypeValidation> visit(ConditionalBlock conditionalBlock) {
 		List<TypeValidation> validations = new ArrayList<>();
 		Expression condition = conditionalBlock.getCondition();
-		validations.addAll(condition.accept(this));
-
-		DataType dataType = condition.getType(typeMap);
-		if (!(dataType instanceof BooleanType)) {
-			TextLocation textLocation = condition.getTextLocation();
-			String validationMessage = getString(BOOLEAN_CONDITION, dataType);
-			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+		List<TypeValidation> conditionValidations = condition.accept(this);
+		validations.addAll(conditionValidations);
+		if (conditionValidations.isEmpty()) {
+			DataType dataType = condition.getType(typeMap);
+			if (!(dataType instanceof BooleanType)) {
+				TextLocation textLocation = condition.getTextLocation();
+				String validationMessage = getString(BOOLEAN_CONDITION, dataType);
+				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+			}
 		}
 		visitQuestions(conditionalBlock.getQuestions());
 		return validations;

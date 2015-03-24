@@ -91,8 +91,9 @@ public class TypeCheckerTest {
 
 	@Test
 	public void testCheckTypes_questionThatIsReferencedBeforeItIsListedIsInvalid() {
-		String questionName = "why";
-		Question question = aQuestion().withName(questionName).withDataType(new BooleanType()).build();
+		String questionName = "lateQuestion";
+		Question question = aQuestion().withName(questionName).withQuestionLabel("Ask me later").withDataType(new BooleanType())
+				.build();
 		List<Statement> statements = new ArrayList<>();
 		Expression condition = new NameExpression(aTextLocation().build(), questionName);
 		statements.add(aConditionalBlock().withCondition(condition).build());
@@ -103,10 +104,8 @@ public class TypeCheckerTest {
 		List<TypeValidation> validations = typeChecker.checkTypes();
 		TypeValidation typeValidation = validations.get(0);
 		assertThat(typeValidation.getValidationMessage(),
-				is("Reference may only be listed after the question it references. Question: why"));
-		// assertThat(validations.toString(), validations.size(), is(1)); TODO
-		// fix bug: questions in condition should not be checked for duplicate
-		// labels
+				is("Reference may only be listed after the question it references. Question: lateQuestion"));
+		assertThat(validations.toString(), validations.size(), is(1));
 	}
 
 }
