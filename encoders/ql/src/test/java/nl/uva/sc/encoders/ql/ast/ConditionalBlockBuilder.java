@@ -8,7 +8,7 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
-import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 
