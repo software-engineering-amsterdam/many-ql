@@ -51,6 +51,9 @@ class Assignment(statement.IStatement):
     def valid_expression_messages(self, type_map):
         return self.expression.is_valid_expression_message(type_map)
 
+    def get_expression(self):
+        return self.expression
+
     def get_id(self):
         return self.id
 

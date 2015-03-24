@@ -23,5 +23,4 @@ class Variable(p.Primitive):
     def eval_expression(self, answer_map):
         if answer_map.exists(self.__name):
             return answer_map.get_answer_by_id(self.__name)
-        else:
-            return None
+        return None

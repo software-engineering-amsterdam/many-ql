@@ -2,6 +2,8 @@ import tkinter as tk
 import QL.Tools.converters as converters
 import QL.Runtime.mapper as mapper
 import QL.Tools.exceptions as exc
+import QL.Runtime.question as runtime_q
+import QL.AST.Statements.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
@@ -14,16 +16,19 @@ class GUI:
         self.__questions = self.__form.get_questions()
         self.__dependencies = self.__form.ast.get_dependencies()
         self.__answersMap = mapper.Mapper()
+        self.__assignments = self.__form.get_assignments()
+        print(self.__dependencies)
+        print(self.__form.get_statement_dict())
 
     def generate_gui(self):
         print("_" * 50)
         self.create_title()
         windowFrame = tk.Frame(self.qGui)
         #introduction
-        # l.configure(font="Helvetica 15 bold")
         intro_element = self.intro_label(windowFrame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
         self.draw_questions(self.__questions, windowFrame)
+        self.map_assignments()
         tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
@@ -37,30 +42,25 @@ class GUI:
         intro_row = l.get_row()
         return intro_row[0]
 
+    def map_assignments(self):
+        for ass in self.__assignments:
+            self.__answersMap.update(ass.get_id(), None)
+
     def draw_questions(self, questions, content_frame):
         for question in questions:
             self.draw_question(question, content_frame)
 
     def draw_question(self, question, content_frame):
-        self.__answersMap.update(question, None)
+        self.__answersMap.update(question.ast.get_id(), None)
         question.set_gui_element(self, content_frame)
         elements = question.get_gui_element()
         # don't print anything if has no elements (expression_factory.g. assignment)
         if elements is None:
             return False
 
-        # check if _condition holds
+        # check if condition holds
         condition = question.get_condition()
-
-        c_results = True
-        if condition:
-            # c_results = processor.eval_expression(condition.__str__(), self.__answersMap)
-            # print(condition.__str__())
-            # print(c_results)
-            c_results = condition.eval_expression(self.__answersMap)
-            # print(c_results)
-            # print("--------")
-        if not c_results:
+        if condition and not condition.eval_expression(self.__answersMap):
             return False
 
         colspan = 1
@@ -70,14 +70,28 @@ class GUI:
             elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
-        self.__answersMap.update(question, new_answer)
+        self.__answersMap.update(question.ast.get_id(), new_answer)
+        self.__update_assignments_ref()
         for qid in self.__dependencies:
             if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
+    def __update_assignments_ref(self):
+        for assignment in self.__assignments:
+            ass_id = assignment.get_id()
+            ass = assignment.get_expression()
+            print(ass_id)
+            print(ass)
+            answer = None  # TODO (BAS) : function that gets assignment -> eval -> returns value (or if not implemented = None)
+            self.__answersMap.update(ass_id, answer)
+
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
         question = statements_dict[qid]
+
+        if isinstance(question, ast_assign.Assignment):
+            return None
+
         row_elements = question.get_gui_element()
         if row_elements is None:
             return None
