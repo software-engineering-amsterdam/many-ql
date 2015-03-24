@@ -56,9 +56,9 @@ class Parser extends JavaTokenParsers {
     case "dropdown" ~ properties => DropDown(properties)
   }
 
-  def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
+  def defaultWidget: Parser[DefaultWidget] = positioned("default" ~> questionType ~ widget ^^ {
     case t ~ w => DefaultWidget(t, w)
-  }
+  })
 
   def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
 

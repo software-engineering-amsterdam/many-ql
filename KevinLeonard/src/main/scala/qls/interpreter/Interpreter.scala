@@ -58,7 +58,6 @@ object Interpreter {
       return false
     }
 
-    // TODO: check types of default widget
     val typeCheckErrors = typeChecker.check(ast, env)
     if (typeCheckErrors.nonEmpty) {
       typeCheckErrors.foreach(println)
