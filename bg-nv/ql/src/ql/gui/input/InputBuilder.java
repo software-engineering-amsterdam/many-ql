@@ -24,7 +24,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id, new Radio("yes", "no"));
+        return new BoolInput(this.id, new Dropdown("yes", "no"));
     }
 
     @Override
