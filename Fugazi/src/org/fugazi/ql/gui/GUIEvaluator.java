@@ -37,18 +37,6 @@ public class GUIEvaluator {
         Expression condition = _ifStatement.getCondition();
         return this.getConditionResult(condition);
     }
-
-    public boolean isQuestionStateTrue(
-            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
-    {
-        boolean isTrue = true;
-        for (IfStatement ifStatement : _questionsWithConditionState.get(_question)) {
-            if (!this.evaluateIfStatement(ifStatement)) {
-                isTrue = false;
-            }
-        }
-        return isTrue;
-    }
     
     private boolean getConditionResult(Expression _condition) {
         ExpressionValue expressionValue = this.evaluator.evaluateExpression(_condition);
