@@ -2,7 +2,6 @@ package qls.semantics;
 
 import ql.gui.control.*;
 import ql.gui.control.Radio;
-import ql.gui.control.Spinbox;
 import ql.gui.segment.RowStyle;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
@@ -97,12 +96,6 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     public Control visit(Slider w)
     {
         return new ql.gui.control.Slider(w.getMin(), w.getMax(), w.getStep());
-    }
-
-    @Override
-    public Control visit(qls.ast.rule.widget.Spinbox w)
-    {
-        return new Spinbox(w.getMin(), w.getMax(), w.getStep());
     }
 
     @Override

@@ -137,12 +137,6 @@ public class SimpleGui implements ModelVisitor<Void>
     }
 
     @Override
-    public Void visit(Spinbox control)
-    {
-        return null;
-    }
-
-    @Override
     public Void visit(Dropdown control)
     {
         return null;
