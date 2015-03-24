@@ -11,6 +11,7 @@ import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.widget.widget_types.DropdownType;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -56,7 +57,19 @@ public class QLSDropdown extends AbstractQLSWidget {
         // inherit properties that are not set in the given style from default.
         style.inheriteFromStyle(this.getDefaultStyle());
 
-        // todo
+        Font font = new Font(
+            _style.getFont(this.getDefaultFont().getValue()), 0,
+            _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
+
+        Color color = style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
+
+        this.comboBox.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.comboBox.getPreferredSize().getHeight()
+        ));
     }
 
     @Override

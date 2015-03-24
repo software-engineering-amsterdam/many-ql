@@ -15,6 +15,7 @@ import org.fugazi.ql.gui.ui_elements.UIQuestion;
 import org.fugazi.ql.gui.ui_elements.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
+import javax.swing.*;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
@@ -32,7 +33,7 @@ public class GUIBuilder implements IMediator {
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        this.uiForm = new UIForm(_form.getName());
+        this.uiForm = new UIForm(_form.getName(), new JPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         this.addConditionsToQuestions(_form);
