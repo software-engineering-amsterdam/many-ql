@@ -35,41 +35,45 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return this.styledStyleSheet;
     }
 
-    public Void visitStyleSheet(StyleSheet styleSheet){
-        List<Page> pages = styleSheet.getPages();
+    public Void visitStyleSheet(StyleSheet _styleSheet){
+        List<Page> pages = _styleSheet.getPages();
         for (Page page : pages) {
             page.accept(this);
         }
         return null;
     }
 
-    public Void visitPage(Page page){
+    public Void visitPage(Page _page){
         // set current segment
-        this.currentSegment = page;
+        this.currentSegment = _page;
 
-        for (Section section : page.getSections()) {
+        for (Section section : _page.getSections()) {
             section.accept(this);
         }
         return null;
     }
 
-    public Void visitSection(Section section) {
+    public Void visitSection(Section _section) {
 
         // currentSegment is the parent.
-        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = this.currentSegment.getDefaultStyleDeclarations();
-
-        this.currentSegment = section;// Change current segment
+        Segment previousSegment = this.currentSegment;
+        List<DefaultStyleDeclaration> parentSegmentDefaultStyles = previousSegment.getDefaultStyleDeclarations();
+        
+        // Change to current segment
+        this.currentSegment = _section;
         List<DefaultStyleDeclaration> currentSegmentDefaultStyles = this.currentSegment.getDefaultStyleDeclarations();
 
-        this.inheritStyles(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
-        this.addDeclarationsFromParent(parentSegmentDefaultStyles, currentSegmentDefaultStyles);
+        this.inheritStyles(
+                parentSegmentDefaultStyles, currentSegmentDefaultStyles);
+        this.addDeclarationsFromParentToSegment(
+                _section, parentSegmentDefaultStyles, currentSegmentDefaultStyles);
 
-        for (QLSQuestion question : section.getQuestions()) {
+        for (QLSQuestion question : _section.getQuestions()) {
             this.constructQuestion(question, currentSegmentDefaultStyles);
         }
 
         // visit sub sections.
-        for (Section subsection : section.getSections()) {
+        for (Section subsection : _section.getSections()) {
             subsection.accept(this);
         }
 
@@ -81,51 +85,37 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles)
     {
         for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
-            Type baseDeclarationType = baseDeclaration.getQuestionType();
-            Style baseDeclarationStyle = baseDeclaration.getStyle();
-
-            // if there is no style declaration,
-            // but only widget declaration then set widget's default style.
             if (baseDeclaration.getStyle().isUndefined()) {
-                Style defaultStyleOfWidget = getDefaultStyleForWidgetType(
-                        baseDeclaration.getWidgetType());
-
-                // set the style.
+                Style defaultStyleOfWidget = this.getDefaultStyleForWidgetType(baseDeclaration.getWidgetType());
                 baseDeclaration.setStyle(defaultStyleOfWidget);
             } else {
                 this.inheriteStyleFromParent(
-                        _derivedSegmentDefaultStyles, baseDeclarationType, baseDeclarationStyle);
+                        _derivedSegmentDefaultStyles,  baseDeclaration);
             }
         }
     }
-
-    private Style getDefaultStyleForWidgetType(IWidgetType _widgetType) {
-        AbstractQLSWidget widget = _widgetType.accept(this.widgetTypeToWidget);
-        return widget.getDefaultStyle();
-    }
-
+    
     private void inheriteStyleFromParent(
             List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles,
-            Type _baseDeclarationType,
-            Style _baseDeclarationStyle)
+            DefaultStyleDeclaration _baseDeclaration)
     {
         for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
             Type currentDeclarationType = currentDeclaration.getQuestionType();
             Style currentDeclarationStyle = currentDeclaration.getStyle();
-
-            if (_baseDeclarationType.equals(currentDeclarationType)) {
-                currentDeclarationStyle.inheriteFromStyle(_baseDeclarationStyle);
+            if (_baseDeclaration.getQuestionType().equals(currentDeclarationType)) {
+                currentDeclarationStyle.inheriteFromStyle(_baseDeclaration.getStyle());
             }
         }
     }
 
-    private void addDeclarationsFromParent(
+    private void addDeclarationsFromParentToSegment(
+            Segment _segment,
             List<DefaultStyleDeclaration> _parentSegmentDefaultStyles,
             List<DefaultStyleDeclaration> _derivedSegmentDefaultStyles)
     {
         for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
             if (!_derivedSegmentDefaultStyles.contains(baseDeclaration)) {
-                this.currentSegment.addDefaultStyleDeclaration(baseDeclaration);
+                _segment.addDefaultStyleDeclaration(baseDeclaration);
             }
         }
     }
@@ -210,9 +200,10 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
     }
     
-    private void styleQuestionFormDeclarations(QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) {
+    private void styleQuestionFormDeclarations(
+            QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles) 
+    {
         boolean isWidgetFoundInDeclaration = false;
-
         for (DefaultStyleDeclaration currentDeclaration : _segmentDefaultStyles) {
 
             // if the widget has been found in declarations, set the style.
@@ -229,29 +220,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         }
     }
     
-    private void setDefaultWidgetToQuestion(QLSQuestion _question) {
-        Type questionType = getQLQuestionType(_question);
-        String questionLabel = getQLQuestionLabel(_question);
-
-        AbstractQLSWidget defaultWidget = getDefaultWidgetForType(questionType, questionLabel);
-        this.setDefaultStyleToWidget(defaultWidget);
-        _question.setWidget(defaultWidget);
-    }
-
-    private void setDefaultStyleToWidget(AbstractQLSWidget _widget) {
-        _widget.resetStyleToDefault();
-    }
-
-    private boolean isQuestionExistsInQL(QLSQuestion _question) {
-        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
-        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
-            if (qlQuestion.getIdName().equals(_question.getIdName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-     
+    /**
+     * Helper Functions.
+     */
     private Type getQLQuestionType(QLSQuestion _question) {
         String questionIdName = _question.getIdName();
         HashMap<String, Type> questionTypes = this.formDataStorage.getallQuestionTypes();
@@ -266,6 +237,34 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             }
         }
         return "";
+    }
+
+    private boolean isQuestionExistsInQL(QLSQuestion _question) {
+        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
+        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
+            if (qlQuestion.getIdName().equals(_question.getIdName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Style getDefaultStyleForWidgetType(IWidgetType _widgetType) {
+        AbstractQLSWidget widget = _widgetType.accept(this.widgetTypeToWidget);
+        return widget.getDefaultStyle();
+    }
+
+    private void setDefaultWidgetToQuestion(QLSQuestion _question) {
+        Type questionType = this.getQLQuestionType(_question);
+        String questionLabel = this.getQLQuestionLabel(_question);
+
+        AbstractQLSWidget defaultWidget = getDefaultWidgetForType(questionType, questionLabel);
+        this.setDefaultStyleToWidget(defaultWidget);
+        _question.setWidget(defaultWidget);
+    }
+
+    private void setDefaultStyleToWidget(AbstractQLSWidget _widget) {
+        _widget.resetStyleToDefault();
     }
 
     private AbstractQLSWidget getDefaultWidgetForType(Type _questionType, String _questionLabel) {        
