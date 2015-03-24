@@ -39,4 +39,9 @@ public class QuestionnaireBuilder {
 		statements.addAll(conditionalBlocks);
 		return this;
 	}
+
+	public QuestionnaireBuilder withStatements(List<Statement> statements) {
+		this.statements = statements;
+		return this;
+	}
 }
