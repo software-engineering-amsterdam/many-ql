@@ -1,7 +1,8 @@
 package qls.gui
 
 import org.specs2.mutable.Specification
-import ql.ast._
+import ql.ast.{Variable, BooleanType, StringType, NumberType}
+
 import qls.ast._
 import qlsTypes.StyleEnvironment
 
@@ -25,6 +26,7 @@ class FieldStyleSpec extends Specification {
       "drop down" -> List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20))
     )
   )
+  val EmptyStyleEnvironment: StyleEnvironment = Map()
 
   "getWidth" should {
     "return Width from defaultProperties" in {
@@ -504,9 +506,238 @@ class FieldStyleSpec extends Specification {
     }
   }
 
-  // TODO: Extract SectionElement
-  // TODO: Extract Section
-  // TODO: updateStyleEnvironment
+  "extract Section/SectionElement" should {
+    "return Question with style properties from DefaultStyleEnvironment" in {
+      val element = Question(Variable("var"), Slider(List()))
+      val result = Question(Variable("var"), Slider(List(
+        Width(100),
+        Font("Arial"),
+        FontColor(HexadecimalColor("ff0000")),
+        FontSize(13)
+      )))
+
+      fieldStyle.extract(element, DefaultStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return empty Section" in {
+      val element = Section("section", List())
+      val result = Section("section", List())
+
+      fieldStyle.extract(element, DefaultStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return Section with Questions with style properties from DefaultStyleEnvironment" in {
+      val element = Section("section", List(
+        Question(Variable("var"), Slider(List())),
+        Question(Variable("var"), CheckBox(List()))
+      ))
+      val result = Section("section", List(
+        Question(Variable("var"), Slider(List(
+          Width(100),
+          Font("Arial"),
+          FontColor(HexadecimalColor("ff0000")),
+          FontSize(13)
+        ))),
+        Question(Variable("var"), CheckBox(List(
+          Width(400),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ff00cc")),
+          FontSize(19)
+        )))
+      ))
+
+      fieldStyle.extract(element, DefaultStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return nested Sections" in {
+      val element = Section("section", List(
+        Section("section1", List())
+      ))
+      val result = Section("section", List(
+        Section("section1", List())
+      ))
+
+      fieldStyle.extract(element, DefaultStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return nested Sections with Questions" in {
+      val element = Section("section", List(
+        Question(Variable("var"), Slider(List())),
+        Question(Variable("var"), CheckBox(List())),
+        Section("section1", List(
+          Question(Variable("var"), Slider(List())),
+          Question(Variable("var"), CheckBox(List()))
+        ))
+      ))
+      val result = Section("section", List(
+        Question(Variable("var"), Slider(List(
+          Width(100),
+          Font("Arial"),
+          FontColor(HexadecimalColor("ff0000")),
+          FontSize(13)
+        ))),
+        Question(Variable("var"), CheckBox(List(
+          Width(400),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ff00cc")),
+          FontSize(19)
+        ))),
+        Section("section1", List(
+          Question(Variable("var"), Slider(List(
+            Width(100),
+            Font("Arial"),
+            FontColor(HexadecimalColor("ff0000")),
+            FontSize(13)
+          ))),
+          Question(Variable("var"), CheckBox(List(
+            Width(400),
+            Font("Verdana"),
+            FontColor(HexadecimalColor("ff00cc")),
+            FontSize(19)
+          )))
+        ))
+      ))
+
+      fieldStyle.extract(element, DefaultStyleEnvironment) must beEqualTo(result)
+    }
+  }
+
+  "update Style Environment" should {
+    "return an updated StyleEnvironment" in {
+      val env: StyleEnvironment = Map()
+      val defaultWidget = DefaultWidget(BooleanType(), DropDown(List(
+        Width(100),
+        FontColor(HexadecimalColor("00dd00")),
+        Font("Arial"),
+        FontSize(14)
+      )))
+      val result = Map(
+        BooleanType() -> Map(
+          "drop down" -> List(
+            Width(100),
+            FontColor(HexadecimalColor("00dd00")),
+            Font("Arial"),
+            FontSize(14)
+          )
+        )
+      )
+
+      fieldStyle.updateStyleEnvironment(defaultWidget, env) must beEqualTo(result)
+    }
+  }
+
+  "extract StyleSheet/StyleSheetElement" should {
+    "return empty Page with EmptyStyleEnvironment " in {
+      val element = Page("page", List())
+      val result = (Page("page", List()), EmptyStyleEnvironment)
+
+      fieldStyle.extract(element, EmptyStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return DefaultWidget with updated environment" in {
+      val element = DefaultWidget(
+        NumberType(),
+        Slider(List(
+          Width(100),
+          Font("Arial"),
+          FontColor(HexadecimalColor("ff0000")),
+          FontSize(13))
+        )
+      )
+      val result = (
+        DefaultWidget(
+          NumberType(),
+          Slider(List(
+            Width(100),
+            Font("Arial"),
+            FontColor(HexadecimalColor("ff0000")),
+            FontSize(13))
+          )
+        ),
+        Map(
+          NumberType() -> Map(
+            "slider" -> List(
+              Width(100),
+              Font("Arial"),
+              FontColor(HexadecimalColor("ff0000")),
+              FontSize(13)
+            )
+          )
+        )
+      )
+
+
+      fieldStyle.extract(element, EmptyStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return empty StyleSheet" in {
+      val stylesheet = StyleSheet("stylesheet", List())
+      val result = StyleSheet("stylesheet", List())
+
+      fieldStyle.extract(stylesheet, EmptyStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return StyleSheet with default widget and empty page" in {
+      val stylesheet = StyleSheet("stylesheet", List(
+        DefaultWidget(StringType(), TextBlock(List(
+          Width(100),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ffff00")),
+          FontSize(13)
+        ))),
+        Page("page", List())
+      ))
+      val result = StyleSheet("stylesheet", List(
+        DefaultWidget(StringType(), TextBlock(List(
+          Width(100),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ffff00")),
+          FontSize(13)
+        ))),
+        Page("page", List())
+      ))
+
+      fieldStyle.extract(stylesheet, EmptyStyleEnvironment) must beEqualTo(result)
+    }
+
+    "return StyleSheet with default checkbox widget and a question checkbox widget" in {
+      val stylesheet = StyleSheet("stylesheet", List(
+        DefaultWidget(StringType(), CheckBox(List(
+          Width(100),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ffff00")),
+          FontSize(13)
+        ))),
+        Page("page", List(
+          Section("section", List(
+            Question(Variable("var"), CheckBox(List()))
+          ))
+        ))
+      ))
+      val result = StyleSheet("stylesheet", List(
+        DefaultWidget(StringType(), CheckBox(List(
+          Width(100),
+          Font("Verdana"),
+          FontColor(HexadecimalColor("ffff00")),
+          FontSize(13)
+        ))),
+        Page("page", List(
+          Section("section", List(
+            Question(Variable("var"), CheckBox(List(
+              Width(100),
+              Font("Verdana"),
+              FontColor(HexadecimalColor("ffff00")),
+              FontSize(13)
+            )))
+          ))
+        ))
+      ))
+
+      fieldStyle.extract(stylesheet, EmptyStyleEnvironment) must beEqualTo(result)
+    }
+  }
+
+
   // TODO: Extract StylesheetElement
   // TODO: Extract Stylesheet
 
