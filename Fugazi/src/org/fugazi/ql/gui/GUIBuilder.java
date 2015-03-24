@@ -28,19 +28,20 @@ public class GUIBuilder implements IMediator {
     private final UIForm uiForm;
 
     private QuestionsWithConditionsState questionsWithConditionState;
-    private List<UIQuestion> questionsInForm;
     private List<ComputedQuestion> computedQuestions;
     
     private UIQuestionBuilder uiQuestionBuilder;
+    private final FormQuestionsHandler formQuestionsHandler;
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         this.uiForm = new UIForm(_form.getName(), new JPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
+
+        this.formQuestionsHandler = new FormQuestionsHandler(this.uiForm);
         
         this.questionsWithConditionState = new QuestionsWithConditionsState();
-        this.questionsInForm = new ArrayList<>();
         this.computedQuestions = new ArrayList<>();
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
@@ -55,33 +56,18 @@ public class GUIBuilder implements IMediator {
 
     @Override
     public void getChangeFromColleagues(Colleague _origin) {
-        this.valueStorage.saveValue(_origin.getId(), _origin.getState());
+        this.storeValue(_origin.getId(), _origin.getState());
         this.checkComputedQuestions(this.computedQuestions);
         this.renderUI();
     }
 
-    private void setupForm(
-            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.guiEvaluator.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
-                this.addQuestionToForm(uiQuestion);
+                this.formQuestionsHandler.addQuestion(uiQuestion);
             } else {
-                this.removeQuestionFromForm(uiQuestion);
+                this.formQuestionsHandler.removeQuestion(uiQuestion);
             }
-        }
-    }
-
-    private void addQuestionToForm(UIQuestion _uiQuestion) {
-        if (!this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.add(_uiQuestion);
-            _uiQuestion.addToForm(this.uiForm);
-        }
-    }
-
-    private void removeQuestionFromForm(UIQuestion _uiQuestion) {
-        if (this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.remove(_uiQuestion);
-            _uiQuestion.removeFromForm(this.uiForm);
         }
     }
 
