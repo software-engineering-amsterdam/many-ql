@@ -83,7 +83,7 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     @Override
     public Control visit(Dropdown w)
     {
-        return new ql.gui.control.Dropdown();
+        return new ql.gui.control.Dropdown("yes", "no");
     }
 
     @Override
