@@ -19,8 +19,8 @@ import java.util.List;
 
 public class DefaultStyleHandler extends FullQLSFormVisitor {
 
-    private final StyleSheet styledStyleSheet;
     private Segment currentSegment;
+    private final StyleSheet styledStyleSheet;
     private final QLFormDataStorage formDataStorage;
     private final DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
     private final WidgetTypeToWidgetVisitor widgetTypeToWidget = new WidgetTypeToWidgetVisitor();
@@ -43,7 +43,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return null;
     }
 
-    public Void visitPage(Page _page){
+    public Void visitPage(Page _page) {
         // set current segment
         this.currentSegment = _page;
 
@@ -58,10 +58,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         // currentSegment is the parent.
         Segment previousSegment = this.currentSegment;
         List<DefaultStyleDeclaration> parentSegmentDefaultStyles = previousSegment.getDefaultStyleDeclarations();
-        
-        // Change to current segment
-        this.currentSegment = _section;
-        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = this.currentSegment.getDefaultStyleDeclarations();
+        List<DefaultStyleDeclaration> currentSegmentDefaultStyles = _section.getDefaultStyleDeclarations();
 
         this.inheritStyles(
                 parentSegmentDefaultStyles, currentSegmentDefaultStyles);
@@ -77,6 +74,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             subsection.accept(this);
         }
 
+        // set the current segment
+        this.currentSegment = _section;
+        
         return null;
     }
 
