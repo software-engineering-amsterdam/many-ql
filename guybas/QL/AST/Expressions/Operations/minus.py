@@ -1,5 +1,4 @@
 import QL.AST.Expressions.Operations.binary_expression as b
-import QL.Grammar.constants as constants
 
 
 class Minus(b.BinaryExpression):
@@ -7,7 +6,7 @@ class Minus(b.BinaryExpression):
     def set_string_operator(self):
         return "-"
 
-    def return_type_string(self, type_map):
+    def return_type(self, type_map):
         return int
 
     def eval(self, x, y):

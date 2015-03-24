@@ -1,5 +1,4 @@
 import QL.AST.Expressions.Primitives.primitive as p
-import QL.Grammar.constants as constants
 
 
 class Bool(p.Primitive):
@@ -10,7 +9,7 @@ class Bool(p.Primitive):
     def __str__(self):
         return str(self.__bool)  # since the actual type is a real bool
 
-    def return_type_string(self, type_dict):
+    def return_type(self, type_dict):
         return bool
 
     # just the value of the bool itself

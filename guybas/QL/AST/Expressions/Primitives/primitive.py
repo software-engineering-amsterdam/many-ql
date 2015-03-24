@@ -6,7 +6,7 @@ class Primitive:
     def __str__(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def return_type_string(self, type_dict):
+    def return_type(self, type_dict):
         raise NotImplementedError("Not implemented by sub class")
 
     def eval_expression(self, type_map):

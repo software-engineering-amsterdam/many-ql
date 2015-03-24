@@ -1,5 +1,4 @@
 import QL.AST.Expressions.Operations.equal as e
-import QL.Grammar.constants as constants
 
 
 class GreaterEqual(e.Equal):
@@ -8,7 +7,7 @@ class GreaterEqual(e.Equal):
         return " >= "
 
     # get the return _type of the _expression
-    def return_type_string(self, type_map):
+    def return_type(self, type_map):
         return bool
 
     def eval(self, x, y):

@@ -1,4 +1,3 @@
-import QL.Grammar.constants as constants
 import QL.AST.Expressions.Operations.binary_expression as b
 
 
@@ -8,7 +7,7 @@ class Equal(b.BinaryExpression):
         return "=="
 
     # get the return _type of the _expression
-    def return_type_string(self, type_map):
+    def return_type(self, type_map):
         return bool
 
     # override as equal is allowed to have types on both sides which are not booleans
@@ -20,7 +19,7 @@ class Equal(b.BinaryExpression):
         messages.extend(self._right_operand.is_valid_expression_message(type_map))
 
         # if the types of both operands are not similar the expression is not correct
-        if self._left_operand.return_type_string(type_map) != self._right_operand.return_type_string(type_map):
+        if self._left_operand.return_type(type_map) != self._right_operand.return_type(type_map):
             messages.append(self._left_operand.__str__() +
                            " is not the same type as " + self._right_operand.__str__())
 
