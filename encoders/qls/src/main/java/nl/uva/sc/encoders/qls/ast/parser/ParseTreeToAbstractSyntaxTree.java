@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.ast.builder;
+package nl.uva.sc.encoders.qls.ast.parser;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
@@ -9,7 +9,7 @@ import nl.uva.sc.encoders.qls.ast.Page;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
-public class AstBuilder extends EncodersQLSBaseVisitor<AstNode> {
+public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNode> {
 
 	@Override
 	public Page visitPage(PageContext ctx) {

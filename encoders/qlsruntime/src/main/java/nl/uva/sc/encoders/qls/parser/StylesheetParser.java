@@ -10,7 +10,7 @@ import nl.uva.sc.encoders.qls.EncodersQLSLexer;
 import nl.uva.sc.encoders.qls.EncodersQLSParser;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.ast.builder.AstBuilder;
+import nl.uva.sc.encoders.qls.ast.parser.ParseTreeToAbstractSyntaxTree;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -36,8 +36,8 @@ public class StylesheetParser {
 
 		StylesheetContext parseTree = parser.stylesheet();
 
-		AstBuilder astBuilder = new AstBuilder();
-		Stylesheet stylesheet = (Stylesheet) astBuilder.visit(parseTree);
+		ParseTreeToAbstractSyntaxTree parseTreeToAbstractSyntaxTree = new ParseTreeToAbstractSyntaxTree();
+		Stylesheet stylesheet = (Stylesheet) parseTreeToAbstractSyntaxTree.visit(parseTree);
 
 		return new StylesheetParsingResult(stylesheet, syntaxErrors);
 	}
