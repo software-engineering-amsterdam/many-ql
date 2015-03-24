@@ -52,6 +52,8 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
         Color color = style.getColor(this.getDefaultColor().getValue());
         this.checkBox.setForeground(color);
+
+        // Checkbox's width cannot be changed.
     }
 
     @Override

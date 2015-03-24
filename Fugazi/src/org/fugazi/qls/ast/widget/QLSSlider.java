@@ -61,6 +61,10 @@ public class QLSSlider extends AbstractQLSWidget {
 
         Color color = style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
+
+        this.slider.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(), (int) this.slider.getPreferredSize().getHeight()
+        ));
     }
 
     @Override

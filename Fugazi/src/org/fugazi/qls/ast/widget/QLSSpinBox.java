@@ -60,6 +60,11 @@ public class QLSSpinBox extends AbstractQLSWidget {
 
         Color color = style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
+
+        JComponent editor = this.spinbox.getEditor();
+        JFormattedTextField ftf = ((JSpinner.DefaultEditor) editor).getTextField();
+        ftf.setColumns(this.getDefaultWidth().getValue() / 2);
+
     }
 
     @Override

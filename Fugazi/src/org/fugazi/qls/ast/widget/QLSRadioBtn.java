@@ -77,6 +77,15 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
         Color color = _style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
+
+        this.yesBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.yesBtn.getPreferredSize().getHeight()
+        ));
+        this.noBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.noBtn.getPreferredSize().getHeight()
+        ));
     }
 
     @Override

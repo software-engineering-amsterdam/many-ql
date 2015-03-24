@@ -62,6 +62,11 @@ public class QLSDropdown extends AbstractQLSWidget {
 
         Color color = style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
+
+        this.comboBox.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.comboBox.getPreferredSize().getHeight()
+        ));
     }
 
     @Override
