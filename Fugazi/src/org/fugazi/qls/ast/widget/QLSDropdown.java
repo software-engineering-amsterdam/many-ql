@@ -52,10 +52,8 @@ public class QLSDropdown extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
             _style.getFont(this.getDefaultFont().getValue()), 0,
@@ -63,13 +61,15 @@ public class QLSDropdown extends AbstractQLSWidget {
         );
         this.componentLabel.setFont(font);
 
-        Color color = style.getColor(this.getDefaultColor().getValue());
+        Color color = _style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
 
-        this.comboBox.setPreferredSize(new Dimension(
-                this.getDefaultWidth().getValue(),
-                (int) this.comboBox.getPreferredSize().getHeight()
-        ));
+        this.comboBox.setPreferredSize(
+                new Dimension(
+                    this.getDefaultWidth().getValue(),
+                    (int) this.comboBox.getPreferredSize().getHeight()
+                )
+        );
     }
 
     @Override

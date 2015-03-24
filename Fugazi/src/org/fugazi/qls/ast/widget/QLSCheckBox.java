@@ -39,10 +39,8 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
             _style.getFont(this.getDefaultFont().getValue()), 0,
@@ -50,10 +48,8 @@ public class QLSCheckBox extends AbstractQLSWidget {
         );
         this.checkBox.setFont(font);
 
-        Color color = style.getColor(this.getDefaultColor().getValue());
+        Color color = _style.getColor(this.getDefaultColor().getValue());
         this.checkBox.setForeground(color);
-
-        // Checkbox's width cannot be changed.
     }
 
     @Override

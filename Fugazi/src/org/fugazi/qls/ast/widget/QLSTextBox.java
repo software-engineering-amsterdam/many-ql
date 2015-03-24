@@ -48,10 +48,8 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
                 _style.getFont(this.getDefaultFont().getValue()), 0,
@@ -59,7 +57,7 @@ public class QLSTextBox extends AbstractQLSWidget {
         );
         this.componentLabel.setFont(font);
 
-        Color color = style.getColor(this.getDefaultColor().getValue());
+        Color color = _style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
         this.input.setColumns(this.getDefaultWidth().getValue());
     }
