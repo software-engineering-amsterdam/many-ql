@@ -42,13 +42,8 @@ public class GUIBuilder implements IMediator {
         this.formQuestionsHandler = new FormQuestionsHandler(this.uiForm);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        this.createQuestionsWithConditions(formDataStorage);
+        questionsWithConditionState = this.createQuestionsWithConditions(formDataStorage);
         this.computedQuestions = formDataStorage.getComputedQuestions();
-    }
-
-    public void renderUI() {
-        this.setupForm(this.questionsWithConditionState);
-        this.uiForm.showForm();
     }
 
     @Override
@@ -56,6 +51,11 @@ public class GUIBuilder implements IMediator {
         this.storeValue(_origin.getId(), _origin.getState());
         this.checkComputedQuestions(this.computedQuestions);
         this.renderUI();
+    }
+
+    public void renderUI() {
+        this.setupForm(this.questionsWithConditionState);
+        this.uiForm.showForm();
     }
 
     private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
@@ -73,23 +73,28 @@ public class GUIBuilder implements IMediator {
             this.updateComputedQuestion(computedQuestion);
         }
     }
-    
-    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
-        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName());
-        uiComputedQuestion.setComputedValue(result);
-    }
 
-    private void createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        this.questionsWithConditionState = new QuestionsWithConditionsState();
+    private QuestionsWithConditionsState createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
+        QuestionsWithConditionsState questionsWithCondition = new QuestionsWithConditionsState();
 
         for (Question question : _formDataStorage.getAllQuestions()) {
             UIQuestion uiQuestion = createUiQuestion(question);
             this.storeValue(uiQuestion.getId(), uiQuestion.getState());
-            this.questionsWithConditionState.put(uiQuestion, new ArrayList<>());
+            questionsWithCondition.put(uiQuestion, new ArrayList<>());
             this.addIfStatementsToQuestion(
-                    _formDataStorage.getIfStatements(), question, this.questionsWithConditionState);
+                    _formDataStorage.getIfStatements(), question, questionsWithCondition);
         }
+        return questionsWithCondition;
+    }
+
+    /**
+     * Helper Functions.
+     */
+    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
+        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
+        UIComputedQuestion uiComputedQuestion =
+                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditionState);
+        uiComputedQuestion.setComputedValue(result);
     }
     
     private void addIfStatementsToQuestion(
@@ -99,14 +104,16 @@ public class GUIBuilder implements IMediator {
     {
         for (IfStatement ifStatement : _ifStatementsList) {
             if (ifStatement.getBody().contains(_question)) {
-                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName());
+                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditionsState);
                 _questionsWithConditionsState.get(uiQuestion).add(ifStatement);
             }
         }
     }
 
-    private UIQuestion getUIQuestionById(String _id) {
-        for (UIQuestion uiQuestion : this.questionsWithConditionState.keySet()) {
+    private UIQuestion getUIQuestionById(
+            String _id, QuestionsWithConditionsState _questionsWithConditionsState) 
+    {
+        for (UIQuestion uiQuestion : _questionsWithConditionsState.keySet()) {
             if (_id.equals(uiQuestion.getId())) {
                 return uiQuestion;
             }
