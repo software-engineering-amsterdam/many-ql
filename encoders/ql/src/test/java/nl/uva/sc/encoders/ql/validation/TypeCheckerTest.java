@@ -96,6 +96,7 @@ public class TypeCheckerTest {
 				.build();
 		List<Statement> statements = new ArrayList<>();
 		Expression condition = new NameExpression(aTextLocation().build(), questionName);
+		// We add the condition before the question
 		statements.add(aConditionalBlock().withCondition(condition).build());
 		statements.add(question);
 		Questionnaire questionnaire = aQuestionnaire().withStatements(statements).build();
@@ -106,6 +107,23 @@ public class TypeCheckerTest {
 		assertThat(typeValidation.getValidationMessage(),
 				is("Reference may only be listed after the question it references. Question: lateQuestion"));
 		assertThat(validations.toString(), validations.size(), is(1));
+	}
+
+	@Test
+	public void testCheckTypes_questionThatIsReferencedAfterItIsListedIsValid() {
+		String questionName = "onTimeQuestion";
+		Question question = aQuestion().withName(questionName).withQuestionLabel("Ask me now").withDataType(new BooleanType())
+				.build();
+		List<Statement> statements = new ArrayList<>();
+		Expression condition = new NameExpression(aTextLocation().build(), questionName);
+		// We add the condition after the question
+		statements.add(question);
+		statements.add(aConditionalBlock().withCondition(condition).build());
+		Questionnaire questionnaire = aQuestionnaire().withStatements(statements).build();
+		TypeChecker typeChecker = new TypeChecker(questionnaire);
+
+		List<TypeValidation> validations = typeChecker.checkTypes();
+		assertThat(validations.toString(), validations.size(), is(0));
 	}
 
 }
