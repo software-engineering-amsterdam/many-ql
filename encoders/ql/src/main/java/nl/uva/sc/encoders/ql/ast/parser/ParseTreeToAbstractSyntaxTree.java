@@ -108,21 +108,21 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitBracedExpression(BracedExpressionContext ctx) {
+	public BracedExpression visitBracedExpression(BracedExpressionContext ctx) {
 		Expression expression = (Expression) visit(ctx.expression());
 		TextLocation textLocation = getTextLocation(ctx);
 		return new BracedExpression(textLocation, expression);
 	}
 
 	@Override
-	public Expression visitNameExpression(NameExpressionContext ctx) {
+	public NameExpression visitNameExpression(NameExpressionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
 		String text = ctx.name.getText();
 		return new NameExpression(textLocation, text);
 	}
 
 	@Override
-	public Expression visitNeEq(NeEqContext ctx) {
+	public BinaryExpression visitNeEq(NeEqContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -132,7 +132,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitMulDiv(MulDivContext ctx) {
+	public BinaryExpression visitMulDiv(MulDivContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -142,7 +142,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitLtGtLeGe(LtGtLeGeContext ctx) {
+	public BinaryExpression visitLtGtLeGe(LtGtLeGeContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -152,7 +152,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitOr(OrContext ctx) {
+	public BinaryExpression visitOr(OrContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -162,7 +162,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitAddSub(AddSubContext ctx) {
+	public BinaryExpression visitAddSub(AddSubContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -172,7 +172,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitAnd(AndContext ctx) {
+	public BinaryExpression visitAnd(AndContext ctx) {
 		String operator = ctx.operator.getText();
 		BinaryOperator binaryOperator = getBinaryOperator(operator);
 		Expression leftHand = (Expression) visit(ctx.leftHand);
@@ -182,7 +182,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	@Override
-	public Expression visitNot(NotContext ctx) {
+	public UnaryExpression visitNot(NotContext ctx) {
 		String operator = ctx.operator.getText();
 		UnaryOperator unaryOperator = getUnaryOperator(operator);
 		Expression expression = (Expression) visit(ctx.expr);
