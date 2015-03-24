@@ -43,26 +43,12 @@ style PartyForm {
         section "Number Questions" {
 
             section "Number Questions" {
-                comesToParty checkbox {
+                numberOfFriends slider {
                     width: 400
                     font: "Arial"
                     fontSize: 14
                     color: #999999
                 }
-            }
-
-            comesToParty checkbox {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-
-            comesToParty checkbox {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
             }
         }
     }
@@ -70,7 +56,7 @@ style PartyForm {
     page page2 {
         // String Questions
         section "String Questions" {
-            comesToParty checkbox {
+            reason text {
                 width: 400
                 font: "Arial"
                 fontSize: 14
@@ -78,31 +64,36 @@ style PartyForm {
             }
 
             /*
-            comesToParty textBlock {
+            reason textBlock {
                 width: 400
                 font: "Arial"
                 fontSize: 14
                 color: #999999
             }
             */
+
+            preferences text {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+            }
         }
     }
 
     page page3 {
         // Boolean Questions
         section "Boolean Questions" {
-            comesToParty radio {
+            comesToParty checkbox {
                 width: 400
                 font: "Arial"
                 fontSize: 14
                 color: #999999
             }
 
-            comesToParty dropdown {
+            needPlaceToCrash dropdown {
                 width: 400
                 font: "Arial"
                 fontSize: 14
-                color: #999999
             }
         }
     }
