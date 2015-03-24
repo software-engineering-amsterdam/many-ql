@@ -1,9 +1,8 @@
 package nl.uva.sc.encoders.ql.ast.type;
 
-import nl.uva.sc.encoders.ql.ast.AstNode;
 import nl.uva.sc.encoders.ql.visitor.DataTypeVisitor;
 
-public abstract class DataType implements AstNode {
+public abstract class DataType {
 
 	public abstract <T> T accept(DataTypeVisitor<T> dataTypeVisitor);
 

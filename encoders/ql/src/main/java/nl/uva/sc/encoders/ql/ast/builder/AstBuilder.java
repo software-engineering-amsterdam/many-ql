@@ -6,13 +6,9 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.EncodersQLBaseVisitor;
 import nl.uva.sc.encoders.ql.EncodersQLParser.AddSubContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.AndContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.BooleanLiteralContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.BooleanTypeContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.BracedExpressionContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.ConditionalBlockContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.ExpressionContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.IntegerLiteralContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.IntegerTypeContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.LiteralExpressionContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.LtGtLeGeContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.MulDivContext;
@@ -23,8 +19,6 @@ import nl.uva.sc.encoders.ql.EncodersQLParser.OrContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.QuestionContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.QuestionnaireContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.StatementContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.StringLiteralContext;
-import nl.uva.sc.encoders.ql.EncodersQLParser.StringTypeContext;
 import nl.uva.sc.encoders.ql.ast.AstNode;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
@@ -34,10 +28,7 @@ import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
-import nl.uva.sc.encoders.ql.ast.literal.BooleanLiteral;
-import nl.uva.sc.encoders.ql.ast.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.literal.Literal;
-import nl.uva.sc.encoders.ql.ast.literal.StringLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
 import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
@@ -54,10 +45,7 @@ import nl.uva.sc.encoders.ql.ast.operator.UnaryOperator;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.statement.Statement;
-import nl.uva.sc.encoders.ql.ast.type.BooleanType;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
-import nl.uva.sc.encoders.ql.ast.type.IntegerType;
-import nl.uva.sc.encoders.ql.ast.type.StringType;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -95,7 +83,7 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.name.getText();
-		DataType dataType = (DataType) ctx.type.accept(this);
+		DataType dataType = ctx.type.accept(new TypeBuilder());
 		String questionLabel = ctx.label.getText();
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
@@ -205,41 +193,8 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public LiteralExpression visitLiteralExpression(LiteralExpressionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		Literal literal = (Literal) ctx.literal().accept(this);
+		Literal literal = ctx.literal().accept(new LiteralBuilder());
 		return new LiteralExpression(textLocation, literal);
-	}
-
-	@Override
-	public BooleanLiteral visitBooleanLiteral(BooleanLiteralContext ctx) {
-		Boolean value = Boolean.valueOf(ctx.getText());
-		return new BooleanLiteral(value);
-	}
-
-	@Override
-	public IntegerLiteral visitIntegerLiteral(IntegerLiteralContext ctx) {
-		Integer value = Integer.valueOf(ctx.getText());
-		return new IntegerLiteral(value);
-	}
-
-	@Override
-	public StringLiteral visitStringLiteral(StringLiteralContext ctx) {
-		String value = ctx.getText();
-		return new StringLiteral(value);
-	}
-
-	@Override
-	public AstNode visitBooleanType(BooleanTypeContext ctx) {
-		return new BooleanType();
-	}
-
-	@Override
-	public AstNode visitIntegerType(IntegerTypeContext ctx) {
-		return new IntegerType();
-	}
-
-	@Override
-	public AstNode visitStringType(StringTypeContext ctx) {
-		return new StringType();
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
