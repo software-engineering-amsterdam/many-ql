@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ql.ast.builder;
+package nl.uva.sc.encoders.ql.ast.parser;
 
 import nl.uva.sc.encoders.ql.EncodersQLBaseVisitor;
 import nl.uva.sc.encoders.ql.EncodersQLParser.BooleanTypeContext;
@@ -9,7 +9,7 @@ import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
 
-public class TypeBuilder extends EncodersQLBaseVisitor<DataType> {
+public class TypeParser extends EncodersQLBaseVisitor<DataType> {
 
 	@Override
 	public DataType visitBooleanType(BooleanTypeContext ctx) {

@@ -9,7 +9,7 @@ import nl.uva.sc.encoders.ql.EncodersQLParser;
 import nl.uva.sc.encoders.ql.EncodersQLParser.QuestionnaireContext;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
-import nl.uva.sc.encoders.ql.ast.builder.AstBuilder;
+import nl.uva.sc.encoders.ql.ast.parser.ParseTreeToAbstractSyntaxTree;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -36,8 +36,8 @@ public class QuestionnaireParser {
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 
-		AstBuilder astBuilder = new AstBuilder();
-		Questionnaire questionnaire = (Questionnaire) astBuilder.visit(parseTree);
+		ParseTreeToAbstractSyntaxTree parseTreeToAbstractSyntaxTree = new ParseTreeToAbstractSyntaxTree();
+		Questionnaire questionnaire = (Questionnaire) parseTreeToAbstractSyntaxTree.visit(parseTree);
 
 		return new QuestionnaireParsingResult(questionnaire, syntaxErrors);
 	}

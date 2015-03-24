@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ql.ast.builder;
+package nl.uva.sc.encoders.ql.ast.parser;
 
 import nl.uva.sc.encoders.ql.EncodersQLBaseVisitor;
 import nl.uva.sc.encoders.ql.EncodersQLParser.BooleanLiteralContext;
@@ -9,7 +9,7 @@ import nl.uva.sc.encoders.ql.ast.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.literal.Literal;
 import nl.uva.sc.encoders.ql.ast.literal.StringLiteral;
 
-public class LiteralBuilder extends EncodersQLBaseVisitor<Literal> {
+public class LiteralParser extends EncodersQLBaseVisitor<Literal> {
 
 	@Override
 	public BooleanLiteral visitBooleanLiteral(BooleanLiteralContext ctx) {

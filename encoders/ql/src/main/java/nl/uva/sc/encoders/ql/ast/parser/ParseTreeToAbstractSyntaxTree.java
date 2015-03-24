@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ql.ast.builder;
+package nl.uva.sc.encoders.ql.ast.parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import nl.uva.sc.encoders.ql.ast.type.DataType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
-public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
+public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -83,7 +83,7 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.name.getText();
-		DataType dataType = ctx.type.accept(new TypeBuilder());
+		DataType dataType = ctx.type.accept(new TypeParser());
 		String questionLabel = ctx.label.getText();
 		questionLabel = removeFirstAndListCharOfString(questionLabel);
 		questionLabel = unescapedString(questionLabel);
@@ -193,7 +193,7 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public LiteralExpression visitLiteralExpression(LiteralExpressionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		Literal literal = ctx.literal().accept(new LiteralBuilder());
+		Literal literal = ctx.literal().accept(new LiteralParser());
 		return new LiteralExpression(textLocation, literal);
 	}
 
