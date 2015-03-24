@@ -1,8 +1,8 @@
 package nl.uva.sc.encoders.ql.visitor;
 
-import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.BooleanLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.IntegerLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.StringLiteral;
 
 public interface LiteralVisitor<T> {
 

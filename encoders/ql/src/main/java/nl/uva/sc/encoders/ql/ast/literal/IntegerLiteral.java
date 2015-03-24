@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ql.ast.expression.literal;
+package nl.uva.sc.encoders.ql.ast.literal;
 
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.IntegerType;

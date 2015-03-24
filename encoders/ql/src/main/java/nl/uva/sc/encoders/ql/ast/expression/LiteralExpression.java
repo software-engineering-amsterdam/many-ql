@@ -3,7 +3,7 @@ package nl.uva.sc.encoders.ql.ast.expression;
 import java.util.Set;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
-import nl.uva.sc.encoders.ql.ast.expression.literal.Literal;
+import nl.uva.sc.encoders.ql.ast.literal.Literal;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.TypeMap;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
