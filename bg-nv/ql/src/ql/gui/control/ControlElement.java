@@ -6,12 +6,11 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 10-3-15.
  */
-//TODO: remove visible and disabled?
 public abstract class ControlElement extends GuiElement
 {
-    public ControlElement(Boolean visible, Boolean disabled)
+    public ControlElement()
     {
-        super(visible);
+        super();
     }
 
     // the default visit methods - children implement the Control interface, which enforces them

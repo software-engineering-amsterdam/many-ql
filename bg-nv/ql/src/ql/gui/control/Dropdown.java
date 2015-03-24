@@ -9,9 +9,9 @@ import ql.semantics.values.Value;
  */
 public class Dropdown extends ControlElement implements BoolControl, IntControl
 {
-    public Dropdown(Boolean visible, Boolean disabled)
+    public Dropdown()
     {
-        super(visible, disabled);
+        super();
     }
 
     @Override

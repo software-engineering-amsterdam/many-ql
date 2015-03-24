@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import ql.semantics.values.Value;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 
 /**
@@ -12,14 +13,15 @@ import java.math.BigDecimal;
  */
 public class Spinbox extends ControlElement implements BoolControl, IntControl
 {
-    public Spinbox(Boolean visible, Boolean disabled)
+
+    public Spinbox()
     {
-        super(visible, disabled);
+        super();
     }
 
-    public Spinbox(Boolean visible, Boolean disabled, BigDecimal startValue, BigDecimal endValue, BigDecimal step)
+    public Spinbox(BigDecimal startValue, BigDecimal endValue, BigDecimal step)
     {
-        this(visible, disabled);
+        this();
         // Boryana: :P
         throw new NotImplementedException();
     }

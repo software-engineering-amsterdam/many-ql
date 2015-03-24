@@ -12,8 +12,6 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
 {
     private final String id;
     private final Expr expression;
-    private final Boolean DISABLED = true;
-    private final Boolean VISIBLE = true;
 
     public static ExprInput build(String id, Expr expression, Type type)
     {
@@ -30,36 +28,30 @@ public class ExprInputBuilder implements TypeVisitor<ExprInput>
     @Override
     public ExprInput visit(BoolType type)
     {
-        return new ExprInput(this.id, new CheckBox(VISIBLE, DISABLED), this.expression);
-    }
-
-    @Override
-    public ExprInput visit(DateType type)
-    {
-        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
+        return new ExprInput(this.id, new CheckBox(), this.expression);
     }
 
     @Override
     public ExprInput visit(DecType type)
     {
-        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
+        return new ExprInput(this.id, new TextField(), this.expression);
     }
 
     @Override
     public ExprInput visit(IntType type)
     {
-        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
+        return new ExprInput(this.id, new TextField(), this.expression);
     }
 
     @Override
     public ExprInput visit(StrType type)
     {
-        return new ExprInput(this.id, new TextField(VISIBLE, DISABLED), this.expression);
+        return new ExprInput(this.id, new TextField(), this.expression);
     }
 
     @Override
     public ExprInput visit(UndefType type)
     {
-        return null;
+        throw new IllegalArgumentException("Cannot build input for undefined type.");
     }
 }
