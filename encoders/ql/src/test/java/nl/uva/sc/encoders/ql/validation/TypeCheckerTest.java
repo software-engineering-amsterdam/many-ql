@@ -24,9 +24,9 @@ import nl.uva.sc.encoders.ql.ast.statement.Question;
 
 import org.junit.Test;
 
-public class TypeCheckerVisitorTest {
+public class TypeCheckerTest {
 
-	private TypeChecker visitor;
+	private TypeChecker typeChecker;
 
 	@Test
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
@@ -35,9 +35,9 @@ public class TypeCheckerVisitorTest {
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
-		visitor = new TypeChecker(questionnaire);
+		typeChecker = new TypeChecker(questionnaire);
 
-		List<TypeValidation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = typeChecker.checkTypes();
 		assertThat(validations.size(), is(0));
 	}
 
@@ -48,9 +48,9 @@ public class TypeCheckerVisitorTest {
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AddOperator());
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
-		visitor = new TypeChecker(questionnaire);
+		typeChecker = new TypeChecker(questionnaire);
 
-		List<TypeValidation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = typeChecker.checkTypes();
 		ValidationMessage validationMessage = validations.get(0);
 		assertThat(validationMessage, is(notNullValue()));
 		assertThat(validationMessage.getValidationMessage(),
@@ -64,9 +64,9 @@ public class TypeCheckerVisitorTest {
 		Question questionB = aQuestion().withQuestionLabel(questionLabel).build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		Questionnaire questionnaire = aQuestionnaire().withQuestions(questions).build();
-		visitor = new TypeChecker(questionnaire);
+		typeChecker = new TypeChecker(questionnaire);
 
-		List<TypeValidation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = typeChecker.checkTypes();
 		ValidationMessage validationMessage = validations.get(0);
 		assertThat(validationMessage, is(notNullValue()));
 		assertThat(validationMessage.getValidationMessage(), is("Duplicate label 'What is the meaning of life?'"));
@@ -79,9 +79,9 @@ public class TypeCheckerVisitorTest {
 		Question questionB = aQuestion().withQuestionLabel(questionLabel + "2").build();
 		List<Question> questions = Arrays.asList(questionA, questionB);
 		Questionnaire questionnaire = aQuestionnaire().withQuestions(questions).build();
-		visitor = new TypeChecker(questionnaire);
+		typeChecker = new TypeChecker(questionnaire);
 
-		List<TypeValidation> validations = visitor.checkTypes();
+		List<TypeValidation> validations = typeChecker.checkTypes();
 		assertThat(validations.size(), is(0));
 	}
 
