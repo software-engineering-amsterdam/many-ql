@@ -25,7 +25,10 @@ expression:
     | leftHand=expression  operator=('<'|'>'|'<='|'>=') rightHand=expression    #LtGtLeGe
     | leftHand=expression  operator=('!='|'==')         rightHand=expression    #NeEq
     | name=NAME                                                                 #NameExpression
-    | value=STRINGLITERAL                                                       #StringLiteral
-    | value=BOOLEANLITERAL                                                      #BooleanLiteral
-    | value=INTEGERLITERAL                                                      #IntegerLiteral
+    | value=literal                                                             #LiteralExpression
     ;
+
+literal: STRINGLITERAL     #StringLiteral
+       | BOOLEANLITERAL    #BooleanLiteral
+       | INTEGERLITERAL    #IntegerLiteral
+       ;

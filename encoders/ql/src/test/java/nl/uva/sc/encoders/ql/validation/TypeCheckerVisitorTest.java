@@ -14,6 +14,7 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
@@ -29,8 +30,8 @@ public class TypeCheckerVisitorTest {
 
 	@Test
 	public void testCheckTypes_conditionsWithBooleansAreAllowed() {
-		Expression leftHand = new BooleanLiteral(aTextLocation().build(), true);
-		Expression rightHand = new BooleanLiteral(aTextLocation().build(), true);
+		Expression leftHand = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
+		Expression rightHand = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AndOperator());
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();
@@ -42,8 +43,8 @@ public class TypeCheckerVisitorTest {
 
 	@Test
 	public void testCheckTypes_conditionsWithIntegersAreNotAllowed() {
-		Expression leftHand = new IntegerLiteral(aTextLocation().build(), 0);
-		Expression rightHand = new IntegerLiteral(aTextLocation().build(), 1);
+		Expression leftHand = new LiteralExpression(aTextLocation().build(), new IntegerLiteral(0));
+		Expression rightHand = new LiteralExpression(aTextLocation().build(), new IntegerLiteral(1));
 		Expression condition = new BinaryExpression(aTextLocation().build(), leftHand, rightHand, new AddOperator());
 		List<ConditionalBlock> conditionalBlocks = Arrays.asList(aConditionalBlock().withCondition(condition).build());
 		Questionnaire questionnaire = aQuestionnaire().withConditionalBlocks(conditionalBlocks).build();

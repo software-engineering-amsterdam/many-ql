@@ -15,11 +15,9 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.BracedExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
-import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
 import nl.uva.sc.encoders.ql.ast.operator.UnaryOperator;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
@@ -120,21 +118,6 @@ public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, Sta
 	}
 
 	@Override
-	public List<TypeValidation> visit(IntegerLiteral integerLiteral) {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<TypeValidation> visit(StringLiteral stringLiteral) {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<TypeValidation> visit(BooleanLiteral booleanLiteral) {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public List<TypeValidation> visit(ConditionalBlock conditionalBlock) {
 		List<TypeValidation> validations = new ArrayList<>();
 		Expression condition = conditionalBlock.getCondition();
@@ -191,5 +174,10 @@ public class TypeChecker implements ExpressionVisitor<List<TypeValidation>>, Sta
 			validations.add(new TypeValidation(validationMessage, textLocation, WARNING));
 		}
 		return validations;
+	}
+
+	@Override
+	public List<TypeValidation> visit(LiteralExpression literalExpression) {
+		return Collections.emptyList();
 	}
 }

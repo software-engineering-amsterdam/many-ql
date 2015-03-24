@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.statement.ConditionalBlock;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
@@ -19,7 +20,7 @@ public class ConditionalBlockBuilder {
 
 	public static ConditionalBlockBuilder aConditionalBlock() {
 		ConditionalBlockBuilder conditionalBlockBuilder = new ConditionalBlockBuilder();
-		conditionalBlockBuilder.condition = new BooleanLiteral(aTextLocation().build(), true);
+		conditionalBlockBuilder.condition = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
 		conditionalBlockBuilder.questions.add(aQuestion().build());
 		conditionalBlockBuilder.textLocation = aTextLocation().build();
 		return conditionalBlockBuilder;

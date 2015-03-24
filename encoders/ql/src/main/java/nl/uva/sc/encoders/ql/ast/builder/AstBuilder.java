@@ -13,6 +13,7 @@ import nl.uva.sc.encoders.ql.EncodersQLParser.ConditionalBlockContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.ExpressionContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.IntegerLiteralContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.IntegerTypeContext;
+import nl.uva.sc.encoders.ql.EncodersQLParser.LiteralExpressionContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.LtGtLeGeContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.MulDivContext;
 import nl.uva.sc.encoders.ql.EncodersQLParser.NameExpressionContext;
@@ -30,10 +31,12 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.BracedExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
+import nl.uva.sc.encoders.ql.ast.expression.literal.Literal;
 import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
 import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
@@ -200,24 +203,28 @@ public class AstBuilder extends EncodersQLBaseVisitor<AstNode> {
 	}
 
 	@Override
-	public Expression visitBooleanLiteral(BooleanLiteralContext ctx) {
+	public LiteralExpression visitLiteralExpression(LiteralExpressionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		Boolean value = Boolean.valueOf(ctx.value.getText());
-		return new BooleanLiteral(textLocation, value);
+		Literal literal = (Literal) ctx.literal().accept(this);
+		return new LiteralExpression(textLocation, literal);
 	}
 
 	@Override
-	public Expression visitIntegerLiteral(IntegerLiteralContext ctx) {
-		TextLocation textLocation = getTextLocation(ctx);
-		Integer value = Integer.valueOf(ctx.value.getText());
-		return new IntegerLiteral(textLocation, value);
+	public BooleanLiteral visitBooleanLiteral(BooleanLiteralContext ctx) {
+		Boolean value = Boolean.valueOf(ctx.getText());
+		return new BooleanLiteral(value);
 	}
 
 	@Override
-	public Expression visitStringLiteral(StringLiteralContext ctx) {
-		TextLocation textLocation = getTextLocation(ctx);
-		String value = ctx.value.getText();
-		return new StringLiteral(textLocation, value);
+	public IntegerLiteral visitIntegerLiteral(IntegerLiteralContext ctx) {
+		Integer value = Integer.valueOf(ctx.getText());
+		return new IntegerLiteral(value);
+	}
+
+	@Override
+	public StringLiteral visitStringLiteral(StringLiteralContext ctx) {
+		String value = ctx.getText();
+		return new StringLiteral(value);
 	}
 
 	@Override

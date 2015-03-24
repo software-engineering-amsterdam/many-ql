@@ -1,20 +1,14 @@
 package nl.uva.sc.encoders.ql.ast.expression.literal;
 
-import java.util.Set;
-
-import nl.uva.sc.encoders.ql.ast.TextLocation;
-import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
 import nl.uva.sc.encoders.ql.ast.type.StringType;
-import nl.uva.sc.encoders.ql.ast.type.TypeMap;
-import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
+import nl.uva.sc.encoders.ql.visitor.LiteralVisitor;
 
-public class StringLiteral extends Expression {
+public class StringLiteral implements Literal {
 
 	private final String value;
 
-	public StringLiteral(TextLocation textLocation, String value) {
-		super(textLocation);
+	public StringLiteral(String value) {
 		this.value = value;
 	}
 
@@ -23,17 +17,12 @@ public class StringLiteral extends Expression {
 	}
 
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-
-	@Override
-	public void collectQuestionNames(Set<String> relatedQuestionNames) {
-		// Do nothing, because there are no related questions to literals.
-	}
-
-	@Override
-	public DataType getType(TypeMap typeMap) {
+	public DataType getType() {
 		return new StringType();
+	}
+
+	@Override
+	public <T> T accept(LiteralVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }
