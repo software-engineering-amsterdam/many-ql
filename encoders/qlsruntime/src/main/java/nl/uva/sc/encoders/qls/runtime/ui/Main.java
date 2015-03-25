@@ -1,9 +1,6 @@
 package nl.uva.sc.encoders.qls.runtime.ui;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
@@ -36,15 +33,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Properties uiProperties = new Properties();
-		InputStream inputProperties = null;
-
-		try {
-			inputProperties = new FileInputStream("src/main/resources/ui.properties");
-			uiProperties.load(inputProperties);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		Properties uiProperties = new UIProperties().getUIProperties();
 
 		primaryStage.setTitle(uiProperties.getProperty("windowName"));
 		primaryStage.getIcons().add(new Image("questionnaire.png"));
