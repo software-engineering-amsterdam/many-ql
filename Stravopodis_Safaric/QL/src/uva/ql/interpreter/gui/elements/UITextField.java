@@ -2,26 +2,22 @@ package uva.ql.interpreter.gui.elements;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.statements.Question;
+import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.value.StringValue;
-import uva.ql.interpreter.gui.supporting.Size;
 import uva.ql.interpreter.gui.supporting.UpdateValue;
 
-public class UITextField extends UIWidget{
+public class UITextField extends Observable implements UIWidgetKit{
 	
 	private GenericValue<?> value;
-	private JTextField textField;
 	private Observer observer;
 	private Question question;
 	
@@ -32,65 +28,72 @@ public class UITextField extends UIWidget{
 		this.value = value;
 	}
 	
-	public UIContainer returnQuestionComponent(){
-		this.setTextField();
+	@Override
+	public JTextField rander() {
+		JTextField textField = new JTextField();
+		textField.setText(this.getFieldText());
+
+		textField.setColumns(10);
+		textField.setSelectionStart(0);
+		textField.setSelectionEnd(0);
+		textField.setEditable(this.isEnabled());
 		
-		UIContainer container = new UIContainer(new Size(600,50));
+		this.addDocumentListener(textField);
+		this.setFocusListener(textField);
 		
-		List <Object> components = new ArrayList<>(Arrays.asList(new UILabel(this.getQuestionLabelText()), this.textField));
-		container.addComponents(components);
-		
-		return container;
+		return textField;
 	}
 	
 	private String getFieldText(){
-		return this.getStringValueForQuestion();
+		String valueText = this.getStringValueForQuestion();
+		if (valueText.equals("0")){
+			return "";
+		}
+		else {
+			return valueText;
+		}
 	}
 	
 	private String getStringValueForQuestion(){
-		GenericValue<?> value = this.getValueForQuestion();
+		GenericValue<?> value = this.value;
 		return String.valueOf(value.getValue());
 	}
 	
-	private boolean shouldBeEnabled(){
-		return true;
-	}
-	
-	@Override
-	public String getQuestionLabelText() {
-		return this.question.getQuestionLabelText();
-	}
-
-	@Override
-	public Identifier getQuestionIdentifier() {
-		return this.question.getQuestionIdentifier();
-	}
-
-	@Override
-	public String getQuestionIdentifierValue() {
-		return this.question.getQuestionIdentifierValue();
-	}
-
-	@Override
-	public GenericValue<?> getValueForQuestion() {
-		return this.value;
-	}
-	
-	private void setTextField(){
-		this.textField = new JTextField();
-		this.textField.setText(this.getFieldText());
-
-		this.textField.setColumns(10);
-		this.textField.setSelectionStart(0);
-		this.textField.setSelectionEnd(0);
-		this.textField.setEnabled(this.shouldBeEnabled());
+	private void setValue(String _value){
 		
-		this.setDocumentListener();
-		this.setFocusListener();
+		GenericValue<?> updateValue;
+		
+		if (_value.length() != 0){
+			updateValue = this.setUpdateValue(value, _value);
+		}
+		else {
+			Type questionType = this.question.getQuestionType();
+			updateValue = questionType.typeInitialValue();
+		}
+		
+		this.observer.update(this, new UpdateValue(this.question.getQuestionIdentifier(), updateValue));
+	}
+	
+	private GenericValue<?> setUpdateValue(GenericValue<?> value, String textFieldValue){
+		
+		try{
+			if (value.getValueType().equals(new TypeString())){
+				return new StringValue(textFieldValue);
+			}
+			else {
+				return new NumberValue(Integer.valueOf(textFieldValue));
+			}
+		}
+		catch (NumberFormatException formatException){
+			System.out.println("Exception: " + formatException.getMessage());
+		}
+		
+		return null;
 	}
 
-	private void setDocumentListener(){
-		this.textField.getDocument().addDocumentListener(new DocumentListener(){
+	private void addDocumentListener(JTextField textField){
+		
+		textField.getDocument().addDocumentListener(new DocumentListener(){
 			public void insertUpdate(DocumentEvent e) {
 				setValue(textField.getText());
 			}
@@ -105,25 +108,8 @@ public class UITextField extends UIWidget{
 		});
 	}
 	
-	private void setValue(String _value){
-		
-		GenericValue<?> value = this.getValueForQuestion();
-		GenericValue<?> updateValue;
-		
-		if (_value.length() != 0){
-			if (value.getValueType().equals(new TypeString())){
-				updateValue = new StringValue(_value);
-			}
-			else {
-				updateValue = new NumberValue(Integer.valueOf(_value));
-			}
-
-			this.observer.update(this, new UpdateValue(this.getQuestionIdentifier(), updateValue));
-		}
-	}
-	
-	private void setFocusListener(){
-        this.textField.addFocusListener(new FocusListener() {
+	private void setFocusListener(JTextField textField){
+        textField.addFocusListener(new FocusListener() {
         	
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -132,9 +118,12 @@ public class UITextField extends UIWidget{
 			}
 
 			@Override
-			public void focusLost(FocusEvent e) {
-				
-			}
+			public void focusLost(FocusEvent e) {}
         });
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

@@ -14,11 +14,7 @@ form HouseSelling {
 	
 	question boolean hasSoldHouse ("Did you sell a house in 2014 ?");
     
-     if (hasSoldHouse == true && hasRentHouse == true && hasBoughtHouse == true){
-    	
-    	question string firstName ("Please enter your first name:");
-    	
-    	question string lastName ("Please enter your last name:");
+     if (hasSoldHouse == true){
     	
     	question integer sellingPrice ("What was the selling price?"){
     		sellingPrice : 300 ;
@@ -27,7 +23,7 @@ form HouseSelling {
     	question money privateDebt ("What was the value of the private debt?");
     	
     	question money valueResidue ("Value residue:") {
-    		valueResidue : (sellingPrice * privateDebt) / 100;
+    		valueResidue : sellingPrice - privateDebt;
     	}
     	
     }

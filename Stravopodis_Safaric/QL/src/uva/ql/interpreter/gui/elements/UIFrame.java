@@ -3,42 +3,27 @@ package uva.ql.interpreter.gui.elements;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
-
 import uva.ql.interpreter.gui.supporting.Size;
 
-public class UIFrame extends JFrame{
+public class UIFrame{
 	
-	static final long serialVersionUID = 42L; 
-	
-	private UIScrollPanel container;
-	private Size frameSize;
-	
-	public UIFrame(Size _frameSize, UIScrollPanel _container){
-		this.frameSize = _frameSize;
-		this.container = _container;
-	}
-	
-	public Size getFrameSize(){
-		return this.frameSize;
-	}
-	
-	public void randerFrame(){
-
+	public JFrame randerFrame(Size size){
+		
+		JFrame frame = new JFrame();
+		
 		Dimension dimensions = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dimensions.width/2-this.frameSize.getWidth()/2, dimensions.height/2-this.frameSize.getHeight()/2);
+		frame.setLocation(dimensions.width/2-size.getWidth()/2, dimensions.height/2-size.getHeight()/2);
 		
-		this.setSize(this.frameSize.getWidth(), this.frameSize.getHeight());
-		this.setPreferredSize(new Dimension(this.frameSize.getWidth(), this.frameSize.getHeight()));
+		frame.setSize(size.getWidth(), size.getHeight());
+		frame.setPreferredSize(new Dimension(size.getWidth(), size.getHeight()));
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.setResizable(false);
-		this.setVisible(true);
-		this.pack();
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.pack();
 		
-		this.add(this.container);	
-		this.revalidate();   
+		return frame;
 	}
 }

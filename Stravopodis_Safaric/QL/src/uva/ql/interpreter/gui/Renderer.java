@@ -1,10 +1,8 @@
 package uva.ql.interpreter.gui;
 
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-
+import javax.swing.JFrame;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
@@ -14,23 +12,20 @@ import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Question;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.StatementVisitor;
-import uva.ql.interpreter.gui.elements.UICheckBox;
-import uva.ql.interpreter.gui.elements.UIContainer;
 import uva.ql.interpreter.gui.elements.UIFrame;
 import uva.ql.interpreter.gui.elements.UIScrollPanel;
-import uva.ql.interpreter.gui.elements.UITextField;
+import uva.ql.interpreter.gui.elements.UIWidget;
 import uva.ql.interpreter.gui.supporting.Size;
 import uva.ql.interpreter.gui.supporting.UpdateValue;
 
 public class Renderer implements StatementVisitor<Void>, Observer{
 
-	private ValueTable valueTable;
 	private UIScrollPanel scrollPanel;
+	private ValueTable valueTable;
 	private Identifier lastFocus;
-	private UIFrame frame;
+	private JFrame frame;
 	private Prog prog;
 	
 	public Renderer(Prog prog){
@@ -41,11 +36,11 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 	
 	private void setFrame(){
 		if (this.frame == null){
-			this.scrollPanel = new UIScrollPanel(new Size(500, 400));
-			this.scrollPanel.getPanel().setLayout(new GridLayout(1,1));
+			this.scrollPanel = new UIScrollPanel();
 			
-			this.frame = new UIFrame(new Size(500,400), this.scrollPanel);
-			this.frame.randerFrame();
+			this.frame = new UIFrame().randerFrame(new Size(500,400));
+			this.frame.add(this.scrollPanel.randerScrollPane(new Size(500,400)));
+			this.frame.revalidate();
 		}
 	}
 	
@@ -76,39 +71,29 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 
 	@Override
 	public Void visitSimpleQuestion(Question question) {
-		
-		GenericValue<?> questionValue = this.valueTable.getValue(question.getQuestionIdentifierValue());
-		UIContainer component = this.getQuestionComponentFor(question, questionValue);
-		
-		this.scrollPanel.addComponent(component);
-		this.scrollPanel.revalidatePanel();
-		
-		this.hasFocus(question.getQuestionIdentifier(), component.getChildComponent());
-		
+		this.randerQuestion(question);
 		return null;
 	}
 	
 	@Override
 	public Void visitComputedQuestion(Question question) {
-		
-		GenericValue<?> questionValue = this.valueTable.getValue(question.getQuestionIdentifierValue());
-		UIContainer component = this.getQuestionComponentFor(question, questionValue);
-		
-		this.scrollPanel.addComponent(component);
-		this.scrollPanel.revalidatePanel();
-		
-		this.hasFocus(question.getQuestionIdentifier(), component.getChildComponent());
-		
+		this.randerQuestion(question);
 		return null;
 	}
 	
-	private UIContainer getQuestionComponentFor(Question question, GenericValue<?> value){
-		if (question.questionTypeEquals(new TypeBoolean())){
-			return new UICheckBox(question, value, this).returnQuestionComponent();
-		}
-		else {
-			return new UITextField(question, value, this).returnQuestionComponent();
-		}
+	private void randerQuestion(Question question){
+		
+		Identifier id = question.getQuestionIdentifier();
+		String identifier = question.getQuestionIdentifierValue();
+		
+		GenericValue<?> value = this.valueTable.getValue(identifier);
+		
+		UIWidget widget = new UIWidget(question, value, this);
+		
+		this.scrollPanel.addComponent(widget.randerUIWidget());
+		this.scrollPanel.revalidateMasterPanel();
+		
+		widget.requestFocus(this.hasFocus(id));
 	}
 
 	@Override
@@ -138,16 +123,14 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 		this.valueTable.refreshValueTable();
 		
 		this.scrollPanel.removeAll();
-		this.scrollPanel.revalidate();
+		this.scrollPanel.revalidateLayout();
 		
 		this.lastFocus = value.getIdentifier();
 		
 		this.visitProg(this.prog);	
 	}
 	
-	private void hasFocus(Identifier identifier, Component component){
-		if (identifier.equals(lastFocus)){
-			component.requestFocus();
-		}
+	private boolean hasFocus(Identifier identifier){
+		return identifier.equals(lastFocus);
 	}
 }
