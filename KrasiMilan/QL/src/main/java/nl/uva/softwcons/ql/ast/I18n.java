@@ -5,11 +5,10 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public final class I18n {
+    private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("locale.messages");
 
     private I18n() {
     }
-
-    private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("locale.messages");
 
     public static String i(final String originalStr, final Object... params) {
         try {

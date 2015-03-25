@@ -30,14 +30,17 @@ public class Identifier extends Expression {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Identifier other = (Identifier) obj;
+        }
+		Identifier other = (Identifier) obj;
 
         return name.equals(other.name);
     }
