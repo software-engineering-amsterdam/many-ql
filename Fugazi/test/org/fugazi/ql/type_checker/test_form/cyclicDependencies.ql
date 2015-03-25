@@ -13,8 +13,8 @@ form taxOfficeExample {
   bool a("a2") = e;
 
   // spin the other way
-  int x("")=z;
-  int z("")=y;
-  int y("")=x;
+  int x("x")=z;
+  int z("z")=y;
+  int y("y")=x;
 
 }

@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.widget;
 
+import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
@@ -16,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QLSSpinBox extends AbstractQLSWidget {
@@ -108,10 +110,12 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
     
     public List<Type> getSupportedQuestionTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new IntType());
-        supportedTypes.add(new StringType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(
+                        new IntType(),
+                        new StringType()
+                )
+        );
         return supportedTypes;
     }
 

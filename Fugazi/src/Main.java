@@ -48,10 +48,10 @@ public class Main {
         boolean isFormTypesCorrect = qLTypeChecker.checkForm();
 
         // display warnings and errors and if form is not type-correct, exit
-        ASTIssuePrinter printer = new ASTIssuePrinter(
+        ASTIssuePrinter printer = new ASTIssuePrinter();
+        printer.displayWarningsAndErrors(
                 qLTypeChecker.getErrors(), qLTypeChecker.getWarnings()
         );
-        printer.displayWarningsAndErrors();
 
         if (!isFormTypesCorrect) {
             System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
@@ -85,16 +85,12 @@ public class Main {
             QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
             // Perform QLS type checking.
-            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                    styleSheetData, formDataStorage
-            );
+            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheetData, formDataStorage);
+            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet();
 
             // display warnings and errors and if form is not type-correct, exit
-            printer = new ASTIssuePrinter(
-                    qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-            );
-            printer.displayWarningsAndErrors();
+            printer = new ASTIssuePrinter();
+            printer.displayWarningsAndErrors(qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings());
 
             if (!isQLSFormTypesCorrect) {
                 System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");

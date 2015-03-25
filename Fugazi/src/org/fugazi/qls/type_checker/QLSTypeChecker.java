@@ -19,7 +19,10 @@ public class QLSTypeChecker {
 
     private final ASTIssueHandler astIssueHandler;
 
-    public QLSTypeChecker() {
+    public QLSTypeChecker(QLSStyleSheetDataStorage _qlsSheetData,
+                          QLFormDataStorage _qlFormData) {
+        this.qlsStyleSheetData = _qlsSheetData;
+        this.qlFormData = _qlFormData;
         this.astIssueHandler = new ASTIssueHandler();
     }
 
@@ -86,11 +89,9 @@ public class QLSTypeChecker {
     }
 
     private void checkWidgetTypeCompatibility() {
-        List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<QLSQuestion> qlsQuestions =
                 this.qlsStyleSheetData.getQuestions();
 
-//        HashMap<String, Type> questionTypes = this.getQlQuestionType(qlQuestions);
         HashMap<String, Type> questionTypes = this.qlFormData.getallQuestionTypes();
 
         for (QLSQuestion question : qlsQuestions) {
@@ -140,11 +141,7 @@ public class QLSTypeChecker {
      */
 
 
-    public boolean checkStylesheet(QLSStyleSheetDataStorage _qlsSheetData,
-                                   QLFormDataStorage _qlFormData) {
-        this.qlsStyleSheetData = _qlsSheetData;
-        this.qlFormData = _qlFormData;
-
+    public boolean checkStylesheet() {
         // clear errors and warnings
         // (so that multiple checks can be performed on one instance)
         this.clearErrorsAndWarnings();
