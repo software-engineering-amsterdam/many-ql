@@ -1,7 +1,7 @@
 import QL.Tools.exceptions as exceptions
 
 
-class ExceptionHandling:
+class TypeExceptionHandling:
 
     def __init__(self, errors, warnings):
         self.warnings = warnings
@@ -10,7 +10,7 @@ class ExceptionHandling:
     def execute(self):
         if self.errors:
             message = self.make_error_string()
-            raise exceptions.QException(message)
+            raise exceptions.TypeException(message)
         if self.warnings:
             print("warnings:")
             for w in self.warnings:
@@ -18,7 +18,6 @@ class ExceptionHandling:
 
     def make_error_string(self):
         message = "\n"
-        print(self.errors)
         for e in self.errors:
             message += e + "\n"
         return message
