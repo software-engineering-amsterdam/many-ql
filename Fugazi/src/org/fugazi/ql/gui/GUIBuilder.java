@@ -24,11 +24,10 @@ public class GUIBuilder implements IMediator {
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final UIFormManager uiFormManager;
-
+    private final UIQuestionBuilder uiQuestionBuilder;
+    
     private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
-    
-    private UIQuestionBuilder uiQuestionBuilder;
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
