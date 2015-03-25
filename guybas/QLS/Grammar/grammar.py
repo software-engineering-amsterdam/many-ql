@@ -70,7 +70,7 @@ section = \
     ).setParseAction(qls.make_section)
 
 # default_settings for widgets
-default_setting = (suppress("Default") + form_grammar.answerR + widget_decl).setParseAction(qls.make_default)
+default_setting = (suppress("Default") + form_grammar.answer_type + widget_decl).setParseAction(qls.make_default)
 
 page = (suppress("Page") + identifier + group(one_or_more(section))).setParseAction(qls.make_page)
 

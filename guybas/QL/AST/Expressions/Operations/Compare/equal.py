@@ -18,7 +18,6 @@ class Equal(b.BinaryExpression):
         # check for both operands if they are valid
         messages.extend(self._left_operand.is_valid_expression_message(type_map))
         messages.extend(self._right_operand.is_valid_expression_message(type_map))
-
         # if the types of both operands are not similar the expression is not correct
         if self._left_operand.return_type(type_map) != self._right_operand.return_type(type_map):
             messages.append(self._left_operand.__str__() +

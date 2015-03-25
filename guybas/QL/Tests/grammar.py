@@ -31,7 +31,7 @@ class Tests(unittest.TestCase):
     @unittest.expectedFailure
     def test_grammar_answer_format_fail(self):
         # Not an _answer possibility
-        result = grammar.answerR.parseString("set").asList()
+        result = grammar.answer_type.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
     # TODO add expression and form parsing
