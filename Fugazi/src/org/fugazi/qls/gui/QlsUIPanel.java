@@ -3,7 +3,6 @@ package org.fugazi.qls.gui;
 import org.fugazi.ql.gui.ui_elements.IUIPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class QlsUIPanel implements IUIPanel {
 
@@ -11,8 +10,6 @@ public class QlsUIPanel implements IUIPanel {
 
     public QlsUIPanel() {
         this.panel = new JTabbedPane();
-        GridLayout layout = new GridLayout(0, 1);
-        this.panel.setLayout(layout);
     }
 
     public void render(JFrame _rootContainer) {

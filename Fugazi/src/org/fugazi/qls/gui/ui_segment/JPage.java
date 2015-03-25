@@ -15,7 +15,7 @@ public class JPage {
         this.pageTitle = _title;
     }
     public void addToForm(QlsUIForm _uiForm) {
-        _uiForm.addWidget(this.panel);
+        _uiForm.addPage(this);
 
     }
     public void removeFromForm(UIForm _uiForm) {

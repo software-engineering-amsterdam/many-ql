@@ -9,20 +9,17 @@ public class QlsUIForm extends UIForm {
     public QlsUIForm(String _formTitle, QlsUIPanel _panel) {
         super(_formTitle, _panel);
         this.qlsUIPanel = _panel;
+        this.qlsUIPanel.render(this.formFrame);
     }
 
-
-//    public void addWidget(JComponent _component) {
-//        this.panel.add(_component);
-//        this.formFrame.revalidate();
-//    }
-//
-//    public void removeWidget(JComponent _component) {
-//        this.panel.remove(_component);
-//        this.formFrame.revalidate();
-//    }
+    @Override
+    public void showForm() {
+        this.qlsUIPanel.render(this.formFrame);
+        this.formFrame.setVisible(true);
+    }
 
     public void addPage(JPage _page) {
         this.qlsUIPanel.addPage(_page.getPanel(), _page.getTitle());
+        this.formFrame.revalidate();
     }
 }

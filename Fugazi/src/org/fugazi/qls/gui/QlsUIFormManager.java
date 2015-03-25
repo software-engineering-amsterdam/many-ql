@@ -11,6 +11,11 @@ public class QlsUIFormManager extends UIFormManager {
         this.qlsForm = new QlsUIForm(_formTitle, _panel);
     }
 
+    @Override
+    public void render() {
+        this.qlsForm.showForm();
+    }
+
     public void addPage(JPage _page) {
         // todo check if page contains form
         _page.addToForm(this.qlsForm);
@@ -19,5 +24,9 @@ public class QlsUIFormManager extends UIFormManager {
     public void removePage(JPage _page) {
         // todo check if page contains form
         _page.removeFromForm(this.qlsForm);
+    }
+
+    public void addSection() {
+
     }
 }

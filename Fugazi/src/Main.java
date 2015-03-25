@@ -100,6 +100,7 @@ public class Main {
             }
 
             StyledGUIBuilder builder = new StyledGUIBuilder(form, styleSheetData);
+            builder.render();
 
 //            // QLS
 //            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);

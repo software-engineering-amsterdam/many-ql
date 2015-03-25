@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class UIForm {
 
-    private final JFrame formFrame;
+    protected final JFrame formFrame;
     protected IUIPanel panel;
 
     public static final int winHeight = 600;
