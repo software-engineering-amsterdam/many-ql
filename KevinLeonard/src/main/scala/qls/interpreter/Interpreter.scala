@@ -1,6 +1,7 @@
 package qls.interpreter
 
 import ql.interpreter.{Interpreter => QLInterpreter}
+import ql.typechecker.Error
 import qls.ast.StyleSheet
 import qls.parser.Parser
 import qls.typechecker.{DuplicatePlacementChecker, QuestionPlacementChecker, ReferenceChecker, TypeChecker}
@@ -19,9 +20,8 @@ object Interpreter {
 
     (optionalQlAst, optionalQlsAst) match {
       case (Some(qlAst), Some(qlsAst)) =>
-        val result = QLInterpreter.checkTypes(qlAst)
-        val qlTypeChecks = result._1.isEmpty
-        val qlsTypeChecks = checkTypes(qlsAst, result._2)
+        val (qlTypeChecks, env) = QLInterpreter.checkTypes(qlAst)
+        val qlsTypeChecks = checkTypes(qlsAst, env)
 
         if (qlTypeChecks && qlsTypeChecks) {
           QLInterpreter.render(qlAst)
@@ -40,32 +40,42 @@ object Interpreter {
     }
   }
 
+  // TODO: refactor 'returns'
   def checkTypes(ast: StyleSheet, env: TypeEnvironment): Boolean = {
-    val referenceChecker = new ReferenceChecker()
-    val questionPlacementChecker = new QuestionPlacementChecker()
-    val typeChecker = new TypeChecker()
-    val duplicatePlacementChecker = new DuplicatePlacementChecker()
+    val referenceErrors = getReferenceErrors(ast, env)
+    referenceErrors.foreach(println)
+    if (referenceErrors.nonEmpty) return false
 
-    val referenceErrors = referenceChecker.check(ast, env)
-    if (referenceErrors.nonEmpty) {
-      referenceErrors.foreach(println)
-      return false
-    }
+    val placementErrors = getPlacementErrors(ast, env)
+    placementErrors.foreach(println)
+    if (placementErrors.nonEmpty) return false
 
-    val placementErrors = questionPlacementChecker.check(ast, env)
-    if (placementErrors.nonEmpty) {
-      placementErrors.foreach(println)
-      return false
-    }
+    val typeErrors = getTypeErrors(ast, env)
+    typeErrors.foreach(println)
+    if (typeErrors.nonEmpty) return false
 
-    val typeCheckErrors = typeChecker.check(ast, env)
-    if (typeCheckErrors.nonEmpty) {
-      typeCheckErrors.foreach(println)
-      return false
-    }
-
-    val duplicatePlacementErrors = duplicatePlacementChecker.check(ast)
+    val duplicatePlacementErrors = getDuplicatePlacementErrors(ast)
     duplicatePlacementErrors.foreach(println)
-    typeCheckErrors.isEmpty
+    duplicatePlacementErrors.isEmpty
+  }
+
+  def getReferenceErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
+    val referenceChecker = new ReferenceChecker()
+    referenceChecker.check(ast, env)
+  }
+
+  def getPlacementErrors(ast: StyleSheet, env: TypeEnvironment): Option[Error] = {
+    val questionPlacementChecker = new QuestionPlacementChecker()
+    questionPlacementChecker.check(ast, env)
+  }
+
+  def getTypeErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
+    val typeChecker = new TypeChecker()
+    typeChecker.check(ast, env)
+  }
+
+  def getDuplicatePlacementErrors(ast: StyleSheet): List[Error] = {
+    val duplicatePlacementChecker = new DuplicatePlacementChecker()
+    duplicatePlacementChecker.check(ast)
   }
 }
