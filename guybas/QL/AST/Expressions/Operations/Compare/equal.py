@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Operations.binary_expression as b
+import QL.AST.Expressions.Types.bool_type as bool_type
 
 
 class Equal(b.BinaryExpression):
@@ -8,7 +9,7 @@ class Equal(b.BinaryExpression):
 
     # get the return _type of the _expression
     def return_type(self, type_map):
-        return bool
+        return bool_type.Bool()
 
     # override as equal is allowed to have types on both sides which are not booleans
     def is_valid_expression_message(self, type_map):

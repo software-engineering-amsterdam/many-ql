@@ -1,14 +1,15 @@
 import QL.AST.Expressions.Operations.binary_expression as b
+import QL.AST.Expressions.Types.bool_type as t
 
 
-class Add(b.BinaryExpression):
+class And(b.BinaryExpression):
 
     def set_string_operator(self):
-        return " + "
+        return " and "
 
     # get the return _type of the _expression
     def return_type(self, type_map):
-        return int
+        return t.Bool()
 
     def eval(self, x, y):
-        return x + y
+        return x and y

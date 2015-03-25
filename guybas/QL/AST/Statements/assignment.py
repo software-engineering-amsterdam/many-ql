@@ -33,6 +33,10 @@ class Assignment(statement.IStatement):
     def is_conditional(self):
         return False
 
+    # evaluate the expression given the map of ids to answers
+    def evaluate_expression(self, answer_map):
+        return self.expression.eval_expression(answer_map)
+
     # return all the dependencies in the statement of other statements
     # TODO: debug this
     def dependency_collection(self, dependencies):

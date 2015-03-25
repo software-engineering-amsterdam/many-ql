@@ -18,6 +18,7 @@ class ExceptionHandling:
 
     def make_error_string(self):
         message = "\n"
+        print(self.errors)
         for e in self.errors:
             message += e + "\n"
         return message

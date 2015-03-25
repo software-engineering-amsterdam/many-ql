@@ -2,13 +2,33 @@
 # As pyparsing returns a list of subtrees the factory is needed so the AST is independent of the parsing process
 
 # import all expression operations and primitives
-from QL.AST.Expressions.Operations import *
+from QL.AST.Expressions.Operations.Arithmetic import *
+from QL.AST.Expressions.Operations.Compare import *
+from QL.AST.Expressions.Operations.Logical import *
+
 from QL.AST.Expressions.Primitives import *
+from QL.AST.Expressions.Types import *
 
 import QL.Grammar.Factory.forms as form
 
+
 #
-# Primitive types
+# Types of expressions
+#
+
+def make_bool_type(subtrees):
+    return bool_type.Bool()
+
+
+def make_number_type(subtrees):
+    return number_type.Number()
+
+
+def make_text_type(subtrees):
+    return text_type.Text()
+
+
+# Primitive values
 #
 
 def make_variable(subtrees):

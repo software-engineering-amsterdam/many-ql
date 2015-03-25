@@ -1,7 +1,7 @@
 # AST for if_block
 import QL.AST.Statements.statement as statement
-import QL.AST.Expressions.Operations.not_op as not_operation
-
+import QL.AST.Expressions.Operations.Logical.not_op as not_operation
+import QL.AST.Expressions.Types.bool_type as bool_type
 
 class IfBlock(statement.IStatement):
 
@@ -73,7 +73,7 @@ class IfBlock(statement.IStatement):
         for x in self.statements:
             messages.extend(x.valid_expression_messages(td))
 
-        if not self.condition.return_type(td) == bool:
+        if not self.condition.return_type(td) == bool_type.Bool():
             messages.append("the return type of the expression: " + self.condition.__str__() + " is not of type bool")
         return messages
 

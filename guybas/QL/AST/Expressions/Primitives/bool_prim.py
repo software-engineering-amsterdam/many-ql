@@ -1,5 +1,5 @@
 import QL.AST.Expressions.Primitives.primitive as p
-
+import QL.AST.Expressions.Types.bool_type as b
 
 class Bool(p.Primitive):
 
@@ -10,7 +10,7 @@ class Bool(p.Primitive):
         return str(self.__bool)  # since the actual type is a real bool
 
     def return_type(self, type_dict):
-        return bool
+        return b.Bool()
 
     # just the value of the bool itself
     def eval_expression(self, type_map):

@@ -1,7 +1,6 @@
 import QL.AST.form as ast_form
 import QL.Runtime.question as runtime_question
-import QL.Tools.exceptions as exc
-import QL.AST.Expressions.Operations.and_op as and_op
+import QL.AST.Expressions.Operations.Logical.and_op as and_op
 
 
 class Form:

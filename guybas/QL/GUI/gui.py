@@ -82,7 +82,7 @@ class GUI:
             ass = assignment.get_expression()
             print(ass_id)
             print(ass)
-            answer = None  # TODO (BAS) : function that gets assignment -> eval -> returns value (or if not implemented = None)
+            answer = None  # TODO (GUY) : assignment.eval_expression(answer_map) exists now!
             self.__answersMap.update(ass_id, answer)
 
     def elements_recreate(self, qid):

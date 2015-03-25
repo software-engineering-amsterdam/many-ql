@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Primitives.primitive as p
+import QL.AST.Expressions.Types.bool_type as t
 
 
 class Not(p.Primitive):
@@ -9,7 +10,7 @@ class Not(p.Primitive):
         return "not " + self.__operand.__str__()
 
     def return_type(self, type_dict):
-        return bool
+        return t.Bool()
 
     # get all variables in the expression
     def get_variables(self):
@@ -17,7 +18,7 @@ class Not(p.Primitive):
 
     # return the error message of type checking, empty if valid expression
     def is_valid_expression_message(self, td):
-        return self.__operand.is_valid_expression_message() and self.__operand.return_type == bool
+        return self.__operand.is_valid_expression_message() and self.__operand.return_type == t.Bool()
 
     def eval_expression(self, type_map):
         x = self.__operand.eval_expression(type_map)

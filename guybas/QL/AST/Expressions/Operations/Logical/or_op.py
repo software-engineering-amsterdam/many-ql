@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Operations.binary_expression as b
+import QL.AST.Expressions.Types.bool_type as t
 
 
 class Or(b.BinaryExpression):
@@ -7,7 +8,7 @@ class Or(b.BinaryExpression):
         return "or"
 
     def return_type(self, type_map):
-        return int
+        return t.Bool()
 
     def eval(self, x, y):
         return x or y

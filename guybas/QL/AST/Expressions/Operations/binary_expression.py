@@ -22,7 +22,9 @@ class BinaryExpression(e.Primitive):
         error_messages.extend(self._right_operand.is_valid_expression_message(type_map))
 
         # if the types of both operands are not similar the expression is not correct (except for compare expressions)
-        if self._left_operand.return_type(type_map) != self._right_operand.return_type(type_map):
+        left_operand_type = self._left_operand.return_type(type_map)
+        right_operand_type = self._right_operand.return_type(type_map)
+        if  left_operand_type != right_operand_type:
             error_messages.append(self._left_operand.__str__() +
                                   " is not the same type as " + self._right_operand.__str__())
 

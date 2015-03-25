@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Primitives.primitive as p
+import QL.AST.Expressions.Types.text_type as t
 
 
 class Text(p.Primitive):
@@ -9,7 +10,7 @@ class Text(p.Primitive):
         return self.__text
 
     def return_type(self, type_dict):
-        return str
+        return t.Text()
 
     # evaluation is just the value of the text
     def eval_expression(self, type_map):
