@@ -4,7 +4,7 @@ import QL.AST.Expressions.Types.text_type as t
 
 class Text(p.Primitive):
     def __init__(self, text):
-        self.__text = "\"" + text + "\""
+        self.__text = text
 
     def __str__(self):
         return self.__text
