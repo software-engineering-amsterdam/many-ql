@@ -2,8 +2,8 @@ import sys, argparse, glob
 sys.path.append('../lib')
 
 from antlr4 import *
-from ql.parser.QLLexer import QLLexer
-from ql.parser.QLParser import QLParser
+from ql.parser.antlr_generated.QLLexer import QLLexer
+from ql.parser.antlr_generated.QLParser import QLParser
 
 def runTest(printTreeAlways, testFileName):
     input = FileStream(testFileName)
