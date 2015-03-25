@@ -205,7 +205,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
   "style parser" should {
     "parse style" in {
-      style must succeedOn("style PartyForm {" +
+      styleSheet must succeedOn("style PartyForm {" +
           "default boolean slider" +
           "page page1 {}" +
           "page page2 {}" +
