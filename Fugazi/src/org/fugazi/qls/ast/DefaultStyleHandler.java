@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
+import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
@@ -124,7 +125,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             QLSQuestion _question, List<DefaultStyleDeclaration> _segmentDefaultStyles)
     {
         // The question does not exist in the QL Form, ignore (leave it as Undefined)
-        if (!isQuestionExistsInQL(_question)) {
+        if (!isQLSQuestionExistsInForm(_question)) {
             return;
         }
         
@@ -230,8 +231,8 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private String getQLQuestionLabel(QLSQuestion _question) {
-        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
-        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
+        List<Question> qlQuestions = this.formDataStorage.getAllQuestions();
+        for (Question qlQuestion : qlQuestions) {
             if (qlQuestion.getIdName().equals(_question.getIdName())) {
                 return qlQuestion.getLabel();
             }
@@ -239,9 +240,9 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         return "";
     }
 
-    private boolean isQuestionExistsInQL(QLSQuestion _question) {
-        List<org.fugazi.ql.ast.statement.Question> qlQuestions = this.formDataStorage.getAllQuestions();
-        for (org.fugazi.ql.ast.statement.Question qlQuestion : qlQuestions) {
+    private boolean isQLSQuestionExistsInForm(QLSQuestion _question) {
+        List<Question> qlQuestions = this.formDataStorage.getAllQuestions();
+        for (Question qlQuestion : qlQuestions) {
             if (qlQuestion.getIdName().equals(_question.getIdName())) {
                 return true;
             }

@@ -1,19 +1,23 @@
-package org.fugazi.ql.gui;
+package org.fugazi.ql.gui.ui_elements;
 
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.UIQuestion;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormQuestionsHandler {
+public class UIFormManager {
     
     private final UIForm form;
     private List<UIQuestion> questionsInForm;
 
-    public FormQuestionsHandler(UIForm _form) {
-        this.form = _form;
+    public UIFormManager(String _formTitle) {
+        this.form = new UIForm(_formTitle, new JPanel());
         this.questionsInForm = new ArrayList<>();
+    }
+    
+    public void render() {
+        this.form.showForm();
     }
 
     public void addQuestion(UIQuestion _uiQuestion) {

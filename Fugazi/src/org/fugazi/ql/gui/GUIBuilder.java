@@ -9,37 +9,33 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.UIQuestionBuilder;
+import org.fugazi.ql.gui.ui_elements.UIFormManager;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
-import javax.swing.*;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-
     // typedef
     private class QuestionsWithConditionsState extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
-    private final UIForm uiForm;
+    private final UIFormManager uiFormManager;
 
     private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
     
     private UIQuestionBuilder uiQuestionBuilder;
-    private final FormQuestionsHandler formQuestionsHandler;
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        this.uiForm = new UIForm(_form.getName(), new JPanel());
+        
+        this.uiFormManager = new UIFormManager(_form.getName());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
-
-        this.formQuestionsHandler = new FormQuestionsHandler(this.uiForm);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
         questionsWithConditionState = this.createQuestionsWithConditions(formDataStorage);
@@ -55,15 +51,15 @@ public class GUIBuilder implements IMediator {
 
     public void renderUI() {
         this.setupForm(this.questionsWithConditionState);
-        this.uiForm.showForm();
+        this.uiFormManager.render();
     }
 
     private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
-                this.formQuestionsHandler.addQuestion(uiQuestion);
+                this.uiFormManager.addQuestion(uiQuestion);
             } else {
-                this.formQuestionsHandler.removeQuestion(uiQuestion);
+                this.uiFormManager.removeQuestion(uiQuestion);
             }
         }
     }

@@ -7,10 +7,6 @@ import org.fugazi.ql.evaluator.Evaluator;
 import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.ui_elements.UIQuestion;
-
-import java.util.List;
-import java.util.Map;
 
 public class GUIEvaluator {
 
