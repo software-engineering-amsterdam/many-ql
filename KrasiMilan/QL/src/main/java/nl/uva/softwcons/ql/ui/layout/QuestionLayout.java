@@ -17,7 +17,7 @@ public class QuestionLayout {
         this.add(new Label(this.question.getLabel()));
     }
 
-    public void add(Node node) {
+    public void add(final Node node) {
         vbox.getChildren().add(node);
     }
 

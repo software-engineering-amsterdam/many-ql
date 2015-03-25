@@ -52,7 +52,7 @@ import org.antlr.v4.runtime.Token;
 public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
-    public Stylesheet visitStylesheet(StylesheetContext ctx) {
+    public Stylesheet visitStylesheet(final StylesheetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Page> pages = ctx.page().stream().map(st -> (Page) st.accept(this)).collect(Collectors.toList());
 
@@ -60,7 +60,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Page visitPage(PageContext ctx) {
+    public Page visitPage(final PageContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Section visitSection(SectionContext ctx) {
+    public Section visitSection(final SectionContext ctx) {
         final String label = Utils.unquote(ctx.STRING().getText());
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
@@ -84,21 +84,22 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public DefaultStyle visitDefaultStatement(DefaultStatementContext ctx) {
-        Type questionType = getType(ctx.type().getText());
-        Widget widget = (Widget) ctx.widget().accept(this);
+    public DefaultStyle visitDefaultStatement(final DefaultStatementContext ctx) {
+        final Type questionType = getType(ctx.type().getText());
+        final Widget widget = (Widget) ctx.widget().accept(this);
+
         return new DefaultStyle(questionType, widget);
     }
 
     @Override
-    public Question visitQuestionWithoutWidget(QuestionWithoutWidgetContext ctx) {
+    public Question visitQuestionWithoutWidget(final QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
 
         return new Question(id, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public ASTNode visitQuestionWithWidget(QuestionWithWidgetContext ctx) {
+    public ASTNode visitQuestionWithWidget(final QuestionWithWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final Widget widget = (Widget) ctx.widget().accept(this);
 
@@ -106,58 +107,58 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Widget visitWidgetWithoutStyle(WidgetWithoutStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+    public Widget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
 
         return new Widget(type);
     }
 
     @Override
-    public Widget visitWidgetWithStyle(WidgetWithStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
-        Style style = (Style) ctx.style().accept(this);
+    public Widget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+        final Style style = (Style) ctx.style().accept(this);
         return new Widget(type, style);
     }
 
     @Override
-    public Style visitStyle(StyleContext ctx) {
+    public Style visitStyle(final StyleContext ctx) {
         final List<StyleProperty> styles = ctx.styleProperty().stream().map(st -> (StyleProperty) st.accept(this))
                 .collect(Collectors.toList());
         return new Style(styles);
     }
 
     @Override
-    public StyleProperty visitStyleProperty(StylePropertyContext ctx) {
+    public StyleProperty visitStyleProperty(final StylePropertyContext ctx) {
         return new StyleProperty(ctx.key.getText(), Utils.unquote(ctx.value().getText()));
     }
 
     @Override
-    public CheckboxType visitCheckbox(CheckboxContext ctx) {
+    public CheckboxType visitCheckbox(final CheckboxContext ctx) {
         return new CheckboxType(Utils.unquote(ctx.yes.getText()));
     }
 
     @Override
-    public DropdownType visitDropdown(DropdownContext ctx) {
+    public DropdownType visitDropdown(final DropdownContext ctx) {
         return new DropdownType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
     }
 
     @Override
-    public SpinboxType visitSpinbox(SpinboxContext ctx) {
+    public SpinboxType visitSpinbox(final SpinboxContext ctx) {
         return new SpinboxType();
     }
 
     @Override
-    public SliderType visitSlider(SliderContext ctx) {
+    public SliderType visitSlider(final SliderContext ctx) {
         return new SliderType();
     }
 
     @Override
-    public TextType visitText(TextContext ctx) {
+    public TextType visitText(final TextContext ctx) {
         return new TextType();
     }
 
     @Override
-    public RadioButtonType visitRadio(RadioContext ctx) {
+    public RadioButtonType visitRadio(final RadioContext ctx) {
         return new RadioButtonType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
     }
 
@@ -168,7 +169,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     private Type getType(final String typeName) {
 
         switch (typeName) {
-
         case "boolean":
             return BOOLEAN_TYPE;
         case "number":

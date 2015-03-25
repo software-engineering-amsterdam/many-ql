@@ -40,7 +40,7 @@ public class Identifier extends Expression {
         if (getClass() != obj.getClass()) {
             return false;
         }
-		Identifier other = (Identifier) obj;
+        final Identifier other = (Identifier) obj;
 
         return name.equals(other.name);
     }

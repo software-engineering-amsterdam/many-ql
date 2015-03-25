@@ -26,7 +26,7 @@ public class QuestionIdentifierChecker implements StylesheetVisitor<Void>, Segme
 
     public QuestionIdentifierChecker(final Form form) {
         errors = new ArrayList<Error>();
-        FormQuestionCollector collector = new FormQuestionCollector();
+        final FormQuestionCollector collector = new FormQuestionCollector();
         formQuestionsIdentifiers = form.accept(collector);
         stylesheetQuestionsIdentifiers = new HashSet<Identifier>();
     }
@@ -39,8 +39,8 @@ public class QuestionIdentifierChecker implements StylesheetVisitor<Void>, Segme
 
     @Override
     public Void visit(final Question question) {
-        Identifier currentIdentifier = question.getId();
-        LineInfo currentLineInfo = question.getLineInfo();
+        final Identifier currentIdentifier = question.getId();
+        final LineInfo currentLineInfo = question.getLineInfo();
         if (!formQuestionsIdentifiers.contains(currentIdentifier)) {
             errors.add(new UnknownQuestionIdentifier(currentLineInfo));
         }
@@ -60,7 +60,7 @@ public class QuestionIdentifierChecker implements StylesheetVisitor<Void>, Segme
     @Override
     public Void visit(final Stylesheet stylesheet) {
         stylesheet.getPages().forEach(p -> p.accept(this));
-        Set<Identifier> missingIdentifiers = getMissingIdentifiers();
+        final Set<Identifier> missingIdentifiers = getMissingIdentifiers();
         if (!missingIdentifiers.isEmpty()) {
             errors.add(new MissingQuestionIdentifier(missingIdentifiers));
         }
@@ -73,7 +73,7 @@ public class QuestionIdentifierChecker implements StylesheetVisitor<Void>, Segme
     }
 
     private Set<Identifier> getMissingIdentifiers() {
-        Set<Identifier> missingIdentifiers = new HashSet<Identifier>(formQuestionsIdentifiers);
+        final Set<Identifier> missingIdentifiers = new HashSet<Identifier>(formQuestionsIdentifiers);
         missingIdentifiers.removeAll(stylesheetQuestionsIdentifiers);
         return missingIdentifiers;
     }

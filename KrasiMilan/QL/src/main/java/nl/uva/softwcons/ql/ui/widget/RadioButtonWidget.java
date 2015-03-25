@@ -10,14 +10,14 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class RadioButtonWidget extends Widget {
 
-    private RadioButton yesButton;
-    private RadioButton noButton;
+    private final RadioButton yesButton;
+    private final RadioButton noButton;
 
-    private HBox hbox;
-    private ToggleGroup group;
-    private ValueConverter<Boolean> converter;
+    private final HBox hbox;
+    private final ToggleGroup group;
+    private final ValueConverter<Boolean> converter;
 
-    public RadioButtonWidget(String yesString, String noString, final ValueConverter<Boolean> converter) {
+    public RadioButtonWidget(final String yesString, final String noString, final ValueConverter<Boolean> converter) {
         this.converter = converter;
 
         yesButton = new RadioButton(yesString);
@@ -51,7 +51,7 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(final boolean editable) {
         this.hbox.setDisable(!editable);
     }
 

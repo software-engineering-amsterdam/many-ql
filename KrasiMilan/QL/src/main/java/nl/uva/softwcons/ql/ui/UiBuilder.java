@@ -88,16 +88,16 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
         return layouts;
     }
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         launch(UiBuilder.class, args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Form f = Questionnaire.build(UiBuilder.class.getResourceAsStream("/form.ql"));
-        Node n = UiBuilder.buildFrom(f).getNode();
+    public void start(final Stage primaryStage) throws Exception {
+        final Form f = Questionnaire.build(UiBuilder.class.getResourceAsStream("/form.ql"));
+        final Node n = UiBuilder.buildFrom(f).getNode();
 
-        StackPane root = new StackPane();
+        final StackPane root = new StackPane();
         root.getChildren().add(n);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

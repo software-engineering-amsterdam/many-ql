@@ -39,7 +39,7 @@ public class CyclicDependencyChecker extends Checker implements FormVisitor<Void
     }
 
     @Override
-    public Void visit(Conditional conditional) {
+    public Void visit(final Conditional conditional) {
         conditional.getQuestions().forEach(q -> q.accept(this));
         return null;
     }
