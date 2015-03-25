@@ -39,7 +39,6 @@ class Parser extends JavaTokenParsers {
     case v ~ w => Question(v, w)
   })
 
-  // TODO: Move question type to QL
   def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
     case "boolean" => BooleanType()
     case "number" => NumberType()
