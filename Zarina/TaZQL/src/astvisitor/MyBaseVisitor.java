@@ -67,9 +67,11 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		Id id = new Id(ctx.ID().getText(), type);
 		this.putIdType(id.getID(), type);
 
-		return new SimpleQuestion( id, 
-								   ctx.TEXT().getText().replaceAll("^\"|\"$", ""),
-								  (Type) ctx.type().accept(this)); 
+		return new SimpleQuestion( 
+				id,
+				ctx.TEXT().getText().replaceAll("^\"|\"$", ""),
+				(Type) ctx.type().accept(this)
+				); 
 	}
 	@Override 
 	public ComputationQuestion visitComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx) {
@@ -77,10 +79,12 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		Id id = new Id(ctx.ID().getText(), type);
 		this.putIdType(id.getID(), type);
 
-		return new ComputationQuestion( id, 
-				  						ctx.TEXT().getText().replaceAll("^\"|\"$", ""), 
-				  						(Type) ctx.type().accept(this),
-				  						(Expression) ctx.expression().accept(this));  
+		return new ComputationQuestion( 
+				id,
+				ctx.TEXT().getText().replaceAll("^\"|\"$", ""), 
+				(Type) ctx.type().accept(this), 
+				(Expression) ctx.expression().accept(this)
+				);  
 	}
 	
 	@Override 
@@ -103,8 +107,9 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		for ( TaZQLParser.QuestionContext q : ctx.elseBranch ) {
 		elseQuestions.add((Question) q.accept(this)); 
 		}
-		return new IfElseStatement((Expression) ctx.cond.accept(this),
-									ifQuestions, elseQuestions); 
+		return new IfElseStatement(
+				(Expression) ctx.cond.accept(this),
+				ifQuestions, elseQuestions); 
 	}
 	
 	
@@ -241,7 +246,7 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		
 	@Override 
 	public StringVariable visitText(@NotNull TaZQLParser.TextContext ctx) { 
-		return new StringVariable(ctx.TEXT().getText().replaceAll("^\"|\"$", "")); // removing first and last characters
+		return new StringVariable(ctx.TEXT().getText().replaceAll("^\"|\"$", "")); 
 	}
 	
 	@Override 
@@ -257,11 +262,20 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
 	//  *** Question types ***
 	
-	@Override public ChoiceType visitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { return new ChoiceType(); }
+	@Override 
+	public ChoiceType visitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { 
+		return new ChoiceType(); 
+	}
 	
-	@Override public IntegerType visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { return new IntegerType(); }
+	@Override 
+	public IntegerType visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { 
+		return new IntegerType(); 
+	}
 	
-	@Override public TextType visitStringType(@NotNull TaZQLParser.StringTypeContext ctx) { return new TextType(); }
+	@Override 
+	public TextType visitStringType(@NotNull TaZQLParser.StringTypeContext ctx) { 
+		return new TextType(); 
+	}
 	
 	
 }
