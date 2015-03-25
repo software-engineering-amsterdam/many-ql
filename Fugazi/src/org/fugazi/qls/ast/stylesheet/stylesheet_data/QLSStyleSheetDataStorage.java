@@ -2,6 +2,7 @@ package org.fugazi.qls.ast.stylesheet.stylesheet_data;
 
 
 import org.fugazi.qls.ast.question.QLSQuestion;
+import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.QuestionsVisitor;
 
@@ -25,5 +26,9 @@ public class QLSStyleSheetDataStorage {
 
     public List<QLSQuestion> getQuestions() {
         return this.questionsVisitor.getQuestions();
+    }
+
+    public List<Page> getPages() {
+        return  this.sheet.getPages();
     }
 }
