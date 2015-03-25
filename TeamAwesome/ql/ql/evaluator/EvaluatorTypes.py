@@ -11,7 +11,6 @@ class BinaryExpression(object):
 	def value(self):
 		leftValue = self._left.value
 		rightValue = self._right.value
-		print(leftValue, type(leftValue), rightValue, type(rightValue))
 		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
 
 class UnaryExpression(object):
@@ -52,9 +51,24 @@ class Question(object):
 		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)
 
 	def isVisible(self):
-		print(self.text, self.conditionalExpressions.value)
 		return self.conditionalExpressions.value
 
+class EvalNone(object):
+	def __init__(self, *args):
+		pass
+
+	@property
+	def value(self):
+		pass
+
+	def __hash__(self):
+		return 0
+
+	def __eq__(self, other):
+		return isinstance(other, type(self))
+
+	def __str__(self):
+		return "%s:%s" %(self.__class__.__name__, None)
 
 class EvalIdentifier(object):
 	def __init__(self, value, evaluator):
@@ -63,7 +77,6 @@ class EvalIdentifier(object):
 
 	@property
 	def value(self):
-		print(self._evaluator.getValue(self), self._value, "HERRREE")
 		return self._evaluator.getValue(self) 
 
 	def __hash__(self):
