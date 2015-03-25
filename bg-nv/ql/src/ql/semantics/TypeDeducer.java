@@ -1,6 +1,5 @@
 package ql.semantics;
 
-import ql.ast.AstNode;
 import ql.ast.expression.*;
 import ql.ast.type.*;
 import ql.semantics.errors.Error;
@@ -9,7 +8,7 @@ import ql.semantics.errors.Messages;
 /**
  * Created by bore on 16/03/15.
  */
-public class TypeDeducer implements ExprVisitor<Type>
+public class TypeDeducer extends DefaultExprVisitor<Type>
 {
     private final static BoolType boolType = new BoolType();
     private final static StrType strType = new StrType();
@@ -20,29 +19,40 @@ public class TypeDeducer implements ExprVisitor<Type>
     private final Questions questions;
     private final Messages messages;
 
-    public static InferredTypeResult deduceType(Expr e, Questions questions)
+    public static Type deduceType(Expr e, Questions questions, Messages messages)
     {
-        TypeDeducer deducer = new TypeDeducer(questions);
-        Type type = e.accept(deducer);
-        return new InferredTypeResult(type, deducer.messages);
+        TypeDeducer deducer = new TypeDeducer(questions, messages);
+        return e.accept(deducer);
     }
 
-    private TypeDeducer(Questions questions)
+    private TypeDeducer(Questions questions, Messages messages)
     {
         this.questions = questions;
-        this.messages = new Messages();
+        this.messages = messages;
     }
 
     @Override
-    public Type visit(IntExpr n)
+    public Type visitBinary(BinaryExpr e)
     {
-        return intType;
+        return this.computeTypeOfBinaryExpr(e);
+    }
+
+    @Override
+    public Type visitUnary(UnaryExpr e)
+    {
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(BoolExpr n)
     {
         return boolType;
+    }
+
+    @Override
+    public Type visit(IntExpr n)
+    {
+        return intType;
     }
 
     @Override
@@ -58,96 +68,6 @@ public class TypeDeducer implements ExprVisitor<Type>
     }
 
     @Override
-    public Type visit(Add e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Sub e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Mul e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Div e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Pos e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Neg e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Not e)
-    {
-        return this.computeTypeOfUnaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Gt e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Lt e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(GtEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(LtEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Equ e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(NotEqu e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(And e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
-    public Type visit(Or e)
-    {
-        return this.computeTypeOfBinaryExpr(e);
-    }
-
-    @Override
     public Type visit(Ident n)
     {
         if (this.isIdentUndeclared(n))
@@ -157,6 +77,12 @@ public class TypeDeducer implements ExprVisitor<Type>
         }
 
         return this.questions.getType(n.getId());
+    }
+
+    @Override
+    public Type visitDefault(Expr e)
+    {
+        throw new IllegalStateException("Expr is unhandled");
     }
 
     private boolean isIdentUndeclared(Ident id)
@@ -174,19 +100,30 @@ public class TypeDeducer implements ExprVisitor<Type>
 
         if (left.isUndef() || right.isUndef())
         {
+            // error is already logged, so just propagate it upwards
             return undefType;
         }
 
-        if (!(this.isChildOfAllowedType(e, left)) || !(this.isChildOfAllowedType(e, right)))
+        if (this.isChildTypeIncompatibleWithExpr(e, left))
         {
+            this.addIncorrectTypeError(e, left);
+            return undefType;
+        }
+
+        if (this.isChildTypeIncompatibleWithExpr(e, right))
+        {
+            this.addIncorrectTypeError(e, right);
             return undefType;
         }
 
         Type leftPromoted = left.promoteTo(right);
         Type rightPromoted = right.promoteTo(left);
 
-        if (!(this.areChildTypesConsistent(e, leftPromoted, rightPromoted)))
+        if (this.areChildTypesInconsistent(leftPromoted, rightPromoted))
         {
+            this.messages.add(Error.typeMismatch(e.getClass().getSimpleName(), left.getTitle(),
+                    right.getTitle(), e.getLineNumber()));
+
             return undefType;
         }
 
@@ -201,37 +138,31 @@ public class TypeDeducer implements ExprVisitor<Type>
 
         if (operand.isUndef())
         {
+            // error is already logged, so just propagate it upwards
             return undefType;
         }
 
-        if (!(this.isChildOfAllowedType(e, operand)))
+        if (this.isChildTypeIncompatibleWithExpr(e, operand))
         {
+            this.addIncorrectTypeError(e, operand);
             return undefType;
         }
 
         return e.getReturnType(operand);
     }
 
-    private boolean isChildOfAllowedType(NaryExpr e, Type childType)
+    private void addIncorrectTypeError(NaryExpr e, Type childType)
     {
-        boolean isTypeAllowed = e.isTypeCompatibleWithExpr(childType);
-        if (!(isTypeAllowed))
-        {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
-        }
-
-        return isTypeAllowed;
+        this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType.getTitle(), e.getLineNumber()));
     }
 
-    private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
+    private boolean isChildTypeIncompatibleWithExpr(NaryExpr e, Type childType)
     {
-        boolean consistent = left.equals(right);
-        if (!(consistent))
-        {
-            this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), left.getTitle(), right.getTitle(), n.getLineNumber()));
-        }
+        return !(e.isTypeCompatibleWithExpr(childType));
+    }
 
-        return consistent;
+    private boolean areChildTypesInconsistent(Type left, Type right)
+    {
+        return !(left.equals(right));
     }
 }

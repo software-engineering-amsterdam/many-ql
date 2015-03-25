@@ -2,8 +2,6 @@ package ql.gui.control;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
-import ql.gui.ModelVisitor;
-import ql.semantics.errors.Warning;
 import ql.semantics.values.*;
 
 import java.math.BigDecimal;
@@ -15,12 +13,10 @@ public class TextField extends ControlElement implements IntControl, DecControl,
 {
     private final javafx.scene.control.TextInputControl textField;
 
-    public TextField(Boolean visible, Boolean disabled)
+    public TextField()
     {
-        super(visible, disabled);
+        super();
         this.textField = new javafx.scene.control.TextField();
-        this.setVisible(visible);
-        this.setDisabled(disabled);
     }
 
     @Override
@@ -48,11 +44,6 @@ public class TextField extends ControlElement implements IntControl, DecControl,
         return this.textField;
     }
 
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
-    }
 
     @Override
     public void addListener(ChangeListener listener)

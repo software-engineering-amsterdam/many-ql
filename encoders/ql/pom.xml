@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.uva.sea.ql.encoders</groupId>
+	<groupId>nl.uva.sc.encoders</groupId>
 	<artifactId>ql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -57,10 +57,18 @@
 					</execution>
 				</executions>
 				<configuration>
-					<libDirectory>${basedir}/src/main/antlr4/org/uva/sea/ql/encoders</libDirectory>
+					<libDirectory>${basedir}/src/main/antlr4/nl/uva/sc/encoders/ql</libDirectory>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<additionalClasspathElements>
+						<additionalClasspathElement>ql/src/main/java/nl/uva/sc/encoders/ql/messages/</additionalClasspathElement>
+					</additionalClasspathElements>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -70,7 +78,7 @@
 						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.uva.sea.ql.encoders.ui.QLUI</mainClass>
+							<mainClass>nl.uva.sc.encoders.ql.ql.ql.ui.QLUI</mainClass>
 						</manifest>
 						<manifestEntries>
 							<mode>development</mode>

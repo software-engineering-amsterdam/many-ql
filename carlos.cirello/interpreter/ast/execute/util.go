@@ -14,6 +14,8 @@ func (exec Execute) resolveExpressionIntoString(expr interface{}) string {
 	switch r.(type) {
 	case float32:
 		return fmt.Sprintf("%f", r)
+	case bool:
+		return symboltable.BoolString(r.(bool))
 	default:
 		return fmt.Sprintf("%s", r)
 	}
@@ -35,9 +37,14 @@ func (exec Execute) resolveExpression(n interface{}) interface{} {
 		return exec.resolveStringNode(n)
 	case *ast.TermNode:
 		return exec.resolveTermNode(n)
-	default:
-		return exec.resolveMathNode(n)
 	}
+
+	v, err := exec.visitComparisonNode(n)
+	if err == nil {
+		return v
+	}
+
+	return exec.resolveMathNode(n)
 }
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,

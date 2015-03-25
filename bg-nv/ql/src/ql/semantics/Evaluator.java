@@ -9,37 +9,39 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 24-2-15.
  */
-public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
+// TODO: shouldn't this class be ValueTableBuilder?
+public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
 {
-    private ValueTable valueTable;
+    private final ValueTable valueTable;
 
     public static ValueTable evaluate(Form f)
     {
-        ValueTable table = new ValueTable();
-        Evaluator evaluator = new Evaluator(table);
-        return f.accept(evaluator);
+        Evaluator evaluator = new Evaluator();
+        f.accept(evaluator);
+
+        return evaluator.valueTable;
     }
 
-    private Evaluator(ValueTable valueTable)
+    private Evaluator()
     {
-        this.valueTable = valueTable;
+        this.valueTable = new ValueTable();
     }
 
     @Override
-    public ValueTable visit(Form f)
+    public Void visit(Form f)
     {
         for (Statement s : f.getBody())
         {
             s.accept(this);
         }
 
-        return this.valueTable;
+        return null;
     }
 
     @Override
     public Void visit(Question q)
     {
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), new UndefValue()));
+        this.valueTable.storeEntry(q.getId(), new UndefValue());
 
         return null;
     }
@@ -50,7 +52,7 @@ public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
         Expr expr = q.getCalculation();
 
         Value value = ExprEvaluator.evaluate(expr, this.valueTable);
-        this.valueTable.storeEntry(new ValueTableEntry(q.getId(), value));
+        this.valueTable.storeEntry(q.getId(), value);
 
         return null;
     }
@@ -58,18 +60,10 @@ public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
     @Override
     public Void visit(IfCondition c)
     {
-        Expr expr = c.getCondition();
-        Value condValue = ExprEvaluator.evaluate(expr, this.valueTable);
-
-        // TODO is there a nicer way to do this?
-        if (!condValue.isUndefined() && condValue instanceof BoolValue && ((BoolValue) condValue).getValue())
+        for (Statement s : c.getBody())
         {
-            for (Statement s : c.getBody())
-            {
-                s.accept(this);
-            }
+            s.accept(this);
         }
-
         return null;
     }
 }

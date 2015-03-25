@@ -3,8 +3,6 @@ package org.uva.ql.view.widgit;
 import javax.swing.JCheckBox;
 
 import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.BoolValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.CheckBoxListener;
@@ -41,15 +39,11 @@ public class CheckBox extends Widget {
 	}
 
 	@Override
-	public void setWidgetValue(Value value, Type type) {
-		if (!type.isEqual(new UndefinedType())) {
-			if (type.isBool() && value.isDefined()) {
-				BoolValue booleanValue = (BoolValue) value;
-				if (booleanValue.value()) {
-					checkBox.setSelected(true);
-				} else {
-					checkBox.setSelected(false);
-				}
+	public void setWidgetValue(Value value) {
+		if (value.isDefined()) {
+			BoolValue booleanValue = (BoolValue) value;
+			if (booleanValue.value()) {
+				checkBox.setSelected(true);
 			} else {
 				checkBox.setSelected(false);
 			}

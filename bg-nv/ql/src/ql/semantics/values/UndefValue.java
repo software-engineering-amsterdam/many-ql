@@ -13,7 +13,7 @@ public class UndefValue extends Value<Void>
     @Override
     public String toString()
     {
-        return "Undefined Value";
+        return "";
     }
 
     @Override

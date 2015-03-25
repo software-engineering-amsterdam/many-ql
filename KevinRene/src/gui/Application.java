@@ -1,45 +1,47 @@
 package gui;
 
-import gui.screen.FormLoaderScreen;
-import gui.screen.FormScreen;
-import gui.structure.Page;
+import java.util.Arrays;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import ql.Value;
-import ql.ast.Statement;
+import ql.ast.expression.Identifier;
+import ql.ast.statement.Form;
+import ql.gui.UIComponent;
+import qls.gui.structure.TabbedPanel;
 
-public class Application extends UIComponent {
+public class Application implements UIComponent {
 	private JFrame frame;
+	private TabbedPanel tabbedPanel;
 	
-	private FormLoaderScreen fileLoaderScreen;
-	private FormScreen formScreen;
+	private gui.screen.ql.SelectionScreen qlSelectionScreen;
+	private gui.screen.ql.FormScreen qlFormScreen;
 	
-	private Page activePanel;
+	private gui.screen.qls.SelectionScreen qlsSelectionScreen;
 	
 	public Application(JFrame frame) {
 		this.frame = frame;
+		tabbedPanel = new TabbedPanel(new Identifier("Application"), Arrays.asList());
+		tabbedPanel.setHandler(this);
 		
-		fileLoaderScreen = new FormLoaderScreen(this);
+		qlSelectionScreen = new gui.screen.ql.SelectionScreen(this);
+		qlsSelectionScreen = new gui.screen.qls.SelectionScreen(this);
 		
-		activePanel = new Page(this);
-		activePanel.addSection(fileLoaderScreen.getScreen());
+		tabbedPanel.setPages(Arrays.asList(qlSelectionScreen, qlsSelectionScreen));
 		
-		frame.getContentPane().add(activePanel.getComponent());
-	}
-	
-	public void activateFormPanel() {
-		formScreen.showScreen();
-		fileLoaderScreen.hideScreen();
+		frame.getContentPane().add(tabbedPanel.getComponent());
 	}
 	
 	@Override
 	public void handleChange(Value changedValue, UIComponent source) {
-		if(source == fileLoaderScreen) {
-			formScreen = new FormScreen(this, (Statement) fileLoaderScreen.getFormAst());
-			activePanel.addSection(formScreen.getScreen());
-			activateFormPanel();
+		if(source == qlSelectionScreen) {
+			qlFormScreen = new gui.screen.ql.FormScreen(this, (Form) qlSelectionScreen.getFormAst());
+			tabbedPanel.addPage(qlFormScreen.getScreen());
+		}
+		
+		if(source == qlsSelectionScreen) {
+			tabbedPanel.addPage(qlsSelectionScreen.getQLSInterface());
 		}
 		
 		updateComponent();
@@ -47,13 +49,17 @@ public class Application extends UIComponent {
 	
 	@Override
 	public void updateComponent() {
-		activePanel.updateComponent();		
-		
+		tabbedPanel.updateComponent();
 		frame.setVisible(true);
 	}
 
 	@Override
 	public JComponent getComponent() {
-		return activePanel.getComponent();
+		return tabbedPanel.getComponent();
+	}
+
+	@Override
+	public void setHandler(UIComponent handler) {
+		// Handler is not used.
 	}
 }

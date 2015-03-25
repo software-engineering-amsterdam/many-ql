@@ -19,7 +19,6 @@ class ResultAlgebra:
 
 
 
-# Allows you to extract a list of errors and warnings.
 class ErrorsWarningsResultAlgebra(ResultAlgebra):
     def empty(self):
         return ErrorsWarningsResult()

@@ -9,11 +9,11 @@ class Form:
         self._statements = statements
 
     # Pretty print the _form
-    def pretty_print(self):
+    def string_presentation(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
         for x in self._statements:
-            s += x.pretty_print(1)
+            s += x.string_presentation(0)
         return s
 
     #
@@ -44,7 +44,7 @@ class Form:
     def get_dependencies(self):
         dependencies = {}
         for s in self._statements:
-            new_dependencies = s.get_dependency_collection({})
+            new_dependencies = s.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         # Get transitive _dependencies
         transitive_dependencies = {}
@@ -76,10 +76,10 @@ class Form:
     # TODO : test expression validator
     def check_expressions(self):
         td = self.get_type_dict()
-        message = []
+        messages = []
         for x in self._statements:
-            message.extend(x.valid_type_message(td))
-        return message
+            messages.extend(x.valid_expression_messages(td))
+        return messages
 
     #
     # Type checker stuff
@@ -87,60 +87,29 @@ class Form:
 
     @staticmethod
     def check_duplicates(l):
-        # get_dependencies for duplicates
         duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
     def check_ids(self):
+        messages = []
         duplicates = Form.check_duplicates(self.get_ids())
-        if duplicates:
-            return "There are duplicate ids: " + str(duplicates)
-        else:
-            return ""
+        for i in duplicates:
+            messages.append("duplicate id: " + i)
+        return messages
 
     def check_labels(self):
-        duplicates = Form.check_duplicates(self.get_labels())
-        if duplicates:
-            return "There are duplicate labels: " + str(duplicates)
-        else:
-            return ""
+        messages = []
+        duplicates = self.check_duplicates(self.get_labels())
+        for i in duplicates:
+            messages.append("duplicate label: " + i)
+        return messages
 
     def check_dependencies(self):
-        message = ""
+        messages = []
         dependencies = self.get_dependencies()
         for d in dependencies:
             if d in dependencies[d]:
-                message += str(d) + " is dependent on itself"
-        return message
-
-    def is_valid_form(self):
-        valid = True
-        id_message = self.check_ids()
-        if id_message:
-            valid = False
-            print(id_message)
-
-        label_message = self.check_labels()
-        if label_message:
-            print(label_message)
-
-        dependency_message = self.check_dependencies()
-        if dependency_message:
-            valid = False
-            print(dependency_message)
-
-        expression_message = self.check_expressions()
-        if expression_message:
-            valid = False
-            print(expression_message)
-
-        return valid
-
-    def eval_expressions(self, type_map):
-        for x in self._statements:
-            if x.is_conditional():
-                print(x.get_condition().pretty_print())
-                print(x.evaluate_condition(type_map))
-                print("----------")
+                messages += [str(d) + " is dependent on itself"]
+        return messages
 
 

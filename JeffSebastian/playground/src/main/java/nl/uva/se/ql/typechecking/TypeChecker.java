@@ -39,13 +39,12 @@ import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
-import nl.uva.se.ql.interpretation.error.InvalidConditionType;
-import nl.uva.se.ql.interpretation.error.InvalidOperandType;
-import nl.uva.se.ql.interpretation.error.TypeMismatch;
-import nl.uva.se.ql.interpretation.error.TypeNotAllowed;
-import nl.uva.se.ql.interpretation.error.UndefinedReference;
+import nl.uva.se.ql.typechecking.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.InvalidConditionType;
+import nl.uva.se.ql.typechecking.error.InvalidOperandType;
+import nl.uva.se.ql.typechecking.error.TypeMismatch;
+import nl.uva.se.ql.typechecking.error.TypeNotAllowed;
+import nl.uva.se.ql.typechecking.error.UndefinedReference;
 
 public class TypeChecker implements FormVisitor, StatementVisitor,
 		ExpressionVisitor<Type>, TypeVisitor<Type> {
@@ -62,27 +61,31 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	private SymbolTable symbols;
 	private ErrorList errors;
 
-	private TypeChecker(Result<SymbolTable> symbolResult) {
-		this.symbols = symbolResult.getResult();
-		this.errors = symbolResult.getErrorList();
+	private TypeChecker(SymbolTable symbols) {
+		this.symbols = symbols;
+		this.errors = new ErrorList();
 	}
 
-	public static Result<SymbolTable> check(Form form) {
-		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
+	public static ErrorList check(Form form) {
+		SymbolResult symbolResult = SymbolResolver.resolve(form);
+		ErrorList symbolErrorList = symbolResult.getErrorList();
 
-		if (!symbolResult.getErrorList().hasErrors()) {
-			Result<DependencyTable> result = DependencyResolver.resolve(form);
-			if (!result.getErrorList().hasErrors()) {
-				TypeChecker typeChecker = new TypeChecker(symbolResult);
-				typeChecker.visit(form);
-				return new Result<SymbolTable>(typeChecker.errors,
-						typeChecker.symbols);
-			} else {
-				result.getErrorList().printAll();
-			}
+		if (symbolErrorList.hasErrors()) {
+			return symbolErrorList;
 		}
-
-		return symbolResult;
+			
+		DependencyTable dependencies = DependencyResolver.resolve(form, 
+				symbolResult.getSymbols());
+		ErrorList dependencyErrorList = CyclicDependencyChecker.check(dependencies);
+		
+		if (dependencyErrorList.hasErrors()) {
+			return dependencyErrorList;
+		}
+		
+		TypeChecker typeChecker = new TypeChecker(symbolResult.getSymbols());
+		typeChecker.visit(form);
+		
+		return typeChecker.errors;
 	}
 
 	public void visit(Form form) {
@@ -95,9 +98,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		Type expressionType = calculatedQuestion.getExpression().accept(this);
 		Type questionType = calculatedQuestion.getType();
+		Type promotedExpressionType = expressionType.promote();
+		Type promotedQuesType = questionType.promote();
 		
-		if (!expressionType.equals(questionType)) {
-			System.out.println(calculatedQuestion.getId());
+		if (!promotedExpressionType.equals(promotedQuesType)) {
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
 				.getOffset(), questionType, expressionType));
@@ -116,87 +120,87 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 
 	public Type visit(Addition plus) {
 		Type type = visitBinaryExpression(plus);
-		return checkCompatibility(plus, type, ALPHA_NUMERIC_TYPES);
+		return defineType(plus, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(Divide divide) {
 		Type type = visitBinaryExpression(divide);
-		return checkCompatibility(divide, type, NUMERIC_TYPES);
+		return defineType(divide, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Power power) {
 		Type type = visitBinaryExpression(power);
-		return checkCompatibility(power, type, NUMERIC_TYPES);
+		return defineType(power, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Multiply multiply) {
 		Type type = visitBinaryExpression(multiply);
-		return checkCompatibility(multiply, type, NUMERIC_TYPES);
+		return defineType(multiply, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Modulo modulo) {
 		Type type = visitBinaryExpression(modulo);
-		return checkCompatibility(modulo, type, NUMERIC_TYPES);
+		return defineType(modulo, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Negative negative) {
 		Type type = visitUnaryExpression(negative);
-		return checkCompatibility(negative, type, NUMERIC_TYPES);
+		return defineType(negative, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Positive positive) {
 		Type type = visitUnaryExpression(positive);
-		return checkCompatibility(positive, type, NUMERIC_TYPES);
+		return defineType(positive, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Substraction minus) {
 		Type type = visitBinaryExpression(minus);
-		return checkCompatibility(minus, type, NUMERIC_TYPES);
+		return defineType(minus, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Not not) {
 		Type type = visitUnaryExpression(not);
-		return checkCompatibility(not, type, BOOLEAN);
+		return defineType(not, type, BOOLEAN);
 	}
 
 	public Type visit(NotEqual notEqual) {
 		Type type = visitBinaryExpression(notEqual);
-		return checkCompatibility(notEqual, type, ALL_TYPES);
+		return defineType(notEqual, type, ALL_TYPES);
 	}
 
 	public Type visit(Or or) {
 		Type type = visitBinaryExpression(or);
-		return checkCompatibility(or, type, BOOLEAN);
+		return defineType(or, type, BOOLEAN);
 	}
 
 	public Type visit(LessThen lessThen) {
 		Type type = visitBinaryExpression(lessThen);
-		return checkCompatibility(lessThen, type, ALPHA_NUMERIC_TYPES);
+		return defineType(lessThen, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(LessOrEqual lessOrEqual) {
 		Type type = visitBinaryExpression(lessOrEqual);
-		return checkCompatibility(lessOrEqual, type, ALPHA_NUMERIC_TYPES);
+		return defineType(lessOrEqual, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(GreaterThen greaterThen) {
 		Type type = visitBinaryExpression(greaterThen);
-		return checkCompatibility(greaterThen, type, ALPHA_NUMERIC_TYPES);
+		return defineType(greaterThen, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(GreaterOrEqual greaterOrEqual) {
 		Type type = visitBinaryExpression(greaterOrEqual);
-		return checkCompatibility(greaterOrEqual, type, ALPHA_NUMERIC_TYPES);
+		return defineType(greaterOrEqual, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(Equal equal) {
 		Type type = visitBinaryExpression(equal);
-		return checkCompatibility(equal, type, ALL_TYPES);
+		return defineType(equal, type, ALL_TYPES);
 	}
 
 	public Type visit(And and) {
 		Type type = visitBinaryExpression(and);
-		return checkCompatibility(and, type, BOOLEAN);
+		return defineType(and, type, BOOLEAN);
 	}
 
 	public Type visit(BooleanLiteral booleanLiteral) {
@@ -269,6 +273,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 			return new UndefinedType();
 		}
 		
+		if (leftType.equals(rightType)) {
+			return leftType.accept(this);
+		}
+		
 		Type leftPromoted = leftType.promote();
 		Type rightPromoted = rightType.promote();
 		
@@ -295,7 +303,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 		return type;
 	}
 	
-	private Type checkCompatibility(Expression expr, Type type, Type... types) {
+	private Type defineType(Expression expr, Type type, Type... types) {
 		if (type.isIn(types)) {
 			return type;
 		} 

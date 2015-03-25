@@ -1,18 +1,35 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLFloat;
 
-public class FloatValue extends Value {
+public class FloatValue implements Value {
 	
-	private final Float value;
+	protected final Float value;
 	
 	public FloatValue(Float value) {
 		this.value = value;
 	}
 	
 	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+	
+	@Override
 	public boolean isNumeric() {
 		return true;
+	}
+	
+	@Override
+	public Float getValue() {
+		return value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLFloat();
 	}
 
 	@Override
@@ -28,11 +45,6 @@ public class FloatValue extends Value {
 	@Override
 	public Value addFloat(FloatValue argument) {
 		return new FloatValue(argument.getValue() + getValue());
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
 	}
 
 	@Override
@@ -225,10 +237,6 @@ public class FloatValue extends Value {
 		throw new UnsupportedOperationException();
 	}
 	
-	public Float getValue() {
-		return value;
-	}
-	
 	@Override
 	public int hashCode() {
 		return value.hashCode();
@@ -246,5 +254,5 @@ public class FloatValue extends Value {
 	@Override
 	public String toString() {
 		return getValue().toString();
-	}
+	}	
 }

@@ -4,27 +4,20 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.gui.helpers.ListenerHelper;
 
 public class DrawQuestionnaire extends ListenerHelper {
 
-    Map<String, List<String>> dependentElements;
     List<Component> componentList;
-    EvaluatorVisitor evalVisitor;
 
-    public DrawQuestionnaire(EvaluatorVisitor v, List<Component> c,
-	    Map<String, List<String>> d) {
-	evalVisitor = v;
+    public DrawQuestionnaire(List<Component> c) {
 	componentList = c;
-	dependentElements = d;
     }
 
     public void render() {

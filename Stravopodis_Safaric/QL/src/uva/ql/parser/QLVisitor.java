@@ -1,13 +1,7 @@
 // Generated from QL.g4 by ANTLR 4.5
 
 	package uva.ql.parser;
-	import uva.ql.ast.expressions.*;
-	import uva.ql.ast.expressions.literals.*;
-	import uva.ql.ast.expressions.math.*;
-	import uva.ql.ast.expressions.logic.*;
-	import java.util.*;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

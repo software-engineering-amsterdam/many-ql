@@ -1,34 +1,46 @@
 package gui.content;
 
-import gui.UIComponent;
-
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-public class UILog extends UIComponent {
-	private JScrollPane logScrollPane;
-	private JTextArea log;
+import ql.gui.DefaultChangeHandler;
+import ql.gui.UIComponent;
+import ql.gui.structure.ScrollablePanel;
+import ql.gui.widget.input.TextArea;
+import ql.value.StringValue;
+
+public class UILog extends DefaultChangeHandler implements UIComponent {
+	private ScrollablePanel scrollableSection;
+	private TextArea log;
 	
 	public UILog() {
-		log = new JTextArea();
-		log.setEditable(false);
-		logScrollPane = new JScrollPane(log);
+		log = new TextArea();
+		log.setHandler(this);
+		log.disable();
+		
+		scrollableSection = new ScrollablePanel(this, log);
+	}
+	
+	public UILog(UIComponent handler) {
+		this();
+		setHandler(this);
+	}
+	
+	public void clear() {
+		log.setValue(new StringValue(""));
 	}
 	
 	public void appendMessage(String logMessage) {
-		log.append(logMessage);
-		log.setCaretPosition(log.getDocument().getLength());
+		log.appendValue(new StringValue(logMessage + "\n"));
 	}
 
 	@Override
 	public void updateComponent() {		
-		logScrollPane.revalidate();
-		logScrollPane.repaint();
+		scrollableSection.updateComponent();
+		log.updateComponent();
 	}
 
 	@Override
 	public JComponent getComponent() {
-		return logScrollPane;
+		return scrollableSection.getComponent();
 	}
 }

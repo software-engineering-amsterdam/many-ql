@@ -13,8 +13,8 @@ class ReferenceChecker {
     }
   }
 
-  def check(e: Section, env: TypeEnvironment): List[Error] = {
-    e.elements.flatMap {
+  def check(s: Section, env: TypeEnvironment): List[Error] = {
+    s.elements.flatMap {
       case s: Section => check(s, env)
       case q: Question => check(q, env)
     }

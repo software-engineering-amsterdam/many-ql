@@ -1,31 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
-using QL.Model;
+using QL.Hollywood;
 using QL.UI.Controls;
+using QL.UI.ControlWrappers;
 
 namespace QL.UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private string _inputFilePath = null;
-        private ASTHandler _astHandler = null;
-
-        public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
-
-        public bool ShowIdentifiers
-        {
-            get { return (bool)GetValue(ShowIdentifiersProperty); }
-            set { SetValue(ShowIdentifiersProperty, value); }
-        }
+        private QLBuilder _qlBuilder = null;
 
         public MainWindow()
         {
@@ -33,34 +26,35 @@ namespace QL.UI
             InitializeComponent();
         }
 
-        private void LoadFile()
+        private void BuildQuestionnaire(string inputData)
         {
-            if (string.IsNullOrEmpty(_inputFilePath) || !File.Exists(_inputFilePath))
+            _qlBuilder = new QLBuilder(inputData);
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RegisterGenericDataHandlers();
+            _qlBuilder.RunAllHandlers();
+        }
+
+        private void LoadQuestionnaireFile(string inputFilePath)
+        {
+            if (string.IsNullOrEmpty(inputFilePath) || !File.Exists(inputFilePath))
             {
                 InputFileSourceText.Text = "File not loaded";
                 return;
             }
 
-            using (FileStream fileStream = File.Open(_inputFilePath, FileMode.Open))
+            try
             {
-                StreamReader sr = new StreamReader(fileStream);
-                string inputFileContents = sr.ReadToEnd();
-                BuildQuestionnaire(inputFileContents);
-            }
-        }
-
-        private void BuildQuestionnaire(string inputFileContents)
-        {
-            InputFileSourceText.Text = inputFileContents;
-            _astHandler = new ASTHandler(inputFileContents);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
-
-            if (_astHandler.BuildAST())
-            {
-                if (_astHandler.CheckType())
+                using (FileStream fileStream = File.Open(inputFilePath, FileMode.Open))
                 {
-                    _astHandler.Evaluate();
+                    StreamReader sr = new StreamReader(fileStream);
+                    string inputQuestionnaire = sr.ReadToEnd();
+                    InputFileSourceText.Text = inputQuestionnaire;
+                    BuildQuestionnaire(inputQuestionnaire);
                 }
+            }
+            catch (Exception ex)
+            {
+                InputFileSourceText.Text = string.Format("An error has occurred whilst reading the input file{0}{1}", Environment.NewLine, ex.Message);
             }
         }
 
@@ -78,8 +72,7 @@ namespace QL.UI
 
             if (inputFilePicker.ShowDialog().GetValueOrDefault())
             {
-                _inputFilePath = inputFilePicker.FileName;
-                LoadFile();
+                LoadQuestionnaireFile(inputFilePicker.FileName);
             }
         }
 
@@ -87,9 +80,13 @@ namespace QL.UI
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem == null) return;
+            LoadQuestionnaireFile(menuItem.Tag.ToString());
+        }
 
-            _inputFilePath = menuItem.Tag.ToString();
-            LoadFile();
+
+        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            BindTestData();
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)
@@ -101,43 +98,34 @@ namespace QL.UI
         #region General event handlers
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "examples");
-            if (!Directory.Exists(path)) return;
-
-            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
-
-            foreach (string file in files)
-            {
-                MenuItem menuItem = new MenuItem
-                                    {
-                                        Header = Path.GetFileNameWithoutExtension(file),
-                                        Tag = file
-                                    };
-                menuItem.Click += MenuItemOpenExample_Click;
-                MenuItemExamples.Items.Add(menuItem);
-            }
-            
-            if(files.Length <= 0) MenuItemExamples.Visibility = Visibility.Hidden;
+            PopulateExampleFileMenu();
         }
 
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler = new ASTHandler(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _astHandler.ASTHandlerExceptions;
-            _astHandler.BuildAST();
+            if (_qlBuilder == null) return;
+            _qlBuilder = new QLBuilder(InputFileSourceText.Text);
+            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
+            _qlBuilder.RunInit();
+            _qlBuilder.RunASTBuilders();
         }
 
         private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.CheckType();
+            if (_qlBuilder == null) return;
+            _qlBuilder.RunTypeCheckers();
         }
 
         private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
         {
-            if (_astHandler == null) return;
-            _astHandler.Evaluate();
+            if (_qlBuilder == null) return;
+            _qlBuilder.RunEvaluators();
+        }
+
+        private void ButtonBuild_Click(object sender, RoutedEventArgs e)
+        {
+            if (_qlBuilder == null) return;
+            _qlBuilder.RunRenderers();
         }
 
         private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
@@ -145,7 +133,7 @@ namespace QL.UI
             ListViewItem item = sender as ListViewItem;
             if (item == null || !item.IsSelected) return;
 
-            QLException error = item.Content as QLException;
+            QLBaseException error = item.Content as QLBaseException;
             if (error == null) return;
 
             InputFileSourceText.TextArea.Caret.Line = error.SourceLocation.Line;
@@ -154,5 +142,59 @@ namespace QL.UI
             InputFileSourceText.Focus();
         }
         #endregion
+
+        #region Dependency properties
+        public static readonly DependencyProperty ShowIdentifiersProperty = DependencyProperty.Register("ShowIdentifiers", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+
+        public bool ShowIdentifiers
+        {
+            get { return (bool)GetValue(ShowIdentifiersProperty); }
+            set { SetValue(ShowIdentifiersProperty, value); }
+        }
+        #endregion
+
+        private void PopulateExampleFileMenu()
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "examples");
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
+            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
+
+            foreach (string file in files)
+            {
+                MenuItem menuItem = new MenuItem
+                {
+                    Header = Path.GetFileNameWithoutExtension(file),
+                    Tag = file
+                };
+                menuItem.Click += MenuItemOpenExample_Click;
+                MenuItemExamples.Items.Add(menuItem);
+            }
+
+            if (files.Length <= 0)
+            {
+                MenuItemExamples.Visibility = Visibility.Hidden;
+            }
+        }
+
+        public void BindTestData()
+        {
+            WidgetFactory factory = new WidgetFactory();
+            List<WidgetBase> renders = new List<WidgetBase>
+                                        {
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"),new Text(),  "What is your name?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
+                                        };
+
+            QuestionsPanel.Children.Clear();
+            foreach(var widget in renders)
+            {
+                QuestionsPanel.Children.Add(widget);
+            }
+        }
     }
 }

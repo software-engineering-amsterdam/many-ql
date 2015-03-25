@@ -5,6 +5,7 @@ import java.util.List;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class IfStatement implements Statement {
 
     Expression expr;

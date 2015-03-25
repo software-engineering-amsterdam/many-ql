@@ -1,19 +1,19 @@
 package qls.ast.statement;
 
 import ql.ast.expression.Identifier;
-import qls.ast.QLSStatement;
-import qls.ast.visitor.QLSVisitor;
+import qls.ast.Statement;
+import qls.ast.visitor.StatementVisitor;
 
-public class Stylesheet extends QLSStatement {	
+public class Stylesheet extends Statement {	
 	private final Identifier identifier;
-	private final QLSBlock pages;
+	private final Block pages;
 
-	public Stylesheet(Identifier identifier, QLSBlock pages) {
+	public Stylesheet(Identifier identifier, Block pages) {
 		this.identifier = identifier;
 		this.pages = pages;
 	}
 	
-	public QLSBlock getPages() {
+	public Block getPages() {
 		return pages;
 	}
 	
@@ -22,7 +22,7 @@ public class Stylesheet extends QLSStatement {
 	}
 	
 	@Override
-	public <T> T accept(QLSVisitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
@@ -30,5 +30,4 @@ public class Stylesheet extends QLSStatement {
 	public String toString() {
 		return "Stylesheet";
 	}
-
 }

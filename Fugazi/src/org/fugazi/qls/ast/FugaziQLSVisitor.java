@@ -220,7 +220,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     
     @Override 
 	public AbstractASTNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) {
-        Color styleProperty = new Color(this.removeStringQuotes(ctx.HEX().getText()));
+        Color styleProperty = new Color(
+            Integer.decode(this.removeStringQuotes(ctx.HEX().getText()))
+        );
         styleProperty.setLineNumber(this.getLineNumber(ctx));
         return styleProperty;
 	}

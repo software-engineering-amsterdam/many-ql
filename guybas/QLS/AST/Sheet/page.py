@@ -6,40 +6,30 @@ class Page(e.SheetElement):
     def __init__(self, name, sections):
         self._name = name
         self._sections = sections
-        self._ids = Page.id_collection(self._sections)
-        self._widget_dict = Page.id_widget_dict(self._sections)
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Page " + self._name + "\n"
         for p in self._sections:
-            s += p.pretty_print(level+1)
+            s += p.__str__(level+1)
         return s
 
     def get_ids(self):
-        return self._ids
+        ids = []
+        for q in self._sections:
+            ids += q.get_ids()
+        return ids
 
     def get_widget_dict(self):
-        return self._widget_dict
+        d = {}
+        for s in self._sections:
+            d = dict(list(d.items()) + list(s.get_widget_dict().items()))
+        return d
 
     def is_default(self):
         return False
 
     def get_sections(self):
         return self._sections
-
-    @staticmethod
-    def id_collection(sections):
-        ids = []
-        for q in sections:
-            ids += q.get_ids()
-        return ids
-
-    @staticmethod
-    def id_widget_dict(sections):
-        d = {}
-        for s in sections:
-            d = dict(list(d.items()) + list(s.get_widget_dict().items()))
-        return d
 
     def is_default(self):
         return False

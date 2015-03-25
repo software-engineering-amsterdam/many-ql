@@ -52,7 +52,6 @@ public class Row extends Segment<Pane> implements Refreshable
 
     }
 
-
     public Label getLabel()
     {
         return label;
@@ -63,9 +62,8 @@ public class Row extends Segment<Pane> implements Refreshable
         return input;
     }
 
-
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(SegmentVisitor<V> visitor)
     {
         return visitor.visit(this);
     }

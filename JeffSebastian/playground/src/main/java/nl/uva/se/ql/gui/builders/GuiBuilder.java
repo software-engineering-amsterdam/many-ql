@@ -6,15 +6,15 @@ import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Condition;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.ast.statement.StatementVisitor;
-import nl.uva.se.ql.gui.listeners.IMediator;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.panes.QuestionPane;
 
 public class GuiBuilder implements StatementVisitor, FormVisitor {
 	
 	private QuestionPane questionPane;		
-	private final IMediator mediator;
+	private final Mediator mediator;
 	
-	public GuiBuilder(IMediator mediator) {
+	public GuiBuilder(Mediator mediator) {
 		this.mediator = mediator;
 	}
 	
@@ -22,9 +22,8 @@ public class GuiBuilder implements StatementVisitor, FormVisitor {
 		questionPane.addQuestion(question);
 	}
 
-	public void visit(CalculatedQuestion calculatedQuestion) {
-		Question question = (Question) calculatedQuestion;
-		questionPane.addQuestion(question);
+	public void visit(CalculatedQuestion calculatedQuestion) {	
+		questionPane.addQuestion(calculatedQuestion);
 	}
 	
 	public void visit(Condition condition) {

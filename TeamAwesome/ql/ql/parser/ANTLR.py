@@ -3,12 +3,12 @@ from decimal import Decimal
 from .AbstractBase import AbstractBase
 
 from antlr4 import *
-from .antlr.QLVisitor import QLVisitor
-from .antlr.QLParser import QLParser
-from .antlr.QLLexer import QLLexer
+from .antlr_generated.QLVisitor import QLVisitor
+from .antlr_generated.QLParser import QLParser
+from .antlr_generated.QLLexer import QLLexer
 
 from ..ast import Nodes
-from ..core import QLTypes
+from ..core import QLTypes, QLOperators
 
 
 
@@ -31,8 +31,10 @@ class Parser(AbstractBase):
             qlType : token for (qlType, token) in _expressionTypeTokens()
         }[expressionTypeQl]
 
-    def operatorToken(self, qlOperator):
-        pass
+    def operatorToken(self, operatorQl):
+        return {
+            qlOperator : token for (qlOperator, token) in _operatorTokens()
+        }[operatorQl]
 
 
 
@@ -55,7 +57,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitQuestion_statement(self, ctx):
         identifier = self.visit(ctx.name)
         text = ctx.text.getText()[1:-1]
-        question_type = nativeQuestionType(ctx.qtype.getText())
+        question_type = _qlQuestionType(ctx.qtype.getText())
         
         expr = self.visit(ctx.expression) if ctx.expression != None else None
 
@@ -111,11 +113,15 @@ class ParseTreeVisitor(QLVisitor):
 
         # unary (rightside) operator
         if ctx.left == None:
-            return Nodes.UnaryExpression(op, right, lineNumber)
+            return Nodes.UnaryExpression(
+                _qlUnaryOperator(op), right, lineNumber
+            )
 
         left = self.visit(ctx.left)
 
-        return Nodes.BinaryExpression(left, op, right, lineNumber)
+        return Nodes.BinaryExpression(
+            left, _qlBinaryOperator(op), right, lineNumber
+        )
 
 
 def _expressionTypeTokens():
@@ -127,9 +133,39 @@ def _expressionTypeTokens():
     )
 
 def _operatorTokens():
-    return ()
+    return (
+        (QLOperators.QLUnaryPlus, '+'),
+        (QLOperators.QLUnaryMinus, '-'),
+        (QLOperators.QLLogicalNot, '!'),
+        (QLOperators.QLExponentiation, '^'),
+        (QLOperators.QLMultiplication, '*'),
+        (QLOperators.QLDivision, '/'),
+        (QLOperators.QLModulo, '%'),
+        (QLOperators.QLSubtraction, '-'),
+        (QLOperators.QLAddition, '+'),
+        (QLOperators.QLLess, '<'),
+        (QLOperators.QLLessEquals, '<='),
+        (QLOperators.QLGreater, '>'),
+        (QLOperators.QLGreaterEquals, '>='),
+        (QLOperators.QLEquals, '=='),
+        (QLOperators.QLNotEquals, '!='),
+        (QLOperators.QLLogicalAnd, '&&'),
+        (QLOperators.QLLogicalOr, '||')
+    )
 
-def nativeQuestionType(questionTypeToken):
+def _qlQuestionType(questionTypeToken):
     return {
         token : qlType for (qlType, token) in _expressionTypeTokens()
     }[questionTypeToken]
+
+def _qlUnaryOperator(operatorToken):
+    unaryOperatorTokens = _operatorTokens()[:3]
+    return {
+        token : qlOperator for (qlOperator, token) in unaryOperatorTokens
+    }[operatorToken]
+
+def _qlBinaryOperator(operatorToken):
+    binaryOperatorTokens = _operatorTokens()[3:]
+    return {
+        token : qlOperator for (qlOperator, token) in binaryOperatorTokens
+    }[operatorToken]

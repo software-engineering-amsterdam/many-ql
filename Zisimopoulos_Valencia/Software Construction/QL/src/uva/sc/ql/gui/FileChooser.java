@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial" })
 public class FileChooser extends JPanel implements ActionListener {
 
     JButton chooseFileButton;
@@ -45,6 +45,7 @@ public class FileChooser extends JPanel implements ActionListener {
 		try {
 		    frame.setVisible(false);
 		    this.setVisible(false);
+		    @SuppressWarnings("unused")
 		    QuestionnaireForm qf = new QuestionnaireForm(file);
 		} catch (IOException e1) {
 		    e1.printStackTrace();

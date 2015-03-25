@@ -1,14 +1,13 @@
 package com.form.language.ast.statement;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
 
+//TODO :: Seperate each variable?
 public class Question extends Statement {
     private String id;
     private String questionLabel;
@@ -21,9 +20,7 @@ public class Question extends Statement {
 	this.questionType = questionType;
     }
 
-    @Override
     public Type getType(Context context) {
-	context.addId(new IdLiteral(this.id, this.questionType, null, tokenInfo));
 	return this.questionType;
     }
 
@@ -32,18 +29,22 @@ public class Question extends Statement {
     }
 
     public String getId() {
-	// TODO Auto-generated method stub
 	return this.id;
     }
 
     public void initMemory(Context context) {
 	context.setValue(id, questionType.defaultValue());
     }
+    
+    //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
+    @Override
+    public boolean checkType(Context context) {
+	context.addId(this);
+	return true;
+    }
 
     @Override
     public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
 	guiBuilder.createGUIQuestion(this, panel, context);
-
     }
-
 }

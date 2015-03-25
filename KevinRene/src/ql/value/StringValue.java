@@ -1,32 +1,49 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLString;
 
-public class StringValue extends Value {
+public class StringValue implements Value {
 	private final String value;
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 	
 	public StringValue(String value) {
 		this.value = value;
 	}
 
 	@Override
+	public String getValue() {
+		return value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLString();
+	}
+	
+	@Override
 	public Value add(Value argument) {
-		return argument.addString(this);
+		throw new UnsupportedOperationException("Cannot add strings.");
 	}
 
 	@Override
 	public Value addInteger(IntegerValue argument) {
-		return new StringValue(argument.getValue() + getValue());
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		return new StringValue(argument.getValue() + getValue());
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
-		return new StringValue(argument.getValue() + getValue());
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -219,10 +236,6 @@ public class StringValue extends Value {
 		throw new UnsupportedOperationException();
 	}
 	
-	public String getValue() {
-		return value;
-	}
-
 	@Override
 	public int hashCode() {
 		return value.hashCode();
@@ -239,6 +252,6 @@ public class StringValue extends Value {
 	
 	@Override
 	public String toString() {
-		return "\"" + getValue().toString() + "\"";
+		return "\"" + getValue() + "\"";
 	}
 }

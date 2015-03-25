@@ -12,7 +12,6 @@ stat : ID STRING TYPE ('=' expr)?                                           # Qu
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride
-     | expr '++'                      # Increment
 	 | '!' expr                       # Negation
 	 | expr ('*'|'/') expr            # MultiplyDivide
 	 | expr ('+'|'-') expr            # AddSubstract

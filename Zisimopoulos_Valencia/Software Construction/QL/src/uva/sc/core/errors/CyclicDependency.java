@@ -1,15 +1,17 @@
 package uva.sc.core.errors;
 
+import uva.sc.ql.atom.ID;
+
 public class CyclicDependency implements IError {
 
-    String identity;
+    ID identity;
 
-    public CyclicDependency(String id) {
+    public CyclicDependency(ID id) {
 	identity = id;
     }
 
     public String toString() {
 	return "Circular dependency has been detected in question with identifier "
-		+ identity;
+		+ identity.getValue();
     }
 }

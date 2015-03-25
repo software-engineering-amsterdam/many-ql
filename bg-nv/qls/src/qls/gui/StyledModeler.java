@@ -2,20 +2,16 @@ package qls.gui;
 
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
-import ql.gui.input.Input;
-import ql.gui.input.InputBuilder;
-import ql.gui.label.Label;
 import ql.gui.segment.*;
-import ql.semantics.ConditionalQuestion;
-import ql.semantics.Flat;
+import ql.semantics.CondQuestionTable;
 import qls.ast.*;
 import qls.ast.Page;
 import qls.ast.rule.Rules;
 import qls.ast.statement.*;
 import qls.ast.statement.Section;
 import qls.ast.statement.Statement;
-import qls.semantics.FormStyle;
-import qls.semantics.RulesToGui;
+import qls.semantics.QuestionStyles;
+import qls.semantics.RowStyleBuilder;
 
 import java.util.*;
 
@@ -25,25 +21,27 @@ import java.util.*;
 public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Segment>, StatementVisitor<Segment>
 {
     private final Stylesheet stylesheet;
-    private final FormStyle formStyle;
+    private final QuestionStyles questionStyles;
 
-    public StyledModeler(Flat flat, Stylesheet stylesheet, FormStyle formStyle)
+    public StyledModeler(CondQuestionTable condQuestionTable, Stylesheet stylesheet, QuestionStyles questionStyles)
     {
-        super(flat);
+        super(condQuestionTable);
         this.stylesheet = stylesheet;
-        this.formStyle = formStyle;
+        this.questionStyles = questionStyles;
     }
 
     @Override
     public Canvas model()
     {
-        List<Segment> pageSegments = new ArrayList<>();
+        List<ql.gui.segment.Page> pages = new ArrayList<>();
         for (Page p : this.stylesheet.getBody())
         {
-            pageSegments.add(p.accept(this));
+            //TODO: get rid of this cast if possible
+            ql.gui.segment.Page page = (ql.gui.segment.Page) p.accept(this);
+            pages.add(page);
         }
 
-        return new Canvas("Unicorn!", pageSegments);
+        return new Canvas("Unicorn!", pages);
     }
 
     @Override
@@ -77,10 +75,10 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
 
     private Segment getConditional(String id)
     {
-        ConditionalQuestion cq = this.getFlat().getConditionalQuestion(id);
-        Row row = cq.getQuestion().accept(this);
-        Rules rules = formStyle.getStyleForQuestion(id);
-        RowStyle style = RulesToGui.convert(rules);
+        ql.ast.statement.Question q = this.getQuestion(id);
+        Row row = q.accept(this);
+        Rules rules = questionStyles.getStyleForQuestion(id);
+        RowStyle style = RowStyleBuilder.build(rules);
         row.applyStyle(style);
         return row;
     }
@@ -91,6 +89,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
         throw new IllegalStateException("Visiting a default node is not allowed");
     }
 
+    // TODO: why throw exception for the default stat but not for the stylesheet?
     @Override
     public Segment visit(Stylesheet s)
     {

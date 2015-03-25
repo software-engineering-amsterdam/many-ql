@@ -1,6 +1,5 @@
 package ql.gui.input;
 
-import ql.gui.ModelVisitor;
 import ql.gui.control.IntControl;
 import ql.semantics.errors.Message;
 import ql.semantics.errors.Warning;
@@ -19,12 +18,6 @@ public class IntInput extends RegularInput<IntControl>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
-    }
-
-    @Override
     protected Value convertUserInputToValue()
     {
         Value val = this.control.getIntValue();
@@ -39,5 +32,11 @@ public class IntInput extends RegularInput<IntControl>
     protected Message getInvalidInputErrorMsg()
     {
         return VALIDATION_ERROR;
+    }
+
+    @Override
+    public <V> V accept(InputVisitor<V> visitor)
+    {
+        return visitor.visit(this);
     }
 }

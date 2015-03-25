@@ -1,14 +1,36 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLBoolean;
 
-public class BooleanValue extends Value {
+public class BooleanValue implements Value {
 	private final boolean value;
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 	
 	public BooleanValue(Boolean value) {
 		this.value = value;
 	}
 
+	@Override
+	public Boolean getValue() {
+		return this.value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLBoolean();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add to a Boolean.");
@@ -21,11 +43,6 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -217,10 +234,6 @@ public class BooleanValue extends Value {
 	@Override
 	public Value andBoolean(BooleanValue argument) {
 		return new BooleanValue(argument.getValue() && getValue());
-	}
-	
-	public Boolean getValue() {
-		return this.value;
 	}
 
 	@Override

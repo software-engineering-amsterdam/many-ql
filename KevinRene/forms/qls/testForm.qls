@@ -1,0 +1,38 @@
+stylesheet taxOfficeExample {
+	page First {
+		section "Page 1 Section 1" {
+			question secondString;
+			question sellingPrice {
+				widget slider(20, 1000); 
+			}
+			question privateDebt;
+			default money widget text;
+		}
+	}
+	page Second {
+		section "Page 2 Section 1" {
+			question booleanValue widget checkbox;
+			section "Nested" {
+				question valueResidue;
+			}
+			question firstString {
+				widget text;
+			}
+			default integer { 
+				width : 500;
+				widget text;
+			}
+		}
+		section "Page 2 Section 2" {
+			question firstInteger {
+				widget spinbox;
+			}	
+			question secondInteger;
+		}
+		default integer { 
+			width : 300;
+			color : #112453;
+			widget text;
+		}
+	}
+ }

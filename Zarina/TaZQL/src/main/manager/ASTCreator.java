@@ -12,10 +12,8 @@ import astvisitor.MyBaseVisitor;
 
 public class ASTCreator {
 	
-	public Form formCreator() { 
-		FileManager file = new FileManager();
-		String filename = file.getFileString();
-	
+	public Form formCreator(String filename) { 
+		
 		ANTLRInputStream inputStream = new ANTLRInputStream(filename);
 	
 		TaZQLLexer lexer = new TaZQLLexer(inputStream);
@@ -28,7 +26,7 @@ public class ASTCreator {
 		Form form = (Form) v.visit(tree);
 			
 		// Print my AST in console
-		System.out.println("AST: \n" + form.toString());
+		//System.out.println("AST: \n" + form.toString());
 		
 		return form;
 	}

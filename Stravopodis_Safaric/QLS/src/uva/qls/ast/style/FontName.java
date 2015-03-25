@@ -16,15 +16,20 @@ public class FontName extends Font{
 	public FontName(StringLiteral _value, CodeLines _codeLines) {
 		super(_codeLines);
 
-		this.value = new StringLiteral(this.fontValid(_value.evaluatedValue()), _value.getLOC());
+		this.value = new StringLiteral(this.fontValid(_value.toString()), _codeLines);
 	}
 
 	private String fontValid(String _value){
 		List<Object> availableFonts = new ArrayList<Object>();
-		availableFonts.toArray(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+		String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		
+		for (int i=0; i< fonts.length; i++){
+			availableFonts.add(fonts[i]);
+		}
+	
 		return availableFonts.contains(_value) ? _value : "Arial";
 	}
-	
+
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitFontName(this);
@@ -32,7 +37,12 @@ public class FontName extends Font{
 	
 	@Override
 	public StringValue evaluate() {
-		return new StringValue(this.value.evaluatedValue());
+		return new StringValue(this.value.toString());
+	}
+	
+	@Override
+	public String getStyleType() {
+		return this.getClass().getName();
 	}
 
 	@Override

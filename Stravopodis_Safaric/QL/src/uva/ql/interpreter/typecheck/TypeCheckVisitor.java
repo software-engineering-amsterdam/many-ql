@@ -3,6 +3,7 @@ package uva.ql.interpreter.typecheck;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
@@ -39,33 +40,94 @@ import uva.ql.ast.type.TypeString;
 import uva.ql.ast.visitor.ExpressionVisitor;
 import uva.ql.ast.visitor.StatementVisitor;
 import uva.ql.ast.visitor.TypeVisitor;
-import uva.ql.interpreter.typecheck.error.IssueTable;
+import uva.ql.interpreter.typecheck.depedency.DependencyExpressionVisitor;
+import uva.ql.interpreter.typecheck.depedency.DependencyHelper;
+import uva.ql.interpreter.typecheck.depedency.DependencySet;
+import uva.ql.interpreter.typecheck.depedency.DependencyTable;
+import uva.ql.interpreter.typecheck.error.IssueList;
 import uva.ql.interpreter.typecheck.error.IssueObject;
 import uva.ql.interpreter.typecheck.error.IssueType;
 import uva.ql.interpreter.typecheck.table.LabelTable;
 import uva.ql.interpreter.typecheck.table.SymbolTable;
-import uva.ql.interpreter.typecheck.table.WarningTable;
-
-// Void to the statements
 
 public class TypeCheckVisitor implements ExpressionVisitor<Expression>, StatementVisitor<Void>, TypeVisitor<Type>{
 
-	private final WarningTable warningTable = new WarningTable();
+	private final IssueList issueList = new IssueList();
 	private final SymbolTable symbolTable = new SymbolTable();
 	private final LabelTable labelTable = new LabelTable();
-	private final IssueTable issueTable = new IssueTable();
+	
+	private final DependencyExpressionVisitor dependencyVisitor = new DependencyExpressionVisitor();
+	private DependencyTable dependencyTable = new DependencyTable();
+	
+	/* Type Check Methods */
 	
 	public boolean hasErrors(){
-		return !this.issueTable.hasIssues();
+		return this.issueList.hasErrors();
 	}
 	
-	public boolean hasWarnings(){
-		return this.warningTable.getTable().keySet().size() != 0;
+	public void printIssues(){
+		this.issueList.printIssues();
 	}
+	
+	private boolean isDuplicateQuestionSameType(Question question){
+		
+		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
+		Type questionType = question.getQuestionType();
+		
+		return this.symbolTable.valueExists(questionIdentifier, questionType);
+	}
+	
+	private boolean isDuplicateQuestionDifferentType(Question question){
+		
+		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
+		Type questionType = question.getQuestionType();
+		
+		if (this.symbolTable.keyExists(questionIdentifier)){
+			return !this.symbolTable.retrieveValue(questionIdentifier).equals(questionType);
+		}
+		
+		return false;
+	}
+	
+	private boolean referenceToUndefinedQuestion(Identifier identifier){
+		return !symbolTable.keyExists(identifier.evaluate().getValue());
+	}
+	
+	private boolean duplicateLabelCheck(Question question){
+		return this.labelTable.keyExists(question.getQuestionLabel().evaluate().getValue().replaceAll("\\s+",""));
+	}
+	
+	private boolean expressionOfType(List<Type> possibleTypes, List<Type> supportedTypes){
+		
+		for (Type type : supportedTypes){
+			if (possibleTypes.contains(type)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void cyclicDependencies(){
+		
+		dependencyTable = DependencyHelper.populateFullDependencies(dependencyTable);
+		
+		Set<String> cycles = DependencyHelper.findCycles(dependencyTable);
+		
+		if (!cycles.isEmpty()){
+			for (String _identifier: cycles){
+				IssueObject issue = new IssueObject(IssueType.ERROR.CYCLIC_DEPENDANCIES, _identifier, null);
+				this.issueList.putIssueObject(issue);
+			}
+		}
+	}
+	
+	/* Type Check Visitor */
 	
 	@Override
 	public Void visitProg(Prog prog) {
 		prog.getForm().accept(this);
+		this.cyclicDependencies();
 		
 		return null;
 	}
@@ -105,7 +167,8 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 			this.visitBinaryLogical((BinaryExpressions)ifStatement.getExpression());
 		}
 		else {
-			this.issueTable.putValue(IssueType.ERROR.CONDITION_NOT_BOOLEAN, new IssueObject(ifStatement.getCodeLine(), ifStatement.getExpression()));
+			IssueObject issue = new IssueObject(IssueType.ERROR.CONDITION_NOT_BOOLEAN, ifStatement.getExpression(),ifStatement.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		this.visitStatements(ifStatement.getStatement());
@@ -122,6 +185,13 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 
 	@Override
 	public Void visitComputedQuestion(Question question) {
+		
+		// CAUTION
+		dependencyVisitor.visitExpression(question.getQuestionExpression());
+		
+		DependencySet dependencies = new DependencySet(dependencyVisitor.getIdentifierList().toString());
+		dependencyTable.putValue(question.getQuestionIdentifierValue(), dependencies);
+			
 		this.visitQuestion(question);
 		question.getQuestionExpression().accept(this);
 
@@ -129,19 +199,22 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 	}
 	
 	private Object visitQuestion(Question question){
-		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
-		String questionLabel = question.getQuestionLabel().evaluate().getValue();
+		String questionIdentifier = question.getQuestionIdentifierValue();
+		String questionLabel = question.getQuestionLabelText();
 		
-		if (TypeCheckHelper.isDuplicateQuestionDifferentType(question, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, new IssueObject(question.getCodeLine(), question));
+		if (this.isDuplicateQuestionDifferentType(question)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.DUPLICATE_DIFFERENT_TYPE, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
-		if (TypeCheckHelper.isDuplicateQuestionSameType(question, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.DUPLICATE_SAME_TYPE, new IssueObject(question.getCodeLine(), question));
+		if (isDuplicateQuestionSameType(question)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.DUPLICATE_SAME_TYPE, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
-		if (TypeCheckHelper.duplicateLabelCheck(question, this.labelTable)){
-			this.warningTable.putValue(IssueType.WARNING.DUPLICATE_QUESTION_LABEL, question.getCodeLine());
+		if (duplicateLabelCheck(question)){
+			IssueObject issue = new IssueObject(IssueType.WARNING.DUPLICATE_QUESTION_LABEL, question, question.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		this.labelTable.putValue(questionLabel.replaceAll("\\s+",""), question.getCodeLine());
@@ -172,8 +245,8 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		
 		List<Type> supportedTypes = Arrays.asList(new TypeMoney(), new TypeInteger());
 		
-		boolean leftIsNumerical = TypeHelper.expressionOfType(left, supportedTypes);
-		boolean rightIsNumerical = TypeHelper.expressionOfType(right, supportedTypes);
+		boolean leftIsNumerical = this.expressionOfType(left.possibleReturnTypes(), supportedTypes);
+		boolean rightIsNumerical = this.expressionOfType(right.possibleReturnTypes(), supportedTypes);
 		
 		// If the leftIsNumerical | rightIsNumerical are false - check if they are Identifiers
 		
@@ -186,6 +259,8 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		return null;
 	}
 	
+	
+	
 	private Expression visitBinaryLogical(BinaryExpressions binaryExpression){
 
 		Expression left = binaryExpression.getLeftExpr();
@@ -196,12 +271,14 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		
 		// Checking operator - operand support
 		if (Collections.disjoint(leftType, rightType)){
-			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, binaryExpression, binaryExpression.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		// Operands must be of the same type
 		if (Collections.disjoint(leftType, rightType)){
-			this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, new IssueObject(binaryExpression.getCodeLine(), binaryExpression));
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_LOGICAL, binaryExpression, binaryExpression.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		left.accept(this);
@@ -215,21 +292,22 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		if (!isOfType && !expression.possibleReturnTypes().containsAll(supportedTypes)){
 				
 			// Check is an expression is of type Identifier() of type TypeString() - sellingPrice integer e.g.
+			// Prepare an issue
+			IssueObject issue = new IssueObject(IssueType.ERROR.INVALID_OPERANDS_MATH, expression, expression.getCodeLine());
 			
 			if (expression.possibleReturnTypes().contains(new TypeString())){
 				
 				// Get question type of an Identifier (expression)
 				
-				Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+				Type type = this.symbolTable.retrieveValue(expression.getEvaluatedValue().toString());
 				
-				if (!TypeHelper.checkTypeConformance(type, supportedTypes)){
-					this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+				if (!type.checkTypeConformance(supportedTypes)){
+					this.issueList.putIssueObject(issue);
 				}
 			}
 			else {
-				this.issueTable.putValue(IssueType.ERROR.INVALID_OPERANDS_MATH, new IssueObject(expression.getCodeLine(), expression));
+				this.issueList.putIssueObject(issue);
 			}
-		
 		}
 	}
 	
@@ -238,7 +316,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		// Check is an expression is an Identifier() of TypeString()
 		
 		if (expression.possibleReturnTypes().contains(new TypeString())){
-			Type type = this.symbolTable.retrieveValue(expression.evaluate().getValue().toString());
+			Type type = this.symbolTable.retrieveValue(expression.getEvaluatedValue().toString());
 			return Arrays.asList(type);
 		}
 		
@@ -318,8 +396,9 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 	@Override
 	public Identifier visitIdentifier(Identifier identifier) {
 		
-		if (TypeCheckHelper.referenceToUndefinedQuestion(identifier, this.symbolTable)){
-			this.issueTable.putValue(IssueType.ERROR.REFERENCE_UNDEFINED, new IssueObject(identifier.getCodeLine(), identifier));
+		if (this.referenceToUndefinedQuestion(identifier)){
+			IssueObject issue = new IssueObject(IssueType.ERROR.REFERENCE_UNDEFINED, identifier, identifier.getCodeLine());
+			this.issueList.putIssueObject(issue);
 		}
 		
 		return identifier;

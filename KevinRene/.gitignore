@@ -7,8 +7,7 @@ bin/
 
 .settings
 
-# He annoys me
-Rene
 
-# I am tired of his crap
-Kevin
+/sonar-project.properties
+
+/.sonar

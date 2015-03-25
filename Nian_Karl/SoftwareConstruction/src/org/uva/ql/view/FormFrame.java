@@ -10,28 +10,28 @@ import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
 
-public class FormFrame extends JFrame {
+public class FormFrame {
 
 	private static final long serialVersionUID = 1L;
 	private List<IfQuestionPanel> dependentQuestionPanels;
 	private List<ExprQuestionComponent> dependentQuestionComponents;
+	private final JFrame frame;
 
 	public FormFrame() {
-		super("QL Form");
-		setSize(500, 800);
-		setLayout(new MigLayout());
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame = new JFrame("QL Form");
+		frame.setSize(500, 800);
+		frame.setLayout(new MigLayout());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.dependentQuestionPanels = new ArrayList<IfQuestionPanel>();
 		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
 	}
 
 	private void addWithConstraints(Component component) {
-		add(component, "wrap,push");
+		frame.add(component, "wrap,push");
 	}
 
 	public void addQuestionPanel(Panel panel) {
@@ -52,13 +52,17 @@ public class FormFrame extends JFrame {
 		addWithConstraints(button);
 	}
 
-	public void notifyPanels(Evaluator evaluator, TypeChecker checker) {
+	public void notifyPanels(Evaluator evaluator) {
 		for (ExprQuestionComponent exprQuestionComponent : dependentQuestionComponents) {
-			exprQuestionComponent.evaluateAndChange(evaluator, checker);
+			exprQuestionComponent.evaluateAndChange(evaluator);
 		}
 
 		for (IfQuestionPanel ifQuestionPanel : dependentQuestionPanels) {
-			ifQuestionPanel.evaluateAndShow(evaluator, checker);
+			ifQuestionPanel.evaluateAndShow(evaluator);
 		}
+	}
+	
+	public void setFrameVisible(boolean show){
+		frame.setVisible(show);
 	}
 }

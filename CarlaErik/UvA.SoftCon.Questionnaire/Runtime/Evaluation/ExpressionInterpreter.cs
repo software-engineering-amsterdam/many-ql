@@ -68,13 +68,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         #region Visit Unary Expressions
 
-        public override Value Visit(Increment increment)
-        {
-            Value operand = increment.Operand.Accept(this);
-
-            return operand.Increment();
-        }
-
         public override Value Visit(Negation negation)
         {
             Value operand = negation.Operand.Accept(this);

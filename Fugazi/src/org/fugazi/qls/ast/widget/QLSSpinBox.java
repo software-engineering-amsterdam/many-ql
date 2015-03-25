@@ -14,6 +14,7 @@ import org.fugazi.qls.ast.widget.widget_types.SpinBoxType;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +47,22 @@ public class QLSSpinBox extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
-
         // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
-        // todo
+        Font font = new Font(
+                _style.getFont(this.getDefaultFont().getValue()), 0,
+                _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
+
+        Color color = _style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
+
+        JComponent editor = this.spinbox.getEditor();
+        JFormattedTextField ftf = ((JSpinner.DefaultEditor) editor).getTextField();
+        ftf.setColumns(this.getDefaultWidth().getValue() / 2);
+
     }
 
     @Override
@@ -60,7 +71,7 @@ public class QLSSpinBox extends AbstractQLSWidget {
     }
 
     @Override
-    public void supress(UIForm _canvas){
+    public void suppress(UIForm _canvas){
         _canvas.removeWidget(this.panel);
     }
 

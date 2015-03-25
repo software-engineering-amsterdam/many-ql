@@ -2,6 +2,7 @@ package uva.ql.ast.expressions.literals;
 
 import java.util.Arrays;
 import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeInteger;
@@ -35,6 +36,11 @@ public class IntLiteral extends Literal{
 	@Override
 	public NumberValue evaluate() {
 		return new NumberValue(this.value);
+	}
+	
+	@Override
+	public Object getEvaluatedValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override

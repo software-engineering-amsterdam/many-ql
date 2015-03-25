@@ -10,13 +10,15 @@ class Question:
 
         self.order = order
         self.gui_element = None
+        self.gui_element_frame = None
         self.ast = ast_question
         self.condition = condition
 
-    def set_gui_element(self, gui):
-        e_factory = gui_elements_f.Factory(self, gui)
+    def set_gui_element(self, gui, frame):
+        e_factory = gui_elements_f.Factory(self, gui, frame)
         el = e_factory.get_gui_element()
         self.gui_element = el.get_row()
+        self.gui_element_frame = frame
 
     def get_order(self):
         return self.order
@@ -35,3 +37,6 @@ class Question:
 
     def get_statement_dict(self):
         return {self.ast.get_id(): self}
+
+    def get_gui_element_frame(self):
+        return self.gui_element_frame

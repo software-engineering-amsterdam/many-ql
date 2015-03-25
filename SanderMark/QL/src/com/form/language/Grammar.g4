@@ -7,6 +7,7 @@ grammar Grammar;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.expression.variable.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
@@ -25,8 +26,7 @@ statementList returns [List<Statement> result]
 	;
 
 statement returns [Statement result]
-: Astmt=assignmentStatement {$result = $Astmt.result;}
-| Istmt=ifStatement {$result = $Istmt.result;}
+: Istmt=ifStatement {$result = $Istmt.result;}
 | Qstmt=question {$result = $Qstmt.result;}
 ;
 
@@ -37,10 +37,6 @@ question returns [Question result]
 ifStatement returns [Statement result]
 : IF exp=expression 'then' slist=statementList
   'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
-;
-
-assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result,new QLToken($ID.line,$ID.pos));}
 ;
 
 expression returns [Expression result]
@@ -105,7 +101,7 @@ literal returns [Expression result]
 	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),new QLToken($BOOLEAN.line,$BOOLEAN.pos));}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),new QLToken($INTEGER.line,$INTEGER.pos));}
 	| STRING	{$result = new StringLiteral($STRING.text,new QLToken($STRING.line,$STRING.pos));}
-	| ID	    {$result = new IdLiteral($ID.text,new QLToken($ID.line,$ID.pos));}
+	| ID	    {$result = new Reference($ID.text,new QLToken($ID.line,$ID.pos));}
 	;
 
 type returns [Type result]

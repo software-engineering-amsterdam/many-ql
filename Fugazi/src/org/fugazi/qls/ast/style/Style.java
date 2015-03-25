@@ -2,8 +2,8 @@ package org.fugazi.qls.ast.style;
 
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.style.style_property.StyleProperty;
-import org.fugazi.qls.ast.style.style_property.Width;
 
+import java.awt.*;
 import java.util.List;
 
 public class Style extends AbstractASTNode {
@@ -49,13 +49,13 @@ public class Style extends AbstractASTNode {
         return _default;
     }
 
-    public String getColor(String _default) {
+    public Color getColor(int _default) {
         for (StyleProperty styleProperty : this.styleProperties) {
             if (styleProperty.getName().equals("color")) {
-                return (String) styleProperty.getValue();
+                return new Color((int) styleProperty.getValue());
             }
         }
-        return _default;
+        return new Color(_default);
     }
 
     public boolean isUndefined() {

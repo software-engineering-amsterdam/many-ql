@@ -67,11 +67,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             return new Undefined();
         }
 
-        public override Value Increment()
-        {
-            return new Undefined();
-        }
-
         public override Value IsEqualTo(Value value)
         {
             return new Undefined();

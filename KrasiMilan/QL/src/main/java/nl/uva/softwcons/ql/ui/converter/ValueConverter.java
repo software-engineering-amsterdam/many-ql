@@ -14,7 +14,7 @@ public interface ValueConverter<T> {
      * 
      * @return a value created from the object passed in.
      */
-    public abstract Value toValue(T value);
+    Value toValue(T value);
 
     /**
      * Converts the value provided into an object defined by the specific
@@ -22,5 +22,5 @@ public interface ValueConverter<T> {
      * 
      * @return an object representation of the value passed in.
      */
-    public abstract T fromValue(Value value);
+    T fromValue(Value value);
 }

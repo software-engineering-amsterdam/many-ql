@@ -6,13 +6,14 @@
 %token <QLInteger> INTEGER
 %token <QLBoolean> BOOLEAN
 %token <QLString> STRING
-%token <QLFloat> MONEY FLOAT
+%token <QLFloat> FLOAT
+%token <QLMoney> MONEY
 
 %token <IntegerLiteral> INTEGERLITERAL 
 %token <BooleanLiteral> BOOLEANLITERAL
 %token <StringLiteral> STRINGLITERAL
 %token <FloatLiteral> FLOATLITERAL
-%token <FloatLiteral> MONEYLITERAL
+%token <MoneyLiteral> MONEYLITERAL
 
 %token <Identifier> IDENTIFIER
 %token FORM IF ELSE ASSIGN
@@ -90,7 +91,7 @@ import ql.ast.statement.*;
 		 	;
 
  type 	: INTEGER  	{ $$ = new QLInteger(); }
- 		| MONEY		{ $$ = new QLFloat(); }
+ 		| MONEY		{ $$ = new QLMoney(); }
 		| FLOAT		{ $$ = new QLFloat(); }
 		| BOOLEAN	{ $$ = new QLBoolean(); }
 		| STRING 	{ $$ = new QLString(); }

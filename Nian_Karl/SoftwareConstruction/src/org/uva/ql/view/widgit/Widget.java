@@ -3,7 +3,6 @@ package org.uva.ql.view.widgit;
 import javax.swing.JComponent;
 
 import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.type.Type;
 import org.uva.ql.ast.value.Value;
 
 public abstract class Widget {
@@ -14,7 +13,7 @@ public abstract class Widget {
 
 	public abstract JComponent getWidget();
 
-	public abstract void setWidgetValue(Value value, Type type);
+	public abstract void setWidgetValue(Value value);
 
 	public Identifier getIdentifier() {
 		return identifier;

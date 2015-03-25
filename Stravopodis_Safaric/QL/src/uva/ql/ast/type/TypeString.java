@@ -15,7 +15,7 @@ public class TypeString extends Type{
 	}
 	
 	@Override
-	public StringValue initialTypeValue() {
+	public StringValue typeInitialValue() {
 		return new StringValue("");
 	}
 

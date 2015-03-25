@@ -1,30 +1,29 @@
-import QL.Grammar.constants as constants
 import QL.AST.Expressions.Operations.binary_expression as b
 
 
 class Equal(b.BinaryExpression):
 
-    def set_operator(self):
-        return " == "
+    def set_string_operator(self):
+        return "=="
 
     # get the return _type of the _expression
-    def return_type_string(self, type_dict):
-        return constants.BOOL
+    def return_type(self, type_map):
+        return bool
 
     # override as equal is allowed to have types on both sides which are not booleans
     def is_valid_expression_message(self, type_map):
-        message = []
+        messages = []
 
         # check for both operands if they are valid
-        message.extend(self._operand1.is_valid_expression_message(type_map))
-        message.extend(self._operand2.is_valid_expression_message(type_map))
+        messages.extend(self._left_operand.is_valid_expression_message(type_map))
+        messages.extend(self._right_operand.is_valid_expression_message(type_map))
 
         # if the types of both operands are not similar the expression is not correct
-        if self._operand1.return_type_string(type_map) != self._operand2.return_type_string(type_map):
-            message.append(self._operand1.pretty_print() +
-                           " is not the same type as " + self._operand2.pretty_print())
+        if self._left_operand.return_type(type_map) != self._right_operand.return_type(type_map):
+            messages.append(self._left_operand.__str__() +
+                           " is not the same type as " + self._right_operand.__str__())
 
-        return message
+        return messages
 
     def eval(self, x, y):
         return x == y

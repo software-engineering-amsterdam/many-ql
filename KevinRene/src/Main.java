@@ -1,5 +1,7 @@
 import gui.Application;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 public class Main {	
@@ -13,9 +15,9 @@ public class Main {
         JFrame frame = new JFrame("Questionnaire");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.setMinimumSize(new Dimension(800, 600));
         frame.setVisible(true);
+        frame.pack();
         
         new Application(frame);
     }

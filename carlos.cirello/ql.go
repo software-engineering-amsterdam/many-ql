@@ -12,7 +12,7 @@ func main() {
 
 	srcFn, srcReader, inReader, outWriter := openIoStreams()
 	pipes, guiAppName := startInterpreter(srcReader, srcFn)
-	readInputCsv(pipes, inReader)
+	readInput(pipes, inReader)
 	launchGUI(pipes, guiAppName)
-	writeOutputCsv(pipes, outWriter)
+	writeOutput(pipes, outWriter)
 }

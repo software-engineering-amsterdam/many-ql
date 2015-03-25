@@ -3,7 +3,6 @@ package uva.qls.ast.literal;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.StringValue;
-import uva.qls.supporting.*;
 
 public class Identifier extends Literal {
 	
@@ -23,16 +22,10 @@ public class Identifier extends Literal {
 		return visitor.visitIdentifier(this);
 	}
 	
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
 	public CodeLines getLOC() {
 		return this.codeLines;
 	}
-	
+
 	@Override
 	public StringValue evaluate(){
 		return new StringValue(this.identifier);

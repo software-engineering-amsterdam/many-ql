@@ -1,13 +1,19 @@
 ﻿using System;
-using QL.Model;
+using QL.AST;
+using QL.AST.Nodes;
 
 namespace QL.Exceptions.Warnings
 {
     /// <summary>
     /// Base class for all QL Warnings 
     /// </summary>
-    public class QLWarning : QLException
+    public class QLWarning : QLBaseException
     {
+        public override string Origin
+        {
+            get { return GetType().Name; }
+        }
+
         public QLWarning()
         {
         }

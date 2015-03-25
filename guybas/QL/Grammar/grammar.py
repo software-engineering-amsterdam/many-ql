@@ -2,7 +2,6 @@
 
 import pyparsing as pp
 import QL.Grammar.Factory.forms as form_factory
-import QL.Grammar.constants as constants
 import QL.Grammar.Factory.expressions as expression_factory
 #
 # basic types
@@ -57,6 +56,7 @@ extra_op = pp.oneOf('and or')
 
 # expr uses the above operators in the following order and associations
 # 1 means it binds to one operand, 2 means it binds to two operands
+# pyparsing doesn't support non-associative so left is chosen
 expr = pp.infixNotation(value,
          [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
           (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
@@ -74,17 +74,17 @@ expr = pp.infixNotation(value,
 statement_id = pp.Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_")
 
 # answerR is one of the texts: "bool", "number" or "text"
-answerR = (pp.Literal(constants.BOOL) |
-           pp.Literal(constants.NUMBER) |
-           pp.Literal(constants.TEXT))
+answerR = (pp.Literal("bool").setParseAction(lambda x: bool) |
+           pp.Literal("number").setParseAction(lambda x: int) |
+           pp.Literal("text").setParseAction(lambda x: str))
 
 # question :: Question id ( answerR ) : label
 question = (pp.Suppress("Question") + statement_id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + sentence
             ).setParseAction(form_factory.make_question)
 questions = pp.OneOrMore(question)
 
-
 statement = pp.Forward()
+
 # pIf :: if ( expr ) { statement+ }
 pIf = (pp.Suppress("if" + pp.Literal("(")) + expr + pp.Suppress(")") + pp.Suppress("{") +
        pp.OneOrMore(statement) + pp.Suppress("}")

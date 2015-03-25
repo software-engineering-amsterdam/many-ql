@@ -12,27 +12,18 @@
     - [X] get rid of switch statements
     - [X] magic constants
     - [X] duplicated code
-  - [ ] code smell hunt [5/17] from {7}
+  - [X] code smell hunt [5/5] from {7}
     - [X] comments
     - [X] long method
     - [X] duplicated code (again)
     - [X] large class
       - [X] Gui
     - [X] data clumps
-    - [ ] case statements
-    - [ ] parallel inheritance hierarchies
-    - [ ] lazy class
-    - [ ] similar subclasses
-    - [ ] temporary field
-    - [ ] middleman
-    - [ ] alternative classes with different interfaces
-    - [ ] feature envy
-    - [ ] shotgun surgery
-    - [ ] divergent change
-    - [ ] long parameter list
-    - [ ] duplicated code (againˆ2)
 
-* QL [7/7]
+* QL [7/8]
+  - [ ] Expansion [1/2]
+    - [X] Support for date fields
+    - [ ] Support for currency fields (adding currency sign before)
   - [X] Refactor [4/4]
     - [X] Expand tests
     - [X] Extract question typing from AST

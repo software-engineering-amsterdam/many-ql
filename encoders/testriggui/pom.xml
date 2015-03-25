@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.uva.sea.ql.encoders</groupId>
+	<groupId>nl.uva.sc.encoders.qls</groupId>
 	<artifactId>testriggui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -18,7 +18,7 @@
 
 	<dependencies>
         <dependency>
-		    <groupId>org.uva.sea.ql.encoders</groupId>
+		    <groupId>nl.uva.sc.encoders</groupId>
 		    <artifactId>ql</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -38,7 +38,7 @@
 			<version>8.20.8</version>
 		</dependency>
 		<dependency>
-			<groupId>org.uva.sea.ql.encoders</groupId>
+			<groupId>nl.uva.sc.encoders</groupId>
 			<artifactId>qls</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -67,7 +67,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<libDirectory>${basedir}/src/main/antlr4/org/uva/sea/ql/encoders</libDirectory>
+					<libDirectory>${basedir}/src/main/antlr4/nl/uva/sc/encoders</libDirectory>
 				</configuration>
 			</plugin>
 
@@ -80,7 +80,7 @@
 						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.uva.sea.ql.encoders.ui.QLUI</mainClass>
+							<mainClass>nl.uva.sc.encoders.qls.testrig.ql.ql.ql.ui.QLUI</mainClass>
 						</manifest>
 						<manifestEntries>
 							<mode>development</mode>

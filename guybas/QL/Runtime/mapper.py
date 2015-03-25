@@ -7,8 +7,7 @@ class Mapper:
         self.answers = {}  # {qid: {_answer: input, pointsTo: List}}
         self.inputObj = {}
 
-    def update(self, question, answer):
-        qid = question.ast.get_id()
+    def update(self, qid, answer):
         self.answers[qid] = answer
 
     def get_answers(self):

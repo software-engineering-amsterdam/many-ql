@@ -10,13 +10,14 @@ import javax.swing.JPanel;
 
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
+import uva.sc.ql.atom.ID;
 
 import org.antlr.v4.runtime.RecognitionException;
 
-import uva.sc.ql.dependentElements.DependentQuestionsVisitor;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
 import uva.sc.ql.form.Form;
 import uva.sc.ql.gui.questions.QuestionFactory;
+import uva.sc.ql.patronElements.PatronQuestionsVisitor;
 import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
@@ -25,15 +26,15 @@ import uva.sc.ql.statements.Statement;
 public class GUIVisitor extends JFrame implements
 	IQLFormNodeVisitor<Component>, IQLStatementNodeVisitor<Component> {
 
-    Map<java.lang.String, List<java.lang.String>> dependentElements;
+    Map<ID, List<ID>> patronElements;
     List<Component> componentList = new ArrayList<Component>();
 
     EvaluatorVisitor evaluator;
-    java.lang.String currentElement;
+    ID currentElement;
 
-    public GUIVisitor(EvaluatorVisitor eval, DependentQuestionsVisitor d) {
+    public GUIVisitor(EvaluatorVisitor eval, PatronQuestionsVisitor d) {
 	evaluator = eval;
-	dependentElements = d.getDependentElements();
+	patronElements = d.getPatronElements();
     }
 
     public EvaluatorVisitor getEvaluator() {
@@ -55,13 +56,16 @@ public class GUIVisitor extends JFrame implements
     public JPanel visit(Question question) {
 	QuestionFactory questionFactory = new QuestionFactory();
 	uva.sc.ql.gui.questions.Question questionGUI = questionFactory.questionType(
-		question, dependentElements, evaluator, componentList);
+		question, patronElements, evaluator, componentList);
 
-	currentElement = question.getId().getValue();
-	boolean isEditable = evaluator.getValuesTable().get(currentElement)
-		.getValue() == null;
-	componentList.add(questionGUI.drawQuestion(currentElement,
-		question.getStr(), isEditable));
+	currentElement = question.getId();
+	
+	boolean isEditable = false;
+	if (evaluator.getValuesTable().get(currentElement) != null)
+	{
+	    isEditable = evaluator.getValuesTable().get(currentElement).getValue() == null;
+	}
+	componentList.add(questionGUI.drawQuestion(currentElement, question.getStr(), isEditable));
 	return null;
     }
 

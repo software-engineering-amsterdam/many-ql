@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.*;
 
 import java.math.BigDecimal;
@@ -23,19 +22,19 @@ public class Slider extends ControlElement implements IntControl, DecControl
     private Double defaultValue;
     private NumberFormat formatter;
 
-    public Slider(Boolean visible, Boolean disabled, Integer startValue, Integer endValue, Integer step)
+    public Slider(Integer startValue, Integer endValue, Integer step)
     {
-        this(visible, disabled, startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0");
-     }
-
-    public Slider(Boolean visible, Boolean disabled, Double startValue, Double endValue, Double step)
-    {
-        this(visible, disabled, startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0.00");
+        this(startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0");
     }
 
-    private Slider(Boolean visible, Boolean disabled, Double startValue, Double endValue, Double step, String format)
+    public Slider(BigDecimal startValue, BigDecimal endValue, BigDecimal step)
     {
-        super(visible, disabled);
+        this(startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0.00");
+    }
+
+    private Slider(Double startValue, Double endValue, Double step, String format)
+    {
+        super();
         this.slider = new javafx.scene.control.Slider(startValue, endValue, step);
         this.formatter = new DecimalFormat(format);
 
@@ -95,12 +94,6 @@ public class Slider extends ControlElement implements IntControl, DecControl
     public void addListener(ChangeListener listener)
     {
         this.slider.valueProperty().addListener(listener);
-    }
-
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
     }
 
     @Override

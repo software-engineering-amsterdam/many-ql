@@ -29,5 +29,4 @@ public abstract class GuiElement extends Observable
         this.visible = visible;
     }
 
-    public abstract <V> V accept(ModelVisitor<V> visitor);
 }

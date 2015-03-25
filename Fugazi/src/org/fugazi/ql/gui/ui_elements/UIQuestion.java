@@ -27,7 +27,7 @@ public abstract class UIQuestion extends Colleague {
     }
 
     public void removeFromForm(UIForm _form) {
-        this.widget.supress(_form);
+        this.widget.suppress(_form);
         this.resetState();
     }
 

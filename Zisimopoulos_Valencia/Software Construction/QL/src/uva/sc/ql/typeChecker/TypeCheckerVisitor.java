@@ -47,16 +47,16 @@ import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	IQLStatementNodeVisitor<INode>, IQLExpressionNodeVisitor<INode> {
 
     List<IError> errors;
     List<IWarning> warnings;
-    List<String> circularDependencies;
     List<String> questionLabels;
-    String currentQuestion;
+    ID currentQuestion;
 
-    Map<String, Type> symbolTable = new HashMap<String, Type>();
+    Map<ID, Type> symbolTable = new HashMap<ID, Type>();
 
     // getters
     public List<IError> getErrors() {
@@ -67,7 +67,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	return warnings;
     }
 
-    public Map<String, Type> getSymbolTable() {
+    public Map<ID, Type> getSymbolTable() {
 	return symbolTable;
     }
 
@@ -76,12 +76,11 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	questionLabels = new ArrayList<String>();
 	errors = new ArrayList<IError>();
 	warnings = new ArrayList<IWarning>();
-	circularDependencies = new ArrayList<String>();
     }
 
     // visit methods
     public Form visit(Form questionnaire) {
-	String id = questionnaire.getId().getValue();
+	ID id = questionnaire.getId();
 	symbolTable.put(id, null);
 
 	List<Statement> statements = questionnaire.getStatements();
@@ -92,7 +91,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
     }
 
     public Question visit(Question question) {
-	currentQuestion = question.getId().getValue();
+	currentQuestion = question.getId();
 	String questionLabel = question.getStr();
 	Type type = question.getType();
 	if (!this.symbolTable.containsKey(currentQuestion)) {
@@ -112,19 +111,18 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	    expr.accept(this);
 	}
 
-	currentQuestion = "";
+	currentQuestion = null;
 	return null;
     }
 
     public Type visit(ID id) {
-	String identity = id.getValue();
 	Type result = new Undefined();
-	if (!symbolTable.containsKey(identity)) {
-	    errors.add(new UndefinedID(identity));
+	if (!symbolTable.containsKey(id)) {
+	    errors.add(new UndefinedID(id));
 	} else {
-	    result = symbolTable.get(identity);
-	    if (currentQuestion.equals(identity)) {
-		errors.add(new CyclicDependency(identity));
+	    result = symbolTable.get(id);
+	    if (id.equals(currentQuestion)) {
+		errors.add(new CyclicDependency(id));
 	    }
 	}
 	return result;
@@ -224,8 +222,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	Expression expr2 = bool.getSecondOperand();
 	Type firstOperandType = (Type) expr1.accept(this);
 	Type secondOperandType = (Type) expr2.accept(this);
-	if (!(firstOperandType.equals(new Boolean()) && secondOperandType
-		.equals(new Boolean()))) {
+	if (!((new Boolean().equals(firstOperandType)) && (new Boolean().equals(secondOperandType)))) {
 	    errors.add(new uva.sc.core.errors.Boolean());
 	}
 	return new Boolean();

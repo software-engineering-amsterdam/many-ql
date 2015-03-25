@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.IntegerValue;
-import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.validators.IntegerValidator;
 import nl.uva.se.ql.gui.validators.Validator;
 
@@ -13,7 +13,7 @@ public class IntegerQuestion extends BaseQuestion<String> {
 
 	private TextField textField = new TextField();
 
-	public IntegerQuestion(Question question, IMediator mediator) {
+	public IntegerQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
 		Listener<String> listener = new Listener<String>(getMediator());
 		textField.textProperty().addListener(
@@ -43,4 +43,5 @@ public class IntegerQuestion extends BaseQuestion<String> {
 	public Node getWidget() {
 		return this.textField;
 	}
+
 }

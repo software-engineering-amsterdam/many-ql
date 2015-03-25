@@ -1,8 +1,8 @@
 package ql.gui.input;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
-import ql.gui.control.BoolControl;
 import ql.gui.control.Control;
 
 /**
@@ -12,7 +12,7 @@ public abstract class Input<T extends Control> extends GuiElement
 {
     private String id;
     private Boolean disabled;
-    protected VBox inputNode;
+    protected final VBox inputNode;
     protected T control;
 
     public Input(String id, T control, Boolean visible, Boolean disabled)
@@ -21,8 +21,9 @@ public abstract class Input<T extends Control> extends GuiElement
         this.id = id;
         this.control = control;
         this.disabled = disabled;
-//        this.control.setDisabled(disabled);
-//        this.control.setVisible(visible);
+        this.inputNode = new VBox();
+        this.setVisible(visible);
+        this.setDisabled(disabled);
     }
 
     public Boolean getDisabled()
@@ -30,10 +31,11 @@ public abstract class Input<T extends Control> extends GuiElement
         return disabled;
     }
 
-//    public void setDisabled(Boolean disabled)
-//    {
-//        this.disabled = disabled;
-//    }
+    public void setDisabled(Boolean disabled)
+    {
+        this.disabled = disabled;
+        this.control.setDisabled(disabled);
+    }
 
     public VBox getInputNode()
     {
@@ -53,15 +55,21 @@ public abstract class Input<T extends Control> extends GuiElement
         return id;
     }
 
-    protected abstract VBox createInputNode(Control control);
+    protected void fillInputNode()
+    {
+        this.inputNode.getChildren().add(this.control.getControlNode());
+        this.inputNode.setAlignment(Pos.TOP_RIGHT);
+        this.inputNode.setVisible(this.getVisible());
+    }
 
     public void switchControl(T control)
     {
-        //TODO: take care that the input node is reconstructed correctly
-        control.setDisabled(this.getDisabled());
+        control.setDisabled(this.disabled);
         control.setVisible(this.getVisible());
-        this.inputNode.getChildren().remove(this.control.getControlNode());
+        this.inputNode.getChildren().clear();
         this.control = control;
-        this.inputNode.getChildren().add(this.control.getControlNode());
+        this.fillInputNode();
     }
+
+    public abstract <V> V accept(InputVisitor<V> visitor);
 }

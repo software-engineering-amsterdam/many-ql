@@ -14,12 +14,11 @@ class Assignment(statement.IStatement):
         self.expression = expression
 
     # pretty print ast, with level giving the indentation
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expression.pretty_print() + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.type)
-        s += "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + str(self.expression) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + str(self.type) + "\n"
         return s
 
     # return all ids in the statement
@@ -34,13 +33,11 @@ class Assignment(statement.IStatement):
     def is_conditional(self):
         return False
 
-    # return all the _dependencies in the statement of other _statements
-    def get_dependency_collection(self, dependencies):
-        d = self.expression.get_dependencies()
+    # return all the dependencies in the statement of other statements
+    # TODO: debug this
+    def dependency_collection(self, dependencies):
         if self.id not in dependencies:
-            dependencies[self.id] = d
-        else:
-            dependencies[self.id] = dependencies[self.id] + self.parent_condition.get_dependencies()
+            dependencies[self.id] = self.expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
@@ -51,22 +48,20 @@ class Assignment(statement.IStatement):
     def get_statement_dict(self):
         return {self.id: self}
 
-    #
-    # Methods of assignment
-    #
+    def valid_expression_messages(self, type_map):
+        return self.expression.is_valid_expression_message(type_map)
 
-    # TODO: change below?
-
-    def get_type(self):
-        return self.type
+    def get_expression(self):
+        return self.expression
 
     def get_id(self):
         return self.id
 
+    def get_type_string(self):
+        return self.type
+
     def get_label(self):
-        return self.expression.pretty_print()
+        return ""
 
-    #
-    def valid_type_message(self, td):
-        return self.condition.is_valid_expression_message(td)
-
+    def is_assignment(self):
+        return True

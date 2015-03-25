@@ -142,11 +142,6 @@ namespace UvA.SoftCon.Questionnaire.QL
             return VisitUnaryExpression(negation);
         }
 
-        public virtual T Visit(Increment increment)
-        {
-            return VisitUnaryExpression(increment);
-        }
-
         private T VisitBinaryExpression(BinaryExpression expression)
         {
             expression.Left.Accept(this);

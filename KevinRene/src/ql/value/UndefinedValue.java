@@ -1,13 +1,30 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLError;
 
-public class UndefinedValue extends Value {
+public class UndefinedValue implements Value {
 	@Override
 	public boolean isUndefined() {
 		return true;
 	}
+	
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 
+	@Override
+	public Void getValue() {
+		return null;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLError();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		return this;
@@ -90,11 +107,6 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		return this;
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
 		return this;
 	}
 

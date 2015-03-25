@@ -3,8 +3,8 @@ from collections import Counter
 
 class TypeChecker:
     def __init__(self, form, sheet):
-        self.form = form
-        self.sheet = sheet
+        self._form = form
+        self._sheet = sheet
         self._sheet_ids = sheet.get_ids()
         self._sheet_property_names = sheet.get_property_names()
         self._form_type_dict = form.get_type_dict()
@@ -26,7 +26,7 @@ class TypeChecker:
 
         widget_message = TypeChecker.check_types_widgets(self._sheet.get_widget_dict(), self._form_type_dict)
         if widget_message:
-            print("Not correct widget:")
+            print("Not correct get_widget:")
             print(widget_message)
             valid = False
 
@@ -43,7 +43,7 @@ class TypeChecker:
         message = ""
         for i in sheet_ids:
             if i not in form_ids:
-                message += i + " does not exist in the Form\n"
+                message += i + " does not exist in the Sheet\n"
         return message
 
     @staticmethod
@@ -69,7 +69,7 @@ class TypeChecker:
         for t in type_dict:
             if t in widget_dict:
                 if not type_dict[t] in widget_dict[t].get_compatible():
-                    message += "the _type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
+                    message += "the _type of " + t + " is not supported by get_widget" +  str(widget_dict[t]) + "\n"
         return message
 
     @staticmethod

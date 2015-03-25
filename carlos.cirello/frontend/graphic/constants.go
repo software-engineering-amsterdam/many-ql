@@ -2,12 +2,6 @@ package graphic
 
 const rootNode = `questions`
 
-const (
-	drawQuestion renderAction = iota
-	updateQuestion
-	nukeQuestion
-)
-
 const checkboxQML = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
@@ -66,9 +60,10 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		TextField {
-			validator: IntValidator {}
+			validator: DoubleValidator {}
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
+			inputMethodHints: Qt.ImhFormattedNumbersOnly
 		}
 	}
 }
@@ -89,6 +84,33 @@ GroupBox {
 		TextField {
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
+		}
+	}
+}
+`
+
+const dateFieldQML = `
+import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.0
+
+GroupBox {
+	title: "{{ .QuestionName }}"
+	Layout.fillWidth: true
+	visible: false
+
+	RowLayout {
+		anchors.fill: parent
+		TextField {
+			inputMask: "99/99/9999"
+			objectName: "{{ .ObjectName }}"
+			Layout.fillWidth: true
+			inputMethodHints: Qt.ImhDate
+		}
+		Text {
+			objectName: "{{ .ObjectName }}Warning"
+			text: "Wrong date. Please use DD/MM/YYYY"
+			visible: false
 		}
 	}
 }

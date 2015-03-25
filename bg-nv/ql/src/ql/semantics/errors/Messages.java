@@ -1,8 +1,11 @@
 package ql.semantics.errors;
 
+import ql.util.StringHelper;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by bore on 10/03/15.
@@ -42,5 +45,15 @@ public class Messages implements Iterable<Message>
     public Iterator<Message> iterator()
     {
         return this.messages.iterator();
+    }
+
+    @Override
+    public String toString()
+    {
+        List<String> ms = this.messages.stream()
+                .map(m -> m.toString())
+                .collect(Collectors.toList());
+
+        return StringHelper.printStrValueList(ms);
     }
 }

@@ -13,17 +13,6 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-type renderAction int
-
-type render struct {
-	action     renderAction
-	identifier string
-	label      string
-	fieldType  string
-	content    interface{}
-	invisible  bool
-}
-
 // Gui holds the driver which is used by Frontend to execute the application.
 type Gui struct {
 	renderplumbing chan render
@@ -172,6 +161,8 @@ func (g *Gui) addNewQuestion(typ, name, caption string, invisible bool) {
 		question = g.newBooleanQuestion(name, caption, false)
 	case ast.ScalarNumericPrimitive:
 		question = g.newNumericQuestion(name, caption, 0)
+	case ast.ScalarDatePrimitive:
+		question = g.newDateQuestion(name, caption, "")
 	}
 
 	if !invisible {

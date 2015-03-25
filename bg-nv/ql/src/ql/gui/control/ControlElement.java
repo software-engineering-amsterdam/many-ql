@@ -8,14 +8,9 @@ import ql.semantics.values.*;
  */
 public abstract class ControlElement extends GuiElement
 {
-    public ControlElement(Boolean visible, Boolean disabled)
+    public ControlElement()
     {
-
-    }
-
-    protected void sendNotification(Value val) {
-        setChanged();
-        notifyObservers(val);
+        super();
     }
 
     // the default visit methods - children implement the Control interface, which enforces them
@@ -43,4 +38,6 @@ public abstract class ControlElement extends GuiElement
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
+
+    public abstract <T> T accept(ControlVisitor<T> visitor);
 }

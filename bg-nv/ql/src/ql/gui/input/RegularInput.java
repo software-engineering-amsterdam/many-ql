@@ -1,12 +1,9 @@
 package ql.gui.input;
 
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import ql.gui.control.Control;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.errors.Message;
 import ql.semantics.values.Value;
 
@@ -27,16 +24,8 @@ public abstract class RegularInput<T extends Control> extends Input<T>
         this.errorField.setFill(Color.FIREBRICK);
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
-        //this.control.setDisabled(true);
-        this.inputNode = this.createInputNode(this.control);
+        this.fillInputNode();
     }
-//
-//    @Override
-//    public void setDisabled(Boolean disabled)
-//    {
-//        super.setDisabled(disabled);
-//        this.control.setDisabled(disabled);
-//    }
 
     @Override
     public void setVisible(Boolean visible)
@@ -46,14 +35,10 @@ public abstract class RegularInput<T extends Control> extends Input<T>
     }
 
     @Override
-    protected VBox createInputNode(Control control)
+    protected void fillInputNode()
     {
-        VBox box = new VBox();
-        box.getChildren().add(this.control.getControlNode());
-        box.getChildren().add(this.errorField);
-        box.setAlignment(Pos.TOP_RIGHT);
-        box.setVisible(this.getVisible());
-        return box;
+        super.fillInputNode();
+        this.inputNode.getChildren().add(this.errorField);
     }
 
     @Override
@@ -90,7 +75,7 @@ public abstract class RegularInput<T extends Control> extends Input<T>
             this.addValidationError(this.getInvalidInputErrorMsg());
         }
         this.setChanged();
-        this.notifyObservers(new ValueTableEntry(this.getId(), val));
+        this.notifyObservers(val);
     }
 
     protected abstract Value convertUserInputToValue();

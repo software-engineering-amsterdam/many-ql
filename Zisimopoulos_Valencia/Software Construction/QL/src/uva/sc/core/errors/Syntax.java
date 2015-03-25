@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.RecognitionException;
 
 import uva.sc.ql.parser.exceptions.InlineRecognitionException;
 
+@SuppressWarnings("serial")
 public class Syntax extends InlineRecognitionException {
 
     public Syntax(String message, RecognitionException e) {

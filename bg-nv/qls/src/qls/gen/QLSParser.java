@@ -1,4 +1,4 @@
-// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/qls/ql.syntax/QLS.g4 by ANTLR 4.5
+// Generated from D:/intellij_projects/many-ql/bg-nv/qls/src/qls/syntax\QLS.g4 by ANTLR 4.5
 package qls.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLSParser extends Parser {
@@ -17,28 +19,28 @@ public class QLSParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, QuestionType=23, Boolean=24, 
-		WidgetType=25, Color=26, Integer=27, Decimal=28, IntOrDec=29, String=30, 
-		Identifier=31, Comment=32, LineComment=33, WS=34;
+		T__17=18, T__18=19, T__19=20, T__20=21, QuestionType=22, Boolean=23, WidgetType=24, 
+		Color=25, Integer=26, Decimal=27, String=28, Identifier=29, Comment=30, 
+		LineComment=31, WS=32;
 	public static final int
 		RULE_stylesheet = 0, RULE_page = 1, RULE_statement = 2, RULE_section = 3, 
 		RULE_question = 4, RULE_defaultStmt = 5, RULE_stylesheetRule = 6, RULE_widgetValue = 7;
 	public static final String[] ruleNames = {
-		"stylesheet", "page", "statement", "segment", "question", "defaultStmt",
+		"stylesheet", "page", "statement", "section", "question", "defaultStmt", 
 		"stylesheetRule", "widgetValue"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'stylesheet'", "'{'", "'}'", "'page'", "'segment'", "'question'",
+		null, "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'question'", 
 		"'default'", "'width'", "':'", "'fontsize'", "'font'", "'color'", "'widget'", 
-		"'slider'", "'('", "','", "')'", "'spinbox'", "'textbox'", "'radio'", 
-		"'checkbox'", "'dropdown'"
+		"'slider'", "'('", "','", "')'", "'radio'", "'dropdown'", "'checkbox'", 
+		"'textbox'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, "QuestionType", 
-		"Boolean", "WidgetType", "Color", "Integer", "Decimal", "IntOrDec", "String", 
-		"Identifier", "Comment", "LineComment", "WS"
+		null, null, null, null, null, null, null, null, null, null, "QuestionType", 
+		"Boolean", "WidgetType", "Color", "Integer", "Decimal", "String", "Identifier", 
+		"Comment", "LineComment", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -558,15 +560,19 @@ public class QLSParser extends Parser {
 	}
 
 	public static class WidgetValueContext extends ParserRuleContext {
-		public Token label;
+		public Token wlabel;
 		public Token min;
 		public Token max;
 		public Token step;
 		public Token yesText;
 		public Token noText;
-		public List<TerminalNode> IntOrDec() { return getTokens(QLSParser.IntOrDec); }
-		public TerminalNode IntOrDec(int i) {
-			return getToken(QLSParser.IntOrDec, i);
+		public List<TerminalNode> Decimal() { return getTokens(QLSParser.Decimal); }
+		public TerminalNode Decimal(int i) {
+			return getToken(QLSParser.Decimal, i);
+		}
+		public List<TerminalNode> Integer() { return getTokens(QLSParser.Integer); }
+		public TerminalNode Integer(int i) {
+			return getToken(QLSParser.Integer, i);
 		}
 		public List<TerminalNode> String() { return getTokens(QLSParser.String); }
 		public TerminalNode String(int i) {
@@ -586,113 +592,96 @@ public class QLSParser extends Parser {
 	public final WidgetValueContext widgetValue() throws RecognitionException {
 		WidgetValueContext _localctx = new WidgetValueContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_widgetValue);
+		int _la;
 		try {
-			setState(121);
-			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
-			case 1:
+			setState(111);
+			switch (_input.LA(1)) {
+			case T__13:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(89); 
-				((WidgetValueContext)_localctx).label = match(T__13);
+				((WidgetValueContext)_localctx).wlabel = match(T__13);
+				setState(90); 
+				match(T__14);
+				setState(91);
+				((WidgetValueContext)_localctx).min = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !(_la==Integer || _la==Decimal) ) {
+					((WidgetValueContext)_localctx).min = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(92); 
+				match(T__15);
+				setState(93);
+				((WidgetValueContext)_localctx).max = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !(_la==Integer || _la==Decimal) ) {
+					((WidgetValueContext)_localctx).max = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(94); 
+				match(T__15);
+				setState(95);
+				((WidgetValueContext)_localctx).step = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !(_la==Integer || _la==Decimal) ) {
+					((WidgetValueContext)_localctx).step = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(96); 
+				match(T__16);
 				}
 				break;
-			case 2:
+			case T__17:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(90); 
-				((WidgetValueContext)_localctx).label = match(T__13);
-				setState(91); 
-				match(T__14);
-				setState(92); 
-				((WidgetValueContext)_localctx).min = match(IntOrDec);
-				setState(93); 
-				match(T__15);
-				setState(94); 
-				((WidgetValueContext)_localctx).max = match(IntOrDec);
-				setState(95); 
-				match(T__15);
-				setState(96); 
-				((WidgetValueContext)_localctx).step = match(IntOrDec);
 				setState(97); 
+				((WidgetValueContext)_localctx).wlabel = match(T__17);
+				setState(98); 
+				match(T__14);
+				setState(99); 
+				((WidgetValueContext)_localctx).yesText = match(String);
+				setState(100); 
+				match(T__15);
+				setState(101); 
+				((WidgetValueContext)_localctx).noText = match(String);
+				setState(102); 
 				match(T__16);
 				}
 				break;
-			case 3:
+			case T__18:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(98); 
-				((WidgetValueContext)_localctx).label = match(T__17);
+				setState(103); 
+				((WidgetValueContext)_localctx).wlabel = match(T__18);
+				setState(104); 
+				match(T__14);
+				setState(105); 
+				((WidgetValueContext)_localctx).yesText = match(String);
+				setState(106); 
+				match(T__15);
+				setState(107); 
+				((WidgetValueContext)_localctx).noText = match(String);
+				setState(108); 
+				match(T__16);
 				}
 				break;
-			case 4:
+			case T__19:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(99); 
-				((WidgetValueContext)_localctx).label = match(T__17);
-				setState(100); 
-				match(T__14);
-				setState(101); 
-				((WidgetValueContext)_localctx).min = match(IntOrDec);
-				setState(102); 
-				match(T__15);
-				setState(103); 
-				((WidgetValueContext)_localctx).max = match(IntOrDec);
-				setState(104); 
-				match(T__15);
-				setState(105); 
-				((WidgetValueContext)_localctx).step = match(IntOrDec);
-				setState(106); 
-				match(T__16);
+				setState(109); 
+				((WidgetValueContext)_localctx).wlabel = match(T__19);
 				}
 				break;
-			case 5:
+			case T__20:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(107); 
-				((WidgetValueContext)_localctx).label = match(T__18);
-				}
-				break;
-			case 6:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(108); 
-				((WidgetValueContext)_localctx).label = match(T__19);
-				setState(109); 
-				match(T__14);
 				setState(110); 
-				((WidgetValueContext)_localctx).yesText = match(String);
-				setState(111); 
-				match(T__15);
-				setState(112); 
-				((WidgetValueContext)_localctx).noText = match(String);
-				setState(113); 
-				match(T__16);
+				((WidgetValueContext)_localctx).wlabel = match(T__20);
 				}
 				break;
-			case 7:
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(114); 
-				((WidgetValueContext)_localctx).label = match(T__20);
-				}
-				break;
-			case 8:
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(115); 
-				((WidgetValueContext)_localctx).label = match(T__21);
-				setState(116); 
-				match(T__14);
-				setState(117); 
-				((WidgetValueContext)_localctx).yesText = match(String);
-				setState(118); 
-				match(T__15);
-				setState(119); 
-				((WidgetValueContext)_localctx).noText = match(String);
-				setState(120); 
-				match(T__16);
-				}
-				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -707,37 +696,35 @@ public class QLSParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$~\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\6\2\27"+
-		"\n\2\r\2\16\2\30\3\2\3\2\3\3\3\3\3\3\3\3\6\3!\n\3\r\3\16\3\"\3\3\3\3\3"+
-		"\4\3\4\3\4\5\4*\n\4\3\5\3\5\3\5\3\5\6\5\60\n\5\r\5\16\5\61\3\5\3\5\3\6"+
-		"\3\6\3\6\3\6\6\6:\n\6\r\6\16\6;\3\6\3\6\5\6@\n\6\3\7\3\7\3\7\3\7\6\7F"+
-		"\n\7\r\7\16\7G\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
-		"\3\b\3\b\5\bZ\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3"+
-		"\t\3\t\5\t|\n\t\3\t\2\2\n\2\4\6\b\n\f\16\20\2\2\u0088\2\22\3\2\2\2\4\34"+
-		"\3\2\2\2\6)\3\2\2\2\b+\3\2\2\2\n\65\3\2\2\2\fA\3\2\2\2\16Y\3\2\2\2\20"+
-		"{\3\2\2\2\22\23\7\3\2\2\23\24\7!\2\2\24\26\7\4\2\2\25\27\5\4\3\2\26\25"+
-		"\3\2\2\2\27\30\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\32\3\2\2\2\32\33"+
-		"\7\5\2\2\33\3\3\2\2\2\34\35\7\6\2\2\35\36\7!\2\2\36 \7\4\2\2\37!\5\6\4"+
-		"\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$%\7\5\2\2%\5"+
-		"\3\2\2\2&*\5\b\5\2\'*\5\n\6\2(*\5\f\7\2)&\3\2\2\2)\'\3\2\2\2)(\3\2\2\2"+
-		"*\7\3\2\2\2+,\7\7\2\2,-\7 \2\2-/\7\4\2\2.\60\5\6\4\2/.\3\2\2\2\60\61\3"+
-		"\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\64\7\5\2\2\64\t\3\2"+
-		"\2\2\65\66\7\b\2\2\66?\7!\2\2\679\7\4\2\28:\5\16\b\298\3\2\2\2:;\3\2\2"+
-		"\2;9\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\7\5\2\2>@\3\2\2\2?\67\3\2\2\2?@\3\2"+
-		"\2\2@\13\3\2\2\2AB\7\t\2\2BC\7\31\2\2CE\7\4\2\2DF\5\16\b\2ED\3\2\2\2F"+
-		"G\3\2\2\2GE\3\2\2\2GH\3\2\2\2HI\3\2\2\2IJ\7\5\2\2J\r\3\2\2\2KL\7\n\2\2"+
-		"LM\7\13\2\2MZ\7\35\2\2NO\7\f\2\2OP\7\13\2\2PZ\7\35\2\2QR\7\r\2\2RS\7\13"+
-		"\2\2SZ\7 \2\2TU\7\16\2\2UV\7\13\2\2VZ\7\34\2\2WX\7\17\2\2XZ\5\20\t\2Y"+
-		"K\3\2\2\2YN\3\2\2\2YQ\3\2\2\2YT\3\2\2\2YW\3\2\2\2Z\17\3\2\2\2[|\7\20\2"+
-		"\2\\]\7\20\2\2]^\7\21\2\2^_\7\37\2\2_`\7\22\2\2`a\7\37\2\2ab\7\22\2\2"+
-		"bc\7\37\2\2c|\7\23\2\2d|\7\24\2\2ef\7\24\2\2fg\7\21\2\2gh\7\37\2\2hi\7"+
-		"\22\2\2ij\7\37\2\2jk\7\22\2\2kl\7\37\2\2l|\7\23\2\2m|\7\25\2\2no\7\26"+
-		"\2\2op\7\21\2\2pq\7 \2\2qr\7\22\2\2rs\7 \2\2s|\7\23\2\2t|\7\27\2\2uv\7"+
-		"\30\2\2vw\7\21\2\2wx\7 \2\2xy\7\22\2\2yz\7 \2\2z|\7\23\2\2{[\3\2\2\2{"+
-		"\\\3\2\2\2{d\3\2\2\2{e\3\2\2\2{m\3\2\2\2{n\3\2\2\2{t\3\2\2\2{u\3\2\2\2"+
-		"|\21\3\2\2\2\13\30\")\61;?GY{";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"t\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\6\2"+
+		"\27\n\2\r\2\16\2\30\3\2\3\2\3\3\3\3\3\3\3\3\6\3!\n\3\r\3\16\3\"\3\3\3"+
+		"\3\3\4\3\4\3\4\5\4*\n\4\3\5\3\5\3\5\3\5\6\5\60\n\5\r\5\16\5\61\3\5\3\5"+
+		"\3\6\3\6\3\6\3\6\6\6:\n\6\r\6\16\6;\3\6\3\6\5\6@\n\6\3\7\3\7\3\7\3\7\6"+
+		"\7F\n\7\r\7\16\7G\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\5\bZ\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t"+
+		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tr\n\t\3\t\2\2\n\2\4\6\b\n"+
+		"\f\16\20\2\3\3\2\34\35{\2\22\3\2\2\2\4\34\3\2\2\2\6)\3\2\2\2\b+\3\2\2"+
+		"\2\n\65\3\2\2\2\fA\3\2\2\2\16Y\3\2\2\2\20q\3\2\2\2\22\23\7\3\2\2\23\24"+
+		"\7\37\2\2\24\26\7\4\2\2\25\27\5\4\3\2\26\25\3\2\2\2\27\30\3\2\2\2\30\26"+
+		"\3\2\2\2\30\31\3\2\2\2\31\32\3\2\2\2\32\33\7\5\2\2\33\3\3\2\2\2\34\35"+
+		"\7\6\2\2\35\36\7\37\2\2\36 \7\4\2\2\37!\5\6\4\2 \37\3\2\2\2!\"\3\2\2\2"+
+		"\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$%\7\5\2\2%\5\3\2\2\2&*\5\b\5\2\'*\5\n"+
+		"\6\2(*\5\f\7\2)&\3\2\2\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\7\2\2,-\7"+
+		"\36\2\2-/\7\4\2\2.\60\5\6\4\2/.\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62"+
+		"\3\2\2\2\62\63\3\2\2\2\63\64\7\5\2\2\64\t\3\2\2\2\65\66\7\b\2\2\66?\7"+
+		"\37\2\2\679\7\4\2\28:\5\16\b\298\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2"+
+		"<=\3\2\2\2=>\7\5\2\2>@\3\2\2\2?\67\3\2\2\2?@\3\2\2\2@\13\3\2\2\2AB\7\t"+
+		"\2\2BC\7\30\2\2CE\7\4\2\2DF\5\16\b\2ED\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3"+
+		"\2\2\2HI\3\2\2\2IJ\7\5\2\2J\r\3\2\2\2KL\7\n\2\2LM\7\13\2\2MZ\7\34\2\2"+
+		"NO\7\f\2\2OP\7\13\2\2PZ\7\34\2\2QR\7\r\2\2RS\7\13\2\2SZ\7\36\2\2TU\7\16"+
+		"\2\2UV\7\13\2\2VZ\7\33\2\2WX\7\17\2\2XZ\5\20\t\2YK\3\2\2\2YN\3\2\2\2Y"+
+		"Q\3\2\2\2YT\3\2\2\2YW\3\2\2\2Z\17\3\2\2\2[\\\7\20\2\2\\]\7\21\2\2]^\t"+
+		"\2\2\2^_\7\22\2\2_`\t\2\2\2`a\7\22\2\2ab\t\2\2\2br\7\23\2\2cd\7\24\2\2"+
+		"de\7\21\2\2ef\7\36\2\2fg\7\22\2\2gh\7\36\2\2hr\7\23\2\2ij\7\25\2\2jk\7"+
+		"\21\2\2kl\7\36\2\2lm\7\22\2\2mn\7\36\2\2nr\7\23\2\2or\7\26\2\2pr\7\27"+
+		"\2\2q[\3\2\2\2qc\3\2\2\2qi\3\2\2\2qo\3\2\2\2qp\3\2\2\2r\21\3\2\2\2\13"+
+		"\30\")\61;?GYq";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

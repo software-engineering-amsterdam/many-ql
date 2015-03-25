@@ -1,17 +1,14 @@
 package uva.qls.ast.component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.style.Style;
-import uva.qls.ast.value.GenericValue;
-import uva.qls.supporting.*;
+import uva.qls.ast.style.visitor.StyleTable;
 
 public class Spinbox extends Component{
-
-	public Spinbox(CodeLines _codeLines, ArrayList<Style> _style) {
+	
+	private StyleTable style;
+	
+	public Spinbox(CodeLines _codeLines, StyleTable _style) {
 		super(_codeLines);
 		this.style = _style;
 	}
@@ -22,23 +19,13 @@ public class Spinbox extends Component{
 	}
 
 	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-
-	@Override
-	public GenericValue<?> evaluate() {
-		return null;
+	public void componentStyle(StyleTable style) {
+		this.style = style;
 	}
 	
 	@Override
-	public void componentStyle(List<Style> style) {
-		this.style = style;
+	public StyleTable getStyle() {
+		return this.style;
 	}
 	
 	@Override

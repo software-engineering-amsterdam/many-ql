@@ -39,15 +39,15 @@ public class EvaluatorVisitor extends Observable implements
 	IQLFormNodeVisitor<Expression>, IQLStatementNodeVisitor<Expression>,
 	IQLExpressionNodeVisitor<Expression> {
 
-    Map<java.lang.String, DisplayData> valuesTable = new HashMap<java.lang.String, DisplayData>();
+    Map<ID, DisplayData> valuesTable = new HashMap<ID, DisplayData>();
 
     Expression currentIfCondition = null;
 
-    public Map<java.lang.String, DisplayData> getValuesTable() {
+    public Map<ID, DisplayData> getValuesTable() {
 	return valuesTable;
     }
 
-    public void putToValuesTable(String s, DisplayData d) {
+    public void putToValuesTable(ID s, DisplayData d) {
 	valuesTable.put(s, d);
 	setChanged();
 	notifyObservers();
@@ -63,10 +63,10 @@ public class EvaluatorVisitor extends Observable implements
 
     public Expression visit(Question question) {
 	if (question.getExpr() != null) {
-	    putToValuesTable(question.getId().getValue(), new DisplayData(
+	    putToValuesTable(question.getId(), new DisplayData(
 		    question.getExpr(), currentIfCondition, question.getType()));
 	} else {
-	    putToValuesTable(question.getId().getValue(), new DisplayData(null,
+	    putToValuesTable(question.getId(), new DisplayData(null,
 		    currentIfCondition, question.getType()));
 	}
 	return null;
@@ -83,7 +83,7 @@ public class EvaluatorVisitor extends Observable implements
     }
 
     public Expression visit(ID id) {
-	return (Expression) valuesTable.get(id.getValue()).getValue();
+	return (Expression) valuesTable.get(id).getValue();
     }
 
     public NumberAtom visit(Addition addition) {
