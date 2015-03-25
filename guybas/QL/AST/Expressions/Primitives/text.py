@@ -1,16 +1,16 @@
 import QL.AST.Expressions.Primitives.primitive as p
-import QL.Grammar.constants as constants
+import QL.AST.Expressions.Types.text_type as t
 
 
 class Text(p.Primitive):
     def __init__(self, text):
         self.__text = "\"" + text + "\""
 
-    def string_presentation(self):
+    def __str__(self):
         return self.__text
 
-    def return_type_string(self, type_dict):
-        return constants.TEXT
+    def return_type(self, type_dict):
+        return t.Text()
 
     # evaluation is just the value of the text
     def eval_expression(self, type_map):

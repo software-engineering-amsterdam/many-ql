@@ -19,7 +19,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
 
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 14;
-    public final static String DEFAULT_COLOR = "#000000";
+    public final static int DEFAULT_COLOR = 0x000000;
     public final static int DEFAULT_WIDTH = 50;
 
     protected IWidgetType type;

@@ -17,8 +17,8 @@ class Assignment(statement.IStatement):
     def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expression.string_presentation() + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.type) +  "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + str(self.expression) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + str(self.type) + "\n"
         return s
 
     # return all ids in the statement
@@ -32,6 +32,10 @@ class Assignment(statement.IStatement):
     # return if the statement is a conditional
     def is_conditional(self):
         return False
+
+    # evaluate the expression given the map of ids to answers
+    def evaluate_expression(self, answer_map):
+        return self.expression.eval_expression(answer_map)
 
     # return all the dependencies in the statement of other statements
     # TODO: debug this
@@ -48,8 +52,11 @@ class Assignment(statement.IStatement):
     def get_statement_dict(self):
         return {self.id: self}
 
-    def valid_expression_message(self, type_map):
+    def valid_expression_messages(self, type_map):
         return self.expression.is_valid_expression_message(type_map)
+
+    def get_expression(self):
+        return self.expression
 
     def get_id(self):
         return self.id

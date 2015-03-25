@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import evaluator.ValueRepository;
 
 public class SaveButtonListener {
@@ -34,11 +36,11 @@ public class SaveButtonListener {
 				fileWriter.append(COMMA);
 				fileWriter.append(valueRepository.getValue(k).toString());
 				fileWriter.append(NEW_LINE);
-			
 	        }
+	        JOptionPane.showMessageDialog(null, "Form was successfully saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
 		} 
 		catch (Exception e) {
-			System.out.println("Error in file!");
+			JOptionPane.showMessageDialog(null, "Error found in a form!", "Error!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} 
 		finally {
@@ -47,7 +49,8 @@ public class SaveButtonListener {
 				fileWriter.close();
 			} 
 			catch (IOException e) {
-				System.out.println("Error during closing or flushing of file.");
+				JOptionPane.showMessageDialog(null, "Error during closing or flushing of file!", "Error!", JOptionPane.ERROR_MESSAGE);
+				
 		        e.printStackTrace();
 			}			
 		}

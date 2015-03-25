@@ -8,9 +8,9 @@ class Widget(w.IWidget):
         self._properties = {self.widget_name(): "" }
 
     def string_presentation(self, level=0):
-        s = "    " * level + "Widget " + self.widget.string_presentation()
+        s = "    " * level + "Widget " + self.widget.__str__()
         for i in self.default_settings:
-            s += i.string_presentation(level + 2)
+            s += i.__str__(level + 2)
         return s
 
     def get_compatible(self):

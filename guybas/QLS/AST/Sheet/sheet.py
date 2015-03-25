@@ -15,7 +15,7 @@ class Sheet(e.SheetElement):
     def string_presentation(self, level=0):
         s = "    " * level + "Sheet " + self._name + "\n"
         for p in self._pages:
-            s += p.string_presentation(level + 1)
+            s += p.__str__(level + 1)
         return s
 
     def get_ids(self):

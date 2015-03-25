@@ -8,42 +8,22 @@ import javax.swing.JPanel;
 
 import uva.ql.interpreter.gui.supporting.Size;
 
-public class UIContainer extends JPanel{
+public class UIContainer{
 
-	static final long serialVersionUID = 42L; 
-	private Size containerSize;
-
-	public UIContainer(Size _containerSize){
-		this.containerSize = _containerSize;
-		this.setContainer();
+	public JPanel randerContainer(Size size){
+		JPanel panel = new JPanel();
+		
+		panel.setSize(size.getWidth(), size.getHeight());
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		return panel;
 	}
 	
-	private void setContainer(){
-		this.setSize(this.containerSize.getWidth(), this.containerSize.getHeight());
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-	}
-	
-	public Size getContainerSize(){
-		return this.containerSize;
-	}
-	
-	public Component getChildComponent(){
-		for (Component component : this.getComponents()){
-			if (!component.getClass().equals(UILabel.class)){
-				return component;
-			}
+	public JPanel addComponents(JPanel container, List<Component> components){
+		for (Component component : components){
+			container.add(component);
 		}
-		return null;
-	}
-	
-	public void addComponents(List<Object> objects){
-		for (Object obj : objects){
-			this.addComponent(obj);
-		}
-	}
-	
-	private void addComponent(Object obj){
-		this.add((Component) obj);
+		return container;
 	}
 	
 }

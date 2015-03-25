@@ -19,7 +19,7 @@ class Question(statement.IStatement):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.__label + "\n"
-        s += "   " * (level + 1) + "Question type: " + self.__type + "\n"
+        s += "   " * (level + 1) + "Question type: %r\n" % self.__type.get_name()
         return s
 
     def id_collection(self):
@@ -60,7 +60,7 @@ class Question(statement.IStatement):
         return self.__id
 
     # returns a message with errors if the expression is wrongly typed, here empty thus
-    def valid_expression_message(self, td):
+    def valid_expression_messages(self, td):
         return []
 
 

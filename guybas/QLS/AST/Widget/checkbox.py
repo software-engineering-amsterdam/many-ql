@@ -1,5 +1,5 @@
 import QLS.AST.Widget.widget_interface as w
-import QL.Grammar.constants as constants
+from QL.AST.Expressions.Types import *
 
 
 # Checkbox AST
@@ -12,7 +12,7 @@ class Checkbox(w.IWidget):
         return s
 
     def get_compatible(self):
-        return [constants.BOOL]
+        return [bool_type.Bool()]
 
     def get_settings(self):
         return self._properties

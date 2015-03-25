@@ -12,7 +12,6 @@ import qls.gen.QLSParser;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,14 +162,6 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
     public AstNode visitWidgetValue(QLSParser.WidgetValueContext context)
     {
         String label = context.wlabel.getText();
-        if (label.equals("spinbox"))
-        {
-            BigDecimal min = new BigDecimal(context.min.getText());
-            BigDecimal max = new BigDecimal(context.max.getText());
-            BigDecimal step = new BigDecimal(context.step.getText());
-
-            return new Spinbox(min, max, step);
-        }
 
         if (label.equals("slider"))
         {

@@ -14,21 +14,18 @@ public class ChoiceListener extends AListener implements ItemListener   {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			update();
-			System.out.println("Selected: " + widget.getValue());
 		}
 		else {
 			update();
-			System.out.println("Unselected: " + widget.getValue());	
 		}
 	}
-/*
+
 	@Override
 	public void update() {
 		evaluator.setValue(widget.getIdWidget().toString(), widget.getValue());	
-		evaluator.setValueInGUI();
+		evaluator.setVisibilityInGUI();
 	}
-*/	
+	
 }

@@ -38,7 +38,7 @@ public class LabelWithWidgetWidget implements IWidget {
     }
 
     private void resetVisibilityAndValue() {
-        if (setMyVisibility()) {
+        if ( !setMyVisibility()) {
             LabelWithWidgetWidget.this.resetValue();
         }
     }

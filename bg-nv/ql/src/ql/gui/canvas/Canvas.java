@@ -4,15 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ql.gui.GuiElement;
-import ql.gui.segment.Segment;
+import ql.gui.segment.Page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,21 +25,21 @@ import java.util.List;
 public class Canvas extends GuiElement
 {
     private final String name;
-    private final List<Segment> segments;
+    private final List<Page> pages;
     private final Parent parent;
     private final Button submitButton;
     private final Text submitMessage;
 
-    public Canvas(String name, List<Segment> segments)
+    public Canvas(String name, List<Page> pages)
     {
-        this(name, segments, true);
+        this(name, pages, true);
     }
 
-    public Canvas(String name, List<Segment> segments, Boolean visible)
+    public Canvas(String name, List<Page> pages, Boolean visible)
     {
         super(visible);
         this.name = name;
-        this.segments = segments;
+        this.pages = pages;
         this.submitButton = new Button("Submit");
         this.submitMessage = new Text();
         this.parent = this.createParent();
@@ -48,30 +52,67 @@ public class Canvas extends GuiElement
 
     private Parent createParent()
     {
-        VBox content = new VBox();
-        for (Segment segment : this.segments)
-        {
-            content.getChildren().add(segment.getContainer());
-        }
-
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
         buttonBox.getChildren().add(this.submitButton);
 
-        VBox contentWrapper = new VBox();
-        contentWrapper.getChildren().addAll(content, buttonBox, this.submitMessage);
-        contentWrapper.setPadding(new Insets(50, 50, 25, 50));
-        contentWrapper.setStyle("-fx-background-color: white;");
+        Node content = this.displayPages() ? createTabsView() : createRegularView();
 
-//        ProgressBar pb = new ProgressBar(0);
-//        pb.setPrefWidth(500);
-//        contentWrapper.getChildren().add(pb);
+        VBox box = new VBox();
+        box.getChildren().addAll(content, buttonBox, this.submitMessage);
+        box.setPadding(new Insets(this.displayPages() ? 0 : 50, 50, 25, 50));
+        box.setStyle("-fx-background-color: white;");
 
         ScrollPane parent = new ScrollPane();
         parent.setFitToWidth(true);
         parent.setFitToHeight(true);
-        parent.setContent(contentWrapper);
+        parent.setContent(box);
+
         return parent;
+    }
+
+    private Boolean displayPages()
+    {
+        return this.pages.size() > 1;
+    }
+
+    private Node createRegularView()
+    {
+        VBox content = new VBox();
+        for (Page segment : this.pages)
+        {
+            content.getChildren().add(segment.getContainer());
+        }
+
+        VBox contentWrapper = new VBox();
+        contentWrapper.getChildren().addAll(content, this.submitMessage);
+
+        return contentWrapper;
+    }
+
+    private Node createTabsView()
+    {
+
+        List<Tab> tabs = new ArrayList<>();
+        int count = 1;
+        for (Page page : this.pages)
+        {
+            tabs.add(this.createTab(count++, page));
+        }
+
+        //TODO: fix the CSS for the tabs header
+        TabPane pane = new TabPane();
+        pane.getTabs().addAll(tabs);
+
+        return pane;
+    }
+
+    private Tab createTab(int count, Page page)
+    {
+        Tab tab = new Tab("Page " + (count++));
+        tab.setContent(page.getContainer());
+        tab.setClosable(false);
+        return tab;
     }
 
     public void setSubmitAction(EventHandler<ActionEvent> action)
@@ -89,8 +130,8 @@ public class Canvas extends GuiElement
         return name;
     }
 
-    public List<Segment> getSegments()
+    public List<Page> getPages()
     {
-        return segments;
+        return pages;
     }
 }

@@ -1,6 +1,5 @@
 # AST format of the Form
-import QL.AST.type_checker as type_checker
-import QL.AST.exception_handling as exception_handling
+import collections
 
 
 class Form:
@@ -8,14 +7,13 @@ class Form:
         self._name = name
         self._introduction = introduction
         self._statements = statements
-        self.exception_handler = exception_handling.ExceptionHandling()
 
     # Pretty print the _form
     def string_presentation(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
         for x in self._statements:
-            s += x.string_presentation(1)
+            s += x.string_presentation(0)
         return s
 
     #
@@ -78,20 +76,40 @@ class Form:
     # TODO : test expression validator
     def check_expressions(self):
         td = self.get_type_dict()
-        message = []
+        messages = []
         for x in self._statements:
-            message.extend(x.valid_expression_message(td))
-        return message
+            messages.extend(x.valid_expression_messages(td))
+        return messages
 
     #
     # Type checker stuff
     #
 
-    def handle_exceptions(self):
-        self.exception_handler.add_errors(type_checker.check_ids(self.get_ids()))
-        self.exception_handler.add_warnings(type_checker.check_labels(self.get_labels()))
-        self.exception_handler.add_errors(type_checker.check_dependencies(self.get_dependencies()))
-        self.exception_handler.add_errors(self.check_expressions())
-        self.exception_handler.execute()
+    @staticmethod
+    def check_duplicates(l):
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
+        return duplicates
+
+    def check_ids(self):
+        messages = []
+        duplicates = Form.check_duplicates(self.get_ids())
+        for i in duplicates:
+            messages.append("duplicate id: " + i)
+        return messages
+
+    def check_labels(self):
+        messages = []
+        duplicates = self.check_duplicates(self.get_labels())
+        for i in duplicates:
+            messages.append("duplicate label: " + i)
+        return messages
+
+    def check_dependencies(self):
+        messages = []
+        dependencies = self.get_dependencies()
+        for d in dependencies:
+            if d in dependencies[d]:
+                messages += [str(d) + " is dependent on itself"]
+        return messages
 
 

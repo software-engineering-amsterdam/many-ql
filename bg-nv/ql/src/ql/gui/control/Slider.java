@@ -22,20 +22,19 @@ public class Slider extends ControlElement implements IntControl, DecControl
     private Double defaultValue;
     private NumberFormat formatter;
 
-    // TODO: Shall we initialize the default slider values in the class? What do you think?
-    public Slider(Boolean visible, Boolean disabled)
+    public Slider(Integer startValue, Integer endValue, Integer step)
     {
-        this(visible, disabled, new BigDecimal("0"), new BigDecimal("100"), new BigDecimal("1"));
+        this(startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0");
     }
 
-    public Slider(Boolean visible, Boolean disabled, BigDecimal startValue, BigDecimal endValue, BigDecimal step)
+    public Slider(BigDecimal startValue, BigDecimal endValue, BigDecimal step)
     {
-        this(visible, disabled, startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0");
+        this(startValue.doubleValue(), endValue.doubleValue(), step.doubleValue(), "#0.00");
     }
 
-    private Slider(Boolean visible, Boolean disabled, Double startValue, Double endValue, Double step, String format)
+    private Slider(Double startValue, Double endValue, Double step, String format)
     {
-        super(visible, disabled);
+        super();
         this.slider = new javafx.scene.control.Slider(startValue, endValue, step);
         this.formatter = new DecimalFormat(format);
 

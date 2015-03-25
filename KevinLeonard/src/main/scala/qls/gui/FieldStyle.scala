@@ -16,6 +16,8 @@ class FieldStyle {
   }
 
   def extract(e: StyleSheetElement, env: StyleEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
+    // TODO: DefaultWidget case update StyleEnvironment, maar de ge-update StyleEnvironment wordt niet meegegeven aan de Page case!
+    // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
     case Page(v, es) => (Page(v, es.map(e => extract(e, env))), env)
     case dw: DefaultWidget => (dw, updateStyleEnvironment(dw, env))
   }
@@ -32,23 +34,25 @@ class FieldStyle {
     case Section(t, es) => Section(t, es.map(e => extract(e, env)))
   }
 
-  def extract(e: SectionElement, env: StyleEnvironment): SectionElement = e match {
-    // TODO: Get question Type from QL ast + replace match based on widget type.
-    case q: Question => {
-      q.widget.toString() match {
-        case "spin box" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(NumberType(), q.widget, env)))
-        case "slider" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(NumberType(), q.widget, env)))
-        case "text" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(StringType(), q.widget, env)))
-        case "text block" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(StringType(), q.widget, env)))
-        case "radio" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
-        case "check box" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
-        case "drop down" => Question(q.variable, extract(q.widget, getDefaultStylePropertiesForQuestionTypeAndWidget(BooleanType(), q.widget, env)))
+  def extract(e: SectionElement, env: StyleEnvironment): SectionElement = {
+    e match {
+      // TODO: Get question Type from QL ast + replace match based on widget type.
+      case q: Question => {
+        q.widget.toString() match {
+          case "spin box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
+          case "slider" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
+          case "text" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
+          case "text block" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
+          case "radio" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
+          case "check box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
+          case "drop down" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
+        }
       }
+      case s: Section => extract(s, env)
     }
-    case s: Section => extract(s, env)
   }
 
-  def getDefaultStylePropertiesForQuestionTypeAndWidget(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
+  def getDefaultStyleProperties(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
     if (env contains t) {
       env(t) getOrElse(w.toString(), List())
     } else {

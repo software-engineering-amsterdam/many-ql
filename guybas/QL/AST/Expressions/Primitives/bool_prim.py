@@ -1,17 +1,16 @@
 import QL.AST.Expressions.Primitives.primitive as p
-import QL.Grammar.constants as constants
-
+import QL.AST.Expressions.Types.bool_type as b
 
 class Bool(p.Primitive):
 
     def __init__(self, pbool):
         self.__bool = pbool
 
-    def string_presentation(self):
+    def __str__(self):
         return str(self.__bool)  # since the actual type is a real bool
 
-    def return_type_string(self, type_dict):
-        return constants.BOOL
+    def return_type(self, type_dict):
+        return b.Bool()
 
     # just the value of the bool itself
     def eval_expression(self, type_map):

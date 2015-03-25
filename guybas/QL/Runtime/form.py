@@ -1,19 +1,17 @@
 import QL.AST.form as ast_form
 import QL.Runtime.question as runtime_question
-import QL.Tools.exceptions as exc
-import QL.AST.Expressions.Operations.and_op as and_op
+import QL.AST.Expressions.Operations.Logical.and_op as and_op
 
 
 class Form:
     def __init__(self, ast_obj):
-        if not isinstance(ast_obj, ast_form.Form):
-            raise exc.QException("Input must be an AST!")
+        assert isinstance(ast_obj, ast_form.Form), "Input must be an AST!"
         self.ast = ast_obj
 
         # cookbook - must be in the following order
-        self.__ast_questions = []  # questions only based on the ast (basic questions)
+        self.__ast_questions = []  # questions only, based on the ast (basic questions)
         self.__q_conditions_dict = {}  # {question_id : parent conditions}
-        self.assignments = []
+        self.assignments = []  # assignments
 
         self.__flatten_ast(self.ast.get_statements())
         self.__combine_expressions()
@@ -24,6 +22,9 @@ class Form:
     def get_questions(self):
         return self.questions
 
+    def get_assignments(self):
+        return self.assignments
+
     def get_ast(self):
         return self.ast
 
@@ -32,7 +33,7 @@ class Form:
 
     def get_statement_dict(self):
         d = {}
-        for s in self.get_questions():
+        for s in self.get_questions() + self.get_assignments():
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
@@ -50,22 +51,22 @@ class Form:
                 # flatten if block
                 c_statement_c = list(conditions)
                 c_statement_c.append(statement.get_condition())
-                self.__flatten_ast(statement.get_c_statements(), c_statement_c)
+                self.__flatten_ast(statement.get_if_statements(), c_statement_c)
 
                 # flatten else block
                 e_statement_c = list(conditions)
                 e_statement_c.append(statement.get_inverted_condition())
-                self.__flatten_ast(statement.get_e_statements(), e_statement_c)
+                self.__flatten_ast(statement.get_else_statements(), e_statement_c)
                 conditions = []
             elif statement.is_assignment():
-                pass #TODO: fix assignments
+                self.assignments.append(statement)
             else:
                 self.__ast_questions.append(statement)  # add question to the new flat list
                 self.__q_conditions_dict[statement.get_id()] = conditions  # add condition to questions parent conditions
 
     def __enrich_questions(self):
         """
-        takes the basic ast questions and generate new enriched question objects
+        takes the basic ast questions and generates new enriched question objects
         with gui element, order and other useful stuff for runtime.
             self.__ast_questions = list of questions based on the ast only
             self.__q_conditions_dict = dict of the questions with their parent conditions
@@ -74,14 +75,10 @@ class Form:
         order = 0
         for basic_question in self.__ast_questions:
             qid = basic_question.get_id()
-            if qid not in self.__q_conditions_dict:
-                raise exc.QException("Fatal Error: id does not exist in the dict!")
+            assert qid in self.__q_conditions_dict, "id does not exist in the dict"
             enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
             self.questions.append(enriched_question)
             order += 1
-
-    # def __enrich_lib(self, basic_question, order, conditions):
-    #     runtime_question.Question(basic_question, order, conditions)
 
     def __combine_expressions(self):
         """

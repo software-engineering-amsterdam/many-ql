@@ -83,9 +83,25 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         for (DefaultStyleDeclaration baseDeclaration : _parentSegmentDefaultStyles) {
             Type baseDeclarationType = baseDeclaration.getQuestionType();
             Style baseDeclarationStyle = baseDeclaration.getStyle();
-            this.inheriteStyleFromParent(
-                    _derivedSegmentDefaultStyles, baseDeclarationType, baseDeclarationStyle);
+
+            // if there is no style declaration,
+            // but only widget declaration then set widget's default style.
+            if (baseDeclaration.getStyle().isUndefined()) {
+                Style defaultStyleOfWidget = getDefaultStyleForWidgetType(
+                        baseDeclaration.getWidgetType());
+
+                // set the style.
+                baseDeclaration.setStyle(defaultStyleOfWidget);
+            } else {
+                this.inheriteStyleFromParent(
+                        _derivedSegmentDefaultStyles, baseDeclarationType, baseDeclarationStyle);
+            }
         }
+    }
+
+    private Style getDefaultStyleForWidgetType(IWidgetType _widgetType) {
+        AbstractQLSWidget widget = _widgetType.accept(this.widgetTypeToWidget);
+        return widget.getDefaultStyle();
     }
 
     private void inheriteStyleFromParent(
@@ -96,6 +112,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
         for (DefaultStyleDeclaration currentDeclaration : _derivedSegmentDefaultStyles) {
             Type currentDeclarationType = currentDeclaration.getQuestionType();
             Style currentDeclarationStyle = currentDeclaration.getStyle();
+
             if (_baseDeclarationType.equals(currentDeclarationType)) {
                 currentDeclarationStyle.inheriteFromStyle(_baseDeclarationStyle);
             }
@@ -183,6 +200,7 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
             if (questionType.equals(currentDeclarationType)) {
                 this.setWidgetToQuestion(_question, currentDeclaration);
                 isSet = true;
+                break;
             }
         }
 

@@ -27,11 +27,6 @@ public class TypeFactory
             return new StrType();
         }
 
-        if (s.equalsIgnoreCase("date"))
-        {
-            return new DateType();
-        }
-
         throw new IllegalStateException("Type does not exist");
     }
 }

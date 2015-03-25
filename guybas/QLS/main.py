@@ -4,7 +4,7 @@ import QL.Grammar.grammar as b
 import QL.Grammar.grammar as f1
 import QLS.Grammar.Factory.qls as factory
 import QLS.GUI.gui as g
-import QL.Grammar.Factory.forms as f2
+import QL.Grammar.Factory.form as f2
 import QLS.Runtime.sheet as runtime_form
 import QL.Tools.exceptions as ee
 
@@ -25,7 +25,7 @@ import QL.Tools.exceptions as ee
 
 # qls style
 qls_ast = factory.make_sheet(q.sheet.parseFile("example.qls"))
-print(qls_ast.string_presentation())
+print(qls_ast.__str__())
 
 #ql form
 formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
