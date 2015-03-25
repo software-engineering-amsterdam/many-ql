@@ -1,8 +1,9 @@
-package org.fugazi.ql.gui.ui_elements;
+package org.fugazi.ql.gui;
 
+import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_elements.UIPanel;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class UIFormManager {
     private List<UIQuestion> questionsInForm;
 
     public UIFormManager(String _formTitle) {
-        this.form = new UIForm(_formTitle, new JPanel());
+        this.form = new UIForm(_formTitle, new UIPanel());
         this.questionsInForm = new ArrayList<>();
     }
     

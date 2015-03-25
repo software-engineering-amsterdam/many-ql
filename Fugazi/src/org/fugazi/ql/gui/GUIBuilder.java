@@ -9,7 +9,6 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIFormManager;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
