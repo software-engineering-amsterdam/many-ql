@@ -1,8 +1,6 @@
 import tkinter as tk
 import QL.Tools.converters as converters
 import QL.Runtime.mapper as mapper
-import QL.Tools.exceptions as exc
-import QL.Runtime.question as runtime_q
 import QL.AST.Statements.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
@@ -17,8 +15,6 @@ class GUI:
         self.__dependencies = self.__form.ast.get_dependencies()
         self.__answersMap = mapper.Mapper()
         self.__assignments = self.__form.get_assignments()
-        print(self.__dependencies)
-        print(self.__form.get_statement_dict())
 
     def generate_gui(self):
         print("_" * 50)
