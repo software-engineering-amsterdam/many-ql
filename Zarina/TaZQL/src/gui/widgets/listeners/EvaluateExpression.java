@@ -1,7 +1,6 @@
  package gui.widgets.listeners;
 
 import ast.expression.Expression;
-import evaluator.BooleanValue;
 import evaluator.EvaluatorVisitor;
 import evaluator.Value;
 import evaluator.ValueRepository;
@@ -20,6 +19,7 @@ public class EvaluateExpression {
 		this.evaluatorVisitor = new EvaluatorVisitor(this.valueRepository);
 		this.setQuestion = setQuestion;
 		setValueInGUI();
+		setVisibilityInGUI();
 	}
 		
 	public Value evaluate() {
@@ -30,23 +30,12 @@ public class EvaluateExpression {
 	public void setValue(String id, Value value) {
 		this.valueRepository.putValue(id, value);
 	}
-	// TODO under construction; solving computed question setter.
+	
 	public void setValueInGUI() {  
-		String trueValue = new BooleanValue(true).toString();
-		String falseValue = new BooleanValue(false).toString();
-		String evaluatedValue = String.valueOf(evaluate());
-		String regex ="[-+]?\\d+(\\.\\d+)?";
-		
-		if(trueValue.equals(evaluatedValue) || falseValue.equals(evaluatedValue)) {
-			this.setQuestion.setVisibilityValue(evaluate());
-		}
-		if (evaluatedValue.matches(regex)) {
-			System.out.println("Evaluator check, match: " + evaluate().toString().matches(regex));
-			System.out.println("Evaluator check, output " + evaluate().toString());
-			this.setQuestion.setValue(evaluate());
-		}
-		
-		evaluate();
-		
+		this.setQuestion.setValue(evaluate());
+	}
+	
+	public void setVisibilityInGUI() {
+		this.setQuestion.setVisibilityValue(evaluate());
 	}
 }

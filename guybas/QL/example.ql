@@ -28,7 +28,7 @@ else {
     Question check (bool) : What do you like about hummus?
 }
 
-if (1 + 2 == 3) {
+if ("check this" == what) {
     Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {
