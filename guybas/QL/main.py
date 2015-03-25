@@ -2,7 +2,7 @@ import pyparsing as pp
 
 import QL.Grammar.grammar as grammar
 import QL.config as c
-import QL.Grammar.Factory.forms as form_factory
+import QL.Grammar.Factory.form as form_factory
 
 import QL.Runtime.form as runtime_form
 import QL.GUI.gui as g

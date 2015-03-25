@@ -5,11 +5,11 @@
 from QL.AST.Expressions.Operations.Arithmetic import *
 from QL.AST.Expressions.Operations.Compare import *
 from QL.AST.Expressions.Operations.Logical import *
-
 from QL.AST.Expressions.Primitives import *
 from QL.AST.Expressions.Types import *
 
-import QL.Grammar.Factory.forms as form
+# to create sentences
+import QL.Grammar.Factory.form as form
 
 
 #
@@ -27,8 +27,8 @@ def make_number_type(subtrees):
 def make_text_type(subtrees):
     return text_type.Text()
 
-
-# Primitive values
+#
+# Primitive values of expressions
 #
 
 def make_variable(subtrees):
@@ -61,7 +61,7 @@ def make_text(subtrees):
 # As pyparsing is not able to make a distinction between operators with the same precedence we need to do it manually.
 # Also a sub expression can exist out of multiple operators (+ or - below) and operands so therefore a for loop
 # is needed. Every operator is made using the last operator (or first primitive) on the left and the found operand on
-# the right (When left associative).
+# the right.
 def make_add_min_expression(subtrees):
     subtrees = subtrees[0]  # it returns always a list of lists with the outer list having just one element..
     x = subtrees[0]
@@ -84,24 +84,7 @@ def make_mul_expression(subtrees):
     return x
 
 
-def make_compare(subtrees):
-    subtrees = subtrees[0]
-    x = subtrees[0]
-    for i in range(1, len(subtrees)-1, 2):
-        if subtrees[i] == ">":
-            x = greater.Greater(x, subtrees[i + 1])
-        elif subtrees[i] == "<":
-            x = less.Less(x, subtrees[i + 1])
-        elif subtrees[i] == ">=":
-            x = greater_equal.GreaterEqual(x, subtrees[i + 1])
-        elif subtrees[i] == "<=":
-            return less_equal.LessEqual( x, subtrees[i + 1])
-        elif subtrees[i] == "==":
-            x = equal.Equal(x, subtrees[i + 1])
-    return x
-
-
-def make_compare2(subtrees):
+def make_compare_expression(subtrees):
     subtrees = subtrees[0]
     expressions = []
     for i in range(0, len(subtrees)-1, 2):
@@ -127,8 +110,7 @@ def make_compare2(subtrees):
     return x
 
 
-# Make and or or-operator
-def make_extra(subtrees):
+def make_logic_expression(subtrees):
     subtrees = subtrees[0]
     x = subtrees[0]
     for i in range(1, len(subtrees)-1, 2):
@@ -139,6 +121,6 @@ def make_extra(subtrees):
     return x
 
 
-def make_not(subtrees):
+def make_not_expression(subtrees):
     subtrees = subtrees[0]
     return not_op.Not(subtrees[1])

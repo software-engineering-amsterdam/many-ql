@@ -1,8 +1,8 @@
 # Grammar of forms
 
 import pyparsing as pp
-import QL.Grammar.Factory.forms as form_factory
-import QL.Grammar.Factory.expressions as expression_factory
+import QL.Grammar.Factory.form as form_factory
+import QL.Grammar.Factory.expression as expression_factory
 
 #
 # basic types
@@ -48,11 +48,11 @@ extra_op = pp.oneOf('and or')
 # 1 means it binds to one operand, 2 means it binds to two operands
 # pyparsing doesn't support non-associative so left is chosen
 expr = pp.infixNotation(value,
-         [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not),
+         [(not_op, 1, pp.opAssoc.RIGHT, expression_factory.make_not_expression),
           (mul_op, 2, pp.opAssoc.LEFT, expression_factory.make_mul_expression),
           (plus_op, 2, pp.opAssoc.LEFT, expression_factory.make_add_min_expression),
-          (comp_op, 2, pp.opAssoc.LEFT, expression_factory.make_compare2),
-          (extra_op, 2, pp.opAssoc.LEFT, expression_factory.make_extra)]
+          (comp_op, 2, pp.opAssoc.LEFT, expression_factory.make_compare_expression),
+          (extra_op, 2, pp.opAssoc.LEFT, expression_factory.make_logic_expression)]
     )
 
 

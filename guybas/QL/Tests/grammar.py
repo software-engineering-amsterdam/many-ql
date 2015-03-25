@@ -1,6 +1,6 @@
 import unittest
 import QL.Grammar.grammar as grammar
-
+from QL.AST.Expressions.Types import *
 
 class Tests(unittest.TestCase):
     def test_grammar_id(self):
@@ -25,15 +25,22 @@ class Tests(unittest.TestCase):
 
     def test_grammar_sentences(self):
         # Multiple sentences with escaped characters
-        result = grammar.sentences.parseString("this is a sentence. Is this another one? Can we escape \? , \!  and \. ?").asList()
-        self.assertEqual(result, ["this is a sentence .", "Is this another one ?", 'Can we escape ? , ! and . ?'])
+        result = grammar.sentences.parseString("this is a sentence. Is this another 1? Can we escape \? , \!  and \. ?").asList()
+        self.assertEqual(result, ["this is a sentence .", "Is this another 1 ?", 'Can we escape ? , ! and . ?'])
 
     @unittest.expectedFailure
     def test_grammar_answer_format_fail(self):
-        # Not an _answer possibility
+        # Not an answer possibility
         result = grammar.answer_type.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
-    # TODO add expression and form parsing
+    def test_grammar_bool(self):
+        result = grammar.answer_type.parseString("bool")
+        self.assertIsInstance(result[0], bool_type.Bool)
+
+    def test_comments(self):
+        result = grammar.sentences.ignore(grammar.comment).parseString(
+            "// do something nice \n hallo \n /* more comments \n and it goes on */ and bye.")
+        self.assertEqual(result[0], "hallo and bye .")
 
 
