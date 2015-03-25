@@ -33,7 +33,7 @@ public class TestEvaluator {
 	private ValueRepository valrep = new ValueRepository();
 	private EvaluatorVisitor eval;
 	
-	@Before  // before each test
+	@Before 
 	public void setUp() { 
 		eval = new EvaluatorVisitor(valrep); 
 	}
@@ -50,7 +50,9 @@ public class TestEvaluator {
 	public void testAddition() {
 		Value value = evaluate( new Addition(new IntegerVariable(3), new IntegerVariable(5)));
 		Value value2 = evaluate( new Addition(new IntegerVariable(1), new IntegerVariable(4)));
-		Value value3 = evaluate( new Addition(new Addition(new IntegerVariable(1), new IntegerVariable(4)), int4));
+		Value value3 = evaluate( new Addition(
+				new Addition(new IntegerVariable(1), new IntegerVariable(4)), 
+				int4));
 		
 		assertEquals("3+5 = 8", value.getValue(), 8);
 		assertEquals("1+4 = 5", value2.getValue(), 5); 
@@ -60,7 +62,9 @@ public class TestEvaluator {
 	@Test
 	public void testSubstraction() {
 		Value value2 = evaluate( new Substraction(new IntegerVariable(75), new IntegerVariable(6)));
-		Value value3 = evaluate( new Substraction(new Addition(new IntegerVariable(8), new IntegerVariable(6)), int4));
+		Value value3 = evaluate( new Substraction(
+				new Addition(new IntegerVariable(8), new IntegerVariable(6)), 
+				int4));
 		
 		assertEquals("75-6=69", value2.getValue(), 69);
 		assertEquals("(8+6)-4=10", value3.getValue(), 10);
