@@ -1,5 +1,5 @@
 import QLS.AST.Widget.widget_interface as w
-import QL.Grammar.constants as constants
+from QL.AST.Expressions.Types import *
 
 
 class Slider(w.IWidget):
@@ -19,7 +19,7 @@ class Slider(w.IWidget):
         raise NotImplementedError("Not implemented by sub class")
 
     def get_range(self):
-        return [constants.GrammarConstants.NUMBER]
+        return [number_type.Number()]
 
     def get_settings(self):
         return self._properties

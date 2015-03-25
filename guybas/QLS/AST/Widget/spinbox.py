@@ -1,6 +1,5 @@
 import QLS.AST.Widget.widget_interface as w
-import QL.Grammar.constants as constants
-
+from QL.AST.Expressions.Types import *
 
 class Spinbox(w.IWidget):
     def __init__(self, min, max, default=""):
@@ -16,7 +15,7 @@ class Spinbox(w.IWidget):
         return s
 
     def get_compatible(self):
-        return [constants.NUMBER]
+        return [number_type.Number()]
 
     def set_settings(self, dictionary):
         for x in dictionary:

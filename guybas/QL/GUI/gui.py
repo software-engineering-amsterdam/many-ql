@@ -55,11 +55,8 @@ class GUI:
         if condition and not condition.eval_expression(self.__answersMap):
             return False
 
-        colspan = 1
-        if len(elements) is 2:
-            colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
 
     def update(self, question, new_answer):
         self.__answersMap.update(question.ast.get_id(), new_answer)
