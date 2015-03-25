@@ -9,9 +9,9 @@ class Text(p.Primitive):
     def __str__(self):
         return self.__text
 
-    def return_type(self, type_dict):
+    def return_type(self, type_map):
         return t.Text()
 
     # evaluation is just the value of the text
-    def eval_expression(self, type_map):
+    def eval_expression(self, answer_map):
         return self.__text

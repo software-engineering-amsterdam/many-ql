@@ -7,10 +7,10 @@ class Variable(p.Primitive):
 
     # return the type name (string) of the variable
     # we need to check if the variable exists because the type checking continuous even if other errors have been found
-    def return_type(self, type_dict):
-        if self.__name not in type_dict:
+    def return_type(self, type_map):
+        if self.__name not in type_map:
             return None
-        return type_dict[self.__name]
+        return type_map[self.__name]
 
     def __str__(self):
         return self.__name

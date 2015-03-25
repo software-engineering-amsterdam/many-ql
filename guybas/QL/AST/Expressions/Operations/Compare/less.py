@@ -6,5 +6,5 @@ class Less(e.Equal):
     def set_string_operator(self):
         return "<"
 
-    def eval(self, x, y):
+    def concrete_eval(self, x, y):
         return x < y

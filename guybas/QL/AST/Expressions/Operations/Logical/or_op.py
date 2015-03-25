@@ -10,5 +10,5 @@ class Or(b.BinaryExpression):
     def return_type(self, type_map):
         return t.Bool()
 
-    def eval(self, x, y):
+    def concrete_eval(self, x, y):
         return x or y

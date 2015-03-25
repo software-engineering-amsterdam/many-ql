@@ -10,5 +10,5 @@ class NumberExpression(b.BinaryExpression):
     def set_string_operator(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def eval(self, x, y):
+    def concrete_eval(self, x, y):
         raise NotImplementedError("Not implemented by sub class")
