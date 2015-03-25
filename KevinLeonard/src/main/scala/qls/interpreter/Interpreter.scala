@@ -33,7 +33,7 @@ object Interpreter {
   def parse(source: String): Option[StyleSheet] = {
     val parser = new Parser()
 
-    parser.parseAll(parser.style, source) match {
+    parser.parseAll(parser.styleSheet, source) match {
       case parser.Success(ast: StyleSheet, _) => Some(ast)
       case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg); None
       case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg); None
@@ -58,7 +58,6 @@ object Interpreter {
       return false
     }
 
-    // TODO: check types of default widget
     val typeCheckErrors = typeChecker.check(ast, env)
     if (typeCheckErrors.nonEmpty) {
       typeCheckErrors.foreach(println)

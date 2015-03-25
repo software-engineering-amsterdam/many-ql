@@ -1,11 +1,6 @@
 style PartyForm {
 
-    default number spinbox {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
+    default number spinbox
     default number slider {
         width: 400
         font: "Arial"

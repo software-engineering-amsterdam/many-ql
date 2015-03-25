@@ -1,28 +1,32 @@
 import tkinter as tk
 import QL.Tools.converters as converters
-import QL.Runtime.mapper as mapper
+import QL.Runtime.answers_map as answers_map
 import QL.AST.Statements.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
 
 class GUI:
-    def __init__(self, form):
-        assert isinstance(form, enriched_form.Form), "the input is not of type Form"
+    # TODO: maybe separate one time methods from update methods for more clearness?
+    def __init__(self, runtime_form):
+        assert isinstance(runtime_form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
-        self.__form = form
+        self.__form = runtime_form
         self.__questions = self.__form.get_questions()
         self.__dependencies = self.__form.ast.get_dependencies()
-        self.__answersMap = mapper.Mapper()
+        self.__answersMap = answers_map.AnswersMap()
         self.__assignments = self.__form.get_assignments()
 
+    # TODO: I think it is cleaner to call this from the constructor instead of from main
     def generate_gui(self):
-        print("_" * 50)
+        print("_" * 50)  # for debugging purposes
         self.create_title()
         windowFrame = tk.Frame(self.qGui)
-        #introduction
+
+        # TODO: I know what happens, but i can understand this is not clear for Tijs
         intro_element = self.intro_label(windowFrame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
+
         self.__update_assignments_ref()
         self.draw_questions(self.__questions, windowFrame)
         tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
@@ -30,6 +34,7 @@ class GUI:
 
         windowFrame.pack(side="top", fill="both", expand=True)
 
+    # TODO: it is better to have runtime_form have the name instead of double point
     def create_title(self):
         self.qGui.title(self.__form.ast.get_name())
 
@@ -61,10 +66,13 @@ class GUI:
     def update(self, question, new_answer):
         self.__answersMap.update(question.ast.get_id(), new_answer)
         self.__update_assignments_ref()
+
+        # For every element which has the changing answer as dependency, update it
         for qid in self.__dependencies:
             if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
+    # TODO: Is this updated every time? Assignments should as they also can change value
     def __update_assignments_ref(self):
         for assignment in self.__assignments:
             ass_id = assignment.get_id()

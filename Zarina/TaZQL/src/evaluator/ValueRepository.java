@@ -1,16 +1,14 @@
 package evaluator;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import ast.type.Type;
 
 public class ValueRepository {
 	private final Map<String, Value> valueRepository; 
 	
 	public ValueRepository() {
-		this.valueRepository = new HashMap<String, Value>();
+		this.valueRepository = new LinkedHashMap<String, Value>();
 	}
 	
 	public void putValue(String id, Value value) {

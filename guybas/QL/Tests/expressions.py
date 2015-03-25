@@ -7,7 +7,7 @@ from QL.AST.Expressions.Types import *
 
 # import files
 import QL.Grammar.grammar as grammar
-import QL.Runtime.mapper as mapper
+import QL.Runtime.answers_map as mapper
 import QL.Runtime.question as question
 import QL.AST.Statements.question as question2
 
@@ -44,12 +44,12 @@ class Tests(unittest.TestCase):
         self.assertEquals(result[0].eval_expression({}), True)
 
     def test_expression_variable_eval(self):
-        m = mapper.Mapper()
+        m = mapper.AnswersMap()
         result = grammar.expr.parseString("1 + grade == 9")
         self.assertEquals(result[0].eval_expression(m), None)
 
     def test_expression_known_variable_eval(self):
-        m = mapper.Mapper()
+        m = mapper.AnswersMap()
         q = question.Question(question2.Question("grade", number_type.Number(), "something!"), 0, None)
         q2 = question.Question(question2.Question("hummus",bool_type.Bool(), "another?"), 0, None)
         m.update(q.ast.get_id(), 8)

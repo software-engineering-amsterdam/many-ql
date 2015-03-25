@@ -5,10 +5,10 @@ import QLS.Runtime.section as runtime_section
 
 
 class GUI(ql_gui.GUI):
-    def __init__(self, form):
-        ql_gui.GUI.__init__(self, form)
+    def __init__(self, runtime_form):
+        ql_gui.GUI.__init__(self, runtime_form)
         self.frames = []
-        self.__pages = form.gui_pages
+        self.__pages = runtime_form.gui_pages
 
     def resize_window(self, height, width):
         self.qGui.geometry(str(height) + 'x' + str(width))

@@ -32,12 +32,14 @@ class Parser extends JavaTokenParsers {
   def statement: Parser[Statement] = "{" ~> rep(question | ifStatement) <~ "}" ^^ Sequence
 
   // question parsers
-  def question: Parser[Question] = positioned("question" ~> variable ~ label ~ questionType ~ opt("is" ~> expression) ^^ {
-    case v ~ label ~ "boolean" ~ e => Question(BooleanType(), v, label, e)
-    case v ~ label ~ "number" ~ e => Question(NumberType(), v, label, e)
-    case v ~ label ~ "string" ~ e => Question(StringType(), v, label, e)
+  def question: Parser[Question] = positioned("question" ~> variable ~ label ~ "answer" ~ questionType ~ opt("is" ~> expression) ^^ {
+    case v ~ label ~ "answer" ~ _type ~ e => Question(_type, v, label, e)
   })
-  def questionType: Parser[String] = "answer" ~> ("boolean" | "number" | "string")
+  def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
+    case "boolean" => BooleanType()
+    case "number" => NumberType()
+    case "string" => StringType()
+  }
 
   // if statement parsers
   def ifStatement: Parser[IfStatement] = positioned(("if" ~> expression) ~ statement ~ opt("else" ~> statement) ^^ {
