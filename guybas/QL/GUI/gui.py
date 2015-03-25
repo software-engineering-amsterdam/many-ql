@@ -23,8 +23,8 @@ class GUI:
         #introduction
         intro_element = self.intro_label(windowFrame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
+        self.__update_assignments_ref()
         self.draw_questions(self.__questions, windowFrame)
-        self.map_assignments()
         tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
@@ -38,14 +38,9 @@ class GUI:
         intro_row = l.get_row()
         return intro_row[0]
 
-    def map_assignments(self):
-        for ass in self.__assignments:
-            self.__answersMap.update(ass.get_id(), None)
-
     def draw_questions(self, questions, content_frame):
         for question in questions:
             self.draw_question(question, content_frame)
-        self.__update_assignments_ref()
 
     def draw_question(self, question, content_frame):
         self.__answersMap.update(question.ast.get_id(), None)
