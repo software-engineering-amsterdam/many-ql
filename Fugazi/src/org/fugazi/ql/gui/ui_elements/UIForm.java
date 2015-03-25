@@ -5,12 +5,12 @@ import javax.swing.*;
 public class UIForm {
 
     private final JFrame formFrame;
-    private final UIPanel panel;
+    protected IUIPanel panel;
 
     public static final int winHeight = 600;
     public static final int winWidth = 580;
 
-    public UIForm(String _formTitle, UIPanel _panel) {
+    public UIForm(String _formTitle, IUIPanel _panel) {
         this.panel = _panel;
         this.formFrame = new JFrame(_formTitle);
         this.panel.render(this.formFrame);

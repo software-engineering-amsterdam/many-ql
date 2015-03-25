@@ -9,6 +9,8 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
+import org.fugazi.ql.gui.ui_elements.IUIPanel;
+import org.fugazi.ql.gui.ui_elements.UIPanel;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
@@ -17,7 +19,6 @@ import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-    // typedef
     private class QuestionsWithConditionsState extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
@@ -32,7 +33,7 @@ public class GUIBuilder implements IMediator {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
         
-        this.uiFormManager = new UIFormManager(_form.getName());
+        this.uiFormManager = new UIFormManager(_form.getName(), new UIPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);

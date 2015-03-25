@@ -11,6 +11,7 @@ import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.gui.QLSWidgetsFactory;
+import org.fugazi.qls.gui.QlsUIPanel;
 import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
@@ -98,7 +99,7 @@ public class Main {
                 System.exit(-1);
             }
 
-            StyledGUIBuilder builder = new StyledGUIBuilder(styleSheetData);
+            StyledGUIBuilder builder = new StyledGUIBuilder(form, styleSheetData);
 
 //            // QLS
 //            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
