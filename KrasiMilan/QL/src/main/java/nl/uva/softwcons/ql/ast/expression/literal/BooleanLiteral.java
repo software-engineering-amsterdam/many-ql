@@ -12,7 +12,7 @@ public class BooleanLiteral extends Expression {
         this.value = value;
     }
 
-    public boolean getValue() {
+    public boolean getValue() { // NOPMD
         return value;
     }
 

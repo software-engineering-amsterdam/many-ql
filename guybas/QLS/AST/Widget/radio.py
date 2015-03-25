@@ -1,5 +1,5 @@
 import QLS.AST.Widget.widget_interface as w
-import QL.Grammar.constants as constants
+from QL.AST.Expressions.Types import *
 
 
 class Radio(w.IWidget):
@@ -15,7 +15,7 @@ class Radio(w.IWidget):
         return s
 
     def get_compatible(self):
-        return [constants.BOOL, constants.NUMBER]
+        return [bool_type.Bool(), number_type.Number()]
 
     def get_settings(self):
         return self._properties

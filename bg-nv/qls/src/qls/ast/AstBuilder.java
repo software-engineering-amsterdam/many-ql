@@ -162,14 +162,6 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
     public AstNode visitWidgetValue(QLSParser.WidgetValueContext context)
     {
         String label = context.wlabel.getText();
-        if (label.equals("spinbox"))
-        {
-            BigDecimal min = new BigDecimal(context.min.getText());
-            BigDecimal max = new BigDecimal(context.max.getText());
-            BigDecimal step = new BigDecimal(context.step.getText());
-
-            return new Spinbox(min, max, step);
-        }
 
         if (label.equals("slider"))
         {

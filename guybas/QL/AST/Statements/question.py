@@ -19,7 +19,7 @@ class Question(statement.IStatement):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.__label + "\n"
-        s += "   " * (level + 1) + "Question type: %r\n" % self.__type.__name__
+        s += "   " * (level + 1) + "Question type: %r\n" % self.__type.get_name()
         return s
 
     def id_collection(self):

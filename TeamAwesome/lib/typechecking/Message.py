@@ -1,28 +1,69 @@
 class Message:
-    def __init__(self, text, nodeOrLine = None):
+    def __init__(self, scope, level, text):
+        self._scope = scope
+        self._level = level 
         self._text = text
-        self._line = getattr(nodeOrLine, 'lineNumber', nodeOrLine)
+
+    @property
+    def scope(self):
+        return self._scope
+
+    @property
+    def level(self):
+        return self._level
 
     @property
     def text(self):
         return self._text
 
-    @property
-    def line(self):
-        return self._line
-
     def __str__(self):
-        if self.line is None:
-            return self.text
+        level = str(self.level)
+        scope = str(self.scope)
+        text = self.text
+
+        prefixParts = list(filter(lambda p: p != '', [level,scope]))
+        prefix = ' '.join(prefixParts)
+
+        if prefix == '':
+            return text
         else:
-            return 'line '+str(self.line)+': '+self.text
+            return prefix + ': ' + text
 
 
-class Warning(Message):
+
+class Scope:
     def __str__(self):
-        return '[WARNING] '+super().__str__()
+        raise NotImplementedError
 
 
-class Error(Message):
+
+class Local(Scope):
+    def __init__(self, lineNumber):
+        self._lineNumber = lineNumber
+
     def __str__(self):
-        return '[ERROR] '+super().__str__()
+        return 'line '+str(self._lineNumber)
+
+
+
+class Global(Scope):
+    def __str__(self):
+        return ''
+
+
+
+class Level:
+    def __str__(self):
+        raise NotImplementedError
+
+
+
+class Warning(Level):
+    def __str__(self):
+        return 'WARNING'
+
+
+
+class Error(Level):
+    def __str__(self):
+        return 'ERROR'

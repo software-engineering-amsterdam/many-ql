@@ -3,7 +3,7 @@ package nl.uva.softwcons.ql.eval.value;
 public class BooleanValue extends Value {
     private final Boolean value;
 
-    public BooleanValue(boolean literal) {
+    public BooleanValue(final boolean literal) {
         this.value = literal;
     }
 

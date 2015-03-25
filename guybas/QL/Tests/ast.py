@@ -1,15 +1,18 @@
 import unittest
 
-# import folders
+# import modules
 from QL.AST.Statements import *
 from QL.AST.Expressions.Primitives import *
-from QL.AST.Expressions.Operations import *
+from QL.AST.Expressions.Operations.Arithmetic import *
+from QL.AST.Expressions.Operations.Compare import *
+from QL.AST.Expressions.Operations.Logical import *
+from QL.AST.Expressions.Types import *
+
 
 # import files
 import QL.AST.form as f
-import QL.Grammar.Factory.expressions as ef
+import QL.Grammar.Factory.expression as ef
 import QL.Grammar.grammar as fg
-import QL.Grammar.constants as c
 
 
 class GenerateStatements:
@@ -61,7 +64,7 @@ class Tests(unittest.TestCase):
         result = (fg.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], question.Question)
         self.assertEqual(result[0].get_id(), "why")
-        self.assertEqual(result[0].get_type_string(), c.TEXT)
+        self.assertEqual(result[0].get_type_string(), text_type.Text())
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
     def test_ast_if(self):

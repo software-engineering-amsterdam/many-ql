@@ -6,10 +6,10 @@ class Primitive:
     def __str__(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    def return_type(self, type_dict):
+    def return_type(self, type_map):
         raise NotImplementedError("Not implemented by sub class")
 
-    def eval_expression(self, type_map):
+    def eval_expression(self, answer_map):
         raise NotImplementedError("Not implemented by sub class")
 
     # every primitive except variable has no variables, so by default return the empty list
@@ -17,5 +17,5 @@ class Primitive:
         return []
 
     # Every primitive is a valid expression so return the empty error message
-    def is_valid_expression_message(self, td):
+    def is_valid_messages(self, td):
         return []

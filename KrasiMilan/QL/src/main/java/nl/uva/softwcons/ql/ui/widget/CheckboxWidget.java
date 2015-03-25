@@ -6,8 +6,8 @@ import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class CheckboxWidget extends Widget {
-    private CheckBox checkBox;
-    private ValueConverter<Boolean> converter;
+    private final CheckBox checkBox;
+    private final ValueConverter<Boolean> converter;
 
     public CheckboxWidget(final String checkString, final ValueConverter<Boolean> converter) {
         this.checkBox = new CheckBox(checkString);
@@ -25,7 +25,7 @@ public class CheckboxWidget extends Widget {
     }
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(final boolean editable) {
         this.checkBox.setDisable(!editable);
     }
 

@@ -28,7 +28,7 @@ else {
     Question check (bool) : What do you like about hummus?
 }
 
-if (1 + 2 == 3) {
+if ("check this" == what) {
     Question trans2 (bool) : WILL THIS FINALLY WORK?
 }
 else {
@@ -37,4 +37,10 @@ else {
 
 if (5 - 3 + 2 / 1 + 1 == 4) {
     Question dunno (bool) : Do you know what to write?
+}
+
+Assignment doubleGrade (number) : grade
+
+if(doubleGrade > 10) {
+    Question Excellent (bool) : Are you an excellent student?
 }

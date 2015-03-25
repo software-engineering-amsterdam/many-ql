@@ -10,13 +10,13 @@ public class Question extends PageSegment implements ASTNode {
     private final Widget widget;
     private final LineInfo lineInfo;
 
-    public Question(final Identifier id, LineInfo lineInfo) {
+    public Question(final Identifier id, final LineInfo lineInfo) {
         this.id = id;
         this.lineInfo = lineInfo;
         this.widget = null;
     }
 
-    public Question(final Identifier id, final Widget widget, LineInfo lineInfo) {
+    public Question(final Identifier id, final Widget widget, final LineInfo lineInfo) {
         this.id = id;
         this.widget = widget;
         this.lineInfo = lineInfo;

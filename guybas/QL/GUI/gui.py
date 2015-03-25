@@ -1,34 +1,40 @@
 import tkinter as tk
 import QL.Tools.converters as converters
-import QL.Runtime.mapper as mapper
-import QL.Tools.exceptions as exc
+import QL.Runtime.answers_map as answers_map
+import QL.AST.Statements.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
 
 class GUI:
-    def __init__(self, form):
-        assert isinstance(form, enriched_form.Form), "the input is not of type Form"
+    # TODO: maybe separate one time methods from update methods for more clearness?
+    def __init__(self, runtime_form):
+        assert isinstance(runtime_form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
-        self.__form = form
+        self.__form = runtime_form
         self.__questions = self.__form.get_questions()
         self.__dependencies = self.__form.ast.get_dependencies()
-        self.__answersMap = mapper.Mapper()
+        self.__answersMap = answers_map.AnswersMap()
+        self.__assignments = self.__form.get_assignments()
 
+    # TODO: I think it is cleaner to call this from the constructor instead of from main
     def generate_gui(self):
-        print("_" * 50)
+        print("_" * 50)  # for debugging purposes
         self.create_title()
         windowFrame = tk.Frame(self.qGui)
-        #introduction
-        # l.configure(font="Helvetica 15 bold")
+
+        # TODO: I know what happens, but i can understand this is not clear for Tijs
         intro_element = self.intro_label(windowFrame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
+
+        self.__update_assignments_ref()
         self.draw_questions(self.__questions, windowFrame)
         tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
         windowFrame.pack(side="top", fill="both", expand=True)
 
+    # TODO: it is better to have runtime_form have the name instead of double point
     def create_title(self):
         self.qGui.title(self.__form.ast.get_name())
 
@@ -42,42 +48,44 @@ class GUI:
             self.draw_question(question, content_frame)
 
     def draw_question(self, question, content_frame):
-        self.__answersMap.update(question, None)
+        self.__answersMap.update(question.ast.get_id(), None)
         question.set_gui_element(self, content_frame)
         elements = question.get_gui_element()
         # don't print anything if has no elements (expression_factory.g. assignment)
         if elements is None:
             return False
 
-        # check if _condition holds
+        # check if condition holds
         condition = question.get_condition()
-
-        c_results = True
-        if condition:
-            # c_results = processor.eval_expression(condition.__str__(), self.__answersMap)
-            # print(condition.__str__())
-            # print(c_results)
-            c_results = condition.eval_expression(self.__answersMap)
-            # print(c_results)
-            # print("--------")
-        if not c_results:
+        if condition and not condition.eval_expression(self.__answersMap):
             return False
 
-        colspan = 1
-        if len(elements) is 2:
-            colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
 
     def update(self, question, new_answer):
-        self.__answersMap.update(question, new_answer)
+        self.__answersMap.update(question.ast.get_id(), new_answer)
+        self.__update_assignments_ref()
+
+        # For every element which has the changing answer as dependency, update it
         for qid in self.__dependencies:
             if question.ast.get_id() in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
+    # TODO: Is this updated every time? Assignments should as they also can change value
+    def __update_assignments_ref(self):
+        for assignment in self.__assignments:
+            ass_id = assignment.get_id()
+            answer = assignment.evaluate_expression(self.__answersMap)
+            self.__answersMap.update(ass_id, answer)
+
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
         question = statements_dict[qid]
+
+        if isinstance(question, ast_assign.Assignment):
+            return None
+
         row_elements = question.get_gui_element()
         if row_elements is None:
             return None

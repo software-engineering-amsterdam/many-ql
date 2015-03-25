@@ -35,9 +35,8 @@ public class TextListener extends AListener implements DocumentListener {
 	@Override
 	public void update() {
 		String value = widget.getValue().toString();
-		System.out.println("Output of " + widget.getIdWidget().toString()+ " :: " + value);
 		StringValue intValue = new StringValue(value);
 		evaluator.setValue(widget.getIdWidget().toString(), intValue);
-		//evaluator.setValueInGUI();	
+	
 	}
 }

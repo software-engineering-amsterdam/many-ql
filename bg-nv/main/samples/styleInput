@@ -13,7 +13,7 @@ stylesheet sample {
         question notMarried
         default boolean {
             width: 15
-            widget radio("Yes", "No")
+            widget dropdown("Yes", "No")
         }
         default boolean {
             widget slider(0,100,1)
@@ -23,6 +23,9 @@ stylesheet sample {
         question combinedName
         question age
         question beer
+
+    }
+    page second {
         question division
     }
 }

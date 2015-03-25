@@ -25,13 +25,13 @@ class Evaluator(object):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
         if pythonOp:
             return pythonOp(leftValue, rightValue)
-        return None
+        return EvalNone()
 
     def evaluateUnaryExpression(self, operator, value):
         pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
         if pythonOp:
             return pythonOp(value)
-        return None
+        return EvalNone()
 
     def addValue(self, identifier, value):
         question = self._questionTable.get(identifier)
@@ -40,7 +40,8 @@ class Evaluator(object):
 
     def getValue(self, identifier):
         question = self._questionTable.get(identifier)
-        return self._questionValueTable.get(question)
+        value = self._questionValueTable.get(question)
+        return value if value != None else EvalNone()
 
     def addQuestion(self, question):
         self._questionTable.add(question)
@@ -84,7 +85,9 @@ class Visitor(ASTStatementVisitor):
         else:
             expression = None
 
-        question = Question(node.identifier,
+        identifier = EvalIdentifier(node.identifier.value.value, self._evaluator)
+
+        question = Question(identifier,
                             node.text,
                             node.type,
                             self._conditionalStatements.copy(),

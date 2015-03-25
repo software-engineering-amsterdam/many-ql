@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.validation.Error;
 
-public class MissingQuestionIdentifier extends Error {
+public class MissingQuestionIdentifier extends Error { // NOPMD
 
-    public MissingQuestionIdentifier(Set<Identifier> identifiers) {
+    public MissingQuestionIdentifier(final Set<Identifier> identifiers) {
         super(i("validation.errors.qls.missingidentifier",
                 String.join(",", identifiers.stream().map(id -> id.getName()).collect(Collectors.toList()))));
 

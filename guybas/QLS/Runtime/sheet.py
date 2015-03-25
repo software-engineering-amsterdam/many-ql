@@ -10,7 +10,7 @@ class Sheet(ql_form.Form):
     def __init__(self, ql_ast, qls_ast):
         ql_form.Form.__init__(self, ql_ast)
         if not isinstance(qls_ast, qls.Sheet):
-            raise exc.QException("Input must be a QLS AST!")
+            raise exc.RuntimeException("Input must be a QLS AST!")
         self.qls_ast = qls_ast
         self.gui_pages = self.__generate_pages()
 
@@ -50,7 +50,7 @@ class Sheet(ql_form.Form):
         for basic_question in self.__ast_questions:
             qid = basic_question.get_id()
             if qid not in self.__q_conditions_dict:
-                raise exc.QException("Fatal Error: id does not exist in the dict!")
+                raise exc.RuntimeException("Fatal Error: id does not exist in the dict!")
             enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
             self.questions.append(enriched_question)
             order += 1

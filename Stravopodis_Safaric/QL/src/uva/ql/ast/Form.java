@@ -25,6 +25,10 @@ public class Form extends ASTNode{
 	public Identifier getIdentifier(){
 		return this.identifier;
 	}
+
+	public String getIdentifierValue(){
+		return this.identifier.getEvaluatedValue();
+	}
 	
 	public List<Statement> getStatement(){
 		return this.statement;

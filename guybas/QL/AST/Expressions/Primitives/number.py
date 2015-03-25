@@ -1,4 +1,5 @@
 import QL.AST.Expressions.Primitives.primitive as e
+import QL.AST.Expressions.Types.number_type as n
 
 
 class Number(e.Primitive):
@@ -8,9 +9,9 @@ class Number(e.Primitive):
     def __str__(self):
         return str(self.__number)  # since it is a real integer
 
-    def return_type(self, type_dict):
-        return int
+    def return_type(self, type_map):
+        return n.Number()
 
     # just the int value
-    def eval_expression(self, type_map):
+    def eval_expression(self, answer_map):
         return self.__number

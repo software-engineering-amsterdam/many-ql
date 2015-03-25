@@ -2,7 +2,6 @@ package ql.gui.control;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
 import ql.semantics.values.Value;
