@@ -49,6 +49,7 @@ class GUI:
     def draw_questions(self, questions, content_frame):
         for question in questions:
             self.draw_question(question, content_frame)
+        self.__update_assignments_ref()
 
     def draw_question(self, question, content_frame):
         self.__answersMap.update(question.ast.get_id(), None)
@@ -79,10 +80,7 @@ class GUI:
     def __update_assignments_ref(self):
         for assignment in self.__assignments:
             ass_id = assignment.get_id()
-            ass = assignment.get_expression()
-            print(ass_id)
-            print(ass)
-            answer = None  # TODO (GUY) : assignment.eval_expression(answer_map) exists now!
+            answer = assignment.evaluate_expression(self.__answersMap)
             self.__answersMap.update(ass_id, answer)
 
     def elements_recreate(self, qid):
