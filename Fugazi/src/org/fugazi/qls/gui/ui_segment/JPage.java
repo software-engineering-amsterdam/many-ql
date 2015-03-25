@@ -4,14 +4,17 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.QlsUIForm;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class JPage {
 
     private final JPanel panel;
     private final String pageTitle;
 
-    public JPage(JPanel _panel, String _title) {
-        this.panel = _panel;
+    public JPage(String _title) {
+        this.panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));
+
         this.pageTitle = _title;
     }
     public void addToForm(QlsUIForm _uiForm) {

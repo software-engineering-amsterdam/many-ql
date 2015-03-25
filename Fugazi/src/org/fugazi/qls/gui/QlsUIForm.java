@@ -2,6 +2,7 @@ package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.ui_segment.JPage;
+import org.fugazi.qls.gui.ui_segment.JSection;
 
 public class QlsUIForm extends UIForm {
     private QlsUIPanel qlsUIPanel;
@@ -21,5 +22,10 @@ public class QlsUIForm extends UIForm {
     public void addPage(JPage _page) {
         this.qlsUIPanel.addPage(_page.getPanel(), _page.getTitle());
         this.formFrame.revalidate();
+    }
+
+    public void addSection(JSection _section) {
+        JPage page = _section.getPage();
+        this.qlsUIPanel.addSection(page.getPanel(), _section.getPanel());
     }
 }

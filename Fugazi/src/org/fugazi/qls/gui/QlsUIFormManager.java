@@ -2,6 +2,7 @@ package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.UIFormManager;
 import org.fugazi.qls.gui.ui_segment.JPage;
+import org.fugazi.qls.gui.ui_segment.JSection;
 
 public class QlsUIFormManager extends UIFormManager {
     private final QlsUIForm qlsForm;
@@ -26,7 +27,7 @@ public class QlsUIFormManager extends UIFormManager {
         _page.removeFromForm(this.qlsForm);
     }
 
-    public void addSection() {
-
+    public void addSection(JSection _section) {
+        _section.addToForm(this.qlsForm);
     }
 }
