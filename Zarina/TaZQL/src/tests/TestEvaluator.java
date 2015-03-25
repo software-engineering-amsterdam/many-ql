@@ -33,8 +33,8 @@ public class TestEvaluator {
 	private ValueRepository valrep = new ValueRepository();
 	private EvaluatorVisitor eval;
 	
-	@Before  // before each test
-    public void setUp() { 
+	@Before 
+	public void setUp() { 
 		eval = new EvaluatorVisitor(valrep); 
 	}
 	
@@ -50,7 +50,9 @@ public class TestEvaluator {
 	public void testAddition() {
 		Value value = evaluate( new Addition(new IntegerVariable(3), new IntegerVariable(5)));
 		Value value2 = evaluate( new Addition(new IntegerVariable(1), new IntegerVariable(4)));
-		Value value3 = evaluate( new Addition(new Addition(new IntegerVariable(1), new IntegerVariable(4)), int4));
+		Value value3 = evaluate( new Addition(
+				new Addition(new IntegerVariable(1), new IntegerVariable(4)), 
+				int4));
 		
 		assertEquals("3+5 = 8", value.getValue(), 8);
 		assertEquals("1+4 = 5", value2.getValue(), 5); 
@@ -60,7 +62,9 @@ public class TestEvaluator {
 	@Test
 	public void testSubstraction() {
 		Value value2 = evaluate( new Substraction(new IntegerVariable(75), new IntegerVariable(6)));
-		Value value3 = evaluate( new Substraction(new Addition(new IntegerVariable(8), new IntegerVariable(6)), int4));
+		Value value3 = evaluate( new Substraction(
+				new Addition(new IntegerVariable(8), new IntegerVariable(6)), 
+				int4));
 		
 		assertEquals("75-6=69", value2.getValue(), 69);
 		assertEquals("(8+6)-4=10", value3.getValue(), 10);
@@ -86,11 +90,11 @@ public class TestEvaluator {
 	@Test
 	public void testCalculations() {
 		Value value1 = evaluate( new Multiplication(
-											new Substraction(new IntegerVariable(7), new IntegerVariable(2)),  
-											new IntegerVariable(5)) );
+				new Substraction(new IntegerVariable(7), new IntegerVariable(2)),
+				new IntegerVariable(5)) );
 		Value value2 = evaluate(new Multiplication(
-											new Division(new IntegerVariable(48), new IntegerVariable(8)),
-											new IntegerVariable(2)) );
+				new Division(new IntegerVariable(48), new IntegerVariable(8)),
+				new IntegerVariable(2)) );
 				
 		assertEquals("(7-2)*5=25", value1.getValue(), 25);
 		assertEquals("(48/8)*2=12", value2.getValue(), 12);
@@ -134,8 +138,8 @@ public class TestEvaluator {
 	@Test
 	public void testLogicalComparisons() throws Exception {
 		Value value1 = evaluate(new Not(new Or(new BooleanVariable(true), new BooleanVariable(true))));
-		Value value2 = evaluate(new Or(new BooleanVariable(true), 
-													  new And( new BooleanVariable(false),new BooleanVariable(false))));
+		Value value2 = evaluate(new Or(new BooleanVariable(true),
+				new And( new BooleanVariable(false),new BooleanVariable(false))));
 		
 		assertEquals("!(t || t) = f", value1.getValue(), false);
 		assertEquals("t || (f && f) = t", value2.getValue(), true);
@@ -160,8 +164,14 @@ public class TestEvaluator {
 	
 	@Test
 	public void testMix() throws Exception {
-		Value value1 = evaluate(new Or(new Equal(new IntegerVariable(7), new IntegerVariable(8)), new BooleanVariable(true)));
-		Value value2 = evaluate(new And(new LessThan(new IntegerVariable(7), new IntegerVariable(8)), new BooleanVariable(true)));
+		Value value1 = evaluate(new Or(
+				new Equal(new IntegerVariable(7), new IntegerVariable(8)), 
+				new BooleanVariable(true))
+		);
+		Value value2 = evaluate(new And(
+				new LessThan(new IntegerVariable(7), new IntegerVariable(8)), 
+				new BooleanVariable(true))
+		);
 		
 		assertEquals("(7 == 8) || true", value1.getValue(), true);
 		assertEquals("(7 > 8 ) && true", value2.getValue(), true);
