@@ -1,10 +1,12 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.qls.ast.segment.Page;
+import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 
 public class StyledGUIBuilder {
     QLSStyleSheetDataStorage data;
@@ -28,11 +30,18 @@ public class StyledGUIBuilder {
     }
 
     private void prepareForm() {
-
-        GridLayout layout = new GridLayout(0, 1);
         for (Page page : this.data.getPages()) {
-            System.out.println(page);
             JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(0, 1));
+
+
+            java.util.List<Section> sections = page.getSections();
+            for (Section section : sections) {
+                panel.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.CENTER);
+                panel.add(new JLabel(section.getName()));
+                panel.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.CENTER);
+            }
+
             mainPanel.addTab(page.getName(), panel);
         }
     }
