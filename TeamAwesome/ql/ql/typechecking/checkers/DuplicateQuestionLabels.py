@@ -12,13 +12,10 @@ class Checker(AbstractBase):
     def visitQuestionnaireEnd(self, questionnaire):
         for text, lines in self._labels.items():
             if len(lines) > 1:
-                for l in lines:
+                for line in lines:
                     self._result = self._resultAlgebra.withWarning(
                         self._result,
-                        Message.Warning(
-                            'duplicate question label `'+text+'`',
-                            l
-                        )
+                        DuplicateLabelWarning(text, line)
                     )
 
         return super().visitQuestionnaireEnd(questionnaire)
@@ -27,3 +24,13 @@ class Checker(AbstractBase):
         if node.text not in self._labels:
             self._labels[node.text] = []
         self._labels[node.text].append(node.lineNumber)
+
+
+
+class DuplicateLabelWarning(Message.Message):
+    def __init__(self, labelText, lineNumber):
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Warning(),
+            'duplicate question label `'+labelText+'`'
+        )
