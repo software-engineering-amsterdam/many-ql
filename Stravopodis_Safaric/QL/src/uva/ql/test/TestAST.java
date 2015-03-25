@@ -20,6 +20,9 @@ import uva.ql.parser.QLParser;
 
 public class TestAST {
 	
+	private String testQuestion = "question boolean hasRentHouse (\"Did you rent a house in 2015?\"){hasRentHouse : true;}";
+	private String testForm = "form someForm{ question boolean hasRentHouse (\"Did you rent a house in 2015?\"){hasRentHouse : true;}}";
+	
 	private static String getTokensWithoutStringLiterals(String inputStream){
 		ANTLRInputStream stream = new ANTLRInputStream(inputStream);
 		QLLexer lexer = new QLLexer(stream);
@@ -65,38 +68,32 @@ public class TestAST {
 	//testing if tokeniser returns correctly the tokens
 		@Test
 		public void testTokens() {
-			String tok = TestAST.getTokensWithoutStringLiterals("form someForm{ question boolean hasRentHouse (\"Did you rent a house in 2015?\"){hasRentHouse : true;}}");
-			
+			String tok = TestAST.getTokensWithoutStringLiterals(testForm);
 			assertEquals(tok.indexOf(""),0);
 		}
 		
-		//testing that tokeniser can receive empty input and recognise correctly that the string is empty
+	//testing that tokeniser can receive empty input and recognise correctly that the string is empty
 		@Test
 		public void testEmptyInput() {
 			String tok = TestAST.getTokensWithoutStringLiterals("");
 			assertEquals(tok.isEmpty(),true);
 		}
 		
-		//testing that a question is correctly recognised by type,identifier and content.
+	//testing that a question is correctly recognised by type,identifier and content.
 		@Test
 		public void testQuestionType(){
-			Question quest = (Question)TestAST.questCheck("question boolean hasRentHouse (\"Did you rent a house in 2015?\"){hasRentHouse : true;}");
+			Question quest = (Question)TestAST.questCheck(testQuestion);
 			assertEquals(quest.getQuestionIdentifierValue(),"hasRentHouse");
 			assertEquals(quest.getQuestionType().toString(),"TypeBoolean()");
 			assertEquals(quest.getQuestionLabelText(), "Did you rent a house in 2015?");
 			assertEquals(quest.getQuestionExpression().getEvaluatedValue(),true);
 		}
-		
+	//Testing that a form is recognised correctly and using regex to match strings (validate recognition)
 		@Test
 		public void testForm(){
-			
-			Form form = (Form)TestAST.formCheck("form someForm{ question boolean hasRentHouse (\"Did you rent a house in 2015?\"){hasRentHouse : true;}}");
-			String result = matchRegex(form.getStatement().toString());
-			assertEquals(form.getStringIdentifier(),"someForm");
+			Form form = (Form)TestAST.formCheck(testForm);
+			String result = matchRegex(form.getStatementAsString());
+			assertEquals(form.getIdentifierValue(),"someForm");
 			assertEquals(result,"\"Did you rent a house in 2015?\"");
-			
 		}
-		
-		
-			
 }

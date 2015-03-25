@@ -26,12 +26,16 @@ public class Form extends ASTNode{
 		return this.identifier;
 	}
 
-	public String getStringIdentifier(){
-		return this.identifier.getEvaluatedValue().toString();
+	public String getIdentifierValue(){
+		return this.identifier.getEvaluatedValue();
 	}
 	
 	public List<Statement> getStatement(){
 		return this.statement;
+	}
+	
+	public String getStatementAsString(){
+		return this.statement.toString();
 	}
 	
 	public <T> T accept(StatementVisitor<T> visitor){
