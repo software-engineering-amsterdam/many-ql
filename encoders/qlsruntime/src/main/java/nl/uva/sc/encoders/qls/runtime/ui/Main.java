@@ -67,7 +67,7 @@ public class Main extends Application {
 		grid.add(stackPane, 0, 1, 3, 1);
 
 		Scene scene = new Scene(grid, 750, 600);
-		scene.getStylesheets().add("src/main/resources/UIElements.css");
+		scene.getStylesheets().add(getClass().getResource("UIElements.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
