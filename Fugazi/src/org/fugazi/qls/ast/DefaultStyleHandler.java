@@ -268,6 +268,6 @@ public class DefaultStyleHandler extends FullQLSFormVisitor {
     }
 
     private AbstractQLSWidget getDefaultWidgetForType(Type _questionType, String _questionLabel) {        
-        return defaultWidgetsFactory.getDefaultWidget(_questionType, _questionLabel);
+        return this.defaultWidgetsFactory.getDefaultWidget(_questionType, _questionLabel);
     }
 }
