@@ -26,13 +26,4 @@ public class UIContainer{
 		return container;
 	}
 	
-	/*public Component getChildComponent(){
-		for (Component component : this.getComponents()){
-			if (!component.getClass().equals(UILabel.class)){
-				return component;
-			}
-		}
-		return null;
-	}*/
-	
 }
