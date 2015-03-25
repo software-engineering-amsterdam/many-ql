@@ -34,10 +34,6 @@ public class Form extends ASTNode{
 		return this.statement;
 	}
 	
-	public String getStatementAsString(){
-		return this.statement.toString();
-	}
-	
 	public <T> T accept(StatementVisitor<T> visitor){
 		return visitor.visitForm(this);
 	}

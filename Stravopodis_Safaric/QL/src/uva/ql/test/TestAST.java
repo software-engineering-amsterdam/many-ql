@@ -92,7 +92,7 @@ public class TestAST {
 		@Test
 		public void testForm(){
 			Form form = (Form)TestAST.formCheck(testForm);
-			String result = matchRegex(form.getStatementAsString());
+			String result = matchRegex(form.getStatement().toString());
 			assertEquals(form.getIdentifierValue(),"someForm");
 			assertEquals(result,"\"Did you rent a house in 2015?\"");
 		}
