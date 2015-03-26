@@ -11,21 +11,21 @@ class Form:
         self._form_ast = form_ast
 
         self._questions = []
-        self.all_ast_questions(self._form_ast.statements())
+        self.extract_statements(self._form_ast.statements())
 
-    def all_ast_questions(self, statements, conditions=[], order=0):
+    def extract_statements(self, statements, conditions=[], order=0):
         for statement in statements:
             if statement.is_conditional():
 
                 # flatten if block
                 statement_conditions = list(conditions)
                 statement_conditions.append(statement.get_condition())
-                order = self.all_ast_questions(statement.get_if_statements(), statement_conditions, order)
+                order = self.extract_statements(statement.get_if_statements(), statement_conditions, order)
 
                 # flatten else block
                 else_statement_conditions = list(conditions)
                 else_statement_conditions.append(statement.get_inverted_condition())
-                order = self.all_ast_questions(statement.get_else_statements(), else_statement_conditions, order)
+                order = self.extract_statements(statement.get_else_statements(), else_statement_conditions, order)
 
             elif statement.is_assignment():
                 assignment = \
@@ -50,9 +50,6 @@ class Form:
 
     def questions(self):
         return self._questions
-
-    def get_assignments(self):
-        return [] # self.assignments
 
     def get_ast(self):
         return self._form_ast
