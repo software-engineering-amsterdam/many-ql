@@ -13,7 +13,15 @@ import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 
-public class FormQuestionCollector implements FormVisitor<Set<Identifier>>, StatementVisitor<Set<Identifier>> {
+public final class FormQuestionCollector implements FormVisitor<Set<Identifier>>, StatementVisitor<Set<Identifier>> {
+
+    public static Set<Identifier> collectFrom(final Form form) {
+        final FormQuestionCollector collector = new FormQuestionCollector();
+        return form.accept(collector);
+    }
+
+    private FormQuestionCollector() {
+    }
 
     @Override
     public Set<Identifier> visit(final ComputedQuestion question) {

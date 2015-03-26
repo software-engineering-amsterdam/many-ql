@@ -34,7 +34,7 @@ public class Question extends PageSegment implements ASTNode {
         return widget;
     }
 
-    public boolean hasWidget() {
+    public boolean hasStylizedWidget() {
         return this.widget != null;
     }
 

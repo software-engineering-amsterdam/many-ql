@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ql.validation.dependency;
 
+import java.util.List;
 import java.util.Set;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
@@ -10,15 +11,24 @@ import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.validation.Checker;
+import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.VariableExctractor;
 import nl.uva.softwcons.ql.validation.dependency.error.CyclicQuestionsDependency;
 
-public class CyclicDependencyChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void> {
+public final class CyclicDependencyChecker extends Checker implements FormVisitor<List<Error>>, StatementVisitor<Void> {
+
+    public static List<Error> check(final Form form) {
+        return form.accept(new CyclicDependencyChecker());
+    }
+
+    private CyclicDependencyChecker() {
+    }
 
     @Override
-    public Void visit(final Form form) {
+    public List<Error> visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
-        return null;
+
+        return this.getErrors();
     }
 
     @Override
