@@ -1,38 +1,44 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.qls.gui.ui_segment.JPage;
-import org.fugazi.qls.gui.ui_segment.JSection;
+import org.fugazi.qls.gui.ui_segment.UIPage;
+import org.fugazi.qls.gui.ui_segment.UISection;
 
 import javax.swing.*;
 
-public class QlsUIForm extends UIForm {
-    private QlsUIPanel qlsUIPanel;
+public class QLSUIForm extends UIForm {
+    private QLSUIPanel QLSUIPanel;
 
-    public QlsUIForm(String _formTitle, QlsUIPanel _panel) {
+    public QLSUIForm(String _formTitle, QLSUIPanel _panel) {
         super(_formTitle, _panel);
-        this.qlsUIPanel = _panel;
-        this.qlsUIPanel.render(this.formFrame);
+        this.QLSUIPanel = _panel;
+        this.QLSUIPanel.render(this.formFrame);
     }
 
     @Override
     public void showForm() {
-        this.qlsUIPanel.render(this.formFrame);
+        this.QLSUIPanel.render(this.formFrame);
         this.formFrame.setVisible(true);
     }
 
-    public void addWidget(JPanel _panel, JComponent _component) {
+    @Override
+    public void addWidget(JComponent _component) {
+        this.addWidgetToPanel(new JPanel(), _component);    // TODO: add the question to the right panel.
+        this.formFrame.revalidate();
+    }
+    
+    public void addWidgetToPanel(JPanel _panel, JComponent _component) {
         _panel.add(_component);
         this.formFrame.revalidate();
     }
 
-    public void addPage(JPage _page) {
-        this.qlsUIPanel.addPage(_page.getPanel(), _page.getTitle());
+    public void addPage(UIPage _page) {
+        this.QLSUIPanel.addPage(_page.getPanel(), _page.getTitle());
         this.formFrame.revalidate();
     }
 
-    public void addSection(JSection _section) {
-        JPage page = _section.getPage();
-        this.qlsUIPanel.addSection(page.getPanel(), _section.getPanel());
+    public void addSection(UISection _section) {
+        UIPage page = _section.getPage();
+        this.QLSUIPanel.addSection(page.getPanel(), _section.getPanel());
     }
 }

@@ -5,14 +5,13 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
-import org.fugazi.qls.gui.ui_segment.JPage;
-import org.fugazi.qls.gui.ui_segment.JSection;
+import org.fugazi.qls.gui.ui_segment.UIPage;
+import org.fugazi.qls.gui.ui_segment.UISection;
 
 import java.util.List;
 
@@ -20,14 +19,14 @@ public class StyledGUIBuilder extends GUIBuilder {
     private final QLFormDataStorage qlData;
     private final QLSStyleSheetDataStorage qlsData;
 
-    private final QlsUIFormManager uiFormManager;
+    private final QLSUIFormManager uiFormManager;
 
     public StyledGUIBuilder(Form _form, QLFormDataStorage _qlData, QLSStyleSheetDataStorage _qlsData, WidgetsFactory _widgetFactory) {
         super(_form, _widgetFactory);
         this.qlsData = _qlsData;
         this.qlData = _qlData;
 
-        this.uiFormManager = new QlsUIFormManager(_form.getName(), new QlsUIPanel());
+        this.uiFormManager = new QLSUIFormManager(_form.getName(), new QLSUIPanel());
 
         this.prepareForm();
     }
@@ -35,12 +34,12 @@ public class StyledGUIBuilder extends GUIBuilder {
     private void prepareForm() {
         for (Page page : this.qlsData.getPages()) {
 
-            JPage jPage = new JPage(page.getName());
-            this.uiFormManager.addPage(jPage);
+            UIPage UIPage = new UIPage(page.getName());
+            this.uiFormManager.addPage(UIPage);
 
             List<Section> sections = page.getSections();
             for (Section section : sections) {
-                this.uiFormManager.addSection(new JSection(jPage, section.getName()));
+                this.uiFormManager.addSection(new UISection(UIPage, section.getName()));
 
                 List<QLSQuestion> questions = section.getQuestions();
                 for (QLSQuestion question : questions) {

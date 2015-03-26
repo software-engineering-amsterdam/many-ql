@@ -1,7 +1,6 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
@@ -11,13 +10,11 @@ import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.gui.QLSWidgetsFactory;
-import org.fugazi.qls.gui.QlsUIPanel;
 import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Map;
 
 public class Main {
 
