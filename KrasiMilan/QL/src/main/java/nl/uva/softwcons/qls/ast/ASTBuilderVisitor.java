@@ -56,7 +56,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Page> pages = ctx.page().stream().map(st -> (Page) st.accept(this)).collect(Collectors.toList());
 
-        return new Stylesheet(id, pages, extractLineInfo(ctx.ID().getSymbol()));
+        return new Stylesheet(id, pages);
     }
 
     @Override
@@ -64,11 +64,10 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-
         final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Page(id, sections, styles, extractLineInfo(ctx.ID().getSymbol()));
+        return new Page(id, sections, styles);
     }
 
     @Override
@@ -76,7 +75,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final String label = Utils.unquote(ctx.STRING().getText());
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-
         final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
@@ -89,14 +87,13 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
 
         return new StylizedType(questionType, widget);
-
     }
 
     @Override
     public Question visitQuestionWithoutWidget(final QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
 
-        return new Question(id, extractLineInfo(ctx.ID().getSymbol()));
+        return new Question(id);
     }
 
     @Override
@@ -104,7 +101,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
 
-        return new Question(id, widget, extractLineInfo(ctx.ID().getSymbol()));
+        return new Question(id, widget);
     }
 
     @Override
@@ -126,6 +123,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     public Style visitStyle(final StyleContext ctx) {
         final List<StyleProperty> styles = ctx.styleProperty().stream().map(st -> (StyleProperty) st.accept(this))
                 .collect(Collectors.toList());
+
         return new Style(styles);
     }
 
