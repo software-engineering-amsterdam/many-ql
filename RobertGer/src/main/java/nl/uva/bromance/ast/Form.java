@@ -1,13 +1,15 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.conditionals.CanContainConditionals;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.IfStatement;
 import nl.uva.bromance.ast.visitors.QlNodeVisitor;
-import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Form extends QLNode implements CanContainConditionals {
     private String identifier;
@@ -19,19 +21,6 @@ public class Form extends QLNode implements CanContainConditionals {
     public Form(int lineNumber, String id) {
         super(lineNumber);
         this.identifier = id.substring(1, id.length() - 1);
-    }
-
-    @Override
-    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-
-        Optional<? extends Pane> newParent = Optional.of(new VBox());
-        Label label = new Label(this.identifier);
-        label.getStyleClass().add("formHeader");
-        newParent.get().getChildren().add(label);
-        // Commented out for future usage when generating CSS
-        //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
-        newParent.get().getStyleClass().add("form");
-        parent.getChildren().add(newParent.get());
     }
 
     public String getIdentifier() {

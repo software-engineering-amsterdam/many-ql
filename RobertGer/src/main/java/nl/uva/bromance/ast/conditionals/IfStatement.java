@@ -26,7 +26,7 @@ public class IfStatement extends QLNode implements ContainsExpression {
         //TODO: Should force this in TypeChecking.
         if (result instanceof BooleanResult) {
             for (QLNode child : this.getChildren()) {
-                child.isVisible(((BooleanResult) result).getResult());
+                child.setVisible(((BooleanResult) result).getResult());
             }
         }
     }

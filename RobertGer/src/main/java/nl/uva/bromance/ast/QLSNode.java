@@ -21,7 +21,7 @@ public abstract class QLSNode extends Node<QLSNode> implements Visualizable, Qls
     }
 
     @Override
-    public void isVisible(boolean visible) {
+    public void setVisible(boolean visible) {
 
     }
 }

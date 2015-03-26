@@ -25,7 +25,7 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
         Result result = expression.getResult();
         if (result instanceof BooleanResult) {
             for (QLNode child : this.getChildren()) {
-                child.isVisible(((BooleanResult) result).getResult());
+                child.setVisible(((BooleanResult) result).getResult());
             }
         }
     }

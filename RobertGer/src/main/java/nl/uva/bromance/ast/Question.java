@@ -1,22 +1,21 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.HasIdentifier;
-import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.ast.visitors.QlNodeVisitor;
-import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
-    private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
+    private final QuestionType[] questionTypes = {new IntegerType(this), new StringType(this), new BooleanType(this), new CustomType(this)};
 
     private Identifier identifier;
     private String questionString;
@@ -65,18 +64,7 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        if (isVisible) {
-            Label l = new Label(questionString);
-            l.getStyleClass().add("prettyLabel");
-            parent.getChildren().add(l);
-            // Add the actual input field
-            questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
-        }
-    }
-
-    @Override
-    public void isVisible(boolean visible) {
+    public void setVisible(boolean visible) {
         this.isVisible = visible;
     }
 
@@ -107,6 +95,18 @@ public class Question extends QLNode implements HasIdentifier {
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public List<StringResult> getMultipleChoicesOptions() {
+        return multipleChoiceOptions;
     }
 }
 
