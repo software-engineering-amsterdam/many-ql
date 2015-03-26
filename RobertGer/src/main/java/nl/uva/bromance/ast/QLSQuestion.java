@@ -6,7 +6,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class QLSQuestion extends QLSNode {
     private Identifier identifier;
@@ -33,8 +32,8 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        return this.questionNode.visualize(parent, answerMap, visualizer);
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+        this.questionNode.visualize(parent, answerMap, visualizer);
     }
 
 }

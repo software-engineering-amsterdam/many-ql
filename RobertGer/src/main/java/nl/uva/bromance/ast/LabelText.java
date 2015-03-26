@@ -8,7 +8,6 @@ import nl.uva.bromance.visualization.Visualizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,11 +37,8 @@ public class LabelText extends QLNode {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
-
-        return null;
     }
 
     @Override

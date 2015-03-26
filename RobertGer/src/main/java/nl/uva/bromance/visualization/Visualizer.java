@@ -225,16 +225,14 @@ public class Visualizer {
     private void visualizeChildren(QLNode node, Optional<? extends Pane> parentPane) {
         for (QLNode child : node.getChildren()) {
             if (child.hasChildren()) {
-                Optional<? extends Pane> newParent = child.visualize(parentPane.get(), answerMap, this);
-                if (newParent.isPresent()) {
-                    visualizeChildren(child, newParent);
-                } else {
-                    visualizeChildren(child, parentPane);
-                }
+                visualizeChildren(child, parentPane);
             } else {
                 child.visualize(parentPane.get(), answerMap, this);
             }
         }
+    }
+
+    public void refresh(QLNode node) {
     }
 }
 

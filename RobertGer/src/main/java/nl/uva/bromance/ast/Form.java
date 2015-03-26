@@ -22,7 +22,7 @@ public class Form extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         Label label = new Label(this.identifier);
@@ -32,8 +32,6 @@ public class Form extends QLNode implements CanContainConditionals {
         //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
         newParent.get().getStyleClass().add("form");
         parent.getChildren().add(newParent.get());
-
-        return newParent;
     }
 
     public String getIdentifier() {

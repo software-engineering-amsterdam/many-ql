@@ -20,7 +20,7 @@ public class QLSSection extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         Optional<? extends Pane> newParent = Optional.of(new VBox());
         javafx.scene.control.Label label = new javafx.scene.control.Label(this.identifier);
         label.getStyleClass().add("formHeader");
@@ -32,6 +32,5 @@ public class QLSSection extends QLSNode {
         //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
         newParent.get().getStyleClass().add("form");
         parent.getChildren().add(newParent.get());
-        return newParent;
     }
 }

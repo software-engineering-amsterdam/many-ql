@@ -65,7 +65,7 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         if (isVisible) {
             Label l = new Label(questionString);
             l.getStyleClass().add("prettyLabel");
@@ -73,7 +73,6 @@ public class Question extends QLNode implements HasIdentifier {
             // Add the actual input field
             questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
         }
-        return Optional.empty();
     }
 
     @Override
