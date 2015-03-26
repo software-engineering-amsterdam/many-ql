@@ -20,4 +20,8 @@ public class StylizedType implements ASTNode {
         return widget;
     }
 
+    public boolean hasTypeConflict() {
+        return !widget.getWidgetType().isCompatibleWith(questionType);
+    }
+
 }
