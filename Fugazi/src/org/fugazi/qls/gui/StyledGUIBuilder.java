@@ -24,6 +24,7 @@ import org.fugazi.qls.gui.ui_segment.UISection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StyledGUIBuilder implements IMediator {
     private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
@@ -63,6 +64,31 @@ public class StyledGUIBuilder implements IMediator {
         this.renderUI();
     }
 
+    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+        if (_questionsWithConditionState == null)
+            return;
+        
+        for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
+            if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
+                this.uiFormManager.addQuestion(uiQuestion);
+            } else {
+                this.uiFormManager.removeQuestion(uiQuestion);
+            }
+        }
+    }
+
+    private boolean isQuestionStateTrue(
+            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
+    {
+        boolean isTrue = true;
+        for (IfStatement ifStatement : _questionsWithConditionState.get(_question)) {
+            if (!this.guiEvaluator.evaluateIfStatement(ifStatement)) {
+                isTrue = false;
+            }
+        }
+        return isTrue;
+    }
+
     private void prepareForm() {
         for (Page page : this.qlsData.getPages()) {
 
@@ -85,6 +111,7 @@ public class StyledGUIBuilder implements IMediator {
     }
 
     public void renderUI() {
+        this.setupForm(this.questionsWithConditions);
         this.uiFormManager.render();
     }
 

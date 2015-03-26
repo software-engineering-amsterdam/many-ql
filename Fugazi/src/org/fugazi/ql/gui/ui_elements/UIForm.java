@@ -22,7 +22,7 @@ public class UIForm implements IUIForm{
     }
 
     public void showForm() {
-//        this.formFrame.setVisible(true);
+        this.formFrame.setVisible(true);
     }
 
     public void addWidget(JComponent _component) {

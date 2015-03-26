@@ -2,7 +2,6 @@ package org.fugazi.ql.gui;
 
 import org.fugazi.ql.gui.ui_elements.IUIPanel;
 import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.UIPanel;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 
 import java.util.ArrayList;
