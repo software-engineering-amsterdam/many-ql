@@ -19,15 +19,6 @@ import java.util.Map;
  * Created by Robert on 9-3-2015.
  */
 public class CustomType implements QuestionType {
-    private List<StringResult> multipleChoiceOptions = new ArrayList<>();
-
-    public CustomType(List<TerminalNode> options) {
-        for (TerminalNode option : options) {
-            String customOption = option.getText();
-            customOption = customOption.substring(1, customOption.length() - 1); // Remove double quotes around the question.
-            multipleChoiceOptions.add(new StringResult(customOption));
-        }
-    }
 
     @Override
     public String getTypeString() {
@@ -42,7 +33,7 @@ public class CustomType implements QuestionType {
     @Override
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
         ToggleGroup group = new ToggleGroup();
-        String id = q.getIdentifier();
+        String id = q.getIdentifier().getId();
         StringResult answer = (StringResult) answerMap.get(id);
 
         group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
