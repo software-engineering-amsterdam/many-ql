@@ -29,6 +29,6 @@ public class QLSStyleSheetDataStorage {
     }
 
     public List<Page> getPages() {
-        return  this.sheet.getPages();
+        return this.sheet.getPages();
     }
 }

@@ -5,7 +5,6 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
@@ -19,8 +18,9 @@ public class QLSTypeChecker {
 
     private final ASTIssueHandler astIssueHandler;
 
-    public QLSTypeChecker(QLSStyleSheetDataStorage _qlsSheetData,
-                          QLFormDataStorage _qlFormData) {
+    public QLSTypeChecker(
+            QLSStyleSheetDataStorage _qlsSheetData, QLFormDataStorage _qlFormData) 
+    {
         this.qlsStyleSheetData = _qlsSheetData;
         this.qlFormData = _qlFormData;
         this.astIssueHandler = new ASTIssueHandler();
@@ -35,9 +35,7 @@ public class QLSTypeChecker {
     private void checkForUndefinedQuestions() {
         List<Question> qlQuestions = this.qlFormData.getAllQuestions();
         List<String> qlQuestionIdNames = this.getQlQuestionIdNames(qlQuestions);
-
-        List<QLSQuestion> qlsQuestions =
-                this.qlsStyleSheetData.getQuestions();
+        List<QLSQuestion> qlsQuestions = this.qlsStyleSheetData.getQuestions();
 
         for (QLSQuestion question : qlsQuestions ) {
             if (!qlQuestionIdNames.contains(question.getIdName())) {
@@ -48,13 +46,11 @@ public class QLSTypeChecker {
                 );
             }
         }
-        return;
     }
 
     private void checkIfAllQuestionsPlaced() {
         List<Question> qlQuestions = this.qlFormData.getAllQuestions();
-        List<QLSQuestion> qlsQuestions =
-                this.qlsStyleSheetData.getQuestions();
+        List<QLSQuestion> qlsQuestions = this.qlsStyleSheetData.getQuestions();
         List<String> qlsQuestionIdNames = this.getQlsQuestionIdNames(qlsQuestions);
 
         for (Question question : qlQuestions ) {
@@ -66,12 +62,10 @@ public class QLSTypeChecker {
                 );
             }
         }
-        return;
     }
 
     private void checkForMultipleQuestionPlacements() {
-        List<QLSQuestion> qlsQuestions =
-                this.qlsStyleSheetData.getQuestions();
+        List<QLSQuestion> qlsQuestions = this.qlsStyleSheetData.getQuestions();
         List<String> qlsQuestionIdNames = new ArrayList<>();
 
         for (QLSQuestion question : qlsQuestions) {
@@ -85,13 +79,10 @@ public class QLSTypeChecker {
                 qlsQuestionIdNames.add(question.getIdName());
             }
         }
-        return;
     }
 
     private void checkWidgetTypeCompatibility() {
-        List<QLSQuestion> qlsQuestions =
-                this.qlsStyleSheetData.getQuestions();
-
+        List<QLSQuestion> qlsQuestions = this.qlsStyleSheetData.getQuestions();
         HashMap<String, Type> questionTypes = this.qlFormData.getallQuestionTypes();
 
         for (QLSQuestion question : qlsQuestions) {
@@ -109,7 +100,10 @@ public class QLSTypeChecker {
                 );
             }
         }
-        return;
+    }
+    
+    private void checkWidgetTypeCompatibilityInDeclarations() {
+
     }
 
     /**
@@ -118,17 +112,17 @@ public class QLSTypeChecker {
      * =====================
      */
 
-    private List<String> getQlQuestionIdNames(List<Question> qlQuestions) {
+    private List<String> getQlQuestionIdNames(List<Question> _qlQuestions) {
         List<String> qlQuestionIdNames = new ArrayList<>();
-        for (Question question : qlQuestions) {
+        for (Question question : _qlQuestions) {
             qlQuestionIdNames.add(question.getIdName());
         }
         return qlQuestionIdNames;
     }
 
-    private List<String> getQlsQuestionIdNames(List<QLSQuestion> qlsQuestions) {
+    private List<String> getQlsQuestionIdNames(List<QLSQuestion> _qlsQuestions) {
         List<String> qlsQuestionIdNames = new ArrayList<>();
-        for (QLSQuestion question : qlsQuestions) {
+        for (QLSQuestion question : _qlsQuestions) {
             qlsQuestionIdNames.add(question.getIdName());
         }
         return qlsQuestionIdNames;
@@ -139,7 +133,6 @@ public class QLSTypeChecker {
      * Exposed global methods
      * =====================
      */
-
 
     public boolean checkStylesheet() {
         // clear errors and warnings
@@ -163,14 +156,11 @@ public class QLSTypeChecker {
     }
 
     public List<ASTNodeIssue> getErrors() {
-        List<ASTNodeIssue> errors = this.astIssueHandler.getErrors();
-
-        return errors;
+        return this.astIssueHandler.getErrors();
     }
 
     public List<ASTNodeIssue> getWarnings() {
-        List<ASTNodeIssue> warnings = this.astIssueHandler.getWarnings();
-        return warnings;
+        return this.astIssueHandler.getWarnings();
     }
 
     public void clearErrorsAndWarnings() {
