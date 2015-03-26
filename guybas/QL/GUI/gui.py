@@ -1,7 +1,7 @@
 import tkinter as tk
 import QL.Tools.converters as converters
 import QL.Runtime.answers_map as answers_map
-import QL.AST.Statements.assignment as ast_assign
+import QL.Runtime.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
@@ -27,7 +27,7 @@ class GUI:
         intro_element = self.intro_label(windowFrame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
 
-        self.__update_assignments_ref()
+        # self.__update_assignments_ref()
         self.draw_questions(self.__questions, windowFrame)
         tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
@@ -53,6 +53,7 @@ class GUI:
         elements = question.get_gui_element()
         # don't print anything if has no elements (expression_factory.g. assignment)
         if elements is None:
+            self.__update_assignments_ref(question)
             return False
 
         # check if condition holds
@@ -65,7 +66,7 @@ class GUI:
 
     def update(self, question, new_answer):
         self.__answersMap.update(question.ast.ids()[0], new_answer)
-        self.__update_assignments_ref()
+        # self.__update_assignments_ref()
 
         # For every element which has the changing answer as dependency, update it
         for qid in self.__dependencies:
@@ -73,18 +74,17 @@ class GUI:
                 self.elements_recreate(qid)
 
     # TODO: Is this updated every time? Assignments should as they also can change value
-    def __update_assignments_ref(self):
-        for assignment in self.__assignments:
-            ass_id = assignment.get_id()
-            answer = assignment.evaluate_expression(self.__answersMap)
-            self.__answersMap.update(ass_id, answer)
+    def __update_assignments_ref(self, assignment):
+        ass_id = assignment.get_id()
+        answer = assignment.evaluate_expression(self.__answersMap)
+        self.__answersMap.update(ass_id, answer)
 
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
         question = statements_dict[qid]
 
         if isinstance(question, ast_assign.Assignment):
-            return None
+            self.__update_assignments_ref(question)
 
         row_elements = question.get_gui_element()
         if row_elements is None:
