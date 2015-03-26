@@ -33,8 +33,16 @@ public  class QLSUIPanel implements IUIPanel {
         this.panel.addTab(_title, _page);
     }
 
+    public void removePage(JPanel _panel) {
+        this.panel.remove(_panel);
+    }
+
     public void addSection(JPanel _pagePanel, JPanel _sectionPanel) {
         _pagePanel.add(_sectionPanel);
+    }
+
+    public void removeSection(JPanel _pagePanel, JPanel _sectionPanel) {
+        _pagePanel.remove(_sectionPanel);
     }
 
     public JTabbedPane getPanel() {
