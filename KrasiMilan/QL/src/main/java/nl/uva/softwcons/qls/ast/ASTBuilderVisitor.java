@@ -56,7 +56,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Page> pages = ctx.page().stream().map(st -> (Page) st.accept(this)).collect(Collectors.toList());
 
-        return new Stylesheet(id, pages);
+        return new Stylesheet(id, pages, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Page(id, sections, styles);
+        return new Page(id, sections, styles, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Section(label, content, styles);
+        return new Section(label, content, styles, extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override

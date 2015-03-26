@@ -2,6 +2,7 @@ package nl.uva.softwcons.qls.ast.segment;
 
 import java.util.List;
 
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.widget.StylizedType;
 
@@ -9,11 +10,14 @@ public class Section extends PageSegment implements ASTNode {
     private final String label;
     private final List<PageSegment> content;
     private final List<StylizedType> styles;
+    private final LineInfo lineInfo;
 
-    public Section(final String label, final List<PageSegment> content, final List<StylizedType> styles) {
+    public Section(final String label, final List<PageSegment> content, final List<StylizedType> styles,
+            LineInfo lineInfo) {
         this.label = label;
         this.content = content;
         this.styles = styles;
+        this.lineInfo = lineInfo;
     }
 
     public String getLabel() {
@@ -26,6 +30,10 @@ public class Section extends PageSegment implements ASTNode {
 
     public List<StylizedType> getStyles() {
         return styles;
+    }
+
+    public LineInfo getLineInfo() {
+        return lineInfo;
     }
 
     @Override
