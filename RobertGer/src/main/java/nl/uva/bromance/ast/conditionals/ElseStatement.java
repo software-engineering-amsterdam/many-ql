@@ -9,7 +9,7 @@ import nl.uva.bromance.ast.visitors.NodeVisitor;
 public class ElseStatement extends QLNode {
 
     public ElseStatement(int lineNumber) {
-        super(lineNumber, ElseStatement.class);
+        super(lineNumber);
     }
 
     @Override

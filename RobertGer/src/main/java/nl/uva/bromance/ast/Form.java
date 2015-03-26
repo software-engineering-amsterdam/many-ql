@@ -5,8 +5,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
-import nl.uva.bromance.typechecking.ReferenceMap;
-import nl.uva.bromance.typechecking.TypeCheckingException;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.*;
@@ -19,7 +17,7 @@ public class Form extends QLNode implements CanContainConditionals {
     private ElseStatement elseStatement;
 
     public Form(int lineNumber, String id) {
-        super(lineNumber, Form.class);
+        super(lineNumber);
         if (id != null) {
             // Remove double quotes around the identifier
             this.identifier = id.substring(1, id.length() - 1);
@@ -27,18 +25,6 @@ public class Form extends QLNode implements CanContainConditionals {
             //TODO: Consider putting this in the type checker.
             System.err.println("Form Error: No identifier specified");
         }
-    }
-
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Form] { Name : " + this.identifier + " }\n");
-        for (QLNode n : getChildren()) {
-            n.printDebug(i + 1);
-        }
-
     }
 
     @Override
@@ -89,10 +75,11 @@ public class Form extends QLNode implements CanContainConditionals {
     public void setElseStatement(ElseStatement es) {
         elseStatement = es;
     }
+
     @Override
     public void accept(NodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

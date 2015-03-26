@@ -10,7 +10,7 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
     public ElseIfStatement(int lineNumber) {
-        super(lineNumber, ElseIfStatement.class);
+        super(lineNumber);
     }
 
 

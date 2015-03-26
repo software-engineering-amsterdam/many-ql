@@ -2,7 +2,6 @@ package nl.uva.bromance.ast;
 
 import nl.uva.bromance.ast.conditionals.ContainsExpression;
 import nl.uva.bromance.ast.conditionals.Expression;
-import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
 
 /**
@@ -12,7 +11,7 @@ public class Input extends QLNode implements ContainsExpression {
     private Expression expression;
 
     public Input(int lineNumber) {
-        super(lineNumber, Input.class);
+        super(lineNumber);
     }
 
     @Override

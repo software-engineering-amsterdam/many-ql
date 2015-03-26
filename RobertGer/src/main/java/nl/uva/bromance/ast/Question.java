@@ -9,8 +9,6 @@ import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
-import nl.uva.bromance.typechecking.ReferenceMap;
-import nl.uva.bromance.typechecking.TypeCheckingException;
 import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -28,7 +26,7 @@ public class Question extends QLNode implements HasIdentifier {
 
     //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
-        super(lineNumber, Question.class);
+        super(lineNumber);
         this.identifier = identifier;
     }
 
@@ -64,18 +62,6 @@ public class Question extends QLNode implements HasIdentifier {
 
     public void setQuestionRange(Range r) {
         this.questionRange = r;
-    }
-
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
-        for (QLNode n : getChildren()) {
-            n.printDebug(i + 1);
-        }
-
     }
 
     @Override
@@ -119,7 +105,7 @@ public class Question extends QLNode implements HasIdentifier {
     @Override
     public void accept(NodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

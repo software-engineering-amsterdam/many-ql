@@ -20,23 +20,12 @@ public class Label extends QLNode implements CanContainConditionals {
     private ElseStatement elseStatement;
 
     public Label(int lineNumber, String id) {
-        super(lineNumber, Label.class);
+        super(lineNumber);
         if (id != null) {
             this.identifier = id.substring(1, id.length() - 1); // Remove double brackets around id
         } else {
             //TODO: Consider putting this in the typechecker.
             System.err.println("Label Error: No identifier specified");
-        }
-    }
-
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Label] { Name : " + this.identifier + " }\n");
-        for (QLNode n : getChildren()) {
-            n.printDebug(i + 1);
         }
     }
 
@@ -72,7 +61,7 @@ public class Label extends QLNode implements CanContainConditionals {
     @Override
     public void accept(NodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

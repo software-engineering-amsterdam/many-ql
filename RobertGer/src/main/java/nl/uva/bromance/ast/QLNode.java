@@ -12,8 +12,8 @@ import java.util.Optional;
 public abstract class QLNode extends Node<QLNode> implements NodeElement, Visualizable {
 
 
-    public QLNode(int ln, Class<? extends Node> type) {
-        super(ln, type);
+    public QLNode(int ln) {
+        super(ln);
     }
 
     @Override

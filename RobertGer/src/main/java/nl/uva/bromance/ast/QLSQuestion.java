@@ -13,7 +13,7 @@ public class QLSQuestion extends QLSNode {
     private Question questionNode;
 
     public QLSQuestion(int lineNumber, String id, AST qlAST) {
-        super(lineNumber, QLSQuestion.class);
+        super(lineNumber);
 
         List<Question> questions = qlAST.getAllChildrenOfType_ForAst(Question.class);
 
@@ -37,14 +37,4 @@ public class QLSQuestion extends QLSNode {
         return this.questionNode.visualize(parent, answerMap, visualizer);
     }
 
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Question] { Name: " + identifier + " }\n");
-        for (QLSNode n : getChildren()) {
-            n.printDebug(i + 1);
-        }
-    }
 }

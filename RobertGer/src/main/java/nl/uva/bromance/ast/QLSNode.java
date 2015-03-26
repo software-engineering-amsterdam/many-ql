@@ -12,8 +12,8 @@ import java.util.Optional;
  * Created by Robert on 16-3-2015.
  */
 public class QLSNode extends Node<QLSNode> implements Visualizable {
-    public QLSNode(int ln, Class<? extends QLSNode> type) {
-        super(ln, type);
+    public QLSNode(int ln) {
+        super(ln);
     }
 
     @Override
