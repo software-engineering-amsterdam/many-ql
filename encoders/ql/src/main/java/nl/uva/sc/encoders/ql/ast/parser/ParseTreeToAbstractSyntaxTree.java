@@ -225,6 +225,10 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 			return new LessOrEqualOperator(operator);
 		case ">=":
 			return new GreaterOrEqualOperator(operator);
+		case "!=":
+			return new GreaterOrEqualOperator(operator);
+		case "==":
+			return new GreaterOrEqualOperator(operator);
 		default:
 			throw new AssertionError("Operator " + operator + " is not suppoerted.");
 		}

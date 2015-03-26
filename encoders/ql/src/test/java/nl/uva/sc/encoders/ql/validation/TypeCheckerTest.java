@@ -179,7 +179,7 @@ public class TypeCheckerTest {
 
 		assertThat(validations.toString(), validations.size(), is(1));
 		TypeValidation typeValidation = validations.get(0);
-		assertThat(typeValidation.getValidationMessage(), is("Operator does not support operations with datatype integer"));
+		assertThat(typeValidation.getValidationMessage(), is("Operator '!' does not support operations with datatype integer"));
 	}
 
 	@Test
@@ -220,7 +220,7 @@ public class TypeCheckerTest {
 		assertThat(validations.toString(), validations.size(), is(1));
 		TypeValidation typeValidation = validations.get(0);
 		assertThat(typeValidation.getValidationMessage(),
-				is("Operator does not support operations with lefthand datatype boolean, righthand datatype boolean"));
+				is("Operator '>' does not support operations with lefthand datatype boolean, righthand datatype boolean"));
 	}
 
 	@Test
@@ -263,6 +263,6 @@ public class TypeCheckerTest {
 		assertThat(validations.toString(), validations.size(), is(1));
 
 		TypeValidation typeValidation = validations.get(0);
-		assertThat(typeValidation.getValidationMessage(), is("Operator does not support operations with datatype integer"));
+		assertThat(typeValidation.getValidationMessage(), is("Operator '!' does not support operations with datatype integer"));
 	}
 }
