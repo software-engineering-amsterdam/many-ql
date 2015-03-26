@@ -12,7 +12,7 @@ public class Stylesheet implements ASTNode {
     private final List<Page> pages;
     private final LineInfo lineInfo;
 
-    public Stylesheet(final Identifier id, final List<Page> pages, LineInfo lineInfo) {
+    public Stylesheet(final Identifier id, final List<Page> pages, final LineInfo lineInfo) {
         this.id = id;
         this.pages = pages;
         this.lineInfo = lineInfo;

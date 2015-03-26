@@ -17,7 +17,7 @@ public class Question extends PageSegment implements ASTNode {
         this.widget = null;
     }
 
-    public Question(final Identifier id, final StylizedWidget widget, LineInfo lineInfo) {
+    public Question(final Identifier id, final StylizedWidget widget, final LineInfo lineInfo) {
         this.id = id;
         this.widget = widget;
         this.lineInfo = lineInfo;
@@ -39,7 +39,7 @@ public class Question extends PageSegment implements ASTNode {
         return this.widget != null;
     }
 
-    public boolean isCompatibleWithWidget(Type questionType) {
+    public boolean isCompatibleWithWidget(final Type questionType) {
         return widget.getWidgetType().isCompatibleWith(questionType);
     }
 

@@ -16,14 +16,14 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
 
     private final Environment typeEnv;
 
-    public WidgetTypeChecker(Environment env) {
-        typeEnv = env;
+    public WidgetTypeChecker(final Environment env) {
+        this.typeEnv = env;
     }
 
     @Override
-    public Void visit(Page page) {
+    public Void visit(final Page page) {
         page.getSegments().forEach(segment -> segment.accept(this));
-        for (StylizedType style : page.getStyles()) {
+        for (final StylizedType style : page.getStyles()) {
             if (style.hasTypeConflict()) {
                 addError(new IncompatibleWidget(page.getLineInfo()));
             }
@@ -32,8 +32,8 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     }
 
     @Override
-    public Void visit(Question question) {
-        Type questionType = typeEnv.resolveVariable(question.getId());
+    public Void visit(final Question question) {
+        final Type questionType = typeEnv.resolveVariable(question.getId());
         if (question.hasStylizedWidget() && !question.isCompatibleWithWidget(questionType)) {
             addError(new IncompatibleWidget(question.getLineInfo()));
         }
@@ -41,9 +41,9 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     }
 
     @Override
-    public Void visit(Section section) {
+    public Void visit(final Section section) {
         section.getContent().forEach(element -> element.accept(this));
-        for (StylizedType style : section.getStyles()) {
+        for (final StylizedType style : section.getStyles()) {
             if (style.hasTypeConflict()) {
                 addError(new IncompatibleWidget(section.getLineInfo()));
             }
@@ -53,7 +53,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     }
 
     @Override
-    public Void visit(Stylesheet stylesheet) {
+    public Void visit(final Stylesheet stylesheet) {
         stylesheet.getPages().forEach(page -> page.accept(this));
         return null;
     }

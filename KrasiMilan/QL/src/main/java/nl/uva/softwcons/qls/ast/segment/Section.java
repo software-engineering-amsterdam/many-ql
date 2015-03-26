@@ -13,7 +13,7 @@ public class Section extends PageSegment implements ASTNode {
     private final LineInfo lineInfo;
 
     public Section(final String label, final List<PageSegment> content, final List<StylizedType> styles,
-            LineInfo lineInfo) {
+            final LineInfo lineInfo) {
         this.label = label;
         this.content = content;
         this.styles = styles;

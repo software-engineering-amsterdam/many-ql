@@ -84,9 +84,10 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public StylizedType visitDefaultStatement(DefaultStatementContext ctx) {
-        Type questionType = getType(ctx.type().getText());
-        StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+    public StylizedType visitDefaultStatement(final DefaultStatementContext ctx) {
+        final Type questionType = getType(ctx.type().getText());
+        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+
         return new StylizedType(questionType, widget);
 
     }
@@ -107,16 +108,17 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public StylizedWidget visitWidgetWithoutStyle(WidgetWithoutStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+    public StylizedWidget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
 
         return new StylizedWidget(type);
     }
 
     @Override
-    public StylizedWidget visitWidgetWithStyle(WidgetWithStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
-        Style style = (Style) ctx.style().accept(this);
+    public StylizedWidget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+        final Style style = (Style) ctx.style().accept(this);
+
         return new StylizedWidget(type, style);
     }
 
