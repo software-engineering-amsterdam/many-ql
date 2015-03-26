@@ -15,9 +15,4 @@ public class DuplicateLabel extends Error { // NOPMD
         return false;
     }
 
-    @Override
-    public String getMessage() {
-        return "Warning: " + super.message;
-    }
-
 }
