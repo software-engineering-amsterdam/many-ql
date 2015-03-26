@@ -5,6 +5,8 @@ import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QLSUIForm implements IUIForm {
     private QLSUIPanel panel;
@@ -13,10 +15,13 @@ public class QLSUIForm implements IUIForm {
 
     private final JFrame formFrame;
 
+    private final Map<JComponent, JPanel> componentJPanelMap;
+
     public static final int winHeight = 600;
     public static final int winWidth = 580;
 
     public QLSUIForm(String _formTitle, QLSUIPanel _panel) {
+        this.componentJPanelMap = new HashMap<>();
         this.formFrame = new JFrame(_formTitle);
         this.formFrame.setSize(winWidth, winHeight);
         this.formFrame.setLocationRelativeTo(null);
@@ -33,11 +38,14 @@ public class QLSUIForm implements IUIForm {
     }
 
     public void addWidget(JComponent _component) {
-        // widgets can only be added inside page or section
-        if (this.currentPanel != null) {
-            this.addWidgetToPanel(this.currentPanel, _component);
-            this.formFrame.revalidate();
+        JPanel componentPanel =  this.componentJPanelMap.get(_component);
+        if (componentPanel == null) {
+            // initial addition, question always inside a page / section
+            componentPanel = this.currentPanel;
+            this.componentJPanelMap.put(_component, componentPanel);
         }
+        this.addWidgetToPanel(componentPanel, _component);
+        this.formFrame.revalidate();
     }
 
     public void addWidgetToPanel(JPanel _panel, JComponent _component) {
@@ -46,7 +54,10 @@ public class QLSUIForm implements IUIForm {
     }
 
     public void removeWidget(JComponent _component) {
-        this.panel.remove(_component);
+        JPanel componentPanel =  this.componentJPanelMap.get(_component);
+        if (componentPanel != null) {
+            componentPanel.remove(_component);
+        }
         this.formFrame.revalidate();
     }
 

@@ -52,7 +52,7 @@ public class StyledGUIBuilder implements IMediator {
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        questionsWithConditions = this.createQuestionsWithConditions(formDataStorage);
+        this.questionsWithConditions = this.createQuestionsWithConditions(formDataStorage);
         this.computedQuestions = formDataStorage.getComputedQuestions();
 
         this.prepareForm();
