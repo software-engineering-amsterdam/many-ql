@@ -29,7 +29,7 @@ public class BooleanType implements QuestionType {
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
 
         CheckBox cb = new CheckBox();
-        String id = q.getIdentifier().get().getId();
+        String id = q.getIdentifier().getId();
 
         BooleanResult answer = (BooleanResult) answerMap.get(id);
         if (answer != null) {

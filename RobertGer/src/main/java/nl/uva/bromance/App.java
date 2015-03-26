@@ -11,8 +11,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-            Visualizer vis = new Visualizer(primaryStage);
-            vis.setBaseView();
-            vis.render();
+        Visualizer vis = new Visualizer();
+        vis.render(primaryStage);
     }
 }

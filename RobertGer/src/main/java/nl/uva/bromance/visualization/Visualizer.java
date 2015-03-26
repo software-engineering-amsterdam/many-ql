@@ -14,8 +14,17 @@ import nl.uva.bromance.ast.QLSPage;
 import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
-import nl.uva.bromance.util.QLFileReader;
-import nl.uva.bromance.util.QLSFileReader;
+import nl.uva.bromance.listeners.GrammarErrorListener;
+import nl.uva.bromance.listeners.QLParseTreeListener;
+import nl.uva.bromance.listeners.QLSParseTreeListener;
+import nl.uva.bromance.parsers.QLLexer;
+import nl.uva.bromance.parsers.QLParser;
+import nl.uva.bromance.parsers.QLSLexer;
+import nl.uva.bromance.parsers.QLSParser;
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,16 +37,11 @@ public class Visualizer {
     private Scene scene;
     private VBox rootBox, pages, questions;
     private QLSPage currentPage;
-    private Map<String, Result> answerMap;
+    private Map<String, Result> answerMap = new HashMap<>();
     private AST<QLNode> qlAst;
     private AST<QLSNode> qlsAst;
     private Node focusedNode;
     private int focusId;
-
-    public Visualizer(Stage stage) {
-        this.stage = stage;
-        this.answerMap = new HashMap<>();
-    }
 
     public void setFocusedNode(Node node) {
         this.focusedNode = node;
@@ -47,7 +51,9 @@ public class Visualizer {
         return focusId;
     }
 
-    public void render() {
+    public void render(Stage primaryStage) {
+        setBaseView();
+        stage = primaryStage;
         stage.setScene(scene);
         stage.show();
     }
@@ -57,40 +63,16 @@ public class Visualizer {
 
         Optional<? extends Pane> root = Optional.of(rootBox);
         scene = new Scene(root.get());
-        // Setup the menuBar
-        MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        MenuItem filePicker = new MenuItem("Open");
+        MenuBar menuBar = createMenuBar();
+        SplitPane mainPane = createSplitPane();
 
-        filePicker.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                String qlPath = file.getAbsolutePath();
-                String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
+        rootBox.getChildren().addAll(menuBar, mainPane);
 
-                qlAst = null;
-                qlsAst = null;
-                try {
-                    qlAst = QLFileReader.readFile(qlPath);
-                } catch (IOException e) {
-                    System.err.println("Couldnt load QL file :" + qlPath);
-                }
-                try {
-                    qlsAst = QLSFileReader.readFile(qlsPath, qlAst);
-                } catch (IOException e) {
-                    System.out.println("Couldn't find qls file, no biggie.");
-                }
-                answerMap = new HashMap<>();
-                visualize(0);
-            }
-        });
+        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
+        visualize(0);
+    }
 
-        menuFile.getItems().add(filePicker);
-        menuBar.getMenus().add(menuFile);
-
-        // Setup the split pane
-
+    private SplitPane createSplitPane() {
         SplitPane mainPane = new SplitPane();
         mainPane.setDividerPositions(0.2f);
         mainPane.setMinSize(700, 500);
@@ -100,10 +82,86 @@ public class Visualizer {
         questions = new VBox();
 
         mainPane.getItems().addAll(pages, questions);
+        return mainPane;
+    }
 
-        rootBox.getChildren().addAll(menuBar, mainPane);
+    private MenuBar createMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        Menu menuFile = new Menu("File");
+        MenuItem filePicker = new MenuItem("Open");
 
-        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
+        createOpenMenuItemHandler(filePicker);
+
+        menuFile.getItems().add(filePicker);
+        menuBar.getMenus().add(menuFile);
+        return menuBar;
+    }
+
+    private void createOpenMenuItemHandler(MenuItem filePicker) {
+        filePicker.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                String qlPath = file.getAbsolutePath();
+                String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
+
+                createQlAst(qlPath);
+                createQlsAst(qlsPath);
+            }
+        });
+    }
+
+    private void createQlsAst(String qlsPath) {
+        qlsAst = null;
+        try {
+            qlsAst = readQlsFile(qlsPath, qlAst);
+        } catch (IOException e) {
+            System.out.println("Couldn't find qls file, no biggie.");
+        }
+    }
+
+    private AST<QLSNode> readQlsFile(String qlsPath, AST<QLNode> qlAst) throws IOException {
+        QLSLexer qlsLexer = new QLSLexer(new ANTLRFileStream(qlsPath));
+        CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
+        QLSParser qlsParser = new QLSParser(qlsTokens);
+        ParseTree qlsTree = qlsParser.stylesheet();
+        QLSParseTreeListener qlsListener = new QLSParseTreeListener(qlAst);
+
+        ParseTreeWalker qlsWalker = new ParseTreeWalker();
+        qlsWalker.walk(qlsListener, qlsTree);
+        AST<QLSNode> ast = qlsListener.getAst();
+        return ast;
+    }
+
+    private void createQlAst(String qlPath) {
+        qlAst = null;
+        try {
+            qlAst = readQlFile(qlPath);
+        } catch (IOException e) {
+            System.err.println("Couldnt load QL file :" + qlPath);
+        }
+    }
+
+    private AST<QLNode> readQlFile(String qlPath) throws IOException {
+        QLLexer lexer = new QLLexer(new ANTLRFileStream(qlPath));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        QLParser parser = new QLParser(tokens);
+
+        parser.removeErrorListeners();
+        parser.addErrorListener(new GrammarErrorListener());
+
+        ParseTree tree = parser.questionnaire();
+        QLParseTreeListener listener = new QLParseTreeListener();
+        ParseTreeWalker walker = new ParseTreeWalker();
+
+        walker.walk(listener, tree);
+
+        AST<QLNode> qlAst = listener.getAst();
+
+        new ExpressionEvaluator(null).evaluate(qlAst.getRoot());
+        new ConditionalHandler().handle(qlAst.getRoot());
+
+        return qlAst;
     }
 
     //TODO: Method length is a bit much. Consider restructuring.
@@ -147,7 +205,7 @@ public class Visualizer {
             // Non-QLS Implementation
         } else {
             if (qlAst.getRoot().hasChildren()) {
-                visualChildren(qlAst.getRoot(), questionPane);
+                visualizeChildren(qlAst.getRoot(), questionPane);
             }
         }
         stage.setScene(scene);
@@ -163,14 +221,14 @@ public class Visualizer {
         }
     }
 
-    private void visualChildren(QLNode node, Optional<? extends Pane> parentPane) {
+    private void visualizeChildren(QLNode node, Optional<? extends Pane> parentPane) {
         for (QLNode child : node.getChildren()) {
             if (child.hasChildren()) {
                 Optional<? extends Pane> newParent = child.visualize(parentPane.get(), answerMap, this);
                 if (newParent.isPresent()) {
-                    visualChildren(child, newParent);
+                    visualizeChildren(child, newParent);
                 } else {
-                    visualChildren(child, parentPane);
+                    visualizeChildren(child, parentPane);
                 }
             } else {
                 child.visualize(parentPane.get(), answerMap, this);
