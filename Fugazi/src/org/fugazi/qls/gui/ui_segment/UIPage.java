@@ -1,5 +1,6 @@
 package org.fugazi.qls.gui.ui_segment;
 
+import org.fugazi.ql.gui.ui_elements.IUIForm;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.QLSUIForm;
 
@@ -21,7 +22,7 @@ public class UIPage {
         _uiForm.addPage(this);
 
     }
-    public void removeFromForm(UIForm _uiForm) {
+    public void removeFromForm(IUIForm _uiForm) {
         _uiForm.removeWidget(this.panel);
     }
 

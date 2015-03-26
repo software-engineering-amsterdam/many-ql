@@ -2,7 +2,7 @@ package org.fugazi.ql.gui.ui_elements;
 
 import javax.swing.*;
 
-public class UIForm {
+public class UIForm implements IUIForm{
 
     protected final JFrame formFrame;
     protected IUIPanel panel;
@@ -22,12 +22,14 @@ public class UIForm {
     }
 
     public void showForm() {
-        this.formFrame.setVisible(true);
+//        this.formFrame.setVisible(true);
     }
 
     public void addWidget(JComponent _component) {
         this.panel.add(_component);
         this.formFrame.revalidate();
+
+
     }
 
     public void removeWidget(JComponent _component) {

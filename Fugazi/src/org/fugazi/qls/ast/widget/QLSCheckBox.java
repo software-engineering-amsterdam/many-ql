@@ -6,6 +6,7 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.ui_elements.IUIForm;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
@@ -55,12 +56,12 @@ public class QLSCheckBox extends AbstractQLSWidget {
     }
 
     @Override
-    public void render(UIForm _canvas) {
+    public void render(IUIForm _canvas) {
         _canvas.addWidget(this.checkBox);
     }
 
     @Override
-    public void suppress(UIForm _canvas){
+    public void suppress(IUIForm _canvas){
         _canvas.removeWidget(this.checkBox);
     }
 

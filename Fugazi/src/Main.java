@@ -99,12 +99,10 @@ public class Main {
 //            // QLS
             QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
 //            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-//            guiBuilder.renderUI();
-
-            StyledGUIBuilder builder = new StyledGUIBuilder(
+            StyledGUIBuilder guiBuilder = new StyledGUIBuilder(
                     form, formDataStorage, styleSheetData, qlsWidgetsFactory
             );
-            builder.render();
+            guiBuilder.renderUI();
 
         } else {
 
