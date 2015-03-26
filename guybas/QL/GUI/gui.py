@@ -22,23 +22,22 @@ class GUI:
         self.create_title()
         window_frame = tk.Frame(self.qGui)
 
-        # TODO: I know what happens, but i can understand this is not clear for Tijs
         intro_element = self.intro_label(window_frame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
 
         # self.__update_assignments_ref()
         self.draw_questions(self.__questions, window_frame)
-        tk.Button(window_frame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
+        tk.Button(window_frame, text="Submit", width=10,
+                  command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
         window_frame.pack(side="top", fill="both", expand=True)
 
-    # TODO: it is better to have runtime_form have the name instead of double point
     def create_title(self):
-        self.qGui.title(self.__form._form_ast.name())
+        self.qGui.title(self.__form.name())
 
     def intro_label(self, frame):
-        l = label.Label(self.__form._form_ast.introduction(), frame)
+        l = label.Label(self.__form.introduction(), frame)
         intro_row = l.get_row()
         return intro_row[0]
 
@@ -50,19 +49,19 @@ class GUI:
         # self.__answersMap.update(question.ast.ids()[0], None)
         question.set_gui_element(self, content_frame)
         elements = question.get_gui_element()
-        # don't print anything if has no elements (expression_factory.g. assignment)
-        if elements is None:
-            # self.update_assignment(question)
-            return False
+        if elements is None:  # assignment
+            return None
 
         # check if condition holds
         condition = question.get_condition()
         if condition and not condition.eval_expression(self.__answersMap):
-            return False
+            return None
 
         for i in range(0, len(elements)):
             elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
 
+    # called from the widgets when they receive new answers, or when assignment is changed
+    # TODO: Mmm, took me a while to realize that this one is called from the elements.. any idea how to make it more clear?
     def update(self, question, new_answer):
         self.__answersMap.update(question.ast.ids()[0], new_answer)
 
@@ -71,11 +70,9 @@ class GUI:
             if question.ast.ids()[0] in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
-    # TODO: Is this updated every time? Assignments should as they also can change value
     def update_assignment(self, assignment):
-        ass_id = assignment.get_id()
         answer = assignment.evaluate_expression(self.__answersMap)
-        self.__answersMap.update(ass_id, answer)
+        self.update(assignment, answer)
 
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()

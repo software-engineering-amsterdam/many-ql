@@ -57,6 +57,12 @@ class Form:
     def get_form(self):
         return self
 
+    def name(self):
+        return self._form_ast.name()
+
+    def introduction(self):
+        return self._form_ast.introduction()
+
     def get_statement_dict(self):
         d = {}
         for s in self.questions():
