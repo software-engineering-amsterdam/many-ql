@@ -37,8 +37,8 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.style.StyleProperty;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
-import nl.uva.softwcons.qls.ast.widget.Widget;
+import nl.uva.softwcons.qls.ast.widget.StylizedType;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
@@ -65,7 +65,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
-        final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))
+        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
         return new Page(id, sections, styles);
@@ -77,18 +77,18 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
-        final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))
+        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
         return new Section(label, content, styles);
     }
 
     @Override
-    public DefaultStyle visitDefaultStatement(final DefaultStatementContext ctx) {
-        final Type questionType = getType(ctx.type().getText());
-        final Widget widget = (Widget) ctx.widget().accept(this);
+    public StylizedType visitDefaultStatement(DefaultStatementContext ctx) {
+        Type questionType = getType(ctx.type().getText());
+        StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+        return new StylizedType(questionType, widget);
 
-        return new DefaultStyle(questionType, widget);
     }
 
     @Override
@@ -101,23 +101,23 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitQuestionWithWidget(final QuestionWithWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
-        final Widget widget = (Widget) ctx.widget().accept(this);
+        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
 
         return new Question(id, widget, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public Widget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
-        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+    public StylizedWidget visitWidgetWithoutStyle(WidgetWithoutStyleContext ctx) {
+        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
 
-        return new Widget(type);
+        return new StylizedWidget(type);
     }
 
     @Override
-    public Widget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
-        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
-        final Style style = (Style) ctx.style().accept(this);
-        return new Widget(type, style);
+    public StylizedWidget visitWidgetWithStyle(WidgetWithStyleContext ctx) {
+        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+        Style style = (Style) ctx.style().accept(this);
+        return new StylizedWidget(type, style);
     }
 
     @Override
