@@ -19,7 +19,8 @@ import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
 import nl.uva.softwcons.qls.validation.questionidentifier.error.MissingQuestionIdentifier;
 import nl.uva.softwcons.qls.validation.questionidentifier.error.UnknownQuestionIdentifier;
 
-public final class QuestionIdentifierChecker extends Checker implements StylesheetVisitor<List<Error>>, SegmentVisitor<Void> {
+public final class QuestionIdentifierChecker extends Checker implements StylesheetVisitor<List<Error>>,
+        SegmentVisitor<Void> {
     private final Set<Identifier> formQuestionsIdentifiers;
     private final Set<Identifier> stylesheetQuestionsIdentifiers;
 
@@ -28,8 +29,7 @@ public final class QuestionIdentifierChecker extends Checker implements Styleshe
     }
 
     private QuestionIdentifierChecker(final Form form) {
-        final FormQuestionCollector collector = new FormQuestionCollector();
-        formQuestionsIdentifiers = form.accept(collector);
+        this.formQuestionsIdentifiers = FormQuestionCollector.collectFrom(form);
         this.stylesheetQuestionsIdentifiers = new HashSet<Identifier>();
     }
 
