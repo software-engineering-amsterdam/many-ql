@@ -29,7 +29,6 @@ public class QLSUIForm implements IUIForm {
     }
 
     public void showForm() {
-        this.panel.render(this.formFrame);
         this.formFrame.setVisible(true);
     }
 
