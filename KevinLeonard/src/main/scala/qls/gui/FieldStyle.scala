@@ -3,6 +3,7 @@ package qls.gui
 import ql.ast.{BooleanType, NumberType, StringType, Type}
 import qls.ast._
 import qlsTypes.StyleEnvironment
+import types.TypeEnvironment
 
 class FieldStyle {
 
@@ -11,20 +12,20 @@ class FieldStyle {
   val DEFAULT_PROPERTY_FONT_COLOR = FontColor(HexadecimalColor("0000000"))
   val DEFAULT_PROPERTY_FONT_SIZE = FontSize(13)
 
-  def extract(s: StyleSheet, env: StyleEnvironment): StyleSheet = {
+  def extract(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
     val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
       case ((accumulatedElements, accumulatedEnv), element) =>
-        val (extractedElement, updatedEnv) = extract(element, accumulatedEnv)
+        val (extractedElement, updatedEnv) = extract(element, accumulatedEnv, typeEnv)
         (accumulatedElements :+ extractedElement, updatedEnv)
     }._1
 
     StyleSheet(s.label, updatedStyleSheet)
   }
 
-  def extract(e: StyleSheetElement, env: StyleEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
+  def extract(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
     // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
     case Page(v, sections) =>
-      val extractedSections = sections.map(e => extract(e, env))
+      val extractedSections = sections.map(e => extract(e, env, typeEnv))
       (Page(v, extractedSections), env)
     case dw: DefaultWidget =>
       val updatedEnv = updateStyleEnvironment(dw, env)
@@ -35,27 +36,21 @@ class FieldStyle {
     env :+ defaultWidget // TODO: what if widget is defined multiple times? (now it is just added to the env and later on we just pick the one that is defined first)
   }
 
-  def extract(e: Section, env: StyleEnvironment): Section = e match {
+  def extract(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
     case Section(t, sectionElements) =>
-      val extractedSectionElements = sectionElements.map(e => extract(e, env))
+      val extractedSectionElements = sectionElements.map(e => extract(e, env, typeEnv))
       Section(t, extractedSectionElements)
   }
 
-  def extract(e: SectionElement, env: StyleEnvironment): SectionElement = {
+  def extract(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
     e match {
-      // TODO: Get question Type from QL ast + replace match based on widget type.
-      case q: Question => {
-        q.widget match {
-          case SpinBox(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
-          case Slider(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
-          case Text(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
-          case TextBlock(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
-          case Radio(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-          case CheckBox(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-          case DropDown(_) => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-        }
-      }
-      case s: Section => extract(s, env)
+      case q: Question =>
+        val name = q.variable.name
+        val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
+        val definedStyles = getDefaultStyleProperties(_type, q.widget, env)
+        val updatedWidget = extract(q.widget, definedStyles)
+        Question(q.variable, updatedWidget)
+      case s: Section => extract(s, env, typeEnv)
     }
   }
 
