@@ -99,13 +99,15 @@ public class Main {
                 System.exit(-1);
             }
 
-            StyledGUIBuilder builder = new StyledGUIBuilder(form, styleSheetData);
-            builder.render();
-
 //            // QLS
-//            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
+            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
 //            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
 //            guiBuilder.renderUI();
+
+            StyledGUIBuilder builder = new StyledGUIBuilder(
+                    form, formDataStorage, styleSheetData, qlsWidgetsFactory
+            );
+            builder.render();
 
         } else {
 

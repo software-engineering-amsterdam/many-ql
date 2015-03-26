@@ -4,6 +4,8 @@ import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.ui_segment.JPage;
 import org.fugazi.qls.gui.ui_segment.JSection;
 
+import javax.swing.*;
+
 public class QlsUIForm extends UIForm {
     private QlsUIPanel qlsUIPanel;
 
@@ -17,6 +19,11 @@ public class QlsUIForm extends UIForm {
     public void showForm() {
         this.qlsUIPanel.render(this.formFrame);
         this.formFrame.setVisible(true);
+    }
+
+    public void addWidget(JPanel _panel, JComponent _component) {
+        _panel.add(_component);
+        this.formFrame.revalidate();
     }
 
     public void addPage(JPage _page) {

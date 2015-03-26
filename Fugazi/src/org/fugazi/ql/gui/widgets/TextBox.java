@@ -63,5 +63,6 @@ public class TextBox implements IWidget {
     @Override
     public void setReadOnly(boolean _isReadonly) {
         this.input.setEditable(false);
+        this.input.setEditable(false);
     }
 }

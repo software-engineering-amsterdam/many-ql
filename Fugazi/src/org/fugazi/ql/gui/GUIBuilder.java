@@ -24,7 +24,7 @@ public class GUIBuilder implements IMediator {
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final UIFormManager uiFormManager;
-    private final UIQuestionBuilder uiQuestionBuilder;
+    protected final UIQuestionBuilder uiQuestionBuilder;
     
     private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
