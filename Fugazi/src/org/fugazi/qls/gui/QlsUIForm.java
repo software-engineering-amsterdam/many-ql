@@ -9,8 +9,11 @@ import javax.swing.*;
 public class QLSUIForm extends UIForm {
     private QLSUIPanel QLSUIPanel;
 
+    private JPanel currentPanel;
+
     public QLSUIForm(String _formTitle, QLSUIPanel _panel) {
         super(_formTitle, _panel);
+
         this.QLSUIPanel = _panel;
         this.QLSUIPanel.render(this.formFrame);
     }
@@ -23,8 +26,10 @@ public class QLSUIForm extends UIForm {
 
     @Override
     public void addWidget(JComponent _component) {
-        this.addWidgetToPanel(new JPanel(), _component);    // TODO: add the question to the right panel.
-        this.formFrame.revalidate();
+        if (this.currentPanel != null) {
+            this.addWidgetToPanel(this.currentPanel, _component);
+            this.formFrame.revalidate();
+        }
     }
     
     public void addWidgetToPanel(JPanel _panel, JComponent _component) {
@@ -33,11 +38,13 @@ public class QLSUIForm extends UIForm {
     }
 
     public void addPage(UIPage _page) {
+        this.currentPanel = _page.getPanel();
         this.QLSUIPanel.addPage(_page.getPanel(), _page.getTitle());
         this.formFrame.revalidate();
     }
 
     public void addSection(UISection _section) {
+        this.currentPanel = _section.getPanel();
         UIPage page = _section.getPage();
         this.QLSUIPanel.addSection(page.getPanel(), _section.getPanel());
     }
