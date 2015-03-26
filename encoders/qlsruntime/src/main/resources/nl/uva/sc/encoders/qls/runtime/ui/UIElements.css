@@ -1,5 +1,7 @@
-.button {
-    -fx-font: 16px "Serif";
-    -fx-padding: 10;
-    -fx-background-color: #CCFF99;
+.grid {
+    -fx-font: 14px "Calabri";
+    -fx-padding: 30;
+    -fx-background-color: #b4dbf1;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
 }

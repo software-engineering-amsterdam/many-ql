@@ -8,7 +8,6 @@ import java.util.Properties;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -37,18 +36,12 @@ public class Main extends Application {
 
 		String propertyWindowName = uiProperties.getProperty("windowName");
 		String propertyInitializationImage = uiProperties.getProperty("initializationImage");
-		Double propertyGridPaddingTop = Double.parseDouble(uiProperties.getProperty("gridPaddingTop"));
-		Double propertyGridPaddingRight = Double.parseDouble(uiProperties.getProperty("gridPaddingRight"));
-		Double propertyGridPaddingBottom = Double.parseDouble(uiProperties.getProperty("gridPaddingBottom"));
-		Double propertyGridPaddingLeft = Double.parseDouble(uiProperties.getProperty("gridPaddingLeft"));
 
 		primaryStage.setTitle(propertyWindowName);
 		primaryStage.getIcons().add(new Image(propertyInitializationImage));
+
 		GridPane grid = new GridPane();
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(propertyGridPaddingTop, propertyGridPaddingRight, propertyGridPaddingBottom,
-				propertyGridPaddingLeft));
+		grid.getStyleClass().add("grid");
 
 		final TextField inputFileTextField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
 		Button chooseInputButton = new Button("Choose input file...");
