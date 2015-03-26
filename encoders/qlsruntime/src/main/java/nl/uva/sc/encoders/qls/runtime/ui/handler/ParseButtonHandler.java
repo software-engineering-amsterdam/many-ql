@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.runtime.ui;
+package nl.uva.sc.encoders.qls.runtime.ui.handler;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +15,9 @@ import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.parser.StylesheetParser;
-import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
+import nl.uva.sc.encoders.qls.ast.parser.StylesheetParser;
+import nl.uva.sc.encoders.qls.ast.parser.StylesheetParsingResult;
+import nl.uva.sc.encoders.qls.runtime.ui.StylesheetUI;
 import nl.uva.sc.encoders.qls.validation.TypeChecker;
 
 import org.controlsfx.dialog.ExceptionDialog;

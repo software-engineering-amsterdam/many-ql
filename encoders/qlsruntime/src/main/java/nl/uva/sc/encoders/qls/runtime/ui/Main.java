@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import nl.uva.sc.encoders.qls.runtime.ui.handler.ParseButtonHandler;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
