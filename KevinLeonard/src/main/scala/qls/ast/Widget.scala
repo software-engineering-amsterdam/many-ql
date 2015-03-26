@@ -2,7 +2,7 @@ package qls.ast
 
 import ql.ast.{BooleanType, StringType, NumberType, Type}
 
-abstract class Widget {
+sealed trait Widget {
   val properties: List[StyleProperty]
   def allowsType(_type: Type): Boolean
 }
