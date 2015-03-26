@@ -115,7 +115,7 @@ public class GUIBuilder implements IMediator {
         return null;
     }
 
-    public boolean isQuestionStateTrue(
+    private boolean isQuestionStateTrue(
             Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
     {
         boolean isTrue = true;

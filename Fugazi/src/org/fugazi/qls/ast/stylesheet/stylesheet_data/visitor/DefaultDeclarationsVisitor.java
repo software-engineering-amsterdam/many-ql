@@ -2,6 +2,7 @@ package org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor;
 
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,6 @@ public class DefaultDeclarationsVisitor extends FullQLSFormVisitor {
 
     @Override
     public Void visitDefaultStyleDeclr(DefaultStyleDeclaration _styleDeclr) {
-        //IWidgetType widgetType = _styleDeclr.getWidgetType();
-        //widgetType.accept(this);
         this.saveDeclaration(_styleDeclr);
         return null;
     }

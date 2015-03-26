@@ -6,8 +6,11 @@ import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.qls.ast.question.QLSQuestion;
+import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;
+import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
+import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidgetVisitor;
 import org.fugazi.qls.type_checker.issue.ASTQlsNodeIssueType;
 
 import java.util.*;
@@ -81,7 +84,7 @@ public class QLSTypeChecker {
         }
     }
 
-    private void checkWidgetTypeCompatibility() {
+    private void checkWidgetTypeCompatibilityInQuestion() {
         List<QLSQuestion> qlsQuestions = this.qlsStyleSheetData.getQuestions();
         HashMap<String, Type> questionTypes = this.qlFormData.getallQuestionTypes();
 
@@ -103,7 +106,25 @@ public class QLSTypeChecker {
     }
     
     private void checkWidgetTypeCompatibilityInDeclarations() {
+        List<DefaultStyleDeclaration> defaultDeclarations = this.qlsStyleSheetData.getDefaultStyleDeclarations();
+        WidgetTypeToWidgetVisitor widgetTypeToWidgetVisitor = new WidgetTypeToWidgetVisitor();
+        
+        for (DefaultStyleDeclaration defaultStyleDeclaration : defaultDeclarations) {
+            IWidgetType widgetType = defaultStyleDeclaration.getWidgetType();
+            
+            // Convert form type to widget.
+            AbstractQLSWidget widget = widgetType.accept(widgetTypeToWidgetVisitor);
+            List<Type> supportedWidgetTypes = widget.getSupportedQuestionTypes();
+            Type questionType = defaultStyleDeclaration.getQuestionType();
 
+            if (!supportedWidgetTypes.contains(questionType)) {
+                this.astIssueHandler.registerNewError(
+                        ASTQlsNodeIssueType.QLS_ERROR.WRONG_WIDGET_TYPE, defaultStyleDeclaration,
+                        "Wrong widget in Default Style Declaration " + widget
+                                + " for question type " + questionType + "."
+                );
+            }
+        }
     }
 
     /**
@@ -142,7 +163,8 @@ public class QLSTypeChecker {
         this.checkForUndefinedQuestions();
         this.checkIfAllQuestionsPlaced();
         this.checkForMultipleQuestionPlacements();
-        this.checkWidgetTypeCompatibility();
+        this.checkWidgetTypeCompatibilityInQuestion();
+        this.checkWidgetTypeCompatibilityInDeclarations();
 
         return this.isFormCorrect();
     }
