@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.ql.ast.parser;
+package nl.uva.sc.encoders.ql.parser;
 
 import nl.uva.sc.encoders.ql.EncodersQLBaseVisitor;
 import nl.uva.sc.encoders.ql.EncodersQLParser.BooleanTypeContext;
