@@ -52,13 +52,13 @@ public class Visualizer {
     }
 
     public void render(Stage primaryStage) {
-        setBaseView();
+        createBaseView();
         stage = primaryStage;
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setBaseView() {
+    public void createBaseView() {
         rootBox = new VBox();
 
         Optional<? extends Pane> root = Optional.of(rootBox);
@@ -168,6 +168,7 @@ public class Visualizer {
     //TODO: Method length is a bit much. Consider restructuring.
     public void visualize(int focusId) {
         this.focusId = focusId;
+        createBaseView();
 
         //TODO:Think if something explicit, to know when it was a refresh.
         new ExpressionEvaluator(answerMap).evaluate(qlAst.getRoot());
