@@ -20,7 +20,7 @@ public abstract class QLNode extends Node<QLNode> implements QlNodeElement, Visu
     }
 
     @Override
-    public void isVisible(boolean visible) {
+    public void setVisible(boolean visible) {
 
     }
 }

@@ -12,5 +12,5 @@ public interface Visualizable {
 
     void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer);
 
-    void isVisible(boolean visible);
+    void setVisible(boolean visible);
 }

@@ -23,6 +23,8 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
     private QLNode qlNode;
     private VBox pages;
     private VBox questions;
+    private boolean init = true;
+
 
     public void setFocusedNode(Node node) {
         this.focusedNode = node;
@@ -40,11 +42,9 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
     }
 
 
-    //TODO: Method length is a bit much. Consider restructuring.
     public void visualize(int focusId) {
         this.focusId = focusId;
 
-        //TODO: This it to long, break it up in smaller methods.
         if (qlsNode.isPresent()) {
             processQls();
         } else {
@@ -58,6 +58,7 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
                 tf.positionCaret(tf.getLength());
             }
         }
+        init = false;
     }
 
     private void processQls() {
@@ -118,7 +119,11 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
 
     @Override
     public void visit(Form form) {
-        form.visualize(questions, answerMap, this);
+        if (init) {
+            javafx.scene.control.Label label = new javafx.scene.control.Label(form.getIdentifier());
+            label.getStyleClass().add("formHeader");
+            questions.getChildren().add(label);
+        }
     }
 
     @Override
@@ -138,8 +143,13 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
 
     @Override
     public void visit(Question question) {
-        question.visualize(questions, answerMap, this);
+        if (init) {
+            question.getQuestionType().addQuestionToPane(questions, answerMap, this);
+        } else {
+            question.getQuestionType().refresh();
+        }
     }
+
 
     @Override
     public void visit(Questionnaire questionnaire) {
@@ -161,6 +171,11 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
 
     }
 
+    public void refresh(Question q) {
+        focusId = q.hashCode();
+        processQl();
+    }
+
     @Override
     public void visit(Expression expression) {
 
@@ -170,5 +185,7 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
     public void visit(Terminal terminal) {
 
     }
+
+
 }
 
