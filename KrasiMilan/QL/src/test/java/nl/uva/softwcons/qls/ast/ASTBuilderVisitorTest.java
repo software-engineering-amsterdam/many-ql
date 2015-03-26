@@ -9,8 +9,8 @@ import nl.uva.softwcons.qls.ast.segment.Page;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
-import nl.uva.softwcons.qls.ast.widget.Widget;
+import nl.uva.softwcons.qls.ast.widget.StylizedType;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 
@@ -157,58 +157,58 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testStyleInPageClass() {
         Page page1 = withStyleForPage.getPages().get(0);
-        assertThat(page1.getStyles().get(0)).isExactlyInstanceOf(DefaultStyle.class);
+        assertThat(page1.getStyles().get(0)).isExactlyInstanceOf(StylizedType.class);
     }
 
     @Test
     public void testDefaultStyleQuestionType() {
         Page page1 = withStyleForPage.getPages().get(0);
-        DefaultStyle defStyle = page1.getStyles().get(0);
+        StylizedType defStyle = page1.getStyles().get(0);
         assertThat(defStyle.getQuestionType()).isExactlyInstanceOf(BooleanType.class);
     }
 
     @Test
     public void testDefaultStyleWidgetType() {
         Page page1 = withStyleForPage.getPages().get(0);
-        DefaultStyle defStyle = page1.getStyles().get(0);
-        Widget widget = defStyle.getWidget();
+        StylizedType defStyle = page1.getStyles().get(0);
+        StylizedWidget widget = defStyle.getWidget();
         assertThat(widget.getWidgetType()).isExactlyInstanceOf(DropdownType.class);
     }
 
     @Test
     public void testDefaultStyleWidgetStyleExistance() {
         Page page1 = withStyleForPage.getPages().get(0);
-        DefaultStyle defStyle = page1.getStyles().get(0);
-        Widget widget = defStyle.getWidget();
+        StylizedType defStyle = page1.getStyles().get(0);
+        StylizedWidget widget = defStyle.getWidget();
         assertThat(widget.getWidgetStyle()).isNotNull();
     }
 
     @Test
     public void testStyleInSectionClass() {
         Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
-        assertThat(section.getStyles().get(0)).isExactlyInstanceOf(DefaultStyle.class);
+        assertThat(section.getStyles().get(0)).isExactlyInstanceOf(StylizedType.class);
     }
 
     @Test
     public void testDefaultStyleSectionQuestionType() {
         Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
-        DefaultStyle defStyle = section.getStyles().get(0);
+        StylizedType defStyle = section.getStyles().get(0);
         assertThat(defStyle.getQuestionType()).isExactlyInstanceOf(BooleanType.class);
     }
 
     @Test
     public void testDefaultStyleSectionWidgetType() {
         Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
-        DefaultStyle defStyle = section.getStyles().get(0);
-        Widget widget = defStyle.getWidget();
+        StylizedType defStyle = section.getStyles().get(0);
+        StylizedWidget widget = defStyle.getWidget();
         assertThat(widget.getWidgetType()).isExactlyInstanceOf(DropdownType.class);
     }
 
     @Test
     public void testWidgetStyleInSectionExistance() {
         Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
-        DefaultStyle defStyle = section.getStyles().get(0);
-        Widget widget = defStyle.getWidget();
+        StylizedType defStyle = section.getStyles().get(0);
+        StylizedWidget widget = defStyle.getWidget();
         assertThat(widget.getWidgetStyle()).isNull();
     }
 
@@ -227,8 +227,8 @@ public class ASTBuilderVisitorTest {
         Question q1 = (Question) page1.getSegments().get(0);
         Question q2 = (Question) page1.getSegments().get(1);
 
-        assertThat(q1.getWidget().getWidgetType()).isExactlyInstanceOf(RadioButtonType.class);
-        assertThat(q2.getWidget().getWidgetType()).isExactlyInstanceOf(DropdownType.class);
+        assertThat(q1.getStylizedWidget().getWidgetType()).isExactlyInstanceOf(RadioButtonType.class);
+        assertThat(q2.getStylizedWidget().getWidgetType()).isExactlyInstanceOf(DropdownType.class);
     }
 
     @Test
@@ -237,8 +237,8 @@ public class ASTBuilderVisitorTest {
         Question q1 = (Question) page1.getSegments().get(0);
         Question q2 = (Question) page1.getSegments().get(1);
 
-        RadioButtonType rb = (RadioButtonType) q1.getWidget().getWidgetType();
-        DropdownType dd = (DropdownType) q2.getWidget().getWidgetType();
+        RadioButtonType rb = (RadioButtonType) q1.getStylizedWidget().getWidgetType();
+        DropdownType dd = (DropdownType) q2.getStylizedWidget().getWidgetType();
 
         assertThat(rb.getYes()).isEqualTo("True");
         assertThat(rb.getNo()).isEqualTo("False");

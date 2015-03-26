@@ -17,6 +17,6 @@ public abstract class Error {
     }
 
     public String getMessage() {
-        return "Error: " + message;
+        return message;
     }
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.qls.ast.ASTNode;
-import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
+import nl.uva.softwcons.qls.ast.widget.StylizedType;
 
 public class Page implements ASTNode {
     private final Identifier id;
     private final List<PageSegment> segments;
-    private final List<DefaultStyle> styles;
+    private final List<StylizedType> styles;
 
-    public Page(final Identifier id, final List<PageSegment> regions, final List<DefaultStyle> styles) {
+    public Page(final Identifier id, final List<PageSegment> regions, final List<StylizedType> styles) {
         this.id = id;
         this.segments = regions;
         this.styles = styles;
@@ -25,7 +25,7 @@ public class Page implements ASTNode {
         return segments;
     }
 
-    public List<DefaultStyle> getStyles() {
+    public List<StylizedType> getStyles() {
         return styles;
     }
 

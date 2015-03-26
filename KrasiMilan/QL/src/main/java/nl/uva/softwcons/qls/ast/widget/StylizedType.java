@@ -3,11 +3,11 @@ package nl.uva.softwcons.qls.ast.widget;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.ASTNode;
 
-public class DefaultStyle implements ASTNode {
+public class StylizedType implements ASTNode {
     private final Type questionType;
-    private final Widget widget;
+    private final StylizedWidget widget;
 
-    public DefaultStyle(final Type type, final Widget widget) {
+    public StylizedType(final Type type, final StylizedWidget widget) {
         this.questionType = type;
         this.widget = widget;
     }
@@ -16,7 +16,7 @@ public class DefaultStyle implements ASTNode {
         return questionType;
     }
 
-    public Widget getWidget() {
+    public StylizedWidget getWidget() {
         return widget;
     }
 
