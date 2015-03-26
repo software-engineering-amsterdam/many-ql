@@ -102,7 +102,7 @@ public class StyledGUIBuilder implements IMediator {
                 List<QLSQuestion> questions = section.getQuestions();
                 for (QLSQuestion question : questions) {
                     Question qlQuestion = this.qlData.getQuestionById(question.getIdName());
-                    UIQuestion uiQuestion = this.createUiQuestion(qlQuestion);
+                    UIQuestion uiQuestion = this.getUIQuestionById(question.getIdName(), this.questionsWithConditions);
                     this.uiFormManager.addQuestion(uiQuestion);
                 }
             }
