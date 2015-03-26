@@ -57,10 +57,9 @@ public class StyledGUIBuilder implements IMediator {
         this.prepareForm();
     }
 
-    @Override
     public void getChangeFromColleagues(Colleague _origin) {
         this.storeValue(_origin.getId(), _origin.getState());
-        this.checkComputedQuestions(this.computedQuestions);
+        this.checkComputedQuestions();
         this.renderUI();
     }
 
@@ -89,9 +88,11 @@ public class StyledGUIBuilder implements IMediator {
         this.uiFormManager.render();
     }
 
-    private void checkComputedQuestions(List<ComputedQuestion> _computedQuestions) {
-        for (ComputedQuestion computedQuestion : _computedQuestions) {
-            this.updateComputedQuestion(computedQuestion);
+    private void checkComputedQuestions() {
+        if (this.computedQuestions != null) {
+            for (ComputedQuestion computedQuestion : this.computedQuestions) {
+                this.updateComputedQuestion(computedQuestion);
+            }
         }
     }
 
