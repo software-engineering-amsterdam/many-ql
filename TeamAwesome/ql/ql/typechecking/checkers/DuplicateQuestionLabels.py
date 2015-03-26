@@ -1,4 +1,4 @@
-from typechecking import Message
+from .. import Message
 
 from .AbstractBase import AbstractBase
 

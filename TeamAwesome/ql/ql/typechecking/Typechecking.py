@@ -4,7 +4,7 @@ from .checkers import \
     DuplicateQuestionLabels,\
     QuestionRedefinitions
 
-from typechecking import Result
+from . import Result
 
 
 
