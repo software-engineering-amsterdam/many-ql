@@ -36,4 +36,8 @@ public class QLSUIPanel implements IUIPanel {
     public void addSection(JPanel _pagePanel, JPanel _sectionPanel) {
         _pagePanel.add(_sectionPanel);
     }
+
+    public JTabbedPane getPanel() {
+        return this.panel;
+    }
 }
