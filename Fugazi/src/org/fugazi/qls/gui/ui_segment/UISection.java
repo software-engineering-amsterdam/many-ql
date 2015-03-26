@@ -1,6 +1,5 @@
 package org.fugazi.qls.gui.ui_segment;
 
-import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.QLSUIForm;
 
 import javax.swing.*;
@@ -9,8 +8,6 @@ import java.awt.*;
 public class UISection {
     private final UIPage page;
     private final JPanel panel;
-
-    //TODO REMOVALS
 
     public UISection(UIPage _page, String _title) {
         this.panel = new JPanel();
@@ -25,8 +22,9 @@ public class UISection {
     public void addToForm(QLSUIForm _uiForm) {
         _uiForm.addSection(this);
     }
-    public void removeFromForm(UIForm _uiForm) {
-//        _uiForm.remove(this.panel);
+
+    public void removeFromForm(QLSUIForm _uiForm) {
+        _uiForm.removeSection(this);
     }
 
     public UIPage getPage() {

@@ -22,8 +22,8 @@ public class UIPage {
         _uiForm.addPage(this);
 
     }
-    public void removeFromForm(IUIForm _uiForm) {
-        _uiForm.removeWidget(this.panel);
+    public void removeFromForm(QLSUIForm _uiForm) {
+        _uiForm.removePage(this);
     }
 
     public String getTitle() {

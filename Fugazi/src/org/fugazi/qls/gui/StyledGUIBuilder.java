@@ -78,7 +78,6 @@ public class StyledGUIBuilder implements IMediator {
                     Question qlQuestion = this.qlData.getQuestionById(question.getIdName());
                     UIQuestion uiQuestion = this.createUiQuestion(qlQuestion);
                     this.uiFormManager.addQuestion(uiQuestion);
-                    System.out.println(uiQuestion);
                 }
             }
         }
