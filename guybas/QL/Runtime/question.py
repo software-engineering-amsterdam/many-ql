@@ -35,7 +35,7 @@ class Question:
     def get_condition(self):
         return self.condition
 
-    def get_statement_dict(self):
+    def id_statement_map(self):
         return {self.ast.get_id(): self}
 
     def get_gui_element_frame(self):

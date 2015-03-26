@@ -34,7 +34,7 @@ class Form:
     def get_statement_dict(self):
         d = {}
         for s in self.get_questions() + self.get_assignments():
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
         return d
 
     def __flatten_ast(self, statements, conditions=[]):

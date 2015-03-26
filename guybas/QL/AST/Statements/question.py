@@ -19,31 +19,30 @@ class Question(statement.IStatement):
         s = "\n" + "   " * level + "Question\n"
         s += "   " * (level + 1) + "Question id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.__label + "\n"
-        s += "   " * (level + 1) + "Question type: %r\n" % self.__type.get_name()
+        s += "   " * (level + 1) + "Question type: %s\n" % self.__type.get_name()
         return s
 
-    def id_collection(self):
+    def ids(self):
         return [self.__id]
 
-    def label_collection(self):
+    def labels(self):
         return [self.__label]
 
     def is_conditional(self):
         return False
 
     # return all the dependencies in the statement (which are none)
-    def dependency_collection(self, dependencies):
+    def dependencies(self, dependencies):
         if self.__id not in dependencies:
             dependencies[self.__id] = []
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
+    def id_to_type_map(self):
         return {self.__id: self.__type}
 
     # Get a dictionary with ids and statements
-    # TODO: rename this without problems..
-    def get_statement_dict(self):
+    def id_statement_map(self):
         return {self.__id: self}
 
     #

@@ -1,4 +1,4 @@
-# Factory for creating Form elements out of parsed subtrees
+# Factory for creating Form elements (name, introduction, statements) out of parsed subtrees
 
 from QL.AST.Statements import *
 import QL.AST.form as form
@@ -18,29 +18,30 @@ def make_question(subtrees):
 
 def make_if(subtrees):
     condition = subtrees[0]
-    questions = []
+    statements = []
+    # add statements
     for i in range(1, len(subtrees)):
-        questions.append(subtrees[i])
-    return if_statement.IfBlock(condition, questions)
+        statements.append(subtrees[i])
+    return if_statement.IfBlock(condition, statements)
 
 
 def make_else(subtrees):
     condition = subtrees[0]
-    questions = []
+    statements = []
     k = 1
     # add statements
     for i in range(1, len(subtrees) + 1):
         if subtrees[i] == "else":
             break
         else:
-            questions.append(subtrees[i])
+            statements.append(subtrees[i])
             k += 1
     else_questions = []
 
     # add else statements
     for i in range(k + 1, len(subtrees)):
         else_questions.append(subtrees[i])
-    x = if_else_statement.IfElseBlock(condition, questions, else_questions)
+    x = if_else_statement.IfElseBlock(condition, statements, else_questions)
     return x
 
 

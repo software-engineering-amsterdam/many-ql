@@ -23,17 +23,17 @@ class IfBlock(statement.IStatement):
         return s
 
     # return all ids in the statement
-    def id_collection(self):
+    def ids(self):
         ids = []
         for x in self._statements:
-            ids.extend(x.id_collection())
+            ids.extend(x.ids())
         return ids
 
     # return all labels in the statement
-    def label_collection(self):
+    def labels(self):
         labels = []
         for x in self._statements:
-            labels += x.label_collection()
+            labels += x.labels()
         return labels
 
     # if blocks are conditionals
@@ -41,8 +41,8 @@ class IfBlock(statement.IStatement):
         return True
 
     # return all the _dependencies in the statement of other _statements
-    def dependency_collection(self, dependencies):
-        ids = self.id_collection()
+    def dependencies(self, dependencies):
+        ids = self.ids()
         new_dep = self._condition.get_variables()
         for i in ids:
             if i in dependencies:
@@ -50,26 +50,26 @@ class IfBlock(statement.IStatement):
             else:
                 dependencies[i] = new_dep
         for x in self._statements:
-            dependencies = dict(list(dependencies.items()) + list(x.dependency_collection(dependencies).items()))
+            dependencies = dict(list(dependencies.items()) + list(x.dependencies(dependencies).items()))
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
+    def id_to_type_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
         return d
 
     # Get a dictionary with ids and statements
-    def get_statement_dict(self):
+    def id_statement_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
         return d
 
     def valid_expression_messages(self, td):
         messages = []
-        messages.extend(self._condition.is_valid_messages(td))
+        messages.extend(self._condition.type_error_messages(td))
         for x in self._statements:
             messages.extend(x.valid_expression_messages(td))
 

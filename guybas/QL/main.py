@@ -43,8 +43,8 @@ def print_ast(form):
 #
 
 form = parse_file()
-handle_type_exceptions(form)
 print_ast(form)
+handle_type_exceptions(form)
 show_gui(form)
 
 # except Exception as e:

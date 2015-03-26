@@ -1,7 +1,7 @@
-import QL.AST.Expressions.Operations.Compare.equal as e
+import QL.AST.Expressions.Operations.Compare.compare_expression as compare_expression
 
 
-class LessEqual(e.Equal):
+class LessEqual(compare_expression.CompareExpression):
 
     def set_string_operator(self):
         return "<="

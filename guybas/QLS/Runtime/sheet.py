@@ -30,7 +30,7 @@ class Sheet(ql_form.Form):
                 section_obj = runtime_section.Section(order)
                 page_elements.append(section_obj)
                 for q_style in section.get_question_styles():
-                    q_id = q_style.get_ids()[0]
+                    q_id = q_style.ids()[0]
                     w = widget.Widget(q_style)
                     # get the actual question using the QL runtime form
                     question = self.get_statement_dict()[q_id]

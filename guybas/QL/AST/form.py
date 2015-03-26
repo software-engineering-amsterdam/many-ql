@@ -32,19 +32,19 @@ class Form:
     def get_ids(self):
         ids = []
         for s in self._statements:
-            ids += (s.id_collection())
+            ids += (s.ids())
         return ids
 
     def get_labels(self):
         labels = []
         for s in self._statements:
-            labels += s.label_collection()
+            labels += s.labels()
         return labels
 
     def get_dependencies(self):
         dependencies = {}
         for s in self._statements:
-            new_dependencies = s.dependency_collection({})
+            new_dependencies = s.dependencies({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         # Get transitive _dependencies
         transitive_dependencies = {}
@@ -55,13 +55,13 @@ class Form:
     def get_type_dict(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
         return d
 
     def get_statement_dict(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
         return d
 
     @staticmethod
@@ -73,7 +73,6 @@ class Form:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
 
-    # TODO : test expression validator
     def check_expressions(self):
         td = self.get_type_dict()
         messages = []

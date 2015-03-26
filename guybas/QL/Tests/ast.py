@@ -75,13 +75,13 @@ class Tests(unittest.TestCase):
         self.assertIsInstance(result[0], if_statement.IfBlock)
 
         # Get all the ids
-        self.assertEqual(result[0].id_collection(), ["trans", "two"])
+        self.assertEqual(result[0].ids(), ["trans", "two"])
 
         # Get the labels
-        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
+        self.assertEqual(result[0].labels(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the _dependencies
-        self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
+        self.assertEqual(result[0].dependencies({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_ast_if_fail(self):

@@ -1,7 +1,7 @@
-import QL.AST.Expressions.Primitives.primitive as p
+import QL.AST.Expressions.Primitives.primitive as primitive
 
 
-class Variable(p.Primitive):
+class Variable(primitive.Primitive):
     def __init__(self, name):
         self.__name = name
 

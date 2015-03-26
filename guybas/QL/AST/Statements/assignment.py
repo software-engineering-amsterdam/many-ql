@@ -18,15 +18,15 @@ class Assignment(statement.IStatement):
         s = "\n" + "   " * level + "Assignment\n"
         s += "   " * (level + 1) + "Assignment id: " + self.__id + "\n"
         s += "   " * (level + 1) + "Assignment itself: " + str(self.__expression) + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.__type) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + self.__type.get_name() + "\n"
         return s
 
     # return all ids in the statement
-    def id_collection(self):
+    def ids(self):
         return [self.__id]
 
     # return all labels in the statement
-    def label_collection(self):
+    def labels(self):
         return []
 
     # return if the statement is a conditional
@@ -38,22 +38,21 @@ class Assignment(statement.IStatement):
         return self.__expression.eval_expression(answer_map)
 
     # return all the dependencies in the statement of other statements
-    # TODO: debug this
-    def dependency_collection(self, dependencies):
+    def dependencies(self, dependencies):
         if self.__id not in dependencies:
             dependencies[self.__id] = self.__expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
+    def id_to_type_map(self):
         return {self.__id: self.__type}
 
     # Get a dictionary with ids and statements
-    def get_statement_dict(self):
+    def id_statement_map(self):
         return {self.__id: self}
 
     def valid_expression_messages(self, type_map):
-        return self.__expression.is_valid_messages(type_map)
+        return self.__expression.type_error_messages(type_map)
 
     def get_expression(self):
         return self.__expression

@@ -25,44 +25,44 @@ class IfElseBlock(if_statement.IfBlock):
         return s
 
     # return all ids in the statement
-    def id_collection(self):
+    def ids(self):
         ids = []
         for x in self._statements:
-            ids += x.id_collection()
+            ids += x.ids()
         for x in self._else_statements:
-            ids += x.id_collection()
+            ids += x.ids()
         return ids
 
     # return all labels in the statement
-    def label_collection(self):
+    def labels(self):
         labels = []
         for x in self._statements:
-            labels += x.label_collection()
+            labels += x.labels()
         for x in self._else_statements:
-            labels += x.label_collection()
+            labels += x.labels()
         return labels
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
+    def id_to_type_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
         for s in self._else_statements:
-            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
+            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
         return d
 
     # Get a dictionary with ids and statements
-    def get_statement_dict(self):
+    def id_statement_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
         for s in self._else_statements:
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
 
         return d
 
     def valid_expression_messages(self, td):
-        messages = self._condition.is_valid_messages(td)
+        messages = self._condition.type_error_messages(td)
         for x in self._statements:
             messages += x.valid_expression_messages(td)
         for x in self._else_statements:
