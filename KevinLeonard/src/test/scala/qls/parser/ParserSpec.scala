@@ -44,7 +44,7 @@ class ParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "property parser" should {
+  "style parser" should {
     "parse width" in {
       width must succeedOn("width: 100")
         .withResult(Width(100))
@@ -65,7 +65,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
   "widget style" should {
     "parse style block" in {
-      widgetStyle must succeedOn("{" +
+      styles must succeedOn("{" +
           "width: 400" +
           "font: \"Arial\"" +
           "fontSize: 14" +

@@ -47,23 +47,23 @@ class FieldStyle {
       case q: Question =>
         val name = q.variable.name
         val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
-        val defaultStyleProperties = getDefaultStyleProperties(_type, q.widget, env)
-        val updatedWidget = extract(q.widget, defaultStyleProperties)
+        val defaultStyles = getDefaultStyles(_type, q.widget, env)
+        val updatedWidget = extract(q.widget, defaultStyles)
         Question(q.variable, updatedWidget)
       case s: Section => extract(s, env, typeEnv)
     }
   }
 
-  def getDefaultStyleProperties(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
-    // TODO: .toString compare is flaky. Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[StyleProperties])
+  def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
+    // TODO: .toString compare is flaky. Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
     env.filter(dw => dw._type == t && dw.widget.toString == w.toString) match {
       case Nil => Nil
-      case dw :: dws => dw.widget.properties
+      case dw :: dws => dw.widget.styles
     }
   }
 
-  def extract(w: Widget, defaultStyles: List[StyleProperty]): Widget = {
-    val styles = getStyles(w.properties, defaultStyles)
+  def extract(w: Widget, defaultStyles: List[Style]): Widget = {
+    val styles = getStyles(w.styles, defaultStyles)
     w match {
       case Slider(p) => Slider(styles)
       case SpinBox(p) => SpinBox(styles)
@@ -75,7 +75,7 @@ class FieldStyle {
     }
   }
 
-  def getStyles(styles: List[StyleProperty], defaultStyles: List[StyleProperty]): List[StyleProperty] = {
+  def getStyles(styles: List[Style], defaultStyles: List[Style]): List[Style] = {
     val allStyles = styles ++ defaultStyles
     List(
       findWidth(allStyles).getOrElse(DefaultWidth),
@@ -85,28 +85,28 @@ class FieldStyle {
     )
   }
 
-  def findWidth(styles: List[StyleProperty]): Option[StyleProperty] = {
+  def findWidth(styles: List[Style]): Option[Style] = {
     styles.find({
       case _: Width => true
       case _ => false
     })
   }
 
-  def findFont(styles: List[StyleProperty]): Option[StyleProperty] = {
+  def findFont(styles: List[Style]): Option[Style] = {
     styles.find({
       case _: Font => true
       case _ => false
     })
   }
 
-  def findFontColor(styles: List[StyleProperty]): Option[StyleProperty] = {
+  def findFontColor(styles: List[Style]): Option[Style] = {
     styles.find({
       case _: FontColor => true
       case _ => false
     })
   }
 
-  def findFontSize(styles: List[StyleProperty]): Option[StyleProperty] = {
+  def findFontSize(styles: List[Style]): Option[Style] = {
     styles.find({
       case _: FontSize => true
       case _ => false
