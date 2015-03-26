@@ -10,23 +10,17 @@ class FieldStyleSpec extends Specification {
 
   val fieldStyle = new FieldStyle
 
-  val DefaultStyleEnvironment: StyleEnvironment = Map(
-    NumberType() -> Map(
-      "slider" -> List(Width(100), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(13)),
-      "spin box" -> List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("00ff00")), FontSize(14)),
-      "text" -> List(Width(200), Font("Sans-Serif"), FontColor(HexadecimalColor("0000ff")), FontSize(15))
-    ),
-    StringType() -> Map(
-      "text" -> List(Width(250), Font("Arial"), FontColor(HexadecimalColor("cc0000")), FontSize(16)),
-      "text block" -> List(Width(300), Font("Verdana"), FontColor(HexadecimalColor("00cc00")), FontSize(17))
-    ),
-    BooleanType() -> Map(
-      "radio" -> List(Width(350), Font("Arial"), FontColor(HexadecimalColor("0000cc")), FontSize(18)),
-      "check box" -> List(Width(400), Font("Verdana"), FontColor(HexadecimalColor("ff00cc")), FontSize(19)),
-      "drop down" -> List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20))
-    )
+  val DefaultStyleEnvironment: StyleEnvironment = List(
+    DefaultWidget(NumberType(), Slider(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))),
+    DefaultWidget(NumberType(), SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("00ff00")), FontSize(14)))),
+    DefaultWidget(NumberType(), Text(List(Width(200), Font("Sans-Serif"), FontColor(HexadecimalColor("0000ff")), FontSize(15)))),
+    DefaultWidget(StringType(), Text(List(Width(250), Font("Arial"), FontColor(HexadecimalColor("cc0000")), FontSize(16)))),
+    DefaultWidget(StringType(), TextBlock(List(Width(300), Font("Verdana"), FontColor(HexadecimalColor("00cc00")), FontSize(17)))),
+    DefaultWidget(BooleanType(), Radio(List(Width(350), Font("Arial"), FontColor(HexadecimalColor("0000cc")), FontSize(18)))),
+    DefaultWidget(BooleanType(), CheckBox(List(Width(400), Font("Verdana"), FontColor(HexadecimalColor("ff00cc")), FontSize(19)))),
+    DefaultWidget(BooleanType(), DropDown(List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20))))
   )
-  val EmptyStyleEnvironment: StyleEnvironment = Map()
+  val EmptyStyleEnvironment: StyleEnvironment = List()
 
   "getWidth" should {
     "return Width from defaultProperties" in {
@@ -604,25 +598,20 @@ class FieldStyleSpec extends Specification {
 
   "update Style Environment" should {
     "return an updated StyleEnvironment" in {
-      val env: StyleEnvironment = Map()
       val defaultWidget = DefaultWidget(BooleanType(), DropDown(List(
         Width(100),
         FontColor(HexadecimalColor("00dd00")),
         Font("Arial"),
         FontSize(14)
       )))
-      val result = Map(
-        BooleanType() -> Map(
-          "drop down" -> List(
-            Width(100),
-            FontColor(HexadecimalColor("00dd00")),
-            Font("Arial"),
-            FontSize(14)
-          )
-        )
-      )
+      val result = List(DefaultWidget(BooleanType(), DropDown(List(
+        Width(100),
+        FontColor(HexadecimalColor("00dd00")),
+        Font("Arial"),
+        FontSize(14)
+      ))))
 
-      fieldStyle.updateStyleEnvironment(defaultWidget, env) must beEqualTo(result)
+      fieldStyle.updateStyleEnvironment(defaultWidget, EmptyStyleEnvironment) must beEqualTo(result)
     }
   }
 
@@ -654,18 +643,16 @@ class FieldStyleSpec extends Specification {
             FontSize(13))
           )
         ),
-        Map(
-          NumberType() -> Map(
-            "slider" -> List(
-              Width(100),
-              Font("Arial"),
-              FontColor(HexadecimalColor("ff0000")),
-              FontSize(13)
-            )
+        List(DefaultWidget(
+          NumberType(),
+          Slider(List(
+            Width(100),
+            Font("Arial"),
+            FontColor(HexadecimalColor("ff0000")),
+            FontSize(13))
           )
-        )
+        ))
       )
-
 
       fieldStyle.extract(element, EmptyStyleEnvironment) must beEqualTo(result)
     }
@@ -702,7 +689,7 @@ class FieldStyleSpec extends Specification {
 
     "return StyleSheet with default checkbox widget and a question checkbox widget" in {
       val stylesheet = StyleSheet("stylesheet", List(
-        DefaultWidget(StringType(), CheckBox(List(
+        DefaultWidget(BooleanType(), CheckBox(List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
@@ -715,7 +702,7 @@ class FieldStyleSpec extends Specification {
         ))
       ))
       val result = StyleSheet("stylesheet", List(
-        DefaultWidget(StringType(), CheckBox(List(
+        DefaultWidget(BooleanType(), CheckBox(List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
