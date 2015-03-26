@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import nl.uva.softwcons.ql.validation.labels.LabelChecker;
-import nl.uva.softwcons.ql.validation.labels.error.DuplicateLabel;
+import nl.uva.softwcons.ql.validation.label.LabelChecker;
+import nl.uva.softwcons.ql.validation.label.error.DuplicateLabel;
 
 import org.junit.Test;
 

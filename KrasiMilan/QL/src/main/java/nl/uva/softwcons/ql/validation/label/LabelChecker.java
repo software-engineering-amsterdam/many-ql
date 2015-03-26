@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.validation.labels;
+package nl.uva.softwcons.ql.validation.label;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.validation.Checker;
-import nl.uva.softwcons.ql.validation.labels.error.DuplicateLabel;
+import nl.uva.softwcons.ql.validation.label.error.DuplicateLabel;
 
 public class LabelChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void> {
     private final Set<String> labels;

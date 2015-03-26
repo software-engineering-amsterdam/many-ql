@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import nl.uva.softwcons.ql.validation.typechecker.TypeChecker;
-import nl.uva.softwcons.ql.validation.typechecker.error.InvalidConditionType;
-import nl.uva.softwcons.ql.validation.typechecker.error.InvalidOperatorTypes;
-import nl.uva.softwcons.ql.validation.typechecker.error.InvalidQuestionExpressionType;
-import nl.uva.softwcons.ql.validation.typechecker.error.UndefinedReference;
+import nl.uva.softwcons.ql.validation.type.TypeChecker;
+import nl.uva.softwcons.ql.validation.type.error.InvalidConditionType;
+import nl.uva.softwcons.ql.validation.type.error.InvalidOperatorTypes;
+import nl.uva.softwcons.ql.validation.type.error.InvalidQuestionExpressionType;
+import nl.uva.softwcons.ql.validation.type.error.UndefinedReference;
 
 import org.junit.Test;
 
