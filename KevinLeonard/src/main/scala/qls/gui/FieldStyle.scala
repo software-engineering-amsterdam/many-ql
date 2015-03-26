@@ -7,10 +7,10 @@ import types.TypeEnvironment
 
 class FieldStyle {
 
-  val DEFAULT_PROPERTY_WIDTH = Width(100)
-  val DEFAULT_PROPERTY_FONT = Font("Arial")
-  val DEFAULT_PROPERTY_FONT_COLOR = FontColor(HexadecimalColor("0000000"))
-  val DEFAULT_PROPERTY_FONT_SIZE = FontSize(13)
+  val DefaultWidth = Width(100)
+  val DefaultFont = Font("Arial")
+  val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
+  val DefaultFontSize = FontSize(13)
 
   def extract(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
     val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
@@ -47,8 +47,8 @@ class FieldStyle {
       case q: Question =>
         val name = q.variable.name
         val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
-        val definedStyles = getDefaultStyleProperties(_type, q.widget, env)
-        val updatedWidget = extract(q.widget, definedStyles)
+        val defaultStyleProperties = getDefaultStyleProperties(_type, q.widget, env)
+        val updatedWidget = extract(q.widget, defaultStyleProperties)
         Question(q.variable, updatedWidget)
       case s: Section => extract(s, env, typeEnv)
     }
@@ -62,86 +62,54 @@ class FieldStyle {
     }
   }
 
-  def extract(w: Widget, defaultStyles: List[StyleProperty]): Widget = w match {
-    case Slider(p) => Slider(getStyleProperties(defaultStyles, p))
-    case SpinBox(p) => SpinBox(getStyleProperties(defaultStyles, p))
-    case Text(p) => Text(getStyleProperties(defaultStyles, p))
-    case TextBlock(p) => TextBlock(getStyleProperties(defaultStyles, p))
-    case Radio(p) => Radio(getStyleProperties(defaultStyles, p))
-    case CheckBox(p) => CheckBox(getStyleProperties(defaultStyles, p))
-    case DropDown(p) => DropDown(getStyleProperties(defaultStyles, p))
+  def extract(w: Widget, defaultStyles: List[StyleProperty]): Widget = {
+    val styles = getStyles(w.properties, defaultStyles)
+    w match {
+      case Slider(p) => Slider(styles)
+      case SpinBox(p) => SpinBox(styles)
+      case Text(p) => Text(styles)
+      case TextBlock(p) => TextBlock(styles)
+      case Radio(p) => Radio(styles)
+      case CheckBox(p) => CheckBox(styles)
+      case DropDown(p) => DropDown(styles)
+    }
   }
 
-  def getStyleProperties(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): List[StyleProperty] = {
+  def getStyles(styles: List[StyleProperty], defaultStyles: List[StyleProperty]): List[StyleProperty] = {
+    val allStyles = styles ++ defaultStyles
     List(
-      getWidth(defaultStyles, styles),
-      getFont(defaultStyles, styles),
-      getFontColor(defaultStyles, styles),
-      getFontSize(defaultStyles, styles)
+      findWidth(allStyles).getOrElse(DefaultWidth),
+      findFont(allStyles).getOrElse(DefaultFont),
+      findFontColor(allStyles).getOrElse(DefaultFontColor),
+      findFontSize(allStyles).getOrElse(DefaultFontSize)
     )
   }
 
-  def getWidth(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+  def findWidth(styles: List[StyleProperty]): Option[StyleProperty] = {
     styles.find({
-      case p: Width => true
+      case _: Width => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find({
-        case p: Width => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_WIDTH
-      }
-    }
+    })
   }
 
-  def getFont(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+  def findFont(styles: List[StyleProperty]): Option[StyleProperty] = {
     styles.find({
-      case p: Font => true
+      case _: Font => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find({
-        case p: Font => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT
-      }
-    }
+    })
   }
 
-  def getFontColor(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+  def findFontColor(styles: List[StyleProperty]): Option[StyleProperty] = {
     styles.find({
-      case p: FontColor => true
+      case _: FontColor => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find({
-        case p: FontColor => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT_COLOR
-      }
-    }
+    })
   }
 
-  def getFontSize(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
+  def findFontSize(styles: List[StyleProperty]): Option[StyleProperty] = {
     styles.find({
-      case p: FontSize => true
+      case _: FontSize => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find({
-        case p: FontSize => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT_SIZE
-      }
-    }
+    })
   }
 }

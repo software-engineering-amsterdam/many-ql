@@ -23,146 +23,42 @@ class FieldStyleSpec extends Specification {
   val EmptyStyleEnvironment: StyleEnvironment = List()
   val EmptyTypeEnvironment: TypeEnvironment = Map()
 
-  "getWidth" should {
-    "return Width from defaultProperties" in {
-      val defaultProperties = List(Width(100))
-      val widgetProperties = List()
-      val result = Width(100)
-
-      fieldStyle.getWidth(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return Width from widgetProperties" in {
-      val defaultProperties = List(Width(100))
-      val widgetProperties = List(Width(150))
-      val result = Width(150)
-
-      fieldStyle.getWidth(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return default Width when property is not defined" in {
-      val defaultProperties = List()
-      val widgetProperties = List()
-      val result = fieldStyle.DEFAULT_PROPERTY_WIDTH
-
-      fieldStyle.getWidth(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-  }
-
-  "getFont" should {
-    "return Font from defaultProperties" in {
-      val defaultProperties = List(Font("Arial"))
-      val widgetProperties = List()
-      val result = Font("Arial")
-
-      fieldStyle.getFont(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return Font from widgetProperties" in {
-      val defaultProperties = List(Font("Arial"))
-      val widgetProperties = List(Font("Verdana"))
-      val result = Font("Verdana")
-
-      fieldStyle.getFont(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return default Font when property is not defined" in {
-      val defaultProperties = List()
-      val widgetProperties = List()
-      val result = fieldStyle.DEFAULT_PROPERTY_FONT
-
-      fieldStyle.getFont(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-  }
-
-  "getFontColor" should {
-    "return FontColor from defaultProperties" in {
-      val defaultProperties = List(FontColor(HexadecimalColor("000000")))
-      val widgetProperties = List()
-      val result = FontColor(HexadecimalColor("000000"))
-
-      fieldStyle.getFontColor(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return FontColor from widgetProperties" in {
-      val defaultProperties = List(FontColor(HexadecimalColor("000000")))
-      val widgetProperties = List(FontColor(HexadecimalColor("ff0000")))
-      val result = FontColor(HexadecimalColor("ff0000"))
-
-      fieldStyle.getFontColor(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return default FontColor when property is not defined" in {
-      val defaultProperties = List()
-      val widgetProperties = List()
-      val result = fieldStyle.DEFAULT_PROPERTY_FONT_COLOR
-
-      fieldStyle.getFontColor(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-  }
-
-  "getFontSize" should {
-    "return FontSize from defaultProperties" in {
-      val defaultProperties = List(FontSize(14))
-      val widgetProperties = List()
-      val result = FontSize(14)
-
-      fieldStyle.getFontSize(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return FontSize from widgetProperties" in {
-      val defaultProperties = List(FontSize(14))
-      val widgetProperties = List(FontSize(13))
-      val result = FontSize(13)
-
-      fieldStyle.getFontSize(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-
-    "return default FontSize when property is not defined" in {
-      val defaultProperties = List()
-      val widgetProperties = List()
-      val result = fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
-
-      fieldStyle.getFontSize(defaultProperties, widgetProperties) must beEqualTo(result)
-    }
-  }
-
-  "getStyleProperties" should {
-    "return the style properties from defaultProperties" in {
-      val defaultProperties = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widgetProperties = List()
+  "get styles" should {
+    "return the defined default styles if there are no widget styles" in {
+      val widgetStyles = List()
+      val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
       val result = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
 
-      fieldStyle.getStyleProperties(defaultProperties, widgetProperties) must beEqualTo(result)
+      fieldStyle.getStyles(widgetStyles, defaultStyles) must beEqualTo(result)
     }
 
-    "return the style properties from widgetProperties" in {
-      val defaultProperties = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widgetProperties = List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+    "return the widget styles if they are set" in {
+      val widgetStyles = List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
       val result = List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
 
-      fieldStyle.getStyleProperties(defaultProperties, widgetProperties) must beEqualTo(result)
+      fieldStyle.getStyles(widgetStyles, defaultStyles) must beEqualTo(result)
     }
 
-    "return the mixed style properties from defaultProperties and widgetProperties with preference to widgetProperties" in {
-      val defaultProperties = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widgetProperties = List(Width(150), FontColor(HexadecimalColor("ff0000")))
+    "return the widget styles if they are set, otherwise the defined default styles" in {
+      val widgetStyles = List(Width(150), FontColor(HexadecimalColor("ff0000")))
+      val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
       val result = List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
 
-      fieldStyle.getStyleProperties(defaultProperties, widgetProperties) must beEqualTo(result)
+      fieldStyle.getStyles(widgetStyles, defaultStyles) must beEqualTo(result)
     }
 
-    "return default properties when properties are not defined" in {
-      val defaultProperties = List()
-      val widgetProperties = List()
+    "return default system styles when no styles are defined" in {
+      val widgetStyles = List()
+      val defaultStyles = List()
       val result = List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       )
 
-      fieldStyle.getStyleProperties(defaultProperties, widgetProperties) must beEqualTo(result)
+      fieldStyle.getStyles(widgetStyles, defaultStyles) must beEqualTo(result)
     }
   }
 
@@ -195,10 +91,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = Slider(List())
       val result = Slider(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -232,10 +128,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = SpinBox(List())
       val result = SpinBox(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -269,10 +165,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = Text(List())
       val result = Text(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -306,10 +202,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = TextBlock(List())
       val result = TextBlock(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -343,10 +239,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = Radio(List())
       val result = Radio(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -380,10 +276,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = CheckBox(List())
       val result = CheckBox(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
@@ -417,10 +313,10 @@ class FieldStyleSpec extends Specification {
       val defaultProperties = List()
       val widget = DropDown(List())
       val result = DropDown(List(
-        fieldStyle.DEFAULT_PROPERTY_WIDTH,
-        fieldStyle.DEFAULT_PROPERTY_FONT,
-        fieldStyle.DEFAULT_PROPERTY_FONT_COLOR,
-        fieldStyle.DEFAULT_PROPERTY_FONT_SIZE
+        fieldStyle.DefaultWidth,
+        fieldStyle.DefaultFont,
+        fieldStyle.DefaultFontColor,
+        fieldStyle.DefaultFontSize
       ))
 
       fieldStyle.extract(widget, defaultProperties) must beEqualTo(result)
