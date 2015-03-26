@@ -22,7 +22,6 @@ class FieldStyle {
   }
 
   def extract(e: StyleSheetElement, env: StyleEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
-    // TODO: DefaultWidget case update StyleEnvironment, maar de ge-update StyleEnvironment wordt niet meegegeven aan de Page case!
     // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
     case Page(v, sections) =>
       val extractedSections = sections.map(e => extract(e, env))
