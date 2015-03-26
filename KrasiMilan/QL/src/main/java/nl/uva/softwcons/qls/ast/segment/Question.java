@@ -8,22 +8,19 @@ import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 public class Question extends PageSegment {
     private final Identifier id;
     private final StylizedWidget widget;
-    private final LineInfo lineInfo;
 
-    public Question(final Identifier id, final LineInfo lineInfo) {
+    public Question(final Identifier id) {
         this.id = id;
-        this.lineInfo = lineInfo;
         this.widget = null;
     }
 
-    public Question(final Identifier id, final StylizedWidget widget, final LineInfo lineInfo) {
+    public Question(final Identifier id, final StylizedWidget widget) {
         this.id = id;
         this.widget = widget;
-        this.lineInfo = lineInfo;
     }
 
     public LineInfo getLineInfo() {
-        return lineInfo;
+        return id.getLineInfo();
     }
 
     public Identifier getId() {

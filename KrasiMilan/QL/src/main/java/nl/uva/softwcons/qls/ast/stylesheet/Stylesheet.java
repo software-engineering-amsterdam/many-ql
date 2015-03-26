@@ -10,12 +10,10 @@ import nl.uva.softwcons.qls.ast.segment.Page;
 public class Stylesheet implements ASTNode {
     private final Identifier id;
     private final List<Page> pages;
-    private final LineInfo lineInfo;
 
-    public Stylesheet(final Identifier id, final List<Page> pages, final LineInfo lineInfo) {
+    public Stylesheet(final Identifier id, final List<Page> pages) {
         this.id = id;
         this.pages = pages;
-        this.lineInfo = lineInfo;
     }
 
     public List<Page> getPages() {
@@ -31,7 +29,7 @@ public class Stylesheet implements ASTNode {
     }
 
     public LineInfo getLineInfo() {
-        return lineInfo;
+        return id.getLineInfo();
     }
 
 }
