@@ -93,7 +93,6 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 		ExpressionContext computedCtx = ctx.computed;
 		if (computedCtx != null) {
 			computed = (Expression) visit(computedCtx);
-			System.out.println(computed);
 		}
 		Question question = new Question(textLocation, questionName, dataType, questionLabel, computed);
 		return question;

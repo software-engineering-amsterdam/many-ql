@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qlruntime.parser;
+package nl.uva.sc.encoders.ql.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
