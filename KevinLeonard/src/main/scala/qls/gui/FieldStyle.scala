@@ -28,8 +28,7 @@ class FieldStyle {
       val updatedSections = sections.map(e => setStyles(e, env, typeEnv))
       (Page(v, updatedSections), env)
     case dw: DefaultWidget =>
-      // TODO: what if widget is defined multiple times? (now it is just added to the env and later on we just pick the one that is defined first)
-      val updatedEnv = env :+ dw
+      val updatedEnv = mergeDefaultStyles(dw, env)
       (dw, updatedEnv)
   }
 
@@ -64,11 +63,30 @@ class FieldStyle {
     }
   }
 
+  def mergeDefaultStyles(dw: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
+    val existingStyles = getDefaultStyles(dw._type, dw.widget, env)
+    val newStyles = dw.widget.styles
+    val mergedStyles = (newStyles ++ existingStyles).distinct
+
+    val envWithoutExistingStyles = removeDefaultStyles(dw, env)
+
+    val widgetWithMergedStyles = setStyles(dw.widget, mergedStyles)
+    envWithoutExistingStyles :+ DefaultWidget(dw._type, widgetWithMergedStyles)
+  }
+
+  def removeDefaultStyles(dwToRemove: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
+    // TODO: refactor .getClass(). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
+    env.find(dw => dw._type == dwToRemove._type && dw.widget.getClass == dwToRemove.widget.getClass) match {
+      case None => env
+      case Some(dw) => env diff List(dw)
+    }
+  }
+
   def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
-    // TODO: .toString compare is flaky. Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
-    env.filter(dw => dw._type == t && dw.widget.toString == w.toString) match {
-      case Nil => Nil
-      case dw :: dws => dw.widget.styles
+    // TODO: refactor .getClass). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
+    env.find(dw => dw._type == t && dw.widget.getClass == w.getClass) match {
+      case None => List()
+      case Some(dw) => dw.widget.styles
     }
   }
 

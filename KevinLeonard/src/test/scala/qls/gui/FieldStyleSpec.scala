@@ -501,6 +501,30 @@ class FieldStyleSpec extends Specification {
     }
   }
 
+  "merge default styles" should {
+    "override styles in the environment if that style is defined again" in {
+      val defaultWidget = DefaultWidget(BooleanType(), DropDown(List(
+        Width(100),
+        Font("Arial"),
+        FontColor(HexadecimalColor("00dd00"))
+      )))
+      val styleEnvironment = List(DefaultWidget(BooleanType(), DropDown(List(
+        Width(450),
+        Font("Sans-Serif"),
+        FontColor(HexadecimalColor("ffcc00")),
+        FontSize(20)
+      ))))
+      val result = List(DefaultWidget(BooleanType(), DropDown(List(
+        Width(100),
+        Font("Arial"),
+        FontColor(HexadecimalColor("00dd00")),
+        FontSize(20)
+      ))))
+
+      fieldStyle.mergeDefaultStyles(defaultWidget, styleEnvironment) must beEqualTo(result)
+    }
+  }
+
   "setting styles of StyleSheet/StyleSheetElement" should {
     "return empty Page with EmptyStyleEnvironment " in {
       val element = Page("page", List())
