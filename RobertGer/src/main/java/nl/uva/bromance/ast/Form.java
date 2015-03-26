@@ -18,13 +18,7 @@ public class Form extends QLNode implements CanContainConditionals {
 
     public Form(int lineNumber, String id) {
         super(lineNumber);
-        if (id != null) {
-            // Remove double quotes around the identifier
-            this.identifier = id.substring(1, id.length() - 1);
-        } else {
-            //TODO: Consider putting this in the type checker.
-            System.err.println("Form Error: No identifier specified");
-        }
+        this.identifier = id.substring(1, id.length() - 1);
     }
 
     @Override
@@ -42,8 +36,8 @@ public class Form extends QLNode implements CanContainConditionals {
         return newParent;
     }
 
-    public Optional<String> getIdentifier() {
-        return Optional.of(identifier);
+    public String getIdentifier() {
+        return identifier;
     }
 
     //TODO: Create Identifier class.

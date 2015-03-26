@@ -6,11 +6,9 @@ import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.Expression;
 import nl.uva.bromance.ast.conditionals.IfStatement;
 import nl.uva.bromance.ast.visitors.NodeVisitor;
-import nl.uva.bromance.ast.visitors.NullNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
@@ -31,15 +29,11 @@ public class TypeChecker implements NodeVisitor {
 
     @Override
     public void visit(Form form) {
-        Optional<String> identifier = form.getIdentifier();
-        if (identifier.isPresent()) {
-            if (referenceMap.get(identifier.get()) != null) {
-                exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(form, identifier.get()));
-            } else {
-                referenceMap.put(identifier.get(), form);
-            }
+        String identifier = form.getIdentifier();
+        if (referenceMap.get(identifier) != null) {
+            exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(form, identifier));
         } else {
-            exceptions .add(new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(form.getLineNumber()));
+            referenceMap.put(identifier, form);
         }
     }
 
@@ -59,22 +53,17 @@ public class TypeChecker implements NodeVisitor {
     }
 
     @Override
-    public void visit(Question question){
+    public void visit(Question question) {
         if (question.getQuestionString() == null) {
-            exceptions.add( new TypeCheckingException("Question Error: No question asked"));
+            exceptions.add(new TypeCheckingException("Question Error: No question asked"));
         }
         if ((question.isQuestionTypeBoolean() || question.isQuestionTypeString()) && question.getQuestionRange().isPresent()) {
-            exceptions.add( new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + question.getLineNumber() + ": Question " + question.getIdentifier() + ", no range allowed for types boolean and string."));
+            exceptions.add(new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + question.getLineNumber() + ": Question " + question.getIdentifier() + ", no range allowed for types boolean and string."));
         }
-//TODO: Identifiers are forced by the grammar. Optional can go.
-        if (question.getIdentifier().isPresent()) {
-            if (referenceMap.get(question.getIdentifier().get().getId()) != null) {
-                exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(question, question.getIdentifier().get().getId()));
-            } else {
-                referenceMap.put(question.getIdentifier().get().getId(), question);
-            }
+        if (referenceMap.get(question.getIdentifier().getId()) != null) {
+            exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(question, question.getIdentifier().getId()));
         } else {
-            exceptions.add(new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(question.getLineNumber()));
+            referenceMap.put(question.getIdentifier().getId(), question);
         }
     }
 

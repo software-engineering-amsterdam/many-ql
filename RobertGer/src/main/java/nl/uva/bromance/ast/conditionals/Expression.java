@@ -38,7 +38,7 @@ public class Expression extends QLNode {
     }
 
 
-    //TODO: Create something that makes it obvious that this is postorder traversal
+    //This is postorder traversal
     @Override
     public void accept(NodeVisitor visitor) {
         for (QLNode child : this.getChildren()) {

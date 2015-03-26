@@ -30,8 +30,8 @@ public class Question extends QLNode implements HasIdentifier {
         this.identifier = identifier;
     }
 
-    public Optional<Identifier> getIdentifier() {
-        return Optional.ofNullable(identifier);
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
     public String getQuestionString() {

@@ -16,7 +16,6 @@ import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.util.QLFileReader;
 import nl.uva.bromance.util.QLSFileReader;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class Visualizer {
         this.focusedNode = node;
     }
 
-    public int getFocusId(){
+    public int getFocusId() {
         return focusId;
     }
 
@@ -75,7 +74,7 @@ public class Visualizer {
                 try {
                     qlAst = QLFileReader.readFile(qlPath);
                 } catch (IOException e) {
-                    System.err.println("Couldnt load QL file :"+qlPath);
+                    System.err.println("Couldnt load QL file :" + qlPath);
                 }
                 try {
                     qlsAst = QLSFileReader.readFile(qlsPath, qlAst);
@@ -157,7 +156,7 @@ public class Visualizer {
         if (focusedNode != null) {
             focusedNode.requestFocus();
             // Fix for the position caret in textfields, had to use instanceof sorry Tijs!
-            if (focusedNode instanceof TextField){
+            if (focusedNode instanceof TextField) {
                 TextField tf = (TextField) focusedNode;
                 tf.positionCaret(tf.getLength());
             }
