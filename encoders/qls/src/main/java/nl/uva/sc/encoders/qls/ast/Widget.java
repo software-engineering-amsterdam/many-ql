@@ -7,14 +7,16 @@ public class Widget extends AstNode {
 	private final String type;
 	private int width = 150;
 	private int fontSize = 12;
+	private String font = "Arial";
 	private String color = "#666666";
 
-	public Widget(TextLocation textLocation, String type, int width, int fontSize, String color) {
+	public Widget(TextLocation textLocation, String type, int width, int fontSize, String font, String color) {
 		super(textLocation);
 		this.type = type;
-		this.setWidth(width);
-		this.setFontSize(fontSize);
-		this.setColor(color);
+		this.width = width;
+		this.fontSize = fontSize;
+		this.font = font;
+		this.color = color;
 	}
 
 	public String getWidgetType() {
@@ -35,6 +37,14 @@ public class Widget extends AstNode {
 
 	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
+	}
+
+	public String getFont() {
+		return font;
+	}
+
+	public void setFont(String font) {
+		this.font = font;
 	}
 
 	public String getColor() {

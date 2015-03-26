@@ -13,6 +13,8 @@ public class Section extends AstNode {
 
 	private List<Section> subSections = new ArrayList<>();
 
+	private List<Widget> sectionDefaults = new ArrayList<>();
+
 	public Section(TextLocation textLocation, String name) {
 		super(textLocation);
 		this.name = name;
@@ -36,6 +38,10 @@ public class Section extends AstNode {
 
 	public void addSubSection(Section subSection) {
 		subSections.add(subSection);
+	}
+
+	public void addSectionDefault(Widget sectionDefault) {
+		sectionDefaults.add(sectionDefault);
 	}
 
 }
