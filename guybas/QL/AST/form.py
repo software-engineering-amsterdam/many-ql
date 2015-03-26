@@ -37,6 +37,8 @@ class Form:
             labels += s.labels()
         return labels
 
+    # return a dictionary with ids as keys and dependencies (ids) as values, same approach below for id to type
+    # and id to statements
     def dependencies(self):
         dependencies = {}
         for s in self._statements:
@@ -47,6 +49,15 @@ class Form:
         for k in dependencies:
             transitive_dependencies[k] = Form.transitive_dependencies_key(k, set([]), set([]), dependencies)
         return transitive_dependencies
+
+    @staticmethod
+    def transitive_dependencies_key(key, values, checked, dependencies):
+        for v in dependencies[key]:
+            values.add(v)
+            checked.add(key)
+            if v not in checked:
+                values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
+        return values
 
     def id_type_map(self):
         d = {}
@@ -60,14 +71,9 @@ class Form:
             d = dict(list(d.items()) + list(s.id_statement_map().items()))
         return d
 
-    @staticmethod
-    def transitive_dependencies_key(key, values, checked, dependencies):
-        for v in dependencies[key]:
-            values.add(v)
-            checked.add(key)
-            if v not in checked:
-                values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
-        return values
+    #
+    # Type checker
+    #
 
     def expression_type_error_messages(self):
         td = self.id_type_map()
@@ -75,10 +81,6 @@ class Form:
         for x in self._statements:
             messages.extend(x.expressions_type_error_messages(td))
         return messages
-
-    #
-    # Type checker
-    #
 
     @staticmethod
     def check_duplicates(l):

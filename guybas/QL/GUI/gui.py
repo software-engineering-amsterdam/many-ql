@@ -12,8 +12,8 @@ class GUI:
         assert isinstance(runtime_form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
         self.__form = runtime_form
-        self.__questions = self.__form.get_questions()
-        self.__dependencies = self.__form.ast.dependencies()
+        self.__questions = self.__form.questions()
+        self.__dependencies = self.__form._form_ast.dependencies()
         self.__answersMap = answers_map.AnswersMap()
         self.__assignments = self.__form.get_assignments()
 
@@ -36,10 +36,10 @@ class GUI:
 
     # TODO: it is better to have runtime_form have the name instead of double point
     def create_title(self):
-        self.qGui.title(self.__form.ast.name())
+        self.qGui.title(self.__form._form_ast.name())
 
     def intro_label(self, frame):
-        l = label.Label(self.__form.ast.introduction(), frame)
+        l = label.Label(self.__form._form_ast.introduction(), frame)
         intro_row = l.get_row()
         return intro_row[0]
 

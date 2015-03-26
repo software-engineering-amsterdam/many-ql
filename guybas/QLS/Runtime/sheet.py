@@ -38,7 +38,7 @@ class Sheet(ql_form.Form):
         return page_elements
 
 
-    def __enrich_questions(self):
+    def _enrich_questions(self):
         """
         takes the basic ast questions and generate new enriched question objects
         with gui element, order and other useful stuff for runtime.
@@ -47,10 +47,10 @@ class Sheet(ql_form.Form):
             self.questions = new enriched questions
         """
         order = 0
-        for basic_question in self.__ast_questions:
+        for basic_question in self._ast_questions:
             qid = basic_question.get_id()
-            if qid not in self.__q_conditions_dict:
+            if qid not in self._q_conditions_dict:
                 raise exc.RuntimeException("Fatal Error: id does not exist in the dict!")
-            enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
-            self.questions.append(enriched_question)
+            enriched_question = runtime_question.Question(basic_question, order, self._q_conditions_dict[qid])
+            self._questions.append(enriched_question)
             order += 1
