@@ -20,21 +20,22 @@ import nl.uva.softwcons.ql.eval.Evaluator;
 import nl.uva.softwcons.ql.ui.layout.FormLayout;
 import nl.uva.softwcons.ql.ui.layout.QuestionLayout;
 import nl.uva.softwcons.ql.ui.widget.Widget;
+import nl.uva.softwcons.ql.ui.widget.WidgetFactory;
 
 public class UiBuilder extends Application implements StatementVisitor<List<QuestionLayout>>, FormVisitor<FormLayout> {
-    private TypeRenderer renderer;
     private Evaluator evaluator;
+    private WidgetFactory widgetFactory;
 
     public UiBuilder() {
     }
 
-    public UiBuilder(final Form form) {
-        this.renderer = new TypeRenderer();
+    public UiBuilder(final Form form, final WidgetFactory widgetFactory) {
         this.evaluator = new Evaluator(form);
+        this.widgetFactory = widgetFactory;
     }
 
     public static FormLayout buildFrom(final Form form) {
-        return form.accept(new UiBuilder(form));
+        return form.accept(new UiBuilder(form, new TypeRenderer()));
     }
 
     @Override
@@ -51,9 +52,7 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
     @Override
     public List<QuestionLayout> visit(final ComputedQuestion question) {
         final QuestionLayout layout = new QuestionLayout(question);
-        final Widget questionWidget = question.getType().accept(renderer);
-        questionWidget.setEditable(false); // TODO this should be in the
-                                           // renderer
+        final Widget questionWidget = this.widgetFactory.getWidget(question);
         layout.add(questionWidget.getWidget());
 
         evaluator.addListener(question, (newValue) -> questionWidget.setValue(newValue));
@@ -64,7 +63,7 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
     @Override
     public List<QuestionLayout> visit(final Question question) {
         final QuestionLayout layout = new QuestionLayout(question);
-        final Widget questionWidget = question.getType().accept(renderer);
+        final Widget questionWidget = this.widgetFactory.getWidget(question);
         layout.add(questionWidget.getWidget());
 
         questionWidget.addListener((newValue) -> evaluator.updateValue(question.getId(), newValue));

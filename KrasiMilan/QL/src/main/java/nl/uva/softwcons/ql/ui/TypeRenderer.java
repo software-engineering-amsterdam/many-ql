@@ -1,5 +1,7 @@
 package nl.uva.softwcons.ql.ui;
 
+import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
+import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.type.BooleanType;
 import nl.uva.softwcons.ql.ast.type.DateType;
 import nl.uva.softwcons.ql.ast.type.NumberType;
@@ -13,8 +15,22 @@ import nl.uva.softwcons.ql.ui.converter.StringToStringValueConverter;
 import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
 import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
+import nl.uva.softwcons.ql.ui.widget.WidgetFactory;
 
-public class TypeRenderer implements TypeVisitor<Widget> {
+public class TypeRenderer implements TypeVisitor<Widget>, WidgetFactory {
+
+    @Override
+    public Widget getWidget(final Question question) {
+        return question.getType().accept(this);
+    }
+
+    @Override
+    public Widget getWidget(final ComputedQuestion question) {
+        final Widget widget = question.getType().accept(this);
+        widget.setEditable(false);
+
+        return widget;
+    }
 
     @Override
     public Widget visit(final BooleanType type) {
