@@ -7,7 +7,7 @@ class TypeChecker:
         self._sheet = sheet
         self._sheet_ids = sheet.ids()
         self._sheet_property_names = sheet.get_property_names()
-        self._form_type_dict = form.get_type_dict()
+        self._form_type_dict = form.id_type_map()
         self._form_ids = form.ids()
 
     def is_valid(self):

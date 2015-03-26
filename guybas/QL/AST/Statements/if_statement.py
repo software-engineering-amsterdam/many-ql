@@ -3,44 +3,38 @@ import QL.AST.Statements.statement as statement
 import QL.AST.Expressions.Operations.Logical.not_op as not_operation
 import QL.AST.Expressions.Types.bool_type as bool_type
 
+
 class IfBlock(statement.IStatement):
 
-    #
-    # override methods of statement
-    #
-
-    # init
     def __init__(self, condition, statements):
         # not private as they are needed in IfElseBlock
         self._condition = condition
         self._statements = statements
 
-    # pretty print ast, with level giving the indentation
+    # pretty formatted string, with level giving the indentation
     def string_presentation(self, level=0):
         s = "\n" + "   " * level + "If %s" % str(self._condition)
         for x in self._statements:
             s += "   " * level + x.string_presentation(level + 1)
         return s
 
-    # return all ids in the statement
+    # return all ids in the statements, same approach for other attributes in below methods
     def ids(self):
         ids = []
         for x in self._statements:
             ids.extend(x.ids())
         return ids
 
-    # return all labels in the statement
     def labels(self):
         labels = []
         for x in self._statements:
             labels += x.labels()
         return labels
 
-    # if blocks are conditionals
     def is_conditional(self):
         return True
 
-    # return all the _dependencies in the statement of other _statements
+    # dictionary of id to dependencies (ids), same for methods below with types and statements
     def dependencies(self, dependencies):
         ids = self.ids()
         new_dep = self._condition.get_variables()
@@ -50,36 +44,31 @@ class IfBlock(statement.IStatement):
             else:
                 dependencies[i] = new_dep
         for x in self._statements:
+            # combine old and new dictionary of dependencies to get the total
             dependencies = dict(list(dependencies.items()) + list(x.dependencies(dependencies).items()))
         return dependencies
 
-    # return a dictionary of the ids as keys and types as value in the statement
-    def id_to_type_map(self):
+    def id_type_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
+            d = dict(list(d.items()) + list(s.id_type_map().items()))
         return d
 
-    # Get a dictionary with ids and statements
     def id_statement_map(self):
         d = {}
         for s in self._statements:
             d = dict(list(d.items()) + list(s.id_statement_map().items()))
         return d
 
-    def valid_expression_messages(self, td):
-        messages = []
-        messages.extend(self._condition.type_error_messages(td))
+    def expressions_type_error_messages(self, td):
+        error_messages = []
+        error_messages.extend(self._condition.type_error_messages(td))
         for x in self._statements:
-            messages.extend(x.valid_expression_messages(td))
+            error_messages.extend(x.expressions_type_error_messages(td))
 
         if not self._condition.return_type(td) == bool_type.Bool():
-            messages.append("the return type of the expression: " + self._condition.__str__() + " is not of type bool")
-        return messages
-
-    #
-    # Getters of the if statement
-    #
+            error_messages.append("the return type of the expression: %s is not of type bool" % str(self._condition))
+        return error_messages
 
     # get normal statements (if and else version)
     def get_if_statements(self):

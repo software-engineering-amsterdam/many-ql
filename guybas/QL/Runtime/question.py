@@ -24,7 +24,7 @@ class Question:
         return self.order
 
     def get_label(self):
-        return self.ast.get_label()
+        return self.ast.labels()[0]
 
     def get_gui_element(self):
         return self.gui_element
@@ -36,7 +36,7 @@ class Question:
         return self.condition
 
     def id_statement_map(self):
-        return {self.ast.get_id(): self}
+        return {self.ast.ids()[0]: self}
 
     def get_gui_element_frame(self):
         return self.gui_element_frame

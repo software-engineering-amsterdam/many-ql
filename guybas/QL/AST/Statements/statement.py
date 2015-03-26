@@ -3,7 +3,7 @@
 
 class IStatement:
 
-    # pretty print ast, with level giving the indentation
+    # pretty string format ast, with level giving the indentation
     def string_presentation(self, level=0):
         raise NotImplementedError("Not implemented here")
 
@@ -27,7 +27,7 @@ class IStatement:
         raise NotImplementedError("Not implemented here")
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def id_to_type_map(self):
+    def id_type_map(self):
         raise NotImplementedError("Not implemented here")
 
     # Get a dictionary with ids and statements
@@ -35,5 +35,5 @@ class IStatement:
         raise NotImplementedError("Not implemented here")
 
     # return the error message of type checking, empty if correct
-    def valid_expression_messages(self, td):
+    def expressions_type_error_messages(self, td):
         raise NotImplementedError("Not implemented here")

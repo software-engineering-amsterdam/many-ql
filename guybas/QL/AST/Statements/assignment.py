@@ -3,65 +3,61 @@ import QL.AST.Statements.statement as statement
 
 class Assignment(statement.IStatement):
 
-    #
-    # override methods of statement
-    #
-
     # init
     def __init__(self, qid, qtype, expression):
-        self.__id = qid
-        self.__type = qtype
-        self.__expression = expression
 
-    # pretty print ast, with level giving the indentation
+        # protected instance variables
+        self._id = qid
+        self._type = qtype
+        self._expression = expression
+
+    # pretty formatted string, with level giving the indentation
     def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
-        s += "   " * (level + 1) + "Assignment id: " + self.__id + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + str(self.__expression) + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + self.__type.get_name() + "\n"
+        s += "   " * (level + 1) + "Assignment id: " + self._id + "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + str(self._expression) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + self._type.get_name() + "\n"
         return s
 
-    # return all ids in the statement
     def ids(self):
-        return [self.__id]
+        return [self._id]
 
-    # return all labels in the statement
+    # assignment has no labels
     def labels(self):
         return []
 
-    # return if the statement is a conditional
     def is_conditional(self):
         return False
 
     # evaluate the expression given the map of ids to answers
     def evaluate_expression(self, answer_map):
-        return self.__expression.eval_expression(answer_map)
+        return self._expression.eval_expression(answer_map)
 
     # return all the dependencies in the statement of other statements
     def dependencies(self, dependencies):
-        if self.__id not in dependencies:
-            dependencies[self.__id] = self.__expression.get_variables()
+        if self._id not in dependencies:
+            dependencies[self._id] = self._expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def id_to_type_map(self):
-        return {self.__id: self.__type}
+    def id_type_map(self):
+        return {self._id: self._type}
 
     # Get a dictionary with ids and statements
     def id_statement_map(self):
-        return {self.__id: self}
+        return {self._id: self}
 
-    def valid_expression_messages(self, type_map):
-        return self.__expression.type_error_messages(type_map)
+    def expressions_type_error_messages(self, type_map):
+        return self._expression.type_error_messages(type_map)
 
     def get_expression(self):
-        return self.__expression
+        return self._expression
 
     def get_id(self):
-        return self.__id
+        return self._id
 
     def get_type_string(self):
-        return self.__type
+        return self._type
 
     def get_label(self):
         return ""

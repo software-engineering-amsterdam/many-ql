@@ -19,11 +19,11 @@ def parse_file():
 
 def handle_type_exceptions(form):
     errors = []
-    errors.extend(form.check_ids())
-    errors.extend(form.check_dependencies())
-    errors.extend(form.check_expressions())
+    errors.extend(form.ids_error_messages())
+    errors.extend(form.dependencies_error_messages())
+    errors.extend(form.expression_type_error_messages())
 
-    warnings = form.check_labels()
+    warnings = form.labels_error_messages()
     eh = exception_handling.TypeExceptionHandling(errors, warnings)
     eh.execute()
 

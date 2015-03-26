@@ -64,7 +64,7 @@ class Tests(unittest.TestCase):
         result = (fg.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], question.Question)
         self.assertEqual(result[0].get_id(), "why")
-        self.assertEqual(result[0].get_type_string(), text_type.Text())
+        self.assertEqual(result[0].get_type(), text_type.Text())
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
     def test_ast_if(self):
@@ -101,16 +101,16 @@ class Tests(unittest.TestCase):
         form = GenerateStatements.generate_statements()
 
         # The _form has 6 questions, and therefore 6 labels
-        self.assertEqual(len(form.get_labels()), 6)
+        self.assertEqual(len(form.labels()), 6)
 
         # The _form has 6 questions, and therefore 6 ids
-        self.assertEqual(len(form.get_ids()), 6)
+        self.assertEqual(len(form.ids()), 6)
 
     def test_ast_dependencies(self):
         form = GenerateStatements.generate_statements()
 
         # The transitive _dependencies of _statements
-        self.assertEqual(form.get_dependencies(),
+        self.assertEqual(form.dependencies(),
                          {"1a": set(),
                           "2a": {"1a"},
                           "3a": {"1a"},

@@ -13,7 +13,7 @@ class GUI:
         self.qGui = tk.Tk()
         self.__form = runtime_form
         self.__questions = self.__form.get_questions()
-        self.__dependencies = self.__form.ast.get_dependencies()
+        self.__dependencies = self.__form.ast.dependencies()
         self.__answersMap = answers_map.AnswersMap()
         self.__assignments = self.__form.get_assignments()
 
@@ -36,10 +36,10 @@ class GUI:
 
     # TODO: it is better to have runtime_form have the name instead of double point
     def create_title(self):
-        self.qGui.title(self.__form.ast.get_name())
+        self.qGui.title(self.__form.ast.name())
 
     def intro_label(self, frame):
-        l = label.Label(self.__form.ast.get_introduction(), frame)
+        l = label.Label(self.__form.ast.introduction(), frame)
         intro_row = l.get_row()
         return intro_row[0]
 
@@ -48,7 +48,7 @@ class GUI:
             self.draw_question(question, content_frame)
 
     def draw_question(self, question, content_frame):
-        self.__answersMap.update(question.ast.get_id(), None)
+        self.__answersMap.update(question.ast.ids()[0], None)
         question.set_gui_element(self, content_frame)
         elements = question.get_gui_element()
         # don't print anything if has no elements (expression_factory.g. assignment)
@@ -64,12 +64,12 @@ class GUI:
             elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
 
     def update(self, question, new_answer):
-        self.__answersMap.update(question.ast.get_id(), new_answer)
+        self.__answersMap.update(question.ast.ids()[0], new_answer)
         self.__update_assignments_ref()
 
         # For every element which has the changing answer as dependency, update it
         for qid in self.__dependencies:
-            if question.ast.get_id() in self.__dependencies[qid]:
+            if question.ast.ids()[0] in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
     # TODO: Is this updated every time? Assignments should as they also can change value

@@ -13,7 +13,7 @@ class Form:
         self.__q_conditions_dict = {}  # {question_id : parent conditions}
         self.assignments = []  # assignments
 
-        self.__flatten_ast(self.ast.get_statements())
+        self.__flatten_ast(self.ast.statements())
         self.__combine_expressions()
 
         self.questions = []  # list for new enriched questions
@@ -62,7 +62,7 @@ class Form:
                 self.assignments.append(statement)
             else:
                 self.__ast_questions.append(statement)  # add question to the new flat list
-                self.__q_conditions_dict[statement.get_id()] = conditions  # add condition to questions parent conditions
+                self.__q_conditions_dict[statement.ids()[0]] = conditions  # add condition to questions parent conditions
 
     def __enrich_questions(self):
         """
@@ -74,7 +74,7 @@ class Form:
         """
         order = 0
         for basic_question in self.__ast_questions:
-            qid = basic_question.get_id()
+            qid = basic_question.ids()[0]
             assert qid in self.__q_conditions_dict, "id does not exist in the dict"
             enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
             self.questions.append(enriched_question)

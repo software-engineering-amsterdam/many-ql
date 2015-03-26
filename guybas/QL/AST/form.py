@@ -8,7 +8,7 @@ class Form:
         self._introduction = introduction
         self._statements = statements
 
-    # Pretty print the _form
+    # Pretty formatted string of the _form
     def string_presentation(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
@@ -16,32 +16,28 @@ class Form:
             s += x.string_presentation(0)
         return s
 
-    #
-    # getters of the form
-    #
-
-    def get_statements(self):
+    def statements(self):
         return self._statements
 
-    def get_name(self):
+    def name(self):
         return self._name
 
-    def get_introduction(self):
+    def introduction(self):
         return self._introduction
 
-    def get_ids(self):
+    def ids(self):
         ids = []
         for s in self._statements:
             ids += (s.ids())
         return ids
 
-    def get_labels(self):
+    def labels(self):
         labels = []
         for s in self._statements:
             labels += s.labels()
         return labels
 
-    def get_dependencies(self):
+    def dependencies(self):
         dependencies = {}
         for s in self._statements:
             new_dependencies = s.dependencies({})
@@ -52,13 +48,13 @@ class Form:
             transitive_dependencies[k] = Form.transitive_dependencies_key(k, set([]), set([]), dependencies)
         return transitive_dependencies
 
-    def get_type_dict(self):
+    def id_type_map(self):
         d = {}
         for s in self._statements:
-            d = dict(list(d.items()) + list(s.id_to_type_map().items()))
+            d = dict(list(d.items()) + list(s.id_type_map().items()))
         return d
 
-    def get_statement_dict(self):
+    def id_statement_map(self):
         d = {}
         for s in self._statements:
             d = dict(list(d.items()) + list(s.id_statement_map().items()))
@@ -73,15 +69,15 @@ class Form:
                 values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
         return values
 
-    def check_expressions(self):
-        td = self.get_type_dict()
+    def expression_type_error_messages(self):
+        td = self.id_type_map()
         messages = []
         for x in self._statements:
-            messages.extend(x.valid_expression_messages(td))
+            messages.extend(x.expressions_type_error_messages(td))
         return messages
 
     #
-    # Type checker stuff
+    # Type checker
     #
 
     @staticmethod
@@ -89,26 +85,26 @@ class Form:
         duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
-    def check_ids(self):
-        messages = []
-        duplicates = Form.check_duplicates(self.get_ids())
+    def ids_error_messages(self):
+        error_messages = []
+        duplicates = Form.check_duplicates(self.ids())
         for i in duplicates:
-            messages.append("duplicate id: " + i)
-        return messages
+            error_messages.append("duplicate id: " + i)
+        return error_messages
 
-    def check_labels(self):
-        messages = []
-        duplicates = self.check_duplicates(self.get_labels())
+    def labels_error_messages(self):
+        error_messages = []
+        duplicates = self.check_duplicates(self.labels())
         for i in duplicates:
-            messages.append("duplicate label: " + i)
-        return messages
+            error_messages.append("duplicate label: " + i)
+        return error_messages
 
-    def check_dependencies(self):
-        messages = []
-        dependencies = self.get_dependencies()
+    def dependencies_error_messages(self):
+        error_messages = []
+        dependencies = self.dependencies()
         for d in dependencies:
             if d in dependencies[d]:
-                messages += [str(d) + " is dependent on itself"]
-        return messages
+                error_messages += [str(d) + " is dependent on itself"]
+        return error_messages
 
 
