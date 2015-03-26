@@ -23,12 +23,11 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
      */
 
     @Override
-    public Void visitQuestion(QLSQuestion question){
-        AbstractQLSWidget widget = question.getWidget();
+    public Void visitQuestion(QLSQuestion _question){
+        AbstractQLSWidget widget = _question.getWidget();
         widget.accept(this);
-
-        this.saveQuestion(question);
-
+        this.saveQuestion(_question);
+        
         return null;
     }
 
@@ -38,8 +37,8 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
      * =======================
      */
 
-    private void saveQuestion(QLSQuestion question) {
-        this.questions.add(question);
+    private void saveQuestion(QLSQuestion _question) {
+        this.questions.add(_question);
     }
 
     /**
@@ -51,10 +50,8 @@ public class QuestionsVisitor extends FullQLSFormVisitor {
     public List<QLSQuestion> getQuestions() {
         if (this.questions == null) {
             this.questions = new ArrayList<>();
-
             this.visitStyleSheet(this.sheet);
         }
-
         return this.questions;
     }
 }

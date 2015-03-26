@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLSUIPanel implements IUIPanel {
+public  class QLSUIPanel implements IUIPanel {
 
     private JTabbedPane panel;
     private List<UIPage> pages;

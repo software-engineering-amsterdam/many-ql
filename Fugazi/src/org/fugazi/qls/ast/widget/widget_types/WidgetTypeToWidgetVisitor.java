@@ -5,7 +5,6 @@ import org.fugazi.qls.ast.widget.*;
 public class WidgetTypeToWidgetVisitor implements IWidgetsTypeVisitor<AbstractQLSWidget> {
 
     public WidgetTypeToWidgetVisitor() {
-
     }
 
     public AbstractQLSWidget visitCheckBoxType(CheckBoxType _type) {
