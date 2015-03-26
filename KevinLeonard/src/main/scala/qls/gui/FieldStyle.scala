@@ -12,57 +12,46 @@ class FieldStyle {
   val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
   val DefaultFontSize = FontSize(13)
 
-  def extract(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
+  def setStyles(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
     val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
       case ((accumulatedElements, accumulatedEnv), element) =>
-        val (extractedElement, updatedEnv) = extract(element, accumulatedEnv, typeEnv)
-        (accumulatedElements :+ extractedElement, updatedEnv)
+        val (updatedElement, updatedEnv) = setStyles(element, accumulatedEnv, typeEnv)
+        (accumulatedElements :+ updatedElement, updatedEnv)
     }._1
 
     StyleSheet(s.label, updatedStyleSheet)
   }
 
-  def extract(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
+  def setStyles(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
     // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
     case Page(v, sections) =>
-      val extractedSections = sections.map(e => extract(e, env, typeEnv))
-      (Page(v, extractedSections), env)
+      val updatedSections = sections.map(e => setStyles(e, env, typeEnv))
+      (Page(v, updatedSections), env)
     case dw: DefaultWidget =>
-      val updatedEnv = updateStyleEnvironment(dw, env)
+      // TODO: what if widget is defined multiple times? (now it is just added to the env and later on we just pick the one that is defined first)
+      val updatedEnv = env :+ dw
       (dw, updatedEnv)
   }
 
-  def updateStyleEnvironment(defaultWidget: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
-    env :+ defaultWidget // TODO: what if widget is defined multiple times? (now it is just added to the env and later on we just pick the one that is defined first)
-  }
-
-  def extract(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
+  def setStyles(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
     case Section(t, sectionElements) =>
-      val extractedSectionElements = sectionElements.map(e => extract(e, env, typeEnv))
-      Section(t, extractedSectionElements)
+      val updatedSectionElements = sectionElements.map(e => setStyles(e, env, typeEnv))
+      Section(t, updatedSectionElements)
   }
 
-  def extract(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
+  def setStyles(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
     e match {
       case q: Question =>
         val name = q.variable.name
         val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
         val defaultStyles = getDefaultStyles(_type, q.widget, env)
-        val updatedWidget = extract(q.widget, defaultStyles)
+        val updatedWidget = setStyles(q.widget, defaultStyles)
         Question(q.variable, updatedWidget)
-      case s: Section => extract(s, env, typeEnv)
+      case s: Section => setStyles(s, env, typeEnv)
     }
   }
 
-  def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
-    // TODO: .toString compare is flaky. Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
-    env.filter(dw => dw._type == t && dw.widget.toString == w.toString) match {
-      case Nil => Nil
-      case dw :: dws => dw.widget.styles
-    }
-  }
-
-  def extract(w: Widget, defaultStyles: List[Style]): Widget = {
+  def setStyles(w: Widget, defaultStyles: List[Style]): Widget = {
     val styles = getStyles(w.styles, defaultStyles)
     w match {
       case Slider(p) => Slider(styles)
@@ -72,6 +61,14 @@ class FieldStyle {
       case Radio(p) => Radio(styles)
       case CheckBox(p) => CheckBox(styles)
       case DropDown(p) => DropDown(styles)
+    }
+  }
+
+  def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
+    // TODO: .toString compare is flaky. Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
+    env.filter(dw => dw._type == t && dw.widget.toString == w.toString) match {
+      case Nil => Nil
+      case dw :: dws => dw.widget.styles
     }
   }
 

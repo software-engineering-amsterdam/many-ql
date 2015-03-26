@@ -62,13 +62,13 @@ class FieldStyleSpec extends Specification {
     }
   }
 
-  "extract widget" should {
+  "setting styles of widget" should {
     "return Slider with styles from defined default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
       val widget = Slider(List())
       val result = Slider(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with styles from widget styles" in {
@@ -76,7 +76,7 @@ class FieldStyleSpec extends Specification {
       val widget = Slider(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = Slider(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -84,7 +84,7 @@ class FieldStyleSpec extends Specification {
       val widget = Slider(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = Slider(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with default styles when no styles are defined" in {
@@ -97,7 +97,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with styles from default styles" in {
@@ -105,7 +105,7 @@ class FieldStyleSpec extends Specification {
       val widget = SpinBox(List())
       val result = SpinBox(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with styles from widget styles" in {
@@ -113,7 +113,7 @@ class FieldStyleSpec extends Specification {
       val widget = SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -121,7 +121,7 @@ class FieldStyleSpec extends Specification {
       val widget = SpinBox(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = SpinBox(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with default styles when no styles are defined" in {
@@ -134,7 +134,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with styles from default styles" in {
@@ -142,7 +142,7 @@ class FieldStyleSpec extends Specification {
       val widget = Text(List())
       val result = Text(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with styles from widget styles" in {
@@ -150,7 +150,7 @@ class FieldStyleSpec extends Specification {
       val widget = Text(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = Text(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -158,7 +158,7 @@ class FieldStyleSpec extends Specification {
       val widget = Text(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = Text(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with default styles when styles are not defined" in {
@@ -171,7 +171,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with styles from default styles" in {
@@ -179,7 +179,7 @@ class FieldStyleSpec extends Specification {
       val widget = TextBlock(List())
       val result = TextBlock(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with styles from widget styles" in {
@@ -187,7 +187,7 @@ class FieldStyleSpec extends Specification {
       val widget = TextBlock(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = TextBlock(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -195,7 +195,7 @@ class FieldStyleSpec extends Specification {
       val widget = TextBlock(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = TextBlock(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with default styles when styles are not defined" in {
@@ -208,7 +208,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with styles from default styles" in {
@@ -216,7 +216,7 @@ class FieldStyleSpec extends Specification {
       val widget = Radio(List())
       val result = Radio(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with styles from widget styles" in {
@@ -224,7 +224,7 @@ class FieldStyleSpec extends Specification {
       val widget = Radio(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = Radio(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -232,7 +232,7 @@ class FieldStyleSpec extends Specification {
       val widget = Radio(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = Radio(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with default styles when styles are not defined" in {
@@ -245,7 +245,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with styles from default styles" in {
@@ -253,7 +253,7 @@ class FieldStyleSpec extends Specification {
       val widget = CheckBox(List())
       val result = CheckBox(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with styles from widget styles" in {
@@ -261,7 +261,7 @@ class FieldStyleSpec extends Specification {
       val widget = CheckBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = CheckBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -269,7 +269,7 @@ class FieldStyleSpec extends Specification {
       val widget = CheckBox(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = CheckBox(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with default styles when styles are not defined" in {
@@ -282,7 +282,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with styles from default styles" in {
@@ -290,7 +290,7 @@ class FieldStyleSpec extends Specification {
       val widget = DropDown(List())
       val result = DropDown(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with styles from widget styles" in {
@@ -298,7 +298,7 @@ class FieldStyleSpec extends Specification {
       val widget = DropDown(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
       val result = DropDown(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with mixed styles from widget styles and default styles with preference to widget styles" in {
@@ -306,7 +306,7 @@ class FieldStyleSpec extends Specification {
       val widget = DropDown(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
       val result = DropDown(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with default styles when styles are not defined" in {
@@ -319,7 +319,7 @@ class FieldStyleSpec extends Specification {
         fieldStyle.DefaultFontSize
       ))
 
-      fieldStyle.extract(widget, defaultStyles) must beEqualTo(result)
+      fieldStyle.setStyles(widget, defaultStyles) must beEqualTo(result)
     }
   }
 
@@ -397,7 +397,7 @@ class FieldStyleSpec extends Specification {
     }
   }
 
-  "extract Section/SectionElement" should {
+  "setting styles of Section/SectionElement" should {
     "return Question with styles from DefaultStyleEnvironment" in {
       val element = Question(Variable("var"), Slider(List()))
       val typeEnvironment = Map("var" -> NumberType())
@@ -408,14 +408,14 @@ class FieldStyleSpec extends Specification {
         FontSize(13)
       )))
 
-      fieldStyle.extract(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
     }
 
     "return empty Section" in {
       val element = Section("section", List())
       val result = Section("section", List())
 
-      fieldStyle.extract(element, DefaultStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, DefaultStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return Section with Questions with styles from DefaultStyleEnvironment" in {
@@ -439,7 +439,7 @@ class FieldStyleSpec extends Specification {
         )))
       ))
 
-      fieldStyle.extract(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
     }
 
     "return nested Sections" in {
@@ -450,7 +450,7 @@ class FieldStyleSpec extends Specification {
         Section("section1", List())
       ))
 
-      fieldStyle.extract(element, DefaultStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, DefaultStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return nested Sections with Questions" in {
@@ -497,35 +497,16 @@ class FieldStyleSpec extends Specification {
         ))
       ))
 
-      fieldStyle.extract(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, DefaultStyleEnvironment, typeEnvironment) must beEqualTo(result)
     }
   }
 
-  "update Style Environment" should {
-    "return an updated StyleEnvironment" in {
-      val defaultWidget = DefaultWidget(BooleanType(), DropDown(List(
-        Width(100),
-        FontColor(HexadecimalColor("00dd00")),
-        Font("Arial"),
-        FontSize(14)
-      )))
-      val result = List(DefaultWidget(BooleanType(), DropDown(List(
-        Width(100),
-        FontColor(HexadecimalColor("00dd00")),
-        Font("Arial"),
-        FontSize(14)
-      ))))
-
-      fieldStyle.updateStyleEnvironment(defaultWidget, EmptyStyleEnvironment) must beEqualTo(result)
-    }
-  }
-
-  "extract StyleSheet/StyleSheetElement" should {
+  "setting styles of StyleSheet/StyleSheetElement" should {
     "return empty Page with EmptyStyleEnvironment " in {
       val element = Page("page", List())
       val result = (Page("page", List()), EmptyStyleEnvironment)
 
-      fieldStyle.extract(element, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return DefaultWidget with updated environment" in {
@@ -559,14 +540,14 @@ class FieldStyleSpec extends Specification {
         ))
       )
 
-      fieldStyle.extract(element, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(element, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return empty StyleSheet" in {
       val stylesheet = StyleSheet("stylesheet", List())
       val result = StyleSheet("stylesheet", List())
 
-      fieldStyle.extract(stylesheet, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(stylesheet, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return StyleSheet with default widget and empty page" in {
@@ -589,7 +570,7 @@ class FieldStyleSpec extends Specification {
         Page("page", List())
       ))
 
-      fieldStyle.extract(stylesheet, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(stylesheet, EmptyStyleEnvironment, EmptyTypeEnvironment) must beEqualTo(result)
     }
 
     "return StyleSheet with default checkbox widget and a question checkbox widget" in {
@@ -626,11 +607,11 @@ class FieldStyleSpec extends Specification {
         ))
       ))
 
-      fieldStyle.extract(stylesheet, EmptyStyleEnvironment, typeEnvironment) must beEqualTo(result)
+      fieldStyle.setStyles(stylesheet, EmptyStyleEnvironment, typeEnvironment) must beEqualTo(result)
     }
   }
 
-  // TODO: Extract StylesheetElement
-  // TODO: Extract Stylesheet
+  // TODO: set styles StylesheetElement
+  // TODO: set styles Stylesheet
 
 }
