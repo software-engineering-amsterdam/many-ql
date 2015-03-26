@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.runtime.ui;
+package nl.uva.sc.encoders.qlsruntime.ui;
 
 import java.io.FileInputStream;
 import java.io.IOException;

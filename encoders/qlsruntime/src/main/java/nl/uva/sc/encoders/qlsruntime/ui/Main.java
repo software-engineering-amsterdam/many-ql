@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.runtime.ui;
+package nl.uva.sc.encoders.qlsruntime.ui;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -16,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import nl.uva.sc.encoders.qls.runtime.ui.handler.ParseButtonHandler;
+import nl.uva.sc.encoders.qlsruntime.ui.handler.ParseButtonHandler;
 
 import org.controlsfx.dialog.ExceptionDialog;
 

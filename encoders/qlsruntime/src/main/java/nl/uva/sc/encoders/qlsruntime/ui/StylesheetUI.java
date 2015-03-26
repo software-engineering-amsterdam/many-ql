@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.runtime.ui;
+package nl.uva.sc.encoders.qlsruntime.ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
