@@ -4,13 +4,13 @@ import nl.uva.bromance.ast.Identifier;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
-import nl.uva.bromance.ast.visitors.NullNodeVisitor;
+import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ExpressionEvaluator extends NullNodeVisitor {
+public class ExpressionEvaluator extends NullQLNodeVisitor {
 
     private List<Identifier> identifiers;
     private Map<String, Result> answerMap;

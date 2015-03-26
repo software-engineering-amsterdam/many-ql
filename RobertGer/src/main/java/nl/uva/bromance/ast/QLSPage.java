@@ -1,5 +1,7 @@
 package nl.uva.bromance.ast;
 
+import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
+
 public class QLSPage extends QLSNode {
     private String identifier;
 
@@ -16,4 +18,12 @@ public class QLSPage extends QLSNode {
         return identifier;
     }
 
+
+    @Override
+    public void accept(QlsNodeVisitor visitor) {
+        visitor.visit(this);
+        for (QLSNode child : this.getChildren()) {
+            child.accept(visitor);
+        }
+    }
 }

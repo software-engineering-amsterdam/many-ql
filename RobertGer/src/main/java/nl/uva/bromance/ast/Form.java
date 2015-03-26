@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.ast.conditionals.*;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.*;
@@ -69,7 +69,7 @@ public class Form extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

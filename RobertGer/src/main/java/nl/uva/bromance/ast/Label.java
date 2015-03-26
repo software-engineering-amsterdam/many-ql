@@ -5,7 +5,7 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +59,7 @@ public class Label extends QLNode implements CanContainConditionals {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

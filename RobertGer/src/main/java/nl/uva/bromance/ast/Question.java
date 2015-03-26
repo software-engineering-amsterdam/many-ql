@@ -8,7 +8,7 @@ import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -102,7 +102,7 @@ public class Question extends QLNode implements HasIdentifier {
 
     //Duplication in all Nodes
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

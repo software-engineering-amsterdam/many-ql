@@ -1,7 +1,7 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
 /**
  * Created by Robert on 9-3-2015.
@@ -32,7 +32,7 @@ public class Terminal extends QLNode {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
     }
 }

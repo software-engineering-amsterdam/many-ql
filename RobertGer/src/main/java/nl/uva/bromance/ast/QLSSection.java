@@ -3,6 +3,7 @@ package nl.uva.bromance.ast;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
@@ -32,5 +33,13 @@ public class QLSSection extends QLSNode {
         //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
         newParent.get().getStyleClass().add("form");
         parent.getChildren().add(newParent.get());
+    }
+
+    @Override
+    public void accept(QlsNodeVisitor visitor) {
+        visitor.visit(this);
+        for (QLSNode child : this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

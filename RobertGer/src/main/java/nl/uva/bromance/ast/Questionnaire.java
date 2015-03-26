@@ -1,6 +1,6 @@
 package nl.uva.bromance.ast;
 
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
 public class Questionnaire extends QLNode {
     private String identifier;
@@ -11,7 +11,7 @@ public class Questionnaire extends QLNode {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

@@ -2,7 +2,7 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class LabelText extends QLNode {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

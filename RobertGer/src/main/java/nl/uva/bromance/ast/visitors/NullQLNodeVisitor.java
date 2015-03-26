@@ -6,7 +6,7 @@ import nl.uva.bromance.ast.conditionals.*;
 /**
  * Created by Robert on 16-3-2015.
  */
-public class NullNodeVisitor implements NodeVisitor {
+public class NullQLNodeVisitor implements QlNodeVisitor {
     @Override
     public void visit(Calculation calculation) {
 

@@ -3,7 +3,7 @@ package nl.uva.bromance.typechecking;
 import nl.uva.bromance.ast.Form;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.Question;
-import nl.uva.bromance.ast.visitors.NullNodeVisitor;
+import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
  */
-public class TypeChecker extends NullNodeVisitor {
+public class TypeChecker extends NullQLNodeVisitor {
     private ReferenceMap referenceMap = new ReferenceMap();
     private List<TypeCheckingException> exceptions = new ArrayList<>();
 

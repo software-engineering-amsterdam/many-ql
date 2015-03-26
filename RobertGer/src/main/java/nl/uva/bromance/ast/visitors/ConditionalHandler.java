@@ -2,14 +2,12 @@ package nl.uva.bromance.ast.visitors;
 
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.Expression;
 import nl.uva.bromance.ast.conditionals.IfStatement;
 
 /**
  * Created by Robert on 16-3-2015.
  */
-public class ConditionalHandler extends NullNodeVisitor {
+public class ConditionalHandler extends NullQLNodeVisitor {
 
     public void handle(QLNode qlNode)
     { qlNode.accept(this);}
