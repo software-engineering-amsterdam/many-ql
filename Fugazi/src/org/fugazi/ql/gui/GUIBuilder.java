@@ -9,7 +9,6 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.IUIPanel;
 import org.fugazi.ql.gui.ui_elements.UIPanel;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
@@ -19,14 +18,14 @@ import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-    private class QuestionsWithConditionsState extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
+    private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
     private final UIFormManager uiFormManager;
     private final UIQuestionBuilder uiQuestionBuilder;
     
-    private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
+    private QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
@@ -37,7 +36,7 @@ public class GUIBuilder implements IMediator {
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        questionsWithConditionState = this.createQuestionsWithConditions(formDataStorage);
+        questionsWithConditions = this.createQuestionsWithConditions(formDataStorage);
         this.computedQuestions = formDataStorage.getComputedQuestions();
     }
 
@@ -49,7 +48,7 @@ public class GUIBuilder implements IMediator {
     }
 
     public void renderUI() {
-        this.setupForm(this.questionsWithConditionState);
+        this.setupForm(this.questionsWithConditions);
         this.uiFormManager.render();
     }
 
@@ -69,8 +68,8 @@ public class GUIBuilder implements IMediator {
         }
     }
 
-    private QuestionsWithConditionsState createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        QuestionsWithConditionsState questionsWithCondition = new QuestionsWithConditionsState();
+    private QuestionsWithConditions createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
+        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions();
 
         for (Question question : _formDataStorage.getAllQuestions()) {
             UIQuestion uiQuestion = createUiQuestion(question);
@@ -88,27 +87,27 @@ public class GUIBuilder implements IMediator {
     private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
         ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
         UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditionState);
+                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
         uiComputedQuestion.setComputedValue(result);
     }
     
     private void addIfStatementsToQuestion(
             List<IfStatement> _ifStatementsList,
             Question _question,
-            QuestionsWithConditionsState _questionsWithConditionsState)
+            QuestionsWithConditions _questionsWithConditions)
     {
         for (IfStatement ifStatement : _ifStatementsList) {
             if (ifStatement.getBody().contains(_question)) {
-                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditionsState);
-                _questionsWithConditionsState.get(uiQuestion).add(ifStatement);
+                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditions);
+                _questionsWithConditions.get(uiQuestion).add(ifStatement);
             }
         }
     }
 
     private UIQuestion getUIQuestionById(
-            String _id, QuestionsWithConditionsState _questionsWithConditionsState) 
+            String _id, QuestionsWithConditions _questionsWithConditions)
     {
-        for (UIQuestion uiQuestion : _questionsWithConditionsState.keySet()) {
+        for (UIQuestion uiQuestion : _questionsWithConditions.keySet()) {
             if (_id.equals(uiQuestion.getId())) {
                 return uiQuestion;
             }
