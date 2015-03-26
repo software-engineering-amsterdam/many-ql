@@ -5,7 +5,6 @@ class AnswersMap:
     # map from _id to answers
     def __init__(self):
         self.answers = {}  # {qid: {_answer: input, pointsTo: List}}
-        self.inputObj = {}
 
     def update(self, qid, answer):
         self.answers[qid] = answer
@@ -13,6 +12,7 @@ class AnswersMap:
     def get_answers(self):
         return self.answers
 
+    # if the answer is not uet in the map, set it to None
     def get_answer_by_id(self, qid):
         if qid in self.answers:
             return self.answers[qid]

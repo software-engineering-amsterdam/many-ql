@@ -1,7 +1,7 @@
-import QL.AST.Expressions.Operations.Arithmetic.number_expression as n
+import QL.AST.Expressions.Operations.Arithmetic.number_expression as number_expression
 
 
-class Add(n.NumberExpression):
+class Add(number_expression.NumberExpression):
 
     def set_string_operator(self):
         return "+"

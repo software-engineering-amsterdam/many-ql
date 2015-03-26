@@ -15,7 +15,7 @@ public class QuestionIdentifierCheckerTest {
     @Test
     public void testDuplicateQuesionIdentifiers() {
         final String question = "question: \"Label 1\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new QuestionIdentifierChecker(), question, question);
+        final List<Error> validationErrors = getCheckerErrors(QuestionIdentifierChecker::check, question, question);
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
@@ -26,7 +26,7 @@ public class QuestionIdentifierCheckerTest {
         final String question = "question: \"Label\" boolean";
         final String ifStatement = " if (true) { question: \"Label\" boolean }";
 
-        final List<Error> validationErrors = getCheckerErrors(new QuestionIdentifierChecker(), question, ifStatement);
+        final List<Error> validationErrors = getCheckerErrors(QuestionIdentifierChecker::check, question, ifStatement);
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
@@ -36,7 +36,7 @@ public class QuestionIdentifierCheckerTest {
     public void testDuplicateQuesionIdentifiersNotSuccessive() {
         final String question1 = "question: \"Label 1\" boolean";
         final String question2 = "question2: \"Label 2\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new QuestionIdentifierChecker(), question1, question2,
+        final List<Error> validationErrors = getCheckerErrors(QuestionIdentifierChecker::check, question1, question2,
                 question1);
 
         assertThat(validationErrors).hasSize(1);
@@ -48,7 +48,7 @@ public class QuestionIdentifierCheckerTest {
         final String question = "question: \"Label 1\" boolean";
         final String ifStatement = " if (true) { question: \"Label\" boolean }";
 
-        final List<Error> validationErrors = getCheckerErrors(new QuestionIdentifierChecker(), question, question,
+        final List<Error> validationErrors = getCheckerErrors(QuestionIdentifierChecker::check, question, question,
                 ifStatement);
 
         assertThat(validationErrors).hasSize(2);
@@ -60,7 +60,7 @@ public class QuestionIdentifierCheckerTest {
         final String question = "question: \"Label\" boolean";
         final String question2 = "question2: \"Label\" boolean";
 
-        final List<Error> validationErrors = getCheckerErrors(new QuestionIdentifierChecker(), question, question2,
+        final List<Error> validationErrors = getCheckerErrors(QuestionIdentifierChecker::check, question, question2,
                 question, question2);
 
         assertThat(validationErrors).hasSize(2);

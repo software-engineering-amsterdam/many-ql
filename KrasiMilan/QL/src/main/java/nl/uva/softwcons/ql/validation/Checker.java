@@ -17,4 +17,5 @@ public abstract class Checker {
     public List<Error> getErrors() {
         return this.errorsFound;
     }
+
 }

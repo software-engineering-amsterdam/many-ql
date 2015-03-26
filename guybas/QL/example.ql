@@ -39,6 +39,7 @@ if (5 - 3 + 2 / 1 + 1 == 4) {
     Question dunno (bool) : Do you know what to write?
 }
 
+
 Assignment doubleGrade (number) : grade
 
 if(doubleGrade > 10) {
