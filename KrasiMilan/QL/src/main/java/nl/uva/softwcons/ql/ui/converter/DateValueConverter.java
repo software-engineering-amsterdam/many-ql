@@ -6,13 +6,13 @@ import nl.uva.softwcons.ql.eval.value.Value;
 public class DateValueConverter implements ValueConverter<String> {
 
     @Override
-    public Value toValue(String value) {
+    public Value toValue(final String value) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String fromValue(Value value) {
+    public String fromValue(final Value value) {
         // TODO Auto-generated method stub
         return null;
     }

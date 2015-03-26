@@ -68,7 +68,7 @@ class ExpressionsTuple(tuple):
 
     @property
     def value(self):
-        return all(expr.value for expr in self)
+        return all(expr.value.value for expr in self)
 
 class ExpressionsList(list):
     def __add__(self, value):
@@ -76,7 +76,7 @@ class ExpressionsList(list):
 
     @property
     def value(self):
-        return all(expr.value for expr in self)
+        return all(expr.value.value for expr in self)
 
     def copy(self):
         return ExpressionsList(self)

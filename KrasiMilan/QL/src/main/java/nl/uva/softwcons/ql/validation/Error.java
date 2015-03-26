@@ -1,7 +1,7 @@
 package nl.uva.softwcons.ql.validation;
 
 public abstract class Error {
-    protected final String message;
+    private final String message;
 
     public Error(final String message) {
         this.message = message;
@@ -17,6 +17,6 @@ public abstract class Error {
     }
 
     public String getMessage() {
-        return "Error: " + message;
+        return message;
     }
 }

@@ -37,8 +37,8 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.style.StyleProperty;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
-import nl.uva.softwcons.qls.ast.widget.Widget;
+import nl.uva.softwcons.qls.ast.widget.StylizedType;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
@@ -52,112 +52,115 @@ import org.antlr.v4.runtime.Token;
 public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
-    public Stylesheet visitStylesheet(StylesheetContext ctx) {
+    public Stylesheet visitStylesheet(final StylesheetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Page> pages = ctx.page().stream().map(st -> (Page) st.accept(this)).collect(Collectors.toList());
 
-        return new Stylesheet(id, pages);
+        return new Stylesheet(id, pages, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public Page visitPage(PageContext ctx) {
+    public Page visitPage(final PageContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
-        final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))
+        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Page(id, sections, styles);
+        return new Page(id, sections, styles, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public Section visitSection(SectionContext ctx) {
+    public Section visitSection(final SectionContext ctx) {
         final String label = Utils.unquote(ctx.STRING().getText());
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
 
-        final List<DefaultStyle> styles = ctx.defaultStatement().stream().map(st -> (DefaultStyle) st.accept(this))
+        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Section(label, content, styles);
+        return new Section(label, content, styles, extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override
-    public DefaultStyle visitDefaultStatement(DefaultStatementContext ctx) {
-        Type questionType = getType(ctx.type().getText());
-        Widget widget = (Widget) ctx.widget().accept(this);
-        return new DefaultStyle(questionType, widget);
+    public StylizedType visitDefaultStatement(final DefaultStatementContext ctx) {
+        final Type questionType = getType(ctx.type().getText());
+        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+
+        return new StylizedType(questionType, widget);
+
     }
 
     @Override
-    public Question visitQuestionWithoutWidget(QuestionWithoutWidgetContext ctx) {
+    public Question visitQuestionWithoutWidget(final QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
 
         return new Question(id, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public ASTNode visitQuestionWithWidget(QuestionWithWidgetContext ctx) {
+    public ASTNode visitQuestionWithWidget(final QuestionWithWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
-        final Widget widget = (Widget) ctx.widget().accept(this);
+        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
 
         return new Question(id, widget, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
-    public Widget visitWidgetWithoutStyle(WidgetWithoutStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+    public StylizedWidget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
 
-        return new Widget(type);
+        return new StylizedWidget(type);
     }
 
     @Override
-    public Widget visitWidgetWithStyle(WidgetWithStyleContext ctx) {
-        WidgetType type = (WidgetType) ctx.widgetType().accept(this);
-        Style style = (Style) ctx.style().accept(this);
-        return new Widget(type, style);
+    public StylizedWidget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
+        final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
+        final Style style = (Style) ctx.style().accept(this);
+
+        return new StylizedWidget(type, style);
     }
 
     @Override
-    public Style visitStyle(StyleContext ctx) {
+    public Style visitStyle(final StyleContext ctx) {
         final List<StyleProperty> styles = ctx.styleProperty().stream().map(st -> (StyleProperty) st.accept(this))
                 .collect(Collectors.toList());
         return new Style(styles);
     }
 
     @Override
-    public StyleProperty visitStyleProperty(StylePropertyContext ctx) {
+    public StyleProperty visitStyleProperty(final StylePropertyContext ctx) {
         return new StyleProperty(ctx.key.getText(), Utils.unquote(ctx.value().getText()));
     }
 
     @Override
-    public CheckboxType visitCheckbox(CheckboxContext ctx) {
+    public CheckboxType visitCheckbox(final CheckboxContext ctx) {
         return new CheckboxType(Utils.unquote(ctx.yes.getText()));
     }
 
     @Override
-    public DropdownType visitDropdown(DropdownContext ctx) {
+    public DropdownType visitDropdown(final DropdownContext ctx) {
         return new DropdownType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
     }
 
     @Override
-    public SpinboxType visitSpinbox(SpinboxContext ctx) {
+    public SpinboxType visitSpinbox(final SpinboxContext ctx) {
         return new SpinboxType();
     }
 
     @Override
-    public SliderType visitSlider(SliderContext ctx) {
+    public SliderType visitSlider(final SliderContext ctx) {
         return new SliderType();
     }
 
     @Override
-    public TextType visitText(TextContext ctx) {
+    public TextType visitText(final TextContext ctx) {
         return new TextType();
     }
 
     @Override
-    public RadioButtonType visitRadio(RadioContext ctx) {
+    public RadioButtonType visitRadio(final RadioContext ctx) {
         return new RadioButtonType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
     }
 
@@ -168,7 +171,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     private Type getType(final String typeName) {
 
         switch (typeName) {
-
         case "boolean":
             return BOOLEAN_TYPE;
         case "number":

@@ -1,8 +1,7 @@
 package nl.uva.bromance.ast.conditionals;
 
-import nl.uva.bromance.ast.Node;
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
@@ -13,7 +12,7 @@ public class IfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
     public IfStatement(int lineNumber) {
-        super(lineNumber, IfStatement.class);
+        super(lineNumber);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class IfStatement extends QLNode implements ContainsExpression {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
         for(QLNode child: this.getChildren()) {
             child.accept(visitor);

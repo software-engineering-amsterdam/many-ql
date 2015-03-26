@@ -25,13 +25,13 @@ class Evaluator(object):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
         if pythonOp:
             return pythonOp(leftValue, rightValue)
-        return None
+        return EvalNone()
 
     def evaluateUnaryExpression(self, operator, value):
         pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
         if pythonOp:
             return pythonOp(value)
-        return None
+        return EvalNone()
 
     def addValue(self, identifier, value):
         question = self._questionTable.get(identifier)
@@ -40,7 +40,8 @@ class Evaluator(object):
 
     def getValue(self, identifier):
         question = self._questionTable.get(identifier)
-        return self._questionValueTable.get(question)
+        value = self._questionValueTable.get(question)
+        return value if value != None else EvalNone()
 
     def addQuestion(self, question):
         self._questionTable.add(question)
@@ -78,13 +79,14 @@ class Visitor(ASTStatementVisitor):
         self._currentForm = form
 
     def visitQuestionStatement(self, node):
-        if node.expression:
+        expression = node.expression
+        if expression:
             expressionVisitor = ExpressionVisitor(self._evaluator)
             expression = node.expression.accept(expressionVisitor)
-        else:
-            expression = None
+        
+        identifier = EvalIdentifier(node.identifier.value.value, self._evaluator)
 
-        question = Question(node.identifier,
+        question = Question(identifier,
                             node.text,
                             node.type,
                             self._conditionalStatements.copy(),
@@ -106,44 +108,41 @@ class Visitor(ASTStatementVisitor):
 class ExpressionVisitor(ASTExpressionVisitor):
     def __init__(self, evaluator):
         self._evaluator = evaluator
-        self._expressionStack = []
+        self._evaluableStack = []
 
     def visitUnaryExpressionEnd(self, node):
-        expr = self._expressionStack.pop()
+        evaluable = self._evaluableStack.pop()
         
-        unaryExpression = UnaryExpression(node.operator, expr, self._evaluator)
-        self._expressionStack.append(unaryExpression)
+        unaryExpression = UnaryExpression(node.operator, evaluable, self._evaluator)
+        self._evaluableStack.append(unaryExpression)
         return unaryExpression
 
     def visitBinaryExpressionEnd(self, node):
-        right = self._expressionStack.pop()
-        left = self._expressionStack.pop()
+        right = self._evaluableStack.pop()
+        left = self._evaluableStack.pop()
         
         binaryExpression = BinaryExpression(left, node.operator, right, self._evaluator)
-        self._expressionStack.append(binaryExpression)
+        self._evaluableStack.append(binaryExpression)
         return binaryExpression
 
+    def _createAtom(self, node):
+        atom = AtomicType(node.value)
+        self._evaluableStack.append(atom)
+        return atom
+
     def visitBoolean(self, node):
-        expression = AtomicExpression(node)
-        self._expressionStack.append(expression)
-        return expression
+        return self._createAtom(node)
 
     def visitInteger(self, node):
-        expression = AtomicExpression(node)
-        self._expressionStack.append(expression)
-        return expression
+        return self._createAtom(node)
 
     def visitString(self, node):
-        expression = AtomicExpression(node)
-        self._expressionStack.append(expression)
-        return expression
+        return self._createAtom(node)
 
     def visitMoney(self, node):
-        expression = AtomicExpression(node)
-        self._expressionStack.append(expression)
-        return expression
+        return self._createAtom(node)
 
     def visitIdentifier(self, node):
-        expression = AtomicExpression(EvalIdentifier(node.value.value, self._evaluator))
-        self._expressionStack.append(expression)
-        return expression
+        identifier = EvalIdentifier(node.value.value, self._evaluator)
+        self._evaluableStack.append(identifier)
+        return identifier

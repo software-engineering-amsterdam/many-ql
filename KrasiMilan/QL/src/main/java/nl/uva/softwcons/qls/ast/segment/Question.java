@@ -2,21 +2,22 @@ package nl.uva.softwcons.qls.ast.segment;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.ASTNode;
-import nl.uva.softwcons.qls.ast.widget.Widget;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 
 public class Question extends PageSegment implements ASTNode {
     private final Identifier id;
-    private final Widget widget;
+    private final StylizedWidget widget;
     private final LineInfo lineInfo;
 
-    public Question(final Identifier id, LineInfo lineInfo) {
+    public Question(final Identifier id, final LineInfo lineInfo) {
         this.id = id;
         this.lineInfo = lineInfo;
         this.widget = null;
     }
 
-    public Question(final Identifier id, final Widget widget, LineInfo lineInfo) {
+    public Question(final Identifier id, final StylizedWidget widget, final LineInfo lineInfo) {
         this.id = id;
         this.widget = widget;
         this.lineInfo = lineInfo;
@@ -30,8 +31,16 @@ public class Question extends PageSegment implements ASTNode {
         return id;
     }
 
-    public Widget getWidget() {
+    public StylizedWidget getStylizedWidget() {
         return widget;
+    }
+
+    public boolean hasStylizedWidget() {
+        return this.widget != null;
+    }
+
+    public boolean isCompatibleWithWidget(final Type questionType) {
+        return widget.getWidgetType().isCompatibleWith(questionType);
     }
 
     @Override

@@ -3,7 +3,7 @@ class Type:
         pass
 
     def __eq__(self, other):
-        return self.name == other.get_name()
+        return self._name == other.get_name()
 
     def get_name(self):
-        return self.name
+        return self._name

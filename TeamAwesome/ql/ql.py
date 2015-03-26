@@ -2,11 +2,12 @@ import sys, os
 sys.path.append('../lib')
 
 from ql.evaluator.evaluator import createEvaluator
-from ql.ast.AST import AST
 
 from ql.gui.View import *
 from ql.gui.Controller import *
 from ql.gui.Model import *
+
+from ql.parser.ANTLR import Parser
 #from ql.typechecking import typechecking 
 
 
@@ -21,7 +22,8 @@ def main():
     	print("ERROR: %s cannot be found." %(filename))
     	exit(1)
 
-    ast = AST(filename)
+    ast = Parser(filename).questionnaire
+    
     """
     typeCheckResult = typechecking.check(ast)
     printErrors(typeCheckResult)

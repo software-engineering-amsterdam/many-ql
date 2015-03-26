@@ -8,7 +8,9 @@ import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.visualization.Visualizer;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +33,13 @@ public class CustomType implements QuestionType {
     @Override
     public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
         ToggleGroup group = new ToggleGroup();
-        String id = q.getIdentifier().get().getId();
+        String id = q.getIdentifier().getId();
         StringResult answer = (StringResult) answerMap.get(id);
 
         group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-            RadioButton rb = (RadioButton)newToggle.getToggleGroup().getSelectedToggle();
+            RadioButton rb = (RadioButton) newToggle.getToggleGroup().getSelectedToggle();
             answerMap.put(id, new StringResult(rb.getText()));
-            if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null) ) {
+            if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null)) {
                 visualizer.visualize(q.hashCode());
             }
         });
@@ -45,9 +47,9 @@ public class CustomType implements QuestionType {
         for (StringResult option : multipleChoice) {
             RadioButton radioButton = new RadioButton(option.getResult());
             radioButton.setToggleGroup(group);
-            if (answer != null && option.getResult().equals(answer.getResult())){
+            if (answer != null && option.getResult().equals(answer.getResult())) {
                 radioButton.setSelected(true);
-                if (visualizer.getFocusId() == q.hashCode()){
+                if (visualizer.getFocusId() == q.hashCode()) {
                     visualizer.setFocusedNode(radioButton);
                 }
             }

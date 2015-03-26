@@ -2,18 +2,18 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class QLSQuestion extends QLSNode {
     private Identifier identifier;
     private Question questionNode;
 
     public QLSQuestion(int lineNumber, String id, AST qlAST) {
-        super(lineNumber, QLSQuestion.class);
+        super(lineNumber);
 
         List<Question> questions = qlAST.getAllChildrenOfType_ForAst(Question.class);
 
@@ -21,7 +21,7 @@ public class QLSQuestion extends QLSNode {
         if (id != null) {
             this.identifier = new Identifier(id.toLowerCase());
             for (Question q : questions) {
-                if (identifier.getId().equals(q.getIdentifier().get().getId())) {
+                if (identifier.getId().equals(q.getIdentifier().getId())) {
                     questionNode = q;
                 }
             }
@@ -33,18 +33,16 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        return this.questionNode.visualize(parent, answerMap, visualizer);
+    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+        this.questionNode.visualize(parent, answerMap, visualizer);
     }
 
     @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Question] { Name: " + identifier + " }\n");
-        for (QLSNode n : getChildren()) {
-            n.printDebug(i + 1);
+    public void accept(QlsNodeVisitor visitor) {
+        visitor.visit(this);
+        for (QLSNode child : this.getChildren()) {
+            child.accept(visitor);
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.validation.typechecker;
+package nl.uva.softwcons.ql.validation.type;
 
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
