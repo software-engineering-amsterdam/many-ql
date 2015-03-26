@@ -2,6 +2,7 @@ package nl.uva.softwcons.qls.ast.segment;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 
@@ -36,6 +37,10 @@ public class Question extends PageSegment implements ASTNode {
 
     public boolean hasStylizedWidget() {
         return this.widget != null;
+    }
+
+    public boolean isCompatibleWithWidget(Type questionType) {
+        return widget.getWidgetType().isCompatibleWith(questionType);
     }
 
     @Override

@@ -34,8 +34,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(Question question) {
         Type questionType = typeEnv.resolveVariable(question.getId());
-        if (question.hasStylizedWidget()
-                && !question.getStylizedWidget().getWidgetType().isCompatibleWith(questionType)) {
+        if (question.hasStylizedWidget() && !question.isCompatibleWithWidget(questionType)) {
             addError(new IncompatibleWidget(question.getLineInfo()));
         }
         return null;
