@@ -1,10 +1,7 @@
 package nl.uva.bromance.ast.visitors;
 
 import nl.uva.bromance.ast.*;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.Expression;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.*;
 
 /**
  * Created by Robert on 16-3-2015.
@@ -62,6 +59,11 @@ public class NullNodeVisitor implements NodeVisitor {
 
     @Override
     public void visit(Expression expression) {
+
+    }
+
+    @Override
+    public void visit(Terminal terminal) {
 
     }
 }

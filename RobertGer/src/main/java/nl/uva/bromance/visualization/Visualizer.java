@@ -69,7 +69,7 @@ public class Visualizer {
         rootBox.getChildren().addAll(menuBar, mainPane);
 
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
-        visualize(0);
+
     }
 
     private SplitPane createSplitPane() {
@@ -107,6 +107,7 @@ public class Visualizer {
 
                 createQlAst(qlPath);
                 createQlsAst(qlsPath);
+                visualize(0);
             }
         });
     }
@@ -167,7 +168,6 @@ public class Visualizer {
     //TODO: Method length is a bit much. Consider restructuring.
     public void visualize(int focusId) {
         this.focusId = focusId;
-        setBaseView();
 
         //TODO:Think if something explicit, to know when it was a refresh.
         new ExpressionEvaluator(answerMap).evaluate(qlAst.getRoot());

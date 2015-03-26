@@ -16,12 +16,6 @@ public class CustomResult extends Result {
         }
     }
 
-    @Override
-    public String toString() {
-        return null;
-    }
-
-
     //TODO: This might go wrong. Consider this.
     @Override
     public Result isEqual(Result r) {

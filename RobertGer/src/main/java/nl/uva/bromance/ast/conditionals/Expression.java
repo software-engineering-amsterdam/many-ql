@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public class Expression extends QLNode {
     private Optional<Operator> operator = Optional.empty();
-    private Optional<Terminal> terminal = Optional.empty();
     private Result result;
     private Optional<Expression> leftHandSide = Optional.empty();
     private Optional<Expression> rightHandSide = Optional.empty();
@@ -25,18 +24,9 @@ public class Expression extends QLNode {
         }
     }
 
-    public Optional<Terminal> getTerminal() {
-        return terminal;
-    }
-
     public Optional<Operator> getOperator() {
         return operator;
     }
-
-    public void setTerminal(Terminal terminal) {
-        this.terminal = Optional.of(terminal);
-    }
-
 
     //This is postorder traversal
     @Override

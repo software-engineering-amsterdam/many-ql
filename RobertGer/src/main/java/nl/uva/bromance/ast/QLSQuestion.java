@@ -21,7 +21,7 @@ public class QLSQuestion extends QLSNode {
         if (id != null) {
             this.identifier = new Identifier(id.toLowerCase());
             for (Question q : questions) {
-                if (identifier.getId().equals(q.getIdentifier().get().getId())) {
+                if (identifier.getId().equals(q.getIdentifier().getId())) {
                     questionNode = q;
                 }
             }
