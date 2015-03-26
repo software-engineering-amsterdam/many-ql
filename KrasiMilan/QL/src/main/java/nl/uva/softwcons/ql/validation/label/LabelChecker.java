@@ -1,6 +1,7 @@
 package nl.uva.softwcons.ql.validation.label;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.uva.softwcons.ql.ast.form.Form;
@@ -10,19 +11,25 @@ import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.validation.Checker;
+import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.label.error.DuplicateLabel;
 
-public class LabelChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void> {
+public final class LabelChecker extends Checker implements FormVisitor<List<Error>>, StatementVisitor<Void> {
     private final Set<String> labels;
 
-    public LabelChecker() {
+    public static List<Error> check(final Form form) {
+        return form.accept(new LabelChecker());
+    }
+
+    private LabelChecker() {
         this.labels = new HashSet<>();
     }
 
     @Override
-    public Void visit(final Form form) {
+    public List<Error> visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
-        return null;
+
+        return this.getErrors();
     }
 
     @Override

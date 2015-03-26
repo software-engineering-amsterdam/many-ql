@@ -15,7 +15,7 @@ public class LabelCheckerTest {
     @Test
     public void validateNoInitialErrors() {
         final String question = "question: \"Label 1\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question);
 
         assertThat(validationErrors).isEmpty();
     }
@@ -24,7 +24,7 @@ public class LabelCheckerTest {
     public void testDuplicateLabelsWarnings() {
         final String question1 = "question1: \"Label 1\" boolean";
         final String question2 = "question2: \"Label 1\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question1, question2);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question1, question2);
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateLabel.class);
@@ -34,7 +34,7 @@ public class LabelCheckerTest {
     public void testDuplicateLabelsProducesWarnings() {
         final String question1 = "question1: \"Label 1\" boolean";
         final String question2 = "question2: \"Label 1\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question1, question2);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question1, question2);
 
         assertThat(validationErrors.get(0).isFatal()).isFalse();
     }
@@ -44,7 +44,7 @@ public class LabelCheckerTest {
         final String question1 = "question: \"Label 1\" boolean";
         final String question2 = "question2: \"Label 2\" boolean";
         final String question3 = "question3: \"Label 1\" boolean";
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question1, question2, question3);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question1, question2, question3);
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateLabel.class);
@@ -55,7 +55,7 @@ public class LabelCheckerTest {
         final String question = "question1: \"Label\" boolean";
         final String ifStatement = " if (true) { question2: \"Label\" boolean }";
 
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question, ifStatement);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question, ifStatement);
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateLabel.class);
@@ -67,7 +67,7 @@ public class LabelCheckerTest {
         final String question2 = "question2: \"Label 1\" boolean";
         final String ifStatement = " if (true) { question3: \"Label 1\" boolean }";
 
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question1, question2, ifStatement);
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question1, question2, ifStatement);
 
         assertThat(validationErrors).hasSize(2);
         assertThat(validationErrors).hasOnlyElementsOfType(DuplicateLabel.class);
@@ -80,7 +80,7 @@ public class LabelCheckerTest {
         final String question3 = "question3: \"test\" boolean";
         final String question4 = "question4: \"go\" boolean";
 
-        final List<Error> validationErrors = getCheckerErrors(new LabelChecker(), question1, question2, question3,
+        final List<Error> validationErrors = getCheckerErrors(LabelChecker::check, question1, question2, question3,
                 question4);
 
         assertThat(validationErrors).hasSize(2);

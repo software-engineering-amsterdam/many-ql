@@ -6,6 +6,7 @@ import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
 import java.util.Arrays;
+import java.util.List;
 
 import nl.uva.softwcons.ql.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ql.ast.expression.binary.BinaryExpression;
@@ -34,22 +35,29 @@ import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.ql.validation.Checker;
+import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.type.error.InvalidConditionType;
 import nl.uva.softwcons.ql.validation.type.error.InvalidOperatorTypes;
 import nl.uva.softwcons.ql.validation.type.error.InvalidQuestionExpressionType;
 import nl.uva.softwcons.ql.validation.type.error.UndefinedReference;
 
-public class TypeChecker extends Checker implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Type> {
+public final class TypeChecker extends Checker implements FormVisitor<List<Error>>, StatementVisitor<Void>,
+        ExpressionVisitor<Type> {
     private final Environment env;
 
-    public TypeChecker() {
+    public static List<Error> check(final Form form) {
+        return form.accept(new TypeChecker());
+    }
+
+    private TypeChecker() {
         this.env = new Environment();
     }
 
     @Override
-    public Void visit(final Form form) {
+    public List<Error> visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
-        return null;
+
+        return this.getErrors();
     }
 
     @Override
