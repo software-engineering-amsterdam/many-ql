@@ -635,7 +635,4 @@ class FieldStyleSpec extends Specification {
     }
   }
 
-  // TODO: set styles StylesheetElement
-  // TODO: set styles Stylesheet
-
 }
