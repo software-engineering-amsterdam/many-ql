@@ -1,6 +1,7 @@
 package com.form.language.ast.type;
 
 import com.form.language.ast.values.GenericValue;
+import com.form.language.ast.values.UndefinedValue;
 
 public final class ErrorType extends Type {
 
@@ -21,7 +22,7 @@ public final class ErrorType extends Type {
 
     @Override
     public GenericValue defaultValue() {
-	return null;
+	return new UndefinedValue();
     }
     
     @Override

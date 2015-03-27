@@ -30,6 +30,7 @@ public class Context {
 	this.globalIdList = new IdCollection();
 	this.declarations = new IdDeclarations();
 	this.errors = new IssueCollector();
+	this.warnings = new IssueCollector();
 	this.labels = new Labels();
     }
 
@@ -81,10 +82,14 @@ public class Context {
 	return declaration.getType(this);
     }
 
-    public Boolean hasErrors() {
+    public boolean hasErrors() {
 	return !errors.isEmpty();
     }
-
+    
+    public boolean hasWarnings() {
+	return !warnings.isEmpty();
+    }
+    
     public void addError(Error e) {
 	this.errors.add(e);
     }
