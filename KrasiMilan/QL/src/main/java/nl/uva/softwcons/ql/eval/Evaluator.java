@@ -21,6 +21,8 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void> {
     public Evaluator(final Form form) {
         this.answers = new FormAnswers();
         this.referencesResolver = new ReferenceResolver(form);
+
+        form.accept(this);
     }
 
     public Value getValue(final Identifier variable) {

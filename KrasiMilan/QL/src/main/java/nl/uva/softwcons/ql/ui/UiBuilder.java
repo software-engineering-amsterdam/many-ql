@@ -47,8 +47,6 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
 
         questionLayouts.forEach(layout -> formLayout.add(layout));
 
-        form.accept(evaluator);
-
         return formLayout;
     }
 
@@ -58,6 +56,7 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
         final Widget questionWidget = this.widgetFactory.getWidget(question);
         layout.add(questionWidget.getWidget());
 
+        questionWidget.setValue(evaluator.getValue(question.getId()));
         evaluator.addListener(question, (newValue) -> {
             questionWidget.setValue(newValue);
         });
@@ -83,6 +82,7 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
         final List<QuestionLayout> layouts = visitAndFlatten(conditional.getQuestions());
 
         layouts.forEach(layout -> {
+            layout.setVisible(evaluator.getValue(conditional).inConditionalContext());
             evaluator.addListener(conditional, (value) -> {
                 layout.setVisible(value.inConditionalContext());
             });
