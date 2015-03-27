@@ -16,16 +16,17 @@ import QL.Grammar.Factory.form as form
 # Types of expressions
 #
 
-def make_bool_type(subtrees):
+def make_bool_type():
     return bool_type.Bool()
 
 
-def make_number_type(subtrees):
+def make_number_type():
     return number_type.Number()
 
 
-def make_text_type(subtrees):
+def make_text_type():
     return text_type.Text()
+
 
 #
 # Primitive values of expressions

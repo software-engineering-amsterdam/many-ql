@@ -5,7 +5,7 @@ from QL.AST.Expressions.Types import *
 
 class Factory:
     def __init__(self, statement, gui, frame):
-        q_type = statement.ast.get_type_string()
+        q_type = statement.ast.get_type()
         if q_type == bool_type.Bool():
             self.gui_element = r.RadioButton(statement, gui, frame)
         elif q_type == number_type.Number():

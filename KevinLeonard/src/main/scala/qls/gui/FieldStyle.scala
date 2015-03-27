@@ -1,145 +1,130 @@
 package qls.gui
 
-import ql.ast.{StringType, NumberType, BooleanType, Type}
+import ql.ast.{BooleanType, NumberType, StringType, Type}
 import qls.ast._
 import qlsTypes.StyleEnvironment
+import types.TypeEnvironment
 
 class FieldStyle {
 
-  val DEFAULT_PROPERTY_WIDTH = Width(100)
-  val DEFAULT_PROPERTY_FONT = Font("Arial")
-  val DEFAULT_PROPERTY_FONT_COLOR = FontColor(HexadecimalColor("0000000"))
-  val DEFAULT_PROPERTY_FONT_SIZE = FontSize(13)
+  val DefaultWidth = Width(100)
+  val DefaultFont = Font("Arial")
+  val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
+  val DefaultFontSize = FontSize(13)
 
-  def extract (s: StyleSheet, env: StyleEnvironment): StyleSheet = s match {
-    case StyleSheet(l, es) => StyleSheet(l, es.map(extract(_, env)._1))
+  def setStyles(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
+    val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
+      case ((accumulatedElements, accumulatedEnv), element) =>
+        val (updatedElement, updatedEnv) = setStyles(element, accumulatedEnv, typeEnv)
+        (accumulatedElements :+ updatedElement, updatedEnv)
+    }._1
+
+    StyleSheet(s.label, updatedStyleSheet)
   }
 
-  def extract(e: StyleSheetElement, env: StyleEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
-    // TODO: DefaultWidget case update StyleEnvironment, maar de ge-update StyleEnvironment wordt niet meegegeven aan de Page case!
+  def setStyles(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
     // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
-    case Page(v, es) => (Page(v, es.map(e => extract(e, env))), env)
-    case dw: DefaultWidget => (dw, updateStyleEnvironment(dw, env))
+    case Page(v, sections) =>
+      val updatedSections = sections.map(e => setStyles(e, env, typeEnv))
+      (Page(v, updatedSections), env)
+    case dw: DefaultWidget =>
+      val updatedEnv = mergeDefaultStyles(dw, env)
+      (dw, updatedEnv)
   }
 
-  def updateStyleEnvironment(defaultWidget: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
-    if (env contains defaultWidget._type) {
-      env + (defaultWidget._type -> (env(defaultWidget._type) + (defaultWidget.widget.toString() -> defaultWidget.widget.properties)))
-    } else {
-      env + (defaultWidget._type -> Map(defaultWidget.widget.toString() -> defaultWidget.widget.properties))
-    }
+  def setStyles(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
+    case Section(t, sectionElements) =>
+      val updatedSectionElements = sectionElements.map(e => setStyles(e, env, typeEnv))
+      Section(t, updatedSectionElements)
   }
 
-  def extract(e: Section, env: StyleEnvironment): Section = e match {
-    case Section(t, es) => Section(t, es.map(e => extract(e, env)))
-  }
-
-  def extract(e: SectionElement, env: StyleEnvironment): SectionElement = {
+  def setStyles(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
     e match {
-      // TODO: Get question Type from QL ast + replace match based on widget type.
-      case q: Question => {
-        q.widget.toString() match {
-          case "spin box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
-          case "slider" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(NumberType(), q.widget, env)))
-          case "text" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
-          case "text block" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(StringType(), q.widget, env)))
-          case "radio" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-          case "check box" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-          case "drop down" => Question(q.variable, extract(q.widget, getDefaultStyleProperties(BooleanType(), q.widget, env)))
-        }
-      }
-      case s: Section => extract(s, env)
+      case q: Question =>
+        val name = q.variable.name
+        val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
+        val defaultStyles = getDefaultStyles(_type, q.widget, env)
+        val updatedWidget = setStyles(q.widget, defaultStyles)
+        Question(q.variable, updatedWidget)
+      case s: Section => setStyles(s, env, typeEnv)
     }
   }
 
-  def getDefaultStyleProperties(t: Type, w: Widget, env: StyleEnvironment): List[StyleProperty] = {
-    if (env contains t) {
-      env(t) getOrElse(w.toString(), List())
-    } else {
-      List()
+  def setStyles(w: Widget, defaultStyles: List[Style]): Widget = {
+    val styles = getStyles(w.styles, defaultStyles)
+    w match {
+      case Slider(p) => Slider(styles)
+      case SpinBox(p) => SpinBox(styles)
+      case Text(p) => Text(styles)
+      case TextBlock(p) => TextBlock(styles)
+      case Radio(p) => Radio(styles)
+      case CheckBox(p) => CheckBox(styles)
+      case DropDown(p) => DropDown(styles)
     }
   }
 
-  def extract(w: Widget, defaultStyles: List[StyleProperty]): Widget = w match {
-    case Slider(p) => Slider(getStyleProperties(defaultStyles, p))
-    case SpinBox(p) => SpinBox(getStyleProperties(defaultStyles, p))
-    case Text(p) => Text(getStyleProperties(defaultStyles, p))
-    case TextBlock(p) => TextBlock(getStyleProperties(defaultStyles, p))
-    case Radio(p) => Radio(getStyleProperties(defaultStyles, p))
-    case CheckBox(p) => CheckBox(getStyleProperties(defaultStyles, p))
-    case DropDown(p) => DropDown(getStyleProperties(defaultStyles, p))
+  def mergeDefaultStyles(dw: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
+    val existingStyles = getDefaultStyles(dw._type, dw.widget, env)
+    val newStyles = dw.widget.styles
+    val mergedStyles = (newStyles ++ existingStyles).distinct
+
+    val envWithoutExistingStyles = removeDefaultStyles(dw, env)
+
+    val widgetWithMergedStyles = setStyles(dw.widget, mergedStyles)
+    envWithoutExistingStyles :+ DefaultWidget(dw._type, widgetWithMergedStyles)
   }
 
-  def getStyleProperties(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): List[StyleProperty] = {
+  def removeDefaultStyles(dwToRemove: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
+    // TODO: refactor .getClass(). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
+    env.find(dw => dw._type == dwToRemove._type && dw.widget.getClass == dwToRemove.widget.getClass) match {
+      case None => env
+      case Some(dw) => env diff List(dw)
+    }
+  }
+
+  def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
+    // TODO: refactor .getClass). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
+    env.find(dw => dw._type == t && dw.widget.getClass == w.getClass) match {
+      case None => List()
+      case Some(dw) => dw.widget.styles
+    }
+  }
+
+  def getStyles(styles: List[Style], defaultStyles: List[Style]): List[Style] = {
+    val allStyles = styles ++ defaultStyles
     List(
-      getWidth(defaultStyles, styles),
-      getFont(defaultStyles, styles),
-      getFontColor(defaultStyles, styles),
-      getFontSize(defaultStyles, styles)
+      findWidth(allStyles).getOrElse(DefaultWidth),
+      findFont(allStyles).getOrElse(DefaultFont),
+      findFontColor(allStyles).getOrElse(DefaultFontColor),
+      findFontSize(allStyles).getOrElse(DefaultFontSize)
     )
   }
 
-  def getWidth(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
-    styles.find(style => style match {
-      case p: Width => true
+  def findWidth(styles: List[Style]): Option[Style] = {
+    styles.find({
+      case _: Width => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find(style => style match {
-        case p: Width => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_WIDTH
-      }
-    }
+    })
   }
 
-  def getFont(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
-    styles.find(style => style match {
-      case p: Font => true
+  def findFont(styles: List[Style]): Option[Style] = {
+    styles.find({
+      case _: Font => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find(style => style match {
-        case p: Font => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT
-      }
-    }
+    })
   }
 
-  def getFontColor(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
-    styles.find(style => style match {
-      case p: FontColor => true
+  def findFontColor(styles: List[Style]): Option[Style] = {
+    styles.find({
+      case _: FontColor => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find(style => style match {
-        case p: FontColor => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT_COLOR
-      }
-    }
+    })
   }
 
-  def getFontSize(defaultStyles: List[StyleProperty], styles: List[StyleProperty]): StyleProperty = {
-    styles.find(style => style match {
-      case p: FontSize => true
+  def findFontSize(styles: List[Style]): Option[Style] = {
+    styles.find({
+      case _: FontSize => true
       case _ => false
-    }) match {
-      case Some(p) => p
-      case None => defaultStyles.find(style => style match {
-        case p: FontSize => true
-        case _ => false
-      }) match {
-        case Some(p) => p
-        case None => DEFAULT_PROPERTY_FONT_SIZE
-      }
-    }
+    })
   }
 }

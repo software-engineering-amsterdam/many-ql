@@ -21,7 +21,7 @@ class Sheet(e.SheetElement):
     def get_ids(self):
         ids = []
         for p in self._pages:
-            ids += p.get_ids()
+            ids += p.ids()
         return ids
 
     def get_widget_dict(self):

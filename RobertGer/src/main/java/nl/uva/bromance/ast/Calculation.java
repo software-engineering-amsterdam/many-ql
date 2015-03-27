@@ -4,7 +4,7 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,20 +19,9 @@ public class Calculation extends QLNode implements CanContainConditionals {
     private ElseStatement elseStatement;
 
     public Calculation(int lineNumber, String id) {
-        super(lineNumber, Calculation.class);
+        super(lineNumber);
         this.identifier = id;
 
-    }
-
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Calculation] { Name : " + this.identifier + " }\n");
-        for (Node n : getChildren()) {
-            n.printDebug(i + 1);
-        }
     }
 
     @Override
@@ -66,9 +55,9 @@ public class Calculation extends QLNode implements CanContainConditionals {
 
     //TODO: Find fix for childType
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

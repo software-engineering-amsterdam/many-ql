@@ -20,7 +20,6 @@ public class QuestionASTTest extends ASTTest {
         Question question = questionList.get(0);
 
         assertThat(questionList).hasSize(1);
-        assertThat(question.getIdentifier().isPresent()).isTrue();
         assertThat(question.getQuestionString()).isEqualTo("text");
     }
 

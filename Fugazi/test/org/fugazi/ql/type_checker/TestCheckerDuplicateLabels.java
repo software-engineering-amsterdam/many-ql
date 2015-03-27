@@ -37,7 +37,7 @@ public class TestCheckerDuplicateLabels extends TestQlTypeCheckerBase {
     public void testWarningsCount() throws Exception {
         List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertFalse(warnings.isEmpty());
-        assertEquals(1, warnings.size());
+        assertEquals(2, warnings.size());
     }
 
     @Test

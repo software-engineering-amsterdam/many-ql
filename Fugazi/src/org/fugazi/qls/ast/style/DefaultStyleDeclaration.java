@@ -52,4 +52,9 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
         DefaultStyleDeclaration other = (DefaultStyleDeclaration) o;
         return (this.questionType.toString() == other.questionType.toString());
     }
+
+    @Override
+    public int hashCode() {
+        return (this.questionType.hashCode());
+    }
 }

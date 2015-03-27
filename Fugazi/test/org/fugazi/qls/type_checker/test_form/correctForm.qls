@@ -7,7 +7,7 @@ stylesheet taxOfficeExample
   page Private {
     section "Data" {
         question name
-            widget text
+            widget textbox
         question age
             widget spinbox
     }

@@ -61,9 +61,9 @@ public abstract class TestQlsTypeCheckerBase extends TestQlTypeCheckerBase {
         QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
         // Perform QLS type checking.
-        this.qlsChecker = new QLSTypeChecker();
-        qlsChecker.checkStylesheet(
+        this.qlsChecker = new QLSTypeChecker(
                 styleSheetData, this.formDataStorage
         );
+        qlsChecker.checkStylesheet();
     }
 }

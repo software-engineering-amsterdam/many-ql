@@ -1,8 +1,8 @@
-import QL.AST.Expressions.Primitives.primitive as e
+import QL.AST.Expressions.Primitives.primitive as primitive
 
 
 # The binary expression abstract class contains almost all functionality of the sub classes
-class BinaryExpression(e.Primitive):
+class BinaryExpression(primitive.Primitive):
 
     def __init__(self, left_operand, right_operand):
         self._left_operand = left_operand
@@ -14,18 +14,18 @@ class BinaryExpression(e.Primitive):
         return "(%s %s %s)" % (str(self._left_operand), self._symbol, str(self._right_operand))
 
     # returns the error message of the expression checking, empty if valid
-    def is_valid_messages(self, type_map):
+    def type_error_messages(self, type_map):
         error_messages = []
 
         # check for both operands if they are valid
-        error_messages.extend(self._left_operand.is_valid_messages(type_map))
-        error_messages.extend(self._right_operand.is_valid_messages(type_map))
+        error_messages.extend(self._left_operand.type_error_messages(type_map))
+        error_messages.extend(self._right_operand.type_error_messages(type_map))
 
         if not self.operands_same_type(type_map):
             error_messages.append("%s is not the same type as %s" % (str(self._left_operand), str(self._right_operand)))
 
         # if the types of the operands do not match with the operation it's own type it is incorrect
-        if not self.operands_correct_type(type_map):
+        elif not self.operands_correct_type(type_map):
             error_messages.append("the operands %s and %s are not of the correct type"
                                   % (str(self._left_operand), str(self._right_operand)))
 
@@ -44,7 +44,7 @@ class BinaryExpression(e.Primitive):
 
     # get the variables in both operands
     def get_variables(self):
-        return self._left_operand.get_variables() +self._right_operand.get_variables()
+        return self._left_operand.get_variables() + self._right_operand.get_variables()
 
     # evaluate both operands and evaluate the result afterwards
     def eval_expression(self, answer_map):
@@ -57,18 +57,18 @@ class BinaryExpression(e.Primitive):
         return z
 
     #
-    # Need to be overridden by sub classes
+    # Need to be overridden sub classes
     #
 
     # Since the init is the same for all binary expressions this method is needed to make the distinction between
     # the operations
     def set_string_operator(self):
-        raise NotImplementedError("Not implemented by sub class")
+        raise NotImplementedError("Not implemented here")
 
-    # get the return _type of the _expression, only one needed to be overwritten
     def return_type(self, type_map):
-        raise NotImplementedError("Not implemented by sub class")
+        raise NotImplementedError("Not implemented here")
 
+    # concrete evaluation specific for each binary expression
     def concrete_eval(self, x, y):
-        raise NotImplementedError("Not implemented by sub class")
+        raise NotImplementedError("Not implemented here")
 
