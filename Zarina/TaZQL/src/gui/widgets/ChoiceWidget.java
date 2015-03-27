@@ -1,5 +1,8 @@
 package gui.widgets;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
@@ -7,7 +10,6 @@ import ast.type.Type;
 import evaluator.BooleanValue;
 import evaluator.Value;
 import evaluator.ValueRepository;
-import gui.widgets.listeners.ChoiceListener;
 import gui.widgets.listeners.EvaluateExpression;
 
 public class ChoiceWidget implements IWidgetComponent {
@@ -15,6 +17,7 @@ public class ChoiceWidget implements IWidgetComponent {
 	private final Type widgetType;
 	private JCheckBox widget;
 	private final ValueRepository valueRepository;
+	private BooleanValue value;
 		
 	public ChoiceWidget(String id, String label, Type widgetType, ValueRepository valueRepository) {
 		this.id = id;
@@ -41,9 +44,16 @@ public class ChoiceWidget implements IWidgetComponent {
 
 
 	@Override
-	public void addDocListener(EvaluateExpression evaluator) {
-		widget.addItemListener(new ChoiceListener(this, evaluator));
-		
+	public void addDocListener(final EvaluateExpression evaluator) {
+		//widget.addItemListener(new ChoiceListener(this, evaluator));
+		widget.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());	
+				evaluator.setValueInGUI();
+			}
+		});
 	}
 
 	@Override
@@ -53,12 +63,14 @@ public class ChoiceWidget implements IWidgetComponent {
 
 	
 	@Override
-	public Value getValue() {
-		return new BooleanValue(widget.isSelected());
+	public BooleanValue getValue() {
+		this.value = new BooleanValue(widget.isSelected());
+		return value;
 	}
 
 	@Override
 	public void setValue(Value value) {
+		this.value = (BooleanValue) value;
 		boolean selected = (Boolean) value.getValue();
 		
 		this.widget.setSelected(selected);

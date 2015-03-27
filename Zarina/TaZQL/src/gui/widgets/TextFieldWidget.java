@@ -2,13 +2,14 @@ package gui.widgets;
 
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import ast.type.Type;
 import evaluator.StringValue;
 import evaluator.Value;
 import evaluator.ValueRepository;
 import gui.widgets.listeners.EvaluateExpression;
-import gui.widgets.listeners.TextListener;
 
 
 public class TextFieldWidget implements IWidgetComponent {
@@ -55,9 +56,22 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener(EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
-	}
+	public void addDocListener(final EvaluateExpression evaluator) {
+		//widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
+		widget.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());
+			}
+
+			public void insertUpdate(DocumentEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());
+			}
+			
+			public void removeUpdate(DocumentEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());
+			}
+		});
+	}	
 
 
 	@Override
