@@ -82,9 +82,12 @@ class Spinbox(tk.Spinbox, Widget):
     def __init__(self, master, questionModel, callback, lowerBound = 0, upperBound = 1000, width = 80):
         tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, width = width, command = lambda : callback(self.value()))
         self._defaultValue = lowerBound
+        self.bind("<FocusOut>", lambda event : callback(self.value()))
         self.update(questionModel)
         
     def update(self, questionModel):
+        self.config(state = tk.NORMAL)
+
         self.delete(0, tk.END)
         self.insert(0, str(questionModel.value) if questionModel.value else self._defaultValue)
 
@@ -102,6 +105,8 @@ class TextInput(tk.Entry, Widget):
         self.update(questionModel)
 
     def update(self, questionModel):
+        self.config(state = tk.NORMAL)
+
         self.delete(0, tk.END)   
         if questionModel.value:
             self.insert(0, questionModel.value)
