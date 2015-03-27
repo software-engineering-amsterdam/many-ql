@@ -14,7 +14,7 @@ public class StringValue extends GenericValue {
 
     @Override
     public String toString() {
-	return "\"" + this.value + "\"";
+	return "\"" + value + "\"";
     }
     
     @Override

@@ -23,18 +23,22 @@ public class EqualityTest {
 	BoolType booltype = new BoolType();
 	BoolType duplicateBool = new BoolType();
 	assertEquals(booltype, duplicateBool);
+	assertEquals(booltype.hashCode(), duplicateBool.hashCode());
 
 	IntType inttype = new IntType();
 	IntType duplicateInt = new IntType();
 	assertEquals(inttype, duplicateInt);
+	assertEquals(inttype.hashCode(), duplicateInt.hashCode());
 
 	StringType stringtype = new StringType();
 	StringType duplicateString = new StringType();
 	assertEquals(stringtype, duplicateString);
+	assertEquals(stringtype.hashCode(), duplicateString.hashCode());
 
 	ErrorType errortype = new ErrorType();
 	ErrorType duplicateError = new ErrorType();
 	assertEquals(errortype, duplicateError);
+	assertEquals(errortype.hashCode(), duplicateError.hashCode());
     }
     
     @Test
@@ -44,6 +48,7 @@ public class EqualityTest {
 	IntValue duplicate = new IntValue(randomnumber);
 
 	assertEquals(intvalue, duplicate);
+	assertEquals(intvalue.hashCode(), duplicate.hashCode());
     }
 
     @Test
@@ -54,6 +59,8 @@ public class EqualityTest {
 	BoolValue differentBool = new BoolValue(!randombool);
 
 	assertEquals(originalBool, duplicateBool);
+	assertEquals(originalBool.hashCode(), duplicateBool.hashCode());
+
 	assertFalse(originalBool.equals(differentBool));
     }
     
@@ -65,6 +72,8 @@ public class EqualityTest {
 	StringValue differentString = new StringValue(randomstring + "Mutation");
 
 	assertEquals(originalString, duplicateString);
+	assertEquals(originalString.hashCode(), duplicateString.hashCode());
+
 	assertFalse(originalString.equals(differentString));
     }
 }
