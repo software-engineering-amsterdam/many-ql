@@ -14,6 +14,10 @@ public class NumberValue extends Value {
         this.value = new BigDecimal(value);
     }
 
+    public NumberValue(final Number value) {
+        this.value = new BigDecimal(value.toString());
+    }
+
     public NumberValue(final BigDecimal value) {
         this.value = value;
     }

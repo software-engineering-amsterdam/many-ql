@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.ui.widget;
+package nl.uva.softwcons.qls.ui.widget;
 
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import nl.uva.softwcons.ql.eval.ValueChangeListener;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.converter.ValueConverter;
+import nl.uva.softwcons.ql.ui.widget.Widget;
 
 public class RadioButtonWidget extends Widget {
 
