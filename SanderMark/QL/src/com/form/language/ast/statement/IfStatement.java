@@ -11,15 +11,14 @@ import com.form.language.issue.Error;
 import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
-//TODO :: Seperate ifstatementconditions and ifstatementthenstatement, kent beck / and rule 4: seperate collections of classes
 public class IfStatement extends Statement {
     private Expression conditions;
-    private List<Statement> thenStatements;
+    private StatementCollection thenStatements;
 
     public IfStatement(Expression conditions, List<Statement> thenStatements, QLToken tokenInfo) {
 	super(tokenInfo);
 	this.conditions = conditions;
-	this.thenStatements = thenStatements;
+	this.thenStatements = new StatementCollection(thenStatements);
     }
 
     @Override
