@@ -46,6 +46,8 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
             statement.accept(this).forEach(layout -> formLayout.add(layout));
         });
 
+        form.accept(evaluator);
+
         return formLayout;
     }
 
