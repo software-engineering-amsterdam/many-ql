@@ -30,15 +30,6 @@ public class Questionnaire extends AstNode {
 		return getAllQuestions().stream().anyMatch(question -> question.getName().equals(name));
 	}
 
-	public Question getQuestion(String name) {
-		for (Question question : getAllQuestions()) {
-			if (question.getName().equals(name)) {
-				return question;
-			}
-		}
-		throw new IllegalStateException("Question " + name + " should be in questionnaire");
-	}
-
 	public List<Statement> getStatements() {
 		return statements;
 	}
