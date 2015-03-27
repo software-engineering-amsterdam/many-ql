@@ -1,4 +1,4 @@
-package gui.widgets.listeners;
+package gui.listeners;
 
 import evaluator.ValueRepository;
 import gui.GUIRenderer;

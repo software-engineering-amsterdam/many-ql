@@ -1,13 +1,13 @@
 package gui;
 
 import evaluator.ValueRepository;
+import gui.listeners.Updater;
 import gui.questions.ComputedQuestionUI;
 import gui.questions.IQuestionUI;
 import gui.questions.IfElseQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
-import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
 

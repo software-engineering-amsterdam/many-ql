@@ -14,7 +14,7 @@ import ast.type.Type;
 import evaluator.IntegerValue;
 import evaluator.Value;
 import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
+import gui.listeners.EvaluateExpression;
 
 public class IntegerFieldWidget implements IWidgetComponent {
 

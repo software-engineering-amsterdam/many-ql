@@ -1,4 +1,4 @@
- package gui.widgets.listeners;
+ package gui.listeners;
 
 import ast.expression.Expression;
 import evaluator.BooleanValue;
