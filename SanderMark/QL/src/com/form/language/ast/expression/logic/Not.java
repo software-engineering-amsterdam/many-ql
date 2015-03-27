@@ -24,7 +24,7 @@ public class Not extends UnaryExpression  {
     @Override
     public Type getType(Context context) {
 	Type childType = value.getType(context);
-	if (childType.getType().isBoolType()) {
+	if (childType.isBoolType()) {
 	    return new BoolType();
 	} else {
 	    if (!childType.isErrorType()) {

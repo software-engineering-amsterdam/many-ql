@@ -6,11 +6,6 @@ import com.form.language.ast.values.UndefinedValue;
 public final class ErrorType extends Type {
 
     @Override
-    public Type getType() {
-	return this;
-    }
-
-    @Override
     public boolean isErrorType() {
 	return true;
     }
