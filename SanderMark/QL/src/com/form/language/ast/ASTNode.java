@@ -1,6 +1,6 @@
 package com.form.language.ast;
 
-import com.form.language.error.QLToken;
+import com.form.language.issue.QLToken;
 
 public abstract class ASTNode {
     protected QLToken tokenInfo;

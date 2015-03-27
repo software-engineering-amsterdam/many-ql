@@ -7,8 +7,8 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Division extends BinaryExpression {

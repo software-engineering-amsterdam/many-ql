@@ -1,7 +1,7 @@
 package com.form.language.ast.expression.literal;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.error.QLToken;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 import com.form.language.memory.IdCollection;
 

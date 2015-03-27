@@ -1,4 +1,4 @@
-package com.form.language.error;
+package com.form.language.issue;
 
 public class Error {
     private QLToken offendingToken;

@@ -3,9 +3,9 @@ package com.form.language.ast.statement;
 import javax.swing.JPanel;
 
 import com.form.language.ast.type.Type;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 //TODO :: Seperate each variable?

@@ -1,6 +1,6 @@
 package com.form.language.ast.expression;
 
-import com.form.language.error.QLToken;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.IdCollection;
 
 public abstract class UnaryExpression extends Expression {

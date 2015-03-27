@@ -5,9 +5,9 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 //TODO :: Seperate ifstatementconditions and ifstatementthenstatement, kent beck / and rule 4: seperate collections of classes

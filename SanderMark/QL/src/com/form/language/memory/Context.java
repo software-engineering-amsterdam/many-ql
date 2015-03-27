@@ -8,9 +8,9 @@ import com.form.language.ast.statement.Question;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.QuestionComponent;
+import com.form.language.issue.Error;
+import com.form.language.issue.ErrorCollector;
 
 public class Context {
     private IdValues memory;

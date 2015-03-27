@@ -3,7 +3,7 @@ package com.form.language.ast.expression.literal;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.QLToken;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class IntLiteral extends Literal {
