@@ -11,6 +11,7 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.issue.Error;
 import com.form.language.issue.IssueCollector;
+import com.form.language.issue.Warning;
 
 public class Context {
     private IdValues memory;
@@ -18,6 +19,7 @@ public class Context {
     private IdReferences idReferences;
     private IdCollection globalIdList;
     private IssueCollector errors;
+    private IssueCollector warnings;
     private IdDeclarations declarations;
     private Labels labels;
 
@@ -89,5 +91,13 @@ public class Context {
 
     public String getErrors() {
 	return errors.toString();
+    }
+    
+    public void addWarning(Warning e) {
+	this.warnings.add(e);
+    }
+
+    public String getWarnings() {
+	return warnings.toString();
     }
 }

@@ -4,8 +4,8 @@ import javax.swing.JPanel;
 
 import com.form.language.ast.type.Type;
 import com.form.language.gui.components.FormComponent;
-import com.form.language.issue.Error;
 import com.form.language.issue.QLToken;
+import com.form.language.issue.Warning;
 import com.form.language.memory.Context;
 
 //TODO :: Seperate each variable?
@@ -48,7 +48,7 @@ public class Question extends Statement {
 
     private void checkExistingLabels(Context context) {
 	if (context.containsLabel(questionLabel)) {
-	    context.addError(new Error(tokenInfo, "A question with this label already exists"));
+	    context.addWarning(new Warning(tokenInfo, "A question with this label already exists"));
 	}
     }
 
