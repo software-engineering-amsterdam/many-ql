@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 public class StaticComputedValueField extends AbstractStaticFormField {
 
@@ -10,7 +10,7 @@ public class StaticComputedValueField extends AbstractStaticFormField {
         return iQLRenderer.render(this);
     }
 
-    public StaticComputedValueField(String label, String variable, TypeDescriptor typeDescriptor) {
+    public StaticComputedValueField(String label, String variable, ITypeDescriptor typeDescriptor) {
         super(label, variable, typeDescriptor);
     }
 }

@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql.staticfieldscollector;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticComputedValueField;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
@@ -18,7 +18,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
-        final TypeDescriptor typeOfValue = getType(node);
+        final ITypeDescriptor typeOfValue = getType(node);
         final String label = getLabel(node);
         final String identifier = getIdentifier(node);
         addStaticField(new StaticQuestionField(label, identifier, typeOfValue));
@@ -26,7 +26,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
-        final TypeDescriptor typeOfValue = getType(node);
+        final ITypeDescriptor typeOfValue = getType(node);
         final String label = getLabel(node);
         final String identifier = getIdentifier(node);
         addStaticField(new StaticComputedValueField(label, identifier, typeOfValue));
@@ -53,7 +53,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
         return identifierInAst.getText();
     }
 
-    private TypeDescriptor getType(final AValueStmt node) {
+    private ITypeDescriptor getType(final AValueStmt node) {
         final PType nodeTypeObject = node.getType();
         nodeTypeObject.apply(pTypeCollector);
         return pTypeCollector.popType();
@@ -69,7 +69,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
         return identifierInAst.getText();
     }
 
-    private TypeDescriptor getType(final AQuestionStmt node) {
+    private ITypeDescriptor getType(final AQuestionStmt node) {
         final PType nodeTypeObject = node.getType();
         nodeTypeObject.apply(pTypeCollector);
         return pTypeCollector.popType();

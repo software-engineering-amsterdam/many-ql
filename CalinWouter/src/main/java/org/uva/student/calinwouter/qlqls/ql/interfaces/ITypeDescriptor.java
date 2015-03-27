@@ -1,10 +1,9 @@
 package org.uva.student.calinwouter.qlqls.ql.interfaces;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
-// TODO add I before name
-public interface TypeDescriptor {
+public interface ITypeDescriptor {
 
-    void callTypeMethod(TypeCallback typeCallback);
+    void callTypeMethod(ITypeCallback typeCallback);
 
     Value getDefaultValue();
 
