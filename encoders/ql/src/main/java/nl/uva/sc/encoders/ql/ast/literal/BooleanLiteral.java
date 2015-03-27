@@ -25,4 +25,9 @@ public class BooleanLiteral implements Literal {
 	public <T> T accept(LiteralVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 }
