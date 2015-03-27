@@ -33,7 +33,7 @@ form taxOfficeExample {
         yearContract >= temporaryContract 
   }
   
-  if((10 > 5) && (6 < 7) || (2 >= 2) && !((4 + 3) <= 6) && ((4 / 2) == 2) && (6 != 7) && ((4 * 2) == 8)) {
+  if((10 > 5) && (6 < 7) || (2 >= 2) && !((4 + 3) <= 6) && ((4 / 2) == 2) && (6 != 7) && ((4 * 2) == 8) && true && "this" != "that") {
       "How long do you have a contract?"
       yearContract: integer
   }
