@@ -2,6 +2,7 @@ package nl.uva.softwcons.qls.ast.stylesheet;
 
 import java.util.List;
 
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.segment.Page;
@@ -25,6 +26,10 @@ public class Stylesheet implements ASTNode {
 
     public <T> T accept(final StylesheetVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    public LineInfo getLineInfo() {
+        return id.getLineInfo();
     }
 
 }

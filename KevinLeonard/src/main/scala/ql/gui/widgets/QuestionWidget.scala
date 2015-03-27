@@ -72,5 +72,5 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
     case _ => false
   }
 
-  def isQuestionWithSameKey(updatedVariable: VariableName) = updatedVariable == q.variable.name
+  def isQuestionWithSameKey(updatedVariable: VariableName): Boolean = updatedVariable == q.variable.name
 }

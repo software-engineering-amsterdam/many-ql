@@ -1,4 +1,4 @@
-from typechecking import Message
+from .. import Message
 
 from .AbstractBase import AbstractBase
 
@@ -56,21 +56,31 @@ class Checker(AbstractBase):
         if not allowedEffectiveTypeExists:
 
             exprTypeString = self._parser.expressionTypeToken(exprType)
-            allowedString = ', '.join(map(
+            allowedTypesStrings = list(map(
                 lambda t: '`'+self._parser.expressionTypeToken(t)+'`',
                 allowedTypes
             ))
 
             self._result = self._resultAlgebra.withError(
                 self._result,
-                Message.Error(
-                    'got an expression of type `'+exprTypeString\
-                   +'` which is not castable to any of the '\
-                   +'following types which are allowed here '\
-                   +'here: '+allowedString,
-                   node
+                IncompatibleTypesError(
+                    exprTypeString,
+                    allowedTypesStrings,
+                    node.lineNumber
                 )
             )
+
+
+
+class IncompatibleTypesError(Message.Message):
+    def __init__(self, actualType, allowedTypes, lineNumber):
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Error(),
+            'got an expression of type `'+actualType+'` which is not '\
+           +'compatible with any of the following types which are '\
+           +'allowed here: '+', '.join(allowedTypes)
+        )
 
 
         
@@ -108,16 +118,14 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
         if self._typeOfLastSeenExpression is None:
             self._result = self._resultAlgebra.withError(
                 self._result,
-                Message.Error(
-                    'undeclared identifier '+str(node),
-                    node
+                UndeclaredIdentifierError(
+                    str(node), node.lineNumber
                 )
             )
 
 
     def visitString(self, node):
         self._typesOfSeenExpressions.append(QLTypes.QLString)
-
 
 
     def visitInteger(self, node):
@@ -149,10 +157,10 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
 
             self._result = self._resultAlgebra.withError(
                 self._result,
-                Message.Error(
-                    'invalid operands to unary operator `'+operatorToken\
-                   +'`: '+str(node.expression),
-                   node
+                InvalidOperandsError(
+                    operatorToken,
+                    [str(node.expression)],
+                    node.lineNumber
                 )
             )
 
@@ -178,12 +186,34 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
 
             self._result = self._resultAlgebra.withError(
                 self._result,
-                Message.Error(
-                    'invalid operands to binary operator `'+operatorToken\
-                   +'`: ('+str(node.left)+','+str(node.right)+')',
-                    node
+                InvalidOperandsError(
+                    operatorToken,
+                    [str(node.left), str(node.right)],
+                    node.lineNumber
                 )
             )
+
+
+
+class UndeclaredIdentifierError(Message.Message):
+    def __init__(self, identifier, lineNumber):
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Error(),
+            'undeclared identifier `'+identifier+'`'
+        ) 
+
+
+
+class InvalidOperandsError(Message.Message):
+    def __init__(self, operator, operands, lineNumber):
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Error(),
+            'invalid operand(s) to operator `'+operator+'`: '\
+           +', '.join(operands)
+        )
+
 
 
 def _castableTo(fromType):
@@ -196,6 +226,7 @@ def _castableTo(fromType):
         return castingSpec[fromType]
 
     return []
+
 
 
 def _effectiveTypes(actualType):

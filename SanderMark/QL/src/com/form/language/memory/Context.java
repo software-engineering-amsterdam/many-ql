@@ -4,65 +4,73 @@ import java.util.List;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.Reference;
+import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.QuestionComponent;
+import com.form.language.issue.Error;
+import com.form.language.issue.IssueCollector;
+import com.form.language.issue.Warning;
 
 public class Context {
-    private IdValues memory;
-    private ConditionalCollection ifConditions;
-    private IdReferences idReferences;
-    private IdCollection globalIdList;
-    private ErrorCollector errors;
-    private IdDeclarations declarations;
+    private QuestionDeclarations questionDeclarations;
+    private QuestionReferences questionReferences;
+    private QuestionLabels questionLabels;
+    private QuestionValues questionValues;
+    private IfDependencies ifConditions;
+    private IssueCollector errors;
+    private IssueCollector warnings;
 
     public Context() {
-	this.memory = new IdValues();
-	this.ifConditions = new ConditionalCollection();
-	this.idReferences = new IdReferences();
-	this.globalIdList = new IdCollection();
-	this.declarations = new IdDeclarations();
-	this.errors = new ErrorCollector();
+	this.questionValues = new QuestionValues();
+	this.ifConditions = new IfDependencies();
+	this.questionReferences = new QuestionReferences();
+	this.questionDeclarations = new QuestionDeclarations();
+	this.errors = new IssueCollector();
+	this.warnings = new IssueCollector();
+	this.questionLabels = new QuestionLabels();
     }
 
     public void addDependantQuestion(Expression condition, QuestionComponent question) {
-	this.ifConditions.add(condition, question);
+	ifConditions.add(condition, question);
     }
 
     public List<QuestionComponent> getDependantQuestions(Expression exp) {
-	return this.ifConditions.get(exp);
+	return ifConditions.get(exp);
     }
 
-    public void addReference(IdCollection references, Expression value) {
-	this.idReferences.putAll(references, value);
+    public void addReference(ReferenceCollection references, Expression value) {
+	questionReferences.putAll(references, value);
     }
 
     public List<Expression> getReferencingExpressions(String id) {
-	return idReferences.get(id);
+	return questionReferences.get(id);
     }
 
     public void setValue(String key, GenericValue value) {
-	this.memory.put(key, value);
+	questionValues.put(key, value);
     }
 
     public GenericValue getValue(String s) {
-	return this.memory.get(s);
+	return questionValues.get(s);
     }
 
-    public void addId(Question question) {
-	this.declarations.put(question.getId(),question);
+    public void addQuestion(Question question) {
+	questionDeclarations.put(question.getId(),question);
     }
 
-    public void addId(Reference id) {
-	this.globalIdList.addId(id);
+    public void addLabel(String s) {
+	questionLabels.add(s);
+    }
+    
+    public boolean containsLabel(String s){
+	return questionLabels.contains(s);
     }
     
     public Type getIdType(Reference id) {
-	Question declaration = this.declarations.get(id.getName());
+	Question declaration = questionDeclarations.get(id.getName());
 	if (declaration == null) {
 	    this.addError(new Error(id.getTokenInfo(), "Undeclared variable reference"));
 	    return new ErrorType();
@@ -70,15 +78,27 @@ public class Context {
 	return declaration.getType(this);
     }
 
-    public Boolean hasErrors() {
+    public boolean hasErrors() {
 	return !errors.isEmpty();
     }
-
+    
+    public boolean hasWarnings() {
+	return !warnings.isEmpty();
+    }
+    
     public void addError(Error e) {
-	this.errors.add(e);
+	errors.add(e);
     }
 
     public String getErrors() {
 	return errors.toString();
+    }
+    
+    public void addWarning(Warning e) {
+	warnings.add(e);
+    }
+
+    public String getWarnings() {
+	return warnings.toString();
     }
 }

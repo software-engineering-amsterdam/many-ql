@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
+import nl.uva.sc.encoders.ql.parser.QuestionnaireParser;
+import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 
 import org.junit.Before;
 import org.junit.Test;

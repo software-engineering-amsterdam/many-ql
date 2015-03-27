@@ -14,7 +14,7 @@ public class StringValue extends GenericValue {
 
     @Override
     public String toString() {
-	return "\"" + this.value + "\"";
+	return "\"" + value + "\"";
     }
     
     @Override
@@ -29,7 +29,7 @@ public class StringValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
     

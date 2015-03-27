@@ -5,10 +5,10 @@ class TypeChecker:
     def __init__(self, form, sheet):
         self._form = form
         self._sheet = sheet
-        self._sheet_ids = sheet.get_ids()
+        self._sheet_ids = sheet.ids()
         self._sheet_property_names = sheet.get_property_names()
-        self._form_type_dict = form.get_type_dict()
-        self._form_ids = form.get_ids()
+        self._form_type_dict = form.id_type_map()
+        self._form_ids = form.ids()
 
     def is_valid(self):
         valid = True

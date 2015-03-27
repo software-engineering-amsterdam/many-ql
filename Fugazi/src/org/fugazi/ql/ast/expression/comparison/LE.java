@@ -8,6 +8,7 @@ import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LE extends Comparison {
@@ -26,9 +27,9 @@ public class LE extends Comparison {
     }
 
     public List<Type> getSupportedTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new IntType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(new IntType())
+        );
         return supportedTypes;
     }
 

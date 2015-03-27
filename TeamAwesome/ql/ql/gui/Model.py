@@ -30,15 +30,13 @@ class QuestionModel(object):
     @property
     def value(self):
         qlVal = self._evaluator.getValue(self._identifier)
-        if qlVal != None:
-            return qlVal.value
-        return None
+        return qlVal.value
 
     def updateValue(self, value):
         try:
             value = self.type(value)
         except (ValueError, decimal.InvalidOperation): 
             return False
-
+        
         self._evaluator.addValue(self._identifier, value)
         return True

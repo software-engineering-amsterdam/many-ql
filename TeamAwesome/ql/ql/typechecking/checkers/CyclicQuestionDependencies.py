@@ -1,4 +1,4 @@
-from typechecking import Message
+from .. import Message
 
 from .AbstractBase import AbstractBase
 
@@ -14,15 +14,7 @@ class Checker(AbstractBase):
             if chain[-1] in chain[:-1]:
                 self._result = self._resultAlgebra.withError(
                     self._result,
-                    Message.Error(
-                        'there is a question dependency cycle: '\
-                       +' <- '.join([str(q.identifier) for q in chain])\
-                       +'. It means the calculation of the answer '\
-                       +'requires its own result as input. This is '\
-                       +'incalculable. Please double check the '\
-                       +'definitions of the questions.',
-                        node.expression
-                    )
+                    CycleError(chain, node.expression.lineNumber)
                 )
 
     def _questionDependencyChains(self, breadcrumbs, node):
@@ -51,6 +43,24 @@ class Checker(AbstractBase):
         visitor = ExtractIdentifiersVisitor()
         expression.accept(visitor)
         return visitor.identifiers
+
+
+
+class CycleError(Message.Message):
+    def __init__(self, cycle, lineNumber):
+        text = 'there is a question dependency cycle: '\
+           +' <- '.join([str(q.identifier) for q in cycle])\
+           +'. It means the calculation of the answer '\
+           +'requires its own result as input. This is '\
+           +'incalculable. Please double check the '\
+           +'definitions of the questions.'
+
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Error(),
+            text
+        )
+
 
 
 class ExtractIdentifiersVisitor(ExpressionVisitor):

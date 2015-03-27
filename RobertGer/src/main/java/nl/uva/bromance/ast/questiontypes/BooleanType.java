@@ -1,20 +1,28 @@
 package nl.uva.bromance.ast.questiontypes;
 
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
 import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Robert on 9-3-2015.
  */
 public class BooleanType implements QuestionType {
+
+    private final Question q;
+    private CheckBox checkBox;
+    private Label label;
+
+    public BooleanType(Question question) {
+        this.q = question;
+    }
+
     @Override
     public String getTypeString() {
         return "boolean";
@@ -26,30 +34,45 @@ public class BooleanType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
+    public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+        label = new Label(q.getQuestionString());
+        label.getStyleClass().add("prettyLabel");
+        parent.getChildren().add(label);
 
-        CheckBox cb = new CheckBox();
-        String id = q.getIdentifier().get().getId();
+        checkBox = new CheckBox();
+        String id = q.getIdentifier().getId();
 
         BooleanResult answer = (BooleanResult) answerMap.get(id);
         if (answer != null) {
             if (answer.getResult() == true) {
-                cb.setSelected(true);
+                checkBox.setSelected(true);
             }
         }
-        if (visualizer.getFocusId() == q.hashCode()){
-            visualizer.setFocusedNode(cb);
+        if (visualizer.getFocusId() == q.hashCode()) {
+            visualizer.setFocusedNode(checkBox);
         }
 
-        cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == true){
-                answerMap.put(id,new BooleanResult(true));
+        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == true) {
+                answerMap.put(id, new BooleanResult(true));
             } else {
-                answerMap.put(id,new BooleanResult(false));
+                answerMap.put(id, new BooleanResult(false));
             }
-            visualizer.visualize(q.hashCode());
+            visualizer.refresh(q);
         });
-        parent.getChildren().add(cb);
+        parent.getChildren().add(checkBox);
+
+        setVisbilityOfComponents();
+    }
+
+    @Override
+    public void refresh() {
+        setVisbilityOfComponents();
+    }
+
+    private void setVisbilityOfComponents() {
+        checkBox.setVisible(q.isVisible());
+        label.setVisible(q.isVisible());
     }
 
 }

@@ -1,15 +1,18 @@
 import unittest
 
-# import folders
+# import modules
 from QL.AST.Statements import *
 from QL.AST.Expressions.Primitives import *
-from QL.AST.Expressions.Operations import *
+from QL.AST.Expressions.Operations.Arithmetic import *
+from QL.AST.Expressions.Operations.Compare import *
+from QL.AST.Expressions.Operations.Logical import *
+from QL.AST.Expressions.Types import *
+
 
 # import files
 import QL.AST.form as f
-import QL.Grammar.Factory.expressions as ef
+import QL.Grammar.Factory.expression as ef
 import QL.Grammar.grammar as fg
-import QL.Grammar.constants as c
 
 
 class GenerateStatements:
@@ -61,7 +64,7 @@ class Tests(unittest.TestCase):
         result = (fg.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], question.Question)
         self.assertEqual(result[0].get_id(), "why")
-        self.assertEqual(result[0].get_type_string(), c.TEXT)
+        self.assertEqual(result[0].get_type(), text_type.Text())
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 
     def test_ast_if(self):
@@ -72,13 +75,13 @@ class Tests(unittest.TestCase):
         self.assertIsInstance(result[0], if_statement.IfBlock)
 
         # Get all the ids
-        self.assertEqual(result[0].id_collection(), ["trans", "two"])
+        self.assertEqual(result[0].ids(), ["trans", "two"])
 
         # Get the labels
-        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
+        self.assertEqual(result[0].labels(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the _dependencies
-        self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
+        self.assertEqual(result[0].dependencies({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_ast_if_fail(self):
@@ -98,16 +101,16 @@ class Tests(unittest.TestCase):
         form = GenerateStatements.generate_statements()
 
         # The _form has 6 questions, and therefore 6 labels
-        self.assertEqual(len(form.get_labels()), 6)
+        self.assertEqual(len(form.labels()), 6)
 
         # The _form has 6 questions, and therefore 6 ids
-        self.assertEqual(len(form.get_ids()), 6)
+        self.assertEqual(len(form.ids()), 6)
 
     def test_ast_dependencies(self):
         form = GenerateStatements.generate_statements()
 
         # The transitive _dependencies of _statements
-        self.assertEqual(form.get_dependencies(),
+        self.assertEqual(form.dependencies(),
                          {"1a": set(),
                           "2a": {"1a"},
                           "3a": {"1a"},

@@ -36,4 +36,9 @@ public class ConditionalBlock extends Statement {
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return condition.toString();
+	}
 }

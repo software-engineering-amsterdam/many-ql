@@ -31,6 +31,7 @@ class QuestionValueTable(object):
             return self._expressionTable[question].value
         return self._valueTable.get(question, None)
 
+
 class QuestionTable(object):
     def __init__(self):
         self._table = OrderedDict()
@@ -62,13 +63,14 @@ class QuestionTable(object):
     def getQuestionList(self, identifier):
         return self._table.get(identifier, None)
 
+
 class ExpressionsTuple(tuple):
     def __add__(self, value):
         return ExpressionsTuple(tuple.__add__(self, value))
 
     @property
     def value(self):
-        return all(expr.value for expr in self)
+        return all(expr.value.value for expr in self)
 
 class ExpressionsList(list):
     def __add__(self, value):
@@ -76,7 +78,7 @@ class ExpressionsList(list):
 
     @property
     def value(self):
-        return all(expr.value for expr in self)
+        return all(expr.value.value for expr in self)
 
     def copy(self):
         return ExpressionsList(self)

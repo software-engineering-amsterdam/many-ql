@@ -16,7 +16,7 @@ class Section(e.SheetElement):
     def get_ids(self):
         ids = []
         for q in self._question_styles:
-            ids += q.get_ids()
+            ids += q.ids()
         return ids
 
     def get_widget_dict(self):

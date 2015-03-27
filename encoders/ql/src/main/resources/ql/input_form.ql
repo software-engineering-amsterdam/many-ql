@@ -22,6 +22,7 @@ form taxOfficeExample {
         (sellingPrice - privateDebt * ( percentage - commissioning ) )
   }
   
+  
   if (hasContract && hasSoldHouse) {
     "How long do you have a contract?"
       yearContract: integer
@@ -30,6 +31,11 @@ form taxOfficeExample {
     "Employer followed rules according CAO:"
       rulesFollowed: boolean =
         yearContract >= temporaryContract 
+  }
+  
+  if((10 > 5) && (6 < 7) || (2 >= 2) && !((4 + 3) <= 6) && ((4 / 2) == 2) && (6 != 7) && ((4 * 2) == 8)) {
+      "How long do you have a contract?"
+      yearContract: integer
   }
 
 }

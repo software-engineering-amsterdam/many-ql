@@ -3,16 +3,17 @@ package nl.uva.sc.encoders.qls.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.uva.sc.encoders.ql.ast.AstNodeWithLocation;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 
-public class Section extends AstNodeWithLocation {
+public class Section extends AstNode {
 
 	private final String name;
 
 	private List<String> questionNames = new ArrayList<>();
 
 	private List<Section> subSections = new ArrayList<>();
+
+	private List<Widget> sectionDefaults = new ArrayList<>();
 
 	public Section(TextLocation textLocation, String name) {
 		super(textLocation);
@@ -37,6 +38,10 @@ public class Section extends AstNodeWithLocation {
 
 	public void addSubSection(Section subSection) {
 		subSections.add(subSection);
+	}
+
+	public void addSectionDefault(Widget sectionDefault) {
+		sectionDefaults.add(sectionDefault);
 	}
 
 }

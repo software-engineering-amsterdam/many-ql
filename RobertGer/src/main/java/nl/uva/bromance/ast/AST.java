@@ -14,9 +14,6 @@ public class AST<NODETYPE extends Node<NODETYPE>> {
         this.root = root;
     }
 
-    public void printDebug() {
-        root.printDebug();
-    }
 
     public NODETYPE getRoot() {
         return root;

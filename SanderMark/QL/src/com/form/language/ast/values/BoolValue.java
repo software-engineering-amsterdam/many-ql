@@ -14,7 +14,7 @@ public class BoolValue extends GenericValue {
 
     @Override
     public String toString() {
-	return new Boolean(value).toString();
+	return Boolean.toString(value);
 
     }
 
@@ -30,7 +30,7 @@ public class BoolValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
 

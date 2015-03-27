@@ -1,15 +1,15 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import nl.uva.bromance.ast.conditionals.*;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
-import nl.uva.bromance.typechecking.ReferenceMap;
-import nl.uva.bromance.typechecking.TypeCheckingException;
-import nl.uva.bromance.visualization.Visualizer;
+import nl.uva.bromance.ast.conditionals.CanContainConditionals;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Form extends QLNode implements CanContainConditionals {
     private String identifier;
@@ -19,45 +19,12 @@ public class Form extends QLNode implements CanContainConditionals {
     private ElseStatement elseStatement;
 
     public Form(int lineNumber, String id) {
-        super(lineNumber, Form.class);
-        if (id != null) {
-            // Remove double quotes around the identifier
-            this.identifier = id.substring(1, id.length() - 1);
-        } else {
-            //TODO: Consider putting this in the type checker.
-            System.err.println("Form Error: No identifier specified");
-        }
+        super(lineNumber);
+        this.identifier = id.substring(1, id.length() - 1);
     }
 
-    @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Form] { Name : " + this.identifier + " }\n");
-        for (QLNode n : getChildren()) {
-            n.printDebug(i + 1);
-        }
-
-    }
-
-    @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-
-        Optional<? extends Pane> newParent = Optional.of(new VBox());
-        Label label = new Label(this.identifier);
-        label.getStyleClass().add("formHeader");
-        newParent.get().getChildren().add(label);
-        // Commented out for future usage when generating CSS
-        //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
-        newParent.get().getStyleClass().add("form");
-        parent.getChildren().add(newParent.get());
-
-        return newParent;
-    }
-
-    public Optional<String> getIdentifier() {
-        return Optional.of(identifier);
+    public String getIdentifier() {
+        return identifier;
     }
 
     //TODO: Create Identifier class.
@@ -89,10 +56,11 @@ public class Form extends QLNode implements CanContainConditionals {
     public void setElseStatement(ElseStatement es) {
         elseStatement = es;
     }
+
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

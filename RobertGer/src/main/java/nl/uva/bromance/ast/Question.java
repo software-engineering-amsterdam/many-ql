@@ -1,24 +1,21 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.HasIdentifier;
-import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
-import nl.uva.bromance.typechecking.ReferenceMap;
-import nl.uva.bromance.typechecking.TypeCheckingException;
-import nl.uva.bromance.visualization.Visualizer;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
-    private static final QuestionType[] questionTypes = {new IntegerType(), new StringType(), new BooleanType(), new CustomType()};
+    private final QuestionType[] questionTypes = {new IntegerType(this), new StringType(this), new BooleanType(this), new CustomType(this)};
 
     private Identifier identifier;
     private String questionString;
@@ -28,12 +25,12 @@ public class Question extends QLNode implements HasIdentifier {
 
     //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
-        super(lineNumber, Question.class);
+        super(lineNumber);
         this.identifier = identifier;
     }
 
-    public Optional<Identifier> getIdentifier() {
-        return Optional.ofNullable(identifier);
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
     public String getQuestionString() {
@@ -67,31 +64,7 @@ public class Question extends QLNode implements HasIdentifier {
     }
 
     @Override
-    public void printDebug(int i) {
-        for (int j = 0; j < i; j++) {
-            System.out.print("\t");
-        }
-        System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
-        for (QLNode n : getChildren()) {
-            n.printDebug(i + 1);
-        }
-
-    }
-
-    @Override
-    public Optional<? extends Pane> visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        if (isVisible) {
-            Label l = new Label(questionString);
-            l.getStyleClass().add("prettyLabel");
-            parent.getChildren().add(l);
-            // Add the actual input field
-            questionType.addQuestionToPane(parent, multipleChoiceOptions, answerMap, visualizer, this);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public void isVisible(boolean visible) {
+    public void setVisible(boolean visible) {
         this.isVisible = visible;
     }
 
@@ -117,11 +90,23 @@ public class Question extends QLNode implements HasIdentifier {
 
     //Duplication in all Nodes
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QlNodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public List<StringResult> getMultipleChoicesOptions() {
+        return multipleChoiceOptions;
     }
 }
 

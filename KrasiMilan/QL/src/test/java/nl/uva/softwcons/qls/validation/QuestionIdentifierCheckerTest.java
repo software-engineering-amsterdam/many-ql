@@ -85,6 +85,7 @@ public class QuestionIdentifierCheckerTest {
     @Test
     public void testAllErrorsPresent() {
         List<Error> errors = getQuestionIdentifierErrors("page page1 { question q8 question q8}");
+
         assertThat(errors).hasSize(4);
         assertThat(errors.get(0)).isExactlyInstanceOf(UnknownQuestionIdentifier.class);
         assertThat(errors.get(1)).isExactlyInstanceOf(UnknownQuestionIdentifier.class);
@@ -111,16 +112,15 @@ public class QuestionIdentifierCheckerTest {
         final String question1 = "q1: \"Label 1\" boolean";
         final String question2 = "q2: \"Label 2\" boolean";
         final String conditional1 = "if (q1) { q3: \"Label 1\" boolean(q1) }";
+
         return Questionnaire.build(TestHelper.buildForm("form1", question1, question2, conditional1));
     }
 
     private static List<Error> getQuestionIdentifierErrors(final String... stylesheetContents) {
         final Stylesheet stylesheet = StylesheetBuilder.build(TestHelper.buildStylesheet("stylesheet1",
                 stylesheetContents));
-        final QuestionIdentifierChecker checker = new QuestionIdentifierChecker(getForm());
-        stylesheet.accept(checker);
 
-        return checker.getErrors();
+        return QuestionIdentifierChecker.check(stylesheet, getForm());
 
     }
 

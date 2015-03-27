@@ -1,10 +1,6 @@
-import ql.ast.Type
-import qls.ast.StyleProperty
+import qls.ast.DefaultWidget
 
 package object qlsTypes {
 
-  type DefaultWidgetStyleProperties = Map[String, List[StyleProperty]]
-
-  type StyleEnvironment = Map[Type, DefaultWidgetStyleProperties]
-
+  type StyleEnvironment = List[DefaultWidget]
 }

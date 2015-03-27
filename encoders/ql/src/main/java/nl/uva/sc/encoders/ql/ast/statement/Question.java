@@ -59,8 +59,4 @@ public class Question extends Statement {
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public boolean hasName(String name) {
-		return this.name.equals(name);
-	}
 }

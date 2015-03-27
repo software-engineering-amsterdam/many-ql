@@ -1,102 +1,90 @@
 import tkinter as tk
 import QL.Tools.converters as converters
-import QL.Runtime.mapper as mapper
-import QL.Tools.exceptions as exc
-import QL.Runtime.question as runtime_q
-import QL.AST.Statements.assignment as ast_assign
+import QL.Runtime.answers_map as answers_map
+import QL.Runtime.assignment as ast_assign
 import QL.Runtime.form as enriched_form
 from QL.GUI.Elements import *
 
 
 class GUI:
-    def __init__(self, form):
-        assert isinstance(form, enriched_form.Form), "the input is not of type Form"
+    # TODO: maybe separate one time methods from update methods for more clearness?
+    def __init__(self, runtime_form):
+        assert isinstance(runtime_form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
-        self.__form = form
-        self.__questions = self.__form.get_questions()
-        self.__dependencies = self.__form.ast.get_dependencies()
-        self.__answersMap = mapper.Mapper()
-        self.__assignments = self.__form.get_assignments()
-        print(self.__dependencies)
-        print(self.__form.get_statement_dict())
+        self.__form = runtime_form
+        self.__questions = self.__form.questions()
+        self.__dependencies = self.__form._form_ast.dependencies()
+        self.__answersMap = answers_map.AnswersMap()
 
+    # TODO: I think it is cleaner to call this from the constructor instead of from main
     def generate_gui(self):
-        print("_" * 50)
+        print("_" * 50)  # for debugging purposes
         self.create_title()
-        windowFrame = tk.Frame(self.qGui)
-        #introduction
-        intro_element = self.intro_label(windowFrame)
+        window_frame = tk.Frame(self.qGui)
+
+        intro_element = self.intro_label(window_frame)
         intro_element.grid(row=0, column=0, sticky=tk.W)
-        self.draw_questions(self.__questions, windowFrame)
-        self.map_assignments()
-        tk.Button(windowFrame, text="Submit", width=10, command=lambda: converters.export_answers(self.__answersMap, self)
+
+        # self.__update_assignments_ref()
+        self.draw_questions(self.__questions, window_frame)
+        tk.Button(window_frame, text="Submit", width=10,
+                  command=lambda: converters.export_answers(self.__answersMap, self)
                   ).grid(row=999, column=0)
 
-        windowFrame.pack(side="top", fill="both", expand=True)
+        window_frame.pack(side="top", fill="both", expand=True)
 
     def create_title(self):
-        self.qGui.title(self.__form.ast.get_name())
+        self.qGui.title(self.__form.name())
 
     def intro_label(self, frame):
-        l = label.Label(self.__form.ast.get_introduction(), frame)
+        l = label.Label(self.__form.introduction(), frame)
         intro_row = l.get_row()
         return intro_row[0]
-
-    def map_assignments(self):
-        for ass in self.__assignments:
-            self.__answersMap.update(ass.get_id(), None)
 
     def draw_questions(self, questions, content_frame):
         for question in questions:
             self.draw_question(question, content_frame)
 
     def draw_question(self, question, content_frame):
-        self.__answersMap.update(question.ast.get_id(), None)
+        # self.__answersMap.update(question.ast.ids()[0], None)
         question.set_gui_element(self, content_frame)
         elements = question.get_gui_element()
-        # don't print anything if has no elements (expression_factory.g. assignment)
-        if elements is None:
-            return False
+        if elements is None:  # assignment
+            return None
 
         # check if condition holds
         condition = question.get_condition()
         if condition and not condition.eval_expression(self.__answersMap):
-            return False
+            return None
 
-        colspan = 1
-        if len(elements) is 2:
-            colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
+            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
 
+    # called from the widgets when they receive new answers, or when assignment is changed
+    # TODO: Mmm, took me a while to realize that this one is called from the elements.. any idea how to make it more clear?
     def update(self, question, new_answer):
-        self.__answersMap.update(question.ast.get_id(), new_answer)
-        self.__update_assignments_ref()
+        self.__answersMap.update(question.ast.ids()[0], new_answer)
+
+        # For every element which has the changing answer as dependency, update it
         for qid in self.__dependencies:
-            if question.ast.get_id() in self.__dependencies[qid]:
+            if question.ast.ids()[0] in self.__dependencies[qid]:
                 self.elements_recreate(qid)
 
-    def __update_assignments_ref(self):
-        for assignment in self.__assignments:
-            ass_id = assignment.get_id()
-            ass = assignment.get_expression()
-            print(ass_id)
-            print(ass)
-            answer = None  # TODO (BAS) : function that gets assignment -> eval -> returns value (or if not implemented = None)
-            self.__answersMap.update(ass_id, answer)
+    def update_assignment(self, assignment):
+        answer = assignment.evaluate_expression(self.__answersMap)
+        self.update(assignment, answer)
 
     def elements_recreate(self, qid):
         statements_dict = self.__form.get_statement_dict()
         question = statements_dict[qid]
 
         if isinstance(question, ast_assign.Assignment):
-            return None
+            self.update_assignment(question)
 
         row_elements = question.get_gui_element()
         if row_elements is None:
             return None
         for e in row_elements:
-            # print(expression_factory.grid_info())
             e.destroy()
 
         self.draw_question(question, question.get_gui_element_frame())

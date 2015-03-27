@@ -4,7 +4,7 @@ form taxOfficeExample {
     boolean
   }
 
-  if !hasSoldHouse {
+  if hasSoldHouse {
     question hasBoughtHouse {
       "Did you buy a house1"
       boolean = false

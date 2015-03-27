@@ -1,5 +1,4 @@
 import sys, argparse, glob
-sys.path.append('../lib')
 
 from ql.parser.ANTLR import Parser
 from ql.evaluator.evaluator import createEvaluator

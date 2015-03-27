@@ -1,15 +1,15 @@
 package nl.uva.softwcons.ql.eval.value;
 
 public class StringValue extends Value {
-    private final String stringValue;
+    private final String value;
 
     public StringValue(final String value) {
-        this.stringValue = value;
+        this.value = value;
     }
 
     @Override
     public String getString() {
-        return stringValue;
+        return value;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isEqualString(final Value otherValue) {
-        return new BooleanValue(this.stringValue.equals(otherValue.getString()));
+        return new BooleanValue(this.value.equals(otherValue.getString()));
     }
 
 }

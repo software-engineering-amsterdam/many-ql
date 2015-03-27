@@ -5,21 +5,23 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.BracedExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
+import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
 import nl.uva.sc.encoders.ql.ast.expression.NameExpression;
 import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
-import nl.uva.sc.encoders.ql.ast.expression.literal.BooleanLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.IntegerLiteral;
-import nl.uva.sc.encoders.ql.ast.expression.literal.StringLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.BooleanLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.IntegerLiteral;
+import nl.uva.sc.encoders.ql.ast.literal.StringLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
 import nl.uva.sc.encoders.ql.ast.operator.UnaryOperator;
 import nl.uva.sc.encoders.ql.visitor.ExpressionVisitor;
+import nl.uva.sc.encoders.ql.visitor.LiteralVisitor;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
 import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
 import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 import nl.uva.sc.encoders.qlruntime.model.value.Value;
 
-public class ExpressionEvaluator implements ExpressionVisitor<Value> {
+public class ExpressionEvaluator implements ExpressionVisitor<Value>, LiteralVisitor<Value> {
 
 	private final List<RuntimeQuestion> questions;
 
@@ -72,5 +74,10 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 	@Override
 	public Value visit(StringLiteral stringLiteral) {
 		return new StringValue(stringLiteral.getValue());
+	}
+
+	@Override
+	public Value visit(LiteralExpression literalExpression) {
+		return literalExpression.getLiteral().accept(this);
 	}
 }

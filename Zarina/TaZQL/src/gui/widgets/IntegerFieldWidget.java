@@ -1,13 +1,20 @@
 package gui.widgets;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import ast.type.Type;
+import evaluator.IntegerValue;
 import evaluator.Value;
 import evaluator.ValueRepository;
-import gui.widgets.listeners.EvaluateExpression;
-import gui.widgets.listeners.IntegerListener;
+import gui.listeners.EvaluateExpression;
 
 public class IntegerFieldWidget implements IWidgetComponent {
 
@@ -15,6 +22,7 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	private final Type variableType;
 	private JTextField widget;
 	private final ValueRepository valueRepository;
+	private IntegerValue value;
 			
 	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
@@ -39,19 +47,27 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void setValue(String value) {
-		value = valueRepository.getValue(id).toString(); 
+	public void setValue(Value value) {
+		this.value = (IntegerValue) value;
+		int computation = (Integer) value.getValue();
+		
+		widget.setText(String.valueOf(computation));
+		setDefaultBorder();
 	}
 
 	@Override
-	public String getValue() {
-		return  widget.getText(); 
+	public IntegerValue getValue() {
+		String insertedValue = widget.getText().trim();
+		String regexDigits ="[-+]?\\d+(\\.\\d+)?";
+		
+		if (!insertedValue.isEmpty() && insertedValue.matches(regexDigits)) {
+			setDefaultBorder();
+			return new IntegerValue(Integer.valueOf(insertedValue));
+		}
+		setWarningBorder();
+		return new IntegerValue(0); 
 	}
-
-	@Override
-	public void setText(Value value) {
-		widget.setText( value.toString()); 
-	}
+	
 	
 	@Override
 	public void setEnabled(boolean isEnabled) {
@@ -59,23 +75,42 @@ public class IntegerFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener(EvaluateExpression evaluator) {
-		widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
-	}
-	
-	@Override
-	public boolean getBooleanValue() {
-		assert false: "Only for a checkbox";
-		return false;
-	}
+	public void addDocListener(final EvaluateExpression evaluator) {
+		//widget.getDocument().addDocumentListener(new IntegerListener(this, evaluator));
+		widget.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());
+				evaluator.setValueInGUI();
+			}
 
-	@Override
-	public void setBooleanValue(boolean value) {
-		assert false: "Only for a checkbox, can't be used for digits.";
-	}
+			public void insertUpdate(DocumentEvent arg0) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						evaluator.setValue(getIdWidget().toString(), getValue());
+						evaluator.setValueInGUI();
+					}
+				});
+			}
+			
+			public void removeUpdate(DocumentEvent arg0) {
+				evaluator.setValue(getIdWidget().toString(), getValue());
+			}
+		});
+	}	
 	
 	@Override
 	public void setVisible(boolean visibility) {
 		widget.setVisible(visibility);
+	}
+	
+	private void setWarningBorder() {
+		Border warningBorder = BorderFactory.createLineBorder(Color.RED, 1);
+		widget.setBorder(warningBorder);
+	}
+	
+	private void setDefaultBorder() {
+		Border defaultBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
+		widget.setBorder(defaultBorder);
 	}
 }

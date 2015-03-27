@@ -7,7 +7,7 @@ stylesheet taxOfficeExample
     page Private {
       section "Data" {
           question name
-              widget text
+              widget textbox
           question age
               widget spinbox
       }
@@ -16,12 +16,12 @@ stylesheet taxOfficeExample
   page Selling {
     section "Selling" {
       question hasSoldHouse
-        widget spinbox
+        widget spinbox              // 1. incompatible
       section "You sold a house" {
         question sellingPrice
-          widget checkbox
+          widget checkbox           // 2. incompatible
         question privateDebt
-          widget checkbox
+          widget checkbox           // 3. incompatible
         question valueResidue
         default int {
           width: 400
@@ -32,5 +32,5 @@ stylesheet taxOfficeExample
         }
       }
     }
-    default bool widget spinbox
+    default bool widget spinbox     // incompatible for the derived ones
   }

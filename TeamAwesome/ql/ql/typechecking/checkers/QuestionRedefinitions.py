@@ -1,4 +1,4 @@
-from typechecking import Message
+from .. import Message
 
 from .AbstractBase import AbstractBase
 
@@ -19,11 +19,22 @@ class Checker(AbstractBase):
 
             self._result = self._resultAlgebra.withError(
                 self._result,
-                Message.Error(
-                    'Duplicate definition of question `'\
-                   +str(node.identifier)+'` with different type `'\
-                   +myTypeString+'` (expected type `'\
-                   +expectedTypeString+'`)',
-                    node
+                RedefinitionError(
+                    str(node.identifier),
+                    myTypeString,
+                    expectedTypeString,
+                    node.lineNumber
                 )
             )
+
+
+
+class RedefinitionError(Message.Message):
+    def __init__(self, identifier, actualType, expectedType, lineNumber):
+        super().__init__(
+            Message.Local(lineNumber),
+            Message.Error(),
+            'duplicate definition of question `'+identifier+'` with '\
+           +'different type `'+actualType+'` (expected type `'\
+           +expectedType+'`)'
+        )
