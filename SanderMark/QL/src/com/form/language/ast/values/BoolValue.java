@@ -14,7 +14,7 @@ public class BoolValue extends GenericValue {
 
     @Override
     public String toString() {
-	return new Boolean(value).toString();
+	return Boolean.toString(value);
 
     }
 

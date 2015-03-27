@@ -14,7 +14,7 @@ public class IntValue extends GenericValue {
 
     @Override
     public String toString() {
-	return new Integer(value).toString();
+	return Integer.toString(value);
 
     }
 
