@@ -8,16 +8,16 @@ import java.util.Map;
 import com.form.language.ast.expression.Expression;
 import com.form.language.gui.components.QuestionComponent;
 
-public class QuestionDependencies {
+public class IfDependencies {
     private Map<Expression, List<QuestionComponent>> ifConditions;
 
-    public QuestionDependencies() {
+    public IfDependencies() {
 	this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();
     }
 
     public List<QuestionComponent> get(Expression condition) {
-	if (this.ifConditions.containsKey(condition)) {
-	    return this.ifConditions.get(condition);
+	if (ifConditions.containsKey(condition)) {
+	    return ifConditions.get(condition);
 	} else {
 	    return new ArrayList<QuestionComponent>();
 	}
@@ -26,6 +26,6 @@ public class QuestionDependencies {
     public void add(Expression key, QuestionComponent value) {
 	List<QuestionComponent> tempList = this.get(key);
 	tempList.add(value);
-	this.ifConditions.put(key, tempList);
+	ifConditions.put(key, tempList);
     }
 }

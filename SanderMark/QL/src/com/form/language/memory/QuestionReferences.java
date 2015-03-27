@@ -7,11 +7,12 @@ import java.util.Map;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.Reference;
+import com.form.language.ast.expression.variable.ReferenceCollection;
 
-public class IdReferences {
+public class QuestionReferences {
     private Map<String, List<Expression>> referenceMap;
 
-    public IdReferences() {
+    public QuestionReferences() {
 	this.referenceMap = new HashMap<String, List<Expression>>();
     }
 
@@ -27,7 +28,7 @@ public class IdReferences {
 	referenceMap.put(idName, dependencies);
     }
 
-    public void putAll(IdCollection keyCollection, Expression value) {
+    public void putAll(ReferenceCollection keyCollection, Expression value) {
 	for(Reference l : keyCollection){
 	    
 		List<Expression> tempList;

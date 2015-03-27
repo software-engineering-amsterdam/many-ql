@@ -1,7 +1,7 @@
 package com.form.language.ast.expression;
 
+import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.issue.QLToken;
-import com.form.language.memory.IdCollection;
 
 public abstract class BinaryExpression extends Expression {
     protected Expression left;
@@ -14,8 +14,8 @@ public abstract class BinaryExpression extends Expression {
     }
 
     @Override
-    public void collectIds(IdCollection idCollection) {
-	left.collectIds(idCollection);
-	right.collectIds(idCollection);
+    public void collectIds(ReferenceCollection referenceCollection) {
+	left.collectIds(referenceCollection);
+	right.collectIds(referenceCollection);
     }
 }

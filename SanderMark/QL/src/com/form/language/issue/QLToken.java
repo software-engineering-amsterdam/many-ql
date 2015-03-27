@@ -11,10 +11,10 @@ public class QLToken {
     }
 
     public int getLine(){
-	return this.lineNumber;
+	return lineNumber;
     }
     
     public int getCharPositionInLine(){
-	return this.colNumber;
+	return colNumber;
     }
 }

@@ -1,16 +1,14 @@
-package com.form.language.memory;
+package com.form.language.ast.expression.variable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.form.language.ast.expression.variable.Reference;
-
-public class IdCollection implements Iterable<Reference>{
+public class ReferenceCollection implements Iterable<Reference>{
 
     private List<Reference> ids;
 
-    public IdCollection() {
+    public ReferenceCollection() {
 	ids = new ArrayList<Reference>();
     }
 
@@ -18,17 +16,8 @@ public class IdCollection implements Iterable<Reference>{
 	ids.add(reference);
     }
 
-    public int showMemory() {
-	return this.ids.size();
-    }
-
     public boolean containsId(String id) {
-	for (Reference i : this.ids) {
-	    if (i.getName().equals(id)) {
-		return true;
-	    }
-	}
-	return false;
+	return ids.contains(id);
     }
 
     public Iterator<Reference> iterator() {

@@ -1,7 +1,7 @@
 package com.form.language.ast.expression;
 
+import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.issue.QLToken;
-import com.form.language.memory.IdCollection;
 
 public abstract class UnaryExpression extends Expression {
     protected Expression value;
@@ -12,7 +12,7 @@ public abstract class UnaryExpression extends Expression {
     }
 
     @Override
-    public void collectIds(IdCollection idCollection) {
-	value.collectIds(idCollection);
+    public void collectIds(ReferenceCollection referenceCollection) {
+	value.collectIds(referenceCollection);
     }
 }

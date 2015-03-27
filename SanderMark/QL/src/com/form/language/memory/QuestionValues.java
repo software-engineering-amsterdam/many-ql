@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.form.language.ast.values.GenericValue;
 
-public class ReferenceValues {
+public class QuestionValues {
     private Map<String, GenericValue> values;
 
-    public ReferenceValues() {
+    public QuestionValues() {
 	this.values = new HashMap<String, GenericValue>();
     }
 

@@ -1,9 +1,9 @@
 package com.form.language.ast.expression.literal;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollection;
 
 public abstract class Literal extends Expression {
 
@@ -17,7 +17,7 @@ public abstract class Literal extends Expression {
     }
 
     @Override
-    public void collectIds(IdCollection idCollection) {
+    public void collectIds(ReferenceCollection referenceCollection) {
     }
 
 }
