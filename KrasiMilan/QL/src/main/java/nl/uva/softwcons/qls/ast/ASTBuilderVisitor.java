@@ -144,12 +144,14 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public SpinboxType visitSpinbox(final SpinboxContext ctx) {
-        return new SpinboxType();
+        return new SpinboxType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
+                Double.valueOf(ctx.step.getText()));
     }
 
     @Override
     public SliderType visitSlider(final SliderContext ctx) {
-        return new SliderType();
+        return new SliderType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
+                Double.valueOf(ctx.step.getText()));
     }
 
     @Override
