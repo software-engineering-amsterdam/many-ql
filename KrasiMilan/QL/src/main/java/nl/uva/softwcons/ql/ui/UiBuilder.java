@@ -1,8 +1,9 @@
 package nl.uva.softwcons.ql.ui;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -15,6 +16,7 @@ import nl.uva.softwcons.ql.ast.form.FormVisitor;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
+import nl.uva.softwcons.ql.ast.statement.Statement;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.eval.Evaluator;
 import nl.uva.softwcons.ql.ui.layout.FormLayout;
@@ -41,10 +43,9 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
     @Override
     public FormLayout visit(final Form form) {
         final FormLayout formLayout = new FormLayout(form);
+        final List<QuestionLayout> questionLayouts = visitAndFlatten(form.getStatements());
 
-        form.getStatements().forEach(statement -> {
-            statement.accept(this).forEach(layout -> formLayout.add(layout));
-        });
+        questionLayouts.forEach(layout -> formLayout.add(layout));
 
         form.accept(evaluator);
 
@@ -57,7 +58,9 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
         final Widget questionWidget = this.widgetFactory.getWidget(question);
         layout.add(questionWidget.getWidget());
 
-        evaluator.addListener(question, (newValue) -> questionWidget.setValue(newValue));
+        evaluator.addListener(question, (newValue) -> {
+            questionWidget.setValue(newValue);
+        });
 
         return Arrays.asList(layout);
     }
@@ -68,25 +71,32 @@ public class UiBuilder extends Application implements StatementVisitor<List<Ques
         final Widget questionWidget = this.widgetFactory.getWidget(question);
         layout.add(questionWidget.getWidget());
 
-        questionWidget.addListener((newValue) -> evaluator.updateValue(question.getId(), newValue));
+        questionWidget.addListener((newValue) -> {
+            evaluator.updateValue(question.getId(), newValue);
+        });
 
         return Arrays.asList(layout);
     }
 
     @Override
     public List<QuestionLayout> visit(final Conditional conditional) {
-        final List<QuestionLayout> layouts = conditional.getQuestions().stream().flatMap(q -> q.accept(this).stream())
-                .collect(Collectors.toList());
-
-        evaluator.addListener(conditional, (value) -> {
-            layouts.forEach(l -> l.setVisible(value.inConditionalContext()));
-        });
+        final List<QuestionLayout> layouts = visitAndFlatten(conditional.getQuestions());
 
         layouts.forEach(layout -> {
-            layout.setVisible(evaluator.getValue(conditional).inConditionalContext());
+            evaluator.addListener(conditional, (value) -> {
+                layout.setVisible(value.inConditionalContext());
+            });
         });
 
         return layouts;
+    }
+
+    /**
+     * Visits the given statements, collects found question layouts and merges
+     * them into a flat resulting list.
+     */
+    private List<QuestionLayout> visitAndFlatten(final List<? extends Statement> statements) {
+        return statements.stream().flatMap(s -> s.accept(this).stream()).collect(toList());
     }
 
     public static void main(final String... args) {
