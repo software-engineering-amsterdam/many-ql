@@ -19,6 +19,7 @@ public class Context {
     private IdCollection globalIdList;
     private ErrorCollector errors;
     private IdDeclarations declarations;
+    private Labels labels;
 
     public Context() {
 	this.memory = new IdValues();
@@ -27,6 +28,7 @@ public class Context {
 	this.globalIdList = new IdCollection();
 	this.declarations = new IdDeclarations();
 	this.errors = new ErrorCollector();
+	this.labels = new Labels();
     }
 
     public void addDependantQuestion(Expression condition, QuestionComponent question) {
@@ -53,7 +55,7 @@ public class Context {
 	return this.memory.get(s);
     }
 
-    public void addId(Question question) {
+    public void addQuestion(Question question) {
 	this.declarations.put(question.getId(),question);
     }
 
@@ -61,6 +63,13 @@ public class Context {
 	this.globalIdList.addId(id);
     }
     
+    public void addLabel(String s) {
+	this.labels.add(s);
+    }
+    
+    public boolean containsLabel(String s){
+	return this.labels.contains(s);
+    }
     public Type getIdType(Reference id) {
 	Question declaration = this.declarations.get(id.getName());
 	if (declaration == null) {

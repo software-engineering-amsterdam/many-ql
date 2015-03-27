@@ -27,11 +27,11 @@ public class TextField extends Widget {
 	{
 		return this.textfield;
 	}
-
+	
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
 		    	//TODO: this still seems weird, maybe have another look at it?
-			setContextValue(new StringValue(TextField.this.textfield.getText()));
+			setContextValue(new StringValue(textfield.getText()));
 			checkDependencyVisibility();
 		}
 

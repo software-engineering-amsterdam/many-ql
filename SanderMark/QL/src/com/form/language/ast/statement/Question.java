@@ -3,6 +3,7 @@ package com.form.language.ast.statement;
 import javax.swing.JPanel;
 
 import com.form.language.ast.type.Type;
+import com.form.language.error.Error;
 import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
@@ -39,8 +40,16 @@ public class Question extends Statement {
     //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
     @Override
     public boolean checkType(Context context) {
-	context.addId(this);
+	context.addQuestion(this);
+	checkExistingLabels(context);
+	context.addLabel(this.questionLabel);
 	return true;
+    }
+
+    private void checkExistingLabels(Context context) {
+	if (context.containsLabel(questionLabel)) {
+	    context.addError(new Error(tokenInfo, "A question with this label already exists"));
+	}
     }
 
     @Override
