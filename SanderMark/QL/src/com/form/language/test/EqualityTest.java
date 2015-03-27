@@ -1,14 +1,10 @@
 package com.form.language.test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
-
-
-
-
 
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
@@ -25,43 +21,50 @@ public class EqualityTest {
     @Test
     public void typeEquality() {
 	BoolType booltype = new BoolType();
-	BoolType booltype2 = new BoolType();
-	assertEquals(booltype, booltype2);
+	BoolType duplicateBool = new BoolType();
+	assertEquals(booltype, duplicateBool);
 
 	IntType inttype = new IntType();
-	IntType inttype2 = new IntType();
-	assertEquals(inttype, inttype2);
+	IntType duplicateInt = new IntType();
+	assertEquals(inttype, duplicateInt);
 
 	StringType stringtype = new StringType();
-	StringType stringtype2 = new StringType();
-	assertEquals(stringtype, stringtype2);
+	StringType duplicateString = new StringType();
+	assertEquals(stringtype, duplicateString);
 
 	ErrorType errortype = new ErrorType();
-	ErrorType errortype2 = new ErrorType();
-	assertEquals(errortype, errortype2);
+	ErrorType duplicateError = new ErrorType();
+	assertEquals(errortype, duplicateError);
     }
     
     @Test
     public void intValueEquality(){
 	int randomnumber = randomgen.nextInt();
 	IntValue intvalue = new IntValue(randomnumber);
-	IntValue intvalue2 = new IntValue(randomnumber);
-	assertEquals(intvalue, intvalue2);
+	IntValue duplicate = new IntValue(randomnumber);
+
+	assertEquals(intvalue, duplicate);
     }
 
     @Test
     public void boolValueEquality(){
 	boolean randombool = randomgen.nextBoolean();
-	BoolValue boolvalue = new BoolValue(randombool);
-	BoolValue boolvalue2 = new BoolValue(randombool);
-	assertEquals(boolvalue, boolvalue2);
+	BoolValue originalBool = new BoolValue(randombool);
+	BoolValue duplicateBool = new BoolValue(randombool);
+	BoolValue differentBool = new BoolValue(!randombool);
+
+	assertEquals(originalBool, duplicateBool);
+	assertFalse(originalBool.equals(differentBool));
     }
     
     @Test
     public void stringValueEquality(){
 	String randomstring = Integer.toString(randomgen.nextInt());
-	StringValue stringvalue = new StringValue(randomstring);
-	StringValue stringvalue2 = new StringValue(randomstring);
-	assertEquals(stringvalue, stringvalue2);
+	StringValue originalString = new StringValue(randomstring);
+	StringValue duplicateString = new StringValue(randomstring);
+	StringValue differentString = new StringValue(randomstring + "Mutation");
+
+	assertEquals(originalString, duplicateString);
+	assertFalse(originalString.equals(differentString));
     }
 }
