@@ -27,7 +27,15 @@ public class Questionnaire extends AstNode {
 	}
 
 	public boolean containsQuestion(final String name) {
-		return getAllQuestions().stream().anyMatch(question -> question.getName().equals(name));
+		List<Question> allQuestions = getAllQuestions();
+		for (Question question : allQuestions) {
+			if (question.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+		// return getAllQuestions().stream().anyMatch(question ->
+		// question.getName().equals(name));
 	}
 
 	public List<Statement> getStatements() {
