@@ -40,12 +40,12 @@ type: BOOL_TYPE
     | DATE_TYPE
     ;
 
-widgetType: RADIO '(' yes=STRING',' no=STRING ')'                    # radio
-          | CHECKBOX '(' yes=STRING ')'                              # checkbox
+widgetType: RADIO '(' yes=STRING',' no=STRING ')'                     # radio
+          | CHECKBOX '(' yes=STRING ')'                               # checkbox
           | SPINBOX '(' start=NUMBER',' end=NUMBER',' step=NUMBER ')' # spinbox
-          | DROPDOWN '(' yes=STRING',' no=STRING ')'                 # dropdown
+          | DROPDOWN '(' yes=STRING',' no=STRING ')'                  # dropdown
           | SLIDER '(' start=NUMBER',' end=NUMBER',' step=NUMBER ')'  # slider
-          | TEXT                                                     # text
+          | TEXT                                                      # text
           ;
 
 
