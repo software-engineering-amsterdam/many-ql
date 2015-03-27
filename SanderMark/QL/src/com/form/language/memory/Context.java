@@ -14,24 +14,24 @@ import com.form.language.issue.IssueCollector;
 import com.form.language.issue.Warning;
 
 public class Context {
-    private IdValues memory;
-    private ConditionalCollection ifConditions;
+    private ReferenceValues memory;
+    private QuestionDependencies ifConditions;
     private IdReferences idReferences;
     private IdCollection globalIdList;
     private IssueCollector errors;
     private IssueCollector warnings;
     private IdDeclarations declarations;
-    private Labels labels;
+    private QuestionLabels questionLabels;
 
     public Context() {
-	this.memory = new IdValues();
-	this.ifConditions = new ConditionalCollection();
+	this.memory = new ReferenceValues();
+	this.ifConditions = new QuestionDependencies();
 	this.idReferences = new IdReferences();
 	this.globalIdList = new IdCollection();
 	this.declarations = new IdDeclarations();
 	this.errors = new IssueCollector();
 	this.warnings = new IssueCollector();
-	this.labels = new Labels();
+	this.questionLabels = new QuestionLabels();
     }
 
     public void addDependantQuestion(Expression condition, QuestionComponent question) {
@@ -67,11 +67,11 @@ public class Context {
     }
     
     public void addLabel(String s) {
-	this.labels.add(s);
+	this.questionLabels.add(s);
     }
     
     public boolean containsLabel(String s){
-	return this.labels.contains(s);
+	return this.questionLabels.contains(s);
     }
     public Type getIdType(Reference id) {
 	Question declaration = this.declarations.get(id.getName());

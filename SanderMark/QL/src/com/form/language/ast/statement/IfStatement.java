@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.Type;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.issue.Error;
 import com.form.language.issue.QLToken;
@@ -23,19 +24,31 @@ public class IfStatement extends Statement {
 
     @Override
     public boolean checkType(Context context) {
+	checkStatementTypes(context);
+	return checkConditionType(context);
+    }
+    
+    private void checkStatementTypes(Context context){
 	for (Statement s : thenStatements) {
 	    s.checkType(context);
 	}
-	if (conditions.getType(context).isBoolType()) {
+    }
+
+    private boolean checkConditionType(Context context){
+	Type conditionType = conditions.getType(context);
+	if (conditionType.isBoolType()) {
 	    return true;
 	} else {
 	    context.addError(new Error(tokenInfo, "The conditions in an if statement should evaluate to a Boolean"));
 	    return false;
 	}
     }
-
+    
     @Override
     public void initMemory(Context mem) {
+	/*
+	 * Nothing to be initialized here
+	 */
     }
 
     @Override

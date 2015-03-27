@@ -8,10 +8,10 @@ import java.util.Map;
 import com.form.language.ast.expression.Expression;
 import com.form.language.gui.components.QuestionComponent;
 
-public class ConditionalCollection {
+public class QuestionDependencies {
     private Map<Expression, List<QuestionComponent>> ifConditions;
 
-    public ConditionalCollection() {
+    public QuestionDependencies() {
 	this.ifConditions = new HashMap<Expression, List<QuestionComponent>>();
     }
 

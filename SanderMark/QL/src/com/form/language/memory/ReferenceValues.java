@@ -5,26 +5,26 @@ import java.util.Map;
 
 import com.form.language.ast.values.GenericValue;
 
-public class IdValues {
+public class ReferenceValues {
     private Map<String, GenericValue> values;
 
-    public IdValues() {
+    public ReferenceValues() {
 	this.values = new HashMap<String, GenericValue>();
     }
 
     public void put(String idName, GenericValue value) {
-	this.values.put(idName, value);
+	values.put(idName, value);
     }
 
     public String toString() {
 	String result = "\nMemory:\n";
-	for (String key : this.values.keySet()) {
-	    result += key + ":" + this.values.get(key).toString() + "\n";
+	for (String key : values.keySet()) {
+	    result += key + ":" + values.get(key) + "\n";
 	}
 	return result;
     }
 
     public GenericValue get(String idName) {
-	return this.values.get(idName);
+	return values.get(idName);
     }
 }

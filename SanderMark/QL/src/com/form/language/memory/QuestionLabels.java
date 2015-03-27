@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Labels implements Iterable<String> {
+public class QuestionLabels implements Iterable<String> {
     
     private List<String> labels;
     
-    public Labels(){
+    public QuestionLabels(){
 	this.labels = new ArrayList<String>();
     }
     
