@@ -10,14 +10,14 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.issue.Error;
-import com.form.language.issue.ErrorCollector;
+import com.form.language.issue.IssueCollector;
 
 public class Context {
     private IdValues memory;
     private ConditionalCollection ifConditions;
     private IdReferences idReferences;
     private IdCollection globalIdList;
-    private ErrorCollector errors;
+    private IssueCollector errors;
     private IdDeclarations declarations;
     private Labels labels;
 
@@ -27,7 +27,7 @@ public class Context {
 	this.idReferences = new IdReferences();
 	this.globalIdList = new IdCollection();
 	this.declarations = new IdDeclarations();
-	this.errors = new ErrorCollector();
+	this.errors = new IssueCollector();
 	this.labels = new Labels();
     }
 

@@ -1,16 +1,13 @@
 package com.form.language.issue;
 
-public class Error {
-    private QLToken offendingToken;
-    private String message;
+public class Error extends Issue{
 
     public Error(QLToken offendingToken, String message) {
-	this.offendingToken = offendingToken;
-	this.message = message;
+	super(offendingToken, message);
     }
 
     @Override
     public String toString() {
-	return message + " Line: " + offendingToken.getLine() + ", Column: " + offendingToken.getCharPositionInLine();
+	return "Error: " + message + " Line: " + offendingToken.getLine() + ", Column: " + offendingToken.getCharPositionInLine();
     }
 }

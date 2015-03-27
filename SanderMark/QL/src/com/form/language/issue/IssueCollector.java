@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ErrorCollector {
-    private List<Error> errorList;
+public class IssueCollector {
+    private List<Issue> issueList;
 
-    public ErrorCollector() {
-	this.errorList = new ArrayList<Error>();
+    public IssueCollector() {
+	this.issueList = new ArrayList<Issue>();
     }
 
-    public void add(Error e) {
-	errorList.add(e);
+    public void add(Issue e) {
+	issueList.add(e);
     }
 
-    public Iterator<Error> getErrorCollection() {
-	return errorList.iterator();
+    public Iterator<Issue> getErrorCollection() {
+	return issueList.iterator();
     }
 
     public List<String> print() {
 	List<String> result = new ArrayList<String>();
-	for(Error e : errorList){
+	for(Issue e : issueList){
 	    result.add(e.toString());
 	}
 	return result;
@@ -30,7 +30,7 @@ public class ErrorCollector {
     @Override
     public String toString() {
 	String result = "";
-	for(Error e : errorList)
+	for(Issue e : issueList)
 	{
 		result += e + "\n";
 	}
@@ -38,6 +38,6 @@ public class ErrorCollector {
     }
 
     public Boolean isEmpty() {
-	return errorList.isEmpty();
+	return issueList.isEmpty();
     }
 }
