@@ -31,7 +31,6 @@ public class Questionnaire extends AstNode {
 	}
 
 	public Question getQuestion(String name) {
-		getAllQuestions().stream().findAny();
 		for (Question question : getAllQuestions()) {
 			if (question.getName().equals(name)) {
 				return question;
