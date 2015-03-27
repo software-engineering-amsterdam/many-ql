@@ -24,7 +24,7 @@ public class IdReferences {
     }
 
     public void put(String idName, List<Expression> dependencies) {
-	this.referenceMap.put(idName, dependencies);
+	referenceMap.put(idName, dependencies);
     }
 
     public void putAll(IdCollection keyCollection, Expression value) {
@@ -32,14 +32,14 @@ public class IdReferences {
 	    
 		List<Expression> tempList;
 
-	    if (this.referenceMap.containsKey(l.getName())) {
-		tempList = this.referenceMap.get(l.getName());
+	    if (referenceMap.containsKey(l.getName())) {
+		tempList = referenceMap.get(l.getName());
 	    } else {
 		tempList = new ArrayList<Expression>();
 	    }
 
 	    tempList.add(value);
-	    this.referenceMap.put(l.getName(), tempList);
+	    referenceMap.put(l.getName(), tempList);
 	}
     }
 }

@@ -18,8 +18,8 @@ public class Or extends BinaryExpression {
 
     @Override
     public BoolValue evaluate(Context context) {
-	return new BoolValue(((BoolValue) super.left.evaluate(context)).getValue()
-		|| ((BoolValue) super.right.evaluate(context)).getValue());
+	return new BoolValue(((BoolValue) left.evaluate(context)).getValue()
+		|| ((BoolValue) right.evaluate(context)).getValue());
     }
 
     @Override

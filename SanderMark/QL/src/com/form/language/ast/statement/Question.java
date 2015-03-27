@@ -22,15 +22,15 @@ public class Question extends Statement {
     }
 
     public Type getType(Context context) {
-	return this.questionType;
+	return questionType;
     }
 
     public String getText() {
-	return this.questionLabel;
+	return questionLabel;
     }
 
     public String getId() {
-	return this.id;
+	return id;
     }
 
     public void initMemory(Context context) {
@@ -42,13 +42,13 @@ public class Question extends Statement {
     public boolean checkType(Context context) {
 	context.addQuestion(this);
 	checkExistingLabels(context);
-	context.addLabel(this.questionLabel);
+	context.addLabel(questionLabel);
 	return true;
     }
 
     private void checkExistingLabels(Context context) {
 	if (context.containsLabel(questionLabel)) {
-	    context.addWarning(new Warning(tokenInfo, "A question with this label already exists"));
+	    context.addWarning(new Warning(tokenInfo, "A question labeled \" + questionLabel + \" already exists"));
 	}
     }
 

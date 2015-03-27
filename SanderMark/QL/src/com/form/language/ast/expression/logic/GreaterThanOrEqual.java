@@ -19,7 +19,7 @@ public class GreaterThanOrEqual extends BinaryExpression  {
 
     @Override
     public BoolValue evaluate(Context context) {
-	return new BoolValue(((IntValue) super.left.evaluate(context)).getValue() >= ((IntValue) super.right.evaluate(context)).getValue());
+	return new BoolValue(((IntValue) left.evaluate(context)).getValue() >= ((IntValue) right.evaluate(context)).getValue());
     }
 
     @Override

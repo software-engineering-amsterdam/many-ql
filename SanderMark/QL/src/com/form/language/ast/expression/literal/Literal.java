@@ -12,7 +12,7 @@ public abstract class Literal extends Expression {
     }
 
     @Override
-    public Boolean isCorrectlyTyped(Context context) {
+    public boolean isCorrectlyTyped(Context context) {
 	return true;
     }
 

@@ -17,7 +17,7 @@ public abstract class Expression extends ASTNode {
 	super(tokenInfo);
     }
     
-    public Boolean isCorrectlyTyped(Context context) {
+    public boolean isCorrectlyTyped(Context context) {
 	return !this.getType(context).equals(new ErrorType());
     }
 

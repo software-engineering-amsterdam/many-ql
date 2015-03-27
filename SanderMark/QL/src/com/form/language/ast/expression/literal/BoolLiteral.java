@@ -9,9 +9,9 @@ import com.form.language.memory.Context;
 public class BoolLiteral extends Literal  {
     private final boolean value;
 
-    public BoolLiteral(boolean _value, QLToken tokenInfo) {
+    public BoolLiteral(boolean value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this.value = _value;
+	this.value = value;
     }
 
     @Override

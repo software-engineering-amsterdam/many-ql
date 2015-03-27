@@ -41,7 +41,7 @@ public class IfStatement extends Statement {
     @Override
     public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context rm) {
 	guiBuilder.setIfCondition(conditions);
-	for (Statement s : this.thenStatements) {
+	for (Statement s : thenStatements) {
 	    s.createGUIComponent(guiBuilder, panel, rm);
 	}
     }
