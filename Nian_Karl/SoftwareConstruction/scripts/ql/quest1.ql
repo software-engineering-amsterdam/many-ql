@@ -7,6 +7,11 @@ form SalarySurvey{
 		howAreYou: "How Are you ?" Str
 		howAreYou: "How Are you ?" Str
 		howAreYou: "How Are you ?" Str
-		
+		howAreYou: "How Are you ?" Str
+		howAreYou: "How Are you ?" Str
+		howAreYou: "How Are you ?" Str
+		howAreYou: "How Are you ?" Str
+		howAreYou: "How Are you ?" Str
+		howAreYou: "How Are you ?" Str		
 	}
 }

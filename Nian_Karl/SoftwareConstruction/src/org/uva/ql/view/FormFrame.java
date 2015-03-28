@@ -24,9 +24,7 @@ public class FormFrame {
 	public FormFrame() {
 		frame = new JFrame("QL Form");
 		frame.setMinimumSize(new Dimension(400, 400));
-		frame.setLayout(new MigLayout("",
-		        "[grow, push, fill]",
-		        ""));
+		frame.setLayout(new MigLayout("", "[grow, push, fill]", ""));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.exprPanels = new ArrayList<IfQuestionPanel>();
 		this.exprComponents = new ArrayList<ExprQuestionComponent>();
