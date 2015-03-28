@@ -8,16 +8,16 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class DefaultStyle extends AstNode {
 
 	private final String datatype;
-	private final Widget widget;
+	private final String widget;
 	private List<DefaultStyleProperty> defaultStyleProperties = new ArrayList<>();
 
-	public DefaultStyle(TextLocation textLocation, String datatype, Widget widget) {
+	public DefaultStyle(TextLocation textLocation, String datatype, String widget) {
 		super(textLocation);
 		this.datatype = datatype;
 		this.widget = widget;
 	}
 
-	public Widget getWidget() {
+	public String getWidget() {
 		return widget;
 	}
 

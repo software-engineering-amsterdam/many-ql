@@ -11,7 +11,7 @@ import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.SectionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
-import nl.uva.sc.encoders.qls.ast.Default;
+import nl.uva.sc.encoders.qls.ast.DefaultStyle;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
@@ -42,6 +42,10 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 			Section section = (Section) sectionContext.accept(this);
 			page.addSection(section);
 		}
+		for (DefaultStyleContext defaultStyleContext : ctx.defaultStyle()) {
+			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
+			page.addPageDefaultStyle(defaultStyle);
+		}
 		return page;
 	}
 
@@ -54,19 +58,25 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 			String questionName = questionContext.name.getText();
 			section.addQuestion(questionName);
 		}
-
 		for (SectionContext subSectionContext : ctx.section()) {
 			Section subSection = visitSection(subSectionContext);
 			section.addSubSection(subSection);
 		}
-
+		for (DefaultStyleContext defaultStyleContext : ctx.defaultStyle()) {
+			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
+			section.addSectionDefaultStyle(defaultStyle);
+		}
 		return section;
 	}
 
 	@Override
-	public Default visitDefaultStyle(DefaultStyleContext ctx) {
+	public DefaultStyle visitDefaultStyle(DefaultStyleContext ctx) {
+		String dataType = ctx.DATATYPE().getText();
+		String widget = ctx.widget().getText();
+		TextLocation textLocation = getTextLocation(ctx);
+		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType, widget);
 
-		return null;
+		return defaultStyle;
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
