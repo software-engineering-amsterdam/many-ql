@@ -30,17 +30,24 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             Report = report;
         }
 
-        public override object Visit(Question question)
+        public override object Visit(BooleanQuestion question)
         {
-            if (!_declaredQuestions.Contains(question.Id.Name))
-            {
-                _declaredQuestions.Add(question.Id.Name);
-            }
-            else
-            {
-                Report.AddError(question.Position, "A question with the name '{0}' is already defined in the same scope.", question.Id.Name);
-            }
-            return null;
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(DateQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(IntegerQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(StringQuestion question)
+        {
+            return VisitQuestion(question);
         }
 
         public override object Visit(Identifier identifier)
@@ -70,6 +77,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
                 statement.Accept(elseVisitor);
             }
 
+            return null;
+        }
+
+        private object VisitQuestion(Question question)
+        {
+            if (!_declaredQuestions.Contains(question.Id.Name))
+            {
+                _declaredQuestions.Add(question.Id.Name);
+            }
+            else
+            {
+                Report.AddError(question.Position, "A question with the name '{0}' is already defined in the same scope.", question.Id.Name);
+            }
             return null;
         }
     }

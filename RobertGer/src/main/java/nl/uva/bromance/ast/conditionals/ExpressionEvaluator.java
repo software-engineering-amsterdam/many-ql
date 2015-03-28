@@ -52,7 +52,15 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
     public void visit(Terminal terminal) {
         if (terminal.isInteger()) {
             currentResult = new IntResult(Integer.parseInt(terminal.getValue()));
-        } else if (terminal.isString()) {
+        // Boolean goes before string because boolean also matches string
+        } else if (terminal.isBoolean()){
+            if (terminal.getValue().toLowerCase().equals("false")){
+                currentResult = new BooleanResult(false);
+            } else {
+                currentResult = new BooleanResult(true);
+            }
+        }
+        else if (terminal.isString()) {
             currentResult = new StringResult(terminal.getValue());
         } else {
             for (Identifier identifier : identifiers) {

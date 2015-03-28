@@ -19,39 +19,24 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
     {
         private IDictionary<string, DataType> _symbolTable = new Dictionary<string, DataType>();
 
-        public TypeChecker()
+        public override object Visit(BooleanQuestion question)
         {
+            return VisitQuestion(question);
         }
 
-        public override object Visit(Question question)
+        public override object Visit(DateQuestion question)
         {
-            if (question.IsComputed)
-            {
-                DataType expressionType = question.Expression.GetType(_symbolTable);
+            return VisitQuestion(question);
+        }
 
-                if (expressionType != DataType.Undefined)
-                {
-                    if (question.DataType != expressionType)
-                    {
-                        Report.AddError(question.Position, "Cannot assign a value of type '{0}' to question '{1}' of type '{2}'.",
-                            StringEnum.GetStringValue(expressionType), question.Id.Name, StringEnum.GetStringValue(question.DataType));
-                    }
-                }
+        public override object Visit(IntegerQuestion question)
+        {
+            return VisitQuestion(question);
+        }
 
-                question.Expression.Accept(this);
-            }
-
-            // Check when the question is redeclared, it is of the smae type.
-            if (_symbolTable.ContainsKey(question.Id.Name))
-            {
-                if (question.DataType != _symbolTable[question.Id.Name])
-                {
-                    Report.AddError(question.Position, "Cannot redeclare a question with a different type.");
-                }
-            }
-
-            _symbolTable.Add(question.Id.Name, question.DataType);
-            return null;
+        public override object Visit(StringQuestion question)
+        {
+            return VisitQuestion(question);
         }
 
         public override object Visit(IfStatement ifStatement)
@@ -147,6 +132,37 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
         {
             ValidateBinaryExpression(substract);
             return base.Visit(substract);
+        }
+
+        private object VisitQuestion(Question question)
+        {
+            if (question.IsComputed)
+            {
+                DataType expressionType = question.Expression.GetType(_symbolTable);
+
+                if (expressionType != DataType.Undefined)
+                {
+                    if (question.DataType != expressionType)
+                    {
+                        Report.AddError(question.Position, "Cannot assign a value of type '{0}' to question '{1}' of type '{2}'.",
+                            StringEnum.GetStringValue(expressionType), question.Id.Name, StringEnum.GetStringValue(question.DataType));
+                    }
+                }
+
+                question.Expression.Accept(this);
+            }
+
+            // Check when the question is redeclared, it is of the same type.
+            if (_symbolTable.ContainsKey(question.Id.Name))
+            {
+                if (question.DataType != _symbolTable[question.Id.Name])
+                {
+                    Report.AddError(question.Position, "Cannot redeclare a question with a different type.");
+                }
+            }
+
+            _symbolTable.Add(question.Id.Name, question.DataType);
+            return null;
         }
 
         private void ValidateUnaryExpression(UnaryExpression expression)

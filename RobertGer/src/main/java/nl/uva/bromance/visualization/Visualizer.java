@@ -1,30 +1,28 @@
 package nl.uva.bromance.visualization;
 
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
-import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLsNodeVisitor;
 import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
-public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
+public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     private QLSPage currentPage;
     private Map<String, Result> answerMap = new HashMap<>();
     private Node focusedNode;
-    private int focusId;
+    private UUID focusUuid;
     private Optional<QLSNode> qlsNode = Optional.empty();
     private QLNode qlNode;
     private VBox pages;
@@ -36,20 +34,21 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
         this.focusedNode = node;
     }
 
-    public int getFocusId() {
-        return focusId;
+    public UUID getFocusUuid() {
+        return focusUuid;
     }
 
     public void render(AST<QLNode> qlAst, VBox pages, VBox questions) {
         this.qlNode = qlAst.getRoot();
         this.pages = pages;
         this.questions = questions;
-        visualize(0);
+        // Nothing focused as of now
+        visualize(UUID.randomUUID());
     }
 
 
-    public void visualize(int focusId) {
-        this.focusId = focusId;
+    public void visualize(UUID focusId) {
+        this.focusUuid = focusId;
 
         if (qlsNode.isPresent()) {
             processQls();
@@ -111,10 +110,13 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
             javafx.scene.control.Label label = new javafx.scene.control.Label(identifier);
             label.setOnMouseClicked((event) -> {
                 currentPage = page;
-                refresh(0);
+                refresh(UUID.randomUUID());
             });
             if (currentPage == page) {
                 label.getStyleClass().add("active");
+                for (QLSNode child : currentPage.getChildren()) {
+                    child.visualize(questions, answerMap, this);
+                }
             }
             label.getStyleClass().add("pageLabel");
             pages.getChildren().add(label);
@@ -206,8 +208,8 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
 
     }
 
-    public void refresh(int focusId) {
-        this.focusId = focusId;
+    public void refresh(UUID focusId) {
+        this.focusUuid = focusId;
         if (qlsNode.isPresent()) {
             processQls();
         } else {

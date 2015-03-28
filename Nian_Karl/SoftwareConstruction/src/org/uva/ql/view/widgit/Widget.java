@@ -1,6 +1,6 @@
 package org.uva.ql.view.widgit;
 
-import javax.swing.JComponent;
+import java.awt.Component;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.Value;
@@ -11,7 +11,7 @@ public abstract class Widget {
 
 	public abstract <T> T getValue();
 
-	public abstract JComponent getWidget();
+	public abstract Component getWidget();
 
 	public abstract void setWidgetValue(Value value);
 

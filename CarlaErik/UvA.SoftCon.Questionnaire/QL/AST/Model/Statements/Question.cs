@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
 {
-    public class Question : Statement
+    public abstract class Question : Statement
     {
         public DataType DataType
         {
@@ -43,24 +43,13 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             }
         }
 
-        internal Question(DataType dataType, Identifier id, string label, TextPosition position)
+        protected Question(DataType dataType, Identifier id, string label, Expression expression, TextPosition position)
             : base(position)
         {
             DataType = dataType;
             Id = id;
             Label = label;
-            Expression = null;
-        }
-
-        internal Question(DataType dataType, Identifier id, string label, Expression expression, TextPosition position)
-            : this(dataType, id, label, position)
-        {
             Expression = expression;
-        }
-
-        public override T Accept<T>(IQLVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
         }
 
         internal override void CollectQuestions(ICollection<Question> questions)

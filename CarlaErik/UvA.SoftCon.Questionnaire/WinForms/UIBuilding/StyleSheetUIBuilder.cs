@@ -11,7 +11,7 @@ using UvA.SoftCon.Questionnaire.WinForms.Controls;
 namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 {
     /// <summary>
-    /// Creates the UI control tree based on the style sheet AST.
+    /// Creates a UI control tree based on the style sheet AST.
     /// </summary>
     internal class StyleSheetUIBuilder : QLSVisitor<Control>
     {

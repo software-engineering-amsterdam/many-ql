@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.*;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
@@ -20,13 +21,17 @@ public class Question extends QLNode implements HasIdentifier {
     private String questionString;
     private QuestionType questionType;
     private Range questionRange;
+    private UUID uuid;
     private boolean isVisible = true;
 
     //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber);
+        this.uuid = UUID.randomUUID();
         this.identifier = identifier;
     }
+
+    public UUID getUuid() { return uuid; }
 
     public Identifier getIdentifier() {
         return identifier;
@@ -52,6 +57,9 @@ public class Question extends QLNode implements HasIdentifier {
                 this.identifier.setResult(type.getCorrespondingResultType());
                 break;
             }
+        }
+        if (questionType == null) {
+            System.err.println("Question Error: Invalid Question type " + qt + ", valid types are :" + Arrays.toString(questionTypes));
         }
     }
 
@@ -86,7 +94,7 @@ public class Question extends QLNode implements HasIdentifier {
 
     //Duplication in all Nodes
     @Override
-    public void accept(QlNodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

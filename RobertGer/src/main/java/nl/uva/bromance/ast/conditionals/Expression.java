@@ -2,7 +2,7 @@ package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.operators.Operator;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 import org.antlr.v4.runtime.Token;
 
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class Expression extends QLNode {
 
     //This is postorder traversal
     @Override
-    public void accept(QlNodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }

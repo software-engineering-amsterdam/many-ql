@@ -56,6 +56,12 @@
     <Compile Include="Controls\PageControl.Designer.cs">
       <DependentUpon>PageControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\QuestionFormControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QuestionFormControl.Designer.cs">
+      <DependentUpon>QuestionFormControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SectionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     <Compile Include="UIBuilding\StyleSheetUIBuilder.cs" />
     <EmbeddedResource Include="Controls\PageControl.resx">
       <DependentUpon>PageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QuestionFormControl.resx">
+      <DependentUpon>QuestionFormControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SectionControl.resx">
       <DependentUpon>SectionControl.cs</DependentUpon>

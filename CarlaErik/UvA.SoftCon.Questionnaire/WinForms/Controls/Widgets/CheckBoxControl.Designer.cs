@@ -44,7 +44,7 @@
             // YesCheckBox
             // 
             this.YesCheckBox.AutoSize = true;
-            this.YesCheckBox.Location = new System.Drawing.Point(4, 21);
+            this.YesCheckBox.Location = new System.Drawing.Point(7, 20);
             this.YesCheckBox.Name = "YesCheckBox";
             this.YesCheckBox.Size = new System.Drawing.Size(44, 17);
             this.YesCheckBox.TabIndex = 1;

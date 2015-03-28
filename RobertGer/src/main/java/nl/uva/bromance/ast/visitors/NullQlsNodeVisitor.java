@@ -8,7 +8,7 @@ import nl.uva.bromance.ast.QLSStylesheet;
 /**
  * Created by Robert on 26-3-2015.
  */
-public class NullQlsNodeVisitor implements QlsNodeVisitor {
+public class NullQLSNodeVisitor implements QLSNodeVisitor {
     @Override
     public void visit(QLSPage page) {
     }
