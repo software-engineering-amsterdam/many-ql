@@ -1,10 +1,8 @@
 ﻿using AST;
-using Notifications;
 using QLGui.Controllers;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using TypeChecking;
 
 namespace QLGui

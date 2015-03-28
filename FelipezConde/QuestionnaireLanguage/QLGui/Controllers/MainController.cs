@@ -1,15 +1,9 @@
 ﻿using AST;
-using Nodes = AST.Nodes;
 using AST.Nodes.Expressions;
 using Evaluation;
 using Evaluation.Values;
-using QLGui.ValueVisitors;
-using System.Collections.Generic;
+using System;
 using System.Windows;
-using ASTFormObject = AST.Nodes.FormObjects;
-using AST.Nodes.Interfaces;
-using Types = AST.Types;
-using QLGui.FormObjects;
 
 namespace QLGui.Controllers
 {
@@ -42,6 +36,7 @@ namespace QLGui.Controllers
             else
             {
                 //paint errors
+                throw new NotImplementedException();
             }
         }
 

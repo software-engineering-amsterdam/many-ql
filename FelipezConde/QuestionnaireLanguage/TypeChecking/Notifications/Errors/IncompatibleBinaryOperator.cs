@@ -1,6 +1,4 @@
-﻿using AST;
-using AST.Nodes.Expressions;
-using AST.Nodes.Expressions.Binaries;
+﻿using AST.Nodes.Expressions.Binaries;
 using Types = AST.Types;
 
 namespace TypeChecking.Notifications.Errors

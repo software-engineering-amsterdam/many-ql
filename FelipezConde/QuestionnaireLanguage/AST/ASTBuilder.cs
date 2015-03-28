@@ -1,14 +1,8 @@
 ﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
 using AST.Nodes;
 using AST.ParseTreeVisitors;
 using Grammar;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST
 {

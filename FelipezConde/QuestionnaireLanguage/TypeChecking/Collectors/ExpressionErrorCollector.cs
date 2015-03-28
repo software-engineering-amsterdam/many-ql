@@ -1,11 +1,11 @@
 ﻿using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
+using AST.VisitorInterfaces;
 using Notifications;
 using System.Collections.Generic;
 using TypeChecking.Notifications.Errors;
 using Types = AST.Types;
-using AST.VisitorInterfaces;
 
 namespace TypeChecking.Collectors
 {

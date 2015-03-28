@@ -1,10 +1,10 @@
 ﻿using AST.Nodes.FormObjects;
-using System.Windows;
-using Evaluation.Values;
 using Evaluation;
-using System.Windows.Controls;
+using Evaluation.Values;
 using QLGui.ASTVisitors;
 using QLGui.ValueVisitors;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace QLGui.FormObjects
 {
