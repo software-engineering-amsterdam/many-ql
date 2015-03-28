@@ -28,8 +28,6 @@ public class UIForm implements IUIForm{
     public void addWidget(JComponent _component) {
         this.panel.add(_component);
         this.formFrame.revalidate();
-
-
     }
 
     public void removeWidget(JComponent _component) {
