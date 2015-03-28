@@ -11,7 +11,6 @@ import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
-import org.fugazi.qls.gui.QLSWidgetsFactory;
 import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
@@ -32,10 +31,11 @@ public class Main {
         if (inputQLFile != null)
             qlInput = new FileInputStream(inputQLFile);
 
-        /** ---------------------
-          * QL
-          * ---------------------
-         **/
+        /** 
+         * ---------------------
+         * QL
+         * ---------------------
+         */
         // Create The AST Builder.
         QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
@@ -59,9 +59,10 @@ public class Main {
             System.exit(-1);
         }        
 
-        /** ---------------------
+        /**
+         * ---------------------
          * QLS
-         *  ---------------------
+         * ---------------------
          */
         if (args.length > 1) {
             String inputQLSFile = null;
@@ -99,7 +100,7 @@ public class Main {
             }
 
             // QLS
-            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
+            GUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
             styledGUIBuilder.renderUI();
 
         } else {
