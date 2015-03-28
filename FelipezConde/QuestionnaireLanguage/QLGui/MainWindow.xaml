@@ -5,6 +5,8 @@
     <Grid Background="LightGray" MouseDown="Grid_MouseDown">
         <StackPanel x:Name="_stack" Margin="10">
         </StackPanel>
-
+        <StackPanel Margin="10">
+            <Button Content="Export Answers" Margin="231,0,10,0" Height="46" Click="Button_Click" />
+        </StackPanel>
     </Grid>
 </Window>

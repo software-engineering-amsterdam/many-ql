@@ -39,17 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CyclicDependencyChecker.cs" />
     <Compile Include="Collectors\DefinedIdentifierCollector.cs" />
+    <Compile Include="Collectors\ExpressionCollector.cs" />
+    <Compile Include="Collectors\ExpressionErrorCollector.cs" />
+    <Compile Include="Collectors\ExpressionTypeCollector.cs" />
+    <Compile Include="Collectors\IdentifierTypeCollector.cs" />
     <Compile Include="Collectors\UsedIdentifierCollector.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DependencyGraph.cs" />
     <Compile Include="IdentifierChecker.cs" />
+    <Compile Include="LabelChecker.cs" />
     <Compile Include="Notifications\Errors\ComputedQuestionTypeConflict.cs" />
+    <Compile Include="Notifications\Errors\CyclicDependency.cs" />
     <Compile Include="Notifications\Errors\DuplicateIdentifier.cs" />
     <Compile Include="Notifications\Warnings\DuplicateLabel.cs" />
     <Compile Include="Notifications\Error.cs" />
-    <Compile Include="ExpressionChecker.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="ExpressionContainerChecker.cs" />
     <Compile Include="Notifications\Errors\IncompatibleBinaryOperator.cs" />
     <Compile Include="Notifications\Errors\IncompatibleUnaryOperator.cs" />
     <Compile Include="Notifications\Errors\NonBooleanCondition.cs" />

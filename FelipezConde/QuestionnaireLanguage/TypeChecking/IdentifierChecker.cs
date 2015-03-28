@@ -9,41 +9,50 @@ using TypeChecking.Notifications.Errors;
 
 namespace TypeChecking
 {
-    public class IdentifierChecker
+    public static class IdentifierChecker
     {
-        private readonly Form node;
-
-        public IdentifierChecker(Form node)
+        public static INotificationManager AnalyzeAndReport(Form node)
         {
-            this.node = node;
+            INotificationManager notificationManager = Has_Duplicate_Identifiers(node);
+            
+            notificationManager.Combine(Has_Undefined_Identifiers(node));
+
+            return notificationManager;
         }
 
-        public INotificationManager AnalyzeAndReport()
-        {
-            return null;
-        }
-
-        private IEnumerable<INotification> Has_Duplicate_Identifiers()
+        private static INotificationManager Has_Duplicate_Identifiers(Form node)
         {
             List<Id> definedIdList = GetDefinedIdList(node);
+            INotificationManager notificationManager = new NotificationManager();
 
             foreach (Id id  in definedIdList.GroupBy(s => s.Name).SelectMany(grp => grp.Skip(1)))
             {
-                yield return new DuplicateIdentifier(id.Name, id.GetPosition());
+                notificationManager.AddNotification(new DuplicateIdentifier(id.Name, id.GetPosition()));
             }
+
+            return notificationManager;
         }
 
-        private IEnumerable<UndefinedIdentifier> Has_Undefined_Identifiers()
+        private static INotificationManager Has_Undefined_Identifiers(Form node)
         {
             List<Id> definedIdList = GetDefinedIdList(node);
+            List<Id> usedIdList = new List<Id>();
+            INotificationManager notificationManager = new NotificationManager();
 
             foreach (FormObject formObject in node.GetBody())
             {
-                definedIdList.AddRange(formObject.Accept(new DefinedIdentifierCollector()));
+                usedIdList.AddRange(formObject.Accept(new UsedIdentifierCollector()));
             }
+
+            notificationManager.AddNotifications(
+                usedIdList.FindAll(id => !definedIdList.Contains(id))
+                          .Select(id => new UndefinedIdentifier(id.GetPosition(),id.Name)
+                          ));
+
+            return notificationManager;
         }
 
-        private List<Id> GetDefinedIdList(Form node)
+        private static List<Id> GetDefinedIdList(Form node)
         {
             List<Id> definedIdList = new List<Id>();
 

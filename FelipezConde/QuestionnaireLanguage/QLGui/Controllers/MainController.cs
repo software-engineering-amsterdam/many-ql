@@ -30,12 +30,19 @@ namespace QLGui.Controllers
 
         public UIElement ProcessBody()
         {
-            SubController nodeBodyProcessor = new SubController(symbolTable);
-            nodeBodyProcessor.EventUpdateValue += UpdateValue;
+            if (!astTree.HasError())
+            {
+                SubController nodeBodyProcessor = new SubController(symbolTable);
+                nodeBodyProcessor.EventUpdateValue += UpdateValue;
 
-            symbolTable = nodeBodyProcessor.Register(symbolTable);
+                symbolTable = nodeBodyProcessor.Register(symbolTable);
 
-            return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+            }
+            else
+            {
+                //paint errors
+            }
         }
 
         private void UpdateValue(string id, Value value)

@@ -18,7 +18,7 @@ namespace AST.Types
             return visitor.Visit(this);
         }
 
-        public override string GetString()
+        public override string ToString()
         {
             return "string";
         }
