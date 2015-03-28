@@ -5,9 +5,9 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class DropDownControl : QuestionControl
+    public partial class DropDownWidget : QuestionWidget
     {
-        public DropDownControl(Question astQuestion)
+        public DropDownWidget(Question astQuestion)
             : base(astQuestion)
         {
             InitializeComponent();
@@ -20,7 +20,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         {
             if (YesNoDropDownBox.SelectedValue != null)
             {
-                return new BooleanValue(YesNoDropDownBox.SelectedValue == "Yes");
+                return new BooleanValue(YesNoDropDownBox.SelectedIndex == 1);
             }
             else
             {

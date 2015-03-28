@@ -30,10 +30,10 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         public QuestionFormControl()
         {
             InitializeComponent();
-            Dock = DockStyle.Fill; // As it turns out, this property can not be set in the designer.
+            Dock = DockStyle.Fill; // As it turns out, for user controls this property can not be set in the designer.
         }
 
-        public QuestionFormControl(QuestionForm form, IEnumerable<QuestionControl> questionControls, OutputWindow outputWindow)
+        public QuestionFormControl(QuestionForm form, IEnumerable<QuestionWidget> questionControls, OutputWindow outputWindow)
             : this()
         {
             QuestionForm = form;
@@ -41,21 +41,25 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
             foreach (var questionControl in questionControls)
             {
-                questionControl.QuestionAnswered += uiQuestion_QuestionAnswered;
+                questionControl.QuestionAnswered += QuestionWidget_QuestionAnswered;
 
-                QuestionFlowLayout.Controls.Add(questionControl);
+                AddControl(questionControl);
             }
 
             Interpretet();
         }
 
+        protected void AddControl(Control control)
+        {
+            QuestionFlowLayout.Controls.Add(control);
+        }
 
-        private void uiQuestion_QuestionAnswered(object sender, EventArgs e)
+        private void QuestionWidget_QuestionAnswered(object sender, EventArgs e)
         {
             Interpretet();
         }
 
-        public void Interpretet()
+        private void Interpretet()
         {
             var runtimeController = new RuntimeController();
             var answers = CollectAnswers();
@@ -77,9 +81,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         {
             var answers = new Dictionary<string, Value>();
 
-            foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
+            foreach (QuestionWidget questionWidget in QuestionFlowLayout.Controls)
             {
-                answers.Add(uiQuestion.QuestionName, uiQuestion.GetValue());
+                answers.Add(questionWidget.QuestionName, questionWidget.GetValue());
             }
 
             return answers;
@@ -87,7 +91,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void SetResults(IDictionary<string, Value> results)
         {
-            foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
+            foreach (QuestionWidget uiQuestion in QuestionFlowLayout.Controls)
             {
                 uiQuestion.Visible = results.ContainsKey(uiQuestion.QuestionName);
 

@@ -35,6 +35,14 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             private set;
         }
 
+        public string Name
+        {
+            get
+            {
+                return Id.Name;
+            }
+        }
+
         public bool IsComputed
         {
             get

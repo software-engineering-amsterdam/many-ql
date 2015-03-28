@@ -11,9 +11,9 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class RadioControl : QuestionControl
+    public partial class RadioWidget : QuestionWidget
     {
-        public RadioControl(Question astQuestion)
+        public RadioWidget(Question astQuestion)
             :base(astQuestion)
         {
             InitializeComponent();

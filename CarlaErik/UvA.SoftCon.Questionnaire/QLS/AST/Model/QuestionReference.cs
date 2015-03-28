@@ -22,6 +22,14 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
             private set;
         }
 
+        public string Name
+        {
+            get
+            {
+                return Id.Name;
+            }
+        }
+
         internal QuestionReference(Identifier id, IEnumerable<StyleAttribute> styleAttributes, TextPosition position)
             : base(position)
         {
