@@ -11,7 +11,7 @@ class Factory(Message.Factory):
         return ConsoleMessage(
             Warning(),
             Local(lineNumber),
-            'Duplicate question label `%s`' % (label)
+            'duplicate question label `%s`' % (label)
         )
 
     def questionCycle(self, questionCycle, lineNumber):

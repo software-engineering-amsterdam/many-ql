@@ -6,14 +6,16 @@ from .checkers import \
 
 
 
-def check(questionnaire, resultFactory, messageFactory):
-    modules = (
+def check(
+    questionnaire, resultFactory, messageFactory,
+    modules = [
         CyclicQuestionDependencies,
         TypesOfExpressions,
         DuplicateQuestionLabels,
         QuestionRedefinitions
-    );
+    ]
 
+):
     checkers = map(
         lambda module: module.Checker(resultFactory, messageFactory),
         modules
