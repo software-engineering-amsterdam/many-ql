@@ -52,11 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\Building\DefaultStyleVisitor.cs" />
-    <Compile Include="AST\Building\PageVisitor.cs" />
-    <Compile Include="AST\Building\QuestionReferenceVisitor.cs" />
-    <Compile Include="AST\Building\SectionVisitor.cs" />
-    <Compile Include="AST\Building\StyleAttributeVisitor.cs" />
+    <Compile Include="AST\Building\DefaultStyleBuilder.cs" />
+    <Compile Include="AST\Building\PageBuilder.cs" />
+    <Compile Include="AST\Building\QuestionReferenceBuilder.cs" />
+    <Compile Include="AST\Building\SectionBuilder.cs" />
+    <Compile Include="AST\Building\StyleAttributeBuilder.cs" />
     <Compile Include="AST\Model\DefaultStyle.cs" />
     <Compile Include="AST\Model\Identifier.cs" />
     <Compile Include="AST\Model\Page.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="AST\Model\StyleAttributes\Widgets\Widget.cs" />
     <Compile Include="AST\Model\StyleAttributes\Width.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
-    <Compile Include="AST\Building\StyleSheetVisitor.cs" />
+    <Compile Include="AST\Building\StyleSheetBuilder.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\Calendar.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\CheckBox.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\DropDown.cs" />

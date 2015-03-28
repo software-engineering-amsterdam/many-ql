@@ -10,7 +10,7 @@ using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
-    internal class StyleAttributeVisitor : QLSBaseVisitor<StyleAttribute>
+    internal class StyleAttributeBuilder : QLSBaseVisitor<StyleAttribute>
     {
         public override StyleAttribute VisitWidth(QLSParser.WidthContext context)
         {

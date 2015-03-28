@@ -11,7 +11,7 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
-    internal class QuestionReferenceVisitor : QLSBaseVisitor<QuestionReference>
+    internal class QuestionReferenceBuilder : QLSBaseVisitor<QuestionReference>
     {
         public override QuestionReference VisitQuestionReference(QLSParser.QuestionReferenceContext context)
         {
@@ -20,7 +20,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 
             foreach (var styleAttributeContext in context.style_attr())
             {
-                styleAttributes.Add(styleAttributeContext.Accept(new StyleAttributeVisitor()));
+                styleAttributes.Add(styleAttributeContext.Accept(new StyleAttributeBuilder()));
             }
 
             return new QuestionReference(id, styleAttributes, context.GetTextPosition());

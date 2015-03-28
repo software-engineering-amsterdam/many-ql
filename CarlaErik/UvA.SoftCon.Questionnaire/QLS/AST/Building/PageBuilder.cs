@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
-    internal class PageVisitor : QLSBaseVisitor<Page>
+    internal class PageBuilder : QLSBaseVisitor<Page>
     {
         public override Page VisitPage(QLSParser.PageContext context)
         {
@@ -19,11 +19,11 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 
             foreach (var sectionContext in context.section())
             {
-                sections.Add(sectionContext.Accept(new SectionVisitor()));
+                sections.Add(sectionContext.Accept(new SectionBuilder()));
             }
             foreach (var defaultStyleContext in context.default_styles())
             {
-                defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleVisitor()));
+                defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleBuilder()));
             }
 
             return new Page(id, sections, defaultStyles, context.GetTextPosition());

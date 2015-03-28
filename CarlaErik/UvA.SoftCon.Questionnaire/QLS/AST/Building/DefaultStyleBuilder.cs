@@ -12,7 +12,7 @@ using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
-    internal class DefaultStyleVisitor : QLSBaseVisitor<DefaultStyle>
+    internal class DefaultStyleBuilder : QLSBaseVisitor<DefaultStyle>
     {
         public override DefaultStyle VisitDefaultStyles(QLSParser.DefaultStylesContext context)
         {
@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 
             foreach (var styleAttributeContext in context.style_attr())
             {
-                styleAttributes.Add(styleAttributeContext.Accept(new StyleAttributeVisitor()));
+                styleAttributes.Add(styleAttributeContext.Accept(new StyleAttributeBuilder()));
             }
 
             return new DefaultStyle(dataType, styleAttributes, context.GetTextPosition());
