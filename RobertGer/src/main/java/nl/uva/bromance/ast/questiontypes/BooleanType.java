@@ -58,7 +58,7 @@ public class BooleanType implements QuestionType {
             } else {
                 answerMap.put(id, new BooleanResult(false));
             }
-            visualizer.refresh(q);
+            visualizer.refresh(q.hashCode());
         });
         parent.getChildren().add(checkBox);
 

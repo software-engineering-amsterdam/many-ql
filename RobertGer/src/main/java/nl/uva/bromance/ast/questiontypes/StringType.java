@@ -53,7 +53,7 @@ public class StringType implements QuestionType {
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             answerMap.put(id, new StringResult(newValue));
-            visualizer.refresh(q);
+            visualizer.refresh(q.hashCode());
         });
         parent.getChildren().add(textField);
 

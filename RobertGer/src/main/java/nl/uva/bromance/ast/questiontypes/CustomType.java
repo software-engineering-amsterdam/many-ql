@@ -48,7 +48,7 @@ public class CustomType implements QuestionType {
             RadioButton rb = (RadioButton) newToggle.getToggleGroup().getSelectedToggle();
             answerMap.put(id, new StringResult(rb.getText()));
             if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null)) {
-                visualizer.refresh(q);
+                visualizer.refresh(q.hashCode());
             }
         });
 
