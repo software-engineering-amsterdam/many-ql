@@ -1,16 +1,10 @@
 package org.uva.ql.view.panel;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.uva.ql.ast.expression.Expression;
 
 public class IfElseQuestionPanel extends IfQuestionPanel {
-
-	private static final long serialVersionUID = -4507161988032536469L;
 
 	private final List<Panel> elseBlockPanels;
 
@@ -28,9 +22,5 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 				(panel).setVisible(!show);
 			}
 		}
-	}
-
-	public List<Panel> getElseBlockPanels() {
-		return elseBlockPanels;
 	}
 }

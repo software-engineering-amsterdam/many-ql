@@ -16,9 +16,8 @@ import org.uva.ql.view.panel.Panel;
 
 public class FormFrame {
 
-	private static final long serialVersionUID = 1L;
-	private List<IfQuestionPanel> dependentQuestionPanels;
-	private List<ExprQuestionComponent> dependentQuestionComponents;
+	private List<IfQuestionPanel> exprPanels;
+	private List<ExprQuestionComponent> exprComponents;
 	private final JFrame frame;
 
 	public FormFrame() {
@@ -26,8 +25,8 @@ public class FormFrame {
 		frame.setSize(500, 800);
 		frame.setLayout(new MigLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.dependentQuestionPanels = new ArrayList<IfQuestionPanel>();
-		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
+		this.exprPanels = new ArrayList<IfQuestionPanel>();
+		this.exprComponents = new ArrayList<ExprQuestionComponent>();
 	}
 
 	private void addWithConstraints(Component component) {
@@ -35,17 +34,17 @@ public class FormFrame {
 	}
 
 	public void addQuestionPanel(Panel panel) {
-		addWithConstraints(panel);
+		addWithConstraints(panel.getPanel());
 	}
 
 	public void addIfQuestionPanel(IfQuestionPanel panel) {
-		addWithConstraints(panel);
-		dependentQuestionPanels.add(panel);
+		addWithConstraints(panel.getPanel());
+		exprPanels.add(panel);
 	}
 
 	public void addExprQuestionPanel(ExprQuestionComponent panel) {
-		addWithConstraints(panel);
-		dependentQuestionComponents.add(panel);
+		addWithConstraints(panel.getPanel());
+		exprComponents.add(panel);
 	}
 
 	public void addDoneButton(JButton button) {
@@ -53,16 +52,16 @@ public class FormFrame {
 	}
 
 	public void notifyPanels(Evaluator evaluator) {
-		for (ExprQuestionComponent exprQuestionComponent : dependentQuestionComponents) {
+		for (ExprQuestionComponent exprQuestionComponent : exprComponents) {
 			exprQuestionComponent.evaluateAndChange(evaluator);
 		}
 
-		for (IfQuestionPanel ifQuestionPanel : dependentQuestionPanels) {
+		for (IfQuestionPanel ifQuestionPanel : exprPanels) {
 			ifQuestionPanel.evaluateAndShow(evaluator);
 		}
 	}
-	
-	public void setFrameVisible(boolean show){
+
+	public void setFrameVisible(boolean show) {
 		frame.setVisible(show);
 	}
 }

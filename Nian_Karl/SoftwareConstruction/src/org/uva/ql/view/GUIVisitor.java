@@ -37,7 +37,6 @@ import org.uva.ql.visitor.TypeVisitor;
 public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>, QuestionnaireVisitor<Object> {
 
 	private WidgetListener widgetListener;
-	private DoneButtonListener doneButtonListener;
 	private FormFrame formView;
 
 	public GUIVisitor() {

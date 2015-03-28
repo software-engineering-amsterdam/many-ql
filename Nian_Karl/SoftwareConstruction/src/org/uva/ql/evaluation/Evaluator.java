@@ -43,7 +43,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 	public boolean contains(Identifier id) {
 		return values.containsKey(id);
 	}
-	
+
 	public Value getValue(Identifier id) {
 		if (contains(id)) {
 			return values.get(id);
@@ -51,11 +51,11 @@ public class Evaluator implements ExpressionVisitor<Value> {
 			return new UndefinedValue();
 		}
 	}
-	
+
 	public int countValues() {
 		return values.size();
 	}
-	
+
 	public Map<Identifier, Value> getMap() {
 		return values;
 	}
