@@ -19,5 +19,8 @@ form PartyForm {
 
         question preferences "Do you have any special preferences?"
         answer string
+
+        question aLotOfPreferences "A lot of preferences?"
+        answer string
     }
 }

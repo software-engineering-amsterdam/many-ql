@@ -36,6 +36,12 @@ style PartyForm {
                 font: "Arial"
                 fontSize: 14
             }
+
+            aLotOfPreferences textBlock {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+            }
         }
     }
 

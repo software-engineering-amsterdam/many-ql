@@ -38,7 +38,7 @@ class FormBuilder(stylesheet: StyleSheet, env: EvalEnvironment = ObservableMap.e
           case NumberType() => new NumberQuestionWidget(q, visibilityExpressions, env)
           case StringType() => new StringQuestionWidget(q, visibilityExpressions, env)
         }
-          // TODO: TextBlock
+        case TextBlock(styleProperties) => new TextBlockQuestionWidget(q, visibilityExpressions, env)
         case Radio(styleProperties) => new RadioQuestionWidget(q, visibilityExpressions, env)
         case CheckBox(styleProperties) => new CheckBoxQuestionWidget(q, visibilityExpressions, env)
         case DropDown(styleProperties) => new DropDownQuestionWidget(q, visibilityExpressions, env)
