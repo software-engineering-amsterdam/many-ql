@@ -30,6 +30,7 @@ public class GUIManager {
 	
 	
 	public void runGUI(JFrame frame) {
+	if(!formEmpty()) {	
 		if(formIsCorrect()) {
 			final JPanel panel = mainFrame.addFormToFrame(form);	
 			frame.getContentPane().removeAll();
@@ -44,6 +45,7 @@ public class GUIManager {
 			frame.repaint();
 			showErrors();
 		}	
+	}
 	}
 	
 	public boolean formIsCorrect () {

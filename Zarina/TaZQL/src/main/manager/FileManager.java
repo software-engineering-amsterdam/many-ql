@@ -17,7 +17,7 @@ public class FileManager {
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog (null, "You didn't choose (existing) file.", "Error!", JOptionPane.ERROR_MESSAGE);
 		}
-		return null;
+		return "";
 	}
 	
 	public String fileToString(String filename) throws FileNotFoundException  {
