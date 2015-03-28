@@ -5,13 +5,19 @@ stylesheet taxOfficeExample
         widget checkbox
       question otherDumbQuestion
         widget textfield
-       section "Subsection" {
+       section "Subsection A" {
          question subSectionQuestionA
            widget textfield
          question subSectionQuestionB
            widget textfield
        }
-    } 
+       section "Subsection B" {
+         question subSectionQuestionC
+           widget textfield
+         question subSectionQuestionD
+           widget textfield
+       }
+    }
     section "Loaning"  
       question hasMaintLoan
   }
