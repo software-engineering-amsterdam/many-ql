@@ -17,9 +17,12 @@ stylesheet taxOfficeExample
          question subSectionQuestionD
            widget textfield
        }
+       default string { widget textfield }
     }
     section "Loaning"  
       question hasMaintLoan
+  default boolean { widget radio("Yes", "No") }
+  default integer { widget numberfield }
   }
 
   page Selling { 
@@ -38,8 +41,7 @@ stylesheet taxOfficeExample
           fontsize: 14
           color: #999999
           widget numberfield
-        }        
+        }
       }
     }
-    default boolean widget radio("Yes", "No")
-  }  
+  }
