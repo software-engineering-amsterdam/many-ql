@@ -33,7 +33,6 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		return simpleQuestion.getQuestionType().accept(
 				new WidgetVisitor( 
 						simpleQuestion.getQuestionId().getID(), 
-						simpleQuestion.getQuestionText(), 
 						simpleQuestion.getQuestionType(), 
 						this.valueRepository
 				)
@@ -50,8 +49,7 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 		SimpleQuestionUI sq = new SimpleQuestionUI(
 				simpleQuestion.getQuestionId().getID(),
 				new JLabel(simpleQuestion.getQuestionText()), 
-				this.widget(simpleQuestion),
-				this.valueRepository
+				this.widget(simpleQuestion)
 			);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId().getID(), sq);
@@ -64,7 +62,6 @@ public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 				calQuestion.getQuestionId().getID(), 
 				new JLabel(calQuestion.getQuestionText()), 
 				this.widget(calQuestion), 
-				this.valueRepository, 
 				this.sendToUpdater(calQuestion.getExpression())
 			);
 		

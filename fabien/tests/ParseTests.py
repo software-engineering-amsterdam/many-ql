@@ -4,6 +4,8 @@ import unittest
 from src.QL.parser import Parser
 from src.Typechecker.errors import ParseError
 
+import lib
+
 # Simple tests that check if the parser does not crash on valid input
 class ParseTests(unittest.TestCase):
     def setUp(self):
@@ -32,7 +34,7 @@ class ParseTests(unittest.TestCase):
         self.assertRaises(ParseError, self.parser.parse, formText)
 
     def testSimpleForm(self):
-        with open("tests/forms/simple.txt", "r") as file:
+        with open(lib.formFilePath("simple.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -41,7 +43,7 @@ class ParseTests(unittest.TestCase):
             file.close()
 
     def testSkipComments(self):
-        with open("tests/forms/comments.txt", "r") as file:
+        with open(lib.formFilePath("comments.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -50,7 +52,7 @@ class ParseTests(unittest.TestCase):
             file.close()
 
     def testTypes(self):
-        with open("tests/forms/types.txt", "r") as file:
+        with open(lib.formFilePath("types.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -60,14 +62,14 @@ class ParseTests(unittest.TestCase):
 
 
     def testUndefinedType(self):
-        with open("tests/forms/undefinedType.txt", "r") as file:
+        with open(lib.formFilePath("undefinedType.txt"), "r") as file:
             self.assertRaises(ParseError, self.parser.parse, file.read())
 
             file.close()
 
 
     def testIfBlocks(self):
-        with open("tests/forms/simpleIf.txt", "r") as file:
+        with open(lib.formFilePath("simpleIf.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -76,7 +78,7 @@ class ParseTests(unittest.TestCase):
             file.close()
 
     def testIfElse(self):
-        with open("tests/forms/ifElse.txt", "r") as file:
+        with open(lib.formFilePath("ifElse.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -85,7 +87,7 @@ class ParseTests(unittest.TestCase):
             file.close()
 
     def testNestedIfBlocks(self):
-        with open("tests/forms/nestedIf.txt", "r") as file:
+        with open(lib.formFilePath("nestedIf.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
@@ -98,7 +100,7 @@ class ParseTests(unittest.TestCase):
 
 
     def testExpressions(self):
-        with open("tests/forms/expressions.txt", "r") as file:
+        with open(lib.formFilePath("expressions.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")

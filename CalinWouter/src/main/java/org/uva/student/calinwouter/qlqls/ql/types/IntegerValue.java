@@ -41,47 +41,47 @@ public class IntegerValue extends Value {
 
     @Override
     public Value add(Value value) {
-        return new IntegerValue((Integer) getInternalValue() + (Integer) value.getInternalValue());
+        return new IntegerValue((Integer) toJavaObject() + (Integer) value.toJavaObject());
     }
 
     @Override
     public Value sub(Value value) {
-        return new IntegerValue((Integer) getInternalValue() - (Integer) value.getInternalValue());
+        return new IntegerValue((Integer) toJavaObject() - (Integer) value.toJavaObject());
     }
 
     @Override
     public Value mul(Value value) {
-        return new IntegerValue((Integer) getInternalValue() * (Integer) value.getInternalValue());
+        return new IntegerValue((Integer) toJavaObject() * (Integer) value.toJavaObject());
     }
 
     @Override
     public Value div(Value value) {
-        return new IntegerValue((Integer) getInternalValue() / (Integer) value.getInternalValue());
+        return new IntegerValue((Integer) toJavaObject() / (Integer) value.toJavaObject());
     }
 
     @Override
     public Value mod(Value value) {
-        return new IntegerValue((Integer) getInternalValue() % (Integer) value.getInternalValue());
+        return new IntegerValue((Integer) toJavaObject() % (Integer) value.toJavaObject());
     }
 
     @Override
     public BoolValue lt(Value value) {
-        return new BoolValue((Integer) getInternalValue() < (Integer) value.getInternalValue());
+        return new BoolValue((Integer) toJavaObject() < (Integer) value.toJavaObject());
     }
 
     @Override
     public BoolValue gt(Value value) {
-        return new BoolValue((Integer) getInternalValue() > (Integer) value.getInternalValue());
+        return new BoolValue((Integer) toJavaObject() > (Integer) value.toJavaObject());
     }
 
     @Override
     public BoolValue lte(Value value) {
-        return new BoolValue((Integer) getInternalValue() <= (Integer) value.getInternalValue());
+        return new BoolValue((Integer) toJavaObject() <= (Integer) value.toJavaObject());
     }
 
     @Override
     public BoolValue gte(Value value) {
-        return new BoolValue((Integer) getInternalValue() >= (Integer) value.getInternalValue());
+        return new BoolValue((Integer) toJavaObject() >= (Integer) value.toJavaObject());
     }
 
     @Override

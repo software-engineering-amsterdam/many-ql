@@ -45,7 +45,6 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
-            System.out.println(k+" <- added to panel ");
             this.panel.add(widgetsRepository.get(k).getLabel());
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");    
         }

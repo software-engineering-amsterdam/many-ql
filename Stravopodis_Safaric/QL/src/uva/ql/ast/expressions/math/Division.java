@@ -11,29 +11,22 @@ import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Division extends BinaryExpressions{
+public class Division extends BinaryExpression{
 
 	public Division(Expression left, Expression right, CodeLines _codeLines){
 		super(left, right, Operator.DIV, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitDivision(this);
-	}
-	
-	@Override
 	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).division(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).division(new NumberValue(right));
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -43,8 +36,18 @@ public class Division extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitDivision(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

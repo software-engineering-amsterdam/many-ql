@@ -25,7 +25,7 @@ public class BooleanValue extends GenericValue<Boolean> {
 	}
 
 	@Override
-	public TypeBoolean getValueType() {
+	public TypeBoolean valueHasType() {
 		return new TypeBoolean();
 	}
 	
@@ -35,14 +35,6 @@ public class BooleanValue extends GenericValue<Boolean> {
 			return false;
 		}
 		return value.getValue() == this.getValue();
-	}
-	
-	@Override
-	public boolean isNotEqual(GenericValue<?> value) {
-		if (value == null){
-			return false;
-		}
-		return value.getValue() != this.getValue();
 	}
 	
 	@Override

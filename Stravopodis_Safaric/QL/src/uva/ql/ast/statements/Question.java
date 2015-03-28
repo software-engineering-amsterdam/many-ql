@@ -16,6 +16,7 @@ public class Question extends Statement {
 	
 	public Question(Type _type, Identifier _identifier, StringLiteral _questionLabel, CodeLines _codeLines){
 		super(_codeLines);
+		
 		this.type = _type;
 		this.identifier = _identifier;
 		this.questionLabel = _questionLabel;
@@ -23,10 +24,15 @@ public class Question extends Statement {
 	
 	public Question(Type _type, Identifier _identifier, StringLiteral _questionLabel, Expression _expression, CodeLines _codeLines){
 		super(_codeLines);
+		
 		this.type = _type;
 		this.identifier = _identifier;
 		this.questionLabel = _questionLabel;
 		this.expression = _expression;
+	}
+	
+	public Expression getQuestionExpression(){
+		return this.expression;
 	}
 	
 	public Type getQuestionType(){
@@ -42,7 +48,7 @@ public class Question extends Statement {
 	}
 	
 	public String getQuestionIdentifierValue(){
-		return this.identifier.getEvaluatedValue().toString();
+		return this.identifier.getValue();
 	}
 	
 	public StringLiteral getQuestionLabel(){
@@ -50,12 +56,17 @@ public class Question extends Statement {
 	}
 	
 	public String getQuestionLabelText(){
-		String labelTextValue = this.getQuestionLabel().getEvaluatedValue();
+		String labelTextValue = this.getQuestionLabel().getValue();
 		return labelTextValue.replaceAll("\"", "");
 	}
 	
-	public Expression getQuestionExpression(){
-		return this.expression;
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		if (this.expression == null){
+			return visitor.visitSimpleQuestion(this);
+		}
+		
+		return visitor.visitComputedQuestion(this);
 	}
 	
 	@Override
@@ -64,18 +75,7 @@ public class Question extends Statement {
 	}
 	
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		if (this.expression == null){
-			return visitor.visitSimpleQuestion(this);
-		}
-		return visitor.visitComputedQuestion(this);
-	}
-	
-	@Override
 	public String toString(){
 		return "Question(" + this.identifier + ","  + this.type + "," + this.questionLabel + "," + this.expression + "))";
 	}
 }
-
-
-

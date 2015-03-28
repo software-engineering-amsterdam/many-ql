@@ -55,6 +55,11 @@ public class RadioWidget implements IWidget {
         btnGroupYesNo.add(noRadioButton);
     }
 
+    private void initializeRadioButtons() {
+        btnPanelYesNo.add(yesRadioButton);
+        btnPanelYesNo.add(noRadioButton);
+    }
+
     private String getYesLabel() {
         return radio.getYesLbl();
     }
@@ -72,6 +77,7 @@ public class RadioWidget implements IWidget {
         this.yesRadioButton = new JRadioButton(getYesLabel());
         this.noRadioButton = new JRadioButton(getNoLabel());
         initializeButtonGroup();
+        initializeRadioButtons();
         initializeEventListeners();
     }
 }

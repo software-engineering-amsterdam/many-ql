@@ -4,7 +4,7 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 
 public class Width extends StyleProperty<Integer> {
 
-    public static final String PROPERTY_NAME = "Width";
+    public static final String PROPERTY_NAME = "width";
 
     public Width(Integer _value) {
         super(PROPERTY_NAME, _value);

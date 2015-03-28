@@ -4,6 +4,8 @@ import unittest
 from src.QL.parser import Parser
 from src.Typechecker import *
 
+import lib
+
 # Simple tests that check if the parser does not crash on valid input
 class TypecheckingTests(unittest.TestCase):
     def setUp(self):
@@ -24,7 +26,7 @@ class TypecheckingTests(unittest.TestCase):
 
 
     def testDuplicateQuestions(self):
-        with open("tests/forms/duplicateQuestions.txt", "r") as file:
+        with open(lib.formFilePath("duplicateQuestions.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -33,7 +35,7 @@ class TypecheckingTests(unittest.TestCase):
         self.assertEqual(len(self.undefinedQuestions.errors), 0)
 
     def testDuplicateQuestionsNested(self):
-        with open("tests/forms/duplicateQuestionsNested.txt", "r") as file:
+        with open(lib.formFilePath("duplicateQuestionsNested.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -41,7 +43,7 @@ class TypecheckingTests(unittest.TestCase):
         self.assertEqual(len(self.duplicateQuestions.errors), 1)
 
     def testUndefinedQuestions(self):
-        with open("tests/forms/undefinedQuestions.txt", "r") as file:
+        with open(lib.formFilePath("undefinedQuestions.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -51,7 +53,7 @@ class TypecheckingTests(unittest.TestCase):
 
 
     def testUndefinedQuestionsNested(self):
-        with open("tests/forms/undefinedQuestionsNested.txt", "r") as file:
+        with open(lib.formFilePath("undefinedQuestionsNested.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -61,7 +63,7 @@ class TypecheckingTests(unittest.TestCase):
 
 
     def testIncompatibleTypes(self):
-        with open("tests/forms/expressionTypes.txt", "r") as file:
+        with open(lib.formFilePath("expressionTypes.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -71,7 +73,7 @@ class TypecheckingTests(unittest.TestCase):
         self.assertEqual(len(self.nonExpressions.errors), 1)
 
     def testIncompatibleNestedTypes(self):
-        with open("tests/forms/expressionTypesNested.txt", "r") as file:
+        with open(lib.formFilePath("expressionTypesNested.txt"), "r") as file:
             parsed = self.parser.parse(file.read())
 
         self.checker.checkAST(parsed)
@@ -79,5 +81,4 @@ class TypecheckingTests(unittest.TestCase):
         self.assertEqual(len(self.duplicateQuestions.errors), 0)
         self.assertEqual(len(self.undefinedQuestions.errors), 0)
         self.assertEqual(len(self.nonExpressions.errors), 4)
-
 

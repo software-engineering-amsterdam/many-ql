@@ -9,9 +9,9 @@ class Factory:
         q_type = statement.ast.get_type()
         if q_type == bool_type.Bool():
             self.gui_element = r.RadioButton(statement, gui, frame)
-        elif q_type == bool_type.Number():
+        elif q_type == number_type.Number():
             self.gui_element = s.SpinBox(statement, gui, frame)
-        elif q_type == bool_type.Text():
+        elif q_type == text_type.Text():
             self.gui_element = t.TextEntry(statement, gui, frame)
 
     def get_gui_element(self):

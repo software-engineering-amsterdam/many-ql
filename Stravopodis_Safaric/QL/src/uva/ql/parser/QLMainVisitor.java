@@ -3,7 +3,7 @@ package uva.ql.parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import uva.ql.ast.ASTNode;
+import uva.ql.ast.Node;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
@@ -36,10 +36,10 @@ import uva.ql.ast.type.*;
 
 import java.util.*;
 
-public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
+public class QLMainVisitor extends QLBaseVisitor<Node> {
 	
 	@Override 
-	public ASTNode visitProg(ProgContext ctx) { 
+	public Node visitProg(ProgContext ctx) { 
 		CodeLines codeLines = getCodeLines(ctx);
 		return new Prog(visitForm(ctx.form()), codeLines);
 	}
@@ -94,7 +94,7 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 		StringLiteral text = this.visitStringLiteral(ctx.STRING(), codeLines);
 		Assign assign = this.visitAssign(ctx.assign());
 		
-		return new Question(type, identifier, text, assign.getExpression(), this.getCodeLines(ctx));
+		return new Question(type, identifier, text, assign.getAssignExpression(), this.getCodeLines(ctx));
 	}
 	
 	@Override 

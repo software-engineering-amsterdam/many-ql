@@ -1,7 +1,11 @@
-﻿using AST;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AST;
 using AST.Nodes;
+using AST.Nodes.Expressions;
 using Notifications;
-using System.Collections.Generic;
+using TypeChecking.Collectors;
+using Types = AST.Types;
 
 namespace TypeChecking
 {
@@ -9,16 +13,26 @@ namespace TypeChecking
     {
         public static ASTResult GetTypeCheckDiagnosis(ASTResult astResult)
         {
-            List<INotification> notifications = new List<INotification>(); 
+            List<INotification> notifications = new List<INotification>();
 
             INotificationManager notificationManager = new NotificationManager();
 
-            //notificationManager = new IdentifierChecker(astResult.RootNode, notificationManager).AnalyzeAndReport();
-            //notifications.AddRange(new ExpressionChecker(astResult.RootNode).AnalyzeAndReport());
+            Form rootNode = astResult.RootNode;
 
-            //ASTResult result = new ASTResult()
+            notificationManager = IdentifierChecker.AnalyzeAndReport(rootNode);
 
-            return null;
+            ExpressionContainerChecker expressionContainerChecker = new ExpressionContainerChecker(GetIdentifierTypes(rootNode));
+            notificationManager.Combine(expressionContainerChecker.AnalyzeAndReport(rootNode.GetBody()));
+            notificationManager.Combine(new CyclicDependencyChecker().AnalyzeAndReport(rootNode.GetBody()));
+
+            astResult.NotificationManager.Combine(notificationManager);
+
+            return astResult;
+        }
+
+        private static Dictionary<Id, Types.Type> GetIdentifierTypes(Form node)
+        {
+            return node.Accept(new IdentifierTypeCollector()).ToDictionary(id => id, id => id.RetrieveType());
         }
 
 

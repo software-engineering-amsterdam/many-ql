@@ -15,7 +15,6 @@ public class SaveButtonListener {
 	private static final String COMMA = ",";
 	private static final String NEW_LINE = "\n";
 	private static final String FILE_HEADER = "Question id, Answer";
-	protected static final String EXTENSION = ".png";
 	
 	public SaveButtonListener(ValueRepository valueRepository) {
 		this.valueRepository = valueRepository;
@@ -26,7 +25,7 @@ public class SaveButtonListener {
 		final String filePath;
 		final JFileChooser chooser=new JFileChooser();
 		FileManager manager = new FileManager();
-		manager.customazeFileChooser(chooser, "Save questionnaire as .csv");
+		manager.customazeFileChooser(chooser, "Save questionnaire as CSV");
 		  
 		final int result =chooser.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -45,8 +44,6 @@ public class SaveButtonListener {
 
 			Set<String> keys = valueRepository.getIDkeys();
 	        for(String k:keys){
-	            System.out.println("Question: " +k+". Answer: " + valueRepository.getValue(k));   
-	            
 	            fileWriter.append(k);
 				fileWriter.append(COMMA);
 				fileWriter.append(valueRepository.getValue(k).toString());
