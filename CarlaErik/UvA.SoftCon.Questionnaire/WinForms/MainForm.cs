@@ -51,6 +51,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             if (!e.Cancel)
             {
                 var qlFile = new FileInfo(OpenQLFileDialog.FileName);
+                var qlsFile = new FileInfo(qlFile.FullName + "s");
+
 
                 Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
                 
@@ -58,7 +60,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 var runtimeController = new RuntimeController();
 
                 var form = qlController.ParseQLFile(qlFile);
-
                 var report = runtimeController.Validate(form);
 
                 OutputTextBox.AppendText(report.ToString());

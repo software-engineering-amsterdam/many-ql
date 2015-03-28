@@ -11,9 +11,9 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class CalendarControl : QuestionControl
+    public partial class CalendarWidget : QuestionWidget
     {
-        public CalendarControl(Question astQuestion)
+        public CalendarWidget(Question astQuestion)
             :base(astQuestion)
         {
             InitializeComponent();

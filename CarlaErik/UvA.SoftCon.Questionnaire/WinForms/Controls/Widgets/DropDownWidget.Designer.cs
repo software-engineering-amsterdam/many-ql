@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class TextBoxControl
+    partial class DropDownWidget
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.QuestionLabel = new System.Windows.Forms.Label();
-            this.AnswerTextBox = new System.Windows.Forms.TextBox();
+            this.YesNoDropDownBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // QuestionLabel
@@ -41,18 +41,24 @@
             this.QuestionLabel.TabIndex = 0;
             this.QuestionLabel.Text = "Question?";
             // 
-            // AnswerTextBox
+            // YesNoDropDownBox
             // 
-            this.AnswerTextBox.Location = new System.Drawing.Point(4, 21);
-            this.AnswerTextBox.Name = "AnswerTextBox";
-            this.AnswerTextBox.Size = new System.Drawing.Size(516, 20);
-            this.AnswerTextBox.TabIndex = 1;
+            this.YesNoDropDownBox.FormattingEnabled = true;
+            this.YesNoDropDownBox.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.YesNoDropDownBox.Location = new System.Drawing.Point(7, 21);
+            this.YesNoDropDownBox.Name = "YesNoDropDownBox";
+            this.YesNoDropDownBox.Size = new System.Drawing.Size(121, 21);
+            this.YesNoDropDownBox.TabIndex = 1;
+            this.YesNoDropDownBox.SelectedValueChanged += new System.EventHandler(this.YesNoDropDownBox_SelectedValueChanged);
             // 
-            // TextQuestion
+            // DropDownControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.AnswerTextBox);
+            this.Controls.Add(this.YesNoDropDownBox);
             this.Controls.Add(this.QuestionLabel);
+            this.Name = "DropDownControl";
             this.Size = new System.Drawing.Size(523, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -62,7 +68,6 @@
         #endregion
 
         private System.Windows.Forms.Label QuestionLabel;
-        private System.Windows.Forms.TextBox AnswerTextBox;
-
+        private System.Windows.Forms.ComboBox YesNoDropDownBox;
     }
 }

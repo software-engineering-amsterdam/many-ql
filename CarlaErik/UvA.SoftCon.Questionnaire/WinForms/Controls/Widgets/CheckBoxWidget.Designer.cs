@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class RadioControl
+    partial class CheckBoxWidget
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TrueButton = new System.Windows.Forms.RadioButton();
-            this.FalseButton = new System.Windows.Forms.RadioButton();
             this.QuestionLabel = new System.Windows.Forms.Label();
+            this.YesCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // TrueButton
-            // 
-            this.TrueButton.AutoSize = true;
-            this.TrueButton.Location = new System.Drawing.Point(7, 20);
-            this.TrueButton.Name = "TrueButton";
-            this.TrueButton.Size = new System.Drawing.Size(43, 17);
-            this.TrueButton.TabIndex = 1;
-            this.TrueButton.TabStop = true;
-            this.TrueButton.Text = "Yes";
-            this.TrueButton.UseVisualStyleBackColor = true;
-            this.TrueButton.CheckedChanged += new System.EventHandler(this.TrueButton_CheckedChanged);
-            // 
-            // FalseButton
-            // 
-            this.FalseButton.AutoSize = true;
-            this.FalseButton.Location = new System.Drawing.Point(56, 20);
-            this.FalseButton.Name = "FalseButton";
-            this.FalseButton.Size = new System.Drawing.Size(39, 17);
-            this.FalseButton.TabIndex = 2;
-            this.FalseButton.TabStop = true;
-            this.FalseButton.Text = "No";
-            this.FalseButton.UseVisualStyleBackColor = true;
-            this.FalseButton.CheckedChanged += new System.EventHandler(this.FalseButton_CheckedChanged);
             // 
             // QuestionLabel
             // 
@@ -63,15 +38,26 @@
             this.QuestionLabel.Location = new System.Drawing.Point(4, 4);
             this.QuestionLabel.Name = "QuestionLabel";
             this.QuestionLabel.Size = new System.Drawing.Size(55, 13);
-            this.QuestionLabel.TabIndex = 3;
+            this.QuestionLabel.TabIndex = 0;
             this.QuestionLabel.Text = "Question?";
             // 
-            // BooleanQuestion
+            // YesCheckBox
+            // 
+            this.YesCheckBox.AutoSize = true;
+            this.YesCheckBox.Location = new System.Drawing.Point(7, 20);
+            this.YesCheckBox.Name = "YesCheckBox";
+            this.YesCheckBox.Size = new System.Drawing.Size(44, 17);
+            this.YesCheckBox.TabIndex = 1;
+            this.YesCheckBox.Text = "Yes";
+            this.YesCheckBox.UseVisualStyleBackColor = true;
+            this.YesCheckBox.CheckedChanged += new System.EventHandler(this.YesCheckBox_CheckedChanged);
+            // 
+            // CheckBoxControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.YesCheckBox);
             this.Controls.Add(this.QuestionLabel);
-            this.Controls.Add(this.FalseButton);
-            this.Controls.Add(this.TrueButton);
+            this.Name = "CheckBoxControl";
             this.Size = new System.Drawing.Size(523, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -80,8 +66,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton TrueButton;
-        private System.Windows.Forms.RadioButton FalseButton;
         private System.Windows.Forms.Label QuestionLabel;
+        private System.Windows.Forms.CheckBox YesCheckBox;
     }
 }

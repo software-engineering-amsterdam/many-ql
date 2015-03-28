@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class CalendarControl
+    partial class CalendarWidget
     {
         /// <summary>
         /// Required designer variable.
