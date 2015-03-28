@@ -3,7 +3,7 @@ import EncodersQLSLexerRules;
 
 stylesheet: 'stylesheet' name=NAME page+ EOF;
     
-page: 'page' name=NAME '{' section+ defaultStyle? '}';
+page: 'page' name=NAME '{' section+ defaultStyle* '}';
     
 section: 
          'section' name=STRINGLITERAL      (question | section | defaultStyle)
