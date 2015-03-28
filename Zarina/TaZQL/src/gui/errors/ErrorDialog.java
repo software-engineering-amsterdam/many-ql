@@ -63,11 +63,11 @@ public class ErrorDialog {
 	}
 	
 	public JLabel addErrorLabel(TaZQLError error) {
-		return new JLabel("  " + error.getErrorMessage() + " ");
+		return new JLabel("  " + error.getMessage() + " ");
 	}
 	
 	public JLabel addWarningLabel(TaZQLWarning warn) {
-		return new JLabel("  "+ warn.getWarningMessage() + " ");
+		return new JLabel("  "+ warn.getMessage() + " ");
 	}
 
 }

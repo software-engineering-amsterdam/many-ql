@@ -7,11 +7,9 @@ public class StringVariable extends Variable {
 	private final String stringVariable;
 	
 	public StringVariable (String stringVariable) {
-		//super(stringVariable);
 		this.stringVariable = stringVariable;
 	}	
 	
-	//@Override
 	public String getVariable() {
 		return stringVariable;
 	}
@@ -27,7 +25,7 @@ public class StringVariable extends Variable {
 	}
 
 	@Override
-	public TextType getExpressionType() {
+	public TextType getType() {
 		return new TextType();
 	}
 }

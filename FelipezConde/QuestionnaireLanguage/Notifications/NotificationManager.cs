@@ -15,6 +15,11 @@ namespace Notifications
             notifications.Add(notification);
         }
 
+        public void AddNotifications(IEnumerable<INotification> notifications)
+        {
+            this.notifications.AddRange(notifications);
+        }
+
         public bool HasError()
         {
             foreach (INotification notification in notifications)
@@ -30,11 +35,9 @@ namespace Notifications
             return notifications;
         }
 
-        public INotificationManager Combine(INotificationManager notificationManager)
+        public void Combine(INotificationManager notificationManager)
         {
             notifications.AddRange(notificationManager.GetNotifications());
-
-            return this;
         }
     }
 }

@@ -7,7 +7,6 @@ public abstract class Type extends AST {
 	
 	public abstract <T> T accept(ITypeVisitor<T> visitor);
 	public abstract String toString();
-	public abstract String getName();
 	
 	public abstract boolean isCompatibleToType(Type type);
 			

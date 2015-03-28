@@ -9,7 +9,7 @@ FORM Questionnaire {
 	calculation "4. The difference between q#2 and q#3 equals to:" digits (hasSoldHouse -amountHouses)
 	
 	if(calculation > 100) {
-		ifText "4a. Appear in case of when calculation is bigger than 100" digits
+		ifText "4a. Appears when calculation of q4 is bigger than 100" digits
 	}
 	
 	extra "5. Above should appear if-question" text

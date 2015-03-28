@@ -18,7 +18,7 @@ public class TextFieldWidget implements IWidgetComponent {
 	private JTextField widget;
 	private final ValueRepository valueRepository;
 		
-	public TextFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
+	public TextFieldWidget(String id, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
 		this.variableType = variableType;
 		this.valueRepository = valueRepository;
@@ -57,18 +57,17 @@ public class TextFieldWidget implements IWidgetComponent {
 	
 	@Override
 	public void addDocListener(final EvaluateExpression evaluator) {
-		//widget.getDocument().addDocumentListener(new TextListener(this, evaluator));
 		widget.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
-				evaluator.setValue(getIdWidget().toString(), getValue());
+				valueRepository.putValue(getIdWidget().toString(), getValue());
 			}
 
 			public void insertUpdate(DocumentEvent arg0) {
-				evaluator.setValue(getIdWidget().toString(), getValue());
+				valueRepository.putValue(getIdWidget().toString(), getValue());
 			}
 			
 			public void removeUpdate(DocumentEvent arg0) {
-				evaluator.setValue(getIdWidget().toString(), getValue());
+				valueRepository.putValue(getIdWidget().toString(), getValue());
 			}
 		});
 	}	

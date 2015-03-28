@@ -1,13 +1,12 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
 
-//TODO: Create ifsequence class.
 public class IfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
@@ -31,10 +30,20 @@ public class IfStatement extends QLNode implements ContainsExpression {
         }
     }
 
+    public boolean ExpressionEvaluatesToTrue() {
+        Result result = expression.getResult();
+        if (result instanceof BooleanResult) {
+            for (QLNode child : this.getChildren()) {
+                return ((BooleanResult) result).getResult();
+            }
+        }
+        return false;
+    }
+
     @Override
-    public void accept(QlNodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);
-        for(QLNode child: this.getChildren()) {
+        for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }

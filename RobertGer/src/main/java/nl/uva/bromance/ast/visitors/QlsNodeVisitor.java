@@ -8,7 +8,7 @@ import nl.uva.bromance.ast.QLSStylesheet;
 /**
  * Created by Robert on 16-3-2015.
  */
-public interface QlsNodeVisitor {
+public interface QLSNodeVisitor {
 
     void visit(QLSPage page);
 

@@ -1,7 +1,7 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
@@ -29,8 +29,25 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
             }
         }
     }
+
+    public void setChildrenVisible(boolean visible) {
+        for (QLNode child : this.getChildren()) {
+            child.setVisible(visible);
+        }
+    }
+
+    public boolean ExpressionEvaluatesToTrue() {
+        Result result = expression.getResult();
+        if (result instanceof BooleanResult) {
+            for (QLNode child : this.getChildren()) {
+                return ((BooleanResult) result).getResult();
+            }
+        }
+        return false;
+    }
+
     @Override
-    public void accept(QlNodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);
         for(QLNode child: this.getChildren()) {
             child.accept(visitor);

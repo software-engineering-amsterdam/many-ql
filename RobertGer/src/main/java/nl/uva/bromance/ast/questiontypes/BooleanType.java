@@ -48,7 +48,7 @@ public class BooleanType implements QuestionType {
                 checkBox.setSelected(true);
             }
         }
-        if (visualizer.getFocusId() == q.hashCode()) {
+        if (visualizer.getFocusUuid() == q.getUuid()) {
             visualizer.setFocusedNode(checkBox);
         }
 
@@ -58,7 +58,7 @@ public class BooleanType implements QuestionType {
             } else {
                 answerMap.put(id, new BooleanResult(false));
             }
-            visualizer.refresh(q.hashCode());
+            visualizer.refresh(q.getUuid());
         });
         parent.getChildren().add(checkBox);
 

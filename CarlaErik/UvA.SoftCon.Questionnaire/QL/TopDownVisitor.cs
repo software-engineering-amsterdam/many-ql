@@ -51,16 +51,24 @@ namespace UvA.SoftCon.Questionnaire.QL
             return default(T);
         }
 
-        public virtual T Visit(Question question)
+        public virtual T Visit(BooleanQuestion question)
         {
-            question.Id.Accept(this);
+            return VisitQuestion(question);
+        }
 
-            if (question.Expression != null)
-            {
-                question.Expression.Accept(this);
-            }
+        public virtual T Visit(DateQuestion question)
+        {
+            return VisitQuestion(question);
+        }
 
-            return default(T);
+        public virtual T Visit(IntegerQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public virtual T Visit(StringQuestion question)
+        {
+            return VisitQuestion(question);
         }
 
         public virtual T Visit(IfStatement ifStatement)
@@ -140,6 +148,18 @@ namespace UvA.SoftCon.Questionnaire.QL
         public virtual T Visit(Negation negation)
         {
             return VisitUnaryExpression(negation);
+        }
+
+        private T VisitQuestion(Question question)
+        {
+            question.Id.Accept(this);
+
+            if (question.Expression != null)
+            {
+                question.Expression.Accept(this);
+            }
+
+            return default(T);
         }
 
         private T VisitBinaryExpression(BinaryExpression expression)

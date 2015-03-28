@@ -13,15 +13,14 @@ import evaluator.ValueRepository;
 import gui.listeners.EvaluateExpression;
 
 public class ChoiceWidget implements IWidgetComponent {
-	private final String id, label;
+	private final String id;
 	private final Type widgetType;
 	private JCheckBox widget;
 	private final ValueRepository valueRepository;
 	private BooleanValue value;
 		
-	public ChoiceWidget(String id, String label, Type widgetType, ValueRepository valueRepository) {
+	public ChoiceWidget(String id, Type widgetType, ValueRepository valueRepository) {
 		this.id = id;
-		this.label = label;
 		this.valueRepository = valueRepository;
 		this.widgetType = widgetType;
 		this.widget = new JCheckBox();
@@ -45,22 +44,18 @@ public class ChoiceWidget implements IWidgetComponent {
 
 	@Override
 	public void addDocListener(final EvaluateExpression evaluator) {
-		//widget.addItemListener(new ChoiceListener(this, evaluator));
 		widget.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				evaluator.setValue(getIdWidget().toString(), getValue());	
+				valueRepository.putValue(getIdWidget().toString(), getValue());	
 				evaluator.setValueInGUI();
 			}
 		});
 	}
 
 	@Override
-	public void setEnabled(boolean isEnabled) {
-		// not necessary
-	}
-
+	public void setEnabled(boolean isEnabled) {}
 	
 	@Override
 	public BooleanValue getValue() {

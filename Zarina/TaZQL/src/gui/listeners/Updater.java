@@ -26,7 +26,6 @@ public class Updater {
 		
 		Set<String> idKeys = valueRepository.getIDkeys();
 		for ( String key : idKeys) {
-		   System.out.println( "Key: " + key );
 		   if (!this.render.containsSimpleQuestionUI(key)) {
 			  continue;
 		   }

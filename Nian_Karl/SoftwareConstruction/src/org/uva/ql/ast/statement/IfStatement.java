@@ -22,17 +22,15 @@ public class IfStatement extends Statement {
 	public Block getIfBlock() {
 		return ifBlock;
 	}
-	
+
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[If] "
-				+ "\n\tExpression = " + expr.toString()
-				+ "\n\tIf Block = " + ifBlock.toString();
+		return "[If] " + "\n\tExpression = " + expr.toString() + "\n\tIf Block = " + ifBlock.toString();
 	}
 
 }

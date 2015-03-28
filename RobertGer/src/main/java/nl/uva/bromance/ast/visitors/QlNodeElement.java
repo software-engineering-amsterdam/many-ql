@@ -5,5 +5,5 @@ package nl.uva.bromance.ast.visitors;
  */
 public interface QlNodeElement {
 
-    void accept(QlNodeVisitor visitor);
+    void accept(QLNodeVisitor visitor);
 }

@@ -32,10 +32,6 @@ public class TestCheckerWidgetCompatibility  extends TestQlsTypeCheckerBase {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-
-        for (ASTNodeIssue error: errors) {
-            System.out.println(error.getErrorType() + " " + error.getMessage());
-        }
         assertEquals(6, errors.size());
     }
 

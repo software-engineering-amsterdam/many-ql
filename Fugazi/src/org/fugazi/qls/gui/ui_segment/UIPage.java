@@ -1,8 +1,7 @@
 package org.fugazi.qls.gui.ui_segment;
 
-import org.fugazi.ql.gui.ui_elements.IUIForm;
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.qls.gui.QLSUIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
+import org.fugazi.qls.gui.ui_element.QLSUIForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,20 +9,40 @@ import java.awt.*;
 public class UIPage {
 
     private final JPanel panel;
+    private final JPanel[] subPanelsHolder;
     private final String pageTitle;
+    private final int index;
 
-    public UIPage(String _title) {
+    public UIPage(String _title, int _index, int rows) {
         this.panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 1));
+
+        if (rows == 0) {
+            rows++; // otherwise GridLayout will throw. Edge case for empty page.
+        }
+        this.subPanelsHolder = new JPanel[rows];
+        this.initializeSubpanels(rows);
 
         this.pageTitle = _title;
+        this.index = _index;
     }
-    public void addToForm(QLSUIForm _uiForm) {
-        _uiForm.addPage(this);
 
+    private void initializeSubpanels(int rows){
+        panel.setLayout(new GridLayout(rows, 0));
+        for (int i = 0; i < rows; i++) {
+            subPanelsHolder[i] = new JPanel();
+            subPanelsHolder[i].setLayout(new GridLayout(0, 1));
+            this.panel.add(subPanelsHolder[i]);
+        }
     }
-    public void removeFromForm(QLSUIForm _uiForm) {
-        _uiForm.removePage(this);
+    
+    public void addToForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.addPage(this);
+    }
+    
+    public void removeFromForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.removePage(this);
     }
 
     public String getTitle() {
@@ -32,5 +51,13 @@ public class UIPage {
 
     public JPanel getPanel() {
         return this.panel;
+    }
+
+    public int getIndex() { 
+        return this.index; 
+    }
+
+    public JPanel getSubPanel(int index) {
+        return this.subPanelsHolder[index];
     }
 }

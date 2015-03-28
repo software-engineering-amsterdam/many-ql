@@ -7,7 +7,7 @@ class QLType(object):
 		return self._value
 
 	def __str__(self):
-		return "%s:%s" %(self.__class__.__name__, self.value)
+		return str(self.value)
 
 	def __hash__(self):
 		return hash(self._value)

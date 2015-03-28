@@ -7,11 +7,11 @@ import java.util.Set;
 
 public class DependencyTable {
 
-	private Map<String,DependencySet> dependencies = new HashMap<String,DependencySet>();
+	private Map<String,IdentifierSet> dependencies = new HashMap<String,IdentifierSet>();
 	
 	public DependencyTable(){}
 	
-	public Collection<DependencySet> getValues(){
+	public Collection<IdentifierSet> getValues(){
 		return this.dependencies.values();
 	}
 	
@@ -19,16 +19,15 @@ public class DependencyTable {
 		return this.dependencies.keySet();
 	}
 	
-	public DependencyTable(Map<String,DependencySet> _dependencies){
+	public DependencyTable(Map<String,IdentifierSet> _dependencies){
 		this.dependencies=_dependencies;
-		
 	}
 	
-	public Map<String,DependencySet> getDependencyTable(){
+	public Map<String,IdentifierSet> getDependencyTable(){
 		return this.dependencies;
 	}
 	
-	public void putValue(String key, DependencySet value) {
+	public void putValue(String key, IdentifierSet value) {
 		this.dependencies.put(key, value);
 	}
 
@@ -36,18 +35,23 @@ public class DependencyTable {
 		return this.dependencies.containsKey(key);
 	}
 
-	public boolean valueExists(String key, DependencySet value) {
-		return this.dependencies.containsValue(value);
+	public boolean valueEmpty(String identifier){
+		
+		IdentifierSet set = this.retrieveValue(identifier);
+		
+		if (set == null){
+			return true;
+		}
+		
+		return set.isEmpty();
 	}
-
-	public DependencySet retrieveValue(String key) {
+	
+	public IdentifierSet retrieveValue(String key) {
 		return this.dependencies.get(key);
 	}
 
+	@Override
 	public String toString() {
 		return this.dependencies.toString();
 	}
-
-	
-
 }

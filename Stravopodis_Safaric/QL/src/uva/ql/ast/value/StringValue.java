@@ -16,7 +16,7 @@ public class StringValue extends GenericValue<String> {
 	}
 
 	@Override
-	public TypeString getValueType() {
+	public TypeString valueHasType() {
 		return new TypeString();
 	}
 	
@@ -26,14 +26,6 @@ public class StringValue extends GenericValue<String> {
 			return false;
 		}
 		return value.getValue() == this.getValue();
-	}
-	
-	@Override
-	public boolean isNotEqual(GenericValue<?> value) {
-		if (value == null){
-			return false;
-		}
-		return value.getValue() != this.getValue();
 	}
 	
 	@Override

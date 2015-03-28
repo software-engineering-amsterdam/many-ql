@@ -1,8 +1,8 @@
 import QL.AST.form as ast_form
-import QL.Runtime.question as runtime_question
-import QL.Runtime.assignment as assigment
+import QL.Runtime.assignment as assingment
 
 import QL.AST.Expressions.Operations.Logical.and_op as and_op
+import importlib
 
 
 class Form:
@@ -10,32 +10,32 @@ class Form:
         assert isinstance(form_ast, ast_form.Form), "Input must be an AST"
         self._form_ast = form_ast
 
-        self._questions = []
-        self.extract_statements(self._form_ast.statements())
+        self.__questions = []
+        self.extract_statements(self._form_ast.statements(), importlib.import_module('QL.Runtime.question'))
 
-    def extract_statements(self, statements, conditions=[], order=0):
+    def extract_statements(self, statements, structure, conditions=[], order=0):
         for statement in statements:
             if statement.is_conditional():
 
                 # flatten if block
                 statement_conditions = list(conditions)
                 statement_conditions.append(statement.get_condition())
-                order = self.extract_statements(statement.get_if_statements(), statement_conditions, order)
+                order = self.extract_statements(statement.get_if_statements(), structure, statement_conditions, order)
 
                 # flatten else block
                 else_statement_conditions = list(conditions)
                 else_statement_conditions.append(statement.get_inverted_condition())
-                order = self.extract_statements(statement.get_else_statements(), else_statement_conditions, order)
+                order = self.extract_statements(statement.get_else_statements(), structure, else_statement_conditions, order)
 
             elif statement.is_assignment():
                 assignment = \
-                    assigment.Assignment(statement, order, Form.combine_expressions(conditions))
-                self._questions.append(assignment)
+                    assingment.Assignment(statement, order, Form.combine_expressions(conditions))
+                self.__questions.append(assignment)
             else:
                 order += 1
                 enriched_question = \
-                    runtime_question.Question(statement, order, Form.combine_expressions(conditions))
-                self._questions.append(enriched_question)
+                    structure.Question(statement, order, Form.combine_expressions(conditions))
+                self.__questions.append(enriched_question)
         return order
 
     # from a list of expressions combine them using the and operation to create one expression
@@ -49,7 +49,7 @@ class Form:
         return expr
 
     def questions(self):
-        return self._questions
+        return self.__questions
 
     def get_ast(self):
         return self._form_ast

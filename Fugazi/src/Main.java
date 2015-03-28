@@ -2,6 +2,8 @@ import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.gui.GUIBuilder;
+import org.fugazi.ql.gui.UIFormManager;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
@@ -9,7 +11,6 @@ import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
-import org.fugazi.qls.gui.QLSWidgetsFactory;
 import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
@@ -30,10 +31,11 @@ public class Main {
         if (inputQLFile != null)
             qlInput = new FileInputStream(inputQLFile);
 
-        /** ---------------------
-          * QL
-          * ---------------------
-         **/
+        /** 
+         * ---------------------
+         * QL
+         * ---------------------
+         */
         // Create The AST Builder.
         QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
@@ -57,9 +59,10 @@ public class Main {
             System.exit(-1);
         }        
 
-        /** ---------------------
+        /**
+         * ---------------------
          * QLS
-         *  ---------------------
+         * ---------------------
          */
         if (args.length > 1) {
             String inputQLSFile = null;
@@ -96,18 +99,20 @@ public class Main {
                 System.exit(-1);
             }
 
-//            // QLS
-            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-//            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-            StyledGUIBuilder guiBuilder = new StyledGUIBuilder(
-                    form, formDataStorage, styleSheetData, qlsWidgetsFactory
-            );
-            guiBuilder.renderUI();
+            // QLS
+            GUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
+            styledGUIBuilder.renderUI();
 
         } else {
 
             // QL
-            GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+            GUIBuilder guiBuilder = new GUIBuilder(
+                                        form, 
+                                        new WidgetsFactory(), 
+                                        new UIFormManager(
+                                                new UIForm(form.getName())
+                                        )
+                                    );
             guiBuilder.renderUI();
         }
     }
