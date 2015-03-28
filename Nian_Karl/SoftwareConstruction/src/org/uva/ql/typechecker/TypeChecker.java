@@ -166,7 +166,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		return true;
 	}
 
-	private boolean checkMatch(Expression expr, Type expectType) {
+	private boolean checkExpressionMatchType(Expression expr, Type expectType) {
 		if (expr.accept(this)) {
 			if (!expr.getType(this).isEqual(expectType)) {
 				addError(Error.Type.MISMATCH, expr, expectType.toString());
@@ -188,22 +188,22 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		return result;
 	}
 
-	private boolean checkBinaryMatch(Binary binary, Type expectType) {
+	private boolean checkBinaryMatchType(Binary binary, Type expectType) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		boolean resultLeft = checkMatch(left, expectType);
-		boolean resultRight = checkMatch(right, expectType);
+		boolean resultLeft = checkExpressionMatchType(left, expectType);
+		boolean resultRight = checkExpressionMatchType(right, expectType);
 		return resultLeft && resultRight;
 	}
 
-	private boolean checkSame(Binary binary) {
+	private boolean checkBinarySameType(Binary binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
 		// Check inner levels then do the comparison
 		boolean resultL = left.accept(this);
 		boolean resultR = right.accept(this);
 		if (resultL && resultR) {
-			return checkMatch(right, left.getType(this));
+			return checkExpressionMatchType(right, left.getType(this));
 		} else {
 			return false;
 		}
@@ -276,14 +276,14 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		boolean isValidExpression = ifStatement.getExpr().accept(this);
+		boolean isValidExpression = checkExpressionMatchType(ifStatement.getExpr(), new BoolType(ifStatement.getPosition()));
 		boolean isValidIfBlock = ifStatement.getIfBlock().accept(this);
 		return isValidExpression && isValidIfBlock;
 	}
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		boolean isValidExpression = ifElseStatement.getExpr().accept(this);
+		boolean isValidExpression = checkExpressionMatchType(ifElseStatement.getExpr(), new BoolType(ifElseStatement.getPosition()));
 		boolean isValidIfBlock = ifElseStatement.getIfBlock().accept(this);
 		boolean isValidElseBlock = ifElseStatement.getElseBLock().accept(this);
 		return isValidExpression && isValidIfBlock && isValidElseBlock;
@@ -296,17 +296,17 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Not unary) {
-		return checkMatch(unary.getExpression(), new BoolType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new BoolType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Positive unary) {
-		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Negative unary) {
-		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
@@ -341,57 +341,57 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Substraction binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Multiply binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Divide binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Greater binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(GreaterEqual binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Less binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(LessEqual binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(And binary) {
-		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Or binary) {
-		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Equal binary) {
-		return checkSame(binary);
+		return checkBinarySameType(binary);
 	}
 
 	@Override
 	public Boolean visit(NotEqual binary) {
-		return checkSame(binary);
+		return checkBinarySameType(binary);
 	}
 
 	@Override
