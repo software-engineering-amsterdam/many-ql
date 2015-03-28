@@ -1,4 +1,4 @@
-package org.fugazi.ql.gui.ui_element.ui_questions;
+package org.fugazi.ql.gui.ui_element.visitors;
 
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IStatementVisitor;
@@ -8,7 +8,8 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.GUIEvaluator;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_element.TypeToUIQuestionVisitor;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIComputedQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
