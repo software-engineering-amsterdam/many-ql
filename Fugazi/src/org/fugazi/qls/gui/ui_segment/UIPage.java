@@ -17,7 +17,7 @@ public class UIPage {
         this.panel = new JPanel();
 
         if (rows == 0) {
-            rows++; // otherwise GridLayout will through. Edge case for empty page.
+            rows++; // otherwise GridLayout will throw. Edge case for empty page.
         }
         this.subPanelsHolder = new JPanel[rows];
         this.initializeSubpanels(rows);
