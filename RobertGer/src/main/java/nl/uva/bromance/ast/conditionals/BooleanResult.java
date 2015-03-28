@@ -16,23 +16,14 @@ public class BooleanResult extends Result{
     }
 
     public Result flip(){
-        if (result)
-            return new BooleanResult(false);
-        else
-            return new BooleanResult(true);
+        return new BooleanResult(!result);
     }
 
     public Result or(BooleanResult br){
-        if (result == true || br.getResult() == true)
-            return new BooleanResult(true);
-        else
-            return new BooleanResult(false);
+        return new BooleanResult((result || br.getResult()));
     }
     public Result and(BooleanResult br){
-        if (result == true && br.getResult() == true)
-            return new BooleanResult(true);
-        else
-            return new BooleanResult(false);
+        return new BooleanResult((result && br.getResult()));
     }
 
     @Override

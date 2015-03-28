@@ -23,6 +23,12 @@ Name: "Tax" {
 				Answer: integer
 				Range: >0
 			}
+		} Else If: employment == false {
+			Question: "income2" {
+				Text: "How much money did you earn through non-employer paid wages during 2014"
+				Answer: integer
+				Range: >0
+			}
 		}
     	If: partner == "Married" || partner == "Cohabitation" {
         	Question: "income_partner" {

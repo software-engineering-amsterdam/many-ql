@@ -1,23 +1,11 @@
 package nl.uva.bromance.ast;
 
 
-import nl.uva.bromance.ast.conditionals.CanContainConditionals;
-import nl.uva.bromance.ast.conditionals.ElseIfStatement;
-import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.IfStatement;
+
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-public class Label extends QLNode implements CanContainConditionals {
+public class Label extends QLNode {
     private String identifier;
-
-    private IfStatement ifStatement;
-    private List<ElseIfStatement> elseIfStatements = new ArrayList<>();
-    private ElseStatement elseStatement;
 
     public Label(int lineNumber, String id) {
         super(lineNumber);
@@ -27,35 +15,6 @@ public class Label extends QLNode implements CanContainConditionals {
             //TODO: Consider putting this in the typechecker.
             System.err.println("Label Error: No identifier specified");
         }
-    }
-
-    @Override
-    public Optional<IfStatement> getIfsStatement() {
-        return Optional.of(ifStatement);
-    }
-
-    public void setIfStatement(IfStatement ifStatement) {
-        this.ifStatement = ifStatement;
-    }
-
-    @Override
-    public Optional<List<ElseIfStatement>> getElseIfStatement() {
-        return Optional.of(elseIfStatements);
-    }
-
-    @Override
-    public void setElseIfStatement(ElseIfStatement eifs) {
-        elseIfStatements.addAll(Arrays.asList(eifs));
-    }
-
-    @Override
-    public Optional<ElseStatement> getElseStatement() {
-        return Optional.of(elseStatement);
-    }
-
-    @Override
-    public void setElseStatement(ElseStatement es) {
-        elseStatement = es;
     }
 
     @Override
