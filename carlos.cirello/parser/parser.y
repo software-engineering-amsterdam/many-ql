@@ -157,11 +157,11 @@ ifBlock:
 	;
 
 andOrBlock:
-	evaluatable BoolAndToken evaluatable
+	andOrBlock BoolAndToken evaluatable
 	{
 		$$.evaluatable = ast.NewBoolAndNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
-	| evaluatable BoolOrToken evaluatable
+	| andOrBlock BoolOrToken evaluatable
 	{
 		$$.evaluatable = ast.NewBoolOrNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
