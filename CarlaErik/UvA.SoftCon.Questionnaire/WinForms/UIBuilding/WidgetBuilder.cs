@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 {
     internal class WidgetBuilder
     {
-        internal QuestionWidget CreateQuestionWidget(Question question, QLS.AST.Model.StyleAttributes.Widgets.Widget widget)
+        internal QuestionWidget CreateQuestionWidget(Question question, WidgetType widgetType)
         {
             throw new InvalidOperationException("Invalid combination of question type and widget.");
         }
@@ -31,10 +32,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             return new RadioWidget(question, widget.TrueLabel, widget.FalseLabel);
         }
 
-        internal QuestionWidget CreateQuestionWidget(BooleanQuestion question, QLS.AST.Model.StyleAttributes.Widgets.RadioButtons widget)
-        {
-            return new RadioWidget(question, widget.TrueLabel, widget.FalseLabel);
-        }
 
         internal QuestionWidget CreateQuestionWidget(DateQuestion question, QLS.AST.Model.StyleAttributes.Widgets.Calendar widget)
         {

@@ -1,4 +1,21 @@
-stylesheet taxOfficeExample 
+stylesheet taxOfficeExample
+
+  page SellingAdditional {
+      section "You sold a house" {
+        question privateDebt
+          widget slider
+        question valueResidue
+        default int {
+          width: 400
+          font: "Georgia"
+          fontsize: 14
+          color: #E60C0C
+          widget spinbox
+        }
+      }
+    }
+
+  page Empty {}
 
   page Housing {
     section "Info"
@@ -13,31 +30,17 @@ stylesheet taxOfficeExample
     section "Empty" {}
   }
 
-
-  page SellingAdditional {
-
-      section "You sold a house" {
-        question privateDebt
-          widget slider
-        question valueResidue
-        default int {
-          width: 400
-          font: "Georgia"
-          fontsize: 14
-          color: #E60C0C
-          widget spinbox
-        }
-      }
-}
   page Selling {
-section "Selling 2" {
-
-        question sellingPrice
-          widget slider
-    }
     section "Selling" {
       question hasSoldHouse
     }
-
+    section "Selling 2" {
+        question sellingPrice
+          widget slider
+    }
     default bool widget radio("Yes", "No")
     }
+
+  page EmptyAgain {
+    section "Empty" {}
+  }

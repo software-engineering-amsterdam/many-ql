@@ -18,7 +18,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     {
         private ICollection<QuestionWidget> questionControls = new List<QuestionWidget>();
 
-        public QuestionFormControl BuildUi(QuestionForm form, OutputWindow outputWindow)
+        public QuestionFormControl BuildUI(QuestionForm form, OutputWindow outputWindow)
         {
             Visit(form);
 

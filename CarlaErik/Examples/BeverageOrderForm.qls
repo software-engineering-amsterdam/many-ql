@@ -1,0 +1,27 @@
+styleSheet BeverageOrderForm
+{
+	page orderForm
+	{
+		section "Age"
+		{
+			question age
+			question canShowId
+		}
+		section "Alcoholic Drinks"
+		{
+			question nrOfBeer
+			question nrOfWine
+		}
+		section "Non-alcoholic Drinks"
+		{
+			question nrOfFristi
+			question nrOfTea
+			question nrOfCoffee
+		}
+		section "Totals"
+		{
+			question totalNrOfGlasses
+			question totalPrice
+		}
+	}
+}
