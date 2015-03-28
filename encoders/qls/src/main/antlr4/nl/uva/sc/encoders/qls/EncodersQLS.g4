@@ -24,8 +24,9 @@ styleProperty:
           | ('color:' '#'value=INTEGERLITERAL)  #Color
           ;
           
-widget: 'widget' (spinbox | radio | checkbox);
+widget: 'widget' (textfield | spinbox | radio | checkbox);
 
+textfield: 'textfield';
 spinbox: 'spinbox';
 checkbox: 'checkbox';
 radio: 'radio' '(' STRINGLITERAL (',' STRINGLITERAL)* ')';
