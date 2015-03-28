@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class QuestionControl
+    partial class QuestionFormControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,19 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.QuestionFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // QuestionControl
+            // QuestionFlowLayout
+            // 
+            this.QuestionFlowLayout.AutoScroll = true;
+            this.QuestionFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.QuestionFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.QuestionFlowLayout.Location = new System.Drawing.Point(0, 0);
+            this.QuestionFlowLayout.Name = "QuestionFlowLayout";
+            this.QuestionFlowLayout.Size = new System.Drawing.Size(779, 416);
+            this.QuestionFlowLayout.TabIndex = 0;
+            this.QuestionFlowLayout.WrapContents = false;
+            // 
+            // QuestionFormControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "QuestionControl";
-            this.Size = new System.Drawing.Size(231, 51);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.QuestionFlowLayout);
+            this.Name = "QuestionFormControl";
+            this.Size = new System.Drawing.Size(779, 416);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private System.Windows.Forms.FlowLayoutPanel QuestionFlowLayout;
     }
 }

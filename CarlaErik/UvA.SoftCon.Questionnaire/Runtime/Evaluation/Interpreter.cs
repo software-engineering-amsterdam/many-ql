@@ -25,17 +25,24 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
             Visit(form);
         }
 
-        public override object Visit(Question question)
+        public override object Visit(BooleanQuestion question)
         {
-            Value result = new Undefined();
+            return VisitQuestion(question);
+        }
 
-            if (question.IsComputed)
-            {
-                result = question.Expression.Accept(new ExpressionInterpreter(_variables));
-            }
+        public override object Visit(DateQuestion question)
+        {
+            return VisitQuestion(question);
+        }
 
-            AvailableQuestions.Add(question.Id.Name, result);
-            return null;
+        public override object Visit(IntegerQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(StringQuestion question)
+        {
+            return VisitQuestion(question);
         }
 
         public override object Visit(IfStatement ifStatement)
@@ -59,6 +66,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
                     }
                 }
             }
+            return null;
+        }
+
+        private object VisitQuestion(Question question)
+        {
+            Value result = new Undefined();
+
+            if (question.IsComputed)
+            {
+                result = question.Expression.Accept(new ExpressionInterpreter(_variables));
+            }
+
+            AvailableQuestions.Add(question.Id.Name, result);
             return null;
         }
     }
