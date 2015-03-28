@@ -4,12 +4,12 @@
 
 package main;
 
-import main.manager.GUIManager;
+import gui.MainFrame;
 
 
  public class MainTaZQL {	
 	public static void main(String[] args) { 
-		GUIManager manager = new GUIManager();
-		manager.runGUI();
+		MainFrame main = new MainFrame();
+		main.showGUI();
 	}
 }
