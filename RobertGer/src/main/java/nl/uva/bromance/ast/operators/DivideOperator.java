@@ -2,7 +2,7 @@ package nl.uva.bromance.ast.operators;
 
 import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -10,9 +10,9 @@ import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 public class DivideOperator extends Operator {
 
     @Override
-    public Result performOperation(Result one, Result two) throws InvalidOperandException {
+    public Result performOperation(Result one, Result two) throws TypecheckingInvalidOperandException {
         if (!(one instanceof IntResult) || !(two instanceof IntResult)) {
-            throw new InvalidOperandException();
+            throw new TypecheckingInvalidOperandException("Can only perform operation on two integers.");
         } else {
             IntResult intResultOne = (IntResult) one;
             IntResult intResultTwo = (IntResult) two;

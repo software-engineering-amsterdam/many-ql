@@ -2,7 +2,7 @@ package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Identifier;
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
 import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 
@@ -77,10 +77,8 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
         Result resultTwo = expression.getRightHandSideResult();
         try {
             expression.setResult(operator.performOperation(resultOne, resultTwo));
-            //TODO: This should be done in TypeChecking. Don't want to run into operandExpressions when running the program.
-        } catch (InvalidOperandException e) {
-            System.err.println("Got invalid operands [" + resultOne.getClass().getSimpleName() + "," + resultTwo.getClass().getSimpleName() + "] for operator type :" + operator.getClass().getSimpleName());
-            expression.setResult(new BooleanResult(false));
+        } catch (TypecheckingInvalidOperandException e) {
+            //this is caught by the typechecker.
         }
     }
 }
