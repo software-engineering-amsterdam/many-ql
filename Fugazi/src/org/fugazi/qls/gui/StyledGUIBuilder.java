@@ -56,13 +56,10 @@ public class StyledGUIBuilder extends GUIBuilder {
         UISection uiSection = this.parentSections.get(_uiQuestion);
         UIPage uiPage = this.parentPages.get(uiSection);
 
-        this.addVisibleQuestionToSection(_uiQuestion, uiSection);
-        this.addVisibleSectionToPage(uiSection, uiPage);
+        this.addVisibleSectionToPage(uiSection, uiPage, _formManager);
+        this.addVisibleQuestionToSection(_uiQuestion, uiSection, _formManager);
 
-        _formManager.addPage(uiPage);
-        _formManager.addSection(uiSection);
         _formManager.addQuestion(_uiQuestion);
-
     }
 
     private void unsetQuestionVisible(UIQuestion _uiQuestion, QLSUIFormManager _formManager) {
@@ -84,7 +81,7 @@ public class StyledGUIBuilder extends GUIBuilder {
 
     }
 
-    private void addVisibleQuestionToSection(UIQuestion _uiQuestion, UISection _section) {
+    private void addVisibleQuestionToSection(UIQuestion _uiQuestion, UISection _section, QLSUIFormManager _formManager) {
         List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(_section);
         if (visibleQuestions == null) {
             visibleQuestions = new ArrayList<>();
@@ -93,6 +90,7 @@ public class StyledGUIBuilder extends GUIBuilder {
             visibleQuestions.add(_uiQuestion);
             this.visibleQuestionsPerSection.put(_section, visibleQuestions);
         }
+        _formManager.addSection(_section);
     }
 
     private void removeVisibleQuestionFromSection(UIQuestion _uiQuestion, UISection _section) {
@@ -103,7 +101,7 @@ public class StyledGUIBuilder extends GUIBuilder {
         }
     }
 
-    private void addVisibleSectionToPage(UISection _section, UIPage _uiPage) {
+    private void addVisibleSectionToPage(UISection _section, UIPage _uiPage, QLSUIFormManager _formManager) {
         List<UISection> visibleSections = this.visibleSectionsPerPage.get(_uiPage);
         if (visibleSections == null) {
             visibleSections = new ArrayList<>();
@@ -112,6 +110,8 @@ public class StyledGUIBuilder extends GUIBuilder {
             visibleSections.add(_section);
             this.visibleSectionsPerPage.put(_uiPage, visibleSections);
         }
+
+        _formManager.addPage(_uiPage);
     }
 
     private void removeVisibleSectionFromPage(UISection _section, UIPage _uiPage) {
