@@ -10,7 +10,7 @@ public class Section extends AstNode {
 	private final String name;
 	private List<String> questionNames = new ArrayList<>();
 	private List<Section> subSections = new ArrayList<>();
-	private List<Default> sectionDefaults = new ArrayList<>();
+	private List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
 
 	public Section(TextLocation textLocation, String name) {
 		super(textLocation);
@@ -37,8 +37,8 @@ public class Section extends AstNode {
 		subSections.add(subSection);
 	}
 
-	public void addSectionDefault(Default sectionDefault) {
-		sectionDefaults.add(sectionDefault);
+	public void addSectionDefaultStyle(DefaultStyle sectionDefault) {
+		sectionDefaultStyles.add(sectionDefault);
 	}
 
 }

@@ -9,7 +9,7 @@ public class Page extends AstNode {
 
 	private final String name;
 	private List<Section> sections = new ArrayList<Section>();
-	private List<Default> pageDefaults = new ArrayList<>();
+	private List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
 
 	public Page(TextLocation textLocation, String name) {
 		super(textLocation);
@@ -37,8 +37,8 @@ public class Page extends AstNode {
 		return null;
 	}
 
-	public void addPageDefault(Default pageDefault) {
-		pageDefaults.add(pageDefault);
+	public void addPageDefaultStyle(DefaultStyle pageDefault) {
+		pageDefaultStyles.add(pageDefault);
 	}
 
 }
