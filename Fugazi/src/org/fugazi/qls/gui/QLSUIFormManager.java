@@ -15,8 +15,8 @@ public class QLSUIFormManager {
     private List<Page> pagesInForm;
     private List<Section> sectionsInForm;
 
-    public QLSUIFormManager(String _formTitle, QLSUIPanel _panel) {
-        this.qlsForm = new QLSUIForm(_formTitle, _panel);
+    public QLSUIFormManager(String _formTitle) {
+        this.qlsForm = new QLSUIForm(_formTitle);
 
         this.questionsInForm = new ArrayList<>();
         this.pagesInForm = new ArrayList<>();

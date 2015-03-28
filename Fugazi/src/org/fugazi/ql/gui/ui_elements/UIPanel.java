@@ -3,7 +3,7 @@ package org.fugazi.ql.gui.ui_elements;
 import javax.swing.*;
 import java.awt.*;
 
-public class UIPanel implements IUIPanel {
+public class UIPanel {
     
     private JPanel panel;
     
@@ -13,17 +13,14 @@ public class UIPanel implements IUIPanel {
         this.panel.setLayout(layout);
     }
 
-    @Override
     public void render(JFrame _rootContainer) {
         _rootContainer.add(this.panel);
     }
 
-    @Override
     public void add(JComponent _component) {
         this.panel.add(_component);
     }
-    
-    @Override
+
     public void remove(JComponent _component) {
         this.panel.remove(_component);
     }

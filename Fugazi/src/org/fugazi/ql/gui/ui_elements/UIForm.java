@@ -2,13 +2,16 @@ package org.fugazi.ql.gui.ui_elements;
 
 import javax.swing.*;
 
-public class UIForm implements IUIForm {
+public class UIForm {
 
+    public static final int winHeight = 600;
+    public static final int winWidth = 580;
+    
     protected final JFrame formFrame;
-    protected final IUIPanel panel;
+    protected final UIPanel panel;
 
-    public UIForm(String _formTitle, IUIPanel _panel) {
-        this.panel = _panel;
+    public UIForm(String _formTitle) {
+        this.panel = new UIPanel();
         this.formFrame = new JFrame(_formTitle);
         this.panel.render(this.formFrame);
 
@@ -18,18 +21,15 @@ public class UIForm implements IUIForm {
         this.formFrame.setResizable(false);
     }
 
-    @Override
     public void showForm() {
         this.formFrame.setVisible(true);
     }
 
-    @Override
     public void addWidget(JComponent _component) {
         this.panel.add(_component);
         this.formFrame.revalidate();
     }
 
-    @Override
     public void removeWidget(JComponent _component) {
         this.panel.remove(_component);
         this.formFrame.revalidate();

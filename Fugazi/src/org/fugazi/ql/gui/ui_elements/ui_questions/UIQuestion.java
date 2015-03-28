@@ -4,7 +4,6 @@ import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.IUIForm;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.IWidget;
 
@@ -24,11 +23,11 @@ public abstract class UIQuestion extends Colleague {
 
     public abstract void resetState();
 
-    public void addToForm(IUIForm _form) {
+    public void addToForm(UIForm _form) {
         this.widget.render(_form);
     }
 
-    public void removeFromForm(IUIForm _form) {
+    public void removeFromForm(UIForm _form) {
         this.widget.suppress(_form);
         this.resetState();
     }

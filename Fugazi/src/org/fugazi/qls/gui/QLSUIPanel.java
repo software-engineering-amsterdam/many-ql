@@ -1,19 +1,20 @@
 package org.fugazi.qls.gui;
 
-import org.fugazi.ql.gui.ui_elements.IUIPanel;
+import org.fugazi.ql.gui.ui_elements.UIPanel;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class QLSUIPanel implements IUIPanel {
+public  class QLSUIPanel {
 
-    private JTabbedPane panel;
+    private final JTabbedPane panel;
     private List<UIPage> pages;
 
-    public QLSUIPanel() {
+    public QLSUIPanel(UIPanel _uiPanel) {
         this.panel = new JTabbedPane();
+        _uiPanel.add(this.panel);
         this.pages = new ArrayList<>();
     }
 

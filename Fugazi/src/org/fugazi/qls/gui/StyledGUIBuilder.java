@@ -48,7 +48,7 @@ public class StyledGUIBuilder implements IMediator {
         this.qlsData = _qlsData;
         this.qlData = _qlData;
 
-        this.uiFormManager = new QLSUIFormManager(_form.getName(), new QLSUIPanel());
+        this.uiFormManager = new QLSUIFormManager(_form.getName());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);

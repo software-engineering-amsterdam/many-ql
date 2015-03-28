@@ -1,6 +1,6 @@
 package org.fugazi.qls.gui;
 
-import org.fugazi.ql.gui.ui_elements.IUIForm;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 
@@ -8,28 +8,17 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QLSUIForm implements IUIForm {
-    
-    private final QLSUIPanel panel;
-    private final JFrame formFrame;
+public class QLSUIForm extends UIForm {
+
+    private QLSUIPanel qlsuiPanel; // Wrapper object of UIPanel.
+
     private final Map<JComponent, JPanel> componentJPanelMap;
     private JPanel currentPanel;
 
-    public QLSUIForm(String _formTitle, QLSUIPanel _panel) {
+    public QLSUIForm(String _formTitle) {
+        super(_formTitle);
+        this.qlsuiPanel = new QLSUIPanel(this.panel);
         this.componentJPanelMap = new HashMap<>();
-        this.formFrame = new JFrame(_formTitle);
-        this.formFrame.setSize(winWidth, winHeight);
-        this.formFrame.setLocationRelativeTo(null);
-        this.formFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.formFrame.setResizable(false);
-
-        this.panel = _panel;
-        this.panel.render(this.formFrame);
-    }
-
-    @Override
-    public void showForm() {
-        this.formFrame.setVisible(true);
     }
 
     @Override
@@ -59,26 +48,26 @@ public class QLSUIForm implements IUIForm {
 
     public void addPage(UIPage _page) {
         this.currentPanel = _page.getPanel();
-        this.panel.addPage(_page.getPanel(), _page.getTitle());
+        this.qlsuiPanel.addPage(_page.getPanel(), _page.getTitle());
         this.formFrame.revalidate();
     }
 
     public void removePage(UIPage _page) {
         // widgets cannot be assigned now - to what would they be?
         this.currentPanel = null;
-        this.panel.addPage(_page.getPanel(), _page.getTitle());
+        this.qlsuiPanel.addPage(_page.getPanel(), _page.getTitle());
         this.formFrame.revalidate();
     }
 
     public void addSection(UISection _section) {
         this.currentPanel = _section.getPanel();
         UIPage page = _section.getPage();
-        this.panel.addSection(page.getPanel(), _section.getPanel());
+        this.qlsuiPanel.addSection(page.getPanel(), _section.getPanel());
     }
     
     public void removeSection(UISection _section) {
         this.currentPanel = _section.getPage().getPanel();
         UIPage page = _section.getPage();
-        this.panel.removeSection(page.getPanel(), _section.getPanel());
+        this.qlsuiPanel.removeSection(page.getPanel(), _section.getPanel());
     }
 }

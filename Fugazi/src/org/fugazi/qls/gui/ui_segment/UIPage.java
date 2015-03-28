@@ -1,7 +1,5 @@
 package org.fugazi.qls.gui.ui_segment;
 
-import org.fugazi.ql.gui.ui_elements.IUIForm;
-import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.QLSUIForm;
 
 import javax.swing.*;
