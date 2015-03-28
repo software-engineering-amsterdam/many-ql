@@ -130,6 +130,7 @@ public class QLParseTreeListener extends QLBaseListener {
     /*
      * Expression logic
      */
+
     @Override
     public void enterIfStatement(QLParser.IfStatementContext ctx) {
         nodeStack.push(new IfStatement(ctx.start.getLine()));
