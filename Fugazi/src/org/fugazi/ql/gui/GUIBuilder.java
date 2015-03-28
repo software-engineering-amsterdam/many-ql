@@ -11,7 +11,7 @@ import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.ui_element.ui_questions.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
-import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestionBuilder;
+import org.fugazi.ql.gui.ui_element.visitors.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.util.*;
