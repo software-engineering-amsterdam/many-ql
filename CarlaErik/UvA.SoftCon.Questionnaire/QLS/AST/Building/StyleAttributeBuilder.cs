@@ -40,11 +40,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
             return new FontSize(size, context.GetTextPosition());
         }
 
-        //public override StyleAttribute VisitWidget(QLSParser.WidgetContext context)
-        //{
-        //     return context.widget_attr().Accept(this);
-        //}
-
         public override StyleAttribute VisitCalendar(QLSParser.CalendarContext context)
         {
             return new Calendar(context.GetTextPosition());
