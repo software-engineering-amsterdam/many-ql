@@ -116,19 +116,11 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		addWarning(warning);
 	}
 
-	private int countErrors() {
-		return messageManager.countErrors();
-	}
-
-	private int countWarnings() {
-		return messageManager.countWarnings();
-	}
-
 	public void printMessages() {
-		System.out.println("[ERRORS] (" + countErrors() + " items)");
+		System.out.println("[ERRORS] (" + messageManager.countErrors() + " items)");
 		messageManager.printErrors();
 		System.out.println();
-		System.out.println("[WARNINGS] (" + countWarnings() + " items)");
+		System.out.println("[WARNINGS] (" + messageManager.countWarnings() + " items)");
 		messageManager.printWarnings();
 	}
 
@@ -147,7 +139,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		if (isDeclared(question.getIdentifier())) {
 			Type thisType = question.getType();
 			Type expectType = getType(question.getIdentifier());
-
 			if (!thisType.isEqual(expectType)) {
 				addError(Error.Type.DECLARATION, question.getIdentifier());
 				return false;
@@ -276,14 +267,16 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		boolean isValidExpression = checkExpressionMatchType(ifStatement.getExpr(), new BoolType(ifStatement.getPosition()));
+		boolean isValidExpression = checkExpressionMatchType(ifStatement.getExpr(),
+				new BoolType(ifStatement.getPosition()));
 		boolean isValidIfBlock = ifStatement.getIfBlock().accept(this);
 		return isValidExpression && isValidIfBlock;
 	}
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		boolean isValidExpression = checkExpressionMatchType(ifElseStatement.getExpr(), new BoolType(ifElseStatement.getPosition()));
+		boolean isValidExpression = checkExpressionMatchType(ifElseStatement.getExpr(),
+				new BoolType(ifElseStatement.getPosition()));
 		boolean isValidIfBlock = ifElseStatement.getIfBlock().accept(this);
 		boolean isValidElseBlock = ifElseStatement.getElseBLock().accept(this);
 		return isValidExpression && isValidIfBlock && isValidElseBlock;
