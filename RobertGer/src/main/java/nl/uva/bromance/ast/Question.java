@@ -5,9 +5,12 @@ import nl.uva.bromance.ast.conditionals.HasIdentifier;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
-import nl.uva.bromance.ast.visitors.QLNodeVisitor;
+import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.*;
 
 public class Question extends QLNode implements HasIdentifier {

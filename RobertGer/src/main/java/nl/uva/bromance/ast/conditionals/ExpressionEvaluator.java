@@ -2,7 +2,6 @@ package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.Identifier;
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
 import nl.uva.bromance.ast.operators.Operator;
 import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 
@@ -14,7 +13,6 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
 
     private List<Identifier> identifiers;
     private Map<String, Result> answerMap;
-    private Expression currentExpression;
     private Result currentResult;
 
     public ExpressionEvaluator(Map<String, Result> answerMap) {
@@ -83,10 +81,6 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
     private void processOperatorExpression(Expression expression, Operator operator) {
         Result resultOne = expression.getLeftHandSideResult();
         Result resultTwo = expression.getRightHandSideResult();
-        try {
-            expression.setResult(operator.performOperation(resultOne, resultTwo));
-        } catch (TypecheckingInvalidOperandException e) {
-            //this is caught by the typechecker.
-        }
+        expression.setResult(operator.performOperation(resultOne, resultTwo));
     }
 }

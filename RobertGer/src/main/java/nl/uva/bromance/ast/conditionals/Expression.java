@@ -63,7 +63,6 @@ public class Expression extends QLNode {
         } else {
             return null;
         }
-
     }
 
     public Result getRightHandSideResult() {
@@ -72,6 +71,5 @@ public class Expression extends QLNode {
         } else {
             return null;
         }
-
     }
 }

@@ -141,18 +141,18 @@ state 17
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' 
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken ifBlock 
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken '{' stack '}' 
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 
 	')'  shift 29
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  error
 
 
 state 18
-	andOrBlock:  evaluatable.BoolAndToken evaluatable 
-	andOrBlock:  evaluatable.BoolOrToken evaluatable 
 	andOrBlock:  evaluatable.    (14)
 
-	BoolAndToken  shift 30
-	BoolOrToken  shift 31
 	.  reduce 14 (src line 168)
 
 
@@ -284,7 +284,7 @@ state 29
 
 
 state 30
-	andOrBlock:  evaluatable BoolAndToken.evaluatable 
+	andOrBlock:  andOrBlock BoolAndToken.evaluatable 
 
 	QuotedStringToken  shift 25
 	TextToken  shift 24
@@ -300,7 +300,7 @@ state 30
 	value  goto 22
 
 state 31
-	andOrBlock:  evaluatable BoolOrToken.evaluatable 
+	andOrBlock:  andOrBlock BoolOrToken.evaluatable 
 
 	QuotedStringToken  shift 25
 	TextToken  shift 24
@@ -504,15 +504,23 @@ state 45
 
 
 state 46
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 	term:  '(' andOrBlock.')' 
 
 	')'  shift 64
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  error
 
 
 state 47
 	questionType:  ComputedQuestionToken '=' andOrBlock.    (8)
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  reduce 8 (src line 115)
 
 
@@ -527,13 +535,13 @@ state 48
 	stack  goto 65
 
 state 49
-	andOrBlock:  evaluatable BoolAndToken evaluatable.    (12)
+	andOrBlock:  andOrBlock BoolAndToken evaluatable.    (12)
 
 	.  reduce 12 (src line 159)
 
 
 state 50
-	andOrBlock:  evaluatable BoolOrToken evaluatable.    (13)
+	andOrBlock:  andOrBlock BoolOrToken evaluatable.    (13)
 
 	.  reduce 13 (src line 164)
 
@@ -827,9 +835,9 @@ state 71
 60 working sets used
 memory: parser 55/30000
 43 extra closures
-212 shift entries, 1 exceptions
+216 shift entries, 1 exceptions
 31 goto entries
 29 entries saved by goto default
-Optimizer space used: output 97/30000
-97 table entries, 3 zero
+Optimizer space used: output 98/30000
+98 table entries, 0 zero
 maximum spread: 40, maximum offset: 69
