@@ -63,14 +63,16 @@ public class QLSUIForm extends UIForm {
         this.currentPanel = _section.getPanel();
         UIPage page = _section.getPage();
         this.qlsuiPanel.addSection(
-                page.getSubPanel(_section.getIndex()), _section.getPanel()
+                page.getSubPanel(
+                        _section.getIndex()), _section.getPanel()
         );
     }
 
     public void removeSection(UISection _section) {
         this.currentPanel = _section.getPage().getPanel();
         UIPage page = _section.getPage();
-        this.qlsuiPanel.removeSection(page.getSubPanel(
+        this.qlsuiPanel.removeSection(
+                page.getSubPanel(
                         _section.getIndex()), _section.getPanel()
         );
     }

@@ -10,8 +10,8 @@ public class UIFormManager {
     private UIForm form;
     private List<UIQuestion> questionsInForm;
 
-    public UIFormManager(String _formTitle) {
-        this.form = new UIForm(_formTitle);
+    public UIFormManager(UIForm _form) {
+        this.form = _form;
         this.questionsInForm = new ArrayList<>();
     }
     
@@ -31,17 +31,5 @@ public class UIFormManager {
             this.questionsInForm.remove(_uiQuestion);
             _uiQuestion.removeFromForm(this.form);
         }
-    }
-    
-    public void setForm(UIForm _form) {  // TODO: this looks pretty ugly I think.
-        this.form = _form;
-    }
-
-    public UIForm getForm() {
-        return this.form;
-    }
-    
-    public List<UIQuestion> getQuestionsInForm() {
-        return this.questionsInForm;
     }
 }

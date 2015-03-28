@@ -27,11 +27,15 @@ public class GUIBuilder implements IMediator {
     protected QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
-    public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
+    public GUIBuilder(
+            Form _form, 
+            WidgetsFactory _widgetFactory, 
+            UIFormManager _uiFormManager)
+    {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
 
-        this.uiFormManager = new UIFormManager(_form.getName());
+        this.uiFormManager = _uiFormManager;
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
@@ -51,7 +55,7 @@ public class GUIBuilder implements IMediator {
         this.uiFormManager.render();
     }
 
-    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    protected void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
                 this.uiFormManager.addQuestion(uiQuestion);

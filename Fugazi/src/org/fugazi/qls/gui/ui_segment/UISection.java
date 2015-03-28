@@ -1,5 +1,6 @@
 package org.fugazi.qls.gui.ui_segment;
 
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.qls.gui.QLSUIForm;
 
 import javax.swing.*;
@@ -22,12 +23,14 @@ public class UISection {
         this.page = _page;
         this.index = _index;
     }
-    public void addToForm(QLSUIForm _uiForm) {
-        _uiForm.addSection(this);
+    public void addToForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.addSection(this);
     }
 
-    public void removeFromForm(QLSUIForm _uiForm) {
-        _uiForm.removeSection(this);
+    public void removeFromForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.removeSection(this);
     }
 
     public UIPage getPage() {
@@ -38,5 +41,7 @@ public class UISection {
         return this.panel;
     }
 
-    public int getIndex() { return this.index; }
+    public int getIndex() { 
+        return this.index; 
+    }
 }

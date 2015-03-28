@@ -7,6 +7,7 @@ import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.gui.GUIEvaluator;
 import org.fugazi.ql.gui.UIFormManager;
 import org.fugazi.ql.gui.mediator.Colleague;
@@ -26,20 +27,7 @@ import org.fugazi.qls.gui.ui_segment.UISection;
 import java.util.*;
 import java.util.List;
 
-public class StyledGUIBuilder implements IMediator {
-    private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
-
-    private final ValueStorage valueStorage;
-    private final GUIEvaluator guiEvaluator;
-    private final QLFormDataStorage qlData;
-    private final QLSStyleSheetDataStorage qlsData;
-
-    protected final UIQuestionBuilder uiQuestionBuilder;
-
-    private QuestionsWithConditions questionsWithConditions;
-    private List<ComputedQuestion> computedQuestions;
-
-    private final QLSUIFormManager uiFormManager;
+public class StyledGUIBuilder extends GUIBuilder {
 
     private final Map<UISection, List<UIQuestion>> visibleQuestionsPerSection;
     private final Map<UIQuestion, UISection> parentSections;
@@ -48,41 +36,25 @@ public class StyledGUIBuilder implements IMediator {
     private final Map<UISection, UIPage> parentPages;
 
     public StyledGUIBuilder(
-            Form _form, 
-            QLFormDataStorage _qlData, 
-            QLSStyleSheetDataStorage _qlsData,
-            WidgetsFactory _widgetFactory) 
+            Form _form,
+            QLSStyleSheetDataStorage _qlsData)
     {
-        this.valueStorage = new ValueStorage();
-        this.guiEvaluator = new GUIEvaluator(valueStorage);
-
-        this.qlsData = _qlsData;
-        this.qlData = _qlData;
-
+        super(_form, new QLSWidgetsFactory(_qlsData), new QLSUIFormManager(_form.getName()));
+        
         this.visibleQuestionsPerSection = new HashMap<>();
         this.parentSections = new HashMap<>();
         this.visibleSectionsPerPage = new HashMap<>();
         this.parentPages = new HashMap<>();
-
-        this.uiFormManager = new QLSUIFormManager(_form.getName());
-        this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
-
-        QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        this.questionsWithConditions = this.createQuestionsWithConditions(formDataStorage);
-        this.computedQuestions = formDataStorage.getComputedQuestions();
-
-        this.prepareForm();
+        
+        this.prepareForm(_qlsData);
     }
 
-    public void getChangeFromColleagues(Colleague _origin) {
-        this.storeValue(_origin.getId(), _origin.getState());
-        this.checkComputedQuestions();
-        this.renderUI();
-    }
-
-    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    @Override
+    protected void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         if (_questionsWithConditionState == null)
             return;
+
+        QLSUIFormManager formManager = (QLSUIFormManager) this.uiFormManager;
         
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
@@ -92,39 +64,27 @@ public class StyledGUIBuilder implements IMediator {
                 this.addVisibleQuestionToSection(uiQuestion, uiSection);
                 this.addVisibleSectionToPage(uiSection, uiPage);
 
-                this.uiFormManager.addPage(uiPage);
-                this.uiFormManager.addSection(uiSection);
-                this.uiFormManager.addQuestion(uiQuestion);
+                formManager.addPage(uiPage);
+                formManager.addSection(uiSection);
+                formManager.addQuestion(uiQuestion);
             } else {
                 UISection parentSection = this.parentSections.get(uiQuestion);
                 this.removeVisibleQuestionFromSection(uiQuestion, parentSection);
-                this.uiFormManager.removeQuestion(uiQuestion);
+                formManager.removeQuestion(uiQuestion);
 
                 List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(parentSection);
                 if (visibleQuestions != null && visibleQuestions.isEmpty()) {
                     UIPage parentPage = this.parentPages.get(parentSection);
                     this.removeVisibleSectionFromPage(parentSection, parentPage);
-                    this.uiFormManager.removeSection(parentSection);
+                    formManager.removeSection(parentSection);
                     List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
 
                     if (visibleSections != null && visibleSections.isEmpty()) {
-                        this.uiFormManager.removePage(parentPage);
+                        formManager.removePage(parentPage);
                     }
                 }
             }
         }
-    }
-
-    private boolean isQuestionStateTrue(
-            Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
-    {
-        boolean isTrue = true;
-        for (IfStatement ifStatement : _questionsWithConditionState.get(_question)) {
-            if (!this.guiEvaluator.evaluateIfStatement(ifStatement)) {
-                isTrue = false;
-            }
-        }
-        return isTrue;
     }
 
     private void addVisibleQuestionToSection(UIQuestion _uiQuestion, UISection _section) {
@@ -136,8 +96,6 @@ public class StyledGUIBuilder implements IMediator {
             visibleQuestions.add(_uiQuestion);
             this.visibleQuestionsPerSection.put(_section, visibleQuestions);
         }
-
-        return;
     }
 
     private void removeVisibleQuestionFromSection(UIQuestion _uiQuestion, UISection _section) {
@@ -146,8 +104,6 @@ public class StyledGUIBuilder implements IMediator {
             visibleQuestions.remove(_uiQuestion);
             this.visibleQuestionsPerSection.put(_section, visibleQuestions);
         }
-
-        return;
     }
 
     private void addVisibleSectionToPage(UISection _section, UIPage _uiPage) {
@@ -159,8 +115,6 @@ public class StyledGUIBuilder implements IMediator {
             visibleSections.add(_section);
             this.visibleSectionsPerPage.put(_uiPage, visibleSections);
         }
-
-        return;
     }
 
     private void removeVisibleSectionFromPage(UISection _section, UIPage _uiPage) {
@@ -169,13 +123,11 @@ public class StyledGUIBuilder implements IMediator {
             visibleSections.remove(_section);
             this.visibleSectionsPerPage.put(_uiPage, visibleSections);
         }
-        return;
     }
 
-
-    private void prepareForm() {
+    private void prepareForm(QLSStyleSheetDataStorage _qlsData) {
         int pageIndex = 0;
-        for (Page page : this.qlsData.getPages()) {
+        for (Page page : _qlsData.getPages()) {
             List<Section> sections = page.getSections();
 
             UIPage uiPage = new UIPage(page.getName(), pageIndex, sections.size());
@@ -196,71 +148,4 @@ public class StyledGUIBuilder implements IMediator {
             }
         }
     }
-
-    public void renderUI() {
-        this.setupForm(this.questionsWithConditions);
-        this.uiFormManager.render();
-    }
-
-    private void checkComputedQuestions() {
-        if (this.computedQuestions != null) {
-            for (ComputedQuestion computedQuestion : this.computedQuestions) {
-                this.updateComputedQuestion(computedQuestion);
-            }
-        }
-    }
-
-    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
-        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
-        uiComputedQuestion.setComputedValue(result);
-    }
-
-    protected UIQuestion createUiQuestion(Question _question) {
-        return _question.accept(this.uiQuestionBuilder);
-    }
-
-
-    private QuestionsWithConditions createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions();
-
-        for (Question question : _formDataStorage.getAllQuestions()) {
-            UIQuestion uiQuestion = createUiQuestion(question);
-            this.storeValue(uiQuestion.getId(), uiQuestion.getState());
-            questionsWithCondition.put(uiQuestion, new ArrayList<>());
-            this.addIfStatementsToQuestion(
-                    _formDataStorage.getIfStatements(), question, questionsWithCondition);
-        }
-        return questionsWithCondition;
-    }
-
-    private void storeValue(String _id, ExpressionValue _value) {
-        this.valueStorage.saveValue(_id, _value);
-    }
-
-    private void addIfStatementsToQuestion(
-            List<IfStatement> _ifStatementsList,
-            Question _question,
-            QuestionsWithConditions _questionsWithConditions)
-    {
-        for (IfStatement ifStatement : _ifStatementsList) {
-            if (ifStatement.getBody().contains(_question)) {
-                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditions);
-                _questionsWithConditions.get(uiQuestion).add(ifStatement);
-            }
-        }
-    }
-
-    private UIQuestion getUIQuestionById(
-            String _id, QuestionsWithConditions _questionsWithConditions)
-    {
-        for (UIQuestion uiQuestion : _questionsWithConditions.keySet()) {
-            if (_id.equals(uiQuestion.getId())) {
-                return uiQuestion;
-            }
-        }
-        return null;
-    }
-
 }

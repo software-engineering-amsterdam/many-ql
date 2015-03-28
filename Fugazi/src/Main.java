@@ -2,6 +2,8 @@ import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.gui.GUIBuilder;
+import org.fugazi.ql.gui.UIFormManager;
+import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
@@ -97,14 +99,19 @@ public class Main {
             }
 
             // QLS
-            QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, formDataStorage, styleSheetData, qlsWidgetsFactory);
+            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
             styledGUIBuilder.renderUI();
 
         } else {
 
             // QL
-            GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
+            GUIBuilder guiBuilder = new GUIBuilder(
+                                        form, 
+                                        new WidgetsFactory(), 
+                                        new UIFormManager(
+                                                new UIForm(form.getName())
+                                        )
+                                    );
             guiBuilder.renderUI();
         }
     }
