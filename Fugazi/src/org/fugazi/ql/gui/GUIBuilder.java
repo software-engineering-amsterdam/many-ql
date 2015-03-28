@@ -17,7 +17,7 @@ import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-    private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
+    protected class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;

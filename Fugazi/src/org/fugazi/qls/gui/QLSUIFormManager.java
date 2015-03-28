@@ -10,13 +10,17 @@ import org.fugazi.qls.gui.ui_segment.UISection;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class wraps the UIFormManager of qls, questions are still maintained in UIFormManager,
+ * but this class maintain Pages and Sections in which the questions will be kept.
+ */
 public class QLSUIFormManager {
     
     private final QLSUIForm qlsForm;
     private List<Page> pagesInForm;
     private List<Section> sectionsInForm;
 
-    private final UIFormManager formManager; // Wraps the UIFormManager.
+    private final UIFormManager formManager;
 
     public QLSUIFormManager(String _formTitle, UIFormManager _formManager) {
         this.formManager = _formManager;

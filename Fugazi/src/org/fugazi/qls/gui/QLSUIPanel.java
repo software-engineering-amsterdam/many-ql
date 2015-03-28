@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class wraps the UIPanel of QL, it creates a new Tabbed panel and it adds it to the base
+ * QL JPanel, the all the Pages/Sections handling is done from on this tabbed Panel.
+ */
 public  class QLSUIPanel {
 
     private final JTabbedPane panel;
@@ -15,6 +19,7 @@ public  class QLSUIPanel {
     public QLSUIPanel(UIPanel _uiPanel) {
         this.panel = new JTabbedPane();
         _uiPanel.add(this.panel);
+        
         this.pages = new ArrayList<>();
     }
 
