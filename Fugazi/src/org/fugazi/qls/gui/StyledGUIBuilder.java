@@ -36,8 +36,14 @@ public class StyledGUIBuilder extends GUIBuilder {
         this.prepareForm(_qlsData);
     }
 
+    /**
+     * =====================
+     * Form updates
+     * =====================
+     */
+
     @Override
-    protected void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    protected void updateForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         if (_questionsWithConditionState == null)
             return;
 
@@ -51,6 +57,12 @@ public class StyledGUIBuilder extends GUIBuilder {
             }
         }
     }
+
+    /**
+     * =====================
+     * Element visbility methods
+     * =====================
+     */
 
     private void setQuestionVisible(UIQuestion _uiQuestion, QLSUIFormManager _formManager) {
         UISection uiSection = this.parentSections.get(_uiQuestion);
@@ -73,7 +85,7 @@ public class StyledGUIBuilder extends GUIBuilder {
 
             List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
             if (visibleSections != null && visibleSections.isEmpty()) {
-                _formManager.removePage(parentPage);
+                this.removeVisiblePage(parentPage, _formManager);
             }
         }
     }
@@ -125,6 +137,16 @@ public class StyledGUIBuilder extends GUIBuilder {
         _formManager.removeSection(_section);
     }
 
+    private void removeVisiblePage(UIPage _page, QLSUIFormManager _formManager){
+        _formManager.removePage(_page);
+    }
+
+    /**
+     * =====================
+     * Initial form preparation
+     * =====================
+     */
+
     private void prepareForm(QLSStyleSheetDataStorage _qlsData) {
         int pageIndex = 0;
         for (Page page : _qlsData.getPages()) {
@@ -136,16 +158,28 @@ public class StyledGUIBuilder extends GUIBuilder {
             int sectionIndex = 0;
             for (Section section : sections) {
                 List<QLSQuestion> questions = section.getQuestions();
-                UISection uiSection = new UISection(uiPage, section.getName(), sectionIndex);
+
+                UISection uiSection = this.prepareSection(uiPage, section.getName(), sectionIndex);
                 sectionIndex++;
 
-                this.parentPages.put(uiSection, uiPage);
-
                 for (QLSQuestion question : questions) {
-                    UIQuestion uiQuestion = this.getUIQuestionById(question.getIdName(), this.questionsWithConditions);
-                    this.parentSections.put(uiQuestion, uiSection);
+                    this.prepareQuestion(question, uiSection);
                 }
             }
         }
+    }
+
+    private void prepareQuestion(QLSQuestion _question, UISection _section) {
+        UIQuestion uiQuestion = this.getUIQuestionById(
+                _question.getIdName(), this.questionsWithConditions
+        );
+        this.parentSections.put(uiQuestion, _section);
+    }
+
+    private UISection prepareSection(UIPage _page, String _name, int _index) {
+        UISection uiSection = new UISection(_page, _name, _index);
+        this.parentPages.put(uiSection, _page);
+
+        return uiSection;
     }
 }
