@@ -16,7 +16,27 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.QL
             _questions = new List<Question>();
         }
 
-        public override object Visit(Question question)
+        public override object Visit(BooleanQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(DateQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(IntegerQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        public override object Visit(StringQuestion question)
+        {
+            return VisitQuestion(question);
+        }
+
+        private object VisitQuestion(Question question)
         {
             if (LabelExists(question))
             {

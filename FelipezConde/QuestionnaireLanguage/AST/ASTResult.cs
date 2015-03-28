@@ -14,5 +14,10 @@ namespace AST
             RootNode = tree;
             NotificationManager = notificationManager;
         }
+
+        public bool HasError()
+        {
+            return NotificationManager.HasError();
+        }
     }
 }

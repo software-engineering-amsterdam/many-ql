@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
 
             var parser = new QLSParser(tokens);
 
-            var visitor = new StyleSheetVisitor();
+            var visitor = new StyleSheetBuilder();
 
             return visitor.Visit(parser.stylesheet());
         }

@@ -23,7 +23,6 @@ class FieldStyle {
   }
 
   def setStyles(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
-    // TODO: Zie Spec: return StyleSheet with default checkbox widget and a question checkbox widget
     case Page(v, sections) =>
       val updatedSections = sections.map(e => setStyles(e, env, typeEnv))
       (Page(v, updatedSections), env)

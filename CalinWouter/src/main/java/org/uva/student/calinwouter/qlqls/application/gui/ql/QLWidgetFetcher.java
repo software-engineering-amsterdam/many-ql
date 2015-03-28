@@ -7,14 +7,14 @@ import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.boolwi
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.intwidgets.IntboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
 
 /**
  * This class is used to fetch the right widget based on the type descriptor
  */
-public class QLWidgetFetcher implements TypeCallback{
+public class QLWidgetFetcher implements ITypeCallback {
     private final QLInterpreter qlInterpreter;
     private final StaticQuestionField staticQuestionField;
     private final StateWrapper stateWrapper;
@@ -24,7 +24,7 @@ public class QLWidgetFetcher implements TypeCallback{
         widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, stateWrapper);
     }
 
-    public void createWidget(TypeDescriptor typeDescriptor) {
+    public void createWidget(ITypeDescriptor typeDescriptor) {
         typeDescriptor.callTypeMethod(this);
     }
 

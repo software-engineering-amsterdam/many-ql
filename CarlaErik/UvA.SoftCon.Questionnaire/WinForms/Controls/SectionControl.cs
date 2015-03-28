@@ -17,7 +17,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             InitializeComponent();
         }
 
-        internal SectionControl(string title, IEnumerable<QuestionControl> questions)
+        internal SectionControl(string title, IEnumerable<QuestionWidget> questions)
             : this()
         {
             SectionBox.Text = title;

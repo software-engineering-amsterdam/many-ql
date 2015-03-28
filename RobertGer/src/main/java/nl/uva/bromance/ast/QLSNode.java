@@ -2,7 +2,7 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.visitors.QlsNodeElement;
+import nl.uva.bromance.ast.visitors.QLSNodeElement;
 import nl.uva.bromance.visualization.Visualizable;
 import nl.uva.bromance.visualization.Visualizer;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by Robert on 16-3-2015.
  */
-public abstract class QLSNode extends Node<QLSNode> implements Visualizable, QlsNodeElement {
+public abstract class QLSNode extends Node<QLSNode> implements Visualizable, QLSNodeElement {
     public QLSNode(int ln) {
         super(ln);
     }

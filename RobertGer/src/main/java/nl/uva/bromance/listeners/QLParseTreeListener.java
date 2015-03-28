@@ -130,6 +130,7 @@ public class QLParseTreeListener extends QLBaseListener {
     /*
      * Expression logic
      */
+
     @Override
     public void enterIfStatement(QLParser.IfStatementContext ctx) {
         nodeStack.push(new IfStatement(ctx.start.getLine()));
@@ -152,9 +153,6 @@ public class QLParseTreeListener extends QLBaseListener {
         IfStatement ifs = (IfStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(ifs);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setIfStatement(ifs);
-        }
     }
 
     @Override
@@ -162,9 +160,6 @@ public class QLParseTreeListener extends QLBaseListener {
         ElseStatement est = (ElseStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(est);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setElseStatement(est);
-        }
     }
 
     @Override
@@ -172,9 +167,6 @@ public class QLParseTreeListener extends QLBaseListener {
         ElseIfStatement eis = (ElseIfStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(eis);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setElseIfStatement(eis);
-        }
     }
 
     @Override

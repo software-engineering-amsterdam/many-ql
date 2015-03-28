@@ -2,7 +2,7 @@ package gui.questions;
 
 import evaluator.BooleanValue;
 import evaluator.Value;
-import gui.widgets.listeners.Updater;
+import gui.listeners.Updater;
 
 import java.util.LinkedHashSet;
 

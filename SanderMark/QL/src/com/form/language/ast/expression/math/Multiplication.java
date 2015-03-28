@@ -7,8 +7,8 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Multiplication extends BinaryExpression {
@@ -19,7 +19,7 @@ public class Multiplication extends BinaryExpression {
 
     @Override
     public GenericValue evaluate(Context context) {
-	return new IntValue(((IntValue) super.left.evaluate(context)).getValue() * ((IntValue) super.right.evaluate(context)).getValue());
+	return new IntValue(((IntValue) left.evaluate(context)).getValue() * ((IntValue) right.evaluate(context)).getValue());
     }
 
     @Override

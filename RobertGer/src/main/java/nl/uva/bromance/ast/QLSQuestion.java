@@ -1,15 +1,12 @@
 package nl.uva.bromance.ast;
 
-import javafx.scene.layout.Pane;
-import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
-import nl.uva.bromance.visualization.Visualizer;
+import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
 
 import java.util.List;
-import java.util.Map;
 
 public class QLSQuestion extends QLSNode {
     private Identifier identifier;
+
     private Question questionNode;
 
     public QLSQuestion(int lineNumber, String id, AST qlAST) {
@@ -33,16 +30,15 @@ public class QLSQuestion extends QLSNode {
         }
     }
 
-    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        this.questionNode.visualize(parent, answerMap, visualizer);
-    }
-
     @Override
-    public void accept(QlsNodeVisitor visitor) {
+    public void accept(QLSNodeVisitor visitor) {
         visitor.visit(this);
         for (QLSNode child : this.getChildren()) {
             child.accept(visitor);
         }
     }
 
+    public Question getQuestionNode() {
+        return questionNode;
+    }
 }

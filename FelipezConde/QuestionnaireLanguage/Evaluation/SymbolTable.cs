@@ -34,6 +34,11 @@ namespace Evaluation
                 table.Add(id, value);
             }
         }
+
+        public Dictionary<Id, Value> GetDictionary()
+        {
+            return table;
+        }
     }
 
 

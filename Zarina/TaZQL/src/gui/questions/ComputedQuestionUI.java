@@ -1,8 +1,8 @@
 package gui.questions;
 
 import evaluator.ValueRepository;
+import gui.listeners.Updater;
 import gui.widgets.IWidgetComponent;
-import gui.widgets.listeners.Updater;
 
 import javax.swing.JLabel;
 

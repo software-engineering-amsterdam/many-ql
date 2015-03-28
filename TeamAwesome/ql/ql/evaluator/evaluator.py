@@ -10,7 +10,6 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..core.TypeRules import OperatorTable
 
 
-
 def createEvaluator(questionnaire):
     return questionnaire.accept(Visitor())
 
@@ -75,8 +74,7 @@ class Visitor(ASTStatementVisitor):
         return self._evaluator
 
     def visitFormStatementBegin(self, node):
-        form = Form(node.identifier)
-        self._currentForm = form
+        self._currentForm = Form(node.identifier)
 
     def visitQuestionStatement(self, node):
         expression = node.expression
@@ -90,8 +88,9 @@ class Visitor(ASTStatementVisitor):
                             node.text,
                             node.type,
                             self._conditionalStatements.copy(),
+                            self._currentForm,
                             expression)
-
+        
         self._evaluator.addQuestion(question)
         
         return question
@@ -104,6 +103,7 @@ class Visitor(ASTStatementVisitor):
         
     def visitIfStatementEnd(self, node):
         return self._conditionalStatements.pop()
+
 
 class ExpressionVisitor(ASTExpressionVisitor):
     def __init__(self, evaluator):

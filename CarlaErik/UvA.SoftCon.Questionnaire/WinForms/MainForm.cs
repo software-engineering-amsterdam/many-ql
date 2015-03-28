@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.Common.AST.Model;
+using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime;
-using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
+using UvA.SoftCon.Questionnaire.WinForms.UIBuilding;
 
 namespace UvA.SoftCon.Questionnaire.WinForms
 {
@@ -26,85 +19,12 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             private set;
         }
 
-        protected QuestionForm QuestionForm
-        {
-            get;
-            private set;
-        }
-
         public MainForm()
         {
             InitializeComponent();
             Output = new OutputWindow(OutputTextBox);
         }
 
-        public void InitializeQuestions()
-        {
-            QuestionFlowLayout.Controls.Clear();
-
-            var runtimeController = new RuntimeController();
-
-            foreach (var astQuestion in QuestionForm.GetAllQuestions())
-            {
-                QuestionControl uiQuestion = CreateQuestionWidget(astQuestion);
-
-                if (!astQuestion.IsComputed)
-                {
-                    uiQuestion.QuestionAnswered += uiQuestion_QuestionAnswered;
-                }
-
-                QuestionFlowLayout.Controls.Add(uiQuestion);
-                Output.WriteLine("Question added: {0}, \"{1}\"", astQuestion.Id.Name, astQuestion.Label);
-            }
-        }
-
-        private void uiQuestion_QuestionAnswered(object sender, EventArgs e)
-        {
-            Interpretet();
-        }
-
-        public void Interpretet()
-        {
-            var runtimeController = new RuntimeController();
-            var answers = GetAnswers();
-
-            try
-            {
-                var visibleQuestions =  runtimeController.Interpretet(QuestionForm, answers);
-
-                foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
-                {
-                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.QuestionName);
-
-                    if (visibleQuestions.ContainsKey(uiQuestion.QuestionName))
-                    {
-                        Value result = visibleQuestions[uiQuestion.QuestionName];
-
-                        if (!result.IsUndefined)
-                        {
-                            uiQuestion.SetValue(result);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Output.WriteLine("ERROR - {0}", ex.ToString());
-                MessageBox.Show("Exception occured.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private IDictionary<string, Value> GetAnswers()
-        {
-            var answers = new Dictionary<string, Value>();
-
-            foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
-            {
-                answers.Add(uiQuestion.QuestionName, uiQuestion.GetValue());
-            }
-
-            return answers;
-        }
 
         #region Event Handlers
 
@@ -123,29 +43,15 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             if (!e.Cancel)
             {
                 var qlFile = new FileInfo(OpenQLFileDialog.FileName);
+                var qlsFile = new FileInfo(qlFile.FullName + "s");
 
-                Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
-                
-                var qlController = new QLController();
-                var runtimeController = new RuntimeController();
-
-                var form = qlController.ParseQLFile(qlFile);
-
-                var report = runtimeController.Validate(form);
-
-                OutputTextBox.AppendText(report.ToString());
-
-                if (report.NrOfErrors > 0)
+                if (qlsFile.Exists)
                 {
-                    MessageBox.Show("Errors occured", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    SplitPanel.Panel2Collapsed = false;
+                    InitializeQuestionnaire(qlFile, qlsFile);
                 }
                 else
                 {
-                    QuestionForm = form;
-                    
-                    InitializeQuestions();
-                    Interpretet();
+                    InitializeQuestionnaire(qlFile);
                 }
             }
         }
@@ -157,31 +63,80 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
         #endregion
 
-        private QuestionControl CreateQuestionWidget(Question question)
+
+        private void InitializeQuestionnaire(FileInfo qlFile)
         {
-            QuestionControl questionWidget;
-
-            switch (question.DataType)
+            try
             {
-                case DataType.Boolean:
-                    questionWidget = new RadioControl(question);
-                    break;
-                case DataType.Integer:
-                    questionWidget = new SpinBoxControl(question);
-                    break;
-                case DataType.String:
-                    questionWidget = new TextBoxControl(question);
-                    break;
-                case DataType.Date:
-                    questionWidget = new CalendarControl(question);
-                    break;
-                default:
-                    throw new NotSupportedException();
+                var form = ParseQLFile(qlFile);
+                var report = ValidateQuestionForm(form);
+
+                OutputTextBox.AppendText(report.ToString());
+
+                if (report.NrOfErrors == 0)
+                {
+                    var ui = BuildUI(form);
+                    SplitPanel.Panel1.Controls.Add(ui);
+                }
+                else
+                {
+                    MessageBox.Show("Errors occured", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SplitPanel.Panel2Collapsed = false;
+                }
             }
+            catch (Exception ex)
+            {
+                Output.WriteLine("ERROR - {0}", ex.ToString());
+                MessageBox.Show("Exception occured. See Output Window for details.", "Unhandled exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-            questionWidget.Visible = false;
 
-            return questionWidget;
+        private void InitializeQuestionnaire(FileInfo qlFile, FileInfo qlsFile)
+        {
+
+        }
+
+        private QuestionForm ParseQLFile(FileInfo qlFile)
+        {
+            try
+            {
+                Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
+                var qlController = new QLController();
+                var form = qlController.ParseQLFile(qlFile);
+                Output.WriteLine("------ Parsing finished, 0 errors. ------");
+                return form;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during parsing of the QL file.", ex);
+            }
+        }
+
+        private ValidationReport ValidateQuestionForm(QuestionForm form)
+        {
+            try
+            {
+                var runtimeController = new RuntimeController();
+                return runtimeController.Validate(form);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during the validation of the questionnaire AST.", ex);
+            }
+        }
+
+        private QuestionFormControl BuildUI(QuestionForm form)
+        {
+            try
+            {
+                var uiBuilder = new DefaultUIBuilder();
+                return uiBuilder.BuildUi(form, Output);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during creating of the user interface.", ex);
+            }
         }
     }
 }

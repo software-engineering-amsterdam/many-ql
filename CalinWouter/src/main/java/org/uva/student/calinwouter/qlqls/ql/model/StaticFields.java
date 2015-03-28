@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,7 +14,7 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
         staticFormFields.add(staticFieldElement);
     }
 
-    public TypeDescriptor getTypeOfField(String identifier) {
+    public ITypeDescriptor getTypeOfField(String identifier) {
         for (AbstractStaticFormField staticFormField : staticFormFields) {
             final String iteratedVariableName = staticFormField.getVariable();
             if (iteratedVariableName.equals(identifier)) {

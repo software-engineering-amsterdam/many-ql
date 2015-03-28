@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.QL
 
             var parser = new QLParser(tokens);
 
-            var visitor = new FormVisitor();
+            var visitor = new QuestionFormBuilder();
 
             return visitor.Visit(parser.form());
         }

@@ -37,7 +37,6 @@ public class App extends Application {
     private Scene scene;
     private VBox rootBox, pages, questions;
     private Stage stage;
-    private Visualizer visualizer = new Visualizer();
 
     public static void main(String[] args) {
         launch(args);
@@ -101,7 +100,7 @@ public class App extends Application {
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
                 AST<QLNode> qlAst = createQlAst(qlPath);
-
+                Visualizer visualizer = new Visualizer();
                 if (qlAst != null) {
                     AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
                     if (qlsAst != null) {

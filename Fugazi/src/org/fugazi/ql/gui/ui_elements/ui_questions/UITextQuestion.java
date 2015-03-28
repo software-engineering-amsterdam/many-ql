@@ -14,6 +14,8 @@ public class UITextQuestion extends UIQuestion {
     public UITextQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med, _question, _widget);
 
+        this.resetState();
+
         this.widget.addEventListener(
             new WidgetsEventListener() {
                 public void stateChanged() {
@@ -21,8 +23,6 @@ public class UITextQuestion extends UIQuestion {
                 }
             }
         );
-
-        this.resetState();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UITextQuestion extends UIQuestion {
     @Override
     public void resetState() {
         StringValue emptyValue = new StringValue("");
-        this.setState(emptyValue);
+        this.value = emptyValue;
         this.widget.setWidgetValue(emptyValue);
     }
 }

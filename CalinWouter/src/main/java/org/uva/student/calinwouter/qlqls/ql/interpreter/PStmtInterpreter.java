@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
@@ -61,7 +61,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
     }
 
     private void setNewVariableToDefault(String nodeIdentifier) {
-        final TypeDescriptor valueType = staticFields.getTypeOfField(nodeIdentifier);
+        final ITypeDescriptor valueType = staticFields.getTypeOfField(nodeIdentifier);
         final Value value = valueType.getDefaultValue();
         newVariableTable.setVariable(nodeIdentifier, value);
     }

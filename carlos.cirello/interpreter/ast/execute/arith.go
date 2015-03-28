@@ -44,6 +44,8 @@ func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 	default:
 		log.Panicf("%s: variable %s not a number. Got %T", s.Pos(),
 			s.IdentifierReference(), t)
+	case nil:
+		return 0
 	case int:
 		return float32(value.(int))
 	case float32:

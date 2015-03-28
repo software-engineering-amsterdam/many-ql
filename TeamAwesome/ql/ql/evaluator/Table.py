@@ -31,6 +31,7 @@ class QuestionValueTable(object):
             return self._expressionTable[question].value
         return self._valueTable.get(question, None)
 
+
 class QuestionTable(object):
     def __init__(self):
         self._table = OrderedDict()
@@ -61,6 +62,7 @@ class QuestionTable(object):
 
     def getQuestionList(self, identifier):
         return self._table.get(identifier, None)
+
 
 class ExpressionsTuple(tuple):
     def __add__(self, value):

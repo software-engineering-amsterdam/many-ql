@@ -46,14 +46,14 @@ public class StringType implements QuestionType {
         if (answer != null) {
             textField.setText(answer.getResult());
         }
-        if (visualizer.getFocusId() == q.hashCode()) {
+        if (visualizer.getFocusUuid() == q.getUuid()) {
             visualizer.setFocusedNode(textField);
         }
 
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             answerMap.put(id, new StringResult(newValue));
-            visualizer.refresh(q);
+            visualizer.refresh(q.getUuid());
         });
         parent.getChildren().add(textField);
 

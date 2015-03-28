@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
@@ -117,7 +117,7 @@ public class QLSTypeChecker {
         return detectUndefinedReferences(qlFields);
     }
 
-    private void addIfInvalidWidgetAssignment(Set<String> invalidWidgetAssignments, TypeDescriptor fieldTypeDescriptor,
+    private void addIfInvalidWidgetAssignment(Set<String> invalidWidgetAssignments, ITypeDescriptor fieldTypeDescriptor,
                                               AbstractWidget abstractWidget, String fieldName) {
         if (!fieldTypeDescriptor.isAllowed(abstractWidget)) {
             invalidWidgetAssignments.add(fieldName);
@@ -129,7 +129,7 @@ public class QLSTypeChecker {
         try {
             final StylingSettings stylingSettings = styleSheet.getStylingSettings(fieldType);
             final AbstractWidget abstractWidget = stylingSettings.getWidget();
-            final TypeDescriptor fieldTypeDescriptor = fieldType.getTypeDescriptor();
+            final ITypeDescriptor fieldTypeDescriptor = fieldType.getTypeDescriptor();
             addIfInvalidWidgetAssignment(invalidWidgetAssignments, fieldTypeDescriptor, abstractWidget, fieldName);
         } catch(FieldNotFoundException e) {
             invalidWidgetAssignments.add(fieldName);
@@ -178,13 +178,13 @@ public class QLSTypeChecker {
         return invalidDefaultWidgetAssignments;
     }
 
-    private AbstractWidget getAbstractWidget(Defaults defaults, TypeDescriptor valueTypeDescriptor) {
-        final Map<TypeDescriptor, Map<String, Object>> styleSheetSettings = defaults.getDefaultStyleSheetSettings();
+    private AbstractWidget getAbstractWidget(Defaults defaults, ITypeDescriptor valueTypeDescriptor) {
+        final Map<ITypeDescriptor, Map<String, Object>> styleSheetSettings = defaults.getDefaultStyleSheetSettings();
         Map<String, Object> stringToStyleElement = styleSheetSettings.get(valueTypeDescriptor);
         return (AbstractWidget) stringToStyleElement.get("widget");
     }
 
-    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final TypeDescriptor valueTypeDescriptor,
+    private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final ITypeDescriptor valueTypeDescriptor,
                                                               final Defaults defaults) {
         final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
         final AbstractWidget widget = getAbstractWidget(defaults, valueTypeDescriptor);

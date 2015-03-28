@@ -38,8 +38,8 @@ public class FileManager {
 	}
 	
 	public String fileName() {
-		customazeFileChooser();
-		fileFilter();
+		customazeFileChooser(fileChooser, "Choose a tax form");
+		fileFilter("Quistionnaire (.ql)", ".ql");
 		int result = fileChooser.showOpenDialog(new JOptionPane());	
 		
 		if (!(result == JFileChooser.APPROVE_OPTION)) {
@@ -52,21 +52,21 @@ public class FileManager {
         
 	}
 	
-	private JFileChooser customazeFileChooser() {
+	public JFileChooser customazeFileChooser(JFileChooser fileChooser, String title) {
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setCurrentDirectory(new File("C:\\")); 
-		fileChooser.setDialogTitle("Choose a tax form");
+		fileChooser.setDialogTitle(title);
 		fileChooser.setApproveButtonText("Load form");
 		
 		return fileChooser;
 	}
 	
-	private JFileChooser fileFilter() {
+	public JFileChooser fileFilter(final String description, final String extention) {
 		fileChooser.setFileFilter(new FileFilter() {        
 			 
 			@Override
 		       public String getDescription() {
-		            return "Questionnaires (*.ql)";
+		            return description;
 		        }
 		 
 		   @Override
@@ -74,7 +74,7 @@ public class FileManager {
 		            if (f.isDirectory()) {
 		                return true;
 		            } else {
-		                return f.getName().toLowerCase().endsWith(".ql");
+		                return f.getName().toLowerCase().endsWith(extention);
 		            }
 		        }
 		    });
