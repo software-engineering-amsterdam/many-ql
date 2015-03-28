@@ -2,7 +2,7 @@ package nl.uva.bromance.ast.operators;
 
 import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
+import nl.uva.bromance.ast.visitors.OperatorVisitor;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -10,14 +10,10 @@ import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
 public class PlusOperator extends Operator {
 
     @Override
-    public Result performOperation(Result leftHand, Result rightHand) throws TypecheckingInvalidOperandException {
-        if (leftHand instanceof IntResult && rightHand instanceof IntResult) {
-            IntResult intResultOne = (IntResult) leftHand;
-            IntResult intResultTwo = (IntResult) rightHand;
-            return intResultOne.add(intResultTwo);
-        } else {
-            throw new TypecheckingInvalidOperandException("Can only perform operation on two integers");
-        }
+    public Result performOperation(Result leftHand, Result rightHand) {
+        IntResult intResultOne = (IntResult) leftHand;
+        IntResult intResultTwo = (IntResult) rightHand;
+        return intResultOne.add(intResultTwo);
     }
 
     @Override
@@ -28,5 +24,10 @@ public class PlusOperator extends Operator {
     @Override
     public Operator getNewOperatorOfThisType() {
         return new PlusOperator();
+    }
+
+    @Override
+    public void accept(OperatorVisitor visitor) {
+        visitor.visit(this);
     }
 }

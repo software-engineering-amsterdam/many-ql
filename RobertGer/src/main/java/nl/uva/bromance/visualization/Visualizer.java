@@ -1,16 +1,21 @@
 package nl.uva.bromance.visualization;
 
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.ast.visitors.QlNodeVisitor;
 import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
+import nl.uva.bromance.typechecking.TypeChecker;
+import nl.uva.bromance.typechecking.TypeCheckingException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,13 +68,32 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
     }
 
     private void processQls() {
-        qlsNode.get().accept(this);
+        if (evaluateQLNode()) {
+            qlsNode.get().accept(this);
+        }
+    }
+
+    private boolean evaluateQLNode() {
+        List<TypeCheckingException> typeCheckingExceptions = new TypeChecker().run(qlNode);
+        if (!typeCheckingExceptions.isEmpty()) {
+            Stage stage = new Stage();
+            VBox root = new VBox();
+            stage.setScene(new Scene(root));
+            for (TypeCheckingException e : typeCheckingExceptions) {
+                root.getChildren().add(new javafx.scene.control.Label(e.getMessage()));
+            }
+            stage.show();
+            return false;
+        }
+        new ExpressionEvaluator(answerMap).evaluate(qlNode);
+        new ConditionalHandler().handle(qlNode);
+        return true;
     }
 
     private void processQl() {
-        new ExpressionEvaluator(answerMap).evaluate(qlNode);
-        new ConditionalHandler().handle(qlNode);
-        qlNode.accept(this);
+        if (evaluateQLNode()) {
+            qlNode.accept(this);
+        }
     }
 
     public void setQlsAst(AST<QLSNode> qlsAst) {
@@ -91,9 +115,6 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
             });
             if (currentPage == page) {
                 label.getStyleClass().add("active");
-                for (QLSNode child : currentPage.getChildren()) {
-                    child.visualize(questions, answerMap, this);
-                }
             }
             label.getStyleClass().add("pageLabel");
             pages.getChildren().add(label);
@@ -187,9 +208,11 @@ public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
 
     public void refresh(int focusId) {
         this.focusId = focusId;
-        processQl();
         if (qlsNode.isPresent()) {
             processQls();
+        } else {
+            processQl();
+
         }
     }
 
