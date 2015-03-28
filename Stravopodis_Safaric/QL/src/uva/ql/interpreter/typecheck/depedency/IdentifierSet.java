@@ -3,18 +3,12 @@ package uva.ql.interpreter.typecheck.depedency;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DependencySet {
+public class IdentifierSet {
 
-	private Set<String> identifiers = new HashSet<String>();
+	private Set<String> identifiers;
 
-	public DependencySet(){}
-	
-	public DependencySet(DependencySet _set){
-		this.identifiers = _set.identifiers;
-	}
-	
-	public DependencySet(String _identifier){
-		this.identifiers.add(_identifier);
+	public IdentifierSet(){
+		this.identifiers = new HashSet<String>();
 	}
 	
 	public boolean containsItem(String _identifier){
@@ -29,9 +23,13 @@ public class DependencySet {
 		this.identifiers.add(_identifier);
 	}
 	
+	public boolean isEmpty(){
+		return this.identifiers.isEmpty();
+	}
+	
 	public boolean containsIdentifier(String _identifier){
 		for (String identifier : this.identifiers){
-			if (identifier.contains(_identifier)){
+			if (identifier.equals(_identifier)){
 				return true;
 			}
 		}

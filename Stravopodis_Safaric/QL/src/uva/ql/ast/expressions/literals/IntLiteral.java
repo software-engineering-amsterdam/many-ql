@@ -29,7 +29,7 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
+	public CodeLines getLinesOfCode() {
 		return this.codeLines;
 	}
 	
@@ -39,7 +39,7 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -49,8 +49,8 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override

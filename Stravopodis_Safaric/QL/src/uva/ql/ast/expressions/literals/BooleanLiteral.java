@@ -13,33 +13,19 @@ public class BooleanLiteral extends Literal{
 	
 	private boolean value;
 	
-	public BooleanLiteral(boolean _value){
-		super(new CodeLines(0,0));	// Set an initial value
-		this.value = _value;
-	}
-	
 	public BooleanLiteral(boolean _value, CodeLines _codeLines){
 		super(_codeLines);
 		this.value = _value;
 	}
 	
-	public BooleanLiteral(CodeLines _codeLines){
-		super(_codeLines);
-	}
-	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
+	public Boolean getValue() {
+		return this.value;
 	}
 	
 	@Override
 	public BooleanValue evaluate() {
 		return new BooleanValue(this.value);
-	}
-	
-	@Override
-	public Object getEvaluatedValue() {
-		return this.evaluate().getValue();
 	}
 
 	@Override
@@ -48,13 +34,18 @@ public class BooleanLiteral extends Literal{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeBoolean());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitBooleanLiteral(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override
