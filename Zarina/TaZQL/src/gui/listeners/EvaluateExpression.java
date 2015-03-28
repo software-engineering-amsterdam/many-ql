@@ -27,10 +27,6 @@ public class EvaluateExpression {
 		return evaluatedValue;
 	}
 	
-	public void setValue(String id, Value value) {
-		this.valueRepository.putValue(id, value);
-	}
-	
 	public void setValueInGUI() { 
 		String insertedValue = evaluate().toString();
 		String regexDigits ="[-+]?\\d+(\\.\\d+)?";
@@ -45,6 +41,5 @@ public class EvaluateExpression {
 		if (trueValue.equals(insertedValue) || falseValue.equals(insertedValue)) {
 			this.setQuestion.setVisibilityValue(evaluate());
 		}
-		
 	}
 }
