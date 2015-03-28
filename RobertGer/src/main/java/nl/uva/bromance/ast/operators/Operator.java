@@ -1,7 +1,7 @@
 package nl.uva.bromance.ast.operators;
 
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+import nl.uva.bromance.ast.exceptions.TypecheckingInvalidOperandException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class Operator {
     public static List<Operator> operatorTypes = Arrays.asList(new AndOperator(), new OrOperator(), new DivideOperator(), new MultiplyOperator(), new EqualsOperator(), new NotEqualsOperator(), new LargerThanOrEqualsOperator(), new LargerThanOperator(), new MinusOperator(), new PlusOperator(), new SmallerThanOrEqualsOperator(), new SmallerThanOperator());
 
-    public abstract Result performOperation(Result one, Result two) throws InvalidOperandException;
+    public abstract Result performOperation(Result one, Result two) throws TypecheckingInvalidOperandException;
 
     public abstract String getOperatorString();
 
