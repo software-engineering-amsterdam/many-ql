@@ -24,8 +24,6 @@ public class QLSSlider extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
-    private final JLabel componentLabel;
-    private final JPanel panel;
     private final JSlider slider;
     private JLabel valueLabel;
 
@@ -35,21 +33,19 @@ public class QLSSlider extends AbstractQLSWidget {
 
     public QLSSlider(String _label) {
 
-        this.panel = new JPanel();
-        this.componentLabel = new JLabel(_label);
+        this.componentLabel.setText(_label);
         this.valueLabel = new JLabel("0");
         this.slider = new JSlider(JSlider.HORIZONTAL, MIN, MAX, STEP);
 
-        this.panel.add(this.componentLabel);
-        this.panel.add(this.slider);
-        this.panel.add(this.valueLabel);
+        this.component.add(this.componentLabel);
+        this.component.add(this.slider);
+        this.component.add(this.valueLabel);
 
         this.type = new SliderType();
     }
 
     @Override
     public void applyStyle(Style _style) {
-        // inherit properties that are not set in the given style from default.
         _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
@@ -67,16 +63,6 @@ public class QLSSlider extends AbstractQLSWidget {
                         (int) this.slider.getPreferredSize().getHeight()
                 )
         );
-    }
-
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void suppress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
     }
 
     @Override
@@ -115,11 +101,6 @@ public class QLSSlider extends AbstractQLSWidget {
                 Arrays.asList(new IntType())
         );
         return supportedTypes;
-    }
-
-    @Override
-    public void setLabel(String _label) {
-        this.componentLabel.setText(_label);
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

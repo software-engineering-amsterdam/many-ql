@@ -4,7 +4,6 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -23,21 +22,17 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     public final static int DEFAULT_WIDTH = 7;
 
-    private JPanel panel;
     private JTextField input;
-    private JLabel componentLabel;
 
     public QLSTextBox() {
         this("");
     }
 
     public QLSTextBox(String _label) {
-
-        this.panel = new JPanel();
         this.input = new JTextField();
-        this.componentLabel = new JLabel(_label);
-        this.panel.add(componentLabel);
-        this.panel.add(input);
+        this.componentLabel.setText(_label);
+        this.component.add(componentLabel);
+        this.component.add(input);
 
         this.type = new TextBoxType();
     }
@@ -49,7 +44,6 @@ public class QLSTextBox extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        // inherit properties that are not set in the given style from default.
         _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
@@ -61,16 +55,6 @@ public class QLSTextBox extends AbstractQLSWidget {
         Color color = _style.getColor(this.getDefaultColor().getValue());
         this.componentLabel.setForeground(color);
         this.input.setColumns(this.getDefaultWidth().getValue());
-    }
-
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void suppress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
     }
 
     @Override

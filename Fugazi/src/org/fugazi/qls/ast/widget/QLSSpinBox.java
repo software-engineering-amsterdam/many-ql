@@ -25,30 +25,26 @@ public class QLSSpinBox extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
-    private final JPanel panel;
     private final JSpinner spinbox;
-    private final JLabel componentLabel;
 
     public QLSSpinBox() {
         this("");
     }
 
     public QLSSpinBox(String _label) {
-        this.panel = new JPanel();
-        this.componentLabel = new JLabel(_label);
+        this.componentLabel.setText(_label);
 
         SpinnerModel spinnerModel = new SpinnerNumberModel(0, MIN, MAX, STEP);
         this.spinbox = new JSpinner(spinnerModel);
 
-        this.panel.add(this.componentLabel);
-        this.panel.add(this.spinbox);
+        this.component.add(this.componentLabel);
+        this.component.add(this.spinbox);
 
         this.type = new SpinBoxType();
     }
 
     @Override
     public void applyStyle(Style _style) {
-        // inherit properties that are not set in the given style from default.
         _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
@@ -64,16 +60,6 @@ public class QLSSpinBox extends AbstractQLSWidget {
         JFormattedTextField ftf = ((JSpinner.DefaultEditor) editor).getTextField();
         ftf.setColumns(this.getDefaultWidth().getValue() / 2);
 
-    }
-
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void suppress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
     }
 
     @Override

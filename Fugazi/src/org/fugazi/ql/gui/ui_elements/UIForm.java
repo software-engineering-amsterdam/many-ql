@@ -4,14 +4,14 @@ import javax.swing.*;
 
 public class UIForm {
 
-    private static final int defaultWinHeight = 600;
-    private static final int defaultWinWidth = 580;
+    private static final int DEFAULT_WIN_HEIGHT = 600;
+    private static final int DEFAULT_WIN_WIDTH = 580;
     
     protected final JFrame formFrame;
     protected final UIPanel panel;
 
     public UIForm(String _formTitle) {
-        this(_formTitle, defaultWinWidth, defaultWinHeight);
+        this(_formTitle, DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
     }
 
     public UIForm(String _formTitle, int _width, int _height) {
