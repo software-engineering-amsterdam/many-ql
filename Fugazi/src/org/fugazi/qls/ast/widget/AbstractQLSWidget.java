@@ -3,7 +3,6 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.ui_elements.IUIForm;
 import org.fugazi.ql.gui.ui_elements.UIForm;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
@@ -21,7 +20,7 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public final static String DEFAULT_FONT = "Arial";
     public final static int DEFAULT_FONT_SIZE = 14;
     public final static int DEFAULT_COLOR = 0x000000;
-    public final static int DEFAULT_WIDTH = 50;
+    public final static int DEFAULT_WIDTH = 68;
 
     protected IWidgetType type;
 
@@ -67,10 +66,10 @@ public abstract class AbstractQLSWidget extends AbstractASTNode implements IWidg
     public abstract void applyStyle(Style _style);
 
     @Override
-    public abstract void render(IUIForm _canvas);
+    public abstract void render(UIForm _canvas);
 
     @Override
-    public abstract void suppress(IUIForm _canvas);
+    public abstract void suppress(UIForm _canvas);
 
     @Override
     public abstract ExpressionValue getWidgetValue();
