@@ -4,8 +4,6 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -22,12 +20,17 @@ import ast.form.Form;
 
 public class MainFrame {
 
-	private final JPanel contentPane;
-	private final JFrame mainFrame;
+	private JPanel contentPane;
+	private JPanel mainpanel = new JPanel();
+	private JFrame mainFrame;
 	private JMenuBar menubar;
-	private JMenu menuItemSave, menuItemClose;
+	private JMenu menuItemLoad, menuItemClose;
 	
 	public MainFrame() {
+			
+	}
+	
+	public void showInitialFrame() {
 		mainFrame = new JFrame("Questionnaire");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBounds(100, 100, 450, 300);
@@ -39,31 +42,27 @@ public class MainFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 		
-		mainFrame.setContentPane(contentPane);	
-	}
-	
-	public void addFormToFrame(Form form) {
-		JPanel mainpanel = GUIRenderer.make(form); 
 		contentPane.add(mainpanel);
-		mainFrame.setTitle(form.getFormId().toString());
-		
-		showGUI();
-	}
-	
-	
-	public void showGUI() {
+				
+		mainFrame.setContentPane(contentPane);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
+	}
+	
+	public JPanel addFormToFrame(Form form) {
+		mainpanel = GUIRenderer.make(form); 
+		
+		return mainpanel;
 	}
 	
 	
 	public JMenuBar addMenu() {
 		menubar = new JMenuBar();
 		
-		menuItemSave = new JMenu("Load");
+		menuItemLoad = new JMenu("Load");
 		menuItemClose = new JMenu("Close");
 		
-		menubar.add(menuItemSave);
+		menubar.add(menuItemLoad);
 		menubar.add(menuItemClose);
 		
 		addMenuAction();
@@ -72,7 +71,7 @@ public class MainFrame {
 	}
 	
 	public void addMenuAction() {
-		menuItemSave.addMenuListener(new MenuListener() {
+		menuItemLoad.addMenuListener(new MenuListener() {
 
 			@Override
 			public void menuCanceled(MenuEvent arg0) {}
@@ -83,8 +82,7 @@ public class MainFrame {
 			@Override
 			public void menuSelected(MenuEvent arg0) {
 				GUIManager manager = new GUIManager();
-				mainFrame.dispose();
-				manager.runGUI();
+				manager.runGUI(mainFrame);
 			}	
 		});
 		
