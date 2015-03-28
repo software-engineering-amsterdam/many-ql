@@ -1,8 +1,6 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
-import org.fugazi.qls.ast.segment.Page;
-import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 
@@ -12,8 +10,8 @@ import java.util.List;
 public class QLSUIFormManager {
     private final QLSUIForm qlsForm;
     private List<UIQuestion> questionsInForm;
-    private List<Page> pagesInForm;
-    private List<Section> sectionsInForm;
+    private List<UIPage> pagesInForm;
+    private List<UISection> sectionsInForm;
 
     public QLSUIFormManager(String _formTitle, QLSUIPanel _panel) {
         this.qlsForm = new QLSUIForm(_formTitle, _panel);
@@ -44,24 +42,28 @@ public class QLSUIFormManager {
     public void addPage(UIPage _page) {
         if (!this.pagesInForm.contains(_page)) {
             _page.addToForm(this.qlsForm);
+            this.pagesInForm.add(_page);
         }
     }
 
     public void removePage(UIPage _page) {
         if (this.pagesInForm.contains(_page)) {
             _page.removeFromForm(this.qlsForm);
+            this.pagesInForm.remove(_page);
         }
     }
 
     public void addSection(UISection _section) {
         if (!this.sectionsInForm.contains(_section)) {
             _section.addToForm(this.qlsForm);
+            this.sectionsInForm.add(_section);
         }
     }
 
     public void removeSection(UISection _section) {
         if (this.sectionsInForm.contains(_section)) {
             _section.removeFromForm(this.qlsForm);
+            this.sectionsInForm.remove(_section);
         }
     }
 }

@@ -14,15 +14,15 @@ public class UINumQuestion extends UIQuestion {
     public UINumQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med, _question, _widget);
 
+        this.resetState();
+
         this.widget.addEventListener(
-            new WidgetsEventListener() {
-                public void stateChanged() {
-                    setState(widget.getWidgetValue());
-                }
+                new WidgetsEventListener() {
+                    public void stateChanged() {
+                        setState(widget.getWidgetValue());
+                    }
             }
         );
-
-        this.resetState();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UINumQuestion extends UIQuestion {
     @Override
     public void resetState() {
         IntValue zeroValue = new IntValue(0);
-        this.setState(zeroValue);
+        this.value = zeroValue;
         this.widget.setWidgetValue(zeroValue);
     }
 }
