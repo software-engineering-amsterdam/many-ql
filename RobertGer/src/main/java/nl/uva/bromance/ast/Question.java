@@ -5,7 +5,7 @@ import nl.uva.bromance.ast.conditionals.HasIdentifier;
 import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.ast.questiontypes.*;
 import nl.uva.bromance.ast.range.Range;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
