@@ -2,39 +2,24 @@ package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.StringValue;
-import org.fugazi.ql.gui.ui_elements.IUIForm;
-import org.fugazi.ql.gui.ui_elements.UIForm;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextBox implements IWidget {
+public class TextBox extends AbstractWidget {
 
     private JTextField input;
-    private JPanel panel;
 
     public TextBox(String _label) {
-        this.panel = new JPanel();
         JLabel label = new JLabel(_label);
         this.input = new JTextField();
 
         this.input.setColumns(7);
 
-        this.panel.add(label);
-        this.panel.add(input);
+        this.component.add(label);
+        this.component.add(input);
     }
-
-    @Override
-    public void render(IUIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void suppress(IUIForm _canvas){
-        _canvas.removeWidget(this.panel);
-    }
-
 
     @Override
     public void addEventListener(WidgetsEventListener _listener) {

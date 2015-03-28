@@ -24,11 +24,6 @@ public class LargerThanOrEqualsOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new LargerThanOrEqualsOperator();
-    }
-
-    @Override
     public void accept(OperatorVisitor visitor) {
         visitor.visit(this);
     }

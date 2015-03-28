@@ -22,6 +22,13 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             FalseButton.Enabled = !astQuestion.IsComputed;
         }
 
+        public RadioWidget(Question astQuestion, string trueLabel, string falseLabel)
+            : this(astQuestion)
+        {
+            TrueButton.Text = trueLabel;
+            FalseButton.Text = falseLabel;
+        }
+
         public override Value GetValue()
         {
             if (TrueButton.Checked)

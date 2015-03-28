@@ -22,11 +22,6 @@ public class AndOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new AndOperator();
-    }
-
-    @Override
     public void accept(OperatorVisitor visitor) {
         visitor.visit(this);
     }

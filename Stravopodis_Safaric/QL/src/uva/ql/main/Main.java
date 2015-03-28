@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.ql.ast.ASTNode;
+import uva.ql.ast.Node;
 import uva.ql.ast.Prog;
 import uva.ql.interpreter.gui.Renderer;
 import uva.ql.interpreter.typecheck.TypeCheckVisitor;
@@ -46,9 +46,9 @@ public class Main{
 		return tree;
 	}
 	
-	public static ASTNode getAST(ParseTree tree){
+	public static Node getAST(ParseTree tree){
 		QLMainVisitor visitor = new QLMainVisitor();
-		ASTNode ast = visitor.visit(tree);
+		Node ast = visitor.visit(tree);
 		
 		return ast;
 	}

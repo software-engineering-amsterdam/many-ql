@@ -2,9 +2,7 @@ package ast.type;
 
 public class UndefinedType extends Type {
 	
-	public String getName() {
-		return "undefined";
-	}
+	public UndefinedType() { }
 	
 	@Override
 	public String toString() {
@@ -20,5 +18,4 @@ public class UndefinedType extends Type {
 	public boolean isCompatibleToType(Type type) {
 		return false;
 	}
-
 }

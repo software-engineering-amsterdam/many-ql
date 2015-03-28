@@ -2,7 +2,7 @@ package uva.ql.ast;
 
 import uva.ql.ast.visitor.StatementVisitor;
 
-public class Prog extends ASTNode{
+public class Prog extends Node{
 	
 	private Form form;
 	

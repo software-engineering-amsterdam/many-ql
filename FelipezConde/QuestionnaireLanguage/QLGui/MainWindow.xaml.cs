@@ -4,6 +4,7 @@ using QLGui.Controllers;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using TypeChecking;
 
 namespace QLGui
@@ -13,23 +14,23 @@ namespace QLGui
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainController controller;
+
         public MainWindow()
         {
             InitializeComponent();
 
             ASTResult ast = new ASTBuilder().BuildAST(ConfigurationManager.AppSettings["inputFile"]);
 
-            if (!ast.NotificationManager.HasError())
+            if (!ast.HasError())
             {
-                var notificationM1 = TypeChecker.GetTypeCheckDiagnosis(ast);
+                ast = TypeChecker.GetTypeCheckDiagnosis(ast);
 
-                //if(!notificationM1.HasError())
-                //{ 
-                //}
+                    controller = new MainController(this, ast);
+                    controller.ProcessBody();
             }
             
-            MainController controller = new MainController(this, ast);
-            controller.ProcessBody();
+            
             
         }
 
@@ -45,6 +46,10 @@ namespace QLGui
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

@@ -19,4 +19,10 @@ public class ElseStatement extends QLNode {
             child.accept(visitor);
         }
     }
+
+    public void setChildrenVisible(boolean visible) {
+        for (QLNode child : this.getChildren()) {
+            child.setVisible(visible);
+        }
+    }
 }

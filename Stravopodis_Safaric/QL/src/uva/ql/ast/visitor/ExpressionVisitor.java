@@ -22,7 +22,7 @@ import uva.ql.ast.expressions.math.Substraction;
 
 public interface ExpressionVisitor<T>{
 	
-	public T visitBinaryExpression(BinaryExpressions expression);
+	public T visitBinaryExpression(BinaryExpression expression);
 	public T visitExpression(Expression expression);
 	public T visitExponentiation(Exponentiation exponentiation);
 	public T visitAddition(Addition addition);

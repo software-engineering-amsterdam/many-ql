@@ -8,7 +8,6 @@ public class BooleanVariable extends Variable {
 
 	public BooleanVariable (boolean booleanVariable) {
 		this.booleanVariable = booleanVariable;
-		//super(booleanVariable);
 	}
 	
 	public Boolean getVariable(){
@@ -26,7 +25,7 @@ public class BooleanVariable extends Variable {
 	}
 
 	@Override
-	public ChoiceType getExpressionType() {
+	public ChoiceType getType() {
 		return new ChoiceType();
 	}
 }

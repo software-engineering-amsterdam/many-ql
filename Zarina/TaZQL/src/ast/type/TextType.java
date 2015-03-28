@@ -6,11 +6,6 @@ public class TextType extends Type {
 	public TextType() {}
 	
 	@Override
-	public String getName() {
-		return "text";
-	}
-	
-	@Override
 	public String toString() {
 		return "text";
 	}

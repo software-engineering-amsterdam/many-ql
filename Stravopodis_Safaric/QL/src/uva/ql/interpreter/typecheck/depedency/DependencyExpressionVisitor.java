@@ -1,6 +1,5 @@
 package uva.ql.interpreter.typecheck.depedency;
 
-import java.util.Arrays;
 import uva.ql.ast.expressions.*;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
@@ -20,25 +19,26 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
-import uva.ql.ast.type.TypeString;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class DependencyExpressionVisitor implements ExpressionVisitor<Expression>{
 
-	private final DependencySet identifierList = new DependencySet();
+	private IdentifierSet identifierList = new IdentifierSet();
 	
 	@Override
-	public Expression visitBinaryExpression(BinaryExpressions expression) {
+	public Expression visitBinaryExpression(BinaryExpression expression) {
 		
 		Expression left = expression.getLeftExpr();
 		Expression right = expression.getRightExpr();
 	
-		if (isIdentifier(left)){
-			identifierList.putValue(this.identifierFromExpression(left));
+		if (left.isIdentifier()){
+			Identifier identifier = (Identifier)left;
+			identifierList.putValue(identifier.getValue());
 		}
 		
-		if (isIdentifier(right)){
-			identifierList.putValue(this.identifierFromExpression(right));
+		if (right.isIdentifier()){
+			Identifier identifier = (Identifier)right;
+			identifierList.putValue(identifier.getValue());
 		}
 		
 		left.accept(this);
@@ -47,20 +47,13 @@ public class DependencyExpressionVisitor implements ExpressionVisitor<Expression
 		return null;
 	}
 	
-	public DependencySet getIdentifierList(){
+	public IdentifierSet getIdentifierSet(){
 		return this.identifierList;
-	}
-	
-	private String identifierFromExpression(Expression expression){
-		return expression.evaluate().getValue().toString();
-	}
-	
-	private boolean isIdentifier(Expression expression){
-		return expression.possibleReturnTypes().equals(Arrays.asList(new TypeString()));
 	}
 
 	@Override
 	public Expression visitExpression(Expression expression) {
+		this.identifierList = new IdentifierSet();
 		expression.accept(this);
 		return null;
 	}
