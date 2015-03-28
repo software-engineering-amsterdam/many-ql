@@ -52,6 +52,11 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 			String questionName = questionContext.name.getText();
 			section.addQuestion(questionName);
 		}
+
+		for (SectionContext subSectionContext : ctx.section()) {
+			// SectionContext subSection = subSectionContext.section();
+		}
+
 		return section;
 	}
 
