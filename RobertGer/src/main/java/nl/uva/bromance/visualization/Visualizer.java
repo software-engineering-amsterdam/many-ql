@@ -1,21 +1,20 @@
 package nl.uva.bromance.visualization;
 
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
-import nl.uva.bromance.ast.visitors.QLsNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
 import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
