@@ -22,11 +22,6 @@ public class SmallerThanOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new SmallerThanOperator();
-    }
-
-    @Override
     public void accept(OperatorVisitor visitor) {
         visitor.visit(this);
     }

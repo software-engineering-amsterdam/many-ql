@@ -24,7 +24,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void PageControl_NavigateBackwards(object sender, EventArgs e)
         {
-
+            
         }
 
         private void PageControl_NavigateForwards(object sender, EventArgs e)

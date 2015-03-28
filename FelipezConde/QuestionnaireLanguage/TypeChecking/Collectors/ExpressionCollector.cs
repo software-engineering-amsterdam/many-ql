@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace TypeChecking.Collectors
 {
-    public class TopLevelExpressionCollector : IFormObjectVisitor<IList<Expression>>, IFormVisitor<IList<Expression>>
+    public class ExpressionCollector : IFormObjectVisitor<IList<Expression>>, IFormVisitor<IList<Expression>>
     {
         //selectmany flattens lists of lists.
         public IList<Expression> Visit(Form node)

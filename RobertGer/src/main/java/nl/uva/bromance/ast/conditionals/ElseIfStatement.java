@@ -29,6 +29,23 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
             }
         }
     }
+
+    public void setChildrenVisible(boolean visible) {
+        for (QLNode child : this.getChildren()) {
+            child.setVisible(visible);
+        }
+    }
+
+    public boolean ExpressionEvaluatesToTrue() {
+        Result result = expression.getResult();
+        if (result instanceof BooleanResult) {
+            for (QLNode child : this.getChildren()) {
+                return ((BooleanResult) result).getResult();
+            }
+        }
+        return false;
+    }
+
     @Override
     public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);

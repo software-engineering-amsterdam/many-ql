@@ -10,6 +10,6 @@ import gui.MainFrame;
  public class MainTaZQL {	
 	public static void main(String[] args) { 
 		MainFrame main = new MainFrame();
-		main.showGUI();
+		main.showInitialFrame();
 	}
 }

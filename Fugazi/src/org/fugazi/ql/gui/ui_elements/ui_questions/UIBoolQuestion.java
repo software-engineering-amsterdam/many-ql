@@ -14,6 +14,8 @@ public class UIBoolQuestion extends UIQuestion {
     public UIBoolQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med, _question, _widget);
 
+        this.resetState();
+
         this.widget.addEventListener(
             new WidgetsEventListener() {
                 public void stateChanged() {
@@ -21,8 +23,6 @@ public class UIBoolQuestion extends UIQuestion {
                 }
             }
         );
-
-        this.resetState();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UIBoolQuestion extends UIQuestion {
     @Override
     public void resetState() {
         BoolValue falseValue = new BoolValue(false);
-        this.setState(falseValue);
+        this.value = falseValue;
         this.widget.setWidgetValue(falseValue);
     }
 }

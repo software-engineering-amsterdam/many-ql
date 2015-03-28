@@ -16,6 +16,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             YesNoDropDownBox.Enabled = !astQuestion.IsComputed;
         }
 
+        public DropDownWidget(Question astQuestion, string trueLabel, string falseLabel)
+            : this(astQuestion)
+        {
+        }
+
         public override Value GetValue()
         {
             if (YesNoDropDownBox.SelectedValue != null)
