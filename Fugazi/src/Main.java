@@ -98,7 +98,7 @@ public class Main {
 
             // QLS
             QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, qlsWidgetsFactory, styleSheetData);
+            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, formDataStorage, styleSheetData, qlsWidgetsFactory);
             styledGUIBuilder.renderUI();
 
         } else {

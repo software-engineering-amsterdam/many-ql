@@ -48,26 +48,30 @@ public class QLSUIForm extends UIForm {
 
     public void addPage(UIPage _page) {
         this.currentPanel = _page.getPanel();
-        this.qlsuiPanel.addPage(_page.getPanel(), _page.getTitle());
+        this.qlsuiPanel.addPage(_page.getPanel(), _page.getTitle(), _page.getIndex());
         this.formFrame.revalidate();
     }
 
     public void removePage(UIPage _page) {
         // widgets cannot be assigned now - to what would they be?
         this.currentPanel = null;
-        this.qlsuiPanel.addPage(_page.getPanel(), _page.getTitle());
+        this.qlsuiPanel.removePage(_page.getPanel());
         this.formFrame.revalidate();
     }
 
     public void addSection(UISection _section) {
         this.currentPanel = _section.getPanel();
         UIPage page = _section.getPage();
-        this.qlsuiPanel.addSection(page.getPanel(), _section.getPanel());
+        this.qlsuiPanel.addSection(
+                page.getSubPanel(_section.getIndex()), _section.getPanel()
+        );
     }
-    
+
     public void removeSection(UISection _section) {
         this.currentPanel = _section.getPage().getPanel();
         UIPage page = _section.getPage();
-        this.qlsuiPanel.removeSection(page.getPanel(), _section.getPanel());
+        this.qlsuiPanel.removeSection(page.getSubPanel(
+                        _section.getIndex()), _section.getPanel()
+        );
     }
 }

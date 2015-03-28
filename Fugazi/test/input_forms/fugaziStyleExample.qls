@@ -10,32 +10,34 @@ stylesheet taxOfficeExample
     section "Loaning"  
       question hasMaintLoan
         widget dropdown("yes", "no")
+    section "Empty" {}
   }
 
-  page Selling { 
+
+  page SellingAdditional {
+
+      section "You sold a house" {
+        question privateDebt
+          widget slider
+        question valueResidue
+        default int {
+          width: 400
+          font: "Georgia"
+          fontsize: 14
+          color: #E60C0C
+          widget spinbox
+        }
+      }
+}
+  page Selling {
+section "Selling 2" {
+
+        question sellingPrice
+          widget slider
+    }
     section "Selling" {
       question hasSoldHouse
     }
-    
-    section "You sold a house" {
-      question sellingPrice
-        widget slider
-        
-      question privateDebt
-        widget slider
-        
-      question valueResidue
-      
-      default int {
-        width: 400
-        font: "Georgia"
-        fontsize: 14
-        color: #E60C0C
-        widget spinbox
-      }
-              
-    }
-    
+
     default bool widget radio("Yes", "No")
-  }
-  
+    }
