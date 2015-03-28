@@ -15,17 +15,20 @@ public class UIPage {
 
     public UIPage(String _title, int _index, int rows) {
         this.panel = new JPanel();
-        panel.setLayout(new GridLayout(rows, 0));
+        this.subPanelsHolder = new JPanel[rows];
+        this.initializeSubpanels(rows);
 
-        subPanelsHolder = new JPanel[rows];
+        this.pageTitle = _title;
+        this.index = _index;
+    }
+
+    private void initializeSubpanels(int rows){
+        panel.setLayout(new GridLayout(rows, 0));
         for (int i = 0; i < rows; i++) {
             subPanelsHolder[i] = new JPanel();
             subPanelsHolder[i].setLayout(new GridLayout(0, 1));
             this.panel.add(subPanelsHolder[i]);
         }
-
-        this.pageTitle = _title;
-        this.index = _index;
     }
     
     public void addToForm(UIForm _uiForm) {

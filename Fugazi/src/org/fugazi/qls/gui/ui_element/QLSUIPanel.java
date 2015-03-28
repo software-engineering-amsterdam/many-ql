@@ -49,8 +49,4 @@ public  class QLSUIPanel {
     public void removeSection(JPanel _pageSubPanel, JPanel _sectionPanel) {
         _pageSubPanel.remove(_sectionPanel);
     }
-
-    public JTabbedPane getPanel() {
-        return this.panel;
-    }
 }
