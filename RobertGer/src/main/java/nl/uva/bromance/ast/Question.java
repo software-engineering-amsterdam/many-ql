@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.*;
+import java.util.UUID;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
@@ -31,7 +31,9 @@ public class Question extends QLNode implements HasIdentifier {
         this.identifier = identifier;
     }
 
-    public UUID getUuid() { return uuid; }
+    public UUID getUuid() {
+        return uuid;
+    }
 
     public Identifier getIdentifier() {
         return identifier;
@@ -57,9 +59,6 @@ public class Question extends QLNode implements HasIdentifier {
                 this.identifier.setResult(type.getCorrespondingResultType());
                 break;
             }
-        }
-        if (questionType == null) {
-            System.err.println("Question Error: Invalid Question type " + qt + ", valid types are :" + Arrays.toString(questionTypes));
         }
     }
 
