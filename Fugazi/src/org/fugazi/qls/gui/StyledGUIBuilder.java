@@ -1,22 +1,9 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
-import org.fugazi.ql.ast.statement.Question;
-import org.fugazi.ql.evaluator.ValueStorage;
-import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.GUIBuilder;
-import org.fugazi.ql.gui.GUIEvaluator;
-import org.fugazi.ql.gui.UIFormManager;
-import org.fugazi.ql.gui.mediator.Colleague;
-import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIPanel;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
-import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
@@ -58,33 +45,43 @@ public class StyledGUIBuilder extends GUIBuilder {
         
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
-                UISection uiSection = this.parentSections.get(uiQuestion);
-                UIPage uiPage = this.parentPages.get(uiSection);
-
-                this.addVisibleQuestionToSection(uiQuestion, uiSection);
-                this.addVisibleSectionToPage(uiSection, uiPage);
-
-                formManager.addPage(uiPage);
-                formManager.addSection(uiSection);
-                formManager.addQuestion(uiQuestion);
+                this.setQuestionVisible(uiQuestion, formManager);
             } else {
-                UISection parentSection = this.parentSections.get(uiQuestion);
-                this.removeVisibleQuestionFromSection(uiQuestion, parentSection);
-                formManager.removeQuestion(uiQuestion);
-
-                List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(parentSection);
-                if (visibleQuestions != null && visibleQuestions.isEmpty()) {
-                    UIPage parentPage = this.parentPages.get(parentSection);
-                    this.removeVisibleSectionFromPage(parentSection, parentPage);
-                    formManager.removeSection(parentSection);
-                    List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
-
-                    if (visibleSections != null && visibleSections.isEmpty()) {
-                        formManager.removePage(parentPage);
-                    }
-                }
+                this.unsetQuestionVisible(uiQuestion, formManager);
             }
         }
+    }
+
+    private void setQuestionVisible(UIQuestion _uiQuestion, QLSUIFormManager _formManager) {
+        UISection uiSection = this.parentSections.get(_uiQuestion);
+        UIPage uiPage = this.parentPages.get(uiSection);
+
+        this.addVisibleQuestionToSection(_uiQuestion, uiSection);
+        this.addVisibleSectionToPage(uiSection, uiPage);
+
+        _formManager.addPage(uiPage);
+        _formManager.addSection(uiSection);
+        _formManager.addQuestion(_uiQuestion);
+
+    }
+
+    private void unsetQuestionVisible(UIQuestion _uiQuestion, QLSUIFormManager _formManager) {
+        UISection parentSection = this.parentSections.get(_uiQuestion);
+        this.removeVisibleQuestionFromSection(_uiQuestion, parentSection);
+        _formManager.removeQuestion(_uiQuestion);
+
+        List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(parentSection);
+        if (visibleQuestions != null && visibleQuestions.isEmpty()) {
+            UIPage parentPage = this.parentPages.get(parentSection);
+            this.removeVisibleSectionFromPage(parentSection, parentPage);
+            _formManager.removeSection(parentSection);
+            List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
+
+            if (visibleSections != null && visibleSections.isEmpty()) {
+                _formManager.removePage(parentPage);
+            }
+        }
+
     }
 
     private void addVisibleQuestionToSection(UIQuestion _uiQuestion, UISection _section) {
