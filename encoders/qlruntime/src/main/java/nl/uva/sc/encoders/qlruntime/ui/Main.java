@@ -25,15 +25,15 @@ import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallb
 
 public class Main extends Application {
 
+	public static final String DEFAULT_QL_INPUT_FILE_DIRECTORY = "ql/";
+
+	public static final String DEFAULT_QL_INPUT_FILE_NAME = "input_form.ql";
+
 	private static final int SCROLLPANE_HEIGHT = 750;
 
 	private static final int SCROLLPANE_WIDTH = 600;
 
 	private static final int PADDING = 100;
-
-	public static final String DEFAULT_INPUT_FILE_DIRECTORY = "ql/";
-
-	public static final String DEFAULT_INPUT_FILE_NAME = "input_form.ql";
 
 	public static void main(String[] args) {
 		launch(args);
@@ -50,7 +50,7 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		String defaultLocation = DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME;
+		String defaultLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
 		final TextField inputFileTextField = new TextField(defaultLocation);
 		Button chooseInputButton = new Button("Choose input file...");
 		Button parseButton = new Button("Parse");
