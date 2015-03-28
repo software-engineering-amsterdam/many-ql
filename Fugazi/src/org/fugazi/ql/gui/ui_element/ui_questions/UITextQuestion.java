@@ -1,33 +1,33 @@
-package org.fugazi.ql.gui.ui_elements.ui_questions;
+package org.fugazi.ql.gui.ui_element.ui_questions;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.evaluator.expression_value.IntValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 import org.fugazi.ql.gui.mediator.IMediator;
 import org.fugazi.ql.gui.widgets.IWidget;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 
-public class UINumQuestion extends UIQuestion {
+public class UITextQuestion extends UIQuestion {
 
-    private IntValue value;
-
-    public UINumQuestion(IMediator _med, Question _question, IWidget _widget) {
+    private StringValue value;
+    
+    public UITextQuestion(IMediator _med, Question _question, IWidget _widget) {
         super(_med, _question, _widget);
 
         this.resetState();
 
         this.widget.addEventListener(
-                new WidgetsEventListener() {
-                    public void stateChanged() {
-                        setState(widget.getWidgetValue());
-                    }
+            new WidgetsEventListener() {
+                public void stateChanged() {
+                    setState(widget.getWidgetValue());
+                }
             }
         );
     }
 
     @Override
     public void setState(ExpressionValue _value) {
-        this.value = (IntValue) _value;
+        this.value = (StringValue) _value;
         this.sendToMediator();
     }
 
@@ -38,8 +38,8 @@ public class UINumQuestion extends UIQuestion {
 
     @Override
     public void resetState() {
-        IntValue zeroValue = new IntValue(0);
-        this.value = zeroValue;
-        this.widget.setWidgetValue(zeroValue);
+        StringValue emptyValue = new StringValue("");
+        this.value = emptyValue;
+        this.widget.setWidgetValue(emptyValue);
     }
 }

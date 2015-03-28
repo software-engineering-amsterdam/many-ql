@@ -9,30 +9,33 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIPanel;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIComputedQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-    private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
+    protected class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
-    private final UIFormManager uiFormManager;
     private final UIQuestionBuilder uiQuestionBuilder;
     
-    private QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
+    protected final UIFormManager uiFormManager;
+    protected QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
-    public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
+    public GUIBuilder(
+            Form _form, 
+            WidgetsFactory _widgetFactory, 
+            UIFormManager _uiFormManager)
+    {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        
-        this.uiFormManager = new UIFormManager(_form.getName(), new UIPanel());
+
+        this.uiFormManager = _uiFormManager;
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
@@ -48,11 +51,11 @@ public class GUIBuilder implements IMediator {
     }
 
     public void renderUI() {
-        this.setupForm(this.questionsWithConditions);
+        this.updateForm(this.questionsWithConditions);
         this.uiFormManager.render();
     }
 
-    private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    protected void updateForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
                 this.uiFormManager.addQuestion(uiQuestion);
@@ -69,14 +72,12 @@ public class GUIBuilder implements IMediator {
     }
 
     private QuestionsWithConditions createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions();
+        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions(); // for idempotence.
 
         for (Question question : _formDataStorage.getAllQuestions()) {
             
             UIQuestion uiQuestion = this.createUiQuestion(question);
-            
             this.storeValue(uiQuestion.getId(), uiQuestion.getState());
-            
             questionsWithCondition.put(uiQuestion, new ArrayList<>());
             
             this.addIfStatementsToQuestion(
@@ -86,14 +87,10 @@ public class GUIBuilder implements IMediator {
     }
 
     /**
+     * ====================== 
      * Helper Functions.
+     * ======================
      */
-    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
-        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
-        uiComputedQuestion.setComputedValue(result);
-    }
     
     private void addIfStatementsToQuestion(
             List<IfStatement> _ifStatementsList,
@@ -107,8 +104,16 @@ public class GUIBuilder implements IMediator {
             }
         }
     }
+    
+    protected void updateComputedQuestion(ComputedQuestion _computedQuestion) {
+        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
+        UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) this.getUIQuestionById(
+                                                                        _computedQuestion.getIdName(),
+                                                                        this.questionsWithConditions);
+        uiComputedQuestion.setComputedValue(result);
+    }
 
-    private UIQuestion getUIQuestionById(
+    protected UIQuestion getUIQuestionById(
             String _id, QuestionsWithConditions _questionsWithConditions)
     {
         for (UIQuestion uiQuestion : _questionsWithConditions.keySet()) {
@@ -119,7 +124,7 @@ public class GUIBuilder implements IMediator {
         return null;
     }
 
-    private boolean isQuestionStateTrue(
+    protected boolean isQuestionStateTrue(
             Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
     {
         boolean isTrue = true;
@@ -130,8 +135,8 @@ public class GUIBuilder implements IMediator {
         }
         return isTrue;
     }
-    
-    private void storeValue(String _id, ExpressionValue _value) {
+
+    protected void storeValue(String _id, ExpressionValue _value) {
         this.valueStorage.saveValue(_id, _value);
     }
 

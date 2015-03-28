@@ -1,15 +1,20 @@
-package org.fugazi.qls.gui;
+package org.fugazi.qls.gui.ui_element;
 
-import org.fugazi.ql.gui.ui_elements.IUIPanel;
+import org.fugazi.ql.gui.ui_element.UIPanel;
 
 import javax.swing.*;
 
-public  class QLSUIPanel implements IUIPanel {
+/**
+ * This class wraps the UIPanel of QL, it creates a new Tabbed panel and it adds it to the base
+ * QL JPanel, the all the Pages/Sections handling is done from on this tabbed Panel.
+ */
+public  class QLSUIPanel {
 
-    private JTabbedPane panel;
+    private final JTabbedPane panel;
 
-    public QLSUIPanel() {
+    public QLSUIPanel(UIPanel _uiPanel) {
         this.panel = new JTabbedPane();
+        _uiPanel.add(this.panel);
     }
 
     public void render(JFrame _rootContainer) {
@@ -43,9 +48,5 @@ public  class QLSUIPanel implements IUIPanel {
 
     public void removeSection(JPanel _pageSubPanel, JPanel _sectionPanel) {
         _pageSubPanel.remove(_sectionPanel);
-    }
-
-    public JTabbedPane getPanel() {
-        return this.panel;
     }
 }

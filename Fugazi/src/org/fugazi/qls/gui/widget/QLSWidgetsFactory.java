@@ -1,4 +1,4 @@
-package org.fugazi.qls.gui;
+package org.fugazi.qls.gui.widget;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
