@@ -11,37 +11,37 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class CheckBoxControl : QuestionControl
+    public partial class TextBoxWidget : QuestionWidget
     {
-        public CheckBoxControl(Question astQuestion)
-            :base(astQuestion)
+        public TextBoxWidget(Question astQuestion)
+            : base(astQuestion)
         {
             InitializeComponent();
             QuestionLabel.Text = Label;
-            YesCheckBox.Enabled = !astQuestion.IsComputed;
+            AnswerTextBox.Enabled = !astQuestion.IsComputed;
         }
 
         public override Value GetValue()
         {
-            return new BooleanValue(YesCheckBox.Checked);
+            return new StringValue(AnswerTextBox.Text);
         }
 
         public override void SetValue(Value value)
         {
             if (!value.IsUndefined)
             {
-                if (value.DataType == DataType.Boolean)
+                if (value.DataType == DataType.String)
                 {
-                    YesCheckBox.Checked = ((BooleanValue)value).Val; 
+                    AnswerTextBox.Text = ((StringValue)value).Val;
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter value must be of datatype 'bool'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'string'.");
                 }
             }
         }
 
-        private void YesCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void AnswerTextBox_TextChanged(object sender, EventArgs e)
         {
             OnQuestionAnswered(new EventArgs());
         }

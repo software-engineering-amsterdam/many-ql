@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class CheckBoxControl
+    partial class SpinBoxWidget
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.AnswerUpDown = new System.Windows.Forms.NumericUpDown();
             this.QuestionLabel = new System.Windows.Forms.Label();
-            this.YesCheckBox = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.AnswerUpDown)).BeginInit();
             this.SuspendLayout();
+            // 
+            // AnswerUpDown
+            // 
+            this.AnswerUpDown.Location = new System.Drawing.Point(7, 20);
+            this.AnswerUpDown.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.AnswerUpDown.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.AnswerUpDown.Name = "AnswerUpDown";
+            this.AnswerUpDown.Size = new System.Drawing.Size(105, 20);
+            this.AnswerUpDown.TabIndex = 1;
+            this.AnswerUpDown.ValueChanged += new System.EventHandler(this.AnswerUpDown_ValueChanged);
             // 
             // QuestionLabel
             // 
@@ -38,27 +57,16 @@
             this.QuestionLabel.Location = new System.Drawing.Point(4, 4);
             this.QuestionLabel.Name = "QuestionLabel";
             this.QuestionLabel.Size = new System.Drawing.Size(55, 13);
-            this.QuestionLabel.TabIndex = 0;
+            this.QuestionLabel.TabIndex = 2;
             this.QuestionLabel.Text = "Question?";
             // 
-            // YesCheckBox
-            // 
-            this.YesCheckBox.AutoSize = true;
-            this.YesCheckBox.Location = new System.Drawing.Point(7, 20);
-            this.YesCheckBox.Name = "YesCheckBox";
-            this.YesCheckBox.Size = new System.Drawing.Size(44, 17);
-            this.YesCheckBox.TabIndex = 1;
-            this.YesCheckBox.Text = "Yes";
-            this.YesCheckBox.UseVisualStyleBackColor = true;
-            this.YesCheckBox.CheckedChanged += new System.EventHandler(this.YesCheckBox_CheckedChanged);
-            // 
-            // CheckBoxControl
+            // NumericQuestion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.YesCheckBox);
             this.Controls.Add(this.QuestionLabel);
-            this.Name = "CheckBoxControl";
+            this.Controls.Add(this.AnswerUpDown);
             this.Size = new System.Drawing.Size(523, 50);
+            ((System.ComponentModel.ISupportInitialize)(this.AnswerUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -66,7 +74,7 @@
 
         #endregion
 
+        private System.Windows.Forms.NumericUpDown AnswerUpDown;
         private System.Windows.Forms.Label QuestionLabel;
-        private System.Windows.Forms.CheckBox YesCheckBox;
     }
 }

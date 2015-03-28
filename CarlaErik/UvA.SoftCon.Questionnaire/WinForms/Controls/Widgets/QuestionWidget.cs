@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class QuestionControl : UserControl
+    public partial class QuestionWidget : UserControl
     {
         public event EventHandler QuestionAnswered;
 
@@ -28,12 +29,12 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             private set;
         }
 
-        public QuestionControl()
+        public QuestionWidget()
         {
             InitializeComponent();
         }
 
-        protected QuestionControl(Question astQuestion)
+        protected QuestionWidget(Question astQuestion)
             : this()
         {
             QuestionName = astQuestion.Id.Name;

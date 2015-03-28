@@ -23,10 +23,39 @@ namespace UvA.SoftCon.Questionnaire.Common.AST.Model
             private set;
         }
 
+        public static TextPosition None
+        {
+            get
+            {
+                return new TextPosition();
+            }
+        }
+
+        private TextPosition()
+        {
+            Line = -1;
+            Column = -1;
+        }
+
         public TextPosition(int line, int column)
         {
+            if (line < 0) { throw new ArgumentException("Parameter line must be equal to or greater than zero."); }
+            if (column < 0) { throw new ArgumentException("Parameter column must be equal to or greater than zero."); }
+
             Line = line;
             Column = column;
+        }
+
+        public override string ToString()
+        {
+            if (Line >= 0)
+            {
+                return String.Format("Line: {0}, column: {1}", Line, Column);
+            }
+            else
+            {
+                return String.Empty;
+            }
         }
     }
 }

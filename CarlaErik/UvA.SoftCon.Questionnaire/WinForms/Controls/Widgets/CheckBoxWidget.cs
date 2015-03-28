@@ -1,43 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class SpinBoxControl : QuestionControl
+    public partial class CheckBoxWidget : QuestionWidget
     {
-        public SpinBoxControl(Question astQuestion)
-            : base(astQuestion)
+        public CheckBoxWidget(Question astQuestion)
+            :base(astQuestion)
         {
             InitializeComponent();
-
-            AnswerUpDown.Value = 0;
             QuestionLabel.Text = Label;
-            AnswerUpDown.Enabled = !astQuestion.IsComputed;
+            YesCheckBox.Enabled = !astQuestion.IsComputed;
         }
 
         public override Value GetValue()
         {
-            return new IntegerValue((int)AnswerUpDown.Value);
+            return new BooleanValue(YesCheckBox.Checked);
         }
 
         public override void SetValue(Value value)
         {
             if (!value.IsUndefined)
             {
-                if (value.DataType == DataType.Integer)
+                if (value.DataType == DataType.Boolean)
                 {
-                    AnswerUpDown.Value = ((IntegerValue)value).Val;
+                    YesCheckBox.Checked = ((BooleanValue)value).Val; 
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter value must be of datatype 'int'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'bool'.");
                 }
             }
         }
 
-        private void AnswerUpDown_ValueChanged(object sender, EventArgs e)
+        private void YesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             OnQuestionAnswered(new EventArgs());
         }

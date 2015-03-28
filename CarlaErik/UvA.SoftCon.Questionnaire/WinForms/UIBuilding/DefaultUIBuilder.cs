@@ -16,7 +16,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// </summary>
     internal class DefaultUIBuilder : QLVisitor<object>
     {
-        private ICollection<QuestionControl> questionControls = new List<QuestionControl>();
+        private ICollection<QuestionWidget> questionControls = new List<QuestionWidget>();
 
         public QuestionFormControl BuildUi(QuestionForm form, OutputWindow outputWindow)
         {
@@ -27,25 +27,25 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
         public override object Visit(BooleanQuestion question)
         {
-           questionControls.Add(new CheckBoxControl(question));
+           questionControls.Add(new CheckBoxWidget(question));
            return null;
         }
 
         public override object Visit(DateQuestion question)
         {
-            questionControls.Add(new CalendarControl(question));
+            questionControls.Add(new CalendarWidget(question));
             return null;
         }
 
         public override object Visit(IntegerQuestion question)
         {
-            questionControls.Add(new SpinBoxControl(question));
+            questionControls.Add(new SpinBoxWidget(question));
             return null;
         }
 
         public override object Visit(StringQuestion question)
         {
-            questionControls.Add(new TextBoxControl(question));
+            questionControls.Add(new TextBoxWidget(question));
             return null;
         }
     }

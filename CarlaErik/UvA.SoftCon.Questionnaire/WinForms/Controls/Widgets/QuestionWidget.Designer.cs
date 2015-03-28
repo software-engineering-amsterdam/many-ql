@@ -1,6 +1,6 @@
 ﻿namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    partial class QuestionControl
+    partial class QuestionWidget
     {
         /// <summary> 
         /// Required designer variable.
