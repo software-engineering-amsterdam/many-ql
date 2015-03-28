@@ -4,18 +4,22 @@ import javax.swing.*;
 
 public class UIForm {
 
-    public static final int winHeight = 600;
-    public static final int winWidth = 580;
+    private static final int DEFAULT_WIN_HEIGHT = 600;
+    private static final int DEFAULT_WIN_WIDTH = 580;
     
     protected final JFrame formFrame;
     protected final UIPanel panel;
 
     public UIForm(String _formTitle) {
+        this(_formTitle, DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
+    }
+
+    public UIForm(String _formTitle, int _width, int _height) {
         this.panel = new UIPanel();
         this.formFrame = new JFrame(_formTitle);
         this.panel.render(this.formFrame);
 
-        this.formFrame.setSize(winWidth, winHeight);
+        this.formFrame.setSize(_width, _height);
         this.formFrame.setLocationRelativeTo(null);
         this.formFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.formFrame.setResizable(false);

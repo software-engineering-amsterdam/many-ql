@@ -5,7 +5,6 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -28,8 +27,10 @@ public class QLSCheckBox extends AbstractQLSWidget {
     }
 
     public QLSCheckBox(String _label) {
+        this.componentLabel.setText(_label);
         this.checkBox = new JCheckBox(_label);
         this.checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.component.add(this.checkBox);
         this.type = new CheckBoxType();
     }
 
@@ -40,7 +41,6 @@ public class QLSCheckBox extends AbstractQLSWidget {
 
     @Override
     public void applyStyle(Style _style) {
-        // inherit properties that are not set in the given style from default.
         _style.inheriteFromStyle(this.getDefaultStyle());
 
         Font font = new Font(
@@ -52,17 +52,7 @@ public class QLSCheckBox extends AbstractQLSWidget {
         Color color = _style.getColor(this.getDefaultColor().getValue());
         this.checkBox.setForeground(color);
     }
-
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.checkBox);
-    }
-
-    @Override
-    public void suppress(UIForm _canvas){
-        _canvas.removeWidget(this.checkBox);
-    }
-
+    
     @Override
     public void addEventListener(WidgetsEventListener _listener) {
 

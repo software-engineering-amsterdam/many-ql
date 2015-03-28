@@ -87,8 +87,11 @@ public class GUIBuilder implements IMediator {
     }
 
     /**
+     * ====================== 
      * Helper Functions.
+     * ======================
      */
+    
     private void addIfStatementsToQuestion(
             List<IfStatement> _ifStatementsList,
             Question _question,

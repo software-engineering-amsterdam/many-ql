@@ -31,10 +31,11 @@ public class Main {
         if (inputQLFile != null)
             qlInput = new FileInputStream(inputQLFile);
 
-        /** ---------------------
-          * QL
-          * ---------------------
-         **/
+        /** 
+         * ---------------------
+         * QL
+         * ---------------------
+         */
         // Create The AST Builder.
         QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
@@ -58,9 +59,10 @@ public class Main {
             System.exit(-1);
         }        
 
-        /** ---------------------
+        /**
+         * ---------------------
          * QLS
-         *  ---------------------
+         * ---------------------
          */
         if (args.length > 1) {
             String inputQLSFile = null;
@@ -98,7 +100,7 @@ public class Main {
             }
 
             // QLS
-            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
+            GUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
             styledGUIBuilder.renderUI();
 
         } else {

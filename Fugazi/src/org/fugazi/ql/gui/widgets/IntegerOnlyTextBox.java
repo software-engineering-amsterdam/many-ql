@@ -12,6 +12,8 @@ import java.text.NumberFormat;
 public class IntegerOnlyTextBox extends AbstractWidget {
 
     private static int COLUMNS = 7;
+    private static int MIN_NUM = -1000000;
+    private static int MAX_NUM = 1000000;
 
     private JFormattedTextField input;
     private NumberFormatter numberFormatter; 
@@ -22,10 +24,12 @@ public class IntegerOnlyTextBox extends AbstractWidget {
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         intFormat.setGroupingUsed(false);
         intFormat.setParseIntegerOnly(true);
+        
         numberFormatter = new NumberFormatter(intFormat);
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setAllowsInvalid(false);
-        numberFormatter.setMinimum(0);
+        numberFormatter.setMinimum(MIN_NUM);
+        numberFormatter.setMaximum(MAX_NUM);
         numberFormatter.setOverwriteMode(true);
 
         this.input = new JFormattedTextField(numberFormatter);
@@ -65,7 +69,5 @@ public class IntegerOnlyTextBox extends AbstractWidget {
     public void setReadOnly(boolean _isReadonly) {
         this.input.setEditable(false);
         numberFormatter.setAllowsInvalid(true);
-        numberFormatter.setMinimum(-1000);
-        numberFormatter.setOverwriteMode(false);
     }
 }
