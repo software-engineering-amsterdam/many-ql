@@ -123,6 +123,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIBuilding\DefaultUIBuilder.cs" />
+    <Compile Include="UIBuilding\StyleSet.cs" />
     <Compile Include="UIBuilding\StyleSheetUIBuilder.cs" />
     <EmbeddedResource Include="Controls\PageControl.resx">
       <DependentUpon>PageControl.cs</DependentUpon>
