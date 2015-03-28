@@ -10,6 +10,7 @@ import scalafx.scene.layout.VBox
 
 class FormBuilder(env: EvalEnvironment = ObservableMap.empty) {
 
+  // TODO: Can't find any usages of evaluator? Remove this line?
   val evaluator = new Evaluator()
 
   def build(f: Form): FormGUI = {
