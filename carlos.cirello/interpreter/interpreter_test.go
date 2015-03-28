@@ -295,6 +295,25 @@ func TestLongIfExpressions(t *testing.T) {
 	)
 }
 
+func TestComputationOfUnfilledFields(t *testing.T) {
+	form := `
+	form TaxForm {
+		if(1 != 2) {
+			"q1" q1 numeric
+		}
+
+		"q2" q2 computed = q1 * 2
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		"",
+		`q1,q1,0`+"\n"+
+			`q2,q2,0.000000`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {
