@@ -72,9 +72,8 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 	@Override
 	public DefaultStyle visitDefaultStyle(DefaultStyleContext ctx) {
 		String dataType = ctx.DATATYPE().getText();
-		String widget = ctx.widget().getText();
 		TextLocation textLocation = getTextLocation(ctx);
-		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType, widget);
+		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType);
 
 		return defaultStyle;
 	}

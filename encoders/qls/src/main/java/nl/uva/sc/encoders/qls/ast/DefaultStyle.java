@@ -8,17 +8,12 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class DefaultStyle extends AstNode {
 
 	private final String datatype;
-	private final String widget;
 	private List<DefaultStyleProperty> defaultStyleProperties = new ArrayList<>();
+	private Widget widget;
 
-	public DefaultStyle(TextLocation textLocation, String datatype, String widget) {
+	public DefaultStyle(TextLocation textLocation, String datatype) {
 		super(textLocation);
 		this.datatype = datatype;
-		this.widget = widget;
-	}
-
-	public String getWidget() {
-		return widget;
 	}
 
 	public String getDataType() {
@@ -31,5 +26,13 @@ public class DefaultStyle extends AstNode {
 
 	public List<DefaultStyleProperty> getDefaultStyleProperties() {
 		return defaultStyleProperties;
+	}
+
+	public void setDefaultStyleWidget(Widget widget) {
+		this.widget = widget;
+	}
+
+	public Widget getDefaultStyleWidget() {
+		return widget;
 	}
 }
