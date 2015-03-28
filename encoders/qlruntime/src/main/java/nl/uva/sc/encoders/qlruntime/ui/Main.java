@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.InputFileTextCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.ParseResultCallback;
@@ -60,7 +61,8 @@ public class Main extends Application {
 		grid.add(showButton, 3, 0);
 		showButton.setVisible(false);
 
-		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField, defaultLocation));
+		PathSelectedCallback pathSelectedCallback = path -> inputFileTextField.setText(path);
+		chooseInputButton.setOnAction(new ChooseInputButtonHandler(pathSelectedCallback, defaultLocation));
 
 		StackPane stackPane = new StackPane();
 		ValidationsGridPane validationsGridPane = new ValidationsGridPane();
