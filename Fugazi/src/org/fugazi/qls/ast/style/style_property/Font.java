@@ -4,7 +4,7 @@ import org.fugazi.qls.ast.IQLSASTVisitor;
 
 public class Font extends StyleProperty<String> {
 
-    public static final String PROPERTY_NAME = "Font";
+    public static final String PROPERTY_NAME = "font";
 
     public Font(String _value) {
         super(PROPERTY_NAME, _value);

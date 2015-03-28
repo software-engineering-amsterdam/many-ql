@@ -1,4 +1,4 @@
-package org.fugazi.ql.gui.ui_element;
+package org.fugazi.ql.gui.ui_element.visitors;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.*;
