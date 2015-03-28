@@ -4,11 +4,18 @@ import argparse
 import glob
 
 from ql.parser.ANTLR import Parser
-from ql.typechecking import Typechecking as tc
+from ql.typechecking import\
+    Typechecking as tc,\
+    ConsoleMessage,\
+    ErrorsWarningsResult
 
 def runTest(verbose, testFileName):
     parser = Parser(testFileName)
-    typeCheckResult = tc.check(parser)
+    typeCheckResult = tc.check(
+        parser.questionnaire,
+        ErrorsWarningsResult.Factory(),
+        ConsoleMessage.Factory(parser)
+    )
 
     expectedNumMessages = int(
         testFileName.split('.')[0].split('-')[2]
