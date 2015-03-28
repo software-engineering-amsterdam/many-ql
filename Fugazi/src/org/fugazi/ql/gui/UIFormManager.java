@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UIFormManager {
-    private UIForm form;
+    protected UIForm form;
     private List<UIQuestion> questionsInForm;
 
     public UIFormManager(UIForm _form) {
