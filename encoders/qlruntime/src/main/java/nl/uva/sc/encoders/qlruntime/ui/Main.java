@@ -24,6 +24,12 @@ import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallb
 
 public class Main extends Application {
 
+	private static final int SCROLLPANE_HEIGHT = 750;
+
+	private static final int SCROLLPANE_WIDTH = 600;
+
+	private static final int PADDING = 100;
+
 	public static final String DEFAULT_INPUT_FILE_DIRECTORY = "ql/";
 
 	public static final String DEFAULT_INPUT_FILE_NAME = "input_form.ql";
@@ -70,7 +76,7 @@ public class Main extends Application {
 		parseButton.setOnAction(new ParseButtonHandler(inputFileTextCallback, parseResultCallback));
 		ShowResultCallback showResultCallback = result -> {
 			ScrollPane scrollPane = new ScrollPane(result);
-			scrollPane.setPrefSize(650, 500);
+			scrollPane.setPrefSize(SCROLLPANE_HEIGHT, SCROLLPANE_WIDTH);
 			showNode(stackPane, scrollPane);
 		};
 		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
@@ -78,7 +84,7 @@ public class Main extends Application {
 
 		grid.add(stackPane, 0, 1, 4, 1);
 
-		Scene scene = new Scene(grid, 750, 600);
+		Scene scene = new Scene(grid, SCROLLPANE_HEIGHT + PADDING, SCROLLPANE_WIDTH + PADDING);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
