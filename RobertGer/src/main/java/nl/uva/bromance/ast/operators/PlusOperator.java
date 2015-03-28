@@ -22,11 +22,6 @@ public class PlusOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new PlusOperator();
-    }
-
-    @Override
     public void accept(OperatorVisitor visitor) {
         visitor.visit(this);
     }

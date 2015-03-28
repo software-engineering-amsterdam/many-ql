@@ -20,11 +20,6 @@ public class NotEqualsOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new NotEqualsOperator();
-    }
-
-    @Override
     public void accept(OperatorVisitor visitor) {
         visitor.visit(this);
     }
