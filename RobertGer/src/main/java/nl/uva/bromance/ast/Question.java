@@ -8,10 +8,7 @@ import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Question extends QLNode implements HasIdentifier {
     private List<StringResult> multipleChoiceOptions = new ArrayList<>();
@@ -21,13 +18,17 @@ public class Question extends QLNode implements HasIdentifier {
     private String questionString;
     private QuestionType questionType;
     private Range questionRange;
+    private UUID uuid;
     private boolean isVisible = true;
 
     //TODO: Harmonize identifier use and answermap.
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber);
+        this.uuid = UUID.randomUUID();
         this.identifier = identifier;
     }
+
+    public UUID getUuid() { return uuid; }
 
     public Identifier getIdentifier() {
         return identifier;

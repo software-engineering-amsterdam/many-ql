@@ -46,17 +46,19 @@ public class IntegerType implements QuestionType {
         if (answer != null) {
             textField.setText(Integer.toString(answer.getResult()));
         }
-        if (visualizer.getFocusId() == q.hashCode()) {
+        if (visualizer.getFocusUuid() == q.getUuid()) {
             visualizer.setFocusedNode(textField);
         }
 
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9]*")) {
+            if (!newValue.matches("[0-9-]*")) {
                 textField.setText(oldValue);
             } else {
-                answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
-                visualizer.visualize(q.hashCode());
+                if (newValue.length() >= 1 && !newValue.equals("-")){
+                    answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
+                }
+                visualizer.visualize(q.getUuid());
             }
         });
         parent.getChildren().add(textField);

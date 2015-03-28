@@ -48,7 +48,7 @@ public class CustomType implements QuestionType {
             RadioButton rb = (RadioButton) newToggle.getToggleGroup().getSelectedToggle();
             answerMap.put(id, new StringResult(rb.getText()));
             if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null)) {
-                visualizer.refresh(q.hashCode());
+                visualizer.refresh(q.getUuid());
             }
         });
 
@@ -57,7 +57,7 @@ public class CustomType implements QuestionType {
             radioButton.setToggleGroup(group);
             if (answer != null && option.getResult().equals(answer.getResult())) {
                 radioButton.setSelected(true);
-                if (visualizer.getFocusId() == q.hashCode()) {
+                if (visualizer.getFocusUuid() == q.getUuid()) {
                     visualizer.setFocusedNode(radioButton);
                 }
             }
