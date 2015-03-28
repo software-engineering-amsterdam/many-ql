@@ -1,9 +1,12 @@
 stylesheet taxOfficeExample 
+
   page Housing {
     section "Info"
       question name
+      
     section "Buying"
       question hasBoughtHouse
+      
     section "Loaning"  
       question hasMaintLoan
         widget dropdown("yes", "no")
