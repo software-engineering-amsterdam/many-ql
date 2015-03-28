@@ -64,24 +64,22 @@ public class StyledGUIBuilder extends GUIBuilder {
 
     private void unsetQuestionVisible(UIQuestion _uiQuestion, QLSUIFormManager _formManager) {
         UISection parentSection = this.parentSections.get(_uiQuestion);
-        this.removeVisibleQuestionFromSection(_uiQuestion, parentSection);
-        _formManager.removeQuestion(_uiQuestion);
+        this.removeVisibleQuestionFromSection(_uiQuestion, parentSection, _formManager);
 
         List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(parentSection);
         if (visibleQuestions != null && visibleQuestions.isEmpty()) {
             UIPage parentPage = this.parentPages.get(parentSection);
-            this.removeVisibleSectionFromPage(parentSection, parentPage);
-            _formManager.removeSection(parentSection);
-            List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
+            this.removeVisibleSectionFromPage(parentSection, parentPage, _formManager);
 
+            List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
             if (visibleSections != null && visibleSections.isEmpty()) {
                 _formManager.removePage(parentPage);
             }
         }
-
     }
 
-    private void addVisibleQuestionToSection(UIQuestion _uiQuestion, UISection _section, QLSUIFormManager _formManager) {
+    private void addVisibleQuestionToSection(
+            UIQuestion _uiQuestion, UISection _section, QLSUIFormManager _formManager) {
         List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(_section);
         if (visibleQuestions == null) {
             visibleQuestions = new ArrayList<>();
@@ -93,15 +91,18 @@ public class StyledGUIBuilder extends GUIBuilder {
         _formManager.addSection(_section);
     }
 
-    private void removeVisibleQuestionFromSection(UIQuestion _uiQuestion, UISection _section) {
+    private void removeVisibleQuestionFromSection(
+            UIQuestion _uiQuestion, UISection _section, QLSUIFormManager _formManager) {
         List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(_section);
         if (visibleQuestions != null && visibleQuestions.contains(_uiQuestion)) {
             visibleQuestions.remove(_uiQuestion);
             this.visibleQuestionsPerSection.put(_section, visibleQuestions);
         }
+        _formManager.removeQuestion(_uiQuestion);
     }
 
-    private void addVisibleSectionToPage(UISection _section, UIPage _uiPage, QLSUIFormManager _formManager) {
+    private void addVisibleSectionToPage(
+            UISection _section, UIPage _uiPage, QLSUIFormManager _formManager) {
         List<UISection> visibleSections = this.visibleSectionsPerPage.get(_uiPage);
         if (visibleSections == null) {
             visibleSections = new ArrayList<>();
@@ -114,12 +115,14 @@ public class StyledGUIBuilder extends GUIBuilder {
         _formManager.addPage(_uiPage);
     }
 
-    private void removeVisibleSectionFromPage(UISection _section, UIPage _uiPage) {
+    private void removeVisibleSectionFromPage(
+            UISection _section, UIPage _uiPage, QLSUIFormManager _formManager) {
         List<UISection> visibleSections = this.visibleSectionsPerPage.get(_uiPage);
         if (visibleSections != null && visibleSections.contains(_section)) {
             visibleSections.remove(_section);
             this.visibleSectionsPerPage.put(_uiPage, visibleSections);
         }
+        _formManager.removeSection(_section);
     }
 
     private void prepareForm(QLSStyleSheetDataStorage _qlsData) {
