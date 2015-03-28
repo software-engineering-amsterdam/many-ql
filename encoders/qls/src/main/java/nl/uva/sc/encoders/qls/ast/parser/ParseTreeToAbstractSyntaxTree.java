@@ -6,9 +6,12 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.SectionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.Page;
+import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -33,7 +36,23 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 		String name = ctx.name.getText();
 		TextLocation textLocation = getTextLocation(ctx);
 		Page page = new Page(textLocation, name);
+		for (SectionContext sectionContext : ctx.section()) {
+			Section section = (Section) sectionContext.accept(this);
+			page.addSection(section);
+		}
 		return page;
+	}
+
+	@Override
+	public Section visitSection(SectionContext ctx) {
+		String name = ctx.name.getText();
+		TextLocation textLocation = getTextLocation(ctx);
+		Section section = new Section(textLocation, name);
+		for (QuestionContext questionContext : ctx.question()) {
+			String questionName = questionContext.name.getText();
+			section.addQuestion(questionName);
+		}
+		return section;
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
