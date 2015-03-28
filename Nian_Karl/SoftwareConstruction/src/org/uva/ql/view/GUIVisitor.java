@@ -64,11 +64,11 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public ExprQuestionComponent visit(QuestionComputed questionComputeStatement) {
+		Identifier identifier = questionComputeStatement.getIdentifier();
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
-		widget.setIdentifier(questionComputeStatement.getIdentifier());
+		widget.setIdentifier(identifier);
 		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		formView.addExprQuestionPanel(questionComponent);
-		Identifier identifier = questionComputeStatement.getIdentifier();
 		widgetListener.initializeValue(identifier, new UndefinedValue());
 		return questionComponent;
 	}
@@ -79,7 +79,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		for (Statement statement : blockStatement.getStatements()) {
 			questionPannels.add((Panel) statement.accept(this));
 		}
-
 		return questionPannels;
 	}
 

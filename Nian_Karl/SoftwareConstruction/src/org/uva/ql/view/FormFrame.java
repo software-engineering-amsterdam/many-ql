@@ -1,6 +1,7 @@
 package org.uva.ql.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,15 @@ public class FormFrame {
 
 	public FormFrame() {
 		frame = new JFrame("QL Form");
-		frame.setSize(500, 800);
-		frame.setLayout(new MigLayout());
+		frame.setMinimumSize(new Dimension(400, 400));
+		frame.setLayout(new MigLayout("", "[grow, push, fill]", ""));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.exprPanels = new ArrayList<IfQuestionPanel>();
 		this.exprComponents = new ArrayList<ExprQuestionComponent>();
 	}
 
 	private void addWithConstraints(Component component) {
-		frame.add(component, "wrap,push");
+		frame.add(component, "span,growx");
 	}
 
 	public void addQuestionPanel(Panel panel) {
@@ -52,12 +53,12 @@ public class FormFrame {
 	}
 
 	public void notifyPanels(Evaluator evaluator) {
-		for (ExprQuestionComponent exprQuestionComponent : exprComponents) {
-			exprQuestionComponent.evaluateAndChange(evaluator);
+		for (ExprQuestionComponent component : exprComponents) {
+			component.evaluateAndChange(evaluator);
 		}
 
-		for (IfQuestionPanel ifQuestionPanel : exprPanels) {
-			ifQuestionPanel.evaluateAndShow(evaluator);
+		for (IfQuestionPanel panel : exprPanels) {
+			panel.evaluateAndShow(evaluator);
 		}
 	}
 

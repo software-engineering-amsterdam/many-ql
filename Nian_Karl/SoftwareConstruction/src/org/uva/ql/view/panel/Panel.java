@@ -13,7 +13,7 @@ public abstract class Panel {
 
 	public Panel() {
 		panel = new JPanel();
-		panel.setLayout(new MigLayout());
+		panel.setLayout(new MigLayout("fill, inset 0"));
 	}
 
 	public void addComponent(Component component) {
