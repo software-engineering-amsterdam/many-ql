@@ -59,7 +59,7 @@ public class QLSUIForm implements IUIForm {
 
     public void addPage(UIPage _page) {
         this.currentPanel = _page.getPanel();
-        this.panel.addPage(_page.getPanel(), _page.getTitle());
+        this.panel.addPage(_page.getPanel(), _page.getTitle(), _page.getIndex());
         this.formFrame.revalidate();
     }
 

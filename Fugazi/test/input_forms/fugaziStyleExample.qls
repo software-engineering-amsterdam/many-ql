@@ -13,19 +13,10 @@ stylesheet taxOfficeExample
     section "Empty" {}
   }
 
-  page Selling {
-
-    section "Selling" {
-      question hasSoldHouse
-    }
-    default bool widget radio("Yes", "No")
-    }
 
   page SellingAdditional {
 
       section "You sold a house" {
-        question sellingPrice
-          widget slider
         question privateDebt
           widget slider
         question valueResidue
@@ -37,4 +28,16 @@ stylesheet taxOfficeExample
           widget spinbox
         }
       }
-  }
+}
+  page Selling {
+
+    section "Selling" {
+      question hasSoldHouse
+    }
+    section "Selling 2" {
+
+        question sellingPrice
+          widget slider
+    }
+    default bool widget radio("Yes", "No")
+    }

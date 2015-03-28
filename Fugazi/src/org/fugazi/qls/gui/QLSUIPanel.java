@@ -5,7 +5,9 @@ import org.fugazi.qls.gui.ui_segment.UIPage;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public  class QLSUIPanel implements IUIPanel {
 
@@ -29,8 +31,13 @@ public  class QLSUIPanel implements IUIPanel {
         this.panel.remove(_component);
     }
 
-    public void addPage(JPanel _page, String _title) {
-        this.panel.addTab(_title, _page);
+    public void addPage(JPanel _panel, String _title, int index) {
+        int tabCount = this.panel.getTabCount();
+        if (index > tabCount) {
+            this.panel.addTab(_title, _panel);
+        } else {
+            this.panel.insertTab(_title, null, _panel, null, index);
+        }
     }
 
     public void removePage(JPanel _panel) {

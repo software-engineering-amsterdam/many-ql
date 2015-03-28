@@ -167,9 +167,11 @@ public class StyledGUIBuilder implements IMediator {
 
 
     private void prepareForm() {
+        int pageIndex = 0;
         for (Page page : this.qlsData.getPages()) {
 
-            UIPage uiPage = new UIPage(page.getName());
+            UIPage uiPage = new UIPage(page.getName(), pageIndex);
+            pageIndex++;
 
             List<Section> sections = page.getSections();
             for (Section section : sections) {
