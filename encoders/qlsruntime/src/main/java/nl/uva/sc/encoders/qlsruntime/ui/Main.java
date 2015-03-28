@@ -43,24 +43,24 @@ public class Main extends Application {
 
 		String defaultQlsLocation = DEFAULT_QLS_INPUT_FILE_DIRECTORY + DEFAULT_QLS_INPUT_FILE_NAME;
 		String defaultQlLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
-		final TextField inputFileTextField = new TextField(defaultQlLocation);
-		final TextField inputFileTextField2 = new TextField(defaultQlsLocation);
-		Button chooseInputButton = new Button("Choose ql file...");
-		Button chooseInputButton2 = new Button("Choose qls file...");
+		final TextField qlInputFileTextField = new TextField(defaultQlLocation);
+		final TextField qlsInputFileTextField = new TextField(defaultQlsLocation);
+		Button qlChooseInputButton = new Button("Choose ql file...");
+		Button qlsChooseInputButton = new Button("Choose qls file...");
 		Button parseButton = new Button("Parse");
-		grid.add(inputFileTextField, 0, 0);
-		grid.add(chooseInputButton, 1, 0);
-		grid.add(inputFileTextField2, 0, 1);
-		grid.add(chooseInputButton2, 1, 1);
+		grid.add(qlInputFileTextField, 0, 0);
+		grid.add(qlChooseInputButton, 1, 0);
+		grid.add(qlsInputFileTextField, 0, 1);
+		grid.add(qlsChooseInputButton, 1, 1);
 		grid.add(parseButton, 2, 1);
 
-		PathSelectedCallback pathSelectedCallback = path -> inputFileTextField.setText(path);
-		PathSelectedCallback pathSelectedCallback2 = path -> inputFileTextField2.setText(path);
-		chooseInputButton.setOnAction(new ChooseInputButtonHandler(pathSelectedCallback, defaultQlLocation));
-		chooseInputButton2.setOnAction(new ChooseInputButtonHandler(pathSelectedCallback2, defaultQlsLocation));
+		PathSelectedCallback qlPathSelectedCallback = path -> qlInputFileTextField.setText(path);
+		PathSelectedCallback qlsPathSelectedCallback = path -> qlsInputFileTextField.setText(path);
+		qlChooseInputButton.setOnAction(new ChooseInputButtonHandler(qlPathSelectedCallback, defaultQlLocation));
+		qlsChooseInputButton.setOnAction(new ChooseInputButtonHandler(qlsPathSelectedCallback, defaultQlsLocation));
 
 		StackPane stackPane = new StackPane();
-		String inputFilePath = inputFileTextField.getText();
+		String inputFilePath = qlsInputFileTextField.getText();
 		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(stackPane, inputFilePath);
 		parseButton.setOnAction(parseButtonHandler);
 
