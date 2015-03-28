@@ -4,7 +4,7 @@ import nl.uva.bromance.ast.conditionals.CanContainConditionals;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
 import nl.uva.bromance.ast.conditionals.IfStatement;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +55,7 @@ public class Calculation extends QLNode implements CanContainConditionals {
 
     //TODO: Find fix for childType
     @Override
-    public void accept(QlNodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);

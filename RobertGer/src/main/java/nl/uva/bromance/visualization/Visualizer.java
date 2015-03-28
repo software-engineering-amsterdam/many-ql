@@ -7,14 +7,14 @@ import javafx.scene.layout.VBox;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
-import nl.uva.bromance.ast.visitors.QlNodeVisitor;
-import nl.uva.bromance.ast.visitors.QlsNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Visualizer implements QlsNodeVisitor, QlNodeVisitor {
+public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     private QLSPage currentPage;
     private Map<String, Result> answerMap = new HashMap<>();

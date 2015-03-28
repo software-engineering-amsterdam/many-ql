@@ -6,7 +6,7 @@ import nl.uva.bromance.ast.conditionals.*;
 /**
  * Created by Robert on 16-3-2015.
  */
-public interface QlNodeVisitor {
+public interface QLNodeVisitor {
 
     void visit(Calculation calculation);
 
