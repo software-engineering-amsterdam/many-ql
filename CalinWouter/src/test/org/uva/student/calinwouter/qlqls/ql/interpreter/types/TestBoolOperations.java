@@ -9,24 +9,24 @@ public class TestBoolOperations {
 
     @Test
     public void testOr() {
-        assertEquals(true, new BoolValue(true).or(new BoolValue(true)).getValue());
-        assertEquals(true, new BoolValue(true).or(new BoolValue(false)).getValue());
-        assertEquals(true, new BoolValue(false).or(new BoolValue(true)).getValue());
-        assertEquals(false, new BoolValue(false).or(new BoolValue(false)).getValue());
+        assertEquals(true, new BoolValue(true).or(new BoolValue(true)).getInternalValue());
+        assertEquals(true, new BoolValue(true).or(new BoolValue(false)).getInternalValue());
+        assertEquals(true, new BoolValue(false).or(new BoolValue(true)).getInternalValue());
+        assertEquals(false, new BoolValue(false).or(new BoolValue(false)).getInternalValue());
     }
 
     @Test
     public void testAnd() {
-        assertEquals(true, new BoolValue(true).and(new BoolValue(true)).getValue());
-        assertEquals(false, new BoolValue(true).and(new BoolValue(false)).getValue());
-        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).getValue());
-        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).getValue());
+        assertEquals(true, new BoolValue(true).and(new BoolValue(true)).getInternalValue());
+        assertEquals(false, new BoolValue(true).and(new BoolValue(false)).getInternalValue());
+        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).getInternalValue());
+        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).getInternalValue());
     }
 
     @Test
     public void testNot() {
-        assertEquals(false, new BoolValue(true).not().getValue());
-        assertEquals(true, new BoolValue(false).not().getValue());
+        assertEquals(false, new BoolValue(true).not().getInternalValue());
+        assertEquals(true, new BoolValue(false).not().getInternalValue());
     }
 
 }
