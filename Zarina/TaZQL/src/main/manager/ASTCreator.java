@@ -13,7 +13,7 @@ import astvisitor.MyBaseVisitor;
 public class ASTCreator {
 	
 	public Form formCreator(String filename) { 
-		
+
 		ANTLRInputStream inputStream = new ANTLRInputStream(filename);
 	
 		TaZQLLexer lexer = new TaZQLLexer(inputStream);
