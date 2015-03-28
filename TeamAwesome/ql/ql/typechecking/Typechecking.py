@@ -14,7 +14,6 @@ def check(
         DuplicateQuestionLabels,
         QuestionRedefinitions
     ]
-
 ):
     checkers = map(
         lambda module: module.Checker(resultFactory, messageFactory),
