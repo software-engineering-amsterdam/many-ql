@@ -10,11 +10,10 @@ import QL.Tools.exceptions as ee
 
 ########## QLS TO DO LIST: ##########
 # TODO 1. (GUY+BAS) Debugging nested questions.
-# TODO 2. (GUY) Debugging sections
 # TODO 3. (GUY) Make widgets (slider, dropdown, checkbox)
 # -> checkbox has just one option, radio has two (the names are given), and dropdown as well 2 (names are given)
 # -> See the pretty printed AST how it looks like
-# TODO 4. (GUY) Display section name, page name
+# TODO 4. (GUY) Display page name
 # TODO 5. (GUY + BAS) Make sure answers are evaluated (they are not now!)
 # TODO 6. (BAS) improve the type checker
 # TODO 7. (GUY + BAS) see quote Tijs:

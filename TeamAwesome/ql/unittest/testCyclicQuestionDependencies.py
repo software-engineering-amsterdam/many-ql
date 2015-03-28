@@ -29,8 +29,7 @@ class NoCycle(unittest.TestCase):
                 Identifier('foo', 0),
                 'Foo',
                 QLBoolean,
-                0,
-                None
+                0
             ),
             QuestionStatement(
                 Identifier('bar',0),
