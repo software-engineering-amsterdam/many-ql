@@ -15,9 +15,10 @@ class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression],
     max = 100
     value = 0
     value.onChange((_, _, newValue) => {
-      style = ValidStyle
       updateEnvironment(NumberValue(newValue.intValue()))
     })
+    showTickLabels = true
+    snapToTicks = true
   }
   children.add(sliderField)
 
