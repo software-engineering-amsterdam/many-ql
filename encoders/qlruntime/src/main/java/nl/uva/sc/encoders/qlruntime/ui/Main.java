@@ -6,15 +6,21 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import nl.uva.sc.encoders.ql.ast.Questionnaire;
+import nl.uva.sc.encoders.ql.validation.ValidationResult;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.InputFileTextCallback;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.ShowwNodeCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ParseButtonHandler.ParseResultCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
 
 public class Main extends Application {
 
@@ -25,6 +31,8 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	private Questionnaire questionnaire = null;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -39,18 +47,36 @@ public class Main extends Application {
 		final TextField inputFileTextField = new TextField(defaultLocation);
 		Button chooseInputButton = new Button("Choose input file...");
 		Button parseButton = new Button("Parse");
+		Button showButton = new Button("Show");
 		grid.add(inputFileTextField, 0, 0);
 		grid.add(chooseInputButton, 1, 0);
 		grid.add(parseButton, 2, 0);
+		grid.add(showButton, 3, 0);
+		showButton.setVisible(false);
 
 		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField, defaultLocation));
 
 		StackPane stackPane = new StackPane();
-		InputFileTextCallback inputFileTextCallback = () -> inputFileTextField.getText();
-		ShowwNodeCallback showwNodeCallback = nodeToShow -> showNode(stackPane, nodeToShow);
-		parseButton.setOnAction(new ParseButtonHandler(inputFileTextCallback, showwNodeCallback));
+		ValidationsGridPane validationsGridPane = new ValidationsGridPane();
 
-		grid.add(stackPane, 0, 1, 3, 1);
+		InputFileTextCallback inputFileTextCallback = () -> inputFileTextField.getText();
+		ParseResultCallback parseResultCallback = parsingResult -> {
+			showNode(stackPane, validationsGridPane);
+			ValidationResult validationResult = parsingResult.validate();
+			showButton.setVisible(!validationResult.containsErrors());
+			validationsGridPane.showValidations(validationResult.getValidationMessages());
+			questionnaire = parsingResult.getQuestionnaire();
+		};
+		parseButton.setOnAction(new ParseButtonHandler(inputFileTextCallback, parseResultCallback));
+		ShowResultCallback showResultCallback = result -> {
+			ScrollPane scrollPane = new ScrollPane(result);
+			scrollPane.setPrefSize(650, 500);
+			showNode(stackPane, scrollPane);
+		};
+		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
+		showButton.setOnAction(new ShowButtonHandler(questionnaireCallback, showResultCallback));
+
+		grid.add(stackPane, 0, 1, 4, 1);
 
 		Scene scene = new Scene(grid, 750, 600);
 		primaryStage.setScene(scene);
