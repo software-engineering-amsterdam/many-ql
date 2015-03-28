@@ -19,29 +19,48 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// </summary>
     internal class StyleSheetUIBuilder : QLSVisitor<Control>
     {
-        private QuestionForm _questionForm;
-        private OutputWindow _outputWindow;
-        private ICollection<QuestionWidget> questionWidgets = new List<QuestionWidget>();
+        internal QuestionForm QuestionForm
+        {
+            get;
+            private set;
+        }
 
-        // Set a default style per data type.
-        private StyleSet _currentBooleanStyles = StyleSet.Default;
-        private StyleSet _currentDateStyles = StyleSet.Default;
-        private StyleSet _currentIntegerStyles = StyleSet.Default;
-        private StyleSet _currentStringStyles = StyleSet.Default;
+        internal ICollection<QuestionWidget> QuestionWidgets
+        {
+            get;
+            private set;
+        }
+
+        internal StyleLibrary CurrentStyles
+        {
+            get;
+            private set;
+        }
+
+        internal OutputWindow OutputWindow
+        {
+            get;
+            private set;
+        }
+
+        internal StyleSheetUIBuilder()
+        {
+            QuestionWidgets = new List<QuestionWidget>();
+            CurrentStyles = StyleLibrary.Default;
+        }
 
         internal StyleSheetUIBuilder(StyleSheetUIBuilder parent, IEnumerable<DefaultStyle> defaultStyles) 
         {
-            _questionForm = parent._questionForm;
-
+            QuestionForm = parent.QuestionForm;
+            QuestionWidgets = parent.QuestionWidgets;
+            CurrentStyles = parent.CurrentStyles.GetCopy();
+            CurrentStyles.OverrideStyles(defaultStyles);
         }
-
-
-
 
         public Control BuildUI(StyleSheet styleSheet, QuestionForm form, OutputWindow outputWindow)
         {
-            _questionForm = form;
-            _outputWindow = outputWindow;
+            QuestionForm = form;
+            OutputWindow = outputWindow;
 
             return VisitStyleSheet(styleSheet);
         }
@@ -56,7 +75,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
                 pageControls.Add((PageControl)page.Accept(this));
             }
 
-            return new StyledQuestionFormControl(_questionForm, pageControls, questionWidgets, _outputWindow);
+            return new StyledQuestionFormControl(QuestionForm, pageControls, QuestionWidgets, OutputWindow);
         }
 
         public override Control VisitPage(Page page)
@@ -88,15 +107,15 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
         public override Control VisitQuestionReference(QuestionReference questionRef)
         {
-            var question = _questionForm.GetAllQuestions().Where(q => q.Name == questionRef.Name).SingleOrDefault();
+            var question = QuestionForm.GetAllQuestions().Where(q => q.Name == questionRef.Name).SingleOrDefault();
             
-            //questionRef.StyleAttributes
-
             if (question != null)
             {
-                var widgetBuilder = new WidgetBuilder();
-                var questionWidget = widgetBuilder.CreateQuestionWidget(question, null);
+                StyleSet questionStyles = CurrentStyles.GetStyleSet(question.DataType).GetCopy();
+                questionStyles.OverrideStyles(questionRef.StyleAttributes);
 
+                var widgetBuilder = new WidgetBuilder();
+                var questionWidget = widgetBuilder.CreateQuestionWidget(question, questionStyles.WidgetType);
 
                 return questionWidget;
             }
@@ -105,9 +124,5 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
                 throw new ApplicationException("Question not found.");
             }
         }
-
-        //private IEnumerable<StyleAttribute> GetCurrentStyles()
-
-
     }
 }
