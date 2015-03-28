@@ -5,11 +5,13 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.DefaultStyleContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.SectionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
+import nl.uva.sc.encoders.qls.ast.Default;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
@@ -54,10 +56,17 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 		}
 
 		for (SectionContext subSectionContext : ctx.section()) {
-			// SectionContext subSection = subSectionContext.section();
+			Section subSection = visitSection(subSectionContext);
+			section.addSubSection(subSection);
 		}
 
 		return section;
+	}
+
+	@Override
+	public Default visitDefaultStyle(DefaultStyleContext ctx) {
+
+		return null;
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
