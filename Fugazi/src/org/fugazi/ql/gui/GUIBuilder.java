@@ -21,16 +21,16 @@ public class GUIBuilder implements IMediator {
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
-    private final UIFormManager uiFormManager;
     private final UIQuestionBuilder uiQuestionBuilder;
     
-    private QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
+    protected final UIFormManager uiFormManager;
+    protected QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
     private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        
+
         this.uiFormManager = new UIFormManager(_form.getName());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
@@ -87,13 +87,6 @@ public class GUIBuilder implements IMediator {
     /**
      * Helper Functions.
      */
-    private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
-        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
-        uiComputedQuestion.setComputedValue(result);
-    }
-    
     private void addIfStatementsToQuestion(
             List<IfStatement> _ifStatementsList,
             Question _question,
@@ -106,8 +99,15 @@ public class GUIBuilder implements IMediator {
             }
         }
     }
+    
+    protected void updateComputedQuestion(ComputedQuestion _computedQuestion) {
+        ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
+        UIComputedQuestion uiComputedQuestion =
+                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
+        uiComputedQuestion.setComputedValue(result);
+    }
 
-    private UIQuestion getUIQuestionById(
+    protected UIQuestion getUIQuestionById(
             String _id, QuestionsWithConditions _questionsWithConditions)
     {
         for (UIQuestion uiQuestion : _questionsWithConditions.keySet()) {
@@ -118,7 +118,7 @@ public class GUIBuilder implements IMediator {
         return null;
     }
 
-    private boolean isQuestionStateTrue(
+    protected boolean isQuestionStateTrue(
             Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
     {
         boolean isTrue = true;
@@ -129,8 +129,8 @@ public class GUIBuilder implements IMediator {
         }
         return isTrue;
     }
-    
-    private void storeValue(String _id, ExpressionValue _value) {
+
+    protected void storeValue(String _id, ExpressionValue _value) {
         this.valueStorage.saveValue(_id, _value);
     }
 

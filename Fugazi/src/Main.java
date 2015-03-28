@@ -96,13 +96,10 @@ public class Main {
                 System.exit(-1);
             }
 
-//            // QLS
+            // QLS
             QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-//            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-            StyledGUIBuilder guiBuilder = new StyledGUIBuilder(
-                    form, formDataStorage, styleSheetData, qlsWidgetsFactory
-            );
-            guiBuilder.renderUI();
+            StyledGUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, qlsWidgetsFactory, styleSheetData);
+            styledGUIBuilder.renderUI();
 
         } else {
 

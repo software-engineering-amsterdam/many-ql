@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UIFormManager {
-    private final UIForm form;
+    private UIForm form;
     private List<UIQuestion> questionsInForm;
 
     public UIFormManager(String _formTitle) {
@@ -31,5 +31,17 @@ public class UIFormManager {
             this.questionsInForm.remove(_uiQuestion);
             _uiQuestion.removeFromForm(this.form);
         }
+    }
+    
+    public void setForm(UIForm _form) {
+        this.form = _form;
+    }
+    
+    public UIForm getForm() {
+        return this.form;
+    }
+    
+    public List<UIQuestion> getQuestionsInForm() {
+        return this.questionsInForm;
     }
 }

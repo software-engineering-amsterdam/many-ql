@@ -1,5 +1,6 @@
 package org.fugazi.qls.gui;
 
+import org.fugazi.ql.gui.UIFormManager;
 import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
@@ -10,15 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QLSUIFormManager {
+    
     private final QLSUIForm qlsForm;
-    private List<UIQuestion> questionsInForm;
     private List<Page> pagesInForm;
     private List<Section> sectionsInForm;
 
-    public QLSUIFormManager(String _formTitle) {
-        this.qlsForm = new QLSUIForm(_formTitle);
+    private final UIFormManager formManager; // Wraps the UIFormManager.
 
-        this.questionsInForm = new ArrayList<>();
+    public QLSUIFormManager(String _formTitle, UIFormManager _formManager) {
+        this.formManager = _formManager;
+        
+        this.qlsForm = new QLSUIForm(_formTitle);
+        this.formManager.setForm(this.qlsForm);
+
         this.pagesInForm = new ArrayList<>();
         this.sectionsInForm = new ArrayList<>();
     }
@@ -28,15 +33,15 @@ public class QLSUIFormManager {
     }
 
     public void addQuestion(UIQuestion _uiQuestion) {
-        if (!this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.add(_uiQuestion);
+        if (!this.formManager.getQuestionsInForm().contains(_uiQuestion)) {
+            this.formManager.getQuestionsInForm().add(_uiQuestion);
             _uiQuestion.addToForm(this.qlsForm);
         }
     }
 
     public void removeQuestion(UIQuestion _uiQuestion) {
-        if (this.questionsInForm.contains(_uiQuestion)) {
-            this.questionsInForm.remove(_uiQuestion);
+        if (this.formManager.getQuestionsInForm().contains(_uiQuestion)) {
+            this.formManager.getQuestionsInForm().remove(_uiQuestion);
             _uiQuestion.removeFromForm(this.qlsForm);
         }
     }
