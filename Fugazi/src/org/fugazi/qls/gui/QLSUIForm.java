@@ -70,7 +70,7 @@ public class QLSUIForm implements IUIForm {
     public void removePage(UIPage _page) {
         // widgets cannot be assigned now - to what would they be?
         this.currentPanel = null;
-        this.panel.addPage(_page.getPanel(), _page.getTitle());
+        this.panel.removePage(_page.getPanel());
         this.formFrame.revalidate();
     }
 

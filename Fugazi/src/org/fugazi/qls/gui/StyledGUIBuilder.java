@@ -42,6 +42,9 @@ public class StyledGUIBuilder implements IMediator {
     private final Map<UISection, List<UIQuestion>> visibleQuestionsPerSection;
     private final Map<UIQuestion, UISection> parentSections;
 
+    private final Map<UIPage, List<UISection>> visibleSectionsPerPage;
+    private final Map<UISection, UIPage> parentPages;
+
     public StyledGUIBuilder(Form _form, QLFormDataStorage _qlData, QLSStyleSheetDataStorage _qlsData, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
@@ -51,6 +54,8 @@ public class StyledGUIBuilder implements IMediator {
 
         this.visibleQuestionsPerSection = new HashMap<>();
         this.parentSections = new HashMap<>();
+        this.visibleSectionsPerPage = new HashMap<>();
+        this.parentPages = new HashMap<>();
 
         this.uiFormManager = new QLSUIFormManager(_form.getName(), new QLSUIPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
@@ -74,21 +79,30 @@ public class StyledGUIBuilder implements IMediator {
         
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
-                this.addVisibleQuestionToSection(
-                        uiQuestion, this.parentSections.get(uiQuestion)
-                );
-                this.uiFormManager.addSection(this.parentSections.get(uiQuestion));
+                UISection uiSection = this.parentSections.get(uiQuestion);
+                UIPage uiPage = this.parentPages.get(uiSection);
+
+                this.addVisibleQuestionToSection(uiQuestion, uiSection);
+                this.addVisibleSectionToPage(uiSection, uiPage);
+
+                this.uiFormManager.addPage(uiPage);
+                this.uiFormManager.addSection(uiSection);
                 this.uiFormManager.addQuestion(uiQuestion);
             } else {
                 UISection parentSection = this.parentSections.get(uiQuestion);
-                this.removeVisibleQuestionFromSection(
-                        uiQuestion, parentSection
-                );
+                this.removeVisibleQuestionFromSection(uiQuestion, parentSection);
                 this.uiFormManager.removeQuestion(uiQuestion);
 
                 List<UIQuestion> visibleQuestions = this.visibleQuestionsPerSection.get(parentSection);
                 if (visibleQuestions != null && visibleQuestions.isEmpty()) {
+                    UIPage parentPage = this.parentPages.get(parentSection);
+                    this.removeVisibleSectionFromPage(parentSection, parentPage);
                     this.uiFormManager.removeSection(parentSection);
+                    List<UISection> visibleSections = this.visibleSectionsPerPage.get(parentPage);
+
+                    if (visibleSections != null && visibleSections.isEmpty()) {
+                        this.uiFormManager.removePage(parentPage);
+                    }
                 }
             }
         }
@@ -111,8 +125,10 @@ public class StyledGUIBuilder implements IMediator {
         if (visibleQuestions == null) {
             visibleQuestions = new ArrayList<>();
         }
-        visibleQuestions.add(_uiQuestion);
-        this.visibleQuestionsPerSection.put(_section, visibleQuestions);
+        if (!visibleQuestions.contains(_uiQuestion)) {
+            visibleQuestions.add(_uiQuestion);
+            this.visibleQuestionsPerSection.put(_section, visibleQuestions);
+        }
 
         return;
     }
@@ -127,16 +143,39 @@ public class StyledGUIBuilder implements IMediator {
         return;
     }
 
+    private void addVisibleSectionToPage(UISection _section, UIPage _uiPage) {
+        List<UISection> visibleSections = this.visibleSectionsPerPage.get(_uiPage);
+        if (visibleSections == null) {
+            visibleSections = new ArrayList<>();
+        }
+        if (!visibleSections.contains(_section)) {
+            visibleSections.add(_section);
+            this.visibleSectionsPerPage.put(_uiPage, visibleSections);
+        }
+
+        return;
+    }
+
+    private void removeVisibleSectionFromPage(UISection _section, UIPage _uiPage) {
+        List<UISection> visibleSections = this.visibleSectionsPerPage.get(_uiPage);
+        if (visibleSections != null && visibleSections.contains(_section)) {
+            visibleSections.remove(_section);
+            this.visibleSectionsPerPage.put(_uiPage, visibleSections);
+        }
+        return;
+    }
+
+
     private void prepareForm() {
         for (Page page : this.qlsData.getPages()) {
 
-            UIPage UIPage = new UIPage(page.getName());
-            this.uiFormManager.addPage(UIPage);
+            UIPage uiPage = new UIPage(page.getName());
 
             List<Section> sections = page.getSections();
             for (Section section : sections) {
                 List<QLSQuestion> questions = section.getQuestions();
-                UISection uiSection = new UISection(UIPage, section.getName());
+                UISection uiSection = new UISection(uiPage, section.getName());
+                this.parentPages.put(uiSection, uiPage);
 
                 for (QLSQuestion question : questions) {
                     UIQuestion uiQuestion = this.getUIQuestionById(question.getIdName(), this.questionsWithConditions);
