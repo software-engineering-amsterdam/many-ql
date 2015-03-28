@@ -4,7 +4,7 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 
 public class Default extends AstNode {
 
-	private final String datatype;
+	private String datatype;
 	private int width = 150;
 	private int fontSize = 12;
 	private String font = "Arial";

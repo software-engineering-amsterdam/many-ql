@@ -8,11 +8,8 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class Section extends AstNode {
 
 	private final String name;
-
 	private List<String> questionNames = new ArrayList<>();
-
 	private List<Section> subSections = new ArrayList<>();
-
 	private List<Default> sectionDefaults = new ArrayList<>();
 
 	public Section(TextLocation textLocation, String name) {
