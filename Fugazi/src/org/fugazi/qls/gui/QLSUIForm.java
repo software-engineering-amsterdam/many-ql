@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class QLSUIForm extends UIForm {
 
-    private QLSUIPanel qlsuiPanel; // Wrapper object of UIPanel.
+    private QLSUIPanel qlsuiPanel;
 
     private final Map<JComponent, JPanel> componentJPanelMap;
     private JPanel currentPanel;

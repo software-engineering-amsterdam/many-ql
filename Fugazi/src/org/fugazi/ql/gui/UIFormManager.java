@@ -33,10 +33,10 @@ public class UIFormManager {
         }
     }
     
-    public void setForm(UIForm _form) {
+    public void setForm(UIForm _form) {  // TODO: this looks pretty ugly I think.
         this.form = _form;
     }
-    
+
     public UIForm getForm() {
         return this.form;
     }

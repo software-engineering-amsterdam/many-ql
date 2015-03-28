@@ -68,14 +68,12 @@ public class GUIBuilder implements IMediator {
     }
 
     private QuestionsWithConditions createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions();
+        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions(); // for idempotence.
 
         for (Question question : _formDataStorage.getAllQuestions()) {
             
             UIQuestion uiQuestion = this.createUiQuestion(question);
-            
             this.storeValue(uiQuestion.getId(), uiQuestion.getState());
-            
             questionsWithCondition.put(uiQuestion, new ArrayList<>());
             
             this.addIfStatementsToQuestion(
@@ -102,8 +100,9 @@ public class GUIBuilder implements IMediator {
     
     protected void updateComputedQuestion(ComputedQuestion _computedQuestion) {
         ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
-        UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
+        UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) this.getUIQuestionById(
+                                                                        _computedQuestion.getIdName(),
+                                                                        this.questionsWithConditions);
         uiComputedQuestion.setComputedValue(result);
     }
 

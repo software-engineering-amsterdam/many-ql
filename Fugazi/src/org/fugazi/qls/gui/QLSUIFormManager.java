@@ -26,7 +26,7 @@ public class QLSUIFormManager {
         this.formManager = _formManager;
         
         this.qlsForm = new QLSUIForm(_formTitle);
-        this.formManager.setForm(this.qlsForm);
+        this.formManager.setForm(this.qlsForm);     // TODO: this looks pretty ugly I think.
 
         this.pagesInForm = new ArrayList<>();
         this.sectionsInForm = new ArrayList<>();
