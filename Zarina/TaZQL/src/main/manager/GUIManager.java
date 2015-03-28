@@ -23,9 +23,10 @@ public class GUIManager {
 	
 	public void runGUI() {
 		if(formIsCorrect) {
-			mainFrame.magic(form);	
+			mainFrame.addFormToFrame(form);	
 		}
 		else {
+			mainFrame.showGUI();
 			typeChecker.showErrors();
 		}
 	}
