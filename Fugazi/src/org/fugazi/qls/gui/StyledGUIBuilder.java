@@ -3,13 +3,14 @@ package org.fugazi.qls.gui;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.gui.GUIBuilder;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
+import org.fugazi.qls.gui.widget.QLSWidgetsFactory;
 
 import java.util.*;
 import java.util.List;

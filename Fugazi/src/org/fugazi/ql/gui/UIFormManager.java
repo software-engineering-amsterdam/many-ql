@@ -1,7 +1,7 @@
 package org.fugazi.ql.gui;
 
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_element.UIForm;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
 
 import java.util.ArrayList;
 import java.util.List;

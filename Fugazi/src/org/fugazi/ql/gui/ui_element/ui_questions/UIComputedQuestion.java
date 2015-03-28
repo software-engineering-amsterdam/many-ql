@@ -1,4 +1,4 @@
-package org.fugazi.ql.gui.ui_elements.ui_questions;
+package org.fugazi.ql.gui.ui_element.ui_questions;
 
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;

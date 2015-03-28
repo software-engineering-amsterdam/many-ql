@@ -1,10 +1,10 @@
-package org.fugazi.ql.gui.ui_elements.ui_questions;
+package org.fugazi.ql.gui.ui_element.ui_questions;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.IWidget;
 
 public abstract class UIQuestion extends Colleague {

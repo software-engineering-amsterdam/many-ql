@@ -1,8 +1,9 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.UIFormManager;
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_element.UIForm;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
+import org.fugazi.qls.gui.ui_element.QLSUIForm;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 

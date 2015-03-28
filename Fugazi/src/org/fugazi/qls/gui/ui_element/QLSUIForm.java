@@ -1,6 +1,6 @@
-package org.fugazi.qls.gui;
+package org.fugazi.qls.gui.ui_element;
 
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 

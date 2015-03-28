@@ -1,6 +1,6 @@
-package org.fugazi.qls.gui;
+package org.fugazi.qls.gui.ui_element;
 
-import org.fugazi.ql.gui.ui_elements.UIPanel;
+import org.fugazi.ql.gui.ui_element.UIPanel;
 
 import javax.swing.*;
 

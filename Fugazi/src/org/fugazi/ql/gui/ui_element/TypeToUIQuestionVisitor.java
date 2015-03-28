@@ -1,12 +1,12 @@
-package org.fugazi.ql.gui.ui_elements;
+package org.fugazi.ql.gui.ui_element;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.*;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIBoolQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UINumQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.ui_questions.UITextQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIBoolQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UINumQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_element.ui_questions.UITextQuestion;
 import org.fugazi.ql.gui.widgets.IWidget;
 
 public class TypeToUIQuestionVisitor implements ITypeVisitor<UIQuestion> {
