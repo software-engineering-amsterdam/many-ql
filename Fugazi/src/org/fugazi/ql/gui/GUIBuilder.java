@@ -51,11 +51,11 @@ public class GUIBuilder implements IMediator {
     }
 
     public void renderUI() {
-        this.setupForm(this.questionsWithConditions);
+        this.updateForm(this.questionsWithConditions);
         this.uiFormManager.render();
     }
 
-    protected void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
+    protected void updateForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
                 this.uiFormManager.addQuestion(uiQuestion);
