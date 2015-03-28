@@ -1,22 +1,15 @@
 package org.fugazi.qls.gui;
 
 import org.fugazi.ql.gui.ui_elements.IUIPanel;
-import org.fugazi.qls.gui.ui_segment.UIPage;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public  class QLSUIPanel implements IUIPanel {
 
     private JTabbedPane panel;
-    private List<UIPage> pages;
 
     public QLSUIPanel() {
         this.panel = new JTabbedPane();
-        this.pages = new ArrayList<>();
     }
 
     public void render(JFrame _rootContainer) {
@@ -44,12 +37,12 @@ public  class QLSUIPanel implements IUIPanel {
         this.panel.remove(_panel);
     }
 
-    public void addSection(JPanel _pagePanel, JPanel _sectionPanel) {
-        _pagePanel.add(_sectionPanel);
+    public void addSection(JPanel _pageSubPanel, JPanel _sectionPanel) {
+        _pageSubPanel.add(_sectionPanel);
     }
 
-    public void removeSection(JPanel _pagePanel, JPanel _sectionPanel) {
-        _pagePanel.remove(_sectionPanel);
+    public void removeSection(JPanel _pageSubPanel, JPanel _sectionPanel) {
+        _pageSubPanel.remove(_sectionPanel);
     }
 
     public JTabbedPane getPanel() {

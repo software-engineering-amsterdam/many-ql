@@ -73,12 +73,16 @@ public class QLSUIForm implements IUIForm {
     public void addSection(UISection _section) {
         this.currentPanel = _section.getPanel();
         UIPage page = _section.getPage();
-        this.panel.addSection(page.getPanel(), _section.getPanel());
+        this.panel.addSection(
+                page.getSubPanel(_section.getIndex()), _section.getPanel()
+        );
     }
     
     public void removeSection(UISection _section) {
         this.currentPanel = _section.getPage().getPanel();
         UIPage page = _section.getPage();
-        this.panel.removeSection(page.getPanel(), _section.getPanel());
+        this.panel.removeSection(page.getSubPanel(
+                        _section.getIndex()), _section.getPanel()
+        );
     }
 }

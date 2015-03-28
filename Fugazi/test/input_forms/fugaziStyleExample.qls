@@ -30,14 +30,14 @@ stylesheet taxOfficeExample
       }
 }
   page Selling {
-
-    section "Selling" {
-      question hasSoldHouse
-    }
-    section "Selling 2" {
+section "Selling 2" {
 
         question sellingPrice
           widget slider
     }
+    section "Selling" {
+      question hasSoldHouse
+    }
+
     default bool widget radio("Yes", "No")
     }
