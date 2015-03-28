@@ -19,7 +19,7 @@ public class TestPrecedence {
         QLInterpreter qlInterpreter =
                 InterpreterHelper.interpretQlString(form(value("value", "", "int", exp)));
         VariableTable variableTable = qlInterpreter.interpret(new VariableTable());
-        return variableTable.getVariable("value").getInternalValue();
+        return variableTable.getVariable("value").toJavaObject();
     }
 
     @Test
