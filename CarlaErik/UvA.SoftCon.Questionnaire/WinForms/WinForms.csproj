@@ -125,6 +125,7 @@
     <Compile Include="UIBuilding\DefaultUIBuilder.cs" />
     <Compile Include="UIBuilding\StyleSet.cs" />
     <Compile Include="UIBuilding\StyleSheetUIBuilder.cs" />
+    <Compile Include="UIBuilding\WidgetBuilder.cs" />
     <EmbeddedResource Include="Controls\PageControl.resx">
       <DependentUpon>PageControl.cs</DependentUpon>
     </EmbeddedResource>

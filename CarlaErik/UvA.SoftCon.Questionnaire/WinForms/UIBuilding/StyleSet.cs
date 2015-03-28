@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             FontSize = fontSize;
         }
 
-        public void OverrideStyles(IEnumerable<StyleAttribute> styleAttributes)
+        public StyleSet OverrideStyles(IEnumerable<StyleAttribute> styleAttributes)
         {
             foreach (var styleAttribute in styleAttributes)
             {
