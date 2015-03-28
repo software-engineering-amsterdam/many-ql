@@ -18,9 +18,8 @@ public class QuestionComponent extends Panel {
 		this.question = question;
 		this.label = new Label(question.getText());
 		this.widget = widget;
-		widget.setIdentifier(question.getIdentifier());
-		addComponent(label);
-		addComponent((Component) this.widget.getWidget());
+		addComponent(label, "span");
+		addComponent((Component) this.widget.getWidget(), "span,growx");
 	}
 
 	public Widget getWidget() {
