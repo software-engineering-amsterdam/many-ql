@@ -9,55 +9,55 @@ public class TestIntegerOperations {
 
     @Test
     public void testAdd() {
-        assertEquals(new IntegerValue(10).add(new IntegerValue(5)).getValue(), 15);
+        assertEquals(new IntegerValue(10).add(new IntegerValue(5)).getInternalValue(), 15);
     }
 
     @Test
     public void testSub() {
-        assertEquals(new IntegerValue(10).sub(new IntegerValue(5)).getValue(), 5);
+        assertEquals(new IntegerValue(10).sub(new IntegerValue(5)).getInternalValue(), 5);
     }
 
     @Test
     public void testMul() {
-        assertEquals(new IntegerValue(10).mul(new IntegerValue(5)).getValue(), 50);
+        assertEquals(new IntegerValue(10).mul(new IntegerValue(5)).getInternalValue(), 50);
     }
 
     @Test
     public void testDiv() {
-        assertEquals(new IntegerValue(10).div(new IntegerValue(5)).getValue(), 2);
+        assertEquals(new IntegerValue(10).div(new IntegerValue(5)).getInternalValue(), 2);
     }
 
     @Test
     public void testMod() {
-        assertEquals(new IntegerValue(10).mod(new IntegerValue(5)).getValue(), 0);
+        assertEquals(new IntegerValue(10).mod(new IntegerValue(5)).getInternalValue(), 0);
     }
 
     @Test
     public void testLt() {
-        assertEquals(true, new IntegerValue(-1).lt(new IntegerValue(0)).getValue());
-        assertEquals(false, new IntegerValue(0).lt(new IntegerValue(0)).getValue());
-        assertEquals(false, new IntegerValue(1).lt(new IntegerValue(0)).getValue());
+        assertEquals(true, new IntegerValue(-1).lt(new IntegerValue(0)).getInternalValue());
+        assertEquals(false, new IntegerValue(0).lt(new IntegerValue(0)).getInternalValue());
+        assertEquals(false, new IntegerValue(1).lt(new IntegerValue(0)).getInternalValue());
     }
 
     @Test
     public void testGt() {
-        assertEquals(false, new IntegerValue(-1).gt(new IntegerValue(0)).getValue());
-        assertEquals(false, new IntegerValue(0).gt(new IntegerValue(0)).getValue());
-        assertEquals(true, new IntegerValue(1).gt(new IntegerValue(0)).getValue());
+        assertEquals(false, new IntegerValue(-1).gt(new IntegerValue(0)).getInternalValue());
+        assertEquals(false, new IntegerValue(0).gt(new IntegerValue(0)).getInternalValue());
+        assertEquals(true, new IntegerValue(1).gt(new IntegerValue(0)).getInternalValue());
     }
 
     @Test
     public void testLte() {
-        assertEquals(true, new IntegerValue(-1).lte(new IntegerValue(0)).getValue());
-        assertEquals(true, new IntegerValue(0).lte(new IntegerValue(0)).getValue());
-        assertEquals(false, new IntegerValue(1).lte(new IntegerValue(0)).getValue());
+        assertEquals(true, new IntegerValue(-1).lte(new IntegerValue(0)).getInternalValue());
+        assertEquals(true, new IntegerValue(0).lte(new IntegerValue(0)).getInternalValue());
+        assertEquals(false, new IntegerValue(1).lte(new IntegerValue(0)).getInternalValue());
     }
 
     @Test
     public void testGte() {
-        assertEquals(false, new IntegerValue(-1).gte(new IntegerValue(0)).getValue());
-        assertEquals(true, new IntegerValue(0).gte(new IntegerValue(0)).getValue());
-        assertEquals(true, new IntegerValue(1).gte(new IntegerValue(0)).getValue());
+        assertEquals(false, new IntegerValue(-1).gte(new IntegerValue(0)).getInternalValue());
+        assertEquals(true, new IntegerValue(0).gte(new IntegerValue(0)).getInternalValue());
+        assertEquals(true, new IntegerValue(1).gte(new IntegerValue(0)).getInternalValue());
     }
 
 }

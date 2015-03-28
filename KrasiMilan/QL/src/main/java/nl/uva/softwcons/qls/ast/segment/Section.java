@@ -3,10 +3,9 @@ package nl.uva.softwcons.qls.ast.segment;
 import java.util.List;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
-import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.widget.StylizedType;
 
-public class Section extends PageSegment implements ASTNode {
+public class Section extends PageSegment {
     private final String label;
     private final List<PageSegment> content;
     private final List<StylizedType> styles;

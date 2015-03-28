@@ -9,40 +9,34 @@ import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.gui.mediator.Colleague;
 import org.fugazi.ql.gui.mediator.IMediator;
-import org.fugazi.ql.gui.ui_elements.UIComputedQuestion;
-import org.fugazi.ql.gui.ui_elements.UIForm;
-import org.fugazi.ql.gui.ui_elements.UIQuestion;
-import org.fugazi.ql.gui.ui_elements.UIQuestionBuilder;
+import org.fugazi.ql.gui.ui_elements.UIPanel;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIComputedQuestion;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestion;
+import org.fugazi.ql.gui.ui_elements.ui_questions.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
-import javax.swing.*;
 import java.util.*;
 
 public class GUIBuilder implements IMediator {
-
-    // typedef
-    private class QuestionsWithConditionsState extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
+    private class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}
 
     private final ValueStorage valueStorage;
     private final GUIEvaluator guiEvaluator;
-    private final UIForm uiForm;
-
-    private QuestionsWithConditionsState questionsWithConditionState = new QuestionsWithConditionsState();
-    private List<ComputedQuestion> computedQuestions = new ArrayList<>();
+    private final UIFormManager uiFormManager;
+    private final UIQuestionBuilder uiQuestionBuilder;
     
-    private UIQuestionBuilder uiQuestionBuilder;
-    private final FormQuestionsHandler formQuestionsHandler;
+    private QuestionsWithConditions questionsWithConditions = new QuestionsWithConditions();
+    private List<ComputedQuestion> computedQuestions = new ArrayList<>();
 
     public GUIBuilder(Form _form, WidgetsFactory _widgetFactory) {
         this.valueStorage = new ValueStorage();
         this.guiEvaluator = new GUIEvaluator(valueStorage);
-        this.uiForm = new UIForm(_form.getName(), new JPanel());
+        
+        this.uiFormManager = new UIFormManager(_form.getName(), new UIPanel());
         this.uiQuestionBuilder = new UIQuestionBuilder(this, valueStorage, _widgetFactory);
 
-        this.formQuestionsHandler = new FormQuestionsHandler(this.uiForm);
-
         QLFormDataStorage formDataStorage = new QLFormDataStorage(_form);
-        questionsWithConditionState = this.createQuestionsWithConditions(formDataStorage);
+        questionsWithConditions = this.createQuestionsWithConditions(formDataStorage);
         this.computedQuestions = formDataStorage.getComputedQuestions();
     }
 
@@ -54,16 +48,16 @@ public class GUIBuilder implements IMediator {
     }
 
     public void renderUI() {
-        this.setupForm(this.questionsWithConditionState);
-        this.uiForm.showForm();
+        this.setupForm(this.questionsWithConditions);
+        this.uiFormManager.render();
     }
 
     private void setupForm(Map<UIQuestion, List<IfStatement>> _questionsWithConditionState) {
         for (UIQuestion uiQuestion : _questionsWithConditionState.keySet()) {
             if (this.isQuestionStateTrue(_questionsWithConditionState, uiQuestion)) {
-                this.formQuestionsHandler.addQuestion(uiQuestion);
+                this.uiFormManager.addQuestion(uiQuestion);
             } else {
-                this.formQuestionsHandler.removeQuestion(uiQuestion);
+                this.uiFormManager.removeQuestion(uiQuestion);
             }
         }
     }
@@ -74,8 +68,8 @@ public class GUIBuilder implements IMediator {
         }
     }
 
-    private QuestionsWithConditionsState createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
-        QuestionsWithConditionsState questionsWithCondition = new QuestionsWithConditionsState();
+    private QuestionsWithConditions createQuestionsWithConditions(QLFormDataStorage _formDataStorage) {
+        QuestionsWithConditions questionsWithCondition = new QuestionsWithConditions();
 
         for (Question question : _formDataStorage.getAllQuestions()) {
             UIQuestion uiQuestion = createUiQuestion(question);
@@ -93,27 +87,27 @@ public class GUIBuilder implements IMediator {
     private void updateComputedQuestion(ComputedQuestion _computedQuestion) {
         ExpressionValue result = this.guiEvaluator.evaluateComputedExpression(_computedQuestion);
         UIComputedQuestion uiComputedQuestion =
-                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditionState);
+                (UIComputedQuestion) this.getUIQuestionById(_computedQuestion.getIdName(), this.questionsWithConditions);
         uiComputedQuestion.setComputedValue(result);
     }
     
     private void addIfStatementsToQuestion(
             List<IfStatement> _ifStatementsList,
             Question _question,
-            QuestionsWithConditionsState _questionsWithConditionsState)
+            QuestionsWithConditions _questionsWithConditions)
     {
         for (IfStatement ifStatement : _ifStatementsList) {
             if (ifStatement.getBody().contains(_question)) {
-                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditionsState);
-                _questionsWithConditionsState.get(uiQuestion).add(ifStatement);
+                UIQuestion uiQuestion = this.getUIQuestionById(_question.getIdName(), _questionsWithConditions);
+                _questionsWithConditions.get(uiQuestion).add(ifStatement);
             }
         }
     }
 
     private UIQuestion getUIQuestionById(
-            String _id, QuestionsWithConditionsState _questionsWithConditionsState) 
+            String _id, QuestionsWithConditions _questionsWithConditions)
     {
-        for (UIQuestion uiQuestion : _questionsWithConditionsState.keySet()) {
+        for (UIQuestion uiQuestion : _questionsWithConditions.keySet()) {
             if (_id.equals(uiQuestion.getId())) {
                 return uiQuestion;
             }
@@ -121,7 +115,7 @@ public class GUIBuilder implements IMediator {
         return null;
     }
 
-    public boolean isQuestionStateTrue(
+    private boolean isQuestionStateTrue(
             Map<UIQuestion, List<IfStatement>> _questionsWithConditionState, UIQuestion _question)
     {
         boolean isTrue = true;

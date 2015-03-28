@@ -4,7 +4,6 @@ import org.uva.student.calinwouter.qlqls.application.gui.ql.QLGUI;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSGUI;
 import org.uva.student.calinwouter.qlqls.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.QLTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
@@ -13,7 +12,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 // TODO refactor!
 public class Main {

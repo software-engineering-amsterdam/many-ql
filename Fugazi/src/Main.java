@@ -1,7 +1,6 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.gui.GUIBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
@@ -11,11 +10,11 @@ import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.gui.QLSWidgetsFactory;
+import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Map;
 
 public class Main {
 
@@ -48,10 +47,10 @@ public class Main {
         boolean isFormTypesCorrect = qLTypeChecker.checkForm();
 
         // display warnings and errors and if form is not type-correct, exit
-        ASTIssuePrinter printer = new ASTIssuePrinter(
+        ASTIssuePrinter printer = new ASTIssuePrinter();
+        printer.displayWarningsAndErrors(
                 qLTypeChecker.getErrors(), qLTypeChecker.getWarnings()
         );
-        printer.displayWarningsAndErrors();
 
         if (!isFormTypesCorrect) {
             System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
@@ -85,25 +84,24 @@ public class Main {
             QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
             // Perform QLS type checking.
-            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                    styleSheetData, formDataStorage
-            );
+            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheetData, formDataStorage);
+            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet();
 
             // display warnings and errors and if form is not type-correct, exit
-            printer = new ASTIssuePrinter(
-                    qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-            );
-            printer.displayWarningsAndErrors();
+            printer = new ASTIssuePrinter();
+            printer.displayWarningsAndErrors(qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings());
 
             if (!isQLSFormTypesCorrect) {
                 System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
                 System.exit(-1);
             }
 
-            // QLS
+//            // QLS
             QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
+//            GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
+            StyledGUIBuilder guiBuilder = new StyledGUIBuilder(
+                    form, formDataStorage, styleSheetData, qlsWidgetsFactory
+            );
             guiBuilder.renderUI();
 
         } else {

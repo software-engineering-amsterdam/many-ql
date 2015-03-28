@@ -11,14 +11,11 @@ public class Page implements ASTNode {
     private final Identifier id;
     private final List<PageSegment> segments;
     private final List<StylizedType> styles;
-    private final LineInfo lineInfo;
 
-    public Page(final Identifier id, final List<PageSegment> regions, final List<StylizedType> styles,
-            final LineInfo lineInfo) {
+    public Page(final Identifier id, final List<PageSegment> regions, final List<StylizedType> styles) {
         this.id = id;
         this.segments = regions;
         this.styles = styles;
-        this.lineInfo = lineInfo;
     }
 
     public Identifier getId() {
@@ -38,7 +35,7 @@ public class Page implements ASTNode {
     }
 
     public LineInfo getLineInfo() {
-        return lineInfo;
+        return id.getLineInfo();
     }
 
 }

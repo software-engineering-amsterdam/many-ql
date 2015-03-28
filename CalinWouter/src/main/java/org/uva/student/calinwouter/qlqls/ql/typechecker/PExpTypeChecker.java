@@ -2,13 +2,16 @@ package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -18,8 +21,10 @@ import java.util.Stack;
  */
 public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     private final StaticFields staticFields;
-    private final Stack<TypeDescriptor> typeDescriptors;
+    private final Stack<ITypeDescriptor> typeDescriptors;
     private final TypeCheckResults typeCheckResults;
+    private final Map<String, List<String>> variableDependencies;
+    private String lastComputedValueIdentifier;
 
     @Override
     public void outAAddExp(AAddExp node) {
@@ -168,15 +173,31 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
     @Override
     public void caseAIdentExp(AIdentExp node) {
         final String variableName = getIdentifier(node);
-        addErrorIfNotReferenced(variableName);
-        pushAndCheckIdentifierType(variableName);
+        checkUndefinedReference(variableName);
+        checkIfComputedValueDependency(variableName);
+        pushIdentifierType(variableName);
     }
 
     public void typeCheckExpression(PExp exp){
         exp.apply(this);
     }
 
-    public TypeDescriptor popType() {
+    private void checkUndefinedReference(String identifier){
+        if(!staticFields.containsField(identifier))
+            addErrorUndefinedReference(identifier);
+    }
+
+    private void checkIfComputedValueDependency(String identifier){
+        if(lastComputedValueIdentifier != null){
+            variableDependencies.get(lastComputedValueIdentifier).add(identifier);
+        }
+    }
+
+    public void setLastComputedValueIdentifier(String identifier){
+        lastComputedValueIdentifier = identifier;
+    }
+
+    public ITypeDescriptor popType() {
         return typeDescriptors.pop();
     }
 
@@ -185,18 +206,16 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         return identifierInAst.getText();
     }
 
-    private void addErrorIfNotReferenced(String variableName) {
-        if (!staticFields.containsField(variableName)) {
-            typeCheckResults.addUndefinedReferenceError(variableName);
-        }
+    private void addErrorUndefinedReference(String variableName) {
+        typeCheckResults.addUndefinedReferenceError(variableName);
     }
 
-    private void pushType(TypeDescriptor typeDescriptor) {
+    private void pushType(ITypeDescriptor typeDescriptor) {
         typeDescriptors.push(typeDescriptor);
     }
 
-    private void checkPopGeneratesNoTypeError(TypeDescriptor assertedType) {
-        final TypeDescriptor lastStackElement = popType();
+    private void checkPopGeneratesNoTypeError(ITypeDescriptor assertedType) {
+        final ITypeDescriptor lastStackElement = popType();
         if (!lastStackElement.equals(assertedType)) {
             typeCheckResults.addErrorTypeIsNotOfType(assertedType);
         }
@@ -222,40 +241,33 @@ public class PExpTypeChecker extends ReversedDepthFirstAdapter {
         pushType(StringValue.STRING_VALUE_TYPE_DESCRIPTOR);
     }
 
-    private boolean isDeclared(String identifier) {
-        return getTypeOfField(identifier) != null;
-    }
-
-    private TypeDescriptor getTypeOfField(String identifier) {
-        return staticFields.getTypeOfField(identifier);
-    }
-
-    private void addErrorIfNotDeclared(String identifier) {
-        if (!isDeclared(identifier)) {
-            typeCheckResults.addNotDeclaredError(identifier);
+    private ITypeDescriptor getTypeOfField(String identifier) {
+        ITypeDescriptor fieldType;
+        try {
+            fieldType =  staticFields.getTypeOfField(identifier);
+        } catch (FieldNotFoundException e) {
+            fieldType = new UndefinedTypeDescriptor();
         }
+        return fieldType;
     }
 
     private void pushIdentifierType(String identifier) {
-        final TypeDescriptor fieldType = getTypeOfField(identifier);
+        final ITypeDescriptor fieldType = getTypeOfField(identifier);
         pushType(fieldType);
     }
 
-    private void pushAndCheckIdentifierType(String identifier) {
-        addErrorIfNotDeclared(identifier);
-        pushIdentifierType(identifier);
-    }
 
-    public void checkLastEntryIsOfType(final TypeDescriptor typeDescriptor) {
+    public void checkLastEntryIsOfType(final ITypeDescriptor typeDescriptor) {
         assert(typeDescriptors.size() == 1);
         if (!popType().equals(typeDescriptor)) {
             typeCheckResults.addErrorTypeIsNotOfType(typeDescriptor);
         }
     }
 
-    public PExpTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
+    public PExpTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults, Map<String , List<String>> variableDependencies) {
         this.staticFields = staticFields;
-        this.typeDescriptors = new Stack<TypeDescriptor>();
+        this.typeDescriptors = new Stack<ITypeDescriptor>();
         this.typeCheckResults = typeCheckResults;
+        this.variableDependencies = variableDependencies;
     }
 }

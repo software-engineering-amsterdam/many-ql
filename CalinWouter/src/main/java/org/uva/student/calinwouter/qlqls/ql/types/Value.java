@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedValueOperationException;
 
 public abstract class Value {
@@ -75,7 +75,7 @@ public abstract class Value {
         return equalityBoolValue.not();
     }
 
-    public abstract void apply(TypeCallback typeCallback);
+    public abstract void apply(ITypeCallback typeCallback);
 
     @Override
     public String toString() {

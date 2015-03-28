@@ -14,7 +14,7 @@ public class IntValue extends GenericValue {
 
     @Override
     public String toString() {
-	return new Integer(value).toString();
+	return Integer.toString(value);
 
     }
 
@@ -30,7 +30,7 @@ public class IntValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
 

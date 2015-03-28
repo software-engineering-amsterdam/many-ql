@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qls.validation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
@@ -17,8 +18,7 @@ public class TypeChecker {
 	}
 
 	public List<TypeValidation> checkTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 
 }

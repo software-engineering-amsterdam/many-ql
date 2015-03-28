@@ -56,11 +56,11 @@ public abstract class Value {
 	}
 
 	public Value equal(Value otherValue) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(getValue().equals(otherValue));
 	}
 
 	public Value notEqual(Value otherValue) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(!getValue().equals(otherValue));
 	}
 
 	public Value not() {

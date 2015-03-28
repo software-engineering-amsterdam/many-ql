@@ -2,14 +2,21 @@ package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public class PStmtTypeChecker extends AnalysisAdapter {
     private final StaticFields staticFields;
     private final PExpTypeChecker pExpTypeChecker;
+    private final Map<String, List<String>> variableDependencies;
+    private final TypeCheckResults typeCheckResults;
 
     private void typeCheckExpressionIsBoolean(PExp ifExpression) {
         ifExpression.apply(pExpTypeChecker);
@@ -61,7 +68,7 @@ public class PStmtTypeChecker extends AnalysisAdapter {
         }
     }
 
-    private TypeDescriptor getTypeOfField(AValueStmt node) {
+    private ITypeDescriptor getTypeOfField(AValueStmt node) {
         String identifier = node.getIdent().getText();
         return staticFields.getTypeOfField(identifier);
     }
@@ -71,20 +78,34 @@ public class PStmtTypeChecker extends AnalysisAdapter {
         expression.apply(pExpTypeChecker);
     }
 
-    private void checkExpressionIsOfType(AValueStmt node, TypeDescriptor typeDescriptor) {
+    private void checkExpressionIsOfType(AValueStmt node, ITypeDescriptor typeDescriptor) {
         processExpressionOf(node);
         pExpTypeChecker.checkLastEntryIsOfType(typeDescriptor);
     }
 
+    private void checkCyclicDependency(String identifier){
+        for(String dependency: variableDependencies.get(identifier)){
+            if(variableDependencies.get(dependency) != null && variableDependencies.get(dependency).contains(identifier))
+                typeCheckResults.addCyclicDependencyError(identifier, dependency);
+        }
+    }
+
     @Override
     public void caseAValueStmt(AValueStmt node) {
-        final TypeDescriptor typeDescriptor = getTypeOfField(node);
+        final ITypeDescriptor typeDescriptor = getTypeOfField(node);
+        final String identifier = node.getIdent().getText();
+        variableDependencies.put(identifier, new LinkedList<String>());
+        pExpTypeChecker.setLastComputedValueIdentifier(identifier);
         checkExpressionIsOfType(node, typeDescriptor);
+        checkCyclicDependency(identifier);
+        pExpTypeChecker.setLastComputedValueIdentifier(null);
     }
 
     public PStmtTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
         this.staticFields = staticFields;
-        this.pExpTypeChecker = new PExpTypeChecker(staticFields, typeCheckResults);
+        this.typeCheckResults = typeCheckResults;
+        variableDependencies = new HashMap<String, List<String>>();
+        this.pExpTypeChecker = new PExpTypeChecker(staticFields, typeCheckResults, variableDependencies);
     }
 
 }

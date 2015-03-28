@@ -24,7 +24,7 @@ public class WidgetTypeCheckerTest {
 
     @Test
     public void testPageStyleInconsistency() {
-        List<Error> errors = getWidgetTypeErrors("page page1 { question q1 default boolean widget slider} ");
+        List<Error> errors = getWidgetTypeErrors("page page1 { question q1 default boolean widget slider (10, 20, 1)} ");
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0)).isExactlyInstanceOf(IncompatibleWidget.class);
     }
@@ -61,7 +61,7 @@ public class WidgetTypeCheckerTest {
     @Test
     public void testSectionStyleInconsistency() {
         List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q1 "
-                + "default boolean widget slider} } ");
+                + "default boolean widget slider (1, 10, 1)} } ");
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0)).isExactlyInstanceOf(IncompatibleWidget.class);
     }
@@ -133,13 +133,13 @@ public class WidgetTypeCheckerTest {
 
     @Test
     public void testNumberQuestionWithCorrectWidgetSlider() {
-        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget slider } } ");
+        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget slider (10, 20, 1) } } ");
         assertThat(errors).hasSize(0);
     }
 
     @Test
     public void testNumberQuestionWithCorrectWidgetSpinbox() {
-        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget spinbox } } ");
+        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget spinbox (10, 20, 1)} } ");
         assertThat(errors).hasSize(0);
     }
 

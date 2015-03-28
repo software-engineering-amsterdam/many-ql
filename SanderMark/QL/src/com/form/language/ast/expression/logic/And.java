@@ -6,8 +6,8 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class And extends BinaryExpression {
@@ -18,8 +18,8 @@ public class And extends BinaryExpression {
 
     @Override
     public BoolValue evaluate(Context context) {
-	return new BoolValue(((BoolValue) super.left.evaluate(context)).getValue()
-		&& ((BoolValue) super.right.evaluate(context)).getValue());
+	return new BoolValue(((BoolValue) left.evaluate(context)).getValue()
+		&& ((BoolValue) right.evaluate(context)).getValue());
     }
 
     @Override

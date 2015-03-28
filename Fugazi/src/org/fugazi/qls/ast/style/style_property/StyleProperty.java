@@ -36,4 +36,9 @@ public abstract class StyleProperty<T> extends AbstractASTNode {
         StyleProperty other = (StyleProperty) o;
         return this.name == other.name;
     }
+
+    @Override
+    public int hashCode() {
+        return (this.name.hashCode());
+    }
 }

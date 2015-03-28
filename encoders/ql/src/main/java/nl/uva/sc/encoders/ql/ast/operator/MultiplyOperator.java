@@ -6,6 +6,17 @@ import nl.uva.sc.encoders.ql.visitor.BinaryOperatorVisitor;
 
 public class MultiplyOperator implements BinaryOperator {
 
+	private String stringRepresentation;
+
+	public MultiplyOperator(String stringRepresentation) {
+		this.stringRepresentation = stringRepresentation;
+	}
+
+	@Override
+	public String toString() {
+		return stringRepresentation.toString();
+	}
+
 	@Override
 	public <T> T accept(BinaryOperatorVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -26,4 +37,5 @@ public class MultiplyOperator implements BinaryOperator {
 	public DataType getType(DataType leftHandType, DataType rightHandType) {
 		return new IntegerType();
 	}
+
 }

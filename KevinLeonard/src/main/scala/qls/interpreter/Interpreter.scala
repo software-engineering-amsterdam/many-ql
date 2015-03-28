@@ -40,23 +40,17 @@ object Interpreter {
     }
   }
 
-  // TODO: refactor 'returns'
+  // TODO: Show errors in GUI instead of console? This function does now two things.
+  // TODO: 1) Checking for errors & 2) Printing errors.
   def checkTypes(ast: StyleSheet, env: TypeEnvironment): Boolean = {
     val referenceErrors = getReferenceErrors(ast, env)
-    referenceErrors.foreach(println)
-    if (referenceErrors.nonEmpty) return false
-
     val placementErrors = getPlacementErrors(ast, env)
-    placementErrors.foreach(println)
-    if (placementErrors.nonEmpty) return false
-
     val typeErrors = getTypeErrors(ast, env)
-    typeErrors.foreach(println)
-    if (typeErrors.nonEmpty) return false
-
     val duplicatePlacementErrors = getDuplicatePlacementErrors(ast)
-    duplicatePlacementErrors.foreach(println)
-    duplicatePlacementErrors.isEmpty
+
+    val errors = referenceErrors ++ placementErrors ++ typeErrors ++ duplicatePlacementErrors
+    errors.foreach(println)
+    errors.isEmpty
   }
 
   def getReferenceErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {

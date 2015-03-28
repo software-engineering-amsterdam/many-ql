@@ -1,8 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 
 /**
@@ -10,9 +8,9 @@ import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
  */
 public class WidgetType {
     private final AbstractWidget widget;
-    private final TypeDescriptor typeDescriptor;
+    private final ITypeDescriptor typeDescriptor;
 
-    public WidgetType(AbstractWidget widget, TypeDescriptor typeDescriptor) {
+    public WidgetType(AbstractWidget widget, ITypeDescriptor typeDescriptor) {
         this.widget = widget;
         this.typeDescriptor = typeDescriptor;
     }
