@@ -1,8 +1,17 @@
 stylesheet taxOfficeExample 
   page Housing {
-    section "Buying"
+    section "Buying" {
       question hasBoughtHouse  
-        widget checkbox 
+        widget checkbox
+      question otherDumbQuestion
+        widget textfield
+       section "Subsection" {
+         question subSectionQuestionA
+           widget textfield
+         question subSectionQuestionB
+           widget textfield
+       }
+    } 
     section "Loaning"  
       question hasMaintLoan
   }
@@ -13,16 +22,16 @@ stylesheet taxOfficeExample
         widget radio("Yes", "No") 
       section "You sold a house" {
         question sellingPrice
-          widget spinbox
+          widget numberfield
         question privateDebt
-          widget spinbox 
+          widget numberfield
         question valueResidue
         default integer {
           width: 400
           font: "Arial" 
           fontsize: 14
           color: #999999
-          widget spinbox
+          widget numberfield
         }        
       }
     }
