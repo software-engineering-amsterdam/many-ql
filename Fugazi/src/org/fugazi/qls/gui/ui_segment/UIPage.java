@@ -27,6 +27,7 @@ public class UIPage {
         this.pageTitle = _title;
         this.index = _index;
     }
+    
     public void addToForm(UIForm _uiForm) {
         QLSUIForm form = (QLSUIForm) _uiForm;
         form.addPage(this);
