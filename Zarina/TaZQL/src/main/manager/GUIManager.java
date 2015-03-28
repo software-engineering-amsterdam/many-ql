@@ -24,9 +24,10 @@ public class GUIManager {
 		this.typeCheckerVisitor = new TypeCheckerVisitor();
 		this.file = new FileManager();
 		this.filename = file.getFileString();
-		this.form = new ASTCreator().formCreator(filename);
 		this.mainFrame = new MainFrame();
+		this.form = new ASTCreator().formCreator(filename);
 	}
+	
 	
 	public void runGUI(JFrame frame) {
 		if(formIsCorrect()) {
@@ -42,7 +43,7 @@ public class GUIManager {
 			frame.revalidate();
 			frame.repaint();
 			showErrors();
-		}
+		}	
 	}
 	
 	public boolean formIsCorrect () {
@@ -52,6 +53,10 @@ public class GUIManager {
 	public boolean checkQuestionnaire(Form form) {
 		form.accept(typeCheckerVisitor);
 		return noErrors();
+	}
+	
+	public boolean formEmpty() {
+		return form==null;
 	}
 	
 	public boolean noErrors() {

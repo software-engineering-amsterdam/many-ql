@@ -26,7 +26,7 @@ public class SaveButtonListener {
 		final String filePath;
 		final JFileChooser chooser=new JFileChooser();
 		FileManager manager = new FileManager();
-		manager.customazeFileChooser(chooser, "Save questionnaire as .csv");
+		manager.customazeFileChooser(chooser, "Save questionnaire as CSV");
 		  
 		final int result =chooser.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {

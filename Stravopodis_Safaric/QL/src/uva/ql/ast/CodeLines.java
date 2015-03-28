@@ -14,7 +14,7 @@ public class CodeLines {
 	}
 	
 	public boolean equals(CodeLines obj){
-		return this.getLOCTuple().getX() == obj.getLOCTuple().getX() && this.getLOCTuple().getY() == obj.getLOCTuple().getY();
+		return this.codeLines.getX() == obj.getLOCTuple().getX() && this.codeLines.getY() == obj.getLOCTuple().getY();
 	}
 	
 	@Override

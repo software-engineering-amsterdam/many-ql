@@ -5,6 +5,11 @@ class Widget:
     def __init__(self, question_style):
         self.widget = question_style.get_widget()
         self.property_map = self.widget.property_map()
+        self.color = None
+        self.font = None
+        self.width = None
+        self.height = None
+        self.size = None
 
     def __enrich_widget(self, question_style):
         widget = question_style.get_widget()

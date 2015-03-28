@@ -3,11 +3,6 @@ package ast.type;
 public class IntegerType extends Type {
 		
 	public IntegerType() {}
-	
-	@Override
-	public String getName() {
-		return "digits";
-	}
 			
 	@Override
 	public String toString() {

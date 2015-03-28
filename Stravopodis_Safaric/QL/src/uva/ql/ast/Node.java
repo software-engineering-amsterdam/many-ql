@@ -1,14 +1,15 @@
 package uva.ql.ast;
 
-public abstract class ASTNode {
+public abstract class Node {
 	
 	protected CodeLines codeLines;
 	
-	public ASTNode(){
+	public Node(){
 		super();
 	}
 	
-	public ASTNode(CodeLines _codeLines){
+	public Node(CodeLines _codeLines){
 		this.codeLines = _codeLines;
 	}
+	
 }

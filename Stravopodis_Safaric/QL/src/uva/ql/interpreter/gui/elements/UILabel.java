@@ -39,7 +39,3 @@ public class UILabel {
 		return textheight;
 	}	
 }
-	
-	
-	
-

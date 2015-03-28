@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.expressions.BinaryExpressions;
+import uva.ql.ast.expressions.BinaryExpression;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.type.Type;
@@ -15,29 +15,22 @@ import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Less_Eq extends BinaryExpressions{
+public class Less_Eq extends BinaryExpression{
 
 	public Less_Eq(Expression _left, Expression _right, CodeLines _codeLines){
 		super(_left, _right, Operator.LESS_EQ, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitLessEqual(this);
-	}
-	
-	@Override
 	public BooleanValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).lessEqual(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).lessEqual(new NumberValue(right));
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -47,8 +40,18 @@ public class Less_Eq extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitLessEqual(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override
