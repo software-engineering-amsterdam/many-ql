@@ -28,7 +28,7 @@ namespace QL.Hollywood
         protected IList<IExecutable> Exporters;
 
 
-
+        
         public QLBuilderStateMachine BuilderStateMachine { get; private set; }
         public DataContext DataContext { get; private set; } //needs to be public because of tests
         
@@ -39,7 +39,7 @@ namespace QL.Hollywood
         }
 
         #region Constructors
-        private QLBuilder()
+        protected QLBuilder()
         {
             Initializers = new List<IExecutable>();
             ASTBuilders = new List<IExecutable>();

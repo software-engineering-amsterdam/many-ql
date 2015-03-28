@@ -2,8 +2,6 @@
 {
     public interface ITerminalWrapper
     {
-
-
     }
 
 }

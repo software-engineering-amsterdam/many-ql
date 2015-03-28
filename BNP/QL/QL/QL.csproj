@@ -93,7 +93,7 @@
     <Compile Include="AST\Nodes\Branches\Expression.cs" />
     <Compile Include="AST\Nodes\Branches\Form.cs" />
     <Compile Include="AST\Nodes\IStaticReturnType.cs" />
-    <Compile Include="AST\Nodes\IReturnTypeInferred.cs" />
+    <Compile Include="AST\Nodes\IInferredReturnType.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\AndOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\DivisionOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
     <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
     <Compile Include="Hollywood\QLBuilderStateMachine.cs" />
-    <Compile Include="Hollywood\References.cs" />
+    <Compile Include="Hollywood\ReferenceTables.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />

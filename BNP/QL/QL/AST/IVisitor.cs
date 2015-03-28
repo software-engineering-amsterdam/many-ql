@@ -4,11 +4,13 @@ using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
+using QL.Hollywood;
 
 namespace QL.AST
 {
     public interface IVisitor
     {
+        ReferenceTables ReferenceTables { get; }
         IList<QLBaseException> Exceptions { get; }
 
         void Visit(Form node);

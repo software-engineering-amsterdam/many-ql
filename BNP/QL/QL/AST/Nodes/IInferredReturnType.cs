@@ -1,6 +1,6 @@
 ﻿namespace QL.AST.Nodes
 {
-    public interface IReturnTypeInferred : IResolvable
+    public interface IInferredReturnType : IResolvable
     {
         ElementBase GetTypeInferableChild();
     }

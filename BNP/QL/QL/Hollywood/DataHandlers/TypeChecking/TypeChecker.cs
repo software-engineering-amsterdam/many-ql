@@ -13,8 +13,7 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         {
             try
             {
-            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.TypeReference, context.ASTHandlerExceptions);
-            
+                TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(context.ValueReferenceTable, context.ASTHandlerExceptions);
                 context.RootNode.Accept(typeChecker);
             }
             catch (QLBaseException ex)

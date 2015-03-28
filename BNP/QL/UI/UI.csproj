@@ -75,6 +75,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Builder\QLUIBuilder.cs" />
+    <Compile Include="Builder\Renderer.cs" />
     <Compile Include="Controls\NumberWidget.xaml.cs">
       <DependentUpon>NumberWidget.xaml</DependentUpon>
     </Compile>
@@ -89,7 +91,7 @@
     </Compile>
     <Compile Include="ControlWrappers\WidgetFactory.cs" />
     <Compile Include="Controls\WidgetBase.cs" />
-    <Compile Include="Visitors\UserInterfaceVisitor.cs" />
+    <Compile Include="Builder\UserInterfaceVisitor.cs" />
     <Page Include="Assets\ApplicationResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -11,9 +11,9 @@ namespace QL.Hollywood.DataHandlers.Evaluation
         public bool Execute(DataContext context)
         {
             context.ASTHandlerExceptions.Clear();
-            context.ValueReference.ClearIdentifiers();
+            context.ValueReferenceTable.ClearIdentifiers();
 
-            EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ValueReference);
+            EvaluatorVisitor evaluator = new EvaluatorVisitor(context.ASTHandlerExceptions, context.ValueReferenceTable);
             try
             {
                 context.RootNode.Accept(evaluator);

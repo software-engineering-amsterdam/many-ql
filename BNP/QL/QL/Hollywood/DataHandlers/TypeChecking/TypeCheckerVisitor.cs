@@ -12,27 +12,50 @@ using System.Linq;
 
 namespace QL.Hollywood.DataHandlers.TypeChecking
 {
-    public class TypeCheckerVisitor: IVisitor
+    public class TypeCheckerVisitor : IVisitor
     {
-        public readonly IDictionary<Identifier, Type> TypeReference;
+        public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
-        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLBaseException> exceptions)
+        public TypeCheckerVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions)
         {
-            TypeReference = typeReference;
+            ReferenceTables = referenceTables;
             Exceptions = exceptions;
         }
 
-        private void DeclareNewVariable(Identifier key, Type value)
+        private void DeclareNewVariable(Identifier key, IResolvable value)
         {
-            if (TypeReference.ContainsKey(key))
+            if (ReferenceTables.ContainsIdentifier(key))
             {
-                Exceptions.Add(new RedeclaredVariableWarning("redeclared variable detected: " + key, key.SourceLocation));
+                Exceptions.Add(new RedeclaredVariableWarning("Redeclared variable detected: " + key, key.SourceLocation));
             }
-            TypeReference[key] = value;
+            ReferenceTables.SetReference(key, value);
         }
 
-        #region Regular elements
+        #region Type assurance methods
+        private void CheckOperandsAreOfSameType(BinaryTreeElementBase node)
+        {
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on operation: {0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
+            }
+        }
+
+        private void CheckOperandsRestrictedToTypes(BinaryTreeElementBase node, params Type[] restrictedTypes)
+        {
+            if (!restrictedTypes.Contains((Type)DetermineType((dynamic)node.Left)))
+            {
+                Exceptions.Add(new TypeCheckerError("Type not permitted on the left side of the operator", node));
+            }
+
+            if (!restrictedTypes.Contains((Type)DetermineType((dynamic)node.Right)))
+            {
+                Exceptions.Add(new TypeCheckerError("Type not permitted on the right side of the operator", node));
+            }
+        }
+        #endregion
+
+        #region Regular element visitors
         public void Visit(Form node)
         {
             node.Block.Accept(this);
@@ -50,22 +73,22 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         {
             node.Expression.Accept(this);
 
-            if (node.ConditionTrueBlock!=null)
+            if (node.ConditionTrueBlock != null)
             {
                 node.ConditionTrueBlock.Accept(this);
             }
-            if (node.ConditionFalseBlock!=null)
+
+            if (node.ConditionFalseBlock != null)
             {
                 node.ConditionFalseBlock.Accept(this);
             }
-
         }
 
         public void Visit(StatementUnit node)
         {
             node.Expression.Accept(this);
 
-            DeclareNewVariable(node.Identifier, node.DataType.GetReturnType());
+            DeclareNewVariable(node.Identifier, node.DataType);
 
             if (node.DataType.GetReturnType() != DetermineType(node.Expression))
             {
@@ -79,131 +102,95 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
 
         public void Visit(QuestionUnit node)
         {
-            DeclareNewVariable(node.Identifier, node.DataType.GetReturnType());
-
+            DeclareNewVariable(node.Identifier, node.DataType);
         }
 
         public void Visit(Expression node)
         {
             node.Child.Accept(this);
         }
-        #endregion
-        void _visit_binary(BinaryTreeElementBase node)
+
+        private void VisitBinary(BinaryTreeElementBase node)
         {
             node.Left.Accept(this);
             node.Right.Accept(this);
         }
-
-        void operandsShouldBeTheSame(BinaryTreeElementBase node)
-        {
-            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
-            {
-                Exceptions.Add(new TypeCheckerError(String.Format("Incompatible operands on operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
-            }
-        }
-
-        void typeRestrictionOnOperands(BinaryTreeElementBase node, params Type[] restrictedToTypes)
-        {
-            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Left)))
-            {
-                Exceptions.Add(new TypeCheckerError("Type not permitted on the left side of the operator", node));
-            }
-            if (!restrictedToTypes.Contains((Type)DetermineType((dynamic)node.Right)))
-            {
-                Exceptions.Add(new TypeCheckerError("Type not permitted on the right side of the operator", node));
-
-            }
-
-        }
+        #endregion
         
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-            
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(NotEqualsOperator node)
         {
-            _visit_binary(node);
-
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(GreaterThanOperator node)
         {
-            _visit_binary(node);
-
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(GreaterThanEqualToOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(LessThanOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(LessThanEqualToOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(MultiplicationOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new Number().GetType());
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
+            CheckOperandsRestrictedToTypes(node, new Number().GetType());
         }
 
         public void Visit(DivisionOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(PlusOperator node)
         {
-            _visit_binary(node);            
-            operandsShouldBeTheSame(node);            
-            typeRestrictionOnOperands(node, new Number().GetType(), new Text().GetType() );
+            VisitBinary(node);            
+            CheckOperandsAreOfSameType(node);            
+            CheckOperandsRestrictedToTypes(node, new Number().GetType(), new Text().GetType());
         }
 
         public void Visit(MinusOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);
-            typeRestrictionOnOperands(node, new Number().GetType() );
-  
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
+            CheckOperandsRestrictedToTypes(node, new Number().GetType());
         }
 
         public void Visit(AndOperator node)
         {
-            _visit_binary(node);
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
 
         public void Visit(OrOperator node)
         {
-            _visit_binary(node);
-
-            operandsShouldBeTheSame(node);            
-
+            VisitBinary(node);
+            CheckOperandsAreOfSameType(node);
         }
         #endregion
 
@@ -234,39 +221,36 @@ namespace QL.Hollywood.DataHandlers.TypeChecking
         }
         #endregion
 
+        #region Fallback
         public void Visit(ElementBase elementBase)
         {
             Exceptions.Add(new QLError(string.Format("Type checker was called for {0} but is not implemented", elementBase.GetType().Name)));
         }
+        #endregion
 
         # region Type distinction
-        
-        Type DetermineType(Identifier i)
-        { 
-            if (TypeReference.ContainsKey(i))
+        Type DetermineType(Identifier identifier)
+        {
+            if (ReferenceTables.ContainsIdentifier(identifier))
             {
-                return TypeReference[i];
+                return ReferenceTables.GetTypeByIdentifier(identifier);
             }
-            else
-            {
-                throw new QLError("Undeclared variable: "+i.Value);
-            }
+            throw new QLError("Undeclared variable: " + identifier.Value);
         }
 
-        Type DetermineType(IReturnTypeInferred i)
+        Type DetermineType(IInferredReturnType type)
         {
-            return DetermineType((dynamic)i.GetTypeInferableChild());
+            return DetermineType((dynamic)type.GetTypeInferableChild());
         }
 
-        Type DetermineType(IStaticReturnType i)
+        Type DetermineType(IStaticReturnType type)
         {
-            return i.GetReturnType();
+            return type.GetReturnType();
         }
-
         
-        Type DetermineType(object other)
+        Type DetermineType(object type)
         {
-            throw new TypeCheckerError("Cannot resolve type:"+other.GetType().ToString());
+            throw new TypeCheckerError("Cannot resolve type:" + type.GetType());
         }
         # endregion
     }

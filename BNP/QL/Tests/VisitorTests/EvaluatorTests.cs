@@ -56,10 +56,10 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.RunEvaluators());
             TextWrapper tw = new TextWrapper("\"abc\"");
-            TextWrapper tw_from_code = Builder.DataContext.ValueReference.GetValueOrNull("S1") as TextWrapper;
+            TextWrapper tw_from_code = Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1") as TextWrapper;
             Assert.IsTrue((tw_from_code == tw).Value.Value);
 
-            Assert.IsTrue(new YesnoWrapper(true).Value==((YesnoWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S2")).Value);
+            Assert.IsTrue(new YesnoWrapper(true).Value==((YesnoWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S2")).Value);
 
         }
         [TestMethod]
@@ -98,12 +98,12 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.RunEvaluators());
             Identifier i = new Identifier("Q1");
 
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValue(i);
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValue(i);
             nw.Value = 2;
             Assert.IsTrue(Builder.RunEvaluators());
             
             Identifier S1 = new Identifier("S1");
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValue(S1);
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValue(S1);
             Assert.AreEqual(nw.Value,S1_value.Value);
 
 
@@ -127,13 +127,13 @@ namespace Tests.VisitorTests
             Assert.IsTrue(Builder.RunEvaluators());
             Identifier i = new Identifier("Q1");
 
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValue(i);
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValue(i);
 
             nw.Value = 2; // answer to the question
             Assert.IsTrue(Builder.RunEvaluators(),"reevaluation");
 
             Identifier S1 = new Identifier("S1");
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValue(S1);
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValue(S1);
 
             Assert.AreEqual(nw.Value * 2 + 123, S1_value.Value);
         }
@@ -153,28 +153,28 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.RunEvaluators(),"First evaluation");
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNull(S1_value, "S1 should not exist");
-            NumberWrapper S2_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S2");
+            NumberWrapper S2_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S2");
             Assert.IsNull(S2_value, "S2 should not exist");
 
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("Q1");
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("Q1");
             nw.Value = 2; // answer to the question so the if condition is true
 
             Assert.IsTrue(Builder.RunEvaluators(), "Second evaluation");
-            S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNotNull(S1_value,"S1 variable was not evaluated correctly");
-            S2_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S2");
+            S2_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S2");
             Assert.IsNull(S2_value, "S2 variable is evaluated, shouldnt be");
             Assert.AreEqual(2 * 2 + 123, S1_value.Value,"Bad maths");
 
-            nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("Q1");
+            nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("Q1");
             nw.Value = 31; // answer to the question so the if condition is false
 
             Assert.IsTrue(Builder.RunEvaluators(), "Third evaluation");
-            S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNull(S1_value,"S1 shouldnt exist anymore");
-            S2_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S2");
+            S2_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S2");
             Assert.IsNotNull(S2_value, "S2 should appear");
         }
         [TestMethod]
@@ -188,16 +188,16 @@ namespace Tests.VisitorTests
             ");
             Assert.IsTrue(Builder.RunEvaluators(), "evaluation");
             
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("Q1");
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("Q1");
             Assert.IsNotNull(nw);
             nw.Value = 42; // answer to the question
             Assert.IsTrue(Builder.RunEvaluators(), "reevaluation");
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual((1 + (2 - (3 - (4 * 42)))), S1_value.Value);
             nw.Value = -6; // answer to the question
             Assert.IsTrue(Builder.RunEvaluators(), "reevaluation");
-            S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual((1 + (2 - (3 - (4 * (-6))))), S1_value.Value);
         }
@@ -211,7 +211,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.RunEvaluators());
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("Q1");
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("Q1");
 
             nw.Value = 0; // new answer to the question, division by zero
             Assert.IsFalse(Builder.RunEvaluators(), "division by zero");
@@ -220,7 +220,7 @@ namespace Tests.VisitorTests
             nw.Value = 1; // new answer to the question
             Assert.IsTrue(Builder.RunEvaluators(), "reevaluation failed");
 
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNotNull(S1_value);
             Assert.AreEqual(123 + (123 / 1), S1_value.Value);
         }
@@ -235,18 +235,18 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.RunEvaluators());
-            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("Q1");
+            NumberWrapper nw = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("Q1");
             nw.Value = 1; // new answer to the question
             Assert.IsTrue(Builder.RunEvaluators(), "reevaluation failed");
 
-            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReference.GetValueOrNull("S1");
+            NumberWrapper S1_value = (NumberWrapper)Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             Assert.IsNotNull(S1_value);
             nw.Value = 0; // new answer to the question, statement should not be evaluated
             Assert.IsTrue(Builder.RunEvaluators(), "division by zero exception should not be thrown");
             bool correctException=false;            
             try
             {
-                Builder.DataContext.ValueReference.GetValueOrNull("S1");
+                Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1");
             }
             catch (EvaluationError)
             {

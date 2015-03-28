@@ -8,7 +8,6 @@ using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.AST.ValueWrappers;
 using QL.Exceptions;
-using QL.Exceptions.Warnings;
 
 namespace QL.Hollywood
 {
@@ -29,18 +28,17 @@ namespace QL.Hollywood
         /// Maps defined identifiers to the datatype of the value they contain
         /// </summary>
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
+
         /// <summary>
         /// a lookup of references to terminals
         /// </summary>
-        public References ValueReference;
-
-        
+        public ReferenceTables ValueReferenceTable { get; private set; }
 
         private DataContext()
         {
             ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
             TypeReference = new Dictionary<Identifier, Type>();
-            ValueReference = new References();
+            ValueReferenceTable = new ReferenceTables();
         }
 
         public DataContext(string input) : this()
@@ -52,8 +50,5 @@ namespace QL.Hollywood
         {
             InputStream = input;
         }
-
-
-        
     }
 }

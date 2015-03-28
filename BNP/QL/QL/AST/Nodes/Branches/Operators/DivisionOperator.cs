@@ -1,6 +1,6 @@
 ﻿namespace QL.AST.Nodes.Branches.Operators
 {
-    public class DivisionOperator : BinaryTreeElementBase, IReturnTypeInferred
+    public class DivisionOperator : BinaryTreeElementBase, IInferredReturnType
     {
         public ElementBase GetTypeInferableChild()
         {
