@@ -1,4 +1,4 @@
-package org.uva.ql.view.widgit;
+package org.uva.ql.view.widget;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.Value;

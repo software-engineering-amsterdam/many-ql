@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthesis;
+import org.uva.ql.ast.expression.binary.Addition;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
 import org.uva.ql.ast.expression.binary.Equal;
@@ -13,11 +14,10 @@ import org.uva.ql.ast.expression.binary.Greater;
 import org.uva.ql.ast.expression.binary.GreaterEqual;
 import org.uva.ql.ast.expression.binary.Less;
 import org.uva.ql.ast.expression.binary.LessEqual;
-import org.uva.ql.ast.expression.binary.Substraction;
 import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
-import org.uva.ql.ast.expression.binary.Addition;
+import org.uva.ql.ast.expression.binary.Substraction;
 import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
@@ -26,8 +26,6 @@ import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.value.IntValue;
-import org.uva.ql.ast.value.UndefinedValue;
-import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 
 public class EvaluatorTest {
@@ -142,9 +140,8 @@ public class EvaluatorTest {
 	
 	@Test
 	public void testDivideZero() {
-		Value expected = new UndefinedValue();
-		Value actual = evaluator.evaluate(new Divide(int1, new IntLiteral(0, pos), pos));
-		
+		boolean expected = false;
+		boolean actual = evaluator.evaluate(new Divide(int1, new IntLiteral(0, pos), pos)).isDefined();
 		Assert.assertEquals(expected, actual);
 	}
 
