@@ -110,7 +110,8 @@ public class ExpressionEvaluatorTest {
 	public void testEvaluatesNamedExpressions() {
 		String questionName = "someQuestionReference";
 		List<RuntimeQuestion> questions = new ArrayList<>();
-		RuntimeQuestion runtimeQuestion = new RuntimeQuestion(aQuestion().withName(questionName).build(), new BooleanValue(true));
+		BooleanValue value = new BooleanValue(true);
+		RuntimeQuestion runtimeQuestion = new RuntimeQuestion(aQuestion().withName(questionName).build(), value);
 		questions.add(runtimeQuestion);
 
 		ExpressionEvaluator evaluator = new ExpressionEvaluator(questions);
@@ -118,7 +119,6 @@ public class ExpressionEvaluatorTest {
 
 		Value result = nameExpression.accept(evaluator);
 
-		assertThat(result, is(instanceOf(BooleanValue.class)));
-		assertThat(((BooleanValue) result).getValue(), is(true));
+		assertThat(result, is(value));
 	}
 }
