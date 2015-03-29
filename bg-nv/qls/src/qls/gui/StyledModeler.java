@@ -31,7 +31,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     }
 
     @Override
-    public Canvas model()
+    public Canvas buildCanvas()
     {
         List<ql.gui.segment.Page> pages = new ArrayList<>();
         for (Page p : this.stylesheet.getBody())

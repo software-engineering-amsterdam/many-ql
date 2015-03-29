@@ -87,12 +87,6 @@ public class Row extends Segment<Pane> implements Refreshable
         return ExprEvaluator.evaluate(condition, valueTable);
     }
 
-    @Override
-    public Boolean isRefreshPrerequisite()
-    {
-        return false;
-    }
-
     public void applyStyle(RowStyle style)
     {
         if (style.isWidgetSet())

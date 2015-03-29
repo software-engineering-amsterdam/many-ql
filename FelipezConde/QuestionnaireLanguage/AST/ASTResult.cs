@@ -19,9 +19,10 @@ namespace AST
             return NotificationManager.HasError();
         }
 
-        public IList<INotification> GetNotifications()
+        public void CombineNotifications(INotificationManager manager)
         {
-            return NotificationManager.GetNotifications();
+            this.NotificationManager.Combine(manager);
         }
+
     }
 }

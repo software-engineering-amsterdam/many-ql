@@ -7,20 +7,27 @@ using System.Linq;
 using TypeChecking.Collectors;
 using TypeChecking.Notifications.Errors;
 
-namespace TypeChecking
+namespace TypeChecking.Checkers
 {
-    public static class IdentifierChecker
+    public class IdentifierChecker : Checker
     {
-        public static INotificationManager AnalyzeAndReport(Form node)
+        public IdentifierChecker(INotificationManager currentState) : base(currentState)
+        { }
+
+
+        public INotificationManager AnalyzeAndReport(Form node)
         {
             INotificationManager notificationManager = Has_Duplicate_Identifiers(node);
-            
+
+            if (base.preconditions.HasError()) //check if preconditions have been met
+                return notificationManager;
+
             notificationManager.Combine(Has_Undefined_Identifiers(node));
 
             return notificationManager;
         }
 
-        private static INotificationManager Has_Duplicate_Identifiers(Form node)
+        private INotificationManager Has_Duplicate_Identifiers(Form node)
         {
             List<Id> definedIdList = GetDefinedIdList(node);
             INotificationManager notificationManager = new NotificationManager();
@@ -33,7 +40,7 @@ namespace TypeChecking
             return notificationManager;
         }
 
-        private static INotificationManager Has_Undefined_Identifiers(Form node)
+        private INotificationManager Has_Undefined_Identifiers(Form node)
         {
             List<Id> definedIdList = GetDefinedIdList(node);
             List<Id> usedIdList = new List<Id>();
@@ -52,7 +59,7 @@ namespace TypeChecking
             return notificationManager;
         }
 
-        private static List<Id> GetDefinedIdList(Form node)
+        private List<Id> GetDefinedIdList(Form node)
         {
             List<Id> definedIdList = new List<Id>();
 

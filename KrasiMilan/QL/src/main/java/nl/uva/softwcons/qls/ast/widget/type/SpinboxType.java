@@ -1,6 +1,7 @@
 package nl.uva.softwcons.qls.ast.widget.type;
 
 import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
 
 public class SpinboxType extends WidgetType {
@@ -8,7 +9,8 @@ public class SpinboxType extends WidgetType {
     private final Double end;
     private final Double step;
 
-    public SpinboxType(double start, double end, double step) {
+    public SpinboxType(double start, double end, double step, final LineInfo lineInfo) {
+        super(lineInfo);
         this.start = start;
         this.end = end;
         this.step = step;

@@ -4,9 +4,7 @@ import ql.ast.type.Type;
 import qls.ast.rule.Rule;
 import qls.ast.rule.Rules;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by bore on 09/03/15.
@@ -49,6 +47,7 @@ public class Style
             return Rules.mergeRules(highPr, lowPr);
         }
 
-        return lowPr;
+        Rules empty = new Rules(Collections.<Rule>emptyList());
+        return Rules.mergeRules(lowPr, empty);
     }
 }

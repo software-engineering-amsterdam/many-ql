@@ -20,12 +20,11 @@ namespace AST
                         new AntlrInputStream(programText)
                         )));
 
-            parser.RemoveErrorListeners();
             ParserErrorListener parseErrorListener = new ParserErrorListener();
-            parser.AddErrorListener(parseErrorListener);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new ParserErrorListener());
 
-            FormVisitor visitor = new FormVisitor();
-            Form ast = visitor.Visit(parser.form());
+            Form ast = new FormVisitor().Visit(parser.form());
 
             return new ASTResult(ast, parseErrorListener.NotificationManager);
         }

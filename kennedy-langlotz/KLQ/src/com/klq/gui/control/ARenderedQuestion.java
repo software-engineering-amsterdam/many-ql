@@ -95,8 +95,8 @@ public abstract class ARenderedQuestion implements IKLQItem {
      * Needs to accept empty Strings */
     protected abstract boolean isValidInput(String input);
 
-    protected void questionAnswered(@NotNull String result) {
-        if (result.trim().isEmpty()){
+    protected void questionAnswered(String result) {
+        if (result == null ||result.trim().isEmpty()){
             controller.updateAnswer(question.getID(), new UndefinedValue());
         } else if (isValidInput(result)) {
             Value expr = ExpressionUtil.createTerminalFromString(question.getType(), result);

@@ -14,7 +14,6 @@ namespace QLGui.Controllers
         private ASTResult astTree;
         private MainWindow window;
         private SymbolTable symbolTable;
-        public EventUpdateValue EventUpdateValue { get; set; }
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
@@ -24,33 +23,20 @@ namespace QLGui.Controllers
             symbolTable = new SymbolTable();
         }
 
-        public UIElement ProcessBody()
+        public void ProcessBody()
         {
             if (!astTree.HasError())
             {
-                SubController nodeBodyProcessor = new SubController(symbolTable);
-                nodeBodyProcessor.EventUpdateValue += UpdateValue;
+                SubController BodyProcessor = new SubController(symbolTable);
+                              BodyProcessor.EventUpdateValue += UpdateValue;
+                              BodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
 
-                symbolTable = nodeBodyProcessor.Register(symbolTable);
-
-                return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                              symbolTable = BodyProcessor.SymbolTable;
             }
             else
             {
-                
-                window.CreateAndShowErrors(GetNotificationMessages());
-                return null;
+                window.PrintErrorsInGui(astTree.NotificationManager);
             }
-        }
-
-        private IList<string> GetNotificationMessages()
-        {
-            List<string> result = new List<string>();
-            foreach (Notifications.INotification notification in astTree.GetNotifications())
-            {
-                result.Add(notification.Message());
-            }
-            return result;
         }
 
         private void UpdateValue(string id, Value value)

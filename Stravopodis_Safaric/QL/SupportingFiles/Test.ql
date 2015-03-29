@@ -10,14 +10,14 @@ form HouseSelling {
 	question boolean hasSoldHouse ("Did you sell a house in 2014 ?");  	
     
     question boolean hasRentHouse ("Did you rent a house in 2015?") { 
-	     hasRentHouse : true;
+	     hasRentHouse : false;
 	}
 	
 	question boolean hasBoughtHouse ("Did you bought a house in 2015?") {
 		hasBoughtHouse : false;
 	}
     
-     if (hasSoldHouse == true){
+     if (hasSoldHouse == true && hasRentHouse == false && hasBoughtHouse == false){
     	
     	question money sellingPrice ("What was the selling price?"){
     		sellingPrice : 300 ;
@@ -30,7 +30,7 @@ form HouseSelling {
     	}
     }
     
-    if (hasRentHouse == true){
+    if (hasSoldHouse == false && hasRentHouse == true && hasBoughtHouse == false){
     	
     	question money monthlyRent ("What was the monthly rent value?");
     	
@@ -38,10 +38,6 @@ form HouseSelling {
     	
     	question money rentPaid ("Total amount of paid rent:"){
     		rentPaid : monthlyRent * rentLenght;
-    	}
-    	
-    	question money rentSome("This is some arbitrary value:"){
-    		rentSome : 200 * 300 - (92 - 929);
     	}
     }
 }

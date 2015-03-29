@@ -26,7 +26,7 @@ namespace QLGui.FormObjects
 
         public override UIElement ProcessFormObject(UIElement form)
         {
-            Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
+            Value value = this.conditionalNode.Condition.Accept(new Evaluator(symbolTable));
 
             StackPanel stackPanelWidget = new StackPanel();
 

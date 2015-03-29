@@ -25,11 +25,4 @@ public class UIContainer{
 		}
 		return container;
 	}
-<<<<<<< HEAD
-=======
-	
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 }

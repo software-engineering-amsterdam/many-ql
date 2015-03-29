@@ -10,7 +10,9 @@ public interface Refreshable
 {
     public void refreshElement(ValueTable valueTable);
     public Value evaluate(ValueTable valueTable);
-    // TODO: is refresh prerequisite for what?
-    // N: well, for refreshing :) i.e. other elements might need the value of this thing to know their own state
+<<<<<<< HEAD
     public Boolean isRefreshPrerequisite();
+=======
+    //TODO: prerequisites method
+>>>>>>> 85dc25ba21df0a41365fea3cff36ad4bc9fb340b
 }
