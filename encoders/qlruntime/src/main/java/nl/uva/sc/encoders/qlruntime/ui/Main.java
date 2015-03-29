@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
@@ -56,6 +57,13 @@ public class Main extends Application {
 		columnConstraints.setFillWidth(true);
 		columnConstraints.setHgrow(Priority.ALWAYS);
 		grid.getColumnConstraints().add(columnConstraints);
+
+		RowConstraints rowConstraints = new RowConstraints();
+		rowConstraints.setFillHeight(true);
+		rowConstraints.setVgrow(Priority.ALWAYS);
+		grid.getRowConstraints().add(new RowConstraints());
+		grid.getRowConstraints().add(new RowConstraints());
+		grid.getRowConstraints().add(rowConstraints);
 
 		String defaultLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
 		final TextField inputFileTextField = new TextField(defaultLocation);

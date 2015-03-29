@@ -16,9 +16,11 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -47,7 +49,7 @@ public class Main extends Application {
 
 	private static final int WIDTH = 750;
 
-	private static final int HEIGHT = 700;
+	private static final int HEIGHT = 500;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -75,6 +77,13 @@ public class Main extends Application {
 		columnConstraints.setFillWidth(true);
 		columnConstraints.setHgrow(Priority.ALWAYS);
 		grid.getColumnConstraints().add(columnConstraints);
+
+		RowConstraints rowConstraints = new RowConstraints();
+		rowConstraints.setFillHeight(true);
+		rowConstraints.setVgrow(Priority.ALWAYS);
+		grid.getRowConstraints().add(new RowConstraints());
+		grid.getRowConstraints().add(new RowConstraints());
+		grid.getRowConstraints().add(rowConstraints);
 
 		String defaultQlsLocation = DEFAULT_QLS_INPUT_FILE_DIRECTORY + DEFAULT_QLS_INPUT_FILE_NAME;
 		String defaultQlLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
@@ -134,7 +143,13 @@ public class Main extends Application {
 					return new ScrollPane(questionnaireGridPane);
 				}
 			});
-			showNode(stackPane, pagination);
+			AnchorPane anchor = new AnchorPane();
+			AnchorPane.setTopAnchor(pagination, 10.0);
+			AnchorPane.setRightAnchor(pagination, 10.0);
+			AnchorPane.setBottomAnchor(pagination, 10.0);
+			AnchorPane.setLeftAnchor(pagination, 10.0);
+			anchor.getChildren().addAll(pagination);
+			showNode(stackPane, anchor);
 		});
 
 		grid.add(stackPane, 0, 2, 4, 1);
