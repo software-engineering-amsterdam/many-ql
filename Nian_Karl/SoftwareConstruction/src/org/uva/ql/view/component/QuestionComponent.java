@@ -2,6 +2,7 @@ package org.uva.ql.view.component;
 
 import java.awt.Component;
 
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.view.panel.Panel;
 import org.uva.ql.view.widgit.Label;
@@ -26,8 +27,9 @@ public class QuestionComponent extends Panel {
 		return widget;
 	}
 
-	public QuestionNormal getQuestion() {
-		return question;
+	public Identifier getIdentifier() {
+		return question.getIdentifier();
+
 	}
 
 }
