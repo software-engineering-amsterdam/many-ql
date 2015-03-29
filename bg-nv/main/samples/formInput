@@ -20,4 +20,11 @@ form sample
     integer age2 "Your age is" age
     boolean maritalStatus2 "You are married" maritalStatus
     decimal division2 "The result of the division is" division
+    integer q1 "Question 1"
+    integer q2 "Question 2"
+    integer q3 "Question 3"
+    integer q4 "Question 4"
+    integer q5 "Question 5"
+    integer q6 "Question 6"
+    integer q7 "Question 7"
 }
