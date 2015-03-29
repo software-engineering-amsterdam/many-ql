@@ -17,6 +17,9 @@ import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
 public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 
 	private static final String NON_EXISTING_QUESTION_REFERENCE = "nonexistingQuestionReference";
+	private static final String NON_ALL_QL_QUESTIONS_PLACED = "notAllQuestionsQLPlaced";
+	private static final String INVALID_WIDGET_USED_FOR_QUESTION = "invalidWidgetUsedForQuestion";
+	private static final String SINGLE_QUESTION_PLACED_MULTIPLE_TIMES = "singleQuestionPlacedMultipleTimes";
 
 	private final Stylesheet stylesheet;
 	private final Questionnaire questionnaire;
