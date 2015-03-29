@@ -1,4 +1,5 @@
 ﻿using AST;
+using AST.Nodes;
 using AST.Nodes.FormObjects;
 using AST.VisitorInterfaces;
 using Evaluation;
@@ -16,11 +17,11 @@ namespace QLGui.Controllers
 {
     public class ExportFormulaireController : IFormObjectVisitor<IEnumerable<Question>>
     {
-        public void ExportAnswers(IList<FormObject> formObjects, SymbolTable symbolTable)
+        public void ExportAnswers(Form rootNode, SymbolTable symbolTable)
         {
             List<Question> questions = new List<Question>();
 
-            foreach (FormObject formObject in formObjects)
+            foreach (FormObject formObject in rootNode.GetBody())
             {
                 questions.AddRange(formObject.Accept(this));
             }

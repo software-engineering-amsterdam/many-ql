@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
@@ -26,7 +27,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             SectionContainer.Controls.AddRange(sections.ToArray());
         }
 
-        public void SetResults(IDictionary<string, Value> results)
+        public void SetResults(ValueTable results)
         {
             foreach (var section in _sections)
             {

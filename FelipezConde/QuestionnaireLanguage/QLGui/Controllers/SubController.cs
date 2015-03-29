@@ -1,4 +1,5 @@
-﻿using Evaluation;
+﻿using AST.Nodes;
+using Evaluation;
 using Evaluation.Values;
 using QLGui.ASTVisitors;
 using QLGui.FormObjects;
@@ -14,17 +15,19 @@ namespace QLGui.Controllers
         public SymbolTable SymbolTable { get; private set; }
         public EventUpdateValue EventUpdateValue { get; set; }
 
-        public SubController(SymbolTable symbolTable)
+        public SubController(SymbolTable symbolTable, EventUpdateValue updateCallbackFunction)
         {
             this.SymbolTable = symbolTable;
+            this.EventUpdateValue = updateCallbackFunction;
         }
 
-        public StackPanel CreateUIBody(IList<ASTFormObject.FormObject> body, StackPanel parent)
+        public StackPanel CreateUIBody(IFormObjectContainer rootNode, StackPanel parent)
         {
-            foreach (ASTFormObject.FormObject node in body)
+
+            foreach (ASTFormObject.FormObject node in rootNode.GetBody())
             {
                 FormObject formObject = node.Accept(new FormObjectVisitor());
-                formObject.EventUpdateValue += UpdateValue;
+                formObject.EventUpdateValue += EventUpdateValue;
 
                 SymbolTable = formObject.RegisterInSymbolTable(SymbolTable);
 
@@ -32,11 +35,6 @@ namespace QLGui.Controllers
             }
 
             return parent;
-        }
-
-        public void UpdateValue(string id, Value value)
-        {
-            EventUpdateValue(id, value);
         }
     }
 }

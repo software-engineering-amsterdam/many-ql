@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
@@ -22,7 +23,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             _questionWidgets = questionsWidgets;
         }
 
-        public void SetResults(IDictionary<string, Value> results)
+        public void SetResults(ValueTable results)
         {
             // We need to set the parent control to 'visible' before we can change the Visible property 
             // of any child controls.
@@ -30,11 +31,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
             foreach (QuestionWidget questionWidget in _questionWidgets)
             {
-                questionWidget.Visible = results.ContainsKey(questionWidget.QuestionName);
+                questionWidget.Visible = results.HasValue(questionWidget.QuestionName);
 
-                if (results.ContainsKey(questionWidget.QuestionName))
+                if (results.HasValue(questionWidget.QuestionName))
                 {
-                    Value result = results[questionWidget.QuestionName];
+                    Value result = results.Get(questionWidget.QuestionName);
 
                     if (!result.IsUndefined)
                     {

@@ -18,6 +18,9 @@ namespace QLGui
     {
         private MainController controller;
 
+        /// <summary>
+        /// The main entry point of the application
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -34,7 +37,7 @@ namespace QLGui
             return this._stack;
         }
 
-        public void DeleteElements()
+        public void Invalidate()
         {
             this._stack.Children.Clear();
         }

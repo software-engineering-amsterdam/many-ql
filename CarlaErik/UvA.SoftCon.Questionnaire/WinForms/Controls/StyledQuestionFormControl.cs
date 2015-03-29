@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
@@ -34,9 +35,12 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
                 pageControl.NavigateForwards += PageControl_NavigateForwards;
             }
 
-            foreach (var questionControl in questionWidgets)
+            foreach (var questionWidget in questionWidgets)
             {
-                questionControl.QuestionAnswered += QuestionWidget_QuestionAnswered;
+                if (!questionWidget.IsReadOnly)
+                {
+                    questionWidget.QuestionAnswered += QuestionWidget_QuestionAnswered;
+                }
             }
 
             // Paging is not yet supported. Only the first page is shown.
@@ -75,9 +79,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             }
         }
 
-        private IDictionary<string, Value> CollectAnswers()
+        private ValueTable CollectAnswers()
         {
-            var answers = new Dictionary<string, Value>();
+            var answers = new ValueTable();
 
             foreach (QuestionWidget questionWidget in _questionWidgets)
             {
@@ -87,7 +91,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             return answers;
         }
 
-        private void SetResults(IDictionary<string, Value> results)
+        private void SetResults(ValueTable results)
         {
             foreach (var page in _pages)
             {
