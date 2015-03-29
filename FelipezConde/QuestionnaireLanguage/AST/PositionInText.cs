@@ -26,7 +26,7 @@ namespace AST
         public override string ToString()
         {
             return String.Format("lines [ {0} (character position: {1}), {2} (character position: {3})",
-                            new int[] { 
+                            new object[] { 
                                 this.StartLine,
                                 this.StartColumn,
                                 this.EndLine,

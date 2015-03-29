@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
         internal BooleanQuestion(Identifier id, string label, Expression expression, TextPosition position)
             : base(DataType.Boolean, id, label, expression, position) { }
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

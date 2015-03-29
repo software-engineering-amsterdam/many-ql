@@ -12,13 +12,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
     internal class StyleAttributeBuilder : QLSBaseVisitor<StyleAttribute>
     {
-        public override StyleAttribute VisitWidth(QLSParser.WidthContext context)
-        {
-            int value = Int32.Parse(context.INT().GetText());
-
-            return new Width(value, context.GetTextPosition());
-        }
-
         public override StyleAttribute VisitColor(QLSParser.ColorContext context)
         {
             string rgbValue = context.HEXACOLOR().GetText();

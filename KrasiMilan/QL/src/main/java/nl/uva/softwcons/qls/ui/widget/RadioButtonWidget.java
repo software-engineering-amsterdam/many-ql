@@ -21,20 +21,15 @@ public class RadioButtonWidget extends Widget {
     public RadioButtonWidget(final String yesString, final String noString, final ValueConverter<Boolean> converter) {
         this.converter = converter;
 
-        yesButton = new RadioButton(yesString);
-        noButton = new RadioButton(noString);
+        this.yesButton = new RadioButton(yesString);
+        this.noButton = new RadioButton(noString);
 
-        // TODO move this to UiBuilder
-        noButton.setSelected(true);
+        this.hbox = new HBox();
+        this.hbox.getChildren().addAll(yesButton, noButton);
 
-        hbox = new HBox();
-        hbox.getChildren().add(yesButton);
-        hbox.getChildren().add(noButton);
-
-        group = new ToggleGroup();
-
-        yesButton.setToggleGroup(group);
-        noButton.setToggleGroup(group);
+        this.group = new ToggleGroup();
+        this.yesButton.setToggleGroup(group);
+        this.noButton.setToggleGroup(group);
     }
 
     @Override

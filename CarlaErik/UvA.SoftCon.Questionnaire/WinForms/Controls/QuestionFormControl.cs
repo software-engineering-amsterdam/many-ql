@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
-using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
     public partial class QuestionFormControl : UserControl
     {
-        protected QuestionForm QuestionForm
-        {
-            get;
-            private set;
-        }
-
-        protected OutputWindow Output
-        {
-            get;
-            private set;
-        }
+        private QuestionForm _questionForm;
+        private OutputWindow _outputWindow;
 
         public QuestionFormControl()
         {
@@ -36,8 +20,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         public QuestionFormControl(QuestionForm form, IEnumerable<QuestionWidget> questionControls, OutputWindow outputWindow)
             : this()
         {
-            QuestionForm = form;
-            Output = outputWindow;
+            _questionForm = form;
+            _outputWindow = outputWindow;
 
             foreach (var questionControl in questionControls)
             {
@@ -61,18 +45,18 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void Interpretet()
         {
-            var runtimeController = new RuntimeController();
+            var runtimeController = new QL.Runtime.RuntimeController();
             var answers = CollectAnswers();
 
             try
             {
-                var results = runtimeController.Interpretet(QuestionForm, answers);
+                var results = runtimeController.Interpretet(_questionForm, answers);
 
                 SetResults(results);
             }
             catch (Exception ex)
             {
-                Output.WriteLine("ERROR - {0}", ex.ToString());
+                _outputWindow.WriteLine("ERROR - {0}", ex.ToString());
                 MessageBox.Show("Exception occured.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -91,17 +75,17 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void SetResults(IDictionary<string, Value> results)
         {
-            foreach (QuestionWidget uiQuestion in QuestionFlowLayout.Controls)
+            foreach (QuestionWidget questionWidget in QuestionFlowLayout.Controls)
             {
-                uiQuestion.Visible = results.ContainsKey(uiQuestion.QuestionName);
+                questionWidget.Visible = results.ContainsKey(questionWidget.QuestionName);
 
-                if (results.ContainsKey(uiQuestion.QuestionName))
+                if (results.ContainsKey(questionWidget.QuestionName))
                 {
-                    Value result = results[uiQuestion.QuestionName];
+                    Value result = results[questionWidget.QuestionName];
 
                     if (!result.IsUndefined)
                     {
-                        uiQuestion.SetValue(result);
+                        questionWidget.SetValue(result);
                     }
                 }
             }

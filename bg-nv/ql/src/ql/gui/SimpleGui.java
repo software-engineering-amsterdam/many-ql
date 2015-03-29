@@ -34,7 +34,7 @@ public class SimpleGui implements ModelVisitor<Void>
     private void start(Canvas canvas, Stage stage)
     {
         this.refresher.refresh();
-        Parent parent = canvas.getParent();
+        Parent parent = canvas.getGuiElement();
         stage.setTitle(canvas.getName());
         stage.setScene(new Scene(parent, 600, 700));
         stage.show();

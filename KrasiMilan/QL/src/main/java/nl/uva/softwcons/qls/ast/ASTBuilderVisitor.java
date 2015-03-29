@@ -6,7 +6,9 @@ import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.generated.QLSBaseVisitor;
@@ -35,9 +37,7 @@ import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.style.Style;
-import nl.uva.softwcons.qls.ast.style.StyleProperty;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.StylizedType;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
@@ -64,8 +64,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
-                .collect(Collectors.toList());
+        final Map<Type, StylizedWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
 
         return new Page(id, sections, styles);
     }
@@ -75,18 +74,35 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final String label = Utils.unquote(ctx.STRING().getText());
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-        final List<StylizedType> styles = ctx.defaultStatement().stream().map(st -> (StylizedType) st.accept(this))
-                .collect(Collectors.toList());
+        final Map<Type, StylizedWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
 
         return new Section(label, content, styles, extractLineInfo(ctx.STRING().getSymbol()));
     }
 
-    @Override
-    public StylizedType visitDefaultStatement(final DefaultStatementContext ctx) {
-        final Type questionType = getType(ctx.type().getText());
-        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+    private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
+        final Map<Type, StylizedWidget> typeWithWidget = new HashMap<>();
 
-        return new StylizedType(questionType, widget);
+        ctx.forEach(c -> {
+            final Type questionType = getType(c.type().getText());
+            final StylizedWidget widget = (StylizedWidget) c.widget().accept(this);
+
+            typeWithWidget.put(questionType, widget);
+        });
+
+        return typeWithWidget;
+    }
+
+    private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
+        final Map<String, String> styleProperties = new HashMap<>();
+
+        ctx.forEach(c -> {
+            final String key = c.key.getText();
+            final String value = Utils.unquote(c.value().getText());
+
+            styleProperties.put(key, value);
+        });
+
+        return styleProperties;
     }
 
     @Override
@@ -121,15 +137,9 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Style visitStyle(final StyleContext ctx) {
-        final List<StyleProperty> styles = ctx.styleProperty().stream().map(st -> (StyleProperty) st.accept(this))
-                .collect(Collectors.toList());
+        final Map<String, String> styles = this.constructStyleProperties(ctx.styleProperty());
 
         return new Style(styles);
-    }
-
-    @Override
-    public StyleProperty visitStyleProperty(final StylePropertyContext ctx) {
-        return new StyleProperty(ctx.key.getText(), Utils.unquote(ctx.value().getText()));
     }
 
     @Override

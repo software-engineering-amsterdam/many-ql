@@ -23,7 +23,7 @@ namespace TypeChecking
 
             ExpressionContainerChecker expressionContainerChecker = new ExpressionContainerChecker(GetIdentifierTypes(rootNode));
             notificationManager.Combine(expressionContainerChecker.AnalyzeAndReport(rootNode.GetBody()));
-            //notificationManager.Combine(new CyclicDependencyChecker().AnalyzeAndReport(rootNode.GetBody()));
+            notificationManager.Combine(new CyclicDependencyChecker().AnalyzeAndReport(rootNode.GetBody()));
             notificationManager.Combine(new LabelChecker().AnalyzeAndReport(rootNode.GetBody()));
 
             astResult.NotificationManager.Combine(notificationManager);

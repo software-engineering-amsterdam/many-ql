@@ -23,7 +23,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
             
         }
 
-        public override T Accept<T>(IQLSVisitor<T> visitor)
+        public override T Accept<T>(IStyleSheetVisitor<T> visitor)
         {
             return visitor.VisitColorStyle(this);
         }

@@ -26,7 +26,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
             Statements = statements;
         }
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

@@ -17,8 +17,7 @@ question_ref   : 'question' ID '{' style_attr* '}'             # QuestionReferen
 default_styles : 'default' TYPE '{' style_attr+ '}'            # DefaultStyles
                ;
 
-style_attr : 'width:'	INT									 	  # Width
-           | 'widget:'	widget_attr                               # Widget
+style_attr : 'widget:'	widget_attr                               # Widget
            | 'font:'	STRING                                    # Font
            | 'fontsize:'INT                                       # FontSize
            | 'color:'	HEXACOLOR                                 # Color

@@ -12,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
         internal TextBox(TextPosition position)
             : base(position) { }
 
-        public override T Accept<T>(IQLSVisitor<T> visitor)
+        public override T Accept<T>(IStyleSheetVisitor<T> visitor)
         {
             return visitor.VisitTextBox(this);
         }

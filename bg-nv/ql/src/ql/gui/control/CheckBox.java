@@ -32,13 +32,6 @@ public class CheckBox extends ControlElement implements BoolControl
     }
 
     @Override
-    public void setVisible(Boolean visible)
-    {
-        this.checkBox.setVisible(visible);
-        this.checkBox.setManaged(visible);
-    }
-
-    @Override
     public void setValue(Value value)
     {
         value.accept(this);

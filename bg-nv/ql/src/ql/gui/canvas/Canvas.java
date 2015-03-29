@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -13,9 +14,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ql.gui.GuiElement;
 import ql.gui.segment.Page;
+import ql.semantics.errors.Message;
+import ql.semantics.errors.Messages;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +35,7 @@ public class Canvas extends GuiElement
     private final Parent parent;
     private final Button submitButton;
     private final Text submitMessage;
+    private final List<Message> messages;
 
     public Canvas(String name, List<Page> pages)
     {
@@ -43,9 +50,10 @@ public class Canvas extends GuiElement
         this.submitButton = new Button("Submit");
         this.submitMessage = new Text();
         this.parent = this.createParent();
+        this.messages = new ArrayList<>();
     }
 
-    public Parent getParent()
+    public Parent getGuiElement()
     {
         return this.parent;
     }
@@ -58,15 +66,15 @@ public class Canvas extends GuiElement
 
         Node content = this.displayPages() ? createTabsView() : createRegularView();
 
-        VBox box = new VBox();
-        box.getChildren().addAll(content, buttonBox, this.submitMessage);
-        box.setPadding(new Insets(this.displayPages() ? 0 : 50, 50, 25, 50));
-        box.setStyle("-fx-background-color: white;");
+        VBox contentBox = new VBox();
+        contentBox.getChildren().addAll(content, buttonBox, this.submitMessage);
+        contentBox.setPadding(new Insets(this.displayPages() ? 0 : 50, 50, 25, 50));
+        contentBox.setStyle("-fx-background-color: white;");
 
         ScrollPane parent = new ScrollPane();
         parent.setFitToWidth(true);
         parent.setFitToHeight(true);
-        parent.setContent(box);
+        parent.setContent(contentBox);
 
         return parent;
     }
@@ -132,4 +140,16 @@ public class Canvas extends GuiElement
     {
         return pages;
     }
+
+    public void addMessage(Message message)
+    {
+        this.messages.add(message);
+    }
+
+    public void clearMessages()
+    {
+        this.messages.clear();
+    }
+
+
 }

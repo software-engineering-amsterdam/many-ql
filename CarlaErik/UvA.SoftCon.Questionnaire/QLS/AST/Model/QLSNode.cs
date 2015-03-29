@@ -14,6 +14,6 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
         {
         }
 
-        public abstract T Accept<T>(IQLSVisitor<T> visitor);
+        public abstract T Accept<T>(IStyleSheetVisitor<T> visitor);
     }
 }

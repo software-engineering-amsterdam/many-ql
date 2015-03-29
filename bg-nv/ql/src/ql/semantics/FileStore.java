@@ -4,12 +4,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ql.ast.statement.Question;
 import ql.semantics.values.Value;
+import ql.semantics.errors.Error;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -19,17 +19,18 @@ import java.io.File;
 /**
  * Created by Nik on 09-03-2015
  */
-// TODO: handle errors, paths, etc.
 public class FileStore extends DataStore
 {
+
     public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
     {
         super(condQuestionTable, valueTable);
     }
 
     @Override
-    public void save(File file)
+    public Boolean save(File file)
     {
+        Boolean success = true;
         try
         {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -44,18 +45,13 @@ public class FileStore extends DataStore
 
             transformer.transform(source, result);
         }
-        catch (ParserConfigurationException e)
+        catch (ParserConfigurationException|TransformerException e)
         {
-            e.printStackTrace();
+            this.addMessage(Error.fileSaveFail(e.getMessage()));
+            success = false;
         }
-        catch (TransformerConfigurationException e)
-        {
-            e.printStackTrace();
-        }
-        catch (TransformerException e)
-        {
-            e.printStackTrace();
-        }
+
+        return success;
     }
 
     private Document createDocument(DocumentBuilder docBuilder)

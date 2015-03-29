@@ -1,6 +1,7 @@
 package qls.gui.widgets
 
 import ql.ast.{Value, BooleanValue, Expression, Question}
+import ql.gui.widgets.QuestionWidget
 import types._
 
 import scalafx.scene.control.RadioButton
