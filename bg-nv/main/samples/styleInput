@@ -1,5 +1,5 @@
 stylesheet sample {
-    page main {
+    page "main" {
         question maritalStatus
         question married
         section "Tra" {
@@ -25,7 +25,7 @@ stylesheet sample {
         question age
         question beer
     }
-    page second {
+    page "second" {
         question division
     }
 }

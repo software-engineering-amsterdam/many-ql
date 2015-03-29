@@ -2,7 +2,7 @@ grammar QLS;
 
 stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-page : 'page' Identifier '{' (statement)+ '}';
+page : 'page' String '{' (statement)+ '}';
 
 statement : section | question | defaultStmt;
 
