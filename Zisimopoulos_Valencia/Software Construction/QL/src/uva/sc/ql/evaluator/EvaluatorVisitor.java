@@ -35,8 +35,8 @@ public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
 
     private Map<ID, QuestionData> valuesTable;
 
-    public EvaluatorVisitor(Map<ID, QuestionData> table) {
-	valuesTable = table;
+    public EvaluatorVisitor(Map<ID, QuestionData> valuesTable) {
+	this.valuesTable = valuesTable;
     }
 
     public Expression evaluateExpression(Expression expr) {
@@ -60,19 +60,19 @@ public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
 		+ secondOperand.getValue());
     }
 
-    public NumberAtom visit(Substraction sub) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) sub
+    public NumberAtom visit(Substraction substraction) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) substraction
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) sub
+	NumberAtom secondOperand = getNumericOperandValue((Expression) substraction
 		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		- secondOperand.getValue());
     }
 
-    public NumberAtom visit(Multiplication mult) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) mult
+    public NumberAtom visit(Multiplication multiplication) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) multiplication
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) mult
+	NumberAtom secondOperand = getNumericOperandValue((Expression) multiplication
 		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		* secondOperand.getValue());
@@ -92,10 +92,10 @@ public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
 	return result;
     }
 
-    public NumberAtom visit(Modulus mod) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) mod
+    public NumberAtom visit(Modulus modulus) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) modulus
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) mod
+	NumberAtom secondOperand = getNumericOperandValue((Expression) modulus
 		.getSecondOperand().accept(this));
 	NumberAtom result = new NumberAtom(0.);
 	try {
@@ -134,10 +134,10 @@ public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
 	return result;
     }
 
-    public BooleanAtom visit(Equals eq) {
-	Expression firstOperand = (Expression) eq.getFirstOperand()
+    public BooleanAtom visit(Equals equals) {
+	Expression firstOperand = (Expression) equals.getFirstOperand()
 		.accept(this);
-	Expression secondOperand = (Expression) eq.getSecondOperand().accept(
+	Expression secondOperand = (Expression) equals.getSecondOperand().accept(
 		this);
 	return new BooleanAtom(firstOperand.getValue().equals(
 		secondOperand.getValue()));

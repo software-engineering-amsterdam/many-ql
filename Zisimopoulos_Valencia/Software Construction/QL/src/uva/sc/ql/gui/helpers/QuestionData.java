@@ -47,5 +47,4 @@ public class QuestionData {
 	}
 	return result;
     }
-
 }

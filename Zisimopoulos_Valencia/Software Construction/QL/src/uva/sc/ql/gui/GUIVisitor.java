@@ -28,13 +28,12 @@ public class GUIVisitor extends JFrame implements
 
     private Map<ID, List<ID>> patronElements;
     private List<Component> componentList = new ArrayList<Component>();
-
     private QuestionsPropertiesVisitor questionProperties;
     private ID currentElement;
 
     public GUIVisitor(QuestionsPropertiesVisitor questionsProperties,
-	    PatronQuestionsVisitor d) {
-	patronElements = d.getPatronElements();
+	    PatronQuestionsVisitor patronQuesionVisitor) {
+	this.patronElements = patronQuesionVisitor.getPatronElements();
 	this.questionProperties = questionsProperties;
     }
 
