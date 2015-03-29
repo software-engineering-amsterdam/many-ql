@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
+namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
-    public class DropDownWidgetStyle : WidgetStyle
+    public class RadioWidgetStyle : WidgetStyle
     {
         public string TrueLabel
         {
@@ -20,15 +20,15 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
             private set;
         }
 
-        public static DropDownWidgetStyle Default
+        public static RadioWidgetStyle Default
         {
             get
             {
-                return new DropDownWidgetStyle("Yes", "No");
+                return new RadioWidgetStyle("Yes", "No");
             }
         }
 
-        public DropDownWidgetStyle(string trueLabel, string falseLabel)
+        public RadioWidgetStyle(string trueLabel, string falseLabel)
         {
             TrueLabel = trueLabel;
             FalseLabel = falseLabel;

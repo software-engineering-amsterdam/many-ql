@@ -5,6 +5,11 @@ styleSheet BeverageOrderForm
 		section "Age"
 		{
 			question age
+			{
+				fontsize: 9
+				color: #FF0000
+				widget: textbox
+			}
 			question canShowId
 		}
 		section "Alcoholic Drinks"

@@ -1,7 +1,7 @@
 ﻿using System;
 using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets;
+using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         internal QuestionWidget CreateQuestionWidget(Question question, WidgetStyle widgetType)
         {
             string message = String.Format("Widget {0} can not be assigned to question '{1}' of type '{2}'.", widgetType.ToString(), question.Name, StringEnum.GetStringValue(question.DataType));
-            throw new InvalidOperationException("Invalid combination of question type and widget.");
+            throw new InvalidOperationException(message);
         }
 
         internal QuestionWidget CreateQuestionWidget(BooleanQuestion question, CheckBoxWidgetStyle widget)
@@ -28,7 +28,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         {
             return new RadioWidget(question, widget.TrueLabel, widget.FalseLabel);
         }
-
 
         internal QuestionWidget CreateQuestionWidget(DateQuestion question, CalendarWidgetStyle widget)
         {

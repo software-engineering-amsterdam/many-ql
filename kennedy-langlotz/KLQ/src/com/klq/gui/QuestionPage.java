@@ -16,20 +16,13 @@ import java.util.List;
 public class QuestionPage extends ScrollPane {
     private final Controller controller;
     private final VBox vbox;
-    //private final StyleMap style;
 
-    public QuestionPage(Controller controller/*, StyleMap style*/){
+    public QuestionPage(Controller controller){
         super();
         this.controller = controller;
         this.vbox = new VBox(10);
-        //this.style = style;
         init();
     }
-
-    /*
-    public QuestionPage(Store store){
-        this(store, null);
-    }*/
 
     private void init(){
         this.vbox.setPadding(new Insets(5));
@@ -46,15 +39,5 @@ public class QuestionPage extends ScrollPane {
         for (ARenderedQuestion question : questions) {
             vbox.getChildren().add(question.getControl());
         }
-    }
-
-    private ARenderedQuestion createQuestionPane(ARenderedQuestion question){
-        //TODO let styling happen in ARenderedQuestionPane, need to do that for widgets anyway
-        /*
-        if(style != null && style.contains(question.getId().toString())){
-            AStyle questionStyle = style.getStyle(question.getId().toString());
-            questionPane.setStyle(questionStyle.toCSS());
-        }*/
-        return null;
     }
 }

@@ -7,13 +7,14 @@ using TypeChecking.Collectors;
 using TypeChecking.Notifications.Errors;
 using Types = AST.Types;
 
-namespace TypeChecking
+namespace TypeChecking.Checkers
 {
-    public class ExpressionContainerChecker : IFormObjectVisitor<INotificationManager>
+    public class ExpressionContainerChecker : Checker, IFormObjectVisitor<INotificationManager>
     {
         private readonly Dictionary<Id, Types.Type> identifierToType;
 
-        public ExpressionContainerChecker(Dictionary<Id, Types.Type> identifierToType)
+        public ExpressionContainerChecker(INotificationManager currentState, Dictionary<Id, Types.Type> identifierToType)
+            :base(currentState)
         {
             this.identifierToType = identifierToType;
         }
@@ -21,6 +22,9 @@ namespace TypeChecking
         public INotificationManager AnalyzeAndReport(IList<FormObject> formObjects)
         {
             NotificationManager notificationManager = new NotificationManager();
+
+            if (preconditions.HasError()) //check if preconditions have been met
+                return notificationManager;
 
             foreach (FormObject formObject in formObjects)
             {

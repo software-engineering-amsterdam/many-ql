@@ -139,10 +139,16 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return new Width(value, lineNumber);
         }
 
-        if (label.equals("color"))
+        if (label.equals("backcolor"))
         {
             ColorValue c = new ColorValue(context.Color().getText());
             return new BackColor(c, lineNumber);
+        }
+
+        if (label.equals("forecolor"))
+        {
+            ColorValue c = new ColorValue(context.Color().getText());
+            return new ForeColor(c, lineNumber);
         }
 
         if (label.equals("font"))

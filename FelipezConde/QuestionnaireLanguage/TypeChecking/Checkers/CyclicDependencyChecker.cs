@@ -6,13 +6,17 @@ using System.Collections.Generic;
 using TypeChecking.Collectors;
 using TypeChecking.Notifications.Errors;
 
-namespace TypeChecking
+namespace TypeChecking.Checkers
 {
-    public class CyclicDependencyChecker : IFormObjectVisitor<DependencyGraph>
+    public class CyclicDependencyChecker : Checker, IFormObjectVisitor<DependencyGraph>
     {
+        public CyclicDependencyChecker(INotificationManager currentState) : base(currentState) { }
         public INotificationManager AnalyzeAndReport(IList<FormObject> body)
         {
             NotificationManager notificationManager = new NotificationManager();
+
+            if (preconditions.HasError()) //check if preconditions have been met
+                return notificationManager;
 
             foreach (Id key in InitializeDependencyGraph(body).GetCycles())
             {

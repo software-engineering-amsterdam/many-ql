@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TypeChecking.Notifications.Warnings;
 
-namespace TypeChecking
+namespace TypeChecking.Checkers
 {
     public class LabelChecker : IFormObjectVisitor<IEnumerable<Label>>
     {

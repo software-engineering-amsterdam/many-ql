@@ -77,7 +77,7 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
     public Void visit(Question q)
     {
         Type questionType = this.questions.getType(q.getId());
-        Rules result = this.styleStack.getRulesForType(questionType);
+        Rules result = this.styleStack.peekRulesForType(questionType);
 
         this.styles.registerStyle(q.getId(), result);
 
@@ -93,7 +93,7 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
         s.addRules(questionType, r);
 
         this.styleStack.push(s);
-        Rules result = this.styleStack.getRulesForType(questionType);
+        Rules result = this.styleStack.peekRulesForType(questionType);
         this.styleStack.pop();
 
         this.styles.registerStyle(q.getId(), result);
