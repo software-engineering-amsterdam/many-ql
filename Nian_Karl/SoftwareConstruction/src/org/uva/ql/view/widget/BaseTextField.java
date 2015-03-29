@@ -28,7 +28,9 @@ public abstract class BaseTextField extends Widget {
 
 	@Override
 	public void setWidgetValue(Value value) {
-		getWidget().setText(value.toString());
+		if (value.isDefined()) {
+			getWidget().setText(value.toString());			
+		}
 	}
 
 	public void setForegroundColor(Color color) {

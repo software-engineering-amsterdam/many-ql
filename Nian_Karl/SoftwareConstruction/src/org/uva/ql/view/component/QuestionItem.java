@@ -8,13 +8,13 @@ import org.uva.ql.view.panel.Panel;
 import org.uva.ql.view.widget.Label;
 import org.uva.ql.view.widget.Widget;
 
-public class QuestionComponent extends Panel {
+public class QuestionItem extends Panel {
 
 	private QuestionNormal question;
 	private Label label;
 	protected final Widget widget;
 
-	public QuestionComponent(QuestionNormal question, Widget widget) {
+	public QuestionItem(QuestionNormal question, Widget widget) {
 		super();
 		this.question = question;
 		this.label = new Label(question.getText());

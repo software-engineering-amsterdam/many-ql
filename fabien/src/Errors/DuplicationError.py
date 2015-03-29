@@ -1,5 +1,5 @@
 
-class DuplicationError:
+class DuplicationError(Exception):
     def __init__(self, Question=None, DuplicateQuestion=None, message=None):
         self.question  = Question
         self.duplicate = DuplicateQuestion

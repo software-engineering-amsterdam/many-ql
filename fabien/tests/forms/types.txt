@@ -8,8 +8,8 @@ form taxOfficeExample {
   "How much houses did you purchase in 2014?"
      numHouses : integer
 
-  "Random floating number question"
-     floatTest : float
+  "Number question"
+     numTest : integer
 
   "How much money did the houses cost?"
      costHouses : money
