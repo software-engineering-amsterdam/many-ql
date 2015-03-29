@@ -16,7 +16,7 @@
             SourceLocation = sourceLocation;
         }
 
-        public virtual void Accept(IVisitor visitor)
+        public virtual void Accept(ISimpleVisitor visitor)
         {
             visitor.Visit((dynamic)this);
         }
