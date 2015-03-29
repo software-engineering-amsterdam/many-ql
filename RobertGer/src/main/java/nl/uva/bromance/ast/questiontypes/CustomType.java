@@ -3,12 +3,11 @@ package nl.uva.bromance.ast.questiontypes;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
-import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
+import nl.uva.bromance.ast.visitors.QuestionTypeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -29,10 +28,6 @@ public class CustomType implements QuestionType {
         return "custom";
     }
 
-    @Override
-    public Result getCorrespondingResultType() {
-        return new CustomResult(Arrays.asList(new StringResult("")));
-    }
 
     @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
@@ -41,7 +36,7 @@ public class CustomType implements QuestionType {
         parent.getChildren().add(label);
 
         group = new ToggleGroup();
-        String id = q.getIdentifier().getId();
+        String id = q.getIdentifier();
         StringResult answer = (StringResult) answerMap.get(id);
 
         group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
@@ -70,6 +65,11 @@ public class CustomType implements QuestionType {
     @Override
     public void refresh() {
         setVisibilityOfComponents();
+    }
+
+    @Override
+    public void accept(QuestionTypeVisitor visitor) {
+        visitor.visit(this);
     }
 
     private void setVisibilityOfComponents() {

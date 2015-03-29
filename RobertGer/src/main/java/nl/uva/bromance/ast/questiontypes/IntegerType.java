@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
 import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.QuestionTypeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
@@ -30,18 +31,13 @@ public class IntegerType implements QuestionType {
     }
 
     @Override
-    public Result getCorrespondingResultType() {
-        return new IntResult(0);
-    }
-
-    @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         label = new Label(q.getQuestionString());
         label.getStyleClass().add("prettyLabel");
         parent.getChildren().add(label);
 
         textField = new TextField();
-        String id = q.getIdentifier().getId();
+        String id = q.getIdentifier();
         IntResult answer = (IntResult) answerMap.get(id);
         if (answer != null) {
             textField.setText(Integer.toString(answer.getResult()));
@@ -55,7 +51,7 @@ public class IntegerType implements QuestionType {
             if (!newValue.matches("[0-9-]*")) {
                 textField.setText(oldValue);
             } else {
-                if (newValue.length() >= 1 && !newValue.equals("-")){
+                if (newValue.length() >= 1 && !newValue.equals("-")) {
                     answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
                 }
                 if (newValue.length() == 0){
@@ -72,6 +68,11 @@ public class IntegerType implements QuestionType {
     @Override
     public void refresh() {
         setVisibilityOfComponents();
+    }
+
+    @Override
+    public void accept(QuestionTypeVisitor visitor) {
+        visitor.visit(this);
     }
 
     private void setVisibilityOfComponents() {
