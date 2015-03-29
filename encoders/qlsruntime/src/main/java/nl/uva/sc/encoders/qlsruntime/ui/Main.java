@@ -3,6 +3,7 @@ package nl.uva.sc.encoders.qlsruntime.ui;
 import static nl.uva.sc.encoders.qlruntime.ui.Main.DEFAULT_QL_INPUT_FILE_DIRECTORY;
 import static nl.uva.sc.encoders.qlruntime.ui.Main.DEFAULT_QL_INPUT_FILE_NAME;
 
+import java.util.List;
 import java.util.Properties;
 
 import javafx.application.Application;
@@ -21,14 +22,14 @@ import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
+import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
+import nl.uva.sc.encoders.qlruntime.ui.QuestionnaireGridPane;
 import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.QuestionnaireToRuntimeQuestions;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.CombinedParsingResult;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.QLSParseButtonHandler;
 
@@ -105,12 +106,13 @@ public class Main extends Application {
 		parseButton.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback,
 				parseCombinedResultCallback));
 
-		ShowResultCallback showResultCallback = result -> {
-			ScrollPane scrollPane = new ScrollPane(result);
+		showButton.setOnAction(event -> {
+			QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
+			List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
+			QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions);
+			ScrollPane scrollPane = new ScrollPane(questionnaireGridPane);
 			showNode(stackPane, scrollPane);
-		};
-		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
-		showButton.setOnAction(new ShowButtonHandler(questionnaireCallback, showResultCallback));
+		});
 
 		grid.add(stackPane, 0, 2, 4, 1);
 
