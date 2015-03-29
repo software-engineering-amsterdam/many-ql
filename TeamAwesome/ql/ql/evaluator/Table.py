@@ -63,27 +63,6 @@ class QuestionTable(object):
     def getQuestionList(self, identifier):
         return self._table.get(identifier, None)
 
-
-class ExpressionsTuple(tuple):
-    def __add__(self, value):
-        return ExpressionsTuple(tuple.__add__(self, value))
-
-    @property
-    def value(self):
-        return all(expr.value.value for expr in self)
-
-class ExpressionsList(list):
-    def __add__(self, value):
-        return ExpressionsList(tuple.__add__(self, value))
-
-    @property
-    def value(self):
-        return all(expr.value.value for expr in self)
-
-    def copy(self):
-        return ExpressionsList(self)
-
-
 class QuestionList(list):
     def getVisibleQuestion(self):
         for question in self:
