@@ -20,7 +20,9 @@ Example: `python ql.py examples/tax_office.ql`
 # How do I run the unit tests?
 Go into `ql/unittest/` and do `python -m unittest`.
 
-# What if I want to rebuild the grammar?
-The grammar for QL is in `ql/antlr/`.
-Assuming ANTLR 4.5 and Python 3 are already installed, the grammar can be
-rebuilt by running the `generateParser.py` script from `ql/antlr/`.
+# What if I want to regenerate the parser?
+The grammar for QL is in `ql/antlr/QL.g4`.
+
+Make sure ANTLR 4.5 and Python 3 are installed.
+The parser can be rebuilt by running `python generateParser.py` script from
+there.
