@@ -13,8 +13,8 @@ section:
 question:  'question' name=NAME widget?;
 
 defaultStyle:
-          'default' DATATYPE      (styleProperty | widget)
-        | 'default' DATATYPE  '{' (styleProperty | widget)+ '}'
+          'default' DATATYPE     (styleProperty | widget)
+        | 'default' DATATYPE  '{' styleProperty* widget? '}'
         ;
 
 styleProperty:  
