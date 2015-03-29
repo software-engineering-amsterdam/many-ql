@@ -8,10 +8,10 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
 
-namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
+namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
     /// <summary>
-    /// Holds all style attributes that apply to a particular data type or question.
+    /// Holds the complete set of style attributes that can apply to a particular data type or question.
     /// </summary>
     public class StyleSet
     {
@@ -94,58 +94,28 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
         {
             foreach (var styleAttribute in styleAttributes)
             {
-                OverrideStyle(styleAttribute);
+                styleAttribute.OverrideStyle(this);
             }
         }
 
-        private void OverrideStyle(StyleAttribute styleAttribute)
+        internal void OverrideColor(string color)
         {
-            throw new InvalidOperationException();
+            Color = color;
         }
 
-        private void OverrideStyle(ColorStyle color)
+        internal void OverrideFontName(string fontName)
         {
-            Color = color.RGBCode;
+            FontName = fontName;
         }
 
-        private void OverrideStyle(FontName fontName)
+        internal void OverrideFontSize(int fontSize)
         {
-            FontName = fontName.Name;
+            FontSize = fontSize;
         }
 
-        private void OverrideStyle(FontSize fontSize)
+        internal void OverrideWidget(WidgetStyle widgetStyle)
         {
-            FontSize = fontSize.Size;
-        }
-
-        private void OverrideStyle(Calendar calender)
-        {
-            WidgetStyle = new CalendarWidgetStyle();
-        }
-
-        private void OverrideStyle(CheckBox checkBox)
-        {
-            WidgetStyle = new CheckBoxWidgetStyle();
-        }
-
-        private void OverrideStyle(DropDown dropDown)
-        {
-            WidgetStyle = new DropDownWidgetStyle(dropDown.TrueLabel, dropDown.FalseLabel);
-        }
-
-        private void OverrideStyle(RadioButtons radio)
-        {
-            WidgetStyle = new RadioWidgetStyle(radio.TrueLabel, radio.FalseLabel);
-        }
-
-        private void OverrideStyle(SpinBox spinBox)
-        {
-            WidgetStyle = new SpinBoxWidgetStyle();
-        }
-
-        private void OverrideStyle(TextBox textBox)
-        {
-            WidgetStyle = new TextBoxWidgetStyle();
+            WidgetStyle = widgetStyle;
         }
     }
 }

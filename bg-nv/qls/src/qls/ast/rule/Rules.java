@@ -21,20 +21,19 @@ public class Rules implements Iterable<Rule>
         return this.rules.iterator();
     }
 
-    // TODO: why make new object
-    public Rules addRules(Rules lowPr)
+    public static Rules mergeRules(Rules highPr, Rules lowPr)
     {
-        List<Rule> res = new ArrayList<>();
-        res.addAll(this.rules);
+        List<Rule> rules = new ArrayList<>();
+        rules.addAll(highPr.rules);
 
         for (Rule l : lowPr)
         {
-            if (!(l.isRuleOverwritten(this)))
+            if (!(l.isRuleOverwrittenBy(highPr)))
             {
-                res.add(l);
+                rules.add(l);
             }
         }
 
-        return new Rules(res);
+        return new Rules(rules);
     }
 }
