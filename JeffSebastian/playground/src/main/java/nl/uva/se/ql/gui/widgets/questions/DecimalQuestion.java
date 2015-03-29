@@ -13,16 +13,16 @@ import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.validators.DecimalValidator;
 import nl.uva.se.ql.gui.validators.IntegerValidator;
-import nl.uva.se.ql.gui.validators.Validator;
 
 public class DecimalQuestion extends BaseQuestion<String> {
 
 	private TextField textField = new TextField();
-	
+
 	public DecimalQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
 		Listener<String> listener = new Listener<String>(getMediator());
-		textField.textProperty().addListener(listener.addListener(this, getValidator()));
+		textField.textProperty().addListener(
+				listener.addListener(this, getValidator()));
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class DecimalQuestion extends BaseQuestion<String> {
 	}
 
 	@Override
-	public Validator<String> initValidator() {
+	public DecimalValidator initValidator() {
 		return new DecimalValidator();
 	}
 
