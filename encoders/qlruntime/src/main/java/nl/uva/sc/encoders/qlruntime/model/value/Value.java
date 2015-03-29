@@ -56,15 +56,27 @@ public abstract class Value {
 	}
 
 	public Value equal(Value otherValue) {
-		return new BooleanValue(getValue().equals(otherValue));
+		return new BooleanValue(equals(otherValue));
 	}
 
 	public Value notEqual(Value otherValue) {
-		return new BooleanValue(!getValue().equals(otherValue));
+		return new BooleanValue(!equals(otherValue));
 	}
 
 	public Value not() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public int hashCode() {
+		return getValue().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Value)) {
+			return false;
+		}
+		return getValue().equals(((Value) obj).getValue());
+	}
 }
