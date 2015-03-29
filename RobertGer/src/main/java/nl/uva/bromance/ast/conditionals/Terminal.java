@@ -9,10 +9,34 @@ import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 public class Terminal extends QLNode {
 
     private String value;
+    private Result result;
 
     public Terminal(int ln, String value) {
         super(ln);
         this.value = value;
+
+        setResult();
+    }
+
+    private void setResult() {
+        if (isBoolean()) {
+            if (value.toLowerCase().equals("false")) {
+                result = new BooleanResult(false);
+            } else {
+                result = new BooleanResult(true);
+            }
+        } else if (isInteger()) {
+            result = new IntResult(Integer.parseInt(value));
+        } else if (isString()) {
+            result = new StringResult(value);
+        } else {
+            result = null;
+        }
+
+    }
+
+    public Result getResult() {
+        return result;
     }
 
     public boolean isInteger() {
@@ -20,7 +44,7 @@ public class Terminal extends QLNode {
     }
 
     public boolean isBoolean() {
-        if (value.toLowerCase().equals("true") || value.toLowerCase().equals(("false"))){
+        if (value.toLowerCase().equals("true") || value.toLowerCase().equals(("false"))) {
             return true;
         }
         return false;
@@ -31,7 +55,7 @@ public class Terminal extends QLNode {
     }
 
     public boolean isIdentifier() {
-        return !isInteger() && !isString();
+        return !isBoolean() && !isInteger() && !isString();
     }
 
     public String getValue() {
