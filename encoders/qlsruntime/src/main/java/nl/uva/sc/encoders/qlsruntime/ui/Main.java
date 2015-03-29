@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
@@ -30,6 +32,9 @@ import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSele
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.QuestionnaireToRuntimeQuestions;
+import nl.uva.sc.encoders.qls.ast.Page;
+import nl.uva.sc.encoders.qls.ast.Stylesheet;
+import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.CombinedParsingResult;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.QLSParseButtonHandler;
 
@@ -48,6 +53,8 @@ public class Main extends Application {
 	}
 
 	private Questionnaire questionnaire = null;
+
+	private Stylesheet stylesheet = null;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -102,6 +109,9 @@ public class Main extends Application {
 			showButton.setVisible(!validationResult.containsErrors());
 			validationsGridPane.showValidations(validationResult.getValidationMessages());
 			questionnaire = questionnaireParsingResult.getQuestionnaire();
+			StylesheetParsingResult stylesheetParsingResult = ((CombinedParsingResult) combinedParsingResult)
+					.getStylesheetParsingResult();
+			stylesheet = stylesheetParsingResult.getStylesheet();
 		};
 		parseButton.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback,
 				parseCombinedResultCallback));
@@ -109,9 +119,18 @@ public class Main extends Application {
 		showButton.setOnAction(event -> {
 			QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 			List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
-			QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions);
-			ScrollPane scrollPane = new ScrollPane(questionnaireGridPane);
-			showNode(stackPane, scrollPane);
+
+			List<Page> pages = stylesheet.getPages();
+			Pagination pagination = new Pagination(pages.size());
+			pagination.setPageFactory(new Callback<Integer, Node>() {
+
+				@Override
+				public Node call(Integer pageIndex) {
+					QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions);
+					return new ScrollPane(questionnaireGridPane);
+				}
+			});
+			showNode(stackPane, pagination);
 		});
 
 		grid.add(stackPane, 0, 2, 4, 1);
