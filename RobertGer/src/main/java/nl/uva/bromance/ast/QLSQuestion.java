@@ -5,7 +5,6 @@ import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
 import java.util.List;
 
 public class QLSQuestion extends QLSNode {
-    private Identifier identifier;
 
     private Question questionNode;
 
@@ -13,17 +12,15 @@ public class QLSQuestion extends QLSNode {
         super(lineNumber);
 
         List<Question> questions = qlAST.getAllChildrenOfType_ForAst(Question.class);
-
-        //TODO: We need to do something about Identfiers being Strings.
         if (id != null) {
-            this.identifier = new Identifier(id.toLowerCase());
+            id = id.substring(1, id.length() - 1);
             for (Question q : questions) {
-                if (identifier.getId().equals(q.getIdentifier().getId())) {
+                if (id.equals(q.getIdentifier())) {
                     questionNode = q;
                 }
             }
             if (questionNode == null) {
-                System.err.println("QLS Error @ line " + getLineNumber() + " Reference to undefined question :" + this.identifier.getId());
+                System.err.println("QLS Error @ line " + getLineNumber() + " Reference to undefined question :" + id);
             }
         } else {
             System.err.println("Root Error: No identifier specified");

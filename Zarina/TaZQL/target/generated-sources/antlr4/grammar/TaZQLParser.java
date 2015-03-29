@@ -20,12 +20,12 @@ public class TaZQLParser extends Parser {
 		T__23=1, T__22=2, T__21=3, T__20=4, T__19=5, T__18=6, T__17=7, T__16=8, 
 		T__15=9, T__14=10, T__13=11, T__12=12, T__11=13, T__10=14, T__9=15, T__8=16, 
 		T__7=17, T__6=18, T__5=19, T__4=20, T__3=21, T__2=22, T__1=23, T__0=24, 
-		BOOLEAN=25, NUMBER=26, TEXT=27, ID=28, WS=29, NEWLINE=30, COMMENTS=31;
+		BOOLEAN=25, NUMBER=26, TEXT=27, ID=28, WS=29, COMMENT=30;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'/'", "'digits'", "'!='", "'||'", "'>='", "'{'", "'&&'", 
 		"'=='", "'<'", "'} END'", "'}'", "'>'", "'if'", "'FORM'", "'<='", "'!'", 
 		"'text'", "'else'", "'('", "')'", "'*'", "'choice'", "'+'", "'-'", "BOOLEAN", 
-		"NUMBER", "TEXT", "ID", "WS", "NEWLINE", "COMMENTS"
+		"NUMBER", "TEXT", "ID", "WS", "COMMENT"
 	};
 	public static final int
 		RULE_questionnaire = 0, RULE_form = 1, RULE_question = 2, RULE_expression = 3, 
@@ -954,7 +954,7 @@ public class TaZQLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3!o\4\2\t\2\4\3\t\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3 o\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\3\3\3\3\3\3\3\6\3\23\n\3\r\3\16\3\24"+
 		"\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\6\4*\n\4\r\4\16\4+\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\6\4\66\n\4\r"+

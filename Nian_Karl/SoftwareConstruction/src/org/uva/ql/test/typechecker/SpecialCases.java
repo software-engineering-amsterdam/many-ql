@@ -1,7 +1,6 @@
 package org.uva.ql.test.typechecker;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.binary.Addition;
@@ -13,22 +12,12 @@ import org.uva.ql.typechecker.TypeChecker;
 
 public class SpecialCases {
 
-	private Literal int1;
-	private Literal int2;
-	private Literal int3;
-	private Literal str1;
-	private CodePosition codePos;
-	private TypeChecker typeChecker;
-
-	@Before
-	public void setUp() throws Exception {
-		codePos = new CodePosition(0, 0);
-		int1 = new IntLiteral(5, codePos);
-		int2 = new IntLiteral(3, codePos);
-		int3 = new IntLiteral(2, codePos);
-		str1 = new StrLiteral("Hello", codePos);
-		typeChecker = new TypeChecker();
-	}
+	private final CodePosition codePos = new CodePosition(0, 0);
+	private final TypeChecker typeChecker = new TypeChecker();
+	private final Literal int1 = new IntLiteral(5, codePos);
+	private final Literal int2 = new IntLiteral(3, codePos);
+	private final Literal int3 = new IntLiteral(2, codePos);
+	private final Literal str1 = new StrLiteral("Hello", codePos);
 
 	@Test
 	public void testSpecialCase1() {

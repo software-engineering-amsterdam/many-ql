@@ -1,0 +1,8 @@
+stylesheet taxOfficeExample
+  page Housing {
+    section "Buying"
+      question hasSoldHouse
+        widget checkbox
+    section "Loaning"
+      question hasMaintLoan
+  }

@@ -22,15 +22,15 @@ public class Row extends Segment<Pane> implements Refreshable
     private final VBox inputBox;
     private final Label label;
     private final Input input;
-    private Insets defaultInsets;
+    private Insets insets;
 
     public Row(Expr condition, Label label, Input input)
     {
-        super(new HBox(), true);
+        super(new HBox());
         this.input = input;
         this.label = label;
         this.condition = condition;
-        this.defaultInsets = new Insets(0, 0, 15, 0);
+        this.insets = new Insets(0, 0, 15, 0);
 
         this.inputBox = new VBox();
         this.initializeInputBox();
@@ -44,7 +44,7 @@ public class Row extends Segment<Pane> implements Refreshable
         this.inputBox.getChildren().add(this.input.getInputNode());
         this.inputBox.setFillWidth(true);
         this.inputBox.setPrefWidth(400);
-        this.inputBox.setPadding(this.defaultInsets);
+        this.inputBox.setPadding(this.insets);
 
     }
 
@@ -107,7 +107,7 @@ public class Row extends Segment<Pane> implements Refreshable
 
     private void applyBackColor(Paint color)
     {
-        this.inputBox.setBackground(new Background(new BackgroundFill(color, null, this.defaultInsets)));
+        this.inputBox.setBackground(new Background(new BackgroundFill(color, null, this.insets)));
     }
 
     private void applyFont(Font font)

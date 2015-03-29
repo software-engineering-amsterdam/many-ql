@@ -1,31 +1,20 @@
 package qls.util;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import ql.ast.AstNode;
 import ql.ast.form.Form;
-import ql.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
-import ql.tests.TestHelper;
 import qls.ast.AstBuilder;
 import qls.ast.Stylesheet;
 import qls.gen.QLSLexer;
 import qls.gen.QLSParser;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * Created by bore on 12/03/15.
  */
 public class ParserHelper
 {
-
-//    public static Messages getStylesheet(String stylePath, String formPath)
-//    {
-//        Stylesheet s = TestHelper.as(ParseStylesheet(stylePath), Stylesheet.class);
-//        Form f = TestHelper.as(ql.util.ParserHelper.ParseForm(formPath), Form.class);
-//
-//        return qls.semantics.TypeChecker.check(s, f);
-//    }
-
     public static Messages check(String stylesheet, String form)
     {
         Form f = (Form)ql.util.ParserHelper.ParseForm(form);

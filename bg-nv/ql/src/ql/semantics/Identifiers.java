@@ -2,12 +2,14 @@ package ql.semantics;
 
 import ql.util.StringHelper;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by bore on 12/03/15.
  */
-public class Identifiers implements Iterable<String>
+public class Identifiers
 {
     private final Set<String> identifiers;
 
@@ -32,14 +34,8 @@ public class Identifiers implements Iterable<String>
     }
 
     @Override
-    public Iterator<String> iterator()
-    {
-        return this.identifiers.iterator();
-    }
-
-    @Override
     public String toString()
     {
-        return StringHelper.printStrValueList(this, ", ");
+        return StringHelper.printStrValueList(this.identifiers, ", ");
     }
 }

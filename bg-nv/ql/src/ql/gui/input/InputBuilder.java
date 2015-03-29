@@ -1,7 +1,10 @@
 package ql.gui.input;
 
 import ql.ast.type.*;
-import ql.gui.control.*;
+import ql.gui.control.CheckBox;
+import ql.gui.control.Dropdown;
+import ql.gui.control.Slider;
+import ql.gui.control.TextField;
 
 /**
  * Created by Nik on 28-02-2015
@@ -24,7 +27,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id, new Dropdown("yes", "no"));
+        return new BoolInput(this.id, new CheckBox());
     }
 
     @Override
@@ -36,7 +39,7 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id, new Slider(0, 100, 1));
+        return new IntInput(this.id, new TextField());
     }
 
     @Override

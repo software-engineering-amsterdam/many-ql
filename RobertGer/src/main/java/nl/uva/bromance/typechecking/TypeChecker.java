@@ -12,13 +12,11 @@ import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 import nl.uva.bromance.ast.visitors.OperatorVisitor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Gerrit Krijnen on 2/17/2015.
- */
 public class TypeChecker extends NullQLNodeVisitor implements OperatorVisitor {
-    private ReferenceMap referenceMap = new ReferenceMap();
+    private HashMap<String, QLNode> referenceMap = new HashMap<>();
     private List<TypeCheckingException> exceptions = new ArrayList<>();
     private Expression currentExpression;
     private String expressionPrefix;
@@ -47,11 +45,6 @@ public class TypeChecker extends NullQLNodeVisitor implements OperatorVisitor {
         }
         if ((question.isQuestionTypeBoolean() || question.isQuestionTypeString()) && question.getQuestionRange().isPresent()) {
             exceptions.add(new TypeCheckingException.QuestionRangeTypeCheckingException(prefix + "no range allowed for types boolean and string."));
-        }
-        if (referenceMap.get(question.getIdentifier().getId()) != null) {
-            exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(question, question.getIdentifier().getId()));
-        } else {
-            referenceMap.put(question.getIdentifier().getId(), question);
         }
     }
 

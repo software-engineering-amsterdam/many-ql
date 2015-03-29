@@ -16,7 +16,7 @@ public class ExprInput extends Input<Control> implements Refreshable
 
     public ExprInput(String id, Control control, Expr expression)
     {
-        super(id, control, true, true);
+        super(id, control, true);
         this.expression = expression;
 
         this.fillInputNode();
@@ -31,7 +31,7 @@ public class ExprInput extends Input<Control> implements Refreshable
     public Value evaluate(ValueTable valueTable)
     {
         Value val = ExprEvaluator.evaluate(this.getExpression(), valueTable);
-        valueTable.storeEntry(this.getId(), val);
+        valueTable.storeValue(this.getId(), val);
         return val;
     }
 

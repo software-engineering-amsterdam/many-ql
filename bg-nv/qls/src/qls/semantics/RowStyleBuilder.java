@@ -1,12 +1,12 @@
 package qls.semantics;
 
-import ql.gui.control.*;
+import ql.gui.control.CheckBox;
+import ql.gui.control.Control;
 import ql.gui.control.Radio;
+import ql.gui.control.TextField;
 import ql.gui.segment.RowStyle;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
-import qls.ast.rule.widget.Dropdown;
-import qls.ast.rule.widget.DecSlider;
 
 /**
  * Created by bore on 10/03/15.

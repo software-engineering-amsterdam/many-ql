@@ -1,28 +1,27 @@
 package ql.gui;
 
 import ql.ast.expression.Expr;
-import ql.ast.statement.*;
+import ql.ast.statement.CalculatedQuestion;
+import ql.ast.statement.IfCondition;
+import ql.ast.statement.Question;
 import ql.gui.canvas.Canvas;
 import ql.gui.input.ExprInputBuilder;
 import ql.gui.input.Input;
 import ql.gui.input.InputBuilder;
 import ql.gui.label.Label;
-import ql.gui.segment.Row;
 import ql.gui.segment.Page;
+import ql.gui.segment.Row;
 import ql.gui.segment.Segment;
 import ql.semantics.CondQuestionTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Created by Nik on 17-2-15.
  */
 public class SimpleModeler extends Modeler
 {
-    private final String defaultPageName = "Main";
-
     public SimpleModeler(CondQuestionTable condQuestionTable)
     {
         super(condQuestionTable);
@@ -38,7 +37,7 @@ public class SimpleModeler extends Modeler
             segments.add(segment);
         }
         List<Page> pages = new ArrayList<>();
-        pages.add(new Page(segments, defaultPageName, true));
+        pages.add(new Page(segments, ""));
 
         return new Canvas(this.getCondQuestionTable().getTitle(), pages);
     }
@@ -64,6 +63,6 @@ public class SimpleModeler extends Modeler
     @Override
     public Row visit(IfCondition ifCond)
     {
-        return null;
+        throw new IllegalStateException("Visiting if statement is not allowed");
     }
 }

@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.gui.widgets;
 
-import org.uva.student.calinwouter.qlqls.ql.gui.StateWrapper;
+import org.uva.student.calinwouter.qlqls.ql.model.StateWrapper;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;

@@ -1,7 +1,7 @@
 package ql.tests;
 
-import ql.semantics.errors.*;
 import org.junit.Test;
+import ql.semantics.errors.Messages;
 
 import java.io.FileNotFoundException;
 

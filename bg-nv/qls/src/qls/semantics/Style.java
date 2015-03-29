@@ -1,10 +1,10 @@
 package qls.semantics;
 
 import ql.ast.type.Type;
-import qls.ast.rule.Rule;
 import qls.ast.rule.Rules;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bore on 09/03/15.

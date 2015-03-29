@@ -3,6 +3,7 @@ using Evaluation;
 using Evaluation.Values;
 using QLGui.ASTVisitors;
 using QLGui.ValueVisitors;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -23,7 +24,16 @@ namespace QLGui.FormObjects
                 new Label() { Content = questionNode.Label.ToString() }
                 );
 
-            Value widgetValue = this.Evaluate();
+            Value widgetValue;
+
+            try
+            {
+                widgetValue = this.Evaluate();
+            }
+            catch (DivideByZeroException divByZero) //constructivist: rollback
+            {
+                widgetValue = symbolTable.GetValue(questionNode.Identifier);
+            }
             
             ValueToUIElement valueToUIElement = new ValueToUIElement(questionNode.Identifier.Name, questionNode.Computation != null);
             valueToUIElement.EventUpdateValue += base.EventUpdateValue;

@@ -6,6 +6,9 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
+import nl.uva.sc.encoders.qls.parser.StylesheetParser;
+import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
+
 import org.junit.Test;
 
 public class ParseTreeToAbstractSyntaxTreeTest {

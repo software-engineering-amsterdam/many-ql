@@ -4,17 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import ql.gui.GuiElement;
 import ql.gui.segment.Page;
-import ql.semantics.errors.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,21 +25,15 @@ public class Canvas extends GuiElement
     private final List<Page> pages;
     private final Parent parent;
     private final Button submitButton;
-    private final List<Message> messages;
+    private final Node buttonBox;
 
     public Canvas(String name, List<Page> pages)
     {
-        this(name, pages, true);
-    }
-
-    public Canvas(String name, List<Page> pages, Boolean visible)
-    {
-        super(visible);
         this.name = name;
         this.pages = pages;
-        this.submitButton = new Button("Submit");
+        this.submitButton = new Button("Save");
+        this.buttonBox = this.createButtonBox();
         this.parent = this.createParent();
-        this.messages = new ArrayList<>();
     }
 
     public Parent getGuiElement()
@@ -51,23 +43,16 @@ public class Canvas extends GuiElement
 
     private Parent createParent()
     {
-        HBox buttonBox = new HBox(10);
+        return this.displayPages() ? createTabsView() : createRegularView();
+    }
+
+    private Node createButtonBox()
+    {
+        HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
         buttonBox.setPadding(new Insets(10, 50, 20, 50));
         buttonBox.getChildren().add(this.submitButton);
-
-        Node content = this.displayPages() ? createTabsView() : createRegularView();
-
-        VBox contentBox = new VBox();
-        contentBox.getChildren().addAll(content, buttonBox);
-        contentBox.setStyle("-fx-background-color: white;");
-
-        ScrollPane parent = new ScrollPane();
-        parent.setFitToWidth(true);
-        parent.setFitToHeight(true);
-        parent.setContent(contentBox);
-
-        return parent;
+        return buttonBox;
     }
 
     private Boolean displayPages()
@@ -75,37 +60,53 @@ public class Canvas extends GuiElement
         return this.pages.size() > 1;
     }
 
-    private Node createRegularView()
+    private Region createRegularView()
     {
         VBox content = new VBox();
-        for (Page segment : this.pages)
+        content.setStyle("-fx-background-color: white;");
+        for (Page page : this.pages)
         {
-            content.getChildren().add(segment.getContainer());
+            content.getChildren().add(page.getContainer());
         }
 
-        content.setPadding(new Insets(50, 50, 25, 50));
+        content.setPadding(new Insets(25, 50, 25, 50));
+        content.getChildren().add(this.buttonBox);
 
-        return content;
+        return this.createScrollBox(content);
     }
 
-    private Node createTabsView()
+    private Region createTabsView()
     {
         List<Tab> tabs = this.pages.stream().map(this::createTab).collect(Collectors.toList());
 
         TabPane pane = new TabPane();
-        pane.setSide(Side.LEFT);
         pane.getTabs().addAll(tabs);
-        pane.setPadding(new Insets(50, 50, 25, 0));
+        pane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         return pane;
     }
 
     private Tab createTab(Page page)
     {
+        VBox content = new VBox();
+        content.setPadding(new Insets(25, 50, 25, 50));
+        content.getChildren().addAll(page.getContainer(), this.buttonBox);
+        content.setStyle("-fx-background-color: white;");
+
+        ScrollPane scrollBox = this.createScrollBox(content);
+
         Tab tab = new Tab(page.getName());
-        tab.setContent(page.getContainer());
-        tab.setClosable(false);
+        tab.setContent(scrollBox);
         return tab;
+    }
+
+    private ScrollPane createScrollBox(Node content)
+    {
+        ScrollPane scrollBox = new ScrollPane();
+        scrollBox.setFitToWidth(true);
+        scrollBox.setFitToHeight(true);
+        scrollBox.setContent(content);
+        return scrollBox;
     }
 
     public void setSubmitAction(EventHandler<ActionEvent> action)
@@ -126,15 +127,5 @@ public class Canvas extends GuiElement
     public List<Page> getPages()
     {
         return pages;
-    }
-
-    public void addMessage(Message message)
-    {
-        this.messages.add(message);
-    }
-
-    public void clearMessages()
-    {
-        this.messages.clear();
     }
 }

@@ -15,8 +15,6 @@ public class Form extends QLNode {
         return identifier;
     }
 
-    //TODO: Create Identifier class.
-
     @Override
     public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);

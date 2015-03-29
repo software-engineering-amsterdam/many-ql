@@ -2,21 +2,15 @@ package nl.uva.bromance.ast.conditionals;
 
 import java.util.List;
 
-/**
- * Created by Robert on 10-3-2015.
- */
 public class CustomResult extends Result {
     private StringResult currentResult;
-    private List<StringResult> options;
 
     public CustomResult(List<StringResult> options) {
-        this.options = options;
         if (currentResult == null) {
             currentResult = options.get(0);
         }
     }
 
-    //TODO: This might go wrong. Consider this.
     @Override
     public Result isEqual(Result r) {
         BooleanResult result = new BooleanResult(false);

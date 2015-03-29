@@ -11,9 +11,9 @@ public abstract class ParentSegment<T extends Node> extends Segment<T>
 {
     private final List<Segment> subSegments;
 
-    public ParentSegment(List<Segment> subSegments, T container, Boolean visible)
+    public ParentSegment(List<Segment> subSegments, T container)
     {
-        super(container, visible);
+        super(container);
         assert subSegments != null;
 
         this.subSegments = subSegments;

@@ -8,9 +8,6 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 15-3-2015.
- */
 public class IfStatementGrammarTest extends GrammarTest {
 
 

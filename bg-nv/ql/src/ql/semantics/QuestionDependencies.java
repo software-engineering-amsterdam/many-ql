@@ -1,7 +1,5 @@
 package ql.semantics;
 
-import ql.ast.statement.Question;
-
 import java.util.*;
 
 /**

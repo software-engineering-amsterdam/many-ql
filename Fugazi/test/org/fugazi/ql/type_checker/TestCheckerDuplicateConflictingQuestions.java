@@ -3,6 +3,7 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.DuplicateQuestionError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +42,7 @@ public class TestCheckerDuplicateConflictingQuestions extends TestQlTypeCheckerB
 
         List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.DUPLICATE);
+        expectedTypes.add(new DuplicateQuestionError());
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());

@@ -15,7 +15,6 @@ public class CheckBox extends ControlElement implements BoolControl
 
     public CheckBox()
     {
-        super();
         this.checkBox = new javafx.scene.control.CheckBox();
     }
 
@@ -55,12 +54,6 @@ public class CheckBox extends ControlElement implements BoolControl
     public void addListener(ChangeListener listener)
     {
         this.checkBox.selectedProperty().addListener(listener);
-    }
-
-    @Override
-    public <T> T accept(ControlVisitor<T> visitor)
-    {
-        return visitor.visit(this);
     }
 
     private void setSelected(Boolean selected)

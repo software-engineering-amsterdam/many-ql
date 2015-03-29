@@ -9,10 +9,12 @@ def typeOfIdentifier(identifier, node):
     return question.type
 
 
+
 def questionIdentifiedBy(identifier, node):
     visitor = QuestionIdentifiedByVisitor(identifier)
     node.accept(visitor)
     return visitor.question
+
 
 
 class QuestionIdentifiedByVisitor(StatementVisitor):
@@ -21,9 +23,11 @@ class QuestionIdentifiedByVisitor(StatementVisitor):
         self._identifier = identifier
         self._question = None
 
+
     @property
     def question(self):
         return self._question
+        
         
     def visitQuestionStatement(self, node):
         if self.question is None and \

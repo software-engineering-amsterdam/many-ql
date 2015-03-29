@@ -17,6 +17,7 @@ public class CheckBox extends Widget {
 		super(question,context);
 		this.checkbox = new JCheckBox();
 		
+		this.checkbox.setName(question.getId());
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		this.checkbox.addItemListener((ItemListener) checkboxListener);
 	}

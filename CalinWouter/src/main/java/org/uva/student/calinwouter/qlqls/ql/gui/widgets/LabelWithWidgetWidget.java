@@ -1,9 +1,8 @@
 package org.uva.student.calinwouter.qlqls.ql.gui.widgets;
 
-import org.uva.student.calinwouter.qlqls.ql.gui.StateWrapper;
+import org.uva.student.calinwouter.qlqls.ql.model.StateWrapper;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,13 +10,11 @@ import java.awt.*;
 /**
  * This widget is basically a (Label + Widget) Widget.
  */
-// TODO QL uses this class, but this class uses StyleSheet (which is part of QLS).
 public class LabelWithWidgetWidget implements IWidget {
     private final JPanel labelWithWidgetWidget;
     private final IWidget widget;
     private final Label fieldLabel;
     private final StateWrapper stateWrapper;
-    private final StylingSettings stylingSettings;
     private final String identifier;
 
     public Component getWidgetComponent() {
@@ -41,20 +38,8 @@ public class LabelWithWidgetWidget implements IWidget {
         }
     }
 
-    private int getWidgetHeight() {
-        Component widgetComponent = getWidgetComponent();
-        return widgetComponent.getHeight();
-    }
-
-    private void setStylingSettingsIfAvailable() {
-        if(stylingSettings != null) {
-            fieldLabel.setFont(stylingSettings.createFont());
-            fieldLabel.setForeground(stylingSettings.createForegroundColor());
-            Component widgetComponent = getWidgetComponent();
-            Integer widgetHeight = getWidgetHeight();
-            Dimension newDimension = stylingSettings.createSizeDimension(widgetHeight);
-            widgetComponent.setSize(newDimension);
-        }
+    protected void setLabelStylingSettings(Label fieldLabel) {
+        // QL uses default styling settings. :-)
     }
 
     private void createEventListener() {
@@ -79,24 +64,18 @@ public class LabelWithWidgetWidget implements IWidget {
     }
 
     private void initializeWidget() {
-        setStylingSettingsIfAvailable();
+        setLabelStylingSettings(fieldLabel);
         setMyVisibility();
         createEventListener();
     }
 
-    public LabelWithWidgetWidget(String label, String identifier, StylingSettings stylingSettings,
-                                 IWidget widget, StateWrapper stateWrapper) {
+    public LabelWithWidgetWidget(String label, String identifier, IWidget widget, StateWrapper stateWrapper) {
         this.widget = widget;
         this.fieldLabel = createFieldLabel(label);
         this.labelWithWidgetWidget = createUserInterface();
-        this.stylingSettings = stylingSettings;
         this.stateWrapper = stateWrapper;
         this.identifier = identifier;
         initializeWidget();
-    }
-
-    public LabelWithWidgetWidget(String label, String identifier, IWidget widget, StateWrapper stateWrapper) {
-        this(label, identifier, null, widget, stateWrapper);
     }
 
 }

@@ -1,7 +1,6 @@
 package nl.uva.bromance.ast;
 
 
-
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 public class Label extends QLNode {
@@ -9,12 +8,11 @@ public class Label extends QLNode {
 
     public Label(int lineNumber, String id) {
         super(lineNumber);
-        if (id != null) {
-            this.identifier = id.substring(1, id.length() - 1); // Remove double brackets around id
-        } else {
-            //TODO: Consider putting this in the typechecker.
-            System.err.println("Label Error: No identifier specified");
-        }
+        this.identifier = id.substring(1, id.length() - 1); // Remove double brackets around id
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
