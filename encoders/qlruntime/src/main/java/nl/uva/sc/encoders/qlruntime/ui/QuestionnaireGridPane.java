@@ -22,11 +22,13 @@ import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
 public class QuestionnaireGridPane extends GridPane {
 
-	public QuestionnaireGridPane() {
+	public QuestionnaireGridPane(final List<RuntimeQuestion> runtimeQuestions) {
 		setAlignment(Pos.CENTER);
 		setHgap(10);
 		setVgap(10);
 		setPadding(new Insets(25, 25, 25, 25));
+
+		showQuestions(runtimeQuestions);
 	}
 
 	public void showQuestions(final List<RuntimeQuestion> runtimeQuestions) {
