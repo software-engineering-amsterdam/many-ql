@@ -1,6 +1,7 @@
 package org.uva.ql.view.widgit;
 
 import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.NumberTextFieldListener;
 import org.uva.ql.view.listener.WidgetListener;
 
@@ -25,6 +26,13 @@ public class NumberTextField extends BaseTextField {
 		super.setIdentifier(identifier);
 		NumberTextFieldListener textFieldListener = new NumberTextFieldListener(widgetListener, getIdentifier(), this);
 		textField.getDocument().addDocumentListener(textFieldListener);
+	}
 
+	@Override
+	public void setWidgetValue(Value value) {
+		System.out.println("Value: " + value.value());
+		if (value.isDefined()) {
+			textField.setText(value.toString());
+		}
 	}
 }

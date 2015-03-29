@@ -12,7 +12,10 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
         {
             string rgbValue = context.HEXACOLOR().GetText();
 
-            return new ColorStyle(rgbValue, context.GetTextPosition());
+            // Remove any leading '#' character.
+            rgbValue = rgbValue.Trim('#');
+
+            return new FontColor(rgbValue, context.GetTextPosition());
         }
 
         public override StyleAttribute VisitFont(QLSParser.FontContext context)

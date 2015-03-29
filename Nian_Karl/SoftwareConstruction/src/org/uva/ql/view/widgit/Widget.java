@@ -7,7 +7,7 @@ import org.uva.ql.ast.value.Value;
 
 public abstract class Widget {
 
-	protected Identifier identifier;
+	private Identifier identifier;
 
 	public abstract <T> T getValue();
 

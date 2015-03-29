@@ -2,7 +2,6 @@ import sys
 sys.path.append('..')
 
 import unittest
-import TestMessage
 
 from ql.core import QLOperators
 

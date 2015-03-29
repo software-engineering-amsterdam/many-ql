@@ -2,7 +2,7 @@ package qls.gui
 
 import ql.ast.{BooleanType, Expression, NumberType, Question => QLQuestion, StringType}
 import ql.gui.{FormBuilder => QLFormBuilder}
-import qls.ast._
+import qls.ast.{CheckBox, DropDown, Question, Radio, Slider, SpinBox, StyleSheet, Text, TextBlock}
 import qls.gui.widgets._
 import qls.typechecker.Questions
 import types.EvalEnvironment
