@@ -21,6 +21,7 @@ class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression],
     showTickLabels = true
     snapToTicks = true
   }
+  updateEnvironment(NumberValue(value))
   children.add(sliderField)
 
   override def updateValue(updatedVariable: VariableName, becameVisible: Boolean): Unit = {
