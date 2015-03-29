@@ -1,10 +1,6 @@
 package nl.uva.softwcons.qls.ast;
 
-import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
-import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
-import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
-import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
-import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+import static nl.uva.softwcons.ql.ast.ASTBuilderQL.getType;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +43,7 @@ import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
 
 import org.antlr.v4.runtime.Token;
 
-public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
+public class ASTBuilderQLS extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Stylesheet visitStylesheet(final StylesheetContext ctx) {
@@ -144,22 +140,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     private LineInfo extractLineInfo(final Token token) {
         return new LineInfo(token.getLine(), token.getCharPositionInLine());
-    }
-
-    private Type getType(final String typeName) {
-
-        switch (typeName) {
-        case "boolean":
-            return BOOLEAN_TYPE;
-        case "number":
-            return NUMBER_TYPE;
-        case "date":
-            return DATE_TYPE;
-        case "string":
-            return STRING_TYPE;
-        default:
-            return UNDEFINED_TYPE;
-        }
     }
 
     private Map<Type, StyledWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {

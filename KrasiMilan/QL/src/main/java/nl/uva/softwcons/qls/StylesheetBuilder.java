@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import nl.uva.softwcons.generated.QLSLexer;
 import nl.uva.softwcons.generated.QLSParser;
-import nl.uva.softwcons.qls.ast.ASTBuilderVisitor;
+import nl.uva.softwcons.qls.ast.ASTBuilderQLS;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -29,7 +29,7 @@ public final class StylesheetBuilder {
         final QLSParser parser = new QLSParser(new CommonTokenStream(lexer));
         final ParseTree tree = parser.stylesheet();
 
-        return (Stylesheet) new ASTBuilderVisitor().visit(tree);
+        return (Stylesheet) new ASTBuilderQLS().visit(tree);
     }
 
 }

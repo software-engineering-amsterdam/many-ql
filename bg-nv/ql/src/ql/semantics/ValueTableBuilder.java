@@ -12,6 +12,7 @@ import ql.semantics.values.*;
 public class ValueTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
 {
     private final ValueTable valueTable;
+    private final UndefValue undefValue = new UndefValue();
 
     public static ValueTable build(Form f)
     {
@@ -40,19 +41,14 @@ public class ValueTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(Question q)
     {
-        this.valueTable.storeEntry(q.getId(), new UndefValue());
-
+        this.valueTable.storeEntry(q.getId(), undefValue);
         return null;
     }
 
     @Override
     public Void visit(CalculatedQuestion q)
     {
-        Expr expr = q.getCalculation();
-
-        Value value = ExprEvaluator.evaluate(expr, this.valueTable);
-        this.valueTable.storeEntry(q.getId(), value);
-
+        this.valueTable.storeEntry(q.getId(), undefValue);
         return null;
     }
 

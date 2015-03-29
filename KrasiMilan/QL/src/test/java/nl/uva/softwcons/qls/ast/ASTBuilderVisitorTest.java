@@ -246,7 +246,7 @@ public class ASTBuilderVisitorTest {
         final QLSParser parser = new QLSParser(new CommonTokenStream(lexer));
         final ParseTree tree = parser.stylesheet();
 
-        return (Stylesheet) new ASTBuilderVisitor().visit(tree);
+        return (Stylesheet) new ASTBuilderQLS().visit(tree);
     }
 
 }

@@ -1,5 +1,5 @@
 
-class ParseError:
+class ParseError(Exception):
     def __init__(self, Token=None, message=None):
         # ParseError on form block
         if not Token:

@@ -16,6 +16,7 @@ import nl.uva.softwcons.qls.StylesheetBuilder;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ui.renderer.QLSRenderer;
 import nl.uva.softwcons.qls.ui.widget.StyledWidgetFactory;
+import nl.uva.softwcons.qls.validation.QLSValidator;
 
 public class Main extends Application {
 
@@ -27,15 +28,24 @@ public class Main extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final Form form = FormBuilder.build(UiBuilder.class.getResourceAsStream("/form.ql"));
         final List<Error> validationErrors = Validator.validate(form);
-        for (Error error : validationErrors) {
+        for (final Error error : validationErrors) {
             System.err.println(error.getMessage());
             if (error.isFatal()) {
                 System.exit(1);
             }
         }
 
-        final Stylesheet s = StylesheetBuilder.build(UiBuilder.class.getResourceAsStream("/form_stylesheet.qls"));
-        final Layout formLayout = UiBuilder.buildFrom(form, new QLSRenderer(s), new StyledWidgetFactory(form, s));
+        final Stylesheet stylesheet = StylesheetBuilder.build(UiBuilder.class
+                .getResourceAsStream("/form_stylesheet.qls"));
+        final List<Error> qlsValidationErrors = QLSValidator.validate(form, stylesheet);
+        for (final Error error : qlsValidationErrors) {
+            System.err.println(error.getMessage());
+            if (error.isFatal()) {
+                System.exit(1);
+            }
+        }
+        final Layout formLayout = UiBuilder.buildFrom(form, new QLSRenderer(stylesheet), new StyledWidgetFactory(form,
+                stylesheet));
 
         final StackPane root = new StackPane();
         root.getChildren().add(formLayout.getNode());
