@@ -28,6 +28,14 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             }
         }
 
+        public bool IsReadOnly
+        {
+            get
+            {
+                return Question.IsComputed;
+            }
+        }
+
         public QuestionWidget()
         {
             InitializeComponent();

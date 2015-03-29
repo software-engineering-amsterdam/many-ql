@@ -4,7 +4,7 @@ form taxOfficeExample {
     fullname: string
 
   "Did you sell a house in 2010?"
-    hasSoldHouse: int
+    hasSoldHouse: integer
 
   if (fullname == "Fingers crossed") {
     "Did you buy a new car in 2010?"

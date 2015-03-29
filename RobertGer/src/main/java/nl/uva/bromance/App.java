@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 import nl.uva.bromance.ast.AST;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.QLSNode;
-import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
-import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.listeners.QLSParseTreeListener;
@@ -100,6 +98,7 @@ public class App extends Application {
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
                 AST<QLNode> qlAst = createQlAst(qlPath);
+                doQlSetup(qlAst);
                 Visualizer visualizer = new Visualizer();
                 if (qlAst != null) {
                     AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
@@ -110,6 +109,11 @@ public class App extends Application {
                 }
             }
         });
+    }
+
+    private void doQlSetup(AST<QLNode> qlAst) {
+
+
     }
 
     private AST<QLSNode> readQlsFile(String qlsPath, AST<QLNode> qlAst) throws IOException {
@@ -150,9 +154,6 @@ public class App extends Application {
         walker.walk(listener, tree);
 
         AST<QLNode> qlAst = listener.getAst();
-
-        new ExpressionEvaluator(null).evaluate(qlAst.getRoot());
-        new ConditionalHandler().handle(qlAst.getRoot());
 
         return qlAst;
     }

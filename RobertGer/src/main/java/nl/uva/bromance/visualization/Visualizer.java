@@ -8,10 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
-import nl.uva.bromance.ast.visitors.CalculationRetrievalVisitor;
-import nl.uva.bromance.ast.visitors.ConditionalHandler;
-import nl.uva.bromance.ast.visitors.QLNodeVisitor;
-import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
+import nl.uva.bromance.ast.visitors.*;
 import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
@@ -42,6 +39,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         this.qlNode = qlAst.getRoot();
         this.pages = pages;
         this.questions = questions;
+        this.answerMap = new QLInitializer(qlNode).getAnswerMap();
         // Nothing focused as of now
         visualize(UUID.randomUUID());
     }
@@ -73,6 +71,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
     }
 
     private boolean evaluateQLNode() {
+        new ExpressionEvaluator(answerMap).evaluate(qlNode);
         List<TypeCheckingException> typeCheckingExceptions = new TypeChecker().run(qlNode);
         if (!typeCheckingExceptions.isEmpty()) {
             Stage stage = new Stage();
@@ -85,7 +84,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
             return false;
         }
         // Calculations depend on expressions and expressions can also depend on calculations, that is why the expressions are evaluated twice
-        new ExpressionEvaluator(answerMap).evaluate(qlNode);
+
         new CalculationRetrievalVisitor(answerMap).handle(qlNode);
         new ExpressionEvaluator(answerMap).evaluate(qlNode);
         new ConditionalHandler().handle(qlNode);

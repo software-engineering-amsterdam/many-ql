@@ -71,18 +71,17 @@ public class Main extends Application
             qls.ast.AstBuilder qlsBuilder = new qls.ast.AstBuilder();
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
-//            Messages qlsMs =  TypeChecker.check(stylesheet, form);
-//            if (qlsMs.containsError())
-//            {
-//                this.showErrorAlert(qlsMs.toString());
-//                System.exit(1);
-//            }
+            Messages qlsMs =  TypeChecker.check(stylesheet, form);
+            if (qlsMs.containsError())
+            {
+                this.showErrorAlert(qlsMs.toString());
+                System.exit(1);
+            }
 
             QuestionStyles questionStyles = StyleMerger.getStyles(stylesheet, form);
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);
         }
 
-        //TODO: move this part below + maybe pull out the attaching of listeners etc. from Renderer as well ?
         ValueTable valueTable = ValueTableBuilder.build(form);
         Canvas canvas = modeler.buildCanvas();
 

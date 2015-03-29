@@ -1,21 +1,17 @@
 
-from errors import QLTypeError
+from Errors import QLTypeError
 
 class NonBooleanTypes:
-    def __init__(self):
-        self.questionIDs = {}
-
+    def __init__(self, questionIDs=None):
         self.errors = []
         self.expressions = []
+        self.questionIDs = questionIDs
 
     def BooleanExpression(self, node):
         self.expressions.append(node)
 
     def UnaryExpression(self, node):
         self.expressions.append(node)
-
-    def Question(self, node):
-        self.questionIDs[node.ID] = node.type
 
     def Done(self):
         errorMessage = "Invalid boolean operation"

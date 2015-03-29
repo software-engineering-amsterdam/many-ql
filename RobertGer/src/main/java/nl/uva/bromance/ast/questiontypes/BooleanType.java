@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
 import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.visitors.QuestionTypeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
@@ -29,18 +30,13 @@ public class BooleanType implements QuestionType {
     }
 
     @Override
-    public Result getCorrespondingResultType() {
-        return new BooleanResult(false);
-    }
-
-    @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
         label = new Label(q.getQuestionString());
         label.getStyleClass().add("prettyLabel");
         parent.getChildren().add(label);
 
         checkBox = new CheckBox();
-        String id = q.getIdentifier().getId();
+        String id = q.getIdentifier();
 
         BooleanResult answer = (BooleanResult) answerMap.get(id);
         if (answer != null) {
@@ -68,6 +64,11 @@ public class BooleanType implements QuestionType {
     @Override
     public void refresh() {
         setVisbilityOfComponents();
+    }
+
+    @Override
+    public void accept(QuestionTypeVisitor visitor) {
+        visitor.visit(this);
     }
 
     private void setVisbilityOfComponents() {
