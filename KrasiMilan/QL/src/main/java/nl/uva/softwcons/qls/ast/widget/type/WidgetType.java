@@ -9,4 +9,8 @@ public abstract class WidgetType implements ASTNode {
 
     public abstract <T> T accept(WidgetTypeVisitor<T> visitor);
 
+    public static boolean haveSameType(WidgetType firstWidget, WidgetType secondWidget) {
+        return firstWidget.getClass() == secondWidget.getClass();
+    }
+
 }

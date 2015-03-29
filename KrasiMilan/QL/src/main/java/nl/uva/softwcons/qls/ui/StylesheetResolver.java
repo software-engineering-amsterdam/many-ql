@@ -82,8 +82,21 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
 
     private Map<Type, StylizedWidget> inheritStyles(final Map<Type, StylizedWidget> styles,
             final Map<Type, StylizedWidget> parentStyles) {
+        Map<Type, StylizedWidget> mergedStyles = new HashMap<>(styles);
+        parentStyles.forEach((type, widget) -> {
+            if (!mergedStyles.containsKey(type)) {
+                mergedStyles.put(type, widget);
+            } else {
+                WidgetType currentWidget = mergedStyles.get(type).getWidgetType().get();
+                Style currentStyle = mergedStyles.get(type).getWidgetStyle();
+                if (WidgetType.haveSameType(currentWidget, widget.getWidgetType().get())) {
+                    StylizedWidget newStylizedWidget = new StylizedWidget(currentWidget, currentStyle.inherit(widget
+                            .getWidgetStyle()));
+                    mergedStyles.put(type, newStylizedWidget);
+                }
+            }
+        });
 
-        return null; // TODO
+        return null;
     }
-
 }
