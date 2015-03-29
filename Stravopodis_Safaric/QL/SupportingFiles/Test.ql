@@ -40,4 +40,15 @@ form HouseSelling {
     		rentPaid : monthlyRent * rentLenght;
     	}
     }
+    
+    if (hasSoldHouse == false && hasRentHouse == false && hasBoughtHouse == true){
+    	
+    	question money housePrice ("What was the price of the house:");
+    	
+    	question integer houseSize ("What is the size of the house in m2?");
+    	
+    	question money pricePerM2 ("Price per m2 is equal to: "){
+    		pricePerM2 : housePrice / houseSize;
+    	}
+    }
 }
