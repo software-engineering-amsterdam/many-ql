@@ -30,6 +30,7 @@ import nl.uva.sc.encoders.qls.ast.widget.Widget;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNode> {
 
@@ -106,7 +107,12 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 	@Override
 	public Radio visitRadio(RadioContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
-		return new Radio(textLocation);
+		List<TerminalNode> stringliteral = ctx.STRINGLITERAL();
+		List<String> options = new ArrayList<>();
+		for (TerminalNode terminalNode : stringliteral) {
+			options.add(terminalNode.getText());
+		}
+		return new Radio(textLocation, options);
 	}
 
 	@Override
