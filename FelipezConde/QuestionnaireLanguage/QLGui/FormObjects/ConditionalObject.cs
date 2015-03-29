@@ -24,11 +24,10 @@ namespace QLGui.FormObjects
 
             StackPanel customStackPanel = value.Accept(new ValueToStackPanel());
 
-            SubController conditionalController = new SubController(symbolTable);
-            conditionalController.EventUpdateValue += base.EventUpdateValue;
+            SubController conditionalController = new SubController(symbolTable, base.EventUpdateValue);
 
             parent.Children.Add(
-                conditionalController.CreateUIBody(conditionalNode.GetBody(), customStackPanel));
+                conditionalController.CreateUIBody(conditionalNode, customStackPanel));
 
             return parent;
         }

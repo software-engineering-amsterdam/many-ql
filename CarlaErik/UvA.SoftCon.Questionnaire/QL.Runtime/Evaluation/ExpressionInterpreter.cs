@@ -9,15 +9,11 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 {
     internal class ExpressionInterpreter : TopDownQuestionFormVisitor<Value>
     {
-        protected IDictionary<string, Value> Context
-        {
-            get;
-            private set;
-        }
+        private ValueTable _context;
 
-        internal ExpressionInterpreter(IDictionary<string, Value> context)
+        internal ExpressionInterpreter(ValueTable context)
         {
-            Context = context;
+            _context = context;
         }
 
         #region Visit Literals
@@ -48,9 +44,9 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 
         public override Value Visit(Identifier identifier)
         {
-            if (Context.ContainsKey(identifier.Name))
+            if (_context.HasValue(identifier.Name))
             {
-                return Context[identifier.Name];
+                return _context.Get(identifier.Name);
             }
             else
             {
