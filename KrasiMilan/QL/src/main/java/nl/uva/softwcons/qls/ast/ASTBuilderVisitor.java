@@ -111,7 +111,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     public Style visitStyle(final StyleContext ctx) {
         final Map<String, String> styles = this.constructStyleProperties(ctx.styleProperty());
 
-        return new Style(styles);
+        return new Style(styles, extractLineInfo(ctx.start));
     }
 
     @Override
