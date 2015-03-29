@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ast.widget.type;
+package nl.uva.softwcons.qls.ast.widgetstyle.type;
 
 public interface WidgetTypeVisitor<T> {
 
