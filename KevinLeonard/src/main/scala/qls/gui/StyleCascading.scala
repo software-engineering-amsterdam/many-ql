@@ -51,15 +51,7 @@ class StyleCascading {
 
   def cascadeStyles(w: Widget, defaultStyles: List[Style]): Widget = {
     val styles = getStyles(w.styles, defaultStyles)
-    w match {
-      case Slider(p) => Slider(styles)
-      case SpinBox(p) => SpinBox(styles)
-      case Text(p) => Text(styles)
-      case TextBlock(p) => TextBlock(styles)
-      case Radio(p) => Radio(styles)
-      case CheckBox(p) => CheckBox(styles)
-      case DropDown(p) => DropDown(styles)
-    }
+    Widget(w._type, styles)
   }
 
   def mergeDefaultStyles(dw: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
@@ -74,16 +66,14 @@ class StyleCascading {
   }
 
   def removeDefaultStyles(dwToRemove: DefaultWidget, env: StyleEnvironment): StyleEnvironment = {
-    // TODO: refactor .getClass(). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
-    env.find(dw => dw._type == dwToRemove._type && dw.widget.getClass == dwToRemove.widget.getClass) match {
+    env.find(dw => dw._type == dwToRemove._type && dw.widget._type == dwToRemove.widget._type) match {
       case None => env
       case Some(dw) => env diff List(dw)
     }
   }
 
   def getDefaultStyles(t: Type, w: Widget, env: StyleEnvironment): List[Style] = {
-    // TODO: refactor .getClass). Probably a widget needs to get a type, or there should be one case class Widget(WidgetType, List[Style])
-    env.find(dw => dw._type == t && dw.widget.getClass == w.getClass) match {
+    env.find(dw => dw._type == t && dw.widget._type == w._type) match {
       case None => List()
       case Some(dw) => dw.widget.styles
     }
