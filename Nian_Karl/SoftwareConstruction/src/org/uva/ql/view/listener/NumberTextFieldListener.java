@@ -29,6 +29,7 @@ public class NumberTextFieldListener implements DocumentListener {
 	}
 
 	public void notifyListener(DocumentEvent e) {
+		System.out.println("Hello, this is strange.");
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
@@ -36,7 +37,6 @@ public class NumberTextFieldListener implements DocumentListener {
 				widgetListener.widgetValueChanged(identifier, new UndefinedValue());
 			} else if (m.matches()) {
 				textField.setForegroundColor(Color.black);
-				System.out.println(input);
 				widgetListener.widgetValueChanged(identifier, new IntValue(Integer.parseInt(input)));
 			} else {
 				textField.setForegroundColor(Color.red);

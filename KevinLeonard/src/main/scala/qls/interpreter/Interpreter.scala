@@ -75,10 +75,10 @@ object Interpreter {
     duplicatePlacementChecker.check(ast)
   }
 
-  def render(ast: Form, stylesheet: StyleSheet, env: TypeEnvironment): Unit = {
+  def render(qlAst: Form, qlsAst: StyleSheet, env: TypeEnvironment): Unit = {
     val styleCascading = new StyleCascading
-    val formBuilder = new FormBuilder(styleCascading.cascadeStyles(stylesheet, List.empty, env))
+    val formBuilder = new FormBuilder(styleCascading.cascadeStyles(s = qlsAst, typeEnv = env))
 
-    formBuilder.build(ast).main(Array())
+    formBuilder.build(qlAst).main(Array())
   }
 }

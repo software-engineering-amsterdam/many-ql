@@ -93,31 +93,31 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAQuestionStmt(AQuestionStmt node)
+    public void caseAQuestionStatement(AQuestionStatement node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAValueStmt(AValueStmt node)
+    public void caseAValueStatement(AValueStatement node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAIfelseStmt(AIfelseStmt node)
+    public void caseAIfElseStatement(AIfElseStatement node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAIfStmt(AIfStmt node)
+    public void caseAIfStatement(AIfStatement node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseABoolType(ABoolType node)
+    public void caseABooleanType(ABooleanType node)
     {
         defaultCase(node);
     }
@@ -129,127 +129,127 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAIntType(AIntType node)
+    public void caseAIntegerType(AIntegerType node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAAddExp(AAddExp node)
+    public void caseAAddExpression(AAddExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASubExp(ASubExp node)
+    public void caseASubtractExpression(ASubtractExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseATrueExp(ATrueExp node)
+    public void caseATrueExpression(ATrueExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAFalseExp(AFalseExp node)
+    public void caseAFalseExpression(AFalseExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAOrExp(AOrExp node)
+    public void caseAOrExpression(AOrExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAAndExp(AAndExp node)
+    public void caseAAndExpression(AAndExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAEqExp(AEqExp node)
+    public void caseAEqualsExpression(AEqualsExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseANeqExp(ANeqExp node)
+    public void caseANotEqualsExpression(ANotEqualsExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseALtExp(ALtExp node)
+    public void caseALesserThanExpression(ALesserThanExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAGtExp(AGtExp node)
+    public void caseAGreaterThanExpression(AGreaterThanExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseALteExp(ALteExp node)
+    public void caseALesserThanOrEqualsExpression(ALesserThanOrEqualsExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAGteExp(AGteExp node)
+    public void caseAGreaterThanOrEqualsExpression(AGreaterThanOrEqualsExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAMulExp(AMulExp node)
+    public void caseAMultiplyExpression(AMultiplyExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADivExp(ADivExp node)
+    public void caseADivideExpression(ADivideExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAModExp(AModExp node)
+    public void caseAModuloExpression(AModuloExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseANotExp(ANotExp node)
+    public void caseANotExpression(ANotExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseANumberExp(ANumberExp node)
+    public void caseANumberExpression(ANumberExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAIdentExp(AIdentExp node)
+    public void caseAIdentifierExpression(AIdentifierExpression node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAEmptyIdentList(AEmptyIdentList node)
+    public void caseANonParameterizedFunction(ANonParameterizedFunction node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAFilledIdentList(AFilledIdentList node)
+    public void caseAParameterizedFunction(AParameterizedFunction node)
     {
         defaultCase(node);
     }
@@ -261,7 +261,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAIdentElement(AIdentElement node)
+    public void caseAIdentifierElement(AIdentifierElement node)
     {
         defaultCase(node);
     }
@@ -291,13 +291,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAListElement(AListElement node)
+    public void caseAFunctionElement(AFunctionElement node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAObjectEl(AObjectEl node)
+    public void caseAKeyValue(AKeyValue node)
     {
         defaultCase(node);
     }
@@ -309,7 +309,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTTnot(TTnot node)
+    public void caseTTokenNot(TTokenNot node)
     {
         defaultCase(node);
     }
@@ -339,55 +339,55 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTSub(TSub node)
+    public void caseTSubtract(TSubtract node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTMul(TMul node)
+    public void caseTMultiply(TMultiply node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTDiv(TDiv node)
+    public void caseTDivide(TDivide node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTMod(TMod node)
+    public void caseTModulo(TModulo node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTLparen(TLparen node)
+    public void caseTLeftParenthesis(TLeftParenthesis node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTRparen(TRparen node)
+    public void caseTRightParenthesis(TRightParenthesis node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTform(TTform node)
+    public void caseTTokenForm(TTokenForm node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTLbrace(TLbrace node)
+    public void caseTLeftBrace(TLeftBrace node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTRbrace(TRbrace node)
+    public void caseTRightBrace(TRightBrace node)
     {
         defaultCase(node);
     }
@@ -411,31 +411,31 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTTbool(TTbool node)
+    public void caseTTokenBoolean(TTokenBoolean node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTtrue(TTtrue node)
+    public void caseTTokenTrue(TTokenTrue node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTfalse(TTfalse node)
+    public void caseTTokenFalse(TTokenFalse node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTstring(TTstring node)
+    public void caseTTokenString(TTokenString node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTint(TTint node)
+    public void caseTTokenInteger(TTokenInteger node)
     {
         defaultCase(node);
     }
@@ -447,37 +447,37 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTTeq(TTeq node)
+    public void caseTTokenEquals(TTokenEquals node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTneq(TTneq node)
+    public void caseTTokenNotEquals(TTokenNotEquals node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTlt(TTlt node)
+    public void caseTTokenLesserThan(TTokenLesserThan node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTgt(TTgt node)
+    public void caseTTokenGreaterThan(TTokenGreaterThan node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTlte(TTlte node)
+    public void caseTTokenLesserThanOrEquals(TTokenLesserThanOrEquals node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTTgte(TTgte node)
+    public void caseTTokenGreaterThanOrEquals(TTokenGreaterThanOrEquals node)
     {
         defaultCase(node);
     }
@@ -489,7 +489,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTIdent(TIdent node)
+    public void caseTIdentifier(TIdentifier node)
     {
         defaultCase(node);
     }

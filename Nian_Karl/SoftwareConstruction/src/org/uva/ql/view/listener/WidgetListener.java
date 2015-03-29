@@ -21,7 +21,9 @@ public class WidgetListener {
 
 	public void widgetValueChanged(Identifier identifier, Value value) {
 		evaluator.addValue(identifier, value);
-		form.notifyPanels(evaluator, identifier);
+		if (value.isDefined()) {
+			form.notifyPanels(evaluator, identifier);
+		}
 	};
 
 	public Evaluator getEvaluator() {

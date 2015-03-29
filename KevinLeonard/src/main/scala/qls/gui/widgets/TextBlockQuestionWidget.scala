@@ -45,5 +45,4 @@ class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expressio
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type String.")
     }
   }
-
 }

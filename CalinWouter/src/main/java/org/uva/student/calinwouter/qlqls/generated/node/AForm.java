@@ -8,8 +8,8 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class AForm extends PForm
 {
-    private TIdent _ident_;
-    private final LinkedList<PStmt> _stmt_ = new LinkedList<PStmt>();
+    private TIdentifier _identifier_;
+    private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
 
     public AForm()
     {
@@ -17,13 +17,13 @@ public final class AForm extends PForm
     }
 
     public AForm(
-        @SuppressWarnings("hiding") TIdent _ident_,
-        @SuppressWarnings("hiding") List<?> _stmt_)
+        @SuppressWarnings("hiding") TIdentifier _identifier_,
+        @SuppressWarnings("hiding") List<?> _statement_)
     {
         // Constructor
-        setIdent(_ident_);
+        setIdentifier(_identifier_);
 
-        setStmt(_stmt_);
+        setStatement(_statement_);
 
     }
 
@@ -31,8 +31,8 @@ public final class AForm extends PForm
     public Object clone()
     {
         return new AForm(
-            cloneNode(this._ident_),
-            cloneList(this._stmt_));
+            cloneNode(this._identifier_),
+            cloneList(this._statement_));
     }
 
     @Override
@@ -41,16 +41,16 @@ public final class AForm extends PForm
         ((Analysis) sw).caseAForm(this);
     }
 
-    public TIdent getIdent()
+    public TIdentifier getIdentifier()
     {
-        return this._ident_;
+        return this._identifier_;
     }
 
-    public void setIdent(TIdent node)
+    public void setIdentifier(TIdentifier node)
     {
-        if(this._ident_ != null)
+        if(this._identifier_ != null)
         {
-            this._ident_.parent(null);
+            this._identifier_.parent(null);
         }
 
         if(node != null)
@@ -63,32 +63,32 @@ public final class AForm extends PForm
             node.parent(this);
         }
 
-        this._ident_ = node;
+        this._identifier_ = node;
     }
 
-    public LinkedList<PStmt> getStmt()
+    public LinkedList<PStatement> getStatement()
     {
-        return this._stmt_;
+        return this._statement_;
     }
 
-    public void setStmt(List<?> list)
+    public void setStatement(List<?> list)
     {
-        for(PStmt e : this._stmt_)
+        for(PStatement e : this._statement_)
         {
             e.parent(null);
         }
-        this._stmt_.clear();
+        this._statement_.clear();
 
         for(Object obj_e : list)
         {
-            PStmt e = (PStmt) obj_e;
+            PStatement e = (PStatement) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._stmt_.add(e);
+            this._statement_.add(e);
         }
     }
 
@@ -96,21 +96,21 @@ public final class AForm extends PForm
     public String toString()
     {
         return ""
-            + toString(this._ident_)
-            + toString(this._stmt_);
+            + toString(this._identifier_)
+            + toString(this._statement_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._ident_ == child)
+        if(this._identifier_ == child)
         {
-            this._ident_ = null;
+            this._identifier_ = null;
             return;
         }
 
-        if(this._stmt_.remove(child))
+        if(this._statement_.remove(child))
         {
             return;
         }
@@ -122,19 +122,19 @@ public final class AForm extends PForm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._ident_ == oldChild)
+        if(this._identifier_ == oldChild)
         {
-            setIdent((TIdent) newChild);
+            setIdentifier((TIdentifier) newChild);
             return;
         }
 
-        for(ListIterator<PStmt> i = this._stmt_.listIterator(); i.hasNext();)
+        for(ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PStmt) newChild);
+                    i.set((PStatement) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

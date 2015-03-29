@@ -11,28 +11,28 @@ class StyleCascadingSpec extends Specification {
 
   val DefaultStyleEnvironment: StyleEnvironment = List(
     DefaultWidget(NumberType(),
-      Slider(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      Widget(Slider(), List(Width(100), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
     ),
     DefaultWidget(NumberType(),
-      SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("00ff00")), FontSize(14)))
+      Widget(SpinBox(), List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("00ff00")), FontSize(14)))
     ),
     DefaultWidget(NumberType(),
-      Text(List(Width(200), Font("Sans-Serif"), FontColor(HexadecimalColor("0000ff")), FontSize(15)))
+      Widget(Text(), List(Width(200), Font("Sans-Serif"), FontColor(HexadecimalColor("0000ff")), FontSize(15)))
     ),
     DefaultWidget(StringType(),
-      Text(List(Width(250), Font("Arial"), FontColor(HexadecimalColor("cc0000")), FontSize(16)))
+      Widget(Text(), List(Width(250), Font("Arial"), FontColor(HexadecimalColor("cc0000")), FontSize(16)))
     ),
     DefaultWidget(StringType(),
-      TextBlock(List(Width(300), Font("Verdana"), FontColor(HexadecimalColor("00cc00")), FontSize(17)))
+      Widget(TextBlock(), List(Width(300), Font("Verdana"), FontColor(HexadecimalColor("00cc00")), FontSize(17)))
     ),
     DefaultWidget(BooleanType(),
-      Radio(List(Width(350), Font("Arial"), FontColor(HexadecimalColor("0000cc")), FontSize(18)))
+      Widget(Radio(), List(Width(350), Font("Arial"), FontColor(HexadecimalColor("0000cc")), FontSize(18)))
     ),
     DefaultWidget(BooleanType(),
-      CheckBox(List(Width(400), Font("Verdana"), FontColor(HexadecimalColor("ff00cc")), FontSize(19)))
+      Widget(CheckBox(), List(Width(400), Font("Verdana"), FontColor(HexadecimalColor("ff00cc")), FontSize(19)))
     ),
     DefaultWidget(BooleanType(),
-      DropDown(List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20)))
+      Widget(DropDown(), List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20)))
     )
   )
   val EmptyStyleEnvironment: StyleEnvironment = List()
@@ -80,32 +80,40 @@ class StyleCascadingSpec extends Specification {
   "setting styles of widget" should {
     "return Slider with styles from defined default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Slider(List())
-      val result = Slider(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(Slider(), List())
+      val result = Widget(Slider(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = Slider(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = Slider(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(Slider(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(Slider(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Slider(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = Slider(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(Slider(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(Slider(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Slider with default styles when no styles are defined" in {
       val defaultStyles = List()
-      val widget = Slider(List())
-      val result = Slider(List(
+      val widget = Widget(Slider(), List())
+      val result = Widget(Slider(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -117,32 +125,40 @@ class StyleCascadingSpec extends Specification {
 
     "return SpinBox with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = SpinBox(List())
-      val result = SpinBox(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(SpinBox(), List())
+      val result = Widget(SpinBox(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = SpinBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(SpinBox(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(SpinBox(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = SpinBox(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = SpinBox(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(SpinBox(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(SpinBox(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return SpinBox with default styles when no styles are defined" in {
       val defaultStyles = List()
-      val widget = SpinBox(List())
-      val result = SpinBox(List(
+      val widget = Widget(SpinBox(), List())
+      val result = Widget(SpinBox(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -154,32 +170,36 @@ class StyleCascadingSpec extends Specification {
 
     "return Text with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Text(List())
-      val result = Text(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(Text(), List())
+      val result = Widget(Text(), List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = Text(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = Text(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(Text(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(Text(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Text(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = Text(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(Text(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(Text(), List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Text with default styles when styles are not defined" in {
       val defaultStyles = List()
-      val widget = Text(List())
-      val result = Text(List(
+      val widget = Widget(Text(), List())
+      val result = Widget(Text(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -191,32 +211,40 @@ class StyleCascadingSpec extends Specification {
 
     "return TextBlock with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = TextBlock(List())
-      val result = TextBlock(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(TextBlock(), List())
+      val result = Widget(TextBlock(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = TextBlock(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = TextBlock(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(TextBlock(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(TextBlock(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = TextBlock(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = TextBlock(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(TextBlock(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(TextBlock(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return TextBlock with default styles when styles are not defined" in {
       val defaultStyles = List()
-      val widget = TextBlock(List())
-      val result = TextBlock(List(
+      val widget = Widget(TextBlock(), List())
+      val result = Widget(TextBlock(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -228,32 +256,40 @@ class StyleCascadingSpec extends Specification {
 
     "return Radio with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Radio(List())
-      val result = Radio(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(Radio(), List())
+      val result = Widget(Radio(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = Radio(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = Radio(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(Radio(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(Radio(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = Radio(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = Radio(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(Radio(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(Radio(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return Radio with default styles when styles are not defined" in {
       val defaultStyles = List()
-      val widget = Radio(List())
-      val result = Radio(List(
+      val widget = Widget(Radio(), List())
+      val result = Widget(Radio(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -265,32 +301,40 @@ class StyleCascadingSpec extends Specification {
 
     "return CheckBox with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = CheckBox(List())
-      val result = CheckBox(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(CheckBox(), List())
+      val result = Widget(CheckBox(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = CheckBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = CheckBox(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(CheckBox(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(CheckBox(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = CheckBox(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = CheckBox(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(CheckBox(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(CheckBox(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return CheckBox with default styles when styles are not defined" in {
       val defaultStyles = List()
-      val widget = CheckBox(List())
-      val result = CheckBox(List(
+      val widget = Widget(CheckBox(), List())
+      val result = Widget(CheckBox(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -302,32 +346,40 @@ class StyleCascadingSpec extends Specification {
 
     "return DropDown with styles from default styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = DropDown(List())
-      val result = DropDown(List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14)))
+      val widget = Widget(DropDown(), List())
+      val result = Widget(DropDown(),
+        List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with styles from widget styles" in {
       val defaultStyles = List()
-      val widget = DropDown(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
-      val result = DropDown(List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13)))
+      val widget = Widget(DropDown(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
+      val result = Widget(DropDown(),
+        List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with mixed styles from widget styles and default styles with preference to widget styles" in {
       val defaultStyles = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("000000")), FontSize(14))
-      val widget = DropDown(List(Width(150), FontColor(HexadecimalColor("ff0000"))))
-      val result = DropDown(List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14)))
+      val widget = Widget(DropDown(), List(Width(150), FontColor(HexadecimalColor("ff0000"))))
+      val result = Widget(DropDown(),
+        List(Width(150), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(14))
+      )
 
       styleCascading.cascadeStyles(widget, defaultStyles) must beEqualTo(result)
     }
 
     "return DropDown with default styles when styles are not defined" in {
       val defaultStyles = List()
-      val widget = DropDown(List())
-      val result = DropDown(List(
+      val widget = Widget(DropDown(), List())
+      val result = Widget(DropDown(), List(
         styleCascading.DefaultWidth,
         styleCascading.DefaultFont,
         styleCascading.DefaultFontColor,
@@ -341,7 +393,7 @@ class StyleCascadingSpec extends Specification {
   "get default styles" should {
     "return a list with default styles for a Slider widget with question type Number" in {
       val _type = NumberType()
-      val widget = Slider(List())
+      val widget = Widget(Slider(), List())
 
       val result = List(Width(100), Font("Arial"), FontColor(HexadecimalColor("ff0000")), FontSize(13))
 
@@ -350,7 +402,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Spin Box widget with question type Number" in {
       val _type = NumberType()
-      val widget = SpinBox(List())
+      val widget = Widget(SpinBox(), List())
 
       val result = List(Width(150), Font("Verdana"), FontColor(HexadecimalColor("00ff00")), FontSize(14))
 
@@ -359,7 +411,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Text widget with question type Number" in {
       val _type = NumberType()
-      val widget = Text(List())
+      val widget = Widget(Text(), List())
 
       val result = List(Width(200), Font("Sans-Serif"), FontColor(HexadecimalColor("0000ff")), FontSize(15))
 
@@ -368,7 +420,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Text widget with question type String" in {
       val _type = StringType()
-      val widget = Text(List())
+      val widget = Widget(Text(), List())
 
       val result = List(Width(250), Font("Arial"), FontColor(HexadecimalColor("cc0000")), FontSize(16))
 
@@ -377,7 +429,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Text Block widget with question type String" in {
       val _type = StringType()
-      val widget = TextBlock(List())
+      val widget = Widget(TextBlock(), List())
 
       val result = List(Width(300), Font("Verdana"), FontColor(HexadecimalColor("00cc00")), FontSize(17))
 
@@ -386,7 +438,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Radio widget with question type Boolean" in {
       val _type = BooleanType()
-      val widget = Radio(List())
+      val widget = Widget(Radio(), List())
 
       val result = List(Width(350), Font("Arial"), FontColor(HexadecimalColor("0000cc")), FontSize(18))
 
@@ -395,7 +447,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Check Box widget with question type Boolean" in {
       val _type = BooleanType()
-      val widget = CheckBox(List())
+      val widget = Widget(CheckBox(), List())
 
       val result = List(Width(400), Font("Verdana"), FontColor(HexadecimalColor("ff00cc")), FontSize(19))
 
@@ -404,7 +456,7 @@ class StyleCascadingSpec extends Specification {
 
     "return a list with default styles for a Drop Down widget with question type Boolean" in {
       val _type = BooleanType()
-      val widget = DropDown(List())
+      val widget = Widget(DropDown(), List())
 
       val result = List(Width(450), Font("Sans-Serif"), FontColor(HexadecimalColor("ffcc00")), FontSize(20))
 
@@ -414,9 +466,9 @@ class StyleCascadingSpec extends Specification {
 
   "setting styles of Section/SectionElement" should {
     "return Question with styles from DefaultStyleEnvironment" in {
-      val element = Question(Variable("var"), Slider(List()))
+      val element = Question(Variable("var"), Widget(Slider(), List()))
       val typeEnvironment = Map("var" -> NumberType())
-      val result = Question(Variable("var"), Slider(List(
+      val result = Question(Variable("var"), Widget(Slider(), List(
         Width(100),
         Font("Arial"),
         FontColor(HexadecimalColor("ff0000")),
@@ -435,18 +487,18 @@ class StyleCascadingSpec extends Specification {
 
     "return Section with Questions with styles from DefaultStyleEnvironment" in {
       val element = Section("section", List(
-        Question(Variable("var1"), Slider(List())),
-        Question(Variable("var2"), CheckBox(List()))
+        Question(Variable("var1"), Widget(Slider(), List())),
+        Question(Variable("var2"), Widget(CheckBox(), List()))
       ))
       val typeEnvironment = Map("var1" -> NumberType(), "var2" -> BooleanType())
       val result = Section("section", List(
-        Question(Variable("var1"), Slider(List(
+        Question(Variable("var1"), Widget(Slider(), List(
           Width(100),
           Font("Arial"),
           FontColor(HexadecimalColor("ff0000")),
           FontSize(13)
         ))),
-        Question(Variable("var2"), CheckBox(List(
+        Question(Variable("var2"), Widget(CheckBox(), List(
           Width(400),
           Font("Verdana"),
           FontColor(HexadecimalColor("ff00cc")),
@@ -470,11 +522,11 @@ class StyleCascadingSpec extends Specification {
 
     "return nested Sections with Questions" in {
       val element = Section("section", List(
-        Question(Variable("var1"), Slider(List())),
-        Question(Variable("var2"), CheckBox(List())),
+        Question(Variable("var1"), Widget(Slider(), List())),
+        Question(Variable("var2"), Widget(CheckBox(), List())),
         Section("section1", List(
-          Question(Variable("var3"), Slider(List())),
-          Question(Variable("var4"), CheckBox(List()))
+          Question(Variable("var3"), Widget(Slider(), List())),
+          Question(Variable("var4"), Widget(CheckBox(), List()))
         ))
       ))
       val typeEnvironment = Map(
@@ -484,26 +536,26 @@ class StyleCascadingSpec extends Specification {
         "var4" -> BooleanType()
       )
       val result = Section("section", List(
-        Question(Variable("var1"), Slider(List(
+        Question(Variable("var1"), Widget(Slider(), List(
           Width(100),
           Font("Arial"),
           FontColor(HexadecimalColor("ff0000")),
           FontSize(13)
         ))),
-        Question(Variable("var2"), CheckBox(List(
+        Question(Variable("var2"), Widget(CheckBox(), List(
           Width(400),
           Font("Verdana"),
           FontColor(HexadecimalColor("ff00cc")),
           FontSize(19)
         ))),
         Section("section1", List(
-          Question(Variable("var3"), Slider(List(
+          Question(Variable("var3"), Widget(Slider(), List(
             Width(100),
             Font("Arial"),
             FontColor(HexadecimalColor("ff0000")),
             FontSize(13)
           ))),
-          Question(Variable("var4"), CheckBox(List(
+          Question(Variable("var4"), Widget(CheckBox(), List(
             Width(400),
             Font("Verdana"),
             FontColor(HexadecimalColor("ff00cc")),
@@ -518,18 +570,18 @@ class StyleCascadingSpec extends Specification {
 
   "merge default styles" should {
     "override styles in the environment if that style is defined again" in {
-      val defaultWidget = DefaultWidget(BooleanType(), DropDown(List(
+      val defaultWidget = DefaultWidget(BooleanType(), Widget(DropDown(), List(
         Width(100),
         Font("Arial"),
         FontColor(HexadecimalColor("00dd00"))
       )))
-      val styleEnvironment = List(DefaultWidget(BooleanType(), DropDown(List(
+      val styleEnvironment = List(DefaultWidget(BooleanType(), Widget(DropDown(), List(
         Width(450),
         Font("Sans-Serif"),
         FontColor(HexadecimalColor("ffcc00")),
         FontSize(20)
       ))))
-      val result = List(DefaultWidget(BooleanType(), DropDown(List(
+      val result = List(DefaultWidget(BooleanType(), Widget(DropDown(), List(
         Width(100),
         Font("Arial"),
         FontColor(HexadecimalColor("00dd00")),
@@ -551,7 +603,7 @@ class StyleCascadingSpec extends Specification {
     "return DefaultWidget with updated environment" in {
       val element = DefaultWidget(
         NumberType(),
-        Slider(List(
+        Widget(Slider(), List(
           Width(100),
           Font("Arial"),
           FontColor(HexadecimalColor("ff0000")),
@@ -561,7 +613,7 @@ class StyleCascadingSpec extends Specification {
       val result = (
         DefaultWidget(
           NumberType(),
-          Slider(List(
+          Widget(Slider(), List(
             Width(100),
             Font("Arial"),
             FontColor(HexadecimalColor("ff0000")),
@@ -570,7 +622,7 @@ class StyleCascadingSpec extends Specification {
         ),
         List(DefaultWidget(
           NumberType(),
-          Slider(List(
+          Widget(Slider(), List(
             Width(100),
             Font("Arial"),
             FontColor(HexadecimalColor("ff0000")),
@@ -591,7 +643,7 @@ class StyleCascadingSpec extends Specification {
 
     "return StyleSheet with default widget and empty page" in {
       val stylesheet = StyleSheet("stylesheet", List(
-        DefaultWidget(StringType(), TextBlock(List(
+        DefaultWidget(StringType(), Widget(TextBlock(), List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
@@ -600,7 +652,7 @@ class StyleCascadingSpec extends Specification {
         Page("page", List())
       ))
       val result = StyleSheet("stylesheet", List(
-        DefaultWidget(StringType(), TextBlock(List(
+        DefaultWidget(StringType(), Widget(TextBlock(), List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
@@ -614,7 +666,7 @@ class StyleCascadingSpec extends Specification {
 
     "return StyleSheet with default checkbox widget and a question checkbox widget" in {
       val stylesheet = StyleSheet("stylesheet", List(
-        DefaultWidget(BooleanType(), CheckBox(List(
+        DefaultWidget(BooleanType(), Widget(CheckBox(), List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
@@ -622,13 +674,13 @@ class StyleCascadingSpec extends Specification {
         ))),
         Page("page", List(
           Section("section", List(
-            Question(Variable("var"), CheckBox(List()))
+            Question(Variable("var"), Widget(CheckBox(), List()))
           ))
         ))
       ))
       val typeEnvironment = Map("var" -> BooleanType())
       val result = StyleSheet("stylesheet", List(
-        DefaultWidget(BooleanType(), CheckBox(List(
+        DefaultWidget(BooleanType(), Widget(CheckBox(), List(
           Width(100),
           Font("Verdana"),
           FontColor(HexadecimalColor("ffff00")),
@@ -636,7 +688,7 @@ class StyleCascadingSpec extends Specification {
         ))),
         Page("page", List(
           Section("section", List(
-            Question(Variable("var"), CheckBox(List(
+            Question(Variable("var"), Widget(CheckBox(), List(
               Width(100),
               Font("Verdana"),
               FontColor(HexadecimalColor("ffff00")),

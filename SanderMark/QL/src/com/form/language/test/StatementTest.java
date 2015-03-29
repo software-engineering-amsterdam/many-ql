@@ -13,8 +13,8 @@ import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.IfStatement;
-import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.type.BoolType;
 
 public class StatementTest {
@@ -47,7 +47,7 @@ public class StatementTest {
     private Form getFormObject() throws IOException {
 	List<Statement> statements = new ArrayList<Statement>();
 	statements.add(getQuestionObject());
-	return new Form("formExample", statements);
+	return new Form("formExample",statements);
     }
 
     @Test
