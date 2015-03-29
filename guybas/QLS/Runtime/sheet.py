@@ -13,8 +13,8 @@ class Sheet(ql_form.Form):
         if not isinstance(qls_ast, qls.Sheet):
             raise exc.RuntimeException("Input must be a QLS AST!")
 
-        self.__questions = []
-        self.extract_statements(self._form_ast.statements(), importlib.import_module('QLS.Runtime.question'))
+        self._statements = []
+        self.create_flattened_statements(self._form_ast.statements(), importlib.import_module('QLS.Runtime.question'))
 
         self.qls_ast = qls_ast
         self.gui_pages = self.__generate_pages()
@@ -52,7 +52,7 @@ class Sheet(ql_form.Form):
         """
         order = 0
         for basic_question in self._ast_questions:
-            qid = basic_question.get_id()
+            qid = basic_question.id()
             if qid not in self._q_conditions_dict:
                 raise exc.RuntimeException("Fatal Error: id does not exist in the dict!")
             enriched_question = runtime_question.Question(basic_question, order, self._q_conditions_dict[qid])
@@ -60,7 +60,7 @@ class Sheet(ql_form.Form):
             order += 1
 
     def __question_widget(self, q_id, widget):
-        question = self.get_statement_dict()[q_id]
+        question = self.statement_map()[q_id]
         question.set_bg_color(widget.get_color())
         question.set_fg_color(widget.get_bg_color())
         question.set_font_style(widget.get_font())

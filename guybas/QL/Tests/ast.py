@@ -63,7 +63,7 @@ class Tests(unittest.TestCase):
     def test_ast_question(self):
         result = (fg.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], question.Question)
-        self.assertEqual(result[0].get_id(), "why")
+        self.assertEqual(result[0].id(), "why")
         self.assertEqual(result[0].get_type(), text_type.Text())
         self.assertEqual(result[0].get_label(), "What do you like about hummus ?")
 

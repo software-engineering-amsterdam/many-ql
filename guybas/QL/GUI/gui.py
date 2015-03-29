@@ -12,7 +12,7 @@ class GUI:
         assert isinstance(runtime_form, enriched_form.Form), "the input is not of type Form"
         self.qGui = tk.Tk()
         self.__form = runtime_form
-        self.__questions = self.__form.questions()
+        self.__questions = self.__form.statements()
         self.__dependencies = self.__form._form_ast.dependencies()
         self.__answersMap = answers_map.AnswersMap()
 
@@ -80,7 +80,7 @@ class GUI:
         self.update(assignment, answer)
 
     def elements_recreate(self, qid):
-        statements_dict = self.__form.get_statement_dict()
+        statements_dict = self.__form.statement_map()
         question = statements_dict[qid]
 
         if isinstance(question, ast_assign.Assignment):
