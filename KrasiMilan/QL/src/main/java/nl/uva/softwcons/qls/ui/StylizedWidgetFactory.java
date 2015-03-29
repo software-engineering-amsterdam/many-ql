@@ -1,11 +1,11 @@
 package nl.uva.softwcons.qls.ui;
 
+import static nl.uva.softwcons.qls.ui.widget.RawValueAndTypeToConverterMap.TABLE;
+
 import java.util.Optional;
 
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.Question;
-import nl.uva.softwcons.ql.ui.converter.BooleanToBooleanValueConverter;
-import nl.uva.softwcons.ql.ui.converter.StringToNumberValueConverter;
 import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
 import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
@@ -19,8 +19,6 @@ import nl.uva.softwcons.qls.ast.widget.type.SliderType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetTypeVisitor;
-import nl.uva.softwcons.qls.ui.converter.NumberToNumberValueConverter;
-import nl.uva.softwcons.qls.ui.converter.StringToBooleanValueConverter;
 import nl.uva.softwcons.qls.ui.style.StyleBlock;
 import nl.uva.softwcons.qls.ui.widget.DropdownWidget;
 import nl.uva.softwcons.qls.ui.widget.RadioButtonWidget;
@@ -38,44 +36,50 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     @Override
     public Widget getWidget(final Question question) {
         final Optional<WidgetType> questionWidget = resolver.getWidgetType(question.getId());
-        final StyleBlock questionStyle = resolver.getStyle(question.getId());
 
-        final Widget widget;
         if (questionWidget.isPresent()) {
-            widget = questionWidget.get().accept(this);
-            widget.getWidget().setStyle(questionStyle.asString()); // TODO
-        } else {
-            widget = defaultFactory.getWidget(question);
+            final Widget widget = getWidgetByType(questionWidget.get());
+            widget.setConverter(TABLE.get(widget.getClass(), question.getType()));
+
+            return applyStyle(widget, resolver.getStyle(question.getId()));
         }
 
-        return widget;
+        return defaultFactory.getWidget(question);
     }
 
     @Override
     public Widget visit(final CheckboxType type) {
-        return new CheckboxWidget(type.getYes(), new BooleanToBooleanValueConverter());
+        return new CheckboxWidget(type.getYes());
     }
 
     @Override
     public Widget visit(final DropdownType type) {
-        return new DropdownWidget(type.getYes(), type.getNo(), new StringToBooleanValueConverter(type.getYes(),
-                type.getNo()));
+        return new DropdownWidget(type.getYes(), type.getNo());
     }
 
     @Override
     public Widget visit(final RadioButtonType type) {
-        return new RadioButtonWidget(type.getYes(), type.getNo(), new BooleanToBooleanValueConverter());
+        return new RadioButtonWidget(type.getYes(), type.getNo());
     }
 
     @Override
     public Widget visit(final SliderType type) {
-        return new SliderWidget(type.getStart(), type.getEnd(), type.getStep(), new NumberToNumberValueConverter(
-                type.getStart()));
+        return new SliderWidget(type.getStart(), type.getEnd(), type.getStep());
     }
 
     @Override
     public Widget visit(final TextType type) {
-        return new TextFieldWidget(new StringToNumberValueConverter()); // TODO
+        return new TextFieldWidget();
+    }
+
+    private Widget getWidgetByType(final WidgetType widgetType) {
+        return widgetType.accept(this);
+    }
+
+    private Widget applyStyle(final Widget widget, final StyleBlock style) {
+        widget.getWidget().setStyle(style.asString());
+
+        return widget;
     }
 
 }

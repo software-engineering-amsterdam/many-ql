@@ -7,7 +7,11 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class TextFieldWidget extends Widget {
     private final TextField textField;
-    private final ValueConverter<String> converter;
+    private ValueConverter<String> converter;
+
+    public TextFieldWidget() {
+        this.textField = new TextField();
+    }
 
     public TextFieldWidget(final ValueConverter<String> converter) {
         this.textField = new TextField();
@@ -34,6 +38,12 @@ public class TextFieldWidget extends Widget {
         this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void setConverter(final ValueConverter converter) {
+        this.converter = converter;
     }
 
 }
