@@ -10,7 +10,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.Stack;
 
-public class PExpInterpreter extends AnalysisAdapter {
+public class PExpressionInterpreter extends AnalysisAdapter {
     private final VariableTable newVariableTable;
     private final Stack<Value> valueStack;
 
@@ -210,7 +210,7 @@ public class PExpInterpreter extends AnalysisAdapter {
         return popValue();
     }
 
-    public PExpInterpreter(VariableTable newVariableTable) {
+    public PExpressionInterpreter(VariableTable newVariableTable) {
         super();
         this.newVariableTable = newVariableTable;
         this.valueStack = new Stack<Value>();

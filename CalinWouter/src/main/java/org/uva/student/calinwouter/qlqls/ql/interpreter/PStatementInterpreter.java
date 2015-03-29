@@ -10,10 +10,10 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.LinkedList;
 
-public class PStmtInterpreter extends AnalysisAdapter {
+public class PStatementInterpreter extends AnalysisAdapter {
     private final VariableTable oldVariableTable;
     private final VariableTable newVariableTable;
-    private final PExpInterpreter expInterpreter;
+    private final PExpressionInterpreter expInterpreter;
     private final StaticFields staticFields;
 
     @Override
@@ -101,8 +101,8 @@ public class PStmtInterpreter extends AnalysisAdapter {
         node.getExpression().apply(expInterpreter);
     }
 
-    public PStmtInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
-        this.expInterpreter = new PExpInterpreter(newVariableTable);
+    public PStatementInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
+        this.expInterpreter = new PExpressionInterpreter(newVariableTable);
         this.oldVariableTable = oldVariableTable;
         this.newVariableTable = newVariableTable;
         this.staticFields = staticFields;
