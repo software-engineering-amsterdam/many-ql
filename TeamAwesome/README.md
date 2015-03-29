@@ -2,8 +2,8 @@
 QL, not QLS.
 
 # Where's the code?
-The `ql/ql/` folder is the python module for all of the code except for
-`ql/main.py`.
+The `ql/ql/` folder is the python module for most of the code.
+`ql/ql.py` is the main executable.
 
 # What are the runtime dependencies?
 ## Python 3.4
