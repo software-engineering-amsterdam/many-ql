@@ -1,23 +1,23 @@
-package com.form.language.ast.statement;
+package com.form.language.ast.statement.question;
 
 import javax.swing.JPanel;
 
+import com.form.language.ast.statement.Statement;
 import com.form.language.ast.type.Type;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.issue.QLToken;
-import com.form.language.issue.Warning;
 import com.form.language.memory.Context;
 
 //TODO :: Seperate each variable?
 public class Question extends Statement {
-    private String id;
-    private String questionLabel;
+    private QuestionId id;
+    private QuestionLabel label;
     private Type questionType;
 
-    public Question(String questionLabel, String id, Type questionType, QLToken tokenInfo) {
+    public Question(String label, String id, Type questionType, QLToken tokenInfo) {
 	super(tokenInfo);
-	this.questionLabel = questionLabel;
-	this.id = id;
+	this.id = new QuestionId(id);
+	this.label = new QuestionLabel(label);
 	this.questionType = questionType;
     }
 
@@ -26,15 +26,15 @@ public class Question extends Statement {
     }
 
     public String getText() {
-	return questionLabel;
+	return label.getValue();
     }
 
     public String getId() {
-	return id;
+	return id.getValue();
     }
 
     public void initMemory(Context context) {
-	context.setValue(id, questionType.defaultValue());
+	context.setValue(getId(), questionType.defaultValue());
     }
     
     //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
@@ -42,14 +42,12 @@ public class Question extends Statement {
     public boolean checkType(Context context) {
 	context.addQuestion(this);
 	checkExistingLabels(context);
-	context.addLabel(questionLabel);
+	context.addLabel(getText());
 	return true;
     }
 
     private void checkExistingLabels(Context context) {
-	if (context.containsLabel(questionLabel)) {
-	    context.addWarning(new Warning(tokenInfo, "A question labeled \" + questionLabel + \" already exists"));
-	}
+    label.checkExistingLabels(context, tokenInfo);
     }
 
     @Override
