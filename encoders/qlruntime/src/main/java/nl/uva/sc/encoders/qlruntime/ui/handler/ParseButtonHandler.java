@@ -35,15 +35,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 		String inputFilePath = inputFileTextCallback.getInputFileText();
 		try {
-			URL resource = getURL(inputFilePath);
-			File file;
-			if (resource != null) {
-				file = new File(resource.toURI());
-			} else {
-				file = new File(inputFilePath);
-			}
-
-			String absolutePath = file.getAbsolutePath();
+			String absolutePath = getAbsoluteFilePath(inputFilePath);
 			QuestionnaireParser questionnaireParser = new QuestionnaireParser();
 			QuestionnaireParsingResult questionnaireParsingResult = questionnaireParser.parse(absolutePath);
 			parseResultCallback.showResult(questionnaireParsingResult);
@@ -53,6 +45,17 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 			dialog.show();
 			e.printStackTrace();
 		}
+	}
+
+	private String getAbsoluteFilePath(String inputFilePath) throws URISyntaxException {
+		URL resource = getURL(inputFilePath);
+		File file;
+		if (resource != null) {
+			file = new File(resource.toURI());
+		} else {
+			file = new File(inputFilePath);
+		}
+		return file.getAbsolutePath();
 	}
 
 	private URL getURL(String path) {
