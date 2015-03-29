@@ -1,6 +1,8 @@
 package ql.gui.segment;
 
 
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import ql.gui.control.Control;
 
 /**
@@ -12,14 +14,15 @@ public class RowStyle
     private String foreColor;
     private String backColor;
     private Control widget;
-    private String font;
+    private String fontName;
     private Integer fontSize;
 
     public RowStyle()
     {
+        this.width = 400;
         this.foreColor = "black";
         this.backColor = "white";
-        this.font = "Arial";
+        this.fontName = "Arial";
         this.fontSize = 12;
     }
 
@@ -33,9 +36,9 @@ public class RowStyle
         this.width = width;
     }
 
-    public String getForeColor()
+    public Paint getForeColor()
     {
-        return foreColor;
+        return Paint.valueOf(this.foreColor);
     }
 
     public void setForeColor(String foreColor)
@@ -43,9 +46,9 @@ public class RowStyle
         this.foreColor = foreColor;
     }
 
-    public String getBackColor()
+    public Paint getBackColor()
     {
-        return backColor;
+        return Paint.valueOf(this.backColor);
     }
 
     public void setBackColor(String backColor)
@@ -63,19 +66,14 @@ public class RowStyle
         this.widget = widget;
     }
 
-    public String getFont()
+    public Font getFont()
     {
-        return font;
+        return new Font(this.fontName, this.fontSize);
     }
 
-    public void setFont(String font)
+    public void setFontName(String fontName)
     {
-        this.font = font;
-    }
-
-    public Integer getFontSize()
-    {
-        return fontSize;
+        this.fontName = fontName;
     }
 
     public void setFontSize(Integer fontSize)
