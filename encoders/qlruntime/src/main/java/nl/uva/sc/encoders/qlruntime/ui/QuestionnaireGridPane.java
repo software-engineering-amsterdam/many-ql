@@ -10,9 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.statement.Question;
 import nl.uva.sc.encoders.ql.ast.type.DataType;
@@ -25,22 +22,20 @@ import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
 public class QuestionnaireGridPane extends GridPane {
 
-	public QuestionnaireGridPane(String questionnaireTitle) {
+	public QuestionnaireGridPane(final List<RuntimeQuestion> allRuntimeQuestions, final List<RuntimeQuestion> runtimeQuestionsToShow) {
 		setAlignment(Pos.CENTER);
 		setHgap(10);
 		setVgap(10);
 		setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text(questionnaireTitle);
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		add(scenetitle, 0, 0, 2, 1);
+		showQuestions(allRuntimeQuestions, runtimeQuestionsToShow);
 	}
 
-	public void showQuestions(final List<RuntimeQuestion> runtimeQuestions) {
+	public void showQuestions(final List<RuntimeQuestion> allRuntimeQuestions, final List<RuntimeQuestion> runtimeQuestionsToShow) {
 		getChildren().clear();
 		int y = 1;
 
-		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
+		for (RuntimeQuestion runtimeQuestion : runtimeQuestionsToShow) {
 			Question question = runtimeQuestion.getQuestion();
 
 			DataType dataType = question.getDataType();
@@ -56,8 +51,8 @@ public class QuestionnaireGridPane extends GridPane {
 			control.setVisible(visible);
 
 			if (condition != null) {
-				addChangeListeners(runtimeQuestions, runtimeQuestion, condition, evt -> {
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
+				addChangeListeners(runtimeQuestionsToShow, runtimeQuestion, condition, evt -> {
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestionsToShow);
 					// The cast to BooleanValue should be safe, because the
 					// types should already be checked at this point.
 						BooleanValue value = (BooleanValue) condition.accept(expressionEvaluator);
@@ -71,8 +66,8 @@ public class QuestionnaireGridPane extends GridPane {
 			if (computed != null) {
 				runtimeQuestion.addPropertyChangeListener(controlPropertyChangeWrapper);
 				control.setDisable(true);
-				addChangeListeners(runtimeQuestions, runtimeQuestion, computed, evt -> {
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestions);
+				addChangeListeners(allRuntimeQuestions, runtimeQuestion, computed, evt -> {
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(allRuntimeQuestions);
 					Value value = computed.accept(expressionEvaluator);
 					runtimeQuestion.setValue(value);
 				});
@@ -82,12 +77,12 @@ public class QuestionnaireGridPane extends GridPane {
 		}
 	}
 
-	private void addChangeListeners(final List<RuntimeQuestion> runtimeQuestions, final RuntimeQuestion runtimeQuestion,
+	private void addChangeListeners(final List<RuntimeQuestion> allRuntimeQuestions, final RuntimeQuestion runtimeQuestion,
 			final Expression expression, final PropertyChangeListener listener) {
 		Set<String> relatedQuestionNames = new HashSet<>();
 		expression.collectQuestionNames(relatedQuestionNames);
 		for (String relatedQuestionName : relatedQuestionNames) {
-			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+			RuntimeQuestion relatedQuestion = RuntimeQuestion.getRuntimeQuestion(relatedQuestionName, allRuntimeQuestions);
 			relatedQuestion.addPropertyChangeListener(listener);
 		}
 	}
