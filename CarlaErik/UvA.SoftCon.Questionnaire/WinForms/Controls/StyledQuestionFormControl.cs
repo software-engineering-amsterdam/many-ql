@@ -32,9 +32,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             {
                 pageControl.NavigateBackwards += PageControl_NavigateBackwards;
                 pageControl.NavigateForwards += PageControl_NavigateForwards;
-
-                // add 
             }
+
+            Controls.Add(pages.First());
         }
 
         private void PageControl_NavigateBackwards(object sender, EventArgs e)
