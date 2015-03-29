@@ -111,16 +111,15 @@ public class Main extends Application {
 
 		InputFileTextCallback inputQLFileTextCallback = () -> qlInputFileTextField.getText();
 		InputFileTextCallback inputQLSFileTextCallback = () -> qlsInputFileTextField.getText();
-		ParseResultCallback parseCombinedResultCallback = combinedParsingResult -> {
-			QuestionnaireParsingResult questionnaireParsingResult = ((CombinedParsingResult) combinedParsingResult)
-					.getQuestionnaireParsingResult();
+		ParseResultCallback parseCombinedResultCallback = parsingResult -> {
+			CombinedParsingResult combinedParsingResult = (CombinedParsingResult) parsingResult;
+			QuestionnaireParsingResult questionnaireParsingResult = combinedParsingResult.getQuestionnaireParsingResult();
 			showNode(stackPane, validationsGridPane);
-			ValidationResult validationResult = questionnaireParsingResult.validate();
+			ValidationResult validationResult = combinedParsingResult.validate();
 			showButton.setVisible(!validationResult.containsErrors());
 			validationsGridPane.showValidations(validationResult.getValidationMessages());
 			questionnaire = questionnaireParsingResult.getQuestionnaire();
-			StylesheetParsingResult stylesheetParsingResult = ((CombinedParsingResult) combinedParsingResult)
-					.getStylesheetParsingResult();
+			StylesheetParsingResult stylesheetParsingResult = combinedParsingResult.getStylesheetParsingResult();
 			stylesheet = stylesheetParsingResult.getStylesheet();
 		};
 		parseButton.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback,

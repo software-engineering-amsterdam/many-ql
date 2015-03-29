@@ -38,7 +38,7 @@ public class TypeCheckerTest {
 		assertThat(validations.toString(), validations.size(), is(1));
 		ValidationMessage validationMessage = validations.get(0);
 		assertThat(validationMessage.getValidationMessage(),
-				is("Question 'Section with all kinds of Crap' does not exist in questionnaire"));
+				is("Question 'thisQuestionDoesNotExistInQL' does not exist in questionnaire"));
 	}
 
 }

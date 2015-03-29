@@ -38,13 +38,12 @@ public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 
 	@Override
 	public List<TypeValidation> visit(Section section) {
-		String name = section.getName();
 		List<TypeValidation> validations = new ArrayList<>();
 		List<String> questions = new ArrayList<>();
 		questions = stylesheet.getAllQuestions();
 		for (String question : questions) {
 			if (!questionnaire.containsQuestion(question)) {
-				String validationMessage = "Question '" + name + "' does not exist in questionnaire";
+				String validationMessage = "Question '" + question + "' does not exist in questionnaire";
 				TextLocation textLocation = section.getTextLocation();
 				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			}
