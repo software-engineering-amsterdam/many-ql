@@ -5,7 +5,7 @@ using QL.Grammar;
 
 namespace QL.AST.ASTCreation
 {
-    public class ASTBuilder : IExecutable
+    public class ASTBuilder : IExecutableHandler
     {
         public ASTBuilder()
         { }

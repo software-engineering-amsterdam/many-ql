@@ -20,18 +20,16 @@
             ConditionFalseBlock = falseBlock;
         }
 
-        public ControlUnit(Expression expression, Block trueBlock, Block falseBlock, AST.SourceLocation sourceLocation)
+        public ControlUnit(Expression expression, Block trueBlock, Block falseBlock, SourceLocation sourceLocation)
             : this(expression, trueBlock, falseBlock)
         {
             SourceLocation = sourceLocation;
         }
 
-        public ControlUnit(Expression expression, Block trueBlock, AST.SourceLocation sourceLocation):this(expression,trueBlock)
+        public ControlUnit(Expression expression, Block trueBlock, SourceLocation sourceLocation):this(expression,trueBlock)
         {            
             SourceLocation = sourceLocation;
         }
-
-      
     }
 
 }

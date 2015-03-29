@@ -1,5 +1,8 @@
 ﻿namespace QL.AST.Nodes
 {
+    /// <summary>
+    /// Base class for all elements that the syntax defines and result in a part of the AST.
+    /// </summary>
     public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; set; }

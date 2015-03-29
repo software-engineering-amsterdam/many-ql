@@ -5,7 +5,7 @@ using QL.Exceptions.Errors;
 
 namespace QL.DataHandlers.InputHandling
 {
-    public class Initializer : IExecutable
+    public class Initializer : IExecutableHandler
     {
         public Initializer()
         { }

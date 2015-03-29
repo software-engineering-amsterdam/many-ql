@@ -9,7 +9,7 @@ using QL.UI.Controls;
 
 namespace QL.UI.Builder
 {
-    public class Renderer : IExecutable
+    public class Renderer : IExecutableHandler
     {
         public IList<WidgetBase> ElementsToDisplay { get; private set; }
 

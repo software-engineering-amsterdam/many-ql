@@ -4,7 +4,7 @@ using QL.Exceptions;
 
 namespace QL.DataHandlers.TypeChecking
 {
-    public class TypeChecker : IExecutable
+    public class TypeChecker : IExecutableHandler
     {
         public TypeChecker()
         { }

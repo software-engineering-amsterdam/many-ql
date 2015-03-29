@@ -55,7 +55,7 @@
     <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
     <Compile Include="AST\ASTCreation\TypeFactory.cs" />
     <Compile Include="DataHandlers\InputHandling\Initializer.cs" />
-    <Compile Include="DataHandlers\IExecutable.cs" />
+    <Compile Include="DataHandlers\IExecutableHandler.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />

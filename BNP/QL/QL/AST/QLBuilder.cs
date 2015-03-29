@@ -19,12 +19,12 @@ namespace QL.AST
     /// </summary>
     public class QLBuilder
     {
-        protected IList<IExecutable> Initializers { get; set; }
-        protected IList<IExecutable> ASTBuilders { get; set; }
-        protected IList<IExecutable> TypeCheckers { get; set; }
-        protected IList<IExecutable> Evaluators { get; set; }
-        protected IList<IExecutable> Renderers { get; set; }
-        protected IList<IExecutable> Exporters { get; set; }
+        protected IList<IExecutableHandler> Initializers { get; set; }
+        protected IList<IExecutableHandler> ASTBuilders { get; set; }
+        protected IList<IExecutableHandler> TypeCheckers { get; set; }
+        protected IList<IExecutableHandler> Evaluators { get; set; }
+        protected IList<IExecutableHandler> Renderers { get; set; }
+        protected IList<IExecutableHandler> Exporters { get; set; }
 
         public QLBuilderStateMachine BuilderStateMachine { get; private set; }
         public DataContext DataContext { get; private set; }
@@ -37,12 +37,12 @@ namespace QL.AST
         #region Constructors
         protected QLBuilder()
         {
-            Initializers = new List<IExecutable>();
-            ASTBuilders = new List<IExecutable>();
-            TypeCheckers = new List<IExecutable>();
-            Evaluators = new List<IExecutable>();
-            Renderers = new List<IExecutable>();
-            Exporters = new List<IExecutable>();
+            Initializers = new List<IExecutableHandler>();
+            ASTBuilders = new List<IExecutableHandler>();
+            TypeCheckers = new List<IExecutableHandler>();
+            Evaluators = new List<IExecutableHandler>();
+            Renderers = new List<IExecutableHandler>();
+            Exporters = new List<IExecutableHandler>();
 
             BuilderStateMachine = new QLBuilderStateMachine();
             UnhandledExceptions = new List<Exception>();
@@ -60,32 +60,32 @@ namespace QL.AST
         #endregion
 
         #region Handler level registration
-        public void RegisterInitializer(IExecutable handler)
+        public void RegisterInitializer(IExecutableHandler handler)
         {
             Initializers.Add(handler);
         }
 
-        public void RegisterASTBuilder(IExecutable handler)
+        public void RegisterASTBuilder(IExecutableHandler handler)
         {
             ASTBuilders.Add(handler);
         }
 
-        public void RegisterTypeChecker(IExecutable handler)
+        public void RegisterTypeChecker(IExecutableHandler handler)
         {
             TypeCheckers.Add(handler);
         }
 
-        public void RegisterEvaluator(IExecutable handler)
+        public void RegisterEvaluator(IExecutableHandler handler)
         {
             Evaluators.Add(handler);
         }
 
-        public void RegisterRenderer(IExecutable handler)
+        public void RegisterRenderer(IExecutableHandler handler)
         {
             Renderers.Add(handler);
         }
 
-        public void RegisterExporter(IExecutable handler)
+        public void RegisterExporter(IExecutableHandler handler)
         {
             Exporters.Add(handler);
         }
@@ -169,11 +169,11 @@ namespace QL.AST
             return retVal;
         }
 
-        private bool RunHandlerLevel(IEnumerable<IExecutable> levelHandlerList)
+        private bool RunHandlerLevel(IEnumerable<IExecutableHandler> levelHandlerList)
         {
             bool successfulExecution = true;
 
-            foreach (IExecutable handler in levelHandlerList)
+            foreach (IExecutableHandler handler in levelHandlerList)
             {
                 try
                 {

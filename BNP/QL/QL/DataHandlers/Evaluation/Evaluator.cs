@@ -4,7 +4,7 @@ using QL.Exceptions.Errors;
 
 namespace QL.DataHandlers.Evaluation
 {
-    public class Evaluator : IExecutable
+    public class Evaluator : IExecutableHandler
     {
         public Evaluator()
         { }
