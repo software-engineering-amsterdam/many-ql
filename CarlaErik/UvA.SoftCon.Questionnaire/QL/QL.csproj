@@ -59,7 +59,7 @@
     <Compile Include="AST\Model\Statements\StringQuestion.cs" />
     <Compile Include="QLController.cs" />
     <Compile Include="TopDownQuestionFormVisitor.cs" />
-    <Compile Include="IQLVisitor.cs" />
+    <Compile Include="IQuestionFormVisitor.cs" />
     <Compile Include="AST\Model\Expressions\Binary\Add.cs" />
     <Compile Include="AST\Model\Expressions\Binary\And.cs" />
     <Compile Include="AST\Model\Expressions\Binary\BinaryExpression.cs" />

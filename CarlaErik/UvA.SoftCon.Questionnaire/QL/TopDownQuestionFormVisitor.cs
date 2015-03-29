@@ -15,7 +15,7 @@ namespace UvA.SoftCon.Questionnaire.QL
     /// <summary>
     /// Provides a default top-down traversal visitor for the questionnaire AST.
     /// </summary>
-    public abstract class TopDownQuestionFormVisitor<T> : IQLVisitor<T>
+    public abstract class TopDownQuestionFormVisitor<T> : IQuestionFormVisitor<T>
     {
         public virtual T Visit(QuestionForm form)
         {

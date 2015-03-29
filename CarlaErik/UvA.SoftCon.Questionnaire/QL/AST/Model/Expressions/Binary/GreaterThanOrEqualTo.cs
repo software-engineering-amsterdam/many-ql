@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
         internal GreaterThanOrEqualTo(Operation operation, Expression left, Expression right, TextPosition position)
             : base(operation, left, right, position) {}
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
 
 namespace UvA.SoftCon.Questionnaire.QLS
 {
-    public interface IQLSVisitor<T>
+    public interface IStyleSheetVisitor<T>
     {
         T VisitStyleSheet(StyleSheet styleSheet);
 

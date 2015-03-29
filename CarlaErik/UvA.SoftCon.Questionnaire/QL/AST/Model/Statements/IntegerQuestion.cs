@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
         internal IntegerQuestion(Identifier id, string label, Expression expression, TextPosition position)
             : base(DataType.Integer, id, label, expression, position) { }
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

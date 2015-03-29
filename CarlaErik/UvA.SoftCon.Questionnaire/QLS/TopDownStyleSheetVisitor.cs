@@ -12,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
     /// <summary>
     /// Provides a default top down traversel visitor for the style sheet AST.
     /// </summary>
-    public abstract class TopDownStyleSheetVisitor<T> : IQLSVisitor<T>
+    public abstract class TopDownStyleSheetVisitor<T> : IStyleSheetVisitor<T>
     {
         public virtual T VisitStyleSheet(StyleSheet styleSheet)
         {

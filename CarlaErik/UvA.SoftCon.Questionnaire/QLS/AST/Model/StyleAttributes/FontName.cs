@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
             Name = name;
         }
 
-        public override T Accept<T>(IQLSVisitor<T> visitor)
+        public override T Accept<T>(IStyleSheetVisitor<T> visitor)
         {
             return visitor.VisitFontName(this);
         }
