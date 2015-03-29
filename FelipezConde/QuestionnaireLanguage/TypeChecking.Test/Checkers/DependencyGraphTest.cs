@@ -10,7 +10,7 @@ using TypeChecking.Checkers;
 namespace TypeChecking.Test.Checkers
 {
     [TestClass]
-    public class DependencyGraphTesta
+    public class DependencyGraphTest
     {
         [TestMethod]
         public void GetCycles_returns_Direct_Cycle()
