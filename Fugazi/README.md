@@ -19,6 +19,9 @@ ant all
 
 The deployment of the jar file is located in `{project.dir}/out/artifacts/Fugazi_jar/Fugazi.jar`
 
+Other supported build commands are:
+- `ant clean` _Cleans the project._
+
 ### Execute
 
 To run the application you need `java` installed o you machine, the usage is the following:
