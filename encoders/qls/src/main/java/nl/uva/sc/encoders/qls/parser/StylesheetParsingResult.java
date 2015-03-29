@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.ast.parser;
+package nl.uva.sc.encoders.qls.parser;
 
 import java.util.List;
 

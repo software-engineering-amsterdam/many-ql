@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.ast.parser;
+package nl.uva.sc.encoders.qls.parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,10 @@ import java.util.List;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.CheckBoxContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.ColorContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.DefaultStyleContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.FontContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.FontSizeContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.NumberFieldContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
@@ -16,12 +19,17 @@ import nl.uva.sc.encoders.qls.EncodersQLSParser.StylePropertyContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.TextFieldContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.WidgetContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.WidthContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.DefaultStyle;
-import nl.uva.sc.encoders.qls.ast.DefaultStyleProperty;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
+import nl.uva.sc.encoders.qls.ast.property.Color;
+import nl.uva.sc.encoders.qls.ast.property.DefaultStyleProperty;
+import nl.uva.sc.encoders.qls.ast.property.Font;
+import nl.uva.sc.encoders.qls.ast.property.FontSize;
+import nl.uva.sc.encoders.qls.ast.property.Width;
 import nl.uva.sc.encoders.qls.ast.widget.CheckBox;
 import nl.uva.sc.encoders.qls.ast.widget.NumberField;
 import nl.uva.sc.encoders.qls.ast.widget.Radio;
@@ -91,11 +99,38 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType, defaultStyleWidget);
 
 		for (StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
-			String defaultStylePropertyText = stylePropertyContext.getText();
-			DefaultStyleProperty defaultStyleProperty = new DefaultStyleProperty(textLocation, defaultStylePropertyText);
+			DefaultStyleProperty defaultStyleProperty = (DefaultStyleProperty) stylePropertyContext.accept(this);
 			defaultStyle.addDefaultStyleProperty(defaultStyleProperty);
 		}
 		return defaultStyle;
+	}
+
+	@Override
+	public Color visitColor(ColorContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		String value = ctx.value.getText();
+		return new Color(textLocation, value);
+	}
+
+	@Override
+	public Font visitFont(FontContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		String value = ctx.value.getText();
+		return new Font(textLocation, value);
+	}
+
+	@Override
+	public FontSize visitFontSize(FontSizeContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		Integer value = Integer.valueOf(ctx.value.getText());
+		return new FontSize(textLocation, value);
+	}
+
+	@Override
+	public Width visitWidth(WidthContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		Integer value = Integer.valueOf(ctx.value.getText());
+		return new Width(textLocation, value);
 	}
 
 	@Override
