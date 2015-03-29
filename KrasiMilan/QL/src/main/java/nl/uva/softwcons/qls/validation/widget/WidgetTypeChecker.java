@@ -16,12 +16,11 @@ import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
 import nl.uva.softwcons.qls.util.QuestionTypeCollector;
 import nl.uva.softwcons.qls.validation.widget.error.IncompatibleWidget;
 
-public class WidgetTypeChecker extends Checker implements StylesheetVisitor<List<Error>>, SegmentVisitor<Void> {
-
+public final class WidgetTypeChecker extends Checker implements StylesheetVisitor<List<Error>>, SegmentVisitor<Void> {
     private final QuestionTypeCollector typeEnv;
 
     public static List<Error> check(final Stylesheet stylesheet, final Form form) {
-        QuestionTypeCollector typeCollector = new QuestionTypeCollector(form);
+        final QuestionTypeCollector typeCollector = new QuestionTypeCollector(form);
         return stylesheet.accept(new WidgetTypeChecker(typeCollector));
     }
 

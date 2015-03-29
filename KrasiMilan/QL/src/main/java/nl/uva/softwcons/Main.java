@@ -28,7 +28,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final Form form = FormBuilder.build(UiBuilder.class.getResourceAsStream("/form.ql"));
         final List<Error> validationErrors = Validator.validate(form);
-        for (Error error : validationErrors) {
+        for (final Error error : validationErrors) {
             System.err.println(error.getMessage());
             if (error.isFatal()) {
                 System.exit(1);
@@ -38,7 +38,7 @@ public class Main extends Application {
         final Stylesheet stylesheet = StylesheetBuilder.build(UiBuilder.class
                 .getResourceAsStream("/form_stylesheet.qls"));
         final List<Error> qlsValidationErrors = QLSValidator.validate(form, stylesheet);
-        for (Error error : qlsValidationErrors) {
+        for (final Error error : qlsValidationErrors) {
             System.err.println(error.getMessage());
             if (error.isFatal()) {
                 System.exit(1);

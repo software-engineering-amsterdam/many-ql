@@ -100,7 +100,7 @@
    <!-- <rule ref="rulesets/java/coupling.xml/LawOfDemeter"/> -->
    <rule ref="rulesets/java/coupling.xml/LooseCoupling"/>
    <rule ref="rulesets/java/coupling.xml/LoosePackageCoupling"/>
-   <rule ref="rulesets/java/design.xml/AbstractClassWithoutAbstractMethod"/>
+   <!-- <rule ref="rulesets/java/design.xml/AbstractClassWithoutAbstractMethod"/> -->
    <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod"/>
    <rule ref="rulesets/java/design.xml/AccessorClassGeneration"/>
    <rule ref="rulesets/java/design.xml/AssignmentToNonFinalStatic"/>

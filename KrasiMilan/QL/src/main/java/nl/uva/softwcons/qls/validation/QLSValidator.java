@@ -13,8 +13,8 @@ public final class QLSValidator {
     private QLSValidator() {
     }
 
-    public static List<Error> validate(Form form, Stylesheet stylesheet) {
-        List<Error> qlsErrors = new ArrayList<Error>();
+    public static List<Error> validate(final Form form, final Stylesheet stylesheet) {
+        final List<Error> qlsErrors = new ArrayList<Error>();
         qlsErrors.addAll(QuestionIdentifierChecker.check(stylesheet, form));
         qlsErrors.addAll(WidgetTypeChecker.check(stylesheet, form));
 
