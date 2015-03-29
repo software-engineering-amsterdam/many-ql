@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.qls.ast.property.DefaultStyleProperty;
 import nl.uva.sc.encoders.qls.ast.widget.Widget;
 
 public class DefaultStyle extends AstNode {

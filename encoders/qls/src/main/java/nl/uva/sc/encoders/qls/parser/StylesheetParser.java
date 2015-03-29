@@ -1,4 +1,4 @@
-package nl.uva.sc.encoders.qls.ast.parser;
+package nl.uva.sc.encoders.qls.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import nl.uva.sc.encoders.qls.EncodersQLSLexer;
 import nl.uva.sc.encoders.qls.EncodersQLSParser;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.ast.parser.ParseTreeToAbstractSyntaxTree;
+import nl.uva.sc.encoders.qls.parser.ParseTreeToAbstractSyntaxTree;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BaseErrorListener;

@@ -17,7 +17,7 @@ import org.fugazi.ql.ast.expression.unary.Unary;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.TypeMismatchError;
 
 import java.util.List;
 
@@ -44,13 +44,13 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, logical,
+                    new TypeMismatchError(), logical,
                     "Left side of the binary logical expression not of type bool."
             );
         }
         if (!rightCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, logical,
+                    new TypeMismatchError(), logical,
                     "Right side of the binary logical expression not of type bool."
             );
         }
@@ -70,7 +70,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, unary,
+                    new TypeMismatchError(), unary,
                     "Unary logical expression not of type bool."
             );
         }
@@ -100,7 +100,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (unsupportedTypes) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
+                    new TypeMismatchError(), comparison,
                     "Side(s) of the binary comparison not of supported type(s): "
                             + expectedTypes.toString() + ". " + "Instead received types: "
                             + left.getReturnedType(this.formData) + " and "
@@ -108,7 +108,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
             );
         } else if (differentTypes) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
+                    new TypeMismatchError(), comparison,
                     "Two sides of the binary comparison expression of different types: "
                             + left.getReturnedType(this.formData) + " and "
                             + right.getReturnedType(this.formData) + "."
@@ -183,13 +183,13 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!leftCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, numerical,
+                    new TypeMismatchError(), numerical,
                     "Left side of the binary expression not of type int."
             );
         }
         if (!rightCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, numerical,
+                    new TypeMismatchError(), numerical,
                     "Right side of the binary expression not of type int."
             );
         }
@@ -211,7 +211,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, unary,
+                    new TypeMismatchError(), unary,
                     "Unary numerical expression not of type int."
             );
         }
@@ -264,7 +264,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, intLiteral,
+                    new TypeMismatchError(), intLiteral,
                     "Int Literal not of type int."
             );
         }
@@ -277,7 +277,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, stringLiteral,
+                    new TypeMismatchError(), stringLiteral,
                     "String Literal not of type string."
             );
         }
@@ -290,7 +290,7 @@ public class TypeMismatchVisitor extends FullQLFormVisitor {
 
         if (!exprCorrect) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, boolLiteral,
+                    new TypeMismatchError(), boolLiteral,
                     "Bool Literal not of type bool."
             );
         }

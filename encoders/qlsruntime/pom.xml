@@ -18,6 +18,13 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>nl.uva.sc.encoders</groupId>
+			<artifactId>ql</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>

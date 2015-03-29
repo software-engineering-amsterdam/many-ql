@@ -21,19 +21,22 @@ import java.util.List;
 public class DefaultStyleHandler extends FullQLSFormVisitor {
 
     private Segment currentSegment;
-    private final StyleSheet styledStyleSheet;
     private final QLFormDataStorage formDataStorage;
     private final DefaultWidgetsFactory defaultWidgetsFactory = new DefaultWidgetsFactory();
     private final WidgetTypeToWidgetVisitor widgetTypeToWidget = new WidgetTypeToWidgetVisitor();
 
-    public DefaultStyleHandler(QLFormDataStorage _formDataStorage, StyleSheet _styleSheet) {
-        this.formDataStorage = _formDataStorage;
-        this.styledStyleSheet = _styleSheet;
-        this.styledStyleSheet.accept(this);
+    // Static factory method instead of constructor
+    public static DefaultStyleHandler applyStylesToStyleSheet(
+            QLFormDataStorage _formDataStorage, StyleSheet _styleSheet) 
+    {
+        return new DefaultStyleHandler(_formDataStorage, _styleSheet);
     }
 
-    public StyleSheet getStylesheetWithStyles() {
-        return this.styledStyleSheet;
+    private DefaultStyleHandler(
+            QLFormDataStorage _formDataStorage, StyleSheet _styleSheet) 
+    {
+        this.formDataStorage = _formDataStorage;
+        _styleSheet.accept(this);
     }
 
     public Void visitStyleSheet(StyleSheet _styleSheet){

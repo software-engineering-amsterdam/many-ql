@@ -1,10 +1,10 @@
 package org.fugazi.qls.ast;
 
 import org.fugazi.ql.ast.type.*;
+import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 import org.fugazi.qls.ast.widget.QLSCheckBox;
 import org.fugazi.qls.ast.widget.QLSSlider;
 import org.fugazi.qls.ast.widget.QLSTextBox;
-import org.fugazi.qls.ast.widget.AbstractQLSWidget;
 
 /**
  * Type Visitor used for Default Widget creation of a given question type.
