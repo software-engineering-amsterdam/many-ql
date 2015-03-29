@@ -9,8 +9,9 @@ import uva.sc.ql.expression.Expression;
 
 @SuppressWarnings({ "rawtypes" })
 public class QuestionData {
-    Expression value;
-    Expression visibility;
+
+    private Expression value;
+    private Expression visibility;
 
     public Expression getValue() {
 	return value;
@@ -28,7 +29,7 @@ public class QuestionData {
 	this.value = value;
 	this.visibility = visibility;
     }
-    
+
     public boolean evaluateVisibility(Map<ID, QuestionData> valuesTable) {
 	BooleanAtom result = new BooleanAtom(true);
 	if (visibility != null) {
@@ -37,7 +38,7 @@ public class QuestionData {
 	}
 	return result.getValue();
     }
-    
+
     public Expression evaluateValue(Map<ID, QuestionData> valuesTable) {
 	EvaluatorVisitor evalVisitor = new EvaluatorVisitor(valuesTable);
 	Expression result = null;
@@ -46,5 +47,5 @@ public class QuestionData {
 	}
 	return result;
     }
-    
+
 }

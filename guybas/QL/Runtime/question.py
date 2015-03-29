@@ -1,5 +1,3 @@
-import QL.AST.Statements.question as ast_q
-import QL.Tools.exceptions as e
 import QL.GUI.Elements.factory as gui_elements_f
 
 
@@ -14,7 +12,6 @@ class Question:
     def set_gui_element(self, gui, frame):
         e_factory = gui_elements_f.Factory(self, gui, frame)
         self.gui_element = e_factory.get_gui_element()
-        # self.gui_element = el.get_row()
         self.gui_element_frame = frame
 
     def get_order(self):
@@ -28,6 +25,9 @@ class Question:
 
     def get_ast(self):
         return self.ast
+
+    def get_id(self):
+        return self.ast.ids()[0]
 
     def get_condition(self):
         return self.condition

@@ -12,12 +12,12 @@ public class StylizedWidget implements ASTNode {
     private final Style widgetStyle;
 
     public StylizedWidget() {
-        this.widgetStyle = new Style();
+        this.widgetStyle = new Style(null);
         this.widgetType = null;
     }
 
     public StylizedWidget(final WidgetType type) {
-        this.widgetStyle = new Style();
+        this.widgetStyle = new Style(type.getLineInfo());
         this.widgetType = type;
     }
 

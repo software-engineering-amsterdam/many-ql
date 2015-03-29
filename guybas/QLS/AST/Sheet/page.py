@@ -16,7 +16,7 @@ class Page(e.SheetElement):
     def get_ids(self):
         ids = []
         for q in self._sections:
-            ids += q.ids()
+            ids += q.get_ids()
         return ids
 
     def get_widget_dict(self):
