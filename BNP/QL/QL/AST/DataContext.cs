@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using Antlr4.Runtime;
-using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
-using QL.AST.ValueWrappers;
 using QL.Exceptions;
 
-namespace QL.Hollywood
+namespace QL.AST
 {
     public class DataContext
     {

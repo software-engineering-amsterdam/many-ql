@@ -6,11 +6,11 @@ using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
-using QL.AST.ValueWrappers;
+using QL.AST.Nodes.Terminals.Wrappers;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 
-namespace QL.Hollywood.DataHandlers.Evaluation
+namespace QL.DataHandlers.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {

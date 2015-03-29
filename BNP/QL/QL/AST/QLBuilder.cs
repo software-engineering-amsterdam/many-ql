@@ -2,36 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
+using QL.AST.ASTCreation;
+using QL.DataHandlers;
+using QL.DataHandlers.Evaluation;
+using QL.DataHandlers.InputHandling;
+using QL.DataHandlers.TypeChecking;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.Hollywood.DataHandlers;
-using QL.Hollywood.DataHandlers.ASTCreation;
-using QL.Hollywood.DataHandlers.Evaluation;
-using QL.Hollywood.DataHandlers.InputHandling;
-using QL.Hollywood.DataHandlers.TypeChecking;
 
-namespace QL.Hollywood
+namespace QL.AST
 {
     /// <summary>
     /// This is the god class.
-    ///  After putting source as into the constructor, this class accumulates all the information
-    ///  made by evaluator, type checker ...
+    /// After putting source as into the constructor, this class accumulates all the information
+    /// made by evaluator, type checker ...
     /// </summary>
     public class QLBuilder
     {
-        protected IList<IExecutable> Initializers;
-        protected IList<IExecutable> ASTBuilders;
-        protected IList<IExecutable> TypeCheckers;
-        protected IList<IExecutable> Evaluators;
-        protected IList<IExecutable> Renderers;
-        protected IList<IExecutable> Exporters;
+        protected IList<IExecutable> Initializers { get; set; }
+        protected IList<IExecutable> ASTBuilders { get; set; }
+        protected IList<IExecutable> TypeCheckers { get; set; }
+        protected IList<IExecutable> Evaluators { get; set; }
+        protected IList<IExecutable> Renderers { get; set; }
+        protected IList<IExecutable> Exporters { get; set; }
 
-
-        
         public QLBuilderStateMachine BuilderStateMachine { get; private set; }
-        public DataContext DataContext { get; private set; } //needs to be public because of tests
-        
+        public DataContext DataContext { get; private set; }
         public IList<Exception> UnhandledExceptions { get; private set; }
         public ReadOnlyObservableCollection<QLBaseException> QLExceptions
         {
@@ -96,7 +92,6 @@ namespace QL.Hollywood
         #endregion
 
         #region Handler level runners
-
         public bool RunInit()
         {
             BuilderStateMachine.InputIsSet = RunHandlerLevel(Initializers);
@@ -136,7 +131,6 @@ namespace QL.Hollywood
             BuilderStateMachine.IsEvaluated = RunHandlerLevel(Evaluators);
             return BuilderStateMachine.IsEvaluated;
         }
-      
 
         public bool RunRenderers()
         {
@@ -147,7 +141,6 @@ namespace QL.Hollywood
             }
             BuilderStateMachine.IsRendered = RunHandlerLevel(Renderers);
             return BuilderStateMachine.IsRendered;
-
         }
 
         public bool RunExporters()

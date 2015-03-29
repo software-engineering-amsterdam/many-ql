@@ -5,12 +5,12 @@ using QL.AST.Nodes;
 
 namespace QL.Exceptions
 {
+    /// <summary>
+    /// Base class for all QL related errors and warnings.
+    /// Warning does not change the flow of the program.
+    /// Error changes the flow of the program.
+    /// </summary>
     public class QLBaseException : Exception
-        /* Base class for all QL related errors and warnings.
-         * Warning does not change the flow of the program.
-         * Error changes the flow of the program.
-         * 
-         */
     {
         public SourceLocation SourceLocation { get; protected set; }
 

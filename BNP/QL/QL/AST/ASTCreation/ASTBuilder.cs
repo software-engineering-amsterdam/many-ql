@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Antlr4.Runtime;
+using QL.DataHandlers;
 using QL.Grammar;
-using QLLexer = QL.Grammar.QLLexer;
 
-namespace QL.Hollywood.DataHandlers.ASTCreation
+namespace QL.AST.ASTCreation
 {
     public class ASTBuilder : IExecutable
     {

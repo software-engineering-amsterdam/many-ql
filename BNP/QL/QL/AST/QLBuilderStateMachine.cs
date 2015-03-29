@@ -1,4 +1,4 @@
-﻿namespace QL.Hollywood
+﻿namespace QL.AST
 {
     public class QLBuilderStateMachine
     {

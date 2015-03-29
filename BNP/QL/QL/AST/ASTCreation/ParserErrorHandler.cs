@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime;
-using QL.AST;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 
-namespace QL.Hollywood.DataHandlers.ASTCreation
+namespace QL.AST.ASTCreation
 {
     public class ParserErrorHandler : IAntlrErrorListener<IToken>
     {

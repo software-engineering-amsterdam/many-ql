@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using Antlr4.Runtime;
+using QL.AST;
 using QL.Exceptions.Errors;
 
-namespace QL.Hollywood.DataHandlers.InputHandling
+namespace QL.DataHandlers.InputHandling
 {
     public class Initializer : IExecutable
     {

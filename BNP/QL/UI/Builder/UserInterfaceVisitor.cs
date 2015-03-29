@@ -6,9 +6,7 @@ using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
-using QL.AST.ValueWrappers;
 using QL.Exceptions;
-using QL.Hollywood;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 

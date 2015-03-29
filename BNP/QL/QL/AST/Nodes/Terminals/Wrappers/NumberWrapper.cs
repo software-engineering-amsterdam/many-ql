@@ -1,9 +1,7 @@
 ﻿using System;
-using QL.AST.Nodes.Terminals;
 using QL.Exceptions.Errors;
-using QL.AST.Nodes;
 
-namespace QL.AST.ValueWrappers
+namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class NumberWrapper : ITerminalWrapper
     {

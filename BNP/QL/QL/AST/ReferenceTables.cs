@@ -1,14 +1,11 @@
-﻿using QL.AST.Nodes;
-using QL.AST.Nodes.Terminals;
-using QL.AST.ValueWrappers;
-using QL.Exceptions.Errors;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes.Terminals.Wrappers;
+using QL.Exceptions.Errors;
 
-namespace QL.Hollywood
+namespace QL.AST
 {
     public class ReferenceTables
     {

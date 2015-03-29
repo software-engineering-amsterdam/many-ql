@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using QL.AST;
 using QL.Exceptions;
-using QL.Exceptions.Errors;
 
-namespace QL.Hollywood.DataHandlers.TypeChecking
+namespace QL.DataHandlers.TypeChecking
 {
     public class TypeChecker : IExecutable
     {

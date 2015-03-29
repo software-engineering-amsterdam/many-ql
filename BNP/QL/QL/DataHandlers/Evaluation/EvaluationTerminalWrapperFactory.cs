@@ -1,8 +1,9 @@
-﻿using QL.AST.Nodes.Terminals;
-using QL.AST.Nodes;
+﻿using QL.AST.Nodes;
+using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes.Terminals.Wrappers;
 using QL.Exceptions.Errors;
 
-namespace QL.AST.ValueWrappers
+namespace QL.DataHandlers.Evaluation
 {
     public sealed class EvaluationTerminalWrapperFactory
     {

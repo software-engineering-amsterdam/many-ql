@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
@@ -8,9 +9,8 @@ using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Exceptions.Warnings;
-using System.Linq;
 
-namespace QL.Hollywood.DataHandlers.TypeChecking
+namespace QL.DataHandlers.TypeChecking
 {
     public class TypeCheckerVisitor : IVisitor
     {

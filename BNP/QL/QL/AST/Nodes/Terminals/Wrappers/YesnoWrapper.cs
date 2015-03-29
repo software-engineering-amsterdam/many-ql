@@ -1,7 +1,4 @@
-﻿using QL.AST.Nodes;
-using QL.AST.Nodes.Terminals;
-
-namespace QL.AST.ValueWrappers
+﻿namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class YesnoWrapper : ITerminalWrapper
     {

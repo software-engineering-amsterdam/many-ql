@@ -1,8 +1,6 @@
 ﻿using System;
-using QL.AST.Nodes.Terminals;
-using QL.AST.Nodes;
 
-namespace QL.AST.ValueWrappers
+namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class TextWrapper : ITerminalWrapper
     {

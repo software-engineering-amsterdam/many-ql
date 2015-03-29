@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using Antlr4.Runtime.Tree;
-using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
@@ -10,9 +7,8 @@ using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
 using QL.Grammar;
-using System;
 
-namespace QL.Hollywood.DataHandlers.ASTCreation
+namespace QL.AST.ASTCreation
 {
     public class QLListener : QLBaseListener
     {

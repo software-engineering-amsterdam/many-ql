@@ -7,10 +7,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
+using QL.AST;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
-using QL.Hollywood;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 

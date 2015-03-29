@@ -1,4 +1,4 @@
-﻿namespace QL.AST.ValueWrappers
+﻿namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public interface ITerminalWrapper
     {

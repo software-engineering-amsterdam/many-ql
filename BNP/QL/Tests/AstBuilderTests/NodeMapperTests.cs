@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL.Grammar;
-using QL;
-using QL.Hollywood.DataHandlers.ASTCreation;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL.AST.ASTCreation;
 
-namespace Tests.AstBuilderTests
+namespace Tests.ASTBuilderTests
 {
     [TestClass]
     public class AstBuilderTests : QLTestBase
