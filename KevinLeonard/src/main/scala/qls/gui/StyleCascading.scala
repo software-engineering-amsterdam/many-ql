@@ -9,7 +9,7 @@ class StyleCascading {
 
   val DefaultWidth = Width(100)
   val DefaultFont = Font("Arial")
-  val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
+  val DefaultFontColor = FontColor(HexadecimalColor("000000"))
   val DefaultFontSize = FontSize(13)
 
   def cascadeStyles(s: StyleSheet, env: StyleEnvironment = List.empty, typeEnv: TypeEnvironment = Map.empty): StyleSheet = {
