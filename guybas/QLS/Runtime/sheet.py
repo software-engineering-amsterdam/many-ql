@@ -17,7 +17,6 @@ class Sheet(ql_form.Form):
         self.extract_statements(self._form_ast.statements(), importlib.import_module('QLS.Runtime.question'))
 
         self.qls_ast = qls_ast
-        self.set_default_properties()
         self.gui_pages = self.__generate_pages()
 
     def __generate_pages(self):
@@ -59,11 +58,6 @@ class Sheet(ql_form.Form):
             enriched_question = runtime_question.Question(basic_question, order, self._q_conditions_dict[qid])
             self._questions.append(enriched_question)
             order += 1
-
-    def set_default_properties(self):
-        d = self.qls_ast.get_property_dict()
-        for i in d:
-            print("%s" % i, d[i])
 
     def __question_widget(self, q_id, widget):
         question = self.get_statement_dict()[q_id]

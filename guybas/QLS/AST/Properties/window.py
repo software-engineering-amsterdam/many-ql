@@ -6,7 +6,7 @@ class Width(p.Property):
         self._width = width
 
     def prop_name(self):
-        return "widget-width"
+        return "widget_width"
 
     def prop_value(self):
         return self._width
@@ -20,7 +20,7 @@ class Height(p.Property):
         self._height = height
 
     def prop_name(self):
-        return "widget-height"
+        return "widget_height"
 
     def prop_value(self):
         return self._height

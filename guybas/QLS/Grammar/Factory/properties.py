@@ -25,3 +25,8 @@ def make_width(tokens):
 def make_height(tokens):
     height = tokens[0]
     return w.Height(height)
+
+
+def make_background_color(tokens):
+    color = tokens[0]
+    return f.BackgroundColor(color)

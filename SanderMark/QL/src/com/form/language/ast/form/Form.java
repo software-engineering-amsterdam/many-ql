@@ -1,4 +1,4 @@
-package com.form.language.ast;
+package com.form.language.ast.form;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,38 +9,33 @@ import com.form.language.memory.Context;
 
 //TODO :: Seperate id and statementlist (just like within error)
 public class Form {
-    private String id;
-    private List<Statement> statementList;
+    private FormId id;
+    private FormStatementCollection statementList;
 
     public Form(String id) {
-	this.id = id;
-	this.statementList = new ArrayList<Statement>();
+	this.id = new FormId(id);
+	this.statementList = new FormStatementCollection();
     }
 
     public Form(String id, List<Statement> statementList) {
-	this.id = id;
-	this.statementList = statementList;
+    this.id = new FormId(id);
+	this.statementList = new FormStatementCollection(statementList);
     }
 
     public void getTypes(Context context) {
-	for (Statement s : statementList) {
-	    s.checkType(context);
-	}
+    	statementList.getTypes(context);
     }
 
     public Context initMemory(Context context) {
-	for (Statement s : statementList) {
-	    s.initMemory(context);
-	}
-	return context;
+    	return statementList.initMemory(context);
     }
     
     public List<Statement> getStatements(){
-	return this.statementList;
+    	return statementList.getValue();
     }
 
     public String getId() {
-        return id;
+        return id.getValue();
     }
 
 }
