@@ -9,6 +9,8 @@ import nl.uva.sc.encoders.qls.ast.Stylesheet;
 
 public class TypeChecker {
 
+	private static final String NON_EXISTING_QUESTION_REFERENCE = "nonexistingQuestionReference";
+
 	private final Stylesheet stylesheet;
 	private final Questionnaire questionnaire;
 
@@ -18,6 +20,10 @@ public class TypeChecker {
 	}
 
 	public List<TypeValidation> checkTypes() {
+		return Collections.emptyList();
+	}
+
+	public List<TypeValidation> checkQuestionReferences() {
 		return Collections.emptyList();
 	}
 
