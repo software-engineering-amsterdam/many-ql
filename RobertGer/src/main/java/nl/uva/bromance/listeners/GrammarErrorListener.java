@@ -4,9 +4,6 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-/**
- * Created by Robert on 23-2-2015.
- */
 public class GrammarErrorListener extends BaseErrorListener {
 
     @Override

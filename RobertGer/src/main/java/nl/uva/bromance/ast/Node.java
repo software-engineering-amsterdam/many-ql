@@ -3,9 +3,6 @@ package nl.uva.bromance.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Robert on 16-3-2015.
- */
 public class Node<TYPE extends Node> {
     private List<TYPE> children;
     private final int lineNumber;

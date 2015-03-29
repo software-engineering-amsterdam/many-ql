@@ -1,14 +1,12 @@
 package ql.tests.evaluator;
 
+import org.junit.Test;
 import ql.semantics.ValueTable;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.UndefValue;
 import ql.tests.TestHelper;
-import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by bore on 24/02/15.
@@ -270,7 +268,7 @@ public class Relational
     public void undefinedEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1==hasHouse==2", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -279,7 +277,7 @@ public class Relational
     public void undefinedLt()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1<hasHouse<2", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -288,7 +286,7 @@ public class Relational
     public void undefinedGt()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1>hasHouse>2", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -297,7 +295,7 @@ public class Relational
     public void undefinedLtEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1<=hasHouse<=2", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -306,7 +304,7 @@ public class Relational
     public void undefinedGtEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1>=hasHouse>=2", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -315,7 +313,7 @@ public class Relational
     public void undefinedNotEqu()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new UndefValue());
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("1!=hasHouse!=2", table), UndefValue.class);
         assertNotNull(v);
     }

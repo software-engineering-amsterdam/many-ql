@@ -1,24 +1,60 @@
 package nl.uva.sc.encoders.qls.validation;
 
+import static nl.uva.sc.encoders.ql.message.Messages.getString;
+import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.ERROR;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import nl.uva.sc.encoders.ql.ast.Questionnaire;
+import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
+import nl.uva.sc.encoders.qls.ast.Page;
+import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
+import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
 
-public class TypeChecker {
+public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 
-	private final List<TypeValidation> validations = new ArrayList<>();
+	private static final String NON_EXISTING_QUESTION_REFERENCE = "nonexistingQuestionReference";
+	private static final String NON_ALL_QL_QUESTIONS_PLACED = "notAllQuestionsQLPlaced";
+	private static final String INVALID_WIDGET_USED_FOR_QUESTION = "invalidWidgetUsedForQuestion";
+	private static final String SINGLE_QUESTION_PLACED_MULTIPLE_TIMES = "singleQuestionPlacedMultipleTimes";
 
 	private final Stylesheet stylesheet;
+	private final Questionnaire questionnaire;
 
-	public TypeChecker(Stylesheet stylesheet) {
+	List<TypeValidation> validations = new ArrayList<>();
+
+	public TypeChecker(Stylesheet stylesheet, Questionnaire questionnaire) {
 		this.stylesheet = stylesheet;
+		this.questionnaire = questionnaire;
 	}
 
 	public List<TypeValidation> checkTypes() {
-		return Collections.emptyList();
+		List<Page> pages = stylesheet.getPages();
+		for (Page page : pages) {
+			List<Section> sections = page.getSections();
+			for (Section section : sections) {
+				validations.addAll(section.accept(this));
+			}
+		}
+		return validations;
 	}
 
+	@Override
+	public List<TypeValidation> visit(Section section) {
+		String name = section.getName();
+		List<TypeValidation> validations = new ArrayList<>();
+		List<String> questions = new ArrayList<>();
+		questions = stylesheet.getAllQuestions();
+		for (String question : questions) {
+			if (!questionnaire.containsQuestion(question)) {
+				String validationMessage = getString(NON_EXISTING_QUESTION_REFERENCE, name);
+				TextLocation textLocation = section.getTextLocation();
+				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
+			}
+		}
+		return validations;
+	}
 }

@@ -3,9 +3,6 @@ package nl.uva.bromance.ast.visitors;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
 
-/**
- * Created by Robert on 16-3-2015.
- */
 public class NullQLNodeVisitor implements QLNodeVisitor {
     @Override
     public void visit(Calculation calculation) {

@@ -1,3 +1,7 @@
+### Note
+*To reduce the risk of problems from merges that change other peoples
+projects, we have tagged our final deliverable with* **TeamAwesome-release**
+
 ### Who are these guys?
 * Jelle van Assema (10200363)
 * Guido Loupias (10837345)

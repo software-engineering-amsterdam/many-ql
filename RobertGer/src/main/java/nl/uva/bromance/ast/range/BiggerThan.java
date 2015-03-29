@@ -1,21 +1,15 @@
 package nl.uva.bromance.ast.range;
 
-/**
- * Created by Gerrit Krijnen on 2/9/2015.
- */
 public class BiggerThan implements Range {
 
-    int val;
+    private int val;
 
     public BiggerThan(int value) {
         this.val = value;
     }
 
     public boolean valueConformsToRange(int value) {
-        if (value > this.val)
-            return true;
-        else
-            return false;
+        return value > this.val;
     }
 
     public String toString() {

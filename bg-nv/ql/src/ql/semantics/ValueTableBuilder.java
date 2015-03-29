@@ -1,10 +1,9 @@
 package ql.semantics;
 
-import ql.ast.expression.*;
 import ql.ast.form.Form;
 import ql.ast.form.FormVisitor;
 import ql.ast.statement.*;
-import ql.semantics.values.*;
+import ql.semantics.values.UndefValue;
 
 /**
  * Created by Nik on 24-2-15.
@@ -41,14 +40,14 @@ public class ValueTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
     @Override
     public Void visit(Question q)
     {
-        this.valueTable.storeEntry(q.getId(), undefValue);
+        this.valueTable.storeValue(q.getId(), undefValue);
         return null;
     }
 
     @Override
     public Void visit(CalculatedQuestion q)
     {
-        this.valueTable.storeEntry(q.getId(), undefValue);
+        this.valueTable.storeValue(q.getId(), undefValue);
         return null;
     }
 

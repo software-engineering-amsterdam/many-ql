@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qls.ast;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
@@ -8,8 +9,8 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class Page extends AstNode {
 
 	private final String name;
-	private List<Section> sections = new ArrayList<Section>();
-	private List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
+	private final List<Section> sections = new ArrayList<Section>();
+	private final List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
 
 	public Page(TextLocation textLocation, String name) {
 		super(textLocation);
@@ -37,8 +38,20 @@ public class Page extends AstNode {
 		return null;
 	}
 
+	public void collectQuestions(Collection<String> questions) {
+		for (Section section : sections) {
+			section.collectQuestions(questions);
+		}
+	}
+
 	public void addPageDefaultStyle(DefaultStyle pageDefault) {
 		pageDefaultStyles.add(pageDefault);
+	}
+
+	public boolean containsQuestion(String name) {
+		List<String> questions = new ArrayList<>();
+		collectQuestions(questions);
+		return questions.stream().anyMatch(question -> question.equals(name));
 	}
 
 }

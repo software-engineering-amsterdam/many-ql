@@ -40,7 +40,6 @@ public class RuntimeQuestion {
 		Object old = this.value;
 		this.value = value;
 		pcs.firePropertyChange("value", old, value);
-		System.out.println(question.getName() + " " + value);
 	}
 
 	@Override

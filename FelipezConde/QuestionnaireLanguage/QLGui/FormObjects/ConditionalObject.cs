@@ -3,6 +3,7 @@ using Evaluation;
 using Evaluation.Values;
 using QLGui.Controllers;
 using QLGui.ValueVisitors;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,7 +21,17 @@ namespace QLGui.FormObjects
 
         public override StackPanel InsertInUIParent(StackPanel parent)
         {
-            Value value = conditionalNode.Condition.Accept(new Evaluator(symbolTable));
+
+            Value value;
+
+            try
+            {
+                value = conditionalNode.Condition.Accept(new Evaluator(symbolTable));
+            }
+            catch (DivideByZeroException divByZero) //constructivist: false by default
+            {
+                value = new Bool(false);
+            }
 
             StackPanel customStackPanel = value.Accept(new ValueToStackPanel());
 

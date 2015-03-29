@@ -2,10 +2,7 @@ package nl.uva.bromance;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -33,8 +30,10 @@ import java.util.Optional;
 public class App extends Application {
 
     private Scene scene;
-    private VBox rootBox, pages, questions;
+    private VBox pages;
+    private VBox questions;
     private Stage stage;
+    private Visualizer vis;
 
     public static void main(String[] args) {
         launch(args);
@@ -49,7 +48,7 @@ public class App extends Application {
     }
 
     private void createBaseView() {
-        rootBox = new VBox();
+        VBox rootBox = new VBox();
 
         Optional<? extends Pane> root = Optional.of(rootBox);
         scene = new Scene(root.get());
@@ -71,9 +70,11 @@ public class App extends Application {
         mainPane.getDividers();
 
         pages = new VBox();
+        ScrollPane pane = new ScrollPane();
         questions = new VBox();
+        pane.setContent(questions);
 
-        mainPane.getItems().addAll(pages, questions);
+        mainPane.getItems().addAll(pages, pane);
         return mainPane;
     }
 
@@ -97,23 +98,33 @@ public class App extends Application {
                 String qlPath = file.getAbsolutePath();
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
-                AST<QLNode> qlAst = createQlAst(qlPath);
-                doQlSetup(qlAst);
-                Visualizer visualizer = new Visualizer();
-                if (qlAst != null) {
-                    AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
-                    if (qlsAst != null) {
-                        visualizer.setQlsAst(qlsAst);
+                try {
+                    AST<QLNode> qlAst = createQlAst(qlPath);
+                    vis = new Visualizer();
+                    pages.getChildren().clear();
+                    questions.getChildren().clear();
+                    if (qlAst != null) {
+                        AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
+                        if (qlsAst != null) {
+                            vis.setQlsAst(qlsAst);
+                        }
+                        vis.render(qlAst, pages, questions);
                     }
-                    visualizer.render(qlAst, pages, questions);
+                } catch (GrammarErrorListener.SyntaxError se) {
+                    showErrorMessage(se.getMessage());
                 }
             }
         });
     }
 
-    private void doQlSetup(AST<QLNode> qlAst) {
+    private void showErrorMessage(String message) {
+        Stage stage = new Stage();
+        VBox root = new VBox();
+        root.getChildren().add(new Label(message));
 
-
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private AST<QLSNode> readQlsFile(String qlsPath, AST<QLNode> qlAst) throws IOException {
@@ -125,8 +136,7 @@ public class App extends Application {
 
         ParseTreeWalker qlsWalker = new ParseTreeWalker();
         qlsWalker.walk(qlsListener, qlsTree);
-        AST<QLSNode> ast = qlsListener.getAst();
-        return ast;
+        return qlsListener.getAst();
     }
 
     private AST<QLSNode> createQlsAst(String qlsPath, AST<QLNode> qlAst) {
@@ -134,7 +144,7 @@ public class App extends Application {
         try {
             qlsAst = readQlsFile(qlsPath, qlAst);
         } catch (IOException e) {
-            System.out.println("Couldn't find qls file, no biggie.");
+            showErrorMessage("Couldn't find corresponding QLS-file: " + qlsPath);
         }
         return qlsAst;
     }
@@ -153,9 +163,7 @@ public class App extends Application {
 
         walker.walk(listener, tree);
 
-        AST<QLNode> qlAst = listener.getAst();
-
-        return qlAst;
+        return listener.getAst();
     }
 
     private AST<QLNode> createQlAst(String qlPath) {
@@ -163,7 +171,7 @@ public class App extends Application {
         try {
             qlAst = readQlFile(qlPath);
         } catch (IOException e) {
-            System.err.println("Couldnt load QL file :" + qlPath);
+            showErrorMessage("Couldnt load QL file: " + qlPath);
         }
         return qlAst;
     }

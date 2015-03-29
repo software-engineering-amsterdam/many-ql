@@ -13,9 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 16-3-2015.
- */
+
 public class ExpressionEvaluatorTest extends ASTTest {
 
     @Test
@@ -34,6 +32,5 @@ public class ExpressionEvaluatorTest extends ASTTest {
         assertThat(expressions.get(0).getResult()).isInstanceOf(IntResult.class);
         assertThat(expressions.get(1).getResult()).isInstanceOf(IntResult.class);
         assertThat(expressions.get(2).getResult()).isInstanceOf(IntResult.class);
-        //TODO: More comprehensive tests
     }
 }

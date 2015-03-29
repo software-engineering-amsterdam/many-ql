@@ -42,12 +42,13 @@ public class LabelText extends QLNode {
     }
 
     public void addToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        this.answerMap = answerMap;
-        insertVariablesInText();
-        // Explicit package because of parent class named Label ;)
-        uiLabel = new javafx.scene.control.Label(this.insertedText);
-        uiLabel.setVisible(isVisible);
-        parent.getChildren().add(uiLabel);
+        if (isVisible){
+            this.answerMap = answerMap;
+            insertVariablesInText();
+            // Explicit package because of parent class named Label ;)
+            uiLabel = new javafx.scene.control.Label(this.insertedText);
+            parent.getChildren().add(uiLabel);
+        }
     }
 
     public void insertVariablesInText() {

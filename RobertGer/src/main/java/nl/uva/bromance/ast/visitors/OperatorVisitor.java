@@ -2,9 +2,6 @@ package nl.uva.bromance.ast.visitors;
 
 import nl.uva.bromance.ast.operators.*;
 
-/**
- * Created by Robert on 28-3-2015.
- */
 public interface OperatorVisitor {
     void visit(SmallerThanOperator operator);
 

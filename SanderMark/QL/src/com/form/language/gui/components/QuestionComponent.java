@@ -1,9 +1,7 @@
 package com.form.language.gui.components;
 
 import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
@@ -12,20 +10,19 @@ import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
-import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 
 public class QuestionComponent {
 
     private Question question;
-    private Context rm;
+    private Context context;
     private JPanel panel;
 
     public QuestionComponent(Question question, Context rm, Expression ifCondition) {
 	this.question = question;
-	this.rm = rm;
+	this.context = rm;
 	this.panel = new JPanel();
-	
+
 	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.X_AXIS));
 	Label label = new Label(question.getText());
 	this.panel.add(label.getLabel());
@@ -41,37 +38,31 @@ public class QuestionComponent {
 	createQuestionType();
     }
 
-    // TODO: casten to specifc widget needed?
-    // TODO: kent beck Case Statements, chapter 3 code smells
+    //Polymorphism  could be used within type to ask which widget (type) the question is but this would, 
+    //increase the responsibilty of the Type.
     private void createQuestionType() {
-	if (question.getType(rm).isBoolType()) {
-		Widget checkbox = new CheckBox(question, this, rm);
-	    JCheckBox cb = ((CheckBox) checkbox).getCheckBox();
-		cb.setName(question.getId());
-	    panel.add(cb);
-	} else if (question.getType(rm).isStringType()) {
-		Widget textfield = new TextField(question, this, rm);
-	    JTextField tx = ((TextField) textfield).getTextField();
-	    tx.setName(question.getId());
-	    panel.add(tx);
+	if (question.getType(context).isBoolType()) {
+	    CheckBox checkbox = new CheckBox(question, this, context);
+	    panel.add(checkbox.getCheckBox());
+	} else if (question.getType(context).isStringType()) {
+	    TextField textfield = new TextField(question, this, context);
+	    panel.add(textfield.getTextField());
 	} else {
-		Widget textfield = new IntegerTextField(question, this, rm);
-	    JTextField tx = ((IntegerTextField) textfield).getTextField();
-	    tx.setName(question.getId());
-	    panel.add(tx);
+	    IntegerTextField textfield = new IntegerTextField(question, this, context);
+	    panel.add(textfield.getTextField());
 	}
     }
 
     public Question getQuestion() {
-    	return question;
+	return question;
     }
-    
-	public JPanel getPanel()
-	{
-		return panel;
-	}
+
+    public JPanel getPanel()
+    {
+	return panel;
+    }
 
     public void checkVisibility(boolean visible) {
-    	this.panel.setVisible(visible);
+	this.panel.setVisible(visible);
     }
 }

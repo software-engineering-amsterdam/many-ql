@@ -11,9 +11,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class BooleanType implements QuestionType {
 
     private final Question q;
@@ -31,49 +28,39 @@ public class BooleanType implements QuestionType {
 
     @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        label = new Label(q.getQuestionString());
-        label.getStyleClass().add("prettyLabel");
-        parent.getChildren().add(label);
+        if (q.isVisible()) {
+            label = new Label(q.getQuestionString());
+            label.getStyleClass().add("prettyLabel");
+            parent.getChildren().add(label);
 
-        checkBox = new CheckBox();
-        String id = q.getIdentifier();
+            checkBox = new CheckBox();
+            String id = q.getIdentifier();
 
-        BooleanResult answer = (BooleanResult) answerMap.get(id);
-        if (answer != null) {
-            if (answer.getResult() == true) {
-                checkBox.setSelected(true);
+            BooleanResult answer = (BooleanResult) answerMap.get(id);
+            if (answer != null) {
+                if (answer.getResult() == true) {
+                    checkBox.setSelected(true);
+                }
             }
-        }
-        if (visualizer.getFocusUuid() == q.getUuid()) {
-            visualizer.setFocusedNode(checkBox);
-        }
-
-        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == true) {
-                answerMap.put(id, new BooleanResult(true));
-            } else {
-                answerMap.put(id, new BooleanResult(false));
+            if (visualizer.getFocusUuid() == q.getUuid()) {
+                visualizer.setFocusedNode(checkBox);
             }
-            visualizer.refresh(q.getUuid());
-        });
-        parent.getChildren().add(checkBox);
 
-        setVisbilityOfComponents();
-    }
-
-    @Override
-    public void refresh() {
-        setVisbilityOfComponents();
+            checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == true) {
+                    answerMap.put(id, new BooleanResult(true));
+                } else {
+                    answerMap.put(id, new BooleanResult(false));
+                }
+                visualizer.refresh(q.getUuid());
+            });
+            parent.getChildren().add(checkBox);
+        }
     }
 
     @Override
     public void accept(QuestionTypeVisitor visitor) {
         visitor.visit(this);
-    }
-
-    private void setVisbilityOfComponents() {
-        checkBox.setVisible(q.isVisible());
-        label.setVisible(q.isVisible());
     }
 
 }

@@ -15,25 +15,12 @@ public abstract class Input<T extends Control> extends GuiElement
     protected final VBox inputNode;
     protected T control;
 
-    public Input(String id, T control, Boolean visible, Boolean disabled)
+    public Input(String id, T control, Boolean disabled)
     {
-        super(visible);
         this.id = id;
         this.control = control;
         this.disabled = disabled;
         this.inputNode = new VBox();
-        this.setVisible(visible);
-        this.setDisabled(disabled);
-    }
-
-    public Boolean getDisabled()
-    {
-        return disabled;
-    }
-
-    public void setDisabled(Boolean disabled)
-    {
-        this.disabled = disabled;
         this.control.setDisabled(disabled);
     }
 

@@ -15,7 +15,6 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
         this.answerMap = answerMap;
     }
 
-    //TODO: We should insert the indentifiers not find them in this class.
     public void evaluate(QLNode qlnode) {
         qlnode.accept(this);
     }

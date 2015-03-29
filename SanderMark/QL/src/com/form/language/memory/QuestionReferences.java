@@ -30,8 +30,8 @@ public class QuestionReferences {
 
     public void putAll(ReferenceCollection keyCollection, Expression value) {
 	for(Reference l : keyCollection){
-	    
-		List<Expression> tempList;
+
+	    List<Expression> tempList;
 
 	    if (referenceMap.containsKey(l.getName())) {
 		tempList = referenceMap.get(l.getName());

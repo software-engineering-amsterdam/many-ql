@@ -9,7 +9,7 @@ import nl.uva.sc.encoders.ql.validation.TypeChecker;
 import nl.uva.sc.encoders.ql.validation.ValidationMessage;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
 
-public class QuestionnaireParsingResult {
+public class QuestionnaireParsingResult implements ParsingResult {
 
 	private final Questionnaire questionnaire;
 

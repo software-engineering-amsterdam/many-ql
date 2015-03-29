@@ -2,6 +2,7 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.TypeMismatchError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class TestCheckerInvalidOperandTypes extends TestQlTypeCheckerBase {
     public void testErrorTypes() throws Exception {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.ERROR.TYPE_MISMATCH;
+        ASTNodeIssueType expectedType = new TypeMismatchError();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue error: errors) {

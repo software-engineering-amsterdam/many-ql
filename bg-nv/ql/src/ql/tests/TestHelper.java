@@ -6,12 +6,11 @@ import ql.ast.form.Form;
 import ql.semantics.ExprEvaluator;
 import ql.semantics.TypeChecker;
 import ql.semantics.ValueTable;
-import ql.semantics.errors.*;
-import ql.semantics.errors.Error;
+import ql.semantics.errors.Message;
+import ql.semantics.errors.Messages;
 import ql.semantics.values.Value;
 import ql.util.ParserHelper;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -34,13 +33,6 @@ public class TestHelper
     public static <T> void assertChildType(AstNode child, Class<T> type)
     {
         assertTrue(type.isInstance(child));
-    }
-
-    public static void assertErrorMessage(Message m, String expected)
-    {
-        Error e = TestHelper.as(m, Error.class);
-        assertNotNull(e);
-        assertEquals(expected, e.getMessage());
     }
 
     public static Value evaluate(String expr, ValueTable valueTable)

@@ -1,10 +1,13 @@
 package org.fugazi.ql.ast.form.form_data.visitor;
 
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.ast.statement.*;
+import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class QuestionsVisitor extends StatementsVisitor {
     private List<Question> questions;

@@ -22,7 +22,6 @@ public class GrammarTest extends ParsingTest {
     protected FakeGrammarListener listener;
     protected ParseTreeWalker walker;
 
-    //TODO: consider asserting the messages in expectedException
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -47,7 +46,6 @@ public class GrammarTest extends ParsingTest {
         return START + child + END;
     }
 
-    //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
     static class FakeGrammarListener extends QLParseTreeListener {
 
         public int formCount = 0;

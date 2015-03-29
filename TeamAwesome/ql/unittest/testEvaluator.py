@@ -8,10 +8,13 @@ from ql.core import QLOperators
 from ql.ast.Nodes import *
 from ql.evaluator.evaluator import createEvaluator
 
+
+
 class NoQuestions(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         self.assertEqual(0, len(evaluator.questions()))
+
 
     @property
     def questionnaire(self):
@@ -33,12 +36,14 @@ class NoQuestions(unittest.TestCase):
         )
    
 
+
 class DuplicateIdentifiers(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         questions = evaluator.questions()
         self.assertEqual(1, len(questions))
         self.assertEqual('Foo1', questions[0].text)
+
 
     @property
     def questionnaire(self):
@@ -62,10 +67,12 @@ class DuplicateIdentifiers(unittest.TestCase):
         )
 
 
+
 class ConditionalQuestion(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         self.assertEqual(1, len(evaluator.questions()))
+
 
     @property
     def questionnaire(self):
@@ -92,12 +99,14 @@ class ConditionalQuestion(unittest.TestCase):
         )
     
 
+
 class ValueDependentQuestion(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         questions = evaluator.questions()
         self.assertEqual(2, len(questions))
         self.assertEqual(QLInteger(3), evaluator.getValue(questions[1].identifier))
+
 
     @property
     def questionnaire(self):
@@ -123,10 +132,12 @@ class ValueDependentQuestion(unittest.TestCase):
         )
     
 
+
 class VisibilityDependentQuestion(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         self.assertEqual(2, len(evaluator.questions()))
+
         
     @property
     def questionnaire(self):
@@ -160,10 +171,12 @@ class VisibilityDependentQuestion(unittest.TestCase):
         )
     
 
+
 class UnansweredDependentQuestion(unittest.TestCase):
     def test(self):
         evaluator = createEvaluator(self.questionnaire)
         self.assertEqual(1, len(evaluator.questions()))
+        
         
     @property
     def questionnaire(self):

@@ -23,7 +23,6 @@ public class Radio extends ControlElement implements BoolControl
 
     public Radio(String trueLabel, String falseLabel)
     {
-        super();
         this.group = new ToggleGroup();
         this.trueRadio = this.createRadio(trueLabel, group);
         this.falseRadio = this.createRadio(falseLabel, group);
@@ -35,7 +34,8 @@ public class Radio extends ControlElement implements BoolControl
         this.controlNode.setAlignment(Pos.BOTTOM_RIGHT);
     }
 
-    private RadioButton createRadio(String label, ToggleGroup group) {
+    private RadioButton createRadio(String label, ToggleGroup group)
+    {
         RadioButton radio = new RadioButton();
         radio.setText(label);
         radio.setToggleGroup(group);
@@ -91,11 +91,5 @@ public class Radio extends ControlElement implements BoolControl
             return new BoolValue(this.trueRadio.isSelected());
         }
         return new UndefValue();
-    }
-
-    @Override
-    public <T> T accept(ControlVisitor<T> visitor)
-    {
-        return visitor.visit(this);
     }
 }

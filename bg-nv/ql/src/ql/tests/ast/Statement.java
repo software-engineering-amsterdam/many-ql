@@ -1,15 +1,21 @@
 package ql.tests.ast;
 
-import ql.ast.expression.*;
-import ql.ast.type.*;
-import ql.ast.statement.*;
-import ql.util.ParserHelper;
-import ql.tests.TestHelper;
 import org.junit.Test;
+import ql.ast.expression.Add;
+import ql.ast.expression.BoolExpr;
+import ql.ast.expression.StrExpr;
+import ql.ast.statement.CalculatedQuestion;
+import ql.ast.statement.IfCondition;
+import ql.ast.statement.Question;
+import ql.ast.type.BoolType;
+import ql.ast.type.DecType;
+import ql.ast.type.IntType;
+import ql.ast.type.StrType;
+import ql.tests.TestHelper;
+import ql.util.ParserHelper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by bore on 19/02/15.

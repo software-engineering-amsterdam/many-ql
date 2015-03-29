@@ -1,11 +1,38 @@
 UvA - Software Construction 2014-2015
 =======
+
 ## Fugazi Team
 
 - Theologos Zacharopoulos (10850619)
 - Lukasz Harezlak (10630171)
 
-We are working on the branch [fugazi](https://github.com/software-engineering-amsterdam/many-ql/tree/fugazi/).
+Usage
+========
+
+###Build
+
+We use `ant` for build framework, the file `build.xml` describes the build script.
+By executing the following (in the project folder) run a full build of the project including the generation of executable:
+```
+ant all
+```
+
+The deployment of the jar file is located in `{project.dir}/out/artifacts/Fugazi_jar/Fugazi.jar`
+
+Other supported build commands are:
+- `ant clean` _Cleans the project._
+
+### Execute
+
+To run the application you need `java` installed o you machine, the usage is the following:
+```
+java -jar Fugazi.jar qlfilename.ql [qlsfilename.qls]
+```
+
+An example:
+```
+java -jar {project.dir}/out/artifacts/Fugazi_jar/Fugazi.jar {project.dir}/test/input_forms/fugaziFormExample.ql {project.dir}/test/input_forms/fugaziStyleExample.qls
+```
 
 Tools
 ========
@@ -411,3 +438,10 @@ stylesheet taxOfficeExample
     default bool widget radio("Yes", "No")
   }
 ```
+
+Architecture
+========
+
+![alt tag](https://raw.githubusercontent.com/software-engineering-amsterdam/many-ql/master/Fugazi/doc/Class%20diagram.png)
+
+_You can also take a better look at it under the `doc` folder of the project_

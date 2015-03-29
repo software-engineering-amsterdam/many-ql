@@ -13,7 +13,7 @@ public class CondQuestionTableBuilder implements FormVisitor<Void>, StatVisitor<
     private final CondQuestionTable condQuestionTable;
     private final ConditionStack conditionStack;
 
-    public static CondQuestionTable flatten(Form f)
+    public static CondQuestionTable build(Form f)
     {
         CondQuestionTableBuilder builder = new CondQuestionTableBuilder(f.getId());
         f.accept(builder);

@@ -25,12 +25,12 @@ namespace TypeChecking.Collectors
         #region Binary
         public  Types.Type Visit(And node)
         {
-            return VisitBinaryExpectedType(node, new Types.BoolType());
+            return VisitBinaryExpectedType(node, new Types.BoolType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Or node)
         {
-            return VisitBinaryExpectedType(node, new Types.BoolType());
+            return VisitBinaryExpectedType(node, new Types.BoolType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Equal node)
@@ -45,42 +45,42 @@ namespace TypeChecking.Collectors
 
         public  Types.Type Visit(GreaterThan node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(GreaterThanOrEqual node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(LessThan node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(LessThanOrEqual node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Add node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Subtract node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Multiply node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Divide node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
         #endregion
         #region Unary
@@ -95,17 +95,17 @@ namespace TypeChecking.Collectors
         }
         #endregion
 
-        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedType)
+        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedOperandType, Types.Type resultType)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
 
-            if (!left.IsEqual(expectedType) && right.IsEqual(expectedType))
+            if (!left.IsEqual(expectedOperandType) && right.IsEqual(expectedOperandType))
             {
                 return new Types.UndefinedType();
             }
 
-            return expectedType;
+            return resultType;
         }
         private Types.Type VisitBinary(Binary node)
         {
