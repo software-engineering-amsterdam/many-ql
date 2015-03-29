@@ -1,55 +1,55 @@
 package qls.gui
 
-import ql.ast.{BooleanType, NumberType, StringType, Type}
+import ql.ast.Type
 import qls.ast._
 import qlsTypes.StyleEnvironment
 import types.TypeEnvironment
 
-class FieldStyle {
+class StyleCascading {
 
   val DefaultWidth = Width(100)
   val DefaultFont = Font("Arial")
   val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
   val DefaultFontSize = FontSize(13)
 
-  def setStyles(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
+  def cascadeStyles(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
     val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
       case ((accumulatedElements, accumulatedEnv), element) =>
-        val (updatedElement, updatedEnv) = setStyles(element, accumulatedEnv, typeEnv)
+        val (updatedElement, updatedEnv) = cascadeStyles(element, accumulatedEnv, typeEnv)
         (accumulatedElements :+ updatedElement, updatedEnv)
     }._1
 
     StyleSheet(s.label, updatedStyleSheet)
   }
 
-  def setStyles(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
+  def cascadeStyles(e: StyleSheetElement, env: StyleEnvironment, typeEnv: TypeEnvironment): (StyleSheetElement, StyleEnvironment) = e match {
     case Page(v, sections) =>
-      val updatedSections = sections.map(e => setStyles(e, env, typeEnv))
+      val updatedSections = sections.map(e => cascadeStyles(e, env, typeEnv))
       (Page(v, updatedSections), env)
     case dw: DefaultWidget =>
       val updatedEnv = mergeDefaultStyles(dw, env)
       (dw, updatedEnv)
   }
 
-  def setStyles(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
+  def cascadeStyles(e: Section, env: StyleEnvironment, typeEnv: TypeEnvironment): Section = e match {
     case Section(t, sectionElements) =>
-      val updatedSectionElements = sectionElements.map(e => setStyles(e, env, typeEnv))
+      val updatedSectionElements = sectionElements.map(e => cascadeStyles(e, env, typeEnv))
       Section(t, updatedSectionElements)
   }
 
-  def setStyles(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
+  def cascadeStyles(e: SectionElement, env: StyleEnvironment, typeEnv: TypeEnvironment): SectionElement = {
     e match {
       case q: Question =>
         val name = q.variable.name
         val _type = typeEnv getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
         val defaultStyles = getDefaultStyles(_type, q.widget, env)
-        val updatedWidget = setStyles(q.widget, defaultStyles)
+        val updatedWidget = cascadeStyles(q.widget, defaultStyles)
         Question(q.variable, updatedWidget)
-      case s: Section => setStyles(s, env, typeEnv)
+      case s: Section => cascadeStyles(s, env, typeEnv)
     }
   }
 
-  def setStyles(w: Widget, defaultStyles: List[Style]): Widget = {
+  def cascadeStyles(w: Widget, defaultStyles: List[Style]): Widget = {
     val styles = getStyles(w.styles, defaultStyles)
     w match {
       case Slider(p) => Slider(styles)
@@ -69,7 +69,7 @@ class FieldStyle {
 
     val envWithoutExistingStyles = removeDefaultStyles(dw, env)
 
-    val widgetWithMergedStyles = setStyles(dw.widget, mergedStyles)
+    val widgetWithMergedStyles = cascadeStyles(dw.widget, mergedStyles)
     envWithoutExistingStyles :+ DefaultWidget(dw._type, widgetWithMergedStyles)
   }
 

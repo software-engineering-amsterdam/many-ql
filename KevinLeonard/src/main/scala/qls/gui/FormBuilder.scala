@@ -18,7 +18,6 @@ class FormBuilder(stylesheet: StyleSheet, env: EvalEnvironment = ObservableMap.e
     questionStyles.find(_.variable == q.variable) match {
       case None => throw new AssertionError("All questions should be placed.")
       case Some(qs) => qs.widget match {
-        // TODO: Spinner class not available: see https://codingonthestaircase.wordpress.com/2014/11/08/scalafx-8-0-40-snapshot-spinner/
         case SpinBox(_) => throw new NotImplementedError("Spinner class not available.")
         case Slider(styleProperties) => new SliderQuestionWidget(q, visibilityExpressions, env)
         case Text(styleProperties) => q._type match {

@@ -1,10 +1,8 @@
 package qls.parser
 
 import ql.ast._
-import qls.ast.Question
-import qls.ast._
-
 import ql.parser.{Parser => QLParser}
+import qls.ast.{Question, _}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 

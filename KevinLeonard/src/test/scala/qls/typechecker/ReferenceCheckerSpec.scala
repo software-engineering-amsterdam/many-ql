@@ -3,14 +3,13 @@ package qls.typechecker
 import org.specs2.mutable.Specification
 import ql.ast.{BooleanType, Variable}
 import ql.typechecker.Error
-import qls.ast.{Section, Text, Question}
+import qls.ast.{Question, Section, Text}
 import types.TypeEnvironment
 
 import scala.util.parsing.input.NoPosition
 
 class ReferenceCheckerSpec extends Specification {
   val checker = new ReferenceChecker
-  import checker._
 
   val AnySectionName = "section"
   val EmptyEnvironment: TypeEnvironment = Map()
@@ -20,7 +19,7 @@ class ReferenceCheckerSpec extends Specification {
       val question = Question(Variable("x"), Text(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
 
-      check(question, environmentWithQuestion) must beEmpty
+      checker.check(question, environmentWithQuestion) must beEmpty
     }
 
     "return list with two errors if two questions with incorrect widget are used" in {
@@ -31,7 +30,7 @@ class ReferenceCheckerSpec extends Specification {
         Error("Question x is not defined in your QL program", Some(NoPosition))
       )
 
-      check(sectionWithMultipleQuestion, EmptyEnvironment) must beEqualTo(errors)
+      checker.check(sectionWithMultipleQuestion, EmptyEnvironment) must beEqualTo(errors)
     }
   }
 
@@ -40,14 +39,14 @@ class ReferenceCheckerSpec extends Specification {
       val question = Question(Variable("x"), Text(List()))
       val environmentWithQuestion = Map("x" -> BooleanType())
 
-      check(question, environmentWithQuestion) must beNone
+      checker.check(question, environmentWithQuestion) must beNone
     }
 
     "return error, if question is not defined in QL program" in {
       val question = Question(Variable("x"), Text(List()))
       val error = Error("Question x is not defined in your QL program", Some(NoPosition))
 
-      check(question, EmptyEnvironment) must beSome(error)
+      checker.check(question, EmptyEnvironment) must beSome(error)
     }
   }
 }

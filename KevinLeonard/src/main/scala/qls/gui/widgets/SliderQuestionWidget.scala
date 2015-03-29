@@ -1,8 +1,7 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, NumberValue, Expression, Question}
+import ql.ast.{Expression, NumberValue, Question, Value}
 import ql.gui.widgets.QuestionWidget
-
 import types._
 
 import scalafx.scene.control.Slider
@@ -10,11 +9,14 @@ import scalafx.scene.control.Slider
 class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
   extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
 
+  val DefaultMin = 0
+  val DefaultMax = 100
+
   val value = eval()
   val sliderField = new Slider {
-    min = 0
-    max = 100
-    value = 0
+    min = DefaultMin
+    max = DefaultMax
+    value = DefaultMin
     value.onChange((_, _, newValue) => {
       updateEnvironment(NumberValue(newValue.intValue()))
     })

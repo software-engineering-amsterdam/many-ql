@@ -1,6 +1,6 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, BooleanValue, Expression, Question}
+import ql.ast.{BooleanValue, Expression, Question, Value}
 import ql.gui.widgets.QuestionWidget
 import types._
 
@@ -62,5 +62,4 @@ class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Boolean.")
     }
   }
-
 }
