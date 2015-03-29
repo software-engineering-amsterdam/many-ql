@@ -6,9 +6,8 @@ import java.util.Set;
 public class DependencyHelper {
 
 	
-	public static DependencyTable populateFullDependencies(DependencyTable table){
+	public DependencyTable populateDependencyTable(DependencyTable table){
 		
-		// Aware of Code Smells - Extract Method results in others
 		for (String identifier : table.getKeys()){
 			IdentifierSet identifierSet = table.retrieveValue(identifier);
 			
@@ -33,19 +32,26 @@ public class DependencyHelper {
 		
 	   return table;
 	}
-	
-	public static Set<String> getCycles(DependencyTable table){
+
+	public Set<String> getCycles(DependencyTable table){
 		
 		Set<String> cycles = new HashSet<String>();
 		
 		for (String key : table.getKeys()){
 			IdentifierSet value = table.retrieveValue(key);
-			
-			if (value.containsIdentifier(key)){
-				cycles.add(key);
-			}
+			cycles = this.hasDependencies(cycles, value, key);
 		}
 		
 		return cycles;
 	}
+	
+	private Set<String> hasDependencies(Set<String> cycles, IdentifierSet identifierSet, String key){
+		
+		if (identifierSet.containsIdentifier(key)){
+			cycles.add(key);
+		}
+		
+		return cycles;
+	}
+	
 }

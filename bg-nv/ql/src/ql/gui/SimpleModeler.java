@@ -29,7 +29,7 @@ public class SimpleModeler extends Modeler
     }
 
     @Override
-    public Canvas model()
+    public Canvas buildCanvas()
     {
         List<Segment> segments = new ArrayList<>();
         for (Question q : this.getCondQuestionTable())

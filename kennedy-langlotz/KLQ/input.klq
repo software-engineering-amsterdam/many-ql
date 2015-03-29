@@ -15,7 +15,6 @@ if question2 > 5 then
         id : question3
         text : "On what date is your birthday?"
         type : date
-        value : 21.12.1990
     end
 end
 

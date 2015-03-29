@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
+using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
 {
@@ -26,6 +27,11 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
         {
             TrueLabel = trueLabel;
             FalseLabel = falseLabel;
+        }
+
+        public override void OverrideStyle(StyleSet styleSet)
+        {
+            styleSet.OverrideWidget(new DropDownWidgetStyle(TrueLabel, FalseLabel));
         }
 
         public override T Accept<T>(IStyleSheetVisitor<T> visitor)
