@@ -3,6 +3,8 @@ grammar Grammar;
 @header
 {
 	import com.form.language.ast.*;
+	import com.form.language.ast.form.*;
+	import com.form.language.ast.statement.question.*;
 	import com.form.language.ast.expression.*;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
