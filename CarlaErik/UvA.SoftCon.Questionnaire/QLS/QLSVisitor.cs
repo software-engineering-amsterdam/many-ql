@@ -89,11 +89,6 @@ namespace UvA.SoftCon.Questionnaire.QLS
             return default(T);
         }
 
-        public virtual T VisitWidth(Width width)
-        {
-            return default(T);
-        }
-
         public virtual T VisitCalendar(Calendar calendar)
         {
             return default(T);

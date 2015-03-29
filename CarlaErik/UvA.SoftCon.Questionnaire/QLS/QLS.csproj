@@ -69,7 +69,6 @@
     <Compile Include="AST\Model\StyleAttributes\StyleAttribute.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\Widget.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\WidgetType.cs" />
-    <Compile Include="AST\Model\StyleAttributes\Width.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetBuilder.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\Calendar.cs" />

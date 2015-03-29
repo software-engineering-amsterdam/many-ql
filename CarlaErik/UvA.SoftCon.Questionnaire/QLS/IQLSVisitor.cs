@@ -29,8 +29,6 @@ namespace UvA.SoftCon.Questionnaire.QLS
 
         T VisitFontSize(FontSize fontSize);
 
-        T VisitWidth(Width width);
-
         T VisitCalendar(Calendar calendar);
 
         T VisitCheckBox(CheckBox checkBox);
