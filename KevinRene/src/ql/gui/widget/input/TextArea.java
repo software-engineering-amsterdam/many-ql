@@ -5,12 +5,12 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 import ql.value.StringValue;
 
-public class TextArea extends DefaultChangeHandler implements InputWidget<StringValue>, CaretListener {	
-	protected JTextArea textArea;
+public class TextArea extends DefaultComponent implements InputWidget<StringValue>, CaretListener {	
+	private JTextArea textArea;
 	
 	public TextArea() {
 		textArea = new JTextArea();
@@ -20,7 +20,7 @@ public class TextArea extends DefaultChangeHandler implements InputWidget<String
 	
 	public TextArea (StringValue stringValue) {
 		this();		
-    	textArea.setText(stringValue.getValue());	
+    	textArea.setText(stringValue.getPrimitive());	
 	}
 	
 	@Override
@@ -34,13 +34,13 @@ public class TextArea extends DefaultChangeHandler implements InputWidget<String
 	}
 	
 	public void appendValue(StringValue value) {
-		textArea.append(value.getValue());
+		textArea.append(value.getPrimitive());
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 	
 	@Override
 	public void setValue(StringValue value) {
-		textArea.setText(value.getValue());		
+		textArea.setText(value.getPrimitive());		
 	}
 
 	@Override

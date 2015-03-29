@@ -10,7 +10,6 @@ import ql.value.IntegerValue;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListener {
-	        
 	public IntegerSpinbox() {
 		super(new SpinnerNumberModel(
 					0, //initial value
@@ -24,7 +23,7 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		this();
 		
 		disable();
-		spinbox.setValue(integerValue.getValue());
+		spinbox().setValue(integerValue.getPrimitive());
 	}
 	
 	@Override
@@ -39,6 +38,6 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 	
 	@Override
 	public IntegerValue getValue() {		
-		return new IntegerValue(model.getNumber().intValue());
+		return new IntegerValue(model().getNumber().intValue());
 	}
 }

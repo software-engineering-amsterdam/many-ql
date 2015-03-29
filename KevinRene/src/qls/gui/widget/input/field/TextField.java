@@ -23,15 +23,15 @@ public class TextField extends Field<StringValue> {
 
 	@Override
 	protected StringValue getFieldValue() {
-		return new StringValue(textField.getText());
+		return new StringValue(textField().getText());
 	}
 	
 	public void setStyle(StyleProperties properties) {
-		stylizer.setStyle(textField, properties);
+		stylizer.setStyle(textField(), properties);
 	}
 
 	@Override
 	public String convertValue(Value value) {
-		return value.getValue().toString();
+		return value.getPrimitive().toString();
 	}
 }

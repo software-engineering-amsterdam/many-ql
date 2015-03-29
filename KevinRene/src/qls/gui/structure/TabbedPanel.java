@@ -8,25 +8,25 @@ import javax.swing.JTabbedPane;
 
 import ql.Value;
 import ql.ast.expression.Identifier;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import qls.ast.visitor.domaincreator.ConditionalDomain;
 
-public class TabbedPanel implements UIComponent {
+public class TabbedPanel implements Component {
 	private Identifier identifier;
 	private JTabbedPane tabbedPanel;
 	private List<ConditionalDomain> domains;
-	private List<UIComponent> pages;
-	private UIComponent handler;
+	private List<Component> pages;
+	private Component handler;
 	
 	public TabbedPanel(Identifier identifier, List<ConditionalDomain> domains) {
 		tabbedPanel = new JTabbedPane();
-		pages = new ArrayList<UIComponent>();
+		pages = new ArrayList<Component>();
 		
 		this.identifier = identifier;
 		this.domains = domains;
 	}
 	
-	public void addPage(UIComponent page) {
+	public void addPage(Component page) {
 		pages.add(page);
 		tabbedPanel.addTab(page.toString(), page.getComponent());
 		page.setHandler(this);
@@ -34,10 +34,10 @@ public class TabbedPanel implements UIComponent {
 		updateComponent();
 	}
 	
-	public void setPages(List<UIComponent> pages) {
+	public void setPages(List<Component> pages) {
 		tabbedPanel.removeAll();
 		
-		this.pages = new ArrayList<UIComponent>(pages);
+		this.pages = new ArrayList<Component>(pages);
 		this.pages.stream().forEach(page -> tabbedPanel.addTab(page.toString(),
 				page.getComponent()));
 		this.pages.stream().forEach(page -> page.setHandler(this));
@@ -46,12 +46,12 @@ public class TabbedPanel implements UIComponent {
 	}
 
 	@Override
-	public void setHandler(UIComponent handler) {
+	public void setHandler(Component handler) {
 		this.handler = handler;
 	}
 
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		if(handler != null) {
 			handler.handleChange(changedValue, source);
 		} else {

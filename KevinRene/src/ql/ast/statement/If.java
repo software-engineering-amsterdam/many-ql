@@ -5,13 +5,10 @@ import ql.ast.Statement;
 import ql.ast.visitor.StatementVisitor;
 
 public class If extends Statement {
+	
 	private final Expression expression;
 	private final Block block;
 	
-	/**
-	 * Constructor for the conditional block
-	 * @param statement
-	 */
 	public If(Expression expression, Block block) {
 		this.expression = expression;
 		this.block = block;

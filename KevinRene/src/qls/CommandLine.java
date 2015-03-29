@@ -23,7 +23,6 @@ public class CommandLine {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Press 'x' to stop");
-			System.out.println("Type 'file:<path>' to load a file from the forms folder.");
 			while (true) {
 				System.out.print("Enter a statement:");
 				String str = br.readLine();

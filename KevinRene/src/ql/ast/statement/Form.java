@@ -5,6 +5,7 @@ import ql.ast.expression.Identifier;
 import ql.ast.visitor.StatementVisitor;
 
 public class Form extends Statement {
+	
 	private final Identifier identifier;
 	private final Block block;
 	

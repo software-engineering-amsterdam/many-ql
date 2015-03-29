@@ -14,7 +14,7 @@ public class IntegerSlider extends Slider<IntegerValue> implements ChangeListene
 
 	@Override
 	public void setValue(IntegerValue value) {
-		slider.setValue(value.getValue());
+		slider.setValue(value.getPrimitive());
 		label.setText(value.toString());
 	}
 
