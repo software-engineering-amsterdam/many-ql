@@ -36,14 +36,14 @@ import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
-import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
-import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
-import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.TextType;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widgetstyle.Style;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.CheckboxType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.DropdownType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.RadioButtonType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.SliderType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.TextType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
 
 import org.antlr.v4.runtime.Token;
 

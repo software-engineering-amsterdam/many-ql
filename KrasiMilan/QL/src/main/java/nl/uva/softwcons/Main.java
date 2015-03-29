@@ -14,8 +14,8 @@ import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.Validator;
 import nl.uva.softwcons.qls.StylesheetBuilder;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ui.QLSRenderer;
-import nl.uva.softwcons.qls.ui.StyledWidgetFactory;
+import nl.uva.softwcons.qls.ui.renderer.QLSRenderer;
+import nl.uva.softwcons.qls.ui.widget.StyledWidgetFactory;
 
 public class Main extends Application {
 

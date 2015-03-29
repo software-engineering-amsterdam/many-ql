@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
 
 public class DefaultStylesMerged {
     private final Map<Type, WidgetType> widgetsForTypes;
