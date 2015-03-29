@@ -41,6 +41,8 @@ ifStatement returns [Statement result]
   'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
 ;
 
+// This code looks quite ugly, but with nested |, ANTLR can't handle the left-recursion (mutually left-recursive with itself...)
+// So we had to do this.
 expression returns [Expression result]
 // Parentheses
   : '(' x=expression ')' { $result = $x.result;}
