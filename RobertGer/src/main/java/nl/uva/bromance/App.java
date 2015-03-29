@@ -27,10 +27,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public class App extends Application {
+class App extends Application {
 
     private Scene scene;
-    private VBox rootBox, pages, questions;
+    private VBox pages;
+    private VBox questions;
     private Stage stage;
 
     public static void main(String[] args) {
@@ -46,7 +47,7 @@ public class App extends Application {
     }
 
     private void createBaseView() {
-        rootBox = new VBox();
+        VBox rootBox = new VBox();
 
         Optional<? extends Pane> root = Optional.of(rootBox);
         scene = new Scene(root.get());
@@ -107,13 +108,13 @@ public class App extends Application {
                         visualizer.render(qlAst, pages, questions);
                     }
                 } catch (GrammarErrorListener.SyntaxError se) {
-                    showSyntaxError(se.getMessage());
+                    showErrorMessage(se.getMessage());
                 }
             }
         });
     }
 
-    private void showSyntaxError(String message) {
+    private void showErrorMessage(String message) {
         Stage stage = new Stage();
         VBox root = new VBox();
         root.getChildren().add(new Label(message));
@@ -132,8 +133,7 @@ public class App extends Application {
 
         ParseTreeWalker qlsWalker = new ParseTreeWalker();
         qlsWalker.walk(qlsListener, qlsTree);
-        AST<QLSNode> ast = qlsListener.getAst();
-        return ast;
+        return qlsListener.getAst();
     }
 
     private AST<QLSNode> createQlsAst(String qlsPath, AST<QLNode> qlAst) {
@@ -141,7 +141,7 @@ public class App extends Application {
         try {
             qlsAst = readQlsFile(qlsPath, qlAst);
         } catch (IOException e) {
-            System.out.println("Couldn't find qls file, no biggie.");
+            showErrorMessage("Couldn't find corresponding QLS-file: " + qlsPath);
         }
         return qlsAst;
     }
@@ -160,9 +160,7 @@ public class App extends Application {
 
         walker.walk(listener, tree);
 
-        AST<QLNode> qlAst = listener.getAst();
-
-        return qlAst;
+        return listener.getAst();
     }
 
     private AST<QLNode> createQlAst(String qlPath) {
@@ -170,7 +168,7 @@ public class App extends Application {
         try {
             qlAst = readQlFile(qlPath);
         } catch (IOException e) {
-            System.err.println("Couldnt load QL file :" + qlPath);
+            showErrorMessage("Couldnt load QL file: " + qlPath);
         }
         return qlAst;
     }
