@@ -65,7 +65,6 @@ public abstract class Input<T extends Control> extends GuiElement
     public void switchControl(T control)
     {
         control.setDisabled(this.disabled);
-        control.setVisible(this.getVisible());
         this.inputNode.getChildren().clear();
         this.control = control;
         this.fillInputNode();

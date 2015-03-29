@@ -31,7 +31,6 @@ public abstract class RegularInput<T extends Control> extends Input<T>
     public void setVisible(Boolean visible)
     {
         super.setVisible(visible);
-        this.control.setVisible(visible);
     }
 
     @Override

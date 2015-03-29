@@ -12,6 +12,7 @@ import ql.gui.SimpleGui;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
 import ql.semantics.*;
+import ql.semantics.errors.Message;
 import qls.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
@@ -95,7 +96,12 @@ public class Main extends Application
                     File file = fileChooser.showSaveDialog(primaryStage);
                     if (file != null)
                     {
-                        dataStore.save(file);
+                        Boolean saved = dataStore.save(file);
+                        if (!saved)
+                        {
+                            Message msg = dataStore.getMessage();
+                            canvas.addMessage(msg);
+                        }
                     }
                 });
 
