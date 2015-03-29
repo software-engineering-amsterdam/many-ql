@@ -10,8 +10,6 @@ import ql.semantics.values.Value;
  */
 public class StrInput extends RegularInput<StrControl>
 {
-    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid string.");
-
     public StrInput(String id, StrControl control)
     {
         super(id, control);
@@ -26,7 +24,7 @@ public class StrInput extends RegularInput<StrControl>
     @Override
     protected Message getInvalidInputErrorMsg()
     {
-        return VALIDATION_ERROR;
+        return new Warning("The entered value is not a valid string.");
     }
 
     @Override

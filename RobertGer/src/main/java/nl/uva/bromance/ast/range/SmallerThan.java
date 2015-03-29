@@ -1,8 +1,5 @@
 package nl.uva.bromance.ast.range;
 
-/**
- * Created by Gerrit Krijnen on 2/9/2015.
- */
 public class SmallerThan implements Range {
 
     int val;
@@ -12,10 +9,7 @@ public class SmallerThan implements Range {
     }
 
     public boolean valueConformsToRange(int value) {
-        if (value < this.val)
-            return true;
-        else
-            return false;
+        return value < this.val;
     }
 
     public String toString() {

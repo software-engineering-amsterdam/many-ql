@@ -3,7 +3,6 @@ package qls.tests.ast;
 import ql.ast.type.IntType;
 import ql.tests.TestHelper;
 import qls.ast.Page;
-import qls.ast.rule.Width;
 import qls.ast.statement.DefaultStat;
 import qls.ast.statement.Question;
 import qls.ast.statement.QuestionWithRules;

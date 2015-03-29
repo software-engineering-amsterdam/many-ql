@@ -1,8 +1,5 @@
 package nl.uva.bromance;
 
-/**
- * Created by Robert on 3/2/2015.
- */
 public class ParsingTest {
 
     protected static final String CORRECT_FORM = "    Form: \"default\" {\n" +

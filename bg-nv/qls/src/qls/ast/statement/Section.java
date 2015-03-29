@@ -21,7 +21,7 @@ public class Section extends Statement implements Styleable
         this.body = body;
 
         StyleCollector c = new StyleCollector();
-        this.style = c.visit(this);
+        this.style = this.accept(c);
     }
 
     public String getName()

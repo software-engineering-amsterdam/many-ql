@@ -3,8 +3,6 @@ package ql.gui.segment;
 import javafx.scene.Node;
 import ql.gui.GuiElement;
 
-import java.util.List;
-
 /**
  * Created by Nik on 3-3-15.
  */
@@ -12,14 +10,10 @@ public abstract class Segment<T extends Node> extends GuiElement
 {
     protected T container;
 
-    public Segment(T container, Boolean visible)
+    public Segment(T container)
     {
-        super(visible);
-
         assert container != null;
-
         this.container = container;
-        this.setVisible(visible);
     }
     
     @Override

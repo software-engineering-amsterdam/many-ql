@@ -1,9 +1,7 @@
 package ql.gui.segment;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 
@@ -14,9 +12,9 @@ public class Section extends ParentSegment<TitledPane>
 {
     private final String name;
 
-    public Section(String name, List<Segment> subSegments, Boolean visible)
+    public Section(String name, List<Segment> subSegments)
     {
-        super(subSegments, new TitledPane(), visible);
+        super(subSegments, new TitledPane());
         this.name = name;
 
         VBox contentBox = new VBox();

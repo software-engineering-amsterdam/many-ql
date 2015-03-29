@@ -1,6 +1,5 @@
 package org.fugazi.ql.evaluator.visitor;
 
-import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
 import org.fugazi.ql.ast.expression.comparison.*;
 import org.fugazi.ql.ast.expression.literal.BOOL;
@@ -16,7 +15,11 @@ import org.fugazi.ql.ast.expression.numerical.Sub;
 import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
-import org.fugazi.ql.evaluator.expression_value.*;
+import org.fugazi.ql.evaluator.ValueStorage;
+import org.fugazi.ql.evaluator.expression_value.BoolValue;
+import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
+import org.fugazi.ql.evaluator.expression_value.IntValue;
+import org.fugazi.ql.evaluator.expression_value.StringValue;
 
 public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValue> {
 

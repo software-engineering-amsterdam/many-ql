@@ -1,7 +1,9 @@
 package com.form.language.gui.widget;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -32,7 +34,7 @@ public class IntegerTextField extends Widget {
 
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			setContextValue( new IntValue(Integer.parseInt(textfield.getText())));
+			tryParse(textfield.getText(),textfield);
 			checkDependencyVisibility();
 		}
 
@@ -51,4 +53,13 @@ public class IntegerTextField extends Widget {
 			actionPerformed(e);			
 		}
 	}
+	
+	private void tryParse(String text,Component textfield) {
+		  try {
+		    int result = Integer.parseInt(text);
+		    setContextValue(new IntValue(result));
+		  } catch (NumberFormatException e) {
+			 JOptionPane.showMessageDialog(textfield, "Invalid value");
+		  }
+		}
 }

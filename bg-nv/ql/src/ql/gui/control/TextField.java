@@ -11,11 +11,11 @@ import java.math.BigDecimal;
  */
 public class TextField extends ControlElement implements IntControl, DecControl, StrControl
 {
+    private final static UndefValue undefValue = new UndefValue();
     private final javafx.scene.control.TextInputControl textField;
 
     public TextField()
     {
-        super();
         this.textField = new javafx.scene.control.TextField();
     }
 
@@ -90,7 +90,7 @@ public class TextField extends ControlElement implements IntControl, DecControl,
         }
         catch (NumberFormatException e)
         {
-            value = new UndefValue();
+            value = undefValue;
         }
 
         return value;
@@ -107,7 +107,7 @@ public class TextField extends ControlElement implements IntControl, DecControl,
         }
         catch (NumberFormatException e)
         {
-            value = new UndefValue();
+            value = undefValue;
         }
         return value;
     }
@@ -116,11 +116,5 @@ public class TextField extends ControlElement implements IntControl, DecControl,
     public Value getStrValue()
     {
         return new StrValue(this.textField.getText());
-    }
-
-    @Override
-    public <T> T accept(ControlVisitor<T> visitor)
-    {
-        return visitor.visit(this);
     }
 }

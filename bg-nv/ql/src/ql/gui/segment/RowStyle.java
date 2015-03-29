@@ -1,6 +1,5 @@
 package ql.gui.segment;
 
-
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import ql.gui.control.Control;

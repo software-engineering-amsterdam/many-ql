@@ -41,21 +41,17 @@ public class QuestionComponent {
 	createQuestionType();
     }
 
-    // TODO: casten to specifc widget needed?
-    // TODO: kent beck Case Statements, chapter 3 code smells
+    //
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
-		Widget checkbox = new CheckBox(question, this, rm);
-	    JCheckBox cb = ((CheckBox) checkbox).getCheckBox();
-	    panel.add(cb);
+		CheckBox checkbox = new CheckBox(question, this, rm);
+	    panel.add(checkbox.getCheckBox());
 	} else if (question.getType(rm).isStringType()) {
-		Widget textfield = new TextField(question, this, rm);
-	    JTextField tx = ((TextField) textfield).getTextField();
-	    panel.add(tx);
+		TextField textfield = new TextField(question, this, rm);
+	    panel.add(textfield.getTextField());
 	} else {
-		Widget textfield = new IntegerTextField(question, this, rm);
-	    JTextField tx = ((IntegerTextField) textfield).getTextField();
-	    panel.add(tx);
+		IntegerTextField textfield = new IntegerTextField(question, this, rm);
+	    panel.add(textfield.getTextField());
 	}
     }
 

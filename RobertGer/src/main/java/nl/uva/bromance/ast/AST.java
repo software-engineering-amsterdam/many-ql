@@ -3,12 +3,9 @@ package nl.uva.bromance.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Robert on 3/2/2015.
- */
 public class AST<NODETYPE extends Node<NODETYPE>> {
 
-    private NODETYPE root;
+    private final NODETYPE root;
 
     public AST(NODETYPE root) {
         this.root = root;

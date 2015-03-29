@@ -1,9 +1,9 @@
 package ql.tests.ast;
 
-import ql.ast.expression.*;
-import ql.util.ParserHelper;
-import ql.tests.TestHelper;
 import org.junit.Test;
+import ql.ast.expression.*;
+import ql.tests.TestHelper;
+import ql.util.ParserHelper;
 
 import static org.junit.Assert.assertNotNull;
 

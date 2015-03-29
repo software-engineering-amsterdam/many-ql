@@ -1,10 +1,13 @@
 package ql.util;
 
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import ql.ast.AstBuilder;
 import ql.ast.AstNode;
 import ql.gen.QLLexer;
 import ql.gen.QLParser;
-import ql.ast.AstBuilder;
-import org.antlr.v4.runtime.*;
 
 import java.io.IOException;
 
@@ -20,7 +23,7 @@ public class ParserHelper
         QLParser.ExpressionContext c = parser.expression();
         AstBuilder visitor = new AstBuilder();
 
-        return visitor.visitExpression(c);
+        return c.accept(visitor);
     }
 
     public static AstNode ParseQuestion(String input)

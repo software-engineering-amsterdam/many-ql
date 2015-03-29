@@ -10,19 +10,12 @@ import java.util.List;
  */
 public class Stylesheet extends AstNode
 {
-    private final String id;
     private final List<Page> body;
 
-    public Stylesheet(String id, List<Page> body, int lineNumber)
+    public Stylesheet(List<Page> body, int lineNumber)
     {
         super(lineNumber);
-        this.id = id;
         this.body = body;
-    }
-
-    public String getId()
-    {
-        return this.id;
     }
 
     public List<Page> getBody()

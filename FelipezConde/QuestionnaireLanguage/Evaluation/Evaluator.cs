@@ -4,6 +4,7 @@ using AST.Nodes.Expressions.Unaries;
 using AST.VisitorInterfaces;
 using Evaluation.Values;
 using Literals = AST.Nodes.Literals;
+using System;
 
 namespace Evaluation
 {
@@ -131,7 +132,7 @@ namespace Evaluation
 
         public Value Visit(Literals.String node)
         {
-            return new String(node.GetValue());
+            return new Evaluation.Values.String(node.GetValue());
         }
         #endregion
 

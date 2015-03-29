@@ -40,7 +40,7 @@ public class Refresher implements Observer
     public void update(Observable o, Object arg)
     {
         Input input = (Input) o;
-        valueTable.storeEntry(input.getId(), (Value) arg);
+        valueTable.storeValue(input.getId(), (Value) arg);
 
         this.evaluateRecursively(this.items);
 
@@ -53,7 +53,7 @@ public class Refresher implements Observer
     private void evaluateRecursively(Set<Refreshable> items)
     {
         Set<Refreshable> unresolved = this.evaluate(items);
-        if (!unresolved.equals(items))
+        if (!(unresolved.equals(items)))
         {
             this.evaluateRecursively(unresolved);
         }
