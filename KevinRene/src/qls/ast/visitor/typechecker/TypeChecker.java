@@ -3,12 +3,12 @@ package qls.ast.visitor.typechecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.TypeEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
 import ql.ast.type.QLForm;
 import ql.ast.visitor.TypeVisitor;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.Statement;
 import qls.ast.expression.literal.BooleanLiteral;

@@ -10,13 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import ql.TypeEnvironment;
 import ql.Value;
 import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.statement.Form;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import ql.gui.widget.input.Button;

@@ -5,10 +5,10 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.UIComponent;
 
-public class FileChooser extends DefaultChangeHandler implements UIComponent {
+public class FileChooser extends DefaultComponent implements UIComponent {
 	public final static String QL = "ql";
 	public final static String QLS = "qls";
 	

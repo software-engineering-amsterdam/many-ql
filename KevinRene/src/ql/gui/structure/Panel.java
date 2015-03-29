@@ -8,10 +8,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.UIComponent;
 
-public class Panel extends DefaultChangeHandler implements UIComponent {
+public class Panel extends DefaultComponent {
 	private JPanel panel;
 	private List<UIComponent> components;
 	

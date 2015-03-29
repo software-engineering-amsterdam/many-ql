@@ -11,10 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ql.TypeEnvironment;
 import ql.Value;
 import ql.ast.expression.Identifier;
 import ql.ast.statement.Form;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import ql.gui.widget.input.Button;
@@ -79,6 +79,8 @@ public class SelectionScreen extends Screen {
 	}
 	
 	private boolean processFile(File file) {
+		boolean errorsFound = false;
+		
 		String qlContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QL);
 		String qlsContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QLS);
 		
@@ -98,6 +100,8 @@ public class SelectionScreen extends Screen {
 		if(errors.hasErrors()) {
 			log.appendMessage("-- QL Errors --");
 			log.appendMessage(errors.getErrors());
+			
+			errorsFound = true;
 		}
 		
 		qls.ast.Statement qlsTree = (qls.ast.Statement) qls.parser.Parser.parse(qlsContents);
@@ -106,6 +110,8 @@ public class SelectionScreen extends Screen {
 		if(errors.hasErrors()) {
 			log.appendMessage("-- QLS Errors --");
 			log.appendMessage(errors.getErrors());
+			
+			errorsFound = true;
 		}
 
 		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
@@ -113,7 +119,7 @@ public class SelectionScreen extends Screen {
 		
 		qlsInterface = PageBuilder.build(qlsTree, domains, widgets);
 		
-		return !errors.hasErrors();
+		return errorsFound;
 	}
 	
 	private void handleFileChooser() {

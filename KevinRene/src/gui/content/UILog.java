@@ -2,13 +2,13 @@ package gui.content;
 
 import javax.swing.JComponent;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.UIComponent;
 import ql.gui.structure.ScrollablePanel;
 import ql.gui.widget.input.TextArea;
 import ql.value.StringValue;
 
-public class UILog extends DefaultChangeHandler implements UIComponent {
+public class UILog extends DefaultComponent implements UIComponent {
 	private ScrollablePanel scrollableSection;
 	private TextArea log;
 	

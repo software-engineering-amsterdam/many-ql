@@ -3,7 +3,6 @@ package qls.ast.visitor.domaincreator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;
@@ -16,6 +15,7 @@ import ql.ast.statement.Question;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.UIComponent;
 import ql.gui.content.UIComputedQuestion;
 import ql.gui.content.UIQuestion;

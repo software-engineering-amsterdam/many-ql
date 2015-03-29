@@ -14,10 +14,10 @@ import javax.swing.event.CaretListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 
-public abstract class Field<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, CaretListener {	
+public abstract class Field<T extends Value> extends DefaultComponent implements InputWidget<T>, CaretListener {	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;

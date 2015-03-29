@@ -2,7 +2,7 @@ package ql.gui;
 
 import ql.Value;
 
-public abstract class DefaultChangeHandler implements UIComponent {
+public abstract class DefaultComponent implements UIComponent {
 	private UIComponent handler;
 	
 	@Override

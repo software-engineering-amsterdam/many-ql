@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import ql.TypeEnvironment;
 import ql.ast.expression.Identifier;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.gui.UIComponent;
 import qls.ast.visitor.WidgetEnvironment;

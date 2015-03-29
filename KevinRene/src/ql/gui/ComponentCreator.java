@@ -1,6 +1,5 @@
 package ql.gui;
 
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
@@ -23,6 +22,7 @@ import ql.ast.type.QLString;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.content.UIComputedQuestion;
 import ql.gui.content.UIConditional;
 import ql.gui.content.UIQuestion;

@@ -14,10 +14,10 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 
-public abstract class Spinbox<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
+public abstract class Spinbox<T extends Value> extends DefaultComponent implements InputWidget<T>, ChangeListener {
 	protected JPanel container;
 	protected JSpinner spinbox;
 	protected JLabel errorLabel;
@@ -29,7 +29,6 @@ public abstract class Spinbox<T extends Value> extends DefaultChangeHandler impl
 		spinbox = new JSpinner(model);
 		spinbox.setSize(100, 40);
 		spinbox.addChangeListener(this);
-//		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		errorLabel = new JLabel();
     	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
@@ -69,16 +68,6 @@ public abstract class Spinbox<T extends Value> extends DefaultChangeHandler impl
 	 */
 	public abstract Number convertValue(Value value);
 	
-	/**
-	 * Very nasty hack to allow casting of any number into 
-	 * the one that is actually supported by the spinbox.
-	 * We only expect numeric values at this point, so we
-	 * close our eyes to not see the ugliness.
-	 * 
-	 * At least it's documented....
-	 * 
-	 * Right? Please?
-	 */
 	@Override
 	public void setValue(Value value) {
 		spinbox.setValue(convertValue(value));

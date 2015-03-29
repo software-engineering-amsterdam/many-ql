@@ -3,13 +3,13 @@ package qls.gui.widget.input;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.value.BooleanValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.WidgetStylizer;
 
-public class Checkbox extends DefaultChangeHandler implements InputWidget<BooleanValue> {
+public class Checkbox extends DefaultComponent implements InputWidget<BooleanValue> {
 	private WidgetStylizer stylizer;
 	private JCheckBox checkBox;
 	

@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.WidgetStylizer;
 
-public class Dropdown extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {
+public class Dropdown extends DefaultComponent implements InputWidget<BooleanValue>, ActionListener {
 	private WidgetStylizer stylizer;
 	private JComboBox<String> comboBox;
 	private String[] labels;

@@ -3,13 +3,13 @@ package ql.gui.content;
 import javax.swing.JComponent;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.expression.Identifier;
-import ql.gui.DefaultChangeHandler;
+import ql.ast.visitor.evaluator.ValueEnvironment;
+import ql.gui.DefaultComponent;
 import ql.gui.UIComponent;
 import ql.gui.structure.Panel;
 
-public class UIQuestion extends DefaultChangeHandler implements UIComponent {
+public class UIQuestion extends DefaultComponent {
 	private final Identifier identifier;
 	private final Panel questionPanel;
 	private final ValueEnvironment valueEnvironment;

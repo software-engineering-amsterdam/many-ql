@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.expression.booleanalgebra.And;
 import ql.ast.visitor.evaluator.Evaluator;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.UIComponent;
 import ql.value.BooleanValue;
 
@@ -72,13 +72,13 @@ public class ConditionalDomain {
 	public String toString() {
 		String ifComps = "-- IF --\n" 
 				+ ifComponents.stream()
-				.map(UIComponent::toString)
-				.collect(Collectors.joining("\n"));
+					.map(UIComponent::toString)
+					.collect(Collectors.joining("\n"));
 		
 		String elseComps = "\n-- ELSE --\n"
-				+  elseComponents.stream()
-				.map(UIComponent::toString)
-				.collect(Collectors.joining("\n"));
+				+ elseComponents.stream()
+					.map(UIComponent::toString)
+					.collect(Collectors.joining("\n"));
 		
 		return ifComps + elseComps;
 	}

@@ -1,9 +1,9 @@
 package gui.screen.ql;
 
 import gui.Screen;
-import ql.ValueEnvironment;
 import ql.ast.Statement;
 import ql.ast.statement.Form;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.ComponentCreator;
 import ql.gui.UIComponent;
 import ql.gui.structure.ScrollablePanel;
