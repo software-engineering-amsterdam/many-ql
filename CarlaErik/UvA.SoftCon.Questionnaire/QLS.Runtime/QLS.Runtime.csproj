@@ -42,14 +42,6 @@
     <Compile Include="Evaluation\DataTypeStyleCollection.cs" />
     <Compile Include="Evaluation\QuestionStyleCollection.cs" />
     <Compile Include="Evaluation\QuestionStyleEvaluator.cs" />
-    <Compile Include="Evaluation\StyleSets\CheckBoxWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\DropDownWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\CalendarWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\RadioWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\SpinBoxWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\StyleSet.cs" />
-    <Compile Include="Evaluation\StyleSets\TextBoxWidgetStyle.cs" />
-    <Compile Include="Evaluation\StyleSets\WidgetStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeController.cs" />
     <Compile Include="Validation\ASTChecker.cs" />

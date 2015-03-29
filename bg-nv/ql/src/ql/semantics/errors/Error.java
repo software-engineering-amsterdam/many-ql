@@ -20,12 +20,6 @@ public class Error extends Message
         return true;
     }
 
-    public static Error fileSaveFail(String errorMessage)
-    {
-        String m = String.format("QL Error: the file could not be saved. (%s)", errorMessage);
-        return new Error(m);
-    }
-
     public static Error typeMismatch(String id, String leftChildType, String rightChildType, int line)
     {
         String m = String.format("QL Error (Line %d): expression of type %s cannot have children of different type: %s and %s",

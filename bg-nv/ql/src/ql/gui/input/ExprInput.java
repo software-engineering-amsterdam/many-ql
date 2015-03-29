@@ -36,12 +36,6 @@ public class ExprInput extends Input<Control> implements Refreshable
     }
 
     @Override
-    public Boolean isRefreshPrerequisite()
-    {
-        return true;
-    }
-
-    @Override
     public void refreshElement(ValueTable valueTable)
     {
         Value val = valueTable.getValue(this.getId());

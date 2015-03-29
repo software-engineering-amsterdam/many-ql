@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
+namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
     public class DropDownWidgetStyle : WidgetStyle
     {
@@ -32,6 +32,11 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
         {
             TrueLabel = trueLabel;
             FalseLabel = falseLabel;
+        }
+
+        public override object CreateWidgetControl(IWidgetFactory factory)
+        {
+            return factory.CreateDropDownWidget(TrueLabel, FalseLabel);
         }
     }
 }

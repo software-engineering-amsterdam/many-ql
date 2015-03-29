@@ -18,6 +18,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         public PageControl()
         {
             InitializeComponent();
+            Dock = DockStyle.Fill; // As it turns out, for user controls this property can not be set in the designer.
         }
 
         internal PageControl(IEnumerable<SectionControl> sections)

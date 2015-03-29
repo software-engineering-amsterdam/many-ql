@@ -9,20 +9,19 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 24-2-15.
  */
-// TODO: shouldn't this class be ValueTableBuilder?
-public class Evaluator implements FormVisitor<Void>, StatVisitor<Void>
+public class ValueTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
 {
     private final ValueTable valueTable;
 
-    public static ValueTable evaluate(Form f)
+    public static ValueTable build(Form f)
     {
-        Evaluator evaluator = new Evaluator();
-        f.accept(evaluator);
+        ValueTableBuilder valueTableBuilder = new ValueTableBuilder();
+        f.accept(valueTableBuilder);
 
-        return evaluator.valueTable;
+        return valueTableBuilder.valueTable;
     }
 
-    private Evaluator()
+    private ValueTableBuilder()
     {
         this.valueTable = new ValueTable();
     }

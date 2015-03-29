@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TypeChecking
+namespace TypeChecking.Checkers
 {
     public class DependencyGraph
     {
@@ -23,7 +23,7 @@ namespace TypeChecking
 
         public IEnumerable<Id> GetCycles()
         {
-            FindCycle();
+            FindCycles();
             
             foreach (Id key in dependencies.Keys.Where(key => dependencies[key].Contains(key)))
             {
@@ -31,7 +31,7 @@ namespace TypeChecking
             }
         }
 
-        private void FindCycle()
+        private void FindCycles()
         {
             for (int i = 0; i < dependencies.Count; i++)
             {
@@ -41,11 +41,12 @@ namespace TypeChecking
 
         private void Expand()
         {
-            foreach (KeyValuePair<Id, IEnumerable<Id>> dependency in dependencies)
+            foreach (Id source in dependencies.Keys)
             {
-                foreach (IEnumerable<Id> childDependencies in dependencies[dependency.Key])
+                foreach (Id childDependency in dependencies[source])
                 {
-                    dependencies[dependency.Key].Concat(childDependencies);
+                    //add dependencies of the childs to the parent
+                    dependencies[source].Concat(dependencies[childDependency]);
                 }
             }
         }

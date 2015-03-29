@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QLS;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
-using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation;
-using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets;
+using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
@@ -90,8 +85,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             {
                 StyleSet questionStyles = _questionStyles.GetStyleSet(question.Name);
 
-                var widgetBuilder = new WidgetBuilder();
-                var questionWidget = widgetBuilder.CreateQuestionWidget(question, questionStyles.WidgetStyle);
+                Control questionWidget = (Control)questionStyles.WidgetStyle.CreateWidgetControl(new WidgetFactory(question));
 
                 return questionWidget;
             }

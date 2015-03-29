@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
+namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
     public class CalendarWidgetStyle : WidgetStyle
     {
@@ -14,6 +14,11 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
             {
                 return new CalendarWidgetStyle();
             }
+        }
+
+        public override object CreateWidgetControl(IWidgetFactory factory)
+        {
+            return factory.CreateCalendarWidget();
         }
     }
 }
