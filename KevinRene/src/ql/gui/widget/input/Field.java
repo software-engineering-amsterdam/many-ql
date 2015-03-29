@@ -3,6 +3,7 @@ package ql.gui.widget.input;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -91,7 +92,7 @@ public abstract class Field<T extends Value> extends DefaultComponent implements
 		return errorLabel;
 	}
 	
-	protected abstract T getFieldValue();
+	protected abstract T getFieldValue() throws ParseException;
 	
 	protected void removeError() {
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
