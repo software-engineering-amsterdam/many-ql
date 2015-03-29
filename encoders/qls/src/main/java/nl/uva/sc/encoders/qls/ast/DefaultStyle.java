@@ -9,7 +9,7 @@ public class DefaultStyle extends AstNode {
 
 	private final String datatype;
 	private final Widget widget;
-	private List<DefaultStyleProperty> defaultStyleProperties = new ArrayList<>();
+	private final List<DefaultStyleProperty> defaultStyleProperties = new ArrayList<>();
 
 	public DefaultStyle(TextLocation textLocation, String datatype, Widget widget) {
 		super(textLocation);
