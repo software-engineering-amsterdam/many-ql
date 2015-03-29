@@ -25,9 +25,6 @@ public class MainFrame {
     private static final int TEXTFIELD_WIDTH = 460;
     private static final int TEXTFIELD_HEIGHT = 100;
 
-    private static final int BUTTON_WEIGHT = 100;
-    private static final int BUTTON_HEIGHT = 25;
-
     private JFrame frame;
     private JTextArea textArea_input;
     private JTextArea textArea_output;
@@ -122,6 +119,5 @@ public class MainFrame {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	BoxLayout boxLayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
     frame.setLayout(boxLayout);
-	//frame.getContentPane().setLayout(null);
     }
 }

@@ -1,9 +1,7 @@
 package com.form.language.gui.components;
 
 import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
@@ -12,7 +10,6 @@ import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
-import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 
 public class QuestionComponent {
@@ -25,7 +22,7 @@ public class QuestionComponent {
 	this.question = question;
 	this.rm = rm;
 	this.panel = new JPanel();
-	
+
 	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.X_AXIS));
 	Label label = new Label(question.getText());
 	this.panel.add(label.getLabel());
@@ -44,27 +41,27 @@ public class QuestionComponent {
     //
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
-		CheckBox checkbox = new CheckBox(question, this, rm);
+	    CheckBox checkbox = new CheckBox(question, this, rm);
 	    panel.add(checkbox.getCheckBox());
 	} else if (question.getType(rm).isStringType()) {
-		TextField textfield = new TextField(question, this, rm);
+	    TextField textfield = new TextField(question, this, rm);
 	    panel.add(textfield.getTextField());
 	} else {
-		IntegerTextField textfield = new IntegerTextField(question, this, rm);
+	    IntegerTextField textfield = new IntegerTextField(question, this, rm);
 	    panel.add(textfield.getTextField());
 	}
     }
 
     public Question getQuestion() {
-    	return question;
+	return question;
     }
-    
-	public JPanel getPanel()
-	{
-		return panel;
-	}
+
+    public JPanel getPanel()
+    {
+	return panel;
+    }
 
     public void checkVisibility(boolean visible) {
-    	this.panel.setVisible(visible);
+	this.panel.setVisible(visible);
     }
 }
