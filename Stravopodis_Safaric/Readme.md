@@ -2,6 +2,7 @@ Students: Dominik Safaric, Panagiotis Stravopodis
 Project: QL
 
 QL implementation - done
+
 QLS implementation 
 - refactoring required, but the following parts implemented:
    * Grammar and AST hierarchy
