@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeChecking", "TypeCheckin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLGui", "QLGui\QLGui.csproj", "{120F2DFA-A613-4AE9-8659-AB07390A3E24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeChecking.Test", "TypeChecking.Test\TypeChecking.Test.csproj", "{351015B5-2B05-4E3B-AFEE-5B45A494D078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Test", "Notifications.Test\Notifications.Test.csproj", "{8D3E693E-F4E1-4FC3-BDF4-DC1B50C2050B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351015B5-2B05-4E3B-AFEE-5B45A494D078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351015B5-2B05-4E3B-AFEE-5B45A494D078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351015B5-2B05-4E3B-AFEE-5B45A494D078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351015B5-2B05-4E3B-AFEE-5B45A494D078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D3E693E-F4E1-4FC3-BDF4-DC1B50C2050B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3E693E-F4E1-4FC3-BDF4-DC1B50C2050B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3E693E-F4E1-4FC3-BDF4-DC1B50C2050B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3E693E-F4E1-4FC3-BDF4-DC1B50C2050B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

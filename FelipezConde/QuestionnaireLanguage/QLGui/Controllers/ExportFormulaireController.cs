@@ -39,7 +39,7 @@ namespace QLGui.Controllers
                 {
                     writer.WriteStartElement("Question");
 
-                    writer.WriteElementString("Label", question.Label.Value);
+                    writer.WriteElementString("Label", question.Label.ToString());
                     writer.WriteElementString("Value", symbolTable.GetValue(question.Identifier).Accept(new ValueToString()));
 
                     writer.WriteEndElement();
