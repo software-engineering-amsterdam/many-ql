@@ -8,8 +8,8 @@ import com.form.language.memory.Context;
 
 public class QuestionnaireFrame {
 
-    private static final int weight = 500;
-    private static final int height = 500;
+    private static final int WEIGHT = 500;
+    private static final int HEIGHT = 500;
 
     private JFrame frame;
 
@@ -25,7 +25,7 @@ public class QuestionnaireFrame {
 
     private void createFrame() {
 	this.frame = new JFrame();
-	this.frame.setSize(weight, height);
+	this.frame.setSize(WEIGHT, HEIGHT);
 	this.frame.setLocationRelativeTo(null);
 	this.frame.setVisible(true);
     }
