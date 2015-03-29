@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.ql.staticfieldscollector;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
-import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.PStatement;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 
 public class PFormStaticFieldsCollector extends AnalysisAdapter {
@@ -10,7 +10,7 @@ public class PFormStaticFieldsCollector extends AnalysisAdapter {
 
     @Override
     public void caseAForm(final AForm node) {
-        for (PStmt stmt : node.getStmt()) {
+        for (PStatement stmt : node.getStatement()) {
             stmt.apply(pStmtStaticFieldsCollector);
         }
     }

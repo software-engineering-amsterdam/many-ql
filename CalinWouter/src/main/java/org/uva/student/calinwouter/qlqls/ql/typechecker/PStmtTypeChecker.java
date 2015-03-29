@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,67 +18,67 @@ public class PStmtTypeChecker extends AnalysisAdapter {
     private final Map<String, List<String>> variableDependencies;
     private final TypeCheckResults typeCheckResults;
 
-    private void typeCheckExpressionIsBoolean(PExp ifExpression) {
+    private void typeCheckExpressionIsBoolean(PExpression ifExpression) {
         ifExpression.apply(pExpTypeChecker);
-        pExpTypeChecker.checkLastEntryIsOfType(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR);
+        pExpTypeChecker.checkLastEntryIsOfType(BooleanValue.BOOL_VALUE_TYPE_DESCRIPTOR);
     }
 
-    private void typeCheckIfExpression(AIfStmt node) {
-        final PExp ifExpression = node.getExp();
+    private void typeCheckIfExpression(AIfStatement node) {
+        final PExpression ifExpression = node.getExpression();
         typeCheckExpressionIsBoolean(ifExpression);
     }
 
-    private void typeCheckIfExpression(AIfelseStmt node) {
-        final PExp ifExpression = node.getExp();
+    private void typeCheckIfExpression(AIfElseStatement node) {
+        final PExpression ifExpression = node.getExpression();
         typeCheckExpressionIsBoolean(ifExpression);
     }
 
     @Override
-    public void caseAIfStmt(final AIfStmt node) {
+    public void caseAIfStatement(final AIfStatement node) {
         typeCheckIfExpression(node);
         typeCheckThenStatements(node);
     }
 
-    private void typeCheckStatement(PStmt node) {
+    private void typeCheckStatement(PStatement node) {
         node.apply(this);
     }
 
     @Override
-    public void caseAIfelseStmt(AIfelseStmt node) {
+    public void caseAIfElseStatement(AIfElseStatement node) {
         typeCheckIfExpression(node);
         typeCheckThenStatements(node);
         typeCheckElseStatements(node);
     }
 
-    private void typeCheckThenStatements(AIfStmt node) {
-        for (PStmt thenStatement : node.getThenStmtList()) {
+    private void typeCheckThenStatements(AIfStatement node) {
+        for (PStatement thenStatement : node.getThenStatementList()) {
             typeCheckStatement(thenStatement);
         }
     }
 
-    private void typeCheckThenStatements(AIfelseStmt node) {
-        for (PStmt thenStatement : node.getThenStmtList()) {
+    private void typeCheckThenStatements(AIfElseStatement node) {
+        for (PStatement thenStatement : node.getThenStatementList()) {
             typeCheckStatement(thenStatement);
         }
     }
 
-    private void typeCheckElseStatements(AIfelseStmt node) {
-        for (PStmt elseStatement : node.getElseStmtList()) {
+    private void typeCheckElseStatements(AIfElseStatement node) {
+        for (PStatement elseStatement : node.getElseStatementList()) {
             typeCheckStatement(elseStatement);
         }
     }
 
-    private ITypeDescriptor getTypeOfField(AValueStmt node) {
-        String identifier = node.getIdent().getText();
+    private ITypeDescriptor getTypeOfField(AValueStatement node) {
+        String identifier = node.getIdentifier().getText();
         return staticFields.getTypeOfField(identifier);
     }
 
-    private void processExpressionOf(AValueStmt node) {
-        final PExp expression = node.getExp();
+    private void processExpressionOf(AValueStatement node) {
+        final PExpression expression = node.getExpression();
         expression.apply(pExpTypeChecker);
     }
 
-    private void checkExpressionIsOfType(AValueStmt node, ITypeDescriptor typeDescriptor) {
+    private void checkExpressionIsOfType(AValueStatement node, ITypeDescriptor typeDescriptor) {
         processExpressionOf(node);
         pExpTypeChecker.checkLastEntryIsOfType(typeDescriptor);
     }
@@ -91,9 +91,9 @@ public class PStmtTypeChecker extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAValueStmt(AValueStmt node) {
+    public void caseAValueStatement(AValueStatement node) {
         final ITypeDescriptor typeDescriptor = getTypeOfField(node);
-        final String identifier = node.getIdent().getText();
+        final String identifier = node.getIdentifier().getText();
         variableDependencies.put(identifier, new LinkedList<String>());
         pExpTypeChecker.setLastComputedValueIdentifier(identifier);
         checkExpressionIsOfType(node, typeDescriptor);

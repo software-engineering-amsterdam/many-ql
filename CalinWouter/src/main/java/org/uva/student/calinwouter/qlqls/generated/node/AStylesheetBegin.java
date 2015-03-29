@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class AStylesheetBegin extends PBegin
 {
-    private PIdentList _identList_;
+    private PFunction _function_;
 
     public AStylesheetBegin()
     {
@@ -15,10 +15,10 @@ public final class AStylesheetBegin extends PBegin
     }
 
     public AStylesheetBegin(
-        @SuppressWarnings("hiding") PIdentList _identList_)
+        @SuppressWarnings("hiding") PFunction _function_)
     {
         // Constructor
-        setIdentList(_identList_);
+        setFunction(_function_);
 
     }
 
@@ -26,7 +26,7 @@ public final class AStylesheetBegin extends PBegin
     public Object clone()
     {
         return new AStylesheetBegin(
-            cloneNode(this._identList_));
+            cloneNode(this._function_));
     }
 
     @Override
@@ -35,16 +35,16 @@ public final class AStylesheetBegin extends PBegin
         ((Analysis) sw).caseAStylesheetBegin(this);
     }
 
-    public PIdentList getIdentList()
+    public PFunction getFunction()
     {
-        return this._identList_;
+        return this._function_;
     }
 
-    public void setIdentList(PIdentList node)
+    public void setFunction(PFunction node)
     {
-        if(this._identList_ != null)
+        if(this._function_ != null)
         {
-            this._identList_.parent(null);
+            this._function_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AStylesheetBegin extends PBegin
             node.parent(this);
         }
 
-        this._identList_ = node;
+        this._function_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._identList_);
+            + toString(this._function_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._identList_ == child)
+        if(this._function_ == child)
         {
-            this._identList_ = null;
+            this._function_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AStylesheetBegin extends PBegin
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._identList_ == oldChild)
+        if(this._function_ == oldChild)
         {
-            setIdentList((PIdentList) newChild);
+            setFunction((PFunction) newChild);
             return;
         }
 

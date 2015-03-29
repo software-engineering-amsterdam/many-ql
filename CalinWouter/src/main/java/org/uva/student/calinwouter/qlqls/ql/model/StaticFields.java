@@ -38,7 +38,6 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
         this.staticFormFields = new LinkedList<AbstractStaticFormField>();
     }
 
-    @Override
     public Iterator<AbstractStaticFormField> iterator() {
         return staticFormFields.iterator();
     }
