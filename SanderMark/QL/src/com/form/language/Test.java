@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import com.form.language.ast.Form;
+import com.form.language.ast.form.Form;
 import com.form.language.memory.Context;
 
 public class Test {

@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.TokenStream;
 
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
-import com.form.language.ast.Form;
+import com.form.language.ast.form.Form;
 import com.form.language.memory.Context;
 
 public class Frame {
