@@ -26,8 +26,9 @@ import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.QuestionnaireToRuntimeQuestions;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.RuntimeQuestionsCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.CombinedParsingResult;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.QLSParseButtonHandler;
@@ -109,8 +110,10 @@ public class Main extends Application {
 			ScrollPane scrollPane = new ScrollPane(result);
 			showNode(stackPane, scrollPane);
 		};
-		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
-		showButton.setOnAction(new ShowButtonHandler(questionnaireCallback, showResultCallback));
+		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
+		RuntimeQuestionsCallback runtimeQuestionsCallback = () -> questionnaireToRuntimeQuestions
+				.createRuntimeQuestions(questionnaire);
+		showButton.setOnAction(new ShowButtonHandler(runtimeQuestionsCallback, showResultCallback));
 
 		grid.add(stackPane, 0, 2, 4, 1);
 

@@ -22,8 +22,9 @@ import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSele
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.QuestionnaireToRuntimeQuestions;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.RuntimeQuestionsCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
 
 public class Main extends Application {
@@ -87,8 +88,9 @@ public class Main extends Application {
 			ScrollPane scrollPane = new ScrollPane(result);
 			showNode(stackPane, scrollPane);
 		};
-		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
-		showButton.setOnAction(new ShowButtonHandler(questionnaireCallback, showResultCallback));
+		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
+		RuntimeQuestionsCallback runtimeQuestionsCallback = () -> questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
+		showButton.setOnAction(new ShowButtonHandler(runtimeQuestionsCallback, showResultCallback));
 
 		grid.add(stackPane, 0, 1, 4, 1);
 
