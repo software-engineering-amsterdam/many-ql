@@ -26,10 +26,11 @@ public class Style implements ASTNode {
 
     public Style inherit(final Style parentStyle) {
         Style mergedStyle = new Style(this.properties);
-        // parentStyle.getProperties().forEach(prop -> {
-        // if (mergedStyle)
-        // });
-        return parentStyle;
-
+        parentStyle.getProperties().forEach((key, value) -> {
+            if (!properties.containsKey(key)) {
+                mergedStyle.addProperty(key, value);
+            }
+        });
+        return mergedStyle;
     }
 }
