@@ -7,16 +7,17 @@ using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
-using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
-namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
+namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
 {
     /// <summary>
-    /// Holds the style attribute for a particular data type or question.
+    /// Holds all style attributes that apply to a particular data type or question.
     /// </summary>
     public class StyleSet
     {
         private const string DefaultFontName = "Microsoft Sans Serif";
+        private const int DefaultFontSize = 8;
+        private const string DefaultColor = "#000000"; // Black
 
         public string Color
         {
@@ -36,7 +37,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             private set;
         }
 
-        public WidgetType WidgetType
+        public WidgetStyle WidgetStyle
         {
             get;
             private set;
@@ -44,36 +45,36 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
         public static StyleSet Default(DataType dataType)
         {
-            WidgetType defaultWidget;
+            WidgetStyle defaultWidget;
 
             switch (dataType)
             {
                 case DataType.Boolean:
-                    defaultWidget = WidgetType.CheckBox;
+                    defaultWidget = CheckBoxWidgetStyle.Default;
                     break;
                 case DataType.Date:
-                    defaultWidget = WidgetType.Calendar;
+                    defaultWidget = CalendarWidgetStyle.Default;
                     break;
                 case DataType.Integer:
-                    defaultWidget = WidgetType.SpinBox;
+                    defaultWidget = SpinBoxWidgetStyle.Default;
                     break;
                 case DataType.String:
-                    defaultWidget = WidgetType.TextBox;
+                    defaultWidget = TextBoxWidgetStyle.Default;
                     break;
                 default:
                     string message = String.Format("There is no default widget configured for data type '{0}'.", StringEnum.GetStringValue(dataType));
                     throw new NotSupportedException(message);
             }
 
-            return new StyleSet("#000000", DefaultFontName, 8, defaultWidget);
+            return new StyleSet(DefaultColor, DefaultFontName, DefaultFontSize, defaultWidget);
         }
 
-        private StyleSet(string color, string fontName, int fontSize, WidgetType widgetType)
+        private StyleSet(string color, string fontName, int fontSize, WidgetStyle widgetStyle)
         {
             Color = color;
             FontName = fontName;
             FontSize = fontSize;
-            WidgetType = widgetType;
+            WidgetStyle = widgetStyle;
         }
 
         private StyleSet(StyleSet styleSet)
@@ -81,7 +82,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             Color = styleSet.Color;
             FontName = styleSet.FontName;
             FontSize = styleSet.FontSize;
-            WidgetType = styleSet.WidgetType;
+            WidgetStyle = styleSet.WidgetStyle;
         }
 
         public StyleSet GetCopy()
@@ -97,7 +98,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             }
         }
 
-        private void OverrideStyle(StyleAttribute color)
+        private void OverrideStyle(StyleAttribute styleAttribute)
         {
             throw new InvalidOperationException();
         }
@@ -119,32 +120,32 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
         private void OverrideStyle(Calendar calender)
         {
-            WidgetType = WidgetType.Calendar;
+            WidgetStyle = new CalendarWidgetStyle();
         }
 
         private void OverrideStyle(CheckBox checkBox)
         {
-            WidgetType = WidgetType.CheckBox;
+            WidgetStyle = new CheckBoxWidgetStyle();
         }
 
         private void OverrideStyle(DropDown dropDown)
         {
-            WidgetType = WidgetType.DropDown;
+            WidgetStyle = new DropDownWidgetStyle(dropDown.TrueLabel, dropDown.FalseLabel);
         }
 
         private void OverrideStyle(RadioButtons radio)
         {
-            WidgetType = WidgetType.RadioButtons;
+            WidgetStyle = new RadioWidgetStyle(radio.TrueLabel, radio.FalseLabel);
         }
 
         private void OverrideStyle(SpinBox spinBox)
         {
-            WidgetType = WidgetType.SpinBox;
+            WidgetStyle = new SpinBoxWidgetStyle();
         }
 
         private void OverrideStyle(TextBox textBox)
         {
-            WidgetType = WidgetType.TextBox;
+            WidgetStyle = new TextBoxWidgetStyle();
         }
     }
 }

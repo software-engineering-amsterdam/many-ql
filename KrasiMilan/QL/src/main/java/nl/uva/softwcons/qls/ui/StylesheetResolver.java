@@ -20,12 +20,12 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
         SegmentValueVisitor<Void, Map<Type, StylizedWidget>> {
     private final Map<Identifier, Optional<WidgetType>> questionWidgetType;
     private final Map<Identifier, Style> questionStyle;
-    private final Map<Identifier, Type> questionType;
+    private final QuestionTypeCollector questionType;
 
-    public StylesheetResolver() {
-        questionStyle = new HashMap<>();
-        questionWidgetType = new HashMap<>();
-        questionType = new HashMap<>(); // TODO
+    public StylesheetResolver(QuestionTypeCollector questionTypeCollector) {
+        this.questionStyle = new HashMap<>();
+        this.questionWidgetType = new HashMap<>();
+        this.questionType = questionTypeCollector;
     }
 
     public Optional<WidgetType> getWidgetType(final Identifier id) {
@@ -82,8 +82,21 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
 
     private Map<Type, StylizedWidget> inheritStyles(final Map<Type, StylizedWidget> styles,
             final Map<Type, StylizedWidget> parentStyles) {
+        Map<Type, StylizedWidget> mergedStyles = new HashMap<>(styles);
+        parentStyles.forEach((type, widget) -> {
+            if (!mergedStyles.containsKey(type)) {
+                mergedStyles.put(type, widget);
+            } else {
+                WidgetType currentWidget = mergedStyles.get(type).getWidgetType().get();
+                Style currentStyle = mergedStyles.get(type).getWidgetStyle();
+                if (WidgetType.haveSameType(currentWidget, widget.getWidgetType().get())) {
+                    StylizedWidget newStylizedWidget = new StylizedWidget(currentWidget, currentStyle.inherit(widget
+                            .getWidgetStyle()));
+                    mergedStyles.put(type, newStylizedWidget);
+                }
+            }
+        });
 
-        return null; // TODO
+        return null;
     }
-
 }

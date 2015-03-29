@@ -30,6 +30,6 @@ public class StylizedWidget implements ASTNode {
     }
 
     public Optional<WidgetType> getWidgetType() {
-        return Optional.of(widgetType);
+        return Optional.ofNullable(widgetType);
     }
 }
