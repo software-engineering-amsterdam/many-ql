@@ -47,17 +47,14 @@ public class QuestionComponent {
 	if (question.getType(rm).isBoolType()) {
 		Widget checkbox = new CheckBox(question, this, rm);
 	    JCheckBox cb = ((CheckBox) checkbox).getCheckBox();
-		cb.setName(question.getId());
 	    panel.add(cb);
 	} else if (question.getType(rm).isStringType()) {
 		Widget textfield = new TextField(question, this, rm);
 	    JTextField tx = ((TextField) textfield).getTextField();
-	    tx.setName(question.getId());
 	    panel.add(tx);
 	} else {
 		Widget textfield = new IntegerTextField(question, this, rm);
 	    JTextField tx = ((IntegerTextField) textfield).getTextField();
-	    tx.setName(question.getId());
 	    panel.add(tx);
 	}
     }

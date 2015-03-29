@@ -1,12 +1,22 @@
 form SalarySurvey{
-	age: "How old are you?" Int
-	num1: "Number1 is " Int
-	num2: "Number2 is " Int`
-	isMarried: "Are you married?" Bool ( age == 5 ) 
-	isMarried2: "Are you not married?" Int ( num1 + num2 )
-	if(age == (num1 + num2)){
-		employeeNr1: "What is your employee number?" Int
-	}else{
-		howAreYou: "How Are you ?" Str	
+	name: "First name" Str
+	lastName: "last name" Str
+	age: "Age" Int
+	married: "Are you married?" Bool
+	
+	if (married) {
+		hasChild: "Do you have a child?" Bool	
+		if (hasChild) {
+			ageChild: "How old is your oldest child?" Int
+			ageDiff: "The difference between the age of you and your child is" Int(age - ageChild)
+		}
+		male: "Is your partner a male?" Bool
+		if( male ){
+			nameHusband: "What is the name of your husband?" Str
+		}
+	}
+	if(age > 18){
+		driversLicense: "Do you have a driver license?" Bool
+		
 	}
 }
