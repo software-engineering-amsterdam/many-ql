@@ -14,57 +14,52 @@ import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
 public class IntegerTextField extends Widget {
-  
-	private JTextField textfield;
-	
-	public IntegerTextField(Question question, QuestionComponent questionComponent, Context context) {
-		super(question,context);
-		this.textfield = new JTextField();
-		
-		this.textfield.setName(question.getId());		
-		this.textfield.setMaximumSize(new Dimension(200, 20));
-		TextFieldListener textfieldListener = new TextFieldListener();
-		this.textfield.getDocument().addDocumentListener(textfieldListener);
+
+    private JTextField textfield;
+
+    public IntegerTextField(Question question, QuestionComponent questionComponent, Context context) {
+	super(question,context);
+	this.textfield = new JTextField();
+
+	this.textfield.setName(question.getId());		
+	this.textfield.setMaximumSize(new Dimension(200, 20));
+	TextFieldListener textfieldListener = new TextFieldListener();
+	this.textfield.getDocument().addDocumentListener(textfieldListener);
+    }
+
+    public JTextField getTextField()
+    {
+	return textfield;
+    }
+
+    private class TextFieldListener implements DocumentListener {
+	public void actionPerformed(DocumentEvent e) {
+	    tryParse(textfield.getText(),textfield);
+	    checkDependencyVisibility();
 	}
-	
-	public JTextField getTextField()
-	{
-		return textfield;
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+	    actionPerformed(e);			
 	}
 
-	private class TextFieldListener implements DocumentListener {
-		public void actionPerformed(DocumentEvent e) {
-			//JOptionPane.showMessageDialog(textfield, "Eggs are not supposed to be green.");
-			Integer value = tryParse(textfield.getText(),textfield);
-			if(value != null)
-			{
-			setContextValue(new IntValue(value));
-			}
-			checkDependencyVisibility();
-		}
-
-		@Override
-		public void insertUpdate(DocumentEvent e) {
-			actionPerformed(e);			
-		}
-
-		@Override
-		public void removeUpdate(DocumentEvent e) {
-			actionPerformed(e);			
-		}
-
-		@Override
-		public void changedUpdate(DocumentEvent e) {
-			actionPerformed(e);			
-		}
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+	    actionPerformed(e);			
 	}
-	
-	private static Integer tryParse(String text,Component textfield) {
-		  try {
-		    return new Integer(text);
-		  } catch (NumberFormatException e) {
-			 JOptionPane.showMessageDialog(textfield, "Invalid value");
-		    return null;
-		  }
-		}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+	    actionPerformed(e);			
+	}
+    }
+
+    private void tryParse(String text,Component textfield) {
+	try {
+	    int result = Integer.parseInt(text);
+	    setContextValue(new IntValue(result));
+	} catch (NumberFormatException e) {
+	    JOptionPane.showMessageDialog(textfield, "Invalid value");
+	}
+    }
 }

@@ -23,7 +23,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
@@ -47,7 +46,7 @@ public class Main extends Application {
 
 	private static final String DEFAULT_QLS_INPUT_FILE_NAME = "stylesheet.qls";
 
-	private static final int WIDTH = 750;
+	private static final int WIDTH = 850;
 
 	private static final int HEIGHT = 500;
 
@@ -111,16 +110,15 @@ public class Main extends Application {
 
 		InputFileTextCallback inputQLFileTextCallback = () -> qlInputFileTextField.getText();
 		InputFileTextCallback inputQLSFileTextCallback = () -> qlsInputFileTextField.getText();
-		ParseResultCallback parseCombinedResultCallback = combinedParsingResult -> {
-			QuestionnaireParsingResult questionnaireParsingResult = ((CombinedParsingResult) combinedParsingResult)
-					.getQuestionnaireParsingResult();
+		ParseResultCallback parseCombinedResultCallback = parsingResult -> {
+			CombinedParsingResult combinedParsingResult = (CombinedParsingResult) parsingResult;
+			QuestionnaireParsingResult questionnaireParsingResult = combinedParsingResult.getQuestionnaireParsingResult();
 			showNode(stackPane, validationsGridPane);
-			ValidationResult validationResult = questionnaireParsingResult.validate();
+			ValidationResult validationResult = combinedParsingResult.validate();
 			showButton.setVisible(!validationResult.containsErrors());
 			validationsGridPane.showValidations(validationResult.getValidationMessages());
 			questionnaire = questionnaireParsingResult.getQuestionnaire();
-			StylesheetParsingResult stylesheetParsingResult = ((CombinedParsingResult) combinedParsingResult)
-					.getStylesheetParsingResult();
+			StylesheetParsingResult stylesheetParsingResult = combinedParsingResult.getStylesheetParsingResult();
 			stylesheet = stylesheetParsingResult.getStylesheet();
 		};
 		parseButton.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback,
@@ -132,16 +130,12 @@ public class Main extends Application {
 
 			List<Page> pages = stylesheet.getPages();
 			Pagination pagination = new Pagination(pages.size());
-			pagination.setPageFactory(new Callback<Integer, Node>() {
-
-				@Override
-				public Node call(Integer pageIndex) {
-					Page page = pages.get(pageIndex);
-					List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
-							.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
-					QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
-					return new ScrollPane(questionnaireGridPane);
-				}
+			pagination.setPageFactory(pageIndex -> {
+				Page page = pages.get(pageIndex);
+				List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
+						.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
+				QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
+				return new ScrollPane(questionnaireGridPane);
 			});
 			AnchorPane anchor = new AnchorPane();
 			AnchorPane.setTopAnchor(pagination, 10.0);

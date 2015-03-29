@@ -25,6 +25,9 @@ namespace Evaluation.Test
 
             Id id = new Id("1", pos);
             symbolTable.GetValue(id);
+
+            //This test should fail
+
         }
 
         [TestMethod]

@@ -9,6 +9,8 @@ import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSC
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static org.uva.student.calinwouter.qlqls.ql.helper.ASTHelper.*;
+
 /**
  * This adapter parses the syntax reverse depth-first and creates a corresponding internal model of the results,
  * using the functions defined in the COMPONENTS_PACKAGE_PREFIX location. This way, QLS is extremely flexible,
@@ -70,7 +72,8 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
         ArrayList<Object> values = new ArrayList<Object>();
         final Object model;
         try {
-            model = interopComponent(node.getIdentifier().getText(), values);
+            final String identifier = getIdentifier(node);
+            model = interopComponent(identifier, values);
             push(model);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -83,7 +86,6 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (CouldNotFindMatchingQLSComponentException e) {
-            // TODO handle this error...
             throw new RuntimeException(e);
         }
     }
@@ -100,7 +102,8 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
             values.add(pop());
         }
         try {
-            final Object model = interopComponent(node.getIdentifier().getText(), values);
+            final String identifier = getIdentifier(node);
+            final Object model = interopComponent(identifier, values);
             push(model);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -113,7 +116,6 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (CouldNotFindMatchingQLSComponentException e) {
-            // TODO handle this error...
             throw new RuntimeException(e);
         }
     }
@@ -123,8 +125,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAIdentifierElement(AIdentifierElement node) {
-        final TIdentifier identifierElement = node.getIdentifier();
-        final String identifier = identifierElement.getText();
+        final String identifier = getIdentifier(node);
         push(identifier);
     }
 
@@ -133,10 +134,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAHexElement(AHexElement node) {
-        final THex hexElement = node.getHex();
-        final String hexStringWithHash = hexElement.getText();
-        final String hexString = hexStringWithHash.substring(1);
-        final Integer hexValue = Integer.parseInt(hexString, 16);
+        final Integer hexValue = getHex(node);
         push(hexValue);
     }
 
@@ -145,8 +143,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outAStringElement(AStringElement node) {
-        final TString stringElement = node.getString();
-        final String string = stringElement.getText();
+        final String string = getString(node);
         push(string);
     }
 
@@ -170,8 +167,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      */
     @Override
     public void outANumberElement(ANumberElement node) {
-        final String elementAsString = node.getNumber().getText();
-        final Integer elementAsNumber = Integer.parseInt(elementAsString);
+        final Integer elementAsNumber = getNumber(node);
         push(elementAsNumber);
     }
 

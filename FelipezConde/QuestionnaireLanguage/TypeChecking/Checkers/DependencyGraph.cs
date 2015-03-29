@@ -41,14 +41,21 @@ namespace TypeChecking.Checkers
 
         private void Expand()
         {
+            Dictionary<Id, IEnumerable<Id>> ExpandedDependencies = new Dictionary<Id, IEnumerable<Id>>();
+
             foreach (Id source in dependencies.Keys)
             {
                 foreach (Id childDependency in dependencies[source])
                 {
                     //add dependencies of the childs to the parent
-                    dependencies[source].Concat(dependencies[childDependency]);
+                    if (dependencies.ContainsKey(childDependency))
+                    {
+                        ExpandedDependencies[source] = dependencies[source].Concat(dependencies[childDependency]);
+                    }
                 }
             }
+
+            dependencies = ExpandedDependencies;
         }
     }
 }

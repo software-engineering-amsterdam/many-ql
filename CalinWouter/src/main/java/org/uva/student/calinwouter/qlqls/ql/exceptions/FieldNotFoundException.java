@@ -5,4 +5,5 @@ public class FieldNotFoundException extends AbstractRuntimeInterpretationExcepti
     public FieldNotFoundException(String field) {
         super("Field not found: " + field);
     }
+
 }

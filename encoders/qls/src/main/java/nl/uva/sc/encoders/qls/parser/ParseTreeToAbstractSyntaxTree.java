@@ -58,36 +58,39 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 	public Page visitPage(PageContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
 		String name = ctx.name.getText();
-		Page page = new Page(textLocation, name);
+		List<Section> sections = new ArrayList<>();
+		List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
 		for (SectionContext sectionContext : ctx.section()) {
 			Section section = (Section) sectionContext.accept(this);
-			page.addSection(section);
+			sections.add(section);
 		}
 		for (DefaultStyleContext defaultStyleContext : ctx.defaultStyle()) {
 			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
-			page.addPageDefaultStyle(defaultStyle);
+			pageDefaultStyles.add(defaultStyle);
 		}
-		return page;
+		return new Page(textLocation, name, sections, pageDefaultStyles);
 	}
 
 	@Override
 	public Section visitSection(SectionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
 		String name = ctx.name.getText();
-		Section section = new Section(textLocation, name);
+		List<String> questionNames = new ArrayList<>();
+		List<Section> subSections = new ArrayList<>();
+		List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
 		for (QuestionContext questionContext : ctx.question()) {
 			String questionName = questionContext.name.getText();
-			section.addQuestion(questionName);
+			questionNames.add(questionName);
 		}
 		for (SectionContext subSectionContext : ctx.section()) {
 			Section subSection = visitSection(subSectionContext);
-			section.addSubSection(subSection);
+			subSections.add(subSection);
 		}
 		for (DefaultStyleContext defaultStyleContext : ctx.defaultStyle()) {
 			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
-			section.addSectionDefaultStyle(defaultStyle);
+			sectionDefaultStyles.add(defaultStyle);
 		}
-		return section;
+		return new Section(textLocation, name, questionNames, subSections, sectionDefaultStyles);
 	}
 
 	@Override

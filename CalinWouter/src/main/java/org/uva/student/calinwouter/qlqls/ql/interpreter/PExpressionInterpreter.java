@@ -193,8 +193,8 @@ public class PExpressionInterpreter extends AnalysisAdapter {
     }
 
     private String getNodeIdentifier(AIdentifierExpression node) {
-        final TIdentifier identifier = node.getIdentifier();
-        return identifier.getText();
+        final TIdentifier ident = node.getIdentifier();
+        return ident.getText();
     }
 
     public Value popValue() {

@@ -18,18 +18,23 @@ public class StyledLabelWithWidgetWidget extends LabelWithWidgetWidget implement
 
     @Override
     protected void setLabelStylingSettings(Label fieldLabel) {
-        if (stylingSettings != null) {
-            fieldLabel.setFont(stylingSettings.createFont());
-            fieldLabel.setForeground(stylingSettings.createForegroundColor());
-            Component widgetComponent = getWidgetComponent();
-            Integer widgetHeight = getWidgetHeight();
-            Dimension newDimension = stylingSettings.createSizeDimension(widgetHeight);
-            widgetComponent.setSize(newDimension);
-        }
+        fieldLabel.setFont(stylingSettings.createFont());
+        fieldLabel.setForeground(stylingSettings.createForegroundColor());
+        final Component widgetComponent = getWidgetComponent();
+        Integer widgetHeight = getWidgetHeight();
+        Dimension newDimension = stylingSettings.createSizeDimension(widgetHeight);
+        widgetComponent.setSize(newDimension);
+    }
+
+    @Override
+    protected void initializeWidget() {
+        // Initializing through the super call would ignore the stylingSettings.
+        // Thus we initialize stylingSettings before calling initializeWidgets.
     }
 
     public StyledLabelWithWidgetWidget(String label, String identifier, IWidget widget, StateWrapper stateWrapper, StylingSettings stylingSettings) {
         super(label, identifier, widget, stateWrapper);
         this.stylingSettings = stylingSettings;
+        super.initializeWidget();
     }
 }

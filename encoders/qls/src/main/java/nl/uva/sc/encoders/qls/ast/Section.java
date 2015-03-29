@@ -1,21 +1,25 @@
 package nl.uva.sc.encoders.qls.ast;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
 
 public class Section extends AstNode {
 
 	private final String name;
-	private final List<String> questionNames = new ArrayList<>();
-	private final List<Section> subSections = new ArrayList<>();
-	private final List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
+	private final List<String> questionNames;
+	private final List<Section> subSections;
+	private final List<DefaultStyle> sectionDefaultStyles;
 
-	public Section(TextLocation textLocation, String name) {
+	public Section(TextLocation textLocation, String name, List<String> questionNames, List<Section> subSections,
+			List<DefaultStyle> sectionDefaultStyles) {
 		super(textLocation);
 		this.name = name;
+		this.questionNames = questionNames;
+		this.subSections = subSections;
+		this.sectionDefaultStyles = sectionDefaultStyles;
 	}
 
 	public String getName() {
@@ -26,20 +30,12 @@ public class Section extends AstNode {
 		return questionNames;
 	}
 
-	public void addQuestion(String questionName) {
-		questionNames.add(questionName);
-	}
-
 	public List<Section> getSectionNames() {
 		return subSections;
 	}
 
-	public void addSubSection(Section subSection) {
-		subSections.add(subSection);
-	}
-
-	public void addSectionDefaultStyle(DefaultStyle sectionDefault) {
-		sectionDefaultStyles.add(sectionDefault);
+	public List<DefaultStyle> getSectionDefaultStyles() {
+		return sectionDefaultStyles;
 	}
 
 	public void collectQuestions(Collection<String> questions) {
@@ -47,6 +43,10 @@ public class Section extends AstNode {
 		for (Section subSection : subSections) {
 			subSection.collectQuestions(questions);
 		}
+	}
+
+	public <T> T accept(SectionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

@@ -27,12 +27,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-class App extends Application {
+public class App extends Application {
 
     private Scene scene;
     private VBox pages;
     private VBox questions;
     private Stage stage;
+    private Visualizer vis;
 
     public static void main(String[] args) {
         launch(args);
@@ -99,13 +100,15 @@ class App extends Application {
 
                 try {
                     AST<QLNode> qlAst = createQlAst(qlPath);
-                    Visualizer visualizer = new Visualizer();
+                    vis = new Visualizer();
+                    pages.getChildren().clear();
+                    questions.getChildren().clear();
                     if (qlAst != null) {
                         AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
                         if (qlsAst != null) {
-                            visualizer.setQlsAst(qlsAst);
+                            vis.setQlsAst(qlsAst);
                         }
-                        visualizer.render(qlAst, pages, questions);
+                        vis.render(qlAst, pages, questions);
                     }
                 } catch (GrammarErrorListener.SyntaxError se) {
                     showErrorMessage(se.getMessage());

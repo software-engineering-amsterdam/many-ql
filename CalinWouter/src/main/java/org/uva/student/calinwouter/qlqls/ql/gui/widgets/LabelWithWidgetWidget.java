@@ -63,7 +63,7 @@ public class LabelWithWidgetWidget implements IWidget {
         return new Label(label);
     }
 
-    private void initializeWidget() {
+    protected void initializeWidget() {
         setLabelStylingSettings(fieldLabel);
         setMyVisibility();
         createEventListener();

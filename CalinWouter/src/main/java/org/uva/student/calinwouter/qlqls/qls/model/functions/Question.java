@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
-import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.model.StateWrapper;
 import org.uva.student.calinwouter.qlqls.ql.gui.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
@@ -15,6 +14,7 @@ import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import java.awt.*;
 import java.util.Map;
 
+@SuppressWarnings("unused") // Used through reflection.
 public class Question extends AbstractFormField {
 
     private IWidget createLabelWithWidgetWidget(StaticFields staticFields, StylingSettings stylingSettings, StateWrapper stateWrapper, IWidget embeddedWidget) {
@@ -24,7 +24,7 @@ public class Question extends AbstractFormField {
 
     @Override
     public Component render(QLSRenderParameters qlsRenderParameters) {
-        final QLInterpreter qlInterpreter = qlsRenderParameters.getQlInterpreter();
+
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         final StaticFields staticFields = qlsRenderParameters.getStaticFields();
         final StyleSheet styleSheet = qlsRenderParameters.getStyleSheet();
@@ -37,12 +37,12 @@ public class Question extends AbstractFormField {
         return widgetWrappedWithLabel.getWidgetComponent();
     }
 
-    public Question(String ident) {
-        super(ident);
+    public Question(String identifier) {
+        super(identifier);
     }
 
-    public Question(String ident, Map<String, Object> stylingArguments) {
-        super(ident, stylingArguments);
+    public Question(String identifier, Map<String, Object> stylingArguments) {
+        super(identifier, stylingArguments);
     }
 
 }

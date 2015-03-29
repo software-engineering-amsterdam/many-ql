@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Checkers\DependencyGraphTest.cs" />
+    <Compile Include="Checkers\ExpressionCheckerTest.cs" />
     <Compile Include="Checkers\IdentifierCheckerTest.cs" />
-    <Compile Include="Checkers\CyclicDependencyCheckerTest.cs" />
     <Compile Include="Checkers\LabelCheckerTest.cs" />
     <Compile Include="DummyError.cs" />
     <Compile Include="DummyWarning.cs" />

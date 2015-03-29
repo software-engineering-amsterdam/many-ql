@@ -37,23 +37,26 @@ namespace TypeChecking.Checkers
 
         private Dictionary<string, List<Label>> GetLabelsByName(IEnumerable<Label> labels)
         {
-            var labelsByName = labels.ToDictionary(k => k.ToString(), v => new List<Label>());
+            var labelsByName = new Dictionary<string, List<Label>>();
 
-            foreach(Label label in labels)
-            { 
-                labelsByName[label.ToString()].Add(label); 
+            foreach (Label label in labels)
+            {
+                if(!labelsByName.ContainsKey(label.ToString()))
+                {
+                    labelsByName[label.ToString()] = new List<Label>();
+                } 
+                labelsByName[label.ToString()].Add(label);
             }
-
             return labelsByName;
 
         }
 
-        public IEnumerable<Label> Visit(AST.Nodes.FormObjects.Conditional conditional)
+        public IEnumerable<Label> Visit(Conditional conditional)
         {
             return conditional.GetBody().SelectMany(x => x.Accept(this));
         }
 
-        public IEnumerable<Label> Visit(AST.Nodes.FormObjects.Question question)
+        public IEnumerable<Label> Visit(Question question)
         {
             return new List<Label> { question.Label };
         }

@@ -3,6 +3,8 @@ grammar Grammar;
 @header
 {
 	import com.form.language.ast.*;
+	import com.form.language.ast.form.*;
+	import com.form.language.ast.statement.question.*;
 	import com.form.language.ast.expression.*;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
@@ -39,6 +41,8 @@ ifStatement returns [Statement result]
   'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
 ;
 
+// This code looks quite ugly, but with nested |, ANTLR can't handle the left-recursion (mutually left-recursive with itself...)
+// So we had to do this.
 expression returns [Expression result]
 // Parentheses
   : '(' x=expression ')' { $result = $x.result;}

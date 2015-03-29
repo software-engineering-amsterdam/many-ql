@@ -2,9 +2,9 @@ package com.form.language.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.junit.Test;
-
 import java.util.Random;
+
+import org.junit.Test;
 
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;

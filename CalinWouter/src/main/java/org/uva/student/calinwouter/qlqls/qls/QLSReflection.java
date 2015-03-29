@@ -85,8 +85,7 @@ public class QLSReflection {
     private Object createNewInstanceOrReturnNull(Constructor constructor, List<Object> args)
             throws IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
-            final Object o = createNewInstance(constructor, args);
-            return o;
+            return createNewInstance(constructor, args);
         } catch (IllegalArgumentException e) {
             return null;
         } catch (ArrayStoreException e) {

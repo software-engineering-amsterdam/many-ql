@@ -20,4 +20,9 @@ public class Spinbox extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new SpinboxWidget(identifier, qlInterpreter, stateWrapper);
     }
+
+    @Override
+    public Boolean allowsIntegerValue() {
+        return true;
+    }
 }

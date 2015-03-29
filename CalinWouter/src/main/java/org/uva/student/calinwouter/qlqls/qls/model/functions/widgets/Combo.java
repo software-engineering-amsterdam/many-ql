@@ -28,4 +28,9 @@ public class Combo extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new ComboWidget(identifier, qlInterpreter, stateWrapper, yesLabel, noLabel);
     }
+
+    @Override
+    public Boolean allowsBooleanValue() {
+        return true;
+    }
 }

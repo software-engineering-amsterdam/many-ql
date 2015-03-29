@@ -11,7 +11,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class IntboxWidget implements IWidget {
-    private JTextField widget;
+    private final JTextField widget;
     private final String questionIdentifier;
     private final QLInterpreter qlInterpreter;
     private final StateWrapper stateWrapper;

@@ -28,4 +28,9 @@ public class Slider extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new SliderWidget(identifier, qlInterpreter, stateWrapper, min, max);
     }
+
+    @Override
+    public Boolean allowsIntegerValue() {
+        return true;
+    }
 }
