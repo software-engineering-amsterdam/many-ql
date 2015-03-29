@@ -20,7 +20,7 @@ import com.form.language.ast.type.BoolType;
 public class StatementTest {
 
     private String getQuestionString() {
-	return "hasSoldHouse: \"Did you sell a house in 2010?\" boolean";
+	return "hasHouseSold: \"Did you sell a house in 2010?\" boolean";
     }
 
     private String getIfString() {
