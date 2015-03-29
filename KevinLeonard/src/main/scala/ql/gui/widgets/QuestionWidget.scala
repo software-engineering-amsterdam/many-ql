@@ -17,6 +17,7 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
   val PaddingBottom: Int = 10
   val DefaultMargin: Int = 0
   val MarginBottom: Int = 10
+  val MaxWidth: Double = 270
   val InvalidStyle = "-fx-background-color: -fx-focus-color," +
     "linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%)," +
     "-fx-control-inner-background); -fx-focus-color: red;"

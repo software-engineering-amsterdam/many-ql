@@ -4,6 +4,7 @@ using QLGui.ASTVisitors;
 using QLGui.FormObjects;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using ASTFormObject = AST.Nodes.FormObjects;
 
 namespace QLGui.Controllers
@@ -18,19 +19,19 @@ namespace QLGui.Controllers
             this.SymbolTable = symbolTable;
         }
 
-        public UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
+        public StackPanel CreateUIBody(IList<ASTFormObject.FormObject> body, StackPanel parent)
         {
             foreach (ASTFormObject.FormObject node in body)
             {
                 FormObject formObject = node.Accept(new FormObjectVisitor());
                 formObject.EventUpdateValue += UpdateValue;
 
-                SymbolTable = formObject.Register(SymbolTable);
+                SymbolTable = formObject.RegisterInSymbolTable(SymbolTable);
 
-                form = formObject.ProcessFormObject(form);
+                parent = formObject.InsertInUIParent(parent);
             }
 
-            return form;
+            return parent;
         }
 
         public void UpdateValue(string id, Value value)

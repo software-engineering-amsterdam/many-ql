@@ -14,7 +14,8 @@ namespace TypeChecking
     {
         public static ASTResult GetTypeCheckDiagnosis(ASTResult astResult)
         {
-            if (astResult.HasError()) // if it already has errors, refuse
+            //Precondition: no previous errors
+            if (astResult.HasError()) // if it already has errors, refuse to add more
                 return astResult;
 
             Form rootNode = astResult.RootNode;

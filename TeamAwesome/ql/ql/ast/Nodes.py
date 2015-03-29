@@ -107,43 +107,46 @@ class AtomBaseType(Node):
     def __str__(self):
         return str(self.value)
 
+    @property
+    def value(self):
+        return self._value
+
 
 class Boolean(AtomBaseType):
+    def __init__(self, value, lineNumber):
+        super().__init__(QLBoolean(value), lineNumber)
+
     def accept(self, visitor):
         return visitor.visitBoolean(self)
 
-    @property
-    def value(self):
-        return QLBoolean(self._value)
 
 class Integer(AtomBaseType):
+    def __init__(self, value, lineNumber):
+        super().__init__(QLInteger(value), lineNumber)
+
     def accept(self, visitor):
         return visitor.visitInteger(self)
 
-    @property
-    def value(self):
-        return QLInteger(self._value)
 
 class String(AtomBaseType):
+    def __init__(self, value, lineNumber):
+        super().__init__(QLString(value), lineNumber)
+
     def accept(self, visitor):
         return visitor.visitString(self)
 
-    @property
-    def value(self):
-        return QLString(self._value)
 
 class Money(AtomBaseType):
+    def __init__(self, value, lineNumber):
+        super().__init__(QLMoney(value), lineNumber)
+
     def accept(self, visitor):
         return visitor.visitMoney(self)
 
-    @property
-    def value(self):
-        return QLMoney(self._value)
 
 class Identifier(AtomBaseType):
+    def __init__(self, value, lineNumber):
+        super().__init__(QLIdentifier(value), lineNumber)
+
     def accept(self, visitor):
         return visitor.visitIdentifier(self)
-
-    @property
-    def value(self):
-        return QLIdentifier(self._value)
