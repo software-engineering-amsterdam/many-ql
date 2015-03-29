@@ -1,8 +1,6 @@
 package nl.uva.sc.encoders.qls.validation;
 
 import static nl.uva.sc.encoders.ql.ast.QuestionnaireBuilder.aQuestionnaire;
-import static nl.uva.sc.encoders.qls.ast.PageBuilder.aPage;
-import static nl.uva.sc.encoders.qls.ast.SectionBuilder.aSection;
 import static nl.uva.sc.encoders.qls.ast.StylesheetBuilder.aStylesheet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -43,22 +41,4 @@ public class TypeCheckerTest {
 				is("Question 'Section with all kinds of Crap' does not exist in questionnaire"));
 	}
 
-	@Test
-	public void testCheckTypes_singleQuestionPlacedMultipleTimesIsInvalid() {
-		Questionnaire questionnaire = aQuestionnaire().build();
-		String questionLabelA = "duplicateQuestionLabel";
-		String questionLabelB = "duplicateQuestionLabel";
-		List<String> questionNames = Arrays.asList(questionLabelA, questionLabelB);
-		Section section = aSection().withQuestions(questionNames).build();
-		List<Section> sections = Arrays.asList(section);
-		Page page = aPage().withSections(sections).build();
-		List<Page> pages = Arrays.asList(page);
-		Stylesheet stylesheet = aStylesheet().withPages(pages).build();
-		TypeChecker typeChecker = new TypeChecker(stylesheet, questionnaire);
-
-		List<TypeValidation> validations = typeChecker.checkTypes();
-		assertThat(validations.toString(), validations.size(), is(1));
-		ValidationMessage validationMessage = validations.get(0);
-		assertThat(validationMessage.getValidationMessage(), is("Question has been referenced multiple times."));
-	}
 }
