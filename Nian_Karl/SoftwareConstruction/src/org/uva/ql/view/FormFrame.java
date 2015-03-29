@@ -10,15 +10,16 @@ import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.view.component.ExprQuestionComponent;
+import org.uva.ql.view.component.ExprQuestionItem;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
 
 public class FormFrame {
 
 	private List<IfQuestionPanel> exprPanels;
-	private List<ExprQuestionComponent> exprComponents;
+	private List<ExprQuestionItem> exprItems;
 	private final JFrame frame;
 
 	public FormFrame() {
@@ -27,11 +28,12 @@ public class FormFrame {
 		frame.setLayout(new MigLayout("", "[grow, push, fill]", ""));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.exprPanels = new ArrayList<IfQuestionPanel>();
-		this.exprComponents = new ArrayList<ExprQuestionComponent>();
+		this.exprItems = new ArrayList<ExprQuestionItem>();
 	}
 
 	private void addWithConstraints(Component component) {
-		frame.add(component, "span,growx");
+		frame.add(component, "span,growx, hidemode 1");
+		frame.pack();
 	}
 
 	public void addQuestionPanel(Panel panel) {
@@ -43,23 +45,27 @@ public class FormFrame {
 		exprPanels.add(panel);
 	}
 
-	public void addExprQuestionPanel(ExprQuestionComponent panel) {
+	public void addExprQuestionItem(ExprQuestionItem panel) {
 		addWithConstraints(panel.getPanel());
-		exprComponents.add(panel);
+		exprItems.add(panel);
 	}
 
 	public void addDoneButton(JButton button) {
 		addWithConstraints(button);
 	}
 
-	public void notifyPanels(Evaluator evaluator) {
-		for (ExprQuestionComponent component : exprComponents) {
-			component.evaluateAndChange(evaluator);
+	public void notifyPanels(Evaluator evaluator, Identifier identifier) {
+		for (ExprQuestionItem item : exprItems) {
+			// This if statement is there to prevent it from updating itself.
+			if (!item.getIdentifier().equals(identifier)) {
+				item.evaluateAndChange(evaluator);
+			}
 		}
 
 		for (IfQuestionPanel panel : exprPanels) {
 			panel.evaluateAndShow(evaluator);
 		}
+		frame.pack();
 	}
 
 	public void setFrameVisible(boolean show) {

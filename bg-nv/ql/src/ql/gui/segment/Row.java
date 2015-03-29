@@ -1,12 +1,10 @@
 package ql.gui.segment;
 
 import javafx.geometry.Insets;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import ql.ast.expression.Expr;
-import ql.ast.type.Type;
-import ql.gui.ModelVisitor;
 import ql.gui.Refreshable;
 import ql.gui.input.Input;
 import ql.gui.label.Label;
@@ -14,8 +12,6 @@ import ql.semantics.ExprEvaluator;
 import ql.semantics.ValueTable;
 import ql.semantics.values.BoolValue;
 import ql.semantics.values.Value;
-
-import java.util.Collections;
 
 /**
  * Created by Nik on 3-3-15.
@@ -26,6 +22,7 @@ public class Row extends Segment<Pane> implements Refreshable
     private final VBox inputBox;
     private final Label label;
     private final Input input;
+    private Insets insets;
 
     public Row(Expr condition, Label label, Input input)
     {
@@ -33,6 +30,7 @@ public class Row extends Segment<Pane> implements Refreshable
         this.input = input;
         this.label = label;
         this.condition = condition;
+        this.insets = new Insets(0, 0, 15, 0);
 
         this.inputBox = new VBox();
         this.initializeInputBox();
@@ -46,7 +44,7 @@ public class Row extends Segment<Pane> implements Refreshable
         this.inputBox.getChildren().add(this.input.getInputNode());
         this.inputBox.setFillWidth(true);
         this.inputBox.setPrefWidth(400);
-        this.inputBox.setPadding(new Insets(0, 0, 15, 0));
+        this.inputBox.setPadding(this.insets);
 
     }
 
@@ -91,5 +89,29 @@ public class Row extends Segment<Pane> implements Refreshable
         {
             this.input.switchControl(style.getWidget());
         }
+        this.applyWidth(style.getWidth());
+        this.applyFont(style.getFont());
+        this.applyForeColor(style.getForeColor());
+        this.applyBackColor(style.getBackColor());
+    }
+
+    private void applyWidth(Integer width)
+    {
+        this.inputBox.setPrefWidth(width.doubleValue());
+    }
+
+    private void applyForeColor(Paint color)
+    {
+        this.label.applyColor(color);
+    }
+
+    private void applyBackColor(Paint color)
+    {
+        this.inputBox.setBackground(new Background(new BackgroundFill(color, null, this.insets)));
+    }
+
+    private void applyFont(Font font)
+    {
+        this.label.applyFont(font);
     }
 }

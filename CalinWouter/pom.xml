@@ -8,17 +8,6 @@
     <artifactId>qlqls</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- We use Project Lombok for automatic getter/setter/... model generation, based on annotations (e.g. @Data) -->
-    <!-- Please note that it might be necessary to install the Lombok Plugin. -->
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.14.8</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
     <!-- The generator generates resources that are not copied to the target folder if it is not specified
          that they should be. -->
     <build>

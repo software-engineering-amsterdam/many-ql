@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -9,7 +7,7 @@ import ql.gen.QLLexer;
 import ql.gen.QLParser;
 import ql.ast.AstBuilder;
 import ql.gui.Modeler;
-import ql.gui.SimpleGui;
+import ql.gui.Renderer;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
 import ql.semantics.*;
@@ -74,24 +72,22 @@ public class Main extends Application
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
             Messages qlsMs =  TypeChecker.check(stylesheet, form);
-// TODO: fix the ql and qls files and enable type checking
-//            if (qlsMs.containsError())
-//            {
-//                this.showErrorAlert(qlsMs.toString());
-//                System.exit(1);
-//            }
+            if (qlsMs.containsError())
+            {
+                this.showErrorAlert(qlsMs.toString());
+                System.exit(1);
+            }
 
             QuestionStyles questionStyles = StyleMerger.getStyles(stylesheet, form);
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);
         }
 
-        //TODO: move this part below + maybe pull out the attaching of listeners etc. from SimpleGui as well ?
         ValueTable valueTable = ValueTableBuilder.build(form);
         Canvas canvas = modeler.buildCanvas();
 
         canvas.setSubmitAction(e -> this.saveAction(primaryStage, condQuestionTable, valueTable));
 
-        SimpleGui.display(valueTable, canvas, primaryStage);
+        Renderer.display(valueTable, canvas, primaryStage);
     }
 
     private void saveAction(Stage primaryStage, CondQuestionTable condQuestionTable, ValueTable valueTable)
@@ -115,7 +111,6 @@ public class Main extends Application
             }
         }
     }
-
 
     private CharStream getStream(String file)
     {

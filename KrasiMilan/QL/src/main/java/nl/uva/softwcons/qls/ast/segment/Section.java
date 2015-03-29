@@ -5,15 +5,15 @@ import java.util.Map;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
 
 public class Section extends PageSegment {
     private final String label;
     private final List<PageSegment> content;
-    private final Map<Type, StylizedWidget> styles;
+    private final Map<Type, StyledWidget> styles;
     private final LineInfo lineInfo;
 
-    public Section(final String label, final List<PageSegment> content, final Map<Type, StylizedWidget> styles,
+    public Section(final String label, final List<PageSegment> content, final Map<Type, StyledWidget> styles,
             final LineInfo lineInfo) {
         this.label = label;
         this.content = content;
@@ -29,7 +29,7 @@ public class Section extends PageSegment {
         return content;
     }
 
-    public Map<Type, StylizedWidget> getStyles() {
+    public Map<Type, StyledWidget> getStyles() {
         return styles;
     }
 

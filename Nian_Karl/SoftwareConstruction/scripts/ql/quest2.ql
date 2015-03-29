@@ -1,15 +1,11 @@
-form FamilySurvey {
-	name: "What is your name?" Str
-	age: "How old are you?" Int
-	isMarried: "Are you married?" Bool
-	
-    
-	if (isMarried) {
-		hasChild: "Do you have a child?" Bool	
-		if (hasChild) {
-			ageChild: "How old is your oldest child?" Int
-			ageDiff: "The difference between the age of you and your child is :" Int(4 + 2)
-		}
+form SalarySurvey{
+	name: "Your name pls" Str
+	lastName: "Your last name pls" Str
+	myAge: "How old are you?" Int
+	bothNames: "Both names" Int (name + lastName)
+	gotMom: "Do you have a mom?" Bool
+	if(gotMom){
+		momAge: "What age is ur mom?" Int
+		diffAge: "Different age" Int (myAge - momAge)	
 	}
-	
 }

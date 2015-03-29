@@ -1,31 +1,37 @@
 stylesheet sample {
-    page main {
+    page "main" {
         question maritalStatus
-        question married
-        section "Tra" {
+        section "Marital Status" {
             default boolean {
-                font: "Arial"
+                font: "Calibri"
             }
-            section "mra" {
-                default boolean {
-                    fontsize: 15
-                }
-                default integer {
-                    backcolor: #123456
-                }
-            }
+            question married
             question notMarried
         }
+        default decimal {
+            fontsize: 15
+            width: 100
+        }
         default integer {
-            width: 15
+            font: "Calibri"
+            fontsize: 16
+            forecolor: #6633FF
+            backcolor: #CCFFFF
         }
         question name
         question surname
         question combinedName
         question age
         question beer
+        question q1
+        question q2
+        question q3
+        question q4
+        question q5
+        question q6
+        question q7
     }
-    page second {
+    page "second" {
         question division
     }
 }

@@ -20,38 +20,44 @@ class ParserSpec extends Specification with ParserMatchers {
   "widget type parser" should {
     "parse the spinbox type" in {
       val spinBoxType = "spinbox"
+      val result = SpinBox()
 
-      parsers.widgetType must succeedOn(spinBoxType).withResult(spinBoxType)
+      parsers.widgetType must succeedOn(spinBoxType).withResult(result)
     }
 
     "parse the slider type" in {
       val sliderType = "slider"
+      val result = Slider()
 
-      parsers.widgetType must succeedOn(sliderType).withResult(sliderType)
+      parsers.widgetType must succeedOn(sliderType).withResult(result)
     }
 
     "parse the text type" in {
       val textType = "text"
+      val result = Text()
 
-      parsers.widgetType must succeedOn(textType).withResult(textType)
+      parsers.widgetType must succeedOn(textType).withResult(result)
     }
 
     "parse the text block type" in {
       val textBlockType = "textBlock"
+      val result = TextBlock()
 
-      parsers.widgetType must succeedOn(textBlockType).withResult(textBlockType)
+      parsers.widgetType must succeedOn(textBlockType).withResult(result)
     }
 
     "parse the radio type" in {
       val radioType = "radio"
+      val result = Radio()
 
-      parsers.widgetType must succeedOn(radioType).withResult(radioType)
+      parsers.widgetType must succeedOn(radioType).withResult(result)
     }
 
     "parse the drop down type" in {
       val dropDownType = "dropdown"
+      val result = DropDown()
 
-      parsers.widgetType must succeedOn(dropDownType).withResult(dropDownType)
+      parsers.widgetType must succeedOn(dropDownType).withResult(result)
     }
   }
 
@@ -102,42 +108,42 @@ class ParserSpec extends Specification with ParserMatchers {
   "question parser" should {
     "parse spin box" in {
       val question = "var1 spinbox"
-      val result = Question(Variable("var1"), SpinBox(List()))
+      val result = Question(Variable("var1"), Widget(SpinBox(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
 
     "parse slider" in {
       val question = "var1 slider"
-      val result = Question(Variable("var1"), Slider(List()))
+      val result = Question(Variable("var1"), Widget(Slider(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
 
     "parse text" in {
       val question = "var1 text"
-      val result = Question(Variable("var1"), Text(List()))
+      val result = Question(Variable("var1"), Widget(Text(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
 
     "parse textBlock" in {
       val question = "var1 textBlock"
-      val result = Question(Variable("var1"), TextBlock(List()))
+      val result = Question(Variable("var1"), Widget(TextBlock(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
 
     "parse radio" in {
       val question = "var1 radio"
-      val result = Question(Variable("var1"), Radio(List()))
+      val result = Question(Variable("var1"), Widget(Radio(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
 
     "parse dropdown" in {
       val question = "var1 dropdown"
-      val result = Question(Variable("var1"), DropDown(List()))
+      val result = Question(Variable("var1"), Widget(DropDown(), List()))
 
       parsers.question must succeedOn(question).withResult(result)
     }
@@ -150,7 +156,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(SpinBox(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -164,7 +170,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        Slider(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(Slider(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -178,7 +184,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        Text(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(Text(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -192,7 +198,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        TextBlock(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(TextBlock(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -206,7 +212,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        Radio(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(Radio(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -220,7 +226,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "color: #99FF66" +
         "}"
       val result = Question(Variable("var1"),
-        DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        Widget(DropDown(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
       )
 
       parsers.question must succeedOn(question).withResult(result)
@@ -232,8 +238,8 @@ class ParserSpec extends Specification with ParserMatchers {
         "var2 dropdown" +
         "}"
       val result = List(
-        Question(Variable("var1"), DropDown(List())),
-        Question(Variable("var2"), DropDown(List()))
+        Question(Variable("var1"), Widget(DropDown(), List())),
+        Question(Variable("var2"), Widget(DropDown(), List()))
       )
 
       parsers.sectionElements must succeedOn(questions).withResult(result)
@@ -258,9 +264,9 @@ class ParserSpec extends Specification with ParserMatchers {
         "}"
       val result = Section("section1", List(
         Question(Variable("var1"),
-          DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+          Widget(DropDown(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
         ),
-        Question(Variable("var2"), Slider(
+        Question(Variable("var2"), Widget(Slider(),
           List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
         )
       ))
@@ -276,9 +282,9 @@ class ParserSpec extends Specification with ParserMatchers {
         "}" +
         "}"
       val result = Section("section1", List(
-        Question(Variable("var1"), Slider(List())),
+        Question(Variable("var1"), Widget(Slider(), List())),
         Section("section2",
-          List(Question(Variable("var2"), DropDown(List())))
+          List(Question(Variable("var2"), Widget(DropDown(), List())))
         )
       ))
       parsers.section must succeedOn(nestedSections).withResult(result)
@@ -305,7 +311,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "page page2 {}" +
         "}"
       val result = StyleSheet("PartyForm", List(
-        DefaultWidget(BooleanType(), Slider(List())),
+        DefaultWidget(BooleanType(), Widget(Slider(), List())),
         Page("page1", List()),
         Page("page2", List()))
       )
@@ -322,7 +328,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}"
-      val result = DefaultWidget(NumberType(), SpinBox(
+      val result = DefaultWidget(NumberType(), Widget(SpinBox(),
         List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))
       ))
 

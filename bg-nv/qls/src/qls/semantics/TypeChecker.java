@@ -88,9 +88,12 @@ public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Vo
     {
         this.addQuestionReference(q);
 
-        Rules rs = q.getBody();
-        Type qType = this.questions.getType(q.getId());
-        this.checkForWidgetTypeMismatch(rs, qType, q.getLineNumber());
+        if (this.questions.contains(q.getId()))
+        {
+            Rules rs = q.getBody();
+            Type qType = this.questions.getType(q.getId());
+            this.checkForWidgetTypeMismatch(rs, qType, q.getLineNumber());
+        }
 
         return null;
     }
@@ -127,7 +130,7 @@ public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Vo
     {
         for (Rule r : rs)
         {
-            if (r.isCompatibleWithType(declType))
+            if (!(r.isCompatibleWithType(declType)))
             {
                 this.messages.add(StyleError.widgetTypeMismatch(declType.getTitle(), lineNumber));
             }

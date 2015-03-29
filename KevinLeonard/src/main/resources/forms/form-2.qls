@@ -1,6 +1,5 @@
 style PartyForm {
 
-    default number spinbox
     default number slider {
         width: 400
         font: "Arial"
@@ -19,31 +18,12 @@ style PartyForm {
         fontSize: 14
         color: #999999
     }
-    default boolean radio {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
-    default boolean dropdown {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
 
     page page1 {
-
         // Number Questions
         section "Number Questions" {
-
             section "Number Questions" {
-                numberOfFriends slider {
-                    width: 400
-                    font: "Arial"
-                    fontSize: 14
-                    color: #999999
-                }
+                numberOfFriends slider
             }
         }
     }
@@ -51,46 +31,21 @@ style PartyForm {
     page page2 {
         // String Questions
         section "String Questions" {
-            reason text {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-
-            /*
-            reason textBlock {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-            */
-
-            preferences text {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-            }
+            reason text
+            preferences textBlock
         }
     }
 
     page page3 {
         // Boolean Questions
         section "Boolean Questions" {
-            comesToParty checkbox {
+            comesToParty checkbox
+            needPlaceToCrash dropdown {
                 width: 400
                 font: "Arial"
                 fontSize: 14
                 color: #999999
             }
-
-            needPlaceToCrash dropdown {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-            }
         }
     }
-
 }

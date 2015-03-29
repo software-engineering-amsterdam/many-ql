@@ -10,8 +10,10 @@ from ..ast.Visitor import StatementVisitor as ASTStatementVisitor
 from ..core.TypeRules import OperatorTable
 
 
+
 def createEvaluator(questionnaire):
     return questionnaire.accept(Visitor())
+
 
 
 class Evaluator(object):
@@ -20,11 +22,13 @@ class Evaluator(object):
         self._questionValueTable = QuestionValueTable()
         self._operatorTable = OperatorTable()
     
+
     def evaluateBinaryExpression(self, operator, leftValue, rightValue):
         pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
         if pythonOp:
             return pythonOp(leftValue, rightValue)
         return EvalNone()
+
 
     def evaluateUnaryExpression(self, operator, value):
         pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
@@ -32,10 +36,12 @@ class Evaluator(object):
             return pythonOp(value)
         return EvalNone()
 
+
     def addValue(self, identifier, value):
         question = self._questionTable.get(identifier)
         if question:
             self._questionValueTable.update(question, value)
+
 
     def getValue(self, identifier):
         question = self._questionTable.get(identifier)
@@ -43,19 +49,24 @@ class Evaluator(object):
         if value != None:
             return value
         return EvalNone()
+
         
     def addQuestion(self, question):
         self._questionTable.add(question)
         self._questionValueTable.add(question)
 
+
     def getQuestion(self, identifier):
         return self._questionTable.get(identifier)
+
 
     def getQuestionType(self, identifier):
         return self._questionTable.getType(identifier)
 
+
     def identifiers(self):
         return self._questionTable.identifiers()
+
 
     def questions(self):    
         questions = []
@@ -66,17 +77,35 @@ class Evaluator(object):
         return questions
 
 
+
+class ExpressionList(list):
+    def __add__(self, value):
+        return ExpressionList(list.__add__(self, value))
+
+
+    def evaluate(self):
+        return all(expr.value.value for expr in self)
+
+
+    def copy(self):
+        return ExpressionList(self)
+
+
+
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
         self._currentForm = None
-        self._conditionalStatements = ExpressionsList()
+        self._conditionalStatements = ExpressionList()
+
 
     def visitQuestionnaireEnd(self, node):
         return self._evaluator
 
+
     def visitFormStatementBegin(self, node):
         self._currentForm = Form(node.identifier)
+
 
     def visitQuestionStatement(self, node):
         expression = node.expression
@@ -97,14 +126,17 @@ class Visitor(ASTStatementVisitor):
         
         return question
 
+
     def visitIfStatementBegin(self, node):
         expressionVisitor = ExpressionVisitor(self._evaluator)
         expression = node.expression.accept(expressionVisitor)
         
         self._conditionalStatements.append(expression)
+
         
     def visitIfStatementEnd(self, node):
         return self._conditionalStatements.pop()
+
 
 
 class ExpressionVisitor(ASTExpressionVisitor):
@@ -112,12 +144,14 @@ class ExpressionVisitor(ASTExpressionVisitor):
         self._evaluator = evaluator
         self._evaluableStack = []
 
+
     def visitUnaryExpressionEnd(self, node):
         evaluable = self._evaluableStack.pop()
         
         unaryExpression = UnaryExpression(node.operator, evaluable, self._evaluator)
         self._evaluableStack.append(unaryExpression)
         return unaryExpression
+
 
     def visitBinaryExpressionEnd(self, node):
         right = self._evaluableStack.pop()
@@ -127,22 +161,28 @@ class ExpressionVisitor(ASTExpressionVisitor):
         self._evaluableStack.append(binaryExpression)
         return binaryExpression
 
+
     def _createAtom(self, node):
         atom = AtomicType(node.value)
         self._evaluableStack.append(atom)
         return atom
 
+
     def visitBoolean(self, node):
         return self._createAtom(node)
+
 
     def visitInteger(self, node):
         return self._createAtom(node)
 
+
     def visitString(self, node):
         return self._createAtom(node)
 
+
     def visitMoney(self, node):
         return self._createAtom(node)
+        
 
     def visitIdentifier(self, node):
         identifier = EvalIdentifier(node.value.value, self._evaluator)

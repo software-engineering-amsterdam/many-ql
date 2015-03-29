@@ -47,8 +47,9 @@
             // 
             // FalseButton
             // 
+            this.FalseButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.FalseButton.AutoSize = true;
-            this.FalseButton.Location = new System.Drawing.Point(56, 20);
+            this.FalseButton.Location = new System.Drawing.Point(129, 20);
             this.FalseButton.Name = "FalseButton";
             this.FalseButton.Size = new System.Drawing.Size(39, 17);
             this.FalseButton.TabIndex = 2;
@@ -66,13 +67,14 @@
             this.QuestionLabel.TabIndex = 3;
             this.QuestionLabel.Text = "Question?";
             // 
-            // BooleanQuestion
+            // RadioWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.QuestionLabel);
             this.Controls.Add(this.FalseButton);
             this.Controls.Add(this.TrueButton);
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "RadioWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

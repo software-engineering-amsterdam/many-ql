@@ -2,7 +2,7 @@
 import ply.yacc
 
 from src.QL import nodes
-from src.Typechecker.errors import ParseError
+from src.Errors import ParseError
 
 from tokens import tokens, Lexer
 
@@ -140,13 +140,13 @@ def p_error(p):
 
 
 class Parser:
-    def __init__(self, debug=0):
+    def __init__(self, debug=False):
         self.debug  = debug
-
-        self.lexer  = Lexer()
         self.parser = ply.yacc.yacc()
 
     def parse(self, text=None):
+        self.lexer = Lexer()
+
         if text.strip():
             return self.parser.parse(text, debug=self.debug)
 

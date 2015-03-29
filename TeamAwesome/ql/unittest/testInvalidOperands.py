@@ -92,6 +92,7 @@ class ValidExpression(unittest.TestCase):
                 0)
             )
         ],0)])
+        
 
 
 class InvalidIdentifier(unittest.TestCase):

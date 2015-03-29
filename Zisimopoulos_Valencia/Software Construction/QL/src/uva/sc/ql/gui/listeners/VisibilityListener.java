@@ -8,56 +8,53 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JCheckBox;
-
 import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.atom.ID;
-import uva.sc.ql.evaluator.EvaluatorVisitor;
-import uva.sc.ql.gui.helpers.DisplayData;
+import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 import uva.sc.ql.gui.helpers.ListenerHelper;
+import uva.sc.ql.gui.helpers.QuestionData;
 
-@SuppressWarnings({ "unchecked" })
-public class VisibilityListener implements ActionListener,
-	Observer {
+public class VisibilityListener implements ActionListener, Observer {
 
-    EvaluatorVisitor evalVisitor;
-    List<Component> componentList;
-    Map<ID, List<ID>> patronElements;
-    JCheckBox checkBox;
-    ID id;
+    private QuestionsPropertiesVisitor questionsProperties;
+    private List<Component> componentList;
+    private Map<ID, List<ID>> patronElements;
+    private ID id;
 
-    public VisibilityListener(Map<ID, List<ID>> d, EvaluatorVisitor v,
-	    List<Component> c, JCheckBox b, ID i) {
-	patronElements = d;
-	evalVisitor = v;
-	componentList = c;
-	checkBox = b;
-	id = i;
-	evalVisitor.addObserver(this);
+    public VisibilityListener(Map<ID, List<ID>> patronElements, QuestionsPropertiesVisitor questionsProperties,
+	    List<Component> componentList, ID id) {
+	this.patronElements = patronElements;
+	this.questionsProperties = questionsProperties;
+	this.componentList = componentList;
+	this.id = id;
+	questionsProperties.addObserver(this);
     }
 
     public void actionPerformed(ActionEvent e) {
-	DisplayData d = evalVisitor.getValuesTable().get(id);
+	QuestionData data = questionsProperties.questionData(id);
 	boolean value = true;
-	if (d.getValue() != null) {
-	    BooleanAtom b = new BooleanAtom((Boolean) (d.getValue().getValue()));
-	    value = !(b.getValue());
+	if (data.getValue() != null) {
+	    BooleanAtom visibility = (BooleanAtom) data
+		    .evaluateValue(questionsProperties.getValuesTable());
+	    value = !(visibility.getValue());
 	}
-	DisplayData data = new DisplayData(new BooleanAtom(value),
-		d.getCondition(), d.getType());
-	evalVisitor.putToValuesTable(id, data);
+	data = new QuestionData(new BooleanAtom(value), data.getVisibility());
+	questionsProperties.putToValuesTable(id, data);
     }
 
-    @Override
     public void update(Observable o, Object arg) {
-	ListenerHelper helper = new ListenerHelper();
 	List<ID> elements = patronElements.get(id);
+	setComponentsVisibility(elements);
+    }
+
+    private void setComponentsVisibility(List<ID> elements) {
+	ListenerHelper helper = new ListenerHelper();
 	for (ID element : elements) {
-	    BooleanAtom b = (BooleanAtom) evalVisitor.getValuesTable()
-		    .get(element).getCondition().accept(evalVisitor);
-	    boolean v = Boolean.valueOf(b.getValue());
-	    Component com = helper.getComponentByName(element, componentList);
-	    com.setVisible(v);
+	    QuestionData data = questionsProperties.questionData(element);
+	    boolean visible = data.evaluateVisibility(questionsProperties
+		    .getValuesTable());
+	    helper.getComponentByName(element, componentList).setVisible(
+		    visible);
 	}
     }
 }

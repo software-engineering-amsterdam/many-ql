@@ -11,8 +11,8 @@ import nl.uva.bromance.parsers.QLParser;
 
 import java.util.Optional;
 import java.util.Stack;
+import java.util.UUID;
 
-//TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<QLNode> nodeStack = new Stack<>();
@@ -30,7 +30,6 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
         ast = new AST(nodeStack.pop());
-        System.out.println("--Printing ast--");
     }
 
     @Override
@@ -46,7 +45,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterQuestion(QLParser.QuestionContext ctx) {
-        nodeStack.push(new Question(ctx.start.getLine(), new Identifier(ctx.name.getText())));
+        nodeStack.push(new Question(ctx.start.getLine(), UUID.randomUUID(), ctx.name.getText()));
     }
 
     @Override
@@ -68,8 +67,8 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-        // TODO: Maybe make this prettier somehow?
         Question peek = (Question) nodeStack.peek();
+        //TODO: put this in customType
         peek.setQuestionType("custom");
         peek.setMultipleChoiceOptions(ctx.STRING());
     }
@@ -115,18 +114,6 @@ public class QLParseTreeListener extends QLBaseListener {
     public void exitLabelText(QLParser.LabelTextContext ctx) {
         nodeStack.peek().addChild(new LabelText(ctx.start.getLine(), ctx.text.getText()));
     }
-
-    @Override
-    public void enterInput(QLParser.InputContext ctx) {
-        nodeStack.push(new Input(ctx.start.getLine()));
-    }
-
-    @Override
-    public void exitInput(QLParser.InputContext ctx) {
-        Input in = (Input) nodeStack.pop();
-        nodeStack.peek().addChild(in);
-    }
-
     /*
      * Expression logic
      */

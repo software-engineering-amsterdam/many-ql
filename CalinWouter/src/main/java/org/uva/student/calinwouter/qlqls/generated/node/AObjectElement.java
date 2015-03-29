@@ -8,7 +8,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class AObjectElement extends PElement
 {
-    private final LinkedList<PObjectEl> _objectEl_ = new LinkedList<PObjectEl>();
+    private final LinkedList<PKeyValue> _keyValue_ = new LinkedList<PKeyValue>();
 
     public AObjectElement()
     {
@@ -16,10 +16,10 @@ public final class AObjectElement extends PElement
     }
 
     public AObjectElement(
-        @SuppressWarnings("hiding") List<?> _objectEl_)
+        @SuppressWarnings("hiding") List<?> _keyValue_)
     {
         // Constructor
-        setObjectEl(_objectEl_);
+        setKeyValue(_keyValue_);
 
     }
 
@@ -27,7 +27,7 @@ public final class AObjectElement extends PElement
     public Object clone()
     {
         return new AObjectElement(
-            cloneList(this._objectEl_));
+            cloneList(this._keyValue_));
     }
 
     @Override
@@ -36,29 +36,29 @@ public final class AObjectElement extends PElement
         ((Analysis) sw).caseAObjectElement(this);
     }
 
-    public LinkedList<PObjectEl> getObjectEl()
+    public LinkedList<PKeyValue> getKeyValue()
     {
-        return this._objectEl_;
+        return this._keyValue_;
     }
 
-    public void setObjectEl(List<?> list)
+    public void setKeyValue(List<?> list)
     {
-        for(PObjectEl e : this._objectEl_)
+        for(PKeyValue e : this._keyValue_)
         {
             e.parent(null);
         }
-        this._objectEl_.clear();
+        this._keyValue_.clear();
 
         for(Object obj_e : list)
         {
-            PObjectEl e = (PObjectEl) obj_e;
+            PKeyValue e = (PKeyValue) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._objectEl_.add(e);
+            this._keyValue_.add(e);
         }
     }
 
@@ -66,14 +66,14 @@ public final class AObjectElement extends PElement
     public String toString()
     {
         return ""
-            + toString(this._objectEl_);
+            + toString(this._keyValue_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._objectEl_.remove(child))
+        if(this._keyValue_.remove(child))
         {
             return;
         }
@@ -85,13 +85,13 @@ public final class AObjectElement extends PElement
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<PObjectEl> i = this._objectEl_.listIterator(); i.hasNext();)
+        for(ListIterator<PKeyValue> i = this._keyValue_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PObjectEl) newChild);
+                    i.set((PKeyValue) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

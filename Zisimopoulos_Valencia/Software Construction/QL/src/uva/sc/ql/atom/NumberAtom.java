@@ -5,7 +5,7 @@ import uva.sc.ql.expression.Expression;
 
 public class NumberAtom extends Expression<Object> {
 
-    Double value;
+    private Double value;
 
     public NumberAtom(Double value) {
 	this.value = (value != null) ? value : 0.;

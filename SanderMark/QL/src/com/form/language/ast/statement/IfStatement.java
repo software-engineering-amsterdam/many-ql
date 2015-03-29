@@ -23,15 +23,10 @@ public class IfStatement extends Statement {
 
     @Override
     public boolean checkType(Context context) {
-	checkStatementTypes(context);
+    thenStatements.checkTypes(context);
 	return checkConditionType(context);
     }
-    
-    private void checkStatementTypes(Context context){
-	for (Statement s : thenStatements) {
-	    s.checkType(context);
-	}
-    }
+
 
     private boolean checkConditionType(Context context){
 	Type conditionType = conditions.getType(context);
@@ -51,10 +46,10 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context rm) {
-	guiBuilder.setIfCondition(conditions);
+    public void createGUIComponent(FormComponent formComponent, JPanel panel, Context rm) {
+    formComponent.setIfCondition(conditions);
 	for (Statement s : thenStatements) {
-	    s.createGUIComponent(guiBuilder, panel, rm);
+	    s.createGUIComponent(formComponent, panel, rm);
 	}
     }
 

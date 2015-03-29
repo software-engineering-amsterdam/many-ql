@@ -1,5 +1,6 @@
 package qls.ast;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import ql.ast.AstNode;
 import ql.ast.type.Type;
 import ql.ast.type.TypeFactory;
@@ -47,8 +48,9 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             definitions.add(s);
         }
 
-        String id = context.Identifier().getText();
-        int lineNumber = context.Identifier().getSymbol().getLine();
+        TerminalNode n = context.String();
+        String id = StringHelper.unescapeString(n.getText());
+        int lineNumber = context.String().getSymbol().getLine();
 
         return new Page(id, definitions, lineNumber);
     }
@@ -64,6 +66,11 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
         if (context.question() != null)
         {
             return visitQuestion(context.question());
+        }
+
+        if (context.questionWithRules() != null)
+        {
+            return visitQuestionWithRules(context.questionWithRules());
         }
 
         if (context.defaultStmt() != null)
@@ -84,7 +91,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             definitions.add(s);
         }
 
-        String id = context.String().getText();
+        String id = StringHelper.unescapeString(context.String().getText());
         int lineNumber = context.String().getSymbol().getLine();
 
         return new Section(id, definitions, lineNumber);
@@ -96,19 +103,23 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
         String id = context.Identifier().getText();
         int lineNumber = context.Identifier().getSymbol().getLine();
 
-        if (context.stylesheetRule() != null)
-        {
-            List<Rule> rules = new ArrayList<Rule>();
-            for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
-            {
-                Rule s = (Rule)this.visit(ruleContext);
-                rules.add(s);
-            }
+        return new Question(id, lineNumber);
+    }
 
-            return new QuestionWithRules(id, lineNumber, new Rules(rules));
+    @Override
+    public AstNode visitQuestionWithRules(@NotNull QLSParser.QuestionWithRulesContext context)
+    {
+        String id = context.Identifier().getText();
+        int lineNumber = context.Identifier().getSymbol().getLine();
+
+        List<Rule> rules = new ArrayList<>();
+        for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
+        {
+            Rule s = (Rule)this.visit(ruleContext);
+            rules.add(s);
         }
 
-        return new Question(id, lineNumber);
+        return new QuestionWithRules(id, lineNumber, new Rules(rules));
     }
 
     @Override
@@ -153,7 +164,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
 
         if (label.equals("font"))
         {
-            return new Font(context.String().getText(), lineNumber);
+            return new Font(StringHelper.unescapeString(context.String().getText()), lineNumber);
         }
 
         if (label.equals("fontsize"))

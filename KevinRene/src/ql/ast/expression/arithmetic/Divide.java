@@ -16,7 +16,6 @@ public class Divide extends Binary {
 		return visitor.visit(this);
 	}
 	
-	//TODO: Add a superclass for numeric types.
 	@Override
 	public QLType getType() {
 		return new QLNumeric();

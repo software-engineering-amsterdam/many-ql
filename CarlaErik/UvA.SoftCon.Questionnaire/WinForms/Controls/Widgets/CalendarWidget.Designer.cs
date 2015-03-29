@@ -51,13 +51,13 @@
             this.AnswerDatePicker.TabIndex = 1;
             this.AnswerDatePicker.ValueChanged += new System.EventHandler(this.AnswerDatePicker_ValueChanged);
             // 
-            // CalendarControl
+            // CalendarWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.AnswerDatePicker);
             this.Controls.Add(this.QuestionLabel);
-            this.Name = "CalendarControl";
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "CalendarWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

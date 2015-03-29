@@ -12,23 +12,23 @@ import java.util.List;
  */
 public class Page extends AstNode implements Styleable
 {
-    private final String name;
+    private final String title;
     private final List<Statement> body;
     private final Style style;
 
-    public Page(String name, List<Statement> body, int lineNumber)
+    public Page(String title, List<Statement> body, int lineNumber)
     {
         super(lineNumber);
-        this.name = name;
+        this.title = title;
         this.body = body;
 
         StyleCollector c = new StyleCollector();
         this.style = c.visit(this);
     }
 
-    public String getName()
+    public String getTitle()
     {
-        return this.name;
+        return this.title;
     }
 
     public List<Statement> getBody()

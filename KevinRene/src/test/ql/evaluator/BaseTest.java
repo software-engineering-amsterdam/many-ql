@@ -6,12 +6,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.parser.Parser;
 import ql.value.BooleanValue;
 import ql.value.FloatValue;

@@ -4,14 +4,14 @@ import uva.sc.ql.atom.ID;
 
 public class UndefinedID implements IError {
 
-    ID identity;
+    private ID id;
 
     public UndefinedID(ID id) {
-	identity = id;
+	this.id = id;
     }
 
     public String toString() {
-	return "The variable " + identity.getValue()
+	return "The variable " + id.getValue()
 		+ " is used but has not been declared.";
     }
 }

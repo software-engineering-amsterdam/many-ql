@@ -7,28 +7,25 @@ import java.util.Map;
 import uva.sc.core.types.Boolean;
 import uva.sc.core.types.Type;
 import uva.sc.ql.atom.ID;
-import uva.sc.ql.evaluator.EvaluatorVisitor;
+import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 
 public class QuestionFactory {
 
     public Question questionType(uva.sc.ql.statements.Question question,
-	    Map<ID, List<ID>> patronElements,
-	    EvaluatorVisitor evaluator, List<Component> componentList) {
+	    QuestionsPropertiesVisitor questionProperties,
+	    Map<ID, List<ID>> patronElements, List<Component> componentList) {
 	Type type = question.getType();
 	Question questionType = null;
 	if (type.equals(new Boolean())) {
-	    questionType = new CheckBoxQuestion(patronElements, evaluator,
-		    componentList);
+	    questionType = new CheckBoxQuestion(patronElements,
+		    questionProperties, componentList);
 	} else if (type.equals(new String())) {
-	    questionType = new TextBoxQuestion(patronElements, evaluator,
-		    componentList);
-	} else {// (type.equals(new Number())) {
-	    questionType = new CalculatedQuestion(patronElements, evaluator,
-		    componentList);
+	    questionType = new TextBoxQuestion(patronElements,
+		    questionProperties, componentList);
+	} else {
+	    questionType = new CalculatedQuestion(patronElements,
+		    questionProperties, componentList);
 	}
 	return questionType;
-	// else {
-	// throw new Exception("Unkown type exception.");
-	// }
     }
 }

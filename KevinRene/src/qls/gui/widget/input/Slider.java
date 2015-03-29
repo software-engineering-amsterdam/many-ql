@@ -10,12 +10,12 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.value.IntegerValue;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.WidgetStylizer;
 
-public abstract class Slider<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
+public abstract class Slider<T extends Value> extends DefaultComponent implements InputWidget<T>, ChangeListener {
 	protected JPanel container;
 	protected JSlider slider;
 	protected JLabel label;
@@ -24,7 +24,7 @@ public abstract class Slider<T extends Value> extends DefaultChangeHandler imple
 	public Slider(IntegerValue minValue, IntegerValue maxValue) {
 		stylizer = new WidgetStylizer();
 		
-		slider = new JSlider(JSlider.HORIZONTAL, minValue.getValue(), maxValue.getValue(), minValue.getValue());		
+		slider = new JSlider(JSlider.HORIZONTAL, minValue.getPrimitive(), maxValue.getPrimitive(), minValue.getPrimitive());		
 		slider.setMaximumSize(new Dimension(slider.getPreferredSize().width, 
 				slider.getPreferredSize().height * 2));
 		slider.addChangeListener(this);

@@ -117,6 +117,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public void printMessages() {
+		System.out.println();
 		System.out.println("[ERRORS] (" + messageManager.countErrors() + " items)");
 		messageManager.printErrors();
 		System.out.println();
@@ -253,7 +254,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(QuestionComputed question) {
 		boolean isValidDeclaration = checkDeclaration(question);
 		boolean isValidLabel = checkLabel(question);
-		boolean isValidExpression = question.getExpression().accept(this);
+		boolean isValidExpression = checkExpressionMatchType(question.getExpression(), question.getType());
 
 		// Build the dependency list
 		DependencyVisitor visitor = new DependencyVisitor();

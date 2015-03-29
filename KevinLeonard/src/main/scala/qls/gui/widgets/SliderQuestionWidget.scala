@@ -1,13 +1,13 @@
 package qls.gui.widgets
 
 import ql.ast.{Expression, NumberValue, Question, Value}
-import ql.gui.widgets.QuestionWidget
-import types._
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.Slider
 
-class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   val DefaultMin = 0
   val DefaultMax = 100
@@ -22,6 +22,7 @@ class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression],
     })
     showTickLabels = true
     snapToTicks = true
+    maxWidth = MaxWidth
   }
   updateEnvironment(NumberValue(value))
   children.add(sliderField)

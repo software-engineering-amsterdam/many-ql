@@ -1,14 +1,14 @@
 package qls.gui.widgets
 
 import ql.ast.{BooleanValue, Expression, Question, Value}
-import ql.gui.widgets.QuestionWidget
-import types._
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.control.ChoiceBox
 
-class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   val Yes = "Yes"
   val No = "No"

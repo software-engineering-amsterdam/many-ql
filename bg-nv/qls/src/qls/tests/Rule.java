@@ -34,79 +34,79 @@ public class Rule
     private static final Widget widgetTextbox = new Widget(new Textbox(), 0);
 
     @Test
-    public void WidthOverwrittenByWidth()
+    public void widthOverwrittenByWidth()
     {
         assertTrue(width100.isOverwrittenBy(width50));
     }
 
     @Test
-    public void ForeColorOverwrittenByForeColor()
+    public void foreColorOverwrittenByForeColor()
     {
         assertTrue(foreColorBlue.isOverwrittenBy(foreColorRed));
     }
 
     @Test
-    public void BackColorOverwrittenByBackColor()
+    public void backColorOverwrittenByBackColor()
     {
         assertTrue(backColorBlue.isOverwrittenBy(backColorRed));
     }
 
     @Test
-    public void FontOverwrittenByFont()
+    public void fontOverwrittenByFont()
     {
         assertTrue(fontArial.isOverwrittenBy(fontComic));
     }
 
     @Test
-    public void FontSizeOverwrittenByFontSize()
+    public void fontSizeOverwrittenByFontSize()
     {
         assertTrue(fontSize10.isOverwrittenBy(fontSize15));
     }
 
     @Test
-    public void WidgetOverwrittenByWidget()
+    public void widgetOverwrittenByWidget()
     {
         assertTrue(widgetRadio.isOverwrittenBy(widgetTextbox));
     }
 
     @Test
-    public void WidgetNotOverwrittenByFont()
+    public void widgetNotOverwrittenByFont()
     {
         assertFalse(widgetRadio.isOverwrittenBy(fontArial));
     }
 
     @Test
-    public void FontNotOverwrittenByFontSize()
+    public void fontNotOverwrittenByFontSize()
     {
         assertFalse(fontArial.isOverwrittenBy(fontSize15));
     }
 
     @Test
-    public void FontSizeNotOverwrittenByFont()
+    public void fontSizeNotOverwrittenByFont()
     {
         assertFalse(fontSize15.isOverwrittenBy(fontArial));
     }
 
     @Test
-    public void BackColorNotOverwrittenByForeColor()
+    public void backColorNotOverwrittenByForeColor()
     {
         assertFalse(backColorRed.isOverwrittenBy(foreColorBlue));
     }
 
     @Test
-    public void ForeColorNotOverwrittenByBackColor()
+    public void foreColorNotOverwrittenByBackColor()
     {
         assertFalse(foreColorBlue.isOverwrittenBy(backColorRed));
     }
 
     @Test
-    public void WidgetNotOverwrittenByWidth()
+    public void widgetNotOverwrittenByWidth()
     {
         assertFalse(widgetRadio.isOverwrittenBy(width100));
     }
 
     @Test
-    public void WidthNotOverwrittenByWidget()
+    public void widthNotOverwrittenByWidget()
     {
         assertFalse(width100.isOverwrittenBy(widgetRadio));
     }

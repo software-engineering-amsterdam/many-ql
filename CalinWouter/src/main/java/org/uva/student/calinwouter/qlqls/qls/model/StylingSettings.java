@@ -1,27 +1,44 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
-import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
-import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
-import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;
-import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Textbox;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.widgets.Checkbox;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.widgets.Intbox;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.widgets.Textbox;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This model contains all styling settings for a (default) type.
  */
-@Data
 public class StylingSettings {
+    public static final String WIDGET = "widget";
+    public static final String FONT = "font";
+    public static final String FONT_SIZE = "fontSize";
+    public static final String COLOR = "color";
+    public static final String WIDTH = "width";
+
     private final AbstractWidget widget;
     private final String font;
-    private final int fontSize, color, width;
+    private final Integer fontSize, color, width;
+
+    public Font createFont() {
+        return new Font(font, 0, fontSize);
+    }
 
     public AbstractWidget getWidget() {
         return widget;
+    }
+
+    public Color createForegroundColor() {
+        return new Color(color);
+    }
+
+    public Dimension createSizeDimension(int oldHeight) {
+        return new Dimension(width, oldHeight);
     }
 
     /**
@@ -30,26 +47,23 @@ public class StylingSettings {
     private class DefaultStylingSettingsCreator implements ITypeCallback {
         private final Map<String, Object> stylingSettings = new HashMap<String, Object>();
 
-        @Override
         public void usesBoolean() {
-            stylingSettings.put("widget", new Checkbox());
+            stylingSettings.put(StylingSettings.WIDGET, new Checkbox());
         }
 
-        @Override
         public void usesInteger() {
-            stylingSettings.put("widget", new Intbox());
+            stylingSettings.put(StylingSettings.WIDGET, new Intbox());
         }
 
-        @Override
         public void usesString() {
-            stylingSettings.put("widget", new Textbox());
+            stylingSettings.put(StylingSettings.WIDGET, new Textbox());
         }
 
         public Map<String, Object> getResults() {
-            stylingSettings.put("font", "Arial");
-            stylingSettings.put("fontSize", 12);
-            stylingSettings.put("color", 0);
-            stylingSettings.put("width", 200);
+            stylingSettings.put(StylingSettings.FONT, "Arial");
+            stylingSettings.put(StylingSettings.FONT_SIZE, 12);
+            stylingSettings.put(StylingSettings.COLOR, 0);
+            stylingSettings.put(StylingSettings.WIDTH, 200);
             return stylingSettings;
         }
     }
@@ -61,7 +75,7 @@ public class StylingSettings {
         DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
 
         // When no typeDescriptor is set, it is not attached to a type, thus do not set the default widget.
-        if (typeDescriptor != null) {
+        if (typeDescriptor != null) { // TODO
             typeDescriptor.callTypeMethod(defaultStylingSettingsCreator);
         }
         Map<String, Object> newStylingSettingsMap =
@@ -72,10 +86,10 @@ public class StylingSettings {
 
     public StylingSettings(ITypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
         Map<String, Object> newStylingSettingsMap = createMapBackedByDefaults(typeDescriptor, stylingSettingsMap);
-        this.widget = (AbstractWidget) newStylingSettingsMap.get("widget");
-        this.font = (String) newStylingSettingsMap.get("font");
-        this.fontSize = (Integer) newStylingSettingsMap.get("fontSize");
-        this.color = (Integer) newStylingSettingsMap.get("color");
-        this.width = (Integer) newStylingSettingsMap.get("width");
+        this.widget = (AbstractWidget) newStylingSettingsMap.get(StylingSettings.WIDGET);
+        this.font = (String) newStylingSettingsMap.get(StylingSettings.FONT);
+        this.fontSize = (Integer) newStylingSettingsMap.get(StylingSettings.FONT_SIZE);
+        this.color = (Integer) newStylingSettingsMap.get(StylingSettings.COLOR);
+        this.width = (Integer) newStylingSettingsMap.get(StylingSettings.WIDTH);
     }
 }

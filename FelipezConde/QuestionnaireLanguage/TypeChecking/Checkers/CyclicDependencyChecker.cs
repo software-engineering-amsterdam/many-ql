@@ -5,6 +5,7 @@ using Notifications;
 using System.Collections.Generic;
 using TypeChecking.Collectors;
 using TypeChecking.Notifications.Errors;
+using System.Linq;
 
 namespace TypeChecking.Checkers
 {
@@ -46,13 +47,14 @@ namespace TypeChecking.Checkers
         public DependencyGraph Visit(Question question)
         {
             DependencyGraph dependencyGraph = new DependencyGraph();
+            IEnumerable<Id> questionDependencies = new List<Id>();
 
             if (question.Computation != null)
             {
-                dependencyGraph.AddNewDirectDepencencies(
-                    question.Identifier, 
-                    question.Computation.Accept(new UsedIdentifierCollector()));
+                questionDependencies = question.Computation.Accept(new UsedIdentifierCollector());
             }
+
+            dependencyGraph.AddNewDirectDepencencies(question.Identifier, questionDependencies);
 
             return dependencyGraph;
         }

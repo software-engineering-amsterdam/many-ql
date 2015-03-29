@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 import ql.value.BooleanValue;
 import ql.value.StringValue;
 
-public class RadioButton extends DefaultChangeHandler implements InputWidget<BooleanValue>, ActionListener {	
-	protected JRadioButton radioButton;
+public class RadioButton extends DefaultComponent implements InputWidget<BooleanValue>, ActionListener {	
+	private JRadioButton radioButton;
 
 	public RadioButton() {
 		radioButton = new JRadioButton();
@@ -20,14 +20,14 @@ public class RadioButton extends DefaultChangeHandler implements InputWidget<Boo
 	}
 	
 	public RadioButton(StringValue radioLabel) {
-		radioButton = new JRadioButton(radioLabel.getValue());
+		radioButton = new JRadioButton(radioLabel.getPrimitive());
 		radioButton.addActionListener(this);
 	}
 	
 	public RadioButton(BooleanValue booleanValue) {
 		radioButton = new JRadioButton();		
 		radioButton.add(new JRadioButton());
-		radioButton.setSelected(booleanValue.getValue());
+		radioButton.setSelected(booleanValue.getPrimitive());
 		radioButton.addActionListener(this);
 	}
 	
@@ -43,7 +43,7 @@ public class RadioButton extends DefaultChangeHandler implements InputWidget<Boo
 	
 	@Override
 	public void setValue(BooleanValue value) {
-		radioButton.setSelected(value.getValue());
+		radioButton.setSelected(value.getPrimitive());
 	}
 
 	@Override

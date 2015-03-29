@@ -11,7 +11,7 @@ import javax.swing.text.BadLocationException;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.UndefinedValue;
-import org.uva.ql.view.widgit.BaseTextField;
+import org.uva.ql.view.widget.BaseTextField;
 
 public class NumberTextFieldListener implements DocumentListener {
 

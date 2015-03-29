@@ -2,51 +2,52 @@
 Package org.uva.student.calinwouter.qlqls.generated;
 
 Helpers
-    digit	= ['0' .. '9'];
-    letter	= [['a' .. 'z'] + ['A' .. 'Z']];
-    any	= [0 .. 0xFFFF];
-    cr	= 13;
-    lf	= 10;
-    eol	= cr | lf | cr lf;
-    no_enter= [any - [cr + lf]];
-    hexchar=    [['0' .. '9'] + [['a' .. 'z'] + ['A' .. 'Z']]];
-    tab = 9;
+    digit	        = ['0' .. '9'];
+    letter	        = [['a' .. 'z'] + ['A' .. 'Z']];
+    any	            = [0 .. 0xFFFF];
+    carriage_return	= 13;
+    line_feed	    = 10;
+    end_of_line     = carriage_return | line_feed | carriage_return line_feed;
+    no_enter        = [any - [carriage_return + line_feed]];
+    hex_char        = [['0' .. '9'] + [['a' .. 'z'] + ['A' .. 'Z']]];
+    tab             = 9;
 
+// For conflicting tokens/productions, I add the prefix "token_".
 Tokens
-    comment = '//' [any - [cr + lf]] eol?;
-    tnot	= '!';
-    number	= (digit+ | digit+ '.' digit+);
-    or	= '||';
-    and	= '&&';
-    add	= '+';
-    sub	= '-';
-    mul	= '*';
-    div	= '/';
-    mod	= '%';
-    lparen	= '(';
-    rparen	= ')';
-    tform	= 'form';
-    lbrace	= '{';
-    rbrace	= '}';
-    colon	= ':';
-    if	= 'if';
-    else	= 'else';
-    tbool	= 'boolean';
-    ttrue	= 'true';
-    tfalse	= 'false';
-    tstring	= 'string';
-    tint	= 'int';
-    string	= '"' [no_enter - '"' ]* '"';
-    teq	= '==';
-    tneq	= '!=';
-    tlt	= '<';
-    tgt	= '>';
-    tlte	= '<=';
-    tgte	= '>=';
-    blank	= (' ' | eol | tab)+;
-    ident	= (letter (digit | letter)*);
-    hex     = '#' hexchar+;
-    comma   = ',';
+    comment         = '//' [any - [carriage_return + line_feed]] end_of_line?;
+    token_not	    = '!';
+    number	        = (digit+ | digit+ '.' digit+);
+    or	            = '||';
+    and	            = '&&';
+    add	            = '+';
+    subtract	    = '-';
+    multiply	    = '*';
+    divide	        = '/';
+    modulo	        = '%';
+    left_parenthesis = '(';
+    right_parenthesis = ')';
+    token_form	    = 'form';
+    left_brace	    = '{';
+    right_brace	    = '}';
+    colon	        = ':';
+    if	            = 'if';
+    else	        = 'else';
+    token_boolean	= 'boolean';
+    token_true	    = 'true';
+    token_false	    = 'false';
+    token_string	= 'string';
+    token_integer	= 'int';
+    string	        = '"' [no_enter - '"' ]* '"';
+    token_equals	= '==';
+    token_not_equals = '!=';
+    token_lesser_than = '<';
+    token_greater_than = '>';
+    token_lesser_than_or_equals = '<=';
+    token_greater_than_or_equals = '>=';
+    blank	        = (' ' | end_of_line | tab)+;
+    identifier	    = (letter (digit | letter)*);
+    hex             = '#' hex_char+;
+    comma           = ',';
 
 Ignored Tokens
     comment, blank;
@@ -55,173 +56,224 @@ Productions
 
     // QL
     begin {-> begin}
-        = {form} form                                   {-> New begin.form(form.form) }
-        | {stylesheet}  stylesheet                      {-> New begin.stylesheet(stylesheet.ident_list) }
+        = {form} form
+          {-> New begin.form(form.form) }
+        | {stylesheet}  stylesheet
+          {-> New begin.stylesheet(stylesheet.function) }
         ;
 
     form {-> form}
-        = tform ident lbrace [sl]:stmt_list rbrace	    {-> New form(ident, [sl.stmt])}
+        = token_form identifier left_brace [sl]:statement_list right_brace
+          {-> New form(identifier, [sl.statement])}
         ;
 
-    stmt_list {-> stmt*}
-        = stmt stmt_list_tail*                          {-> [stmt, stmt_list_tail.stmt]}
+    statement_list {-> statement*}
+        = statement statement_list_tail*
+          {-> [statement, statement_list_tail.statement]}
         ;
 
-    stmt_list_tail {-> stmt}
-        = stmt                                          {-> stmt}
+    statement_list_tail {-> statement}
+        = statement
+          {-> statement}
         ;
 
 
     type {-> type}
-        = {bool}	tbool					            {-> New type.bool()}
-        | {string}	tstring					            {-> New type.string()}
-        | {int}		tint					            {-> New type.int()}
+        = {boolean}	token_boolean
+          {-> New type.boolean()}
+        | {string}	token_string
+          {-> New type.string()}
+        | {integer}	token_integer
+          {-> New type.integer()}
         ;
 
-    stmt {-> stmt}
-        = {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
-        | {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
-        | {ifelse}	if lparen exp rparen lbrace
-                    [then_stmt_list]:stmt_list
-                rbrace else [lbrace2]:lbrace
-                    [else_stmt_list]:stmt_list
-                [rbrace2]:rbrace			            {-> New stmt.ifelse(exp, [then_stmt_list.stmt], [else_stmt_list.stmt])}
-        | {if}		if lparen exp rparen lbrace
-                    [then_stmt_list]:stmt_list
-                rbrace			                		{-> New stmt.if(exp, [then_stmt_list.stmt])}
+    statement {-> statement}
+        = {question} identifier colon string type
+          {-> New statement.question(identifier, string, type.type)}
+        | {value} identifier colon string type left_parenthesis expression right_parenthesis
+          {-> New statement.value(identifier, string, type.type, expression.expression)}
+        | {if_else}
+          if left_parenthesis expression right_parenthesis left_brace
+          [then_statement_list]:statement_list
+          right_brace else [left_brace2]:left_brace
+          [else_statement_list]:statement_list
+          [right_brace2]:right_brace
+          {-> New statement.if_else(expression, [then_statement_list.statement], [else_statement_list.statement])}
+        | {if}
+          if left_parenthesis expression right_parenthesis left_brace
+          [then_statement_list]:statement_list
+          right_brace
+          {-> New statement.if(expression, [then_statement_list.statement])}
         ;
 
-    exp {-> exp}
-        = {logical}	logical			            		{-> logical.exp}
+    expression {-> expression}
+        = {logical}	logical
+          {-> logical.expression}
         ;
 
-    logical {-> exp}
-        = {or}		[left]:logical or [right]:cmp   	{-> New exp.or(left.exp, right.exp)}
-        | {and}		[left]:logical and [right]:cmp	    {-> New exp.and(left.exp, right.exp)}
-        | {cmp}	    cmp 					            {-> cmp.exp}
+    logical {-> expression}
+        = {or} [left]:logical or [right]:comparison
+          {-> New expression.or(left.expression, right.expression)}
+        | {and} [left]:logical and [right]:comparison
+          {-> New expression.and(left.expression, right.expression)}
+        | {comparison} comparison
+          {-> comparison.expression}
         ;
 
-    cmp {-> exp}
-        = {eq}		[left]:factor teq [right]:addend	{-> New exp.eq(left.exp, right.exp)}
-        | {neq}		[left]:factor tneq [right]:addend   {-> New exp.neq(left.exp, right.exp)}
-        | {lt}		[left]:factor tlt [right]:addend    {-> New exp.lt(left.exp, right.exp)}
-        | {gt}		[left]:factor tgt [right]:addend	{-> New exp.gt(left.exp, right.exp)}
-        | {lte}		[left]:factor tlte [right]:addend	{-> New exp.lte(left.exp, right.exp)}
-        | {gte}		[left]:factor tgte [right]:addend	{-> New exp.gte(left.exp, right.exp)}
-        | {addend}	addend					            {-> addend.exp}
+    comparison {-> expression}
+        = {equals} [left]:factor token_equals [right]:addend
+          {-> New expression.equals(left.expression, right.expression)}
+        | {not_equals} [left]:factor token_not_equals [right]:addend
+          {-> New expression.not_equals(left.expression, right.expression)}
+        | {lesser_than} [left]:factor token_lesser_than [right]:addend
+          {-> New expression.lesser_than(left.expression, right.expression)}
+        | {greater_than} [left]:factor token_greater_than [right]:addend
+          {-> New expression.greater_than(left.expression, right.expression)}
+        | {lesser_than_or_equals} [left]:factor token_lesser_than_or_equals [right]:addend
+          {-> New expression.lesser_than_or_equals(left.expression, right.expression)}
+        | {greater_than_or_equals} [left]:factor token_greater_than_or_equals [right]:addend
+          {-> New expression.greater_than_or_equals(left.expression, right.expression)}
+        | {addend} addend
+          {-> addend.expression}
         ;
 
-    addend {-> exp}
-        = {add}		[left]:addend add [right]:factor	{-> New exp.add(left.exp, right.exp)}
-        | {sub}		[left]:addend sub [right]:factor	{-> New exp.sub(left.exp, right.exp)}
-        | {factor}  factor                              {-> factor.exp}
+    addend {-> expression}
+        = {add} [left]:addend add [right]:factor
+          {-> New expression.add(left.expression, right.expression)}
+        | {subtract} [left]:addend subtract [right]:factor
+          {-> New expression.subtract(left.expression, right.expression)}
+        | {factor} factor
+          {-> factor.expression}
         ;
 
-    factor {-> exp}
-        = {mul}		[left]:factor mul [right]:unary     {-> New exp.mul(left.exp, right.exp)}
-        | {div}		[left]:factor div [right]:unary		{-> New exp.div(left.exp, right.exp)}
-        | {mod}		[left]:factor mod [right]:unary		{-> New exp.mod(left.exp, right.exp)}
-        | {unary}	unary			            		{-> unary.exp}
+    factor {-> expression}
+        = {multiply} [left]:factor multiply [right]:unary
+          {-> New expression.multiply(left.expression, right.expression)}
+        | {divide} [left]:factor divide [right]:unary
+          {-> New expression.divide(left.expression, right.expression)}
+        | {modulo} [left]:factor modulo [right]:unary
+          {-> New expression.modulo(left.expression, right.expression)}
+        | {unary} unary
+          {-> unary.expression}
         ;
 
-    unary {-> exp}
-        = {not}		tnot unary			            	{-> New exp.not(unary.exp)}
-        | {number}	number					            {-> New exp.number(number)}
-        | {true}	ttrue					            {-> New exp.true()}
-        | {false}	tfalse					            {-> New exp.false()}
-        | {paren}	lparen exp rparen			        {-> exp.exp}
-        | {ident}	ident					            {-> New exp.ident(ident)}
+    unary {-> expression}
+        = {not} token_not unary
+          {-> New expression.not(unary.expression)}
+        | {number} number
+          {-> New expression.number(number)}
+        | {true} token_true
+          {-> New expression.true()}
+        | {false} token_false
+          {-> New expression.false()}
+        | {paren} left_parenthesis expression right_parenthesis
+          {-> expression.expression}
+        | {identifier} identifier
+          {-> New expression.identifier(identifier)}
         ;
 
-    // QLS (Conceptual!)
-    stylesheet {-> ident_list}
-        = ident_list {-> ident_list}
+    // QLS
+    stylesheet {-> function}
+        = function {-> function}
         ;
 
-    ident_list {-> ident_list}
-        = {empty}   ident lparen rparen                 {-> New ident_list.empty(ident)}
-        | {filled}  ident lparen element list_tail* rparen {-> New ident_list.filled(ident, [element, list_tail.element])}
+    function {-> function}
+        = {non_parameterized} identifier left_parenthesis right_parenthesis
+          {-> New function.non_parameterized(identifier)}
+        | {parameterized} identifier left_parenthesis element list_tail* right_parenthesis
+          {-> New function.parameterized(identifier, [element, list_tail.element])}
         ;
 
-    list_tail {-> element} = comma element         {-> element};
+    list_tail {-> element}
+        = comma element
+          {-> element};
 
     element {-> element}
-        = {type}    type					            {-> New element.type(type)}
-        | {ident}   ident					            {-> New element.ident(ident)}
-        | {hex}     hex					                {-> New element.hex(hex)}
-        | {string}  string					            {-> New element.string(string)}
-        | {number}  number					            {-> New element.number(number)}
-        | {object}  object					            {-> New element.object([object.object_el])}
-        | {list}    ident_list  					    {-> New element.list(ident_list)}
+        = {type} type
+          {-> New element.type(type)}
+        | {identifier}   identifier
+          {-> New element.identifier(identifier)}
+        | {hex} hex
+          {-> New element.hex(hex)}
+        | {string} string
+          {-> New element.string(string)}
+        | {number} number
+          {-> New element.number(number)}
+        | {object} object
+          {-> New element.object([object.key_value])}
+        | {function} function
+          {-> New element.function(function)}
         ;
 
-    object_el {-> object_el}
-        = [key]:element colon [value]:element           {-> New object_el(key, value)}
+    key_value {-> key_value}
+        = [key]:element colon [value]:element
+          {-> New key_value(key, value)}
         ;
 
-    object {-> object_el* }
-        = {empty}   lbrace rbrace                       {-> []}
-        | {filled}  lbrace object_el object_tail* rbrace {-> [object_el.object_el, object_tail.object_el]}
+    object {-> key_value* }
+        = {non_parameterized} left_brace right_brace
+          {-> []}
+        | {parameterized} left_brace key_value object_tail* right_brace
+          {-> [key_value.key_value, object_tail.key_value]}
         ;
 
-    object_tail {-> object_el}
-        = comma object_el                                 {-> object_el}
+    object_tail {-> key_value}
+        = comma key_value
+          {-> key_value}
         ;
-
-
 
 Abstract Syntax Tree
     begin
-        = {form}        form
-        | {stylesheet}  ident_list
+        = {form}                    form
+        | {stylesheet}              function
         ;
     form
-        =			    [ident]:ident stmt*
+        =			                [identifier]:identifier statement*
         ;
-    stmt
-        = {question}	ident [str]:string [type]:type
-        | {value}		ident [str]:string [type]:type [exp]:exp
-        | {ifelse}		[exp]:exp [then_stmt_list]:stmt* [else_stmt_list]:stmt*
-        | {if}			[exp]:exp [then_stmt_list]:stmt*
+    statement
+        = {question}	            identifier [string]:string [type]:type
+        | {value}		            identifier [string]:string [type]:type [expression]:expression
+        | {if_else}		            [expression]:expression [then_statement_list]:statement* [else_statement_list]:statement*
+        | {if}			            [expression]:expression [then_statement_list]:statement*
         ;
     type
-        = {bool}
+        = {boolean}
         | {string}
-        | {int}
+        | {integer}
         ;
-    exp
-        = {add}			[left]:exp [right]:exp
-        | {sub}			[left]:exp [right]:exp
+    expression
+        = {add}			            [left]:expression [right]:expression
+        | {subtract}	            [left]:expression [right]:expression
         | {true}
         | {false}
-        | {or}			[left]:exp [right]:exp
-        | {and}			[left]:exp [right]:exp
-        | {eq}			[left]:exp [right]:exp
-        | {neq}			[left]:exp [right]:exp
-        | {lt}			[left]:exp [right]:exp
-        | {gt}			[left]:exp [right]:exp
-        | {lte}			[left]:exp [right]:exp
-        | {gte}			[left]:exp [right]:exp
-        | {mul}			[left]:exp [right]:exp
-        | {div}			[left]:exp [right]:exp
-        | {mod}			[left]:exp [right]:exp
-        | {not}			exp
-        | {number}		number
-        | {ident}		ident
+        | {or}			            [left]:expression [right]:expression
+        | {and}			            [left]:expression [right]:expression
+        | {equals}		            [left]:expression [right]:expression
+        | {not_equals}	            [left]:expression [right]:expression
+        | {lesser_than}			    [left]:expression [right]:expression
+        | {greater_than}			[left]:expression [right]:expression
+        | {lesser_than_or_equals}	[left]:expression [right]:expression
+        | {greater_than_or_equals}  [left]:expression [right]:expression
+        | {multiply}			    [left]:expression [right]:expression
+        | {divide}			        [left]:expression [right]:expression
+        | {modulo}			        [left]:expression [right]:expression
+        | {not}			            expression
+        | {number}		            number
+        | {identifier}	            identifier
         ;
-    ident_list
-        = {empty}       ident
-        | {filled}      ident element*
+    function
+        = {non_parameterized}       identifier
+        | {parameterized}           identifier element*
         ;
     element
-        = {type}        type
-        | {ident}       ident
-        | {hex}         hex
-        | {string}      string
-        | {number}      number
-        | {object}      object_el*
-        | {list}        ident_list
+        = {type}                    type
+        | {identifier}              identifier
+        | {hex}                     hex
+        | {string}                  string
+        | {number}                  number
+        | {object}                  key_value*
+        | {function}                function
         ;
-    object_el
-        = [key]:element [value]:element
+    key_value
+        = [key]:element             [value]:element
         ;

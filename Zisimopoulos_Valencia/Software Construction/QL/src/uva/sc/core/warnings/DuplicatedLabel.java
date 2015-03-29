@@ -2,14 +2,14 @@ package uva.sc.core.warnings;
 
 public class DuplicatedLabel implements IWarning {
 
-    String value;
+    private String label;
 
-    public DuplicatedLabel(String v) {
-	value = v;
+    public DuplicatedLabel(String label) {
+	this.label = label;
     }
 
     public String toString() {
-	return "Duplicate question label <" + value + ">";
+	return "Duplicate question label <" + label + ">";
     }
 
 }

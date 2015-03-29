@@ -9,9 +9,11 @@ import ql.ast.QLNode;
 import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.visitor.evaluator.Evaluator;
+import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
 import ql.ast.visitor.prettyprinter.printer.ConsolePrinter;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 
