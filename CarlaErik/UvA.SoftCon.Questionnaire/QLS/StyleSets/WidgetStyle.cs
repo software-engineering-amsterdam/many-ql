@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets
+namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
     public abstract class WidgetStyle
     {
