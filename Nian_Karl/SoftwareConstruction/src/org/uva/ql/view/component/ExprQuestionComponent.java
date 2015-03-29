@@ -4,7 +4,7 @@ import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.statement.QuestionComputed;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.view.widgit.Widget;
+import org.uva.ql.view.widget.Widget;
 
 public class ExprQuestionComponent extends QuestionComponent {
 

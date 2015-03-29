@@ -1,4 +1,4 @@
-package org.uva.ql.view.widgit;
+package org.uva.ql.view.widget;
 
 import java.awt.Component;
 
