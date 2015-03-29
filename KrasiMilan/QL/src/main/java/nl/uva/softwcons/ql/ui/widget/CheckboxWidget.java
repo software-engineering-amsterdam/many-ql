@@ -7,10 +7,14 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class CheckboxWidget extends Widget {
     private final CheckBox checkBox;
-    private final ValueConverter<Boolean> converter;
+    private ValueConverter<Boolean> converter;
+
+    public CheckboxWidget(final String checkString) {
+        this.checkBox = new CheckBox(checkString);
+    }
 
     public CheckboxWidget(final String checkString, final ValueConverter<Boolean> converter) {
-        this.checkBox = new CheckBox(checkString);
+        this(checkString);
         this.converter = converter;
     }
 
@@ -34,6 +38,12 @@ public class CheckboxWidget extends Widget {
         this.checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void setConverter(final ValueConverter converter) {
+        this.converter = converter;
     }
 
 }

@@ -9,12 +9,11 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 import nl.uva.softwcons.ql.ui.widget.Widget;
 
 public class SliderWidget extends Widget {
-
-    private final ValueConverter<Number> converter;
     private final Slider slider;
 
-    public SliderWidget(final double start, final double end, final double step, final ValueConverter<Number> converter) {
-        this.converter = converter;
+    private ValueConverter<Number> converter;
+
+    public SliderWidget(final double start, final double end, final double step) {
         this.slider = new Slider(start, end, start);
         slider.setBlockIncrement(step);
         slider.setShowTickLabels(true);
@@ -22,6 +21,11 @@ public class SliderWidget extends Widget {
         slider.setMinorTickCount(1);
         slider.setMajorTickUnit(1f);
         slider.setSnapToTicks(true);
+    }
+
+    public SliderWidget(final double start, final double end, final double step, final ValueConverter<Number> converter) {
+        this(start, end, step);
+        this.converter = converter;
     }
 
     @Override
@@ -33,9 +37,12 @@ public class SliderWidget extends Widget {
 
     @Override
     public void setValue(final Value value) {
-        if (value != UNDEFINED) {
-            slider.setValue(value.getNumber().doubleValue());
+        if (value == UNDEFINED) {
+            slider.setValue(slider.minProperty().get());
+            return;
         }
+
+        slider.setValue(value.getNumber().doubleValue());
     }
 
     @Override
@@ -46,6 +53,12 @@ public class SliderWidget extends Widget {
     @Override
     public Node getWidget() {
         return slider;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void setConverter(final ValueConverter converter) {
+        this.converter = converter;
     }
 
 }

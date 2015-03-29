@@ -1,26 +1,20 @@
 package nl.uva.softwcons.qls.ui.converter;
 
+import static nl.uva.softwcons.qls.ui.widget.DropdownWidget.StringValueWrapper.NO_STRING_VALUE;
+import static nl.uva.softwcons.qls.ui.widget.DropdownWidget.StringValueWrapper.YES_STRING_VALUE;
 import nl.uva.softwcons.ql.eval.value.BooleanValue;
 import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class StringToBooleanValueConverter implements ValueConverter<String> {
-    private final String yes;
-    private final String no;
-
-    public StringToBooleanValueConverter(final String yes, final String no) {
-        this.yes = yes;
-        this.no = no;
-    }
 
     @Override
     public Value toValue(final String value) {
-        return new BooleanValue(yes.equals(value));
+        return new BooleanValue(YES_STRING_VALUE.equals(value));
     }
 
     @Override
     public String fromValue(final Value value) {
-        return value.getBoolean() ? yes : no;
+        return value.getBoolean() ? YES_STRING_VALUE : NO_STRING_VALUE;
     }
-
 }
