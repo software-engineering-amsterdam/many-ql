@@ -12,12 +12,18 @@ import nl.uva.sc.encoders.ql.ast.expression.BinaryExpression;
 import nl.uva.sc.encoders.ql.ast.expression.BracedExpression;
 import nl.uva.sc.encoders.ql.ast.expression.Expression;
 import nl.uva.sc.encoders.ql.ast.expression.LiteralExpression;
+import nl.uva.sc.encoders.ql.ast.expression.UnaryExpression;
+import nl.uva.sc.encoders.ql.ast.literal.BooleanLiteral;
 import nl.uva.sc.encoders.ql.ast.literal.IntegerLiteral;
 import nl.uva.sc.encoders.ql.ast.literal.StringLiteral;
 import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
+import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
 import nl.uva.sc.encoders.ql.ast.operator.MultiplyOperator;
+import nl.uva.sc.encoders.ql.ast.operator.NotOperator;
+import nl.uva.sc.encoders.ql.ast.operator.OrOperator;
 import nl.uva.sc.encoders.qlruntime.evaluator.ExpressionEvaluator;
 import nl.uva.sc.encoders.qlruntime.model.RuntimeQuestion;
+import nl.uva.sc.encoders.qlruntime.model.value.BooleanValue;
 import nl.uva.sc.encoders.qlruntime.model.value.IntegerValue;
 import nl.uva.sc.encoders.qlruntime.model.value.StringValue;
 import nl.uva.sc.encoders.qlruntime.model.value.Value;
@@ -70,4 +76,28 @@ public class ExpressionEvaluatorTest {
 		assertThat(((StringValue) result).getValue(), is("Hi there!"));
 	}
 
+	/**
+	 * Testing (true || false) && !false = true
+	 */
+	@Test
+	public void testEvaluatesBooleanExpressions() {
+		List<RuntimeQuestion> questions = new ArrayList<>();
+
+		ExpressionEvaluator evaluator = new ExpressionEvaluator(questions);
+
+		LiteralExpression trueExpression = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(true));
+		LiteralExpression falseExpression = new LiteralExpression(aTextLocation().build(), new BooleanLiteral(false));
+
+		BinaryExpression orExpression = new BinaryExpression(aTextLocation().build(), trueExpression, falseExpression, new OrOperator(
+				"||"));
+		BracedExpression bracedExpression = new BracedExpression(aTextLocation().build(), orExpression);
+		Expression notExpression = new UnaryExpression(aTextLocation().build(), new NotOperator("!"), falseExpression);
+		BinaryExpression andExpression = new BinaryExpression(aTextLocation().build(), bracedExpression, notExpression,
+				new AndOperator("&&"));
+
+		Value result = andExpression.accept(evaluator);
+
+		assertThat(result, is(instanceOf(BooleanValue.class)));
+		assertThat(((BooleanValue) result).getValue(), is(true));
+	}
 }
