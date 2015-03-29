@@ -40,6 +40,6 @@ NUMBER			: '0'..'9'+ ('.' '0'..'9'+)*;
 TEXT			:'"'(ESC | .)*? '"';	
 ID 				:('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*; 
 WS  			: (' ' | '\t' | '\n' | '\r')+ -> skip;
-COMMENT			: '/*/' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN);
+COMMENT			: '//' ~[\r\n]* '\r'? '\n' -> skip;
 fragment 
 ESC				: '\\"' | '\\\\'; 

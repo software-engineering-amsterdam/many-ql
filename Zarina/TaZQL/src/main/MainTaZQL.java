@@ -1,5 +1,6 @@
 /*
 * @Zarina
+* Software Construction, February - March 2015
 */
 
 package main;
