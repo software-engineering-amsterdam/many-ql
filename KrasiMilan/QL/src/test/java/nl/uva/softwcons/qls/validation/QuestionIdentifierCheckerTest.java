@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.identifier.error.DuplicateQuestionIdentifier;
@@ -113,7 +113,7 @@ public class QuestionIdentifierCheckerTest {
         final String question2 = "q2: \"Label 2\" boolean";
         final String conditional1 = "if (q1) { q3: \"Label 1\" boolean(q1) }";
 
-        return Questionnaire.build(TestHelper.buildForm("form1", question1, question2, conditional1));
+        return FormBuilder.build(TestHelper.buildForm("form1", question1, question2, conditional1));
     }
 
     private static List<Error> getQuestionIdentifierErrors(final String... stylesheetContents) {

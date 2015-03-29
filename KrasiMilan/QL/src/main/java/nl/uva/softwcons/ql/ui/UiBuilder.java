@@ -5,12 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.application.Application;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.form.FormVisitor;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
@@ -23,18 +18,11 @@ import nl.uva.softwcons.ql.ui.layout.QuestionLayout;
 import nl.uva.softwcons.ql.ui.renderer.Renderer;
 import nl.uva.softwcons.ql.ui.widget.Widget;
 import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
-import nl.uva.softwcons.qls.StylesheetBuilder;
-import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ui.QLSRenderer;
-import nl.uva.softwcons.qls.ui.StylizedWidgetFactory;
 
-public class UiBuilder extends Application implements FormVisitor<Void>, StatementVisitor<List<QuestionLayout>> {
+public class UiBuilder implements FormVisitor<Void>, StatementVisitor<List<QuestionLayout>> {
     private Evaluator evaluator;
     private WidgetFactory widgetFactory;
     private Renderer renderer;
-
-    public UiBuilder() {
-    }
 
     public UiBuilder(final Form form, final Renderer renderer, final WidgetFactory widgetFactory) {
         this.evaluator = new Evaluator(form);
@@ -106,23 +94,6 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
      */
     private List<QuestionLayout> visitAndFlatten(final List<? extends Statement> statements) {
         return statements.stream().flatMap(s -> s.accept(this).stream()).collect(toList());
-    }
-
-    public static void main(final String... args) {
-        launch(UiBuilder.class, args);
-    }
-
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        final Form f = Questionnaire.build(UiBuilder.class.getResourceAsStream("/form.ql"));
-        final Stylesheet s = StylesheetBuilder.build(UiBuilder.class.getResourceAsStream("/form_stylesheet.qls"));
-
-        final Node n = UiBuilder.buildFrom(f, new QLSRenderer(s), new StylizedWidgetFactory(f, s));
-
-        final StackPane root = new StackPane();
-        root.getChildren().add(n);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
     }
 
 }

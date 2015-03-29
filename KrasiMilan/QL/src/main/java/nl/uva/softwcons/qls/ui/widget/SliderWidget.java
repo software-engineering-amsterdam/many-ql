@@ -37,11 +37,12 @@ public class SliderWidget extends Widget {
 
     @Override
     public void setValue(final Value value) {
-        if (value != UNDEFINED) {
-            slider.setValue(value.getNumber().doubleValue());
-        } else {
+        if (value == UNDEFINED) {
             slider.setValue(slider.minProperty().get());
+            return;
         }
+
+        slider.setValue(value.getNumber().doubleValue());
     }
 
     @Override

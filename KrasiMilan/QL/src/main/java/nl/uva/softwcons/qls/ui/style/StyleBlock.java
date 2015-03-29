@@ -13,11 +13,11 @@ public class StyleBlock {
         this.properties = new HashMap<String, String>();
     }
 
-    public StyleBlock(Map<String, String> properties) {
+    public StyleBlock(final Map<String, String> properties) {
         this.properties = properties;
     }
 
-    public StyleBlock(Style style) {
+    public StyleBlock(final Style style) {
         this.properties = new HashMap<String, String>(style.getProperties());
     }
 
