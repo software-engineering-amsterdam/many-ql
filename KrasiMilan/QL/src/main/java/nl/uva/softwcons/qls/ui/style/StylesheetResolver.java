@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ui;
+package nl.uva.softwcons.qls.ui.style;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +13,9 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.segment.SegmentValueVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
-import nl.uva.softwcons.qls.ui.style.DefaultStylesMerged;
-import nl.uva.softwcons.qls.ui.style.StyleBlock;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
+import nl.uva.softwcons.qls.util.QuestionTypeCollector;
 
 public class StylesheetResolver implements StylesheetVisitor<Void>, SegmentValueVisitor<Void, DefaultStylesMerged> {
     private final Map<Identifier, WidgetType> questionWidgetType;

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.qls.ast.ASTNode;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
 
 public class StyledWidget implements ASTNode {
     private WidgetType widgetType;
