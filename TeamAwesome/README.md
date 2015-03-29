@@ -1,5 +1,6 @@
 ### Who are these guys?
 Jelle van Assema (10200363)
+
 Guido Loupias (10837345)
 
 ### What's implemented?
