@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import nl.uva.softwcons.generated.QLLexer;
 import nl.uva.softwcons.generated.QLParser;
-import nl.uva.softwcons.ql.ast.ASTBuilderVisitor;
+import nl.uva.softwcons.ql.ast.ASTBuilderQL;
 import nl.uva.softwcons.ql.ast.form.Form;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -29,7 +29,7 @@ public final class FormBuilder {
         final QLParser parser = new QLParser(new CommonTokenStream(lexer));
         final ParseTree tree = parser.form();
 
-        return (Form) new ASTBuilderVisitor().visit(tree);
+        return (Form) new ASTBuilderQL().visit(tree);
     }
 
 }

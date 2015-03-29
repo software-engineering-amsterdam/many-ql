@@ -1,10 +1,6 @@
 package nl.uva.softwcons.qls.ast;
 
-import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
-import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
-import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
-import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
-import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+import static nl.uva.softwcons.ql.ast.ASTBuilderQL.getType;
 
 import java.util.List;
 import java.util.Map;
@@ -36,18 +32,18 @@ import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
-import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
-import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
-import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.TextType;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widgetstyle.Style;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.CheckboxType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.DropdownType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.RadioButtonType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.SliderType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.TextType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
 
 import org.antlr.v4.runtime.Token;
 
-public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
+public class ASTBuilderQLS extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Stylesheet visitStylesheet(final StylesheetContext ctx) {
@@ -144,22 +140,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     private LineInfo extractLineInfo(final Token token) {
         return new LineInfo(token.getLine(), token.getCharPositionInLine());
-    }
-
-    private Type getType(final String typeName) {
-
-        switch (typeName) {
-        case "boolean":
-            return BOOLEAN_TYPE;
-        case "number":
-            return NUMBER_TYPE;
-        case "date":
-            return DATE_TYPE;
-        case "string":
-            return STRING_TYPE;
-        default:
-            return UNDEFINED_TYPE;
-        }
     }
 
     private Map<Type, StyledWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {

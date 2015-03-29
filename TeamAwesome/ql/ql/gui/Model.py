@@ -35,7 +35,9 @@ class QuestionModel(object):
     def updateValue(self, value):
         try:
             value = self.type(value)
-        except (ValueError, decimal.InvalidOperation): 
+        except (ValueError, decimal.InvalidOperation):
+            if value == "":
+                return True 
             return False
         
         self._evaluator.addValue(self._identifier, value)

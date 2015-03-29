@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
@@ -23,11 +24,14 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             _questionForm = form;
             _outputWindow = outputWindow;
 
-            foreach (var questionControl in questionWidgets)
+            foreach (var questionWidget in questionWidgets)
             {
-                questionControl.QuestionAnswered += QuestionWidget_QuestionAnswered;
+                if (!questionWidget.IsReadOnly)
+                {
+                    questionWidget.QuestionAnswered += QuestionWidget_QuestionAnswered;
+                }
 
-                QuestionFlowLayout.Controls.Add(questionControl);
+                QuestionFlowLayout.Controls.Add(questionWidget);
             }
 
             Interpretet();
@@ -56,9 +60,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             }
         }
 
-        private IDictionary<string, Value> CollectAnswers()
+        private ValueTable CollectAnswers()
         {
-            var answers = new Dictionary<string, Value>();
+            var answers = new ValueTable();
 
             foreach (QuestionWidget questionWidget in QuestionFlowLayout.Controls)
             {
@@ -68,15 +72,15 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             return answers;
         }
 
-        private void SetResults(IDictionary<string, Value> results)
+        private void SetResults(ValueTable results)
         {
             foreach (QuestionWidget questionWidget in QuestionFlowLayout.Controls)
             {
-                questionWidget.Visible = results.ContainsKey(questionWidget.QuestionName);
+                questionWidget.Visible = results.HasValue(questionWidget.QuestionName);
 
-                if (results.ContainsKey(questionWidget.QuestionName))
+                if (results.HasValue(questionWidget.QuestionName))
                 {
-                    Value result = results[questionWidget.QuestionName];
+                    Value result = results.Get(questionWidget.QuestionName);
 
                     if (!result.IsUndefined)
                     {
