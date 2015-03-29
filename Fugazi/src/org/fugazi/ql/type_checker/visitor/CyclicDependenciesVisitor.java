@@ -7,6 +7,7 @@ import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.type_checker.dependency.DependencyManager;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.CyclicDependenciesError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
         // analyzing dependencies finished for
         // identifier from this computed question
         this.assignableIdLiteral = null;
+        
         return null;
     }
 
@@ -84,7 +86,8 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
                 this.questionDependencies.getIdDependencyNames(to);
 
         if ((toDependencies != null)
-                && toDependencies.contains(from.getName())) {
+                && toDependencies.contains(from.getName())) 
+        {
             return true;
         }
         return false;
@@ -146,19 +149,17 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
                 this.addSingleDependencyForId(to, newDependee);
             }
         }
-        return;
     }
 
     private void addSingleDependencyForId(ID to, ID from) {
         this.questionDependencies.addIdDependenant(to, from);
-        return;
     }
 
     private void addAndCheckDependency(ID to, ID from) {
         boolean revertedDependencyExists = this.checkDependency(from, to);
         if (revertedDependencyExists) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.CYCLIC, to,
+                    new CyclicDependenciesError(), to,
                     "Circular dependency between this node and " +
                             from.toString() + "."
             );

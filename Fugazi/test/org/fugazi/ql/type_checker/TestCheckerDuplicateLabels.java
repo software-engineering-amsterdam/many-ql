@@ -2,6 +2,7 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.warning.DuplicateLabelWarning;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,7 +46,7 @@ public class TestCheckerDuplicateLabels extends TestQlTypeCheckerBase {
         List<ASTNodeIssue> warnings = qlChecker.getWarnings();
         assertFalse(warnings.isEmpty());
 
-        ASTNodeIssueType expectedType = ASTNodeIssueType.WARNING.DUPLICATE_LABEL;
+        ASTNodeIssueType expectedType = new DuplicateLabelWarning();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue warning: warnings) {

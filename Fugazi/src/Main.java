@@ -19,6 +19,11 @@ import java.io.InputStream;
 
 public class Main {
 
+    public static String getExtensionFromFilename(String _fn) {
+        assert (_fn != null);
+        return _fn.substring(_fn.lastIndexOf(".") + 1, _fn.length());
+    }
+    
     public static void main(String[] args) throws Exception {
 
         String inputQLFile = null;

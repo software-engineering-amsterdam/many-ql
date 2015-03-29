@@ -11,6 +11,9 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.DuplicateQuestionError;
+import org.fugazi.ql.type_checker.issue.error.NonBoolConditionError;
+import org.fugazi.ql.type_checker.issue.error.TypeMismatchError;
 import org.fugazi.ql.type_checker.visitor.CyclicDependenciesVisitor;
 import org.fugazi.ql.type_checker.visitor.TypeMismatchVisitor;
 import org.fugazi.ql.type_checker.visitor.UndefinedQuestionsVisitor;
@@ -72,7 +75,7 @@ public class QLTypeChecker {
         for (Question question : questions) {
             if (this.wasQuestionDefinedWithDifferentType(questionTypes, question)) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.ERROR.DUPLICATE,
+                        new DuplicateQuestionError(),
                         question, "Question already defined with different type."
                 );
             } else {
@@ -92,7 +95,7 @@ public class QLTypeChecker {
             boolean conditionIsBool = expression.isExpressionOfTypeBool(this.formData);
             if (!conditionIsBool) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
+                        new NonBoolConditionError(), ifStatement,
                         "Expression in if statement not of type bool."
                 );
             }
@@ -110,7 +113,7 @@ public class QLTypeChecker {
             boolean typesEqual = (type.equals(computed.getReturnedType(this.formData)));
             if (!typesEqual) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,
+                        new TypeMismatchError(), question,
                         "Attempted to assign type " + computed.getReturnedType(this.formData)
                                 + " to variable of type " + type.getClass() + "."
                 );
