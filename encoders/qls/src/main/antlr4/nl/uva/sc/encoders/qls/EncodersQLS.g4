@@ -21,7 +21,7 @@ styleProperty:
             ('width:' value=INTEGERLITERAL)     #Width
           | ('font:' value=STRINGLITERAL)       #Font
           | ('fontsize:' value=INTEGERLITERAL)  #FontSize
-          | ('color:' '#'value=INTEGERLITERAL)  #Color
+          | ('color:' '#'value=STRINGLITERAL)  #Color
           ;
           
 widget:   'widget' 'textfield'                                          #TextField
