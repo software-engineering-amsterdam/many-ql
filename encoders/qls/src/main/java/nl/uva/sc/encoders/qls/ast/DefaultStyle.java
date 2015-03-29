@@ -11,13 +11,17 @@ public class DefaultStyle extends AstNode {
 	private List<DefaultStyleProperty> defaultStyleProperties = new ArrayList<>();
 	private Widget widget;
 
-	public DefaultStyle(TextLocation textLocation, String datatype) {
+	public DefaultStyle(TextLocation textLocation, String datatype, Widget widget) {
 		super(textLocation);
 		this.datatype = datatype;
 	}
 
-	public String getDataType() {
+	public String getDefaultStyleDataType() {
 		return datatype;
+	}
+
+	public Widget getDefaultStyleWidget() {
+		return widget;
 	}
 
 	public void addDefaultStyleProperty(DefaultStyleProperty defaultStyleProperty) {
@@ -28,11 +32,4 @@ public class DefaultStyle extends AstNode {
 		return defaultStyleProperties;
 	}
 
-	public void setDefaultStyleWidget(Widget widget) {
-		this.widget = widget;
-	}
-
-	public Widget getDefaultStyleWidget() {
-		return widget;
-	}
 }
