@@ -117,6 +117,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public void printMessages() {
+		System.out.println();
 		System.out.println("[ERRORS] (" + messageManager.countErrors() + " items)");
 		messageManager.printErrors();
 		System.out.println();
