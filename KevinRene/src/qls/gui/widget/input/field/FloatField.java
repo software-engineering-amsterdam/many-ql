@@ -31,11 +31,11 @@ public class FloatField extends Field<FloatValue> implements CaretListener {
 	
 	@Override
 	protected FloatValue getFieldValue() {
-		return new FloatValue(Float.parseFloat(textField.getText()));
+		return new FloatValue(Float.parseFloat(textField().getText()));
 	}
 	
 	public void setStyle(StyleProperties properties) {
-		stylizer.setStyle(textField, properties);
+		stylizer.setStyle(textField(), properties);
 	}
 
 	@Override

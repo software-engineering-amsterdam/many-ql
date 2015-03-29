@@ -6,11 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ql.TypeEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLNode;
 import ql.ast.Statement;
 import ql.ast.visitor.typechecker.TypeChecker;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import ql.parser.Parser;
 

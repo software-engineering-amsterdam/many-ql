@@ -11,14 +11,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ql.TypeEnvironment;
 import ql.Value;
 import ql.ast.expression.Identifier;
 import ql.ast.statement.Form;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.widget.input.Button;
 import qls.ast.expression.literal.StringLiteral;
+import qls.ast.statement.Stylesheet;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.ast.visitor.domaincreator.ConditionalDomain;
 import qls.ast.visitor.domaincreator.DomainCreator;
@@ -34,9 +35,9 @@ public class SelectionScreen extends Screen {
 	
 	private UISection logSection, buttonSection;
 	
-	private UIComponent qlsInterface;
+	private Component qlsInterface;
 	
-	public SelectionScreen(UIComponent handler) {
+	public SelectionScreen(Component handler) {
 		super(new Identifier("QLS Loader"));
 		
 		log = new UILog(this);
@@ -58,7 +59,7 @@ public class SelectionScreen extends Screen {
 		setHandler(handler);
 	}	
 	
-	public UIComponent getQLSInterface() {
+	public Component getQLSInterface() {
 		return qlsInterface;
 	}
 
@@ -79,6 +80,8 @@ public class SelectionScreen extends Screen {
 	}
 	
 	private boolean processFile(File file) {
+		boolean errorsFound = false;
+		
 		String qlContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QL);
 		String qlsContents = loadSelectedFile(file.getAbsolutePath(), FileChooser.QLS);
 		
@@ -98,14 +101,23 @@ public class SelectionScreen extends Screen {
 		if(errors.hasErrors()) {
 			log.appendMessage("-- QL Errors --");
 			log.appendMessage(errors.getErrors());
+			
+			errorsFound = true;
 		}
 		
 		qls.ast.Statement qlsTree = (qls.ast.Statement) qls.parser.Parser.parse(qlsContents);
+
+		if(!(qlsTree instanceof Stylesheet)) {
+			return false;
+		}
+		
 		errors = qls.ast.visitor.typechecker.TypeChecker.check(qlsTree, typeEnvironment);
 		
 		if(errors.hasErrors()) {
 			log.appendMessage("-- QLS Errors --");
 			log.appendMessage(errors.getErrors());
+			
+			errorsFound = true;
 		}
 
 		WidgetEnvironment widgets = WidgetBinder.bind(qlsTree, typeEnvironment);
@@ -113,7 +125,7 @@ public class SelectionScreen extends Screen {
 		
 		qlsInterface = PageBuilder.build(qlsTree, domains, widgets);
 		
-		return !errors.hasErrors();
+		return !errorsFound;
 	}
 	
 	private void handleFileChooser() {
@@ -127,7 +139,7 @@ public class SelectionScreen extends Screen {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		if(source == openButton) {
 			handleFileChooser();
 		}

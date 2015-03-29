@@ -53,13 +53,13 @@
             this.YesNoDropDownBox.TabIndex = 1;
             this.YesNoDropDownBox.SelectedValueChanged += new System.EventHandler(this.YesNoDropDownBox_SelectedValueChanged);
             // 
-            // DropDownControl
+            // DropDownWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.YesNoDropDownBox);
             this.Controls.Add(this.QuestionLabel);
-            this.Name = "DropDownControl";
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "DropDownWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 
