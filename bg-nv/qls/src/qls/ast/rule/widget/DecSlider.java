@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 /**
  * Created by bore on 08/03/15.
  */
-public class Slider extends NumWidgetValue
+public class DecSlider extends NumWidgetValue <BigDecimal>
 {
-    public Slider(BigDecimal min, BigDecimal max, BigDecimal step)
+    public DecSlider(BigDecimal min, BigDecimal max, BigDecimal step)
     {
-        super("slider", min, max, step);
+        super(min, max, step);
     }
 
     @Override

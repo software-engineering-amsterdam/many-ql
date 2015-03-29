@@ -21,7 +21,8 @@ stylesheetRule
     ;
 
 widgetValue
-    : wlabel='slider' '(' min=(Decimal|Integer) ',' max=(Decimal|Integer) ',' step=(Decimal|Integer) ')'
+    : wlabel='slider' '(' decMin=Decimal ',' decMax=Decimal ',' decStep=Decimal ')'
+    | wlabel='slider' '(' intMin=Integer ',' intMax=Integer ',' intStep=Integer ')'
     | wlabel='radio' '(' yesText=String ',' noText=String ')'
     | wlabel='dropdown' '(' yesText=String ',' noText=String ')'
     | wlabel='checkbox'

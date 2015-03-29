@@ -15,20 +15,27 @@ import java.util.List;
 public class Page extends Segment<GridPane> implements Refreshable
 {
     private Integer pageNumber;
+    private String name;
 
-    public Page(List<Segment> subsegments, Boolean visible)
+    public Page(List<Segment> subSegments, String name, Boolean visible)
     {
-        super(new GridPane(), subsegments, visible);
+        super(new GridPane(), subSegments, visible);
+        this.name = name;
 
         this.container.setAlignment(Pos.CENTER);
         this.container.setHgap(10);
         this.container.setVgap(10);
         this.container.setStyle("-fx-background-color: white;");
 
-        for (Segment s : subsegments)
+        for (Segment s : subSegments)
         {
             this.container.add(s.getContainer(), 0, this.container.getChildren().size() + 1);
         }
+    }
+
+    public String getName()
+    {
+        return this.name;
     }
 
     @Override

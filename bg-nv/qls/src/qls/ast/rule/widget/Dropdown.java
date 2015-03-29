@@ -9,7 +9,7 @@ public class Dropdown extends BoolWidgetValue
 {
     public Dropdown(String yesLabel, String noLabel)
     {
-        super("dropdown", yesLabel, noLabel);
+        super(yesLabel, noLabel);
     }
 
     @Override

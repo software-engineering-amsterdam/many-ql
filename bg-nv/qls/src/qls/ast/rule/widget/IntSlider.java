@@ -3,14 +3,19 @@ package qls.ast.rule.widget;
 import ql.ast.type.Type;
 
 /**
- * Created by bore on 08/03/15.
+ * Created by bore on 29/03/15.
  */
-public class Checkbox extends WidgetValue
+public class IntSlider extends NumWidgetValue <Integer>
 {
+    public IntSlider(Integer min, Integer max, Integer step)
+    {
+        super(min, max, step);
+    }
+
     @Override
     public boolean isCompatibleWithType(Type t)
     {
-        return t.isBool();
+        return t.isNumerical();
     }
 
     @Override
