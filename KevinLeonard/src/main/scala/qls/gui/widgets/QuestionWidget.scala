@@ -1,13 +1,13 @@
 package qls.gui.widgets
 
-import ql.gui.widgets.{QuestionWidget => QLQuestionWidget}
 import ql.ast.{Expression, Question}
-import qls.ast.{Style, Font, FontSize, FontColor, Width, HexadecimalColor}
+import ql.gui.widgets.{QuestionWidget => QLQuestionWidget}
+import qls.ast.{Font, FontColor, FontSize, HexadecimalColor, Style, Width}
 import types.EvalEnvironment
 
-import scalafx.scene.text.{Font => FXFont}
-import scalafx.scene.paint.Color
 import scalafx.scene.control.Label
+import scalafx.scene.paint.Color
+import scalafx.scene.text.{Font => FXFont}
 
 abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
   extends QLQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {

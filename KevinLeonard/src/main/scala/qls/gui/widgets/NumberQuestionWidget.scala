@@ -1,6 +1,6 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, NumberValue, Expression, Question}
+import ql.ast.{Expression, NumberValue, Question, Value}
 import qls.ast.Style
 import types.{EvalEnvironment, VariableName}
 
