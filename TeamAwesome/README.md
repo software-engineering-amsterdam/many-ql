@@ -24,5 +24,5 @@ Go into `ql/unittest/` and do `python -m unittest`.
 The grammar for QL is in `ql/antlr/QL.g4`.
 
 Make sure ANTLR 4.5 and Python 3 are installed.
-The parser can be rebuilt by running `python generateParser.py` script from
+The parser can be rebuilt by running `python generateParser.py` from
 there.
