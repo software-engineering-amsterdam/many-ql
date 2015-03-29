@@ -8,9 +8,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 16-3-2015.
- */
 public abstract class QLSNode extends Node<QLSNode> implements Visualizable, QLSNodeElement {
     public QLSNode(int ln) {
         super(ln);

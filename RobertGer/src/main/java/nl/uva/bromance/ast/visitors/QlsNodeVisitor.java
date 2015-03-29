@@ -2,9 +2,6 @@ package nl.uva.bromance.ast.visitors;
 
 import nl.uva.bromance.ast.*;
 
-/**
- * Created by Robert on 16-3-2015.
- */
 public interface QLSNodeVisitor {
 
     void visit(QLSPage page);

@@ -1,6 +1,8 @@
 package nl.uva.bromance.ast.questiontypes;
 
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
 import nl.uva.bromance.ast.conditionals.Result;
@@ -10,9 +12,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class CustomType implements QuestionType {
 
     private ToggleGroup group;

@@ -14,9 +14,6 @@ import org.junit.rules.ExpectedException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-/**
- * Created by Robert on 3/1/2015.
- */
 /*We don't test faulty syntax in the ASTTests
  * */
 public class ASTTest extends ParsingTest {

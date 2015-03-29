@@ -8,7 +8,7 @@ import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 
 public class Calculation extends QLNode implements ContainsExpression, HasIdentifier {
-    private String identifier;
+    private final String identifier;
     private IntResult result;
     private Expression expression;
 

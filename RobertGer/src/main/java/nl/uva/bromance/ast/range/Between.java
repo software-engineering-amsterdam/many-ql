@@ -1,8 +1,5 @@
 package nl.uva.bromance.ast.range;
 
-/**
- * Created by Gerrit Krijnen on 2/9/2015.
- */
 public class Between implements Range {
 
     private int lower;
@@ -14,10 +11,7 @@ public class Between implements Range {
     }
 
     public boolean valueConformsToRange(int value) {
-        if (value >= this.lower && value <= this.higher)
-            return true;
-        else
-            return false;
+        return value >= this.lower && value <= this.higher;
     }
 
     public String toString() {
