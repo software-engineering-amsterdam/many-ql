@@ -48,7 +48,10 @@ namespace TypeChecking.Checkers
                 foreach (Id childDependency in dependencies[source])
                 {
                     //add dependencies of the childs to the parent
-                    ExpandedDependencies[source] = dependencies[source].Concat(dependencies[childDependency]);
+                    if (dependencies.ContainsKey(childDependency))
+                    {
+                        ExpandedDependencies[source] = dependencies[source].Concat(dependencies[childDependency]);
+                    }
                 }
             }
 
