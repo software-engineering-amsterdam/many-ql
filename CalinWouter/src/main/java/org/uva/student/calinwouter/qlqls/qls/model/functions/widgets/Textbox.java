@@ -20,4 +20,9 @@ public class Textbox extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new TextboxWidget(identifier, qlInterpreter, stateWrapper);
     }
+
+    @Override
+    public Boolean allowsStringValue() {
+        return true;
+    }
 }

@@ -6,12 +6,13 @@ public class QLGeneratorHelper {
         return "form anyForm {" + content + "}";
     }
 
+    /** Generates a question object according to QL's syntax. */
     public static String question(String identifier, String str, String type) {
         return identifier + ":" + " \"" + str + "\" " + type;
     }
 
+    /** Generates a value object according to QL's syntax. */
     public static String value(String identifier, String str, String type, String expression) {
-        // c: "c:" int(a - b)
         return identifier + ":" + " \"" + str + "\" " + type + "(" + expression + ")";
     }
 

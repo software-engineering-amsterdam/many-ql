@@ -28,4 +28,9 @@ public class Radio extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new RadioWidget(identifier, qlInterpreter, stateWrapper, yesLabel, noLabel);
     }
+
+    @Override
+    public Boolean allowsBooleanValue() {
+        return true;
+    }
 }

@@ -10,8 +10,8 @@ public class PFormStaticFieldsCollector extends AnalysisAdapter {
 
     @Override
     public void caseAForm(final AForm node) {
-        for (PStatement stmt : node.getStatement()) {
-            stmt.apply(pStatementStaticFieldsCollector);
+        for (PStatement statement : node.getStatement()) {
+            statement.apply(pStatementStaticFieldsCollector);
         }
     }
 

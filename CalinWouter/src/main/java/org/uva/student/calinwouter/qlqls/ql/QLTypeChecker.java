@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.ql;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
-import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
+import org.uva.student.calinwouter.qlqls.ql.model.QLTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.PFormTypeChecker;
 
@@ -25,14 +25,14 @@ import java.util.Set;
 public class QLTypeChecker {
     private final AForm aForm;
     private final StaticFields staticFields;
-    private final TypeCheckResults typeCheckResults;
+    private final QLTypeCheckResults QLTypeCheckResults;
 
     private void collectDuplicateLabels() {
         final Set<String> labels = new HashSet<String>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             final String fieldLabel = abstractStaticFormField.getLabel();
             if (!labels.add(fieldLabel)) {
-                typeCheckResults.addLabelFoundTwiceWarning(fieldLabel);
+                QLTypeCheckResults.addLabelFoundTwiceWarning(fieldLabel);
             }
         }
     }
@@ -42,7 +42,7 @@ public class QLTypeChecker {
         final ITypeDescriptor earlierFoundValueType = identifierToTypeMap.get(toCheckVariable);
         final ITypeDescriptor toCheckType = toCheck.getTypeDescriptor();
         if (!earlierFoundValueType.equals(toCheckType)) {
-            typeCheckResults.addTwoQuestionsSameTypeError(toCheckVariable);
+            QLTypeCheckResults.addTwoQuestionsSameTypeError(toCheckVariable);
         }
     }
 
@@ -63,21 +63,21 @@ public class QLTypeChecker {
     }
 
     private void collectTypeCheckErrorsInDepth() {
-        final PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
+        final PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, QLTypeCheckResults);
         aForm.apply(formTypeChecker);
     }
 
-    public TypeCheckResults typeCheck() {
+    public QLTypeCheckResults typeCheck() {
         collectDuplicateQuestionsWithDifferentTypes();
         collectDuplicateLabels();
         collectTypeCheckErrorsInDepth();
-        return typeCheckResults;
+        return QLTypeCheckResults;
     }
 
     public QLTypeChecker(AForm aForm, StaticFields staticFields) {
         this.aForm = aForm;
         this.staticFields = staticFields;
-        this.typeCheckResults = new TypeCheckResults();
+        this.QLTypeCheckResults = new QLTypeCheckResults();
     }
 
     private static StaticFields collectStaticFields(AForm aForm) {

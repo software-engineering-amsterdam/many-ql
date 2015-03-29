@@ -14,7 +14,7 @@ public class CheckboxWidget implements IWidget {
     private final String questionIdentifier;
     private final QLInterpreter qlInterpreter;
     private final StateWrapper stateWrapper;
-    private JCheckBox checkbox;
+    private final JCheckBox checkbox;
 
     public Component getWidgetComponent() {
         return checkbox;

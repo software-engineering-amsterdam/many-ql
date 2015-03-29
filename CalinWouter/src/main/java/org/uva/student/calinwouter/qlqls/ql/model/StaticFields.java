@@ -27,7 +27,7 @@ public class StaticFields implements Iterable<AbstractStaticFormField> {
     public String getLabelForField(String identifier) {
         for(AbstractStaticFormField field : staticFormFields){
             final String iteratedVariableName = field.getVariable();
-            if (iteratedVariableName.equals(identifier)){
+            if (iteratedVariableName.equals(identifier)) {
                 return field.getLabel();
             }
         }

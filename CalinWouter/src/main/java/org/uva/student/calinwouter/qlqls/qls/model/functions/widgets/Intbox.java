@@ -20,4 +20,9 @@ public class Intbox extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new IntboxWidget(identifier, qlInterpreter, stateWrapper);
     }
+
+    @Override
+    public Boolean allowsIntegerValue() {
+        return true;
+    }
 }

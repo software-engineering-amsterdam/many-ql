@@ -13,9 +13,9 @@ import java.awt.*;
 
 public class SpinboxWidget implements IWidget {
     private final JSpinner spinner;
-    private String questionIdentifier;
-    private QLInterpreter qlInterpreter;
-    private StateWrapper stateWrapper;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
 
     public Component getWidgetComponent() {
         return spinner;

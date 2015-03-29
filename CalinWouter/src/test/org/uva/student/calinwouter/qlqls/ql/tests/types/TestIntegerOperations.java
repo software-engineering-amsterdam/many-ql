@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.types;
+package org.uva.student.calinwouter.qlqls.ql.tests.types;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;

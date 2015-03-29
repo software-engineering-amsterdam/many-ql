@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql.tests;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
@@ -7,6 +7,8 @@ import org.uva.student.calinwouter.qlqls.ql.exceptions.VariableNotSetException;
 import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
+
+import static org.uva.student.calinwouter.qlqls.ql.helper.ASTHelper.*;
 
 import java.util.Stack;
 
@@ -166,16 +168,14 @@ public class PExpressionInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseANumberExpression(ANumberExpression node) {
-        final TNumber nodeExpAsNumber = node.getNumber();
-        final String nodeExpAsString = nodeExpAsNumber.getText();
-        final Integer nodeExpAsInteger = Integer.parseInt(nodeExpAsString);
+        final Integer nodeExpAsInteger = getNumber(node);
         final IntegerValue integerValue = new IntegerValue(nodeExpAsInteger);
         pushValue(integerValue);
     }
 
     @Override
     public void caseAIdentifierExpression(AIdentifierExpression node) {
-        final String nodeIdentifier = getNodeIdentifier(node);
+        final String nodeIdentifier = getIdentifier(node);
         if (isNewVariableSet(nodeIdentifier)) {
             final Value value = getVariableValueFromNewTable(nodeIdentifier);
             pushValue(value);
@@ -190,11 +190,6 @@ public class PExpressionInterpreter extends AnalysisAdapter {
 
     private boolean isNewVariableSet(String nodeIdentifier) {
         return newVariableTable.isSet(nodeIdentifier);
-    }
-
-    private String getNodeIdentifier(AIdentifierExpression node) {
-        final TIdentifier identifier = node.getIdentifier();
-        return identifier.getText();
     }
 
     public Value popValue() {

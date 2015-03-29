@@ -9,7 +9,7 @@ import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.QLStaticAnalyser;
 import org.uva.student.calinwouter.qlqls.ql.QLTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
-import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
+import org.uva.student.calinwouter.qlqls.ql.model.QLTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.io.StringReader;
 
 public class QLHelper {
 
-    public static TypeCheckResults typeCheckString(String input) throws ParserException, IOException, LexerException {
+    public static QLTypeCheckResults typeCheckString(String input) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();

@@ -19,7 +19,7 @@ public class Page {
         final List<Defaults> sectionDefaults = sections.collectAllDefaultsInstances();
         collectedDefaults.add(defaults);
         collectedDefaults.addAll(sectionDefaults);
-        return sectionDefaults;
+        return collectedDefaults;
     }
 
     public Map<String, Object> deriveStylingSettingsMap(FieldType fieldType) {
@@ -40,6 +40,7 @@ public class Page {
         this.defaults = defaults;
     }
 
+    @SuppressWarnings("unused") // Used through reflection.
     public Page(String identifier, Section... sections) {
         this(identifier, new Sections(sections), new Defaults(new HashMap()));
     }

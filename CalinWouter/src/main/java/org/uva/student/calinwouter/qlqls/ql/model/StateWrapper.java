@@ -1,7 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ChangedStateEventListener;
-import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class StateWrapper {
     private VariableTable variableTable;
-    private List<ChangedStateEventListener> listeners;
+    private final List<ChangedStateEventListener> listeners;
 
     public void subscribeChangedStateEventListener(ChangedStateEventListener listener) {
         listeners.add(listener);

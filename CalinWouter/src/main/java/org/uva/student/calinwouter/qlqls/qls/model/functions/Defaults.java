@@ -29,6 +29,9 @@ public class Defaults {
 
     public AbstractWidget getWidget(ITypeDescriptor typeDescriptor) {
         Map<String, Object> typeDefaultSettings = defaultStyleSheetSettings.get(typeDescriptor);
+        if (typeDefaultSettings == null) {
+            return null;
+        }
         return (AbstractWidget) typeDefaultSettings.get(StylingSettings.WIDGET);
     }
 }

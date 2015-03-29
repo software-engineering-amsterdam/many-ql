@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TypeCheckResults {
+public class QLTypeCheckResults {
     private final List<String> errors, warnings;
 
     public List<String> getErrors() {
@@ -44,31 +44,51 @@ public class TypeCheckResults {
         addWarning("Label " + fieldLabel + " found twice.");
     }
 
-    public String toString() {
-        String results = "Type checker results:\n";
+    private void appendAllErrorsStrings(StringBuilder results) {
+        for (String error : errors) {
+            results.append("\t\t");
+            results.append(error);
+            results.append("\n");
+        }
+    }
+
+    private void appendAllWarningsStrings(StringBuilder results) {
+        for (String warning : warnings) {
+            results.append("\t\t");
+            results.append(warning);
+            results.append("\n");
+        }
+    }
+
+    private void appendErrorsString(StringBuilder results) {
         if (errors.size() > 0) {
-            results += "\tErrors:\n";
-            for (String error : errors)
-                results += "\t\t" + error + "\n";
-        } else {
-            results += "\tNo errors.\n";
+            results.append("\tErrors:\n");
+            appendAllErrorsStrings(results);
         }
+        results.append("\tNo errors.\n");
+    }
+
+    private void appendWarningsString(StringBuilder results) {
         if (warnings.size() > 0) {
-            results += "\n" +
-                    "\tWarnings:\n";
-            for (String warning : warnings)
-                results += "\t\t" + warning + "\n";
-        } else {
-            results += "\tNo warnings.\n";
+            results.append("\n\tWarnings:\n");
+            appendAllWarningsStrings(results);
+            return;
         }
-        return results;
+        results.append("\tNo warnings.\n");
+    }
+
+    public String toString() {
+        final StringBuilder results = new StringBuilder("Type checker results:\n");
+        appendErrorsString(results);
+        appendWarningsString(results);
+        return results.toString();
     }
 
     public boolean hasErrors() {
         return errors.size() != 0;
     }
 
-    public TypeCheckResults() {
+    public QLTypeCheckResults() {
         this.errors = new LinkedList<String>();
         this.warnings = new LinkedList<String>();
     }

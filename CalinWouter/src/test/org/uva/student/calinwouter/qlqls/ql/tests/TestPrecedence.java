@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql.tests;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
@@ -15,9 +15,9 @@ import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.valu
 
 public class TestPrecedence {
 
-    private Object calcValue(String exp) throws ParserException, IOException, LexerException {
+    private Object calcValue(String expression) throws ParserException, IOException, LexerException {
         QLInterpreter qlInterpreter =
-                QLHelper.interpretQlString(form(value("value", "", "int", exp)));
+                QLHelper.interpretQlString(form(value("value", "", "int", expression)));
         VariableTable variableTable = qlInterpreter.interpret(new VariableTable());
         return variableTable.getVariable("value").toJavaObject();
     }

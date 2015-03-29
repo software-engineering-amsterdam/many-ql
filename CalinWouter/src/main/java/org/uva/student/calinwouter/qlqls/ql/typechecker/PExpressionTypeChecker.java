@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
+import org.uva.student.calinwouter.qlqls.ql.model.QLTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import static org.uva.student.calinwouter.qlqls.ql.helper.ASTHelper.*;
+
 /**
  * This type checker works by pushing elements on the stack, and assessing the type of the value that is popped
  * from the stack. When the type popped from the stack is not the same as (one of) the allowed types, the type checker
@@ -22,7 +24,7 @@ import java.util.Stack;
 public class PExpressionTypeChecker extends ReversedDepthFirstAdapter {
     private final StaticFields staticFields;
     private final Stack<ITypeDescriptor> typeDescriptors;
-    private final TypeCheckResults typeCheckResults;
+    private final QLTypeCheckResults QLTypeCheckResults;
     private final Map<String, List<String>> variableDependencies;
     private String lastComputedValueIdentifier;
 
@@ -178,8 +180,8 @@ public class PExpressionTypeChecker extends ReversedDepthFirstAdapter {
         pushIdentifierType(variableName);
     }
 
-    public void typeCheckExpression(PExpression exp){
-        exp.apply(this);
+    public void typeCheckExpression(PExpression expression){
+        expression.apply(this);
     }
 
     private void checkUndefinedReference(String identifier) {
@@ -202,13 +204,8 @@ public class PExpressionTypeChecker extends ReversedDepthFirstAdapter {
         return typeDescriptors.pop();
     }
 
-    private static String getIdentifier(AIdentifierExpression node) {
-        final TIdentifier identifierInAst = node.getIdentifier();
-        return identifierInAst.getText();
-    }
-
     private void addErrorUndefinedReference(String variableName) {
-        typeCheckResults.addUndefinedReferenceError(variableName);
+        QLTypeCheckResults.addUndefinedReferenceError(variableName);
     }
 
     private void pushType(ITypeDescriptor typeDescriptor) {
@@ -218,7 +215,7 @@ public class PExpressionTypeChecker extends ReversedDepthFirstAdapter {
     private void checkPopGeneratesNoTypeError(ITypeDescriptor assertedType) {
         final ITypeDescriptor lastStackElement = popType();
         if (!lastStackElement.equals(assertedType)) {
-            typeCheckResults.addErrorTypeIsNotOfType(assertedType);
+            QLTypeCheckResults.addErrorTypeIsNotOfType(assertedType);
         }
     }
 
@@ -261,14 +258,14 @@ public class PExpressionTypeChecker extends ReversedDepthFirstAdapter {
     public void checkLastEntryIsOfType(final ITypeDescriptor typeDescriptor) {
         assert(typeDescriptors.size() == 1);
         if (!popType().equals(typeDescriptor)) {
-            typeCheckResults.addErrorTypeIsNotOfType(typeDescriptor);
+            QLTypeCheckResults.addErrorTypeIsNotOfType(typeDescriptor);
         }
     }
 
-    public PExpressionTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults, Map<String, List<String>> variableDependencies) {
+    public PExpressionTypeChecker(StaticFields staticFields, QLTypeCheckResults QLTypeCheckResults, Map<String, List<String>> variableDependencies) {
         this.staticFields = staticFields;
         this.typeDescriptors = new Stack<ITypeDescriptor>();
-        this.typeCheckResults = typeCheckResults;
+        this.QLTypeCheckResults = QLTypeCheckResults;
         this.variableDependencies = variableDependencies;
     }
 }
