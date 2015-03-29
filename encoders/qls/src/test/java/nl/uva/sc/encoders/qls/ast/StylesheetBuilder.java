@@ -27,8 +27,7 @@ public class StylesheetBuilder {
 	}
 
 	public StylesheetBuilder withPages(List<Page> pages) {
-		pages.clear();
-		pages.addAll(pages);
+		this.pages = pages;
 		return this;
 	}
 
