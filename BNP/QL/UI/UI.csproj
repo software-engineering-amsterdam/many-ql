@@ -151,6 +151,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Examples\Simply conditional.ql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Examples\Typechecker errors.ql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

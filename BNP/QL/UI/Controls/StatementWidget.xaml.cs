@@ -43,8 +43,10 @@ namespace QL.UI.Controls
             InitializeComponent();
             DataContext = this;
 
-            Text = unit.DisplayText;
-            Value = terminalWrapper.ToString();
+            StatementUnit statement = unit as StatementUnit;
+            
+            Text = statement.Expression.Child.ToString();
+            Value = statement.DisplayText;
         }
     }
 }

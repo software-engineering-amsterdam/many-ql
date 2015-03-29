@@ -216,45 +216,28 @@ namespace QL.AST.ASTCreation
         
         public override void ExitNumber(QLParser.NumberContext context)
         {
-            Number literal = new Number(
-                context.NUMBER().GetText(),
-                SourceLocation.CreateFor(context)
-                );
-
+            Number literal = new Number(context.NUMBER().GetText(), SourceLocation.CreateFor(context));
             AppendToAST(literal);
         }
         
         public override void ExitYesno(QLParser.YesnoContext context)
         {
-            Yesno literal = new Yesno(
-                context.YESNO().GetText(),
-                SourceLocation.CreateFor(context)
-                );
-
+            Yesno literal = new Yesno(context.YESNO().GetText(), SourceLocation.CreateFor(context));
             AppendToAST(literal);
         }
         
         public override void ExitText(QLParser.TextContext context)
         {
-            Text literal = new Text(
-            context.TEXT().GetText(),
-            SourceLocation.CreateFor(context)
-            );
-
+            Text literal = new Text(context.TEXT().GetText(), SourceLocation.CreateFor(context));
             AppendToAST(literal);
         }
         
         public override void ExitIdentifier(QLParser.IdentifierContext context)
         {
-            Identifier literal = new Identifier(
-                context.IDENTIFIER().GetText(),
-                SourceLocation.CreateFor(context)
-                    );
-
+            Identifier literal = new Identifier(context.IDENTIFIER().GetText(), SourceLocation.CreateFor(context));
             AppendToAST(literal);
         }
-
-
+        
         public override void EnterExpression(QLParser.ExpressionContext context)
         {
             InitializeNewLevel();

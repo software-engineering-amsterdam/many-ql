@@ -8,19 +8,21 @@ namespace QL.AST.Nodes.Branches
         public IStaticReturnType DataType { get; set; }
         public Identifier Identifier { get; set; }
         public string DisplayText { get; set; }
-        
+
         protected UnitBase()
         {
-            
         }
-        public UnitBase(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText)
+
+        protected UnitBase(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText)
         {
             Identifier = identifier;
             DataType = dataType;
-            DisplayText = displayText;
+            DisplayText = UnwrapQuotes(displayText);
         }
-        public UnitBase(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation):this(identifier,dataType,displayText)
-        {            
+
+        protected UnitBase(Terminals.Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)
+            : this(identifier, dataType, displayText)
+        {
             SourceLocation = sourceLocation;
         }
     }

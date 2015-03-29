@@ -4,14 +4,12 @@
     {
         public SourceLocation SourceLocation { get; set; }
 
-        /// <summary>
-        /// Gets an ElementType indicating if this element is a leaf or a node.
-        /// </summary>
-        
         protected ElementBase()
         {
         }
-        protected ElementBase(SourceLocation sourceLocation) {
+
+        protected ElementBase(SourceLocation sourceLocation)
+        {
             SourceLocation = sourceLocation;
         }
 
@@ -19,7 +17,17 @@
         {
             visitor.Visit((dynamic)this);
         }
-       
-       
+
+        protected string UnwrapQuotes(string input)
+        {
+            input = input.Trim();
+
+            if (input.StartsWith("\"") && input.EndsWith("\""))
+            {
+                input = input.Trim('"');
+            }
+
+            return input;
+        }
     }
 }

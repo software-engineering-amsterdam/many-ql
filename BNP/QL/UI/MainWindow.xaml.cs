@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
-using QL.AST;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
@@ -36,7 +35,7 @@ namespace QL.UI
             bool buildResult = _qlBuilder.RunAllHandlers();
             Debug.WriteLineIf(!buildResult, "Cannot proceed to build the UI as the handlers have failed");
 
-            QLElements.ItemsSource = _qlBuilder.ElementsToDisplay;
+            WidgetsContainer.ItemsSource = _qlBuilder.ElementsToDisplay;
         }
 
         private void LoadQuestionnaireFile(string inputFilePath)
@@ -195,8 +194,8 @@ namespace QL.UI
                                             factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
                                         };
 
-            QLElements.Items.Clear();
-            QLElements.ItemsSource = renders;
+            WidgetsContainer.Items.Clear();
+            WidgetsContainer.ItemsSource = renders;
         }
     }
 }

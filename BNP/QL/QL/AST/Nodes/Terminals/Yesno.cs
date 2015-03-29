@@ -11,25 +11,26 @@ namespace QL.AST.Nodes.Terminals
         public Yesno()
         { }
 
-        
+
         public Yesno(string unparsedValue)
         {
-             if (unparsedValue.ToLowerInvariant() == "yes")
+            switch (UnwrapQuotes(unparsedValue).ToLowerInvariant())
             {
-                Value = true;
+                case "yes":
+                    Value = true;
+                    break;
+                case "no":
+                    Value = false;
+                    break;
+                default:
+                    throw new QLError("Cannot parse the value:" + unparsedValue);
             }
-            else if (unparsedValue.ToLowerInvariant() == "no")
-            {
-                Value = false;
-            }
-            else
-            {
-                throw new QLError("Cannot parse the value:" + unparsedValue);
-            }         
         }
-        public Yesno(string unparsedValue, AST.SourceLocation sourceLocation):this(unparsedValue)
+
+        public Yesno(string unparsedValue, SourceLocation sourceLocation)
+            : this(unparsedValue)
         {
-         SourceLocation=sourceLocation;       
+            SourceLocation = sourceLocation;
         }
 
         public Type GetReturnType()
@@ -39,15 +40,8 @@ namespace QL.AST.Nodes.Terminals
 
         public override string ToString()
         {
-            if (!Value.HasValue)
-            {
-                throw new Exception();
-            }
-            
-
+            if (!Value.HasValue) throw new QLError("Attempted to convert Yesno to a string representation but it has no value");
             return Value.Value ? "yes" : "no";
         }
-       
-
     }
 }
