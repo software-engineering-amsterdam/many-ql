@@ -37,9 +37,20 @@ namespace QLGui.Controllers
             }
             else
             {
-                window.CreateAndAddErrorList(astTree.GetNotifications());
+                
+                window.CreateAndShowErrors(GetNotificationMessages());
                 return null;
             }
+        }
+
+        private IList<string> GetNotificationMessages()
+        {
+            List<string> result = new List<string>();
+            foreach (Notifications.INotification notification in astTree.GetNotifications())
+            {
+                result.Add(notification.Message());
+            }
+            return result;
         }
 
         private void UpdateValue(string id, Value value)

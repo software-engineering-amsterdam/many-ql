@@ -51,12 +51,20 @@ namespace QLGui
             controller.ExportAnswers();
         }
 
-        public void CreateAndAddErrorList(IList<INotification> notifications)
+        public void CreateAndShowErrors(IList<string> notifications)
         {
+            System.Windows.Controls.Label label = new System.Windows.Controls.Label() { 
+                Content = "Errors: " + notifications.Count.ToString() };
+            
+            this._stack.Children.Add(label);
+
             ListBox listBox = new ListBox();
             listBox.ItemsSource = notifications;
 
             this._stack.Children.Add(listBox);
+
+            this.Width = 800;
+            this.Height = 600;
         }
     }
 }
