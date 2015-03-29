@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qls.ast;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
@@ -35,6 +36,12 @@ public class Page extends AstNode {
 			}
 		}
 		return null;
+	}
+
+	public void collectQuestions(Collection<String> questions) {
+		for (Section section : sections) {
+			section.collectQuestions(questions);
+		}
 	}
 
 	public void addPageDefaultStyle(DefaultStyle pageDefault) {
