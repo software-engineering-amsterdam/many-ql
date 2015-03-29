@@ -8,7 +8,6 @@ import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.TypeVisitor;
 import nl.uva.softwcons.ql.ast.type.UndefinedType;
 import nl.uva.softwcons.ql.ui.converter.BooleanToBooleanValueConverter;
-import nl.uva.softwcons.ql.ui.converter.DateValueConverter;
 import nl.uva.softwcons.ql.ui.converter.StringToNumberValueConverter;
 import nl.uva.softwcons.ql.ui.converter.StringToStringValueConverter;
 import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
@@ -39,7 +38,7 @@ public class DefaultWidgetFactory implements TypeVisitor<Widget>, WidgetFactory 
 
     @Override
     public Widget visit(final DateType type) {
-        return new TextFieldWidget(new DateValueConverter());
+        return new TextFieldWidget(new StringToStringValueConverter());
     }
 
     @Override
