@@ -9,5 +9,7 @@ Page: "General Information" {
 }
 Page: "Income" {
 	Question: "Income1" {}
+	Question: "Income2" {}
 	Question: "income_partner" {}
+	Label: "totalincome" {}
 }

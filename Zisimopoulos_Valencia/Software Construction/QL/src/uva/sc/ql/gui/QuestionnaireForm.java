@@ -34,10 +34,10 @@ public class QuestionnaireForm extends JFrame {
 	IQLFormNode questionnaire = generateAST(tree);
 	typeChecking(questionnaire, file);
 	QuestionsPropertiesVisitor questionsProperties = initialEvaluation(questionnaire);
-	PatronQuestionsVisitor dependentQuestions = findDependentQuestions(questionnaire);
+	PatronQuestionsVisitor patronQuestions = findDependentQuestions(questionnaire);
 	GUIVisitor questions = generateGUIQuestions(questionsProperties,
-		dependentQuestions, questionnaire);
-	renderQuestionnaire(questions, dependentQuestions);
+		patronQuestions, questionnaire);
+	renderQuestionnaire(questions);
     }
 
     public ParseTree generateParseTree(File file) throws IOException {
@@ -91,9 +91,9 @@ public class QuestionnaireForm extends JFrame {
 
     public PatronQuestionsVisitor findDependentQuestions(
 	    IQLFormNode questionnaire) {
-	PatronQuestionsVisitor d = new PatronQuestionsVisitor();
-	questionnaire.accept(d);
-	return d;
+	PatronQuestionsVisitor patronQuestionVisitor = new PatronQuestionsVisitor();
+	questionnaire.accept(patronQuestionVisitor);
+	return patronQuestionVisitor;
     }
 
     public GUIVisitor generateGUIQuestions(
@@ -104,7 +104,7 @@ public class QuestionnaireForm extends JFrame {
 	return vis;
     }
 
-    public void renderQuestionnaire(GUIVisitor vis, PatronQuestionsVisitor d) {
+    public void renderQuestionnaire(GUIVisitor vis) {
 	DrawQuestionnaire draw = new DrawQuestionnaire(vis.getComponentList(), formTitle);
 	draw.render();
     }

@@ -1,5 +1,5 @@
 ### What's implemented?
-QL without QLS.
+QL **without** QLS.
 
 ### Where's the code?
 * `ql/ql/` is our implementation of the language.

@@ -13,8 +13,8 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.segment.SegmentValueVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
-import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
+import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
 import nl.uva.softwcons.qls.ui.style.DefaultStylesMerged;
 import nl.uva.softwcons.qls.ui.style.StyleBlock;
 
@@ -59,8 +59,8 @@ public class StylesheetResolver implements StylesheetVisitor<Void>, SegmentValue
 
     @Override
     public Void visit(final Question question, final DefaultStylesMerged styles) {
-        final StyleBlock styleScope = new StyleBlock(question.getStylizedWidget().getWidgetStyle());
-        final Optional<WidgetType> widget = question.getStylizedWidget().getWidgetType();
+        final StyleBlock styleScope = new StyleBlock(question.getStyledWidget().getWidgetStyle());
+        final Optional<WidgetType> widget = question.getStyledWidget().getWidgetType();
         final Type type = questionType.get(question.getId());
         final Identifier questionId = question.getId();
 
@@ -84,7 +84,7 @@ public class StylesheetResolver implements StylesheetVisitor<Void>, SegmentValue
         return null;
     }
 
-    private DefaultStylesMerged inheritStyles(final Map<Type, StylizedWidget> styles,
+    private DefaultStylesMerged inheritStyles(final Map<Type, StyledWidget> styles,
             final DefaultStylesMerged parentStyles) {
         final DefaultStylesMerged mergedStyles = new DefaultStylesMerged(styles);
         mergedStyles.applyParentStyles(parentStyles);

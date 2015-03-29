@@ -6,7 +6,7 @@ import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Multiplication;
 import nl.uva.softwcons.ql.ast.form.Form;
@@ -23,7 +23,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testSingleQuestionInForm() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         Question question = (Question) form.getStatements().get(0);
 
         assertThat(form.getStatements().get(0)).isExactlyInstanceOf(Question.class);
@@ -35,7 +35,7 @@ public class ASTBuilderVisitorTest {
     public void testMultipleQuestionsInForm() {
         String question1Text = "question1: \"Label 1\" boolean";
         String question2Text = "question2: \"Label 2\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, question2Text));
         Question question1 = (Question) form.getStatements().get(0);
         Question question2 = (Question) form.getStatements().get(1);
 
@@ -53,7 +53,7 @@ public class ASTBuilderVisitorTest {
         String stringQuestion = "question: \"Label me\" string";
         String dateQuestion = "question: \"Label me\" date";
         String numberQuestion = "question: \"Label me\" number";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, dateQuestion,
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, dateQuestion,
                 numberQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
@@ -62,7 +62,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testSingleComputedQuestionInForm() {
         String questionText = "question: \"Label\" boolean (6 * 5)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         ComputedQuestion question = (ComputedQuestion) form.getStatements().get(0);
 
         assertThat(form.getStatements().get(0)).isExactlyInstanceOf(ComputedQuestion.class);
@@ -75,7 +75,7 @@ public class ASTBuilderVisitorTest {
     public void testMultipleComputedQuestionsInForm() {
         String question1Text = "question1: \"Label 1\" boolean (true)";
         String question2Text = "question2: \"Label 2\" boolean (6+2>3)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, question2Text));
         ComputedQuestion question1 = (ComputedQuestion) form.getStatements().get(0);
         ComputedQuestion question2 = (ComputedQuestion) form.getStatements().get(1);
 
@@ -95,7 +95,7 @@ public class ASTBuilderVisitorTest {
         String stringQuestion = "question: \"Label me\" string (true)";
         String numberQuestion = "question: \"Label me\" number(1+2)";
         String dateQuestion = "question: \"Label me\" date(true)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, numberQuestion,
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, numberQuestion,
                 dateQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
@@ -104,7 +104,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testMultiplicationExpression() {
         String question = "question: \"Question\" number(1*2)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question));
         assertThat(((ComputedQuestion) form.getStatements().get(0)).getExpression()).isExactlyInstanceOf(
                 Multiplication.class);
     }

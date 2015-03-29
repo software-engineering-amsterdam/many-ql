@@ -2,18 +2,18 @@ package nl.uva.softwcons.qls.ast.segment;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
 
 public class Question extends PageSegment {
     private final Identifier id;
-    private final StylizedWidget widget;
+    private final StyledWidget widget;
 
     public Question(final Identifier id) {
         this.id = id;
-        this.widget = new StylizedWidget();
+        this.widget = new StyledWidget();
     }
 
-    public Question(final Identifier id, final StylizedWidget widget) {
+    public Question(final Identifier id, final StyledWidget widget) {
         this.id = id;
         this.widget = widget;
     }
@@ -26,7 +26,7 @@ public class Question extends PageSegment {
         return id;
     }
 
-    public StylizedWidget getStylizedWidget() {
+    public StyledWidget getStyledWidget() {
         return widget;
     }
 
