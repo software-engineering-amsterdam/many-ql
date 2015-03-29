@@ -13,29 +13,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import uva.sc.ql.atom.ID;
-import uva.sc.ql.evaluator.EvaluatorVisitor;
+import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 import uva.sc.ql.gui.listeners.VisibilityListener;
 
 @SuppressWarnings("serial")
 public class CheckBoxQuestion extends Question {
 
     Map<ID, List<ID>> patronElements;
-    EvaluatorVisitor evaluator;
+    QuestionsPropertiesVisitor questionsProperties;
     List<Component> componentList;
 
-    public CheckBoxQuestion(Map<ID, List<ID>> d,
-	    EvaluatorVisitor evalVisitor, List<Component> componentList) {
-	this.patronElements = d;
-	this.evaluator = evalVisitor;
+    public CheckBoxQuestion(Map<ID, List<ID>> patronElements,
+	    QuestionsPropertiesVisitor questionsProperties, List<Component> componentList) {
+	this.patronElements = patronElements;
+	this.questionsProperties = questionsProperties;
 	this.componentList = componentList;
     }
 
     public JPanel drawQuestion(ID id, String label, boolean isEditable) {
 	JCheckBox checkBox = new JCheckBox();
 	checkBox.setName(id.getValue());
-
 	addListeners(id, checkBox);
-	
+	return generatePanel(id, label, checkBox);
+    }
+
+    private JPanel generatePanel(ID id, String label, JCheckBox checkBox) {
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(2, 0));
 	panel.add(new JLabel(label));
@@ -55,7 +57,7 @@ public class CheckBoxQuestion extends Question {
 	    Entry<ID, List<ID>> entry) {
 	if (entry.getKey().equals(id)) {
 	    checkBox.addActionListener(new VisibilityListener(
-		patronElements, evaluator, componentList, checkBox, id));
+		patronElements, questionsProperties, componentList, checkBox, id));
 	}
     }
 

@@ -69,7 +69,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
             return default(T);
         }
 
-        public virtual T VisitColorStyle(ColorStyle colorStyle)
+        public virtual T VisitFontColor(FontColor colorStyle)
         {
             return default(T);
         }

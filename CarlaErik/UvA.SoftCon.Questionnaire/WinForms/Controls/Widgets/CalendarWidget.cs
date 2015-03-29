@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
+using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
@@ -33,6 +35,12 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
                     throw new ArgumentException("Parameter value must be of datatype 'date'.");
                 }
             }
+        }
+
+        public override void ApplyStyles(StyleSet styleSet)
+        {
+            QuestionLabel.Font = new Font(styleSet.FontName, styleSet.FontSize);
+            QuestionLabel.ForeColor = System.Drawing.Color.FromArgb(styleSet.FontColor.Red, styleSet.FontColor.Green, styleSet.FontColor.Blue);
         }
 
         private void AnswerDatePicker_ValueChanged(object sender, EventArgs e)

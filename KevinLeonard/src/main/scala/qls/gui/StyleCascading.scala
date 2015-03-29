@@ -12,7 +12,7 @@ class StyleCascading {
   val DefaultFontColor = FontColor(HexadecimalColor("0000000"))
   val DefaultFontSize = FontSize(13)
 
-  def cascadeStyles(s: StyleSheet, env: StyleEnvironment, typeEnv: TypeEnvironment): StyleSheet = {
+  def cascadeStyles(s: StyleSheet, env: StyleEnvironment = List.empty, typeEnv: TypeEnvironment = Map.empty): StyleSheet = {
     val updatedStyleSheet = s.elements.foldLeft((List[StyleSheetElement](), env)) {
       case ((accumulatedElements, accumulatedEnv), element) =>
         val (updatedElement, updatedEnv) = cascadeStyles(element, accumulatedEnv, typeEnv)

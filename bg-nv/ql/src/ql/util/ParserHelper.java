@@ -30,7 +30,7 @@ public class ParserHelper
         QLParser.QuestionContext c = parser.question();
         AstBuilder visitor = new AstBuilder();
 
-        return visitor.visitQuestion(c);
+        return c.accept(visitor);
     }
 
     public static AstNode ParseIfCondition(String input)
@@ -40,7 +40,7 @@ public class ParserHelper
         QLParser.IfConditionContext c = parser.ifCondition();
         AstBuilder visitor = new AstBuilder();
 
-        return visitor.visitIfCondition(c);
+        return c.accept(visitor);
     }
 
     public static AstNode ParseForm(String file)

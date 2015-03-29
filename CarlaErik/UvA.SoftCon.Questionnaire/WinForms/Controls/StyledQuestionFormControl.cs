@@ -39,6 +39,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
                 questionControl.QuestionAnswered += QuestionWidget_QuestionAnswered;
             }
 
+            // Paging is not yet supported. Only the first page is shown.
             Controls.Add(pages.First());
             Interpretet();
         }
@@ -50,12 +51,10 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void PageControl_NavigateBackwards(object sender, EventArgs e)
         {
-
         }
 
         private void PageControl_NavigateForwards(object sender, EventArgs e)
         {
-
         }
 
         private void Interpretet()

@@ -43,8 +43,9 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 
     public Form visitForm(@NotNull QLGrammarParser.FormContext ctx) {
 	List<Statement> statementList = new ArrayList<Statement>();
-	for (int i = 0; i < ctx.sts.size(); i++)
-	    statementList.add((Statement) visitStat(ctx.sts.get(i)));
+	for (QLGrammarParser.StatContext statementContext : ctx.sts) {
+	    statementList.add((Statement) visitStat(statementContext));
+	}
 	return new Form(new ID(ctx.ID().getText()), statementList);
     }
 
@@ -53,7 +54,6 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 	ID id = new ID(ctx.ID().getText());
 	Type type = (Type) (this.visit(ctx.type()));
 	if (ctx.expr() != null) {
-
 	    Expression expression = (Expression) this.visit(ctx.expr());
 	    return new Question(label, id, type, expression);
 	} else {
@@ -64,8 +64,9 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
     public IfStatement visitIf_stat(@NotNull QLGrammarParser.If_statContext ctx) {
 	Expression expr = (Expression) this.visit(ctx.expr());
 	List<Question> questionList = new ArrayList<Question>();
-	for (int i = 0; i < ctx.qs.size(); i++)
-	    questionList.add((Question) visitQuestion(ctx.qs.get(i)));
+	for (QLGrammarParser.QuestionContext questionContext : ctx.qs) {
+	    questionList.add((Question) visitQuestion(questionContext));
+	}
 	return new IfStatement(expr, questionList);
     }
 
@@ -95,10 +96,7 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
     public IQLExpressionNode visitNumber(
 	    @NotNull QLGrammarParser.NumberContext ctx) {
 	IQLExpressionNode result = null;
-	// if (ctx.getText().contains("."))
 	result = new NumberAtom(Double.valueOf(ctx.getText()));
-	// else
-	// result = new NumberAtom(ctx.getText());
 	return result;
     }
 

@@ -21,6 +21,7 @@ public class SliderWidget extends Widget {
         slider.setShowTickMarks(true);
         slider.setMinorTickCount(1);
         slider.setMajorTickUnit(1f);
+        slider.setSnapToTicks(true);
     }
 
     @Override

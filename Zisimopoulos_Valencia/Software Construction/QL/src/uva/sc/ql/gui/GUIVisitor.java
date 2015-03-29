@@ -14,8 +14,9 @@ import uva.sc.ql.atom.ID;
 
 import org.antlr.v4.runtime.RecognitionException;
 
-import uva.sc.ql.evaluator.EvaluatorVisitor;
+import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 import uva.sc.ql.form.Form;
+import uva.sc.ql.gui.helpers.QuestionData;
 import uva.sc.ql.gui.questions.QuestionFactory;
 import uva.sc.ql.patronElements.PatronQuestionsVisitor;
 import uva.sc.ql.statements.IfStatement;
@@ -29,16 +30,13 @@ public class GUIVisitor extends JFrame implements
     Map<ID, List<ID>> patronElements;
     List<Component> componentList = new ArrayList<Component>();
 
-    EvaluatorVisitor evaluator;
+    QuestionsPropertiesVisitor questionProperties;
     ID currentElement;
 
-    public GUIVisitor(EvaluatorVisitor eval, PatronQuestionsVisitor d) {
-	evaluator = eval;
+    public GUIVisitor(QuestionsPropertiesVisitor questionsProperties,
+	    PatronQuestionsVisitor d) {
 	patronElements = d.getPatronElements();
-    }
-
-    public EvaluatorVisitor getEvaluator() {
-	return evaluator;
+	this.questionProperties = questionsProperties;
     }
 
     public List<Component> getComponentList() {
@@ -54,24 +52,24 @@ public class GUIVisitor extends JFrame implements
     }
 
     public JPanel visit(Question question) {
-	QuestionFactory questionFactory = new QuestionFactory();
-	uva.sc.ql.gui.questions.Question questionGUI = questionFactory.questionType(
-		question, patronElements, evaluator, componentList);
-
 	currentElement = question.getId();
-	
 	boolean isEditable = false;
-	if (evaluator.getValuesTable().get(currentElement) != null)
-	{
-	    isEditable = evaluator.getValuesTable().get(currentElement).getValue() == null;
+	QuestionData data = questionProperties.questionData(currentElement);
+	QuestionFactory questionFactory = new QuestionFactory();
+	uva.sc.ql.gui.questions.Question questionGUI = questionFactory
+		.questionType(question, questionProperties, patronElements,
+			componentList);
+	if (data != null) {
+	    isEditable = data
+		    .evaluateValue(questionProperties.getValuesTable()) == null;
 	}
-	componentList.add(questionGUI.drawQuestion(currentElement, question.getStr(), isEditable));
+	componentList.add(questionGUI.drawQuestion(currentElement,
+		question.getStr(), isEditable));
 	return null;
     }
 
     public JPanel visit(IfStatement ifStatement) {
 	List<Question> questions = ifStatement.getQuestions();
-
 	for (Question question : questions) {
 	    question.accept(this);
 	}

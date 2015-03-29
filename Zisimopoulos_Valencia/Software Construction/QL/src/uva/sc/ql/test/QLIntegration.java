@@ -23,7 +23,7 @@ import uva.sc.ql.parser.QLGrammarParser;
 import uva.sc.ql.patronElements.PatronQuestionsVisitor;
 import uva.sc.ql.typeChecker.TypeCheckerVisitor;
 
-public class QLTest {
+public class QLIntegration {
 
     @Test
     public void testSyntaxErrors() throws IOException {
@@ -92,7 +92,6 @@ public class QLTest {
 	int numberOfpatronElements = depenetQuestions.size();
 	Assert.assertTrue ( "Assertion failed. Expected 4 dependent questions, but got " + numberOfpatronElements, numberOfpatronElements == 4 );
     }
-
 
     private ParseTree generateParseTree(File file) throws IOException {
 	CharStream in = new ANTLRFileStream(file.getAbsolutePath());

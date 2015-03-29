@@ -10,7 +10,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
     internal class DefaultStyleBuilder : QLSBaseVisitor<DefaultStyle>
     {
-        public override DefaultStyle VisitDefaultStyles(QLSParser.DefaultStylesContext context)
+        public override DefaultStyle VisitDefaultStyle(QLSParser.DefaultStyleContext context)
         {
             DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             var styleAttributes = new List<StyleAttribute>();

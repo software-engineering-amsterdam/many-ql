@@ -1,13 +1,13 @@
 package qls.gui.widgets
 
 import ql.ast.{BooleanValue, Expression, Question, Value}
-import ql.gui.widgets.QuestionWidget
-import types._
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.RadioButton
 
-class RadioQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class RadioQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   val value = eval()
   val radioButtonYes = new RadioButton() {

@@ -28,10 +28,7 @@ public class StyleStack
         else
         {
             Style prevStyle = this.styleStack.peek();
-            Style newStyle = new Style();
-            newStyle.addStyle(rs);
-            newStyle.addStyle(prevStyle);
-
+            Style newStyle = Style.mergeStyles(rs, prevStyle);
             this.styleStack.push(newStyle);
         }
     }

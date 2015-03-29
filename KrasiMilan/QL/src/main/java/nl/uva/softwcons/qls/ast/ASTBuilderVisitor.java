@@ -179,7 +179,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Map<String, String> styleProperties = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
-            final String key = c.key.getText();
+            final String key = Utils.unquote(c.key.getText());
             final String value = Utils.unquote(c.value().getText());
 
             styleProperties.put(key, value);
