@@ -1,5 +1,4 @@
-﻿using AST.Nodes.Interfaces;
-
+﻿
 namespace AST.Nodes.Expressions.Unaries
 {
     public class Priority : Unary

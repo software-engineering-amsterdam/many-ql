@@ -20,13 +20,6 @@ public class TextField extends ControlElement implements IntControl, DecControl,
     }
 
     @Override
-    public void setVisible(Boolean visible)
-    {
-        this.textField.setVisible(visible);
-        this.textField.setManaged(visible);
-    }
-
-    @Override
     public void setValue(Value value)
     {
         value.accept(this);

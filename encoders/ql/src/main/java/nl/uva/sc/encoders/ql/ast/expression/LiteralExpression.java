@@ -36,4 +36,8 @@ public class LiteralExpression extends Expression {
 		return literal.getType();
 	}
 
+	@Override
+	public String toString() {
+		return literal.toString();
+	}
 }

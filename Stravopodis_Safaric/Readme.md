@@ -1,23 +1,32 @@
 Students: Dominik Safaric, Panagiotis Stravopodis
 Project: QL
 
+QL implementation - done
+
+QLS implementation 
+- refactoring required, but the following parts implemented:
+   * Grammar and AST hierarchy
+   * UI Widget classes
+   * Type checker
+- required: type checker refactoring (because of the QL dependency), renderer minor refactoring  
+
 ##### QL Requirements
 
 - Questions are enabled and disabled when different values are
-  entered.
+  entered. ✓
   
 - The type checker detects:
-   * reference to undefined questions
-   * duplicate question declarations with different types
-   * conditions that are not of the type boolean
-   * operands of invalid type to operators
-   * references to questions with an undefined value
-   * cyclic dependencies between questions
-   * duplicate labels (warning)
+   * reference to undefined questions ✓
+   * duplicate question declarations with different types ✓
+   * conditions that are not of the type boolean ✓
+   * operands of invalid type to operators ✓
+   * references to questions with an undefined value ✓
+   * cyclic dependencies between questions ✓
+   * duplicate labels (warning) ✓
 
-- The language supports booleans, integers and string values.
+- The language supports booleans, integers and string values. ✓
 
-- Different data types in QL map to different (default) GUI widgets.   
+- Different data types in QL map to different (default) GUI widgets. ✓
 
 Requirements on the implementation:
 
@@ -80,11 +89,11 @@ Project: QLS
 
 - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
 
-- You cannot place a single question multiple times.
+- You cannot place a single question multiple times. 
 
-- The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions     appear (page/secion), what font-styles etc. are used, and what widget types are used.
+- The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions     appear (page/secion), what font-styles etc. are used, and what widget types are used. 
 
-- As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings),             yesno-radios, checkbox, yesno-dropdown (for booleans).
+- As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings),             yesno-radios, checkbox, yesno-dropdown (for booleans). 
 
 
 Here's an example QLS description for the simple Tax Form:

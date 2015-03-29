@@ -3,10 +3,10 @@ using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
 using AST.Nodes.FormObjects;
+using AST.Nodes.Literals;
 using AST.VisitorInterfaces;
 using System.Collections.Generic;
 using System.Linq;
-using AST.Nodes.Literals;
 
 
 namespace TypeChecking.Collectors

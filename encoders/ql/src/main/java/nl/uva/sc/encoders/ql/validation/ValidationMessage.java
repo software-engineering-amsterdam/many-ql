@@ -42,4 +42,8 @@ public class ValidationMessage {
 		builder.append("\n");
 		return builder.toString();
 	}
+
+	public boolean isError() {
+		return type.equals(Type.ERROR);
+	}
 }

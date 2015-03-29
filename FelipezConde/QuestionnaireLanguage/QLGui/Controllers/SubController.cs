@@ -2,11 +2,7 @@
 using Evaluation.Values;
 using QLGui.ASTVisitors;
 using QLGui.FormObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using ASTFormObject = AST.Nodes.FormObjects;
 
@@ -14,12 +10,12 @@ namespace QLGui.Controllers
 {
     public class SubController
     {
-        private SymbolTable symbolTable;
+        public SymbolTable SymbolTable { get; private set; }
         public EventUpdateValue EventUpdateValue { get; set; }
 
         public SubController(SymbolTable symbolTable)
         {
-            this.symbolTable = symbolTable;
+            this.SymbolTable = symbolTable;
         }
 
         public UIElement ProcessBody(IList<ASTFormObject.FormObject> body, UIElement form)
@@ -29,7 +25,7 @@ namespace QLGui.Controllers
                 FormObject formObject = node.Accept(new FormObjectVisitor());
                 formObject.EventUpdateValue += UpdateValue;
 
-                symbolTable = formObject.Register(symbolTable);
+                SymbolTable = formObject.Register(SymbolTable);
 
                 form = formObject.ProcessFormObject(form);
             }
@@ -40,12 +36,6 @@ namespace QLGui.Controllers
         public void UpdateValue(string id, Value value)
         {
             EventUpdateValue(id, value);
-        }
-
-        public SymbolTable Register(SymbolTable symbolTable)
-        {
-            symbolTable = this.symbolTable;
-            return symbolTable;
         }
     }
 }

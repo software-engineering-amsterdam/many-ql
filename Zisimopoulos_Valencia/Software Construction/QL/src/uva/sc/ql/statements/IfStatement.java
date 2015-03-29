@@ -29,8 +29,8 @@ public class IfStatement implements Statement {
 	if (this.expr != null) {
 	    result += this.expr.toString() + ") THEN {";
 	}
-	for (int i = 0; i < this.questions.size(); i++) {
-	    result += questions.get(i).toString() + ",";
+	for (Question question : questions) {
+	    result += question.toString() + ",";
 	}
 	return result + "}";
     }

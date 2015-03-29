@@ -3,21 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireLanguage", "QuestionnaireLanguage\QuestionnaireLanguage.csproj", "{B0D6E110-01B4-4D77-A23A-C9B2B08BF7DE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammar", "Grammar\Grammar.csproj", "{86335FB2-43C2-434F-9276-C6841B6B1CEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AST", "AST\AST.csproj", "{51A4B3E5-24B7-4DF6-8B9E-C97C363F02DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications", "Notifications\Notifications.csproj", "{3D044ED7-07DB-4DEA-AE15-344F3C5C289B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evaluator", "Evaluator\Evaluator.csproj", "{89B2B901-1C9B-4C6E-A7F9-94F9C9C1FD36}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evaluator.Test", "Evaluator.Test\Evaluator.Test.csproj", "{399994DC-49A1-489F-B63D-00261B685A60}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evaluation", "Evaluation\Evaluation.csproj", "{CFBE0F7B-DC64-4FEB-9DF6-DC736521F3BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeChecking", "TypeChecking\TypeChecking.csproj", "{8111782A-8DBF-47C4-B535-18221C1350FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLGui", "QLGui\QLGui.csproj", "{120F2DFA-A613-4AE9-8659-AB07390A3E24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0D6E110-01B4-4D77-A23A-C9B2B08BF7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0D6E110-01B4-4D77-A23A-C9B2B08BF7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0D6E110-01B4-4D77-A23A-C9B2B08BF7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0D6E110-01B4-4D77-A23A-C9B2B08BF7DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86335FB2-43C2-434F-9276-C6841B6B1CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86335FB2-43C2-434F-9276-C6841B6B1CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86335FB2-43C2-434F-9276-C6841B6B1CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,14 +33,6 @@ Global
 		{3D044ED7-07DB-4DEA-AE15-344F3C5C289B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D044ED7-07DB-4DEA-AE15-344F3C5C289B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D044ED7-07DB-4DEA-AE15-344F3C5C289B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89B2B901-1C9B-4C6E-A7F9-94F9C9C1FD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89B2B901-1C9B-4C6E-A7F9-94F9C9C1FD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89B2B901-1C9B-4C6E-A7F9-94F9C9C1FD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89B2B901-1C9B-4C6E-A7F9-94F9C9C1FD36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{399994DC-49A1-489F-B63D-00261B685A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{399994DC-49A1-489F-B63D-00261B685A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{399994DC-49A1-489F-B63D-00261B685A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{399994DC-49A1-489F-B63D-00261B685A60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFBE0F7B-DC64-4FEB-9DF6-DC736521F3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFBE0F7B-DC64-4FEB-9DF6-DC736521F3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFBE0F7B-DC64-4FEB-9DF6-DC736521F3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +41,10 @@ Global
 		{8111782A-8DBF-47C4-B535-18221C1350FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8111782A-8DBF-47C4-B535-18221C1350FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8111782A-8DBF-47C4-B535-18221C1350FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120F2DFA-A613-4AE9-8659-AB07390A3E24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ import ql.gui.segment.RowStyle;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
 import qls.ast.rule.widget.Dropdown;
-import qls.ast.rule.widget.Slider;
+import qls.ast.rule.widget.DecSlider;
 
 /**
  * Created by bore on 10/03/15.
@@ -41,7 +41,7 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     @Override
     public Void visit(Font r)
     {
-        this.rowStyle.setFont(r.getValue());
+        this.rowStyle.setFontName(r.getValue());
         return null;
     }
 
@@ -83,7 +83,7 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     @Override
     public Control visit(Dropdown w)
     {
-        return new ql.gui.control.Dropdown("yes", "no");
+        return new ql.gui.control.Dropdown(w.getYesLabel(), w.getNoLabel());
     }
 
     @Override
@@ -93,7 +93,13 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     }
 
     @Override
-    public Control visit(Slider w)
+    public Control visit(DecSlider w)
+    {
+        return new ql.gui.control.Slider(w.getMin(), w.getMax(), w.getStep());
+    }
+
+    @Override
+    public Control visit(IntSlider w)
     {
         return new ql.gui.control.Slider(w.getMin(), w.getMax(), w.getStep());
     }

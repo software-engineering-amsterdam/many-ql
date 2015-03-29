@@ -75,7 +75,7 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
         lineNumber = ctx.start.line
-        return Nodes.Boolean(ctx.getText() == 'true', lineNumber);
+        return Nodes.Boolean(ctx.getText() == 'true', lineNumber)
 
     # Visit a parse tree produced by QLParser#string.
     def visitString(self, ctx):

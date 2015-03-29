@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST.Building;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
@@ -12,18 +8,14 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
     internal class StyleAttributeBuilder : QLSBaseVisitor<StyleAttribute>
     {
-        public override StyleAttribute VisitWidth(QLSParser.WidthContext context)
-        {
-            int value = Int32.Parse(context.INT().GetText());
-
-            return new Width(value, context.GetTextPosition());
-        }
-
         public override StyleAttribute VisitColor(QLSParser.ColorContext context)
         {
             string rgbValue = context.HEXACOLOR().GetText();
 
-            return new ColorStyle(rgbValue, context.GetTextPosition());
+            // Remove any leading '#' character.
+            rgbValue = rgbValue.Trim('#');
+
+            return new FontColor(rgbValue, context.GetTextPosition());
         }
 
         public override StyleAttribute VisitFont(QLSParser.FontContext context)
@@ -55,6 +47,10 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
             string trueLabel = context.STRING(0).GetText();
             string falseLabel = context.STRING(1).GetText();
 
+            // Remove the leading and trailing '"' characters from the string literals.
+            trueLabel = trueLabel.Trim('"');
+            falseLabel = falseLabel.Trim('"');
+
             return new DropDown(trueLabel, falseLabel, context.GetTextPosition());
         }
 
@@ -62,6 +58,10 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
         {
             string trueLabel = context.STRING(0).GetText();
             string falseLabel = context.STRING(1).GetText();
+
+            // Remove the leading and trailing '"' characters from the string literals.
+            trueLabel = trueLabel.Trim('"');
+            falseLabel = falseLabel.Trim('"');
 
             return new RadioButtons(trueLabel, falseLabel, context.GetTextPosition());
         }

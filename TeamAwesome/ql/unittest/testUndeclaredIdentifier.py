@@ -15,8 +15,8 @@ class NoUndeclaredIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -46,8 +46,8 @@ class UndeclaredIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))

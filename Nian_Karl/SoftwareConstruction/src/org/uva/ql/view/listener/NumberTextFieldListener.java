@@ -36,6 +36,7 @@ public class NumberTextFieldListener implements DocumentListener {
 				widgetListener.widgetValueChanged(identifier, new UndefinedValue());
 			} else if (m.matches()) {
 				textField.setForegroundColor(Color.black);
+				System.out.println(input);
 				widgetListener.widgetValueChanged(identifier, new IntValue(Integer.parseInt(input)));
 			} else {
 				textField.setForegroundColor(Color.red);

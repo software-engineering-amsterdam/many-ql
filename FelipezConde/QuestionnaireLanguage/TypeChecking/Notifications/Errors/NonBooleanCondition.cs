@@ -13,7 +13,7 @@ namespace TypeChecking.Notifications.Errors
 
             public override string Message()
             {
-                return string.Format("non-Boolean condition at {0}", position);
+                return string.Format("Non-Boolean condition at {0}", position);
             }
 
             

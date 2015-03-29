@@ -21,13 +21,15 @@ import java.util.List;
  */
 public class SimpleModeler extends Modeler
 {
+    private final String defaultPageName = "Main";
+
     public SimpleModeler(CondQuestionTable condQuestionTable)
     {
         super(condQuestionTable);
     }
 
     @Override
-    public Canvas model()
+    public Canvas buildCanvas()
     {
         List<Segment> segments = new ArrayList<>();
         for (Question q : this.getCondQuestionTable())
@@ -36,9 +38,9 @@ public class SimpleModeler extends Modeler
             segments.add(segment);
         }
         List<Page> pages = new ArrayList<>();
-        pages.add(new Page(segments, true));
+        pages.add(new Page(segments, defaultPageName, true));
 
-        return new Canvas("Questionnaire", pages);
+        return new Canvas(this.getCondQuestionTable().getTitle(), pages);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class SimpleModeler extends Modeler
         Expr expr = this.getCondition(q.getId());
         Label label = new Label(q.getLabel());
         Input input = InputBuilder.build(q.getId(), q.getType());
-        return new Row(expr, q.getType(), label, input);
+        return new Row(expr, label, input);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class SimpleModeler extends Modeler
         Expr expr = this.getCondition(cq.getId());
         Label label = new Label(cq.getLabel());
         Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
-        return new Row(expr, cq.getType(), label, input);
+        return new Row(expr, label, input);
     }
 
     @Override
@@ -64,6 +66,4 @@ public class SimpleModeler extends Modeler
     {
         return null;
     }
-
-
 }

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Common;
-using UvA.SoftCon.Questionnaire.Common.AST;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
@@ -17,7 +12,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary
         {
         }
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

@@ -1,16 +1,14 @@
 package qls.parser
 
 import ql.ast._
-import qls.ast.Question
-import qls.ast._
-
 import ql.parser.{Parser => QLParser}
+import qls.ast.{Question, _}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
 
-  var qlParser = new QLParser
+  val qlParser = new QLParser
 
   // general parsers
   override val whiteSpace = qlParser.whiteSpace
@@ -52,15 +50,18 @@ class Parser extends JavaTokenParsers {
     case t ~ w => DefaultWidget(t, w)
   })
   def widget: Parser[Widget] = widgetType ~ styles ^^ {
-    case "spinbox" ~ styles => SpinBox(styles)
-    case "slider" ~ styles => Slider(styles)
-    case "text" ~ styles => Text(styles)
-    case "textBlock" ~ styles => TextBlock(styles)
-    case "radio" ~ styles => Radio(styles)
-    case "checkbox" ~ styles => CheckBox(styles)
-    case "dropdown" ~ styles => DropDown(styles)
+    case widgetType ~ styles => Widget(widgetType, styles)
   }
-  def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
+  def widgetType: Parser[WidgetType] =
+    ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown") ^^ {
+      case "spinbox" => SpinBox()
+      case "slider" => Slider()
+      case "text" => Text()
+      case "textBlock" => TextBlock()
+      case "radio" => Radio()
+      case "checkbox" => CheckBox()
+      case "dropdown" => DropDown()
+    }
   def styles: Parser[List[Style]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
     case Some(styles) => styles
     case None => List()

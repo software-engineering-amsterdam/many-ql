@@ -16,8 +16,8 @@ class ValidIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -47,8 +47,8 @@ class ValidConstant(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -72,8 +72,8 @@ class ValidExpression(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -98,8 +98,8 @@ class InvalidIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))
@@ -132,8 +132,8 @@ class InvalidConstant(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))
@@ -160,8 +160,8 @@ class InvalidExpression(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))

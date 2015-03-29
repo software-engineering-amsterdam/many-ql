@@ -3,7 +3,7 @@ package ql.interpreter
 import ql.ast.Form
 import ql.gui.FormBuilder
 import ql.parser.Parser
-import ql.typechecker.{DuplicateLabelsChecker, Error, TypeChecker}
+import ql.typechecker.{DuplicateLabelsChecker, TypeChecker}
 import types.TypeEnvironment
 
 import scala.io.Source

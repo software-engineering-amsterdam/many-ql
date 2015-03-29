@@ -2,52 +2,35 @@ package ql.gui.segment;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-import ql.gui.ModelVisitor;
-import ql.gui.Refreshable;
-import ql.semantics.ValueTable;
-import ql.semantics.values.Value;
 
 import java.util.List;
 
 /**
  * Created by bore on 09/03/15.
  */
-public class Page extends Segment<GridPane> implements Refreshable
+public class Page extends ParentSegment<GridPane>
 {
-    private Integer pageNumber;
+    private String name;
 
-    public Page(List<Segment> subsegments, Boolean visible)
+    public Page(List<Segment> subSegments, String name, Boolean visible)
     {
-        super(new GridPane(), subsegments, visible);
+        super(subSegments, new GridPane(), visible);
+        this.name = name;
 
         this.container.setAlignment(Pos.CENTER);
         this.container.setHgap(10);
         this.container.setVgap(10);
         this.container.setStyle("-fx-background-color: white;");
 
-        for (Segment s : subsegments)
+        for (Segment s : subSegments)
         {
             this.container.add(s.getContainer(), 0, this.container.getChildren().size() + 1);
         }
     }
 
-    @Override
-    public void refreshElement(ValueTable valueTable)
+    public String getName()
     {
-        //TODO
-    }
-
-    @Override
-    public Value evaluate(ValueTable valueTable)
-    {
-        //TODO
-        return null;
-    }
-
-    @Override
-    public Boolean isRefreshPrerequisite()
-    {
-        return false;
+        return this.name;
     }
 
     @Override

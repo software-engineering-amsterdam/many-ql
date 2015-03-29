@@ -14,7 +14,6 @@ public class Minus extends UnaryExpression {
 	return "[un -]";
     }
 
-    @Override
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

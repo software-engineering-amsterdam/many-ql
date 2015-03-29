@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.Common.AST.Building;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.Grammar;
@@ -21,7 +17,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
             {
                 sections.Add(sectionContext.Accept(new SectionBuilder()));
             }
-            foreach (var defaultStyleContext in context.default_styles())
+            foreach (var defaultStyleContext in context.default_style())
             {
                 defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleBuilder()));
             }

@@ -24,6 +24,7 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
+import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.UndefinedValue;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.visitor.ExpressionVisitor;
@@ -104,7 +105,13 @@ public class Evaluator implements ExpressionVisitor<Value> {
 	public Value visit(Divide node) {
 		Value left = node.getLeftExpression().accept(this);
 		Value right = node.getRightExpression().accept(this);
-		return left.divide(right);
+		if (right.equals(new IntValue(0))) {
+			//throw new UnsupportedOperationException("Divisor cannot be zero.");
+			System.out.println("Divisor cannot be zero");
+			return new UndefinedValue();
+		} else {
+			return left.divide(right);
+		}
 	}
 
 	@Override
