@@ -1,3 +1,6 @@
+import sys
+sys.path.append('..')
+
 from ql.typechecking import Message
 
 
