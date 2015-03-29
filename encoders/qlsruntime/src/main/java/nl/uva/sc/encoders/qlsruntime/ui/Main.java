@@ -47,7 +47,7 @@ public class Main extends Application {
 
 	private static final String DEFAULT_QLS_INPUT_FILE_NAME = "stylesheet.qls";
 
-	private static final int WIDTH = 750;
+	private static final int WIDTH = 850;
 
 	private static final int HEIGHT = 500;
 
