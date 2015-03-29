@@ -8,6 +8,11 @@ public class UndefinedValue extends Value {
 	}
 
 	@Override
+	public boolean isDefined() {
+		return false;
+	}
+	
+	@Override
 	public UndefinedValue value() {
 		return this;
 	}

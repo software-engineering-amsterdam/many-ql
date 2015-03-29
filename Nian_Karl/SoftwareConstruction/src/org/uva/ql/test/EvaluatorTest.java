@@ -142,9 +142,8 @@ public class EvaluatorTest {
 	
 	@Test
 	public void testDivideZero() {
-		Value expected = new UndefinedValue();
-		Value actual = evaluator.evaluate(new Divide(int1, new IntLiteral(0, pos), pos));
-		
+		boolean expected = false;
+		boolean actual = evaluator.evaluate(new Divide(int1, new IntLiteral(0, pos), pos)).isDefined();
 		Assert.assertEquals(expected, actual);
 	}
 
