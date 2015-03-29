@@ -13,9 +13,9 @@ namespace QL.UI.Builder
     {
         public IList<WidgetBase> ElementsToDisplay { get; private set; }
 
-        public Renderer()
+        public Renderer(IList<WidgetBase> elementsToDisplay)
         {
-            ElementsToDisplay = new List<WidgetBase>();
+            ElementsToDisplay = elementsToDisplay;
         }
 
         public bool Execute(DataContext context)

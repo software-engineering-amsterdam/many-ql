@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -11,6 +12,7 @@ using QL.AST;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
+using QL.UI.Builder;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 
@@ -18,7 +20,7 @@ namespace QL.UI
 {
     public partial class MainWindow : Window
     {
-        private QLBuilder _qlBuilder = null;
+        private QLUIBuilder _qlBuilder = null;
 
         public MainWindow()
         {
@@ -28,10 +30,13 @@ namespace QL.UI
 
         private void BuildQuestionnaire(string inputData)
         {
-            _qlBuilder = new QLBuilder(inputData);
+            _qlBuilder = new QLUIBuilder(inputData);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
-            _qlBuilder.RegisterGenericDataHandlers();
-            _qlBuilder.RunAllHandlers();
+            _qlBuilder.RegisterGenericAndUIDataHandlers();
+            bool buildResult = _qlBuilder.RunAllHandlers();
+            Debug.WriteLineIf(!buildResult, "Cannot proceed to build the UI as the handlers have failed");
+
+            QLElements.ItemsSource = _qlBuilder.ElementsToDisplay;
         }
 
         private void LoadQuestionnaireFile(string inputFilePath)
@@ -104,7 +109,7 @@ namespace QL.UI
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            _qlBuilder = new QLBuilder(InputFileSourceText.Text);
+            _qlBuilder = new QLUIBuilder(InputFileSourceText.Text);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
             _qlBuilder.RunInit();
             _qlBuilder.RunASTBuilders();
@@ -180,21 +185,18 @@ namespace QL.UI
             }
         }
 
-        public void BindTestData()
+        private void BindTestData()
         {
             WidgetFactory factory = new WidgetFactory();
             List<WidgetBase> renders = new List<WidgetBase>
                                         {
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"),new Text(),  "What is your name?")),
+                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text(), "What is your name?")),
                                             factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
                                             factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
                                         };
 
-            QuestionsPanel.Children.Clear();
-            foreach(var widget in renders)
-            {
-                QuestionsPanel.Children.Add(widget);
-            }
+            QLElements.Items.Clear();
+            QLElements.ItemsSource = renders;
         }
     }
 }
