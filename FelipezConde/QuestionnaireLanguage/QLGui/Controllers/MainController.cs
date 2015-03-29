@@ -3,6 +3,8 @@ using AST.Nodes.Expressions;
 using Evaluation;
 using Evaluation.Values;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Windows;
 
 namespace QLGui.Controllers
@@ -35,8 +37,8 @@ namespace QLGui.Controllers
             }
             else
             {
-                //paint errors
-                throw new NotImplementedException();
+                window.CreateAndAddErrorList(astTree.GetNotifications());
+                return null;
             }
         }
 
@@ -47,6 +49,12 @@ namespace QLGui.Controllers
             window.DeleteElements();
 
             ProcessBody();
+        }
+
+        public void ExportAnswers()
+        {
+            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
+            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
         }
     }
 }

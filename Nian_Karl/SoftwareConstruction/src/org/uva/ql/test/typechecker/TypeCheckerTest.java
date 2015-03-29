@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ IntTest.class, BoolTest.class, IdentifierTest.class, StringTest.class
+@Suite.SuiteClasses({ IntTest.class, BoolTest.class, IdentifierTest.class, StringTest.class, SpecialCases.class
 
 })
 public class TypeCheckerTest {
