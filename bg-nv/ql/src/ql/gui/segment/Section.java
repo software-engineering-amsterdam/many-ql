@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Section extends Segment<Node>
 {
-    public Section(List<Segment> subsegments, Boolean visible)
+    public Section(List<Segment> subSegments, Boolean visible)
     {
-        super(new GridPane(), subsegments, visible);
+        super(new GridPane(), subSegments, visible);
     }
 
     @Override

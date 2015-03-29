@@ -20,7 +20,7 @@ public abstract class Rule extends AstNode
         return false;
     }
 
-    public boolean isRuleOverwritten(Rules highPr)
+    public boolean isRuleOverwrittenBy(Rules highPr)
     {
         for (Rule h : highPr)
         {

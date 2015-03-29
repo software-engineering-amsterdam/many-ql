@@ -1,26 +1,36 @@
 package nl.uva.softwcons.qls.ast.style;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import nl.uva.softwcons.qls.ast.ASTNode;
 
 public class Style implements ASTNode {
-    private final List<StyleProperty> properties;
+    private final Map<String, String> properties;
 
     public Style() {
-        properties = new ArrayList<StyleProperty>();
+        properties = new HashMap<String, String>();
     }
 
-    public Style(final List<StyleProperty> properties) {
+    public Style(final Map<String, String> properties) {
         this.properties = properties;
     }
 
-    public Style inherit(final Style parentStyle) {
-
-        // TODO
-        return parentStyle;
-
+    public Map<String, String> getProperties() {
+        return properties;
     }
 
+    public void addProperty(String key, String value) {
+        this.properties.put(key, value);
+    }
+
+    public Style inherit(final Style parentStyle) {
+        Style mergedStyle = new Style(this.properties);
+        parentStyle.getProperties().forEach((key, value) -> {
+            if (!properties.containsKey(key)) {
+                mergedStyle.addProperty(key, value);
+            }
+        });
+        return mergedStyle;
+    }
 }

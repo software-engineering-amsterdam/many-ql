@@ -2,7 +2,6 @@ package nl.uva.softwcons.qls.ast.segment;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 
 public class Question extends PageSegment {
@@ -33,10 +32,6 @@ public class Question extends PageSegment {
 
     public boolean hasWidget() {
         return this.widget.getWidgetType().isPresent();
-    }
-
-    public boolean isCompatibleWithWidget(final Type questionType) {
-        return widget.getWidgetType().get().isCompatibleWith(questionType);
     }
 
     @Override

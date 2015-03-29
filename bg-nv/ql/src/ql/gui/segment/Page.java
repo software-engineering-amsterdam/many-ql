@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class Page extends Segment<GridPane>
 {
-
     private String name;
 
     public Page(List<Segment> subSegments, String name, Boolean visible)

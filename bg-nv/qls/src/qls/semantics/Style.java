@@ -1,9 +1,11 @@
 package qls.semantics;
 
 import ql.ast.type.Type;
+import qls.ast.rule.Rule;
 import qls.ast.rule.Rules;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,14 +41,14 @@ public class Style
 
     private Rules getRulesForStyle(Type t, Style s)
     {
-        Rules rs = s.typeToRules.get(t);
+        Rules lowPr = s.typeToRules.get(t);
 
         if (this.typeToRules.containsKey(t))
         {
-            Rules h = this.typeToRules.get(t);
-            return h.addRules(rs);
+            Rules highPr = this.typeToRules.get(t);
+            return Rules.mergeRules(highPr, lowPr);
         }
 
-        return rs;
+        return lowPr;
     }
 }
