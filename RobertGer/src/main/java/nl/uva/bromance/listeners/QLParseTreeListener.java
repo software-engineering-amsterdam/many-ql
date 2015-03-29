@@ -68,7 +68,6 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
         Question peek = (Question) nodeStack.peek();
-        //TODO: put this in customType
         peek.setQuestionType("custom");
         peek.setMultipleChoiceOptions(ctx.STRING());
     }
@@ -128,13 +127,11 @@ public class QLParseTreeListener extends QLBaseListener {
         nodeStack.push(new ElseStatement(ctx.start.getLine()));
     }
 
-    //TODO: Create test with multiple elseifStatements
     @Override
     public void enterElseIfStatement(QLParser.ElseIfStatementContext ctx) {
         nodeStack.push(new ElseIfStatement(ctx.start.getLine()));
     }
 
-    //TODO: Not happy with this solution. Maybe think of something that doesn't put the statements into the Node twice.
     @Override
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
         IfStatement ifs = (IfStatement) nodeStack.pop();
@@ -178,7 +175,6 @@ public class QLParseTreeListener extends QLBaseListener {
         }
     }
 
-    //TODO: this is actually not an id these are terminals that can appear in a expression.
     @Override
     public void enterId(QLParser.IdContext ctx) {
         nodeStack.push(new Terminal(ctx.start.getLine(), ctx.getText()));

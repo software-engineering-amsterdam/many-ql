@@ -16,7 +16,6 @@ public class ElseIfStatement extends QLNode implements ContainsExpression {
         this.expression = expression;
     }
 
-    //TODO: This is duplication. It is also present in IfStatement
     @Override
     public void handleExpressionResult() {
         Result result = expression.getResult();

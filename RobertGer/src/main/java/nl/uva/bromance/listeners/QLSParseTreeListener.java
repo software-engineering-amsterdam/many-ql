@@ -6,7 +6,6 @@ import nl.uva.bromance.parsers.QLSParser;
 
 import java.util.Stack;
 
-//TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLSParseTreeListener extends QLSBaseListener {
 
     public QLSParseTreeListener(AST<QLNode> qlAST) {

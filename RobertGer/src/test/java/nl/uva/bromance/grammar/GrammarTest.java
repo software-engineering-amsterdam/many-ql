@@ -46,7 +46,6 @@ public class GrammarTest extends ParsingTest {
         return START + child + END;
     }
 
-    //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
     static class FakeGrammarListener extends QLParseTreeListener {
 
         public int formCount = 0;
