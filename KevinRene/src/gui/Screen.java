@@ -19,6 +19,7 @@ public abstract class Screen extends DefaultComponent implements Component {
 	public void addSection(UISection screenSection) {
 		addSection(screenSection, "");
 	}
+	
 	public void addSection(UISection screenSection, String migSetting) {		
 		page.addComponent(screenSection, migSetting);
 		screenSection.setHandler(this);

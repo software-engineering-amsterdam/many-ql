@@ -7,6 +7,7 @@ import ql.ast.Statement;
 import ql.ast.visitor.StatementVisitor;
 
 public class Block extends Statement {
+	
 	private List<Statement> statements = new ArrayList<Statement>();
 	
 	public Block() {}

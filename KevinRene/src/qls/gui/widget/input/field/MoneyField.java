@@ -17,6 +17,7 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 	public MoneyField () {
 		super(new MoneyValue(0f));
 	}
+	
 	public MoneyField (MoneyValue value) {
 		super(value);
 	}
@@ -44,6 +45,7 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 				Math.round(Float.parseFloat(textField().getText()) * 100.0) / 100.0f
 			);
 	}
+	
 	@Override
 	public String convertValue(Value value) {
 		return decimalFormat.format(value.getValue());	

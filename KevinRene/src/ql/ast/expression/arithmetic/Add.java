@@ -20,5 +20,4 @@ public class Add extends Binary {
 	public QLType getType() {
 		return new QLNumeric();
 	}
-
 }

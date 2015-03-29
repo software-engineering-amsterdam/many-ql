@@ -8,6 +8,7 @@ import ql.ast.type.QLError;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Identifier extends Expression {
+	
 	private final String identifier;
 	
 	public Identifier(String identifier) {
