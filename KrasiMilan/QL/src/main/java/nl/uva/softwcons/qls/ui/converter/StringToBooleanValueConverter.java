@@ -8,18 +8,18 @@ public class StringToBooleanValueConverter implements ValueConverter<String> {
     private final String yes;
     private final String no;
 
-    public StringToBooleanValueConverter(String yes, String no) {
+    public StringToBooleanValueConverter(final String yes, final String no) {
         this.yes = yes;
         this.no = no;
     }
 
     @Override
-    public Value toValue(String value) {
+    public Value toValue(final String value) {
         return new BooleanValue(yes.equals(value));
     }
 
     @Override
-    public String fromValue(Value value) {
+    public String fromValue(final Value value) {
         return value.getBoolean() ? yes : no;
     }
 

@@ -27,17 +27,8 @@ public class Questionnaire extends AstNode {
 	}
 
 	public boolean containsQuestion(final String name) {
-		return getAllQuestions().stream().anyMatch(question -> question.getName().equals(name));
-	}
 
-	public Question getQuestion(String name) {
-		getAllQuestions().stream().findAny();
-		for (Question question : getAllQuestions()) {
-			if (question.getName().equals(name)) {
-				return question;
-			}
-		}
-		throw new IllegalStateException("Question " + name + " should be in questionnaire");
+		return getAllQuestions().stream().anyMatch(question -> question.getName().equals(name));
 	}
 
 	public List<Statement> getStatements() {

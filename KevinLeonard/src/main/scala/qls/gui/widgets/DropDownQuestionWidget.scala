@@ -1,14 +1,14 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, BooleanValue, Expression, Question}
-import ql.gui.widgets.QuestionWidget
-import types._
+import ql.ast.{BooleanValue, Expression, Question, Value}
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.control.ChoiceBox
 
-class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   val Yes = "Yes"
   val No = "No"
@@ -62,5 +62,4 @@ class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Boolean.")
     }
   }
-
 }

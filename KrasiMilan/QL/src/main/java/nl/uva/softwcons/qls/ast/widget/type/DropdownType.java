@@ -28,7 +28,7 @@ public class DropdownType extends WidgetType {
     }
 
     @Override
-    public <T> T accept(WidgetTypeVisitor<T> visitor) {
+    public <T> T accept(final WidgetTypeVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

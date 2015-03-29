@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -36,22 +37,35 @@ public class FileChooser extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
 	if (e.getSource() == chooseFileButton) {
-	    int returnVal = fileChooser.showOpenDialog(FileChooser.this);
+	    openFileAction();
+	}
+    }
 
-	    if (returnVal == JFileChooser.APPROVE_OPTION) {
-		File file = fileChooser.getSelectedFile();
-		try {
-		    frame.setVisible(false);
-		    this.setVisible(false);
-		    @SuppressWarnings("unused")
-		    QuestionnaireForm qf = new QuestionnaireForm(file);
-		} catch (IOException e1) {
-		    e1.printStackTrace();
-		}
+    private void openFileAction() {
+	if (fileChooser.showOpenDialog(FileChooser.this) == JFileChooser.APPROVE_OPTION) {
+	    File file = fileChooser.getSelectedFile();
+	    try {
+		generateQuestionnaire(file);
+	    } catch (IOException e1) {
+		handleIOException();
 	    }
 	}
+    }
+
+    private void generateQuestionnaire(File file) throws IOException {
+	frame.setVisible(false);
+	this.setVisible(false);
+	@SuppressWarnings("unused")
+	QuestionnaireForm qf = new QuestionnaireForm(file);
+    }
+
+    private void handleIOException() {
+	String title = "File not found";
+	String message = "Please check the path of the file and retry.";
+	JOptionPane.showMessageDialog(this, message, title,
+		JOptionPane.ERROR_MESSAGE);
+	createAndShowGUI();
     }
 
     private static void createAndShowGUI() {

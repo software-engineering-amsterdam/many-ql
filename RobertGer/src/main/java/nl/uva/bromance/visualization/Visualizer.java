@@ -170,7 +170,11 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     @Override
     public void visit(LabelText labelText) {
-
+        if (init) {
+            labelText.addToPane(questions, answerMap, this);
+        } else {
+            labelText.refresh();
+        }
     }
 
     @Override

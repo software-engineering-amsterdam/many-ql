@@ -43,7 +43,7 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
     }
 
     public static Node buildFrom(final Form form, final Renderer renderer, final WidgetFactory widgetFactory) {
-        UiBuilder u = new UiBuilder(form, renderer, widgetFactory);
+        final UiBuilder u = new UiBuilder(form, renderer, widgetFactory);
         form.accept(u);
 
         return renderer.getLayout().getNode();

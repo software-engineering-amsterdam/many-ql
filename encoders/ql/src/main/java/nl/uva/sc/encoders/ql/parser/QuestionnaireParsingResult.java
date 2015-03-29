@@ -1,9 +1,13 @@
 package nl.uva.sc.encoders.ql.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
+import nl.uva.sc.encoders.ql.validation.TypeChecker;
+import nl.uva.sc.encoders.ql.validation.ValidationMessage;
+import nl.uva.sc.encoders.ql.validation.ValidationResult;
 
 public class QuestionnaireParsingResult {
 
@@ -24,4 +28,14 @@ public class QuestionnaireParsingResult {
 		return syntaxErrors;
 	}
 
+	public ValidationResult validate() {
+		List<ValidationMessage> validationMessages = new ArrayList<ValidationMessage>();
+		if (!syntaxErrors.isEmpty()) {
+			validationMessages.addAll(syntaxErrors);
+		} else {
+			TypeChecker typeChecker = new TypeChecker(questionnaire);
+			validationMessages.addAll(typeChecker.checkTypes());
+		}
+		return new ValidationResult(validationMessages);
+	}
 }

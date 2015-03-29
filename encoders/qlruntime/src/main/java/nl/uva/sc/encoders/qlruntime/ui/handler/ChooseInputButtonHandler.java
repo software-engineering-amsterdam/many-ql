@@ -6,19 +6,22 @@ import java.net.URL;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
 public final class ChooseInputButtonHandler implements EventHandler<ActionEvent> {
 
-	private final TextField textField;
+	public interface PathSelectedCallback {
+		void pathSelected(String path);
+	}
+
+	private PathSelectedCallback pathSelectedCallback;
 
 	private final String defaultLocation;
 
-	public ChooseInputButtonHandler(TextField textField, String defaultLocation) {
-		this.textField = textField;
+	public ChooseInputButtonHandler(PathSelectedCallback pathSelectedCallback, String defaultLocation) {
+		this.pathSelectedCallback = pathSelectedCallback;
 		this.defaultLocation = defaultLocation;
 	}
 
@@ -32,7 +35,7 @@ public final class ChooseInputButtonHandler implements EventHandler<ActionEvent>
 			fileChooser.setInitialDirectory(file);
 			File result = fileChooser.showOpenDialog(null);
 			if (result != null) {
-				textField.setText(result.getPath());
+				pathSelectedCallback.pathSelected(result.getPath());
 			}
 		} catch (URISyntaxException e) {
 			ExceptionDialog dialog = new ExceptionDialog(e);

@@ -7,7 +7,6 @@ import qls.ast.{Page, Question, Section, StyleSheet, Text}
 
 class QuestionPlacementCheckerSpec extends Specification {
   val checker = new QuestionPlacementChecker()
-  import checker._
 
   val AnyLabel = "label"
   val AnyVariable = Variable("x")
@@ -21,21 +20,21 @@ class QuestionPlacementCheckerSpec extends Specification {
       ))))
       val environmentWithQuestion = Map("x" -> BooleanType(), "y" -> BooleanType())
 
-      check(styleSheetWithQuestions, environmentWithQuestion) should beNone
+      checker.check(styleSheetWithQuestions, environmentWithQuestion) should beNone
     }
 
     "return Some with one error, if one question isn't placed" in {
       val environmentWithQuestion = Map("x" -> BooleanType())
       val error = Error(s"The question(s) x are not placed")
 
-      check(EmptyStyleSheet, environmentWithQuestion) should beSome(error)
+      checker.check(EmptyStyleSheet, environmentWithQuestion) should beSome(error)
     }
 
     "return Some with one error, if multiple questions aren't placed" in {
       val environmentWithMultipleQuestions = Map("x" -> BooleanType(), "y" -> BooleanType())
       val error = Error(s"The question(s) x, y are not placed")
 
-      check(EmptyStyleSheet, environmentWithMultipleQuestions) should beSome(error)
+      checker.check(EmptyStyleSheet, environmentWithMultipleQuestions) should beSome(error)
     }
   }
 }
