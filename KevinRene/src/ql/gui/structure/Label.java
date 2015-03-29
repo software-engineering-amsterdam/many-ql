@@ -4,10 +4,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import ql.Value;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.value.StringValue;
 
-public class Label implements UIComponent {
+public class Label implements Component {
 	private final JLabel labelComponent;
 	
 	public Label(StringValue text) {
@@ -25,8 +25,8 @@ public class Label implements UIComponent {
 	}
 	
 	@Override
-	public void setHandler(UIComponent handler) {}
+	public void setHandler(Component handler) {}
 
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {}
+	public void handleChange(Value changedValue, Component source) {}
 }

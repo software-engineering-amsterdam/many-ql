@@ -29,7 +29,7 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox.setValue(decimalFormat.format(moneyValue.getValue()));
+		spinbox().setValue(decimalFormat.format(moneyValue.getValue()));
 	}
 	
 	@Override
@@ -46,6 +46,6 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 	
 	@Override
 	public MoneyValue getValue() {		
-		return new MoneyValue(model.getNumber().floatValue());
+		return new MoneyValue(model().getNumber().floatValue());
 	}
 }

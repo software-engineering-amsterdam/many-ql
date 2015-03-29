@@ -7,7 +7,7 @@ import ql.ast.Expression;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.DefaultComponent;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 import ql.value.BooleanValue;
 
@@ -15,7 +15,7 @@ public class UIConditional extends DefaultComponent {
 	private Panel activePanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
-	private final UIComponent ifPanel, elsePanel;
+	private final Component ifPanel, elsePanel;
 	
 	public UIConditional(Expression expression, ValueEnvironment valueEnvironment, Panel ifPanel, Panel elsePanel) {		
 		this.expression = expression;

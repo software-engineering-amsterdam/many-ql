@@ -3,12 +3,12 @@ package gui.content;
 import javax.swing.JComponent;
 
 import ql.gui.DefaultComponent;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.ScrollablePanel;
 import ql.gui.widget.input.TextArea;
 import ql.value.StringValue;
 
-public class UILog extends DefaultComponent implements UIComponent {
+public class UILog extends DefaultComponent implements Component {
 	private ScrollablePanel scrollableSection;
 	private TextArea log;
 	
@@ -20,7 +20,7 @@ public class UILog extends DefaultComponent implements UIComponent {
 		scrollableSection = new ScrollablePanel(this, log);
 	}
 	
-	public UILog(UIComponent handler) {
+	public UILog(Component handler) {
 		this();
 		setHandler(this);
 	}

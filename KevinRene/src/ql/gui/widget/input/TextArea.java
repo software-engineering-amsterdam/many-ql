@@ -10,7 +10,7 @@ import ql.gui.widget.InputWidget;
 import ql.value.StringValue;
 
 public class TextArea extends DefaultComponent implements InputWidget<StringValue>, CaretListener {	
-	protected JTextArea textArea;
+	private JTextArea textArea;
 	
 	public TextArea() {
 		textArea = new JTextArea();

@@ -24,7 +24,7 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		this();
 		
 		disable();
-		spinbox.setValue(integerValue.getValue());
+		spinbox().setValue(integerValue.getValue());
 	}
 	
 	@Override
@@ -39,11 +39,11 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 	
 	@Override
 	public IntegerValue getValue() {		
-		return new IntegerValue(model.getNumber().intValue());
+		return new IntegerValue(model().getNumber().intValue());
 	}
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		stylizer.setStyle(spinbox, properties);
+		stylizer.setStyle(spinbox(), properties);
 	}
 }

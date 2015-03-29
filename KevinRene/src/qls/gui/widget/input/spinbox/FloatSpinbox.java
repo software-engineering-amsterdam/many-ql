@@ -24,7 +24,7 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox.setValue(floatValue.getValue());
+		spinbox().setValue(floatValue.getValue());
 	}
 	
 	@Override
@@ -39,11 +39,11 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 	
 	@Override
 	public FloatValue getValue() {		
-		return new FloatValue(model.getNumber().floatValue());
+		return new FloatValue(model().getNumber().floatValue());
 	}
 
 	@Override
 	public void setStyle(StyleProperties properties) {
-		stylizer.setStyle(spinbox, properties);
+		stylizer.setStyle(spinbox(), properties);
 	}
 }

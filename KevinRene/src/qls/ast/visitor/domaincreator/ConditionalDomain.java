@@ -9,20 +9,20 @@ import ql.ast.Expression;
 import ql.ast.expression.booleanalgebra.And;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.evaluator.ValueEnvironment;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.value.BooleanValue;
 
 public class ConditionalDomain {
 	private Expression conditionalExpression;
 	private ValueEnvironment valueEnvironment;
-	private List<UIComponent> ifComponents, elseComponents;
+	private List<Component> ifComponents, elseComponents;
 	
 	public ConditionalDomain(Expression conditionalExpression, ValueEnvironment valueEnvironment) {
 		this.conditionalExpression = conditionalExpression;
 		this.valueEnvironment = valueEnvironment;
 		
-		ifComponents = new ArrayList<UIComponent>();
-		elseComponents = new ArrayList<UIComponent>();
+		ifComponents = new ArrayList<Component>();
+		elseComponents = new ArrayList<Component>();
 	}
 	
 	public void setPrerequisites(List<Expression> prerequisites) {
@@ -31,11 +31,11 @@ public class ConditionalDomain {
 				.reduce(conditionalExpression, (x, y) -> new And(x, y));
 	}
 	
-	public void setIfComponent(List<UIComponent> ifComponents) {
+	public void setIfComponent(List<Component> ifComponents) {
 		this.ifComponents.addAll(ifComponents);
 	}
 	
-	public void setElseComponent(List<UIComponent> elseComponents) {
+	public void setElseComponent(List<Component> elseComponents) {
 		this.elseComponents.addAll(elseComponents);
 	}
 	
@@ -72,12 +72,12 @@ public class ConditionalDomain {
 	public String toString() {
 		String ifComps = "-- IF --\n" 
 				+ ifComponents.stream()
-					.map(UIComponent::toString)
+					.map(Component::toString)
 					.collect(Collectors.joining("\n"));
 		
 		String elseComps = "\n-- ELSE --\n"
 				+ elseComponents.stream()
-					.map(UIComponent::toString)
+					.map(Component::toString)
 					.collect(Collectors.joining("\n"));
 		
 		return ifComps + elseComps;

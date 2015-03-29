@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 
 import ql.ast.expression.Identifier;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 
 public class UIPage extends Panel {
@@ -19,12 +19,12 @@ public class UIPage extends Panel {
 		this.pageName = pageName;
 	}
 	
-	public UIPage(Identifier pageName, UIComponent handler) {
+	public UIPage(Identifier pageName, Component handler) {
 		this(pageName);		
 		setHandler(handler);
 	}
 	
-	public void setSections(List<UIComponent> components) {
+	public void setSections(List<Component> components) {
 		components.stream().forEach(component -> addComponent(component));
 	}
 	

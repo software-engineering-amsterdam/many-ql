@@ -6,7 +6,7 @@ import javax.swing.JComponent;
 
 import ql.Value;
 import ql.gui.DefaultComponent;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 import ql.gui.widget.input.RadioButton;
 import ql.value.BooleanValue;
@@ -73,7 +73,7 @@ public class Radio extends DefaultComponent implements InputWidget<BooleanValue>
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		super.handleChange(getValue(), this);
 	}
 }

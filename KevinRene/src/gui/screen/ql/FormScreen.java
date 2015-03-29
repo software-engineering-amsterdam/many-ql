@@ -5,13 +5,13 @@ import ql.ast.Statement;
 import ql.ast.statement.Form;
 import ql.ast.visitor.evaluator.ValueEnvironment;
 import ql.gui.ComponentCreator;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.ScrollablePanel;
 import qls.ast.expression.literal.StringLiteral;
 import qls.gui.structure.UISection;
 
 public class FormScreen extends Screen {
-	public FormScreen(UIComponent handler, Form formAst) {
+	public FormScreen(Component handler, Form formAst) {
 		super(formAst.getIdentifier());
 		setHandler(handler);
 		

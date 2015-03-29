@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.ast.visitor.domaincreator.ConditionalDomain;
 import qls.ast.visitor.domaincreator.DomainCreator;
@@ -124,7 +124,7 @@ public class Main_Test {
 			System.out.println(identifier + " : " + widgets.resolve(identifier));
 		}
 		
-		UIComponent createdPanel = PageBuilder.build(qlsTree, domains, widgets);
+		Component createdPanel = PageBuilder.build(qlsTree, domains, widgets);
 		
         //Create and set up the window.
         JFrame frame = new JFrame("Questionnaire");

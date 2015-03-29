@@ -18,7 +18,7 @@ import ql.ast.statement.Form;
 import ql.ast.visitor.typechecker.TypeChecker;
 import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.widget.input.Button;
 import ql.parser.Parser;
 import qls.ast.expression.literal.StringLiteral;
@@ -34,7 +34,7 @@ public class SelectionScreen extends Screen {
 	
 	private QLNode parsedTree;
 	
-	public SelectionScreen(UIComponent handler) {
+	public SelectionScreen(Component handler) {
 		super(new Identifier("QL Page"));
 		
 		log = new UILog(this);
@@ -103,7 +103,7 @@ public class SelectionScreen extends Screen {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		if(source == openButton) {
 			handleFileChooser();
 		}

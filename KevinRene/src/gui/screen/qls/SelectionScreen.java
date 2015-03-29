@@ -16,7 +16,7 @@ import ql.ast.expression.Identifier;
 import ql.ast.statement.Form;
 import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.widget.input.Button;
 import qls.ast.expression.literal.StringLiteral;
 import qls.ast.visitor.WidgetEnvironment;
@@ -34,9 +34,9 @@ public class SelectionScreen extends Screen {
 	
 	private UISection logSection, buttonSection;
 	
-	private UIComponent qlsInterface;
+	private Component qlsInterface;
 	
-	public SelectionScreen(UIComponent handler) {
+	public SelectionScreen(Component handler) {
 		super(new Identifier("QLS Loader"));
 		
 		log = new UILog(this);
@@ -58,7 +58,7 @@ public class SelectionScreen extends Screen {
 		setHandler(handler);
 	}	
 	
-	public UIComponent getQLSInterface() {
+	public Component getQLSInterface() {
 		return qlsInterface;
 	}
 
@@ -133,7 +133,7 @@ public class SelectionScreen extends Screen {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		if(source == openButton) {
 			handleFileChooser();
 		}

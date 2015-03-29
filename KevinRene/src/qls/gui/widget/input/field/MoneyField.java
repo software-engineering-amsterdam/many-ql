@@ -23,7 +23,7 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		textField.setSize(textField.getWidth(), textField.getHeight());
+		textField().setSize(textField().getWidth(), textField().getHeight());
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 	@Override
 	protected MoneyValue getFieldValue() {
 		return new MoneyValue(
-				Math.round(Float.parseFloat(textField.getText()) * 100.0) / 100.0f
+				Math.round(Float.parseFloat(textField().getText()) * 100.0) / 100.0f
 			);
 	}
 	@Override

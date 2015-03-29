@@ -3,7 +3,7 @@ package qls.ast.visitor.pagebuilder;
 import java.util.List;
 
 import ql.ast.visitor.TypeVisitor;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import qls.ast.Statement;
 import qls.ast.statement.Page;
 import qls.ast.statement.Question;
@@ -18,8 +18,8 @@ import qls.gui.structure.TabbedPanel;
 import qls.gui.structure.UIPage;
 import qls.gui.structure.UISection;
 
-public class PageBuilder extends StatementVisitor<UIComponent> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
-	private ProcessedCache<UIComponent> processedComponents;
+public class PageBuilder extends StatementVisitor<Component> implements ExpressionVisitor<Void>, TypeVisitor<Void> {
+	private ProcessedCache<Component> processedComponents;
 	private WidgetEnvironment widgetEnvironment;
 	private List<ConditionalDomain> domains;
 	
@@ -29,17 +29,17 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 		
 		this.domains = domains;
 		this.widgetEnvironment = widgetEnvironment;
-		processedComponents = new ProcessedCache<UIComponent>();
+		processedComponents = new ProcessedCache<Component>();
 	}
 	
-	public static UIComponent build(Statement tree, List<ConditionalDomain> domains, WidgetEnvironment widgetEnvironment) {
+	public static Component build(Statement tree, List<ConditionalDomain> domains, WidgetEnvironment widgetEnvironment) {
 		PageBuilder builder = new PageBuilder(domains, widgetEnvironment);
 		
 		return tree.accept(builder);
 	}
 	
 	private void scopeDown() {
-		processedComponents = new ProcessedCache<UIComponent>(processedComponents);
+		processedComponents = new ProcessedCache<Component>(processedComponents);
 	}
 	
 	private void scopeUp() {
@@ -47,7 +47,7 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 	}
 	
 	@Override
-	public UIComponent visit(Page pageNode) {
+	public Component visit(Page pageNode) {
 		scopeDown();
 		super.visit(pageNode);
 		UIPage page = new UIPage(pageNode.getIdentifier());
@@ -59,14 +59,14 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 	}
 
 	@Override
-	public UIComponent visit(Question questionNode) {
+	public Component visit(Question questionNode) {
 		processedComponents.addObject(widgetEnvironment.resolve(questionNode.getIdentifier()));
 		
 		return null;
 	}
 
 	@Override
-	public UIComponent visit(Section sectionNode) {
+	public Component visit(Section sectionNode) {
 		scopeDown();
 		super.visit(sectionNode);
 		UISection section = new UISection(sectionNode.getHeader());
@@ -78,7 +78,7 @@ public class PageBuilder extends StatementVisitor<UIComponent> implements Expres
 	}
 
 	@Override
-	public UIComponent visit(Stylesheet stylesheetNode) {
+	public Component visit(Stylesheet stylesheetNode) {
 		scopeDown();
 		super.visit(stylesheetNode);
 		TabbedPanel stylesheet = new TabbedPanel(stylesheetNode.getIdentifier(), domains);

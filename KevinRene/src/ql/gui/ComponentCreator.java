@@ -35,77 +35,77 @@ import ql.gui.widget.input.spinbox.FloatSpinbox;
 import ql.gui.widget.input.spinbox.IntegerSpinbox;
 import ql.gui.widget.input.spinbox.MoneySpinbox;
 
-public class ComponentCreator extends StatementVisitor<UIComponent> implements ExpressionVisitor<UIComponent>, TypeVisitor<UIComponent> {	
+public class ComponentCreator extends StatementVisitor<Component> implements ExpressionVisitor<Component>, TypeVisitor<Component> {	
 	private ValueEnvironment valueEnvironment;
 
 	private ComponentCreator(ValueEnvironment valueEnvironment) {
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static UIComponent check(Expression tree, ValueEnvironment valueEnvironment) {		
+	public static Component check(Expression tree, ValueEnvironment valueEnvironment) {		
 		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
 	
-	public static UIComponent check(Statement tree, ValueEnvironment valueEnvironment) {		
+	public static Component check(Statement tree, ValueEnvironment valueEnvironment) {		
 		ComponentCreator creator = new ComponentCreator(valueEnvironment);
 				
 		return tree.accept(creator);
 	}
 	
 	@Override
-	public UIComponent visit(Identifier identifier) {
+	public Component visit(Identifier identifier) {
 		return new Panel();
 	}
 	
 	@Override
-	public UIComponent visit(QLBoolean booleanNode) {
+	public Component visit(QLBoolean booleanNode) {
 		return new RadioButton();
 	}
 	
 	@Override
-	public UIComponent visit(QLFloat floatNode) {
+	public Component visit(QLFloat floatNode) {
 		return new FloatSpinbox();
 	}
 	
 	@Override
-	public UIComponent visit(QLMoney moneyNode) {
+	public Component visit(QLMoney moneyNode) {
 		return new MoneySpinbox();
 	}
 	
 	@Override
-	public UIComponent visit(QLInteger integerNode) {
+	public Component visit(QLInteger integerNode) {
 		return new IntegerSpinbox();
 	}
 	
 	@Override
-	public UIComponent visit(QLString integerNode) {
+	public Component visit(QLString integerNode) {
 		return new TextField();
 	}
 	
 	@Override
-	public UIComponent visit(BooleanLiteral booleanLiteral) {
+	public Component visit(BooleanLiteral booleanLiteral) {
 		return new RadioButton(booleanLiteral.getValue());
 	}
 	
 	@Override
-	public UIComponent visit(FloatLiteral floatLiteral) {
+	public Component visit(FloatLiteral floatLiteral) {
 		return new FloatSpinbox(floatLiteral.getValue());
 	}
 	
 	@Override
-	public UIComponent visit(MoneyLiteral moneyNode) {
+	public Component visit(MoneyLiteral moneyNode) {
 		return new MoneySpinbox(moneyNode.getValue());
 	}
 	
 	@Override
-	public UIComponent visit(IntegerLiteral integerLiteral) {
+	public Component visit(IntegerLiteral integerLiteral) {
 		return new IntegerSpinbox(integerLiteral.getValue());
 	}
 	
 	@Override
-	public UIComponent visit(StringLiteral stringNode) {
+	public Component visit(StringLiteral stringNode) {
 		return new Label(stringNode.getValue());
 	}
 	
@@ -113,9 +113,9 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	 * Statements
 	 */	
 	@Override
-	public UIComponent visit(Block blockNode) {
+	public Component visit(Block blockNode) {
 		Panel widgetPanel = new Panel();
-		UIComponent statementWidget;
+		Component statementWidget;
 		
 		for(Statement statement : blockNode.getStatements()) {
 			statementWidget = statement.accept(this);			
@@ -126,8 +126,8 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	}
 	
 	@Override
-	public UIComponent visit(ComputedQuestion compQuestionNode) {
-    	UIComponent questionText = compQuestionNode.getText().accept(this);
+	public Component visit(ComputedQuestion compQuestionNode) {
+    	Component questionText = compQuestionNode.getText().accept(this);
     	InputWidget<?> questionWidget = (InputWidget<?>) compQuestionNode.getType().accept(this);
     	
     	return new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText, 
@@ -135,15 +135,15 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	}
 	
 	@Override
-	public UIComponent visit(Question questionNode) {
-		UIComponent questionText = questionNode.getText().accept(this);
-    	UIComponent questionWidget = questionNode.getType().accept(this);
+	public Component visit(Question questionNode) {
+		Component questionText = questionNode.getText().accept(this);
+    	Component questionWidget = questionNode.getType().accept(this);
     	
     	return new UIQuestion(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
 	}
 	
 	@Override
-	public UIComponent visit(Form formNode) {
+	public Component visit(Form formNode) {
 		Panel formSection = new Panel();
 		formSection.addComponent(formNode.getBlock().accept(this));
 		
@@ -151,12 +151,12 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	}
 	
 	@Override
-	public UIComponent visit(If ifNode) {
+	public Component visit(If ifNode) {
 		return new UIConditional(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
 	}
 
 	@Override
-	public UIComponent visit(IfElse ifElseNode) {		
+	public Component visit(IfElse ifElseNode) {		
 		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
 		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
 		

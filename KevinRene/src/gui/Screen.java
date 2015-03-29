@@ -4,12 +4,12 @@ import javax.swing.JComponent;
 
 import ql.ast.expression.Identifier;
 import ql.gui.DefaultComponent;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 import qls.gui.structure.UIPage;
 import qls.gui.structure.UISection;
 
-public abstract class Screen extends DefaultComponent implements UIComponent {
+public abstract class Screen extends DefaultComponent implements Component {
 	private UIPage page;
 	
 	public Screen(Identifier identifier) {

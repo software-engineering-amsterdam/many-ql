@@ -6,13 +6,13 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
 import ql.gui.DefaultComponent;
-import ql.gui.UIComponent;
+import ql.gui.Component;
 
 public class ScrollablePanel extends DefaultComponent {
 	private JScrollPane scrollablePanel;
-	private UIComponent content;
+	private Component content;
 
-	public ScrollablePanel(UIComponent content) {		
+	public ScrollablePanel(Component content) {		
 		scrollablePanel = new JScrollPane(content.getComponent());
 		scrollablePanel.setPreferredSize(new Dimension(800, 600));
 		
@@ -20,7 +20,7 @@ public class ScrollablePanel extends DefaultComponent {
 		this.content.setHandler(this);
 	}
 	
-	public ScrollablePanel(UIComponent handler, UIComponent content) {
+	public ScrollablePanel(Component handler, Component content) {
 		this(content);		
 		setHandler(handler);
 	}

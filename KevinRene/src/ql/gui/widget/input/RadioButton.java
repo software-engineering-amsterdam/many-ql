@@ -12,7 +12,7 @@ import ql.value.BooleanValue;
 import ql.value.StringValue;
 
 public class RadioButton extends DefaultComponent implements InputWidget<BooleanValue>, ActionListener {	
-	protected JRadioButton radioButton;
+	private JRadioButton radioButton;
 
 	public RadioButton() {
 		radioButton = new JRadioButton();
