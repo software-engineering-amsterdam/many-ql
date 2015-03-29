@@ -4,12 +4,12 @@ import uva.sc.core.types.Type;
 
 public class TypeMissmatch implements IError {
 
-    Type type1;
-    Type type2;
+    private Type type1;
+    private Type type2;
 
-    public TypeMissmatch(Type t1, Type t2) {
-	type1 = t1;
-	type2 = t2;
+    public TypeMissmatch(Type type1, Type type2) {
+	this.type1 = type1;
+	this.type2 = type2;
     }
 
     public String toString() {

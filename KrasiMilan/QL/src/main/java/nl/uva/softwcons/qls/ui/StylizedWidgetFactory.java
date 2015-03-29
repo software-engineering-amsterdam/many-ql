@@ -11,7 +11,6 @@ import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
 import nl.uva.softwcons.ql.ui.widget.factory.DefaultWidgetFactory;
 import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
-import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
@@ -22,6 +21,7 @@ import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetTypeVisitor;
 import nl.uva.softwcons.qls.ui.converter.NumberToNumberValueConverter;
 import nl.uva.softwcons.qls.ui.converter.StringToBooleanValueConverter;
+import nl.uva.softwcons.qls.ui.style.StyleBlock;
 import nl.uva.softwcons.qls.ui.widget.DropdownWidget;
 import nl.uva.softwcons.qls.ui.widget.RadioButtonWidget;
 import nl.uva.softwcons.qls.ui.widget.SliderWidget;
@@ -38,7 +38,7 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     @Override
     public Widget getWidget(final Question question) {
         final Optional<WidgetType> questionWidget = resolver.getWidgetType(question.getId());
-        final Style questionStyle = resolver.getStyle(question.getId());
+        final StyleBlock questionStyle = resolver.getStyle(question.getId());
 
         final Widget widget;
         if (questionWidget.isPresent()) {

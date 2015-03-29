@@ -22,6 +22,7 @@ class SliderQuestionWidget(q: Question, visibilityExpressions: List[Expression],
     })
     showTickLabels = true
     snapToTicks = true
+    maxWidth = MaxWidth
   }
   updateEnvironment(NumberValue(value))
   children.add(sliderField)

@@ -76,7 +76,6 @@
     <Compile Include="Controllers\SubController.cs" />
     <Compile Include="CustomUIElements\CustomCheckBox.cs" />
     <Compile Include="CustomUIElements\CustomTextBox.cs" />
-    <Compile Include="CustomUIElements\InputHandlers\BoolHandler.cs" />
     <Compile Include="CustomUIElements\InputHandlers\InputHandler.cs" />
     <Compile Include="CustomUIElements\InputHandlers\IntHandler.cs" />
     <Compile Include="CustomUIElements\InputHandlers\StringHandler.cs" />

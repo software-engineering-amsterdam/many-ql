@@ -8,8 +8,8 @@ import uva.sc.ql.expression.Expression;
 @SuppressWarnings({ "rawtypes" })
 public class IfStatement implements Statement {
 
-    Expression expr;
-    List<Question> questions;
+    private Expression expr;
+    private List<Question> questions;
 
     public IfStatement(Expression expr, List<Question> questions) {
 	this.expr = expr;

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace QLGui.Controllers
 {
@@ -13,25 +14,26 @@ namespace QLGui.Controllers
     {
         private ASTResult astTree;
         private MainWindow window;
-        private SymbolTable symbolTable;
+        private SymbolTable symbolTable = new SymbolTable();
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
             window = mainWindow;
             astTree = ast;
-
-            symbolTable = new SymbolTable();
         }
 
-        public void ProcessBody()
+        public void CreateMainUIBody()
         {
             if (!astTree.HasError())
             {
-                SubController BodyProcessor = new SubController(symbolTable);
-                              BodyProcessor.EventUpdateValue += UpdateValue;
-                              BodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                SubController BodyController = new SubController(symbolTable);
+                              BodyController.EventUpdateValue += UpdateValue; //when the subController updates, update this as well.
+                              BodyController.CreateUIBody(
+                                    astTree.RootNode.GetBody(), 
+                                    (StackPanel)window.GetRootElement() //Defined in XML, so has to be casted
+                              );
 
-                              symbolTable = BodyProcessor.SymbolTable;
+                              symbolTable = BodyController.SymbolTable;
             }
             else
             {
@@ -44,14 +46,13 @@ namespace QLGui.Controllers
             symbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
 
             window.DeleteElements();
-
-            ProcessBody();
+            CreateMainUIBody();
         }
 
         public void ExportAnswers()
         {
-            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
-            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
+            new ExportFormulaireController()
+                .ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
         }
     }
 }

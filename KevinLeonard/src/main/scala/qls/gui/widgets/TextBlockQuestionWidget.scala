@@ -14,6 +14,7 @@ class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expressio
   val textField = new TextArea {
     text = value
     text.onChange((_, _, newValue) => updateEnvironment(StringValue(newValue)))
+    maxWidth = MaxWidth
   }
   updateEnvironment(StringValue(value))
   children.add(textField)

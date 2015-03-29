@@ -4,11 +4,13 @@ stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
 page : 'page' String '{' (statement)+ '}';
 
-statement : section | question | defaultStmt;
+statement : section | questionWithRules | question | defaultStmt;
 
 section : 'section' String '{' (statement)+ '}';
 
-question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
+questionWithRules : 'question' Identifier '{' (stylesheetRule)+ '}';
+
+question : 'question' Identifier ;
 
 defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
 

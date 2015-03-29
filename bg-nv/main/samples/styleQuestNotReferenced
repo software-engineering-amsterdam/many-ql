@@ -1,0 +1,8 @@
+stylesheet Box1HouseOwning {
+    page "Main" {
+        question hasSoldHouse
+        question hasBoughtHouse
+        question hasMaintLoan
+        question sellingPrice
+    }
+}

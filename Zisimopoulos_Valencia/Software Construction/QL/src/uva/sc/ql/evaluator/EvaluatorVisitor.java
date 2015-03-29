@@ -1,54 +1,79 @@
 package uva.sc.ql.evaluator;
 
 import java.util.Map;
-import java.util.Observable;
 
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
-import uva.sc.ql.atom.*;
+import uva.sc.ql.atom.BooleanAtom;
+import uva.sc.ql.atom.ID;
+import uva.sc.ql.atom.NumberAtom;
+import uva.sc.ql.atom.StringAtom;
 import uva.sc.ql.expression.Expression;
-import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.expression.unaryExpressions.*;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
 import uva.sc.ql.gui.helpers.QuestionData;
 
+/**
+ * Evaluates expressions using a values table.
+ * 
+ * @author Pantelis & Satiago
+ */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class EvaluatorVisitor extends Observable implements
-	IQLExpressionNodeVisitor<Expression> {
- 
-    Map<ID, QuestionData> valuesTable;
-    
-    public EvaluatorVisitor(Map<ID, QuestionData> table){
+public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
+
+    private Map<ID, QuestionData> valuesTable;
+
+    public EvaluatorVisitor(Map<ID, QuestionData> table) {
 	valuesTable = table;
     }
-    
-    public Expression evaluateExpression (Expression expr){
-	return (Expression)expr.accept(this);
+
+    public Expression evaluateExpression(Expression expr) {
+	return (Expression) expr.accept(this);
     }
-    
-    private QuestionData questionData (ID id) {
+
+    private QuestionData questionData(ID id) {
 	return valuesTable.get(id);
     }
-    
+
     public Expression visit(ID id) {
 	return questionData(id).getValue();
     }
-    
+
     public NumberAtom visit(Addition addition) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) addition.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) addition.getSecondOperand().accept(this));
+	NumberAtom firstOperand = getNumericOperandValue((Expression) addition
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) addition
+		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		+ secondOperand.getValue());
     }
 
     public NumberAtom visit(Substraction sub) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) sub.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) sub.getSecondOperand().accept(this));
+	NumberAtom firstOperand = getNumericOperandValue((Expression) sub
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) sub
+		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		- secondOperand.getValue());
     }
 
     public NumberAtom visit(Multiplication mult) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) mult.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) mult.getSecondOperand().accept(this));
+	NumberAtom firstOperand = getNumericOperandValue((Expression) mult
+		.getFirstOperand().accept(this));
+	NumberAtom secondOperand = getNumericOperandValue((Expression) mult
+		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		* secondOperand.getValue());
     }
@@ -114,7 +139,8 @@ public class EvaluatorVisitor extends Observable implements
 		.accept(this);
 	Expression secondOperand = (Expression) eq.getSecondOperand().accept(
 		this);
-	return new BooleanAtom(firstOperand.getValue().equals(secondOperand.getValue()));
+	return new BooleanAtom(firstOperand.getValue().equals(
+		secondOperand.getValue()));
     }
 
     public BooleanAtom visit(NotEquals notEquals) {
@@ -122,7 +148,8 @@ public class EvaluatorVisitor extends Observable implements
 		.accept(this);
 	Expression secondOperand = (Expression) notEquals.getSecondOperand()
 		.accept(this);
-	return new BooleanAtom(!firstOperand.getValue().equals(secondOperand.getValue()));
+	return new BooleanAtom(!firstOperand.getValue().equals(
+		secondOperand.getValue()));
     }
 
     public BooleanAtom visit(GreaterThan greaterThan) {
@@ -196,5 +223,4 @@ public class EvaluatorVisitor extends Observable implements
 	return result;
     }
 
-    
 }
