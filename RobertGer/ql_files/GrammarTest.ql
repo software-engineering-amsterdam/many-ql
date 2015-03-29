@@ -23,16 +23,11 @@ Name: "Tax" {
 				Answer: integer
 				Range: >0
 			}
-		} Else If: employment == false {
+		} Else: {
 			Question: "income2" {
 				Text: "How much money did you earn through non-employer paid wages during 2014"
 				Answer: integer
 				Range: >0
-			}
-		} Else: {
-			Question: "unreachable" {
-				Text: "This shouldn't be reached"
-				Answer: integer
 			}
 		}
     	If: partner == "Married" || partner == "Cohabitation" {
@@ -42,6 +37,9 @@ Name: "Tax" {
         		Range: >0
         	}
         }
+		Label: "totalincome" {
+			Text: "Total income: [income1]+[income2]+[income3]"
+		}
     }
     Form: "withCalculation" {
 		Question: "income3" {

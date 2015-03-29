@@ -7,7 +7,6 @@ import nl.uva.se.ql.evaluation.value.StringValue;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.validators.TextValidator;
-import nl.uva.se.ql.gui.validators.Validator;
 
 public class TextQuestion extends BaseQuestion<String> {
 
@@ -27,7 +26,7 @@ public class TextQuestion extends BaseQuestion<String> {
 	}
 
 	@Override
-	public Validator<String> initValidator() {
+	public TextValidator initValidator() {
 		return new TextValidator();
 	}
 

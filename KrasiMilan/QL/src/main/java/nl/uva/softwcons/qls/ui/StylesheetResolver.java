@@ -3,6 +3,7 @@ package nl.uva.softwcons.qls.ui;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.form.Form;
@@ -35,7 +36,7 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
         return Optional.ofNullable(questionWidgetType.get(id));
     }
 
-    public Style getStyle(Identifier id) {
+    public Style getStyle(final Identifier id) {
         return questionStyle.get(id);
     }
 
@@ -87,19 +88,19 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
 
     private Map<Type, StylizedWidget> inheritStyles(final Map<Type, StylizedWidget> styles,
             final Map<Type, StylizedWidget> parentStyles) {
-        Map<Type, StylizedWidget> mergedStyles = new HashMap<>(styles);
+        final Map<Type, StylizedWidget> mergedStyles = new ConcurrentHashMap<>(styles);
 
         parentStyles.forEach((type, widget) -> {
-            if (!mergedStyles.containsKey(type)) {
-                mergedStyles.put(type, widget);
-            } else {
-                WidgetType currentWidget = mergedStyles.get(type).getWidgetType().get();
-                Style currentStyle = mergedStyles.get(type).getWidgetStyle();
+            if (mergedStyles.containsKey(type)) {
+                final WidgetType currentWidget = mergedStyles.get(type).getWidgetType().get();
+                final Style currentStyle = mergedStyles.get(type).getWidgetStyle();
                 if (WidgetType.haveSameType(currentWidget, widget.getWidgetType().get())) {
-                    StylizedWidget newStylizedWidget = new StylizedWidget(currentWidget, currentStyle.inherit(widget
-                            .getWidgetStyle()));
+                    final StylizedWidget newStylizedWidget = new StylizedWidget(currentWidget, currentStyle
+                            .inherit(widget.getWidgetStyle()));
                     mergedStyles.put(type, newStylizedWidget);
                 }
+            } else {
+                mergedStyles.put(type, widget);
             }
         });
 

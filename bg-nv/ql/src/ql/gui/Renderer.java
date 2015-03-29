@@ -13,19 +13,19 @@ import ql.semantics.*;
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui implements ModelVisitor<Void>
+public class Renderer implements ModelVisitor<Void>
 {
     private final ValueTable valueTable;
     private final Refresher refresher;
 
     public static void display(ValueTable valueTable, Canvas canvas, Stage stage)
     {
-        SimpleGui gui = new SimpleGui(valueTable);
-        canvas.accept(gui);
-        gui.start(canvas, stage);
+        Renderer renderer = new Renderer(valueTable);
+        canvas.accept(renderer);
+        renderer.start(canvas, stage);
     }
 
-    private SimpleGui(ValueTable valueTable)
+    private Renderer(ValueTable valueTable)
     {
         this.valueTable = valueTable;
         this.refresher = new Refresher(this.valueTable);
@@ -73,6 +73,10 @@ public class SimpleGui implements ModelVisitor<Void>
     @Override
     public Void visit(Section section)
     {
+        for (Segment segment : section.getSubSegments())
+        {
+            segment.accept(this);
+        }
         return null;
     }
 

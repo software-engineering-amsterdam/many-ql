@@ -3,26 +3,28 @@ package uva.ql.interpreter.typecheck.depedency;
 import java.util.HashSet;
 import java.util.Set;
 
+import uva.ql.interpreter.typecheck.table.DependencyTable;
+
 public class DependencyHelper {
 
 	
 	public DependencyTable populateDependencyTable(DependencyTable table){
 		
 		for (String identifier : table.getKeys()){
-			IdentifierSet identifierSet = table.retrieveValue(identifier);
+			IdentifierSet identifierSet = table.retrieveIdentifierSet(identifier);
 			
 			for (String _identifier : identifierSet.retrieveIdentifiers()){	
 				
 				if (!_identifier.equals(identifier)){
 					
 					if (!table.valueEmpty(_identifier)){
-						IdentifierSet _identifierSet = table.retrieveValue(_identifier);
+						IdentifierSet _identifierSet = table.retrieveIdentifierSet(_identifier);
 						
 						for (String key : _identifierSet.retrieveIdentifiers()){	
 				
 							if (key.equals(identifier)){
 								identifierSet.putValue(key);
-								table.putValue(identifier, identifierSet);
+								table.putIdentifierSet(identifier, identifierSet);
 							}
 						}
 					}
@@ -38,7 +40,7 @@ public class DependencyHelper {
 		Set<String> cycles = new HashSet<String>();
 		
 		for (String key : table.getKeys()){
-			IdentifierSet value = table.retrieveValue(key);
+			IdentifierSet value = table.retrieveIdentifierSet(key);
 			cycles = this.hasDependencies(cycles, value, key);
 		}
 		

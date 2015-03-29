@@ -36,7 +36,7 @@ public class Page implements ASTNode {
         return visitor.visit(this);
     }
 
-    public <T, V> T accept(SegmentValueVisitor<T, V> visitor, V value) {
+    public <T, V> T accept(final SegmentValueVisitor<T, V> visitor, final V value) {
         return visitor.visit(this, value);
     }
 

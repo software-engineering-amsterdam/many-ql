@@ -65,7 +65,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
             }
         }
 
-        this.pages.add(new ql.gui.segment.Page(segments, p.getName(), true));
+        this.pages.add(new ql.gui.segment.Page(segments, p.getTitle(), true));
 
         return null;
     }
@@ -83,8 +83,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
                 segments.add(segment);
             }
         }
-
-        return new ql.gui.segment.Section(segments, true);
+        return new ql.gui.segment.Section(s.getName(), segments, true);
     }
 
     @Override

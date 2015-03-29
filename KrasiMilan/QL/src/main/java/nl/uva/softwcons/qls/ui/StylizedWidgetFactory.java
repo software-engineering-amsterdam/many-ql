@@ -17,7 +17,6 @@ import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.SpinboxType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetTypeVisitor;
@@ -37,14 +36,14 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     }
 
     @Override
-    public Widget getWidget(Question question) {
+    public Widget getWidget(final Question question) {
         final Optional<WidgetType> questionWidget = resolver.getWidgetType(question.getId());
         final Style questionStyle = resolver.getStyle(question.getId());
 
         final Widget widget;
         if (questionWidget.isPresent()) {
             widget = questionWidget.get().accept(this);
-            widget.getWidget().setStyle(questionStyle.toString()); // TODO
+            widget.getWidget().setStyle(questionStyle.asString()); // TODO
         } else {
             widget = defaultFactory.getWidget(question);
         }
@@ -53,34 +52,29 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     }
 
     @Override
-    public Widget visit(CheckboxType type) {
+    public Widget visit(final CheckboxType type) {
         return new CheckboxWidget(type.getYes(), new BooleanToBooleanValueConverter());
     }
 
     @Override
-    public Widget visit(DropdownType type) {
+    public Widget visit(final DropdownType type) {
         return new DropdownWidget(type.getYes(), type.getNo(), new StringToBooleanValueConverter(type.getYes(),
                 type.getNo()));
     }
 
     @Override
-    public Widget visit(RadioButtonType type) {
+    public Widget visit(final RadioButtonType type) {
         return new RadioButtonWidget(type.getYes(), type.getNo(), new BooleanToBooleanValueConverter());
     }
 
     @Override
-    public Widget visit(SliderType type) {
+    public Widget visit(final SliderType type) {
         return new SliderWidget(type.getStart(), type.getEnd(), type.getStep(), new NumberToNumberValueConverter(
                 type.getStart()));
     }
 
     @Override
-    public Widget visit(SpinboxType type) {
-        return null; // TODO
-    }
-
-    @Override
-    public Widget visit(TextType type) {
+    public Widget visit(final TextType type) {
         return new TextFieldWidget(new StringToNumberValueConverter()); // TODO
     }
 

@@ -6,9 +6,9 @@ import javafx.scene.control.Control;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 
-public class StylesheetUI {
+public class StylesheetGridPane {
 
-	public Control generateUI(String stylesheetTitle) {
+	public Control generateStylesheetGridPane(String stylesheetTitle) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);

@@ -17,21 +17,18 @@ public class Style implements ASTNode {
         this.properties = properties;
     }
 
-    public Map<String, String> getProperties() {
-        return properties;
-    }
-
-    public void addProperty(String key, String value) {
+    public void addProperty(final String key, final String value) {
         this.properties.put(key, value);
     }
 
     public Style inherit(final Style parentStyle) {
-        Style mergedStyle = new Style(this.properties);
-        parentStyle.getProperties().forEach((key, value) -> {
+        final Style mergedStyle = new Style(this.properties);
+        parentStyle.properties.forEach((key, value) -> {
             if (!properties.containsKey(key)) {
                 mergedStyle.addProperty(key, value);
             }
         });
+
         return mergedStyle;
     }
 
@@ -39,5 +36,13 @@ public class Style implements ASTNode {
     public LineInfo getLineInfo() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public String asString() {
+        StringBuilder builder = new StringBuilder();
+        this.properties.forEach((key, value) -> {
+            builder.append("-fx-" + key + ": " + value + ";\n");
+        });
+        return builder.toString();
     }
 }

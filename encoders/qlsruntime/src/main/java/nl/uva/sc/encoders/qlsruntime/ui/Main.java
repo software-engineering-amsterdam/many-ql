@@ -1,30 +1,27 @@
 package nl.uva.sc.encoders.qlsruntime.ui;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+import static nl.uva.sc.encoders.qlruntime.ui.Main.DEFAULT_QL_INPUT_FILE_DIRECTORY;
+import static nl.uva.sc.encoders.qlruntime.ui.Main.DEFAULT_QL_INPUT_FILE_NAME;
+
 import java.util.Properties;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.ParseButtonHandler;
-
-import org.controlsfx.dialog.ExceptionDialog;
 
 public class Main extends Application {
 
-	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "qls/";
+	private static final String DEFAULT_QLS_INPUT_FILE_DIRECTORY = "qls/";
 
-	private static final String DEFAULT_INPUT_FILE_NAME = "stylesheet.qls";
+	private static final String DEFAULT_QLS_INPUT_FILE_NAME = "stylesheet.qls";
 
 	public static void main(String[] args) {
 		launch(args);
@@ -44,21 +41,30 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 		grid.getStyleClass().add("grid");
 
-		final TextField inputFileTextField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
-		Button chooseInputButton = new Button("Choose input file...");
+		String defaultQlsLocation = DEFAULT_QLS_INPUT_FILE_DIRECTORY + DEFAULT_QLS_INPUT_FILE_NAME;
+		String defaultQlLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
+		final TextField qlInputFileTextField = new TextField(defaultQlLocation);
+		final TextField qlsInputFileTextField = new TextField(defaultQlsLocation);
+		Button qlChooseInputButton = new Button("Choose ql file...");
+		Button qlsChooseInputButton = new Button("Choose qls file...");
 		Button parseButton = new Button("Parse");
-		grid.add(inputFileTextField, 0, 0);
-		grid.add(chooseInputButton, 1, 0);
-		grid.add(parseButton, 2, 0);
+		grid.add(qlInputFileTextField, 0, 0);
+		grid.add(qlChooseInputButton, 1, 0);
+		grid.add(qlsInputFileTextField, 0, 1);
+		grid.add(qlsChooseInputButton, 1, 1);
+		grid.add(parseButton, 2, 1);
 
-		chooseInputButton.setOnAction(new ChooseInputButtonHandler(inputFileTextField));
+		PathSelectedCallback qlPathSelectedCallback = path -> qlInputFileTextField.setText(path);
+		PathSelectedCallback qlsPathSelectedCallback = path -> qlsInputFileTextField.setText(path);
+		qlChooseInputButton.setOnAction(new ChooseInputButtonHandler(qlPathSelectedCallback, defaultQlLocation));
+		qlsChooseInputButton.setOnAction(new ChooseInputButtonHandler(qlsPathSelectedCallback, defaultQlsLocation));
 
 		StackPane stackPane = new StackPane();
-		String inputFilePath = inputFileTextField.getText();
+		String inputFilePath = qlsInputFileTextField.getText();
 		ParseButtonHandler parseButtonHandler = new ParseButtonHandler(stackPane, inputFilePath);
 		parseButton.setOnAction(parseButtonHandler);
 
-		grid.add(stackPane, 0, 1, 3, 1);
+		grid.add(stackPane, 0, 2, 3, 1);
 
 		Scene scene = new Scene(grid, 750, 600);
 		scene.getStylesheets().add(getClass().getResource("UIElements.css").toExternalForm());
@@ -66,35 +72,4 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	private URL getURL(String path) {
-		ClassLoader classLoader = getClass().getClassLoader();
-		return classLoader.getResource(path);
-	}
-
-	private final class ChooseInputButtonHandler implements EventHandler<ActionEvent> {
-		private final TextField textField;
-
-		private ChooseInputButtonHandler(TextField textField) {
-			this.textField = textField;
-		}
-
-		@Override
-		public void handle(ActionEvent event) {
-			try {
-				URL resource = getURL(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
-				File file = new File(resource.toURI());
-				file = file.getParentFile();
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(file);
-				File result = fileChooser.showOpenDialog(null);
-				if (result != null) {
-					textField.setText(result.getPath());
-				}
-			} catch (URISyntaxException e) {
-				ExceptionDialog dialog = new ExceptionDialog(e);
-				dialog.show();
-				e.printStackTrace();
-			}
-		}
-	}
 }

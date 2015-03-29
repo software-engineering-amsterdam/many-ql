@@ -2,7 +2,9 @@ package nl.uva.se.ql.gui.widgets.questions.calculated;
 
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.UndefinedValue;
+import nl.uva.se.ql.evaluation.value.Value;
 import nl.uva.se.ql.gui.mediators.Mediator;
+import nl.uva.se.ql.gui.validators.Validator;
 
 public class UndefinedCalculatedQuestion extends
 		BaseCalculatedQuestion<UndefinedValue> {
@@ -12,13 +14,17 @@ public class UndefinedCalculatedQuestion extends
 	}
 
 	@Override
-	public void setValue(UndefinedValue value) {
-		this.value = value;
+	public void setValue(Value value) {
+		label.setText(getQuestion().getId() + " has a undefined value.");
 	}
 
 	@Override
-	public UndefinedValue getValue() {
-		return value;
+	public Validator<String> initValidator() {
+		return null;
 	}
 
+	@Override
+	public Value getValue() {
+		return this.value;
+	}
 }

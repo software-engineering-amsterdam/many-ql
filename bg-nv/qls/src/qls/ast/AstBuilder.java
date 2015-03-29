@@ -1,5 +1,6 @@
 package qls.ast;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import ql.ast.AstNode;
 import ql.ast.type.Type;
 import ql.ast.type.TypeFactory;
@@ -47,8 +48,9 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             definitions.add(s);
         }
 
-        String id = context.Identifier().getText();
-        int lineNumber = context.Identifier().getSymbol().getLine();
+        TerminalNode n = context.String();
+        String id = StringHelper.unescapeString(n.getText());
+        int lineNumber = context.String().getSymbol().getLine();
 
         return new Page(id, definitions, lineNumber);
     }
@@ -84,7 +86,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             definitions.add(s);
         }
 
-        String id = context.String().getText();
+        String id = StringHelper.unescapeString(context.String().getText());
         int lineNumber = context.String().getSymbol().getLine();
 
         return new Section(id, definitions, lineNumber);
@@ -153,7 +155,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
 
         if (label.equals("font"))
         {
-            return new Font(context.String().getText(), lineNumber);
+            return new Font(StringHelper.unescapeString(context.String().getText()), lineNumber);
         }
 
         if (label.equals("fontsize"))

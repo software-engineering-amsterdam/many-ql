@@ -12,7 +12,7 @@ public class QLRenderer implements Renderer {
     }
 
     @Override
-    public void add(QuestionLayout questionLayout) {
+    public void add(final QuestionLayout questionLayout) {
         formLayout.add(questionLayout);
     }
 

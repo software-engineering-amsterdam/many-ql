@@ -78,7 +78,7 @@ public class UITextField extends Observable implements UIWidgetKit{
 	private GenericValue<?> setUpdateValue(GenericValue<?> value, String textFieldValue){
 		
 		try{
-			if (value.valueHasType().equals(new TypeString())){
+			if (value.valueHasType().contains(new TypeString())){
 				return new StringValue(textFieldValue);
 			}
 			else {
@@ -125,6 +125,6 @@ public class UITextField extends Observable implements UIWidgetKit{
 	
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return !this.question.hasBinaryExpression();
 	}
 }

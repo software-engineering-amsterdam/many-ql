@@ -8,8 +8,6 @@ import qls.ast.{Page, Question, Section, StyleSheet, Text}
 class DuplicatePlacementCheckerSpec extends Specification {
   val checker = new DuplicatePlacementChecker
 
-  import checker._
-
   val AnyLabel = "label"
 
   "duplicate placement checker" should {
@@ -18,7 +16,7 @@ class DuplicatePlacementCheckerSpec extends Specification {
         Section("section", List(Question(Variable("x"), Text(List())), Question(Variable("y"), Text(List()))))
       ))))
 
-      check(styleSheetWithQuestions) must beEmpty
+      checker.check(styleSheetWithQuestions) must beEmpty
     }
 
     "return one error if one question is placed multiple times" in {
@@ -29,7 +27,7 @@ class DuplicatePlacementCheckerSpec extends Specification {
       ))))))
       val errors = List(Error("Question x is placed 2 times"))
 
-      check(styleSheetWithQuestions) must beEqualTo(errors)
+      checker.check(styleSheetWithQuestions) must beEqualTo(errors)
     }
 
     "return multiple errors if multiple questions are placed multiple times" in {
@@ -41,7 +39,7 @@ class DuplicatePlacementCheckerSpec extends Specification {
       ))))))
       val errors = List(Error("Question y is placed 2 times"), Error("Question x is placed 2 times"))
 
-      check(styleSheetWithQuestions) must beEqualTo(errors)
+      checker.check(styleSheetWithQuestions) must beEqualTo(errors)
     }
   }
 }
