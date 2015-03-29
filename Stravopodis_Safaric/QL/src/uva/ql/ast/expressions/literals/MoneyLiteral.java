@@ -14,22 +14,13 @@ public class MoneyLiteral extends Literal{
 	
 	private Integer value;
 	
-	public MoneyLiteral(Integer _value){
-		super(new CodeLines(0,0));	// Set an initial value
-		this.value = _value;
-	}
-	
-	public MoneyLiteral(CodeLines _codeLines){
-		super(_codeLines);
-	}
-	
 	public MoneyLiteral(Integer _value, CodeLines _codeLines){
 		super(_codeLines);
 		this.value = _value;
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
+	public CodeLines getLinesOfCode() {
 		return this.codeLines;
 	}
 	
@@ -39,7 +30,7 @@ public class MoneyLiteral extends Literal{
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -49,8 +40,8 @@ public class MoneyLiteral extends Literal{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override

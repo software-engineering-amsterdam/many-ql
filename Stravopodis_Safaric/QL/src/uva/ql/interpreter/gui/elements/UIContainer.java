@@ -25,5 +25,4 @@ public class UIContainer{
 		}
 		return container;
 	}
-	
 }

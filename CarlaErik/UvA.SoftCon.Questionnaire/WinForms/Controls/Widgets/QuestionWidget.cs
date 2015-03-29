@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {

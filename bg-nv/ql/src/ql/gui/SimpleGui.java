@@ -34,7 +34,7 @@ public class SimpleGui implements ModelVisitor<Void>
     private void start(Canvas canvas, Stage stage)
     {
         this.refresher.refresh();
-        Parent parent = canvas.getParent();
+        Parent parent = canvas.getGuiElement();
         stage.setTitle(canvas.getName());
         stage.setScene(new Scene(parent, 600, 700));
         stage.show();
@@ -53,9 +53,9 @@ public class SimpleGui implements ModelVisitor<Void>
     @Override
     public Void visit(Page page)
     {
-        for (Segment subsegment : page.getSubsegments())
+        for (Segment subSegment : page.getSubSegments())
         {
-            subsegment.accept(this);
+            subSegment.accept(this);
         }
         return null;
     }
@@ -73,6 +73,10 @@ public class SimpleGui implements ModelVisitor<Void>
     @Override
     public Void visit(Section section)
     {
+        for (Segment segment : section.getSubSegments())
+        {
+            segment.accept(this);
+        }
         return null;
     }
 

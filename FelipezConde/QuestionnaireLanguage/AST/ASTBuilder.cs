@@ -1,14 +1,8 @@
 ﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
 using AST.Nodes;
 using AST.ParseTreeVisitors;
 using Grammar;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AST
 {
@@ -26,12 +20,11 @@ namespace AST
                         new AntlrInputStream(programText)
                         )));
 
-            parser.RemoveErrorListeners();
             ParserErrorListener parseErrorListener = new ParserErrorListener();
-            parser.AddErrorListener(parseErrorListener);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new ParserErrorListener());
 
-            FormVisitor visitor = new FormVisitor();
-            Form ast = visitor.Visit(parser.form());
+            Form ast = new FormVisitor().Visit(parser.form());
 
             return new ASTResult(ast, parseErrorListener.NotificationManager);
         }

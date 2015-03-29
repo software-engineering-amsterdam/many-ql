@@ -1,5 +1,8 @@
 package uva.ql.ast.value;
 
+import java.util.Arrays;
+import java.util.List;
+import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeString;
 
 public class StringValue extends GenericValue<String> {
@@ -16,8 +19,8 @@ public class StringValue extends GenericValue<String> {
 	}
 
 	@Override
-	public TypeString getValueType() {
-		return new TypeString();
+	public List<Type> valueHasType() {
+		return Arrays.asList(new TypeString());
 	}
 	
 	@Override
@@ -26,14 +29,6 @@ public class StringValue extends GenericValue<String> {
 			return false;
 		}
 		return value.getValue() == this.getValue();
-	}
-	
-	@Override
-	public boolean isNotEqual(GenericValue<?> value) {
-		if (value == null){
-			return false;
-		}
-		return value.getValue() != this.getValue();
 	}
 	
 	@Override

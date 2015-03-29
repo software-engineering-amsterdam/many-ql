@@ -4,6 +4,7 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -27,7 +28,7 @@ public class MainFrame {
 	private JMenu menuItemLoad, menuItemClose;
 	
 	public MainFrame() {
-			
+		
 	}
 	
 	public void showInitialFrame() {
@@ -36,15 +37,16 @@ public class MainFrame {
 		mainFrame.setBounds(100, 100, 450, 300);
 		mainFrame.setPreferredSize( new Dimension( 600, 400 ) );
 		
-		mainFrame.setJMenuBar(addMenu());
-		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 		
 		contentPane.add(mainpanel);
-				
+		
 		mainFrame.setContentPane(contentPane);
+		
+		mainFrame.setJMenuBar(addMenu());
+		
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
@@ -81,7 +83,7 @@ public class MainFrame {
 
 			@Override
 			public void menuSelected(MenuEvent arg0) {
-				GUIManager manager = new GUIManager();
+				final GUIManager manager = new GUIManager();
 				manager.runGUI(mainFrame);
 			}	
 		});
@@ -110,7 +112,7 @@ public class MainFrame {
 				JOptionPane.YES_NO_OPTION); 
 		
 		if (selectedOption == JOptionPane.YES_OPTION) {
-			mainFrame.dispose();
+			mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
 		}	
 	}
 }

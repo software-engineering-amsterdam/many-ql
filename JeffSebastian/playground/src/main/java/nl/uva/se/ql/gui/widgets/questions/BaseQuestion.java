@@ -8,7 +8,7 @@ import nl.uva.se.ql.gui.validators.Validator;
 
 public abstract class BaseQuestion<T> {
 	private final Question question;
-	private final Validator<T> validator;
+	private final Validator validator;
 	private final Mediator mediator;
 
 	public BaseQuestion(Question question, Mediator mediator) {
@@ -17,7 +17,7 @@ public abstract class BaseQuestion<T> {
 		this.mediator = mediator;
 	}
 	
-	public abstract Validator<T> initValidator();
+	public abstract Validator initValidator();
 
 	public Mediator getMediator() {
 		return mediator;
@@ -27,7 +27,7 @@ public abstract class BaseQuestion<T> {
 		return question;
 	}
 
-	public Validator<T> getValidator() {
+	public Validator getValidator() {
 		return validator;
 	}
 

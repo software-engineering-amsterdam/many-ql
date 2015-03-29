@@ -45,7 +45,8 @@ public class UITextField extends Observable implements UIWidgetKit{
 	}
 	
 	private String getFieldText(){
-		String valueText = this.getStringValueForQuestion();
+		String valueText = this.getValueForQuestion();
+		
 		if (valueText.equals("0")){
 			return "";
 		}
@@ -54,7 +55,7 @@ public class UITextField extends Observable implements UIWidgetKit{
 		}
 	}
 	
-	private String getStringValueForQuestion(){
+	private String getValueForQuestion(){
 		GenericValue<?> value = this.value;
 		return String.valueOf(value.getValue());
 	}
@@ -77,7 +78,7 @@ public class UITextField extends Observable implements UIWidgetKit{
 	private GenericValue<?> setUpdateValue(GenericValue<?> value, String textFieldValue){
 		
 		try{
-			if (value.getValueType().equals(new TypeString())){
+			if (value.valueHasType().contains(new TypeString())){
 				return new StringValue(textFieldValue);
 			}
 			else {
@@ -114,7 +115,7 @@ public class UITextField extends Observable implements UIWidgetKit{
 			@Override
 			public void focusGained(FocusEvent e) {
 				textField.setSelectionEnd(0);
-				textField.setSelectionStart(getStringValueForQuestion().length());
+				textField.setSelectionStart(getValueForQuestion().length());
 			}
 
 			@Override
@@ -124,6 +125,6 @@ public class UITextField extends Observable implements UIWidgetKit{
 	
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return !this.question.hasBinaryExpression();
 	}
 }

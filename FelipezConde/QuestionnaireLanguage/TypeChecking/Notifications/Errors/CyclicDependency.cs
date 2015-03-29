@@ -1,14 +1,10 @@
-﻿using Notifications;
-using System.Collections.Generic;
-using AST;
-using AST.Nodes.Expressions;
+﻿using AST.Nodes.Expressions;
 
 namespace TypeChecking.Notifications.Errors
 {
     public class CyclicDependency : Error
     {
             Id id;
-            PositionInText identifierPosition;
 
             public CyclicDependency(Id id)
             {
@@ -18,8 +14,9 @@ namespace TypeChecking.Notifications.Errors
             public override string Message()
             {
                 return string.Format("Cyclic dependency for identifier \"{0}\" at {1}",
-                                      id.Name,
-                                      id.GetPosition().ToString());
+                                      new object[] {id.Name,
+                                                    id.GetPosition()
+                                                   });
             }
     }
 }

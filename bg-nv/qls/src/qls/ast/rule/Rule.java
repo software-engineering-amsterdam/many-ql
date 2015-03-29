@@ -20,6 +20,19 @@ public abstract class Rule extends AstNode
         return false;
     }
 
+    public boolean isRuleOverwrittenBy(Rules highPr)
+    {
+        for (Rule h : highPr)
+        {
+            if (this.isOverwrittenBy(h))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected boolean isOverwrittenByWidth(Width r)
     {
         return false;
@@ -35,9 +48,15 @@ public abstract class Rule extends AstNode
         return false;
     }
 
-    protected boolean isOverwrittenByForeColor(ForeColor r) { return false; }
+    protected boolean isOverwrittenByForeColor(ForeColor r)
+    {
+        return false;
+    }
 
-    protected boolean isOverwrittenByBackColor(BackColor r) { return false; }
+    protected boolean isOverwrittenByBackColor(BackColor r)
+    {
+        return false;
+    }
 
     protected boolean isOverwrittenByWidget(Widget r)
     {

@@ -1,9 +1,9 @@
 ﻿using AST.Nodes.FormObjects;
+using Evaluation;
 using Evaluation.Values;
 using QLGui.Controllers;
 using QLGui.ValueVisitors;
 using System.Windows;
-using Evaluation;
 using System.Windows.Controls;
 
 namespace QLGui.FormObjects
@@ -26,7 +26,7 @@ namespace QLGui.FormObjects
 
         public override UIElement ProcessFormObject(UIElement form)
         {
-            Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
+            Value value = this.conditionalNode.Condition.Accept(new Evaluator(symbolTable));
 
             StackPanel stackPanelWidget = new StackPanel();
 

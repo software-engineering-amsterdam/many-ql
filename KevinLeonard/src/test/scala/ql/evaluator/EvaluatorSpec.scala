@@ -4,264 +4,283 @@ import org.specs2.mutable.Specification
 import ql.ast._
 import types.{EvalEnvironment, VariableName}
 
-
 import scalafx.collections.ObservableMap
 
 class EvaluatorSpec extends Specification {
   val evaluators = new Evaluator
 
   val EmptyEnvironment: EvalEnvironment = ObservableMap.empty[VariableName, Value]
-  val False: BooleanValue = BooleanValue(false)
-  val True: BooleanValue = BooleanValue(true)
+  val LiteralTrue: BooleanLiteral = BooleanLiteral(BooleanValue(true))
+  val LiteralFalse: BooleanLiteral = BooleanLiteral(BooleanValue(false))
+  val ValueTrue: BooleanValue = BooleanValue(true)
+  val ValueFalse: BooleanValue = BooleanValue(false)
 
-  "evaluation of expressions" should {
-    "succeed for or expressions" in {
-      val expression = Or(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+  "evaluation of boolean expressions" should {
+    "return true if one side of an or expressions is true" in {
+      val expression = Or(LiteralTrue, LiteralFalse)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for and expressions" in {
-      val expression = And(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+    "return false if one side of an and expression is false" in {
+      val expression = And(LiteralTrue, LiteralFalse)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for not expressions" in {
-      val expression = Not(BooleanLiteral(BooleanValue(true)))
+    "return false if the input of a not expression is true" in {
+      val expression = Not(LiteralTrue)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
+    }
+  }
+
+  "evaluation of equality expressions" should {
+    "return true if booleans are equal" in {
+      val expression = Equal(LiteralTrue, LiteralTrue)
+
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for equal expressions on booleans" in {
-      val expression = Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+    "return false if booleans are not equal" in {
+      val expression = Equal(LiteralTrue, LiteralFalse)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for equal expressions on booleans" in {
-      val expression = Equal(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
-
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
-    }
-
-    "succeed for equal expressions on numbers" in {
+    "return true if numbers are equal" in {
       val expression = Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for equal expressions on numbers" in {
+    "return false if numbers are not equal" in {
       val expression = Equal(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for equal expressions on strings" in {
+    "return true if strings are equal" in {
       val expression = Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for equal expressions on strings" in {
+    "return false if strings are not equal" in {
       val expression = Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for notEqual expressions on booleans" in {
-      val expression = NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(true)))
+    "return false if booleans are equal" in {
+      val expression = NotEqual(LiteralTrue, LiteralTrue)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for notEqual expressions on booleans" in {
-      val expression = NotEqual(BooleanLiteral(BooleanValue(true)), BooleanLiteral(BooleanValue(false)))
+    "return true if booleans are not equal" in {
+      val expression = NotEqual(LiteralTrue, LiteralFalse)
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for notEqual expressions on numbers" in {
+    "return false if numbers are equal" in {
       val expression = NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for notEqual expressions on numbers" in {
+    "return true if numbers are not equal" in {
       val expression = NotEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for notEqual expressions on strings" in {
+    "return false if strings are equal" in {
       val expression = NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for notEqual expressions on strings" in {
+    "return true if strings are not equal" in {
       val expression = NotEqual(StringLiteral(StringValue("a")), StringLiteral(StringValue("b")))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
+  }
 
-    "succeed for lessThan expressions (1 < 2)" in {
+  "evaluation of relational expressions" should {
+    "return true if the first number is less than the second number" in {
       val expression = LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for lessThan expressions (1 < 1)" in {
+    "return false if the first number is equal to the second number" in {
       val expression = LessThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for lessThan expressions (2 < 1)" in {
+    "return false if the first number is greater than the second number" in {
       val expression = LessThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for lessThanEqual expressions" in {
-      val expression = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
-
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
-    }
-
-    "succeed for lessThanEqual expressions" in {
+    "return true if the first number is less than the second number" in {
       val expression = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for lessThanEqual expressions" in {
+    "return true if the first number is equal to the second number" in {
+      val expression = LessThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
+
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
+    }
+
+    "return false if the first number is greater than the second number" in {
       val expression = LessThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for greaterThan expressions" in {
+    "return true if the first number is greater than the second number" in {
       val expression = GreaterThan(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for greaterThan expressions" in {
+    "return false if the first number is equal to the second number" in {
       val expression = GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for greaterThan expressions" in {
+    "return false if the first number is less than the second number" in {
       val expression = GreaterThan(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
 
-    "succeed for greaterThanEqual expressions" in {
+    "return true if the first number is equal to the second number" in {
       val expression = GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for greaterThanEqual expressions" in {
+    "return true if the first number is greater than the second number" in {
       val expression = GreaterThanEqual(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for greaterThanEqual expressions" in {
+    "return false if the first number is less than the second number" in {
       val expression = GreaterThanEqual(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(False)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueFalse)
     }
+  }
 
-    "succeed for add expressions" in {
+  "evaluation of arithmetic expressions" should {
+    "return the numbers added" in {
       val expression = Add(NumberLiteral(NumberValue(1)), NumberLiteral(NumberValue(2)))
       val result = NumberValue(3)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for sub expressions" in {
+    "return the numbers substracted" in {
       val expression = Sub(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
       val result = NumberValue(1)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for mul expressions" in {
+    "return the numbers multiplied" in {
       val expression = Mul(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(3)))
       val result = NumberValue(6)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for div expressions" in {
+    "return the numbers divided" in {
       val expression = Div(NumberLiteral(NumberValue(2)), NumberLiteral(NumberValue(1)))
       val result = NumberValue(2)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for negation expressions" in {
+    "return the number negated" in {
       val expression = Negation(NumberLiteral(NumberValue(1)))
       val result = NumberValue(-1)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for nested negation expressions" in {
-      val expression = Negation(Negation(NumberLiteral(NumberValue(1))))
-      val result = NumberValue(1)
+    "return the original number if it is negated twice" in {
+      val anyNumberValue = NumberValue(1)
+      val anyNumberLiteral = NumberLiteral(anyNumberValue)
+      val expression = Negation(Negation(anyNumberLiteral))
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(anyNumberValue)
     }
+  }
 
-    "succeed for variable expressions" in {
+  "evaluation of variable expressions" should {
+    "return the value retrieved from the enviroment" in {
       val expression = Variable("test")
       val environment = EmptyEnvironment += ("test" -> NumberValue(3))
       val result = NumberValue(3)
 
       evaluators.eval(expression, environment) must beEqualTo(result)
     }
+  }
 
-    "succeed for boolean literals" in {
-      val expression = BooleanLiteral(BooleanValue(true))
+  "evaluation of literal expressions" should {
+    "return the boolean value that is in the boolean literal" in {
+      val expression = LiteralTrue
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
 
-    "succeed for number literals" in {
+    "return the number value that is in the number literal" in {
       val expression = NumberLiteral(NumberValue(1))
       val result = NumberValue(1)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for string literals" in {
+    "return the string value that is in the string literal" in {
       val expression = StringLiteral(StringValue("a"))
       val result = StringValue("a")
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
+  }
 
-    "succeed for nested expressions" in {
-      val expression = Mul(NumberLiteral(NumberValue(5)), Add(NumberLiteral(NumberValue(3)), NumberLiteral(NumberValue(2))))
+  "evaluation of complex expressions" should {
+    "evaluate the nested expression first (to be able to follow mathematical precedence rules)" in {
+      val expression = Mul(NumberLiteral(NumberValue(5)),
+        Add(NumberLiteral(NumberValue(3)), NumberLiteral(NumberValue(2)))
+      )
       val result = NumberValue(25)
 
       evaluators.eval(expression, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "succeed for multiple nested expressions" in {
+    "evaluate the nested expression first" in {
       val expression = And(
-        Equal(NumberLiteral(NumberValue(1)), Add(NumberLiteral(NumberValue(4)), Div(NumberLiteral(NumberValue(6)), Negation(NumberLiteral(NumberValue(2)))))),
+        Equal(NumberLiteral(NumberValue(1)),
+          Add(NumberLiteral(NumberValue(4)),
+            Div(NumberLiteral(NumberValue(6)), Negation(NumberLiteral(NumberValue(2))))
+          )
+        ),
         Equal(StringLiteral(StringValue("a")), StringLiteral(StringValue("a")))
       )
 
-      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(True)
+      evaluators.eval(expression, EmptyEnvironment) must beEqualTo(ValueTrue)
     }
   }
-
 }

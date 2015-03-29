@@ -1,6 +1,7 @@
 package org.fugazi.qls.gui.ui_segment;
 
-import org.fugazi.qls.gui.QLSUIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
+import org.fugazi.qls.gui.ui_element.QLSUIForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,24 +15,34 @@ public class UIPage {
 
     public UIPage(String _title, int _index, int rows) {
         this.panel = new JPanel();
-        panel.setLayout(new GridLayout(rows, 0));
 
-        subPanelsHolder = new JPanel[rows];
+        if (rows == 0) {
+            rows++; // otherwise GridLayout will throw. Edge case for empty page.
+        }
+        this.subPanelsHolder = new JPanel[rows];
+        this.initializeSubpanels(rows);
+
+        this.pageTitle = _title;
+        this.index = _index;
+    }
+
+    private void initializeSubpanels(int rows){
+        panel.setLayout(new GridLayout(rows, 0));
         for (int i = 0; i < rows; i++) {
             subPanelsHolder[i] = new JPanel();
             subPanelsHolder[i].setLayout(new GridLayout(0, 1));
             this.panel.add(subPanelsHolder[i]);
         }
-
-        this.pageTitle = _title;
-        this.index = _index;
     }
-    public void addToForm(QLSUIForm _uiForm) {
-        _uiForm.addPage(this);
-
+    
+    public void addToForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.addPage(this);
     }
-    public void removeFromForm(QLSUIForm _uiForm) {
-        _uiForm.removePage(this);
+    
+    public void removeFromForm(UIForm _uiForm) {
+        QLSUIForm form = (QLSUIForm) _uiForm;
+        form.removePage(this);
     }
 
     public String getTitle() {
@@ -42,7 +53,9 @@ public class UIPage {
         return this.panel;
     }
 
-    public int getIndex() { return this.index; }
+    public int getIndex() { 
+        return this.index; 
+    }
 
     public JPanel getSubPanel(int index) {
         return this.subPanelsHolder[index];

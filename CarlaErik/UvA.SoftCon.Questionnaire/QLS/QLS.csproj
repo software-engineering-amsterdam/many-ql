@@ -68,7 +68,6 @@
     <Compile Include="AST\Model\StyleAttributes\FontSize.cs" />
     <Compile Include="AST\Model\StyleAttributes\StyleAttribute.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\Widget.cs" />
-    <Compile Include="AST\Model\StyleAttributes\Width.cs" />
     <Compile Include="AST\Model\StyleSheet.cs" />
     <Compile Include="AST\Building\StyleSheetBuilder.cs" />
     <Compile Include="AST\Model\StyleAttributes\Widgets\Calendar.cs" />
@@ -83,10 +82,19 @@
     <Compile Include="Grammar\QLS.g4.parser.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>
-    <Compile Include="IQLSVisitor.cs" />
+    <Compile Include="IStyleSheetVisitor.cs" />
+    <Compile Include="IWidgetFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLSController.cs" />
-    <Compile Include="QLSVisitor.cs" />
+    <Compile Include="StyleSets\CalendarWidgetStyle.cs" />
+    <Compile Include="StyleSets\CheckBoxWidgetStyle.cs" />
+    <Compile Include="StyleSets\DropDownWidgetStyle.cs" />
+    <Compile Include="StyleSets\RadioWidgetStyle.cs" />
+    <Compile Include="StyleSets\SpinBoxWidgetStyle.cs" />
+    <Compile Include="StyleSets\StyleSet.cs" />
+    <Compile Include="StyleSets\TextBoxWidgetStyle.cs" />
+    <Compile Include="StyleSets\WidgetStyle.cs" />
+    <Compile Include="TopDownStyleSheetVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="Grammar\QLS.g4">

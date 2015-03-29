@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.expressions.BinaryExpressions;
+import uva.ql.ast.expressions.BinaryExpression;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.type.Type;
@@ -15,29 +15,19 @@ import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Equal extends BinaryExpressions{
+public class Equal extends BinaryExpression{
 
 	public Equal(Expression _left, Expression _right, CodeLines _codeLines){
 		super(_left, _right, Operator.EQUAL, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitEqual(this);
-	}
-	
-	@Override
 	public BooleanValue evaluate() {
-		return new BooleanValue(this.getLeftExpr().getEvaluatedValue() == this.getRightExpr().getEvaluatedValue());
+		return new BooleanValue(this.getLeftExpressionValue() == this.getRightExpressionValue());
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -47,8 +37,18 @@ public class Equal extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeBoolean(), new TypeString(), new TypeMoney(), new TypeInteger());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitEqual(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

@@ -15,8 +15,8 @@ class NoCycle(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.CyclicQuestionDependencies]
         )
         self.assertEqual(0, len(result.errors))
@@ -29,8 +29,7 @@ class NoCycle(unittest.TestCase):
                 Identifier('foo', 0),
                 'Foo',
                 QLBoolean,
-                0,
-                None
+                0
             ),
             QuestionStatement(
                 Identifier('bar',0),
@@ -47,8 +46,8 @@ class Length2Cycle(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.CyclicQuestionDependencies]
         )
         self.assertEqual(1, len(result.errors))
@@ -73,8 +72,8 @@ class Length3Cycle(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.CyclicQuestionDependencies]
         )
         self.assertEqual(2, len(result.errors))

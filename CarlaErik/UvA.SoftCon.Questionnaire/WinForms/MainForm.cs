@@ -5,7 +5,9 @@ using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
-using UvA.SoftCon.Questionnaire.Runtime;
+using UvA.SoftCon.Questionnaire.QLS;
+using UvA.SoftCon.Questionnaire.QLS.AST.Model;
+using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 using UvA.SoftCon.Questionnaire.WinForms.UIBuilding;
 
@@ -63,7 +65,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
         #endregion
 
-
         private void InitializeQuestionnaire(FileInfo qlFile)
         {
             try
@@ -80,7 +81,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 }
                 else
                 {
-                    MessageBox.Show("Errors occured", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Validation errors in the questionnaire AST. See Output Window for details."
+                        , "Validation errors", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SplitPanel.Panel2Collapsed = false;
                 }
             }
@@ -94,7 +96,36 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
         private void InitializeQuestionnaire(FileInfo qlFile, FileInfo qlsFile)
         {
+            try
+            {
+                var form = ParseQLFile(qlFile);
+                var styleSheet = ParseQLSFile(qlsFile);
 
+                var qlReport = ValidateQuestionForm(form);
+                OutputTextBox.AppendText(qlReport.ToString());
+
+                var qlsReport = ValidateStyleSheet(styleSheet, form);
+                OutputTextBox.AppendText(qlsReport.ToString());
+
+                if (qlReport.NrOfErrors == 0 && qlsReport.NrOfErrors == 0)
+                {
+                    QuestionStyleCollection questionStyles = GetQuestionStyles(styleSheet, form);
+
+                    var ui = BuildUI(styleSheet, questionStyles, form);
+                    SplitPanel.Panel1.Controls.Add(ui);
+                }
+                else
+                {
+                    MessageBox.Show("Validation errors in the questionnaire and/or style sheet AST. See Output Window for details."
+                        , "Validation errors", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SplitPanel.Panel2Collapsed = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Output.WriteLine("ERROR - {0}", ex.ToString());
+                MessageBox.Show("Exception occured. See Output Window for details.", "Unhandled exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private QuestionForm ParseQLFile(FileInfo qlFile)
@@ -113,11 +144,27 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
+        private StyleSheet ParseQLSFile(FileInfo qlsFile)
+        {
+            try
+            {
+                Output.WriteLine("------ Parsing started: QLS File: {0} ------", qlsFile.Name);
+                var qlsController = new QLSController();
+                var styleSheet = qlsController.ParseQLSFile(qlsFile);
+                Output.WriteLine("------ Parsing finished, 0 errors. ------");
+                return styleSheet;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during parsing of the QLS file.", ex);
+            }
+        }
+
         private ValidationReport ValidateQuestionForm(QuestionForm form)
         {
             try
             {
-                var runtimeController = new RuntimeController();
+                var runtimeController = new QL.Runtime.RuntimeController();
                 return runtimeController.Validate(form);
             }
             catch (Exception ex)
@@ -126,16 +173,55 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
+        private ValidationReport ValidateStyleSheet(StyleSheet styleSheet, QuestionForm form)
+        {
+            try
+            {
+                var runtimeController = new QLS.Runtime.RuntimeController();
+                return runtimeController.Validate(styleSheet, form);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during the validation of the style sheet AST.", ex);
+            }
+        }
+
+        private QuestionStyleCollection GetQuestionStyles(StyleSheet styleSheet, QuestionForm form)
+        {
+            try
+            {
+                var runtimeController = new QLS.Runtime.RuntimeController();
+                return runtimeController.GetQuestionStyles(styleSheet, form);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during the evaluation of the question styles.", ex);
+            }
+        }
+
         private QuestionFormControl BuildUI(QuestionForm form)
         {
             try
             {
                 var uiBuilder = new DefaultUIBuilder();
-                return uiBuilder.BuildUi(form, Output);
+                return uiBuilder.BuildUI(form, Output);
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("An unexpected error occured during creating of the user interface.", ex);
+            }
+        }
+
+        private Control BuildUI(StyleSheet styleSheet, QuestionStyleCollection questionStyles, QuestionForm form)
+        {
+            try
+            {
+                var uiBuilder = new StyleSheetUIBuilder();
+                return uiBuilder.BuildUI(styleSheet, questionStyles, form, Output);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during creating of the styled user interface.", ex);
             }
         }
     }

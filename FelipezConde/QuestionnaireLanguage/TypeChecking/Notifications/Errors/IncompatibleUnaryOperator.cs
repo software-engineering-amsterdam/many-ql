@@ -1,5 +1,4 @@
-﻿using AST;
-using AST.Nodes.Expressions.Unaries;
+﻿using AST.Nodes.Expressions.Unaries;
 using Types = AST.Types;
 
 namespace TypeChecking.Notifications.Errors

@@ -9,7 +9,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
 {
     public class QLSController
     {
-        public StyleSheet ParseQLFile(FileInfo qlFile)
+        public StyleSheet ParseQLSFile(FileInfo qlFile)
         {
             if (qlFile == null) { throw new ArgumentNullException("qlFile"); }
             if (!qlFile.Exists) { throw new FileNotFoundException("Could not find file " + qlFile.FullName + "."); }

@@ -1,11 +1,4 @@
-﻿using Evaluation;
-using Evaluation.Values;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Evaluation.Values;
 
 namespace QLGui.CustomUIElements.InputHandlers
 {

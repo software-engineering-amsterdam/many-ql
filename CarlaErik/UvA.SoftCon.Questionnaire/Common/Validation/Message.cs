@@ -1,5 +1,4 @@
 ﻿using System;
-using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.Common.Validation

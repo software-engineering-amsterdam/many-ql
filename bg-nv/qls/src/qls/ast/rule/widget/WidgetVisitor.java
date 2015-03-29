@@ -8,6 +8,7 @@ public interface WidgetVisitor<T>
     T visit(Checkbox w);
     T visit(Dropdown w);
     T visit(Radio w);
-    T visit(Slider w);
+    T visit(DecSlider w);
+    T visit(IntSlider w);
     T visit(Textbox w);
 }

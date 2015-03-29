@@ -1,5 +1,4 @@
 import sys, os
-sys.path.append('../lib')
 
 from ql.evaluator.evaluator import createEvaluator
 
@@ -8,7 +7,9 @@ from ql.gui.Controller import *
 from ql.gui.Model import *
 
 from ql.parser.ANTLR import Parser
-#from ql.typechecking import typechecking 
+from ql.typechecking import\
+    Typechecking, OrderedErrorsWarningsResult, ConsoleMessage
+
 
 
 def main():
@@ -22,17 +23,12 @@ def main():
     	print("ERROR: %s cannot be found." %(filename))
     	exit(1)
 
-    ast = Parser(filename).questionnaire
-    
-    """
-    typeCheckResult = typechecking.check(ast)
-    printErrors(typeCheckResult)
-    printWarnings(typeCheckResult)
+    parser = Parser(filename)
 
-    if len(typeCheckResult.errors) > 0:
+    if not typecheck(parser):
         exit(-1)
-    """
-    evaluator = createEvaluator(ast)
+
+    evaluator = createEvaluator(parser.questionnaire)
 
     models = [QuestionModel(identifier, evaluator) for identifier in evaluator.identifiers()]
     view = View(title = 'Questions')
@@ -41,14 +37,17 @@ def main():
     controller.run()
 
 
-def printErrors(typeCheckResult):
-    for error in typeCheckResult.errors:
-        print(error)
+def typecheck(parser):
+    result = Typechecking.check(
+        parser.questionnaire,
+        OrderedErrorsWarningsResult.factory(),
+        ConsoleMessage.factory(parser)
+    )
 
+    for message in result.messages:
+        print(message)
 
-def printWarnings(typeCheckResult):
-    for warning in typeCheckResult.warnings:
-        print(warning)
+    return len(result.errors) == 0
 
 
 if __name__ == '__main__':

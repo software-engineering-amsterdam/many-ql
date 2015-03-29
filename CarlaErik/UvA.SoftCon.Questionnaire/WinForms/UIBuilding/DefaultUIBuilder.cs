@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
@@ -14,11 +9,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// <summary>
     /// Creates a default UI control tree based on a list of questions.
     /// </summary>
-    internal class DefaultUIBuilder : QLVisitor<object>
+    internal class DefaultUIBuilder : TopDownQuestionFormVisitor<object>
     {
         private ICollection<QuestionWidget> questionControls = new List<QuestionWidget>();
 
-        public QuestionFormControl BuildUi(QuestionForm form, OutputWindow outputWindow)
+        public QuestionFormControl BuildUI(QuestionForm form, OutputWindow outputWindow)
         {
             Visit(form);
 

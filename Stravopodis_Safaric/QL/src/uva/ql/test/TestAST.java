@@ -11,8 +11,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
-import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
+import uva.ql.ast.Node;
 import uva.ql.ast.statements.Question;
 import uva.ql.parser.QLLexer;
 import uva.ql.parser.QLMainVisitor;
@@ -31,26 +31,26 @@ public class TestAST {
 		return tokenStream.getText().replaceAll("\".*?\"","");
 	}
 	
-	private static ASTNode questCheck(String stream){
+	private static Node questCheck(String stream){
 		ANTLRInputStream s = new ANTLRInputStream(stream);
 		QLLexer lexer = new QLLexer(s);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
 		ParseTree tree = parser.quest();
 		QLMainVisitor visitor = new QLMainVisitor();
-		ASTNode ast = visitor.visit(tree);
+		Node ast = visitor.visit(tree);
 		
 		return ast;
 	}
 	
-	private static ASTNode formCheck(String stream){
+	private static Node formCheck(String stream){
 		ANTLRInputStream s = new ANTLRInputStream(stream);
 		QLLexer lexer = new QLLexer(s);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
 		ParseTree tree = parser.form();
 		QLMainVisitor visitor = new QLMainVisitor();
-		ASTNode ast = visitor.visit(tree);
+		Node ast = visitor.visit(tree);
 		
 		return ast;
 	}
@@ -59,41 +59,46 @@ public class TestAST {
 		String _result = null;
 		Pattern regex = Pattern.compile("\".*?\"");
 		Matcher matcher = regex.matcher(_statements);
+		
 		if (matcher.find()) {
 		    _result = matcher.group();
 		}
+		
 		return _result;
 	}
 	
 	//testing if tokeniser returns correctly the tokens
-		@Test
-		public void testTokens() {
-			String tok = TestAST.getTokensWithoutStringLiterals(testForm);
-			assertEquals(tok.indexOf(""),0);
-		}
+	@Test
+	public void testTokens() {
+		String tok = TestAST.getTokensWithoutStringLiterals(testForm);
+		assertEquals(tok.indexOf(""),0);
+	}
 		
 	//testing that tokeniser can receive empty input and recognise correctly that the string is empty
-		@Test
-		public void testEmptyInput() {
-			String tok = TestAST.getTokensWithoutStringLiterals("");
-			assertEquals(tok.isEmpty(),true);
-		}
+	@Test
+	public void testEmptyInput() {
+		String tok = TestAST.getTokensWithoutStringLiterals("");
+		assertEquals(tok.isEmpty(),true);
+	}
 		
 	//testing that a question is correctly recognised by type,identifier and content.
-		@Test
-		public void testQuestionType(){
-			Question quest = (Question)TestAST.questCheck(testQuestion);
-			assertEquals(quest.getQuestionIdentifierValue(),"hasRentHouse");
-			assertEquals(quest.getQuestionType().toString(),"TypeBoolean()");
-			assertEquals(quest.getQuestionLabelText(), "Did you rent a house in 2015?");
-			assertEquals(quest.getQuestionExpression().getEvaluatedValue(),true);
-		}
+	@Test
+	public void testQuestionType(){
+		Question quest = (Question)TestAST.questCheck(testQuestion);
+			
+		assertEquals(quest.getQuestionIdentifierValue(),"hasRentHouse");
+		assertEquals(quest.getQuestionType().toString(),"TypeBoolean()");
+		assertEquals(quest.getQuestionLabelText(), "Did you rent a house in 2015?");
+		assertEquals(quest.getQuestionExpression().evaluate().getValue(),true);
+	}
+	
 	//Testing that a form is recognised correctly and using regex to match strings (validate recognition)
-		@Test
-		public void testForm(){
-			Form form = (Form)TestAST.formCheck(testForm);
-			String result = matchRegex(form.getStatement().toString());
-			assertEquals(form.getIdentifierValue(),"someForm");
-			assertEquals(result,"\"Did you rent a house in 2015?\"");
-		}
+	@Test
+	public void testForm(){
+		Form form = (Form)TestAST.formCheck(testForm);
+		String result = matchRegex(form.getFormStatements().toString());
+			
+		assertEquals(form.getFormIdentifier().evaluate().toString(),"someForm");
+		assertEquals(result,"\"Did you rent a house in 2015?\"");
+	}
 }
