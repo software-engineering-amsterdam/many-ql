@@ -79,32 +79,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         return new Section(label, content, styles, extractLineInfo(ctx.STRING().getSymbol()));
     }
 
-    private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
-        final Map<Type, StylizedWidget> typeWithWidget = new HashMap<>();
-
-        ctx.forEach(c -> {
-            final Type questionType = getType(c.type().getText());
-            final StylizedWidget widget = (StylizedWidget) c.widget().accept(this);
-
-            typeWithWidget.put(questionType, widget);
-        });
-
-        return typeWithWidget;
-    }
-
-    private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
-        final Map<String, String> styleProperties = new HashMap<>();
-
-        ctx.forEach(c -> {
-            final String key = c.key.getText();
-            final String value = Utils.unquote(c.value().getText());
-
-            styleProperties.put(key, value);
-        });
-
-        return styleProperties;
-    }
-
     @Override
     public Question visitQuestionWithoutWidget(final QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
@@ -144,34 +118,36 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public CheckboxType visitCheckbox(final CheckboxContext ctx) {
-        return new CheckboxType(Utils.unquote(ctx.yes.getText()));
+        return new CheckboxType(Utils.unquote(ctx.yes.getText()), extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override
     public DropdownType visitDropdown(final DropdownContext ctx) {
-        return new DropdownType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
+        return new DropdownType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()), extractLineInfo(ctx
+                .STRING().get(0).getSymbol()));
     }
 
     @Override
     public SpinboxType visitSpinbox(final SpinboxContext ctx) {
         return new SpinboxType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
-                Double.valueOf(ctx.step.getText()));
+                Double.valueOf(ctx.step.getText()), extractLineInfo(ctx.SPINBOX().getSymbol()));
     }
 
     @Override
     public SliderType visitSlider(final SliderContext ctx) {
         return new SliderType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
-                Double.valueOf(ctx.step.getText()));
+                Double.valueOf(ctx.step.getText()), extractLineInfo(ctx.SLIDER().getSymbol()));
     }
 
     @Override
     public TextType visitText(final TextContext ctx) {
-        return new TextType();
+        return new TextType(extractLineInfo(ctx.TEXT().getSymbol()));
     }
 
     @Override
     public RadioButtonType visitRadio(final RadioContext ctx) {
-        return new RadioButtonType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()));
+        return new RadioButtonType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()),
+                extractLineInfo(ctx.RADIO().getSymbol()));
     }
 
     private LineInfo extractLineInfo(final Token token) {
@@ -192,6 +168,32 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         default:
             return UNDEFINED_TYPE;
         }
+    }
+
+    private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
+        final Map<Type, StylizedWidget> typeWithWidget = new HashMap<>();
+
+        ctx.forEach(c -> {
+            final Type questionType = getType(c.type().getText());
+            final StylizedWidget widget = (StylizedWidget) c.widget().accept(this);
+
+            typeWithWidget.put(questionType, widget);
+        });
+
+        return typeWithWidget;
+    }
+
+    private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
+        final Map<String, String> styleProperties = new HashMap<>();
+
+        ctx.forEach(c -> {
+            final String key = c.key.getText();
+            final String value = Utils.unquote(c.value().getText());
+
+            styleProperties.put(key, value);
+        });
+
+        return styleProperties;
     }
 
 }

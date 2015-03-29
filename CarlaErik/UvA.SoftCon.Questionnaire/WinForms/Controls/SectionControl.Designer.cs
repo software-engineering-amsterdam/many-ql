@@ -39,20 +39,22 @@
             this.SectionBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SectionBox.Location = new System.Drawing.Point(0, 0);
             this.SectionBox.Name = "SectionBox";
-            this.SectionBox.Size = new System.Drawing.Size(610, 390);
+            this.SectionBox.Size = new System.Drawing.Size(610, 153);
             this.SectionBox.TabIndex = 0;
             this.SectionBox.TabStop = false;
             this.SectionBox.Text = "section title";
             // 
             // QuestionContainer
             // 
+            this.QuestionContainer.AutoSize = true;
             this.QuestionContainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.QuestionContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.QuestionContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.QuestionContainer.Location = new System.Drawing.Point(3, 16);
             this.QuestionContainer.Name = "QuestionContainer";
-            this.QuestionContainer.Size = new System.Drawing.Size(604, 371);
+            this.QuestionContainer.Size = new System.Drawing.Size(604, 134);
             this.QuestionContainer.TabIndex = 0;
+            this.QuestionContainer.WrapContents = false;
             // 
             // SectionControl
             // 
@@ -60,8 +62,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.SectionBox);
             this.Name = "SectionControl";
-            this.Size = new System.Drawing.Size(610, 390);
+            this.Size = new System.Drawing.Size(610, 153);
             this.SectionBox.ResumeLayout(false);
+            this.SectionBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
