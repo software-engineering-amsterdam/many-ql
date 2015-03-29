@@ -2,7 +2,7 @@
 import unittest
 
 from src.QL.parser import Parser
-from src.Typechecker.errors import ParseError
+from src.Errors import ParseError
 
 import lib
 

@@ -1,21 +1,24 @@
 package nl.uva.bromance.ast;
 
-import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.conditionals.ContainsExpression;
+import nl.uva.bromance.ast.conditionals.Expression;
+import nl.uva.bromance.ast.conditionals.HasIdentifier;
+import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 
 public class Calculation extends QLNode implements ContainsExpression, HasIdentifier {
-    private Identifier identifier;
+    private String identifier;
     private IntResult result;
     private Expression expression;
 
-    public Calculation(int lineNumber, Identifier id) {
+    public Calculation(int lineNumber, String id) {
         super(lineNumber);
+        id = id.substring(1, id.length() - 1);
         this.identifier = id;
-        this.identifier.setResult(new IntResult(0));
     }
 
-    public IntResult getResult(){
+    public IntResult getResult() {
         return result;
     }
 
@@ -36,11 +39,10 @@ public class Calculation extends QLNode implements ContainsExpression, HasIdenti
     @Override
     public void handleExpressionResult() {
         result = (IntResult) expression.getResult();
-        identifier.setResult(result);
     }
 
     @Override
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 }
