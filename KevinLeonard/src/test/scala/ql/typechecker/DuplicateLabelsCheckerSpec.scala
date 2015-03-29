@@ -1,7 +1,7 @@
 package ql.typechecker
 
 import org.specs2.mutable.Specification
-import ql.ast.{BooleanType, Form, Question, Sequence, Variable}
+import ql.ast._
 
 class DuplicateLabelsCheckerSpec extends Specification {
 
@@ -16,7 +16,11 @@ class DuplicateLabelsCheckerSpec extends Specification {
         Question(BooleanType(), Variable("Y"), aLabel, None),
         Question(BooleanType(), Variable("Z"), aLabel, None),
         Question(BooleanType(), Variable("A"), anotherLabel, None),
-        Question(BooleanType(), Variable("B"), anotherLabel, None)
+        IfStatement(
+          BooleanLiteral(BooleanValue(false)),
+          Question(BooleanType(), Variable("B"), anotherLabel, None),
+          None
+        )
       )))
       val result = List(
         Warning(s"Label \'$anotherLabel\' is used 2 times"),
