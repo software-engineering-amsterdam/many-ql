@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.validation.SyntaxError;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
@@ -51,7 +52,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 			StylesheetParser stylesheetParser = new StylesheetParser();
 			StylesheetParsingResult stylesheetParsingResult = stylesheetParser.parse(absolutePath);
 
-			Node node = determineNodeToShow(stylesheetParsingResult);
+			Node node = determineNodeToShow(stylesheetParsingResult, null);
 			ObservableList<Node> stackPaneChildren = stackPane.getChildren();
 			stackPaneChildren.clear();
 			stackPaneChildren.add(node);
@@ -68,7 +69,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		return classLoader.getResource(path);
 	}
 
-	private Node determineNodeToShow(StylesheetParsingResult stylesheetParsingResult) {
+	private Node determineNodeToShow(StylesheetParsingResult stylesheetParsingResult, Questionnaire questionnaire) {
 		List<SyntaxError> syntaxErrors = stylesheetParsingResult.getSyntaxErrors();
 		if (!syntaxErrors.isEmpty()) {
 			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
@@ -77,7 +78,7 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		}
 
 		Stylesheet stylesheet = stylesheetParsingResult.getStylesheet();
-		TypeChecker typeChecker = new TypeChecker(stylesheet);
+		TypeChecker typeChecker = new TypeChecker(stylesheet, questionnaire);
 		List<TypeValidation> typeValidations = typeChecker.checkTypes();
 		if (!typeValidations.isEmpty()) {
 			ValidationsGridPane validationsGridPane = new ValidationsGridPane();
