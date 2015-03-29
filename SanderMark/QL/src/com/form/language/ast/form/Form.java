@@ -15,24 +15,24 @@ public class Form {
     }
 
     public Form(String id, List<Statement> statementList) {
-    this.id = new FormId(id);
+	this.id = new FormId(id);
 	this.statementList = new FormStatementCollection(statementList);
     }
 
     public void getTypes(Context context) {
-    	statementList.getTypes(context);
+	statementList.getTypes(context);
     }
 
     public Context initMemory(Context context) {
-    	return statementList.initMemory(context);
+	return statementList.initMemory(context);
     }
-    
+
     public List<Statement> getStatements(){
-    	return statementList.getValue();
+	return statementList.getValue();
     }
 
     public String getId() {
-        return id.getValue();
+	return id.getValue();
     }
 
 }

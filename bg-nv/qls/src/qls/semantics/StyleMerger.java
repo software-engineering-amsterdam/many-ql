@@ -78,7 +78,6 @@ public class StyleMerger implements StylesheetVisitor<Void>, StatementVisitor<Vo
     {
         Type questionType = this.questions.getType(q.getId());
         Rules result = this.styleStack.peekRulesForType(questionType);
-
         this.styles.registerStyle(q.getId(), result);
 
         return null;

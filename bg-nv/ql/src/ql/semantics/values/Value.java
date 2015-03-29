@@ -1,7 +1,5 @@
 package ql.semantics.values;
 
-import ql.ast.type.IntType;
-
 /**
  * Created by bore on 16/02/15.
  */
@@ -23,12 +21,6 @@ public abstract class Value<T>
     public T getValue()
     {
         return this.value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return this.value.toString();
     }
 
     public Value add(Value v)
@@ -269,6 +261,12 @@ public abstract class Value<T>
     protected Value promoteInt(IntValue v)
     {
         return v;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.value.toString();
     }
 
     public abstract <T> T accept (ValueVisitor<T> visitor);

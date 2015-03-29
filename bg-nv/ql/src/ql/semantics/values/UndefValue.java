@@ -5,6 +5,8 @@ package ql.semantics.values;
  */
 public class UndefValue extends Value<Void>
 {
+    private static final UndefValue undefValue = new UndefValue();
+    
     public UndefValue()
     {
         super(null);
@@ -25,277 +27,277 @@ public class UndefValue extends Value<Void>
     @Override
     public Value add(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value addInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
     
     @Override
     public Value addDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value addString(StrValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
     
     @Override
     public Value sub(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value subInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value subDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value mul(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value mulInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value mulDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value div(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value divInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value divDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value neg()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value negInteger()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value negDecimal()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value pos()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value posInteger()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value posDecimal()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value not()
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gt(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gtInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gtDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value lt(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value ltInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value ltDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gtEqu(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gtEquInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value gtEquDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value ltEqu(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value ltEquInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value ltEquDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value equ(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value equInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value equDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value equString(StrValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value equBoolean(BoolValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value notEqu(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value notEquInteger(IntValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
      public Value notEquDecimal(DecValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value notEquString(StrValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value notEquBoolean(BoolValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value and(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value andBoolean(BoolValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value or(Value v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     @Override
     public Value orBoolean(BoolValue v)
     {
-        return new UndefValue();
+        return undefValue;
     }
 
     public <T> T accept(ValueVisitor<T> visitor)

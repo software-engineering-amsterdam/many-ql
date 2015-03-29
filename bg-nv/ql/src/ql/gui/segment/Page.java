@@ -12,9 +12,9 @@ public class Page extends ParentSegment<GridPane>
 {
     private String name;
 
-    public Page(List<Segment> subSegments, String name, Boolean visible)
+    public Page(List<Segment> subSegments, String name)
     {
-        super(subSegments, new GridPane(), visible);
+        super(subSegments, new GridPane());
         this.name = name;
 
         this.container.setAlignment(Pos.CENTER);

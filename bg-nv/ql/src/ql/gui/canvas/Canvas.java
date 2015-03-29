@@ -29,15 +29,9 @@ public class Canvas extends GuiElement
 
     public Canvas(String name, List<Page> pages)
     {
-        this(name, pages, true);
-    }
-
-    public Canvas(String name, List<Page> pages, Boolean visible)
-    {
-        super(visible);
         this.name = name;
         this.pages = pages;
-        this.submitButton = new Button("Submit");
+        this.submitButton = new Button("Save");
         this.buttonBox = this.createButtonBox();
         this.parent = this.createParent();
     }

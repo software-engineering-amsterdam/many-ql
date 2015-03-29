@@ -53,4 +53,5 @@ public class Page extends AstNode {
 		collectQuestions(questions);
 		return questions.stream().anyMatch(question -> question.equals(name));
 	}
+
 }

@@ -35,4 +35,9 @@ public class SectionBuilder {
 		return this;
 	}
 
+	public SectionBuilder withQuestions(List<String> questionNames) {
+		this.questionNames = questionNames;
+		return this;
+	}
+
 }

@@ -1,6 +1,5 @@
 package qls.tests.ast;
 
-import org.junit.Test;
 import ql.tests.TestHelper;
 import qls.util.ParserHelper;
 

@@ -14,10 +14,10 @@ class GUI(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title('Questionnaire Language (QL)')
 
-        self.questionWidgets = []
         self.parser = Parser(debug=debug)
 
         self.buildWidgets()
+        self.currentWidget = None
 
     def run(self):
         self.mainloop()
@@ -70,44 +70,41 @@ class GUI(tk.Tk):
         # Hide file select
         self.fileSelect.pack_forget()
 
-        # Display button for progress
+        # Display buttons for progress
+        self.prevButton = tk.Button(text="Back", command=self._prev)
+        self.prevButton.pack()
+
         self.nextButton = tk.Button(text="Next question", command=self._next)
         self.nextButton.pack()
 
         # Start initial question
         self.builder = FormBuilder(self.frame, parsed)
-        self._nextQuestion()
+        self._next()
 
+
+    def _prev(self):
+        widget = self.builder.prevQuestion()
+        self._displayQuestion(widget)
 
     def _next(self):
-        current = self.questionWidgets[-1]
-        #print current.get()
+        widget = self.builder.nextQuestion()
+        self._displayQuestion(widget)
 
-        self._nextQuestion()
-
-
-    def _nextQuestion(self):
-        questionWidget = self.builder.nextQuestion()
+    def _displayQuestion(self, questionWidget=None):
+        # Remove prev visible question
+        if self.currentWidget:
+            self.currentWidget.tearDown()
 
         if questionWidget:
-            self.questionWidgets.append(questionWidget)
-
+            self.currentWidget = questionWidget
         else:
-            # TODO display form results?
-            print "Done!"
             self._reset()
 
 
-    def _reset(self):
-        # Reset frame height
-        #self.frame.pack(side="top", fill="both", expand=True)
-        self.frame.grid_columnconfigure(0, weight=1)
 
+    def _reset(self):
         # Display fileSelect button
         self.fileSelect.pack()
 
-        for entry in self.questionWidgets:
-            entry.tearDown()
-
+        self.prevButton.pack_forget()
         self.nextButton.pack_forget()
-

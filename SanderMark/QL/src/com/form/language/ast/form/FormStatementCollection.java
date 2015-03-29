@@ -7,33 +7,33 @@ import com.form.language.ast.statement.Statement;
 import com.form.language.memory.Context;
 
 public class FormStatementCollection {
-	private List<Statement> statementList;
+    private List<Statement> statementList;
 
-	public FormStatementCollection()
-	{
-		this.statementList =  new ArrayList<Statement>();
-	}
+    public FormStatementCollection()
+    {
+	this.statementList =  new ArrayList<Statement>();
+    }
 
-	public FormStatementCollection(List<Statement> statementList)
-	{
-		this.statementList = statementList;
-	}
+    public FormStatementCollection(List<Statement> statementList)
+    {
+	this.statementList = statementList;
+    }
 
-	public void getTypes(Context context) {
-		for (Statement s : statementList) {
-			s.checkType(context);
-		}
+    public void getTypes(Context context) {
+	for (Statement s : statementList) {
+	    s.checkType(context);
 	}
+    }
 
-	public Context initMemory(Context context) {
-		for (Statement s : statementList) {
-			s.initMemory(context);
-		}
-		return context;
+    public Context initMemory(Context context) {
+	for (Statement s : statementList) {
+	    s.initMemory(context);
 	}
+	return context;
+    }
 
-	public List<Statement> getValue() 
-	{
-		return statementList;
-	}
+    public List<Statement> getValue() 
+    {
+	return statementList;
+    }
 }

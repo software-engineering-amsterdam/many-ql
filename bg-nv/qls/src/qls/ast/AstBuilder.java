@@ -1,5 +1,6 @@
 package qls.ast;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import ql.ast.AstNode;
 import ql.ast.type.Type;
@@ -8,10 +9,8 @@ import ql.util.StringHelper;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
 import qls.ast.statement.*;
-import qls.ast.statement.Section;
 import qls.gen.QLSBaseVisitor;
 import qls.gen.QLSParser;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,17 +24,15 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
     @Override
     public AstNode visitStylesheet(@NotNull QLSParser.StylesheetContext context)
     {
-        List<Page> definitions = new ArrayList<Page>();
+        List<Page> definitions = new ArrayList<>();
         for (QLSParser.PageContext pageContext : context.page())
         {
             Page s = (Page)this.visit(pageContext);
             definitions.add(s);
         }
-
-        String stylesheetId = context.Identifier().getText();
         int lineNumber = context.Identifier().getSymbol().getLine();
 
-        return new Stylesheet(stylesheetId, definitions, lineNumber);
+        return new Stylesheet(definitions, lineNumber);
     }
 
     @Override

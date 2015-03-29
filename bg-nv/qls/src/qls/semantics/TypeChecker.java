@@ -108,7 +108,7 @@ public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Vo
         return null;
     }
 
-    private Void addQuestionReference(Question q)
+    private void addQuestionReference(Question q)
     {
         String id = q.getId();
         if (this.isQuestionNotDefinedInForm(q))
@@ -122,11 +122,9 @@ public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Vo
         }
 
         this.refQuestions.add(id);
-
-        return null;
     }
 
-    private Void checkForWidgetTypeMismatch(Rules rs, Type declType, Integer lineNumber)
+    private void checkForWidgetTypeMismatch(Rules rs, Type declType, Integer lineNumber)
     {
         for (Rule r : rs)
         {
@@ -135,7 +133,6 @@ public class TypeChecker implements StylesheetVisitor<Void>, StatementVisitor<Vo
                 this.messages.add(StyleError.widgetTypeMismatch(declType.getTitle(), lineNumber));
             }
         }
-        return null;
     }
 
     private boolean isQuestionNotDefinedInForm(Question q)

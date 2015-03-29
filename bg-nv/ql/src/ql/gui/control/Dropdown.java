@@ -20,7 +20,6 @@ public class Dropdown extends ControlElement implements BoolControl
 
     public Dropdown(String trueLabel, String falseLabel)
     {
-        super();
         this.trueLabel = trueLabel;
         this.falseLabel = falseLabel;
 
@@ -71,11 +70,4 @@ public class Dropdown extends ControlElement implements BoolControl
         Boolean val = selectedLabel.equals(this.trueLabel);
         return new BoolValue(val);
     }
-
-    @Override
-    public <T> T accept(ControlVisitor<T> visitor)
-    {
-        return visitor.visit(this);
-    }
-
 }

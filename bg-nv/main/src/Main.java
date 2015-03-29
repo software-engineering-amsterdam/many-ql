@@ -39,7 +39,7 @@ public class Main extends Application
     {
         if (!(this.isQlFileSpecified()))
         {
-            this.showErrorAlert("No ql file specified");
+            this.showErrorAlert("No QL file specified");
             System.exit(1);
         }
 
@@ -58,7 +58,7 @@ public class Main extends Application
             System.exit(1);
         }
 
-        CondQuestionTable condQuestionTable = CondQuestionTableBuilder.flatten(form);
+        CondQuestionTable condQuestionTable = CondQuestionTableBuilder.build(form);
         Modeler modeler = new SimpleModeler(condQuestionTable);
 
         if (this.isQlsFileSpecified())
