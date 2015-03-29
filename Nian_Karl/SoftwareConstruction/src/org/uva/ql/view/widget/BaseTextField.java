@@ -30,6 +30,8 @@ public abstract class BaseTextField extends Widget {
 	public void setWidgetValue(Value value) {
 		if (value.isDefined()) {
 			getWidget().setText(value.toString());			
+		}else{
+			getWidget().setText("");
 		}
 	}
 
