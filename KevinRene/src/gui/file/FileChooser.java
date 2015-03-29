@@ -5,10 +5,10 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-import ql.gui.DefaultChangeHandler;
-import ql.gui.UIComponent;
+import ql.gui.DefaultComponent;
+import ql.gui.Component;
 
-public class FileChooser extends DefaultChangeHandler implements UIComponent {
+public class FileChooser extends DefaultComponent implements Component {
 	public final static String QL = "ql";
 	public final static String QLS = "qls";
 	
@@ -24,7 +24,7 @@ public class FileChooser extends DefaultChangeHandler implements UIComponent {
 		return fileChooser.getSelectedFile();
 	}
 	
-	public boolean showOpenDialog(UIComponent parent) {
+	public boolean showOpenDialog(Component parent) {
 		int returnValue = fileChooser.showOpenDialog(parent.getComponent());
 		
 		if(returnValue == JFileChooser.APPROVE_OPTION) {

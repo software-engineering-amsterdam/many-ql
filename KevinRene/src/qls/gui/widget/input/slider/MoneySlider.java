@@ -28,8 +28,8 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 
 	@Override
 	public void setValue(FloatValue value) {
-		slider.setValue(Math.round((value.getValue() * FACTOR)));
-		label.setText(decimalFormat.format(value.getValue()));
+		slider.setValue(Math.round((value.getPrimitive() * FACTOR)));
+		label.setText(decimalFormat.format(value.getPrimitive()));
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class MoneySlider extends Slider<FloatValue> implements ChangeListener {
 	
 	@Override
 	public void updateComponent() {
-		label.setText(decimalFormat.format(getValue().getValue()));
+		label.setText(decimalFormat.format(getValue().getPrimitive()));
 		super.updateComponent();
 	}
 

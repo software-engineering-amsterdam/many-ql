@@ -3,7 +3,7 @@ package ql.ast.expression.arithmetic;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.expression.Unary;
-import ql.ast.type.QLFloat;
+import ql.ast.type.QLNumeric;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Negation extends Unary {
@@ -16,9 +16,8 @@ public class Negation extends Unary {
 		return visitor.visit(this);
 	}
 	
-	//TODO: Add a superclass for numeric types.
 	@Override
 	public QLType getType() {
-		return new QLFloat();
+		return new QLNumeric();
 	}
 }

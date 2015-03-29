@@ -1,6 +1,5 @@
 package ql.ast.visitor.typechecker;
 
-import ql.TypeEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;

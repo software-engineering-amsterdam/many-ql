@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ql.TypeEnvironment;
 import ql.ast.QLNode;
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
@@ -15,6 +14,7 @@ import ql.ast.type.QLFloat;
 import ql.ast.type.QLForm;
 import ql.ast.type.QLInteger;
 import ql.ast.type.QLString;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.Statement;
 import qls.ast.expression.Literal;

@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ql.TypeEnvironment;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.statement.Question;
 import ql.ast.type.QLFloat;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 
 public class TestTypeRegister {
 		

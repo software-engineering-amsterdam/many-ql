@@ -6,7 +6,8 @@ import ql.ast.expression.Binary;
 import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
-public class Greater extends Binary {	
+public class Greater extends Binary {
+	
 	public Greater(Expression left, Expression right) {
 		super(left, right, ">");
 	}

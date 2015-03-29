@@ -1,6 +1,5 @@
 package ql.gui.structure;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,20 +7,20 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-import ql.gui.DefaultChangeHandler;
-import ql.gui.UIComponent;
+import ql.gui.DefaultComponent;
+import ql.gui.Component;
 
-public class Panel extends DefaultChangeHandler implements UIComponent {
+public class Panel extends DefaultComponent {
 	private JPanel panel;
-	private List<UIComponent> components;
+	private List<Component> components;
 	
 	public Panel() {		
 		panel = new JPanel(new MigLayout("hidemode 3"));
 		
-		components = new ArrayList<UIComponent>();
+		components = new ArrayList<Component>();
 	}
 	
-	public Panel(UIComponent handler) {
+	public Panel(Component handler) {
 		this();		
 		setHandler(handler);
 	}
@@ -30,26 +29,26 @@ public class Panel extends DefaultChangeHandler implements UIComponent {
 		return panel;
 	}
 	
-	protected List<UIComponent> getComponents() {
+	protected List<Component> getComponents() {
 		return components;
 	}
 	
-	public void addComponent(UIComponent component) {
+	public void addComponent(Component component) {
 		addComponent(component, "wrap");
 	}
 	
-	public void addComponent(UIComponent component, String migSetting) {
+	public void addComponent(Component component, String migSetting) {
 		components.add(component);
 		
 		panel.add(component.getComponent(), migSetting);
 		
 		component.setHandler(this);
-		component.getComponent().setAlignmentX(Component.LEFT_ALIGNMENT);
+		component.getComponent().setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
 	}
 	
 	@Override
 	public void updateComponent() {
-		for(UIComponent component : components) {
+		for(Component component : components) {
 			component.updateComponent();
 		}
 		
