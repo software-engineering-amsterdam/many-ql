@@ -1,5 +1,8 @@
 package ql.util;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 /**
  * Created by bore on 12/03/15.
  */
@@ -16,21 +19,8 @@ public class StringHelper
         return result.replace("\\\"", "\"");
     }
 
-    public static String printStrValueList(Iterable<String> c, String delimiter)
+    public static String printStrValueList(Collection<String> c, String delimiter)
     {
-        StringBuilder builder = new StringBuilder();
-
-        for (String s : c)
-        {
-            builder.append(s);
-            builder.append(delimiter);
-        }
-
-        if (builder.length() < 2)
-        {
-            return "";
-        }
-
-        return builder.substring(0, builder.length() - 2);
+        return c.stream().collect(Collectors.joining(delimiter));
     }
 }

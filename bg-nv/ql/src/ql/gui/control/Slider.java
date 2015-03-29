@@ -5,7 +5,10 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import ql.semantics.values.*;
+import ql.semantics.values.DecValue;
+import ql.semantics.values.IntValue;
+import ql.semantics.values.UndefValue;
+import ql.semantics.values.Value;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -34,7 +37,6 @@ public class Slider extends ControlElement implements IntControl, DecControl
 
     private Slider(Double startValue, Double endValue, Double step, String format)
     {
-        super();
         this.slider = new javafx.scene.control.Slider(startValue, endValue, step);
         this.formatter = new DecimalFormat(format);
 
@@ -115,11 +117,5 @@ public class Slider extends ControlElement implements IntControl, DecControl
     private ChangeListener<Number> createSliderTextUpdateListener()
     {
         return (observable, oldValue, newValue) -> sliderTextValue.setText(formatter.format(newValue).toString());
-    }
-
-    @Override
-    public <T> T accept(ControlVisitor<T> visitor)
-    {
-        return visitor.visit(this);
     }
 }

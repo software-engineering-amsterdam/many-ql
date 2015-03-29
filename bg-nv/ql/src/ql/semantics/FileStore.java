@@ -4,13 +4,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ql.ast.statement.Question;
 import ql.semantics.values.Value;
-import ql.semantics.errors.Error;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -40,7 +37,7 @@ public class FileStore extends DataStore
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(file);
+        StreamResult result = new StreamResult(this.file);
 
         transformer.transform(source, result);
     }

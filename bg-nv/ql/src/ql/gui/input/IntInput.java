@@ -10,8 +10,6 @@ import ql.semantics.values.Value;
  */
 public class IntInput extends RegularInput<IntControl>
 {
-    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid integer.");
-
     public IntInput(String id, IntControl control)
     {
         super(id, control);
@@ -31,7 +29,7 @@ public class IntInput extends RegularInput<IntControl>
     @Override
     protected Message getInvalidInputErrorMsg()
     {
-        return VALIDATION_ERROR;
+        return new Warning("The entered value is not a valid integer.");
     }
 
     @Override

@@ -1,15 +1,13 @@
 package ql.tests.ast;
 
-import ql.ast.expression.*;
-import ql.util.ParserHelper;
-import ql.tests.TestHelper;
 import org.junit.Test;
+import ql.ast.expression.*;
+import ql.tests.TestHelper;
+import ql.util.ParserHelper;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by bore on 19/02/15.

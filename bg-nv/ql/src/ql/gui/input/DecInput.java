@@ -5,15 +5,11 @@ import ql.semantics.errors.Message;
 import ql.semantics.errors.Warning;
 import ql.semantics.values.Value;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Nik on 22-02-2015
  */
 public class DecInput extends RegularInput<DecControl>
 {
-    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid decimal number.");
-
     public DecInput(String id, DecControl control)
     {
         super(id, control);
@@ -28,7 +24,7 @@ public class DecInput extends RegularInput<DecControl>
     @Override
     protected Message getInvalidInputErrorMsg()
     {
-        return VALIDATION_ERROR;
+        return new Warning("The entered value is not a valid decimal number.");
     }
 
     @Override
@@ -36,5 +32,4 @@ public class DecInput extends RegularInput<DecControl>
     {
         return visitor.visit(this);
     }
-
 }

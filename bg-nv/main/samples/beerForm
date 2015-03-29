@@ -1,6 +1,5 @@
 form beer {
   integer age "How old are you?"
-
   if (age >= 18){
     boolean orderBeer "Would you like to order beer?"
   }

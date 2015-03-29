@@ -23,7 +23,7 @@ public class Page extends AstNode implements Styleable
         this.body = body;
 
         StyleCollector c = new StyleCollector();
-        this.style = c.visit(this);
+        this.style = this.accept(c);
     }
 
     public String getTitle()

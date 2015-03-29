@@ -16,7 +16,7 @@ public abstract class RegularInput<T extends Control> extends Input<T>
 
     public RegularInput(String id, T control)
     {
-        super(id, control, true, false);
+        super(id, control, false);
 
         this.control.addListener(this.constructChangeListener());
 
@@ -72,5 +72,6 @@ public abstract class RegularInput<T extends Control> extends Input<T>
     }
 
     protected abstract Value convertUserInputToValue();
+
     protected abstract Message getInvalidInputErrorMsg();
 }

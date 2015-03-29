@@ -26,7 +26,7 @@ public class Row extends Segment<Pane> implements Refreshable
 
     public Row(Expr condition, Label label, Input input)
     {
-        super(new HBox(), true);
+        super(new HBox());
         this.input = input;
         this.label = label;
         this.condition = condition;

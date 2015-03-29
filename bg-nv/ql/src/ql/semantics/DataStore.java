@@ -1,9 +1,6 @@
 package ql.semantics;
 
-import ql.semantics.errors.*;
 import ql.semantics.values.Value;
-
-import java.io.File;
 
 /**
  * Created by Nik on 22-03-2015

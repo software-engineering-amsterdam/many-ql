@@ -15,12 +15,6 @@ public class Label extends GuiElement
 
     public Label(String text)
     {
-        this(text, true);
-    }
-
-    public Label(String text, Boolean visible)
-    {
-        super(visible);
         this.textNode = new Text();
         this.textNode.setText(text);
     }
@@ -38,10 +32,5 @@ public class Label extends GuiElement
     public void applyFont(Font font)
     {
         this.textNode.setFont(font);
-    }
-
-    public <V> V accept(LabelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
     }
 }
