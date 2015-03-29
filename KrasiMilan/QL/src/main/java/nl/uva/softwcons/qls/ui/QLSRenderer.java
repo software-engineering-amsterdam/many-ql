@@ -36,7 +36,7 @@ public class QLSRenderer implements Renderer, StylesheetVisitor<Void>, SegmentVa
     }
 
     @Override
-    public void add(QuestionLayout node) {
+    public void add(final QuestionLayout node) {
         this.questionLayouts.put(node.getQuestionId(), node);
     }
 

@@ -33,8 +33,6 @@ public class ExpressionEvaluatorTest {
     private static final BooleanLiteral TRUE = new BooleanLiteral(true, DUMMY_LINE_INFO);
     private static final BooleanLiteral FALSE = new BooleanLiteral(false, DUMMY_LINE_INFO);
 
-    // TODO add tests for strings
-    private static final StringLiteral STR_FOO = new StringLiteral("foo", DUMMY_LINE_INFO);
     private static final StringLiteral STR_BAR = new StringLiteral("bar", DUMMY_LINE_INFO);
 
     @Test

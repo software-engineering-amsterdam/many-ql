@@ -25,14 +25,14 @@ public class DropdownWidget extends Widget {
     }
 
     @Override
-    public void addListener(ValueChangeListener<Value> listener) {
+    public void addListener(final ValueChangeListener<Value> listener) {
         comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
     }
 
     @Override
-    public void setValue(Value value) {
+    public void setValue(final Value value) {
         if (value.inConditionalContext()) {
             comboBox.setValue(yesValue);
             return;
@@ -41,7 +41,7 @@ public class DropdownWidget extends Widget {
     }
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(final boolean editable) {
         this.comboBox.setDisable(!editable);
     }
 

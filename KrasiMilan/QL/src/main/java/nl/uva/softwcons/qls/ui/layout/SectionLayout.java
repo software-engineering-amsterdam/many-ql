@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import nl.uva.softwcons.ql.ui.layout.Layout;
 
 public class SectionLayout implements Layout {
-    private VBox layout;
+    private final VBox layout;
 
     public SectionLayout() {
         this.layout = new VBox();
@@ -18,7 +18,7 @@ public class SectionLayout implements Layout {
     }
 
     @Override
-    public void add(Layout layout) {
+    public void add(final Layout layout) {
         this.layout.getChildren().add(layout.getNode());
     }
 }

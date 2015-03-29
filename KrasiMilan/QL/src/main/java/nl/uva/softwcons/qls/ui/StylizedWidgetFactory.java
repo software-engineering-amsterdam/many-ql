@@ -37,7 +37,7 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     }
 
     @Override
-    public Widget getWidget(Question question) {
+    public Widget getWidget(final Question question) {
         final Optional<WidgetType> questionWidget = resolver.getWidgetType(question.getId());
         final Style questionStyle = resolver.getStyle(question.getId());
 
@@ -53,34 +53,34 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     }
 
     @Override
-    public Widget visit(CheckboxType type) {
+    public Widget visit(final CheckboxType type) {
         return new CheckboxWidget(type.getYes(), new BooleanToBooleanValueConverter());
     }
 
     @Override
-    public Widget visit(DropdownType type) {
+    public Widget visit(final DropdownType type) {
         return new DropdownWidget(type.getYes(), type.getNo(), new StringToBooleanValueConverter(type.getYes(),
                 type.getNo()));
     }
 
     @Override
-    public Widget visit(RadioButtonType type) {
+    public Widget visit(final RadioButtonType type) {
         return new RadioButtonWidget(type.getYes(), type.getNo(), new BooleanToBooleanValueConverter());
     }
 
     @Override
-    public Widget visit(SliderType type) {
+    public Widget visit(final SliderType type) {
         return new SliderWidget(type.getStart(), type.getEnd(), type.getStep(), new NumberToNumberValueConverter(
                 type.getStart()));
     }
 
     @Override
-    public Widget visit(SpinboxType type) {
+    public Widget visit(final SpinboxType type) {
         return null; // TODO
     }
 
     @Override
-    public Widget visit(TextType type) {
+    public Widget visit(final TextType type) {
         return new TextFieldWidget(new StringToNumberValueConverter()); // TODO
     }
 
