@@ -3,7 +3,7 @@ package nl.uva.softwcons.qls.ui.style;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.uva.softwcons.qls.ast.style.Style;
+import nl.uva.softwcons.qls.ast.widgetstyle.Style;
 
 public class StyleBlock {
 
