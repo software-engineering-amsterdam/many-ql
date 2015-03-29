@@ -1,7 +1,7 @@
 package ql.typechecker
 
 import ql.ast._
-import types.{VariableName, TypeEnvironment}
+import types.{TypeEnvironment, VariableName}
 
 import scala.util.parsing.input.Position
 

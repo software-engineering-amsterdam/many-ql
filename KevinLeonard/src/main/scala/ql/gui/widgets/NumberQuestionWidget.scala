@@ -1,7 +1,7 @@
 package ql.gui.widgets
 
 import ql.ast.{Expression, NumberValue, Question, Value}
-import types._
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.TextField
 

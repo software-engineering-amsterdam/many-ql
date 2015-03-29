@@ -19,4 +19,8 @@ public class CheckboxType extends WidgetType {
         return type == BOOLEAN_TYPE;
     }
 
+    @Override
+    public <T> T accept(final WidgetTypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
