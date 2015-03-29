@@ -5,14 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.ast.LineInfo;
-import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.ql.ast.type.BooleanType;
-import nl.uva.softwcons.ql.ast.type.DateType;
-import nl.uva.softwcons.ql.ast.type.NumberType;
-import nl.uva.softwcons.ql.ast.type.StringType;
+import nl.uva.softwcons.ql.FormBuilder;
+import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.validation.Error;
-import nl.uva.softwcons.ql.validation.type.Environment;
 import nl.uva.softwcons.qls.StylesheetBuilder;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.validation.widget.WidgetTypeChecker;
@@ -150,23 +145,19 @@ public class WidgetTypeCheckerTest {
         assertThat(errors).hasSize(0);
     }
 
-    private static Environment getEnvironment() {
-        Environment env = new Environment();
-        LineInfo dummyLineInfo = new LineInfo(0, 0);
-        env.defineVariable(new Identifier("q1", dummyLineInfo), BooleanType.BOOLEAN_TYPE);
-        env.defineVariable(new Identifier("q2", dummyLineInfo), StringType.STRING_TYPE);
-        env.defineVariable(new Identifier("q3", dummyLineInfo), NumberType.NUMBER_TYPE);
-        env.defineVariable(new Identifier("q4", dummyLineInfo), DateType.DATE_TYPE);
-        return env;
+    private static Form getForm() {
+        final String question1 = "q1: \"Label 1\" boolean";
+        final String question2 = "q2: \"Label 2\" string";
+        final String question3 = "q3: \"Label 2\" number";
+        final String question4 = "q4: \"Label 2\" date";
+
+        return FormBuilder.build(TestHelper.buildForm("form1", question1, question2, question3, question4));
     }
 
     private static List<Error> getWidgetTypeErrors(final String... stylesheetContents) {
         final Stylesheet stylesheet = StylesheetBuilder.build(TestHelper.buildStylesheet("stylesheet1",
                 stylesheetContents));
-        final WidgetTypeChecker checker = new WidgetTypeChecker(getEnvironment());
-        stylesheet.accept(checker);
-
-        return checker.getErrors();
+        return WidgetTypeChecker.check(stylesheet, getForm());
 
     }
 

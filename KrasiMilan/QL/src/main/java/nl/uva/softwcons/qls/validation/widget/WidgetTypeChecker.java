@@ -13,7 +13,7 @@ import nl.uva.softwcons.qls.ast.segment.SegmentVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
-import nl.uva.softwcons.qls.ui.QuestionTypeCollector;
+import nl.uva.softwcons.qls.util.QuestionTypeCollector;
 import nl.uva.softwcons.qls.validation.widget.error.IncompatibleWidget;
 
 public class WidgetTypeChecker extends Checker implements StylesheetVisitor<List<Error>>, SegmentVisitor<Void> {

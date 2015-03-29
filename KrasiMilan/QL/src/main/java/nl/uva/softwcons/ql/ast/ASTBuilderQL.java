@@ -54,7 +54,7 @@ import nl.uva.softwcons.ql.util.Utils;
 
 import org.antlr.v4.runtime.Token;
 
-public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
+public class ASTBuilderQL extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Form visitForm(final FormContext ctx) {
@@ -191,12 +191,11 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         return new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
     }
 
-    private LineInfo extractLineInfo(final Token token) {
+    public static LineInfo extractLineInfo(final Token token) {
         return new LineInfo(token.getLine(), token.getCharPositionInLine());
     }
 
-    private Type getType(final String typeName) {
-
+    public static Type getType(final String typeName) {
         switch (typeName) {
 
         case "boolean":
