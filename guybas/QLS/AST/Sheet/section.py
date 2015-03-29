@@ -27,3 +27,6 @@ class Section(e.SheetElement):
 
     def get_question_styles(self):
         return self._question_styles
+
+    def get_name(self):
+        return self._name

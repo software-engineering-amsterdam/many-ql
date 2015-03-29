@@ -52,4 +52,9 @@ public class BooleanValue extends Value {
         return new BooleanValue(this.value.equals(otherValue.getBoolean()));
     }
 
+    @Override
+    public Value orUndefined() {
+        return new BooleanValue(this.value);
+    }
+
 }

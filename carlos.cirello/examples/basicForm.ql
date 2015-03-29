@@ -106,4 +106,17 @@ form SomeForm {
 		"You are" fullnameCC computed = fullname
 		"Age" age numeric
 	}
+
+	if(1+2+3 == 6) {
+		"Complex Condition?" longComplexCondition bool
+	}
+
+	if(
+		10 > 5
+		and 6 < 7
+		and 6 < 7
+		or 7 > 1
+	) {
+		"Complex Condition 2?" longComplexConditio2n bool
+	}
 }

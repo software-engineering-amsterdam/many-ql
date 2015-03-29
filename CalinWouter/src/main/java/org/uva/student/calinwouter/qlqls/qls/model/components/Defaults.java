@@ -1,16 +1,30 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
-import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
+import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
 
+import java.util.HashMap;
 import java.util.Map;
 
-@Data
 public class Defaults {
-    private final Map<TypeDescriptor, Map<String, Object>> defaultStyleSheetSettings;
+    private final Map<ITypeDescriptor, Map<String, Object>> defaultStyleSheetSettings;
 
+    // As this class is created through reflection, it cannot be instantiated using generics at this moment.
+    @SuppressWarnings("unchecked")
     public Defaults(Map defaultStyleSheetSettings) {
-        this.defaultStyleSheetSettings = (Map<TypeDescriptor, Map<String, Object>>)
+        this.defaultStyleSheetSettings = (Map<ITypeDescriptor, Map<String, Object>>)
                 defaultStyleSheetSettings;
+    }
+
+    public Map<String, Object> deriveStylingSettingsMap(FieldType fieldType) {
+        final ITypeDescriptor fieldTypeDescriptor = fieldType.getTypeDescriptor();
+        final Map<String, Object> stylingSettings = defaultStyleSheetSettings.get(fieldTypeDescriptor);
+        return new HashMap<String, Object>(stylingSettings);
+    }
+
+    public AbstractWidget getWidget(ITypeDescriptor typeDescriptor) {
+        Map<String, Object> typeDefaultSettings = defaultStyleSheetSettings.get(typeDescriptor);
+        return (AbstractWidget) typeDefaultSettings.get("widget");
     }
 }

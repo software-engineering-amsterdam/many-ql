@@ -2,216 +2,58 @@ package nl.uva.bromance.visualization;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import nl.uva.bromance.ast.AST;
-import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.QLSNode;
-import nl.uva.bromance.ast.QLSPage;
-import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
-import nl.uva.bromance.ast.conditionals.Result;
+import nl.uva.bromance.ast.*;
+import nl.uva.bromance.ast.conditionals.*;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
-import nl.uva.bromance.listeners.GrammarErrorListener;
-import nl.uva.bromance.listeners.QLParseTreeListener;
-import nl.uva.bromance.listeners.QLSParseTreeListener;
-import nl.uva.bromance.parsers.QLLexer;
-import nl.uva.bromance.parsers.QLParser;
-import nl.uva.bromance.parsers.QLSLexer;
-import nl.uva.bromance.parsers.QLSParser;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
+import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
+import nl.uva.bromance.typechecking.TypeChecker;
+import nl.uva.bromance.typechecking.TypeCheckingException;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-public class Visualizer {
-    private Stage stage;
-    private Scene scene;
-    private VBox rootBox, pages, questions;
+public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
+
     private QLSPage currentPage;
     private Map<String, Result> answerMap = new HashMap<>();
-    private AST<QLNode> qlAst;
-    private AST<QLSNode> qlsAst;
     private Node focusedNode;
-    private int focusId;
+    private UUID focusUuid;
+    private Optional<QLSNode> qlsNode = Optional.empty();
+    private QLNode qlNode;
+    private VBox pages;
+    private VBox questions;
+    private boolean init = true;
+
 
     public void setFocusedNode(Node node) {
         this.focusedNode = node;
     }
 
-    public int getFocusId() {
-        return focusId;
+    public UUID getFocusUuid() {
+        return focusUuid;
     }
 
-    public void render(Stage primaryStage) {
-        createBaseView();
-        stage = primaryStage;
-        stage.setScene(scene);
-        stage.show();
+    public void render(AST<QLNode> qlAst, VBox pages, VBox questions) {
+        this.qlNode = qlAst.getRoot();
+        this.pages = pages;
+        this.questions = questions;
+        // Nothing focused as of now
+        visualize(UUID.randomUUID());
     }
 
-    public void createBaseView() {
-        rootBox = new VBox();
 
-        Optional<? extends Pane> root = Optional.of(rootBox);
-        scene = new Scene(root.get());
-        MenuBar menuBar = createMenuBar();
-        SplitPane mainPane = createSplitPane();
+    public void visualize(UUID focusId) {
+        this.focusUuid = focusId;
 
-        rootBox.getChildren().addAll(menuBar, mainPane);
-
-        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
-
-    }
-
-    private SplitPane createSplitPane() {
-        SplitPane mainPane = new SplitPane();
-        mainPane.setDividerPositions(0.2f);
-        mainPane.setMinSize(700, 500);
-        mainPane.getDividers();
-
-        pages = new VBox();
-        questions = new VBox();
-
-        mainPane.getItems().addAll(pages, questions);
-        return mainPane;
-    }
-
-    private MenuBar createMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        MenuItem filePicker = new MenuItem("Open");
-
-        createOpenMenuItemHandler(filePicker);
-
-        menuFile.getItems().add(filePicker);
-        menuBar.getMenus().add(menuFile);
-        return menuBar;
-    }
-
-    private void createOpenMenuItemHandler(MenuItem filePicker) {
-        filePicker.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                String qlPath = file.getAbsolutePath();
-                String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
-
-                createQlAst(qlPath);
-                createQlsAst(qlsPath);
-                visualize(0);
-            }
-        });
-    }
-
-    private void createQlsAst(String qlsPath) {
-        qlsAst = null;
-        try {
-            qlsAst = readQlsFile(qlsPath, qlAst);
-        } catch (IOException e) {
-            System.out.println("Couldn't find qls file, no biggie.");
-        }
-    }
-
-    private AST<QLSNode> readQlsFile(String qlsPath, AST<QLNode> qlAst) throws IOException {
-        QLSLexer qlsLexer = new QLSLexer(new ANTLRFileStream(qlsPath));
-        CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
-        QLSParser qlsParser = new QLSParser(qlsTokens);
-        ParseTree qlsTree = qlsParser.stylesheet();
-        QLSParseTreeListener qlsListener = new QLSParseTreeListener(qlAst);
-
-        ParseTreeWalker qlsWalker = new ParseTreeWalker();
-        qlsWalker.walk(qlsListener, qlsTree);
-        AST<QLSNode> ast = qlsListener.getAst();
-        return ast;
-    }
-
-    private void createQlAst(String qlPath) {
-        qlAst = null;
-        try {
-            qlAst = readQlFile(qlPath);
-        } catch (IOException e) {
-            System.err.println("Couldnt load QL file :" + qlPath);
-        }
-    }
-
-    private AST<QLNode> readQlFile(String qlPath) throws IOException {
-        QLLexer lexer = new QLLexer(new ANTLRFileStream(qlPath));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-
-        parser.removeErrorListeners();
-        parser.addErrorListener(new GrammarErrorListener());
-
-        ParseTree tree = parser.questionnaire();
-        QLParseTreeListener listener = new QLParseTreeListener();
-        ParseTreeWalker walker = new ParseTreeWalker();
-
-        walker.walk(listener, tree);
-
-        AST<QLNode> qlAst = listener.getAst();
-
-        new ExpressionEvaluator(null).evaluate(qlAst.getRoot());
-        new ConditionalHandler().handle(qlAst.getRoot());
-
-        return qlAst;
-    }
-
-    //TODO: Method length is a bit much. Consider restructuring.
-    public void visualize(int focusId) {
-        this.focusId = focusId;
-        createBaseView();
-
-        //TODO:Think if something explicit, to know when it was a refresh.
-        new ExpressionEvaluator(answerMap).evaluate(qlAst.getRoot());
-        new ConditionalHandler().handle(qlAst.getRoot());
-
-        Optional<? extends Pane> pagePane = Optional.of(pages);
-        Optional<? extends Pane> questionPane = Optional.of(questions);
-
-        //TODO: This it to long, break it up in smaller methods.
-        if (qlsAst != null) {
-
-            for (QLSNode n : qlsAst.getRoot().getChildren()) {
-                if (n instanceof QLSPage) {
-                    QLSPage page = (QLSPage) n;
-                    if (currentPage == null) {
-                        currentPage = page;
-                    }
-
-                    String identifier = page.getIdentifier();
-                    Label label = new Label(identifier);
-                    label.setOnMouseClicked((event) -> {
-                        currentPage = page;
-                        visualize(0);
-                    });
-                    if (currentPage == page) {
-                        label.getStyleClass().add("active");
-                        for (QLSNode child : currentPage.getChildren()) {
-                            child.visualize(questionPane.get(), answerMap, this);
-                        }
-                    }
-                    label.getStyleClass().add("pageLabel");
-                    pagePane.get().getChildren().add(label);
-                }
-            }
-            // Non-QLS Implementation
+        if (qlsNode.isPresent()) {
+            processQls();
         } else {
-            if (qlAst.getRoot().hasChildren()) {
-                visualizeChildren(qlAst.getRoot(), questionPane);
-            }
+            processQl();
         }
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
         if (focusedNode != null) {
             focusedNode.requestFocus();
             // Fix for the position caret in textfields, had to use instanceof sorry Tijs!
@@ -220,19 +62,175 @@ public class Visualizer {
                 tf.positionCaret(tf.getLength());
             }
         }
+        init = false;
     }
 
-    private void visualizeChildren(QLNode node, Optional<? extends Pane> parentPane) {
-        for (QLNode child : node.getChildren()) {
-            if (child.hasChildren()) {
-                visualizeChildren(child, parentPane);
-            } else {
-                child.visualize(parentPane.get(), answerMap, this);
-            }
+    private void processQls() {
+        if (evaluateQLNode()) {
+            qlsNode.get().accept(this);
         }
     }
 
-    public void refresh(QLNode node) {
+    private boolean evaluateQLNode() {
+        List<TypeCheckingException> typeCheckingExceptions = new TypeChecker().run(qlNode);
+        if (!typeCheckingExceptions.isEmpty()) {
+            Stage stage = new Stage();
+            VBox root = new VBox();
+            stage.setScene(new Scene(root));
+            for (TypeCheckingException e : typeCheckingExceptions) {
+                root.getChildren().add(new javafx.scene.control.Label(e.getMessage()));
+            }
+            stage.show();
+            return false;
+        }
+        new ExpressionEvaluator(answerMap).evaluate(qlNode);
+        new ConditionalHandler().handle(qlNode);
+        return true;
     }
+
+    private void processQl() {
+        if (evaluateQLNode()) {
+            qlNode.accept(this);
+        }
+    }
+
+    public void setQlsAst(AST<QLSNode> qlsAst) {
+        this.qlsNode = Optional.ofNullable(qlsAst.getRoot());
+    }
+
+    @Override
+    public void visit(QLSPage page) {
+        if (init) {
+            if (currentPage == null) {
+                currentPage = page;
+            }
+
+            String identifier = page.getIdentifier();
+            javafx.scene.control.Label label = new javafx.scene.control.Label(identifier);
+            label.setOnMouseClicked((event) -> {
+                currentPage = page;
+                refresh(UUID.randomUUID());
+            });
+            if (currentPage == page) {
+                label.getStyleClass().add("active");
+                for (QLSNode child : currentPage.getChildren()) {
+                    child.visualize(questions, answerMap, this);
+                }
+            }
+            label.getStyleClass().add("pageLabel");
+            pages.getChildren().add(label);
+        }
+    }
+
+    @Override
+    public void visit(QLSQuestion question) {
+        processQuestion(question.getQuestionNode());
+    }
+
+    @Override
+    public void visit(QLSSection section) {
+        if (init) {
+            Optional<? extends Pane> newParent = Optional.of(new VBox());
+            javafx.scene.control.Label label = new javafx.scene.control.Label(section.getIdentifier());
+            label.getStyleClass().add("formHeader");
+            newParent.get().getChildren().add(label);
+            newParent.get().getStyleClass().add("form");
+            questions.getChildren().add(newParent.get());
+        }
+    }
+
+    @Override
+    public void visit(QLSStylesheet stylesheet) {
+
+    }
+
+    @Override
+    public void visit(Calculation calculation) {
+
+    }
+
+    @Override
+    public void visit(Form form) {
+        if (init) {
+            javafx.scene.control.Label label = new javafx.scene.control.Label(form.getIdentifier());
+            label.getStyleClass().add("formHeader");
+            questions.getChildren().add(label);
+        }
+    }
+
+    @Override
+    public void visit(Input input) {
+
+    }
+
+    @Override
+    public void visit(Label label) {
+
+    }
+
+    @Override
+    public void visit(LabelText labelText) {
+        if (init) {
+            labelText.addToPane(questions, answerMap, this);
+        } else {
+            labelText.refresh();
+        }
+    }
+
+    @Override
+    public void visit(Question question) {
+        processQuestion(question);
+    }
+
+    private void processQuestion(Question question) {
+        if (init) {
+            question.getQuestionType().addQuestionToPane(questions, answerMap, this);
+        } else {
+            question.getQuestionType().refresh();
+        }
+    }
+
+
+    @Override
+    public void visit(Questionnaire questionnaire) {
+
+    }
+
+    @Override
+    public void visit(IfStatement ifStatement) {
+
+    }
+
+    @Override
+    public void visit(ElseIfStatement elseIfStatement) {
+
+    }
+
+    @Override
+    public void visit(ElseStatement elseStatement) {
+
+    }
+
+    public void refresh(UUID focusId) {
+        this.focusUuid = focusId;
+        if (qlsNode.isPresent()) {
+            processQls();
+        } else {
+            processQl();
+
+        }
+    }
+
+    @Override
+    public void visit(Expression expression) {
+
+    }
+
+    @Override
+    public void visit(Terminal terminal) {
+
+    }
+
+
 }
 

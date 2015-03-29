@@ -13,13 +13,12 @@ import evaluator.ValueRepository;
 
 public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
-	private final String id, label;
+	private final String id;
 	private final Type type;
 	private final ValueRepository valueRepository;
 	
-	public WidgetVisitor(String id, String label, Type type, ValueRepository valueRepository) {
+	public WidgetVisitor(String id, Type type, ValueRepository valueRepository) {
 		this.id = id;
-		this.label = label;
 		this.type = type;
 		this.valueRepository = valueRepository;
 	}
@@ -27,19 +26,19 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	@Override
 	public TextFieldWidget visit(TextType type) { 
 		this.valueRepository.putValue(id, new StringValue(""));
-		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
+		return new TextFieldWidget(this.id, this.type, this.valueRepository);
 	}
 
 	@Override
 	public IntegerFieldWidget visit(IntegerType type) {
 		this.valueRepository.putValue(id, new IntegerValue(0));
-		return new IntegerFieldWidget(id, this.label, type, this.valueRepository);
+		return new IntegerFieldWidget(this.id, this.type, this.valueRepository);
 	}
 
 	@Override
 	public ChoiceWidget visit(ChoiceType type) {
 		this.valueRepository.putValue(id, new BooleanValue(false));
-		return new ChoiceWidget(id, this.label, type, this.valueRepository);
+		return new ChoiceWidget(this.id, this.type, this.valueRepository);
 	}
 
 	@Override

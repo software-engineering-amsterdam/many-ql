@@ -1,46 +1,54 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
-import lombok.Data;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Textbox;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This model contains all styling settings for a (default) type.
  */
-@Data
 public class StylingSettings {
     private final AbstractWidget widget;
     private final String font;
-    private final int fontSize, color, width;
+    private final Integer fontSize, color, width;
+
+    public Font createFont() {
+        return new Font(font, 0, fontSize);
+    }
 
     public AbstractWidget getWidget() {
         return widget;
     }
 
+    public Color createForegroundColor() {
+        return new Color(color);
+    }
+
+    public Dimension createSizeDimension(int oldHeight) {
+        return new Dimension(width, oldHeight);
+    }
+
     /**
      * This internal class is used for setting the default widget settings based on its type.
      */
-    private class DefaultStylingSettingsCreator implements TypeCallback {
+    private class DefaultStylingSettingsCreator implements ITypeCallback {
         private final Map<String, Object> stylingSettings = new HashMap<String, Object>();
 
-        @Override
         public void usesBoolean() {
             stylingSettings.put("widget", new Checkbox());
         }
 
-        @Override
         public void usesInteger() {
             stylingSettings.put("widget", new Intbox());
         }
 
-        @Override
         public void usesString() {
             stylingSettings.put("widget", new Textbox());
         }
@@ -57,7 +65,7 @@ public class StylingSettings {
     /**
      * Create a map based on the provided styling settings, with fallback parameters to the defaults.
      */
-    private Map<String, Object> createMapBackedByDefaults(TypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
+    private Map<String, Object> createMapBackedByDefaults(ITypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
         DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
 
         // When no typeDescriptor is set, it is not attached to a type, thus do not set the default widget.
@@ -70,7 +78,7 @@ public class StylingSettings {
         return newStylingSettingsMap;
     }
 
-    public StylingSettings(TypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
+    public StylingSettings(ITypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
         Map<String, Object> newStylingSettingsMap = createMapBackedByDefaults(typeDescriptor, stylingSettingsMap);
         this.widget = (AbstractWidget) newStylingSettingsMap.get("widget");
         this.font = (String) newStylingSettingsMap.get("font");

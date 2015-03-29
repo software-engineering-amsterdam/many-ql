@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observer;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import uva.ql.ast.statements.Question;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeBoolean;
@@ -80,5 +78,4 @@ public class UIWidget implements TypeVisitor<Component>{
 		this.component = new UITextField(this.question, this.value, this.observer).rander();
 		return this.randerUIWidgetWithUILabel(this.component);
 	}
-	
 }

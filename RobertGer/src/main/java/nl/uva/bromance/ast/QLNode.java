@@ -2,13 +2,13 @@ package nl.uva.bromance.ast;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.visitors.NodeElement;
+import nl.uva.bromance.ast.visitors.QlNodeElement;
 import nl.uva.bromance.visualization.Visualizable;
 import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-public abstract class QLNode extends Node<QLNode> implements NodeElement, Visualizable {
+public abstract class QLNode extends Node<QLNode> implements QlNodeElement, Visualizable {
 
 
     public QLNode(int ln) {
@@ -20,7 +20,7 @@ public abstract class QLNode extends Node<QLNode> implements NodeElement, Visual
     }
 
     @Override
-    public void isVisible(boolean visible) {
+    public void setVisible(boolean visible) {
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace AST.Nodes.Literals
 {
     public class Int : Literal

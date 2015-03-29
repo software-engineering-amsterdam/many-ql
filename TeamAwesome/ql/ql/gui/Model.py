@@ -37,6 +37,6 @@ class QuestionModel(object):
             value = self.type(value)
         except (ValueError, decimal.InvalidOperation): 
             return False
-
+        
         self._evaluator.addValue(self._identifier, value)
         return True

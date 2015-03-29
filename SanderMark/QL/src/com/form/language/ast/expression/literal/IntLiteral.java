@@ -3,15 +3,15 @@ package com.form.language.ast.expression.literal;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.QLToken;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class IntLiteral extends Literal {
     private final int value;
 
-    public IntLiteral(int _value, QLToken tokenInfo) {
+    public IntLiteral(int value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this.value = _value;
+	this.value = value;
     }
 
     @Override

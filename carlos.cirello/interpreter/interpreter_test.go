@@ -259,6 +259,61 @@ func TestComputedBoolean(t *testing.T) {
 	)
 }
 
+func TestLongIfExpressions(t *testing.T) {
+	form := `
+	form TaxForm {
+		if(1+2+3 == 6) {
+			"q1" q1 bool
+		}
+
+		if(
+			10 > 5
+			and 6 < 7
+			and 6 < 7
+			or 7 > 1
+		) {
+			"q2" q2 bool
+		}
+
+		if(
+			5 > 10
+			and
+			10 > 20
+			or
+			20 > 30
+		) {
+			"q3" q3 bool
+		}
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		"",
+		`q1,q1,No`+"\n"+
+			`q2,q2,No`+"\n",
+	)
+}
+
+func TestComputationOfUnfilledFields(t *testing.T) {
+	form := `
+	form TaxForm {
+		if(1 != 2) {
+			"q1" q1 numeric
+		}
+
+		"q2" q2 computed = q1 * 2
+	}
+	`
+	runSuccessfulFormWithIO(
+		t,
+		form,
+		"",
+		`q1,q1,0`+"\n"+
+			`q2,q2,0.000000`+"\n",
+	)
+}
+
 func runFormAndTrapError(t *testing.T, source string) {
 	defer func() {
 		if r := recover(); r != nil {

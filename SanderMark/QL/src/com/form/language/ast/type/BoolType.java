@@ -6,11 +6,6 @@ import com.form.language.ast.values.GenericValue;
 public final class BoolType extends Type {
 
     @Override
-    public Type getType() {
-	return this;
-    }
-
-    @Override
     public boolean isBoolType() {
 	return true;
     }

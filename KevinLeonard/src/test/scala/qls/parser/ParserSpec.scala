@@ -6,225 +6,333 @@ import ql.ast.{BooleanType, NumberType, Variable}
 import qls.ast._
 
 class ParserSpec extends Specification with ParserMatchers {
-
   val parsers = new Parser
-  import parsers._
 
   "variable parser" should {
     "parse a valid Java identifier" in {
-      variable must succeedOn("var1")
-        .withResult(Variable("var1"))
+      val input = "var1"
+      val result = Variable(input)
+
+      parsers.variable must succeedOn(input).withResult(result)
     }
   }
 
   "widget type parser" should {
-    "parse spinbox" in {
-      widgetType must succeedOn("spinbox")
-        .withResult("spinbox")
+    "parse the spinbox type" in {
+      val spinBoxType = "spinbox"
+      val result = SpinBox()
+
+      parsers.widgetType must succeedOn(spinBoxType).withResult(result)
     }
-    "parse slider" in {
-      widgetType must succeedOn("slider")
-        .withResult("slider")
+
+    "parse the slider type" in {
+      val sliderType = "slider"
+      val result = Slider()
+
+      parsers.widgetType must succeedOn(sliderType).withResult(result)
     }
-    "parse text" in {
-      widgetType must succeedOn("text")
-        .withResult("text")
+
+    "parse the text type" in {
+      val textType = "text"
+      val result = Text()
+
+      parsers.widgetType must succeedOn(textType).withResult(result)
     }
-    "parse textBlock" in {
-      widgetType must succeedOn("textBlock")
-        .withResult("textBlock")
+
+    "parse the text block type" in {
+      val textBlockType = "textBlock"
+      val result = TextBlock()
+
+      parsers.widgetType must succeedOn(textBlockType).withResult(result)
     }
-    "parse radio" in {
-      widgetType must succeedOn("radio")
-        .withResult("radio")
+
+    "parse the radio type" in {
+      val radioType = "radio"
+      val result = Radio()
+
+      parsers.widgetType must succeedOn(radioType).withResult(result)
     }
-    "parse dropdown" in {
-      widgetType must succeedOn("dropdown")
-        .withResult("dropdown")
+
+    "parse the drop down type" in {
+      val dropDownType = "dropdown"
+      val result = DropDown()
+
+      parsers.widgetType must succeedOn(dropDownType).withResult(result)
     }
   }
 
-  "property parser" should {
-    "parse width" in {
-      width must succeedOn("width: 100")
-        .withResult(Width(100))
+  "individual style parsers" should {
+    "parse the width" in {
+      val input = "width: 100"
+      val result = Width(100)
+
+      parsers.width must succeedOn(input).withResult(result)
     }
-    "parse font" in {
-      font must succeedOn("font: \"Arial\"")
-        .withResult(Font("Arial"))
+
+    "parse the font" in {
+      val input = "font: \"Arial\""
+      val result = Font("Arial")
+
+      parsers.font must succeedOn(input).withResult(result)
     }
-    "parse fontSize" in {
-      fontSize must succeedOn("fontSize: 14")
-        .withResult(FontSize(14))
+
+    "parse the font size" in {
+      val input = "fontSize: 14"
+      val result = FontSize(14)
+
+      parsers.fontSize must succeedOn(input).withResult(result)
     }
+
     "parse color" in {
-      fontColor must succeedOn("color: #00ff00")
-        .withResult(FontColor(HexadecimalColor("00ff00")))
+      val input = "color: #00ff00"
+      val result = FontColor(HexadecimalColor("00ff00"))
+
+      parsers.fontColor must succeedOn(input).withResult(result)
     }
   }
 
-  "widget style" should {
-    "parse style block" in {
-      widgetStyle must succeedOn("{" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}")
-        .withResult(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+  "styles parser" should {
+    "parse a style block" in {
+      val styleBlock = "{" +
+        "width: 400" +
+        "font: \"Arial\"" +
+        "fontSize: 14" +
+        "color: #99FF66" +
+        "}"
+      val result = List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))
+
+      parsers.styles must succeedOn(styleBlock).withResult(result)
     }
   }
 
-  "widget parser" should {
-    "parse spinbox" in {
-      question must succeedOn("var1 spinbox")
-        .withResult(Question(Variable("var1"), SpinBox(List())))
+  "question parser" should {
+    "parse spin box" in {
+      val question = "var1 spinbox"
+      val result = Question(Variable("var1"), Widget(SpinBox(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse slider" in {
-      question must succeedOn("var1 slider")
-        .withResult(Question(Variable("var1"), Slider(List())))
+      val question = "var1 slider"
+      val result = Question(Variable("var1"), Widget(Slider(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse text" in {
-      question must succeedOn("var1 text")
-        .withResult(Question(Variable("var1"), Text(List())))
+      val question = "var1 text"
+      val result = Question(Variable("var1"), Widget(Text(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse textBlock" in {
-      question must succeedOn("var1 textBlock")
-        .withResult(Question(Variable("var1"), TextBlock(List())))
+      val question = "var1 textBlock"
+      val result = Question(Variable("var1"), Widget(TextBlock(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse radio" in {
-      question must succeedOn("var1 radio")
-        .withResult(Question(Variable("var1"), Radio(List())))
+      val question = "var1 radio"
+      val result = Question(Variable("var1"), Widget(Radio(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse dropdown" in {
-      question must succeedOn("var1 dropdown")
-        .withResult(Question(Variable("var1"), DropDown(List())))
+      val question = "var1 dropdown"
+      val result = Question(Variable("var1"), Widget(DropDown(), List()))
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse spinbox with style" in {
-      question must succeedOn("var1 spinbox {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+      val question = "var1 spinbox {" +
+        "width: 400" +
+        "font: \"Arial\"" +
+        "fontSize: 14" +
+        "color: #99FF66" +
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(SpinBox(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse slider with style" in {
-      question must succeedOn("var1 slider {" +
+      val question = "var1 slider {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),Slider(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(Slider(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse text with style" in {
-      question must succeedOn("var1 text {" +
+      val question = "var1 text {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),Text(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(Text(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse textBlock with style" in {
-      question must succeedOn("var1 textBlock {" +
+      val question = "var1 textBlock {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),TextBlock(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(TextBlock(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse radio with style" in {
-      question must succeedOn("var1 radio {" +
+      val question = "var1 radio {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),Radio(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(Radio(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse dropdown with style" in {
-      question must succeedOn("var1 dropdown {" +
+      val question = "var1 dropdown {" +
         "width: 400" +
         "font: \"Arial\"" +
         "fontSize: 14" +
         "color: #99FF66" +
-        "}")
-        .withResult(Question(Variable("var1"),DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        "}"
+      val result = Question(Variable("var1"),
+        Widget(DropDown(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+      )
+
+      parsers.question must succeedOn(question).withResult(result)
     }
+
     "parse question sequence" in {
-      sectionElements must succeedOn("{" +
+      val questions = "{" +
         "var1 dropdown" +
         "var2 dropdown" +
-      "}"
+        "}"
+      val result = List(
+        Question(Variable("var1"), Widget(DropDown(), List())),
+        Question(Variable("var2"), Widget(DropDown(), List()))
       )
-        .withResult(List(Question(Variable("var1"),DropDown(List())), Question(Variable("var2"),DropDown(List()))))
+
+      parsers.sectionElements must succeedOn(questions).withResult(result)
     }
   }
 
   "section parser" should {
-    "parse section" in {
-      parsers.section must succeedOn("section \"section1\" {" +
-          "var1 dropdown {" +
-            "width: 400" +
-            "font: \"Arial\"" +
-            "fontSize: 14" +
-            "color: #99FF66" +
-          "}" +
-          "var2 slider {" +
-            "width: 400" +
-            "font: \"Arial\"" +
-            "fontSize: 14" +
-            "color: #99FF66" +
-          "}" +
-        "}")
-        .withResult(Section("section1", List(Question(Variable("var1"),DropDown(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))),Question(Variable("var2"),Slider(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))))
+    "parse a section" in {
+      val section = "section \"section1\" {" +
+        "var1 dropdown {" +
+        "width: 400" +
+        "font: \"Arial\"" +
+        "fontSize: 14" +
+        "color: #99FF66" +
+        "}" +
+        "var2 slider {" +
+        "width: 400" +
+        "font: \"Arial\"" +
+        "fontSize: 14" +
+        "color: #99FF66" +
+        "}" +
+        "}"
+      val result = Section("section1", List(
+        Question(Variable("var1"),
+          Widget(DropDown(), List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        ),
+        Question(Variable("var2"), Widget(Slider(),
+          List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))
+        )
+      ))
+
+      parsers.section must succeedOn(section).withResult(result)
     }
-    "parse section in section" in {
-      parsers.section must succeedOn("section \"section1\" {" +
+
+    "parse a section in a section" in {
+      val nestedSections = "section \"section1\" {" +
         "var1 slider" +
         "section \"section2\" {" +
-          "var2 dropdown" +
+        "var2 dropdown" +
         "}" +
-      "}")
-        .withResult(Section("section1",List(Question(Variable("var1"),Slider(List())), Section("section2",List(Question(Variable("var2"),DropDown(List())))))))
+        "}"
+      val result = Section("section1", List(
+        Question(Variable("var1"), Widget(Slider(), List())),
+        Section("section2",
+          List(Question(Variable("var2"), Widget(DropDown(), List())))
+        )
+      ))
+      parsers.section must succeedOn(nestedSections).withResult(result)
     }
   }
 
   "page parser" should {
-    "parse page" in {
-      page must succeedOn("page page1 {" +
-          "section \"section1\" {}" +
-          "section \"section2\" {}" +
-        "}")
-        .withResult(Page("page1",List(Section("section1",List()),Section("section2",List()))))
+    "parse a page" in {
+      val page = "page page1 {" +
+        "section \"section1\" {}" +
+        "section \"section2\" {}" +
+        "}"
+      val result = Page("page1", List(Section("section1", List()), Section("section2", List())))
+
+      parsers.page must succeedOn(page).withResult(result)
     }
   }
 
-  "style parser" should {
-    "parse style" in {
-      styleSheet must succeedOn("style PartyForm {" +
-          "default boolean slider" +
-          "page page1 {}" +
-          "page page2 {}" +
-        "}")
-        .withResult(StyleSheet("PartyForm",List(DefaultWidget(BooleanType(), Slider(List())), Page("page1", List()), Page("page2", List()))))
+  "style sheet parser" should {
+    "parse a style sheet" in {
+      val styleSheet = "style PartyForm {" +
+        "default boolean slider" +
+        "page page1 {}" +
+        "page page2 {}" +
+        "}"
+      val result = StyleSheet("PartyForm", List(
+        DefaultWidget(BooleanType(), Widget(Slider(), List())),
+        Page("page1", List()),
+        Page("page2", List()))
+      )
+
+      parsers.styleSheet must succeedOn(styleSheet).withResult(result)
     }
   }
 
-  "defaultWidget parser" should {
-    "parse default number spinbox with style" in {
-      defaultWidget must succeedOn("default number spinbox {" +
-          "width: 400" +
-          "font: \"Arial\"" +
-          "fontSize: 14" +
-          "color: #99FF66" +
-        "}")
-        .withResult(DefaultWidget(NumberType(),SpinBox(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+  "default widget parser" should {
+    "parse a default number spin box with style" in {
+      val defaultWidgetWithStyle = "default number spinbox {" +
+        "width: 400" +
+        "font: \"Arial\"" +
+        "fontSize: 14" +
+        "color: #99FF66" +
+        "}"
+      val result = DefaultWidget(NumberType(), Widget(SpinBox(),
+        List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66")))
+      ))
+
+      parsers.defaultWidget must succeedOn(defaultWidgetWithStyle).withResult(result)
     }
   }
-
-
 }

@@ -32,10 +32,10 @@ class TypeChecker {
   }
 
   def check(w: Widget, t: Type, p: Position): Option[Error] = {
-    if (w.allowsType(t)) {
+    if (w._type.allowsType(t)) {
       None
     } else {
-      Some(Error(s"${w.toString.capitalize} widget not allowed for type $t", Some(p)))
+      Some(Error(s"${w._type.toString.capitalize} widget not allowed for type $t", Some(p)))
     }
   }
 }

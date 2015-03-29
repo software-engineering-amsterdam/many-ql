@@ -10,6 +10,6 @@ public class Undefined implements Type {
 	if (type == null) {
 	    return false;
 	}
-	return type.toString() == this.toString();
+	return type.getClass() == this.getClass();
     }
 }

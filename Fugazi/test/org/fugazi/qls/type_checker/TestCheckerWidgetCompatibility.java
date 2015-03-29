@@ -13,9 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by lukaszharezlak on 11/03/15.
- */
 public class TestCheckerWidgetCompatibility  extends TestQlsTypeCheckerBase {
 
     @Before
@@ -35,10 +32,6 @@ public class TestCheckerWidgetCompatibility  extends TestQlsTypeCheckerBase {
         List<ASTNodeIssue> errors = qlsChecker.getErrors();
 
         assertFalse(errors.isEmpty());
-
-        for (ASTNodeIssue error: errors) {
-            System.out.println(error.getErrorType() + " " + error.getMessage());
-        }
         assertEquals(6, errors.size());
     }
 

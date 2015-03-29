@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
 import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
@@ -15,12 +15,12 @@ import java.util.Set;
 /**
  * This type checker checks:
  *
- * X reference to undefined questions
- * X duplicate question declarations with different types
- * X conditions that are not of the type boolean
- * X operands of invalid type to operators
- *   cyclic dependencies between questions
- * X duplicate labels (warning)
+ * Reference to undefined questions
+ * Duplicate question declarations with different types
+ * Conditions that are not of the type boolean
+ * Operands of invalid type to operators
+ * Cyclic dependencies between questions
+ * Duplicate labels (warning)
  */
 public class QLTypeChecker {
     private final AForm aForm;
@@ -37,25 +37,25 @@ public class QLTypeChecker {
         }
     }
 
-    private void checkSameType(Map<String, TypeDescriptor> identifierToTypeMap, AbstractStaticFormField toCheck) {
+    private void checkSameType(Map<String, ITypeDescriptor> identifierToTypeMap, AbstractStaticFormField toCheck) {
         final String toCheckVariable = toCheck.getVariable();
-        final TypeDescriptor earlierFoundValueType = identifierToTypeMap.get(toCheckVariable);
-        final TypeDescriptor toCheckType = toCheck.getTypeDescriptor();
+        final ITypeDescriptor earlierFoundValueType = identifierToTypeMap.get(toCheckVariable);
+        final ITypeDescriptor toCheckType = toCheck.getTypeDescriptor();
         if (!earlierFoundValueType.equals(toCheckType)) {
             typeCheckResults.addTwoQuestionsSameTypeError(toCheckVariable);
         }
     }
 
-    private void putIfNotSet(Map<String, TypeDescriptor> identifierToTypeMap, AbstractStaticFormField toPut) {
+    private void putIfNotSet(Map<String, ITypeDescriptor> identifierToTypeMap, AbstractStaticFormField toPut) {
         final String variableToPut = toPut.getVariable();
-        final TypeDescriptor variableType = toPut.getTypeDescriptor();
+        final ITypeDescriptor variableType = toPut.getTypeDescriptor();
         if (!identifierToTypeMap.containsKey(variableToPut)) {
             identifierToTypeMap.put(variableToPut, variableType);
         }
     }
 
     private void collectDuplicateQuestionsWithDifferentTypes() {
-        Map<String, TypeDescriptor> identifierToTypeMap = new HashMap<String, TypeDescriptor>();
+        Map<String, ITypeDescriptor> identifierToTypeMap = new HashMap<String, ITypeDescriptor>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             putIfNotSet(identifierToTypeMap, abstractStaticFormField);
             checkSameType(identifierToTypeMap, abstractStaticFormField);
@@ -68,7 +68,6 @@ public class QLTypeChecker {
     }
 
     public TypeCheckResults typeCheck() {
-        TypeCheckResults typeCheckResults = new TypeCheckResults();
         collectDuplicateQuestionsWithDifferentTypes();
         collectDuplicateLabels();
         collectTypeCheckErrorsInDepth();

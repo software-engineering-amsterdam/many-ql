@@ -15,14 +15,14 @@ public class CondQuestionTableBuilder implements FormVisitor<Void>, StatVisitor<
 
     public static CondQuestionTable flatten(Form f)
     {
-        CondQuestionTableBuilder builder = new CondQuestionTableBuilder();
+        CondQuestionTableBuilder builder = new CondQuestionTableBuilder(f.getId());
         f.accept(builder);
         return builder.condQuestionTable;
     }
 
-    private CondQuestionTableBuilder()
+    private CondQuestionTableBuilder(String title)
     {
-        this.condQuestionTable = new CondQuestionTable();
+        this.condQuestionTable = new CondQuestionTable(title);
         this.conditionStack = new ConditionStack();
     }
 

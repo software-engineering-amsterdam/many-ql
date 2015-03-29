@@ -3,5 +3,7 @@
  */
 form taxOfficeExample {
   bool b("b");
-  bool a("b");
+  bool a("b") = true;
+  bool c("c");
+  bool d("c");
 }

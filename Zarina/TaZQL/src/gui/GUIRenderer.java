@@ -14,8 +14,8 @@ import ast.form.Form;
 import ast.form.IFormVisitor;
 import ast.question.Question;
 import evaluator.ValueRepository;
+import gui.listeners.SaveButtonListener;
 import gui.questions.SimpleQuestionUI;
-import gui.widgets.listeners.SaveButtonListener;
 
 public class GUIRenderer implements IFormVisitor<JPanel> {
 	private final JPanel panel;
@@ -45,7 +45,6 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
-            System.out.println(k+" <- added to panel ");
             this.panel.add(widgetsRepository.get(k).getLabel());
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");    
         }

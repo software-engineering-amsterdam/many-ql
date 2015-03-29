@@ -2,10 +2,10 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
     private final StaticFields staticFields;
 
     @Override
-    public void caseAQuestionStmt(final AQuestionStmt node) {
+    public void caseAQuestionStatement(final AQuestionStatement node) {
         final String nodeIdentifier = getNodeIdentifier(node);
         if (wasPreviouslySet(nodeIdentifier)) {
             setNewVariableToOldValue(nodeIdentifier);
@@ -27,7 +27,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAValueStmt(final AValueStmt node) {
+    public void caseAValueStatement(final AValueStatement node) {
         final String nodeIdentifier = getNodeIdentifier(node);
         processExpressionNode(node);
         setNewVariableToPopExpression(nodeIdentifier);
@@ -38,20 +38,20 @@ public class PStmtInterpreter extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAIfelseStmt(AIfelseStmt node) {
+    public void caseAIfElseStatement(AIfElseStatement node) {
         processExpressionNode(node);
         if (popExpressionValueIsTrue()) {
-            executeStatements(node.getThenStmtList());
+            executeStatements(node.getThenStatementList());
             return;
         }
-        executeStatements(node.getElseStmtList());
+        executeStatements(node.getElseStatementList());
     }
 
     @Override
-    public void caseAIfStmt(AIfStmt node) {
+    public void caseAIfStatement(AIfStatement node) {
         processExpressionNode(node);
         if (popExpressionValueIsTrue()) {
-            executeStatements(node.getThenStmtList());
+            executeStatements(node.getThenStatementList());
         }
     }
 
@@ -61,7 +61,7 @@ public class PStmtInterpreter extends AnalysisAdapter {
     }
 
     private void setNewVariableToDefault(String nodeIdentifier) {
-        final TypeDescriptor valueType = staticFields.getTypeOfField(nodeIdentifier);
+        final ITypeDescriptor valueType = staticFields.getTypeOfField(nodeIdentifier);
         final Value value = valueType.getDefaultValue();
         newVariableTable.setVariable(nodeIdentifier, value);
     }
@@ -70,35 +70,35 @@ public class PStmtInterpreter extends AnalysisAdapter {
         newVariableTable.setVariable(nodeIdentifier, expInterpreter.popValue());
     }
 
-    private String getNodeIdentifier(AValueStmt node) {
-        return node.getIdent().getText();
+    private String getNodeIdentifier(AValueStatement node) {
+        return node.getIdentifier().getText();
     }
 
-    private String getNodeIdentifier(AQuestionStmt node) {
-        return node.getIdent().getText();
+    private String getNodeIdentifier(AQuestionStatement node) {
+        return node.getIdentifier().getText();
     }
 
-    private void executeStatements(LinkedList<PStmt> stmtList) {
-        for (PStmt s : stmtList) {
+    private void executeStatements(LinkedList<PStatement> stmtList) {
+        for (PStatement s : stmtList) {
             s.apply(this);
         }
     }
 
     private boolean popExpressionValueIsTrue() {
-        BoolValue lastValue = (BoolValue) expInterpreter.popValue();
+        BooleanValue lastValue = (BooleanValue) expInterpreter.popValue();
         return lastValue.isTrue();
     }
 
-    private void processExpressionNode(AIfStmt node) {
-        node.getExp().apply(expInterpreter);
+    private void processExpressionNode(AIfStatement node) {
+        node.getExpression().apply(expInterpreter);
     }
 
-    private void processExpressionNode(AValueStmt node) {
-        node.getExp().apply(expInterpreter);
+    private void processExpressionNode(AValueStatement node) {
+        node.getExpression().apply(expInterpreter);
     }
 
-    private void processExpressionNode(AIfelseStmt node) {
-        node.getExp().apply(expInterpreter);
+    private void processExpressionNode(AIfElseStatement node) {
+        node.getExpression().apply(expInterpreter);
     }
 
     public PStmtInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {

@@ -6,14 +6,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.expression.variable.ReferenceCollection;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
 import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollection;
 
 public class QuestionComponent {
 
@@ -34,9 +34,9 @@ public class QuestionComponent {
 	    this.panel.setVisible(false);
 	    rm.addDependantQuestion(ifCondition, this);
 
-	    IdCollection idCollection = new IdCollection();
-	    ifCondition.collectIds(idCollection);
-	    rm.addReference(idCollection, ifCondition);
+	    ReferenceCollection referenceCollection = new ReferenceCollection();
+	    ifCondition.collectIds(referenceCollection);
+	    rm.addReference(referenceCollection, ifCondition);
 	}
 	createQuestionType();
     }

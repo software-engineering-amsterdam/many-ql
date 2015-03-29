@@ -61,8 +61,9 @@ class GUI:
         if condition and not condition.eval_expression(self.__answersMap):
             return None
 
-        for i in range(0, len(elements)):
-            elements[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements), sticky=tk.W)
+        elements_list = elements.get_row()
+        for i in range(0, len(elements_list)):
+            elements_list[i].grid(row=question.get_order() + 1, column=i, columnspan=len(elements_list), sticky=tk.W)
 
     # called from the widgets when they receive new answers, or when assignment is changed
     # TODO: Mmm, took me a while to realize that this one is called from the elements.. any idea how to make it more clear?
@@ -85,10 +86,12 @@ class GUI:
         if isinstance(question, ast_assign.Assignment):
             self.update_assignment(question)
 
-        row_elements = question.get_gui_element()
-        if row_elements is None:
+        elements = question.get_gui_element()
+        if elements is None:
             return None
-        for e in row_elements:
+
+        elements_list = elements.get_row()
+        for e in elements_list:
             e.destroy()
 
         self.draw_question(question, question.get_gui_element_frame())

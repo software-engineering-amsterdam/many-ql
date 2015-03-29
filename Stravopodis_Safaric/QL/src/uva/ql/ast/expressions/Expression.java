@@ -2,21 +2,30 @@ package uva.ql.ast.expressions;
 import java.util.Arrays;
 import java.util.List;
 
-import uva.ql.ast.ASTNode;
+import uva.ql.ast.Node;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeBoolean;
+import uva.ql.ast.type.TypeString;
 import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public abstract class Expression extends ASTNode {
+public abstract class Expression extends Node {
 	
 	public abstract GenericValue<?> evaluate();
-	public abstract Object getEvaluatedValue();
-	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	public abstract Object getValue();
+	
 	public abstract List<Type> possibleReturnTypes();
-	public abstract List<Type> getSupportedType();
-	public abstract CodeLines getCodeLine();
+	public abstract List<Type> acceptedTypes();
+	
+	public abstract CodeLines getLinesOfCode();
+	
+	public abstract boolean isLiteral();
+	public abstract boolean isBinaryExpression();
+	
+	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	
+	public Expression(){}
 	
 	public Expression(CodeLines _codeLines) {
 		super(_codeLines);
@@ -26,4 +35,7 @@ public abstract class Expression extends ASTNode {
 		return possibleReturnTypes().equals(Arrays.asList(new TypeBoolean()));
 	}
 	
+	public boolean isIdentifier(){
+		return this.possibleReturnTypes().equals(Arrays.asList(new TypeString()));
+	}
 }

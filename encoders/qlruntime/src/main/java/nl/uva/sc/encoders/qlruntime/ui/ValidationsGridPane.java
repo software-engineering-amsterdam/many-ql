@@ -18,7 +18,7 @@ public class ValidationsGridPane extends GridPane {
 		setHgap(10);
 		setVgap(10);
 		setPadding(new Insets(25, 25, 25, 25));
-		add(new Label("Type Checker errors:"), 0, 0);
+		add(new Label("Type Checker errors/warnings:"), 0, 0);
 
 		typeCheckerMessages = new TextArea();
 		typeCheckerMessages.setPrefSize(650, 500);

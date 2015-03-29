@@ -7,8 +7,8 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class GreaterThan extends BinaryExpression  {
@@ -19,7 +19,7 @@ public class GreaterThan extends BinaryExpression  {
 
     @Override
     public BoolValue evaluate(Context context) {
-	return new BoolValue(((IntValue) super.left.evaluate(context)).getValue() > ((IntValue) super.right.evaluate(context)).getValue());
+	return new BoolValue(((IntValue) left.evaluate(context)).getValue() > ((IntValue) right.evaluate(context)).getValue());
     }
 
     @Override

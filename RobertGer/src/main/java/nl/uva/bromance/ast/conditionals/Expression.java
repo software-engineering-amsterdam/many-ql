@@ -1,13 +1,18 @@
 package nl.uva.bromance.ast.conditionals;
 
 import nl.uva.bromance.ast.QLNode;
-import nl.uva.bromance.ast.operators.Operator;
-import nl.uva.bromance.ast.visitors.NodeVisitor;
+import nl.uva.bromance.ast.operators.*;
+import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 import org.antlr.v4.runtime.Token;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class Expression extends QLNode {
+
+    public List<Operator> operatorTypes = Arrays.asList(new AndOperator(), new OrOperator(), new DivideOperator(), new MultiplyOperator(), new EqualsOperator(), new NotEqualsOperator(), new LargerThanOrEqualsOperator(), new LargerThanOperator(), new MinusOperator(), new PlusOperator(), new SmallerThanOrEqualsOperator(), new SmallerThanOperator());
+
     private Optional<Operator> operator = Optional.empty();
     private Result result;
     private Optional<Expression> leftHandSide = Optional.empty();
@@ -16,9 +21,9 @@ public class Expression extends QLNode {
     public Expression(int lineNumber, Optional<Token> operatorToken) {
         super(lineNumber);
         if (operatorToken.isPresent()) {
-            for (Operator operatorType : Operator.operatorTypes) {
+            for (Operator operatorType : operatorTypes) {
                 if (operatorType.getOperatorString().equals(operatorToken.get().getText())) {
-                    operator = Optional.of(operatorType.getNewOperatorOfThisType());
+                    operator = Optional.of(operatorType);
                 }
             }
         }
@@ -30,7 +35,7 @@ public class Expression extends QLNode {
 
     //This is postorder traversal
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(QLNodeVisitor visitor) {
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
@@ -63,7 +68,6 @@ public class Expression extends QLNode {
         } else {
             return null;
         }
-
     }
 
     public Result getRightHandSideResult() {
@@ -72,6 +76,5 @@ public class Expression extends QLNode {
         } else {
             return null;
         }
-
     }
 }

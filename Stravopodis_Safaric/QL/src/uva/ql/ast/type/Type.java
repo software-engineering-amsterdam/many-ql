@@ -2,12 +2,12 @@ package uva.ql.ast.type;
 
 import java.util.List;
 
-import uva.ql.ast.ASTNode;
+import uva.ql.ast.Node;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.TypeVisitor;
 
-public abstract class Type extends ASTNode{
+public abstract class Type extends Node{
 	
 	public abstract <T> T accept(TypeVisitor<T> visitor); 
 	public abstract GenericValue<?> typeInitialValue();
@@ -20,12 +20,14 @@ public abstract class Type extends ASTNode{
 		super(_codeLines);
 	}
 	
-	public boolean checkTypeConformance(List<Type> supportedTypes) {
+	public boolean typeDoesConfirm(List<Type> supportedTypes) {
+		
 		for (Type type : supportedTypes){
 			if (this.equals(type)){
 				return true;
 			}
 		}	
+		
 		return false;
 	}
 	

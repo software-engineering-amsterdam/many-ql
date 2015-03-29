@@ -43,14 +43,6 @@ public class Radio extends ControlElement implements BoolControl
     }
 
     @Override
-    public void setVisible(Boolean visible)
-    {
-        super.setVisible(visible);
-        this.controlNode.setVisible(visible);
-        this.controlNode.setManaged(visible);
-    }
-
-    @Override
     public void setValue(Value value)
     {
         value.accept(this);

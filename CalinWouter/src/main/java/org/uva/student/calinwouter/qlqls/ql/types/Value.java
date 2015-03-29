@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedValueOperationException;
 
 public abstract class Value {
@@ -18,43 +18,43 @@ public abstract class Value {
         throw new UnsupportedValueOperationException();
     }
 
-    public Value sub(Value value) {
+    public Value subtract(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public Value mul(Value value) {
+    public Value multiply(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public Value div(Value value) {
+    public Value divide(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public Value mod(Value value) {
+    public Value modulo(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public BoolValue not() {
+    public BooleanValue not() {
         throw new UnsupportedValueOperationException();
     }
 
-    public BoolValue lt(Value value) {
+    public BooleanValue lesserThan(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public BoolValue gt(Value value) {
+    public BooleanValue greaterThan(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public BoolValue lte(Value value) {
+    public BooleanValue lesserThanOrEquals(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    public BoolValue gte(Value value) {
+    public BooleanValue greaterThanOrEquals(Value value) {
         throw new UnsupportedValueOperationException();
     }
 
-    Object getInternalValue() {
+    public Object toJavaObject() {
         return internalValue;
     }
 
@@ -63,22 +63,22 @@ public abstract class Value {
         this.internalValue = value;
     }
 
-    public BoolValue eq(Value value) {
-        final Object otherInternalValue = value.getInternalValue();
-        final Object myInternalValue = getInternalValue();
+    public BooleanValue valueEquals(Value value) {
+        final Object otherInternalValue = value.toJavaObject();
+        final Object myInternalValue = toJavaObject();
         final Boolean equality = otherInternalValue.equals(myInternalValue);
-        return new BoolValue(equality);
+        return new BooleanValue(equality);
     }
 
-    public BoolValue neq(Value value) {
-        final BoolValue equalityBoolValue = eq(value);
-        return equalityBoolValue.not();
+    public BooleanValue valueNotEquals(Value value) {
+        final BooleanValue equalityBooleanValue = valueEquals(value);
+        return equalityBooleanValue.not();
     }
 
-    public abstract void apply(TypeCallback typeCallback);
+    public abstract void apply(ITypeCallback typeCallback);
 
     @Override
     public String toString() {
-        return "" + getInternalValue();
+        return "" + toJavaObject();
     }
 }

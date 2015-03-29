@@ -19,4 +19,9 @@ public abstract class Type extends AbstractASTNode {
         }
         return (this.getClass() == obj.getClass());
     }
+
+    @Override
+    public int hashCode() {
+        return (this.getClass().hashCode());
+    }
 }

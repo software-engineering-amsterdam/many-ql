@@ -4,26 +4,25 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.Error;
-import com.form.language.error.QLToken;
+import com.form.language.issue.Error;
+import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollection;
 
 public class Reference extends Expression {
-    private String name;
+    private ReferenceName name;
 
     public Reference(String value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this.name = value;
+	this.name = new ReferenceName(value);
     }
 
     public String getName() {
-        return name;
+        return name.getValue();
     }
 
     @Override
     public GenericValue evaluate(Context context) {
-	return context.getValue(name);
+	return context.getValue(name.getValue());
     }
     
     @Override
@@ -42,8 +41,8 @@ public class Reference extends Expression {
     }
 
     @Override
-    public void collectIds(IdCollection idCollection) {
-	idCollection.addId(this);
+    public void collectIds(ReferenceCollection referenceCollection) {
+	referenceCollection.addId(this);
     }
 
 }

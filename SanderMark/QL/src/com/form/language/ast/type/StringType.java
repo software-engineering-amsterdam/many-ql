@@ -6,11 +6,6 @@ import com.form.language.ast.values.StringValue;
 public final class StringType extends Type {
 
     @Override
-    public Type getType() {
-	return this;
-    }
-
-    @Override
     public boolean isStringType() {
 	return true;
     }

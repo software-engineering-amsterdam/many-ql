@@ -3,7 +3,6 @@ package org.uva.ql.view.listener;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.FormFrame;
 
 public class WidgetListener {
@@ -22,7 +21,9 @@ public class WidgetListener {
 
 	public void widgetValueChanged(Identifier identifier, Value value) {
 		evaluator.addValue(identifier, value);
-		form.notifyPanels(evaluator);
+		if (value.isDefined()) {
+			form.notifyPanels(evaluator, identifier);
+		}
 	};
 
 	public Evaluator getEvaluator() {

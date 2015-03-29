@@ -5,31 +5,30 @@ import java.math.BigDecimal;
 /**
  * Created by bore on 09/03/15.
  */
-public abstract class NumWidgetValue extends WidgetValue
+public abstract class NumWidgetValue<T> extends WidgetValue
 {
-    private final BigDecimal min;
-    private final BigDecimal max;
-    private final BigDecimal step;
+    private final T min;
+    private final T max;
+    private final T step;
 
-    public NumWidgetValue(String label, BigDecimal min, BigDecimal max, BigDecimal step)
+    public NumWidgetValue(T min, T max, T step)
     {
-        super(label);
         this.min = min;
         this.max = max;
         this.step = step;
     }
 
-    public BigDecimal getMin()
+    public T getMin()
     {
         return this.min;
     }
 
-    public BigDecimal getMax()
+    public T getMax()
     {
         return this.max;
     }
 
-    public BigDecimal getStep()
+    public T getStep()
     {
         return this.step;
     }

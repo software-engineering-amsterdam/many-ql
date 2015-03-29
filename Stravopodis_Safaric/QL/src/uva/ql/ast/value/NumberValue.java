@@ -1,12 +1,15 @@
 package uva.ql.ast.value;
 
-import uva.ql.ast.type.TypeInteger;
+import java.util.Arrays;
+import java.util.List;
+
+import uva.ql.ast.type.*;
 
 public class NumberValue extends GenericValue<Integer>{
 
-	private int value;
+	private Integer value;
 	
-	public NumberValue(int _value){
+	public NumberValue(Integer _value){
 		this.value = _value;
 	}
 	
@@ -26,10 +29,14 @@ public class NumberValue extends GenericValue<Integer>{
 		return new NumberValue(this.value * _value.value);
 	}
 	
-	public NumberValue division(NumberValue _value){
-		if (_value.value == 0)
-			return new NumberValue(0);
-		return new NumberValue(this.value / _value.value);
+	public NumberValue division(NumberValue _value){		
+		try{
+			return new NumberValue(this.value / _value.value);
+		}
+		catch (ArithmeticException ex){
+			System.out.println("Exception -> NumberValue -> " + ex.getMessage());
+		}
+		return new NumberValue(0);
 	}
 	
 	public BooleanValue greater(NumberValue _value){
@@ -54,8 +61,8 @@ public class NumberValue extends GenericValue<Integer>{
 	}
 	
 	@Override
-	public TypeInteger getValueType() {
-		return new TypeInteger();
+	public List<Type> valueHasType() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
 	}
 	
 	@Override
@@ -67,16 +74,7 @@ public class NumberValue extends GenericValue<Integer>{
 	}
 	
 	@Override
-	public boolean isNotEqual(GenericValue<?> value) {
-		if (value == null){
-			return false;
-		}
-		return value.getValue() != this.getValue();
-	}
-	
-	@Override
 	public String toString(){
 		return String.valueOf(this.value);
 	}
-
 }

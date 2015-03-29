@@ -1,41 +1,11 @@
 from ..core.QLTypes import *
-
-class BinaryExpression(object):
-	def __init__(self, leftExpression, op, rightExpression, evaluator):
-		self._left = leftExpression
-		self._op = op
-		self._right = rightExpression
-		self._evaluator = evaluator
-
-	@property
-	def value(self):
-		leftValue = self._left.value
-		rightValue = self._right.value
-		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
-
-class UnaryExpression(object):
-	def __init__(self, op, expression, evaluator):
-		self._op = op
-		self._expression = expression
-		self._evaluator = evaluator
-
-	@property
-	def value(self):
-		exprValue = self._expression.value
-		return self._evaluator.evaluateUnaryExpression(self._op, exprValue)
-
-class AtomicExpression(object):
-	def __init__(self, value):
-		self._value = value
-
-	@property
-	def value(self):
-		return self._value.value
+from abc import ABCMeta, abstractmethod
 
 class Form(object):
 	def __init__(self, identifier):
 		self.identifier = identifier
 		
+
 class Question(object):
 	def __init__(self, identifier, text, questionType, conditionalExpressionsTuple, form, valueExpression = None):
 		self.identifier = identifier
@@ -53,7 +23,62 @@ class Question(object):
 	def isVisible(self):
 		return self.conditionalExpressions.value
 
-class EvalNone(object):
+
+class Evaluable(object):
+	@property
+	@abstractmethod
+	def value(self):
+		"""Returns a QLType value"""
+		raise NotImplementedError()
+
+	def __str__(self):
+		return "%s:%s" %(self.__class__.__name__, self.value)
+
+
+class BinaryExpression(Evaluable):
+	def __init__(self, leftEvaluable, op, rightEvaluable, evaluator):
+		self._left = leftEvaluable
+		self._op = op
+		self._right = rightEvaluable
+		self._evaluator = evaluator
+
+	@property
+	def value(self):
+		leftValue = self._left.value
+		rightValue = self._right.value
+		return self._evaluator.evaluateBinaryExpression(self._op, leftValue, rightValue)
+
+
+class UnaryExpression(Evaluable):
+	def __init__(self, op, evaluable, evaluator):
+		self._op = op
+		self._evaluable = evaluable
+		self._evaluator = evaluator
+
+	@property
+	def value(self):
+		value = self._evaluable.value
+		return self._evaluator.evaluateUnaryExpression(self._op, value)
+
+
+class AtomicType(Evaluable):
+	def __init__(self, value):
+		self._value = value
+
+	@property
+	def value(self):
+		return self._value 
+
+	def __hash__(self):
+		return hash(self.value)
+
+	def __eq__(self, other):
+		if isinstance(other, type(self)):
+			return other.value == self.value
+		return False
+
+
+class EvalNone(Evaluable):
 	def __init__(self, *args):
 		pass
 
@@ -67,12 +92,10 @@ class EvalNone(object):
 	def __eq__(self, other):
 		return isinstance(other, type(self))
 
-	def __str__(self):
-		return "%s:%s" %(self.__class__.__name__, None)
 
-class EvalIdentifier(object):
-	def __init__(self, value, evaluator):
-		self._value = value
+class EvalIdentifier(Evaluable):
+	def __init__(self, name, evaluator):
+		self._name = name
 		self._evaluator = evaluator
 
 	@property
@@ -80,9 +103,12 @@ class EvalIdentifier(object):
 		return self._evaluator.getValue(self) 
 
 	def __hash__(self):
-		return hash(self._value)
+		return hash(self._name)
 
 	def __eq__(self, other):
-		if isinstance(other, EvalIdentifier):
-			return other._value == self._value
+		if isinstance(other, type(self)):
+			return other._name == self._name
 		return False
+
+	def __str__(self):
+		return "%s:%s,%s" %(self.__class__.__name__, self._name, self.value)

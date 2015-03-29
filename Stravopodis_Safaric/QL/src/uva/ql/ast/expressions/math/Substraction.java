@@ -11,29 +11,22 @@ import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Substraction extends BinaryExpressions{
+public class Substraction extends BinaryExpression{
 
 	public Substraction(Expression left, Expression right, CodeLines _codeLines) {
 		super(left, right, Operator.SUB, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitSubstraction(this);
-	}
-	
-	@Override
 	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).substraction(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).substraction(new NumberValue(right));
 	}
 	
 	@Override
-	public Object getEvaluatedValue() {
+	public Object getValue() {
 		return this.evaluate().getValue();
 	}
 	
@@ -43,8 +36,18 @@ public class Substraction extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitSubstraction(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 
 	@Override

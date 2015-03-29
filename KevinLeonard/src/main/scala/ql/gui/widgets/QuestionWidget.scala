@@ -5,7 +5,7 @@ import ql.evaluator.Evaluator
 import ql.gui.DependencyResolver
 import types.{Dependencies, EvalEnvironment, VariableName}
 
-import scalafx.collections.ObservableMap.{Replace, Add}
+import scalafx.collections.ObservableMap.{Add, Replace}
 import scalafx.geometry.Insets
 import scalafx.scene.control.Label
 import scalafx.scene.layout.VBox
@@ -72,5 +72,5 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
     case _ => false
   }
 
-  def isQuestionWithSameKey(updatedVariable: VariableName) = updatedVariable == q.variable.name
+  def isQuestionWithSameKey(updatedVariable: VariableName): Boolean = updatedVariable == q.variable.name
 }

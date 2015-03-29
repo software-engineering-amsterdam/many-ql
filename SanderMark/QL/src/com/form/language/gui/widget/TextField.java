@@ -6,7 +6,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
@@ -27,11 +27,10 @@ public class TextField extends Widget {
 	{
 		return this.textfield;
 	}
-
+	
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-		    	//TODO: this still seems weird, maybe have another look at it?
-			setContextValue(new StringValue(TextField.this.textfield.getText()));
+			setContextValue(new StringValue(textfield.getText()));
 			checkDependencyVisibility();
 		}
 

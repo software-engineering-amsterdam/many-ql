@@ -4,12 +4,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ql.ast.statement.Question;
 import ql.semantics.values.Value;
+import ql.semantics.errors.Error;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -19,43 +19,30 @@ import java.io.File;
 /**
  * Created by Nik on 09-03-2015
  */
-// TODO: handle errors, paths, etc.
 public class FileStore extends DataStore
 {
-    public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
+    private final File file;
+
+    public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable, File file)
     {
         super(condQuestionTable, valueTable);
+        this.file = file;
     }
 
     @Override
-    public void save(File file)
+    public void save() throws Exception
     {
-        try
-        {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-            Document doc = this.createDocument(docBuilder);
+        Document doc = this.createDocument(docBuilder);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(file);
 
-            transformer.transform(source, result);
-        }
-        catch (ParserConfigurationException e)
-        {
-            e.printStackTrace();
-        }
-        catch (TransformerConfigurationException e)
-        {
-            e.printStackTrace();
-        }
-        catch (TransformerException e)
-        {
-            e.printStackTrace();
-        }
+        transformer.transform(source, result);
     }
 
     private Document createDocument(DocumentBuilder docBuilder)

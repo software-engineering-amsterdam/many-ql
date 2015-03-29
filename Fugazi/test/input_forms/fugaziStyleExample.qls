@@ -1,21 +1,7 @@
-stylesheet taxOfficeExample 
-  page Housing {
-    section "Info"
-      question name
-    section "Buying"
-      question hasBoughtHouse
-    section "Loaning"  
-      question hasMaintLoan
-        widget dropdown("yes", "no")
-  }
+stylesheet taxOfficeExample
 
-  page Selling { 
-    section "Selling" {
-      question hasSoldHouse
-    }
+  page SellingAdditional {
       section "You sold a house" {
-        question sellingPrice
-          widget slider
         question privateDebt
           widget slider
         question valueResidue
@@ -25,8 +11,36 @@ stylesheet taxOfficeExample
           fontsize: 14
           color: #E60C0C
           widget spinbox
-        }        
+        }
       }
+    }
+
+  page Empty {}
+
+  page Housing {
+    section "Info"
+      question name
+      
+    section "Buying"
+      question hasBoughtHouse
+      
+    section "Loaning"  
+      question hasMaintLoan
+        widget dropdown("yes", "no")
+    section "Empty" {}
+  }
+
+  page Selling {
+    section "Selling" {
+      question hasSoldHouse
+    }
+    section "Selling 2" {
+        question sellingPrice
+          widget slider
+    }
     default bool widget radio("Yes", "No")
     }
-  
+
+  page EmptyAgain {
+    section "Empty" {}
+  }

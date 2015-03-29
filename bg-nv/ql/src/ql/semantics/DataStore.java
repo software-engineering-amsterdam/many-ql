@@ -1,5 +1,6 @@
 package ql.semantics;
 
+import ql.semantics.errors.*;
 import ql.semantics.values.Value;
 
 import java.io.File;
@@ -28,5 +29,5 @@ public abstract class DataStore
         return this.valueTable.getValue(questionId);
     }
 
-    public abstract void save(File file);
+    public abstract void save() throws Exception;
 }

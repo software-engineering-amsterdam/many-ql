@@ -16,12 +16,8 @@ public class LabelTable {
 		return this.labelTable.containsKey(key);
 	}
 
-	public boolean valueExists(String key, CodeLines value) {
-		return this.keyExists(key);	// If there is a key, so is the value
-	}
-
-	public CodeLines retrieveValue(String key) {
-		return this.labelTable.get(key);
+	public CodeLines retrieveLabel(String fromIdentifier) {
+		return this.labelTable.get(fromIdentifier);
 	}
 
 	@Override

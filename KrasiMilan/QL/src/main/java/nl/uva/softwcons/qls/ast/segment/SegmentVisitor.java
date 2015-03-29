@@ -7,3 +7,4 @@ public interface SegmentVisitor<T> {
 
     T visit(Section section);
 }
+

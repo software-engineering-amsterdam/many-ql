@@ -1,16 +1,14 @@
 package qls.parser
 
 import ql.ast._
-import qls.ast.Question
-import qls.ast._
-
 import ql.parser.{Parser => QLParser}
+import qls.ast.{Question, _}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
 
-  var qlParser = new QLParser
+  val qlParser = new QLParser
 
   // general parsers
   override val whiteSpace = qlParser.whiteSpace
@@ -51,26 +49,29 @@ class Parser extends JavaTokenParsers {
   def defaultWidget: Parser[DefaultWidget] = positioned("default" ~> questionType ~ widget ^^ {
     case t ~ w => DefaultWidget(t, w)
   })
-  def widget: Parser[Widget] = widgetType ~ widgetStyle ^^ {
-    case "spinbox" ~ properties => SpinBox(properties)
-    case "slider" ~ properties => Slider(properties)
-    case "text" ~ properties => Text(properties)
-    case "textBlock" ~ properties => TextBlock(properties)
-    case "radio" ~ properties => Radio(properties)
-    case "checkbox" ~ properties => CheckBox(properties)
-    case "dropdown" ~ properties => DropDown(properties)
+  def widget: Parser[Widget] = widgetType ~ styles ^^ {
+    case widgetType ~ styles => Widget(widgetType, styles)
   }
-  def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
-  def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
-    case Some(properties) => properties
+  def widgetType: Parser[WidgetType] =
+    ("spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown") ^^ {
+      case "spinbox" => SpinBox()
+      case "slider" => Slider()
+      case "text" => Text()
+      case "textBlock" => TextBlock()
+      case "radio" => Radio()
+      case "checkbox" => CheckBox()
+      case "dropdown" => DropDown()
+    }
+  def styles: Parser[List[Style]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
+    case Some(styles) => styles
     case None => List()
   }
 
-  // style property parsers
-  def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
-  def font: Parser[StyleProperty] = "font:" ~> stringLiteral ^^ {
+  // style parsers
+  def width: Parser[Style] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
+  def font: Parser[Style] = "font:" ~> stringLiteral ^^ {
     v => Font(v.substring(1, v.length - 1).replace("\\", ""))
   }
-  def fontSize: Parser[StyleProperty] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
-  def fontColor: Parser[StyleProperty] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
+  def fontSize: Parser[Style] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
+  def fontColor: Parser[Style] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
 }

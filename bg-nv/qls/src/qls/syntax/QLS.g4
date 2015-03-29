@@ -2,7 +2,7 @@ grammar QLS;
 
 stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-page : 'page' Identifier '{' (statement)+ '}';
+page : 'page' String '{' (statement)+ '}';
 
 statement : section | question | defaultStmt;
 
@@ -16,12 +16,14 @@ stylesheetRule
     : label='width' ':' Integer
     | label='fontsize' ':' Integer
     | label='font' ':' String
-    | label='color' ':' Color
+    | label='forecolor' ':' Color
+    | label='backcolor' ':' Color
     | label='widget' widgetValue
     ;
 
 widgetValue
-    : wlabel='slider' '(' min=(Decimal|Integer) ',' max=(Decimal|Integer) ',' step=(Decimal|Integer) ')'
+    : wlabel='slider' '(' decMin=Decimal ',' decMax=Decimal ',' decStep=Decimal ')'
+    | wlabel='slider' '(' intMin=Integer ',' intMax=Integer ',' intStep=Integer ')'
     | wlabel='radio' '(' yesText=String ',' noText=String ')'
     | wlabel='dropdown' '(' yesText=String ',' noText=String ')'
     | wlabel='checkbox'

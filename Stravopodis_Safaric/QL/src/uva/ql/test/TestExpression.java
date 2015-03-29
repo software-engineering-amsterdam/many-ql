@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
-import uva.ql.ast.ASTNode;
+import uva.ql.ast.Node;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.parser.QLLexer;
@@ -15,7 +15,7 @@ import uva.ql.parser.QLParser;
 
 public class TestExpression {
 	
-	private ASTNode returnExpr(String stream){
+	private Node returnExpr(String stream){
 		ANTLRInputStream s = new ANTLRInputStream(stream);
 		
 		QLLexer lexer = new QLLexer(s);
@@ -25,7 +25,7 @@ public class TestExpression {
 		ParseTree tree = parser.expr();
 		
 		QLMainVisitor visitor = new QLMainVisitor();
-		ASTNode ast = visitor.visit(tree);
+		Node ast = visitor.visit(tree);
 		return ast;
 	}
 	

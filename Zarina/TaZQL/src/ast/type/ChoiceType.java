@@ -3,11 +3,6 @@ package ast.type;
 public class ChoiceType extends Type {
 	
 	public ChoiceType() {}
-	
-	@Override
-	public String getName() {
-		return "choice";
-	}
 			
 	@Override
 	public String toString() {

@@ -94,23 +94,12 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	currentQuestion = question.getId();
 	String questionLabel = question.getStr();
 	Type type = question.getType();
-	if (!this.symbolTable.containsKey(currentQuestion)) {
-	    symbolTable.put(currentQuestion, type);
-	} else {
-	    errors.add(new DuplicatedID(currentQuestion));
-	}
-
-	if (questionLabels.contains(questionLabel)) {
-	    warnings.add(new DuplicatedLabel(questionLabel));
-	} else {
-	    questionLabels.add(questionLabel);
-	}
-
+	checkDuplicatedQuestionIDs(type);
+	checkDuplicatedQuestionLabels(questionLabel);
 	Expression expr = question.getExpr();
 	if (expr != null) {
 	    expr.accept(this);
 	}
-
 	currentQuestion = null;
 	return null;
     }
@@ -130,9 +119,9 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 
     public IfStatement visit(IfStatement ifStatement) {
 	Expression expr = ifStatement.getExpr();
-	Type t = (Type) expr.accept(this);
-	if (!t.equals(new Boolean())) {
-	    errors.add(new TypeMissmatch(t, new Boolean()));
+	Type type = (Type) expr.accept(this);
+	if (!type.equals(new Boolean())) {
+	    errors.add(new TypeMissmatch(type, new Boolean()));
 	}
 	List<Question> questions = ifStatement.getQuestions();
 	for (Question question : questions)
@@ -271,4 +260,20 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
     public Type visit(StringAtom str) {
 	return new uva.sc.core.types.String();
     }
+    
+    private void checkDuplicatedQuestionIDs(Type type) {
+	if (!symbolTable.containsKey(currentQuestion)) {
+	    symbolTable.put(currentQuestion, type);
+	} else {
+	    errors.add(new DuplicatedID(currentQuestion));
+	}
+    }
+    
+    private void checkDuplicatedQuestionLabels(String questionLabel) {
+	if (questionLabels.contains(questionLabel)) {
+	    warnings.add(new DuplicatedLabel(questionLabel));
+	} else {
+	    questionLabels.add(questionLabel);
+	}
+    } 
 }

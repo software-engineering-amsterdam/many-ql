@@ -1,15 +1,11 @@
 ﻿using AST;
-using Nodes = AST.Nodes;
 using AST.Nodes.Expressions;
 using Evaluation;
 using Evaluation.Values;
-using QLGui.ValueVisitors;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows;
-using ASTFormObject = AST.Nodes.FormObjects;
-using AST.Nodes.Interfaces;
-using Types = AST.Types;
-using QLGui.FormObjects;
 
 namespace QLGui.Controllers
 {
@@ -18,7 +14,6 @@ namespace QLGui.Controllers
         private ASTResult astTree;
         private MainWindow window;
         private SymbolTable symbolTable;
-        public EventUpdateValue EventUpdateValue { get; set; }
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
@@ -28,14 +23,20 @@ namespace QLGui.Controllers
             symbolTable = new SymbolTable();
         }
 
-        public UIElement ProcessBody()
+        public void ProcessBody()
         {
-            SubController nodeBodyProcessor = new SubController(symbolTable);
-            nodeBodyProcessor.EventUpdateValue += UpdateValue;
+            if (!astTree.HasError())
+            {
+                SubController BodyProcessor = new SubController(symbolTable);
+                              BodyProcessor.EventUpdateValue += UpdateValue;
+                              BodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
 
-            symbolTable = nodeBodyProcessor.Register(symbolTable);
-
-            return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                              symbolTable = BodyProcessor.SymbolTable;
+            }
+            else
+            {
+                window.PrintErrorsInGui(astTree.NotificationManager);
+            }
         }
 
         private void UpdateValue(string id, Value value)
@@ -45,6 +46,12 @@ namespace QLGui.Controllers
             window.DeleteElements();
 
             ProcessBody();
+        }
+
+        public void ExportAnswers()
+        {
+            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
+            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
         }
     }
 }

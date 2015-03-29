@@ -8,15 +8,34 @@ public class IssueList {
 	private final List<IssueObject> issueList = new ArrayList<IssueObject>();
 	
 	public boolean hasErrors(){
-		for (IssueObject issue : this.issueList){
-			if (issue.issueIsError()){
-				return true;
-			}
-		}
-		return false;
+		return !this.errorList().isEmpty();
 	}
 	
-	public void putIssueObject(IssueObject issueObject){
+	public List<IssueObject> errorList(){
+		List<IssueObject> issues = new ArrayList<IssueObject>();
+		
+		for (IssueObject issue : this.issueList){
+			if (issue.issueIsError()){
+				issues.add(issue);
+			}
+		}
+		
+		return issues;
+	}
+	
+	public List<IssueObject> getErrorOfType(IssueType.ERROR errorType){
+		List <IssueObject> issues = new ArrayList<IssueObject>();
+		
+		for (IssueObject issue : this.errorList()){
+			if (issue.isOfErrorType(errorType)){
+				issues.add(issue);
+			}
+		}
+		
+		return issues;
+	}
+	
+	public void putIssue(IssueObject issueObject){
 		this.issueList.add(issueObject);
 	}
 	

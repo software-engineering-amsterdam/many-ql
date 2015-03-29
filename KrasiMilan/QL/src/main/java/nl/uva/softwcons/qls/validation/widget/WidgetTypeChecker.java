@@ -9,54 +9,59 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.segment.SegmentVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
-import nl.uva.softwcons.qls.ast.widget.StylizedType;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.validation.widget.error.IncompatibleWidget;
 
 public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void>, SegmentVisitor<Void> {
 
     private final Environment typeEnv;
 
-    public WidgetTypeChecker(Environment env) {
-        typeEnv = env;
+    public WidgetTypeChecker(final Environment env) {
+        this.typeEnv = env;
     }
 
     @Override
-    public Void visit(Page page) {
+    public Void visit(final Page page) {
         page.getSegments().forEach(segment -> segment.accept(this));
-        for (StylizedType style : page.getStyles()) {
-            if (style.hasTypeConflict()) {
-                addError(new IncompatibleWidget(page.getLineInfo()));
-            }
-        }
+
+        page.getStyles().forEach((type, widget) -> {
+            validateWidgetCompatability(type, widget);
+        });
+
         return null;
     }
 
     @Override
-    public Void visit(Question question) {
-        Type questionType = typeEnv.resolveVariable(question.getId());
-        if (question.hasStylizedWidget()
-                && !question.getStylizedWidget().getWidgetType().isCompatibleWith(questionType)) {
-            addError(new IncompatibleWidget(question.getLineInfo()));
+    public Void visit(final Question question) {
+        final Type questionType = typeEnv.resolveVariable(question.getId());
+        if (question.hasWidget()) {
+            validateWidgetCompatability(questionType, question.getStylizedWidget());
         }
+
         return null;
     }
 
     @Override
-    public Void visit(Section section) {
+    public Void visit(final Section section) {
         section.getContent().forEach(element -> element.accept(this));
-        for (StylizedType style : section.getStyles()) {
-            if (style.hasTypeConflict()) {
-                addError(new IncompatibleWidget(section.getLineInfo()));
-            }
-        }
+
+        section.getStyles().forEach((type, widget) -> {
+            validateWidgetCompatability(type, widget);
+        });
 
         return null;
     }
 
     @Override
-    public Void visit(Stylesheet stylesheet) {
+    public Void visit(final Stylesheet stylesheet) {
         stylesheet.getPages().forEach(page -> page.accept(this));
         return null;
+    }
+
+    private void validateWidgetCompatability(final Type type, final StylizedWidget widget) {
+        if (!widget.getWidgetType().get().isCompatibleWith(type)) {
+            addError(new IncompatibleWidget(widget.getLineInfo()));
+        }
     }
 
 }
