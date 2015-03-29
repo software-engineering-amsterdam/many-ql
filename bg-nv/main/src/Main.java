@@ -74,12 +74,11 @@ public class Main extends Application
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
             Messages qlsMs =  TypeChecker.check(stylesheet, form);
-// TODO: fix the ql and qls files and enable type checking
-//            if (qlsMs.containsError())
-//            {
-//                this.showErrorAlert(qlsMs.toString());
-//                System.exit(1);
-//            }
+            if (qlsMs.containsError())
+            {
+                this.showErrorAlert(qlsMs.toString());
+                System.exit(1);
+            }
 
             QuestionStyles questionStyles = StyleMerger.getStyles(stylesheet, form);
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);

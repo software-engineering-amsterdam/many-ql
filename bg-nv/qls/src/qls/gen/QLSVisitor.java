@@ -36,6 +36,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLSParser#questionWithRules}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionWithRules(@NotNull QLSParser.QuestionWithRulesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
