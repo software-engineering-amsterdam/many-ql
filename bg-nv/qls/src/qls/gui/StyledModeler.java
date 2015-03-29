@@ -74,13 +74,10 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     public Segment visit(Section s)
     {
         List<Segment> segments = new ArrayList<>();
-
-        //TODO: use a reducer?
         s.getBody().stream()
                 .filter(stat -> stat.isRenderable())
-                .forEach(stat -> {
-                    segments.add(stat.accept(this));
-                });
+                .forEach(stat -> segments.add(stat.accept(this)));
+
         return new ql.gui.segment.Section(s.getName(), segments, true);
     }
 
