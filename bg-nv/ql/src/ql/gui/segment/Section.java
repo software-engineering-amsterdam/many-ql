@@ -26,9 +26,7 @@ public class Section extends ParentSegment<TitledPane>
             contentBox.getChildren().add(s.getContainer());
         }
 
-        this.container.setAlignment(Pos.CENTER);
         this.container.setText(this.name);
-        this.container.setTextAlignment(TextAlignment.LEFT);
         this.container.setCollapsible(false);
         this.container.setContent(contentBox);
     }

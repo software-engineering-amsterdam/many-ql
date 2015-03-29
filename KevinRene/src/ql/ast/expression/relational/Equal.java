@@ -7,6 +7,7 @@ import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class Equal extends Binary {
+	
 	public Equal(Expression left, Expression right) {
 		super(left, right, "==");
 	}

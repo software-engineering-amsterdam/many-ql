@@ -31,9 +31,8 @@ questionRangeSmallerThan: SMALLERTHAN num=NUMBER;
 calculation:
     'Calculation:' name=STRING calculationBody;
 
-//TODO: Can a calculation have multiple inputs?
 calculationBody:
-   '{' (ifSequence|input)+'}';
+   '{' input '}';
 
 ifSequence: ifStatement (elseIfStatement)* (elseStatement)?;
 
@@ -69,7 +68,6 @@ expression
     | expression operator=AND expression
     | expression operator=OR expression;
 
-//TODO: Consider doing something about this. id suggests identifier but this is not really an identifier. Would help with the ast as well.
 id
     : '['id']'
     | STRING

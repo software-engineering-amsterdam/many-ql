@@ -19,17 +19,17 @@ import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.UndefinedType;
 import org.uva.ql.ast.value.UndefinedValue;
-import org.uva.ql.view.component.ExprQuestionComponent;
-import org.uva.ql.view.component.QuestionComponent;
+import org.uva.ql.view.component.ExprQuestionItem;
+import org.uva.ql.view.component.QuestionItem;
 import org.uva.ql.view.listener.DoneButtonListener;
 import org.uva.ql.view.listener.WidgetListener;
 import org.uva.ql.view.panel.IfElseQuestionPanel;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;
-import org.uva.ql.view.widgit.CheckBox;
-import org.uva.ql.view.widgit.NumberTextField;
-import org.uva.ql.view.widgit.TextField;
-import org.uva.ql.view.widgit.Widget;
+import org.uva.ql.view.widget.CheckBox;
+import org.uva.ql.view.widget.NumberTextField;
+import org.uva.ql.view.widget.TextField;
+import org.uva.ql.view.widget.Widget;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.ql.visitor.StatementVisitor;
 import org.uva.ql.visitor.TypeVisitor;
@@ -52,25 +52,25 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public QuestionComponent visit(QuestionNormal questionStatement) {
+	public QuestionItem visit(QuestionNormal questionStatement) {
 		Widget widget = (Widget) questionStatement.getType().accept(this);
 		widget.setIdentifier(questionStatement.getIdentifier());
 		Identifier identifier = questionStatement.getIdentifier();
-		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
-		formView.addQuestionPanel(questionComponent);
+		QuestionItem questionItem = new QuestionItem(questionStatement, widget);
+		formView.addQuestionPanel(questionItem);
 		widgetListener.initializeValue(identifier, new UndefinedValue());
-		return questionComponent;
+		return questionItem;
 	}
 
 	@Override
-	public ExprQuestionComponent visit(QuestionComputed questionComputeStatement) {
+	public ExprQuestionItem visit(QuestionComputed questionComputeStatement) {
 		Identifier identifier = questionComputeStatement.getIdentifier();
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
 		widget.setIdentifier(identifier);
-		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
-		formView.addExprQuestionPanel(questionComponent);
+		ExprQuestionItem quetionItem = new ExprQuestionItem(questionComputeStatement, widget);
+		formView.addExprQuestionItem(quetionItem);
 		widgetListener.initializeValue(identifier, new UndefinedValue());
-		return questionComponent;
+		return quetionItem;
 	}
 
 	@Override
@@ -86,7 +86,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	public FormFrame visit(Form form) {
 		widgetListener = new WidgetListener(formView);
 		form.getBlock().accept(this);
-		System.out.println();
 		JButton button = new JButton("Done");
 		formView.addDoneButton(button);
 		button.addActionListener(new DoneButtonListener(widgetListener.getEvaluator()));

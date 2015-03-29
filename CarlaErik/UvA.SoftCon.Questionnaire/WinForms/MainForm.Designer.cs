@@ -52,7 +52,7 @@
             this.viewToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(684, 24);
+            this.MainMenu.Size = new System.Drawing.Size(634, 24);
             this.MainMenu.TabIndex = 0;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -77,8 +77,9 @@
             // closeFileToolStripMenuItem
             // 
             this.closeFileToolStripMenuItem.Name = "closeFileToolStripMenuItem";
-            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeFileToolStripMenuItem.Text = "&Close File";
+            this.closeFileToolStripMenuItem.Click += new System.EventHandler(this.closeFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -123,7 +124,7 @@
             // 
             this.SplitPanel.Panel2.Controls.Add(this.OutputTextBox);
             this.SplitPanel.Panel2Collapsed = true;
-            this.SplitPanel.Size = new System.Drawing.Size(684, 385);
+            this.SplitPanel.Size = new System.Drawing.Size(634, 688);
             this.SplitPanel.SplitterDistance = 228;
             this.SplitPanel.TabIndex = 1;
             // 
@@ -147,7 +148,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 409);
+            this.ClientSize = new System.Drawing.Size(634, 712);
             this.Controls.Add(this.SplitPanel);
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;

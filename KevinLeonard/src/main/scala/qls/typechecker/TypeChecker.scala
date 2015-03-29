@@ -26,9 +26,11 @@ class TypeChecker {
   def check(q: Question, env: TypeEnvironment): Option[Error] = {
     val name = q.variable.name
     val widget = q.widget
-    val _type = env getOrElse(name, throw new AssertionError(s"Error in type checker. Undefined variable $name."))
 
-    check(widget, _type, q.pos)
+    env get name match {
+      case Some(t) => check(widget, t, q.pos)
+      case None => Some(Error(s"Type of question $name is unknown"))
+    }
   }
 
   def check(w: Widget, t: Type, p: Position): Option[Error] = {

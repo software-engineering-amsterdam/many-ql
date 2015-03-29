@@ -3,6 +3,9 @@ using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.Common.Validation
 {
+    /// <summary>
+    /// Represents a validation message.
+    /// </summary>
     public class Message
     {
         public Severity Severity
@@ -32,7 +35,7 @@ namespace UvA.SoftCon.Questionnaire.Common.Validation
 
         public override string ToString()
         {
-            return String.Format("{0,-5} - {1} Line: {2}, column: {3}", StringEnum.GetStringValue(Severity), Text, Position);
+            return String.Format("{0,-5} - {1} {2}", StringEnum.GetStringValue(Severity), Text, Position);
         }
     }
 }

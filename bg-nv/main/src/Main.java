@@ -72,18 +72,16 @@ public class Main extends Application
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
             Messages qlsMs =  TypeChecker.check(stylesheet, form);
-// TODO: fix the ql and qls files and enable type checking
-//            if (qlsMs.containsError())
-//            {
-//                this.showErrorAlert(qlsMs.toString());
-//                System.exit(1);
-//            }
+            if (qlsMs.containsError())
+            {
+                this.showErrorAlert(qlsMs.toString());
+                System.exit(1);
+            }
 
             QuestionStyles questionStyles = StyleMerger.getStyles(stylesheet, form);
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);
         }
 
-        //TODO: move this part below + maybe pull out the attaching of listeners etc. from Renderer as well ?
         ValueTable valueTable = ValueTableBuilder.build(form);
         Canvas canvas = modeler.buildCanvas();
 
@@ -113,7 +111,6 @@ public class Main extends Application
             }
         }
     }
-
 
     private CharStream getStream(String file)
     {

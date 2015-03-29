@@ -11,11 +11,11 @@ We hope you have a pleasant flight.
 ![Our plane](http://www.studentsoftheworld.info/sites/misc/img/28740_weird-plane[1].jpg)
 
 
+## Example forms
+
+You can load these from KevinRene/forms/, which includes several QL forms and one QLS form.
+
 ## QL
-
-### Grammar
-
-Was heavily outdated and changes too often to place here.
 
 ### Examples
 

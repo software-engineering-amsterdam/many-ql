@@ -8,15 +8,34 @@ import java.util.Map;
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
-import uva.sc.ql.atom.*;
-import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.expression.unaryExpressions.*;
+import uva.sc.ql.atom.BooleanAtom;
+import uva.sc.ql.atom.ID;
+import uva.sc.ql.atom.NumberAtom;
+import uva.sc.ql.atom.StringAtom;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
 import uva.sc.ql.form.Form;
-import uva.sc.ql.statements.*;
+import uva.sc.ql.statements.IfStatement;
+import uva.sc.ql.statements.Question;
+import uva.sc.ql.statements.Statement;
 
 /**
- *  Generates a map of questions (A) and their patron questions (B), that is questions (B) that their
- *  value will affect the value and the visibility of the first (A).
+ * Generates a map of questions (A) and their patron questions (B), that is
+ * questions (B) that their value will affect the first (A).
+ * 
  * @author Pantelis & Santiago
  */
 @SuppressWarnings({ "unchecked" })
@@ -24,8 +43,8 @@ public class PatronQuestionsVisitor implements
 	IQLExpressionNodeVisitor<Object>, IQLFormNodeVisitor<Object>,
 	IQLStatementNodeVisitor<Object> {
 
-    Map<ID, List<ID>> patronElements = new HashMap<ID, List<ID>>();
-    ID currentElement;
+    private Map<ID, List<ID>> patronElements = new HashMap<ID, List<ID>>();
+    private ID currentElement;
 
     public Map<ID, List<ID>> getPatronElements() {
 	return patronElements;
@@ -165,5 +184,4 @@ public class PatronQuestionsVisitor implements
     public Object visit(StringAtom str) {
 	return null;
     }
-
 }

@@ -9,14 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import uva.sc.ql.atom.ID;
 import uva.sc.ql.gui.helpers.ListenerHelper;
 
 public class DrawQuestionnaire extends ListenerHelper {
 
-    List<Component> componentList;
-
-    public DrawQuestionnaire(List<Component> components) {
-	componentList = components;
+    private List<Component> componentList;
+    private ID formTitle;
+    
+    public DrawQuestionnaire(List<Component> componentList, ID formTitle) {
+	this.componentList = componentList;
+	this.formTitle = formTitle;
     }
 
     public void render() {
@@ -36,11 +39,11 @@ public class DrawQuestionnaire extends ListenerHelper {
 	JScrollPane scrollerPane = new JScrollPane(questionnairePanel);
 	scrollerPane.setPreferredSize(new Dimension(300, 600));
 	JFrame frame = new JFrame();
-	frame.setTitle("QL questionnaire Form");
+	frame.setTitle(formTitle.getValue());
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.add(scrollerPane);
 	frame.pack();
+	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
     }
-
 }

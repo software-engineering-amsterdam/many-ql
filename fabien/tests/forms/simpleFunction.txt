@@ -1,7 +1,7 @@
 
 form simpleExample {
   "How much houses did you sell?"
-     soldHouses: int
+     soldHouses: integer
 
   "You earned:"
      money( 200000 * soldHouses )

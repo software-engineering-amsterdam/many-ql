@@ -100,8 +100,6 @@ def make_compare_expression(subtrees):
             expressions.append(less_equal.LessEqual(subtrees[i], subtrees[i + 2]))
         elif subtrees[i+ 1] == "==":
             expressions.append(equal.Equal(subtrees[i], subtrees[i + 2]))
-        else:
-            pass # TODO parse error
     x = expressions[0]
 
     # create for every compare expression a new and-expression

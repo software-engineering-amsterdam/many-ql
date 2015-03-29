@@ -1,17 +1,13 @@
 package nl.uva.bromance.ast.conditionals;
 
-import nl.uva.bromance.ast.Identifier;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.operators.Operator;
 import nl.uva.bromance.ast.visitors.NullQLNodeVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ExpressionEvaluator extends NullQLNodeVisitor {
 
-    private List<Identifier> identifiers;
     private Map<String, Result> answerMap;
     private Result currentResult;
 
@@ -21,7 +17,6 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
 
     //TODO: We should insert the indentifiers not find them in this class.
     public void evaluate(QLNode qlnode) {
-        this.identifiers = getIdentifiers(qlnode);
         qlnode.accept(this);
     }
 
@@ -33,47 +28,21 @@ public class ExpressionEvaluator extends NullQLNodeVisitor {
         }
     }
 
-    //TODO: Do something about this. Maybe something more top-level.
-    private static List<Identifier> getIdentifiers(QLNode node) {
-        List<Identifier> identifiers = new ArrayList<>();
-        if (node instanceof HasIdentifier) {
-            identifiers.add(((HasIdentifier) node).getIdentifier());
-        }
-        if (node.hasChildren()) {
-            for (QLNode child : node.getChildren()) {
-                identifiers.addAll(getIdentifiers(child));
-
-            }
-        }
-        return identifiers;
-    }
-
     @Override
     public void visit(Terminal terminal) {
-        if (terminal.isInteger()) {
-            currentResult = new IntResult(Integer.parseInt(terminal.getValue()));
-        // Boolean goes before string because boolean also matches string
-        } else if (terminal.isBoolean()){
-            if (terminal.getValue().toLowerCase().equals("false")){
-                currentResult = new BooleanResult(false);
-            } else {
-                currentResult = new BooleanResult(true);
-            }
-        }
-        else if (terminal.isString()) {
-            currentResult = new StringResult(terminal.getValue());
-        } else {
-            for (Identifier identifier : identifiers) {
-                //TODO: What if there is an identifier with the same id?
-                if (terminal.getValue().equals(identifier.getId())) {
-                    if (answerMap != null && answerMap.get(terminal.getValue()) != null) {
-                        currentResult = answerMap.get(terminal.getValue());
+        if (terminal.isIdentifier()) {
+            for (String identifier : answerMap.keySet()) {
+                if (terminal.getValue().equals(identifier)) {
+                    if (answerMap != null && answerMap.get(identifier) != null) {
+                        currentResult = answerMap.get(identifier);
                     } else {
-                        currentResult = identifier.getResult();
+                        currentResult = answerMap.get(identifier);
                     }
                     break;
                 }
             }
+        } else {
+            currentResult = terminal.getResult();
         }
     }
 

@@ -3,7 +3,7 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 
 public class QuestionDeclarations {
     private Map<String, Question> declarations;

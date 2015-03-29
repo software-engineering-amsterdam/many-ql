@@ -54,5 +54,4 @@ class NumberQuestionWidget(q: Question, visibilityExpressions: List[Expression],
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Number.")
     }
   }
-
 }

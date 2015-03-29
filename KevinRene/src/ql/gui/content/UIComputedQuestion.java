@@ -3,26 +3,26 @@ package ql.gui.content;
 import javax.swing.JComponent;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
-import ql.gui.DefaultChangeHandler;
-import ql.gui.UIComponent;
+import ql.ast.visitor.evaluator.ValueEnvironment;
+import ql.gui.DefaultComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 import ql.gui.widget.InputWidget;
 
-public class UIComputedQuestion extends DefaultChangeHandler implements UIComponent {
+public class UIComputedQuestion extends DefaultComponent {
 	private final Identifier identifier;
 	private final Panel questionPanel;
 	private final Expression expression;
 	private final ValueEnvironment valueEnvironment;
 	
-	private final UIComponent questionText;
+	private final Component questionText;
 	private final InputWidget<Value> inputWidget;
 	
 	@SuppressWarnings("unchecked")
-	public UIComputedQuestion(Identifier identifier, UIComponent questionText, 
+	public UIComputedQuestion(Identifier identifier, Component questionText, 
 			InputWidget<?> inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
 		this.identifier = identifier;
 		this.expression = expression;
@@ -42,7 +42,7 @@ public class UIComputedQuestion extends DefaultChangeHandler implements UICompon
 	}
 
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		valueEnvironment.store(identifier, changedValue);
 		
 		super.handleChange(changedValue, this);

@@ -11,7 +11,7 @@ import javax.swing.text.BadLocationException;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.UndefinedValue;
-import org.uva.ql.view.widgit.BaseTextField;
+import org.uva.ql.view.widget.BaseTextField;
 
 public class NumberTextFieldListener implements DocumentListener {
 
@@ -36,7 +36,6 @@ public class NumberTextFieldListener implements DocumentListener {
 				widgetListener.widgetValueChanged(identifier, new UndefinedValue());
 			} else if (m.matches()) {
 				textField.setForegroundColor(Color.black);
-				System.out.println(input);
 				widgetListener.widgetValueChanged(identifier, new IntValue(Integer.parseInt(input)));
 			} else {
 				textField.setForegroundColor(Color.red);

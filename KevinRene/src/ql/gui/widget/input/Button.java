@@ -6,11 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 import ql.value.UndefinedValue;
 
-public class Button extends DefaultChangeHandler implements InputWidget<UndefinedValue>, ActionListener {
+public class Button extends DefaultComponent implements InputWidget<UndefinedValue>, ActionListener {
 	private JButton button;
 	
 	public Button(String buttonText) {

@@ -40,7 +40,7 @@ if (5 - 3 + 2 / 1 + 1 == 4) {
 }
 
 
-Assignment doubleGrade (number) : grade
+Assignment doubleGrade (number) : 2*20
 
 if(doubleGrade > 10) {
     Question Excellent (bool) : Are you an excellent student?

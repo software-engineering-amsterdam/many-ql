@@ -96,8 +96,8 @@ public class CalculationGrammarTest extends GrammarTest {
 
     @Test
     public void IfStatementAsChild() throws IOException {
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
         IfStatementAsChildSetup();
-        assertThat(listener.calculationCount).isEqualTo(1);
     }
 
     @Test

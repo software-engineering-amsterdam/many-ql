@@ -49,6 +49,7 @@ def factory(parser, cls = ConsoleMessage):
                 'Duplicate question label `%s`' % (label)
             )
 
+
         def questionCycle(self, questionCycle, lineNumber):
             text = 'There is a question dependency cycle: %s. \
 It means the calculation of `%s` requires its own \
@@ -65,6 +66,7 @@ the definitions of the questions.' % (
                 Local(lineNumber),
                 text
             )
+            
 
         def questionRedefinition(
             self, question, actualType, expectedType, lineNumber

@@ -14,14 +14,14 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import ql.Value;
-import ql.gui.DefaultChangeHandler;
+import ql.gui.DefaultComponent;
 import ql.gui.widget.InputWidget;
 
-public abstract class Spinbox<T extends Value> extends DefaultChangeHandler implements InputWidget<T>, ChangeListener {
-	protected JPanel container;
-	protected JSpinner spinbox;
-	protected JLabel errorLabel;
-	protected SpinnerNumberModel model;
+public abstract class Spinbox<T extends Value> extends DefaultComponent implements InputWidget<T>, ChangeListener {
+	private JPanel panel;
+	private JSpinner spinbox;
+	private JLabel errorLabel;
+	private SpinnerNumberModel model;
 	
 	public Spinbox(SpinnerNumberModel model) {
 		this.model = model;
@@ -29,15 +29,60 @@ public abstract class Spinbox<T extends Value> extends DefaultChangeHandler impl
 		spinbox = new JSpinner(model);
 		spinbox.setSize(100, 40);
 		spinbox.addChangeListener(this);
-//		spinbox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		errorLabel = new JLabel();
     	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
     	errorLabel.setVisible(true);
     	
-    	container = new JPanel(new MigLayout());
-    	container.add(spinbox);
-    	container.add(errorLabel, "wrap");
+    	panel = new JPanel(new MigLayout());
+    	panel.add(spinbox);
+    	panel.add(errorLabel, "wrap");
+	}
+	
+	/**
+	 * Exposes the internal JPanel for adjustements
+	 * by extending classes. It cannot be overriden 
+	 * and is marked 'final'.
+	 * 
+	 * @return The internal panel.
+	 */
+	protected final JPanel panel() {
+		return panel;
+	}
+	
+	/**
+	 * Exposes the internal JSpinner for adjustements
+	 * by extending classes. It cannot be overriden
+	 * and is marked 'final'.
+	 * 
+	 * @return The internal spinbox.
+	 */
+	protected final JSpinner spinbox() {
+		return spinbox;
+	}
+	
+	/**
+	 * Exposes the internal JLabel for adjustements
+	 * by extending classes. It cannot be overriden 
+	 * and is marked 'final'.
+	 * 
+	 * The label is used to present errors by default.
+	 * 
+	 * @return The internal label.
+	 */
+	protected final JLabel label() {
+		return errorLabel;
+	}
+	
+	/**
+	 * Exposes the internal SpinnerNumberModel for adjustements
+	 * by extending classes. It cannot be overriden and is marked 
+	 * 'final'.
+	 * 
+	 * @return The internal SpinnerNumberModel.
+	 */
+	protected final SpinnerNumberModel model() {
+		return model;
 	}
 	
 	protected void setError(String text) {
@@ -69,16 +114,6 @@ public abstract class Spinbox<T extends Value> extends DefaultChangeHandler impl
 	 */
 	public abstract Number convertValue(Value value);
 	
-	/**
-	 * Very nasty hack to allow casting of any number into 
-	 * the one that is actually supported by the spinbox.
-	 * We only expect numeric values at this point, so we
-	 * close our eyes to not see the ugliness.
-	 * 
-	 * At least it's documented....
-	 * 
-	 * Right? Please?
-	 */
 	@Override
 	public void setValue(Value value) {
 		spinbox.setValue(convertValue(value));

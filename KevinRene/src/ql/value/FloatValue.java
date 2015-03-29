@@ -23,7 +23,7 @@ public class FloatValue implements Value {
 	}
 	
 	@Override
-	public Float getValue() {
+	public Float getPrimitive() {
 		return value;
 	}
 	
@@ -39,12 +39,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value addInteger(IntegerValue argument) {
-		return new FloatValue(argument.getValue() + getValue());
+		return new FloatValue(argument.getPrimitive() + getPrimitive());
 	}
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		return new FloatValue(argument.getValue() + getValue());
+		return new FloatValue(argument.getPrimitive() + getPrimitive());
 	}
 
 	@Override
@@ -54,12 +54,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value divideInteger(IntegerValue argument) {
-		return new FloatValue(argument.getValue() / getValue());
+		return new FloatValue(argument.getPrimitive() / getPrimitive());
 	}
 
 	@Override
 	public Value divideFloat(FloatValue argument) {
-		return new FloatValue(argument.getValue() / getValue());
+		return new FloatValue(argument.getPrimitive() / getPrimitive());
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value multiplyInteger(IntegerValue argument) {
-		return new FloatValue(argument.getValue() * getValue());
+		return new FloatValue(argument.getPrimitive() * getPrimitive());
 	}
 
 	@Override
 	public Value multiplyFloat(FloatValue argument) {
-		return new FloatValue(argument.getValue() * getValue());
+		return new FloatValue(argument.getPrimitive() * getPrimitive());
 	}
 
 	@Override
@@ -84,12 +84,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value subtractInteger(IntegerValue argument) {
-		return new FloatValue(argument.getValue() - getValue());
+		return new FloatValue(argument.getPrimitive() - getPrimitive());
 	}
 
 	@Override
 	public Value subtractFloat(FloatValue argument) {
-		return new FloatValue(argument.getValue() - getValue());
+		return new FloatValue(argument.getPrimitive() - getPrimitive());
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value positive() {
-		return new FloatValue(getValue() < 0.0 ? getValue() * -1 : getValue());
+		return new FloatValue(getPrimitive() < 0.0 ? getPrimitive() * -1 : getPrimitive());
 	}
 
 	@Override
 	public Value negative() {
-		return new FloatValue(getValue() * -1);
+		return new FloatValue(getPrimitive() * -1);
 	}
 
 	@Override
@@ -129,12 +129,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value notEqualToInteger(IntegerValue argument) {
-		return new BooleanValue((float)argument.getValue() != getValue());
+		return new BooleanValue((float)argument.getPrimitive() != getPrimitive());
 	}
 
 	@Override
 	public Value notEqualToFloat(FloatValue argument) {
-		return new BooleanValue(!argument.getValue().equals(getValue()));
+		return new BooleanValue(!argument.getPrimitive().equals(getPrimitive()));
 	}
 
 	@Override
@@ -149,12 +149,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value lowerThanInteger(IntegerValue argument) {
-		return new BooleanValue(argument.getValue() < getValue());
+		return new BooleanValue(argument.getPrimitive() < getPrimitive());
 	}
 
 	@Override
 	public Value lowerThanFloat(FloatValue argument) {
-		return new BooleanValue(argument.getValue() < getValue());
+		return new BooleanValue(argument.getPrimitive() < getPrimitive());
 	}
 
 	@Override
@@ -164,12 +164,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value lowerOrEqualInteger(IntegerValue argument) {
-		return new BooleanValue(argument.getValue() <= getValue());
+		return new BooleanValue(argument.getPrimitive() <= getPrimitive());
 	}
 
 	@Override
 	public Value lowerOrEqualFloat(FloatValue argument) {
-		return new BooleanValue(argument.getValue() <= getValue());
+		return new BooleanValue(argument.getPrimitive() <= getPrimitive());
 	}
 
 	@Override
@@ -179,12 +179,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value greaterThanInteger(IntegerValue argument) {
-		return new BooleanValue(argument.getValue() > getValue());
+		return new BooleanValue(argument.getPrimitive() > getPrimitive());
 	}
 
 	@Override
 	public Value greaterThanFloat(FloatValue argument) {
-		return new BooleanValue(argument.getValue() > getValue());
+		return new BooleanValue(argument.getPrimitive() > getPrimitive());
 	}
 
 	@Override
@@ -194,12 +194,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value greaterOrEqualThanInteger(IntegerValue argument) {
-		return new BooleanValue(argument.getValue() >= getValue());
+		return new BooleanValue(argument.getPrimitive() >= getPrimitive());
 	}
 
 	@Override
 	public Value greaterOrEqualThanFloat(FloatValue argument) {
-		return new BooleanValue(argument.getValue() >= getValue());
+		return new BooleanValue(argument.getPrimitive() >= getPrimitive());
 	}
 
 	@Override
@@ -214,12 +214,12 @@ public class FloatValue implements Value {
 
 	@Override
 	public Value equalToInteger(IntegerValue argument) {
-		return new BooleanValue((float)argument.getValue() == getValue());
+		return new BooleanValue((float)argument.getPrimitive() == getPrimitive());
 	}
 
 	@Override
 	public Value equalToFloat(FloatValue argument) {
-		return new BooleanValue(argument.getValue().equals(getValue()));
+		return new BooleanValue(argument.getPrimitive().equals(getPrimitive()));
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class FloatValue implements Value {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof FloatValue) {
-			return getValue().equals(((FloatValue) obj).getValue());
+			return getPrimitive().equals(((FloatValue) obj).getPrimitive());
 		}
 		
 		return false;
@@ -253,6 +253,6 @@ public class FloatValue implements Value {
 	
 	@Override
 	public String toString() {
-		return getValue().toString();
+		return getPrimitive().toString();
 	}	
 }

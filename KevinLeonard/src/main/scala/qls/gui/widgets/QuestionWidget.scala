@@ -12,23 +12,20 @@ import scalafx.scene.text.{Font => FXFont}
 abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
   extends QLQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
 
+  applyLabelStyle(label, styles)
+
   def applyLabelStyle(label: Label, styles: List[Style]): Unit = {
     val font = styles.collectFirst({
       case Font(name) => name
-    })
+    }).get
     val fontSize = styles.collectFirst({
       case FontSize(size) => size.toDouble
-    })
+    }).get
     val fontColor = styles.collectFirst({
       case FontColor(HexadecimalColor(color)) => color
-    })
-    val width = styles.collectFirst({
-      case Width(width) => width
-    })
+    }).get
 
-    label.setFont(FXFont(font.get, fontSize.get))
-    label.setTextFill(Color.web(fontColor.get))
+    label.setFont(FXFont(font, fontSize))
+    label.setTextFill(Color.web(fontColor))
   }
-  applyLabelStyle(label, styles)
-
 }

@@ -1,14 +1,12 @@
 package uva.sc.ql.expression.binaryExpressions;
 
-import uva.sc.core.types.Type;
 import uva.sc.ql.expression.Expression;
 
 @SuppressWarnings({ "rawtypes" })
 public abstract class BinaryExpression extends Expression {
 
-    Expression firstOperand;
-    Expression secondOperand;
-    Type type;
+    private Expression firstOperand;
+    private Expression secondOperand;
 
     public BinaryExpression(Expression firstOperand, Expression secondOperand) {
 	this.firstOperand = firstOperand;

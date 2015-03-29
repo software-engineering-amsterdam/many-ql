@@ -16,7 +16,7 @@ class Slider(w.IWidget):
         return s
 
     def get_compatible(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return ["number"]
 
     def get_range(self):
         return [number_type.Number()]

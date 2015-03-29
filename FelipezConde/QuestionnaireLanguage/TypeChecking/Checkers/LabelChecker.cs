@@ -37,11 +37,11 @@ namespace TypeChecking.Checkers
 
         private Dictionary<string, List<Label>> GetLabelsByName(IEnumerable<Label> labels)
         {
-            var labelsByName = labels.ToDictionary(k => k.Value, v => new List<Label>());
+            var labelsByName = labels.ToDictionary(k => k.ToString(), v => new List<Label>());
 
             foreach(Label label in labels)
             { 
-                labelsByName[label.Value].Add(label); 
+                labelsByName[label.ToString()].Add(label); 
             }
 
             return labelsByName;

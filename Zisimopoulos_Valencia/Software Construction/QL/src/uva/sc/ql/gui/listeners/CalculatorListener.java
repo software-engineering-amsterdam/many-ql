@@ -14,18 +14,19 @@ import javax.swing.event.DocumentListener;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.NumberAtom;
 import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
-import uva.sc.ql.gui.helpers.QuestionData;
 import uva.sc.ql.gui.helpers.ListenerHelper;
+import uva.sc.ql.gui.helpers.QuestionData;
 
 public class CalculatorListener implements DocumentListener, Observer {
 
-    QuestionsPropertiesVisitor questionsProperties;
-    List<Component> componentList;
-    Map<ID, List<ID>> patronElements;
-    JTextField textField;
-    ID id;
+    private QuestionsPropertiesVisitor questionsProperties;
+    private List<Component> componentList;
+    private Map<ID, List<ID>> patronElements;
+    private JTextField textField;
+    private ID id;
 
-    public CalculatorListener(Map<ID, List<ID>> patronElements, QuestionsPropertiesVisitor questionsProperties,
+    public CalculatorListener(Map<ID, List<ID>> patronElements,
+	    QuestionsPropertiesVisitor questionsProperties,
 	    List<Component> componentList, JTextField textField, ID id) {
 	this.patronElements = patronElements;
 	this.questionsProperties = questionsProperties;
@@ -69,7 +70,8 @@ public class CalculatorListener implements DocumentListener, Observer {
     private void updateTextField(ID element) {
 	JTextField textField = getTextField(element);
 	QuestionData data = questionsProperties.questionData(element);
-	NumberAtom number = (NumberAtom) data.evaluateValue(questionsProperties.getValuesTable());
+	NumberAtom number = (NumberAtom) data.evaluateValue(questionsProperties
+		.getValuesTable());
 	Double value = number.getValue();
 	if (Double.isFinite(value)) {
 	    textField.setText(value.toString());
@@ -80,7 +82,8 @@ public class CalculatorListener implements DocumentListener, Observer {
 
     private JTextField getTextField(ID element) {
 	ListenerHelper helper = new ListenerHelper();
-	JPanel panel = (JPanel) helper.getComponentByName(element, componentList);
+	JPanel panel = (JPanel) helper.getComponentByName(element,
+		componentList);
 	JTextField textField = (JTextField) panel.getComponent(2);
 	return textField;
     }

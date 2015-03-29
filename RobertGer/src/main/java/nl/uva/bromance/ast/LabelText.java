@@ -36,7 +36,6 @@ public class LabelText extends QLNode {
         Pattern pattern = Pattern.compile("\\[(.*?)\\]");
         Matcher matcher = pattern.matcher(txt);
         while (matcher.find()) {
-            System.out.println("Found variable :" + matcher.group(1));
             stringList.add(matcher.group(1));
         }
         return stringList;
@@ -47,6 +46,7 @@ public class LabelText extends QLNode {
         insertVariablesInText();
         // Explicit package because of parent class named Label ;)
         uiLabel = new javafx.scene.control.Label(this.insertedText);
+        uiLabel.setVisible(isVisible);
         parent.getChildren().add(uiLabel);
     }
 
@@ -62,6 +62,11 @@ public class LabelText extends QLNode {
             }
         }
         this.insertedText = txt;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
     public void refresh() {

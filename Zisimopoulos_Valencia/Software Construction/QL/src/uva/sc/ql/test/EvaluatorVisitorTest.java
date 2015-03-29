@@ -8,10 +8,10 @@ import org.junit.Test;
 
 import uva.sc.ql.atom.*;
 import uva.sc.ql.expression.Expression;
-import uva.sc.ql.expression.unaryExpressions.*;
 import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.gui.helpers.QuestionData;
+import uva.sc.ql.expression.unaryExpressions.*;
 import uva.sc.ql.evaluator.EvaluatorVisitor;
+import uva.sc.ql.gui.helpers.QuestionData;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class EvaluatorVisitorTest {
@@ -266,7 +266,7 @@ public class EvaluatorVisitorTest {
 	BooleanAtom result = (BooleanAtom) expr.accept(evalVisitor);
 	Assert.assertTrue("10.01 <= 10, expected false but got " + result.getValue(), result.getValue() == false);
     }
-    
+
     @Test 
     public void minus() {
 	Expression expr = new Minus(new NumberAtom(-26.));

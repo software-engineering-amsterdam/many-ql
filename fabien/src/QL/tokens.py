@@ -11,11 +11,8 @@ reserved = {
   "or"      : "OR",
   "and"     : "AND",
 
-  "int"     : "TYPE",
   "integer" : "TYPE",
-  "bool"    : "TYPE",
   "boolean" : "TYPE",
-  "float"   : "TYPE",
   "string"  : "TYPE",
   "money"   : "TYPE"
 }
@@ -41,7 +38,7 @@ t_AND    = r'&&|and'
 
 t_STRING = r'("[^"]*")|(\'[^\']*\')'
 t_NUMBER = r'[0-9]*\.?[0-9]+'
-t_TYPE   = r'int|integer|float|bool|boolean|string|money'
+t_TYPE   = r'integer|boolean|string|money'
 
 
 def t_ID(t):

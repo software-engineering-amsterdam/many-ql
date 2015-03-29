@@ -5,16 +5,7 @@ form taxOfficeExample {
         boolean
     }
 
-    question hasBoughtHouse {
-        "Did you buy a house in 2010?"
-        boolean
-    }
-
-    question hasMaintLoan {
-        "Did you enter a loan?"
-        boolean
-    }
-
+    // Get details of house sale 
     if (hasSoldHouse) {
         question sellingPrice {
             "What was the selling price?"
@@ -32,4 +23,13 @@ form taxOfficeExample {
         }
     }
 
+    question hasBoughtHouse {
+        "Did you buy a house in 2010?"
+        boolean
+    }
+
+    question hasMaintLoan {
+        "Did you enter a loan?"
+        boolean
+    }
 }

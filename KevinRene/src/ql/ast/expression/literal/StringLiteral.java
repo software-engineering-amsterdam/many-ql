@@ -5,7 +5,8 @@ import ql.ast.expression.Literal;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.value.StringValue;
 
-public class StringLiteral extends Literal<StringValue> {	
+public class StringLiteral extends Literal<StringValue> {
+	
 	public StringLiteral(String value) {
 		super(new StringValue(value));
 	}

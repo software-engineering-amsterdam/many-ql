@@ -4,14 +4,14 @@ import uva.sc.ql.atom.ID;
 
 public class CyclicDependency implements IError {
 
-    ID identity;
+    private ID id;
 
     public CyclicDependency(ID id) {
-	identity = id;
+	this.id = id;
     }
 
     public String toString() {
 	return "Circular dependency has been detected in question with identifier "
-		+ identity.getValue();
+		+ id.getValue();
     }
 }

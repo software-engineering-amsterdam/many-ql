@@ -5,6 +5,7 @@ import ql.ast.Statement;
 import ql.ast.visitor.StatementVisitor;
 
 public class IfElse extends Statement {
+	
 	private final Expression expression;
 	private final Block ifBranch;
 	private final Block elseBranch;

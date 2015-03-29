@@ -2,13 +2,12 @@ package uva.sc.core.errors;
 
 import uva.sc.ql.atom.ID;
 
-
 public class DuplicatedID implements IError {
 
-    ID id;
+    private ID id;
 
-    public DuplicatedID(ID i) {
-	id = i;
+    public DuplicatedID(ID id) {
+	this.id = id;
     }
 
     public String toString() {

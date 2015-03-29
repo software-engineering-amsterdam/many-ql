@@ -2,7 +2,8 @@ import sys
 
 # Using Observer Patern
 class TypeChecker():
-    def __init__(self):
+    def __init__(self, AST=None):
+        self.AST = AST
         self.listeners = set()
 
     def register(self, listener):
@@ -18,17 +19,39 @@ class TypeChecker():
                 print("Unexpected error:", sys.exc_info()[0])
                 raise
 
-    def checkAST(self, AST):
-        # Reset listeners
-        self.dispatch("__init__")
+    def check(self):
+        questionIDs = {}
 
-        for node in AST:
+        # Obtain general question info
+        for node in self.AST:
+            if node.NodeType == "Question":
+                questionIDs[node.ID] = node
+
+        # Reset listeners
+        # -> Pass question info
+        self.dispatch("__init__", questionIDs)
+
+        for node in self.AST:
             self.dispatch(node.NodeType, node)
 
         self.dispatch("Done")
 
-    def reportErrors(self):
+    # Allow re-use of typechecker with listeners on different AST's
+    def checkAST(self, AST):
+        self.AST = AST
+        self.check()
+
+    @property
+    def hasErrors(self):
         for listener in self.listeners:
-            for err in listener.errors:
-                print err
-                print "\n"
+            if listener.errors:
+                return True
+                break
+
+    def getErrorMessages(self):
+        errors = []
+
+        for listener in self.listeners:
+            errors.extend([str(err) for err in listener.errors])
+
+        return errors

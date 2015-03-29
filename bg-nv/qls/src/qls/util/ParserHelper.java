@@ -1,7 +1,12 @@
 package qls.util;
 
 import ql.ast.AstNode;
+import ql.ast.form.Form;
+import ql.semantics.TypeChecker;
+import ql.semantics.errors.Messages;
+import ql.tests.TestHelper;
 import qls.ast.AstBuilder;
+import qls.ast.Stylesheet;
 import qls.gen.QLSLexer;
 import qls.gen.QLSParser;
 import org.antlr.v4.runtime.CharStream;
@@ -20,6 +25,13 @@ public class ParserHelper
 //
 //        return qls.semantics.TypeChecker.check(s, f);
 //    }
+
+    public static Messages check(String stylesheet, String form)
+    {
+        Form f = (Form)ql.util.ParserHelper.ParseForm(form);
+        Stylesheet s = (Stylesheet)ParseStylesheet(stylesheet);
+        return qls.semantics.TypeChecker.check(s, f);
+    }
 
     public static AstNode ParseStylesheet(String file)
     {

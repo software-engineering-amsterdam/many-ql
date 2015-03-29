@@ -2,7 +2,7 @@ package nl.uva.softwcons.ql.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
@@ -155,7 +155,7 @@ public class VariableExtractorTest {
     private Expression getExpression(final String expressionText) {
         final String questionText = "question: \"Label\" boolean(" + expressionText + ")";
 
-        final Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        final Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         final ComputedQuestion question = (ComputedQuestion) form.getStatements().get(0);
 
         return question.getExpression();

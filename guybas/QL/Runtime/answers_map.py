@@ -1,6 +1,3 @@
-import QL.Tools.exceptions as exceptions
-
-
 class AnswersMap:
     # map from _id to answers
     def __init__(self):

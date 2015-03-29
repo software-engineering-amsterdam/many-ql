@@ -12,7 +12,7 @@ public interface Value {
 	
 	public boolean isNumeric();
 	
-	public Object getValue();
+	public Object getPrimitive();
 	public QLType getType();
 	
 	/**

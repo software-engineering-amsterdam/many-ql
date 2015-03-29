@@ -52,8 +52,8 @@ class Tests(unittest.TestCase):
         m = mapper.AnswersMap()
         q = question.Question(question2.Question("grade", number_type.Number(), "something!"), 0, None)
         q2 = question.Question(question2.Question("hummus",bool_type.Bool(), "another?"), 0, None)
-        m.update(q.ast.get_id(), 8)
-        m.update(q2.ast.get_id(), True)
+        m.update(q.get_id(), 8)
+        m.update(q2.get_id(), True)
         result = grammar.expr.parseString("1 + grade == 9 and hummus == True")
         self.assertEquals(result[0].eval_expression(m), True)
 

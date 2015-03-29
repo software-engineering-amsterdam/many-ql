@@ -14,16 +14,26 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
     {
         public event EventHandler QuestionAnswered;
 
-        public string QuestionName
+        protected Question Question
         {
             get;
             private set;
         }
 
-        public string Label
+        public string QuestionName
         {
-            get;
-            private set;
+            get
+            {
+                return Question.Name;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return Question.IsComputed;
+            }
         }
 
         public QuestionWidget()
@@ -34,8 +44,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         protected QuestionWidget(Question astQuestion)
             : this()
         {
-            QuestionName = astQuestion.Id.Name;
-            Label = astQuestion.Label;
+            Question = astQuestion;
         }
 
         public virtual void SetValue(Value value)

@@ -40,6 +40,6 @@ public class Identifiers implements Iterable<String>
     @Override
     public String toString()
     {
-        return StringHelper.printStrValueList(this);
+        return StringHelper.printStrValueList(this, ", ");
     }
 }

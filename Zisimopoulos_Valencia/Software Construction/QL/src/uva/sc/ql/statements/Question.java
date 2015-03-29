@@ -8,10 +8,10 @@ import uva.sc.ql.expression.Expression;
 @SuppressWarnings({ "rawtypes" })
 public class Question implements Statement {
 
-    String str;
-    ID id;
-    Type type;
-    Expression expr;
+    private String str;
+    private ID id;
+    private Type type;
+    private Expression expr;
 
     public Question(String str, ID id, Type type, Expression expr) {
 	this.str = str;
