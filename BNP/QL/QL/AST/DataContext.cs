@@ -32,11 +32,17 @@ namespace QL.AST
         /// </summary>
         public ReferenceTables ValueReferenceTable { get; private set; }
 
+        /// <summary>
+        /// A string holding a representation of the data, usually populated after running an exporter
+        /// </summary>
+        public string ExportableRepresentation { get; set; }
+
         private DataContext()
         {
             ASTHandlerExceptions = new ObservableCollection<QLBaseException>();
             TypeReference = new Dictionary<Identifier, Type>();
             ValueReferenceTable = new ReferenceTables();
+            ExportableRepresentation = null;
         }
 
         public DataContext(string input) : this()

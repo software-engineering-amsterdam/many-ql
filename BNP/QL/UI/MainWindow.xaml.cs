@@ -62,6 +62,18 @@ namespace QL.UI
             }
         }
 
+        private void SaveQuestionnaireFile(string outputFilePath)
+        {
+            try
+            {
+                File.WriteAllText(outputFilePath, _qlBuilder.DataContext.ExportableRepresentation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to save file: " + ex.Message, "Save QL questionnaire", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         #region Menu event handlers
         private void Command_Open(object sender, ExecutedRoutedEventArgs e)
         {
@@ -87,6 +99,26 @@ namespace QL.UI
             LoadQuestionnaireFile(menuItem.Tag.ToString());
         }
 
+        private void Command_SaveAs(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_qlBuilder == null || !_qlBuilder.BuilderStateMachine.IsRendered)
+            {
+                MessageBox.Show("There is nothing to export", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _qlBuilder.RunExporter();
+            SaveFileDialog outputFilePicker = new SaveFileDialog
+                                              {
+                                                  Filter = "QL Questionnaires (json/xml)|*.json;*.xml|All files|*.*",
+                                                  InitialDirectory = Environment.CurrentDirectory
+                                              };
+
+            if (outputFilePicker.ShowDialog().GetValueOrDefault())
+            {
+                SaveQuestionnaireFile(outputFilePicker.FileName);
+            }
+        }
 
         private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
@@ -186,7 +218,7 @@ namespace QL.UI
 
         private void BindTestData()
         {
-            _qlBuilder.ElementsToDisplay[0].Value = "Joe D.";
+            _qlBuilder.ElementsToDisplay[0].Unit.Value = "Joe D.";
 
             //WidgetFactory factory = new WidgetFactory();
             //List<WidgetBase> renders = new List<WidgetBase>

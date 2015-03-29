@@ -14,7 +14,7 @@ namespace QL.AST.Nodes.Branches
 
         public override object Value
         {
-            get { return Expression.Child; }
+            get { return Expression.Child.ToString(); }
             set { }
         }
     }

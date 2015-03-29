@@ -40,6 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr4.Runtime.4.3.0\lib\net45\Antlr4.Runtime.net45.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.dll</HintPath>
     </Reference>
@@ -54,6 +58,8 @@
     <Compile Include="AST\DataContext.cs" />
     <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
     <Compile Include="AST\ASTCreation\TypeFactory.cs" />
+    <Compile Include="DataHandlers\ExportHandling\JsonExporter.cs" />
+    <Compile Include="DataHandlers\ExportHandling\ExporterVisitor.cs" />
     <Compile Include="DataHandlers\InputHandling\Initializer.cs" />
     <Compile Include="DataHandlers\IExecutableHandler.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
@@ -156,9 +162,7 @@
     <Content Include="obj\Debug\QL.exe" />
     <Content Include="obj\Debug\QL.pdb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataHandlers\ExportHandling\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

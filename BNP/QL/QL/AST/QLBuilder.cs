@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using QL.AST.ASTCreation;
 using QL.DataHandlers;
 using QL.DataHandlers.Evaluation;
+using QL.DataHandlers.ExportHandling;
 using QL.DataHandlers.InputHandling;
 using QL.DataHandlers.TypeChecking;
 using QL.Exceptions;
@@ -24,7 +26,7 @@ namespace QL.AST
         protected IList<IExecutableHandler> TypeCheckers { get; set; }
         protected IList<IExecutableHandler> Evaluators { get; set; }
         protected IList<IExecutableHandler> Renderers { get; set; }
-        protected IList<IExecutableHandler> Exporters { get; set; }
+        protected IExecutableHandler Exporter { get; set; }
 
         public QLBuilderStateMachine BuilderStateMachine { get; private set; }
         public DataContext DataContext { get; private set; }
@@ -42,7 +44,7 @@ namespace QL.AST
             TypeCheckers = new List<IExecutableHandler>();
             Evaluators = new List<IExecutableHandler>();
             Renderers = new List<IExecutableHandler>();
-            Exporters = new List<IExecutableHandler>();
+            Exporter = null;
 
             BuilderStateMachine = new QLBuilderStateMachine();
             UnhandledExceptions = new List<Exception>();
@@ -87,14 +89,14 @@ namespace QL.AST
 
         public void RegisterExporter(IExecutableHandler handler)
         {
-            Exporters.Add(handler);
+            Exporter = handler;
         }
         #endregion
 
         #region Handler level runners
         public bool RunInit()
         {
-            BuilderStateMachine.InputIsSet = RunHandlerLevel(Initializers);
+            BuilderStateMachine.InputIsSet = RunHandlerLevel(Initializers.ToArray());
             return BuilderStateMachine.InputIsSet;
         }
 
@@ -106,7 +108,7 @@ namespace QL.AST
                 return false;
             }
 
-            BuilderStateMachine.ASTIsBuilt = RunHandlerLevel(ASTBuilders);
+            BuilderStateMachine.ASTIsBuilt = RunHandlerLevel(ASTBuilders.ToArray());
             return BuilderStateMachine.ASTIsBuilt;
         }
 
@@ -117,7 +119,7 @@ namespace QL.AST
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            BuilderStateMachine.TypeIsChecked = RunHandlerLevel(TypeCheckers);
+            BuilderStateMachine.TypeIsChecked = RunHandlerLevel(TypeCheckers.ToArray());
             return BuilderStateMachine.TypeIsChecked;
         }
 
@@ -128,7 +130,7 @@ namespace QL.AST
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            BuilderStateMachine.IsEvaluated = RunHandlerLevel(Evaluators);
+            BuilderStateMachine.IsEvaluated = RunHandlerLevel(Evaluators.ToArray());
             return BuilderStateMachine.IsEvaluated;
         }
 
@@ -139,18 +141,18 @@ namespace QL.AST
                 DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
                 return false;
             }
-            BuilderStateMachine.IsRendered = RunHandlerLevel(Renderers);
+            BuilderStateMachine.IsRendered = RunHandlerLevel(Renderers.ToArray());
             return BuilderStateMachine.IsRendered;
         }
 
-        public bool RunExporters()
+        public bool RunExporter()
         {
             if (!BuilderStateMachine.IsEvaluated)
             {
                 DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
                 return false;
             }
-            return RunHandlerLevel(Exporters);
+            return RunHandlerLevel(Exporter);
         }
         #endregion
 
@@ -165,11 +167,11 @@ namespace QL.AST
             retVal |= RunTypeCheckers();
             retVal |= RunEvaluators();
             retVal |= RunRenderers();
-            retVal |= RunExporters();
+            retVal |= RunExporter();
             return retVal;
         }
 
-        private bool RunHandlerLevel(IEnumerable<IExecutableHandler> levelHandlerList)
+        private bool RunHandlerLevel(params IExecutableHandler[] levelHandlerList)
         {
             bool successfulExecution = true;
 
@@ -204,6 +206,7 @@ namespace QL.AST
             RegisterASTBuilder(new ASTBuilder());
             RegisterTypeChecker(new TypeChecker());
             RegisterEvaluator(new Evaluator());
+            RegisterExporter(new JsonExporter());
         }
     }
 }
