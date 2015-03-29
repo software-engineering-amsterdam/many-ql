@@ -16,7 +16,7 @@ public class UndefinedValue implements Value {
 	}
 
 	@Override
-	public Void getValue() {
+	public Void getPrimitive() {
 		return null;
 	}
 	
@@ -142,7 +142,7 @@ public class UndefinedValue implements Value {
 
 	@Override
 	public Value orBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue());
+		return new BooleanValue(argument.getPrimitive());
 		
 	}
 

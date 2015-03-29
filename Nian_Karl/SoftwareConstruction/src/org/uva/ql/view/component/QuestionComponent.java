@@ -5,8 +5,8 @@ import java.awt.Component;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.view.panel.Panel;
-import org.uva.ql.view.widgit.Label;
-import org.uva.ql.view.widgit.Widget;
+import org.uva.ql.view.widget.Label;
+import org.uva.ql.view.widget.Widget;
 
 public class QuestionComponent extends Panel {
 

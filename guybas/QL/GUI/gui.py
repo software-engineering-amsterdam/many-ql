@@ -41,6 +41,10 @@ class GUI:
         intro_row = l.get_row()
         return intro_row[0]
 
+    #
+    # Below is the main loop
+    #
+
     def draw_questions(self, questions, content_frame):
         for question in questions:
             self.draw_question(question, content_frame)

@@ -19,7 +19,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime
             {
                 new QuestionReferencingChecker(form.GetAllQuestions()),
                 new StyleAttributeChecker(),
-                new TypeChecker(form.GetAllQuestions())
+                new WidgetTypeChecker(form.GetAllQuestions())
             };
 
             var report = new ValidationReport();

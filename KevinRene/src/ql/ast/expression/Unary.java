@@ -5,6 +5,7 @@ import java.util.Arrays;
 import ql.ast.Expression;
 
 public abstract class Unary extends Expression {
+	
 	protected Expression operand;
 	protected String operator;
 	

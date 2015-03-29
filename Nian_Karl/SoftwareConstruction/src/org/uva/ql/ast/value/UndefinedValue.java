@@ -8,6 +8,11 @@ public class UndefinedValue extends Value {
 	}
 
 	@Override
+	public boolean isDefined() {
+		return false;
+	}
+	
+	@Override
 	public UndefinedValue value() {
 		return this;
 	}
@@ -17,13 +22,4 @@ public class UndefinedValue extends Value {
 		return "Undefined";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof UndefinedValue){
-			return true;
-		} else {
-			throw new UnsupportedOperationException("UndefinedValue is only compariable with another UndefinedValue.");
-		}
-	}
-	
 }

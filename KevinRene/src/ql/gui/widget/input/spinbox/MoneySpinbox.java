@@ -13,7 +13,6 @@ import ql.value.MoneyValue;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener {
-
 	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
 	        
 	public MoneySpinbox() {
@@ -29,7 +28,7 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox.setValue(decimalFormat.format(moneyValue.getValue()));
+		spinbox().setValue(decimalFormat.format(moneyValue.getPrimitive()));
 	}
 	
 	@Override
@@ -46,6 +45,6 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 	
 	@Override
 	public MoneyValue getValue() {		
-		return new MoneyValue(model.getNumber().floatValue());
+		return new MoneyValue(model().getNumber().floatValue());
 	}
 }

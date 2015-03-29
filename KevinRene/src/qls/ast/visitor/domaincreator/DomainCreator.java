@@ -3,7 +3,6 @@ package qls.ast.visitor.domaincreator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;
@@ -16,7 +15,8 @@ import ql.ast.statement.Question;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
 import ql.ast.visitor.TypeVisitor;
-import ql.gui.UIComponent;
+import ql.ast.visitor.evaluator.ValueEnvironment;
+import ql.gui.Component;
 import ql.gui.content.UIComputedQuestion;
 import ql.gui.content.UIQuestion;
 import ql.gui.structure.Label;
@@ -24,11 +24,11 @@ import qls.ast.visitor.ProcessedCache;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.gui.widget.InputWidget;
 
-public class DomainCreator extends StatementVisitor<Void> implements ExpressionVisitor<UIComponent>, TypeVisitor<QLType> {
+public class DomainCreator extends StatementVisitor<Void> implements ExpressionVisitor<Component>, TypeVisitor<QLType> {
 	private WidgetEnvironment widgetEnvironment;
 	private ValueEnvironment valueEnvironment;
 	private List<ConditionalDomain> conditionalDomains;
-	private ProcessedCache<UIComponent> processedQuestions;
+	private ProcessedCache<Component> processedQuestions;
 	private ProcessedCache<Expression> prerequisiteExpressions;
 	 
 	private DomainCreator(WidgetEnvironment widgetEnvironment) {
@@ -38,7 +38,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		this.widgetEnvironment = widgetEnvironment;
 		valueEnvironment = new ValueEnvironment();
 		conditionalDomains = new ArrayList<ConditionalDomain>(); 
-		processedQuestions = new ProcessedCache<UIComponent>();
+		processedQuestions = new ProcessedCache<Component>();
 		prerequisiteExpressions = new ProcessedCache<Expression>();
 	}
 
@@ -55,7 +55,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	}
 	
 	private void decreaseScope() {
-		processedQuestions = new ProcessedCache<UIComponent>(processedQuestions);
+		processedQuestions = new ProcessedCache<Component>(processedQuestions);
 		prerequisiteExpressions = new ProcessedCache<Expression>(prerequisiteExpressions);
 	}
 	
@@ -65,12 +65,12 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	}
 	
 	@Override
-	public UIComponent visit(Identifier identifier) {
+	public Component visit(Identifier identifier) {
 		return widgetEnvironment.resolve(identifier);
 	}
 
 	@Override
-	public UIComponent visit(StringLiteral stringNode) {
+	public Component visit(StringLiteral stringNode) {
 		return new Label(stringNode.getValue());
 	}
 	
@@ -116,8 +116,8 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	@Override
 	public Void visit(ComputedQuestion compQuestionNode) {
 		InputWidget<?> questionWidget = (InputWidget<?>) compQuestionNode.getIdentifier().accept(this);
-    	UIComponent questionText = compQuestionNode.getText().accept(this);    	
-    	UIComponent computedQuestionWidget = new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText,
+    	Component questionText = compQuestionNode.getText().accept(this);    	
+    	Component computedQuestionWidget = new UIComputedQuestion(compQuestionNode.getIdentifier(), questionText,
 				questionWidget, compQuestionNode.getExpression(), valueEnvironment);
     	
     	widgetEnvironment.store(compQuestionNode.getIdentifier(), computedQuestionWidget);
@@ -129,9 +129,9 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	
 	@Override
 	public Void visit(Question questionNode) {
-		UIComponent questionText = questionNode.getText().accept(this);
-    	UIComponent inputWidget = questionNode.getIdentifier().accept(this);
-    	UIComponent questionWidget = new UIQuestion(questionNode.getIdentifier(), 
+		Component questionText = questionNode.getText().accept(this);
+    	Component inputWidget = questionNode.getIdentifier().accept(this);
+    	Component questionWidget = new UIQuestion(questionNode.getIdentifier(), 
     			questionText, inputWidget, valueEnvironment);
     	
     	widgetEnvironment.store(questionNode.getIdentifier(), questionWidget);

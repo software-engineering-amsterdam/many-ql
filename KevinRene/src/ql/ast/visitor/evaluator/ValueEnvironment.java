@@ -1,8 +1,9 @@
-package ql;
+package ql.ast.visitor.evaluator;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import ql.Value;
 import ql.ast.expression.Identifier;
 
 public class ValueEnvironment {

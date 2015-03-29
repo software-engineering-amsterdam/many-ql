@@ -7,6 +7,7 @@ import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class LowerOrEqual extends Binary {
+	
 	public LowerOrEqual(Expression left, Expression right) {
 		super(left, right, "<=");
 	}

@@ -1,4 +1,4 @@
-package ql;
+package ql.ast.visitor.typechecker;
 
 import java.util.HashMap;
 import java.util.Map;

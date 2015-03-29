@@ -26,4 +26,5 @@ class Question(ql_question.Question):
         self.fg_color = color
 
     def set_font_style(self, style):
+        print(style)
         self.font_style = style

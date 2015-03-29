@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             :base(astQuestion)
         {
             InitializeComponent();
-            QuestionLabel.Text = Label;
+            QuestionLabel.Text = Question.Label;
             YesCheckBox.Enabled = !astQuestion.IsComputed;
         }
 

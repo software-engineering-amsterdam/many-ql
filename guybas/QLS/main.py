@@ -24,7 +24,7 @@ import QL.Tools.exceptions as ee
 
 # qls style
 qls_ast = factory.make_sheet(q.sheet.parseFile("example.qls"))
-print(qls_ast.__str__())
+print(qls_ast.string_presentation())
 
 #ql form
 formAsParseResults = f1.form.ignore(b.comment).parseFile("example.ql")
