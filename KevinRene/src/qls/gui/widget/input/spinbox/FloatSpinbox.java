@@ -24,7 +24,7 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox().setValue(floatValue.getValue());
+		spinbox().setValue(floatValue.getPrimitive());
 	}
 	
 	@Override

@@ -20,7 +20,7 @@ public class Dropdown extends DefaultComponent implements InputWidget<BooleanVal
 	
 	public Dropdown(StringValue trueValue, StringValue falseValue) {
 		stylizer = new WidgetStylizer();
-		labels = new String[]{trueValue.getValue(), falseValue.getValue()};
+		labels = new String[]{trueValue.getPrimitive(), falseValue.getPrimitive()};
 		
 		comboBox = new JComboBox<String>(labels);
 		comboBox.addActionListener(this);

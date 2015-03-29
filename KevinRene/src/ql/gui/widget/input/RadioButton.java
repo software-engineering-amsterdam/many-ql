@@ -20,14 +20,14 @@ public class RadioButton extends DefaultComponent implements InputWidget<Boolean
 	}
 	
 	public RadioButton(StringValue radioLabel) {
-		radioButton = new JRadioButton(radioLabel.getValue());
+		radioButton = new JRadioButton(radioLabel.getPrimitive());
 		radioButton.addActionListener(this);
 	}
 	
 	public RadioButton(BooleanValue booleanValue) {
 		radioButton = new JRadioButton();		
 		radioButton.add(new JRadioButton());
-		radioButton.setSelected(booleanValue.getValue());
+		radioButton.setSelected(booleanValue.getPrimitive());
 		radioButton.addActionListener(this);
 	}
 	
@@ -43,7 +43,7 @@ public class RadioButton extends DefaultComponent implements InputWidget<Boolean
 	
 	@Override
 	public void setValue(BooleanValue value) {
-		radioButton.setSelected(value.getValue());
+		radioButton.setSelected(value.getPrimitive());
 	}
 
 	@Override

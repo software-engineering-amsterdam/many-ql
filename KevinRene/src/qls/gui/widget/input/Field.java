@@ -20,8 +20,8 @@ public abstract class Field<T extends Value> extends
 		Runnable changeValue = new Runnable() {
 			@Override
 			public void run() {
-				setValue(newValue);
-				textField().setText(convertValue(getValue()));
+				value(newValue);
+				textField().setText(convertValue(value()));
 			}
 		};
 		

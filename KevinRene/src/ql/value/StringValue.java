@@ -22,7 +22,7 @@ public class StringValue implements Value {
 	}
 
 	@Override
-	public String getValue() {
+	public String getPrimitive() {
 		return value;
 	}
 	
@@ -244,7 +244,7 @@ public class StringValue implements Value {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof StringValue) {
-			return getValue().equals(((StringValue) obj).getValue());
+			return getPrimitive().equals(((StringValue) obj).getPrimitive());
 		}
 		
 		return false;
@@ -252,6 +252,6 @@ public class StringValue implements Value {
 	
 	@Override
 	public String toString() {
-		return "\"" + getValue() + "\"";
+		return "\"" + getPrimitive() + "\"";
 	}
 }

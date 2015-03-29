@@ -10,8 +10,6 @@ import ql.value.FloatValue;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener {
-	private SpinnerNumberModel model;
-	        
 	public FloatSpinbox() {
 		super(new SpinnerNumberModel(
 				0.0, //initial value
@@ -25,7 +23,7 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox().setValue(floatValue.getValue());
+		spinbox().setValue(floatValue.getPrimitive());
 	}
 	
 	@Override
@@ -40,6 +38,6 @@ public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener 
 	
 	@Override
 	public FloatValue getValue() {		
-		return new FloatValue(model.getNumber().floatValue());
+		return new FloatValue(model().getNumber().floatValue());
 	}
 }

@@ -20,7 +20,7 @@ public class TextArea extends DefaultComponent implements InputWidget<StringValu
 	
 	public TextArea (StringValue stringValue) {
 		this();		
-    	textArea.setText(stringValue.getValue());	
+    	textArea.setText(stringValue.getPrimitive());	
 	}
 	
 	@Override
@@ -34,13 +34,13 @@ public class TextArea extends DefaultComponent implements InputWidget<StringValu
 	}
 	
 	public void appendValue(StringValue value) {
-		textArea.append(value.getValue());
+		textArea.append(value.getPrimitive());
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 	
 	@Override
 	public void setValue(StringValue value) {
-		textArea.setText(value.getValue());		
+		textArea.setText(value.getPrimitive());		
 	}
 
 	@Override

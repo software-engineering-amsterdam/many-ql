@@ -24,7 +24,7 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 		this();
 		
 		disable();
-		spinbox().setValue(integerValue.getValue());
+		spinbox().setValue(integerValue.getPrimitive());
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ public class Label implements Component {
 	private final JLabel labelComponent;
 	
 	public Label(StringValue text) {
-		this.labelComponent = new JLabel(text.getValue());
+		this.labelComponent = new JLabel(text.getPrimitive());
 	}
 
 	@Override

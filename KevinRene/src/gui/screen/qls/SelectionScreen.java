@@ -19,6 +19,7 @@ import ql.errorhandling.ErrorEnvironment;
 import ql.gui.Component;
 import ql.gui.widget.input.Button;
 import qls.ast.expression.literal.StringLiteral;
+import qls.ast.statement.Stylesheet;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.ast.visitor.domaincreator.ConditionalDomain;
 import qls.ast.visitor.domaincreator.DomainCreator;
@@ -105,6 +106,11 @@ public class SelectionScreen extends Screen {
 		}
 		
 		qls.ast.Statement qlsTree = (qls.ast.Statement) qls.parser.Parser.parse(qlsContents);
+
+		if(!(qlsTree instanceof Stylesheet)) {
+			return false;
+		}
+		
 		errors = qls.ast.visitor.typechecker.TypeChecker.check(qlsTree, typeEnvironment);
 		
 		if(errors.hasErrors()) {
@@ -119,7 +125,7 @@ public class SelectionScreen extends Screen {
 		
 		qlsInterface = PageBuilder.build(qlsTree, domains, widgets);
 		
-		return errorsFound;
+		return !errorsFound;
 	}
 	
 	private void handleFileChooser() {

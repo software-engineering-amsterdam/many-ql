@@ -42,6 +42,14 @@ public abstract class Field<T extends Value> extends DefaultComponent implements
     	panel.add(textField);
     	panel.add(errorLabel, "wrap");
 	}
+	
+	protected final T value() {
+		return value;
+	}
+	
+	protected final void value(T value) {
+		this.value = value;
+	}
 		
 	protected void setError(String text) {
 		textField.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -107,13 +115,13 @@ public abstract class Field<T extends Value> extends DefaultComponent implements
 	
 	@Override
 	public T getValue() {
-		return this.value;
+		return value;
 	}
 	
 	@Override
 	public void setValue(T value) {
 		this.value = value;
-		textField.setText(value.getValue().toString());		
+		textField.setText(value.getPrimitive().toString());		
 	}
 	
 	@Override
