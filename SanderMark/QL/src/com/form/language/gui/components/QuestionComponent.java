@@ -15,12 +15,12 @@ import com.form.language.memory.Context;
 public class QuestionComponent {
 
     private Question question;
-    private Context rm;
+    private Context context;
     private JPanel panel;
 
     public QuestionComponent(Question question, Context rm, Expression ifCondition) {
 	this.question = question;
-	this.rm = rm;
+	this.context = rm;
 	this.panel = new JPanel();
 
 	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.X_AXIS));
@@ -41,14 +41,14 @@ public class QuestionComponent {
     //Polymorphism  could be used within type to ask which widget (type) the question is but this would, 
     //increase the responsibilty of the Type.
     private void createQuestionType() {
-	if (question.getType(rm).isBoolType()) {
-	    CheckBox checkbox = new CheckBox(question, this, rm);
+	if (question.getType(context).isBoolType()) {
+	    CheckBox checkbox = new CheckBox(question, this, context);
 	    panel.add(checkbox.getCheckBox());
-	} else if (question.getType(rm).isStringType()) {
-	    TextField textfield = new TextField(question, this, rm);
+	} else if (question.getType(context).isStringType()) {
+	    TextField textfield = new TextField(question, this, context);
 	    panel.add(textfield.getTextField());
 	} else {
-	    IntegerTextField textfield = new IntegerTextField(question, this, rm);
+	    IntegerTextField textfield = new IntegerTextField(question, this, context);
 	    panel.add(textfield.getTextField());
 	}
     }
