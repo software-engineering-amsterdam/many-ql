@@ -19,7 +19,6 @@ public class Addition extends BinaryExpression {
 	return "[op +]";
     }
 
-    @Override
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }
