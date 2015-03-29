@@ -39,7 +39,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         return currentPage;
     }
 
-    public void setCurrentPage(QLSPage page){
+    public void setCurrentPage(QLSPage page) {
         currentPage = page;
     }
 
@@ -67,6 +67,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         }
         init = false;
     }
+
     private void processQl() {
         if (evaluateQLNode()) {
             questions.getChildren().clear();
@@ -76,10 +77,10 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     private void processQls() {
         if (evaluateQLNode()) {
-            questions.getChildren().clear();questions.getChildren().clear();
+            questions.getChildren().clear();
+            questions.getChildren().clear();
             qlsNode.get().accept(this);
         }
-
     }
 
     private boolean evaluateQLNode() {
@@ -139,17 +140,20 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
     }
 
     @Override
+    public void visit(QLSLabel label) {
+        label.getLabelNode().accept(this);
+    }
+
+    @Override
     public void visit(Calculation calculation) {
 
     }
 
     @Override
     public void visit(Form form) {
-        if (init) {
-            javafx.scene.control.Label label = new javafx.scene.control.Label(form.getIdentifier());
-            label.getStyleClass().add("formHeader");
-            questions.getChildren().add(label);
-        }
+        javafx.scene.control.Label label = new javafx.scene.control.Label(form.getIdentifier());
+        label.getStyleClass().add("formHeader");
+        questions.getChildren().add(label);
     }
 
     @Override
@@ -159,11 +163,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     @Override
     public void visit(LabelText labelText) {
-        if (init) {
-            labelText.addToPane(questions, answerMap, this);
-        } else {
-            labelText.refresh();
-        }
+        labelText.addToPane(questions, answerMap, this);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         refresh();
     }
 
-    public void refresh(){
+    public void refresh() {
         if (qlsNode.isPresent()) {
             processQls();
         } else {

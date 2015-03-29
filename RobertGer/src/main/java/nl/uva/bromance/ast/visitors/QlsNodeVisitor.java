@@ -1,9 +1,6 @@
 package nl.uva.bromance.ast.visitors;
 
-import nl.uva.bromance.ast.QLSPage;
-import nl.uva.bromance.ast.QLSQuestion;
-import nl.uva.bromance.ast.QLSSection;
-import nl.uva.bromance.ast.QLSStylesheet;
+import nl.uva.bromance.ast.*;
 
 /**
  * Created by Robert on 16-3-2015.
@@ -17,4 +14,6 @@ public interface QLSNodeVisitor {
     void visit(QLSSection section);
 
     void visit(QLSStylesheet stylesheet);
+
+    void visit(QLSLabel label);
 }
