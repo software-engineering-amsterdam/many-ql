@@ -10,17 +10,15 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 import nl.uva.softwcons.ql.ui.widget.Widget;
 
 public class RadioButtonWidget extends Widget {
-
     private final RadioButton yesButton;
     private final RadioButton noButton;
 
     private final HBox hbox;
     private final ToggleGroup group;
-    private final ValueConverter<Boolean> converter;
 
-    public RadioButtonWidget(final String yesString, final String noString, final ValueConverter<Boolean> converter) {
-        this.converter = converter;
+    private ValueConverter<Boolean> converter;
 
+    public RadioButtonWidget(final String yesString, final String noString) {
         this.yesButton = new RadioButton(yesString);
         this.noButton = new RadioButton(noString);
 
@@ -30,6 +28,11 @@ public class RadioButtonWidget extends Widget {
         this.group = new ToggleGroup();
         this.yesButton.setToggleGroup(group);
         this.noButton.setToggleGroup(group);
+    }
+
+    public RadioButtonWidget(final String yesString, final String noString, final ValueConverter<Boolean> converter) {
+        this(yesString, noString);
+        this.converter = converter;
     }
 
     @Override
@@ -56,6 +59,12 @@ public class RadioButtonWidget extends Widget {
         yesButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void setConverter(final ValueConverter converter) {
+        this.converter = converter;
     }
 
 }
