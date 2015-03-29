@@ -25,6 +25,7 @@ public class WidgetTypeCheckerTest {
     @Test
     public void testPageStyleInconsistency() {
         List<Error> errors = getWidgetTypeErrors("page page1 { question q1 default boolean widget slider (10, 20, 1)} ");
+
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0)).isExactlyInstanceOf(IncompatibleWidget.class);
     }
@@ -71,7 +72,7 @@ public class WidgetTypeCheckerTest {
         List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q1 "
                 + "default string widget radio (\"Yes\", \"No\") \n "
                 + "default string widget radio (\"Yes\", \"No\")} } ");
-        assertThat(errors).hasSize(2);
+        assertThat(errors).hasSize(1);
         assertThat(errors).hasOnlyElementsOfType(IncompatibleWidget.class);
     }
 

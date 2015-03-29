@@ -1,5 +1,6 @@
 package nl.uva.softwcons.qls.validation.widget;
 
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.ql.validation.Checker;
 import nl.uva.softwcons.ql.validation.type.Environment;
@@ -23,11 +24,10 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(final Page page) {
         page.getSegments().forEach(segment -> segment.accept(this));
-        for (final StylizedWidget style : page.getStyles().values()) {
-            if (style.hasTypeConflict()) {
-                addError(new IncompatibleWidget(page.getLineInfo()));
-            }
-        }
+
+        page.getStyles().forEach((type, widget) -> {
+            validateWidgetCompatability(type, widget);
+        });
 
         return null;
     }
@@ -35,8 +35,8 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(final Question question) {
         final Type questionType = typeEnv.resolveVariable(question.getId());
-        if (question.hasWidget() && !question.isCompatibleWithWidget(questionType)) {
-            addError(new IncompatibleWidget(question.getLineInfo()));
+        if (question.hasWidget()) {
+            validateWidgetCompatability(questionType, question.getStylizedWidget());
         }
 
         return null;
@@ -45,11 +45,10 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(final Section section) {
         section.getContent().forEach(element -> element.accept(this));
-        for (final StylizedType style : section.getStyles()) {
-            if (style.hasTypeConflict()) {
-                addError(new IncompatibleWidget(section.getLineInfo()));
-            }
-        }
+
+        section.getStyles().forEach((type, widget) -> {
+            validateWidgetCompatability(type, widget);
+        });
 
         return null;
     }
@@ -58,6 +57,12 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     public Void visit(final Stylesheet stylesheet) {
         stylesheet.getPages().forEach(page -> page.accept(this));
         return null;
+    }
+
+    private void validateWidgetCompatability(final Type type, final StylizedWidget widget) {
+        if (!widget.getWidgetType().get().isCompatibleWith(type)) {
+            addError(new IncompatibleWidget(new LineInfo(-1, -1))); // TODO
+        }
     }
 
 }
