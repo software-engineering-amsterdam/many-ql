@@ -3,21 +3,12 @@ stylesheet taxOfficeExample
     section "Buying" {
       question hasBoughtHouse  
         widget checkbox
-      question otherDumbQuestion
-        widget textfield
-       section "Subsection A" {
-         question subSectionQuestionA
-           widget textfield
-         question subSectionQuestionB
-           widget textfield
-       }
-       section "Subsection B" {
-         question subSectionQuestionC
-           widget textfield
-         question subSectionQuestionD
-           widget textfield
-       }
-       default string { widget textfield }
+      question percentage
+      section "Subsection A" {
+        question commissioning
+        question hasContract
+      }
+      default string { widget textfield }
     }
     section "Loaning"  
       question hasMaintLoan
