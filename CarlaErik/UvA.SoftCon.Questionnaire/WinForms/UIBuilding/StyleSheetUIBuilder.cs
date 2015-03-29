@@ -85,7 +85,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             {
                 StyleSet questionStyles = _questionStyles.GetStyleSet(question.Name);
 
-                Control questionWidget = (Control)questionStyles.WidgetStyle.CreateWidgetControl(new WidgetFactory(question));
+                QuestionWidget questionWidget = (QuestionWidget)questionStyles.WidgetStyle.CreateWidgetControl(new WidgetFactory(question));
+
+                QuestionWidgets.Add(questionWidget);
 
                 return questionWidget;
             }
