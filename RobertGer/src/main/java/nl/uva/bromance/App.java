@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-class App extends Application {
+public class App extends Application {
 
     private Scene scene;
     private VBox pages;

@@ -22,7 +22,6 @@ public class Calculation extends QLNode implements ContainsExpression, HasIdenti
         return result;
     }
 
-    //TODO: Find fix for childType
     @Override
     public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);
