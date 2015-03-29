@@ -8,7 +8,6 @@ class QuestionStyle(e.SheetElement):
     def __init__(self, qid, widget):
         self._id = qid
         self._widget = widget
-        self.set_properties({})
 
     def string_presentation(self, level=0):
         s = "    " * level + "Question " + self._id + "\n"

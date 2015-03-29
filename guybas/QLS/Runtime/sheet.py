@@ -24,7 +24,7 @@ class Sheet(ql_form.Form):
         gui_pages = []
         for page in self.qls_ast.get_pages():
             if page.is_default():
-                continue  # TODO
+                continue
             page_elements = self.__generate_sections(page)
             gui_pages.append(page_elements)
         return gui_pages
@@ -37,7 +37,7 @@ class Sheet(ql_form.Form):
                 page_elements.append(section_obj)
                 for q_style in section.get_question_styles():
                     q_id = q_style.get_ids()[0]
-                    w = widget.Widget(q_style)
+                    w = widget.Widget(q_style, self.qls_ast.get_property_dict())
                     # get the actual question using the QL runtime form
                     question = self.__question_widget(q_id, w)
                     page_elements.append(question)

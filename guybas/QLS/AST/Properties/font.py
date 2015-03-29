@@ -6,7 +6,7 @@ class FontColor(p.Property):
         self._color = color
 
     def prop_name(self):
-        return "font-color"
+        return "color"
 
     def prop_value(self):
         return self._color
@@ -20,7 +20,7 @@ class Font(p.Property):
         self._font = font
 
     def prop_name(self):
-        return "font-family"
+        return "font"
 
     def prop_value(self):
         return self._font
