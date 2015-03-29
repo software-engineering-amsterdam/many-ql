@@ -1,9 +1,9 @@
 package ql.tests.evaluator;
 
+import org.junit.Test;
 import ql.semantics.ValueTable;
 import ql.semantics.values.BoolValue;
 import ql.tests.TestHelper;
-import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +17,7 @@ public class Identifiers
     public void idInt()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry("hasHouse", new BoolValue(true));
+        table.storeValue("hasHouse", new BoolValue(true));
         BoolValue v = TestHelper.as(TestHelper.evaluate("hasHouse", table), BoolValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());

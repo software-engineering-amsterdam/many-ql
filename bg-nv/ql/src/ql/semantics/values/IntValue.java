@@ -1,7 +1,5 @@
 package ql.semantics.values;
 
-import ql.ast.type.Type;
-
 /**
  * Created by bore on 16/02/15.
  */

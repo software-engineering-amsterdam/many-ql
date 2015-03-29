@@ -21,14 +21,14 @@ public class ConditionStack
 
     public void push(Expr e)
     {
-        Expr r = e;
+        Expr cond = e;
         if (!(this.conditions.isEmpty()))
         {
             Expr pr = this.conditions.peek();
-            r = new And(pr, e);
+            cond = new And(pr, e);
         }
 
-        this.conditions.push(r);
+        this.conditions.push(cond);
     }
 
     public void pop()

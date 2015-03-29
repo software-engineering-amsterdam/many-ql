@@ -1,8 +1,5 @@
 package ql.semantics.values;
 
-import ql.ast.type.IntType;
-import ql.ast.type.Type;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -163,7 +160,7 @@ public class DecValue extends Value<BigDecimal>
     @Override
     public Value promoteInt(IntValue v)
     {
-        return new DecValue(new BigDecimal(v.getValue().toString()));
+        return new DecValue(new BigDecimal(v.toString()));
     }
 
     public <T> T accept (ValueVisitor<T> visitor)

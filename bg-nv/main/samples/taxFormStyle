@@ -27,7 +27,7 @@ stylesheet taxOfficeExample {
           width: 400
           font: "Arial"
           fontsize: 14
-          forecolor: #999999
+          forecolor: #FF0000
           widget textbox
         }
       }

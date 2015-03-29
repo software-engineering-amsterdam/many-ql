@@ -10,8 +10,6 @@ import ql.semantics.values.Value;
  */
 public class BoolInput extends RegularInput<BoolControl>
 {
-    private final Message VALIDATION_ERROR = new Warning("The entered value is not a valid boolean.");
-
     public BoolInput(String id, BoolControl control)
     {
         super(id, control);
@@ -26,7 +24,7 @@ public class BoolInput extends RegularInput<BoolControl>
     @Override
     protected Message getInvalidInputErrorMsg()
     {
-        return VALIDATION_ERROR;
+        return new Warning("The entered value is not a valid boolean.");
     }
 
     @Override

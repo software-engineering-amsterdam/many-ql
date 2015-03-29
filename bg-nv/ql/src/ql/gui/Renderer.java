@@ -4,16 +4,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ql.gui.canvas.Canvas;
-import ql.gui.control.*;
+import ql.gui.canvas.CanvasVisitor;
 import ql.gui.input.*;
-import ql.gui.label.Label;
 import ql.gui.segment.*;
-import ql.semantics.*;
+import ql.semantics.ValueTable;
 
 /**
  * Created by Nik on 23-2-15.
  */
-public class Renderer implements ModelVisitor<Void>
+public class Renderer implements CanvasVisitor<Void>, SegmentVisitor<Void>, InputVisitor<Void>
 {
     private final ValueTable valueTable;
     private final Refresher refresher;
@@ -64,7 +63,6 @@ public class Renderer implements ModelVisitor<Void>
     public Void visit(Row segment)
     {
         this.refresher.addItem(segment);
-        segment.getLabel().accept(this);
         segment.getInput().accept(this);
 
         return null;
@@ -108,42 +106,6 @@ public class Renderer implements ModelVisitor<Void>
     public Void visit(ExprInput input)
     {
         return handleInputVisit(input);
-    }
-
-    @Override
-    public Void visit(Label label)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(TextField control)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(CheckBox control)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(Radio control)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(Slider control)
-    {
-        return null;
-    }
-
-    @Override
-    public Void visit(Dropdown control)
-    {
-        return null;
     }
 
     private Void handleInputVisit(RegularInput input)

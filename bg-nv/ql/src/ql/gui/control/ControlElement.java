@@ -8,11 +8,6 @@ import ql.semantics.values.*;
  */
 public abstract class ControlElement extends GuiElement
 {
-    public ControlElement()
-    {
-        super();
-    }
-
     // the default visit methods - children implement the Control interface, which enforces them
     public Void visit(BoolValue val)
     {
@@ -38,6 +33,4 @@ public abstract class ControlElement extends GuiElement
     {
         throw new IllegalArgumentException("This value is not valid for the given control.");
     }
-
-    public abstract <T> T accept(ControlVisitor<T> visitor);
 }

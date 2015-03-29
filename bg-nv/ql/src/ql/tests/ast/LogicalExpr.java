@@ -1,15 +1,14 @@
 package ql.tests.ast;
 
+import org.junit.Test;
 import ql.ast.expression.And;
 import ql.ast.expression.Gt;
 import ql.ast.expression.Not;
 import ql.ast.expression.Or;
-import ql.util.ParserHelper;
 import ql.tests.TestHelper;
-import org.junit.Test;
+import ql.util.ParserHelper;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by bore on 17/02/15.
@@ -131,7 +130,6 @@ public class LogicalExpr
         Not a = TestHelper.as(ParserHelper.ParseExpression("!(x&&y)"), Not.class);
         assertNotNull(a);
         TestHelper.assertChildType(a.getOperand(), And.class);
-
     }
 
     @Test

@@ -1,14 +1,11 @@
 package qls.tests;
 
+import org.junit.Test;
 import ql.semantics.errors.Messages;
 import ql.tests.TestHelper;
-import org.junit.Test;
 import qls.util.ParserHelper;
 
 import java.io.FileNotFoundException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by bore on 09/03/15.
